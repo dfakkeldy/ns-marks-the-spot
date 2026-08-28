@@ -1,0 +1,30 @@
+# Candidate held-out check features for the Inverness SOUTH panel.
+#
+# Modern coordinates are derived by an objective rule from NSTDB water
+# geometry (nstdb-major-water.geojson), never from a place-name gazetteer.
+# The rule and its box are committed so the choice can be re-run and
+# challenged: `emit_candidates --check` asserts this file still matches what
+# its own rules produce. Pixel positions are NOT here - they are read off the
+# scan by eye, see tools/church/checksheet.py.
+#
+# Islands carry this panel. An island centroid is unambiguous in both
+# representations and needs no judgement about where a coastline "turns",
+# unlike an extremal vertex on a generalised shore. Every box below was sized
+# from its own island's extent and verified to contain exactly one.
+label,lon,lat,rule,box_west,box_south,box_east,box_north
+whycocomagh-bay-west-end,-61.133928,45.967933,west,-61.24,45.96,-61.12,46.06
+island-46-359n-61-262w,-61.261823,46.359252,island,-61.271604,46.34883,-61.252041,46.369674
+island-45-757n-61-084w,-61.083902,45.757304,island,-61.09287,45.74746,-61.074935,45.767149
+island-45-956n-61-116w,-61.116114,45.956188,island,-61.126012,45.946566,-61.106216,45.965809
+island-45-750n-61-095w,-61.094899,45.750129,island,-61.102131,45.741209,-61.087666,45.759048
+island-45-790n-61-057w,-61.057363,45.789666,island,-61.067009,45.782944,-61.047717,45.796389
+island-45-875n-61-085w,-61.085221,45.875068,island,-61.093529,45.867203,-61.076913,45.882933
+island-45-814n-61-013w,-61.013475,45.813973,island,-61.02651,45.808245,-61.00044,45.819702
+island-45-911n-60-948w,-60.947525,45.910638,island,-60.957288,45.903831,-60.937762,45.917444
+island-45-912n-60-965w,-60.965051,45.912172,island,-60.9725,45.907361,-60.957602,45.916982
+island-45-797n-61-049w,-61.048998,45.796575,island,-61.05484,45.790252,-61.043155,45.802898
+island-45-826n-61-015w,-61.015354,45.826143,island,-61.021213,45.820919,-61.009496,45.831367
+island-46-390n-60-975w,-60.974618,46.389564,island,-60.981815,46.385036,-60.96742,46.394093
+island-45-762n-61-068w,-61.067626,45.761933,island,-61.073892,45.757506,-61.06136,45.76636
+island-45-948n-61-096w,-61.096414,45.947869,island,-61.102034,45.942921,-61.090793,45.952818
+island-45-801n-61-038w,-61.038349,45.801205,island,-61.0452,45.797676,-61.031498,45.804734

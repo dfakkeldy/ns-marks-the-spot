@@ -1,0 +1,151 @@
+import { useEffect, useState } from "react";
+import L, { type PathOptions } from "leaflet";
+import { GeoJSON, useMap } from "react-leaflet";
+import { MINERAL_PROXIMITY_MIN_ZOOM, fetchMineralProximityParcels } from "../services/mineralProximity";
+import type { NsprdFeatureCollection } from "../services/nsprd";
+import type { MapLayerStatus } from "./MapCanvas";
+import { MINERAL_PROXIMITY_PANE } from "./mapPanes";
+import { textTooltip } from "./mapTooltip";
+import type { MapRenderMode } from "./parcelStyle";
+
+type MineralProximityParcelLayerProps = {
+  visible: boolean;
+  onSelectPid: (pid: string) => void;
+  onStatusChange?: (status: MapLayerStatus) => void;
+  renderMode?: MapRenderMode;
+};
+
+// eslint-disable-next-line react-refresh/only-export-components -- exported map style is part of this layer's public surface.
+export const mineralProximityParcelStyle: PathOptions = {
+  color: "#72520f",
+  fillColor: "#f1c453",
+  fillOpacity: 0.28,
+  weight: 2,
+  dashArray: "5 3",
+};
+
+const printMineralProximityParcelStyle: PathOptions = {
+  color: "#222222",
+  fillColor: "#e6e6e6",
+  fillOpacity: 0.28,
+  weight: 2,
+  dashArray: "2 3 8 3",
+  className: "print-mineral-proximity-parcel",
+};
+
+const EMPTY_PARCELS: NsprdFeatureCollection = {
+  type: "FeatureCollection",
+  features: [],
+};
+
+export function MineralProximityParcelLayer({
+  visible,
+  onSelectPid,
+  onStatusChange,
+  renderMode = "interactive",
+}: MineralProximityParcelLayerProps) {
+  const map = useMap();
+  const [collection, setCollection] =
+    useState<NsprdFeatureCollection>(EMPTY_PARCELS);
+
+  useEffect(() => {
+    let controller: AbortController | null = null;
+    let requestNumber = 0;
+
+    const loadVisibleParcels = () => {
+      controller?.abort();
+      controller = null;
+      requestNumber += 1;
+      const currentRequest = requestNumber;
+
+      if (!visible) {
+        setCollection(EMPTY_PARCELS);
+        onStatusChange?.({ status: "idle" });
+        return;
+      }
+
+      if (map.getZoom() < MINERAL_PROXIMITY_MIN_ZOOM) {
+        setCollection(EMPTY_PARCELS);
+        onStatusChange?.({
+          status: "zoom",
+          minZoom: MINERAL_PROXIMITY_MIN_ZOOM,
+        });
+        return;
+      }
+
+      const bounds = map.getBounds();
+      controller = new AbortController();
+      onStatusChange?.({ status: "loading" });
+      void fetchMineralProximityParcels(
+        {
+          west: bounds.getWest(),
+          south: bounds.getSouth(),
+          east: bounds.getEast(),
+          north: bounds.getNorth(),
+        },
+        controller.signal,
+      )
+        .then((nextCollection) => {
+          if (currentRequest !== requestNumber) {
+            return;
+          }
+          setCollection(nextCollection);
+          onStatusChange?.({
+            status: "ready",
+            count: nextCollection.features.length,
+          });
+        })
+        .catch((error: unknown) => {
+          if (
+            currentRequest !== requestNumber ||
+            (error instanceof DOMException && error.name === "AbortError")
+          ) {
+            return;
+          }
+          setCollection(EMPTY_PARCELS);
+          onStatusChange?.({ status: "error" });
+        });
+    };
+
+    loadVisibleParcels();
+    // moveend only: Leaflet's _moveEnd fires zoomend then moveend from the
+    // same call, so a zoomend subscription made every zoom issue a doomed
+    // duplicate request that the moveend run aborted milliseconds later.
+    map.on("moveend", loadVisibleParcels);
+
+    return () => {
+      requestNumber += 1;
+      controller?.abort();
+      map.off("moveend", loadVisibleParcels);
+    };
+  }, [map, onStatusChange, visible]);
+
+  if (!visible) {
+    return null;
+  }
+
+  return (
+    <GeoJSON
+      key={collection.features.map(({ properties }) => properties.PID).join(",")}
+      data={collection}
+      pane={MINERAL_PROXIMITY_PANE}
+      style={
+        renderMode === "print"
+          ? printMineralProximityParcelStyle
+          : mineralProximityParcelStyle
+      }
+      interactive={renderMode !== "print"}
+      onEachFeature={renderMode === "print" ? undefined : (feature, featureLayer) => {
+        const pid = feature.properties.PID;
+        featureLayer.bindTooltip(
+          textTooltip(`PID ${pid} · within 1 km of a published mineral occurrence`),
+          { sticky: true },
+        );
+        featureLayer.on("click", (event) => {
+          L.DomEvent.stopPropagation(event);
+          onSelectPid(pid);
+        });
+      }}
+    />
+  );
+}

@@ -1,0 +1,28 @@
+# victoria main panel graticule control mesh, full-sheet pixel coordinates.
+#
+# GENERATED - do not hand-edit. Regenerate with:
+#   python3 -m tools.church.emit_gcps victoria main --out tools/church/gcps/victoria-main.csv
+#
+# Intersections of the printed graticule, detected by
+# tools/church/detect_graticule.py into tools/church/detections/victoria-main.json,
+# fitted as a regular lattice and anchored on labels read off the scan:
+#   engraved 60d40'W and 60d30'W at the top and 46d30'N, 46d20'N, 46d10'N beside the ruled parallels on RUMSEY~8~1~374820~90141224
+# Step 10 arcminutes; meridian index 0 = -60.666667,
+# parallel index 0 = 46.500000.
+#
+# These are CONTROL only. Every check point is an independent physical feature
+# in a separate file - a graticule intersection must never be used to measure
+# the accuracy of a warp fitted on graticule intersections.
+pixel_x,pixel_y,lon,lat,role,label
+18778.0,5926.6,-60.666667,46.500000,control,graticule 60d40mW 46d30mN
+18774.0,12894.3,-60.666667,46.333333,control,graticule 60d40mW 46d20mN
+18770.0,19845.1,-60.666667,46.166667,control,graticule 60d40mW 46d10mN
+23660.6,5922.3,-60.500000,46.500000,control,graticule 60d30mW 46d30mN
+23648.9,12875.8,-60.500000,46.333333,control,graticule 60d30mW 46d20mN
+23637.3,19791.9,-60.500000,46.166667,control,graticule 60d30mW 46d10mN
+28369.7,5918.2,-60.333333,46.500000,control,graticule 60d20mW 46d30mN
+28434.0,12857.7,-60.333333,46.333333,control,graticule 60d20mW 46d20mN
+28497.8,19738.8,-60.333333,46.166667,control,graticule 60d20mW 46d10mN
+33033.7,5914.2,-60.166667,46.500000,control,graticule 60d10mW 46d30mN
+33090.7,12840.1,-60.166667,46.333333,control,graticule 60d10mW 46d20mN
+33147.1,19688.0,-60.166667,46.166667,control,graticule 60d10mW 46d10mN

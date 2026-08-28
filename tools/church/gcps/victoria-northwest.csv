@@ -1,0 +1,25 @@
+# victoria northwest panel graticule control mesh, full-sheet pixel coordinates.
+#
+# GENERATED - do not hand-edit. Regenerate with:
+#   python3 -m tools.church.emit_gcps victoria northwest --out tools/church/gcps/victoria-northwest.csv
+#
+# Intersections of the printed graticule, detected by
+# tools/church/detect_graticule.py into tools/church/detections/victoria-northwest.json,
+# fitted as a regular lattice and anchored on labels read off the scan:
+#   engraved 60d40'W, 60d30'W, 60d20'W and 47d00'N, 46d50'N, 46d40'N labels on RUMSEY~8~1~374820~90141224
+# Step 10 arcminutes; meridian index 0 = -60.666667,
+# parallel index 0 = 47.000000.
+#
+# These are CONTROL only. Every check point is an independent physical feature
+# in a separate file - a graticule intersection must never be used to measure
+# the accuracy of a warp fitted on graticule intersections.
+pixel_x,pixel_y,lon,lat,role,label
+1480.7,4597.4,-60.666667,47.000000,control,graticule 60d40mW 47d00mN
+1437.4,11496.5,-60.666667,46.833333,control,graticule 60d40mW 46d50mN
+1393.5,18486.7,-60.666667,46.666667,control,graticule 60d40mW 46d40mN
+6374.9,4617.2,-60.500000,47.000000,control,graticule 60d30mW 47d00mN
+6378.3,11556.3,-60.500000,46.833333,control,graticule 60d30mW 46d50mN
+6381.7,18506.6,-60.500000,46.666667,control,graticule 60d30mW 46d40mN
+11410.2,4637.7,-60.333333,47.000000,control,graticule 60d20mW 47d00mN
+11400.0,11617.1,-60.333333,46.833333,control,graticule 60d20mW 46d50mN
+11390.0,18526.6,-60.333333,46.666667,control,graticule 60d20mW 46d40mN

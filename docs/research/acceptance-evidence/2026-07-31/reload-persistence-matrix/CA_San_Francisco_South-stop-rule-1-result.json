@@ -1,0 +1,1260 @@
+{
+  "case": "stop-rule-1 legacy post-reload raster, Zoom-to-point rerun",
+  "harness": "geckodriver 0.37.1 + system Firefox via Selenium 4.46.0 (NOT the Chrome extension bridge)",
+  "delivery": "native <input type=file> send_keys, no bridge size ceiling",
+  "profile": "fresh geckodriver temporary profile; IndexedDB empty at t0",
+  "origin": "http://127.0.0.1:4340",
+  "file": "CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf",
+  "fileBytes": 12127762,
+  "budgetSec": 420,
+  "browserName": "firefox",
+  "browserVersion": "152.0.6",
+  "mozBuildID": "20260713164047",
+  "geckodriverVersion": "0.37.1",
+  "platformName": "mac",
+  "startupDialogButton": null,
+  "idbAtStart": {
+    "blobKeys": [],
+    "blobs": {},
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {},
+    "reconstruction": {},
+    "recordCount": 0,
+    "records": [],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "fileInputCount": 1,
+  "importElapsedToChooserSec": 4.05,
+  "chooserInitialState": {
+    "anyChecked": false,
+    "checkedValues": [],
+    "confirmDisabled": true,
+    "dialogPresent": true,
+    "heading": "Choose a frame for CA_San_Francisco_South_OE_W_20211202_TM_geo",
+    "highlightPresent": false,
+    "intro": "Select the map or inset to display. Its embedded coordinates will place it automatically.",
+    "legend": "Registered frames on page 1",
+    "options": [
+      {
+        "checked": false,
+        "label": "Map Layers",
+        "value": "measure-direct-0-0-0-3389.7145968-3984.7847136"
+      },
+      {
+        "checked": false,
+        "label": "Quadrangle Location",
+        "value": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821"
+      },
+      {
+        "checked": false,
+        "label": "Adjoining Sheet Diagram",
+        "value": "measure-direct-2-2168.7111602-3898.2740941-100.9852322-127.1176337"
+      }
+    ],
+    "outcomes": [
+      "CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+    ],
+    "radioCount": 3,
+    "status": null
+  },
+  "mainMapLabelPresent": true,
+  "selectedCandidate": {
+    "checked": false,
+    "label": "Map Layers",
+    "value": "measure-direct-0-0-0-3389.7145968-3984.7847136"
+  },
+  "chooserAfterSelect": {
+    "checkedValues": [
+      "measure-direct-0-0-0-3389.7145968-3984.7847136"
+    ],
+    "confirmDisabled": false,
+    "highlightPresent": true
+  },
+  "renderPreReload": {
+    "at": "2026-07-31T04:13:28.862Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.36,
+        "overlapPx": 279251
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [
+      "CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+    ],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 706,
+          "height": 574,
+          "left": 629,
+          "right": 1115.5,
+          "top": 132,
+          "width": 486.5,
+          "x": 629,
+          "y": 132
+        },
+        "height": 1148,
+        "meanAlpha": 251.584,
+        "measuredState": "painted",
+        "nonTransparentFraction": 0.986603,
+        "nonTransparentPixels": 275793,
+        "opacity": "0.7",
+        "sampleStep": 2,
+        "sampledPixels": 279538,
+        "transform": "translate3d(309px, 64px, 0px)",
+        "width": 973
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "CA_San_Francisco_South_OE_W_20211202_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 15,
+    "tileDerived": {
+      "lat": 37.683820326693805,
+      "lng": -122.5634765625,
+      "sampleTiles": 15,
+      "zoom": 12
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "adjustPointsPreReload": {
+    "ariaLabel": "Adjust points for CA_San_Francisco_South_OE_W_20211202_TM_geo",
+    "buttonText": "Adjust points",
+    "opened": true,
+    "mapBarStatusText": "RMS 8 m across 4 points",
+    "panelPresent": true,
+    "pointCount": 4,
+    "points": [
+      {
+        "index": "1",
+        "map": "37.6082, -122.6458",
+        "offBy": "8 m",
+        "scanPixel": "-19, 3985"
+      },
+      {
+        "index": "2",
+        "map": "37.7638, -122.6451",
+        "offBy": "8 m",
+        "scanPixel": "0, -16"
+      },
+      {
+        "index": "3",
+        "map": "37.7632, -122.4780",
+        "offBy": "8 m",
+        "scanPixel": "3408, 0"
+      },
+      {
+        "index": "4",
+        "map": "37.6076, -122.4791",
+        "offBy": "8 m",
+        "scanPixel": "3390, 4001"
+      }
+    ],
+    "rmsText": "RMS 8 m across 4 points",
+    "zoomButtons": [
+      "Zoom to point 1",
+      "Zoom to point 2",
+      "Zoom to point 3",
+      "Zoom to point 4"
+    ]
+  },
+  "idbPreReload": {
+    "blobKeys": [
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:preview",
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:raster"
+    ],
+    "blobs": {
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:preview": {
+        "byteLength": 1297120,
+        "ctor": "ArrayBuffer",
+        "type": "image/png"
+      },
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:raster": {
+        "byteLength": 12127762,
+        "ctor": "ArrayBuffer",
+        "type": "application/pdf"
+      }
+    },
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {
+      "user-map-ui-state-v1": "{\"d5239348-b3ae-4ad9-99fd-89fec9f39889\":{\"enabled\":true,\"opacity\":0.7}}"
+    },
+    "reconstruction": {
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:preview": {
+        "byteLength": 1297120,
+        "decodedHeight": 4096,
+        "decodedWidth": 3390,
+        "key": "d5239348-b3ae-4ad9-99fd-89fec9f39889:preview",
+        "meanAlpha": 255,
+        "nonTransparentFraction": 1,
+        "nonWhiteFraction": 0.598171,
+        "sampledPixels": 1740000,
+        "thumbnailDataUrl": "data:image/png;base64,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",
+        "type": "image/png"
+      }
+    },
+    "recordCount": 1,
+    "records": [
+      {
+        "createdAt": "2026-07-31T04:13:19.986Z",
+        "georef": {
+          "gcps": [
+            {
+              "id": "measure-direct-0-gcp-1",
+              "map": {
+                "lat": 37.60817,
+                "lng": -122.64581
+              },
+              "pixel": {
+                "x": -18.71122457423448,
+                "y": 3984.7847135632182
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-2",
+              "map": {
+                "lat": 37.76381,
+                "lng": -122.64507
+              },
+              "pixel": {
+                "x": 0,
+                "y": -15.899291007117426
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-3",
+              "map": {
+                "lat": 37.76319,
+                "lng": -122.47805
+              },
+              "pixel": {
+                "x": 3408.4258213558437,
+                "y": 0
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-4",
+              "map": {
+                "lat": 37.60756,
+                "lng": -122.47914
+              },
+              "pixel": {
+                "x": 3389.714596781609,
+                "y": 4000.684004570336
+              }
+            }
+          ],
+          "kind": "gcp",
+          "method": "affine"
+        },
+        "id": "d5239348-b3ae-4ad9-99fd-89fec9f39889",
+        "name": "CA_San_Francisco_South_OE_W_20211202_TM_geo",
+        "pdf": {
+          "pageCount": 1,
+          "pageNumber": 1,
+          "registration": {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-0-gcp-1",
+                    "map": {
+                      "lat": 37.60817,
+                      "lng": -122.64581
+                    },
+                    "pixel": {
+                      "x": -18.71122457423448,
+                      "y": 3984.7847135632182
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-2",
+                    "map": {
+                      "lat": 37.76381,
+                      "lng": -122.64507
+                    },
+                    "pixel": {
+                      "x": 0,
+                      "y": -15.899291007117426
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-3",
+                    "map": {
+                      "lat": 37.76319,
+                      "lng": -122.47805
+                    },
+                    "pixel": {
+                      "x": 3408.4258213558437,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-4",
+                    "map": {
+                      "lat": 37.60756,
+                      "lng": -122.47914
+                    },
+                    "pixel": {
+                      "x": 3389.714596781609,
+                      "y": 4000.684004570336
+                    }
+                  }
+                ],
+                "id": "measure-direct-0-0-0-3389.7145968-3984.7847136",
+                "sourceRect": {
+                  "height": 3984.7847135632182,
+                  "width": 3389.714596781609,
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-1-gcp-1",
+                    "map": {
+                      "lat": 32.26355,
+                      "lng": -128.02763
+                    },
+                    "pixel": {
+                      "x": 2185.659733333333,
+                      "y": 3837.893227892721
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-2",
+                    "map": {
+                      "lat": 42.24228,
+                      "lng": -128.02763
+                    },
+                    "pixel": {
+                      "x": 2185.659733333333,
+                      "y": 3720.309406896552
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-3",
+                    "map": {
+                      "lat": 42.24228,
+                      "lng": -110.58561
+                    },
+                    "pixel": {
+                      "x": 2349.495927662835,
+                      "y": 3720.309406896552
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-4",
+                    "map": {
+                      "lat": 32.26355,
+                      "lng": -110.58561
+                    },
+                    "pixel": {
+                      "x": 2349.495927662835,
+                      "y": 3837.893227892721
+                    }
+                  }
+                ],
+                "id": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+                "sourceRect": {
+                  "height": 117.58382099616848,
+                  "width": 163.83619432950218,
+                  "x": 2185.659733333333,
+                  "y": 3720.309406896552
+                }
+              },
+              {
+                "embeddedLabel": "Adjoining Sheet Diagram",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-2-gcp-1",
+                    "map": {
+                      "lat": 37.49974,
+                      "lng": -122.75001
+                    },
+                    "pixel": {
+                      "x": 2168.7111601532565,
+                      "y": 4025.391727816092
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-2",
+                    "map": {
+                      "lat": 37.87485,
+                      "lng": -122.75001
+                    },
+                    "pixel": {
+                      "x": 2168.7111601532565,
+                      "y": 3898.274094099617
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-3",
+                    "map": {
+                      "lat": 37.87485,
+                      "lng": -122.37502
+                    },
+                    "pixel": {
+                      "x": 2269.696392337165,
+                      "y": 3898.274094099617
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-4",
+                    "map": {
+                      "lat": 37.49974,
+                      "lng": -122.37502
+                    },
+                    "pixel": {
+                      "x": 2269.696392337165,
+                      "y": 4025.391727816092
+                    }
+                  }
+                ],
+                "id": "measure-direct-2-2168.7111602-3898.2740941-100.9852322-127.1176337",
+                "sourceRect": {
+                  "height": 127.1176337164752,
+                  "width": 100.98523218390848,
+                  "x": 2168.7111601532565,
+                  "y": 3898.274094099617
+                }
+              }
+            ],
+            "flavor": "measure",
+            "selectedFrameId": "measure-direct-0-0-0-3389.7145968-3984.7847136",
+            "selectedLabel": "Map Layers",
+            "selection": {
+              "kind": "user"
+            },
+            "status": "embedded"
+          }
+        },
+        "pixelSize": {
+          "height": 4096,
+          "width": 3390
+        },
+        "source": "geopdf",
+        "sourceRect": {
+          "height": 3984.7847135632182,
+          "width": 3389.714596781609,
+          "x": 0,
+          "y": 0
+        }
+      }
+    ],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "startupDialogButtonAfterReload": null,
+  "postReloadSettleSeries": [
+    {
+      "tSinceReloadSec": 12.2,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.4892578125,
+        "sampleTiles": 20,
+        "zoom": 12
+      }
+    },
+    {
+      "tSinceReloadSec": 25.3,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.4892578125,
+        "sampleTiles": 20,
+        "zoom": 12
+      }
+    },
+    {
+      "tSinceReloadSec": 45.5,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.4892578125,
+        "sampleTiles": 20,
+        "zoom": 12
+      }
+    }
+  ],
+  "idbPostReload": {
+    "blobKeys": [
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:preview",
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:raster"
+    ],
+    "blobs": {
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:preview": {
+        "byteLength": 1297120,
+        "ctor": "ArrayBuffer",
+        "type": "image/png"
+      },
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:raster": {
+        "byteLength": 12127762,
+        "ctor": "ArrayBuffer",
+        "type": "application/pdf"
+      }
+    },
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {
+      "user-map-ui-state-v1": "{\"d5239348-b3ae-4ad9-99fd-89fec9f39889\":{\"enabled\":true,\"opacity\":0.7}}"
+    },
+    "reconstruction": {
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:preview": {
+        "byteLength": 1297120,
+        "decodedHeight": 4096,
+        "decodedWidth": 3390,
+        "key": "d5239348-b3ae-4ad9-99fd-89fec9f39889:preview",
+        "meanAlpha": 255,
+        "nonTransparentFraction": 1,
+        "nonWhiteFraction": 0.598171,
+        "sampledPixels": 1740000,
+        "type": "image/png"
+      }
+    },
+    "recordCount": 1,
+    "records": [
+      {
+        "createdAt": "2026-07-31T04:13:19.986Z",
+        "georef": {
+          "gcps": [
+            {
+              "id": "measure-direct-0-gcp-1",
+              "map": {
+                "lat": 37.60817,
+                "lng": -122.64581
+              },
+              "pixel": {
+                "x": -18.71122457423448,
+                "y": 3984.7847135632182
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-2",
+              "map": {
+                "lat": 37.76381,
+                "lng": -122.64507
+              },
+              "pixel": {
+                "x": 0,
+                "y": -15.899291007117426
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-3",
+              "map": {
+                "lat": 37.76319,
+                "lng": -122.47805
+              },
+              "pixel": {
+                "x": 3408.4258213558437,
+                "y": 0
+              }
+            },
+            {
+              "id": "measure-direct-0-gcp-4",
+              "map": {
+                "lat": 37.60756,
+                "lng": -122.47914
+              },
+              "pixel": {
+                "x": 3389.714596781609,
+                "y": 4000.684004570336
+              }
+            }
+          ],
+          "kind": "gcp",
+          "method": "affine"
+        },
+        "id": "d5239348-b3ae-4ad9-99fd-89fec9f39889",
+        "name": "CA_San_Francisco_South_OE_W_20211202_TM_geo",
+        "pdf": {
+          "pageCount": 1,
+          "pageNumber": 1,
+          "registration": {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-0-gcp-1",
+                    "map": {
+                      "lat": 37.60817,
+                      "lng": -122.64581
+                    },
+                    "pixel": {
+                      "x": -18.71122457423448,
+                      "y": 3984.7847135632182
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-2",
+                    "map": {
+                      "lat": 37.76381,
+                      "lng": -122.64507
+                    },
+                    "pixel": {
+                      "x": 0,
+                      "y": -15.899291007117426
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-3",
+                    "map": {
+                      "lat": 37.76319,
+                      "lng": -122.47805
+                    },
+                    "pixel": {
+                      "x": 3408.4258213558437,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "id": "measure-direct-0-gcp-4",
+                    "map": {
+                      "lat": 37.60756,
+                      "lng": -122.47914
+                    },
+                    "pixel": {
+                      "x": 3389.714596781609,
+                      "y": 4000.684004570336
+                    }
+                  }
+                ],
+                "id": "measure-direct-0-0-0-3389.7145968-3984.7847136",
+                "sourceRect": {
+                  "height": 3984.7847135632182,
+                  "width": 3389.714596781609,
+                  "x": 0,
+                  "y": 0
+                }
+              },
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-1-gcp-1",
+                    "map": {
+                      "lat": 32.26355,
+                      "lng": -128.02763
+                    },
+                    "pixel": {
+                      "x": 2185.659733333333,
+                      "y": 3837.893227892721
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-2",
+                    "map": {
+                      "lat": 42.24228,
+                      "lng": -128.02763
+                    },
+                    "pixel": {
+                      "x": 2185.659733333333,
+                      "y": 3720.309406896552
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-3",
+                    "map": {
+                      "lat": 42.24228,
+                      "lng": -110.58561
+                    },
+                    "pixel": {
+                      "x": 2349.495927662835,
+                      "y": 3720.309406896552
+                    }
+                  },
+                  {
+                    "id": "measure-direct-1-gcp-4",
+                    "map": {
+                      "lat": 32.26355,
+                      "lng": -110.58561
+                    },
+                    "pixel": {
+                      "x": 2349.495927662835,
+                      "y": 3837.893227892721
+                    }
+                  }
+                ],
+                "id": "measure-direct-1-2185.6597333-3720.3094069-163.8361943-117.583821",
+                "sourceRect": {
+                  "height": 117.58382099616848,
+                  "width": 163.83619432950218,
+                  "x": 2185.659733333333,
+                  "y": 3720.309406896552
+                }
+              },
+              {
+                "embeddedLabel": "Adjoining Sheet Diagram",
+                "flavor": "measure",
+                "gcps": [
+                  {
+                    "id": "measure-direct-2-gcp-1",
+                    "map": {
+                      "lat": 37.49974,
+                      "lng": -122.75001
+                    },
+                    "pixel": {
+                      "x": 2168.7111601532565,
+                      "y": 4025.391727816092
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-2",
+                    "map": {
+                      "lat": 37.87485,
+                      "lng": -122.75001
+                    },
+                    "pixel": {
+                      "x": 2168.7111601532565,
+                      "y": 3898.274094099617
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-3",
+                    "map": {
+                      "lat": 37.87485,
+                      "lng": -122.37502
+                    },
+                    "pixel": {
+                      "x": 2269.696392337165,
+                      "y": 3898.274094099617
+                    }
+                  },
+                  {
+                    "id": "measure-direct-2-gcp-4",
+                    "map": {
+                      "lat": 37.49974,
+                      "lng": -122.37502
+                    },
+                    "pixel": {
+                      "x": 2269.696392337165,
+                      "y": 4025.391727816092
+                    }
+                  }
+                ],
+                "id": "measure-direct-2-2168.7111602-3898.2740941-100.9852322-127.1176337",
+                "sourceRect": {
+                  "height": 127.1176337164752,
+                  "width": 100.98523218390848,
+                  "x": 2168.7111601532565,
+                  "y": 3898.274094099617
+                }
+              }
+            ],
+            "flavor": "measure",
+            "selectedFrameId": "measure-direct-0-0-0-3389.7145968-3984.7847136",
+            "selectedLabel": "Map Layers",
+            "selection": {
+              "kind": "user"
+            },
+            "status": "embedded"
+          }
+        },
+        "pixelSize": {
+          "height": 4096,
+          "width": 3390
+        },
+        "source": "geopdf",
+        "sourceRect": {
+          "height": 3984.7847135632182,
+          "width": 3389.714596781609,
+          "x": 0,
+          "y": 0
+        }
+      }
+    ],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "renderPostReloadBeforeZoom": {
+    "at": "2026-07-31T04:14:23.074Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0,
+        "overlapPx": 0
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 68,
+          "height": 0,
+          "left": 313,
+          "right": 313,
+          "top": 68,
+          "width": 0,
+          "x": 313,
+          "y": 68
+        },
+        "height": 0,
+        "layerPresent": true,
+        "measuredState": "unsized-no-backing-allocated",
+        "nonTransparentFraction": null,
+        "opacity": "0.7",
+        "transform": "none",
+        "width": 0
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "CA_San_Francisco_South_OE_W_20211202_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 20,
+    "tileDerived": {
+      "lat": 43.004647127794435,
+      "lng": -66.4892578125,
+      "sampleTiles": 20,
+      "zoom": 12
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "adjustPointsPostReload": {
+    "ariaLabel": "Adjust points for CA_San_Francisco_South_OE_W_20211202_TM_geo",
+    "buttonText": "Adjust points",
+    "opened": true,
+    "mapBarStatusText": "RMS 8 m across 4 points",
+    "panelPresent": true,
+    "pointCount": 4,
+    "points": [
+      {
+        "index": "1",
+        "map": "37.6082, -122.6458",
+        "offBy": "8 m",
+        "scanPixel": "-19, 3985"
+      },
+      {
+        "index": "2",
+        "map": "37.7638, -122.6451",
+        "offBy": "8 m",
+        "scanPixel": "0, -16"
+      },
+      {
+        "index": "3",
+        "map": "37.7632, -122.4780",
+        "offBy": "8 m",
+        "scanPixel": "3408, 0"
+      },
+      {
+        "index": "4",
+        "map": "37.6076, -122.4791",
+        "offBy": "8 m",
+        "scanPixel": "3390, 4001"
+      }
+    ],
+    "rmsText": "RMS 8 m across 4 points",
+    "zoomButtons": [
+      "Zoom to point 1",
+      "Zoom to point 2",
+      "Zoom to point 3",
+      "Zoom to point 4"
+    ]
+  },
+  "zoomToPointClick": {
+    "ariaLabel": "Zoom to point 1",
+    "clicked": true,
+    "text": "Zoom to"
+  },
+  "renderPanelOpenAfterZoom": {
+    "at": "2026-07-31T04:14:30.378Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.2452,
+        "overlapPx": 245335
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 0,
+      "right": 1425,
+      "top": 68,
+      "width": 1425,
+      "x": 0,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 421,
+          "height": 704,
+          "left": 730,
+          "right": 2137.5,
+          "top": -283,
+          "width": 1407.5,
+          "x": 730,
+          "y": -283
+        },
+        "height": 1408,
+        "meanAlpha": 254.638,
+        "measuredState": "painted",
+        "nonTransparentFraction": 0.99858,
+        "nonTransparentPixels": 247456,
+        "opacity": "0.7",
+        "sampleStep": 4,
+        "sampledPixels": 247808,
+        "transform": "translate3d(730px, -351px, 0px)",
+        "width": 2815
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane",
+      "leaflet-pane leaflet-georeference-pane-pane",
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "CA_San_Francisco_South_OE_W_20211202_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 28,
+    "tileDerived": {
+      "lat": 37.60552821745788,
+      "lng": -122.6458740234375,
+      "sampleTiles": 28,
+      "zoom": 15
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "renderPostReloadAfterZoom": {
+    "at": "2026-07-31T04:14:37.665Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.2435,
+        "overlapPx": 188855
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 421,
+          "height": 704,
+          "left": 890,
+          "right": 1977.5,
+          "top": -283,
+          "width": 1087.5,
+          "x": 890,
+          "y": -283
+        },
+        "height": 1408,
+        "meanAlpha": 253.9,
+        "measuredState": "painted",
+        "nonTransparentFraction": 0.996496,
+        "nonTransparentPixels": 339556,
+        "opacity": "0.7",
+        "sampleStep": 3,
+        "sampledPixels": 340750,
+        "transform": "translate3d(730px, -351px, 0px)",
+        "width": 2175
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane",
+      "leaflet-pane leaflet-georeference-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "CA_San_Francisco_South_OE_W_20211202_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 28,
+    "tileDerived": {
+      "lat": 37.60552821745788,
+      "lng": -122.6458740234375,
+      "sampleTiles": 28,
+      "zoom": 15
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "verdict": {
+    "recordPersisted": true,
+    "previewBytesPresentAndDecodable": true,
+    "previewByteLengths": {
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:preview": 1297120
+    },
+    "previewNonTransparentFraction": {
+      "d5239348-b3ae-4ad9-99fd-89fec9f39889:preview": 1
+    },
+    "liveCanvasFractionBeforeZoom": null,
+    "liveCanvasFractionAfterZoom": 0.996496,
+    "canvasCountBeforeZoom": 1,
+    "canvasCountAfterZoom": 1,
+    "canvasStateBeforeZoom": "unsized",
+    "canvasStateAfterZoom": "painted",
+    "settleStates": [
+      [
+        "unsized-no-backing-allocated"
+      ],
+      [
+        "unsized-no-backing-allocated"
+      ],
+      [
+        "unsized-no-backing-allocated"
+      ]
+    ],
+    "decodeLatencyExcluded": true,
+    "classification": "PERSISTED_BUT_OFFSCREEN",
+    "reason": "Bytes intact and decodable; the record, frame choice and provenance all persisted. Before the move the layer canvas was 'unsized' \u2014 for 'unsized' this is the single branch in WarpedRasterLayer.redraw() where computeBackingRect returns null because the padded viewport does not intersect the drape, which sets canvas width/height to 0. Zoom to point moved the viewport onto the drape and it repainted. NOT a render defect and NOT lost bytes: the viewport is simply not restored across reload."
+  },
+  "finalBodyText": "NS Marks The Spot\nOnline\nAbout this map\niPhone app in development\nGet launch updates\n\u2303\nExplore Nova Scotia\nSearch by PID or civic address\nFind parcel\nEnter an 8-digit PID or a Nova Scotia civic address.\nCurrent notices\nHistorical records\nCURRENT \u00b7 advertised notices that still require municipal verification\nMap layers\nModern map\nOpenStreetMap\nReady\nSource & scale\nYour maps\n1 loaded\nDrag a file here, or choose one above.\nFiles stay on this device \u2014 nothing is uploaded.\nCA_San_Francisco_South_OE_W_20211202_TM_geo\nYour file \u00b7 3,390\u00d74,096 px\nGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by you\nOpacity\nChange frameAdjust pointsRemove\nNS Aerial\nProvince licence required\nOff\nSource & scale\nNS Property Boundaries\nProvince licence required\nOff\nSource & scale\nReview\nCrown Lands\nProvince licence required\nOff\nSource & scale\nWatersheds\nProvince licence required\nOff\nSource & scale\nWaterfalls\nProvince licence required\nOff\nSource & scale\nWater features\nProvince licence required\nOff\nSource & scale\nRoads, trails & culverts\nProvince licence required\nOff\nSource & scale\nBuildings\nProvince licence required\nOff\nSource & scale\nTopography\n1 optional terrain layer\nForestry\n1 optional policy layer\nFlood hazard context\n4 optional published screens\nEnvironmental health screens\n4 optional well-water & aquifer screens\nMunicipal zoning\n5 optional unofficial layers\nGroundwater\n1 optional well-log overlay\nMicro-hydro pilot\n1 optional Inverness screen\nGeology & Resources\n4 optional screening layers\nChurch (1860s\u201380s)\n4 Cape Breton counties \u00b7 tiles pending\nFletcher historical map\nTile hosting not configured\nOff\nSource & scale\nDavid Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries. Licensed CC BY-NC-SA 3.0: noncommercial use only; project georeferencing, clipping, and tiling changes are identified as derivatives and remain within the licence\u2019s ShareAlike boundary. The MIT software licence does not cover the imagery. This historical layer is context only: it is not a survey ",
+  "log": [
+    "[   2.06s] ATTACHED firefox 152.0.6 buildID=20260713164047 geckodriver=0.37.1",
+    "[   6.05s] [initial] clicking startup button 'Continue without Province layers'",
+    "[   8.07s] [initial] dialog attempt Continue without: Message: The element with the reference ff746f38-3b36-4321-86c4-e34260f2493e is stale; either its node document is not the active document, or it is no longer connected to the DOM; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\nRemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:169:5\nStaleElementReferenceError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:814:5\ngetKnownElement@chrome://remote/content/marionette/json.sys.mjs:412:11\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:270:20\ncloneObject@chrome://remote/content/marionette/json.sys.mjs:59:24\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:298:16\njson.deserialize@chrome://remote/content/marionette/json.sys.mjs:302:10\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:174:30\n",
+    "[   9.23s] IndexedDB at t0: 0 records (expect 0 \u2014 fresh profile)",
+    "[   9.23s] delivering CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf (12127762 bytes)",
+    "[  13.29s] chooser after 4.05s: present=True radios=3 anyChecked=False confirmDisabled=True",
+    "[  13.29s]   options: ['Map Layers', 'Quadrangle Location', 'Adjoining Sheet Diagram']",
+    "[  13.45s] explicitly selecting 'Map Layers' value=measure-direct-0-0-0-3389.7145968-3984.7847136",
+    "[  14.67s] clicked 'Use this frame'",
+    "[  20.75s] PRE-RELOAD canvases=1 nonTransparent=[0.986603] mapTier=not-found zoom=None",
+    "[  23.97s] PRE-RELOAD RMS: 'RMS 8 m across 4 points' points=4",
+    "[  28.59s] PRE-RELOAD idb: records=1 blobs={'d5239348-b3ae-4ad9-99fd-89fec9f39889:preview': {'byteLength': 1297120, 'ctor': 'ArrayBuffer', 'type': 'image/png'}, 'd5239348-b3ae-4ad9-99fd-89fec9f39889:raster': {'byteLength': 12127762, 'ctor': 'ArrayBuffer', 'type': 'application/pdf'}}",
+    "[  28.59s] RELOADING",
+    "[  33.28s] [post-reload] clicking startup button 'Continue without Province layers'",
+    "[  35.31s] [post-reload] dialog attempt Continue without: Message: The element with the reference 5bdd6451-bf5c-4801-8649-0bbddc2ca6eb is stale; either its node document is not the active document, or it is no longer connected to the DOM; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\nRemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:169:5\nStaleElementReferenceError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:814:5\ngetKnownElement@chrome://remote/content/marionette/json.sys.mjs:412:11\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:270:20\ncloneObject@chrome://remote/content/marionette/json.sys.mjs:59:24\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:298:16\njson.deserialize@chrome://remote/content/marionette/json.sys.mjs:302:10\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:174:30\n",
+    "[  41.23s]   settle +12.2s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  54.34s]   settle +25.3s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  74.51s]   settle +45.5s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  74.99s] POST-RELOAD/BEFORE-ZOOM canvases=1 nonTransparent=[None] rows=1 zoom=None centre=None",
+    "[  74.99s]   reconstructed d5239348-b3ae-4ad9-99fd-89fec9f39889:preview: bytes=1297120 3390x4096 nonTransparent=1 nonWhite=0.598171",
+    "[  78.05s] POST-RELOAD RMS: 'RMS 8 m across 4 points' points=4",
+    "[  78.19s] Zoom to point: {'ariaLabel': 'Zoom to point 1', 'clicked': True, 'text': 'Zoom to'}",
+    "[  89.68s] POST-RELOAD/AFTER-ZOOM canvases=1 nonTransparent=[0.996496] zoom=None centre=None",
+    "[  89.68s] VERDICT: PERSISTED_BUT_OFFSCREEN",
+    "[  89.68s]   Bytes intact and decodable; the record, frame choice and provenance all persisted. Before the move the layer canvas was 'unsized' \u2014 for 'unsized' this is the single branch in WarpedRasterLayer.redraw() where computeBackingRect returns null because the padded viewport does not intersect the drape, which sets canvas width/height to 0. Zoom to point moved the viewport onto the drape and it repainted. NOT a render defect and NOT lost bytes: the viewport is simply not restored across reload."
+  ]
+}

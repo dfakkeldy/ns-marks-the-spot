@@ -1,0 +1,207 @@
+[
+  {
+    "authoritativeUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/ME/ME_Isles_of_Shoals_20240805_TM_geo.pdf",
+    "retrievedAt": "2026-07-27",
+    "sha256": "9e0e5c17276b6ff0793c29ffc190b0b43e559fd197f0e17c79560adda54a4357",
+    "byteSize": 5831077,
+    "producer": "Esri ArcSOC 10.8.1.14362",
+    "publicationDate": "2024-08-05",
+    "pageCount": 1,
+    "registrationFamily": "multiple",
+    "pageDictionaryEvidence": {
+      "pageKey": "VP",
+      "family": "measure",
+      "registrationCount": 3,
+      "registrations": [
+        {
+          "name": "Map Layers",
+          "bbox": [10.79975, 2088, 1708.16044, 38.69368],
+          "gpts": [42.85448, -70.65044, 43.01304, -70.65468, 43.01551, -70.47446, 42.85693, -70.47068]
+        },
+        {
+          "name": "Quadrangle Location",
+          "bbox": [1114.1742, 191.51415, 1197.69226, 131.57396],
+          "gpts": [42.71996, -74.00461, 47.77223, -74.00461, 47.77223, -64.02921, 42.71996, -64.02921]
+        },
+        {
+          "name": "Adjoining Sheet Diagram",
+          "bbox": [1107.51435, 100.79387, 1155.03325, 35.99367],
+          "gpts": [42.74941, -70.74998, 43.12509, -70.74998, 43.12509, -70.37502, 42.74941, -70.37502]
+        }
+      ]
+    },
+    "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+    "gdalResult": {
+      "crs": "EPSG:26919 (gdalsrsinfo match confidence 70%)",
+      "geoTransform": [365387.2006508168, 4.063591562546713, -0.0752713172660723, 4763593.290266804, -0.07537936525192, -4.0635060669511445],
+      "gcps": []
+    },
+    "expected": "manual-ambiguous",
+    "rightsNote": "Official U.S. Geological Survey product selected through The National Map API. USGS-authored work is public domain under 17 U.S.C. 105. PDF bytes remained in an untracked local temporary corpus."
+  },
+  {
+    "authoritativeUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_San_Francisco_South_OE_W_20211202_TM_geo.pdf",
+    "retrievedAt": "2026-07-27",
+    "sha256": "1e64eabdb4df545a651a7721ed808c6199e89df27c7659424ead22a3c9f74732",
+    "byteSize": 12127762,
+    "producer": "Esri ArcSOC 10.8.1.14362",
+    "publicationDate": "2021-12-02",
+    "pageCount": 1,
+    "registrationFamily": "multiple",
+    "pageDictionaryEvidence": {
+      "pageKey": "VP",
+      "family": "measure",
+      "registrationCount": 3,
+      "registrations": [
+        {
+          "name": "Map Layers",
+          "bbox": [0, 2088, 1727.95998, 56.69373],
+          "gpts": [37.60817, -122.64581, 37.76381, -122.64507, 37.76319, -122.47805, 37.60756, -122.47914]
+        },
+        {
+          "name": "Quadrangle Location",
+          "bbox": [1114.1742, 191.51415, 1197.69226, 131.57396],
+          "gpts": [32.26355, -128.02763, 42.24228, -128.02763, 42.24228, -110.58561, 32.26355, -110.58561]
+        },
+        {
+          "name": "Adjoining Sheet Diagram",
+          "bbox": [1105.5344, 100.79387, 1157.0132, 35.99367],
+          "gpts": [37.49974, -122.75001, 37.87485, -122.75001, 37.87485, -122.37502, 37.49974, -122.37502]
+        }
+      ]
+    },
+    "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+    "gdalResult": {
+      "crs": "EPSG:26910 (gdalsrsinfo match confidence 70%)",
+      "geoTransform": [531261.9872700123, 4.064029360304099, 0.0190114005235746, 4179600.2706769146, 0.0190999814246997, -4.064054753114054],
+      "gcps": []
+    },
+    "expected": "manual-ambiguous",
+    "rightsNote": "Official U.S. Geological Survey product selected through The National Map API. USGS-authored work is public domain under 17 U.S.C. 105. PDF bytes remained in an untracked local temporary corpus."
+  },
+  {
+    "authoritativeUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf",
+    "retrievedAt": "2026-07-27",
+    "sha256": "1e9d8c98ddea13d114e88ca33e0f9ad376fa6f5f9793486cfddf208dc4557ffa",
+    "byteSize": 3241291,
+    "producer": "ESRI ArcSOC 10.0.2.3200",
+    "publicationDate": "2015-06-10",
+    "pageCount": 1,
+    "registrationFamily": "multiple",
+    "pageDictionaryEvidence": {
+      "pageKey": "LGIDict",
+      "family": "lgidict",
+      "registrationCount": 3,
+      "registrations": [
+        {
+          "description": "Quadrangle Location",
+          "ctm": ["7364.425426371285", "-2.713960983606427e-012", "2.713960983606427e-012", "7364.425426371285", "-16178306.83218547", "3843787.637430221"],
+          "neatline": ["1155.651915286291", "186.547499999935", "1072.07308471371", "186.547499999935", "1072.07308471371", "246.5212500000659", "1155.651915286291", "246.5212500000659", "1155.651915286291", "186.547499999935"]
+        },
+        {
+          "description": "Map Layers",
+          "ctm": ["8.464961226278966", "-0.169682751150944", "0.169682751150944", "8.464961226278966", "355191.3930276529", "4746186.200335444"],
+          "neatline": ["1428.648750000147", "1915.20798686374", "1428.648749999969", "260.9245131365952", "209.3399999999895", "260.924513136763", "209.3400000002777", "1915.207986863823", "1428.648750000147", "1915.20798686374"]
+        },
+        {
+          "description": "UTM Grid and Projection",
+          "ctm": ["8.464963841221175", "-0.1696828035680874", "0.1696828035680874", "8.464963841221175", "355191.3908289966", "4746186.197533143"],
+          "neatline": ["1511.448750000042", "1998.007919679098", "1511.448750000042", "178.1245803214048", "126.5400000000786", "178.1245803214048", "126.5400000001991", "1998.007919679098", "1511.448750000042", "1998.007919679098"]
+        }
+      ]
+    },
+    "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+    "gdalResult": {
+      "crs": "EPSG:26919 (gdalsrsinfo match confidence 70%)",
+      "geoTransform": [355545.6906120561, 4.063181388613904, -0.0814477205524531, 4763861.039375914, -0.0814477205524531, -4.063181388613904],
+      "gcps": []
+    },
+    "expected": "manual-ambiguous",
+    "rightsNote": "Official pre-June-2017 U.S. Geological Survey TerraGo-era product selected through The National Map API. USGS-authored work is public domain under 17 U.S.C. 105. PDF bytes remained in an untracked local temporary corpus."
+  },
+  {
+    "authoritativeUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/CA/CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf",
+    "retrievedAt": "2026-07-27",
+    "sha256": "756f06c2c1a826c151bb2a753fe8a8e9efac28557865c37262cd773160961266",
+    "byteSize": 9052006,
+    "producer": "ESRI ArcSOC 10.0.2.3200",
+    "publicationDate": "2012-05-15",
+    "pageCount": 1,
+    "registrationFamily": "multiple",
+    "pageDictionaryEvidence": {
+      "pageKey": "LGIDict",
+      "family": "lgidict",
+      "registrationCount": 4,
+      "registrations": [
+        {
+          "description": "Quadrangle Location",
+          "ctm": ["24254.47630560595", "-1.302431062148635e-011", "1.302431062148635e-011", "24254.47630560595", "-40836356.84159601", "-821681.5399017469"],
+          "neatline": ["1178.1", "188.4400145348257", "1094.5125", "188.4400145348257", "1094.5125", "248.4199854651742", "1178.1", "248.4199854651742", "1178.1", "188.4400145348257"]
+        },
+        {
+          "description": "Map Layers",
+          "ctm": ["8.46657598565683", "0.03935673752457283", "-0.03935673752457283", "8.46657598565683", "531751.8289232113", "4148114.635324587"],
+          "neatline": ["1478.157656572728", "262.8225000001675", "159.8423434272513", "262.822500000335", "159.8423434275447", "1915.211250000251", "1478.157656572686", "1915.211249999832", "1478.157656572728", "262.8225000001675"]
+        },
+        {
+          "description": "Adjoining Quadrangles Diagram",
+          "ctm": ["0.003595987095026113", "-1.318954715793699e-018", "1.318954715793699e-018", "0.003595987095026113", "-126.6486426109975", "37.13533718796572"],
+          "neatline": ["1188.506249999937", "66.58875000001157", "1084.106250000074", "66.58875000001157", "1084.106250000074", "170.9887500000036", "1188.506249999937", "170.9887500000036", "1188.506249999937", "66.58875000001157"]
+        },
+        {
+          "description": "UTM Grid and Projection",
+          "ctm": ["8.466577455855337", "0.03935674435871598", "-0.03935674435871598", "8.466577455855337", "531751.8277265612", "4148114.633717919"],
+          "neatline": ["1560.957685578356", "180.0225000004187", "77.04231442181161", "180.0225000002512", "77.04231442180112", "1998.011249999916", "1560.957685578346", "1998.011250000251", "1560.957685578356", "180.0225000004187"]
+        }
+      ]
+    },
+    "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+    "gdalResult": {
+      "crs": "EPSG:26910 (gdalsrsinfo match confidence 70%)",
+      "geoTransform": [531669.65205526, 4.063956473115279, 0.018891234011795, 4165792.8459826387, 0.018891234011795, -4.063956473115279],
+      "gcps": []
+    },
+    "expected": "manual-ambiguous",
+    "rightsNote": "Official pre-June-2017 U.S. Geological Survey TerraGo-era product selected through The National Map API. USGS-authored work is public domain under 17 U.S.C. 105. PDF bytes remained in an untracked local temporary corpus."
+  },
+  {
+    "authoritativeUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/USTopo/PDF/NH/NH_Hampton_20240808_TM_geo.pdf",
+    "retrievedAt": "2026-07-27",
+    "sha256": "a4b29c41289e5d4dab3ec33f2d0019441c2525aba0c61b498a15da3434bc546b",
+    "byteSize": 35264037,
+    "producer": "Esri ArcSOC 10.8.1.14362",
+    "publicationDate": "2024-08-08",
+    "pageCount": 1,
+    "registrationFamily": "multiple",
+    "pageDictionaryEvidence": {
+      "pageKey": "VP",
+      "family": "measure",
+      "registrationCount": 3,
+      "registrations": [
+        {
+          "name": "Map Layers",
+          "bbox": [6.47985, 2088, 1712.48034, 35.09367],
+          "gpts": [42.85381, -70.90086, 43.01302, -70.90576, 43.0159, -70.72403, 42.85668, -70.7196]
+        },
+        {
+          "name": "Quadrangle Location",
+          "bbox": [1114.1742, 191.51415, 1197.69226, 131.57396],
+          "gpts": [42.62686, -74.28123, 45.37251, -74.28123, 45.37251, -68.97982, 42.62686, -68.97982]
+        },
+        {
+          "name": "Adjoining Sheet Diagram",
+          "bbox": [1107.51435, 100.79387, 1155.03325, 35.99367],
+          "gpts": [42.74941, -70.99998, 43.12509, -70.99998, 43.12509, -70.62502, 42.74941, -70.62502]
+        }
+      ]
+    },
+    "gdalVersion": "GDAL 3.9.0, released 2024/05/07 (debug build)",
+    "gdalResult": {
+      "crs": "EPSG:26919 (gdalsrsinfo match confidence 70%)",
+      "geoTransform": [345015.662882536, 4.063027501054173, -0.0876534133298467, 4764023.514742415, -0.0873807510562066, -4.063187261041905],
+      "gcps": []
+    },
+    "expected": "manual-ambiguous",
+    "rightsNote": "Official U.S. Geological Survey multi-frame control selected through The National Map API. USGS-authored work is public domain under 17 U.S.C. 105. PDF bytes remained in an untracked local temporary corpus."
+  }
+]

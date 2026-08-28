@@ -1,0 +1,106 @@
+{
+  "harness": "geckodriver+system Firefox via Selenium (NOT the Chrome extension bridge)",
+  "delivery": "native <input type=file> send_keys (no DataTransfer, no bridge ceiling)",
+  "origin": "http://127.0.0.1:4340",
+  "fixture": "/Users/dfakkeldy/Developer/ns-marks-geopdf-acceptance/web/src/test/fixtures/geopdf/ns-utm20-lgidict.pdf",
+  "budgetSec": 180,
+  "browserName": "firefox",
+  "browserVersion": "152.0.6",
+  "platformName": "mac",
+  "geckodriverVersion": "0.37.1",
+  "firefoxBinary": "0.37.1",
+  "mozBuildID": "20260713164047",
+  "startupTextSample": "NS Marks The Spot\nOnline\nAbout this map\niPhone app in development\nGet launch updates\n\u2303\nExplore Nova Scotia\nSearch by PID or civic address\nFind parcel\nEnter an 8-digit PID or a Nova Scotia civic address.\nCurrent notices\nHistorical records\nCURRENT \u00b7 advertised notices that still require municipal verification\nMap layers\nModern map\nOpenStreetMap\nReady\nSource & scale\nYour maps\nLoad GeoTIFF, PDF, or image\nDrag a file here, or choose one above.\nFiles stay on this device \u2014 nothing is uploaded.\nNS Aerial\nProvince licence required\nOff\nSource & scale\nNS Property Boundaries\nProvince licence required\nOff\n",
+  "fileInputCount": 1,
+  "deliveredAt": 10.45,
+  "outcome": "IMPORT_COMPLETED",
+  "timeline": [
+    {
+      "t": 0.02,
+      "status": "Reading \"ns-utm20-lgidict.pdf\"\u2026",
+      "outcomes": [],
+      "radioCount": 0,
+      "radios": []
+    },
+    {
+      "t": 2.03,
+      "status": null,
+      "outcomes": [
+        "ns-utm20-lgidict.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates."
+      ],
+      "radioCount": 0,
+      "radios": []
+    }
+  ],
+  "elapsedSinceDeliverySec": 2.0,
+  "workerTrace": [
+    {
+      "created": 6741,
+      "kinds": [
+        "->parse",
+        "<-topology-unsupported"
+      ],
+      "last": 6819,
+      "recv": 1,
+      "sent": 1,
+      "terminated": 6819,
+      "url": "http://127.0.0.1:4340/assets/geoPdfWorker-Cry_zgkI.js"
+    },
+    {
+      "created": 6852,
+      "kinds": [
+        "->test",
+        "<-ready",
+        "->test",
+        "<-test",
+        "->configure",
+        "->GetDocRequest",
+        "->Ready",
+        "<-DataLoaded",
+        "<-GetDoc",
+        "->GetPage",
+        "->GetOptionalContentConfig",
+        "->GetOperatorList",
+        "<-StartRenderPage",
+        "<-obj",
+        "->Cleanup",
+        "->Terminate"
+      ],
+      "last": 7099,
+      "recv": 15,
+      "sent": 11,
+      "terminated": 7099,
+      "url": "http://127.0.0.1:4340/assets/pdf.worker.min-DEtVeC4l.mjs"
+    },
+    {
+      "created": 6935,
+      "kinds": [
+        "->metadata",
+        "<-metadata"
+      ],
+      "last": 6994,
+      "recv": 1,
+      "sent": 1,
+      "terminated": 6994,
+      "url": "http://127.0.0.1:4340/assets/geoPdfWorker-Cry_zgkI.js"
+    }
+  ],
+  "jsErrors": [],
+  "unhandledRejections": [],
+  "finalBodyText": "NS Marks The Spot\nOnline\nAbout this map\niPhone app in development\nGet launch updates\n\u2303\nExplore Nova Scotia\nSearch by PID or civic address\nFind parcel\nEnter an 8-digit PID or a Nova Scotia civic address.\nCurrent notices\nHistorical records\nCURRENT \u00b7 advertised notices that still require municipal verification\nMap layers\nModern map\nOpenStreetMap\nReady\nSource & scale\nYour maps\n1 loaded\nDrag a file here, or choose one above.\nFiles stay on this device \u2014 nothing is uploaded.\nns-utm20-lgidict.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.\nns-utm20-lgidict\nYour file \u00b7 4,096\u00d73,072 px\nGeoPDF page 1 \u00b7 NAD83 / UTM zone 20N \u00b7 LGIDict \u00b7 sole registration\nOpacity\nAdjust pointsRemove\nNS Aerial\nProvince licence required\nOff\nSource & scale\nNS Property Boundaries\nProvince licence required\nOff\nSource & scale\nReview\nCrown Lands\nProvince licence required\nOff\nSource & scale\nWatersheds\nProvince licence required\nOff\nSource & scale\nWaterfalls\nProvince licence required\nOff\nSource & scale\nWater features\nProvince licence required\nOff\nSource & scale\nRoads, trails & culverts\nProvince licence required\nOff\nSource & scale\nBuildings\nProvince licence required\nOff\nSource & scale\nTopography\n1 optional terrain layer\nForestry\n1 optional policy layer\nFlood hazard context\n4 optional published screens\nEnvironmental health screens\n4 optional well-water & aquifer screens\nMunicipal zoning\n5 optional unofficial layers\nGroundwater\n1 optional well-log overlay\nMicro-hydro pilot\n1 optional Inverness scre",
+  "log": [
+    "[   3.74s] ATTACHED: firefox 152.0.6 buildID=20260713164047 geckodriver=0.37.1",
+    "[   7.63s] loaded, title='NS Marks The Spot \u2014 Nova Scotia parcel & tax-sale map'",
+    "[   7.82s] worker instrumentation installed",
+    "[   7.94s] startup body sample: 'NS Marks The Spot\\nOnline\\nAbout this map\\niPhone app in development\\nGet launch updates\\n\u2303\\nExplore Nova Scotia\\nSearch by PID or civic address\\nFind parcel\\nEnter an 8-digit PID or a Nova Scotia civic addres'",
+    "[   8.25s] clicking startup button 'Continue without Province layers'",
+    "[  10.42s] file inputs found: 1",
+    "[  10.43s] delivering ns-utm20-lgidict.pdf (1896 bytes) via native send_keys",
+    "[  10.46s] status='Reading \"ns-utm20-lgidict.pdf\"\u2026' outcomes=[] radios=0",
+    "[  12.48s] status=None outcomes=['ns-utm20-lgidict.pdf added \u2014 Page 1 imported. Placed from embedded GeoPDF coordinates.'] radios=0",
+    "[  12.48s] OUTCOME: IMPORT_COMPLETED after 2.0s",
+    "[  12.60s] worker 127.0.0.1:4340/assets/geoPdfWorker-Cry_zgkI.js sent=1 recv=1 term=6819 lastKinds=['->parse', '<-topology-unsupported']",
+    "[  12.60s] worker .0.0.1:4340/assets/pdf.worker.min-DEtVeC4l.mjs sent=11 recv=15 term=7099 lastKinds=['->GetOptionalContentConfig', '->GetOperatorList', '<-StartRenderPage', '<-obj', '->Cleanup', '->Terminate']",
+    "[  12.60s] worker 127.0.0.1:4340/assets/geoPdfWorker-Cry_zgkI.js sent=1 recv=1 term=6994 lastKinds=['->metadata', '<-metadata']"
+  ]
+}

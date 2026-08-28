@@ -1,0 +1,38 @@
+import Foundation
+import Observation
+
+/// Every modal the map screen can present, routed through one value so only a
+/// single sheet exists at a time and future deep links can drive presentation
+/// directly instead of toggling per-sheet booleans.
+enum SheetRoute: Identifiable, Equatable {
+    case offlineStorage
+    case info
+    case taxSaleNotices
+    case historicalTaxSales
+    case saveAreaDraft(MapBounds)
+    /// The ground the user framed for the page, chosen before this sheet opens.
+    case printExport(PrintExportFraming)
+
+    var id: String {
+        switch self {
+        case .offlineStorage:
+            return "offline-storage"
+        case .info:
+            return "info"
+        case .taxSaleNotices:
+            return "tax-sale-notices"
+        case .historicalTaxSales:
+            return "historical-tax-sales"
+        case .saveAreaDraft:
+            return "save-area-draft"
+        case .printExport:
+            return "print-export"
+        }
+    }
+}
+
+@MainActor
+@Observable
+final class NavigationModel {
+    var activeSheet: SheetRoute?
+}

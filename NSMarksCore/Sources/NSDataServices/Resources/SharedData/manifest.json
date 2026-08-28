@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "path": "annapolisTaxSale.snapshot.json",
+      "bytes": 2764,
+      "sha256": "ccfe84b6452c25fce271a8a83ebd9f18fe2055d126d426efac79c415ea84d87b"
+    },
+    {
+      "path": "cbrmTaxSale.snapshot.json",
+      "bytes": 18673,
+      "sha256": "88093cca7c8bbc5e0d00600568ffb983c815b988542ccd0bac85e62f542ca5d7"
+    },
+    {
+      "path": "cbrmTaxSaleResults.snapshot.json",
+      "bytes": 16044,
+      "sha256": "dc57447252e40e8834fcee39d6ad69b20d24aba6b57b32f02ac52f610b934d64"
+    },
+    {
+      "path": "cumberlandTaxSale.snapshot.json",
+      "bytes": 881,
+      "sha256": "9bcd30bf6c6f3b60a48fbd0eaffd62d07174e13346b8c05d0c05c31507cd5c25"
+    },
+    {
+      "path": "halifaxTaxSale.snapshot.json",
+      "bytes": 9358,
+      "sha256": "3a188b2fd8b78e2204538b0fe9006cba24337168031e7da47154a51f28e9c84c"
+    },
+    {
+      "path": "historicalMatchExceptions.json",
+      "bytes": 1658,
+      "sha256": "8aeed7a89ad82cc039c119edbe4f590a027d5f0dc926cf8fbe49045180c48292"
+    },
+    {
+      "path": "historicalSourceLedger.json",
+      "bytes": 66013,
+      "sha256": "c7923103c989e6f76b2a37648c02eb1af392375a446079392eaa86a39e09f61b"
+    },
+    {
+      "path": "historicalTaxSales.json",
+      "bytes": 239081,
+      "sha256": "043e678a68232adcd49eb3ae8fed5019178eea2ee895287c31063e47d472b8a2"
+    },
+    {
+      "path": "invernessHydroPotential.json",
+      "bytes": 920117,
+      "sha256": "4de6dab8274f693c5c61667857948fc23efe3bd4eb1980160640a205ef18c38e"
+    },
+    {
+      "path": "invernessTaxSale.snapshot.json",
+      "bytes": 12238,
+      "sha256": "d95bc8357ae406f6a2e3e26b7de7a8d9d52d9fd11fc35cafc3ad321e543ce4ba"
+    },
+    {
+      "path": "middletonTaxSale.snapshot.json",
+      "bytes": 1147,
+      "sha256": "4224d48e990f3a97eb73304726cc4675d769bc5f28fd9fca22e278078f0edf13"
+    },
+    {
+      "path": "richmondTaxSale.snapshot.json",
+      "bytes": 896,
+      "sha256": "a00b87296ef051ac95319a0f8bdd769188a6381760beb90162ce30ebe5fed86f"
+    },
+    {
+      "path": "victoriaTaxSale.snapshot.json",
+      "bytes": 3165,
+      "sha256": "4ca1134889b18d1d029c380d39a631fee82571820e70b672947c7c3fd7935467"
+    }
+  ]
+}

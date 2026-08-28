@@ -1,0 +1,49 @@
+{
+  "capturedAt": "2026-07-30T23:04:08.677Z",
+  "runtime": "a75fef33c1004943465b6b95713c7f28201fd0f5",
+  "controlRuntime": "4c46ca276982ac9e4da593ee79b5a88503818511",
+  "origin": "http://127.0.0.1:4340",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+  "file": {
+    "name": "NH_Isles_of_Shoals_OE_W_20150610_TM_geo.pdf",
+    "bytes": 3241291,
+    "sha256": "1e9d8c98ddea13d114e88ca33e0f9ad376fa6f5f9793486cfddf208dc4557ffa",
+    "registrationFamily": "lgidict",
+    "recordedRegistrationCount": 3
+  },
+  "outcome": "IMPORT_NEVER_COMPLETES",
+  "observedSec": { "origin4320": 576, "origin4340": 136, "baseline4330": 136 },
+  "featureWorker": {
+    "posted": { "t": 25923, "type": "parse", "bytes": 3241291 },
+    "replied": { "t": 25991, "kind": "topology-unsupported", "ok": false },
+    "terminated": 25991,
+    "note": "worker-canvas topology declined; correct fallback to main-canvas path"
+  },
+  "metadataWorker": {
+    "posted": { "t": 26080, "type": "metadata", "bytes": 3241291 },
+    "replied": { "t": 26147, "kind": "metadata", "ok": true },
+    "terminated": 26147,
+    "note": "registration metadata extraction SUCCEEDS in 67ms; not the failure point"
+  },
+  "pdfJsWorker": {
+    "url": "pdf.worker.min-DEtVeC4l.mjs",
+    "created": 26016,
+    "messageCount": 322,
+    "lastMessageT": 28915,
+    "silentForSec": 107,
+    "terminated": null,
+    "note": "rasterization stops responding; import promise never settles"
+  },
+  "longTasksOver200ms": 2,
+  "consoleErrors": 0,
+  "failedNetworkRequests": 0,
+  "harnessExonerated": {
+    "declaredSize": 3241291,
+    "actualBytesRead": 3241291,
+    "header": "%PDF-1.6",
+    "trailer": "%EOF",
+    "readMs": 4
+  },
+  "regression": false,
+  "regressionEvidence": "identical indefinite Reading state reproduces on receipt baseline 4c46ca276"
+}

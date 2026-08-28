@@ -1,0 +1,42 @@
+{
+ "label": "north-coast",
+ "warped": "/home/dan/nsmarks-church-inverness-20260724b/work/measure/inverness/inverness-north-3857.tif",
+ "reference": "/home/dan/nsmarks-church-inverness-20260724/reference/nstdb-major-water.geojson",
+ "where": "FEAT_DESC='Coast Water Area polygon'",
+ "clip": null,
+ "metres_per_sample_px": 20.0,
+ "extract_seam_samples_dropped": 1635,
+ "kept_extract_seams": false,
+ "samples": 8718,
+ "median_m": 80.0,
+ "mean_m": 147.07819449242498,
+ "rms_m": 231.11604850755322,
+ "p90_m": 415.44189453125,
+ "p95_m": 531.5504150390624,
+ "p99_m": 814.854650878906,
+ "max_m": 1020.0,
+ "within_250m_pct": 80.45423262216104,
+ "within_500m_pct": 94.05827024546915,
+ "bands": [
+  {
+   "band": 0,
+   "samples": 1832,
+   "rms_m": 349.15396658350534
+  },
+  {
+   "band": 1,
+   "samples": 2575,
+   "rms_m": 182.87756388604842
+  },
+  {
+   "band": 2,
+   "samples": 3592,
+   "rms_m": 188.60363397033126
+  },
+  {
+   "band": 3,
+   "samples": 719,
+   "rms_m": 198.88886081103803
+  }
+ ]
+}

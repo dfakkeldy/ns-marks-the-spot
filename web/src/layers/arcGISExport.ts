@@ -1,0 +1,120 @@
+import L from "leaflet";
+import type { ArcGISExportOptions } from "./layerCatalog";
+
+const WEB_MERCATOR_WORLD_EXTENT = 20_037_508.342789244;
+
+export type ArcGISTileCoordinates = {
+  x: number;
+  y: number;
+  z: number;
+};
+
+export type ArcGISExportLayerOptions = ArcGISExportOptions & {
+  serviceUrl: string;
+};
+
+export function webMercatorBoundsForTile({
+  x,
+  y,
+  z,
+}: ArcGISTileCoordinates) {
+  const tileSpan = (2 * WEB_MERCATOR_WORLD_EXTENT) / 2 ** z;
+  const minX = -WEB_MERCATOR_WORLD_EXTENT + x * tileSpan;
+  const maxX = minX + tileSpan;
+  const maxY = WEB_MERCATOR_WORLD_EXTENT - y * tileSpan;
+  const minY = maxY - tileSpan;
+
+  return { minX, minY, maxX, maxY };
+}
+
+export type WebMercatorBox = {
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+};
+
+/**
+ * The one place the `/export` query is assembled. Every ArcGIS map service
+ * request in the app — a live Leaflet tile, or the single whole-frame render
+ * the PDF export asks for — is the same call with a different bbox and size.
+ */
+function arcGISExportUrl(
+  options: ArcGISExportLayerOptions,
+  bounds: WebMercatorBox,
+  widthPx: number,
+  heightPx: number,
+) {
+  const baseUrl = options.serviceUrl.replace(/\/$/, "");
+  const url = new URL(`${baseUrl}/export`);
+
+  url.searchParams.set(
+    "bbox",
+    `${bounds.minX},${bounds.minY},${bounds.maxX},${bounds.maxY}`,
+  );
+  url.searchParams.set("bboxSR", "3857");
+  url.searchParams.set("imageSR", "3857");
+  url.searchParams.set("size", `${widthPx},${heightPx}`);
+  url.searchParams.set("format", "png32");
+  url.searchParams.set("transparent", String(options.transparent));
+  url.searchParams.set("f", "image");
+
+  if (options.dpi) {
+    url.searchParams.set("dpi", String(options.dpi));
+  }
+
+  if (options.layers) {
+    url.searchParams.set("layers", options.layers);
+  }
+
+  if (options.dynamicLayers) {
+    url.searchParams.set(
+      "dynamicLayers",
+      JSON.stringify(JSON.parse(options.dynamicLayers)),
+    );
+  }
+
+  return url.toString();
+}
+
+export function arcGISExportUrlForTile(
+  options: ArcGISExportLayerOptions,
+  coordinates: ArcGISTileCoordinates,
+) {
+  return arcGISExportUrl(
+    options, webMercatorBoundsForTile(coordinates), 256, 256,
+  );
+}
+
+/**
+ * One `/export` render for a whole Web Mercator box at a given pixel size.
+ *
+ * This is what a map service is for. Slicing a frame into 256px tiles and
+ * asking for each one separately turns a single render into ~200 server-side
+ * renders per layer — roughly 800 in one burst for the four default Province
+ * services, against nsgiwa.novascotia.ca. These are dynamic map services, not
+ * a cached tile pyramid: there is no tile to fetch, only a render to pay for.
+ */
+export function arcGISExportUrlForBox(
+  options: ArcGISExportLayerOptions,
+  bounds: WebMercatorBox,
+  size: { widthPx: number; heightPx: number },
+) {
+  return arcGISExportUrl(options, bounds, size.widthPx, size.heightPx);
+}
+
+export class ArcGISExportTileLayer extends L.TileLayer {
+  readonly exportOptions: ArcGISExportLayerOptions;
+
+  constructor(
+    exportOptions: ArcGISExportLayerOptions,
+    layerOptions: L.TileLayerOptions,
+  ) {
+    super(exportOptions.serviceUrl, layerOptions);
+    this.exportOptions = exportOptions;
+  }
+
+  getTileUrl(coordinates: L.Coords) {
+    return arcGISExportUrlForTile(this.exportOptions, coordinates);
+  }
+}

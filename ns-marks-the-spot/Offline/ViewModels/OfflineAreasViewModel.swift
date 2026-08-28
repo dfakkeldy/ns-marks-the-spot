@@ -1,5 +1,5 @@
-import Combine
 import Foundation
+import Observation
 
 struct OfflineLayerStorageSummary: Identifiable, Equatable {
     let id: String
@@ -9,26 +9,34 @@ struct OfflineLayerStorageSummary: Identifiable, Equatable {
 }
 
 @MainActor
-final class OfflineAreasViewModel: ObservableObject {
-    @Published private(set) var savedAreas: [SavedOfflineArea] = []
-    @Published private(set) var storageSummary = TileStoreSummary(
+@Observable
+final class OfflineAreasViewModel {
+    private(set) var savedAreas: [SavedOfflineArea] = []
+    private(set) var storageSummary = TileStoreSummary(
         totalBytes: 0,
         layerBytes: [:],
         savedAreaBytes: [:]
     )
-    @Published private(set) var storageErrorMessage: String?
-    @Published private(set) var isStorageOperationInProgress = false
-    @Published private(set) var activeDownloadAreaID: String?
+    private(set) var storageErrorMessage: String?
+    private(set) var isStorageOperationInProgress = false
+    private(set) var activeDownloadAreaID: String?
 
     static let maximumSavedAreaTileCount = 100_000
-    private let tileStore: TileStore
-    private let tileCache: TileCache
-    private let savedAreaRepository: SavedOfflineAreaRepository
-    private let tileDownloadManager: TileDownloadManager?
-    private let tileLoader: (any TileDataLoading)?
-    private let averageTileBytes = 12_000
-    private var hasLoadedSavedAreas = false
-    private var activeDownloadTask: Task<Void, Never>?
+    @ObservationIgnored private let tileStore: TileStore
+    @ObservationIgnored private let tileCache: TileCache
+    @ObservationIgnored private let savedAreaRepository: SavedOfflineAreaRepository
+    @ObservationIgnored private let tileDownloadManager: TileDownloadManager?
+    @ObservationIgnored private let tileLoader: (any TileDataLoading)?
+    @ObservationIgnored private let fletcherMigration: Task<Void, Never>?
+    @ObservationIgnored private let averageTileBytes = 12_000
+    @ObservationIgnored private var hasLoadedSavedAreas = false
+    @ObservationIgnored private var activeDownloadTask: Task<Void, Never>?
+    @ObservationIgnored private var lastProgressApplied = Date.distantPast
+    /// The area whose download loop is running right now, set by `download`
+    /// itself so it also covers callers that never went through
+    /// `startDownloadTask`. Distinct from `activeDownloadAreaID`, which is the
+    /// UI-facing value the cancel button reads.
+    @ObservationIgnored private var liveDownloadAreaID: String?
 
     var maximumSavedAreaTileCount: Int {
         Self.maximumSavedAreaTileCount
@@ -62,13 +70,15 @@ final class OfflineAreasViewModel: ObservableObject {
         tileCache: TileCache,
         savedAreaRepository: SavedOfflineAreaRepository = SavedOfflineAreaRepository(),
         tileDownloadManager: TileDownloadManager? = nil,
-        tileLoader: (any TileDataLoading)? = nil
+        tileLoader: (any TileDataLoading)? = nil,
+        fletcherMigration: Task<Void, Never>? = nil
     ) {
         self.tileStore = tileStore
         self.tileCache = tileCache
         self.savedAreaRepository = savedAreaRepository
         self.tileDownloadManager = tileDownloadManager
         self.tileLoader = tileLoader
+        self.fletcherMigration = fletcherMigration
     }
 
     func estimateDraft(
@@ -145,8 +155,20 @@ final class OfflineAreasViewModel: ObservableObject {
             guard area.failedTileCount > 0 else { return }
         }
 
+        // Before anything is written. The sweep of a superseded tile build
+        // deletes the whole Fletcher layer out of the store, and it runs
+        // detached at launch: starting first means either the downloader reuses
+        // bytes the sweep is about to remove and counts them as this build's,
+        // or the sweep lands mid-download and empties an area that has already
+        // reported itself complete.
+        await fletcherMigration?.value
+
         guard beginStorageOperation() else { return }
-        defer { finishStorageOperation() }
+        liveDownloadAreaID = area.id
+        defer {
+            liveDownloadAreaID = nil
+            finishStorageOperation()
+        }
 
         guard let tileDownloadManager, let tileLoader else {
             storageErrorMessage = "Couldn't download this offline area right now."
@@ -205,6 +227,10 @@ final class OfflineAreasViewModel: ObservableObject {
     }
 
     func refreshStorageSummary() async {
+        // Same wait as the download path, for the same reason: bytes the sweep
+        // is about to delete would otherwise be counted, and an area whose
+        // tiles are about to go would read as complete.
+        await fletcherMigration?.value
         async let tileStoreSummary = tileStore.summary()
         async let tileCacheSummary = tileCache.diskSummary()
 
@@ -284,14 +310,25 @@ final class OfflineAreasViewModel: ObservableObject {
         startingDownloadedCount: Int,
         progress: TileDownloadProgress
     ) {
+        // The manager reports after every tile; the row only needs to read
+        // freshly to a human. Applying every report would rewrite an
+        // Observation-tracked array up to 100,000 times per download.
+        let isFinalReport = progress.wasCancelled
+            || progress.succeeded + progress.failed >= progress.total
+        guard isFinalReport
+            || Date.now.timeIntervalSince(lastProgressApplied) >= 0.25 else { return }
+        lastProgressApplied = .now
+
         guard let index = savedAreas.firstIndex(where: { $0.id == areaID }) else { return }
         var savedArea = savedAreas[index]
         savedArea.downloadedTileCount = startingDownloadedCount + progress.succeeded
         savedArea.failedTileCount = progress.failed
         savedArea.failedTileCoordinates = progress.failedCoordinates
-        savedArea.updatedAt = .now
+        // No updatedAt stamp and no re-sort per report: the download stamped
+        // the area when it began and stamps it again when it ends. Re-sorting
+        // here made the downloading row jump to the top of the list on its
+        // first progress tick, under the user's finger.
         savedAreas[index] = applyingStorageSummary(to: savedArea)
-        sortSavedAreas()
     }
 
     private func synchronizeSavedAreasWithStorageSummary() {
@@ -326,6 +363,12 @@ final class OfflineAreasViewModel: ObservableObject {
     private func applyingStorageSummary(to area: SavedOfflineArea) -> SavedOfflineArea {
         var updatedArea = area
         updatedArea.actualBytes = storageSummary.savedAreaBytes[area.id] ?? 0
+        // A record is only reconciled at rest. While this area's download is
+        // live, .downloading is the truth — the storage summary lags the loop,
+        // and rewriting the state from it converted every healthy download to
+        // .failed with an invented failure count before its first tile, which
+        // also made the Cancel button branch lose to the retry branch.
+        guard liveDownloadAreaID != area.id else { return updatedArea }
         if updatedArea.actualBytes == 0,
            [.complete, .partial].contains(updatedArea.state) {
             updatedArea.state = .estimating
@@ -333,6 +376,11 @@ final class OfflineAreasViewModel: ObservableObject {
             updatedArea.failedTileCount = 0
             updatedArea.failedTileCoordinates = []
         } else if updatedArea.state == .downloading {
+            // Recovering a record persisted mid-kill. The count is the recovery
+            // estimate of what remains, not a list of observed failures — there
+            // are no coordinates to carry — and it exists so the retry
+            // affordance appears; the retry re-verifies every tile and counts
+            // the ones already stored as succeeded.
             updatedArea.state = updatedArea.actualBytes > 0 ? .partial : .failed
             if updatedArea.failedTileCount == 0 {
                 updatedArea.failedTileCount = max(updatedArea.estimatedTileCount - updatedArea.downloadedTileCount, 1)

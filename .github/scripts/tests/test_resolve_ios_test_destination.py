@@ -1,0 +1,122 @@
+import importlib.util
+from pathlib import Path
+import unittest
+
+
+SCRIPT_PATH = Path(__file__).parents[1] / "resolve-ios-test-destination.py"
+SPEC = importlib.util.spec_from_file_location("resolve_ios_test_destination", SCRIPT_PATH)
+assert SPEC is not None
+assert SPEC.loader is not None
+MODULE = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(MODULE)
+
+
+def lines(text: str) -> list[str]:
+    return text.strip("\n").splitlines(keepends=True)
+
+
+class ResolveIOSTestDestinationTests(unittest.TestCase):
+    def test_an_ineligible_preferred_device_does_not_win(self) -> None:
+        """The bug this script was written around.
+
+        A runner can list a simulator it cannot run, and the preferred name
+        sorts ahead of its siblings. Reading both sections chose the broken one
+        and the test job failed on a machine that had a working simulator.
+
+        Deliberately without an `error:` field, so it is the heading and only
+        the heading being tested. Real ineligible rows do not all carry one.
+        """
+        resolved = MODULE.select_destination(lines("""
+		Available destinations for the "ns-marks-the-spot" scheme:
+			{ platform:macOS, arch:arm64, variant:Mac Catalyst, id:00006000-001A318414D8801E, name:My Mac }
+			{ platform:iOS Simulator, arch:arm64, id:24FBD923-387E-4B7E-9063-FCF166239B1C, OS:26.5, name:iPhone 17 }
+
+		Ineligible destinations for the "ns-marks-the-spot" scheme:
+			{ platform:iOS Simulator, arch:arm64, id:6EE862FE-93F2-4D55-946E-8745EE2B3A88, OS:26.5, name:iPhone 17 Pro }
+        """))
+
+        self.assertEqual(resolved, "platform=iOS Simulator,name=iPhone 17,OS=26.5")
+
+    def test_an_ineligible_copy_does_not_replace_the_available_one(self) -> None:
+        """Same device, same OS, listed under both headings.
+
+        The two entries collapse to one, and which one survived used to depend
+        on the order they were printed in.
+        """
+        resolved = MODULE.select_destination(lines("""
+		Available destinations for the "ns-marks-the-spot" scheme:
+			{ platform:iOS Simulator, arch:arm64, id:AAAA, OS:26.5, name:iPhone 17 Pro }
+
+		Ineligible destinations for the "ns-marks-the-spot" scheme:
+			{ platform:iOS Simulator, arch:arm64, id:AAAA, OS:26.5, name:iPhone 17 Pro, error:iPhone 17 Pro is not available }
+        """))
+
+        self.assertEqual(resolved, "platform=iOS Simulator,name=iPhone 17 Pro,OS=26.5")
+
+    def test_a_destination_carrying_an_error_is_never_chosen(self) -> None:
+        """The backstop, for output whose headings this no longer recognises."""
+        resolved = MODULE.select_destination(lines("""
+		Available destinations for the "ns-marks-the-spot" scheme:
+			{ platform:iOS Simulator, arch:arm64, id:AAAA, OS:26.5, name:iPhone 17, error:booted into recovery }
+        """))
+
+        self.assertIsNone(resolved)
+
+    def test_the_preferred_device_wins_among_siblings_on_one_os(self) -> None:
+        resolved = MODULE.select_destination(lines("""
+		Available destinations for the "ns-marks-the-spot" scheme:
+			{ platform:iOS Simulator, arch:arm64, id:AAAA, OS:26.5, name:iPhone 17 }
+			{ platform:iOS Simulator, arch:arm64, id:BBBB, OS:26.5, name:iPhone 17 Pro }
+        """))
+
+        self.assertEqual(resolved, "platform=iOS Simulator,name=iPhone 17 Pro,OS=26.5")
+
+    def test_the_newest_os_beats_the_preferred_device(self) -> None:
+        """The deployment target is the newest iOS, so the OS decides first.
+
+        A preferred device on an older runtime is a simulator this app will not
+        install on. Ranking by name first would pick exactly that one.
+        """
+        resolved = MODULE.select_destination(lines("""
+		Available destinations for the "ns-marks-the-spot" scheme:
+			{ platform:iOS Simulator, arch:arm64, id:AAAA, OS:26.4.1, name:iPhone 17 Pro }
+			{ platform:iOS Simulator, arch:arm64, id:BBBB, OS:26.5, name:iPhone 17 }
+        """))
+
+        self.assertEqual(resolved, "platform=iOS Simulator,name=iPhone 17,OS=26.5")
+
+    def test_the_same_device_listed_for_two_architectures_resolves_once(self) -> None:
+        """What a GitHub runner actually prints for one simulator."""
+        resolved = MODULE.select_destination(lines("""
+		Available destinations for the "ns-marks-the-spot" scheme:
+			{ platform:iOS Simulator, arch:arm64, id:6EE862FE, OS:26.5, name:iPhone 17 Pro }
+			{ platform:iOS Simulator, arch:x86_64, id:6EE862FE, OS:26.5, name:iPhone 17 Pro }
+        """))
+
+        self.assertEqual(resolved, "platform=iOS Simulator,name=iPhone 17 Pro,OS=26.5")
+
+    def test_nothing_is_read_before_a_heading(self) -> None:
+        """Warnings print above the first heading, and some of them have braces."""
+        resolved = MODULE.select_destination(lines("""
+			{ platform:iOS Simulator, arch:arm64, id:AAAA, OS:26.5, name:iPhone 17 }
+
+		Ineligible destinations for the "ns-marks-the-spot" scheme:
+			{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }
+        """))
+
+        self.assertIsNone(resolved)
+
+    def test_a_runner_with_no_iphone_simulator_resolves_nothing(self) -> None:
+        """Which is what makes the job fail rather than test nothing and pass."""
+        resolved = MODULE.select_destination(lines("""
+		Available destinations for the "ns-marks-the-spot" scheme:
+			{ platform:macOS, arch:arm64, variant:Mac Catalyst, id:00006000-001A318414D8801E, name:My Mac }
+			{ platform:iOS Simulator, id:dvtdevice-DVTiOSDeviceSimulatorPlaceholder-iphonesimulator:placeholder, name:Any iOS Simulator Device }
+			{ platform:iOS Simulator, arch:arm64, id:AAAA, OS:26.5, name:iPad Pro 13-inch (M4) }
+        """))
+
+        self.assertIsNone(resolved)
+
+
+if __name__ == "__main__":
+    unittest.main()

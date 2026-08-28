@@ -1,0 +1,45 @@
+# Held-out CHECK candidates for the Inverness north panel.
+#
+# `headland` rule: the point on the one stretch of coast inside the box lying
+# furthest from the chord joining that stretch's two ends. Unlike the extremal
+# rules it survives a coast that trends, which the whole of northern Cape Breton
+# does - it runs 0.689 m east per metre north, so every vertex is the northernmost
+# one so far, and four separate attempt-4 boxes resolved to a single vertex.
+#
+# Every box is the SAME size, 8.0 km square. Prominence is deviation from a
+# chord, and a chord means nothing apart from the stretch it spans: the drawn
+# tile is cut to this box so both sides are measured over one baseline. The
+# size is not a yield knob - it is the scale an 1884 engraver at 1:63,000
+# renders faithfully, where a 300 m notch is generalised away. See the supply
+# table in docs/church-inverness-attempt-5-2026-07-25.md for the sensitivity.
+#
+# Sources restricted to NSTDB WACO40 'Coast Water Area' polygons over 100 sq km,
+# with extract clip seams stripped. An earlier pass ran over all major water and
+# proposed four headlands on lake and river shores; their tiles carried no drawn
+# coast at all - two inland lettering, one a dashed lot line, one the engraved
+# 46 40 meridian and its label.
+#
+# lon/lat are DERIVED. Re-emit rather than editing them:
+#   python3 -m tools.church.emit_candidates --water <layer> \
+#       --candidates tools/church/checks/inverness-north-candidates.csv --check
+#
+# label                                 prominence  runner-up  vertices
+#   headland-46p6035n-61p0590w              2885 m    2870 m      1422
+#   headland-46p6181n-61p0526w              2795 m    2739 m      1493
+#   headland-46p6500n-61p0278w              2531 m    2483 m      1470
+#   headland-47p0325n-60p6149w              1730 m    1638 m      2126
+#   headland-46p5238n-61p0765w              1282 m    1092 m       759
+#   headland-46p5976n-61p0317w              1108 m    1052 m       728
+#   headland-46p8044n-60p8745w              1089 m    1031 m      2496
+#   headland-46p4407n-61p1285w              1007 m     912 m      1487
+#   headland-46p7892n-60p8898w               891 m     876 m      2445
+label,lon,lat,rule,box_west,box_south,box_east,box_north
+headland-46p6035n-61p0590w,-61.059000,46.603525,headland,-61.104856,46.582443,-61.00003,46.654443
+headland-46p6181n-61p0526w,-61.052602,46.618137,headland,-61.100343,46.587293,-60.995507,46.659293
+headland-46p6500n-61p0278w,-61.027820,46.650019,headland,-61.089907,46.597885,-60.985051,46.669885
+headland-47p0325n-60p6149w,-60.614939,47.032527,headland,-60.684317,46.97806,-60.578717,47.05006
+headland-46p5238n-61p0765w,-61.076472,46.523798,headland,-61.128776,46.486637,-61.024135,46.558637
+headland-46p5976n-61p0317w,-61.031731,46.597614,headland,-61.081701,46.541451,-60.976954,46.613451
+headland-46p8044n-60p8745w,-60.874450,46.804387,headland,-60.941083,46.753808,-60.835924,46.825808
+headland-46p4407n-61p1285w,-61.128482,46.440730,headland,-61.20262,46.375106,-61.098193,46.447106
+headland-46p7892n-60p8898w,-60.889820,46.789194,headland,-60.944658,46.750118,-60.839506,46.822118

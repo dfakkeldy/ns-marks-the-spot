@@ -1,0 +1,1501 @@
+import CoreLocation
+import GeoCore
+import MapKit
+import NSDataServices
+import Observation
+
+/// Interaction events flowing back from the map surface, routed through a
+/// single handler so future interaction modes can gate them centrally.
+enum MapEvent {
+    case headingChanged(Double)
+    case annotationSelected(id: String)
+    case boundsSelected(MapBounds)
+    /// A single tap on the map itself, at the coordinate under the finger.
+    ///
+    /// Whether it means anything is the handler's decision — this reports where
+    /// the user touched, not that a parcel should be identified.
+    case mapTapped(latitude: Double, longitude: Double)
+    /// A vertex handle the user dragged to a new place.
+    case vertexMoved(featureID: String, ring: Int, vertex: Int, latitude: Double, longitude: Double)
+    /// A whole feature carried, reported as the offset it travelled rather than
+    /// where the handle landed: the shape moves by that offset, and its own
+    /// positions are what the geometry is made of.
+    case featureMoved(featureID: String, latitudeDelta: Double, longitudeDelta: Double)
+    /// The view stopped moving. Leaflet's `moveend`/`zoomend`, which is what
+    /// the viewport feature layers re-query on — every frame of a pan would be
+    /// a query for ground the user is already leaving.
+    case visibleRegionSettled
+}
+
+/// Owns the MKMapView, its delegate work, and the applied `MapViewState`.
+/// All state changes flow through `apply(_:)`, which reconciles via
+/// `MapStateDiff`; the imperative helpers below are thin wrappers that
+/// mutate the desired state and apply it.
+@Observable
+final class MapController: NSObject {
+    // MARK: - Applied surface state
+    //
+    // One observable stored property per field, not one property holding the
+    // whole `MapViewState`: Observation tracks property access, and a view
+    // reading `layers` through a monolithic `state` re-rendered on every
+    // vector-draft frame and every feature replace. `state` below composes
+    // the same value for the diff; `applyStorage` writes back only the fields
+    // that changed, so each mutation notifies exactly its own observers.
+
+    private var appliedBaseMapType: MapBaseType = .openStreetMap
+    private var appliedLayers: [MapLayerState] = []
+    private var appliedParcelShapes: [ParcelShape] = []
+    private var appliedFeatureShapes: [FeatureShape] = []
+    private var appliedFeatureMarkers: [FeatureMarker] = []
+    private var appliedUserMaps: [UserMapDrape] = []
+    private var appliedUserVectors: [UserVectorDrawing] = []
+    private var appliedVectorDraft: VectorDraftPreview?
+    private var appliedVectorHandles: VectorSelectionHandles?
+    private var appliedVectorMoveHandle: VectorMoveHandle?
+    private var appliedParcelOverviewMarkers: [ParcelOverviewMarker] = []
+    private var appliedShowsUserLocation = false
+    private var appliedInteractionMode: MapInteractionMode = .idle
+
+    /// The applied state, composed. Reading this in a tracked context depends
+    /// on every field — code that only needs one should read that field's own
+    /// accessor.
+    var state: MapViewState {
+        MapViewState(
+            baseMapType: appliedBaseMapType,
+            layers: appliedLayers,
+            parcelShapes: appliedParcelShapes,
+            featureShapes: appliedFeatureShapes,
+            featureMarkers: appliedFeatureMarkers,
+            userMaps: appliedUserMaps,
+            userVectors: appliedUserVectors,
+            vectorDraft: appliedVectorDraft,
+            vectorHandles: appliedVectorHandles,
+            vectorMoveHandle: appliedVectorMoveHandle,
+            parcelOverviewMarkers: appliedParcelOverviewMarkers,
+            showsUserLocation: appliedShowsUserLocation,
+            interactionMode: appliedInteractionMode
+        )
+    }
+
+    private func applyStorage(_ desired: MapViewState, from current: MapViewState) {
+        // Guarded per field — an @Observable set notifies that property's
+        // observers even when the value is unchanged.
+        if current.baseMapType != desired.baseMapType { appliedBaseMapType = desired.baseMapType }
+        if current.layers != desired.layers { appliedLayers = desired.layers }
+        if current.parcelShapes != desired.parcelShapes { appliedParcelShapes = desired.parcelShapes }
+        if current.featureShapes != desired.featureShapes { appliedFeatureShapes = desired.featureShapes }
+        if current.featureMarkers != desired.featureMarkers { appliedFeatureMarkers = desired.featureMarkers }
+        if current.userMaps != desired.userMaps { appliedUserMaps = desired.userMaps }
+        if current.userVectors != desired.userVectors { appliedUserVectors = desired.userVectors }
+        if current.vectorDraft != desired.vectorDraft { appliedVectorDraft = desired.vectorDraft }
+        if current.vectorHandles != desired.vectorHandles { appliedVectorHandles = desired.vectorHandles }
+        if current.vectorMoveHandle != desired.vectorMoveHandle { appliedVectorMoveHandle = desired.vectorMoveHandle }
+        if current.parcelOverviewMarkers != desired.parcelOverviewMarkers {
+            appliedParcelOverviewMarkers = desired.parcelOverviewMarkers
+        }
+        if current.showsUserLocation != desired.showsUserLocation {
+            appliedShowsUserLocation = desired.showsUserLocation
+        }
+        if current.interactionMode != desired.interactionMode {
+            appliedInteractionMode = desired.interactionMode
+        }
+    }
+    @ObservationIgnored var events: ((MapEvent) -> Void)?
+    /// Whether the closest-zoom limit has been set. Set once, from the first
+    /// laid-out frame, and never again: recalibrating would move the limit
+    /// every time the reader rotated the phone.
+    /// The map's width when the closest-zoom limit was last worked out, or
+    /// nil if it has not been. Keyed by width rather than a flag, because the
+    /// distance that means "zoom 23" depends on how wide the map is: on an
+    /// iPad that is split and then made whole again the old figure would be
+    /// off by the ratio of the two widths.
+    @ObservationIgnored private var clampedAtWidth: CGFloat?
+
+    @ObservationIgnored private let tileCache: TileCache?
+    @ObservationIgnored private let tileFetcher: TileFetcher?
+    /// Where a saved offline area keeps its tiles.
+    ///
+    /// Separate from the cache, and read for a different reason: the cache is
+    /// whatever the user happened to pan over and is swept when it grows, while
+    /// this is what they asked the app to keep. The overlay asks it before the
+    /// network, which is what makes a saved area mean anything once the phone
+    /// is off the network.
+    @ObservationIgnored private let tileStore: TileStore?
+    @ObservationIgnored private let fletcherMigration: Task<Void, Never>?
+    @ObservationIgnored private let clearanceBox: LicenceClearanceBox
+    @ObservationIgnored private let locationManager = CLLocationManager()
+    private(set) var isWaitingToCenterOnUserLocation = false
+    private(set) var mapHeading: Double = 0
+
+    /// The map's current zoom, as the whole number the tile pyramid is indexed
+    /// by, so the panel can say which layers are too far out to load.
+    ///
+    /// Whole numbers because that is the only resolution the answer needs and
+    /// because this is written from `mapViewDidChangeVisibleRegion`, which fires
+    /// on every frame of a pinch; a `Double` here would invalidate every view
+    /// reading it sixty times a second to say nothing new.
+    private(set) var zoomLevel: Int = 0
+
+    /// Whether the map has said where it is even once.
+    ///
+    /// A freshly attached `MKMapView` answers `region` immediately, while
+    /// `zoomLevel` is still the 0 it was born with — so between attaching and
+    /// the first delegate callback the map reads as a real centre at a zoom it
+    /// is not at. Anything writing that pair down has to ask this first.
+    private(set) var hasReportedItsPosition = false
+
+    /// What each installed layer's tiles are doing, keyed by layer id.
+    ///
+    /// Written from `progress`, which counts on MapKit's queues and reports
+    /// only the transitions.
+    private(set) var layerLoadPhases: [String: TileLoadPhase] = [:]
+
+    @ObservationIgnored let progress = LayerLoadProgressBox()
+
+    @ObservationIgnored private var selectionStartCoordinate: CLLocationCoordinate2D?
+    @ObservationIgnored private var selectionOverlay: BoundsSelectionOverlay?
+    @ObservationIgnored private var wasScrollEnabled = true
+    @ObservationIgnored private var wasZoomEnabled = true
+
+    init(
+        tileCache: TileCache? = nil,
+        tileFetcher: TileFetcher? = nil,
+        tileStore: TileStore? = nil,
+        fletcherMigration: Task<Void, Never>? = nil,
+        clearanceBox: LicenceClearanceBox = LicenceClearanceBox()
+    ) {
+        self.tileCache = tileCache
+        self.tileFetcher = tileFetcher
+        self.tileStore = tileStore
+        self.fletcherMigration = fletcherMigration
+        self.clearanceBox = clearanceBox
+        super.init()
+        locationManager.delegate = self
+        progress.observe { [weak self] layerID in
+            Task { @MainActor in
+                guard let self else { return }
+                // Read back rather than take a value from the notification: two
+                // tile queues can transition the same layer moments apart and
+                // these hops are not ordered, so the only value that is safe to
+                // publish is the one the box holds right now.
+                let phase = self.progress.phase(for: layerID)
+                guard self.layerLoadPhases[layerID] != phase else { return }
+                self.layerLoadPhases[layerID] = phase
+            }
+        }
+    }
+
+    @ObservationIgnored weak var mapView: MKMapView? {
+        didSet {
+            syncStateToAttachedMapView()
+            mapView?.layoutMargins.bottom = bottomOrnamentInset
+            // The closest-zoom limit was installed on the map view that was
+            // measured for it, and a replacement carries none. Forgetting the
+            // measurement is what makes the next region change take it again;
+            // keeping it would leave a fresh map able to zoom past the floor
+            // for as long as the app runs.
+            clampedAtWidth = nil
+        }
+    }
+
+    /// How much room the overlays along the bottom take up.
+    ///
+    /// MapKit puts the Apple logo and the Legal link inside the map's layout
+    /// margins, and this app draws a scale bar, a position readout and a source
+    /// strip over the same corner. Both of those are required to stay visible,
+    /// so the margin is raised to whatever the overlays actually measure rather
+    /// than to a number picked here and left to rot as the stack changes.
+    @ObservationIgnored private var bottomOrnamentInset: CGFloat = 0
+
+    func setBottomOrnamentInset(_ inset: CGFloat) {
+        guard inset != bottomOrnamentInset else { return }
+        bottomOrnamentInset = inset
+        mapView?.layoutMargins.bottom = inset
+    }
+
+    // MARK: - State application
+
+    func apply(_ desired: MapViewState) {
+        let current = state
+        let mutations = MapStateDiff.mutations(from: current, to: desired)
+        applyStorage(desired, from: current)
+        guard let mapView else { return }
+        for mutation in mutations {
+            perform(mutation, on: mapView)
+        }
+    }
+
+    private func mutate(_ transform: (inout MapViewState) -> Void) {
+        var desired = state
+        transform(&desired)
+        apply(desired)
+    }
+
+    private func perform(_ mutation: MapMutation, on mapView: MKMapView) {
+        switch mutation {
+        case .setMapType(let baseType):
+            mapView.mapType = Self.mkMapType(for: baseType)
+            applyBaseOverlay(for: baseType, on: mapView)
+
+        case .addTileOverlay(let layer):
+            let overlay = OpacityTileOverlay(
+                configuration: layer.configuration,
+                tileCache: tileCache,
+                tileFetcher: tileFetcher,
+                tileStore: tileStore,
+                fletcherMigration: fletcherMigration,
+                clearanceBox: clearanceBox,
+                progress: progress
+            )
+            overlay.canReplaceMapContent = false
+            overlay.minimumZ = layer.configuration.minZoom
+            overlay.maximumZ = layer.configuration.maxZoom
+            // At the position the web draws it in, not on top. Install order is
+            // z-order, so a layer switched on after a parcel was selected would
+            // otherwise paint over the outline the user is looking at — imagery
+            // hiding the boundary it is being compared to — and over the vector
+            // layers, which sit above every raster.
+            mapView.installInDrawOrder(overlay)
+
+        case .removeTileOverlay(let id):
+            for overlay in mapView.overlays {
+                if let tileOverlay = overlay as? OpacityTileOverlay,
+                   tileOverlay.configuration.id == id {
+                    mapView.removeOverlay(tileOverlay)
+                }
+            }
+
+        case .setTileOverlayAlpha(let id, let alpha):
+            for overlay in mapView.overlays {
+                if let tileOverlay = overlay as? OpacityTileOverlay,
+                   tileOverlay.configuration.id == id {
+                    tileOverlay.renderer?.alpha = alpha
+                }
+            }
+
+        case .setFeatureShapes(let shapes):
+            mapView.removeOverlays(
+                mapView.overlays.filter { $0 is FeaturePolygon || $0 is FeaturePolyline }
+            )
+            // Ascending by the web's drawing order, so a zoning wash goes down
+            // before the reaches and parcels that must stay readable over it,
+            // and old growth — whose pane the web parents to the tile pane —
+            // goes under the rasters rather than over them.
+            let ordered = shapes.sorted { $0.zIndex < $1.zIndex }
+                .flatMap { $0.overlays() }
+            mapView.installInDrawOrder(ordered)
+
+        case .setFeatureMarkers(let markers):
+            mapView.removeAnnotations(
+                mapView.annotations.compactMap { $0 as? FeatureMarkerAnnotation }
+            )
+            mapView.addAnnotations(markers.map(FeatureMarkerAnnotation.init(marker:)))
+
+        case .setUserMaps(let drapes):
+            // Replaced wholesale, like the feature shapes: a record's mesh is
+            // rebuilt by any edit to its placement, so "the same overlay with
+            // one thing changed" is not a state this has.
+            mapView.removeOverlays(mapView.overlays.compactMap { $0 as? UserMapOverlay })
+            mapView.installInDrawOrder(drapes.compactMap { drape in
+                UserMapOverlay(record: drape.record, image: drape.image, alpha: drape.alpha)
+            })
+
+        case .setUserMapAlpha(let id, let alpha):
+            for overlay in mapView.overlays {
+                if let userMap = overlay as? UserMapOverlay, userMap.id == id {
+                    userMap.alpha = alpha
+                    userMap.renderer?.alpha = alpha
+                }
+            }
+
+        case .setUserVectors(let drawings):
+            // Overlays and annotations together, because a layer's points and
+            // its boundaries are one thing to the user: removing them in two
+            // passes would leave the waypoints of a layer that was switched off
+            // sitting on the map.
+            mapView.removeOverlays(
+                mapView.overlays.filter { $0 is UserVectorPolygon || $0 is UserVectorPolyline }
+            )
+            mapView.removeAnnotations(
+                mapView.annotations.compactMap { $0 as? UserVectorAnnotation }
+            )
+            for drawing in drawings {
+                mapView.installInDrawOrder(drawing.overlays())
+                mapView.addAnnotations(drawing.annotations())
+            }
+
+        case .setParcelOverviewMarkers:
+            installParcelOverviewMarkers(on: mapView)
+
+        case .setVectorHandles(let handles):
+            mapView.removeAnnotations(
+                mapView.annotations.compactMap { $0 as? VectorVertexHandleAnnotation }
+            )
+            if let handles {
+                mapView.addAnnotations(handles.handles())
+            }
+
+        case .setVectorMoveHandle(let handle):
+            mapView.removeAnnotations(
+                mapView.annotations.compactMap { $0 as? VectorMoveHandleAnnotation }
+            )
+            if let handle {
+                mapView.addAnnotation(handle.annotation())
+            }
+
+        case .setVectorDraft(let draft):
+            mapView.removeOverlays(mapView.overlays.compactMap { $0 as? VectorDraftPolyline })
+            mapView.removeAnnotations(
+                mapView.annotations.compactMap { $0 as? VectorDraftVertexAnnotation }
+            )
+            guard let draft else { break }
+            if let overlay = draft.overlay() {
+                mapView.installInDrawOrder(overlay)
+            }
+            mapView.addAnnotations(draft.handles())
+
+        case .setParcelShapes(let shapes):
+            mapView.removeOverlays(mapView.overlays.compactMap { $0 as? ParcelPolygon })
+            for polygon in shapes.flatMap({ ParcelPolygon.polygons(for: $0) }) {
+                mapView.installInDrawOrder(polygon)
+            }
+
+        case .setShowsUserLocation(let shows):
+            mapView.showsUserLocation = shows
+
+        case .beginBoundsSelection:
+            wasScrollEnabled = mapView.isScrollEnabled
+            wasZoomEnabled = mapView.isZoomEnabled
+            mapView.isScrollEnabled = false
+            mapView.isZoomEnabled = false
+
+        case .endBoundsSelection:
+            selectionStartCoordinate = nil
+            if let selectionOverlay {
+                mapView.removeOverlay(selectionOverlay)
+            }
+            selectionOverlay = nil
+            mapView.isScrollEnabled = wasScrollEnabled
+            mapView.isZoomEnabled = wasZoomEnabled
+        }
+    }
+
+    /// A freshly attached MKMapView shows the standard map type with no
+    /// overlays or annotations, so replaying the diff from that baseline brings
+    /// it up to the applied state — including layers and annotations added
+    /// before the view existed.
+    ///
+    /// The baseline names `.standard` explicitly because `MapViewState()`'s own
+    /// default is the OpenStreetMap base: diffing from the default would find
+    /// nothing to do for a map opening on it, and the fresh view would show
+    /// Apple's map under a picker reading "OpenStreetMap".
+    private func syncStateToAttachedMapView() {
+        guard let mapView else { return }
+        var bare = MapViewState()
+        bare.baseMapType = .standard
+        for mutation in MapStateDiff.mutations(from: bare, to: state) {
+            perform(mutation, on: mapView)
+        }
+        applyPendingCenterIfPossible(animated: false)
+    }
+
+    /// A position a link asked for before the map could be put there.
+    @ObservationIgnored private var pendingCenter: (point: GeoPoint, zoom: Int, animated: Bool)?
+
+    /// The position waiting for a laid-out map, if anything is waiting.
+    ///
+    /// Read by the map surface as it is built, so the first frame it draws is
+    /// the one a link or a resumed session asked for rather than the opening
+    /// view of the province followed by a jump.
+    var heldPosition: MapPosition? {
+        pendingCenter.map {
+            MapPosition(latitude: $0.point.lat, longitude: $0.point.lng, zoom: $0.zoom)
+        }
+    }
+
+    /// Retried whenever the map view changes, which is how a launch-time link
+    /// gets its position once layout has given the view a width.
+    ///
+    /// `animated` overrides what the caller asked for, for the one case where
+    /// the map is only now being attached: there is nothing on screen to move
+    /// away from, and animating from the first frame to the same place reads as
+    /// a stumble at launch.
+    private func applyPendingCenterIfPossible(animated: Bool? = nil) {
+        guard let pending = pendingCenter, let mapView, mapView.bounds.width > 0 else { return }
+        center(on: pending.point, zoom: pending.zoom, animated: animated ?? pending.animated)
+    }
+
+    private static func mkMapType(for baseType: MapBaseType) -> MKMapType {
+        switch baseType {
+        case .standard:
+            return .standard
+        case .satellite:
+            return .satellite
+        case .hybrid:
+            return .hybrid
+        case .nsAerial:
+            // NS Aerial renders as a tile overlay above the standard basemap.
+            return .standard
+        case .openStreetMap, .blank:
+            // Whatever is set here is covered by the base-replacing overlay —
+            // `OSMBaseOverlay` or `BlankBaseOverlay`; MapKit requires a map
+            // type and has no case for "someone else's tiles" or "none".
+            return .standard
+        }
+    }
+
+    /// Puts in the base-replacing overlay the chosen background draws with,
+    /// and takes the others out.
+    ///
+    /// Installed through the draw order like any other overlay, so it lands
+    /// under the layers that are already on the map rather than over them —
+    /// switching the base map must not blank out the sheet being read.
+    private func applyBaseOverlay(for baseType: MapBaseType, on mapView: MKMapView) {
+        let wantsBlank = baseType == .blank
+        let wantsOSM = baseType == .openStreetMap
+        for overlay in mapView.overlays {
+            if overlay is BlankBaseOverlay, !wantsBlank {
+                mapView.removeOverlay(overlay)
+            }
+            if overlay is OSMBaseOverlay, !wantsOSM {
+                mapView.removeOverlay(overlay)
+            }
+        }
+        if wantsBlank, mapView.overlays.compactMap({ $0 as? BlankBaseOverlay }).isEmpty {
+            mapView.installInDrawOrder(BlankBaseOverlay())
+        }
+        if wantsOSM, mapView.overlays.compactMap({ $0 as? OSMBaseOverlay }).isEmpty {
+            mapView.installInDrawOrder(OSMBaseOverlay())
+        }
+    }
+
+    // MARK: - Convenience state accessors
+
+    var layers: [MapLayerState] { appliedLayers }
+    var isSelectingBounds: Bool { appliedInteractionMode == .selectingBounds }
+
+    // Per-field reads for code that needs one surface field without taking a
+    // dependency on all of them.
+    var parcelShapes: [ParcelShape] { appliedParcelShapes }
+    var featureShapes: [FeatureShape] { appliedFeatureShapes }
+    var featureMarkers: [FeatureMarker] { appliedFeatureMarkers }
+    var userMapDrapes: [UserMapDrape] { appliedUserMaps }
+    var userVectorDrawings: [UserVectorDrawing] { appliedUserVectors }
+
+    var baseMapType: MapBaseType {
+        get { appliedBaseMapType }
+        set { mutate { $0.baseMapType = newValue } }
+    }
+
+    var showsUserLocation: Bool {
+        get { appliedShowsUserLocation }
+        set {
+            if newValue {
+                locationManager.requestWhenInUseAuthorization()
+            }
+            mutate { $0.showsUserLocation = newValue }
+        }
+    }
+
+    // MARK: - Layers
+
+    func addLayer(_ layer: MapLayerState) {
+        guard !appliedLayers.contains(where: { $0.id == layer.id }) else { return }
+        mutate { $0.layers.append(layer) }
+    }
+
+    /// Ask a failing layer for its tiles again.
+    ///
+    /// The web offers this beside the status line, and it matters more in the
+    /// field than at a desk: a source that timed out on one bar of signal is
+    /// usually fine a minute later, and without a retry the only way back is to
+    /// switch the layer off and on — which a user has no reason to guess, and
+    /// which reads as the layer being broken rather than the moment being.
+    ///
+    /// The overlay is torn down and rebuilt rather than nudged. MapKit holds
+    /// its own images per overlay instance, so the failed squares of the old
+    /// one would otherwise stay on screen however the fetch went.
+    func retryTiles(for layerID: String) {
+        guard let index = appliedLayers.firstIndex(where: { $0.id == layerID }),
+              appliedLayers[index].isVisible
+        else { return }
+        let layer = appliedLayers[index]
+        progress.reset(layerID)
+        layerLoadPhases[layerID] = .idle
+        // The replacement renderer reads its alpha back out of `state.layers`,
+        // which this does not touch, so the layer comes back at the opacity the
+        // user had it at rather than fully opaque.
+        mapView.map { perform(.removeTileOverlay(id: layer.id), on: $0) }
+        mapView.map { perform(.addTileOverlay(layer), on: $0) }
+    }
+
+    func setOpacity(for layerID: String, to value: CGFloat) {
+        mutate { state in
+            guard let index = state.layers.firstIndex(where: { $0.id == layerID }) else { return }
+            state.layers[index].opacity = min(max(value, 0), 1)
+        }
+    }
+
+    func setVisible(for layerID: String, to visible: Bool) {
+        mutate { state in
+            guard let index = state.layers.firstIndex(where: { $0.id == layerID }) else { return }
+            state.layers[index].isVisible = visible
+        }
+        guard !visible else { return }
+        // A layer switched off forgets where its tiles got to, so switching it
+        // back on reads "Ready to load" rather than reopening on a failure from
+        // whatever the network was doing when the user last had it on.
+        progress.reset(layerID)
+        layerLoadPhases[layerID] = .idle
+    }
+
+    // MARK: - Annotations
+
+    /// What an overview marker's annotation id begins with, so a tap can be
+    /// routed back to the parcel it stands for.
+    nonisolated static let parcelOverviewPrefix = "parcel-overview-"
+
+    func setParcelOverviewMarkers(_ markers: [ParcelOverviewMarker]) {
+        mutate { $0.parcelOverviewMarkers = markers }
+    }
+
+    func setParcelShapes(_ shapes: [ParcelShape]) {
+        mutate { $0.parcelShapes = shapes }
+    }
+
+    func setFeatureShapes(_ shapes: [FeatureShape]) {
+        mutate { $0.featureShapes = shapes }
+    }
+
+    func setUserMaps(_ drapes: [UserMapDrape]) {
+        mutate { $0.userMaps = drapes }
+    }
+
+    func setUserVectors(_ drawings: [UserVectorDrawing]) {
+        mutate { $0.userVectors = drawings }
+    }
+
+    func setVectorDraft(_ draft: VectorDraftPreview?) {
+        mutate { $0.vectorDraft = draft }
+    }
+
+    func setVectorHandles(_ handles: VectorSelectionHandles?) {
+        mutate { $0.vectorHandles = handles }
+    }
+
+    func setVectorMoveHandle(_ handle: VectorMoveHandle?) {
+        mutate { $0.vectorMoveHandle = handle }
+    }
+
+    func setFeatureMarkers(_ markers: [FeatureMarker]) {
+        mutate { $0.featureMarkers = markers }
+    }
+
+    /// Brings `bounds` into view, with room around it.
+    ///
+    /// The padding is what makes a selected parcel readable rather than
+    /// touching the edges of the screen; MapKit will also clamp the rect to a
+    /// minimum span, so a very small lot stops at a sensible zoom instead of
+    /// filling the screen with one corner of it.
+    /// `maxZoom` caps how far in the fit may go, as the web's `fitBounds` does.
+    /// Without it, a sale that advertised one small lot would open the map at
+    /// the lot's fence line, which says nothing about where the sale is.
+    func focus(on bounds: MapBounds, maxZoom: Int? = nil) {
+        // Anything that moves the map deliberately outranks a link's held
+        // position: applying it later would drag the reader off what they just
+        // asked to see.
+        pendingCenter = nil
+        guard let mapView else { return }
+        let corner = MKMapPoint(
+            CLLocationCoordinate2D(
+                latitude: bounds.maxLatitude, longitude: bounds.minLongitude
+            )
+        )
+        let opposite = MKMapPoint(
+            CLLocationCoordinate2D(
+                latitude: bounds.minLatitude, longitude: bounds.maxLongitude
+            )
+        )
+        var rect = MKMapRect(
+            x: min(corner.x, opposite.x),
+            y: min(corner.y, opposite.y),
+            width: abs(opposite.x - corner.x),
+            height: abs(opposite.y - corner.y)
+        )
+        guard !rect.isNull, rect.size.width > 0, rect.size.height > 0 else { return }
+        if let maxZoom, mapView.bounds.width > 0 {
+            // The longitude a view this wide covers at that zoom, read the same
+            // way `tileZoomLevel` reads a zoom off a span: 256-point tiles.
+            let widest = 360 * (Double(mapView.bounds.width) / 256) / pow(2, Double(maxZoom))
+            let span = abs(bounds.maxLongitude - bounds.minLongitude)
+            if span < widest, span >= 0 {
+                let centre = MKMapPoint(x: rect.midX, y: rect.midY)
+                let scale = widest / max(span, .leastNormalMagnitude)
+                let width = min(rect.size.width * scale, MKMapRect.world.size.width)
+                let height = min(rect.size.height * scale, MKMapRect.world.size.height)
+                rect = MKMapRect(
+                    x: centre.x - width / 2, y: centre.y - height / 2,
+                    width: width, height: height
+                )
+            }
+        }
+        mapView.setVisibleMapRect(
+            rect,
+            edgePadding: UIEdgeInsets(top: 64, left: 48, bottom: 64, right: 48),
+            animated: true
+        )
+    }
+
+    /// Puts the map where a shared link says it was, at the zoom it names.
+    ///
+    /// The zoom is a web-Mercator tile zoom, which MapKit has no setter for, so
+    /// it is turned back into a width on the ground the same way
+    /// `tileZoomLevel` reads one off: 256-point tiles across the view. Nothing
+    /// happens before layout — a view with no width has no span to be at, and
+    /// guessing one would land the reader somewhere the sender never was.
+    ///
+    /// `animated` is false for the opening view, which has no previous position
+    /// to travel from: the map would otherwise fly to its own first frame.
+    func center(on point: GeoPoint, zoom: Int, animated: Bool = true) {
+        guard let mapView, mapView.bounds.width > 0 else {
+            // A link opened at launch arrives before the map has a width. Held
+            // rather than dropped, because the alternative is a reader who
+            // followed a link and landed on the opening view of the province.
+            pendingCenter = (point, zoom, animated)
+            return
+        }
+        pendingCenter = nil
+        let metresPerPoint = 156_543.03392 * cos(point.lat * .pi / 180)
+            / pow(2, Double(zoom))
+        let width = metresPerPoint * Double(mapView.bounds.width)
+        guard width.isFinite, width > 0 else { return }
+        mapView.setRegion(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: point.lat, longitude: point.lng),
+                latitudinalMeters: width,
+                longitudinalMeters: width
+            ),
+            animated: animated
+        )
+        // The map has been put at this zoom, so it stops reading as being at
+        // whatever it was before — MapKit's own callback arrives a frame or
+        // more later, and until it does anything asking where the map is would
+        // otherwise be told 0. That is what wrote a zoom of 0 into a session
+        // saved by an app backgrounded during its first frame. MapKit may fit
+        // this to the view's aspect and land a fraction off; the callback
+        // corrects it.
+        recordZoomLevel(zoom)
+    }
+
+    /// Frames a bounding box, with room around it.
+    ///
+    /// Padded rather than fitted exactly, so a layer's outermost feature is not
+    /// left touching the edge of the screen where the panel and the controls
+    /// sit over it. A degenerate box — one point, or one straight line — is
+    /// given a minimum span rather than a zero-sized region, which MapKit
+    /// clamps to an arbitrary zoom.
+    func frame(_ box: GeoBoundingBox) {
+        guard let mapView else { return }
+        let latitudeSpan = max((box.north - box.south) * 1.25, 0.002)
+        let longitudeSpan = max((box.east - box.west) * 1.25, 0.002)
+        guard latitudeSpan.isFinite, longitudeSpan.isFinite else { return }
+        pendingCenter = nil
+        mapView.setRegion(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(
+                    latitude: (box.north + box.south) / 2,
+                    longitude: (box.east + box.west) / 2
+                ),
+                span: MKCoordinateSpan(
+                    latitudeDelta: latitudeSpan, longitudeDelta: longitudeSpan
+                )
+            ),
+            animated: true
+        )
+    }
+
+    // MARK: - Location
+
+    /// The three things the web says about a location request, word for word.
+    ///
+    /// The refusal is the one that matters. A button that quietly does nothing
+    /// reads as a broken button rather than as a permission the reader can
+    /// change, and this app had no way to say which it was.
+    enum LocationMessage: String, Sendable {
+        case searching = "Finding your location\u{2026}"
+        case found = "Your location is shown on the map."
+        case denied = "Location permission was not granted. You can keep using the map."
+    }
+
+    /// What to tell the reader about the last location request, if anything.
+    private(set) var locationMessage: LocationMessage?
+
+    /// How long the success message stays up, as the web keeps it.
+    static let locationFoundMessageDuration: Duration = .seconds(4)
+
+    @ObservationIgnored private var locationMessageDismissal: Task<Void, Never>?
+
+    /// What an authorization answer is worth telling the reader.
+    ///
+    /// `readerAsked` is the whole rule: this app is told about authorization at
+    /// launch as well as after a tap, and a refusal announced to someone who
+    /// never pressed the button is a complaint about a feature they did not
+    /// use. Separate from the callback because a test can name a status, while
+    /// a `CLLocationManager` in a test process cannot be given one.
+    static func locationMessage(
+        for status: CLAuthorizationStatus,
+        readerAsked: Bool
+    ) -> LocationMessage? {
+        switch status {
+        case .denied, .restricted:
+            return readerAsked ? .denied : nil
+        default:
+            return nil
+        }
+    }
+
+    func centerOnUserLocation() {
+        if let refusal = Self.locationMessage(
+            for: locationManager.authorizationStatus, readerAsked: true
+        ) {
+            // Answered before the map asked. The delegate is not called for a
+            // status that did not change, so a refusal already on file has to
+            // be reported here or the button stays silent for exactly the
+            // readers who need to know why nothing happened.
+            isWaitingToCenterOnUserLocation = false
+            report(refusal)
+            return
+        }
+        report(.searching)
+        guard let location = mapView?.userLocation.location else {
+            isWaitingToCenterOnUserLocation = true
+            return
+        }
+        center(on: location)
+    }
+
+    /// Shows a message, and takes the success one down again after a while.
+    ///
+    /// Only the success message expires. The other two describe a request that
+    /// has not finished and a setting that has not changed, and neither stops
+    /// being true because time passed.
+    private func report(_ message: LocationMessage) {
+        locationMessageDismissal?.cancel()
+        locationMessageDismissal = nil
+        locationMessage = message
+        guard message == .found else { return }
+        locationMessageDismissal = Task { [weak self] in
+            try? await Task.sleep(for: Self.locationFoundMessageDuration)
+            guard !Task.isCancelled else { return }
+            guard self?.locationMessage == .found else { return }
+            self?.locationMessage = nil
+        }
+    }
+
+    private func center(on location: CLLocation) {
+        isWaitingToCenterOnUserLocation = false
+        report(.found)
+        // Same rule as `focus(on:)`: going to where the reader is outranks a
+        // link's held position.
+        pendingCenter = nil
+        let region = MKCoordinateRegion(
+            center: location.coordinate,
+            latitudinalMeters: 5000,
+            longitudinalMeters: 5000
+        )
+        mapView?.setRegion(region, animated: true)
+    }
+
+    // MARK: - Heading
+
+    func resetHeading() {
+        guard let mapView else { return }
+        let camera = mapView.camera.copy() as! MKMapCamera
+        camera.heading = 0
+        mapView.setCamera(camera, animated: true)
+        mapHeading = 0
+        events?(.headingChanged(0))
+    }
+
+    // MARK: - Screen scale
+
+    /// How much ground one point of screen covers at the centre of the view.
+    ///
+    /// Measured across a 100-point sample through the centre, as the web
+    /// measures it, rather than derived from the zoom: at Nova Scotia's
+    /// latitude a Mercator tile covers about two thirds of the ground its zoom
+    /// nominally says, and a readout that ignored that would be wrong by half.
+    func groundMetresPerPoint() -> Double? {
+        guard let mapView, mapView.bounds.width > 0 else { return nil }
+        let sample = 100.0
+        let centre = CGPoint(x: mapView.bounds.midX, y: mapView.bounds.midY)
+        let left = mapView.convert(centre, toCoordinateFrom: mapView)
+        let right = mapView.convert(
+            CGPoint(x: centre.x + sample, y: centre.y), toCoordinateFrom: mapView
+        )
+        guard CLLocationCoordinate2DIsValid(left), CLLocationCoordinate2DIsValid(right) else {
+            return nil
+        }
+        let metres = MKMapPoint(left).distance(to: MKMapPoint(right))
+        guard metres.isFinite, metres > 0 else { return nil }
+        return metres / sample
+    }
+
+    // MARK: - Bounds selection
+
+    func beginBoundsSelection() {
+        mutate { $0.interactionMode = .selectingBounds }
+    }
+
+    func endBoundsSelection() {
+        mutate { $0.interactionMode = .idle }
+    }
+
+    /// Delivers a completed selection through the event stream. Gated on the
+    /// interaction mode so a stale gesture can never emit after selection ends.
+    func completeBoundsSelection(with bounds: MapBounds) {
+        guard appliedInteractionMode == .selectingBounds else { return }
+        events?(.boundsSelected(bounds.normalized))
+    }
+
+    /// The tile overlays currently installed, keyed by layer id.
+    ///
+    /// The export composites through these rather than building its own: they
+    /// are what is holding the tile cache and the licence clearance, and an
+    /// export that fetched around them would be a second, ungated route to the
+    /// same sources.
+    func installedTileOverlays() -> [String: OpacityTileOverlay] {
+        var installed = [String: OpacityTileOverlay]()
+        for overlay in mapView?.overlays ?? [] {
+            if let tileOverlay = overlay as? OpacityTileOverlay {
+                installed[tileOverlay.configuration.id] = tileOverlay
+            }
+        }
+        return installed
+    }
+
+    /// Where the map is, for drawing an export frame over it.
+    ///
+    /// The zoom is the same reading `tileZoomLevel` takes and deliberately not
+    /// rounded to it: the frame's ground is computed from this number, and a
+    /// zoom rounded to the nearest tile level would export ground up to half a
+    /// zoom away from the picture the user framed.
+    ///
+    /// The size is the map view's own, which is the whole screen — the frame
+    /// layer is drawn ignoring the safe area for the same reason, so the
+    /// rectangle the arithmetic places and the rectangle the user sees are the
+    /// same rectangle.
+    /// Put the map flat and north-up, and hold it there while the page is being
+    /// framed.
+    ///
+    /// The frame's arithmetic reads screen x as east and screen y as south, the
+    /// way a printed north-up page does. Under a rotated or pitched camera that
+    /// is false: the rectangle on screen and the ground the export claims come
+    /// apart, and the page would be an axis-aligned area the reader never drew,
+    /// labelled with a scale computed from it. Straightening the camera is
+    /// visible and undoable; exporting the wrong ground is neither.
+    func beginPrintFraming() {
+        guard let mapView else { return }
+        mapView.isRotateEnabled = false
+        mapView.isPitchEnabled = false
+        guard mapView.camera.heading != 0 || mapView.camera.pitch != 0 else { return }
+        let camera = mapView.camera.copy() as! MKMapCamera
+        camera.heading = 0
+        camera.pitch = 0
+        mapView.setCamera(camera, animated: false)
+        mapHeading = 0
+        events?(.headingChanged(0))
+    }
+
+    func endPrintFraming() {
+        mapView?.isRotateEnabled = true
+        mapView?.isPitchEnabled = true
+    }
+
+    func printFraming() -> (
+        centre: GeoPoint, zoom: Double, container: (width: Double, height: Double)
+    )? {
+        guard let mapView else { return nil }
+        // Belt and braces with `beginPrintFraming`: no framing at all rather
+        // than framing that lies about which ground it covers.
+        let heading = mapView.camera.heading
+        guard heading < 0.5 || heading > 359.5, mapView.camera.pitch < 0.5 else { return nil }
+        let width = Double(mapView.bounds.width)
+        let height = Double(mapView.bounds.height)
+        guard width > 0, height > 0,
+              let zoom = Self.mercatorZoom(of: mapView) else { return nil }
+        let centre = mapView.region.center
+        return (
+            GeoPoint(lat: centre.latitude, lng: centre.longitude),
+            zoom,
+            (width: width, height: height)
+        )
+    }
+
+    func currentVisibleBounds() -> MapBounds? {
+        guard let region = mapView?.region else { return nil }
+        return MapBounds(
+            minLatitude: region.center.latitude - region.span.latitudeDelta / 2,
+            minLongitude: region.center.longitude - region.span.longitudeDelta / 2,
+            maxLatitude: region.center.latitude + region.span.latitudeDelta / 2,
+            maxLongitude: region.center.longitude + region.span.longitudeDelta / 2
+        ).normalized
+    }
+
+    private func updateSelectionOverlay(from start: CLLocationCoordinate2D, to end: CLLocationCoordinate2D) {
+        guard let mapView else { return }
+
+        // One persistent overlay for the whole drag; each move updates its
+        // corners and asks for a redraw. See `BoundsSelectionOverlay` for the
+        // churn this replaces.
+        let overlay: BoundsSelectionOverlay
+        if let selectionOverlay {
+            overlay = selectionOverlay
+        } else {
+            overlay = BoundsSelectionOverlay()
+            selectionOverlay = overlay
+            mapView.addOverlay(overlay)
+        }
+        overlay.set(start: start, end: end)
+        (mapView.renderer(for: overlay) as? BoundsSelectionRenderer)?.setNeedsDisplay()
+    }
+
+    @objc func handleIdentifyTap(_ recognizer: UITapGestureRecognizer) {
+        guard recognizer.state == .ended,
+              let mapView = recognizer.view as? MKMapView else { return }
+        let coordinate = mapView.convert(
+            recognizer.location(in: mapView), toCoordinateFrom: mapView
+        )
+        guard CLLocationCoordinate2DIsValid(coordinate) else { return }
+        events?(.mapTapped(latitude: coordinate.latitude, longitude: coordinate.longitude))
+    }
+
+    @objc func handleSelectionPan(_ recognizer: UIPanGestureRecognizer) {
+        guard let mapView = recognizer.view as? MKMapView else { return }
+
+        let point = recognizer.location(in: mapView)
+        let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
+
+        switch recognizer.state {
+        case .began:
+            selectionStartCoordinate = coordinate
+            updateSelectionOverlay(from: coordinate, to: coordinate)
+        case .changed:
+            guard let start = selectionStartCoordinate else { return }
+            updateSelectionOverlay(from: start, to: coordinate)
+        case .ended:
+            guard let start = selectionStartCoordinate else { return }
+            let bounds = MapBounds(
+                minLatitude: min(start.latitude, coordinate.latitude),
+                minLongitude: min(start.longitude, coordinate.longitude),
+                maxLatitude: max(start.latitude, coordinate.latitude),
+                maxLongitude: max(start.longitude, coordinate.longitude)
+            )
+            completeBoundsSelection(with: bounds)
+            endBoundsSelection()
+        case .cancelled, .failed:
+            endBoundsSelection()
+        default:
+            break
+        }
+    }
+}
+
+// MARK: - MKMapViewDelegate
+
+extension MapController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        applyPendingCenterIfPossible()
+        events?(.visibleRegionSettled)
+    }
+
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        applyPendingCenterIfPossible()
+        // This runs on every frame of a pan or rotation, and @Observable has
+        // no equality gate of its own: an unguarded set notifies observers of
+        // the property even when the value is unchanged. Guarded like every
+        // other per-frame write in this file.
+        let heading = mapView.camera.heading
+        if mapHeading != heading {
+            mapHeading = heading
+            events?(.headingChanged(heading))
+        }
+
+        clampClosestZoom(mapView)
+
+        if let zoom = Self.tileZoomLevel(of: mapView) {
+            recordZoomLevel(zoom)
+        }
+    }
+
+    /// Records the zoom the map is now at.
+    ///
+    /// Separate from the delegate callback because the two are separately
+    /// wrong-able: this one is what the panel's "Zoom to N+ to load" reading
+    /// depends on, and driving it through a live `MKMapView` would mean
+    /// asserting through MapKit's region clamping as well as through the
+    /// reading.
+    func recordZoomLevel(_ zoom: Int) {
+        // Set only on the transition: this runs per frame of a pinch, and an
+        // unguarded @Observable write notifies observers even when the value
+        // is already true.
+        if !hasReportedItsPosition {
+            hasReportedItsPosition = true
+        }
+        guard zoom != zoomLevel else { return }
+        let wasOverview = zoomLevel <= ParcelMarkers.overviewMaxZoom
+        let isOverview = zoom <= ParcelMarkers.overviewMaxZoom
+        zoomLevel = zoom
+        // Only on the crossing. This runs on every frame of a pinch, and
+        // rebuilding the annotations sixty times a second to say the same thing
+        // would be the pinch the user notices.
+        if wasOverview != isOverview, let mapView {
+            installParcelOverviewMarkers(on: mapView)
+        }
+    }
+
+    /// The markers the current zoom calls for: all of them below the threshold,
+    /// none above it, where the boundaries themselves are legible.
+    private func installParcelOverviewMarkers(on mapView: MKMapView) {
+        mapView.removeAnnotations(
+            mapView.annotations.compactMap { $0 as? ParcelOverviewAnnotation }
+        )
+        guard zoomLevel <= ParcelMarkers.overviewMaxZoom else { return }
+        mapView.addAnnotations(
+            appliedParcelOverviewMarkers.map(ParcelOverviewAnnotation.init(marker:))
+        )
+    }
+
+    /// The web-Mercator zoom the visible region corresponds to.
+    ///
+    /// MapKit has no zoom property; this is the standard reading of one, from
+    /// how much longitude fits across the view at 256-point tiles. It is what
+    /// decides whether the panel says a layer is too far out to load, so it has
+    /// to mean the same thing `MKTileOverlay.minimumZ` does — which is the same
+    /// `z` the tile path carries.
+    ///
+    /// `nil` while the view has no size, which is every call before layout: a
+    /// zero width would otherwise compute a zoom of negative infinity and the
+    /// panel would tell the user to zoom in on a map that has not been drawn.
+    static func tileZoomLevel(of mapView: MKMapView) -> Int? {
+        guard let zoom = mercatorZoom(of: mapView) else { return nil }
+        return Int(zoom.rounded())
+    }
+
+    /// The same reading, unrounded. Used where the fraction matters, which is
+    /// the arithmetic that turns a zoom into a camera distance.
+    static func mercatorZoom(of mapView: MKMapView) -> Double? {
+        let width = Double(mapView.bounds.width)
+        let longitudeSpan = mapView.region.span.longitudeDelta
+        guard width > 0, longitudeSpan > 0 else { return nil }
+        let zoom = log2(360 * (width / 256) / longitudeSpan)
+        guard zoom.isFinite else { return nil }
+        return zoom
+    }
+
+    /// The closest the browser lets a reader get, and the closest this map
+    /// does. Past it the tiles are being stretched rather than read.
+    private static let closestZoom = 23.0
+
+    /// Stops the map being pinched in past the point where anything drawn on
+    /// it means anything, once — from the map's own size, because MapKit is
+    /// asked for a camera distance and the browser states a zoom level.
+    ///
+    /// The far end is deliberately not ported. The browser floors zoom at 7,
+    /// which fills a desktop window with the province and a little ocean; the
+    /// same number on a phone's narrower screen shows about four degrees of
+    /// longitude, so porting it would stop the reader zooming out before Nova
+    /// Scotia fits on the screen at all.
+    private func clampClosestZoom(_ mapView: MKMapView) {
+        let width = mapView.bounds.width
+        guard width > 0, clampedAtWidth != width,
+              let zoom = mercatorZoomForClamp(mapView) else { return }
+        let distance = mapView.camera.centerCoordinateDistance
+        guard distance > 0, distance.isFinite else { return }
+        // A camera's distance halves with every zoom level, so one reading of
+        // the pair fixes the scale for this screen. Read rather than derived
+        // from a field of view, which is MapKit's to change.
+        let atZoomZero = distance * pow(2, zoom)
+        clampedAtWidth = width
+        guard atZoomZero.isFinite,
+              let range = MKMapView.CameraZoomRange(
+                  minCenterCoordinateDistance: atZoomZero / pow(2, Self.closestZoom)
+              )
+        else { return }
+        mapView.cameraZoomRange = range
+    }
+
+    private func mercatorZoomForClamp(_ mapView: MKMapView) -> Double? {
+        // Only while the camera is looking straight down at north. A pitched
+        // or turned view reports the region that bounds what is on screen,
+        // which is wider than the same distance looks square-on, and
+        // calibrating off one would put the limit a level out.
+        let camera = mapView.camera
+        guard camera.pitch == 0, camera.heading == 0 else { return nil }
+        return Self.mercatorZoom(of: mapView)
+    }
+
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        guard isWaitingToCenterOnUserLocation,
+              userLocation.location != nil else { return }
+        centerOnUserLocation()
+    }
+
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        // Before the plain `MKPolygon` branch, which it is a kind of: the
+        // bounds-selection rectangle and a parcel boundary are both polygons
+        // and must not be drawn as the same thing.
+        if let parcel = overlay as? ParcelPolygon {
+            return Self.renderer(for: parcel)
+        }
+
+        if let userMap = overlay as? UserMapOverlay {
+            let renderer = UserMapOverlayRenderer(userMap: userMap)
+            // Held weakly on the overlay so the alpha-only mutation can poke
+            // the live renderer instead of rebuilding the drape.
+            userMap.renderer = renderer
+            return renderer
+        }
+
+        if let draft = overlay as? VectorDraftPolyline {
+            let renderer = MKPolylineRenderer(polyline: draft)
+            renderer.strokeColor = UIColor(featureHex: draft.colorHex)
+            renderer.lineWidth = 2
+            // Dashed, because this is a gesture in progress rather than data:
+            // drawn solid it would look like a feature the layer already holds.
+            renderer.lineDashPattern = [6, 4]
+            renderer.lineCap = .round
+            renderer.lineJoin = .round
+            return renderer
+        }
+
+        // Before the catalogued feature branches, though they are unrelated
+        // classes: a user's polygon is styled from their own file's simplestyle
+        // properties, not from the catalog's vocabulary.
+        if let polygon = overlay as? UserVectorPolygon {
+            let renderer = MKPolygonRenderer(polygon: polygon)
+            Self.apply(polygon.style, to: renderer)
+            return renderer
+        }
+
+        if let polyline = overlay as? UserVectorPolyline {
+            let renderer = MKPolylineRenderer(polyline: polyline)
+            Self.apply(polyline.style, to: renderer)
+            // Rounded, because a user's own line is usually a route or a
+            // sketched boundary rather than a surveyed edge, and mitred joins
+            // spike at every sharp corner of a hand-drawn track.
+            renderer.lineCap = .round
+            renderer.lineJoin = .round
+            return renderer
+        }
+
+        if let feature = overlay as? FeaturePolygon {
+            let renderer = MKPolygonRenderer(polygon: feature)
+            Self.apply(feature.style, to: renderer)
+            return renderer
+        }
+
+        if let feature = overlay as? FeaturePolyline {
+            let renderer = MKPolylineRenderer(polyline: feature)
+            Self.apply(feature.style, to: renderer)
+            return renderer
+        }
+
+        if let selection = overlay as? BoundsSelectionOverlay {
+            return BoundsSelectionRenderer(selection: selection)
+        }
+
+        if let polygon = overlay as? MKPolygon {
+            let renderer = MKPolygonRenderer(polygon: polygon)
+            renderer.fillColor = UIColor.systemBlue.withAlphaComponent(0.15)
+            renderer.strokeColor = .systemBlue
+            renderer.lineWidth = 2
+            return renderer
+        }
+
+        // Before the `OpacityTileOverlay` branch: these are tile overlays too,
+        // and without a renderer of their own they would draw nothing, which
+        // on a base-replacing overlay is a black map.
+        if let blank = overlay as? BlankBaseOverlay {
+            return MKTileOverlayRenderer(tileOverlay: blank)
+        }
+
+        if let osm = overlay as? OSMBaseOverlay {
+            return MKTileOverlayRenderer(tileOverlay: osm)
+        }
+
+        guard let tileOverlay = overlay as? OpacityTileOverlay else {
+            return MKOverlayRenderer(overlay: overlay)
+        }
+        let renderer = MKTileOverlayRenderer(tileOverlay: tileOverlay)
+        renderer.alpha = appliedLayers.first { $0.id == tileOverlay.configuration.id }?.effectiveAlpha ?? 1.0
+        tileOverlay.renderer = renderer
+        return renderer
+    }
+
+    /// The web's interactive parcel styling, so a boundary reads the same on
+    /// both surfaces.
+    ///
+    /// The selection is an outline with no fill: the point of selecting a
+    /// parcel is to compare its boundary against the imagery under it, and a
+    /// tint over the whole lot is what you would have to see through.
+    static func renderer(for parcel: ParcelPolygon) -> MKPolygonRenderer {
+        let renderer = MKPolygonRenderer(polygon: parcel)
+        // One table with the print compositor and the legend — see
+        // `ParcelRoleStyle` for why this styling must not be copied.
+        let style = ParcelRoleStyle.style(for: parcel.role)
+        renderer.strokeColor = style.stroke
+        renderer.fillColor = style.fill
+        renderer.lineWidth = style.width
+        if let dash = style.dash {
+            renderer.lineDashPattern = dash.map { NSNumber(value: $0) }
+        }
+        return renderer
+    }
+
+    /// The web's path options, applied to a MapKit renderer.
+    ///
+    /// The dash pattern is carried across rather than dropped: on this map a
+    /// dashed outline is a statement — the location is approximate, or the
+    /// polygon is something this app derived — and a renderer that quietly drew
+    /// it solid would upgrade the claim.
+    static func apply(_ style: VectorFeatureStyle, to renderer: MKOverlayPathRenderer) {
+        renderer.strokeColor = UIColor(
+            featureHex: style.strokeHex, alpha: style.strokeOpacity
+        )
+        renderer.fillColor = style.fillHex.map {
+            UIColor(featureHex: $0, alpha: style.fillOpacity)
+        }
+        renderer.lineWidth = style.lineWidth
+        renderer.lineDashPattern = style.dashPattern?.map { NSNumber(value: $0) }
+        renderer.lineCap = style.hasRoundedEnds ? .round : .butt
+        renderer.lineJoin = style.hasRoundedEnds ? .round : .miter
+    }
+
+    /// The same, for a user's own layer.
+    ///
+    /// A separate overload rather than a shared type: the catalog's styling
+    /// vocabulary and the simplestyle properties a user's file may carry are
+    /// different vocabularies, and collapsing them would mean inventing a dash
+    /// pattern or a marker radius for a file that never specified one.
+    static func apply(_ style: UserVectorStyle, to renderer: MKOverlayPathRenderer) {
+        renderer.strokeColor = UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity)
+        renderer.fillColor = UIColor(featureHex: style.fillHex, alpha: style.fillOpacity)
+        renderer.lineWidth = CGFloat(style.weight)
+    }
+
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !(annotation is MKUserLocation) else { return nil }
+
+        // Before the pin branch: a well log and a saved point of interest are
+        // both point annotations, and a well drawn as a dropped pin would read
+        // as a place someone marked rather than as a record with an accuracy.
+        if let marker = annotation as? ParcelOverviewAnnotation {
+            let identifier = "ParcelOverviewMarker"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: marker, reuseIdentifier: identifier)
+            view.annotation = marker
+            // No callout: the tap opens the parcel's own panel, which is where
+            // a listing is read, and a bubble over it would say less.
+            view.canShowCallout = false
+            view.image = ParcelOverviewMarkerImage.image(
+                role: marker.role, isSelected: marker.isSelected
+            )
+            return view
+        }
+
+        if let handle = annotation as? VectorVertexHandleAnnotation {
+            let identifier = "VectorVertexHandle"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: handle, reuseIdentifier: identifier)
+            view.annotation = handle
+            view.canShowCallout = false
+            // Dragged rather than tapped-then-tapped: MapKit's own drag is the
+            // gesture the user already knows, and it moves the handle under the
+            // finger instead of asking them to aim twice.
+            view.isDraggable = true
+            view.image = VectorDraftHandleImage.image(colorHex: handle.colorHex)
+            return view
+        }
+
+        if let handle = annotation as? VectorMoveHandleAnnotation {
+            let identifier = "VectorMoveHandle"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: handle, reuseIdentifier: identifier)
+            view.annotation = handle
+            view.canShowCallout = false
+            view.isDraggable = true
+            // Deliberately unlike a vertex handle: dragging this one moves the
+            // whole shape, and two handles that looked the same would make that
+            // a surprise rather than a choice.
+            view.image = VectorMoveHandleImage.image(colorHex: handle.colorHex)
+            return view
+        }
+
+        if let handle = annotation as? VectorDraftVertexAnnotation {
+            let identifier = "VectorDraftHandle"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: handle, reuseIdentifier: identifier)
+            view.annotation = handle
+            // No callout: a vertex is not a record, and a popup over the shape
+            // being drawn would cover the ground the next tap has to land on.
+            view.canShowCallout = false
+            view.image = VectorDraftHandleImage.image(colorHex: handle.colorHex)
+            return view
+        }
+
+        // A user's own point, before both: it is drawn in their layer's colour
+        // and its callout carries the provenance line that says the app did not
+        // publish it.
+        if let point = annotation as? UserVectorAnnotation {
+            let identifier = "UserVectorPoint"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: point, reuseIdentifier: identifier)
+            view.annotation = point
+            // The app's own card rather than MapKit's callout bubble: the
+            // bubble has a title and a subtitle and no third line, and the
+            // provenance is not optional decoration — a marker the user
+            // imported has to say so wherever it is shown.
+            view.canShowCallout = false
+            view.image = UserVectorMarkerImage.image(for: point.style)
+            return view
+        }
+
+        if let feature = annotation as? FeatureMarkerAnnotation {
+            let identifier = "FeatureMarker"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                ?? MKAnnotationView(annotation: feature, reuseIdentifier: identifier)
+            view.annotation = feature
+            // The app's own card, for the same reason the user's markers use
+            // one: the bubble holds a title and a subtitle, and these records
+            // do not travel without the source that published them and the
+            // sentence saying what they are not evidence of. Two callouts on
+            // one dot would have meant the shorter one could be read alone.
+            view.canShowCallout = false
+            view.image = FeatureMarkerImage.image(for: feature.style)
+            return view
+        }
+
+        return nil
+    }
+
+    /// Reports a dragged vertex once, when the finger lifts.
+    ///
+    /// On `.ending` rather than on every move: a drag reports continuously, and
+    /// committing each step would write a revision of the layer for every pixel
+    /// the finger travelled.
+    func mapView(
+        _ mapView: MKMapView,
+        annotationView view: MKAnnotationView,
+        didChange newState: MKAnnotationView.DragState,
+        fromOldState oldState: MKAnnotationView.DragState
+    ) {
+        if let handle = view.annotation as? VectorMoveHandleAnnotation {
+            guard newState == .ending else { return }
+            let landed = handle.coordinate
+            events?(
+                .featureMoved(
+                    featureID: handle.featureID,
+                    latitudeDelta: landed.latitude - handle.origin.lat,
+                    longitudeDelta: landed.longitude - handle.origin.lng
+                )
+            )
+            return
+        }
+
+        guard newState == .ending || newState == .canceling,
+              let handle = view.annotation as? VectorVertexHandleAnnotation
+        else { return }
+        // Told where it ended up rather than where MapKit thinks it is: the
+        // view's own coordinate is the one the drag left behind.
+        let coordinate = handle.coordinate
+        guard newState == .ending else { return }
+        events?(
+            .vertexMoved(
+                featureID: handle.featureID,
+                ring: handle.ring,
+                vertex: handle.vertex,
+                latitude: coordinate.latitude,
+                longitude: coordinate.longitude
+            )
+        )
+    }
+
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let annotation = view.annotation as? MapKitAnnotationIdentifying else { return }
+        events?(.annotationSelected(id: annotation.mapAnnotationID))
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension MapController: UIGestureRecognizerDelegate {
+    /// The name the identify tap is registered under.
+    ///
+    /// Two recognizers share this delegate and want opposite answers: the
+    /// bounds-selection pan may only begin while selecting bounds, and the
+    /// identify tap may only begin while not. Answering by name rather than by
+    /// type is what keeps adding one from disabling the other.
+    static let identifyTapName = "ParcelIdentifyTap"
+
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer.name == Self.identifyTapName {
+            return !isSelectingBounds
+        }
+        return isSelectingBounds
+    }
+
+    func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
+    ) -> Bool {
+        false
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
+
+// `@preconcurrency`: CLLocationManagerDelegate requirements are nonisolated,
+// but the manager is created on the main run loop, so callbacks arrive on the
+// main thread and may satisfy the requirements from this main-actor class.
+extension MapController: @preconcurrency CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        let status = manager.authorizationStatus
+        if let message = Self.locationMessage(
+            for: status, readerAsked: isWaitingToCenterOnUserLocation
+        ) {
+            report(message)
+        }
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            mapView?.showsUserLocation = appliedShowsUserLocation
+            if isWaitingToCenterOnUserLocation {
+                centerOnUserLocation()
+            }
+        case .denied, .restricted:
+            isWaitingToCenterOnUserLocation = false
+        case .notDetermined:
+            break
+        @unknown default:
+            break
+        }
+    }
+}
+
+// MARK: - Annotation bridging
+
+nonisolated protocol MapKitAnnotationIdentifying: MKAnnotation {
+    var mapAnnotationID: String { get }
+}
+
+nonisolated private extension MKAnnotation {
+    var mapAnnotationID: String? {
+        (self as? MapKitAnnotationIdentifying)?.mapAnnotationID
+    }
+}

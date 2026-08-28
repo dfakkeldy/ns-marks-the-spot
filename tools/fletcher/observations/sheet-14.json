@@ -1,0 +1,61 @@
+{
+  "sheet": "sheet-14",
+  "rumsey_id": "RUMSEY~8~1~2639~290007",
+  "source_sha256": "7815452f43bc9a0a6ace1ccf349f0cb51d8c03c66a07914e50b52d35ab4d53ba",
+  "retrieved": "2026-07-25",
+  "method": "Long regular rules were detected from the full-resolution scan; every retained intersection and its engraved coordinate labels were then visually reviewed. Folds, hatching and neatlines were excluded before roles were assigned.",
+  "qa_review": "All ten detected intersections were visibly printed graticule rules.",
+  "meridians": [
+    {
+      "pixel_x": 1770,
+      "lon": -61.583333333333336,
+      "label": "61d35mW"
+    },
+    {
+      "pixel_x": 3582,
+      "lon": -61.5,
+      "label": "61d30mW"
+    },
+    {
+      "pixel_x": 5401,
+      "lon": -61.416666666666664,
+      "label": "61d25mW"
+    },
+    {
+      "pixel_x": 7221,
+      "lon": -61.333333333333336,
+      "label": "61d20mW"
+    },
+    {
+      "pixel_x": 9016,
+      "lon": -61.25,
+      "label": "61d15mW"
+    }
+  ],
+  "parallels": [
+    {
+      "pixel_y": 1684,
+      "lat": 46.25,
+      "label": "46d15mN"
+    },
+    {
+      "pixel_y": 4302,
+      "lat": 46.166666666666664,
+      "label": "46d10mN"
+    }
+  ],
+  "check_intersections": [
+    [
+      0,
+      1
+    ],
+    [
+      2,
+      0
+    ],
+    [
+      4,
+      0
+    ]
+  ]
+}

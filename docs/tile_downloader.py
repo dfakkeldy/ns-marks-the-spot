@@ -1,3 +1,11 @@
+"""Historical OldMapsOnline-only Fletcher tile downloader.
+
+Do not use this script to create the replacement Hugh Fletcher assets. It is
+preserved to document the provenance of the legacy tile pyramid; the current
+workflow uses individually identified direct Rumsey scans and independently
+measured per-sheet observations.
+"""
+
 import os
 import sys
 import math

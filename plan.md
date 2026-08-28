@@ -36,8 +36,61 @@
 ## Deferred For v1.1
 - [ ] Bulk offline downloads for NS Aerial imagery
 - [ ] Bulk offline downloads for restricted Nova Scotia reference layers where licensing permits
-- [ ] Additional historical map collections beyond Fletcher
+- [ ] Additional historical map collections beyond Fletcher (A.F. Church Cape Breton sheets are catalogued; tiles still pending — see `docs/CHURCH_MAPS.md`)
 - [ ] User-submitted POIs and syncing improvements
+
+## Online Companion
+
+- [x] React + Vite map shell with a responsive desktop/mobile layout
+- [x] Versioned Province licence acceptance before NSPRD geometry loads
+- [x] Exact PID search against the live NSPRD Feature Layer
+- [x] Civic-address search through the authoritative Civic Address File with NSPRD parcel resolution
+- [x] Tap-to-identify any visible NSPRD parcel boundary and open the shared parcel sheet
+- [x] Browser-local current location display
+- [x] Native catalog parity for NS Aerial, Property Boundaries, Crown Lands, Watersheds, and Waterfalls
+- [x] Coverage-aware parcel flood-hazard evidence with separate published river and coastal scenario sources
+- [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web
+- [x] Complete Province water and transportation overlays with legible official cartography, trails, and close-range culverts
+- [x] Default-off web NSTDB buildings overlay with exact selected-PID point-and-polygon building count
+- [x] Collapsed, default-off Topography group with labelled 5 m LiDAR-derived contours from zoom 13
+- [x] Collapsed, default-off Geology & Resources group with live mineral occurrences, NovaROC tenure, and zoom-bounded abandoned mine openings
+- [x] Collapsed, default-off Environmental health screens group with provincial arsenic, uranium, and manganese well-water risk bands, surficial aquifer context, province-sourced legend colours, testing guidance, and a pre-map licence gate on the restricted services
+- [x] Default-off Inverness hydro terrain-potential pilot with official watershed area, NSHN mapped drop/route length, area-scaled streams, relative potential colour, raw-metric popups, and reproducible source receipt
+- [x] Viewport-paged feature queries with independent loading, zoom, count, failure, source, and screening-caveat states
+- [x] Close-range NSPRD boundary visibility from zoom 14 and an opaque close-zoom selected-parcel fill
+- [x] Approximate NSPRD acreage, exact road/water intersections, and explicitly labelled adjacent/civic-address roads in the selected-parcel sheet
+- [x] Authoritative Civic Address File lookup with paginated bounding-box queries and exact parcel containment
+- [x] Independent civic-address loading, empty, failure, attribution, and stale-selection cancellation states
+- [x] Locally calculated Plus Codes with opt-in Google Maps directions for mapped civic points
+- [x] Parcel-first defaults: modern/aerial off, boundaries/water/roads on, and one-time tax-sale bounds fit
+- [x] Host-neutral direct-Rumsey Fletcher control placed last in the web layer
+      list, with opacity, share, print/evidence, attribution, and failure state
+- [x] Privacy-minimized Inverness County August 11, 2026 tax-sale layer
+- [x] Official-source link, withdrawal/redemption warning, and title-search caveat
+- [x] Offline-use handoff to the native iPhone app
+- [x] Default-off, owner-free historical tax-sale records with verified Halifax outcomes and outcome-pending CBRM notice archives
+- [x] Municipality of the District of Lunenburg 2021–2026 outcomes reconciled from tender packages and per-property award documents, with PIDs derived by assessment-account/PVSC/NSPRD reconciliation
+- [x] Historical municipality/year/outcome filters, conditional result provenance, source-linked infocards, validation, and match/source ledgers
+- [ ] Monochrome browser Print / Save as PDF research and field sheets (implementation complete; saved-PDF, iPhone AirPrint, and physical monochrome acceptance remain pending in `docs/real-world-testing/2026-07-23-web-print-export-test-plan.md`)
+- [ ] Upload and production-verify the prepared direct-Rumsey Fletcher revision
+      on an authorized HTTPS object host; the bounded per-sheet package and
+      fail-closed web integration are complete, but credentials/cost authority
+      and custom-domain delivery remain outstanding
+- [ ] Add municipality importers only from current official notices
+  - [x] Scheduled watcher archives and auto-ingests overwrite-prone sources (Cumberland) via `npm run watch:tax-sales` and `.github/workflows/tax-sale-watch.yml`
+- [ ] Add a well-log layer only after its dated coordinates, source-purpose wording, and precision warnings are reconciled
+- [ ] Add the DNRR radon-in-indoor-air potential layer once a Web Mercator service exists or a proj4 custom CRS is approved; the published `radon_cache` MapServer returns an empty image from `export` and caches tiles only in NAD83/MTM (wkid 2961)
+- [ ] Add separate Karst Risk and Known Karst Occurrences layers from DP ME 494 only with 2019 currentness, source-scale, completeness, and non-survey caveats
+- [ ] Add a selected-parcel Property context summary, starting with karst and coastal hazards; use the researched source order and caveats in `docs/property-context-data-candidates.md`
+- [x] Municipal zoning group rendering Inverness, Victoria, Richmond, Cumberland, and Halifax live from municipal ArcGIS services, unofficial, by-law linked, and never extracted to project data
+- [ ] Add Victoria's Baddeck plan area only after confirming with EDPC whether it supersedes or overlaps the county layer; the two currently return polygons for the same ground
+- [ ] Add municipal zoning to the selected-parcel evidence sheet and print appendix, reusing the `parcelResources.ts` query-table pattern
+- [ ] Add MODL zoning, including its explicit "Unzoned Area" polygons, as the model for stating that no zoning applies rather than showing nothing
+- [x] "Your maps": user-loaded GeoTIFFs rendered client-side with opacity control (spec `docs/superpowers/specs/2026-07-24-web-user-maps-design.md`, PR 1 of 4)
+- [x] In-browser georeferencer for plain scans (PR 2)
+- [x] TPS warping + Allmaps annotation export (PR 3)
+- [ ] GeoPDF import (PR 4)
+- [ ] Evaluate geotiff.js 3.x migration (pinned to 2.1.3 in PR 1; read API changed)
 
 ## Future Considerations
 - Google Maps SDK as alternative engine

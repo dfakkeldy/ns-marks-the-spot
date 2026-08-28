@@ -1,0 +1,5495 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap");
+
+:root {
+  color: #12343b;
+  background: #eef7f5;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --chart-ink: #12343b;
+  --deep-water: #0a4f5c;
+  /* #1e66cc, not the original #2f80ed: white text on the old blue measured
+     3.87:1 (AA needs 4.5) and the same blue as small link text on the
+     paper/fog tints measured 3.59-3.62:1. This shade holds 5.5:1 under
+     white and >4.5:1 as link text on every tinted ground in this sheet. */
+  --survey-blue: #1e66cc;
+  --paper-peach: #e7a86b;
+  --survey-red: #be4d3c;
+  /* Darkened from #718b56 (3.8:1 as 11-12px status text on white) to hold
+     AA at the sizes the layer rail actually uses it. */
+  --lichen: #5a7343;
+  --fog: #eef7f5;
+  --paper: #fbf6ea;
+  --white: #ffffff;
+  --line: rgba(18, 52, 59, 0.18);
+  --muted: rgba(18, 52, 59, 0.68);
+  --shadow: 0 18px 50px rgba(18, 52, 59, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button,
+a,
+input,
+select {
+  outline-offset: 3px;
+}
+
+a {
+  color: var(--survey-blue);
+}
+
+.app-shell {
+  display: grid;
+  grid-template-rows: 68px minmax(0, 1fr) 46px;
+  height: var(--app-viewport-height, 100dvh);
+  min-height: var(--app-viewport-height, 100dvh);
+  overflow: hidden;
+  background: var(--fog);
+}
+
+.app-header {
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 8px 28px;
+  color: var(--white);
+  background: var(--chart-ink);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.header-collapse {
+  display: grid;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  padding: 0;
+  color: var(--white);
+  font-size: 1.35rem;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.header-collapse:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.app-shell.header-collapsed {
+  grid-template-rows: 36px minmax(0, 1fr) 46px;
+}
+
+.header-collapsed .app-header {
+  justify-content: flex-end;
+  padding-block: 2px;
+}
+
+.header-collapsed .app-brand,
+.header-collapsed .offline-nav {
+  display: none;
+}
+
+.header-collapsed .header-collapse {
+  width: 34px;
+  height: 30px;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-brand img {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+}
+
+.app-brand strong {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1;
+}
+
+.app-brand span {
+  color: #85b5ff;
+}
+
+.offline-nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 0.96rem;
+}
+
+.header-action,
+.primary-action {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  color: var(--white);
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--survey-blue);
+  border: 1px solid var(--survey-blue);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.primary-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.map-layout {
+  display: grid;
+  grid-template-columns: minmax(288px, 320px) minmax(0, 1fr);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mobile-sheet-header,
+.mobile-map-chrome {
+  display: none;
+}
+
+.layer-rail {
+  z-index: 600;
+  min-width: 0;
+  min-height: 0;
+  padding: 24px 24px 18px;
+  overflow-y: auto;
+  background: var(--white);
+  border-right: 1px solid var(--line);
+  box-shadow: 6px 0 24px rgba(18, 52, 59, 0.08);
+}
+
+.layer-rail > h1,
+.parcel-inspector h2,
+.licence-dialog h2 {
+  margin: 0;
+  font-family: "Fraunces", Georgia, serif;
+  line-height: 1.08;
+}
+
+.layer-rail > h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.pid-search label,
+.rail-section h2,
+.rail-section h4.nested-rail-heading {
+  display: block;
+  margin: 0 0 9px;
+  font-size: 0.96rem;
+  font-weight: 800;
+}
+
+.search-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+
+.search-row .primary-action {
+  width: 100%;
+}
+
+.search-row input {
+  min-width: 0;
+  height: 42px;
+  padding: 0 12px;
+  color: var(--chart-ink);
+  background: var(--white);
+  border: 1px solid rgba(18, 52, 59, 0.35);
+  border-radius: 5px;
+}
+
+.search-row input:focus {
+  border-color: var(--survey-blue);
+  box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.18);
+}
+
+.field-help,
+.parcel-message {
+  min-height: 18px;
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.field-help[role="alert"] {
+  color: #a33228;
+  font-weight: 600;
+}
+
+.address-search-results {
+  display: grid;
+  gap: 1px;
+  max-height: 220px;
+  margin: 9px 0 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+  border: 1px solid rgba(18, 52, 59, 0.24);
+  border-radius: 5px;
+}
+
+.address-search-results button {
+  width: 100%;
+  padding: 10px 11px;
+  color: var(--chart-ink);
+  font-size: 0.76rem;
+  line-height: 1.35;
+  text-align: left;
+  background: var(--white);
+  border: 0;
+  border-top: 1px solid rgba(18, 52, 59, 0.12);
+  cursor: pointer;
+}
+
+.address-search-results li:first-child button {
+  border-top: 0;
+}
+
+.address-search-results button:hover,
+.address-search-results button:focus-visible {
+  background: #edf5ff;
+}
+
+.rail-section {
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+
+.pid-search + .rail-section {
+  margin-top: 20px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.map-theme-picker {
+  display: grid;
+  gap: 8px;
+  margin: 18px -12px 0;
+  padding: 12px;
+  background: #f3f8ff;
+  border: 1px solid rgba(47, 128, 237, 0.28);
+  border-radius: 8px;
+}
+
+.map-theme-picker h2,
+.map-theme-picker p {
+  margin: 0;
+}
+
+.map-theme-picker h2 {
+  font-size: 0.96rem;
+}
+
+.map-theme-picker select {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 10px;
+  color: var(--chart-ink);
+  background: var(--white);
+  border: 1px solid rgba(18, 52, 59, 0.35);
+  border-radius: 5px;
+}
+
+.map-theme-picker :is(select, button):focus-visible,
+.theme-manager-dialog :is(input, button):focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 2px;
+}
+
+.map-theme-picker .map-theme-description {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.map-theme-picker [role="status"] {
+  color: var(--deep-water);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.map-theme-picker button {
+  justify-self: start;
+  padding: 6px 0;
+  color: var(--survey-blue);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.map-theme-actions,
+.theme-manager-row-actions,
+.theme-manager-footer,
+.theme-manager-confirmation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  align-items: center;
+}
+
+.theme-manager-backdrop {
+  position: fixed;
+  z-index: 2100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(18, 52, 59, 0.72);
+}
+
+.theme-manager-dialog {
+  width: min(680px, 100%);
+  max-height: calc(100svh - 40px);
+  padding: 24px;
+  overflow-y: auto;
+  background: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.theme-manager-dialog h2 {
+  margin: 0 0 16px;
+}
+
+.theme-manager-save,
+.theme-manager-save label {
+  display: grid;
+  gap: 8px;
+}
+
+.theme-manager-save {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+}
+
+.theme-manager-dialog input,
+.theme-manager-dialog button {
+  min-height: 40px;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.theme-manager-dialog input {
+  width: 100%;
+  color: var(--chart-ink);
+  background: var(--white);
+  border: 1px solid rgba(18, 52, 59, 0.35);
+  border-radius: 5px;
+}
+
+.theme-manager-dialog button {
+  color: var(--deep-water);
+  font-weight: 700;
+  background: var(--fog);
+  border: 1px solid rgba(18, 52, 59, 0.22);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.theme-manager-dialog button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.theme-manager-list {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.theme-manager-row {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.theme-manager-confirmation p,
+.theme-manager-empty {
+  margin: 0;
+  color: var(--muted);
+}
+
+.theme-manager-notice {
+  margin: 0 0 12px;
+  color: var(--survey-red);
+  font-weight: 700;
+}
+
+.theme-manager-footer {
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.map-mode-switcher {
+  margin: 18px -12px 0;
+  padding: 12px;
+  border: 2px solid rgba(190, 77, 60, 0.38);
+  border-radius: 8px;
+  background: #fff7f4;
+}
+
+.tax-sale-master {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 4px;
+  color: var(--chart-ink);
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.tax-sale-master input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--survey-red);
+}
+
+.tax-sale-master input:focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 2px;
+}
+
+#tax-sale-dependent-controls .map-mode-switcher {
+  margin-top: 8px;
+}
+
+.map-mode-switcher.historical {
+  color: #49336f;
+  background: #f5f0fc;
+  border-color: rgba(90, 67, 133, 0.48);
+}
+
+.map-mode-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.map-mode-buttons button {
+  min-height: 44px;
+  padding: 7px 8px;
+  color: var(--chart-ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.map-mode-buttons button.selected:first-child {
+  color: var(--white);
+  background: var(--survey-red);
+  border-color: var(--survey-red);
+}
+
+.map-mode-buttons button.selected:last-child {
+  color: var(--white);
+  background: #5a4385;
+  border-color: #5a4385;
+}
+
+.map-mode-switcher > p {
+  margin: 9px 2px 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.64rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.025em;
+}
+
+.layer-rail.mode-current .tax-sale-events {
+  border-top: 4px solid var(--survey-red);
+}
+
+.layer-rail.mode-historical .historical-layer-controls {
+  margin-inline: -12px;
+  padding-inline: 12px;
+  background: linear-gradient(#f7f3fc, rgba(247, 243, 252, 0));
+  border-top: 4px solid #5a4385;
+}
+
+.layer-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 59px;
+  cursor: pointer;
+  border-top: 1px solid rgba(18, 52, 59, 0.12);
+}
+
+.layer-row:first-of-type {
+  border-top: 0;
+}
+
+.layer-row input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.switch {
+  position: relative;
+  width: 40px;
+  height: 23px;
+  background: #718087;
+  border-radius: 999px;
+  transition: background 160ms ease;
+}
+
+.switch::after {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 17px;
+  height: 17px;
+  content: "";
+  background: var(--white);
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(18, 52, 59, 0.35);
+  transition: transform 160ms ease;
+}
+
+.layer-row input:checked + .switch,
+.switch.fixed-on {
+  background: var(--survey-blue);
+}
+
+.layer-row input:checked + .switch::after,
+.switch.fixed-on::after {
+  transform: translateX(17px);
+}
+
+.layer-row input:focus-visible + .switch {
+  outline: 3px solid rgba(47, 128, 237, 0.3);
+  outline-offset: 3px;
+}
+
+.layer-row > span:last-of-type {
+  display: grid;
+  gap: 3px;
+}
+
+.layer-row strong {
+  font-size: 0.88rem;
+}
+
+.layer-row small {
+  color: var(--lichen);
+  font-size: 0.73rem;
+}
+
+.layer-metadata {
+  display: grid;
+  gap: 2px;
+  margin: 4px 0 7px;
+  padding: 6px 7px;
+  color: var(--muted);
+  background: rgba(238, 247, 245, 0.75);
+  border-left: 2px solid rgba(18, 52, 59, 0.22);
+  border-radius: 0 4px 4px 0;
+}
+
+.layer-metadata small {
+  color: inherit;
+  font-size: 0.7rem;
+  line-height: 1.3;
+}
+
+.layer-provenance {
+  display: grid;
+  gap: 2px;
+}
+
+.layer-provenance summary {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  width: fit-content;
+  color: var(--muted);
+  font-size: 0.7rem;
+  cursor: pointer;
+  list-style-position: inside;
+}
+
+.layer-provenance summary:hover {
+  color: var(--chart-ink);
+}
+
+.layer-runtime {
+  width: fit-content;
+  padding: 2px 5px;
+  color: var(--chart-ink) !important;
+  font-weight: 800;
+  background: rgba(18, 52, 59, 0.1);
+  border-radius: 999px;
+}
+
+.layer-runtime.loading {
+  color: #704600 !important;
+  background: #fff0c4;
+}
+
+.layer-runtime.ready {
+  color: #24551d !important;
+  background: #e1f2dc;
+}
+
+.layer-runtime.error {
+  color: #812a23 !important;
+  background: #f8deda;
+}
+
+.layer-runtime.zoom {
+  color: #234e87 !important;
+  background: #e1edff;
+}
+
+.layer-row.unavailable {
+  cursor: default;
+  opacity: 0.62;
+}
+
+.layer-category {
+  border-top: 1px solid rgba(18, 52, 59, 0.14);
+}
+
+.layer-category:first-of-type {
+  border-top: 0;
+}
+
+.layer-category h3 {
+  margin: 0;
+}
+
+.layer-category-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 4px;
+  color: var(--chart-ink);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.layer-category-heading::after {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: var(--lichen);
+  content: "+";
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.layer-category-heading[aria-expanded="true"]::after {
+  content: "−";
+}
+
+.layer-category-heading:focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.layer-category-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  color: var(--chart-ink);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  background: var(--fog);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.layer-category-back:focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 2px;
+}
+
+.layer-category-summary {
+  grid-column: 1;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.layer-category-panel {
+  padding: 0 4px 12px;
+}
+
+.layer-category-description {
+  margin: 0 0 7px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.layer-control .layer-row {
+  border-top: 1px solid rgba(18, 52, 59, 0.12);
+}
+
+.resource-layer-group {
+  border-top: 1px solid rgba(18, 52, 59, 0.12);
+}
+
+.resource-layer-group summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 12px;
+  align-items: center;
+  min-height: 59px;
+  cursor: pointer;
+  color: var(--chart-ink);
+  font-size: 0.88rem;
+  font-weight: 700;
+  list-style: none;
+}
+
+.resource-layer-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.resource-layer-group summary::after {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: var(--lichen);
+  content: "+";
+  font-size: 1.25rem;
+  font-weight: 400;
+}
+
+.resource-layer-group[open] summary::after {
+  content: "−";
+}
+
+.resource-layer-group summary small {
+  grid-column: 1;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.resource-layer-controls {
+  margin-bottom: 12px;
+  padding: 0 12px 12px;
+  background: rgba(155, 93, 229, 0.05);
+  border: 1px solid rgba(122, 79, 43, 0.18);
+  border-radius: 6px;
+}
+
+.resource-layer-row input:checked + .switch {
+  background: #7a4f2b;
+}
+
+.resource-layer-row > span:last-of-type > small {
+  color: var(--muted);
+}
+
+.derived-resource-source {
+  display: block;
+  width: fit-content;
+  margin: -4px 0 9px 54px;
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.resource-source-note {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.resource-source-note a {
+  font-weight: 700;
+}
+
+.fletcher-layer-control {
+  border-top: 1px solid rgba(122, 79, 43, 0.16);
+}
+
+.fletcher-opacity {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px 10px 54px;
+  cursor: default;
+}
+
+.fletcher-opacity small {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.fletcher-opacity input[type="range"] {
+  width: 100%;
+  accent-color: #7a4f2b;
+}
+
+.fletcher-retry {
+  margin: 0 0 10px 54px;
+}
+
+.fletcher-source-note {
+  padding: 0 12px 12px;
+}
+
+.environmental-health-guidance {
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.environmental-health-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 5px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.environmental-health-legend li {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.environmental-health-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+}
+
+.forestry-layer-group .resource-layer-controls {
+  background: rgba(22, 101, 52, 0.055);
+  border-color: rgba(22, 101, 52, 0.22);
+}
+
+.forestry-layer-row input:checked + .switch {
+  background: #166534;
+}
+
+.forestry-policy-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 5px 0 0;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  list-style: none;
+}
+
+.forestry-policy-legend li {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.forestry-policy-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+}
+
+.hydro-pilot-group .resource-layer-controls {
+  background: rgba(51, 151, 183, 0.07);
+  border-color: rgba(8, 118, 155, 0.24);
+}
+
+.hydro-pilot-layer-row input:checked + .switch {
+  background: #08769b;
+}
+
+.hydro-potential-legend {
+  display: grid;
+  gap: 7px;
+  margin-top: 8px;
+  padding: 10px;
+  color: var(--muted);
+  font-size: 0.67rem;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(8, 118, 155, 0.18);
+  border-radius: 5px;
+}
+
+.hydro-potential-legend p {
+  margin: 0;
+  color: var(--chart-ink);
+}
+
+.hydro-potential-legend ul,
+.hydro-width-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hydro-potential-legend li {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.hydro-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 5px;
+  background: #72b7d2;
+  border-radius: 999px;
+}
+
+.hydro-swatch.not-qualified {
+  background: #94a3b8;
+}
+
+.hydro-swatch.below-1kw {
+  background: #cbd5e1;
+}
+
+.hydro-swatch.kw-1-5 {
+  background: #0d9488;
+}
+
+.hydro-swatch.kw-5-15 {
+  background: #16a34a;
+}
+
+.hydro-swatch.kw-15-30 {
+  background: #d97706;
+}
+
+.hydro-swatch.kw-30-50 {
+  background: #dc2626;
+}
+
+.hydro-swatch.over-50kw {
+  background: #64748b;
+}
+
+.hydro-line {
+  display: inline-block;
+  width: 30px;
+  height: 0;
+  border-top: 2px solid #08769b;
+  border-radius: 999px;
+}
+
+.hydro-line.wide {
+  border-top-width: 7px;
+}
+
+.hydro-pilot-note {
+  padding-top: 2px;
+}
+
+.hydro-potential-popup {
+  min-width: 220px;
+  color: var(--chart-ink);
+}
+
+.hydro-potential-popup .hydro-popup-eyebrow {
+  margin: 0 0 3px;
+  color: #08769b;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hydro-potential-popup h3 {
+  margin: 0 0 9px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.15rem;
+}
+
+.hydro-potential-popup dl {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.hydro-potential-popup dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.hydro-potential-popup dt,
+.hydro-potential-popup dd {
+  margin: 0;
+}
+
+.hydro-potential-popup dt {
+  color: var(--muted);
+}
+
+.hydro-potential-popup > p:last-child {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.zoning-popup {
+  min-width: 210px;
+  color: var(--chart-ink);
+}
+
+.old-growth-policy-popup {
+  min-width: 220px;
+  color: var(--chart-ink);
+}
+
+.old-growth-policy-popup .old-growth-policy-popup-eyebrow {
+  margin: 0 0 3px;
+  color: #166534;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.old-growth-policy-popup h3 {
+  margin: 0 0 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.1rem;
+}
+
+.old-growth-policy-popup > p:not(.old-growth-policy-popup-eyebrow) {
+  margin: 5px 0;
+  font-size: 0.74rem;
+}
+
+.old-growth-policy-popup .old-growth-policy-popup-note {
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+.old-growth-policy-popup a {
+  display: inline-block;
+  margin-top: 3px;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.zoning-popup .zoning-popup-eyebrow {
+  margin: 0 0 3px;
+  color: #6a4a12;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.well-log-layer-row input:checked + .switch {
+  background: #0284c7;
+}
+
+.well-log-accuracy-filter {
+  margin-top: 8px;
+}
+
+.well-log-legend {
+  display: grid;
+  gap: 7px;
+  margin-top: 8px;
+  padding: 10px;
+  color: var(--muted);
+  font-size: 0.67rem;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(2, 132, 199, 0.18);
+  border-radius: 5px;
+}
+
+.well-log-legend p {
+  margin: 0;
+  color: var(--chart-ink);
+}
+
+.well-log-legend ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.well-log-legend li {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.well-log-legend-note {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* Solid fill is reserved for the surveyed band; every coarser band is drawn
+   hollow and dashed so the legend matches the map symbology exactly. */
+.well-swatch {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+}
+
+.well-swatch.surveyed {
+  background: #0ea5e9;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 0 0 1px rgba(2, 132, 199, 0.55);
+}
+
+.well-swatch.map-referenced {
+  background: rgba(125, 211, 252, 0.12);
+  border: 1.25px dashed #7dd3fc;
+}
+
+.well-swatch.sheet-referenced {
+  background: rgba(186, 230, 253, 0.12);
+  border: 1.25px dashed #bae6fd;
+}
+
+.well-swatch.community {
+  background: rgba(203, 213, 225, 0.12);
+  border: 1.25px dashed #cbd5e1;
+}
+
+.well-swatch.unknown {
+  background: rgba(226, 232, 240, 0.12);
+  border: 1.25px dotted #e2e8f0;
+}
+
+.well-log-note {
+  padding-top: 2px;
+}
+
+.well-log-popup {
+  min-width: 230px;
+  color: var(--chart-ink);
+}
+
+.well-log-popup .well-log-popup-eyebrow {
+  margin: 0 0 3px;
+  color: #0284c7;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.zoning-popup h3 {
+  margin: 0 0 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.1rem;
+}
+
+.zoning-popup .zoning-popup-plan-area {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.74rem;
+}
+
+.zoning-popup .zoning-popup-bylaw {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.zoning-popup .zoning-popup-note {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+.zoning-layer-row .layer-bylaw-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.66rem;
+}
+
+.well-log-popup h3 {
+  margin: 0 0 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.15rem;
+}
+
+/* The accuracy sentence leads the popup so a coarse record can never be read
+   as a precisely located well. */
+.well-log-popup .well-log-popup-accuracy {
+  margin: 0 0 9px;
+  padding: 6px 8px;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  background: rgba(2, 132, 199, 0.08);
+  border-left: 3px solid #0ea5e9;
+  border-radius: 3px;
+}
+
+.well-log-popup--map-referenced .well-log-popup-accuracy,
+.well-log-popup--sheet-referenced .well-log-popup-accuracy,
+.well-log-popup--community .well-log-popup-accuracy,
+.well-log-popup--unknown .well-log-popup-accuracy {
+  background: rgba(180, 83, 9, 0.09);
+  border-left-color: #b45309;
+}
+
+.well-log-popup dl {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.well-log-popup dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.well-log-popup dt,
+.well-log-popup dd {
+  margin: 0;
+}
+
+.well-log-popup dt {
+  color: var(--muted);
+}
+
+.well-log-popup .well-log-popup-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.historical-layer-controls {
+  --historical-ink: #5a4385;
+  --historical-pale: #f4f0fb;
+}
+
+.historical-layer-row input:checked + .switch {
+  background: var(--historical-ink);
+}
+
+.tax-sale-event {
+  border-top: 1px solid rgba(18, 52, 59, 0.12);
+}
+
+.tax-sale-event:first-of-type {
+  border-top: 0;
+}
+
+.tax-sale-event .event-row {
+  border-top: 0;
+}
+
+.tax-sale-property-list {
+  margin: -1px 0 12px 54px;
+  border-left: 2px solid rgba(190, 77, 60, 0.24);
+}
+
+.tax-sale-property-list summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3px 8px;
+  align-items: center;
+  min-height: 38px;
+  padding: 5px 0 5px 10px;
+  color: var(--survey-red);
+  cursor: pointer;
+  list-style: none;
+}
+
+.tax-sale-property-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.tax-sale-property-list summary::after {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: var(--survey-red);
+  content: "+";
+  font-size: 1.15rem;
+}
+
+.tax-sale-property-list[open] summary::after {
+  content: "−";
+}
+
+.tax-sale-property-list summary > span {
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.tax-sale-property-list summary small {
+  grid-column: 1;
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 500;
+}
+
+.tax-sale-property-list-body {
+  padding: 2px 0 8px 10px;
+}
+
+.tax-sale-property-list-body > p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 0.67rem;
+  line-height: 1.4;
+}
+
+.tax-sale-property-list ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tax-sale-property-list button {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  padding: 8px 9px;
+  color: var(--chart-ink);
+  text-align: left;
+  background: var(--paper);
+  border: 1px solid rgba(18, 52, 59, 0.12);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tax-sale-property-list button:hover,
+.tax-sale-property-list button:focus-visible {
+  background: #fff3e5;
+  border-color: rgba(190, 77, 60, 0.48);
+}
+
+.tax-sale-property-list button.selected {
+  color: #7f2e24;
+  background: #fff0ed;
+  border-color: var(--survey-red);
+  box-shadow: inset 3px 0 0 var(--survey-red);
+}
+
+.tax-sale-property-list button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.tax-sale-property-list button strong {
+  font-size: 0.7rem;
+  line-height: 1.3;
+}
+
+.tax-sale-property-list button span {
+  color: var(--muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.7rem;
+  line-height: 1.25;
+}
+
+.tax-sale-property-list button .listing-status.withdrawn {
+  color: #7d322b;
+  font-weight: 800;
+}
+
+.tax-sale-property-list-body > .tax-sale-property-list-unavailable-heading {
+  margin-top: 10px;
+  color: #7d322b;
+  font-weight: 800;
+}
+
+.tax-sale-property-list .tax-sale-property-list-unavailable li {
+  display: grid;
+  gap: 3px;
+  padding: 8px 9px;
+  color: var(--chart-ink);
+  background: #fff7ed;
+  border: 1px dashed rgba(125, 50, 43, 0.4);
+  border-radius: 4px;
+}
+
+.tax-sale-property-list .tax-sale-property-list-unavailable strong {
+  font-size: 0.7rem;
+  line-height: 1.3;
+}
+
+.tax-sale-property-list .tax-sale-property-list-unavailable span {
+  color: var(--muted);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.7rem;
+  line-height: 1.35;
+}
+
+.tax-sale-property-list .tax-sale-property-list-unavailable .geometry-unavailable {
+  color: #7d322b;
+}
+
+.tax-sale-property-list-empty {
+  padding: 8px 9px;
+  background: var(--fog);
+  border-radius: 4px;
+}
+
+.historical-filters {
+  display: grid;
+  gap: 9px;
+  padding: 12px;
+  background: var(--historical-pale);
+  border: 1px solid rgba(90, 67, 133, 0.2);
+  border-radius: 6px;
+}
+
+.historical-filters label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(118px, 1.3fr);
+  align-items: center;
+  gap: 10px;
+  color: var(--chart-ink);
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.historical-filters select {
+  width: 100%;
+  padding: 7px 9px;
+  color: var(--chart-ink);
+  background: var(--white);
+  border: 1px solid rgba(90, 67, 133, 0.3);
+  border-radius: 4px;
+}
+
+.historical-filters select:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+
+.historical-filter-count {
+  margin: 9px 0 0;
+  color: var(--historical-ink);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.historical-mode-summary {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 12px;
+  padding: 11px;
+  color: #49336f;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  background: #e9e1f7;
+  border: 1px solid rgba(90, 67, 133, 0.28);
+  border-radius: 6px;
+}
+
+.historical-mode-summary strong {
+  font-size: 0.82rem;
+}
+
+.road-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 12px;
+  margin: -2px 0 12px 54px;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  list-style: none;
+}
+
+.road-legend li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.road-swatch {
+  display: inline-block;
+  flex: 0 0 25px;
+  height: 0;
+  border-top: 3px solid #333;
+}
+
+.road-swatch.local {
+  border-color: #cc4d4d;
+}
+
+.road-swatch.resource {
+  border-color: #e66600;
+}
+
+.road-swatch.trail {
+  border-color: #2b2730;
+  border-top-width: 4px;
+  border-top-style: dashed;
+}
+
+.road-swatch.culvert {
+  border-color: #111;
+  border-top-width: 4px;
+}
+
+.section-intro {
+  margin: -2px 0 9px;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.event-row {
+  min-height: 72px;
+}
+
+.event-row small + small {
+  color: var(--muted);
+}
+
+.text-button,
+.map-attribution button {
+  padding: 0;
+  color: var(--survey-blue);
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.segmented-control {
+  display: grid;
+  grid-template-columns: 0.8fr 1.15fr 1.45fr;
+  border: 1px solid rgba(18, 52, 59, 0.35);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.segmented-control button {
+  min-height: 38px;
+  padding: 6px 5px;
+  color: var(--chart-ink);
+  font-size: 0.7rem;
+  background: var(--white);
+  border: 0;
+  border-left: 1px solid rgba(18, 52, 59, 0.25);
+  cursor: pointer;
+}
+
+.segmented-control button:first-child {
+  border-left: 0;
+}
+
+.segmented-control button.selected {
+  color: var(--survey-blue);
+  font-weight: 800;
+  background: #edf5ff;
+  box-shadow: inset 0 -3px 0 var(--survey-blue);
+}
+
+.source-note {
+  display: grid;
+  gap: 5px;
+  margin-top: 15px;
+  padding: 14px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  background: #f5f9ff;
+  border: 1px solid rgba(47, 128, 237, 0.35);
+  border-radius: 6px;
+}
+
+.source-note span {
+  color: var(--muted);
+}
+
+.source-note + .source-note {
+  margin-top: 9px;
+}
+
+.offline-card {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 13px;
+  padding: 15px;
+  background: var(--paper);
+  border: 1px solid var(--paper-peach);
+  border-radius: 6px;
+}
+
+.offline-card img {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+}
+
+.offline-card h2 {
+  margin: 0 0 4px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.08rem;
+}
+
+.offline-card p {
+  margin: 0 0 8px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.offline-card a {
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.map-region {
+  position: relative;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.map-canvas,
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-container {
+  background: #b7dce3;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+.selected-parcel-outline {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 1));
+}
+
+.selected-parcel-outline--current {
+  filter:
+    drop-shadow(0 0 2px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 6px rgba(190, 77, 60, 0.95));
+}
+
+.selected-parcel-outline--historical {
+  filter:
+    drop-shadow(0 0 2px rgba(255, 255, 255, 1))
+    drop-shadow(0 0 6px rgba(116, 97, 168, 0.95));
+}
+
+.leaflet-control-zoom a {
+  color: var(--chart-ink);
+}
+
+.location-button {
+  position: absolute;
+  z-index: 500;
+  top: 86px;
+  left: 12px;
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  color: var(--survey-blue);
+  font-size: 1.8rem;
+  background: var(--white);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  cursor: pointer;
+}
+
+.location-button[aria-pressed="true"] {
+  color: var(--white);
+  background: var(--survey-blue);
+}
+
+.measure-control {
+  position: absolute;
+  z-index: 500;
+  top: 138px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.measure-control button {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  color: var(--survey-blue);
+  background: var(--white);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  cursor: pointer;
+}
+
+.measure-control button[aria-pressed="true"] {
+  color: var(--white);
+  background: var(--survey-blue);
+}
+
+.measure-readout {
+  position: absolute;
+  z-index: 500;
+  bottom: 104px;
+  left: 12px;
+  margin: 0;
+  padding: 4px 9px;
+  color: var(--chart-ink);
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  /* Non-interactive readout text renders inside MapContainer; without this,
+     taps on it hit Leaflet's container listener before React's delegated
+     handler and fire a spurious map click instead of placing a vertex. */
+  pointer-events: none;
+}
+
+.location-button-icon {
+  width: 25px;
+  height: 25px;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.modern-map-error {
+  position: absolute;
+  z-index: 500;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 84px);
+  padding: 7px 8px 7px 10px;
+  color: var(--chart-ink);
+  font-size: 0.72rem;
+  line-height: 1.3;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+}
+
+.modern-map-error button {
+  padding: 4px 7px;
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: var(--survey-blue);
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.location-message {
+  position: absolute;
+  z-index: 500;
+  top: 246px;
+  left: 12px;
+  max-width: 250px;
+  margin: 0;
+  padding: 7px 9px;
+  color: var(--chart-ink);
+  font-size: 0.72rem;
+  line-height: 1.3;
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 4px;
+  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+}
+
+.location-message:empty {
+  display: none;
+}
+
+.position-readout {
+  position: absolute;
+  z-index: 500;
+  bottom: 72px;
+  left: 12px;
+  margin: 0;
+  padding: 3px 8px;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-size: 0.7rem;
+  line-height: 1.3;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  cursor: copy;
+}
+
+.leaflet-control-scale-line {
+  color: var(--chart-ink);
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  background: rgba(255, 255, 255, 0.76);
+  border-color: rgba(18, 52, 59, 0.55);
+}
+
+.display-scale-readout {
+  position: absolute;
+  z-index: 500;
+  bottom: 50px;
+  left: 12px;
+  margin: 0;
+  padding: 2px 6px;
+  color: var(--chart-ink);
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-size: 0.68rem;
+  line-height: 1.3;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(18, 52, 59, 0.35);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.parcel-lookup-message {
+  position: absolute;
+  z-index: 500;
+  top: 12px;
+  right: 12px;
+  max-width: min(340px, calc(100% - 84px));
+  margin: 0;
+  padding: 8px 10px;
+  color: var(--chart-ink);
+  font-size: 0.74rem;
+  line-height: 1.35;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+}
+
+.parcel-lookup-message:empty {
+  display: none;
+}
+
+.parcel-inspector {
+  position: absolute;
+  z-index: 900;
+  right: 16px;
+  bottom: 18px;
+  width: min(390px, calc(100% - 32px));
+  max-height: calc(100% - 36px);
+  padding: 24px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  box-shadow: var(--shadow);
+}
+
+.parcel-inspector h2 {
+  padding-right: 52px;
+  font-size: 1.75rem;
+}
+
+.inspector-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 44px;
+  height: 44px;
+  color: var(--chart-ink);
+  font-size: min(1.8rem, 32px);
+  line-height: 1;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.notice-status,
+.parcel-status {
+  margin: 8px 0 16px;
+  color: var(--survey-red);
+  font-weight: 700;
+}
+
+.parcel-mode-marker {
+  width: fit-content;
+  margin: -8px 0 14px;
+  padding: 4px 8px;
+  color: #7f2e24;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.66rem;
+  font-weight: 800;
+  background: #fff0ed;
+  border: 1px solid rgba(190, 77, 60, 0.35);
+  border-radius: 999px;
+}
+
+.parcel-mode-marker.historical {
+  color: #49336f;
+  background: #eee7f9;
+  border-color: rgba(90, 67, 133, 0.35);
+}
+
+.parcel-status {
+  color: var(--deep-water);
+}
+
+.parcel-facts {
+  margin: 0;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.parcel-facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 5px 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.86rem;
+}
+
+.parcel-facts dd {
+  max-width: 60%;
+  margin: 0;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.parcel-facts dd.fact-figure {
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  text-align: right;
+}
+
+.section-footnote {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.parcel-facts .no {
+  color: var(--survey-red);
+}
+
+.parcel-facts .yes {
+  color: var(--lichen);
+}
+
+.mapped-area-note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.civic-addresses {
+  margin: 16px 0;
+  padding: 14px;
+  background: var(--paper);
+  border: 1px solid rgba(231, 168, 107, 0.62);
+  border-radius: 6px;
+}
+
+.assessment-evidence {
+  margin: 16px 0;
+  padding: 14px;
+  background: #f5f9f5;
+  border: 1px solid rgba(46, 112, 76, 0.3);
+  border-radius: 6px;
+}
+
+.assessment-evidence > h3 {
+  margin: 0 0 8px;
+  color: #245d3d;
+  font-size: 0.9rem;
+}
+
+.assessment-status,
+.assessment-match,
+.assessment-warning,
+.assessment-caveat,
+.assessment-source {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.assessment-status.error,
+.assessment-warning {
+  color: #8c2f27;
+}
+
+.assessment-warning {
+  margin-top: 7px;
+  font-weight: 700;
+}
+
+.assessment-accounts {
+  display: grid;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.assessment-account {
+  padding-top: 9px;
+  border-top: 1px solid rgba(46, 112, 76, 0.2);
+}
+
+.assessment-account h4 {
+  margin: 0 0 5px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.76rem;
+}
+
+.assessment-account dl {
+  margin: 0;
+}
+
+.assessment-account dl div,
+.assessment-account li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 3px 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+}
+
+.assessment-account dd {
+  margin: 0;
+  text-align: right;
+}
+
+.assessment-account details {
+  margin-top: 7px;
+}
+
+.assessment-account summary {
+  min-height: 32px;
+  color: #245d3d;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.assessment-account ul {
+  display: grid;
+  gap: 2px;
+  margin: 3px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assessment-account li span {
+  color: var(--muted);
+  text-align: right;
+}
+
+.assessment-caveat,
+.assessment-source {
+  margin-top: 9px;
+}
+
+.civic-addresses h3 {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+}
+
+.civic-addresses ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 19px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.civic-addresses li {
+  padding-left: 2px;
+}
+
+.plus-code-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  margin-top: 6px;
+  padding: 0 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(47, 128, 237, 0.08);
+  border: 1px solid rgba(47, 128, 237, 0.22);
+  border-radius: 4px;
+}
+
+.plus-code-link:hover,
+.plus-code-link:focus-visible {
+  background: rgba(47, 128, 237, 0.14);
+}
+
+.plus-code {
+  flex: none;
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 0.02em;
+}
+
+.civic-address-status,
+.civic-address-source,
+.civic-address-caveat {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.civic-address-status,
+.civic-address-source {
+  color: var(--muted);
+}
+
+.civic-address-status.error {
+  color: #8c2f27;
+  font-weight: 600;
+}
+
+.civic-address-source {
+  margin-top: 9px;
+}
+
+.civic-address-source + .civic-address-source {
+  margin-top: 3px;
+}
+
+.civic-address-caveat {
+  margin-top: 9px;
+  color: var(--chart-ink);
+}
+
+.civic-address-caveat.prominent {
+  margin: 0 0 11px;
+  padding: 9px;
+  color: #6e2b24;
+  background: #fff1ed;
+  border: 1px solid rgba(190, 77, 60, 0.35);
+  border-radius: 4px;
+}
+
+.civic-address-caveat.prominent strong {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.mapped-context,
+.mapped-context-status {
+  margin: 16px 0;
+  padding: 14px;
+  background: #f5f9ff;
+  border: 1px solid rgba(47, 128, 237, 0.28);
+  border-radius: 6px;
+}
+
+.mapped-context-status {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.mapped-context-status.error {
+  color: #8c2f27;
+  background: #fff5f3;
+  border-color: rgba(159, 47, 36, 0.28);
+}
+
+.mapped-context-group + .mapped-context-group {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(47, 128, 237, 0.18);
+}
+
+.mapped-context-group h3 {
+  margin: 0 0 7px;
+  font-size: 0.82rem;
+}
+
+.mapped-context-group ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mapped-context-group li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 0.75rem;
+}
+
+.mapped-context-group li span,
+.mapped-context-group p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-align: right;
+}
+
+.road-access-caveat {
+  margin: 10px 0 0;
+  color: var(--chart-ink);
+  font-size: 0.69rem;
+  line-height: 1.45;
+}
+
+.parcel-resources {
+  margin: 16px 0;
+  padding: 14px;
+  background: #f7f2eb;
+  border: 1px solid rgba(122, 79, 43, 0.3);
+  border-radius: 6px;
+}
+
+.flood-hazard-evidence {
+  margin: 16px 0;
+  padding: 14px;
+  background: #eef7f8;
+  border: 1px solid rgba(18, 108, 116, 0.3);
+  border-radius: 6px;
+}
+
+.flood-hazard-evidence > h3 {
+  margin: 0 0 9px;
+  color: #125d64;
+  font-size: 0.9rem;
+}
+
+.flood-hazard-group {
+  padding: 9px 0;
+  border-top: 1px solid rgba(18, 108, 116, 0.18);
+}
+
+.flood-hazard-group h4,
+.flood-hazard-group p,
+.flood-hazard-group ul,
+.flood-hazard-caveat,
+.flood-hazard-sources {
+  margin: 0;
+}
+
+.flood-hazard-group h4 {
+  margin-bottom: 5px;
+  font-size: 0.77rem;
+}
+
+.flood-hazard-group ul {
+  display: grid;
+  gap: 5px;
+  padding-left: 18px;
+}
+
+.flood-hazard-group li,
+.flood-hazard-group p,
+.flood-hazard-caveat,
+.flood-hazard-sources,
+.flood-hazard-licence-notice p {
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.flood-hazard-group .error {
+  color: #8c2f27;
+}
+
+.flood-hazard-caveat,
+.flood-hazard-sources {
+  margin-top: 8px;
+}
+
+.flood-hazard-licence-notice {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(18, 108, 116, 0.18);
+}
+
+.flood-hazard-licence-notice p {
+  margin: 0;
+}
+
+.flood-hazard-licence-notice p + p {
+  margin-top: 5px;
+}
+
+.parcel-resources > h3 {
+  margin: 0 0 9px;
+  color: #65401f;
+  font-size: 0.9rem;
+}
+
+.parcel-resource-group {
+  display: grid;
+  gap: 4px;
+  padding: 9px 0;
+  border-top: 1px solid rgba(122, 79, 43, 0.18);
+}
+
+.parcel-resource-group h4,
+.parcel-resource-group p {
+  margin: 0;
+}
+
+.parcel-resource-group h4 {
+  font-size: 0.77rem;
+}
+
+.parcel-resource-group p,
+.parcel-resource-group li,
+.parcel-resource-group a,
+.resource-intersection-caveat {
+  font-size: 0.68rem;
+  line-height: 1.42;
+}
+
+.parcel-resource-group ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.parcel-resource-group li span {
+  display: block;
+  color: var(--muted);
+}
+
+.resource-intersection-caveat {
+  margin: 9px 0 0;
+  padding-top: 9px;
+  color: var(--muted);
+  border-top: 1px solid rgba(122, 79, 43, 0.18);
+}
+
+.historical-outcomes {
+  margin: 16px 0;
+}
+
+.historical-outcomes > h3 {
+  margin: 0 0 9px;
+  color: #49336f;
+  font-size: 0.94rem;
+}
+
+.historical-outcome-card {
+  padding: 14px;
+  background: #f7f4fc;
+  border: 1px solid rgba(90, 67, 133, 0.35);
+  border-radius: 7px;
+  box-shadow: inset 4px 0 #7461a8;
+}
+
+.historical-outcome-card + .historical-outcome-card {
+  margin-top: 12px;
+}
+
+.historical-outcome-card > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.historical-outcome-card > header > div {
+  display: grid;
+  gap: 2px;
+}
+
+.historical-outcome-card > header strong {
+  color: #49336f;
+  font-size: 0.94rem;
+}
+
+.historical-outcome-card > header div span {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.outcome-marker {
+  padding: 4px 7px;
+  color: #49336f;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: #e6def6;
+  border-radius: 999px;
+}
+
+.outcome-marker.unsold,
+.outcome-marker.withdrawn,
+.outcome-marker.cancelled,
+.outcome-marker.unknown {
+  color: #7d322b;
+  background: #f8ded9;
+}
+
+.historical-facts {
+  margin-top: 11px;
+  padding-block: 9px;
+  border-color: rgba(90, 67, 133, 0.22);
+}
+
+.historical-facts div {
+  gap: 16px;
+  font-size: 0.72rem;
+}
+
+.multi-pid-warning,
+.historical-result-note,
+.historical-limit {
+  margin: 10px 0 0;
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.multi-pid-warning,
+.historical-result-note {
+  padding: 9px;
+  background: var(--paper);
+  border-radius: 4px;
+}
+
+.historical-source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 11px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.historical-limit {
+  color: var(--muted);
+}
+
+.sale-warning {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 10px;
+  margin: 16px 0;
+  font-size: 0.79rem;
+  line-height: 1.45;
+}
+
+.sale-warning span {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  color: var(--white);
+  font-weight: 800;
+  background: var(--survey-red);
+  border-radius: 50%;
+}
+
+.sale-warning.neutral {
+  display: block;
+}
+
+.inspector-action {
+  width: 100%;
+}
+
+.viewpoint-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 9px;
+  padding: 9px 12px;
+  font-size: 0.78rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.evidence-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.evidence-actions .secondary-action {
+  padding: 7px;
+  font-size: 0.72rem;
+}
+
+.share-status {
+  min-height: 18px;
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.share-url-preview {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.map-attribution {
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 2px;
+  padding: 2px 28px;
+  /* Wrap, never clip: this strip is where the Province attribution — a
+     licence obligation — actually renders, and nowrap+overflow cut it to
+     "…provided witho" on ordinary desktop widths. */
+  font-size: 0.72rem;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+}
+
+.province-attribution {
+  line-height: 1.2;
+}
+
+.map-attribution > * {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 0 16px;
+  border-left: 1px solid rgba(18, 52, 59, 0.28);
+}
+
+.map-attribution > :first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.feedback-link {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding-block: 5px;
+  color: var(--deep-water);
+  font-weight: 800;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  z-index: 2000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(18, 52, 59, 0.72);
+}
+
+.licence-dialog {
+  width: min(560px, 100%);
+  padding: clamp(24px, 5vw, 42px);
+  background: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.licence-mark {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 18px;
+  place-items: center;
+  color: var(--white);
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 800;
+  background: var(--deep-water);
+  border-radius: 50%;
+}
+
+.licence-dialog h2 {
+  margin-bottom: 12px;
+  font-size: 2rem;
+}
+
+.licence-dialog p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.licence-dialog blockquote {
+  margin: 20px 0;
+  padding: 15px 18px;
+  color: var(--chart-ink);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  background: var(--fog);
+  border-left: 4px solid var(--deep-water);
+}
+
+.licence-dialog .licence-caveat {
+  color: var(--survey-red);
+  font-weight: 600;
+}
+
+.dialog-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.secondary-action {
+  min-height: 42px;
+  color: var(--chart-ink);
+  font-weight: 700;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.about-dialog h3 {
+  margin: 18px 0 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.05rem;
+}
+
+.about-dialog .about-method {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+  font-size: 0.9rem;
+}
+
+.about-dialog .about-links {
+  margin-top: 16px;
+}
+
+.header-about {
+  color: var(--white);
+}
+
+@media (max-width: 860px) {
+  .app-shell,
+  .app-shell.header-collapsed {
+    position: relative;
+    grid-template-rows: minmax(0, 1fr);
+    height: var(--app-viewport-height, 100dvh);
+    overflow: hidden;
+  }
+
+  .app-header {
+    display: none;
+  }
+
+  .map-attribution {
+    position: absolute;
+    z-index: 1100;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    /* min-height + scroll rather than the old fixed 32px: the strip is
+       where the Province attribution actually renders, and a fixed height
+       clipped it after one line. */
+    min-height: 32px;
+    max-height: 72px;
+    overflow-y: auto;
+    padding-inline: 12px;
+    background: rgba(251, 246, 234, 0.9);
+    box-shadow: 0 -1px 10px rgba(18, 52, 59, 0.16);
+    backdrop-filter: blur(14px);
+  }
+
+  /* The strip above overlays the map bottom on small screens; without this
+     the Leaflet scale bar and the coordinate/scale readouts sat underneath
+     it, half-clipped. */
+  .leaflet-bottom.leaflet-left {
+    bottom: 40px;
+  }
+
+  .map-layout {
+    position: relative;
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr);
+    overflow: hidden;
+  }
+
+  .layer-rail {
+    position: absolute;
+    z-index: 1200;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    display: none;
+    max-height: min(86svh, 760px);
+    min-height: 0;
+    padding-top: 0;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(18, 52, 59, 0.36);
+    backdrop-filter: blur(18px);
+  }
+
+  .layer-rail.mobile-open {
+    display: block;
+  }
+
+  .map-theme-picker select,
+  .map-theme-actions button,
+  .theme-manager-dialog input,
+  .theme-manager-dialog button,
+  .layer-category-heading,
+  .layer-category-back {
+    min-height: 44px;
+  }
+
+  .layer-category-list--focused {
+    margin-top: 8px;
+  }
+
+  .mobile-sheet-header {
+    position: sticky;
+    z-index: 5;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 -24px 20px;
+    padding: 14px 16px 12px 24px;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobile-sheet-header strong {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .mobile-sheet-header button {
+    display: grid;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    padding: 0;
+    color: var(--chart-ink);
+    font-size: min(1.7rem, 32px);
+    line-height: 1;
+    background: var(--fog);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .map-region {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .mobile-map-chrome {
+    position: absolute;
+    z-index: 1000;
+    top: max(12px, env(safe-area-inset-top));
+    right: 12px;
+    left: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    pointer-events: none;
+  }
+
+  .mobile-map-brand,
+  .mobile-controls-trigger {
+    min-height: 42px;
+    color: var(--chart-ink);
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.76);
+    border-radius: 999px;
+    box-shadow: 0 4px 18px rgba(18, 52, 59, 0.24);
+    backdrop-filter: blur(16px);
+    pointer-events: auto;
+  }
+
+  .mobile-map-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px 5px 6px;
+    color: var(--chart-ink);
+    text-decoration: none;
+  }
+
+  .mobile-map-brand > span {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    color: var(--white);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: var(--deep-water);
+    border-radius: 50%;
+  }
+
+  .mobile-map-brand strong {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .mobile-controls-trigger {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .mobile-controls-trigger span {
+    color: var(--survey-blue);
+    font-size: 1.2rem;
+    line-height: 0;
+  }
+
+  .location-button {
+    top: 74px;
+  }
+
+  .location-message {
+    top: 234px;
+  }
+
+  .measure-control {
+    top: 126px;
+  }
+
+  .measure-readout {
+    bottom: 16px;
+  }
+
+  .modern-map-error {
+    top: max(126px, calc(env(safe-area-inset-top) + 114px));
+    right: 12px;
+    left: 12px;
+    justify-content: space-between;
+    max-width: none;
+  }
+
+  .position-readout {
+    display: none;
+  }
+
+  .map-region.has-inspector .mobile-map-chrome {
+    display: none;
+  }
+
+  .dialog-backdrop {
+    align-items: start;
+    padding: 12px;
+    overflow-y: auto;
+  }
+
+  .licence-dialog {
+    max-height: calc(100svh - 24px);
+    padding: 24px;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .app-brand strong,
+  .app-brand span {
+    display: none;
+  }
+
+  .layer-rail {
+    padding: 0 16px 20px;
+  }
+
+  .mobile-sheet-header {
+    margin-inline: -16px;
+    padding-left: 16px;
+  }
+
+  .mobile-map-chrome {
+    left: 54px;
+  }
+
+  .mobile-map-brand strong {
+    display: none;
+  }
+
+  .search-row {
+    grid-template-columns: 1fr;
+  }
+
+  .segmented-control {
+    grid-template-columns: 1fr;
+  }
+
+  .segmented-control button,
+  .segmented-control button:first-child {
+    border-top: 1px solid rgba(18, 52, 59, 0.2);
+    border-left: 0;
+  }
+
+  .segmented-control button:first-child {
+    border-top: 0;
+  }
+
+  .theme-manager-backdrop {
+    align-items: start;
+    padding: 12px;
+  }
+
+  .theme-manager-dialog {
+    max-height: calc(100svh - 24px);
+    padding: 18px;
+  }
+
+  .theme-manager-save {
+    grid-template-columns: 1fr;
+  }
+
+  .map-attribution {
+    padding-inline: 10px;
+  }
+
+  .parcel-inspector {
+    top: 10px;
+    right: 10px;
+    bottom: 42px;
+    width: calc(100% - 20px);
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .map-region.has-inspector .leaflet-control-zoom,
+  .map-region.has-inspector .location-button {
+    pointer-events: none;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.print-map {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #222;
+}
+
+.print-map .leaflet-tile {
+  filter: grayscale(1) contrast(1.18);
+}
+
+.print-map .print-layer-ns-aerial {
+  filter: grayscale(1) contrast(1.35) brightness(1.08);
+}
+
+.print-selected-parcel {
+  fill: url("#print-selected-parcel-hatch");
+}
+
+.print-map .leaflet-control-container,
+.print-map .location-button,
+.print-map .location-message {
+  display: none;
+}
+
+.print-preview {
+  display: grid;
+  gap: 24px;
+  padding: 24px;
+  overflow: auto;
+  background: #d7dcdd;
+}
+
+.print-preview-backdrop {
+  position: fixed;
+  z-index: 3000;
+  inset: 0;
+  display: grid;
+  overflow: auto;
+  background: rgb(10 20 22 / 72%);
+  animation: print-preview-fade-in 160ms ease-out;
+}
+
+.print-preview-dialog {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  min-height: 100%;
+  background: #d7dcdd;
+}
+
+.print-preview-controls {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 24px;
+  color: #fff;
+  background: var(--deep-water);
+}
+
+.print-preview-controls h2 {
+  margin: 0 0 8px;
+}
+
+.print-preview-controls label {
+  display: grid;
+  gap: 6px;
+}
+
+.print-preview-controls select,
+.print-preview-controls button {
+  min-height: 44px;
+}
+
+.print-preview-controls input[type="checkbox"] {
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.print-preview-controls label:has(input[type="checkbox"]) {
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: center;
+  min-height: 44px;
+}
+
+.print-map-error {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  color: #251100;
+  background: #ffd8aa;
+}
+
+.print-map-error p {
+  margin: 0;
+}
+
+.print-preview-stage {
+  min-width: 0;
+  padding: 24px;
+  overflow: auto;
+}
+
+.print-preview-stage > .print-document {
+  width: max-content;
+  margin: 0 auto;
+}
+
+.print-preview-placeholder {
+  margin: 0;
+}
+
+.print-incomplete-map-warning {
+  margin: 2mm 0 0;
+  color: #7a1f00;
+  font-size: 9pt;
+  font-weight: 700;
+}
+
+@keyframes print-preview-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 860px) {
+  .print-preview-dialog {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .print-preview-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .print-preview-controls h2,
+  .print-preview-controls [role="status"],
+  .print-preview-controls .print-map-error {
+    grid-column: 1 / -1;
+  }
+
+  .print-preview-stage {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .print-preview-backdrop {
+    animation: none;
+  }
+}
+
+.print-page {
+  margin: 0 auto;
+  padding: 0;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.22);
+}
+
+.print-research-summary {
+  /* Leave sub-millimetre slack for CSS-mm to PDF-point rounding. */
+  width: 195.5mm;
+  height: 259mm;
+  padding: 8mm 10mm;
+  display: grid;
+  /* Header, context, map, support, limitation, and receipt have fixed budgets. */
+  grid-template-rows: 17mm 12mm 32mm minmax(70mm, 1fr) 11mm 20mm;
+  gap: 1.5mm;
+}
+
+.print-evidence-page {
+  width: 195.9mm;
+  min-height: 259.4mm;
+}
+
+.print-field-page {
+  /* Exact theoretical dimensions can otherwise create an overflow page. */
+  width: 259mm;
+  height: 195.5mm;
+  padding: 8mm 10mm;
+  display: grid;
+  /* Header, context, map plate, support rail, and field footer are bounded. */
+  grid-template-rows: 18mm 10mm 72mm minmax(52mm, 1fr) 19mm;
+  gap: 1.5mm;
+}
+
+.print-document {
+  color: #000;
+  background: #fff;
+  font-size: 9pt;
+  line-height: 1.35;
+}
+
+.print-document h1,
+.print-document h2,
+.print-document h3,
+.print-document p {
+  margin-top: 0;
+}
+
+.print-header,
+.print-appendix-header,
+.print-capture-context,
+.print-research-map-frame,
+.print-field-map-frame,
+.print-fact-grid,
+.print-evidence-status-grid,
+.print-active-layer-legend,
+.print-scale,
+.print-required-attribution,
+.print-general-limitations,
+.print-scale-omission,
+.print-map-failure,
+.print-receipt,
+.print-evidence-section {
+  margin-right: 10mm;
+  margin-left: 10mm;
+}
+
+.print-field-page > .print-header,
+.print-field-page > .print-capture-context,
+.print-field-page > .print-field-map-frame,
+.print-field-page > .print-field-support,
+.print-field-page > .print-field-footer {
+  margin: 0;
+}
+
+.print-research-summary > .print-header,
+.print-research-summary > .print-capture-context,
+.print-research-summary > .print-research-map-frame,
+.print-research-summary > .print-research-support,
+.print-research-summary > .print-general-limitations,
+.print-research-summary > .print-receipt {
+  margin: 0;
+}
+
+.print-appendix-header,
+.print-receipt,
+.print-scale,
+.print-evidence-status-grid li,
+.print-active-layer-legend li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8pt;
+}
+
+.print-header {
+  display: grid;
+  grid-template-columns: 40mm minmax(0, 1fr) 54mm;
+  gap: 4mm;
+  align-items: stretch;
+  padding-top: 10mm;
+  border-bottom: 1pt solid #000;
+}
+
+.print-field-page .print-header,
+.print-research-summary .print-header {
+  min-height: 0;
+  padding-top: 0;
+}
+
+.print-header h1,
+.print-appendix-header h2 {
+  margin-bottom: 3pt;
+  font-size: 16pt;
+}
+
+.print-appendix-header > p,
+.print-kicker,
+.print-capture-context,
+.print-active-layer-legend span,
+.print-evidence-status-grid span,
+.print-required-attribution,
+.print-scale-omission,
+.print-general-limitations {
+  font-size: 9pt;
+}
+
+.print-document-tab {
+  display: grid;
+  align-content: center;
+  gap: 1mm;
+  padding: 2mm 3mm 2mm 2mm;
+  color: #111;
+  background: #fff;
+  border: 1pt solid #111;
+  border-left: 3mm solid #111;
+}
+
+.print-document-tab span,
+.print-header-receipt span {
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.print-document-tab strong {
+  font-size: 11pt;
+  font-variant-numeric: tabular-nums;
+}
+
+.print-title-lockup {
+  display: grid;
+  align-content: center;
+}
+
+.print-title-lockup h1 {
+  margin: 0;
+  font-size: 18pt;
+  line-height: 1;
+}
+
+.print-header-receipt {
+  display: grid;
+  align-content: center;
+  justify-items: end;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.print-header-receipt time {
+  font-size: 9pt;
+  font-weight: 700;
+}
+
+.print-capture-context {
+  display: grid;
+  grid-template-columns: 40mm minmax(0, 1fr);
+  gap: 4mm;
+  align-items: center;
+  padding-bottom: 1mm;
+  border-bottom: 0.5pt solid #aaa;
+  font-variant-numeric: tabular-nums;
+}
+
+.print-capture-context > span:first-child {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.print-event-context {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1pt 8pt;
+}
+
+.print-kicker {
+  margin-bottom: 1pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.print-research-map-frame {
+  position: relative;
+  height: 78mm;
+  margin-top: 5mm;
+}
+
+.print-field-map-frame {
+  position: relative;
+  height: 105mm;
+  margin-top: 3mm;
+}
+
+.print-north-indicator {
+  position: absolute;
+  top: 3mm;
+  right: 3mm;
+  z-index: 1000;
+  display: grid;
+  width: 10mm;
+  min-height: 14mm;
+  place-items: center;
+  padding: 1mm;
+  border: 0.75pt solid #111;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 10pt;
+  line-height: 1;
+}
+
+.print-north-indicator > span {
+  font-size: 18pt;
+}
+
+.print-field-page .print-field-map-frame {
+  height: auto;
+  min-height: 0;
+  margin-top: 0;
+}
+
+.print-field-page .print-map {
+  border: 1.25pt solid #111;
+}
+
+.print-field-map-frame::after {
+  position: absolute;
+  bottom: 2.5mm;
+  left: 2.5mm;
+  z-index: 1000;
+  padding: 1mm 1.5mm;
+  color: #111;
+  content: "FROZEN MAP VIEW";
+  background: #fff;
+  border: 1pt solid #111;
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.print-research-summary .print-research-map-frame {
+  height: auto;
+  min-height: 0;
+  margin-top: 0;
+}
+
+.print-research-support {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1mm 4mm;
+  min-height: 0;
+}
+
+.print-research-support .print-fact-grid,
+.print-research-support .print-evidence-status-grid,
+.print-research-support .print-active-layer-legend,
+.print-research-support .print-research-details,
+.print-research-support .print-required-attribution,
+.print-research-support .print-scale,
+.print-research-support .print-scale-omission,
+.print-research-support .print-map-failure {
+  margin: 0;
+}
+
+.print-research-support .print-active-layer-legend,
+.print-research-support .print-required-attribution {
+  grid-column: 1 / -1;
+}
+
+.print-research-details {
+  display: grid;
+  align-content: start;
+  gap: 2mm;
+}
+
+.print-field-support {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 2fr) minmax(0, 3fr);
+  gap: 3mm;
+  min-height: 0;
+  padding-top: 2mm;
+  border-top: 1pt solid #111;
+}
+
+.print-field-support .print-active-layer-legend,
+.print-field-support .print-field-details,
+.print-field-support .print-scale,
+.print-field-support .print-required-attribution,
+.print-field-support .print-scale-omission,
+.print-field-support .print-map-failure {
+  margin: 0;
+}
+
+.print-field-details {
+  display: grid;
+  align-content: start;
+  gap: 1.5mm;
+  padding-left: 3mm;
+  border-left: 0.5pt solid #999;
+}
+
+.print-field-details h2,
+.print-field-required-attribution h2 {
+  margin: 0 0 2pt;
+  font-size: 10pt;
+}
+
+.print-fact-grid dl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4pt;
+  margin: 4mm 0;
+}
+
+.print-fact-grid div {
+  padding: 3pt;
+  border: 0.5pt solid #777;
+}
+
+.print-fact-grid dt,
+.print-fact-grid dd {
+  margin: 0;
+}
+
+.print-fact-grid dt,
+.print-evidence-status-grid strong,
+.print-active-layer-legend strong {
+  font-weight: 700;
+}
+
+.print-evidence-status-grid,
+.print-active-layer-legend {
+  margin-top: 3mm;
+}
+
+.print-evidence-status-grid h2,
+.print-active-layer-legend h2 {
+  margin-bottom: 2pt;
+  font-size: 10pt;
+}
+
+.print-evidence-status-grid ul,
+.print-active-layer-legend ul,
+.print-evidence-section ul {
+  margin: 0;
+  padding-left: 14pt;
+}
+
+.print-active-layer-legend ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1pt 6pt;
+  padding-left: 0;
+  list-style: none;
+}
+
+.print-active-layer-legend .print-map-symbol-key {
+  margin-bottom: 1mm;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.print-field-support .print-active-layer-legend ul {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.print-evidence-status-grid li,
+.print-active-layer-legend li {
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1pt 0;
+}
+
+.print-active-layer-legend li > span:last-child {
+  display: grid;
+  min-width: 0;
+}
+
+.print-layer-symbol {
+  display: inline-block;
+  flex: 0 0 9mm;
+  width: 9mm;
+  height: 4mm;
+  border: 1pt solid #111;
+  background: #e4e4e4;
+}
+
+.print-layer-symbol--modern {
+  border: 1pt solid #444;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #fafafa 0,
+      #fafafa 1mm,
+      #aaa 1mm,
+      #aaa 1.25mm
+    );
+}
+
+.print-layer-symbol--fletcher {
+  border-color: #76552f;
+  background:
+    linear-gradient(rgba(245, 231, 188, 0.72), rgba(245, 231, 188, 0.72)),
+    repeating-linear-gradient(
+      22deg,
+      #76552f 0,
+      #76552f 1px,
+      transparent 1px,
+      transparent 5px
+    );
+}
+
+.print-layer-symbol--ns-aerial {
+  border: 1pt solid #333;
+  background: linear-gradient(135deg, #fafafa 0%, #aaa 48%, #555 100%);
+}
+
+.print-layer-symbol--nsprd {
+  border: 1pt solid #777;
+  background: #fff;
+}
+
+.print-layer-symbol--crown-lands {
+  border: 1.25pt solid #222;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0,
+      transparent 1.5mm,
+      #777 1.5mm,
+      #777 1.75mm
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      #f6f6f6 0,
+      #f6f6f6 1.5mm,
+      #aaa 1.5mm,
+      #aaa 1.75mm
+    );
+}
+
+.print-layer-symbol--flood-risk {
+  border: 2pt double #333;
+  background: #f7f7f7;
+}
+
+.print-layer-symbol--waterfalls {
+  border: 0;
+  background:
+    radial-gradient(circle at 50% 50%, #222 0 1.4mm, #fff 1.5mm 2mm, transparent 2.1mm);
+}
+
+.print-layer-symbol--water-features {
+  border: 0;
+  background:
+    repeating-linear-gradient(
+      -12deg,
+      transparent 0,
+      transparent 1.2mm,
+      #333 1.2mm,
+      #333 1.55mm
+    );
+}
+
+.print-layer-symbol--roads {
+  border: 0;
+  background:
+    linear-gradient(
+      0deg,
+      transparent 0 35%,
+      #333 35% 46%,
+      #fff 46% 54%,
+      #333 54% 65%,
+      transparent 65% 100%
+    );
+}
+
+.print-layer-symbol--buildings {
+  border: 1pt solid #555;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #222 0,
+      #222 1.8mm,
+      #fff 1.8mm,
+      #fff 3.4mm
+    );
+}
+
+.print-layer-symbol--contours {
+  border: 0;
+  background:
+    repeating-linear-gradient(
+      -8deg,
+      transparent 0,
+      transparent 0.8mm,
+      #555 0.8mm,
+      #555 0.95mm,
+      transparent 0.95mm,
+      transparent 1.8mm
+    );
+}
+
+.print-layer-symbol--selected-parcel {
+  border-width: 1.5pt;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #f4f4f4 0,
+      #f4f4f4 2mm,
+      #999 2mm,
+      #999 2.6mm
+    );
+}
+
+.print-layer-symbol--current-tax-sale {
+  border-width: 1.5pt;
+  border-radius: 50%;
+  background: #f3f3f3;
+}
+
+.print-layer-symbol--historical-tax-sale {
+  border-width: 1.5pt;
+  border-style: dashed;
+  border-radius: 50%;
+  background: #777;
+}
+
+.print-layer-symbol--mineral-proximity-parcels {
+  border: 1.5pt dashed #222;
+  background: #ededed;
+}
+
+.print-layer-symbol--mineral-occurrences {
+  border: 1pt solid #111;
+  border-radius: 50%;
+  background: #eee;
+}
+
+.print-layer-symbol--mineral-tenure {
+  border: 1.25pt solid #444;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      #f5f5f5 0,
+      #f5f5f5 1mm,
+      #777 1mm,
+      #777 1.3mm
+    );
+}
+
+.print-layer-symbol--abandoned-mines {
+  border: 2pt dotted #111;
+  border-radius: 50%;
+  background: #bdbdbd;
+}
+
+/* A solid core inside a dashed ring: the printed key for "surveyed point,
+   plus a surrounding band of records that are only approximately placed". */
+.print-layer-symbol--ns-well-logs {
+  border: 1.25pt dashed #111;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #333 0 34%, #fff 34% 100%);
+}
+
+.print-layer-symbol--inverness-hydro-potential {
+  display: grid;
+  height: auto;
+  border: 0;
+  background: transparent;
+  gap: 0.35mm;
+}
+
+.print-layer-symbol--old-growth-policy {
+  border: 1pt solid #333;
+  background:
+    linear-gradient(
+      90deg,
+      #777 0 33%,
+      #c4c4c4 33% 66%,
+      #f4f4f4 66% 100%
+    );
+  outline: 0.75pt dashed #666;
+  outline-offset: -1.5pt;
+}
+
+.print-layer-symbol--published-river-flood-zones {
+  border: 1.5pt dashed #222;
+  background:
+    linear-gradient(
+      90deg,
+      #f7f7f7 0 34%,
+      #aaa 34% 67%,
+      #555 67% 100%
+    );
+}
+
+.print-layer-symbol--coastal-flood-current {
+  border: 1pt solid #555;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #f8f8f8 0,
+      #f8f8f8 1.3mm,
+      #cfcfcf 1.3mm,
+      #cfcfcf 2.6mm
+    );
+}
+
+.print-layer-symbol--coastal-flood-2050 {
+  border: 1.25pt dashed #444;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #eee 0,
+      #eee 1.1mm,
+      #999 1.1mm,
+      #999 2.2mm
+    );
+}
+
+.print-layer-symbol--coastal-flood-2100 {
+  border: 1.5pt double #222;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      #ccc 0,
+      #ccc 1mm,
+      #555 1mm,
+      #555 2mm
+    );
+}
+
+.print-layer-symbol--arsenic-risk-wells {
+  border: 1pt solid #333;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #fafafa 0,
+      #fafafa 0.9mm,
+      #666 0.9mm,
+      #666 1.8mm
+    );
+}
+
+.print-layer-symbol--uranium-risk-wells {
+  border: 1.25pt dotted #333;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      #f2f2f2 0,
+      #f2f2f2 1.2mm,
+      #888 1.2mm,
+      #888 2.4mm
+    );
+}
+
+.print-layer-symbol--manganese-risk-wells {
+  border: 0.75pt solid #666;
+  background:
+    linear-gradient(
+      180deg,
+      #ddd 0 50%,
+      #777 50% 100%
+    );
+}
+
+.print-layer-symbol--surficial-aquifers {
+  border: 1pt dashed #777;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #fff 0,
+      #fff 1.6mm,
+      #bbb 1.6mm,
+      #bbb 2.1mm
+    );
+}
+
+.print-layer-symbol--zoning-inverness {
+  border: 1pt solid #333;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #f2f2f2 0,
+      #f2f2f2 0.9mm,
+      #666 0.9mm,
+      #666 1.4mm
+    );
+}
+
+.print-layer-symbol--zoning-victoria {
+  border: 1pt solid #333;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #f2f2f2 0,
+      #f2f2f2 0.9mm,
+      #666 0.9mm,
+      #666 1.4mm
+    );
+}
+
+.print-layer-symbol--zoning-richmond {
+  border: 1pt dashed #333;
+  background:
+    repeating-linear-gradient(
+      30deg,
+      #ededed 0,
+      #ededed 0.8mm,
+      #777 0.8mm,
+      #777 1.3mm
+    );
+}
+
+.print-layer-symbol--zoning-cumberland {
+  border: 1pt dotted #333;
+  background:
+    repeating-linear-gradient(
+      -30deg,
+      #e8e8e8 0,
+      #e8e8e8 0.8mm,
+      #888 0.8mm,
+      #888 1.3mm
+    );
+}
+
+.print-layer-symbol--zoning-halifax {
+  border: 1.25pt solid #222;
+  background:
+    repeating-radial-gradient(
+      circle at 0 0,
+      #f0f0f0 0,
+      #f0f0f0 0.5mm,
+      #666 0.5mm,
+      #666 0.9mm
+    );
+}
+
+.print-hydro-class-sample {
+  display: block;
+  height: 0;
+  border-top: 0.75pt solid #222;
+}
+
+.print-hydro-class-sample--1 {
+  border-top-style: dotted;
+}
+
+.print-hydro-class-sample--2,
+.print-hydro-class-sample--3 {
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--4 {
+  border-top-width: 1pt;
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--5 {
+  border-top-width: 1.25pt;
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--6 {
+  border-top-width: 1.5pt;
+  border-top-style: dashed;
+}
+
+.print-hydro-class-sample--7 {
+  border-top-width: 1.75pt;
+}
+
+.print-scale {
+  justify-content: flex-start;
+  margin-top: 3mm;
+}
+
+.print-scale-bar {
+  display: inline-block;
+  max-width: 90mm;
+  height: 4pt;
+  border: 0.75pt solid #000;
+  border-top-width: 0;
+}
+
+.print-required-attribution,
+.print-general-limitations,
+.print-scale-omission,
+.print-map-failure {
+  margin-top: 3mm;
+  margin-bottom: 0;
+}
+
+.print-required-attribution {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1pt 4pt;
+  align-content: start;
+}
+
+.print-required-attribution h2 {
+  grid-column: 1 / -1;
+  margin: 0 0 2pt;
+  font-size: 10pt;
+}
+
+.print-required-attribution p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.print-attribution-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2pt 6pt;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  grid-column: 1 / -1;
+}
+
+.print-attribution-links li {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.print-research-summary .print-attribution-links {
+  display: block;
+  line-height: 1.15;
+}
+
+.print-research-summary .print-attribution-links li {
+  display: inline;
+}
+
+.print-research-summary .print-attribution-links li:not(:last-child)::after {
+  content: "; ";
+}
+
+.print-field-required-attribution {
+  display: block;
+  padding-left: 3mm;
+  border-left: 0.5pt solid #999;
+}
+
+.print-field-required-attribution p + p {
+  margin-top: 1.5mm;
+}
+
+.print-field-required-attribution .print-attribution-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1mm 3mm;
+  margin-top: 2mm;
+}
+
+.print-receipt {
+  align-items: center;
+  margin-top: 3mm;
+  padding-top: 1.5mm;
+  padding-bottom: 8mm;
+  border-top: 0.5pt solid #000;
+}
+
+.print-research-summary .print-receipt {
+  min-height: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+}
+
+.print-receipt-copy {
+  display: grid;
+  min-width: 0;
+  gap: 0.5mm;
+}
+
+.print-receipt-label {
+  font-size: 9pt;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.print-share-url {
+  max-width: 145mm;
+  overflow-wrap: anywhere;
+  color: #000;
+  font-size: 9pt;
+}
+
+.print-qr {
+  display: block;
+  width: 18mm;
+  height: 18mm;
+  overflow: hidden;
+}
+
+.print-qr-fallback {
+  min-width: 18mm;
+  font-size: 9pt;
+  text-align: center;
+}
+
+.print-field-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4mm;
+  align-items: stretch;
+  padding-top: 1.5mm;
+  border-top: 1pt solid #111;
+}
+
+.print-field-footer .print-general-limitations {
+  align-self: center;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.print-field-footer .print-receipt {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  width: 160mm;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+}
+
+.print-field-footer .print-share-url {
+  max-width: none;
+  line-height: 1.15;
+}
+
+.print-field-footer .print-qr,
+.print-field-footer .print-qr-fallback {
+  width: 17mm;
+  height: 17mm;
+  min-width: 17mm;
+}
+
+.print-appendix-header {
+  padding-top: 10mm;
+  border-bottom: 0.5pt solid #000;
+}
+
+.print-evidence-section {
+  margin-top: 5mm;
+}
+
+.print-evidence-section h3 {
+  margin-bottom: 2pt;
+  font-size: 10pt;
+}
+
+.print-evidence-section {
+  break-inside: avoid;
+}
+
+.print-evidence-provenance {
+  margin-top: 2mm;
+  padding: 2mm;
+  border-left: 1.5pt solid #777;
+  background: #f4f4f4;
+  font-size: 9pt;
+}
+
+.print-evidence-provenance p {
+  margin-bottom: 1pt;
+  overflow-wrap: anywhere;
+}
+
+.print-pattern-definitions {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* GeoPDF export frame mode */
+.export-frame-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 450; /* above MEASURE_PANE (430), below the map's HTML controls (500) */
+  pointer-events: none;
+}
+.export-frame {
+  position: absolute;
+  border: 2px solid #1d4ed8;
+  box-shadow: 0 0 0 4000px rgba(15, 23, 42, 0.35);
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+}
+.export-frame:active { cursor: grabbing; }
+.export-frame-scale {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  padding: 2px 6px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+}
+.export-frame-handle {
+  position: absolute;
+  right: -9px;
+  bottom: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #1d4ed8;
+  border: 2px solid #fff;
+  cursor: nwse-resize;
+  touch-action: none;
+}
+.export-frame-toolbar {
+  position: absolute;
+  bottom: 18px;
+  /* Bottom-LEFT, not centred: with the parcel inspector open — the standard
+     posture when exporting the parcel being inspected — a centred toolbar
+     put its Continue button underneath the panel. */
+  left: 18px;
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.export-map-trigger {
+  width: 100%;
+  margin: 12px 0 4px;
+}
+
+/* GeoPDF export dialog. Its own backdrop (rather than reusing
+   `.dialog-backdrop`) matches the rest of the app's overlay conventions —
+   `.print-preview-backdrop`, `.geopdf-frame-chooser-backdrop` — each
+   full-screen modal owns its stacking context. Sits above the print preview
+   (3000): opening the export flow while a print preview is up should not
+   read as buried behind it. */
+.export-dialog-backdrop {
+  position: fixed;
+  z-index: 3100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(18, 52, 59, 0.72);
+}
+
+.export-dialog {
+  width: min(440px, 100%);
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  padding: clamp(20px, 4vw, 28px);
+  background: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.export-dialog h2 {
+  margin: 0 0 4px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.6rem;
+}
+
+.export-dialog label {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.export-dialog input,
+.export-dialog textarea {
+  min-width: 0;
+  padding: 8px 10px;
+  color: var(--chart-ink);
+  font: inherit;
+  background: var(--white);
+  border: 1px solid rgba(18, 52, 59, 0.35);
+  border-radius: 5px;
+}
+
+.export-dialog input:focus,
+.export-dialog textarea:focus {
+  border-color: var(--survey-blue);
+  box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.18);
+}
+
+.export-legend-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.export-failures {
+  margin-top: 10px;
+  padding: 10px 12px;
+  color: #a33228;
+  font-size: 0.86rem;
+  background: rgba(190, 77, 60, 0.08);
+  border: 1px solid rgba(190, 77, 60, 0.3);
+  border-radius: 6px;
+}
+
+.export-failures p { margin: 0; font-weight: 700; }
+.export-failures ul { margin: 4px 0 0 18px; padding: 0; }
+
+/* The omitted-user-map notice reuses the failures box's visual treatment
+   (same border/background) so the scope cut is never silent, but it is
+   informational, not an error — it never blocks the Download button the
+   way a render failure does. */
+.export-omitted-layers {
+  color: var(--chart-ink);
+  background: rgba(18, 52, 59, 0.05);
+  border-color: var(--line);
+}
+
+.export-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+@media print {
+  body.print-preview-open .app-shell {
+    display: none !important;
+  }
+
+  /* The rule above cannot reach the georeferencer: App.tsx renders
+     `<GeoreferencePanel>` OUTSIDE `.app-shell`, as a sibling of
+     `<PrintPreview>`, so `body.print-preview-open .app-shell` never matches
+     it and the overlay carries its `position: fixed; z-index: 1800` onto
+     page 1 of the field sheet. Reachable in one pass: `.parcel-inspector` is
+     at `right: 16px`, inside the 55% the panel leaves free, and clickable
+     through the overlay's `pointer-events: none` — so select a parcel, open
+     the georeferencer, print. Unscoped rather than keyed on
+     `body.print-preview-open`, because a bare Cmd+P during a session must not
+     stamp the panel either; it is chrome, never document. */
+  .georeference-overlay {
+    display: none !important;
+  }
+
+  /* Same exposure, same fix, for the GeoPDF export UI. `<ExportDialog>` is
+     rendered OUTSIDE `.app-shell` too — a sibling of `<PrintPreview>` — so the
+     rule at the top of this block never matches its
+     `position: fixed; z-index: 3100` backdrop. `.export-frame-layer` IS inside
+     `.app-shell`, but that rule is keyed on `body.print-preview-open`, so a
+     bare Cmd+P while framing an export still prints the blue frame, the 4000px
+     page-dimming `box-shadow` around it, and the frame toolbar. Both are
+     unscoped for the same reason as the georeferencer above: chrome, never
+     document. */
+  .export-dialog-backdrop,
+  .export-frame-layer {
+    display: none !important;
+  }
+
+  .print-preview-controls,
+  .print-document--inactive {
+    display: none !important;
+  }
+
+  .print-preview {
+    position: static;
+    overflow: visible;
+    padding: 0;
+    background: #fff;
+  }
+
+  .print-preview-backdrop {
+    position: static;
+    display: block;
+    overflow: visible;
+    background: #fff;
+    animation: none;
+  }
+
+  .print-preview-dialog {
+    display: block;
+    min-height: 0;
+    background: #fff;
+  }
+
+  .print-preview-stage {
+    padding: 0;
+    overflow: visible;
+  }
+
+  .print-page {
+    margin: 0;
+    box-shadow: none;
+  }
+
+  .print-page:not(:last-child) {
+    break-after: page;
+  }
+}
+
+/* Your maps (user-loaded rasters) */
+.user-map-group .resource-layer-controls {
+  background: rgba(47, 128, 237, 0.05);
+  border-color: rgba(47, 128, 237, 0.22);
+}
+
+.user-map-import {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px dashed rgba(47, 128, 237, 0.4);
+  border-radius: 6px;
+}
+
+.user-map-import input[type="file"] {
+  width: 100%;
+  color: var(--chart-ink);
+  font-size: 0.72rem;
+}
+
+.user-map-import--busy {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+.user-map-import--busy input[type="file"] {
+  cursor: progress;
+}
+
+.user-map-hint,
+.user-map-privacy {
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.user-map-error {
+  display: block;
+  color: #a33228;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.user-map-status {
+  display: block;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.user-map-outcomes {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.7rem;
+  line-height: 1.35;
+}
+
+.user-map-outcome-ok {
+  color: #24551d;
+}
+
+.user-map-row {
+  padding-bottom: 8px;
+}
+
+.user-map-row .layer-row > span:last-of-type {
+  overflow-wrap: anywhere;
+}
+
+.user-map-opacity {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 0 0 0 54px;
+  cursor: default;
+}
+
+.user-map-opacity small {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.user-map-opacity input[type="range"] {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--survey-blue);
+}
+
+.user-map-remove {
+  margin: 6px 0 0 54px;
+  padding: 0;
+  color: #a33228;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* The editing surface is a floating card, not a modal: the map behind it has
+   to stay visible and clickable, since drawing on it is the whole point. */
+.vector-edit-panel {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+  display: grid;
+  gap: 10px;
+  width: min(320px, calc(100vw - 24px));
+  padding: 12px;
+  background: var(--panel, #fff);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+}
+
+.vector-edit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.vector-edit-header h2 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.vector-edit-done {
+  min-height: 44px;
+  padding: 0 12px;
+  color: #fff;
+  font-weight: 700;
+  background: var(--survey-blue);
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.vector-edit-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* 44px minimum touch targets — drawing is a pointer-heavy task and this
+   panel is used on phones in the field. */
+.vector-edit-tools button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.vector-edit-tools button.is-active {
+  color: #fff;
+  background: var(--survey-blue);
+  border-color: var(--survey-blue);
+}
+
+.vector-edit-field {
+  display: grid;
+  gap: 4px;
+}
+
+.vector-edit-field span {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.vector-edit-field input,
+.vector-edit-field textarea {
+  min-height: 44px;
+  padding: 8px;
+  font: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+.vector-edit-feature {
+  display: grid;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.vector-edit-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.user-vector-new,
+.user-vector-edit {
+  min-height: 44px;
+  padding: 0;
+  color: var(--survey-blue);
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.user-vector-edit {
+  margin-left: 54px;
+  text-align: left;
+}
+
+/* On a phone the rail is a bottom sheet, so the panel moves out of the way
+   of it rather than overlapping. */
+@media (max-width: 860px) {
+  .vector-edit-panel {
+    top: auto;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+  }
+}
+
+/* "Your data" vector rows reuse the user-map row skeleton; only the popup
+   needs its own rules. Wrapping matches .user-map-row: an imported filename
+   must never widen the 320px layer panel. */
+.user-vector-row {
+  padding-bottom: 8px;
+}
+
+.user-vector-row .layer-row > span:last-of-type {
+  overflow-wrap: anywhere;
+}
+
+/* Export sits below the layer name, outside the toggle label so clicking a
+   format never also toggles the layer (same trap .user-map-remove avoids). */
+.user-vector-export {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 0 54px;
+}
+
+.user-vector-export small {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.user-vector-export button {
+  padding: 0;
+  color: var(--survey-blue);
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.user-vector-popup {
+  display: grid;
+  gap: 4px;
+  max-width: 240px;
+}
+
+.user-vector-popup-name {
+  font-weight: 700;
+}
+
+.user-vector-popup-description {
+  /* User data may carry raw HTML shown as text; long unbroken strings must
+     wrap inside the popup instead of stretching it across the map. */
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.user-vector-popup-provenance {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+/* Screen-reader-only text. Clipped rather than display:none, which would
+   remove it from the accessibility tree and defeat the point. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.user-map-needs-georeference {
+  color: #a2600f;
+  font-weight: 700;
+}
+
+.user-map-georeference {
+  margin: 6px 10px 0 54px;
+  padding: 0;
+  color: var(--survey-blue);
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* A GeoPDF with several registrations is already georeferenced. This modal
+   selects one of those embedded frames; it is intentionally separate from the
+   non-modal control-point editor below. */
+.geopdf-frame-chooser-backdrop {
+  position: fixed;
+  z-index: 1900;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding:
+    max(16px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+  overflow: auto;
+  background: rgb(10 20 22 / 58%);
+}
+
+.geopdf-frame-chooser {
+  width: min(42rem, 100%);
+  max-height: 100%;
+  padding: 20px;
+  overflow: auto;
+  color: var(--ink);
+  background: var(--paper);
+  border-radius: 10px;
+  box-shadow: 0 10px 32px rgb(10 20 22 / 36%);
+}
+
+.geopdf-frame-chooser h2 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+  overflow-wrap: anywhere;
+}
+
+.geopdf-frame-chooser > p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.geopdf-frame-preview {
+  position: relative;
+  width: 100%;
+  max-height: 46vh;
+  margin-bottom: 14px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgb(10 20 22 / 18%);
+  border-radius: 6px;
+}
+
+.geopdf-frame-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.geopdf-frame-highlight {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+  background: rgb(255 199 0 / 22%);
+  border: 3px solid #d34600;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 90%);
+}
+
+.geopdf-frame-chooser fieldset {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid rgb(10 20 22 / 18%);
+  border-radius: 6px;
+}
+
+.geopdf-frame-chooser legend {
+  padding: 0 4px;
+  font-weight: 700;
+}
+
+.geopdf-frame-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.geopdf-frame-option:hover {
+  background: rgb(47 128 237 / 8%);
+}
+
+.geopdf-frame-option input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--survey-blue);
+}
+
+.geopdf-frame-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.geopdf-frame-actions button {
+  min-height: 44px;
+}
+
+.geopdf-frame-chooser :is(input, button):focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .geopdf-frame-chooser-backdrop {
+    place-items: stretch;
+    padding:
+      env(safe-area-inset-top)
+      env(safe-area-inset-right)
+      env(safe-area-inset-bottom)
+      env(safe-area-inset-left);
+  }
+
+  .geopdf-frame-chooser {
+    width: 100%;
+    max-height: none;
+    min-height: 100%;
+    padding: 16px;
+    border-radius: 0;
+  }
+
+  .geopdf-frame-preview {
+    max-height: 38vh;
+  }
+
+  .geopdf-frame-actions {
+    position: sticky;
+    bottom: 0;
+    padding-top: 10px;
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+    background: var(--paper);
+  }
+}
+
+/* Georeferencer (PR 2).
+
+   The overlay is a NON-BLOCKING FRAME, not a modal. The whole interaction is
+   "click the scan, then click the same spot on the app's own map" — and that
+   map is behind this element. So: no scrim (it would dim the very target the
+   user is aiming at) and `pointer-events: none`, with `auto` handed back only
+   to the panel and the floating bar. An earlier draft was a full-bleed opaque
+   card over a 72%-black scrim: MapClickCatcher never saw a click, and no
+   control point could be completed at all. */
+.georeference-overlay {
+  position: fixed;
+  z-index: 1800;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Spec: the panel takes the left ~45% of the viewport and the app map keeps
+   the right ~55%. The scan needs room for accurate clicking, so it gets close
+   to half the screen rather than a rail-width column. `width` and `max-width`
+   are both set because the narrow breakpoint releases both — a lone
+   `max-width` would keep clamping the full-bleed phone layout.
+
+   Single column by DEFAULT. The two-pane split lives in the min-width block
+   below and nowhere else — see the measurements there. */
+.georeference-panel {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 8px;
+  width: 45vw;
+  max-width: 45vw;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0;
+  overflow: hidden;
+  pointer-events: auto;
+  background: var(--paper);
+  border-radius: 8px;
+  box-shadow: 0 6px 24px rgb(10 20 22 / 28%);
+}
+
+/* The two-pane split, and the only place the 320-380px side column is
+   declared. Scoped to >=1200px rather than left on the base rule, because the
+   scan track is `45vw - 380px` and that is unusable well above the old 900px
+   bound. Measured live in a browser, `gridTemplateColumns` as resolved:
+
+       viewport   panel    scan track
+       900px      405px    25px      <- the spec's own former "wide" threshold
+       1024px     461px    81px      <- a rail-width column, precisely what
+       1280px     576px    196px        the base rule's comment rejects
+       1440px     648px    268px
+       1920px     864px    484px
+
+   At 900x800 the computed value was literally "25px 380px": a user placing
+   control points through a 25px sliver. Below 1200px the full-bleed tabbed
+   Scan|Map layout takes over instead and the scan gets the whole viewport,
+   which is strictly better than any sliver. 1200px is where the split first
+   pays for itself at ~160px and grows from there. Paired exactly with the
+   `max-width: 1199.98px` block at the end of this file — no gap, no overlap. */
+@media (min-width: 1200px) {
+  .georeference-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+  }
+}
+
+/* The layer rail is hidden for the duration (spec): at 288–320px it would
+   push the live map out from under the right-hand 55% the panel leaves free.
+   The panel's own footer carries the two reference-layer toggles the rail
+   would otherwise strand. */
+.app-shell.georeferencing .layer-rail {
+  display: none;
+}
+
+.app-shell.georeferencing .map-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Spec: a crosshair cursor on the map pane while georeferencing. Set on the
+   MapCanvas root (Task 11) so it survives every child layer. */
+.map-canvas--georeferencing .leaflet-container {
+  cursor: crosshair;
+}
+
+/* The narrow Map tab's entire UI: the panel is display:none there, so this is
+   the only thing left carrying the prompt and the way back. Hidden at every
+   other size and tab — on a wide screen the panel and the map are both
+   visible and there is nothing to go back from. */
+.georeference-map-bar {
+  display: none;
+  position: absolute;
+  inset: auto 8px 8px;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  pointer-events: auto;
+  background: var(--paper);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgb(10 20 22 / 28%);
+}
+
+.georeference-map-bar-status {
+  flex: 1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.georeference-map-bar-back {
+  padding: 0;
+  color: var(--survey-blue);
+  font-size: 0.76rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.georeference-header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgb(10 20 22 / 12%);
+}
+
+.georeference-status {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.georeference-scan {
+  position: relative;
+  min-height: 0;
+  background: rgb(10 20 22 / 6%);
+}
+
+/* The MapContainer inside ScanPane; Leaflet needs an explicitly sized box. */
+.georeference-scan-map {
+  width: 100%;
+  height: 100%;
+}
+
+.georeference-side {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+  padding: 12px;
+  gap: 10px;
+  border-left: 1px solid rgb(10 20 22 / 12%);
+}
+
+/* The list scrolls, the footer does not — losing Done off the bottom of a
+   long point list would be the worst possible thing to lose. */
+.georeference-points {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Sits between the scrolling point list and the fixed footer. Does NOT scroll
+   with the list: a refusal message that scrolled out of view would read as the
+   import having silently done nothing. */
+.georeference-points-import {
+  display: grid;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid rgb(10 20 22 / 12%);
+  font-size: 0.76rem;
+}
+
+.georeference-points-import label {
+  display: grid;
+  gap: 4px;
+}
+
+.georeference-points-import input[type="file"] {
+  width: 100%;
+  font-size: 0.72rem;
+}
+
+.georeference-import-ok {
+  color: rgb(10 20 22 / 70%);
+}
+
+/* Same red and weight as `.user-map-error`, the other import-failure line in
+   this rail — two different reds for the same kind of message reads as two
+   different severities. */
+.georeference-import-error {
+  color: #a33228;
+  font-weight: 600;
+}
+
+.georeference-footer {
+  display: grid;
+  gap: 10px;
+}
+
+/* Wide screens show both panes at once, so the toggle has nothing to do. */
+.georeference-tabs {
+  display: none;
+}
+
+.gcp-list {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.76rem;
+}
+
+.gcp-list th {
+  color: var(--muted);
+  font-weight: 600;
+  text-align: left;
+}
+
+/* The province renders this layer server-side, so its line weights and colours
+   are not ours to set — a filter on the tile container is the only lever. It is
+   safe to push hard because the export is `transparent: true`: the tiles carry
+   the water linework and nothing else, so this cannot touch the basemap or a
+   georeferenced scan underneath. Wanted when the layer is used as a landmark
+   reference over a busy historical sheet, where the default hairlines vanish.
+
+   The `transparent: true` claim above holds for the LINES; it does not hold for
+   the polygons. Sublayer 8 ("Wet Features") fills lakes, estuaries and the sea
+   with solid `rgba(204, 230, 242, 255)`, and this layer sits at z-index 210
+   against the historical raster's 155 — so at full opacity the modern water
+   body paints flat over the drawn 1884 shoreline underneath it. That shoreline
+   is the thing a coastal sheet is georeferenced AGAINST, and it was invisible
+   in exactly the places the control points have to go.
+
+   `!important` because Leaflet writes `opacity` as an INLINE style on the layer
+   container from the catalog's `opacity` field, and an inline style beats any
+   selector. The catalog field is the other lever and is deliberately not used:
+   `MapCanvas` builds screen and print tiles from that same value, so setting it
+   there would quietly restyle water in exported GeoPDFs too. `map-layer-*` is
+   the screen class — print gets `print-layer-*` — so this stays on screen,
+   where the georeferencing happens.
+
+   0.45 measured over sheet 19 at Judique: the 1884 coastline and its labels
+   read through the modern water, while the modern shoreline stays traceable as
+   a soft edge. Both edges legible at once is the requirement — a point has to
+   be dragged from one to the other. */
+.map-layer-water-features {
+  filter: contrast(1.45) saturate(1.35) brightness(0.92);
+  opacity: 0.45 !important;
+}
+
+.gcp-row td {
+  padding: 3px 0;
+}
+
+/* Bold, and gapped away from the scan coordinates beside it. Unstyled the row
+   reads "13917, 1670" — the index runs straight into the first coordinate, and
+   the index is exactly what the drag workflow refers to ("rows 46 and up").
+   Tabular figures keep the column edge straight from 1 to 50. */
+/* Selector must out-specify `.gcp-row td` above (0,1,1), which sets
+   `padding: 3px 0`. As a bare `.gcp-index` (0,1,0) the padding silently lost
+   and the columns still touched — bold alone did not separate them. */
+.gcp-row td.gcp-index {
+  padding-right: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.gcp-residual {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  text-align: right;
+}
+
+.gcp-row--suspect {
+  border-inline-start: 3px solid #a2600f;
+  font-weight: 700;
+}
+
+.gcp-row--selected {
+  background: rgb(47 128 237 / 10%);
+}
+
+.gcp-zoom,
+.gcp-delete {
+  padding: 0 6px 0 0;
+  color: var(--survey-blue);
+  font-size: 0.72rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Numbered control-point markers, shared by the scan pane and the live map
+   (components/gcpIcon.ts). Solid once a pair is complete. */
+.gcp-marker {
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--survey-blue);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgb(10 20 22 / 45%);
+}
+
+/* Hollow while the point is waiting for its match on the other side. The
+   difference is fill and border style, not hue — a colour-only distinction
+   would not survive WCAG 1.4.1 or a monochrome scan underneath. */
+.gcp-marker--pending {
+  color: var(--survey-blue);
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--survey-blue);
+}
+
+/* The row currently under the pointer in the GCP list. */
+.gcp-marker--selected {
+  outline: 2px solid #a2600f;
+  outline-offset: 1px;
+}
+
+/* Same 2-column grid as its precedent, `.user-map-opacity` (UserMapRows):
+   a muted label beside a full-width range input. That one indents 54px to
+   align under a checkbox row it has no equivalent of here, so that offset is
+   dropped rather than copied blind. */
+.georeference-opacity {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  cursor: default;
+}
+
+.georeference-opacity small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.georeference-opacity input[type="range"] {
+  width: 100%;
+  accent-color: var(--survey-blue);
+}
+
+.georeference-references {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid rgb(10 20 22 / 12%);
+  border-radius: 6px;
+  font-size: 0.74rem;
+}
+
+.georeference-references-locked {
+  color: var(--muted);
+}
+
+/* The warp toggle, styled exactly like the reference-layers fieldset above it
+   rather than given a look of its own: they are siblings in the same footer
+   grid, and a bare <fieldset> falls back to the UA's 2px groove border, which
+   reads as a different KIND of control sitting next to it. */
+.georeference-method {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid rgb(10 20 22 / 12%);
+  border-radius: 6px;
+  font-size: 0.74rem;
+}
+
+.georeference-method small {
+  color: var(--muted);
+}
+
+.georeference-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.georeference-done {
+  font-weight: 700;
+}
+
+/* Everything BELOW the two-pane breakpoint. This block stopped at 860px, then
+   at 899.98px, and both were too low: the cramped range does not begin at some
+   viewport width of its own, it begins wherever the two-pane rule engages,
+   because the scan track is always `45vw - 380px`. At 900px that is 25px and
+   at 1024px it is 81px — the rail-width column the base rule's own comment
+   rejects. So this bound is now the complement of the `min-width: 1200px`
+   block above, where the full measurement table lives.
+
+   `.98` rather than a flat 1199 because a zoomed or HiDPI viewport reports
+   fractional CSS pixels, and 1199.5px would otherwise fall into the gap. The
+   two 860px blocks earlier in this file belong to unrelated app chrome and are
+   deliberately left alone. */
+@media (max-width: 1199.98px) {
+  /* Full-bleed here: no room to keep the map beside the panel, so the tab
+     toggle switches between them instead. Both `width` and `max-width` must
+     be released — the base rule pins the panel to a 45vw column. */
+  .georeference-panel {
+    top: 8px;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    width: auto;
+    max-width: none;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+  }
+
+  .georeference-side {
+    max-height: 45vh;
+    overflow-y: auto;
+    border-left: 0;
+    border-top: 1px solid rgb(10 20 22 / 12%);
+  }
+
+  .georeference-tabs {
+    display: flex;
+    grid-column: 1 / -1;
+    gap: 6px;
+    padding: 0 14px 8px;
+  }
+
+  /* The Map tab hides the PANEL, not merely the scan inside it. Giving the
+     user the app's own map is the entire point of that tab, and a full-screen
+     card in front of it is the bug this replaced — the earlier rule hid
+     `.georeference-scan` alone and left an opaque panel over the map, with a
+     comment claiming it did the opposite.
+
+     The scan tab keeps everything: scan on top, list and footer (with Done)
+     stacked beneath it, because with the panel gone on the Map tab this is
+     the only place they can live. */
+  .georeference-panel[data-tab="map"] {
+    display: none;
+  }
+
+  .georeference-map-bar[data-tab="map"] {
+    display: flex;
+  }
+}
+
+/* Header cells are buttons so sorting is keyboard-reachable, but they must not
+   read as buttons — they carry the column name and sit inside a dense list. */
+.gcp-sort {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.gcp-sort:hover {
+  text-decoration: underline;
+}
+
+/* Sits directly under the panel's own accuracy line. Deliberately the more
+   prominent of the two: it is the only figure measured at points the fit never
+   saw, and the line above it is a bound rather than an error. */
+.georeference-heldout {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+}
+
+/* The ErrorBoundary fallback. Centred and self-contained because it replaces
+   the entire app shell — by the time it renders, no layout around it is left
+   standing. */
+.app-error {
+  display: flex;
+  max-width: 34rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 12vh auto;
+  padding: 28px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.app-error h1 {
+  margin: 0;
+  color: var(--chart-ink);
+  font-size: 1.4rem;
+}
+
+.app-error p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.app-error-detail {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--fog);
+  border-radius: 6px;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+
+
+/* Explanatory caveat prose behind a disclosure (ParcelInspector sections and
+   the zoning rail note). The visible line above each one keeps the load-
+   bearing caveat and the licence attribution; this holds the interpretation. */
+.evidence-caveat {
+  margin: 4px 0 8px;
+}
+
+.evidence-caveat > summary {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* display: inline-flex removes the native disclosure marker; put one back so
+   the summary still looks operable. */
+.evidence-caveat > summary::before {
+  content: "▸";
+  font-size: 0.65rem;
+}
+
+.evidence-caveat[open] > summary::before {
+  content: "▾";
+}
+
+.evidence-caveat > summary:focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 2px;
+}
+
+.evidence-caveat[open] > summary {
+  color: var(--chart-ink);
+}

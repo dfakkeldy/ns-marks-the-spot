@@ -75,3 +75,32 @@ Gemfile.lock
 # Python
 __pycache__/
 *.pyc
+
+# Web companion
+web/node_modules/
+web/dist/
+web/public/vendor/pdfjs/
+
+# Generated Church map rasters and tiles. Never committed - shipped as GitHub
+# Release assets instead. See docs/CHURCH_MAPS.md.
+build/church/
+tiles/church-*/
+build/fletcher/
+tiles/fletcher-*/
+
+# Fletcher source scans, warps, QA images, manifests, and tile trees are
+# compute-host artifacts. Only the human-readable inventory and results belong
+# in Git.
+reports/fletcher/artifacts/
+
+# Distance-field previews written beside each shoreline report. The report JSON
+# beside them is versioned; the picture is regenerable from it and the warp.
+reports/church/*-heat.png
+
+# Agent scratch reports (session working notes, never repo content). The
+# directory's own self-ignoring `*` gitignore can't be committed, so the rule
+# lives here where it is tracked.
+.superpowers/
+
+# SwiftPM build products for the local NSMarksCore package
+NSMarksCore/.build/

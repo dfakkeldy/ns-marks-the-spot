@@ -1,0 +1,39 @@
+# Held-out CHECK points for the Inverness north panel.
+#
+# THIS SET IS TOO SMALL TO JUDGE THE PANEL, and that is the finding. Two points
+# cannot support an RMS, and P95 of two numbers is meaningless. The panel is
+# therefore NOT accepted this attempt for want of evidence, not on a measured
+# failure. See docs/church-inverness-attempt-4-2026-07-24.md.
+#
+# Why only two. Held-out points need a modern coordinate derived by rule and a
+# feature findable on the drawing. The north panel fails the first half. In the
+# reference water layer the north Cape Breton shore is a smooth generalised
+# line: sampled at 0.002 degrees (~220 m) from 46.76N to 46.90N it has no local
+# extremum in either direction, so Fishing Cove, Pigeon Cove, White Capes and
+# Pollett Cove - all drawn and named by Church - are simply not in it. An
+# extremal rule there returns whatever the box's latitude bound cut, which
+# emit_candidates now refuses. The only islands the layer resolves inside this
+# panel are four sub-0.4 km2 highland ponds, and their contact-sheet tiles show
+# the word "Barren", a county boundary and a hachured hill - Church drew no
+# islands there.
+#
+# Both points below sit at or above the 900 m P95 tolerance on their own. That
+# is suggestive, not a verdict.
+#
+# Same rules as the south file: lon/lat come from the candidate file by
+# objective rule, only the pixel columns were read by eye, and the checksheet
+# crosshair was never adopted as an answer.
+#
+# CORROBORATED, attempt 5 (2026-07-25). These pixel columns are still the ones
+# read by eye. `tools/church/drawn.py` now derives a drawn centroid by rule -
+# threshold the ink, trace the closed outline, shoelace it - and on the islands
+# it could identify without ambiguity it reproduces the same eastward offset the
+# rows below carry. The two methods differ by 53 m on Floda and 325 m on
+# Margaree, so the +/-40 px claimed above is understated; the systematic shift
+# is not an artifact of reading. The detector accepts too few points (2 south,
+# 0 north) to replace this file, so it is committed as evidence in
+# reports/church/drawn-{north,south}.json instead. See
+# docs/church-inverness-attempt-5-2026-07-25.md.
+pixel_x,pixel_y,lon,lat,role,label
+2814,20066,-61.059002,46.603489,check,cheticamp-island-west-tip
+14286,993,-60.598363,47.041977,check,cape-breton-north-tip

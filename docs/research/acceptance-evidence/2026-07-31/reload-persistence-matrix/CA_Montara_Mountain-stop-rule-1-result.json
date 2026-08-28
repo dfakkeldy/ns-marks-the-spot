@@ -1,0 +1,1379 @@
+{
+  "case": "stop-rule-1 legacy post-reload raster, Zoom-to-point rerun",
+  "harness": "geckodriver 0.37.1 + system Firefox via Selenium 4.46.0 (NOT the Chrome extension bridge)",
+  "delivery": "native <input type=file> send_keys, no bridge size ceiling",
+  "profile": "fresh geckodriver temporary profile; IndexedDB empty at t0",
+  "origin": "http://127.0.0.1:4340",
+  "file": "CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf",
+  "fileBytes": 9052006,
+  "budgetSec": 420,
+  "browserName": "firefox",
+  "browserVersion": "152.0.6",
+  "mozBuildID": "20260713164047",
+  "geckodriverVersion": "0.37.1",
+  "platformName": "mac",
+  "startupDialogButton": null,
+  "idbAtStart": {
+    "blobKeys": [],
+    "blobs": {},
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {},
+    "reconstruction": {},
+    "recordCount": 0,
+    "records": [],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "fileInputCount": 1,
+  "importElapsedToChooserSec": 15.8,
+  "chooserInitialState": {
+    "anyChecked": false,
+    "checkedValues": [],
+    "confirmDisabled": true,
+    "dialogPresent": true,
+    "heading": "Choose a frame for CA_Montara_Mountain_OE_W_20120515_TM_geo",
+    "highlightPresent": false,
+    "intro": "Select the map or inset to display. Its embedded coordinates will place it automatically.",
+    "legend": "Registered frames on page 1",
+    "options": [
+      {
+        "checked": false,
+        "label": "Quadrangle Location",
+        "value": "lgidict-direct-0-2147.0896552-3608.6780362-163.9724138-117.6618587"
+      },
+      {
+        "checked": false,
+        "label": "Map Layers",
+        "value": "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862"
+      },
+      {
+        "checked": false,
+        "label": "Adjoining Quadrangles Diagram",
+        "value": "lgidict-direct-2-2126.6758621-3760.5737931-204.8-204.8"
+      },
+      {
+        "checked": false,
+        "label": "UTM Grid and Projection",
+        "value": "lgidict-direct-3-151.132816-176.5296552-2910.9757472-3566.3227586"
+      }
+    ],
+    "outcomes": [
+      "CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+    ],
+    "radioCount": 4,
+    "status": null
+  },
+  "mainMapLabelPresent": true,
+  "selectedCandidate": {
+    "checked": false,
+    "label": "Map Layers",
+    "value": "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862"
+  },
+  "chooserAfterSelect": {
+    "checkedValues": [
+      "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862"
+    ],
+    "confirmDisabled": false,
+    "highlightPresent": true
+  },
+  "renderPreReload": {
+    "at": "2026-07-31T04:11:30.479Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.224,
+        "overlapPx": 173724
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [
+      "CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf added \u2014 Page 1 imported. Choose the main map or an inset; its embedded coordinates will place it."
+    ],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 652.5,
+          "height": 467,
+          "left": 686,
+          "right": 1058,
+          "top": 185.5,
+          "width": 372,
+          "x": 686,
+          "y": 185.5
+        },
+        "height": 934,
+        "meanAlpha": 251.747,
+        "measuredState": "painted",
+        "nonTransparentFraction": 0.98942,
+        "nonTransparentPixels": 687544,
+        "opacity": "0.7",
+        "sampleStep": 1,
+        "sampledPixels": 694896,
+        "transform": "translate3d(366px, 117.5px, 0px)",
+        "width": 744
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "CA_Montara_Mountain_OE_W_20120515_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 20,
+    "tileDerived": {
+      "lat": 37.57941251343839,
+      "lng": -122.5634765625,
+      "sampleTiles": 20,
+      "zoom": 12
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "adjustPointsPreReload": {
+    "ariaLabel": "Adjust points for CA_Montara_Mountain_OE_W_20120515_TM_geo",
+    "buttonText": "Adjust points",
+    "opened": true,
+    "mapBarStatusText": "RMS 5 m across 4 points",
+    "panelPresent": true,
+    "pointCount": 4,
+    "points": [
+      {
+        "index": "1",
+        "map": "37.4994, -122.4993",
+        "offBy": "5 m",
+        "scanPixel": "2900, 3580"
+      },
+      {
+        "index": "2",
+        "map": "37.4994, -122.6256",
+        "offBy": "5 m",
+        "scanPixel": "314, 3580"
+      },
+      {
+        "index": "3",
+        "map": "37.6255, -122.6257",
+        "offBy": "5 m",
+        "scanPixel": "314, 339"
+      },
+      {
+        "index": "4",
+        "map": "37.6255, -122.4992",
+        "offBy": "5 m",
+        "scanPixel": "2900, 339"
+      }
+    ],
+    "rmsText": "RMS 5 m across 4 points",
+    "zoomButtons": [
+      "Zoom to point 1",
+      "Zoom to point 2",
+      "Zoom to point 3",
+      "Zoom to point 4"
+    ]
+  },
+  "idbPreReload": {
+    "blobKeys": [
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:preview",
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:raster"
+    ],
+    "blobs": {
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:preview": {
+        "byteLength": 2389321,
+        "ctor": "ArrayBuffer",
+        "type": "image/png"
+      },
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:raster": {
+        "byteLength": 9052006,
+        "ctor": "ArrayBuffer",
+        "type": "application/pdf"
+      }
+    },
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {
+      "user-map-ui-state-v1": "{\"7f521ec4-e141-4c31-b90e-afab91f68b4a\":{\"enabled\":true,\"opacity\":0.7}}"
+    },
+    "reconstruction": {
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:preview": {
+        "byteLength": 2389321,
+        "decodedHeight": 4096,
+        "decodedWidth": 3213,
+        "key": "7f521ec4-e141-4c31-b90e-afab91f68b4a:preview",
+        "meanAlpha": 255,
+        "nonTransparentFraction": 1,
+        "nonWhiteFraction": 0.61628,
+        "sampledPixels": 1836000,
+        "thumbnailDataUrl": "data:image/png;base64,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",
+        "type": "image/png"
+      }
+    },
+    "recordCount": 1,
+    "records": [
+      {
+        "createdAt": "2026-07-31T04:11:23.856Z",
+        "georef": {
+          "gcps": [
+            {
+              "id": "lgidict-direct-1-gcp-1",
+              "map": {
+                "lat": 37.49944022394012,
+                "lng": -122.49928985271102
+              },
+              "pixel": {
+                "x": 2899.680920173321,
+                "y": 3580.424827585878
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-2",
+              "map": {
+                "lat": 37.499440295807915,
+                "lng": -122.62556474181989
+              },
+              "pixel": {
+                "x": 313.5604591369834,
+                "y": 3580.42482758555
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-3",
+              "map": {
+                "lat": 37.62554045603441,
+                "lng": -122.62567008141107
+              },
+              "pixel": {
+                "x": 313.56045913755895,
+                "y": 338.9572413788178
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-4",
+              "map": {
+                "lat": 37.62553904250947,
+                "lng": -122.49918217443144
+              },
+              "pixel": {
+                "x": 2899.680920173238,
+                "y": 338.95724137964
+              }
+            }
+          ],
+          "kind": "gcp",
+          "method": "affine"
+        },
+        "id": "7f521ec4-e141-4c31-b90e-afab91f68b4a",
+        "name": "CA_Montara_Mountain_OE_W_20120515_TM_geo",
+        "pdf": {
+          "pageCount": 1,
+          "pageNumber": 1,
+          "registration": {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-0-gcp-1",
+                    "map": {
+                      "lat": 31.889635907977024,
+                      "lng": -110.1528422253848
+                    },
+                    "pixel": {
+                      "x": 2311.062068965517,
+                      "y": 3726.339894858886
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-2",
+                    "map": {
+                      "lat": 31.88963590797704,
+                      "lng": -128.36502612730158
+                    },
+                    "pixel": {
+                      "x": 2147.0896551724136,
+                      "y": 3726.339894858886
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-3",
+                    "map": {
+                      "lat": 42.28398971640385,
+                      "lng": -128.36502612730158
+                    },
+                    "pixel": {
+                      "x": 2147.0896551724136,
+                      "y": 3608.678036175597
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-4",
+                    "map": {
+                      "lat": 42.28398971640385,
+                      "lng": -110.1528422253848
+                    },
+                    "pixel": {
+                      "x": 2311.062068965517,
+                      "y": 3608.678036175597
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-0-2147.0896552-3608.6780362-163.9724138-117.6618587",
+                "sourceRect": {
+                  "height": 117.6618586832892,
+                  "width": 163.97241379310344,
+                  "x": 2147.0896551724136,
+                  "y": 3608.678036175597
+                }
+              },
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-1-gcp-1",
+                    "map": {
+                      "lat": 37.49944022394012,
+                      "lng": -122.49928985271102
+                    },
+                    "pixel": {
+                      "x": 2899.680920173321,
+                      "y": 3580.424827585878
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-2",
+                    "map": {
+                      "lat": 37.499440295807915,
+                      "lng": -122.62556474181989
+                    },
+                    "pixel": {
+                      "x": 313.5604591369834,
+                      "y": 3580.42482758555
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-3",
+                    "map": {
+                      "lat": 37.62554045603441,
+                      "lng": -122.62567008141107
+                    },
+                    "pixel": {
+                      "x": 313.56045913755895,
+                      "y": 338.9572413788178
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-4",
+                    "map": {
+                      "lat": 37.62553904250947,
+                      "lng": -122.49918217443144
+                    },
+                    "pixel": {
+                      "x": 2899.680920173238,
+                      "y": 338.95724137964
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862",
+                "sourceRect": {
+                  "height": 3241.4675862070603,
+                  "width": 2586.1204610363375,
+                  "x": 313.5604591369834,
+                  "y": 338.9572413788178
+                }
+              },
+              {
+                "embeddedLabel": "Adjoining Quadrangles Diagram",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-2-gcp-1",
+                    "map": {
+                      "lat": 37.37477989257006,
+                      "lng": -122.37476849450624
+                    },
+                    "pixel": {
+                      "x": 2331.4758620688417,
+                      "y": 3965.3737931034257
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-2",
+                    "map": {
+                      "lat": 37.374779959289405,
+                      "lng": -122.75018946777388
+                    },
+                    "pixel": {
+                      "x": 2126.6758620691103,
+                      "y": 3965.3737931034257
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-3",
+                    "map": {
+                      "lat": 37.750200981098,
+                      "lng": -122.7501893618379
+                    },
+                    "pixel": {
+                      "x": 2126.6758620691103,
+                      "y": 3760.5737931034414
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-4",
+                    "map": {
+                      "lat": 37.75020091381206,
+                      "lng": -122.37476838896993
+                    },
+                    "pixel": {
+                      "x": 2331.4758620688417,
+                      "y": 3760.5737931034414
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-2-2126.6758621-3760.5737931-204.8-204.8",
+                "sourceRect": {
+                  "height": 204.7999999999843,
+                  "width": 204.79999999973143,
+                  "x": 2126.6758620691103,
+                  "y": 3760.5737931034414
+                }
+              },
+              {
+                "embeddedLabel": "UTM Grid and Projection",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-3-gcp-1",
+                    "map": {
+                      "lat": 37.49311691641966,
+                      "lng": -122.49136487701033
+                    },
+                    "pixel": {
+                      "x": 3062.1085632801464,
+                      "y": 3742.8524137922823
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-3-gcp-2",
+                    "map": {
+                      "lat": 37.49311692160222,
+                      "lng": -122.63348981319236
+                    },
+                    "pixel": {
+                      "x": 151.13281603052698,
+                      "y": 3742.8524137926106
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-3-gcp-3",
+                    "map": {
+                      "lat": 37.631854750983045,
+                      "lng": -122.63362042986162
+                    },
+                    "pixel": {
+                      "x": 151.1328160305064,
+                      "y": 176.52965517257917
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-3-gcp-4",
+                    "map": {
+                      "lat": 37.63185308426184,
+                      "lng": -122.49123168746686
+                    },
+                    "pixel": {
+                      "x": 3062.108563280127,
+                      "y": 176.5296551719216
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-3-151.132816-176.5296552-2910.9757472-3566.3227586",
+                "sourceRect": {
+                  "height": 3566.322758620689,
+                  "width": 2910.97574724964,
+                  "x": 151.1328160305064,
+                  "y": 176.5296551719216
+                }
+              }
+            ],
+            "flavor": "lgidict",
+            "selectedFrameId": "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862",
+            "selectedLabel": "Map Layers",
+            "selection": {
+              "kind": "user"
+            },
+            "status": "embedded"
+          }
+        },
+        "pixelSize": {
+          "height": 4096,
+          "width": 3213
+        },
+        "source": "geopdf",
+        "sourceRect": {
+          "height": 3241.4675862070603,
+          "width": 2586.1204610363375,
+          "x": 313.5604591369834,
+          "y": 338.9572413788178
+        }
+      }
+    ],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "startupDialogButtonAfterReload": null,
+  "postReloadSettleSeries": [
+    {
+      "tSinceReloadSec": 12.2,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.4892578125,
+        "sampleTiles": 20,
+        "zoom": 12
+      }
+    },
+    {
+      "tSinceReloadSec": 25.3,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.4892578125,
+        "sampleTiles": 20,
+        "zoom": 12
+      }
+    },
+    {
+      "tSinceReloadSec": 45.4,
+      "canvasCount": 1,
+      "states": [
+        "unsized-no-backing-allocated"
+      ],
+      "dims": [
+        [
+          0,
+          0
+        ]
+      ],
+      "nonTransparentFraction": [
+        null
+      ],
+      "tileDerived": {
+        "lat": 43.004647127794435,
+        "lng": -66.4892578125,
+        "sampleTiles": 20,
+        "zoom": 12
+      }
+    }
+  ],
+  "idbPostReload": {
+    "blobKeys": [
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:preview",
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:raster"
+    ],
+    "blobs": {
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:preview": {
+        "byteLength": 2389321,
+        "ctor": "ArrayBuffer",
+        "type": "image/png"
+      },
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:raster": {
+        "byteLength": 9052006,
+        "ctor": "ArrayBuffer",
+        "type": "application/pdf"
+      }
+    },
+    "db": "ns-marks-the-spot-user-maps",
+    "dbVersion": 1,
+    "localStorage": {
+      "user-map-ui-state-v1": "{\"7f521ec4-e141-4c31-b90e-afab91f68b4a\":{\"enabled\":true,\"opacity\":0.7}}"
+    },
+    "reconstruction": {
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:preview": {
+        "byteLength": 2389321,
+        "decodedHeight": 4096,
+        "decodedWidth": 3213,
+        "key": "7f521ec4-e141-4c31-b90e-afab91f68b4a:preview",
+        "meanAlpha": 255,
+        "nonTransparentFraction": 1,
+        "nonWhiteFraction": 0.61628,
+        "sampledPixels": 1836000,
+        "type": "image/png"
+      }
+    },
+    "recordCount": 1,
+    "records": [
+      {
+        "createdAt": "2026-07-31T04:11:23.856Z",
+        "georef": {
+          "gcps": [
+            {
+              "id": "lgidict-direct-1-gcp-1",
+              "map": {
+                "lat": 37.49944022394012,
+                "lng": -122.49928985271102
+              },
+              "pixel": {
+                "x": 2899.680920173321,
+                "y": 3580.424827585878
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-2",
+              "map": {
+                "lat": 37.499440295807915,
+                "lng": -122.62556474181989
+              },
+              "pixel": {
+                "x": 313.5604591369834,
+                "y": 3580.42482758555
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-3",
+              "map": {
+                "lat": 37.62554045603441,
+                "lng": -122.62567008141107
+              },
+              "pixel": {
+                "x": 313.56045913755895,
+                "y": 338.9572413788178
+              }
+            },
+            {
+              "id": "lgidict-direct-1-gcp-4",
+              "map": {
+                "lat": 37.62553904250947,
+                "lng": -122.49918217443144
+              },
+              "pixel": {
+                "x": 2899.680920173238,
+                "y": 338.95724137964
+              }
+            }
+          ],
+          "kind": "gcp",
+          "method": "affine"
+        },
+        "id": "7f521ec4-e141-4c31-b90e-afab91f68b4a",
+        "name": "CA_Montara_Mountain_OE_W_20120515_TM_geo",
+        "pdf": {
+          "pageCount": 1,
+          "pageNumber": 1,
+          "registration": {
+            "adjusted": false,
+            "candidates": [
+              {
+                "embeddedLabel": "Quadrangle Location",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-0-gcp-1",
+                    "map": {
+                      "lat": 31.889635907977024,
+                      "lng": -110.1528422253848
+                    },
+                    "pixel": {
+                      "x": 2311.062068965517,
+                      "y": 3726.339894858886
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-2",
+                    "map": {
+                      "lat": 31.88963590797704,
+                      "lng": -128.36502612730158
+                    },
+                    "pixel": {
+                      "x": 2147.0896551724136,
+                      "y": 3726.339894858886
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-3",
+                    "map": {
+                      "lat": 42.28398971640385,
+                      "lng": -128.36502612730158
+                    },
+                    "pixel": {
+                      "x": 2147.0896551724136,
+                      "y": 3608.678036175597
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-0-gcp-4",
+                    "map": {
+                      "lat": 42.28398971640385,
+                      "lng": -110.1528422253848
+                    },
+                    "pixel": {
+                      "x": 2311.062068965517,
+                      "y": 3608.678036175597
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-0-2147.0896552-3608.6780362-163.9724138-117.6618587",
+                "sourceRect": {
+                  "height": 117.6618586832892,
+                  "width": 163.97241379310344,
+                  "x": 2147.0896551724136,
+                  "y": 3608.678036175597
+                }
+              },
+              {
+                "embeddedLabel": "Map Layers",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-1-gcp-1",
+                    "map": {
+                      "lat": 37.49944022394012,
+                      "lng": -122.49928985271102
+                    },
+                    "pixel": {
+                      "x": 2899.680920173321,
+                      "y": 3580.424827585878
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-2",
+                    "map": {
+                      "lat": 37.499440295807915,
+                      "lng": -122.62556474181989
+                    },
+                    "pixel": {
+                      "x": 313.5604591369834,
+                      "y": 3580.42482758555
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-3",
+                    "map": {
+                      "lat": 37.62554045603441,
+                      "lng": -122.62567008141107
+                    },
+                    "pixel": {
+                      "x": 313.56045913755895,
+                      "y": 338.9572413788178
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-1-gcp-4",
+                    "map": {
+                      "lat": 37.62553904250947,
+                      "lng": -122.49918217443144
+                    },
+                    "pixel": {
+                      "x": 2899.680920173238,
+                      "y": 338.95724137964
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862",
+                "sourceRect": {
+                  "height": 3241.4675862070603,
+                  "width": 2586.1204610363375,
+                  "x": 313.5604591369834,
+                  "y": 338.9572413788178
+                }
+              },
+              {
+                "embeddedLabel": "Adjoining Quadrangles Diagram",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-2-gcp-1",
+                    "map": {
+                      "lat": 37.37477989257006,
+                      "lng": -122.37476849450624
+                    },
+                    "pixel": {
+                      "x": 2331.4758620688417,
+                      "y": 3965.3737931034257
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-2",
+                    "map": {
+                      "lat": 37.374779959289405,
+                      "lng": -122.75018946777388
+                    },
+                    "pixel": {
+                      "x": 2126.6758620691103,
+                      "y": 3965.3737931034257
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-3",
+                    "map": {
+                      "lat": 37.750200981098,
+                      "lng": -122.7501893618379
+                    },
+                    "pixel": {
+                      "x": 2126.6758620691103,
+                      "y": 3760.5737931034414
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-2-gcp-4",
+                    "map": {
+                      "lat": 37.75020091381206,
+                      "lng": -122.37476838896993
+                    },
+                    "pixel": {
+                      "x": 2331.4758620688417,
+                      "y": 3760.5737931034414
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-2-2126.6758621-3760.5737931-204.8-204.8",
+                "sourceRect": {
+                  "height": 204.7999999999843,
+                  "width": 204.79999999973143,
+                  "x": 2126.6758620691103,
+                  "y": 3760.5737931034414
+                }
+              },
+              {
+                "embeddedLabel": "UTM Grid and Projection",
+                "flavor": "lgidict",
+                "gcps": [
+                  {
+                    "id": "lgidict-direct-3-gcp-1",
+                    "map": {
+                      "lat": 37.49311691641966,
+                      "lng": -122.49136487701033
+                    },
+                    "pixel": {
+                      "x": 3062.1085632801464,
+                      "y": 3742.8524137922823
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-3-gcp-2",
+                    "map": {
+                      "lat": 37.49311692160222,
+                      "lng": -122.63348981319236
+                    },
+                    "pixel": {
+                      "x": 151.13281603052698,
+                      "y": 3742.8524137926106
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-3-gcp-3",
+                    "map": {
+                      "lat": 37.631854750983045,
+                      "lng": -122.63362042986162
+                    },
+                    "pixel": {
+                      "x": 151.1328160305064,
+                      "y": 176.52965517257917
+                    }
+                  },
+                  {
+                    "id": "lgidict-direct-3-gcp-4",
+                    "map": {
+                      "lat": 37.63185308426184,
+                      "lng": -122.49123168746686
+                    },
+                    "pixel": {
+                      "x": 3062.108563280127,
+                      "y": 176.5296551719216
+                    }
+                  }
+                ],
+                "id": "lgidict-direct-3-151.132816-176.5296552-2910.9757472-3566.3227586",
+                "sourceRect": {
+                  "height": 3566.322758620689,
+                  "width": 2910.97574724964,
+                  "x": 151.1328160305064,
+                  "y": 176.5296551719216
+                }
+              }
+            ],
+            "flavor": "lgidict",
+            "selectedFrameId": "lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862",
+            "selectedLabel": "Map Layers",
+            "selection": {
+              "kind": "user"
+            },
+            "status": "embedded"
+          }
+        },
+        "pixelSize": {
+          "height": 4096,
+          "width": 3213
+        },
+        "source": "geopdf",
+        "sourceRect": {
+          "height": 3241.4675862070603,
+          "width": 2586.1204610363375,
+          "x": 313.5604591369834,
+          "y": 338.9572413788178
+        }
+      }
+    ],
+    "storeNames": [
+      "blobs",
+      "maps"
+    ]
+  },
+  "renderPostReloadBeforeZoom": {
+    "at": "2026-07-31T04:12:24.766Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0,
+        "overlapPx": 0
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 68,
+          "height": 0,
+          "left": 313,
+          "right": 313,
+          "top": 68,
+          "width": 0,
+          "x": 313,
+          "y": 68
+        },
+        "height": 0,
+        "layerPresent": true,
+        "measuredState": "unsized-no-backing-allocated",
+        "nonTransparentFraction": null,
+        "opacity": "0.7",
+        "transform": "none",
+        "width": 0
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "CA_Montara_Mountain_OE_W_20120515_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 20,
+    "tileDerived": {
+      "lat": 43.004647127794435,
+      "lng": -66.4892578125,
+      "sampleTiles": 20,
+      "zoom": 12
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "adjustPointsPostReload": {
+    "ariaLabel": "Adjust points for CA_Montara_Mountain_OE_W_20120515_TM_geo",
+    "buttonText": "Adjust points",
+    "opened": true,
+    "mapBarStatusText": "RMS 5 m across 4 points",
+    "panelPresent": true,
+    "pointCount": 4,
+    "points": [
+      {
+        "index": "1",
+        "map": "37.4994, -122.4993",
+        "offBy": "5 m",
+        "scanPixel": "2900, 3580"
+      },
+      {
+        "index": "2",
+        "map": "37.4994, -122.6256",
+        "offBy": "5 m",
+        "scanPixel": "314, 3580"
+      },
+      {
+        "index": "3",
+        "map": "37.6255, -122.6257",
+        "offBy": "5 m",
+        "scanPixel": "314, 339"
+      },
+      {
+        "index": "4",
+        "map": "37.6255, -122.4992",
+        "offBy": "5 m",
+        "scanPixel": "2900, 339"
+      }
+    ],
+    "rmsText": "RMS 5 m across 4 points",
+    "zoomButtons": [
+      "Zoom to point 1",
+      "Zoom to point 2",
+      "Zoom to point 3",
+      "Zoom to point 4"
+    ]
+  },
+  "zoomToPointClick": {
+    "ariaLabel": "Zoom to point 1",
+    "clicked": true,
+    "text": "Zoom to"
+  },
+  "renderPanelOpenAfterZoom": {
+    "at": "2026-07-31T04:12:32.093Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.2525,
+        "overlapPx": 252572
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 0,
+      "right": 1425,
+      "top": 68,
+      "width": 1425,
+      "x": 0,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 421,
+          "height": 704,
+          "left": -712.5,
+          "right": 715.5,
+          "top": -283,
+          "width": 1428,
+          "x": -712.5,
+          "y": -283
+        },
+        "height": 1408,
+        "meanAlpha": 255,
+        "measuredState": "painted",
+        "nonTransparentFraction": 1,
+        "nonTransparentPixels": 251328,
+        "opacity": "0.7",
+        "sampleStep": 4,
+        "sampledPixels": 251328,
+        "transform": "translate3d(-712.5px, -351px, 0px)",
+        "width": 2856
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane",
+      "leaflet-pane leaflet-georeference-pane-pane",
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "CA_Montara_Mountain_OE_W_20120515_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 24,
+    "tileDerived": {
+      "lat": 37.50101042949326,
+      "lng": -122.49755859375,
+      "sampleTiles": 24,
+      "zoom": 15
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "renderPostReloadAfterZoom": {
+    "at": "2026-07-31T04:12:39.442Z",
+    "canvasContainerOverlap": [
+      {
+        "overlapFractionOfContainer": 0.2528,
+        "overlapPx": 196092
+      }
+    ],
+    "containerRect": {
+      "bottom": 770,
+      "height": 702,
+      "left": 320,
+      "right": 1425,
+      "top": 68,
+      "width": 1105,
+      "x": 320,
+      "y": 68
+    },
+    "dpr": 2,
+    "jsErrors": [],
+    "longTaskApiError": null,
+    "longTaskApiSupported": false,
+    "longTaskCount": 0,
+    "longTaskMax": 0,
+    "longTasksOver200ms": [],
+    "mapLookupTier": "not-found",
+    "outcomes": [],
+    "paneCanvases": [
+      {
+        "cssRect": {
+          "bottom": 421,
+          "height": 704,
+          "left": -232.5,
+          "right": 875.5,
+          "top": -283,
+          "width": 1108,
+          "x": -232.5,
+          "y": -283
+        },
+        "height": 1408,
+        "meanAlpha": 254.113,
+        "measuredState": "painted",
+        "nonTransparentFraction": 0.996522,
+        "nonTransparentPixels": 346122,
+        "opacity": "0.7",
+        "sampleStep": 3,
+        "sampledPixels": 347330,
+        "transform": "translate3d(-392.5px, -351px, 0px)",
+        "width": 2216
+      }
+    ],
+    "paneNames": [
+      "leaflet-pane leaflet-map-pane",
+      "leaflet-pane leaflet-tile-pane",
+      "leaflet-pane leaflet-old-growth-policy-pane-pane",
+      "leaflet-pane leaflet-user-maps-pane-pane",
+      "leaflet-pane leaflet-overlay-pane",
+      "leaflet-pane leaflet-shadow-pane",
+      "leaflet-pane leaflet-marker-pane",
+      "leaflet-pane leaflet-tooltip-pane",
+      "leaflet-pane leaflet-popup-pane",
+      "leaflet-pane leaflet-municipal-zoning-pane-pane",
+      "leaflet-pane leaflet-ns-well-logs-pane-pane",
+      "leaflet-pane leaflet-mineral-proximity-parcels-pane-pane",
+      "leaflet-pane leaflet-established-parcel-overlays-pane-pane",
+      "leaflet-pane leaflet-georeference-pane-pane"
+    ],
+    "rowCount": 1,
+    "rows": [
+      {
+        "buttons": [
+          "Change frame",
+          "Adjust points",
+          "Remove"
+        ],
+        "checked": true,
+        "disabled": false,
+        "opacity": "70",
+        "text": "CA_Montara_Mountain_OE_W_20120515_TM_geoYour file \u00b7 3,213\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+      }
+    ],
+    "statusText": null,
+    "tileCount": 24,
+    "tileDerived": {
+      "lat": 37.50101042949326,
+      "lng": -122.49755859375,
+      "sampleTiles": 24,
+      "zoom": 15
+    },
+    "unhandledRejections": [],
+    "userMapsPaneChildren": 1,
+    "userMapsPanePresent": true
+  },
+  "verdict": {
+    "recordPersisted": true,
+    "previewBytesPresentAndDecodable": true,
+    "previewByteLengths": {
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:preview": 2389321
+    },
+    "previewNonTransparentFraction": {
+      "7f521ec4-e141-4c31-b90e-afab91f68b4a:preview": 1
+    },
+    "liveCanvasFractionBeforeZoom": null,
+    "liveCanvasFractionAfterZoom": 0.996522,
+    "canvasCountBeforeZoom": 1,
+    "canvasCountAfterZoom": 1,
+    "canvasStateBeforeZoom": "unsized",
+    "canvasStateAfterZoom": "painted",
+    "settleStates": [
+      [
+        "unsized-no-backing-allocated"
+      ],
+      [
+        "unsized-no-backing-allocated"
+      ],
+      [
+        "unsized-no-backing-allocated"
+      ]
+    ],
+    "decodeLatencyExcluded": true,
+    "classification": "PERSISTED_BUT_OFFSCREEN",
+    "reason": "Bytes intact and decodable; the record, frame choice and provenance all persisted. Before the move the layer canvas was 'unsized' \u2014 for 'unsized' this is the single branch in WarpedRasterLayer.redraw() where computeBackingRect returns null because the padded viewport does not intersect the drape, which sets canvas width/height to 0. Zoom to point moved the viewport onto the drape and it repainted. NOT a render defect and NOT lost bytes: the viewport is simply not restored across reload."
+  },
+  "finalBodyText": "NS Marks The Spot\nOnline\nAbout this map\niPhone app in development\nGet launch updates\n\u2303\nExplore Nova Scotia\nSearch by PID or civic address\nFind parcel\nEnter an 8-digit PID or a Nova Scotia civic address.\nCurrent notices\nHistorical records\nCURRENT \u00b7 advertised notices that still require municipal verification\nMap layers\nModern map\nOpenStreetMap\nReady\nSource & scale\nYour maps\n1 loaded\nDrag a file here, or choose one above.\nFiles stay on this device \u2014 nothing is uploaded.\nCA_Montara_Mountain_OE_W_20120515_TM_geo\nYour file \u00b7 3,213\u00d74,096 px\nGeoPDF page 1 \u00b7 Map Layers \u00b7 LGIDict \u00b7 chosen by you\nOpacity\nChange frameAdjust pointsRemove\nNS Aerial\nProvince licence required\nOff\nSource & scale\nNS Property Boundaries\nProvince licence required\nOff\nSource & scale\nReview\nCrown Lands\nProvince licence required\nOff\nSource & scale\nWatersheds\nProvince licence required\nOff\nSource & scale\nWaterfalls\nProvince licence required\nOff\nSource & scale\nWater features\nProvince licence required\nOff\nSource & scale\nRoads, trails & culverts\nProvince licence required\nOff\nSource & scale\nBuildings\nProvince licence required\nOff\nSource & scale\nTopography\n1 optional terrain layer\nForestry\n1 optional policy layer\nFlood hazard context\n4 optional published screens\nEnvironmental health screens\n4 optional well-water & aquifer screens\nMunicipal zoning\n5 optional unofficial layers\nGroundwater\n1 optional well-log overlay\nMicro-hydro pilot\n1 optional Inverness screen\nGeology & Resources\n4 optional screening layers\nChurch (1860s\u201380s)\n4 Cape Breton counties \u00b7 tiles pending\nFletcher historical map\nTile hosting not configured\nOff\nSource & scale\nDavid Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries. Licensed CC BY-NC-SA 3.0: noncommercial use only; project georeferencing, clipping, and tiling changes are identified as derivatives and remain within the licence\u2019s ShareAlike boundary. The MIT software licence does not cover the imagery. This historical layer is context only: it is not a survey and",
+  "log": [
+    "[   2.87s] ATTACHED firefox 152.0.6 buildID=20260713164047 geckodriver=0.37.1",
+    "[   6.78s] [initial] clicking startup button 'Continue without Province layers'",
+    "[   8.82s] [initial] dialog attempt Continue without: Message: The element with the reference e62d3d87-8feb-4e3f-9765-65fa0084e9a0 is stale; either its node document is not the active document, or it is no longer connected to the DOM; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\nRemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:169:5\nStaleElementReferenceError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:814:5\ngetKnownElement@chrome://remote/content/marionette/json.sys.mjs:412:11\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:270:20\ncloneObject@chrome://remote/content/marionette/json.sys.mjs:59:24\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:298:16\njson.deserialize@chrome://remote/content/marionette/json.sys.mjs:302:10\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:174:30\n",
+    "[  10.12s] IndexedDB at t0: 0 records (expect 0 \u2014 fresh profile)",
+    "[  10.12s] delivering CA_Montara_Mountain_OE_W_20120515_TM_geo.pdf (9052006 bytes)",
+    "[  25.92s] chooser after 15.8s: present=True radios=4 anyChecked=False confirmDisabled=True",
+    "[  25.92s]   options: ['Quadrangle Location', 'Map Layers', 'Adjoining Quadrangles Diagram', 'UTM Grid and Projection']",
+    "[  26.08s] explicitly selecting 'Map Layers' value=lgidict-direct-1-313.5604591-338.9572414-2586.120461-3241.4675862",
+    "[  27.31s] clicked 'Use this frame'",
+    "[  31.50s] PRE-RELOAD canvases=1 nonTransparent=[0.98942] mapTier=not-found zoom=None",
+    "[  34.67s] PRE-RELOAD RMS: 'RMS 5 m across 4 points' points=4",
+    "[  39.32s] PRE-RELOAD idb: records=1 blobs={'7f521ec4-e141-4c31-b90e-afab91f68b4a:preview': {'byteLength': 2389321, 'ctor': 'ArrayBuffer', 'type': 'image/png'}, '7f521ec4-e141-4c31-b90e-afab91f68b4a:raster': {'byteLength': 9052006, 'ctor': 'ArrayBuffer', 'type': 'application/pdf'}}",
+    "[  39.32s] RELOADING",
+    "[  43.97s] [post-reload] clicking startup button 'Continue without Province layers'",
+    "[  46.00s] [post-reload] dialog attempt Continue without: Message: The element with the reference c874b14a-dc8d-4c05-a085-95a648b8e500 is stale; either its node document is not the active document, or it is no longer connected to the DOM; For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception\nStacktrace:\nRemoteError@chrome://remote/content/shared/RemoteError.sys.mjs:8:8\nWebDriverError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:169:5\nStaleElementReferenceError@chrome://remote/content/shared/webdriver/Errors.sys.mjs:814:5\ngetKnownElement@chrome://remote/content/marionette/json.sys.mjs:412:11\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:270:20\ncloneObject@chrome://remote/content/marionette/json.sys.mjs:59:24\ndeserializeJSON@chrome://remote/content/marionette/json.sys.mjs:298:16\njson.deserialize@chrome://remote/content/marionette/json.sys.mjs:302:10\nreceiveMessage@chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:174:30\n",
+    "[  51.91s]   settle +12.2s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  65.03s]   settle +25.3s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  85.18s]   settle +45.4s: canvases=1 states=['unsized-no-backing-allocated'] dims=[[0, 0]]",
+    "[  85.75s] POST-RELOAD/BEFORE-ZOOM canvases=1 nonTransparent=[None] rows=1 zoom=None centre=None",
+    "[  85.75s]   reconstructed 7f521ec4-e141-4c31-b90e-afab91f68b4a:preview: bytes=2389321 3213x4096 nonTransparent=1 nonWhite=0.61628",
+    "[  88.82s] POST-RELOAD RMS: 'RMS 5 m across 4 points' points=4",
+    "[  88.96s] Zoom to point: {'ariaLabel': 'Zoom to point 1', 'clicked': True, 'text': 'Zoom to'}",
+    "[ 100.55s] POST-RELOAD/AFTER-ZOOM canvases=1 nonTransparent=[0.996522] zoom=None centre=None",
+    "[ 100.55s] VERDICT: PERSISTED_BUT_OFFSCREEN",
+    "[ 100.55s]   Bytes intact and decodable; the record, frame choice and provenance all persisted. Before the move the layer canvas was 'unsized' \u2014 for 'unsized' this is the single branch in WarpedRasterLayer.redraw() where computeBackingRect returns null because the padded viewport does not intersect the drape, which sets canvas width/height to 0. Zoom to point moved the viewport onto the drape and it repainted. NOT a render defect and NOT lost bytes: the viewport is simply not restored across reload."
+  ]
+}

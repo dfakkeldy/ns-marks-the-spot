@@ -1,0 +1,246 @@
+{
+  "case": "responsive 320x640 - corrected re-run at a true 320 CSS px viewport",
+  "supersedes": "ff_responsive.py phase A, which never got below 500 CSS px and measured a collapsed rail as zero width",
+  "origin": "http://127.0.0.1:4340",
+  "file": "NH_Hampton_20240808_TM_geo.pdf",
+  "viewportMethod": "layout.css.devPixelsPerPx scaling; the CSS viewport is genuinely 320 px, devicePixelRatio is the scale factor rather than a phone's 2 or 3",
+  "browserVersion": "152.0.6",
+  "mozBuildID": "20260713164047",
+  "recordsBeforeImport": 0,
+  "secondsToImport": 9.47,
+  "narrowestWindowInnerWidth": 500,
+  "devPixelsPerPx": 1.5625,
+  "achievedViewport": {
+    "innerWidth": 500,
+    "innerHeight": 640,
+    "devicePixelRatio": 1.5789473684210529
+  },
+  "viewportWarning": "innerWidth is 500, not 320",
+  "ledgerRailClosed": {
+    "devicePixelRatio": 1.5789473684210529,
+    "documentOverflows": false,
+    "filenameVisible": true,
+    "innerHeight": 640,
+    "innerWidth": 500,
+    "ledger": [
+      {
+        "boundingWidth": 500.33,
+        "clientWidth": 500,
+        "display": "block",
+        "label": "document",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 500
+      },
+      {
+        "boundingWidth": 500.33,
+        "clientWidth": 500,
+        "display": "block",
+        "label": "body",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 500
+      },
+      {
+        "boundingWidth": 0,
+        "clientWidth": 0,
+        "display": "none",
+        "label": "panel (#map-controls)",
+        "overflowX": "auto",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 0
+      },
+      {
+        "boundingWidth": 0,
+        "clientWidth": 0,
+        "display": "block",
+        "label": "group (.user-map-group)",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 0
+      },
+      {
+        "boundingWidth": 0,
+        "clientWidth": 0,
+        "display": "block",
+        "label": "card (.user-map-row)",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 0
+      },
+      {
+        "boundingWidth": 0,
+        "clientWidth": 0,
+        "display": "block",
+        "label": "ordinary row (.layer-control)",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 0
+      }
+    ],
+    "overflowing": [],
+    "railClass": "layer-rail mode-current",
+    "railOpen": false,
+    "rowButtons": [
+      {
+        "disabled": false,
+        "h": 0,
+        "insideViewport": true,
+        "text": "Change frame",
+        "w": 0
+      },
+      {
+        "disabled": false,
+        "h": 0,
+        "insideViewport": true,
+        "text": "Adjust points",
+        "w": 0
+      },
+      {
+        "disabled": false,
+        "h": 0,
+        "insideViewport": true,
+        "text": "Remove",
+        "w": 0
+      }
+    ],
+    "rowText": "NH_Hampton_20240808_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+  },
+  "shotRailClosed": "responsive-320x640-rail-closed.jpg",
+  "mobileTrigger": {
+    "expanded": "false",
+    "found": true
+  },
+  "ledgerRailOpen": {
+    "devicePixelRatio": 1.5789473684210529,
+    "documentOverflows": false,
+    "filenameVisible": true,
+    "innerHeight": 640,
+    "innerWidth": 500,
+    "ledger": [
+      {
+        "boundingWidth": 500.33,
+        "clientWidth": 500,
+        "display": "block",
+        "label": "document",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 500
+      },
+      {
+        "boundingWidth": 500.33,
+        "clientWidth": 500,
+        "display": "block",
+        "label": "body",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 500
+      },
+      {
+        "boundingWidth": 484.33,
+        "clientWidth": 474,
+        "display": "block",
+        "label": "panel (#map-controls)",
+        "overflowX": "auto",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 474
+      },
+      {
+        "boundingWidth": 441.57,
+        "clientWidth": 442,
+        "display": "block",
+        "label": "group (.user-map-group)",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 442
+      },
+      {
+        "boundingWidth": 416.3,
+        "clientWidth": 416,
+        "display": "block",
+        "label": "card (.user-map-row)",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 416
+      },
+      {
+        "boundingWidth": 441.57,
+        "clientWidth": 442,
+        "display": "block",
+        "label": "ordinary row (.layer-control)",
+        "overflowX": "visible",
+        "overflows": false,
+        "present": true,
+        "scrollWidth": 442
+      }
+    ],
+    "overflowing": [],
+    "railClass": "layer-rail mode-current mobile-open",
+    "railOpen": true,
+    "rowButtons": [
+      {
+        "disabled": false,
+        "h": 15,
+        "insideViewport": true,
+        "text": "Change frame",
+        "w": 80
+      },
+      {
+        "disabled": false,
+        "h": 15,
+        "insideViewport": true,
+        "text": "Adjust points",
+        "w": 74
+      },
+      {
+        "disabled": false,
+        "h": 15,
+        "insideViewport": true,
+        "text": "Remove",
+        "w": 45
+      }
+    ],
+    "rowText": "NH_Hampton_20240808_TM_geoYour file \u00b7 3,390\u00d74,096 pxGeoPDF page 1 \u00b7 Map Layers \u00b7 Measure \u00b7 chosen by youOpacityChange frameAdjust pointsRemove"
+  },
+  "outcome": "NO_HORIZONTAL_OVERFLOW_CONTROLS_OPERABLE",
+  "shotRailOpen": "responsive-320x640-rail-open.jpg",
+  "diagnostics": {
+    "jsErrors": [],
+    "longTaskApiSupported": false,
+    "unhandledRejections": []
+  },
+  "log": [
+    "[   4.58s] pass 1: narrowest CSS viewport Firefox allows = 500 px; devPixelsPerPx will be 1.562500 to reach 320",
+    "[   6.16s] ATTACHED firefox 152.0.6",
+    "[  17.39s] recordsBeforeImport=0",
+    "[  26.86s] imported the long-filename file in 9.47s",
+    "[  29.39s] with devPixelsPerPx=1.562500: innerWidth=500 innerHeight=616 dpr=1.5789473684210529",
+    "[  34.09s] ACHIEVED CSS viewport: 500 x 640 (dpr 1.5789473684210529)",
+    "[  34.09s]   WARNING: innerWidth is 500, not 320",
+    "[  34.27s] mobile controls trigger: {'expanded': 'false', 'found': True}",
+    "[  36.29s] railOpen=True documentOverflows=False",
+    "[  36.29s]   document                     client=  500 scroll=  500 overflowX=visible",
+    "[  36.29s]   body                         client=  500 scroll=  500 overflowX=visible",
+    "[  36.29s]   panel (#map-controls)        client=  474 scroll=  474 overflowX=auto",
+    "[  36.29s]   group (.user-map-group)      client=  442 scroll=  442 overflowX=visible",
+    "[  36.29s]   card (.user-map-row)         client=  416 scroll=  416 overflowX=visible",
+    "[  36.29s]   ordinary row (.layer-control) client=  442 scroll=  442 overflowX=visible",
+    "[  36.29s] overflowing (non-scrollers): []",
+    "[  36.29s] filename visible in row: True",
+    "[  36.29s]   button 'Change frame' 80x15 insideViewport=True",
+    "[  36.29s]   button 'Adjust points' 74x15 insideViewport=True",
+    "[  36.29s]   button 'Remove' 45x15 insideViewport=True",
+    "[  36.29s] OUTCOME NO_HORIZONTAL_OVERFLOW_CONTROLS_OPERABLE"
+  ]
+}

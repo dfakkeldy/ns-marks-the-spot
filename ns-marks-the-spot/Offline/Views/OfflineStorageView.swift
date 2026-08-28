@@ -3,16 +3,23 @@ import SwiftUI
 struct OfflineStorageView: View {
     @Environment(\.dismiss) private var dismiss
 
-    @ObservedObject var viewModel: OfflineAreasViewModel
+    let viewModel: OfflineAreasViewModel
     @State private var isConfirmingDeleteAllCachedTiles = false
     @State private var layerPendingDeletion: OfflineLayerStorageSummary?
     @State private var areaPendingDeletion: SavedOfflineArea?
 
-    private let defaultSaveAreaBounds = MapBounds(
-        minLatitude: 44.60,
-        minLongitude: -63.65,
-        maxLatitude: 44.70,
-        maxLongitude: -63.50
+    /// Baddeck, which Fletcher sheet 12 covers.
+    ///
+    /// It used to be Halifax, which reads naturally to anyone in this province
+    /// and is the one place the sample could not work: the survey is a Cape
+    /// Breton one, so the estimate came back at zero tiles and the button under
+    /// it offered to save a download of nothing. `FletcherTilePlannerTests`
+    /// keeps this box inside the survey.
+    static let sampleAreaBounds = MapBounds(
+        minLatitude: 46.05,
+        minLongitude: -60.83,
+        maxLatitude: 46.15,
+        maxLongitude: -60.68
     )
 
     var body: some View {
@@ -49,11 +56,6 @@ struct OfflineStorageView: View {
                                         Text(layer.displayName)
                                             .font(.headline)
 
-                                        if let rawKey = layer.rawKey {
-                                            Text(rawKey)
-                                                .font(.caption)
-                                                .foregroundStyle(.secondary)
-                                        }
                                     }
 
                                     Spacer()
@@ -69,6 +71,10 @@ struct OfflineStorageView: View {
                                     Label("Delete Layer Cache", systemImage: "trash")
                                 }
                                 .buttonStyle(.borderless)
+                                // The borderless style tinted the glyph blue
+                                // beside the destructive red title; one colour
+                                // for one action.
+                                .tint(.red)
                                 .disabled(viewModel.isStorageOperationInProgress)
                             }
                             .padding(.vertical, 4)
@@ -80,10 +86,10 @@ struct OfflineStorageView: View {
                     NavigationLink {
                         SaveAreaDraftView(
                             viewModel: viewModel,
-                            bounds: defaultSaveAreaBounds
+                            bounds: Self.sampleAreaBounds
                         )
                     } label: {
-                        Label("Save Sample Halifax Area", systemImage: "square.dashed")
+                        Label("Save Sample Baddeck Area", systemImage: "square.dashed")
                     }
                 }
 
@@ -158,6 +164,7 @@ struct OfflineStorageView: View {
                     }
                 }
             }
+            .accessibilityIdentifier("offline-storage-list")
             .navigationTitle("Offline Maps")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -219,8 +226,17 @@ struct OfflineStorageView: View {
         }
     }
 
+    private static let byteFormatter: ByteCountFormatter = {
+        let formatter = ByteCountFormatter()
+        formatter.countStyle = .file
+        // "0 KB", not "Zero KB": the row beside it counts failed areas with a
+        // plain numeral, and two formats for the same idea read as two ideas.
+        formatter.allowsNonnumericFormatting = false
+        return formatter
+    }()
+
     private func formattedBytes(_ bytes: Int) -> String {
-        ByteCountFormatter.string(fromByteCount: Int64(bytes), countStyle: .file)
+        Self.byteFormatter.string(fromByteCount: Int64(bytes))
     }
 
     private func stateLabel(for state: SavedOfflineAreaState) -> String {

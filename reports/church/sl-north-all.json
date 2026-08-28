@@ -1,0 +1,42 @@
+{
+ "label": "north-all",
+ "warped": "/home/dan/nsmarks-church-inverness-20260724b/work/measure/inverness/inverness-north-3857.tif",
+ "reference": "/home/dan/nsmarks-church-inverness-20260724/reference/nstdb-major-water.geojson",
+ "where": null,
+ "clip": null,
+ "metres_per_sample_px": 20.0,
+ "extract_seam_samples_dropped": 2200,
+ "kept_extract_seams": false,
+ "samples": 29380,
+ "median_m": 160.0,
+ "mean_m": 273.6484625954625,
+ "rms_m": 399.19514761361864,
+ "p90_m": 731.2185058593756,
+ "p95_m": 886.94580078125,
+ "p99_m": 1132.3804931640602,
+ "max_m": 1495.62255859375,
+ "within_250m_pct": 61.02791014295439,
+ "within_500m_pct": 79.65963240299523,
+ "bands": [
+  {
+   "band": 0,
+   "samples": 3074,
+   "rms_m": 475.49321884330004
+  },
+  {
+   "band": 1,
+   "samples": 9174,
+   "rms_m": 461.2797119340979
+  },
+  {
+   "band": 2,
+   "samples": 12640,
+   "rms_m": 396.81218175743106
+  },
+  {
+   "band": 3,
+   "samples": 4492,
+   "rms_m": 99.60061580718856
+  }
+ ]
+}

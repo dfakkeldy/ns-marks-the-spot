@@ -1,0 +1,65 @@
+{
+  "sheet": "sheet-17",
+  "rumsey_id": "RUMSEY~8~1~2642~290010",
+  "source_sha256": "9fc2db3b82ef4d92168c6aeb3c99bd7a85957e95f85866385a9e67d8718a3ef3",
+  "retrieved": "2026-07-25",
+  "method": "Full-resolution scan inspected in a 5 by 2 contact sheet. Each pixel position is the observed crossing of a printed meridian and parallel; longitude and latitude come from the engraved edge labels.",
+  "qa_review": "All ten intersections visually inspected at full source detail. Dense geology crosses the eastern pair, but the printed rules remain visible. No label, road, shoreline, or transform prediction was used as a coordinate.",
+  "meridians": [
+    {
+      "pixel_x": 1796.0,
+      "lon": -60.833333333333336,
+      "label": "60d50mW"
+    },
+    {
+      "pixel_x": 3624.0,
+      "lon": -60.75,
+      "label": "60d45mW"
+    },
+    {
+      "pixel_x": 5456.0,
+      "lon": -60.666666666666664,
+      "label": "60d40mW"
+    },
+    {
+      "pixel_x": 7282.0,
+      "lon": -60.583333333333336,
+      "label": "60d35mW"
+    },
+    {
+      "pixel_x": 9092.0,
+      "lon": -60.5,
+      "label": "60d30mW"
+    }
+  ],
+  "parallels": [
+    {
+      "pixel_y": 1266.0,
+      "lat": 45.916666666666664,
+      "label": "45d55mN"
+    },
+    {
+      "pixel_y": 3874.0,
+      "lat": 45.833333333333336,
+      "label": "45d50mN"
+    }
+  ],
+  "check_intersections": [
+    [
+      1,
+      0
+    ],
+    [
+      3,
+      0
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      2,
+      1
+    ]
+  ]
+}
