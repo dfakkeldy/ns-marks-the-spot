@@ -76,6 +76,32 @@ describe("ExportDialog", () => {
     await waitFor(() => expect(props.saveFile).toHaveBeenCalledTimes(1));
   });
 
+  it("reports a failure from Download anyway instead of leaving the dialog stuck", async () => {
+    const canvas = document.createElement("canvas");
+    const { props } = renderDialog({
+      composeImage: vi.fn().mockResolvedValue({
+        canvas,
+        statuses: [
+          { id: "fletcher-14", name: "Fletcher sheet 14", status: "failed",
+            detail: "3 of 12 tiles failed to load" },
+        ],
+      }),
+      composePdf: vi.fn().mockRejectedValue(new Error("PDF compose ran out of memory")),
+    });
+    await userEvent.click(screen.getByRole("button", { name: "Download PDF" }));
+    await screen.findByRole("button", { name: "Download anyway" });
+
+    // The confirm path runs the same fallible pipeline as the happy path;
+    // bare, its rejection went nowhere and the button just looked dead.
+    await userEvent.click(
+      screen.getByRole("button", { name: "Download anyway" }),
+    );
+    expect(
+      await screen.findByText(/PDF compose ran out of memory/u),
+    ).toBeInTheDocument();
+    expect(props.saveFile).not.toHaveBeenCalled();
+  });
+
   it("omits the legend when toggled off", async () => {
     const { props } = renderDialog();
     await userEvent.click(screen.getByLabelText("Include legend"));

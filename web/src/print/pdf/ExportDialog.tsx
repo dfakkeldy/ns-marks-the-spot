@@ -176,6 +176,28 @@ export function ExportDialog(props: ExportDialogProps) {
     props.onClose();
   };
 
+  /**
+   * "Download anyway" runs the same pipeline as the happy path, so it can
+   * fail the same ways (JPEG encode, QR build, PDF compose). Unguarded it
+   * rejected into nothing and the dialog sat in confirm-failures with a
+   * silently dead button; the failure now lands in the error phase exactly
+   * like a first-pass failure.
+   */
+  const finishExportOrReportError = async (
+    result: CompositorResult,
+    controller: AbortController,
+  ) => {
+    try {
+      await finishExport(result, controller);
+    } catch (error) {
+      if (controller.signal.aborted) return;
+      setPhase({
+        stage: "error",
+        message: error instanceof Error ? error.message : "Export failed.",
+      });
+    }
+  };
+
   const startExport = async () => {
     const controller = new AbortController();
     exportAbortRef.current = controller;
@@ -293,7 +315,8 @@ export function ExportDialog(props: ExportDialogProps) {
           </button>
           {phase.stage === "confirm-failures" ? (
             <button type="button" className="primary-action"
-              onClick={() => void finishExport(phase.result, phase.controller)}>
+              onClick={() =>
+                void finishExportOrReportError(phase.result, phase.controller)}>
               Download anyway
             </button>
           ) : (

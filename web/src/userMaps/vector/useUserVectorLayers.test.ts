@@ -390,3 +390,62 @@ describe("useUserVectorLayers", () => {
     store.close();
   });
 });
+
+describe("drawn-layer persistence retry", () => {
+  it("creates the row on the next edit write after a failed initial save, then reports real failures", async () => {
+    // The store's putVectorLayer is deliberately an UPDATE-only guarded
+    // write (an absent row means another tab deleted the layer), so a
+    // drawing whose INITIAL save failed used to no-op on every later edit:
+    // it looked fine all session and vanished with the tab.
+    const factory = new IDBFactory();
+    let failNextSave = true;
+    const realOpen = () => UserVectorStore.open(factory);
+    const openStore = async () => {
+      const opened = await realOpen();
+      return new Proxy(opened, {
+        get(target, property, receiver) {
+          if (property === "saveVectorLayer" && failNextSave) {
+            return async () => {
+              failNextSave = false;
+              throw new Error("save blocked");
+            };
+          }
+          return Reflect.get(target, property, receiver);
+        },
+      });
+    };
+    const { result } = renderHook(() => useUserVectorLayers({ openStore }));
+
+    let drawnId = "";
+    await act(async () => {
+      drawnId = await result.current.createDrawnLayer();
+    });
+    const record = result.current.records.find(({ id }) => id === drawnId)!;
+    expect(record).toBeDefined();
+
+    // First edit write: takes the CREATE path, which now succeeds.
+    const collection = {
+      type: "FeatureCollection" as const,
+      features: [
+        {
+          type: "Feature" as const,
+          id: "f1",
+          geometry: { type: "Point" as const, coordinates: [-63, 45] },
+          properties: {},
+        },
+      ],
+    };
+    await act(async () => {
+      await result.current.putVectorLayer(record, collection);
+    });
+
+    // The row genuinely exists now: a fresh mount over the same factory
+    // loads the drawing back, which the silent no-op never achieved.
+    const remounted = renderHook(() => useUserVectorLayers({ openStore }));
+    await waitFor(() =>
+      expect(
+        remounted.result.current.records.some(({ id }) => id === drawnId),
+      ).toBe(true),
+    );
+  });
+});

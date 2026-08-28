@@ -5,6 +5,8 @@ export type UserMapImportErrorCode =
   | "unsupported-crs"
   | "invalid-georeferencing"
   | "too-large"
+  /** A parse worker went silent past the watchdog and was terminated. */
+  | "parse-timeout"
   | "quota"
   | "storage-failed"
   // Vector-data imports. "missing-crs" (no .prj at all) is deliberately

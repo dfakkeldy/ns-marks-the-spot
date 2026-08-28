@@ -110,17 +110,18 @@ export function GeoPdfFrameChooser({
       return;
     }
     let options: { replaceAdjustedPoints?: boolean } | undefined;
-    if (
-      registration.status === "embedded" &&
-      registration.adjusted &&
-      selectedId !== registration.selectedFrameId
-    ) {
-      if (
-        !window.confirm(
-          "Changing frames replaces your adjusted points with the selected " +
-            "frame's embedded coordinates. Continue?",
-        )
-      ) {
+    // ANY apply on an adjusted registration replaces the adjusted points —
+    // selectPdfFrame refuses to do it without explicit consent, and the old
+    // same-frame carve-out sent that unconsented call anyway: re-selecting
+    // the current frame threw an unhandled rejection and the button just
+    // looked dead. Keeping the points is what Cancel is for.
+    if (registration.status === "embedded" && registration.adjusted) {
+      const message = selectedId === registration.selectedFrameId
+        ? "Re-applying this frame replaces your adjusted points with its " +
+          "embedded coordinates. Continue?"
+        : "Changing frames replaces your adjusted points with the selected " +
+          "frame's embedded coordinates. Continue?";
+      if (!window.confirm(message)) {
         return;
       }
       options = { replaceAdjustedPoints: true };

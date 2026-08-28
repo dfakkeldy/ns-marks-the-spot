@@ -3,6 +3,8 @@ import halifaxTaxSaleSnapshotSource from "./halifaxTaxSale.snapshot.json?raw";
 import halifaxTaxSaleSnapshot from "./halifaxTaxSale.snapshot.json";
 import {
   HALIFAX_TAX_SALE_DATASET_SHA256,
+  halifaxListingsAndExceptions,
+  halifaxOrphanedExceptionPids,
   halifaxTaxSaleEvent,
 } from "./halifaxTaxSale";
 
@@ -60,5 +62,67 @@ describe("the Halifax September 2026 tender dataset", () => {
     for (const listing of halifaxTaxSaleSnapshot.listings) {
       expect(Object.keys(listing).some((key) => /owner|bidder|occupant|tenant|assessed.?name|hst/i.test(key))).toBe(false);
     }
+  });
+});
+
+describe("halifaxListingsAndExceptions", () => {
+  const listing = (
+    item: number,
+    aan: string,
+    pids: string[],
+  ) => ({
+    item,
+    aan,
+    pids,
+    description: `Row ${item}`,
+    openingBidCents: 1_000_00,
+    redeemable: true,
+    listingStatus: "advertised" as const,
+  });
+
+  it("keeps a partially unmappable listing's mappable parcels on the map", () => {
+    // The previous shape dropped the WHOLE listing from `listings` when one
+    // of its PIDs had a geometry exception — and the exception builder threw
+    // at module load for exactly this snapshot shape, bricking the app.
+    const derived = halifaxListingsAndExceptions(
+      [listing(1, "00000001", ["11111111", "22222222"])],
+      [{ aan: "00000001", pid: "22222222", reason: "no-nsprd-geometry", checkedOn: "2026-08-20" }],
+    );
+
+    expect(derived.listings).toHaveLength(1);
+    expect(derived.listings[0].pids).toEqual(["11111111"]);
+    expect(derived.geometryExceptions).toEqual([
+      expect.objectContaining({
+        recordId: "halifax-2026-09-15-item-1",
+        pids: ["22222222"],
+        reason: "no-nsprd-geometry",
+      }),
+    ]);
+    expect(derived.orphanedExceptionPids).toEqual([]);
+  });
+
+  it("moves a fully unmappable listing to exceptions whole", () => {
+    const derived = halifaxListingsAndExceptions(
+      [listing(2, "00000002", ["33333333"])],
+      [{ aan: "00000002", pid: "33333333", reason: "no-nsprd-geometry", checkedOn: "2026-08-20" }],
+    );
+    expect(derived.listings).toHaveLength(0);
+    expect(derived.geometryExceptions[0].pids).toEqual(["33333333"]);
+  });
+
+  it("returns a stale exception as an orphan instead of throwing at module load", () => {
+    // A bad snapshot refresh must fail in CI (the assertion below), never in
+    // the user's browser at import time.
+    const derived = halifaxListingsAndExceptions(
+      [listing(3, "00000003", ["44444444"])],
+      [{ aan: "00000009", pid: "99999999", reason: "no-nsprd-geometry", checkedOn: "2026-08-20" }],
+    );
+    expect(derived.listings).toHaveLength(1);
+    expect(derived.geometryExceptions).toHaveLength(0);
+    expect(derived.orphanedExceptionPids).toEqual(["99999999"]);
+  });
+
+  it("rejects the CURRENT snapshot if any exception stops matching a source row", () => {
+    expect(halifaxOrphanedExceptionPids).toEqual([]);
   });
 });
