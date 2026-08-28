@@ -72,13 +72,20 @@
 - [x] Municipality of the District of Lunenburg 2021–2026 outcomes reconciled from tender packages and per-property award documents, with PIDs derived by assessment-account/PVSC/NSPRD reconciliation
 - [x] Historical municipality/year/outcome filters, conditional result provenance, source-linked infocards, validation, and match/source ledgers
 - [ ] Monochrome browser Print / Save as PDF research and field sheets (implementation complete; saved-PDF, iPhone AirPrint, and physical monochrome acceptance remain pending in `docs/real-world-testing/2026-07-23-web-print-export-test-plan.md`)
-- [ ] Upload and production-verify the prepared direct-Rumsey Fletcher revision
-      on an authorized HTTPS object host; the bounded per-sheet package and
-      fail-closed web integration are complete, but credentials/cost authority
-      and custom-domain delivery remain outstanding
+- [ ] Fletcher Route 19 corridor georeferencing (sheets 22, 19, 16, 14):
+      sheets 19 and 16 have hand-measured control points committed under
+      `tools/fletcher/measured/` (2026-08-01); sheet 22 has only uncommitted
+      machine proposals; sheet 14 is unstarted
+- [ ] Fletcher tile publication in progress: the packaged revision
+      `fletcher-direct-rumsey-20260726.1` (8.2 GB, 144k files) sits on the
+      bazzite host at `~/nsmarks-fletcher-20260725/deploy/`, and the R2 bucket
+      `ns-marks-fletcher-tiles` exists; a feature-led re-tile of sheets 19 and
+      16 is pending before upload. `reports/fletcher/RESULTS.md` records the
+      caution that the engraved-grid warps carry a measured ~636 m feature
+      displacement; the publish decision is the owner's, taken 2026-08-28
 - [ ] Add municipality importers only from current official notices
   - [x] Scheduled watcher archives and auto-ingests overwrite-prone sources (Cumberland) via `npm run watch:tax-sales` and `.github/workflows/tax-sale-watch.yml`
-- [ ] Add a well-log layer only after its dated coordinates, source-purpose wording, and precision warnings are reconciled
+- [x] Collapsed, default-off Groundwater group rendering the Province's dated water well log inventory with per-record location-accuracy bands, source-purpose wording, and a surveyed-only default (see the Water well logs section of `web/README.md`)
 - [ ] Add the DNRR radon-in-indoor-air potential layer once a Web Mercator service exists or a proj4 custom CRS is approved; the published `radon_cache` MapServer returns an empty image from `export` and caches tiles only in NAD83/MTM (wkid 2961)
 - [ ] Add separate Karst Risk and Known Karst Occurrences layers from DP ME 494 only with 2019 currentness, source-scale, completeness, and non-survey caveats
 - [ ] Add a selected-parcel Property context summary, starting with karst and coastal hazards; use the researched source order and caveats in `docs/property-context-data-candidates.md`
@@ -89,7 +96,7 @@
 - [x] "Your maps": user-loaded GeoTIFFs rendered client-side with opacity control (spec `docs/superpowers/specs/2026-07-24-web-user-maps-design.md`, PR 1 of 4)
 - [x] In-browser georeferencer for plain scans (PR 2)
 - [x] TPS warping + Allmaps annotation export (PR 3)
-- [ ] GeoPDF import (PR 4)
+- [x] GeoPDF import (PR 4)
 - [ ] Evaluate geotiff.js 3.x migration (pinned to 2.1.3 in PR 1; read API changed)
 
 ## Future Considerations
