@@ -213,6 +213,22 @@ describe("mobile parcel inspector layout", () => {
     expect(mobileStyles).toMatch(/\.app-brand strong,/);
     expect(mobileStyles).not.toMatch(/\.header-action\s*\{[^}]*display:\s*none/);
   });
+
+  it("gives the phone's About and licence buttons a 44px target", () => {
+    // Below 861px the header is hidden, so the attribution strip's two
+    // buttons are the only route to About and the licence review — the
+    // phone media block must raise them to the rail controls' 44px target.
+    const phoneStart = styles.indexOf("@media (max-width: 860px)");
+    expect(phoneStart).toBeGreaterThan(-1);
+    const phoneStyles = styles.slice(
+      phoneStart,
+      styles.indexOf("@media (max-width: 560px)", phoneStart),
+    );
+
+    expect(phoneStyles).toMatch(
+      /\.map-attribution button\s*\{[^}]*min-height:\s*44px/,
+    );
+  });
 });
 
 describe("GeoPDF frame chooser layout", () => {

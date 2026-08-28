@@ -827,6 +827,8 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
             Source on GitHub
           </a>
           {" · "}
+          <a href={BETA_SIGNUP_URL}>Get launch updates</a>
+          {" · "}
           <a href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot">
             Email the maker
           </a>
@@ -3347,7 +3349,11 @@ export function App() {
             About this map
           </button>
           <span>iPhone app in development</span>
-          <a className="header-action" href={BETA_SIGNUP_URL}>
+          <a
+            className="header-action"
+            href={BETA_SIGNUP_URL}
+            title="map@kinnokilabs.com"
+          >
             Get launch updates
           </a>
         </div>
