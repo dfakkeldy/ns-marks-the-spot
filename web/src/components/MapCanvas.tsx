@@ -354,7 +354,7 @@ function ArcGISMapLayer({
               maxZoom: layer.maxZoom,
               opacity: layer.opacity,
               zIndex: PROVINCE_LAYER_Z_INDEXES[layer.id] + index,
-              maxNativeZoom: layer.id === "ns-aerial" ? 19 : undefined,
+              maxNativeZoom: layer.maxNativeZoom,
               updateWhenZooming: false,
               keepBuffer: 2,
               // Carried on screen too, not only in print. These layers arrive

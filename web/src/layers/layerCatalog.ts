@@ -483,6 +483,9 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     nativeDefaultVisibility: false,
     minZoom: 10,
     maxZoom: 23,
+    // Was hardcoded at the render site; in the catalog it rides the parity
+    // fixture, so the native app inherits the same upscale boundary.
+    maxNativeZoom: 19,
     opacity: 1,
     licence: "province-restricted",
     webAvailability: "available",

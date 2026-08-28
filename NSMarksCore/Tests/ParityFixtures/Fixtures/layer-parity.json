@@ -75,6 +75,7 @@
       "group": "map-layers",
       "id": "ns-aerial",
       "licence": "province-restricted",
+      "maxNativeZoom": 19,
       "maxZoom": 23,
       "minZoom": 10,
       "name": "NS Aerial",
