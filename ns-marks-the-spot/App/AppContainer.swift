@@ -83,6 +83,16 @@ final class AppContainer {
     ) {
         self.sessionStore = sessionStore
 
+        // Warm the bundled catalogs off the main thread. Their statics
+        // memoize on first touch, and the first touch used to be the scene
+        // body's view-model construction — ~320 KB of JSON decode and
+        // validation on the first-frame path. Losing the race is harmless:
+        // whoever touches the static first pays once, thread-safely.
+        Task.detached(priority: .utility) {
+            _ = TaxSaleCatalog.bundled
+            _ = HistoricalTaxSaleCatalog.bundled
+        }
+
         let store = TileStore()
         self.tileStore = store
 

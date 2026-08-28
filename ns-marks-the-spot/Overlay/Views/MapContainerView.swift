@@ -671,33 +671,40 @@ struct MapContainerView: View {
                 .disabled(isSelectingSaveArea)
                 }
 
-                Button {
-                    share = SharePayload(url: overlayVM.shareURL ?? OverlayViewModel.webMapURL)
-                } label: {
-                    MapControlIcon(systemName: "square.and.arrow.up")
-                }
-                .accessibilityLabel("Share This Map View")
-                .accessibilityIdentifier("share-map-view")
-                .disabled(isSelectingSaveArea)
+                // Share, print and info live behind one control. Nine
+                // always-visible circles was the heaviest rail an app of this
+                // kind carries, it nearly filled an SE-class screen, and these
+                // three are occasional actions rather than map modes — every
+                // mode toggle stays a top-level control, and the menu costs
+                // one extra tap on the rail's least-used third.
+                Menu {
+                    Button {
+                        share = SharePayload(url: overlayVM.shareURL ?? OverlayViewModel.webMapURL)
+                    } label: {
+                        Label("Share This Map View", systemImage: "square.and.arrow.up")
+                    }
+                    .accessibilityIdentifier("share-map-view")
 
-                Button {
-                    cancelBoundsSelection()
-                    controller.beginPrintFraming()
-                    printFrame = .default
-                } label: {
-                    MapControlIcon(systemName: "printer")
-                }
-                .accessibilityLabel("Export This Map As A PDF")
-                .accessibilityIdentifier("export-map-pdf")
-                .disabled(isSelectingSaveArea)
+                    Button {
+                        cancelBoundsSelection()
+                        controller.beginPrintFraming()
+                        printFrame = .default
+                    } label: {
+                        Label("Export This Map As A PDF", systemImage: "printer")
+                    }
+                    .accessibilityIdentifier("export-map-pdf")
 
-                Button {
-                    cancelBoundsSelection()
-                    navigationModel.activeSheet = .info
+                    Button {
+                        cancelBoundsSelection()
+                        navigationModel.activeSheet = .info
+                    } label: {
+                        Label("Data Sources and Licenses", systemImage: "info.circle")
+                    }
                 } label: {
-                    MapControlIcon(systemName: "info.circle")
+                    MapControlIcon(systemName: "ellipsis")
                 }
-                .accessibilityLabel("Data Sources and Licenses")
+                .accessibilityLabel("More Map Actions")
+                .accessibilityIdentifier("more-map-actions")
                 .disabled(isSelectingSaveArea)
 
                 Button {
@@ -771,8 +778,8 @@ struct MapContainerView: View {
     /// than discovered from a finished page, and never silently dropped: a map
     /// missing the layer the user came to print is worse when nobody said so.
     private var unprintableLayerNames: [String] {
-        controller.state.userMaps.map(\.record.name)
-            + controller.state.userVectors.map(\.record.name)
+        controller.userMapDrapes.map(\.record.name)
+            + controller.userVectorDrawings.map(\.record.name)
     }
 
     /// What the container does as it appears, changes and goes away.
@@ -890,7 +897,7 @@ struct MapContainerView: View {
                         // not on the map to be tapped, which is why the
                         // catalogued layers are still asked before the identify
                         // request below.
-                        if controller.state.parcelShapes.contains(where: {
+                        if controller.parcelShapes.contains(where: {
                             PolygonHitTest.contains(
                                 GeoPoint(lat: latitude, lng: longitude),
                                 multiPolygon: $0.parts
