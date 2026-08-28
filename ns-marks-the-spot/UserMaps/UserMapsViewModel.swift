@@ -240,7 +240,20 @@ final class UserMapsViewModel {
         // after a load that succeeded: `records` is the whole library here, and
         // sweeping against the empty list a failed load leaves would take every
         // preview on the device with it.
-        try? await store.sweepOrphanedPreviews()
+        //
+        // `mark` is read again because the drafts sweep above suspended this
+        // function, and an import can begin inside that window. An import's
+        // preview is on disk before its record is, so a sweep enqueued now
+        // would read a library that does not yet claim the newest pixels and
+        // delete them — the only copy. Checked in the same slice that enqueues
+        // the sweep, the counter proves no import holds that gap open; one
+        // that begins later enqueues its preview write behind the sweep. When
+        // an import did intervene, the sweep is not owed here: the next load
+        // that succeeds sweeps, which is the contract `importMap` names for
+        // the preview it may itself leave behind.
+        if mark == writes {
+            try? await store.sweepOrphanedPreviews()
+        }
         // Collected first, assigned in one pass with no suspension between
         // assignments: each preview assignment republishes the drapes, and
         // interleaving them with the per-record reads made MapKit rebuild and
