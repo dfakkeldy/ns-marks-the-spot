@@ -1652,6 +1652,36 @@ a {
   cursor: pointer;
 }
 
+.data-sources-dialog {
+  max-width: 560px;
+}
+
+.data-sources-list {
+  display: grid;
+  max-height: 44vh;
+  margin: 0;
+  padding: 0 4px 0 0;
+  gap: 10px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.data-sources-list li {
+  display: grid;
+  gap: 2px;
+  padding-bottom: 8px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-sources-list li:last-child {
+  border-bottom: 0;
+}
+
+.data-sources-list li > span {
+  color: var(--muted);
+}
+
 .segmented-control {
   display: grid;
   grid-template-columns: 0.8fr 1.15fr 1.45fr;

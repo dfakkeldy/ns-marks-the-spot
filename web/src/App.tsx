@@ -883,6 +883,84 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
   );
 }
 
+/**
+ * The full per-layer source inventory, rendered from the same receipts the
+ * print pipeline stamps on exported maps. Read-only by design: reviewing
+ * sources never changes licence acceptance or layer state — the Province
+ * licence itself opens through its own review path.
+ */
+function DataSourcesDialog({
+  sources,
+  onReviewProvinceLicence,
+  onClose,
+}: {
+  sources: PrintLayerSource[];
+  onReviewProvinceLicence: () => void;
+  onClose: () => void;
+}) {
+  const dialogRef = useDialogChrome(onClose);
+  return (
+    <div className="dialog-backdrop">
+      <section
+        ref={dialogRef}
+        tabIndex={-1}
+        className="licence-dialog about-dialog data-sources-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="data-sources-title"
+      >
+        <div className="licence-mark" aria-hidden="true">
+          NS
+        </div>
+        <h2 id="data-sources-title">Data &amp; licences</h2>
+        <p>
+          Every layer names its source, its published date, and its licence —
+          the same receipts a printed export carries. Reviewing them changes
+          nothing about what the map shows.
+        </p>
+        <ul className="data-sources-list">
+          {sources.map((source) => (
+            <li key={source.id}>
+              <strong>{source.name}</strong>
+              <span>{source.sourceDate}</span>
+              <span>{source.attribution}</span>
+              <span>
+                <a href={source.sourceUrl} target="_blank" rel="noreferrer">
+                  Official source
+                </a>
+                {source.licenceUrl ? (
+                  <>
+                    {" · "}
+                    <a
+                      href={source.licenceUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Licence
+                    </a>
+                  </>
+                ) : null}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <div className="dialog-actions">
+          <button
+            className="secondary-action"
+            type="button"
+            onClick={onReviewProvinceLicence}
+          >
+            Review the Province licence
+          </button>
+          <button className="primary-action" type="button" onClick={onClose}>
+            Close
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export function App() {
   const initialUrl = useRef(new URL(window.location.href)).current;
   const [initialCustomThemeLibrary] = useState(
@@ -937,6 +1015,10 @@ export function App() {
       };
     }
   }, []);
+  const sourceInventory = useMemo(
+    () => [...printLayerSources(fletcherTileConfiguration.baseUrl).values()],
+    [fletcherTileConfiguration.baseUrl],
+  );
   const availableThemeLayerIds = useMemo(() => {
     const ids = new Set<ShareLayerId>([
       "modern",
@@ -1022,10 +1104,17 @@ export function App() {
     initialNeedsLicence,
   );
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [dataSourcesOpen, setDataSourcesOpen] = useState(false);
   // Escape closes the mobile controls sheet, matching the dialogs — but only
   // while no dialog sits above it, so one keypress never closes two layers.
   useEffect(() => {
-    if (!mobileControlsOpen || aboutOpen || licenceDialogOpen || themeManagerOpen) {
+    if (
+      !mobileControlsOpen ||
+      aboutOpen ||
+      dataSourcesOpen ||
+      licenceDialogOpen ||
+      themeManagerOpen
+    ) {
       return;
     }
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -1035,7 +1124,13 @@ export function App() {
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [mobileControlsOpen, aboutOpen, licenceDialogOpen, themeManagerOpen]);
+  }, [
+    mobileControlsOpen,
+    aboutOpen,
+    dataSourcesOpen,
+    licenceDialogOpen,
+    themeManagerOpen,
+  ]);
   const [parcels, setParcels] = useState<NsprdFeatureCollection>(EMPTY_FEATURES);
   const parcelsRef = useRef(parcels);
   const [parcelMessage, setParcelMessage] = useState<string | null>(null);
@@ -4471,7 +4566,7 @@ export function App() {
         ))}
         {fletcherVisible ? <span>{RUMSEY_ATTRIBUTION}</span> : null}
         <span>Boundaries are not a survey</span>
-        <button type="button" onClick={reviewProvinceLicence}>
+        <button type="button" onClick={() => setDataSourcesOpen(true)}>
           Data &amp; licences
         </button>
         <button type="button" onClick={() => setAboutOpen(true)}>
@@ -4487,6 +4582,16 @@ export function App() {
         />
       ) : null}
       {aboutOpen ? <AboutDialog onClose={() => setAboutOpen(false)} /> : null}
+      {dataSourcesOpen ? (
+        <DataSourcesDialog
+          sources={sourceInventory}
+          onReviewProvinceLicence={() => {
+            setDataSourcesOpen(false);
+            reviewProvinceLicence();
+          }}
+          onClose={() => setDataSourcesOpen(false)}
+        />
+      ) : null}
       {themeManagerOpen ? (
         <ThemeManagerDialog
           themes={mapThemes}

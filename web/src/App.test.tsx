@@ -1559,6 +1559,40 @@ describe("NS Marks The Spot Online", () => {
     anchorClick.mockRestore();
   });
 
+  it("lists every layer's source, date, and licence behind Data & licences", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    renderAppWithCategoriesOpen();
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "Data & licences" }),
+    );
+    const dialog = screen.getByRole("dialog", { name: "Data & licences" });
+
+    // The inventory covers licences the Province dialog never mentioned:
+    // OSM, the Rumsey collection, and OGL-NS layers all get reviewable rows.
+    expect(within(dialog).getByText("Modern map")).toBeInTheDocument();
+    expect(
+      within(dialog).getByText("© OpenStreetMap contributors"),
+    ).toBeInTheDocument();
+    expect(within(dialog).getAllByRole("link", { name: "Official source" })
+      .length).toBeGreaterThan(10);
+    expect(
+      within(dialog).getAllByRole("link", { name: "Licence" }).length,
+    ).toBeGreaterThan(10);
+
+    // Reviewing is read-only: closing changes no layer or licence state.
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: "Close" }),
+    );
+    expect(
+      screen.queryByRole("dialog", { name: "Data & licences" }),
+    ).not.toBeInTheDocument();
+    expect(localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY)).toBe(
+      "accepted",
+    );
+  });
+
   it("keeps the user's layer choices when the licence is merely reviewed", async () => {
     // The footer's "Data & licences" used to open the dialog with the layer
     // intent, whose Accept ran setProvinceLayers(initial) — silently wiping
@@ -1572,6 +1606,11 @@ describe("NS Marks The Spot Online", () => {
 
     await userEvent.click(
       screen.getByRole("button", { name: "Data & licences" }),
+    );
+    // The footer now opens the source inventory; the Province licence is one
+    // explicit step deeper, still on the review path.
+    await userEvent.click(
+      screen.getByRole("button", { name: "Review the Province licence" }),
     );
     const dialog = screen.getByRole("dialog", {
       name: /province data licence/i,
