@@ -33,7 +33,73 @@ enum MapEvent {
 /// mutate the desired state and apply it.
 @Observable
 final class MapController: NSObject {
-    private(set) var state = MapViewState()
+    // MARK: - Applied surface state
+    //
+    // One observable stored property per field, not one property holding the
+    // whole `MapViewState`: Observation tracks property access, and a view
+    // reading `layers` through a monolithic `state` re-rendered on every
+    // vector-draft frame and every feature replace. `state` below composes
+    // the same value for the diff; `applyStorage` writes back only the fields
+    // that changed, so each mutation notifies exactly its own observers.
+
+    private var appliedBaseMapType: MapBaseType = .openStreetMap
+    private var appliedLayers: [MapLayerState] = []
+    private var appliedParcelShapes: [ParcelShape] = []
+    private var appliedFeatureShapes: [FeatureShape] = []
+    private var appliedFeatureMarkers: [FeatureMarker] = []
+    private var appliedUserMaps: [UserMapDrape] = []
+    private var appliedUserVectors: [UserVectorDrawing] = []
+    private var appliedVectorDraft: VectorDraftPreview?
+    private var appliedVectorHandles: VectorSelectionHandles?
+    private var appliedVectorMoveHandle: VectorMoveHandle?
+    private var appliedParcelOverviewMarkers: [ParcelOverviewMarker] = []
+    private var appliedShowsUserLocation = false
+    private var appliedInteractionMode: MapInteractionMode = .idle
+
+    /// The applied state, composed. Reading this in a tracked context depends
+    /// on every field — code that only needs one should read that field's own
+    /// accessor.
+    var state: MapViewState {
+        MapViewState(
+            baseMapType: appliedBaseMapType,
+            layers: appliedLayers,
+            parcelShapes: appliedParcelShapes,
+            featureShapes: appliedFeatureShapes,
+            featureMarkers: appliedFeatureMarkers,
+            userMaps: appliedUserMaps,
+            userVectors: appliedUserVectors,
+            vectorDraft: appliedVectorDraft,
+            vectorHandles: appliedVectorHandles,
+            vectorMoveHandle: appliedVectorMoveHandle,
+            parcelOverviewMarkers: appliedParcelOverviewMarkers,
+            showsUserLocation: appliedShowsUserLocation,
+            interactionMode: appliedInteractionMode
+        )
+    }
+
+    private func applyStorage(_ desired: MapViewState, from current: MapViewState) {
+        // Guarded per field — an @Observable set notifies that property's
+        // observers even when the value is unchanged.
+        if current.baseMapType != desired.baseMapType { appliedBaseMapType = desired.baseMapType }
+        if current.layers != desired.layers { appliedLayers = desired.layers }
+        if current.parcelShapes != desired.parcelShapes { appliedParcelShapes = desired.parcelShapes }
+        if current.featureShapes != desired.featureShapes { appliedFeatureShapes = desired.featureShapes }
+        if current.featureMarkers != desired.featureMarkers { appliedFeatureMarkers = desired.featureMarkers }
+        if current.userMaps != desired.userMaps { appliedUserMaps = desired.userMaps }
+        if current.userVectors != desired.userVectors { appliedUserVectors = desired.userVectors }
+        if current.vectorDraft != desired.vectorDraft { appliedVectorDraft = desired.vectorDraft }
+        if current.vectorHandles != desired.vectorHandles { appliedVectorHandles = desired.vectorHandles }
+        if current.vectorMoveHandle != desired.vectorMoveHandle { appliedVectorMoveHandle = desired.vectorMoveHandle }
+        if current.parcelOverviewMarkers != desired.parcelOverviewMarkers {
+            appliedParcelOverviewMarkers = desired.parcelOverviewMarkers
+        }
+        if current.showsUserLocation != desired.showsUserLocation {
+            appliedShowsUserLocation = desired.showsUserLocation
+        }
+        if current.interactionMode != desired.interactionMode {
+            appliedInteractionMode = desired.interactionMode
+        }
+    }
     @ObservationIgnored var events: ((MapEvent) -> Void)?
     /// Whether the closest-zoom limit has been set. Set once, from the first
     /// laid-out frame, and never again: recalibrating would move the limit
@@ -150,8 +216,9 @@ final class MapController: NSObject {
     // MARK: - State application
 
     func apply(_ desired: MapViewState) {
-        let mutations = MapStateDiff.mutations(from: state, to: desired)
-        state = desired
+        let current = state
+        let mutations = MapStateDiff.mutations(from: current, to: desired)
+        applyStorage(desired, from: current)
         guard let mapView else { return }
         for mutation in mutations {
             perform(mutation, on: mapView)
@@ -404,16 +471,24 @@ final class MapController: NSObject {
 
     // MARK: - Convenience state accessors
 
-    var layers: [MapLayerState] { state.layers }
-    var isSelectingBounds: Bool { state.interactionMode == .selectingBounds }
+    var layers: [MapLayerState] { appliedLayers }
+    var isSelectingBounds: Bool { appliedInteractionMode == .selectingBounds }
+
+    // Per-field reads for code that needs one surface field without taking a
+    // dependency on all of them.
+    var parcelShapes: [ParcelShape] { appliedParcelShapes }
+    var featureShapes: [FeatureShape] { appliedFeatureShapes }
+    var featureMarkers: [FeatureMarker] { appliedFeatureMarkers }
+    var userMapDrapes: [UserMapDrape] { appliedUserMaps }
+    var userVectorDrawings: [UserVectorDrawing] { appliedUserVectors }
 
     var baseMapType: MapBaseType {
-        get { state.baseMapType }
+        get { appliedBaseMapType }
         set { mutate { $0.baseMapType = newValue } }
     }
 
     var showsUserLocation: Bool {
-        get { state.showsUserLocation }
+        get { appliedShowsUserLocation }
         set {
             if newValue {
                 locationManager.requestWhenInUseAuthorization()
@@ -425,7 +500,7 @@ final class MapController: NSObject {
     // MARK: - Layers
 
     func addLayer(_ layer: MapLayerState) {
-        guard !state.layers.contains(where: { $0.id == layer.id }) else { return }
+        guard !appliedLayers.contains(where: { $0.id == layer.id }) else { return }
         mutate { $0.layers.append(layer) }
     }
 
@@ -441,10 +516,10 @@ final class MapController: NSObject {
     /// its own images per overlay instance, so the failed squares of the old
     /// one would otherwise stay on screen however the fetch went.
     func retryTiles(for layerID: String) {
-        guard let index = state.layers.firstIndex(where: { $0.id == layerID }),
-              state.layers[index].isVisible
+        guard let index = appliedLayers.firstIndex(where: { $0.id == layerID }),
+              appliedLayers[index].isVisible
         else { return }
-        let layer = state.layers[index]
+        let layer = appliedLayers[index]
         progress.reset(layerID)
         layerLoadPhases[layerID] = .idle
         // The replacement renderer reads its alpha back out of `state.layers`,
@@ -779,7 +854,7 @@ final class MapController: NSObject {
     /// Delivers a completed selection through the event stream. Gated on the
     /// interaction mode so a stale gesture can never emit after selection ends.
     func completeBoundsSelection(with bounds: MapBounds) {
-        guard state.interactionMode == .selectingBounds else { return }
+        guard appliedInteractionMode == .selectingBounds else { return }
         events?(.boundsSelected(bounds.normalized))
     }
 
@@ -987,7 +1062,7 @@ extension MapController: MKMapViewDelegate {
         )
         guard zoomLevel <= ParcelMarkers.overviewMaxZoom else { return }
         mapView.addAnnotations(
-            state.parcelOverviewMarkers.map(ParcelOverviewAnnotation.init(marker:))
+            appliedParcelOverviewMarkers.map(ParcelOverviewAnnotation.init(marker:))
         )
     }
 
@@ -1153,7 +1228,7 @@ extension MapController: MKMapViewDelegate {
             return MKOverlayRenderer(overlay: overlay)
         }
         let renderer = MKTileOverlayRenderer(tileOverlay: tileOverlay)
-        renderer.alpha = state.layers.first { $0.id == tileOverlay.configuration.id }?.effectiveAlpha ?? 1.0
+        renderer.alpha = appliedLayers.first { $0.id == tileOverlay.configuration.id }?.effectiveAlpha ?? 1.0
         tileOverlay.renderer = renderer
         return renderer
     }
@@ -1399,7 +1474,7 @@ extension MapController: @preconcurrency CLLocationManagerDelegate {
         }
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            mapView?.showsUserLocation = state.showsUserLocation
+            mapView?.showsUserLocation = appliedShowsUserLocation
             if isWaitingToCenterOnUserLocation {
                 centerOnUserLocation()
             }
