@@ -436,6 +436,53 @@ describe("useUserMaps", () => {
     );
   });
 
+  it("re-opens the store after a transient open failure instead of caching the rejection", async () => {
+    // One failed IndexedDB open (a blocked upgrade, private-mode restriction)
+    // used to be cached for the whole session: every later save silently
+    // degraded to session-only even after the condition cleared.
+    let failFirst = true;
+    const openStore = vi.fn(() => {
+      if (failFirst) {
+        failFirst = false;
+        return Promise.reject(new Error("open blocked"));
+      }
+      return UserMapStore.open(factory);
+    });
+    const { result } = renderHook(() =>
+      useUserMaps(options({ openStore })),
+    );
+    await act(async () => {
+      await result.current.importFiles([fixtureFile("first.tif")]);
+    });
+    await act(async () => {
+      await result.current.importFiles([fixtureFile("second.tif")]);
+    });
+
+    expect(result.current.outcomes.every(({ ok }) => ok)).toBe(true);
+    // The regression in one number: a cached rejection means one open ever.
+    expect(openStore.mock.calls.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("still imports successfully when localStorage.setItem throws", async () => {
+    // Quota or a blocked store must not convert a successfully parsed and
+    // saved map into a failed import.
+    const setItem = vi
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new DOMException("quota", "QuotaExceededError");
+      });
+    try {
+      const { result } = renderHook(() => useUserMaps(options()));
+      await act(async () => {
+        await result.current.importFiles([fixtureFile()]);
+      });
+      await waitFor(() => expect(result.current.records).toHaveLength(1));
+      expect(result.current.outcomes[0]).toMatchObject({ ok: true });
+    } finally {
+      setItem.mockRestore();
+    }
+  });
+
   it("surfaces a storage error when the database cannot open", async () => {
     const { result } = renderHook(() =>
       useUserMaps(

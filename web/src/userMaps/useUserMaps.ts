@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { UserMapImportError } from "./errors";
+import { requestDurableStorage } from "../services/durableStorage";
 import { generateId, stripExtension } from "./importUtils";
 import { parseGeoTiffAuto } from "./parsers/parseInWorker";
 import type { ParsedGeoTiff } from "./parsers/geoTiffSource";
@@ -267,16 +268,39 @@ export function useUserMaps(
   }, [records]);
 
   const store = useCallback((): Promise<UserMapStore> => {
-    storeRef.current ??= openStoreRef.current();
+    if (!storeRef.current) {
+      const opening = openStoreRef.current();
+      // A rejected open must not be cached: one transient IndexedDB failure
+      // (private-mode restriction lifting, a blocked upgrade resolving)
+      // otherwise disabled persistence for the whole session.
+      opening.catch(() => {
+        if (storeRef.current === opening) {
+          storeRef.current = null;
+        }
+      });
+      storeRef.current = opening;
+    }
     return storeRef.current;
   }, []);
 
   const persistUiState = useCallback((next: UserMapUiState) => {
     setUiState(next);
-    localStorage.setItem(UI_STATE_KEY, JSON.stringify(next));
+    try {
+      localStorage.setItem(UI_STATE_KEY, JSON.stringify(next));
+    } catch {
+      // Quota or a blocked store: the in-memory state above is already
+      // correct, and a failed convenience write must never surface as a
+      // failed import or removal.
+    }
   }, []);
 
   const registerPreviewUrl = useCallback((id: string, blob: Blob) => {
+    const previous = previewUrlsRef.current[id];
+    if (previous) {
+      // Re-registering (a re-import, a preview refresh) leaked the old URL,
+      // pinning its Blob for the life of the tab.
+      URL.revokeObjectURL(previous);
+    }
     const url = URL.createObjectURL(blob);
     previewUrlsRef.current[id] = url;
     setPreviewUrls((prev) => ({ ...prev, [id]: url }));
@@ -472,6 +496,9 @@ export function useUserMaps(
             }
             try {
               await (await store()).saveUserMap(record, file, preview);
+              // The user now has data worth keeping across Safari's
+              // seven-day storage eviction.
+              requestDurableStorage();
             } catch (saveError) {
               // Spec promise: a save failure never discards the import; the
               // map lives in memory for this session.
