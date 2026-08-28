@@ -2419,8 +2419,11 @@ describe("NS Marks The Spot Online", () => {
       name: "Get launch updates",
     });
 
-    // One invite, in the header banner: the rail's duplicate marketing card
-    // was removed so the layer rail stays an instrument panel.
+    // One invite in the default render, in the header banner: the rail's
+    // duplicate marketing card was removed so the layer rail stays an
+    // instrument panel. (The About dialog carries a second copy of the same
+    // link — the phone's route, since the header is hidden there — but it
+    // only renders while the dialog is open.)
     expect(betaLinks).toHaveLength(1);
     betaLinks.forEach((link) => {
       expect(link).toHaveAttribute(
@@ -2456,6 +2459,15 @@ describe("NS Marks The Spot Online", () => {
     ).toHaveAttribute(
       "href",
       "https://github.com/dfakkeldy/ns-marks-the-spot",
+    );
+    // The dialog is the phone's beta-signup route: the header invite is
+    // display:none below 861px, and About stays reachable from the
+    // attribution strip.
+    expect(
+      within(dialog).getByRole("link", { name: "Get launch updates" }),
+    ).toHaveAttribute(
+      "href",
+      "mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20beta%20signup",
     );
 
     await user.click(within(dialog).getByRole("button", { name: "Close" }));

@@ -2808,6 +2808,13 @@ a {
     backdrop-filter: blur(14px);
   }
 
+  /* With the header hidden at this width, these two buttons are the phone's
+     only route to About and the licence review — give them the same 44px
+     target the rail controls get. */
+  .map-attribution button {
+    min-height: 44px;
+  }
+
   /* The strip above overlays the map bottom on small screens; without this
      the Leaflet scale bar and the coordinate/scale readouts sat underneath
      it, half-clipped. */
