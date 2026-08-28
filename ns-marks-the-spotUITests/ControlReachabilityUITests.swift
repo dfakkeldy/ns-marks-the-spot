@@ -11,8 +11,10 @@ final class ControlReachabilityUITests: XCTestCase {
     private let timeout: TimeInterval = 15
 
     /// The three at the bottom of the rail, which are the ones that fall off
-    /// the end of a landscape screen.
-    private let endOfRail = ["Data Sources and Licenses", "Save Area", "Toggle Layers Menu"]
+    /// the end of a landscape screen. Share, print and the sources sheet live
+    /// inside "More Map Actions" now, so the menu control is the reachable
+    /// thing.
+    private let endOfRail = ["More Map Actions", "Save Area", "Toggle Layers Menu"]
 
     override func setUpWithError() throws {
         continueAfterFailure = false
