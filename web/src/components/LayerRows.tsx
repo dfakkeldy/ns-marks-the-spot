@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useState } from "react";
 import type {
   EnvironmentalHealthLayerDescriptor,
@@ -40,7 +41,7 @@ function layerRuntimeLabel(
   }
 }
 
-export function LayerMetadata({
+export const LayerMetadata = memo(function LayerMetadata({
   sourceDate,
   scale,
   coverage,
@@ -81,9 +82,9 @@ export function LayerMetadata({
       </details>
     </span>
   );
-}
+});
 
-export function LayerToggle({
+export const LayerToggle = memo(function LayerToggle({
   layer,
   checked,
   licenceAccepted,
@@ -130,9 +131,9 @@ export function LayerToggle({
       ) : null}
     </label>
   );
-}
+});
 
-export function FletcherLayerControl({
+export const FletcherLayerControl = memo(function FletcherLayerControl({
   layer,
   checked,
   enabled,
@@ -200,9 +201,9 @@ export function FletcherLayerControl({
       ) : null}
     </div>
   );
-}
+});
 
-export function ResourceLayerToggle({
+export const ResourceLayerToggle = memo(function ResourceLayerToggle({
   layer,
   checked,
   licenceAccepted,
@@ -272,9 +273,9 @@ export function ResourceLayerToggle({
       ) : null}
     </>
   );
-}
+});
 
-export function HydroPilotLayerToggle({
+export const HydroPilotLayerToggle = memo(function HydroPilotLayerToggle({
   layer,
   checked,
   status,
@@ -309,13 +310,13 @@ export function HydroPilotLayerToggle({
       </span>
     </label>
   );
-}
+});
 
 /**
  * Zoning comes from municipal servers, so it sits outside the Province licence
  * gate entirely and takes no licenceAccepted prop.
  */
-export function ZoningLayerToggle({
+export const ZoningLayerToggle = memo(function ZoningLayerToggle({
   layer,
   checked,
   status,
@@ -359,9 +360,9 @@ export function ZoningLayerToggle({
       </span>
     </label>
   );
-}
+});
 
-export function FloodHazardLayerToggle({
+export const FloodHazardLayerToggle = memo(function FloodHazardLayerToggle({
   layer,
   checked,
   licenceAccepted,
@@ -405,9 +406,9 @@ export function FloodHazardLayerToggle({
       ) : null}
     </label>
   );
-}
+});
 
-export function EnvironmentalHealthLayerToggle({
+export const EnvironmentalHealthLayerToggle = memo(function EnvironmentalHealthLayerToggle({
   layer,
   checked,
   licenceAccepted,
@@ -479,9 +480,9 @@ export function EnvironmentalHealthLayerToggle({
       ) : null}
     </label>
   );
-}
+});
 
-export function ForestryLayerToggle({
+export const ForestryLayerToggle = memo(function ForestryLayerToggle({
   layer,
   checked,
   status,
@@ -545,9 +546,9 @@ export function ForestryLayerToggle({
       </span>
     </label>
   );
-}
+});
 
-export function WellLogLayerToggle({
+export const WellLogLayerToggle = memo(function WellLogLayerToggle({
   layer,
   checked,
   status,
@@ -582,13 +583,13 @@ export function WellLogLayerToggle({
       </span>
     </label>
   );
-}
+});
 
 /**
  * The filter is the honest default made explicit: surveyed wells are the only
  * band tight enough to read as a point, so showing the rest is opt-in.
  */
-export function WellLogAccuracyFilterControl({
+export const WellLogAccuracyFilterControl = memo(function WellLogAccuracyFilterControl({
   value,
   onChange,
 }: {
@@ -619,7 +620,7 @@ export function WellLogAccuracyFilterControl({
       </button>
     </div>
   );
-}
+});
 
 export function WellLogAccuracyLegend() {
   return (
