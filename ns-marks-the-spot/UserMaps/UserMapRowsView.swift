@@ -44,8 +44,15 @@ struct UserMapRowsView: View {
                     row: row,
                     onVisible: { viewModel.setVisible($0, id: row.id) },
                     onOpacity: { viewModel.setOpacity($0, id: row.id) },
-                    onPlace: { georeferencing = row },
-                    onChooseFrame: { choosingFrame = row },
+                    // Through the ensure call, not the row value in hand: a
+                    // hidden row's preview is evicted, and both sheets draw
+                    // the page itself.
+                    onPlace: {
+                        Task { georeferencing = await viewModel.rowEnsuringPreview(id: row.id) }
+                    },
+                    onChooseFrame: {
+                        Task { choosingFrame = await viewModel.rowEnsuringPreview(id: row.id) }
+                    },
                     onDelete: { deleting = row }
                 )
             }

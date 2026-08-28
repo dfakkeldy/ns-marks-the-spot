@@ -242,8 +242,14 @@ final class UserMapsViewModel {
         // assignments: each preview assignment republishes the drapes, and
         // interleaving them with the per-record reads made MapKit rebuild and
         // re-warp every placed scan once per preview that arrived.
+        // Only the rows that will draw. A preview is a decoded raster of up
+        // to 4096 px on its long edge — ~50-64 MB apiece resident — and a
+        // hidden row's pixels were being pinned for the app's lifetime for
+        // nothing. Hidden rows load theirs on demand: when switched visible,
+        // or when their frame-chooser or georeferencing sheet opens.
+        let visibleIDs = Set(rows.filter(\.isVisible).map(\.id))
         var previews: [String: CGImage] = [:]
-        for record in records {
+        for record in records where visibleIDs.contains(record.id) {
             if let preview = try? await store.preview(id: record.id) {
                 previews[record.id] = preview
             }
@@ -622,6 +628,45 @@ final class UserMapsViewModel {
         guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
         rows[index].isVisible = isVisible
         rememberDisplay()
+        if isVisible {
+            ensurePreviewLoaded(id: id)
+        } else {
+            // The decoded raster goes with the drape. The preview file stays
+            // on disk, so switching the row back on re-reads it; keeping the
+            // pixels resident made memory grow with library size for rows
+            // nothing was drawing.
+            rows[index].preview = nil
+        }
+    }
+
+    /// Loads a row's full preview if eviction (or a hidden-at-launch load)
+    /// dropped it. Assigned only if the row is still visible when the read
+    /// lands, so a quick off-on-off does not resurrect the pixels.
+    private func ensurePreviewLoaded(id: String) {
+        guard let index = rows.firstIndex(where: { $0.id == id }),
+              rows[index].preview == nil else { return }
+        Task { [weak self, store] in
+            guard let preview = try? await store.preview(id: id),
+                  let self,
+                  let index = self.rows.firstIndex(where: { $0.id == id }),
+                  self.rows[index].isVisible
+            else { return }
+            self.rows[index].preview = preview
+        }
+    }
+
+    /// The row with its full preview in hand, fetched if it was evicted.
+    ///
+    /// For the sheets that draw the page itself — the frame chooser and the
+    /// georeferencer — which need the pixels whether or not the row is
+    /// currently drawing on the map.
+    func rowEnsuringPreview(id: String) async -> Row? {
+        guard let index = rows.firstIndex(where: { $0.id == id }) else { return nil }
+        if rows[index].preview == nil,
+           let preview = try? await store.preview(id: id) {
+            rows[index].preview = preview
+        }
+        return rows[index]
     }
 
     func setOpacity(_ opacity: CGFloat, id: String) {
