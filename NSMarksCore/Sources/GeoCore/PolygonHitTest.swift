@@ -106,6 +106,15 @@ public enum PolygonHitTest {
     public static func containment(
         _ point: GeoPoint, multiPolygon: [PolygonPart]
     ) -> Containment? {
-        multiPolygon.compactMap { containment(point, part: $0) }.max()
+        // A loop rather than `compactMap(...).max()`: the answer is the same,
+        // but this is called from hit-testing paths that ask it repeatedly,
+        // and the array the compactMap builds is thrown away every call.
+        var strongest: Containment?
+        for part in multiPolygon {
+            guard let found = containment(point, part: part) else { continue }
+            if found == .interior { return .interior }
+            strongest = found
+        }
+        return strongest
     }
 }
