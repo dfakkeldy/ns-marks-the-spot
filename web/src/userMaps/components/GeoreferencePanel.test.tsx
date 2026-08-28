@@ -916,10 +916,12 @@ describe("GeoreferencePanel export control", () => {
       "Church of Inverness 1888.georef.json",
     );
 
-    // Assertion 3: revokeObjectURL is called with the URL createObjectURL
-    // handed back for THIS call.
-    const createdUrl = createObjectURL.mock.results[0].value as string;
-    expect(revokeObjectURL).toHaveBeenCalledWith(createdUrl);
+    // Assertion 3: the revoke is DEFERRED — Safari starts fetching the blob
+    // URL after the click task, and the old synchronous revoke intermittently
+    // aborted the download. downloadFile.test.ts pins that the deferred
+    // revoke fires with this exact URL after DOWNLOAD_REVOKE_DELAY_MS.
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(revokeObjectURL).not.toHaveBeenCalled();
 
     anchorClick.mockRestore();
   });

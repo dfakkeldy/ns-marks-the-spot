@@ -1,46 +1,54 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
-import { downloadFile } from "./downloadFile";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { DOWNLOAD_REVOKE_DELAY_MS, downloadFile } from "./downloadFile";
 
 describe("downloadFile", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.stubGlobal("URL", {
+      ...URL,
+      createObjectURL: vi.fn(() => "blob:fake"),
+      revokeObjectURL: vi.fn(),
+    });
+  });
+
   afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it("names the download and revokes the object URL afterwards", () => {
-    const createObjectURL = vi.fn(() => "blob:generated");
-    const revokeObjectURL = vi.fn();
-    vi.stubGlobal("URL", { ...URL, createObjectURL, revokeObjectURL });
-    const click = vi.fn();
-    const anchor = { href: "", download: "", click } as unknown as HTMLAnchorElement;
-    vi.spyOn(document, "createElement").mockReturnValue(anchor);
-
-    const blob = new Blob(["payload"], { type: "text/plain" });
-    downloadFile("camps.geojson", blob);
-
-    expect(createObjectURL).toHaveBeenCalledWith(blob);
-    expect(anchor.href).toBe("blob:generated");
-    expect(anchor.download).toBe("camps.geojson");
-    expect(click).toHaveBeenCalledTimes(1);
-    expect(revokeObjectURL).toHaveBeenCalledWith("blob:generated");
     vi.unstubAllGlobals();
+    vi.useRealTimers();
   });
 
-  it("revokes the object URL even when the click throws", () => {
-    const createObjectURL = vi.fn(() => "blob:generated");
-    const revokeObjectURL = vi.fn();
-    vi.stubGlobal("URL", { ...URL, createObjectURL, revokeObjectURL });
-    const anchor = {
-      href: "",
-      download: "",
-      click: () => {
+  it("clicks an IN-DOM anchor and defers the revoke past Safari's fetch start", () => {
+    let inDomAtClick = false;
+    const click = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(function (this: HTMLAnchorElement) {
+        inDomAtClick = this.isConnected;
+      });
+
+    downloadFile("note.md", new Blob(["x"]));
+
+    // Safari ignores detached-anchor downloads, and starts fetching the blob
+    // URL only after the click task — a synchronous revoke intermittently
+    // aborted the download with no error anywhere.
+    expect(inDomAtClick).toBe(true);
+    expect(URL.revokeObjectURL).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(DOWNLOAD_REVOKE_DELAY_MS);
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:fake");
+    expect(document.querySelector("a[download]")).toBeNull();
+    click.mockRestore();
+  });
+
+  it("revokes immediately when the click itself is blocked", () => {
+    const click = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(() => {
         throw new Error("blocked");
-      },
-    } as unknown as HTMLAnchorElement;
-    vi.spyOn(document, "createElement").mockReturnValue(anchor);
+      });
 
-    expect(() => downloadFile("x.json", new Blob(["x"]))).toThrow("blocked");
-    // A leaked object URL pins its Blob in memory for the life of the tab.
-    expect(revokeObjectURL).toHaveBeenCalledWith("blob:generated");
-    vi.unstubAllGlobals();
+    expect(() => downloadFile("note.md", new Blob(["x"]))).toThrow("blocked");
+    // No fetch ever started, so the Blob can be released now — and the
+    // anchor must not be left in the document.
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:fake");
+    expect(document.querySelector("a[download]")).toBeNull();
+    click.mockRestore();
   });
 });

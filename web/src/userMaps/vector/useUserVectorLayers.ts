@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { requestDurableStorage } from "../../services/durableStorage";
 import type { FeatureCollection } from "geojson";
 import { UserMapImportError } from "../errors";
 import { generateId, stripExtension } from "../importUtils";
@@ -122,13 +123,28 @@ export function useUserVectorLayers(
   const fitRevisionRef = useRef(0);
 
   const store = useCallback((): Promise<UserVectorStore> => {
-    storeRef.current ??= openStoreRef.current();
+    if (!storeRef.current) {
+      const opening = openStoreRef.current();
+      // Mirrors useUserMaps: never cache a rejected open, or one transient
+      // IndexedDB failure disables persistence for the session.
+      opening.catch(() => {
+        if (storeRef.current === opening) {
+          storeRef.current = null;
+        }
+      });
+      storeRef.current = opening;
+    }
     return storeRef.current;
   }, []);
 
   const persistUiState = useCallback((next: UserVectorUiState) => {
     setUiState(next);
-    localStorage.setItem(UI_STATE_KEY, JSON.stringify(next));
+    try {
+      localStorage.setItem(UI_STATE_KEY, JSON.stringify(next));
+    } catch {
+      // Quota or a blocked store: a failed convenience write must never
+      // surface as a failed import or throw out of an enable toggle.
+    }
   }, []);
 
   const requestFit = useCallback((layerId: string) => {
@@ -286,6 +302,7 @@ export function useUserVectorLayers(
                 // original, so removing any one layer leaves the others'
                 // provenance intact. Duplication is bounded by the file cap.
                 await (await store()).saveVectorLayer(record, layer.parsed.collection, file);
+                requestDurableStorage();
               } catch (saveError) {
                 // Spec promise: a save failure never discards the import; the
                 // layer lives in memory for this session.
