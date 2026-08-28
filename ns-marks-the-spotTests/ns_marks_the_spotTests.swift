@@ -212,6 +212,27 @@ struct ReleaseReadinessTests {
         #expect(Bundle.main.url(forResource: "Tiles", withExtension: nil) == nil)
         #expect(Bundle.main.url(forResource: "Tiles/Fletcher/11/676/724", withExtension: "png") == nil)
     }
+
+    /// The Info sheet's version footer and feedback subject both come from
+    /// these formatters. A beta report is only traceable to its build if the
+    /// build number survives formatting — and a preview host with no version
+    /// must produce no row rather than "Version  ()".
+    @Test func versionDescriptionFormatsMarketingAndBuildNumbers() {
+        #expect(
+            InfoSheetView.versionDescription(shortVersion: "1.0", build: "7") == "1.0 (7)"
+        )
+        #expect(InfoSheetView.versionDescription(shortVersion: "1.0", build: nil) == "1.0")
+        #expect(InfoSheetView.versionDescription(shortVersion: "1.0", build: "") == "1.0")
+        #expect(InfoSheetView.versionDescription(shortVersion: nil, build: "7") == nil)
+        #expect(InfoSheetView.versionDescription(shortVersion: "", build: "7") == nil)
+    }
+
+    @Test func feedbackSubjectCarriesTheBuildWhenThereIsOne() {
+        #expect(
+            InfoSheetView.feedbackSubject(version: "1.0 (7)") == "NS Marks The Spot 1.0 (7)"
+        )
+        #expect(InfoSheetView.feedbackSubject(version: nil) == "NS Marks The Spot")
+    }
 }
 
 /// Both suites below drive the same stubbed `URLProtocol`, whose response is a

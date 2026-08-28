@@ -1,3 +1,1 @@
-NS Marks the Spot is a field-focused Nova Scotia historical map explorer.
-
-Use this beta to compare Hugh Fletcher historical map overlays with modern basemaps, adjust overlay opacity, inspect reference layers, and validate offline Fletcher tile preparation before field use.
+NS Marks the Spot is a screening and research map for Nova Scotia property: parcel search by PID or civic address, dated municipal tax-sale notices with their sources, a parcel inspector with evidence-note export, distance and area measuring, PDF map export, your own imported maps and drawings kept on your device, and historical overlay support. It is not a survey, a title search, or legal proof.

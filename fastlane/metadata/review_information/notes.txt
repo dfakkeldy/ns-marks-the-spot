@@ -1,7 +1,11 @@
-NS Marks the Spot does not require a login. Location access is optional and used only to show the user's current position on the map.
+NS Marks the Spot requires no login and no account.
 
-The app displays historical Hugh Fletcher map overlays and Nova Scotia reference layers. Historical maps and provincial geographic layers are for reference only and are not suitable for route guidance, legal property decisions, surveying, title research, emergency use, or flood-risk assessment. The app includes an in-app suitability disclaimer and a Data Sources & Licenses section.
+What you will see first: an OpenStreetMap base map of Nova Scotia with a parcel search bar (PID or civic address) and a rail of map controls. Tapping a parcel opens an inspector describing the provincial parcel record. The tax-sale control opens a sheet of dated municipal tax-sale notices; these are public municipal records shown with their source and date, not listings or offers.
 
-Some provincial geographic services are provided under the Province of Nova Scotia Restricted Geographic Services License. The app includes the required attribution: "Contains information obtained under license from the Province of Nova Scotia which is provided without warranty or liability for errors or omissions."
+The app is a screening and research tool. Historical maps and provincial layers are reference material and are not suitable for route guidance, legal property decisions, surveying, title research, emergency use, or flood-risk assessment. The in-app Map Info sheet states this and lists every data source and licence.
 
-NS Aerial and restricted Nova Scotia reference layers are online services with viewed-tile caching only in version 1.0. Saved offline areas download Fletcher historical tiles only.
+Some provincial services are provided under the Province of Nova Scotia Restricted Geographic Services License. The app asks the user to accept that licence before those layers load, displays the required attribution ("Contains information obtained under license from the Province of Nova Scotia which is provided without warranty or liability for errors or omissions."), and lets the user withdraw acceptance, which clears the cached tiles.
+
+Offline behaviour: recently viewed tiles are cached, and the user can also save named offline areas, which store historical-overlay tiles. Maps the user imports and layers they draw are stored only on the device. Location access is optional and is used only to show the user's position on the map.
+
+The 1885 historical overlay depends on a tile host configured at build time and may not be visible in this binary. None of the research features above depend on it.
