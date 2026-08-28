@@ -882,14 +882,18 @@ public enum LayerCatalog {
             // configured the row appears disabled rather than vanishing.
             serviceURL: nil,
             minZoom: 8,
-            maxZoom: 16,
+            // Display range now runs past the sheets' native depth — the
+            // tiles upscale beyond maxNativeZoom instead of the layer
+            // vanishing at 16, so tracing zoom keeps the sheet on screen.
+            // Mirrors the web catalog (layer-parity fixture schema 3).
+            maxZoom: 23,
             maxNativeZoom: 16,
             opacity: 0.72,
             webDefaultVisible: false,
             // The one layer the native app opens with. It is the reason the app
             // exists, and it is the only layer that needs no licence dialog.
             nativeDefaultVisible: true,
-            caveat: "24 direct-Rumsey sheets · zoom 8–16",
+            caveat: "24 direct-Rumsey sheets · native detail to zoom 16",
             sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
             scale: "Independently georeferenced historical sheets",
             coverage: "Cape Breton Island · 24 individual sheets"

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "groupOrder": [
     "map-layers",
     "topography",
@@ -973,7 +973,8 @@
       "group": "historical",
       "id": "fletcher",
       "licence": "rumsey-reference",
-      "maxZoom": 16,
+      "maxNativeZoom": 16,
+      "maxZoom": 23,
       "minZoom": 8,
       "name": "Fletcher",
       "nativeDefaultVisibility": true,
@@ -983,7 +984,7 @@
       "sourceDate": "Hugh Fletcher · 1882–1884 source sheets",
       "uiOrder": 35,
       "webAvailability": "available",
-      "webCaveat": "24 direct-Rumsey sheets · zoom 8–16",
+      "webCaveat": "24 direct-Rumsey sheets · native detail to zoom 16",
       "webDefaultVisible": false
     }
   ],

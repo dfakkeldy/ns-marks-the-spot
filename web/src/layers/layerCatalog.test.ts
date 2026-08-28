@@ -116,10 +116,13 @@ describe("web native-layer parity catalog", () => {
     expect(fletcherLayerCatalog.nativeDefaultVisibility).toBe(true);
     expect(fletcherLayerCatalog.webAvailability).toBe("available");
     expect(fletcherLayerCatalog.webCaveat).toBe(
-      "24 direct-Rumsey sheets · zoom 8–16",
+      "24 direct-Rumsey sheets · native detail to zoom 16",
     );
     expect(fletcherLayerCatalog.minZoom).toBe(8);
-    expect(fletcherLayerCatalog.maxZoom).toBe(16);
+    // Display runs to the map maximum; the sheets' real tile depth stays 16
+    // and Leaflet upscales past it, so the layer survives tracing zoom.
+    expect(fletcherLayerCatalog.maxZoom).toBe(23);
+    expect(fletcherLayerCatalog.maxNativeZoom).toBe(16);
     expect(
       JSON.stringify(nativeLayerCatalog).toLowerCase(),
     ).not.toContain("oldmapsonline");
