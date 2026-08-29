@@ -39,13 +39,13 @@ describe("the Halifax September 2026 tender dataset", () => {
       {
         recordId: "halifax-2026-09-15-item-23",
         aan: "09417036", pids: ["41051889"],
-        location: "40 Regency Park Dr Unit P19 Halifax Cc Unit #P19 *Parking Space",
+        location: "40 Regency Park Dr Unit P19 Halifax Cc Unit #P19 *Parkin",
         reason: "no-nsprd-geometry", checkedOn: "2026-08-15",
       },
       {
         recordId: "halifax-2026-09-15-item-24",
         aan: "09417044", pids: ["41051897"],
-        location: "40 Regency Park Dr Unit P20 Halifax Cc Unit #P20 *Parking Space",
+        location: "40 Regency Park Dr Unit P20 Halifax Cc Unit #P20 *Parkin",
         reason: "no-nsprd-geometry", checkedOn: "2026-08-15",
       },
     ]);
