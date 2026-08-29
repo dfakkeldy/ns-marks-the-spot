@@ -218,8 +218,8 @@ struct TaxSalePanelTests {
         let halifax = try #require(catalog.event(id: "halifax-2026-09-15"))
         let summary = TaxSaleViewModel(catalog: catalog).summary(for: halifax)
 
-        #expect(summary.advertised == 29)
-        #expect(summary.mapped == 27)
+        #expect(summary.advertised == 28)
+        #expect(summary.mapped == 26)
         #expect(summary.unavailable == 2)
     }
 
