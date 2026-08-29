@@ -3,6 +3,19 @@ import indexHtml from "../index.html?raw";
 import manifestText from "../public/manifest.webmanifest?raw";
 
 describe("web document metadata", () => {
+  it("opts into viewport-fit=cover so the safe-area CSS guards actually run", () => {
+    expect(indexHtml).toMatch(
+      /<meta\s+name="viewport"\s+content="width=device-width, initial-scale=1\.0, viewport-fit=cover"/,
+    );
+  });
+
+  it("shows words, not a blank page, before the bundle runs", () => {
+    // The first paint on a slow rural connection — squarely this map's
+    // audience — and the only paint with scripts blocked.
+    expect(indexHtml).toMatch(/<div id="root">\s*<p[^>]*>\s*Loading map…/);
+    expect(indexHtml).toMatch(/<noscript>[\s\S]*JavaScript[\s\S]*<\/noscript>/);
+  });
+
   it("declares an embedded favicon so subpath hosts do not request /favicon.ico", () => {
     expect(indexHtml).toMatch(/<link\s+rel="icon"\s+href="data:image\/svg\+xml,/);
   });

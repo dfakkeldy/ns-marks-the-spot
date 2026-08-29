@@ -974,6 +974,29 @@ describe("NS Marks The Spot Online", () => {
     expect(new URL(window.location.href).searchParams.get("mode")).toBe("historical");
   });
 
+  it("names the browser tab after the open parcel and restores it on close", async () => {
+    const user = userEvent.setup();
+    const initialTitle = document.title;
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?pid=50334317&layers=nsprd");
+    vi.mocked(fetchParcels).mockResolvedValue({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+
+    render(<App />);
+
+    await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(document.title).toBe("PID 50334317 — NS Marks The Spot");
+
+    await user.click(
+      screen.getByRole("button", { name: "Close parcel details" }),
+    );
+    expect(document.title).toBe(initialTitle);
+  });
+
   it("labels a notice hidden by the active mode instead of claiming the PID is unlisted", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(
@@ -1536,6 +1559,40 @@ describe("NS Marks The Spot Online", () => {
     anchorClick.mockRestore();
   });
 
+  it("lists every layer's source, date, and licence behind Data & licences", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+    renderAppWithCategoriesOpen();
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "Data & licences" }),
+    );
+    const dialog = screen.getByRole("dialog", { name: "Data & licences" });
+
+    // The inventory covers licences the Province dialog never mentioned:
+    // OSM, the Rumsey collection, and OGL-NS layers all get reviewable rows.
+    expect(within(dialog).getByText("Modern map")).toBeInTheDocument();
+    expect(
+      within(dialog).getByText("© OpenStreetMap contributors"),
+    ).toBeInTheDocument();
+    expect(within(dialog).getAllByRole("link", { name: "Official source" })
+      .length).toBeGreaterThan(10);
+    expect(
+      within(dialog).getAllByRole("link", { name: "Licence" }).length,
+    ).toBeGreaterThan(10);
+
+    // Reviewing is read-only: closing changes no layer or licence state.
+    await userEvent.click(
+      within(dialog).getByRole("button", { name: "Close" }),
+    );
+    expect(
+      screen.queryByRole("dialog", { name: "Data & licences" }),
+    ).not.toBeInTheDocument();
+    expect(localStorage.getItem(PROVINCE_LICENSE_ACCEPTANCE_KEY)).toBe(
+      "accepted",
+    );
+  });
+
   it("keeps the user's layer choices when the licence is merely reviewed", async () => {
     // The footer's "Data & licences" used to open the dialog with the layer
     // intent, whose Accept ran setProvinceLayers(initial) — silently wiping
@@ -1549,6 +1606,11 @@ describe("NS Marks The Spot Online", () => {
 
     await userEvent.click(
       screen.getByRole("button", { name: "Data & licences" }),
+    );
+    // The footer now opens the source inventory; the Province licence is one
+    // explicit step deeper, still on the review path.
+    await userEvent.click(
+      screen.getByRole("button", { name: "Review the Province licence" }),
     );
     const dialog = screen.getByRole("dialog", {
       name: /province data licence/i,
@@ -2474,6 +2536,45 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.queryByRole("dialog", { name: /about ns marks the spot/i }),
     ).not.toBeInTheDocument();
+  });
+
+  it("closes the About dialog on Escape and hands focus back to the opener", async () => {
+    const user = userEvent.setup();
+    renderAppWithCategoriesOpen();
+
+    const opener = screen.getAllByRole("button", { name: "About this map" })[0];
+    await user.click(opener);
+    const dialog = await screen.findByRole("dialog", {
+      name: /about ns marks the spot/i,
+    });
+    expect(dialog).toHaveFocus();
+
+    await user.keyboard("{Escape}");
+    expect(
+      screen.queryByRole("dialog", { name: /about ns marks the spot/i }),
+    ).not.toBeInTheDocument();
+    expect(opener).toHaveFocus();
+  });
+
+  it("treats Escape on the pending licence dialog as declining, never accepting", async () => {
+    const user = userEvent.setup();
+    setTaxSaleResearchUrl();
+    renderAppWithCategoriesOpen();
+
+    const dialog = await screen.findByRole("dialog", {
+      name: "Province data licence",
+    });
+    expect(dialog).toHaveFocus();
+
+    await user.keyboard("{Escape}");
+    expect(
+      screen.queryByRole("dialog", { name: "Province data licence" }),
+    ).not.toBeInTheDocument();
+    // Declined, not accepted: the rail still demands the licence, which only
+    // renders while acceptance is absent.
+    expect(
+      screen.getAllByText(/Province licence required/).length,
+    ).toBeGreaterThan(0);
   });
 
   it("reveals the privacy-minimized upcoming events after acceptance", async () => {

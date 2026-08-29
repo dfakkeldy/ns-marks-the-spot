@@ -71,6 +71,7 @@ export function MeasureTool({
         <button
           type="button"
           aria-label="Measure distance"
+          title="Measure distance"
           aria-pressed={mode === "distance"}
           onClick={() => toggle("distance")}
         >
@@ -87,6 +88,7 @@ export function MeasureTool({
         <button
           type="button"
           aria-label="Measure area"
+          title="Measure area"
           aria-pressed={mode === "area"}
           onClick={() => toggle("area")}
         >
@@ -241,6 +243,11 @@ function MeasureCapture({
       </Pane>
       <p className="measure-readout" role="status">
         {readoutText(mode, points)}
+        {/* The gestures are otherwise undiscoverable; surface them once a
+            measurement is underway. */}
+        {!finished && points.length > 0
+          ? " · double-click or Enter to finish · Esc to clear"
+          : null}
       </p>
     </>
   );

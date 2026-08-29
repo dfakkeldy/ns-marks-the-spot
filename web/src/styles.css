@@ -1652,6 +1652,36 @@ a {
   cursor: pointer;
 }
 
+.data-sources-dialog {
+  max-width: 560px;
+}
+
+.data-sources-list {
+  display: grid;
+  max-height: 44vh;
+  margin: 0;
+  padding: 0 4px 0 0;
+  gap: 10px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.data-sources-list li {
+  display: grid;
+  gap: 2px;
+  padding-bottom: 8px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.data-sources-list li:last-child {
+  border-bottom: 0;
+}
+
+.data-sources-list li > span {
+  color: var(--muted);
+}
+
 .segmented-control {
   display: grid;
   grid-template-columns: 0.8fr 1.15fr 1.45fr;
@@ -2975,16 +3005,19 @@ a {
     line-height: 0;
   }
 
+  /* With viewport-fit=cover these fixed offsets sit relative to the notch,
+     not the visible top — track the mobile chrome, which starts at
+     max(12px, env(safe-area-inset-top)), by carrying the same inset. */
   .location-button {
-    top: 74px;
+    top: max(74px, calc(env(safe-area-inset-top) + 62px));
   }
 
   .location-message {
-    top: 234px;
+    top: max(234px, calc(env(safe-area-inset-top) + 222px));
   }
 
   .measure-control {
-    top: 126px;
+    top: max(126px, calc(env(safe-area-inset-top) + 114px));
   }
 
   .measure-readout {
