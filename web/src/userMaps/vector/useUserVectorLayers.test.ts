@@ -532,3 +532,62 @@ describe("field-capture append", () => {
     expect(advanced).toBeNull();
   });
 });
+
+describe("recorded layers", () => {
+  it("saves a recording as a new layer with the raw GPX as its original", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    const collection: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "track-1",
+          geometry: {
+            type: "LineString",
+            coordinates: [
+              [-61, 46],
+              [-61, 46.001],
+            ],
+          },
+          properties: { name: "Boundary walk" },
+        },
+      ],
+    };
+    let created: unknown;
+    await act(async () => {
+      created = await result.current.createRecordedLayer({
+        name: "Boundary walk",
+        collection,
+        rawGpx: new Blob(["<gpx/>"], { type: "application/gpx+xml" }),
+        startedAt: "2026-08-29T14:00:00.000Z",
+        endedAt: "2026-08-29T14:20:00.000Z",
+      });
+    });
+
+    const record = result.current.records.find(
+      ({ name }) => name === "Boundary walk",
+    );
+    expect(record).toBeDefined();
+    expect(record?.source).toBe("recorded");
+    expect(record?.origin).toEqual({
+      kind: "recorded",
+      startedAt: "2026-08-29T14:00:00.000Z",
+      endedAt: "2026-08-29T14:20:00.000Z",
+    });
+    expect(record?.featureCount).toBe(1);
+    expect(created).toEqual(record);
+    expect(
+      result.current.visibleLayers.some(
+        ({ record: visible }) => visible.id === record?.id,
+      ),
+    ).toBe(true);
+
+    const store = await UserVectorStore.open(factory);
+    const listed = await store.listVectorLayers();
+    expect(listed).toHaveLength(1);
+    const original = await store.getOriginalBlob(listed[0].id);
+    expect(original).not.toBeNull();
+    expect(await original?.text()).toBe("<gpx/>");
+  });
+});

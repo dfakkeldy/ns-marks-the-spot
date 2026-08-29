@@ -37,13 +37,20 @@ export type LiveLocationHandle = { stop: () => void };
 const PERMISSION_DENIED = 1;
 
 /**
- * maximumAge 5 s: a marker may show a briefly cached fix; recording (a later
- * change) passes its own options with maximumAge 0. The 20 s timeout turns a
- * silent GPS stall into a visible `signal-lost` instead of an eternal spinner.
+ * maximumAge 5 s: a marker may show a briefly cached fix. The 20 s timeout
+ * turns a silent GPS stall into a visible `signal-lost` instead of an
+ * eternal spinner.
  */
-const WATCH_OPTIONS: PositionOptions = {
+const MARKER_WATCH_OPTIONS: PositionOptions = {
   enableHighAccuracy: true,
   maximumAge: 5_000,
+  timeout: 20_000,
+};
+
+/** A recorded track must never contain cached fixes, hence maximumAge 0. */
+export const RECORDING_WATCH_OPTIONS: PositionOptions = {
+  enableHighAccuracy: true,
+  maximumAge: 0,
   timeout: 20_000,
 };
 
@@ -69,6 +76,7 @@ export function startLiveLocation(
   geolocation: Geolocation | undefined = typeof navigator !== "undefined"
     ? navigator.geolocation
     : undefined,
+  options: PositionOptions = MARKER_WATCH_OPTIONS,
 ): LiveLocationHandle {
   if (!geolocation) {
     onChange({ status: "unavailable", fix: null });
@@ -108,7 +116,7 @@ export function startLiveLocation(
       // Timeout or position-unavailable: the watch keeps trying on its own.
       onChange({ status: "signal-lost", fix: lastFix });
     },
-    WATCH_OPTIONS,
+    options,
   );
   watchId = id;
   if (stopRequested) {

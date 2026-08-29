@@ -1446,6 +1446,21 @@ export function App() {
     [userVectorApi, vectorEdit],
   );
 
+  /** Every recording becomes its own layer, raw GPX riding as its original. */
+  const saveRecordedTrack = useCallback(
+    async (input: {
+      name: string;
+      collection: GeoJSON.FeatureCollection;
+      rawGpx: Blob;
+      startedAt: string;
+      endedAt: string;
+    }): Promise<string | null> => {
+      const record = await userVectorApi.createRecordedLayer(input);
+      return `Track saved as "${record.name}".`;
+    },
+    [userVectorApi],
+  );
+
   // The layer under edit is drawn by the Geoman bridge, so the read-only
   // list must drop it or every feature would render twice — once editable,
   // once not, with the stale copy on top.
@@ -4491,6 +4506,7 @@ export function App() {
             preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
             onMarkLocation={markCurrentLocation}
+            onSaveTrack={saveRecordedTrack}
             onLayerStatusChange={setLayerStatus}
             exportFrame={
               exportSession?.stage === "framing" ? exportSession.frame : null

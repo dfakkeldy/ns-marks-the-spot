@@ -40,6 +40,7 @@ function api(overrides: Partial<UserVectorLayersApi> = {}): UserVectorLayersApi 
     exportLayer: vi.fn(async () => {}),
     createDrawnLayer: vi.fn(async () => "new-layer"),
     ensureFieldNotesLayer: vi.fn(async () => "field-notes"),
+    createRecordedLayer: vi.fn(async () => record("recorded-layer")),
     appendFeatures: vi.fn(async () => null),
     applyLayerEdit: vi.fn(),
     geometries: {},

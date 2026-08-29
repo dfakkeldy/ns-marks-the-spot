@@ -79,6 +79,17 @@ export type UserVectorLayersApi = {
   /** Finds or creates the drawn "Field notes" layer GPS marks land in. */
   ensureFieldNotesLayer: () => Promise<string>;
   /**
+   * Saves a finished track recording as a new layer: origin "recorded", the
+   * processed geometry as the layer, the raw GPX as its original file.
+   */
+  createRecordedLayer: (input: {
+    name: string;
+    collection: FeatureCollection;
+    rawGpx: Blob;
+    startedAt: string;
+    endedAt: string;
+  }) => Promise<UserVectorLayerRecord>;
+  /**
    * Appends features to an existing layer outside an edit session, stamping
    * modifiedAt so the row's provenance shows the layer changed. Returns the
    * advanced record, or null when the layer no longer exists.
@@ -495,6 +506,56 @@ export function useUserVectorLayers(
     );
   }, [createEmptyDrawnLayer]);
 
+  const createRecordedLayer = useCallback(
+    async (input: {
+      name: string;
+      collection: FeatureCollection;
+      rawGpx: Blob;
+      startedAt: string;
+      endedAt: string;
+    }): Promise<UserVectorLayerRecord> => {
+      const record: UserVectorLayerRecord = {
+        id: generateId(),
+        name: input.name,
+        source: "recorded",
+        origin: {
+          kind: "recorded",
+          startedAt: input.startedAt,
+          endedAt: input.endedAt,
+        },
+        createdAt: new Date().toISOString(),
+        revision: 0,
+        style: { color: nextLayerColor(recordsSnapshotRef.current.length) },
+        ...summarize(input.collection),
+      };
+      try {
+        // The raw GPX rides the original-file slot, exactly like an import's
+        // source file: the record says how the data came to be, the original
+        // says exactly what the GPS delivered before filtering.
+        await (await store()).saveVectorLayer(record, input.collection, input.rawGpx);
+        requestDurableStorage();
+      } catch (saveError) {
+        // Same degrade contract as imports: a failed save never discards the
+        // recording — the track stays on the map for this session.
+        setStorageError(
+          saveError instanceof UserMapImportError
+            ? saveError.userMessage
+            : "Couldn't save this track — it stays available until you close the tab.",
+        );
+      }
+      setRecords((prev) => [...prev, record]);
+      setGeometries((prev) => ({ ...prev, [record.id]: input.collection }));
+      recordsSnapshotRef.current = [...recordsSnapshotRef.current, record];
+      geometriesSnapshotRef.current = {
+        ...geometriesSnapshotRef.current,
+        [record.id]: input.collection,
+      };
+      persistUiState({ ...loadUiState(), [record.id]: { enabled: true } });
+      return record;
+    },
+    [persistUiState, store],
+  );
+
   const ensureFieldNotesLayer = useCallback(async (): Promise<string> => {
     // Find-or-create by name, per the field-capture contract: created once,
     // reused after, recreated if the user deleted it.
@@ -597,6 +658,7 @@ export function useUserVectorLayers(
     putVectorLayer,
     createDrawnLayer,
     ensureFieldNotesLayer,
+    createRecordedLayer,
     appendFeatures,
     applyLayerEdit,
   };
