@@ -893,9 +893,9 @@ public enum LayerCatalog {
             // The one layer the native app opens with. It is the reason the app
             // exists, and it is the only layer that needs no licence dialog.
             nativeDefaultVisible: true,
-            caveat: "24 direct-Rumsey sheets · native detail to zoom 16",
+            caveat: "24 sheets · positions can sit several hundred metres off modern ground; sheets 16 & 19 refit to modern features",
             sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
-            scale: "Independently georeferenced historical sheets",
+            scale: "Independently georeferenced · accuracy varies by sheet",
             coverage: "Cape Breton Island · 24 individual sheets"
         ),
     ]

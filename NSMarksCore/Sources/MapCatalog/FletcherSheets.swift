@@ -34,7 +34,7 @@ public enum FletcherSheets {
     /// re-rendered sheet lands somewhere new and no cache anywhere — on device,
     /// in a CDN, in a proxy — can serve last month's pixels for this month's
     /// build. Bumping this string is how a re-render ships.
-    public static let tileRevision = "fletcher-direct-rumsey-20260726.1"
+    public static let tileRevision = "fletcher-direct-rumsey-20260828.1"
 
     /// Every sheet, in sheet-number order.
     public static let all: [FletcherSheet] = [
@@ -68,14 +68,16 @@ public enum FletcherSheets {
                       north: 46.305201055811956, east: -61.160888671875),
         FletcherSheet(15, south: 45.924408558629, west: -61.2213134765625,
                       north: 46.09609080214316, east: -60.8477783203125),
-        FletcherSheet(16, south: 45.920587344733654, west: -61.5948486328125,
-                      north: 46.09989991062731, east: -61.2213134765625),
+        // Sheets 16 and 19 are feature-led TPS refits in this revision; 16's
+        // tree is the full sheet (the July cutline crop is gone).
+        FletcherSheet(16, south: 45.88236073018403, west: -61.67724609375,
+                      north: 46.126556302418514, east: -61.160888671875),
         FletcherSheet(17, south: 45.71001523943371, west: -60.919189453125,
                       north: 45.958787640356405, east: -60.413818359375),
         FletcherSheet(18, south: 45.7138509302922, west: -61.2872314453125,
                       north: 45.95496879511337, east: -60.787353515625),
-        FletcherSheet(19, south: 45.71768635790719, west: -61.6607666015625,
-                      north: 45.958787640356405, east: -61.160888671875),
+        FletcherSheet(19, south: 45.71768635790719, west: -61.6827392578125,
+                      north: 45.962606222421634, east: -61.160888671875),
         FletcherSheet(20, south: 45.70617928533084, west: -60.9136962890625,
                       north: 45.95496879511337, east: -60.413818359375),
         FletcherSheet(21, south: 45.53713668039858, west: -61.292724609375,

@@ -235,7 +235,7 @@ describe("print documents", () => {
       id: "fletcher",
       name: "Fletcher",
       sourceUrl:
-        "https://tiles.example.test/fletcher-direct-rumsey-20260726.1/source.json",
+        "https://tiles.example.test/fletcher-direct-rumsey-20260828.1/source.json",
       sourceDate: "Hugh Fletcher · 1882–1884 source sheets",
       attribution: RUMSEY_ATTRIBUTION,
       licenceUrl: RUMSEY_LICENCE_URL,

@@ -116,7 +116,7 @@ describe("web native-layer parity catalog", () => {
     expect(fletcherLayerCatalog.nativeDefaultVisibility).toBe(true);
     expect(fletcherLayerCatalog.webAvailability).toBe("available");
     expect(fletcherLayerCatalog.webCaveat).toBe(
-      "24 direct-Rumsey sheets · native detail to zoom 16",
+      "24 sheets · positions can sit several hundred metres off modern ground; sheets 16 & 19 refit to modern features",
     );
     expect(fletcherLayerCatalog.minZoom).toBe(8);
     // Display runs to the map maximum; the sheets' real tile depth stays 16
