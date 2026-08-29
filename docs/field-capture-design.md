@@ -625,25 +625,26 @@ location) as a coherent slice and are worth shipping before starting W4.
 
 ## Risks and open questions
 
-Open questions for the project owner, none blocking W1-W3:
+Open questions, updated with the owner's 2026-08-29 rulings:
 
-- The 25 m accuracy gate may starve a recording under forest canopy. The HUD's
-  red state makes it visible. If field testing confirms it, the follow-up is
-  an adaptive gate (rolling-median accuracy with a floor), a one-file
-  two-surface fixture change.
-- Parcel snap targets render faintly by design so the user sees what is
-  snappable. If that reads as clutter over the NSPRD raster, an invisible
-  variant is a style-only change. Decide on first look.
-- Dense urban viewports (Halifax peninsula at z16) will exceed 600 parcels and
-  require zooming to ~z17 before parcel snapping arms. Honest but possibly
-  annoying; the cap is one tunable constant.
-- Photos are recompressed and originals discarded. Archival originals would
-  roughly triple storage; default is recompress-only.
-- Conversion offers no drag-to-reorder in v1. If forestry point sets are often
-  captured out of order, a reorder UI is a follow-up.
-- Snap preferences reset each session. If two taps per session annoys, a
-  persisted preference is a small follow-up with the localStorage guard
-  pattern.
+- Decided: ship the 25 m accuracy gate as speced and try it in the field. If
+  canopy testing shows starved recordings (the HUD's red state makes it
+  visible), the follow-up is an adaptive gate (rolling-median accuracy with a
+  floor), a one-file two-surface fixture change.
+- Decided: photos are recompressed and originals discarded; the owner does not
+  need archival originals in the app.
+- Decided: conversion ships simply in stored array order first. The owner
+  flagged point re-ordering as potentially important, so revisit a reorder UI
+  after real use, not before.
+- Still open: parcel snap targets render faintly by design so the user sees
+  what is snappable. If that reads as clutter over the NSPRD raster, an
+  invisible variant is a style-only change. Decide on first look.
+- Still open: dense urban viewports (Halifax peninsula at z16) will exceed 600
+  parcels and require zooming to ~z17 before parcel snapping arms. Honest but
+  possibly annoying; the cap is one tunable constant.
+- Still open: snap preferences reset each session. If two taps per session
+  annoys, a persisted preference is a small follow-up with the localStorage
+  guard pattern.
 
 Known risks accepted:
 
