@@ -46,7 +46,10 @@ export function parseLandingPage(html) {
   const pageText = textContent(html.replace(/<script\b[\s\S]*?<\/script>/giu, " ").replace(/<style\b[\s\S]*?<\/style>/giu, " "));
   const tenderNumbers = [...new Set(pageText.match(/HRM-TaxSale\d+/gu) ?? [])];
   const tenderUrls = uniqueMatchingUrls(html, /\/tender-doc-sept15\.26\.pdf$/iu);
-  const scheduleUrls = uniqueMatchingUrls(html, /\/sept15\.2026newspaper\.website-draft-aug-\d{1,2}\.26\.pdf$/iu);
+  const scheduleUrls = uniqueMatchingUrls(
+    html,
+    /\/(?:copy-of-)?sept15\.2026newspaper\.website-draft-aug-\d{1,2}\.26\.pdf$/iu,
+  );
   if (tenderNumbers.length !== 1 || tenderUrls.length !== 1 || scheduleUrls.length !== 1) {
     throw new Error(`Expected one current Halifax tender number, instructions PDF, and Schedule A PDF; found ${tenderNumbers.length}, ${tenderUrls.length}, and ${scheduleUrls.length}.`);
   }
@@ -118,9 +121,9 @@ export function parseScheduleText(source) {
 }
 
 export function assertCurrentScheduleCounts(listings) {
-  if (listings.length !== 29) throw new Error(`Expected 29 Halifax Schedule A rows, found ${listings.length}.`);
+  if (listings.length !== 28) throw new Error(`Expected 28 Halifax Schedule A rows, found ${listings.length}.`);
   const pidCount = new Set(listings.flatMap(({ pids }) => pids)).size;
-  if (pidCount !== 30) throw new Error(`Expected 30 Halifax Schedule A PIDs, found ${pidCount}.`);
+  if (pidCount !== 28) throw new Error(`Expected 28 Halifax Schedule A PIDs, found ${pidCount}.`);
 }
 
 function sha256(contents) {

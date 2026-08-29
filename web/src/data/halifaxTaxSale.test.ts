@@ -14,36 +14,36 @@ async function sha256Hex(source: string): Promise<string> {
 }
 
 describe("the Halifax September 2026 tender dataset", () => {
-  it("pins all 29 owner-free source rows byte for byte", async () => {
+  it("pins all 28 owner-free source rows byte for byte", async () => {
     expect(await sha256Hex(halifaxTaxSaleSnapshotSource)).toBe(HALIFAX_TAX_SALE_DATASET_SHA256);
     expect(halifaxTaxSaleSnapshot.ownerNamesExcluded).toBe(true);
-    expect(halifaxTaxSaleSnapshot.sourceRowCount).toBe(29);
-    expect(halifaxTaxSaleSnapshot.parcelIdentifierCount).toBe(30);
-    expect(halifaxTaxSaleSnapshot.mappedListingCount).toBe(27);
-    expect(halifaxTaxSaleSnapshot.mappedParcelIdentifierCount).toBe(28);
+    expect(halifaxTaxSaleSnapshot.sourceRowCount).toBe(28);
+    expect(halifaxTaxSaleSnapshot.parcelIdentifierCount).toBe(28);
+    expect(halifaxTaxSaleSnapshot.mappedListingCount).toBe(26);
+    expect(halifaxTaxSaleSnapshot.mappedParcelIdentifierCount).toBe(26);
     expect(halifaxTaxSaleSnapshot.hstYesCount).toBe(8);
     expect(halifaxTaxSaleSnapshot.notRedeemableCount).toBe(1);
   });
 
-  it("maps 27 advertised rows and keeps two source rows as exact geometry exceptions", () => {
+  it("maps 26 advertised rows and keeps two source rows as exact geometry exceptions", () => {
     expect(halifaxTaxSaleEvent.eventType).toBe("sealed-tender");
     expect(halifaxTaxSaleEvent.eventStatus).toBe("upcoming");
     expect(halifaxTaxSaleEvent.saleStartsAt).toBe("2026-09-15T10:00:00-03:00");
-    expect(halifaxTaxSaleEvent.listings).toHaveLength(27);
+    expect(halifaxTaxSaleEvent.listings).toHaveLength(26);
     const pids = halifaxTaxSaleEvent.listings.flatMap(({ pids }) => pids);
-    expect(pids).toHaveLength(28);
-    expect(new Set(pids).size).toBe(28);
+    expect(pids).toHaveLength(26);
+    expect(new Set(pids).size).toBe(26);
     expect(pids).not.toContain("41051889");
     expect(pids).not.toContain("41051897");
     expect(halifaxTaxSaleEvent.geometryExceptions).toEqual([
       {
-        recordId: "halifax-2026-09-15-item-24",
+        recordId: "halifax-2026-09-15-item-23",
         aan: "09417036", pids: ["41051889"],
         location: "40 Regency Park Dr Unit P19 Halifax Cc Unit #P19 *Parking Space",
         reason: "no-nsprd-geometry", checkedOn: "2026-08-15",
       },
       {
-        recordId: "halifax-2026-09-15-item-25",
+        recordId: "halifax-2026-09-15-item-24",
         aan: "09417044", pids: ["41051897"],
         location: "40 Regency Park Dr Unit P20 Halifax Cc Unit #P20 *Parking Space",
         reason: "no-nsprd-geometry", checkedOn: "2026-08-15",
@@ -55,7 +55,7 @@ describe("the Halifax September 2026 tender dataset", () => {
     expect(halifaxTaxSaleEvent.listings[0].financial).toEqual({
       kind: "minimum-bid", label: "Opening bid", amountCents: 297_246,
     });
-    expect(halifaxTaxSaleEvent.listings[10].pids).toEqual(["00098723", "00632414"]);
+    expect(halifaxTaxSaleEvent.listings.find(({ aan }) => aan === "02365103")?.pids).toEqual(["00098723"]);
     expect(halifaxTaxSaleEvent.listings.filter(
       ({ redemptionCategory }) => redemptionCategory === "not-redeemable",
     ).map(({ aan }) => aan)).toEqual(["08587949"]);
