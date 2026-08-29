@@ -1887,6 +1887,82 @@ a {
   stroke-width: 1.7;
 }
 
+/* Mark + follow + privacy chip, revealed beside the locate toggle while
+   location is on. Same 46px round treatment as .location-button. */
+.location-cluster {
+  position: absolute;
+  z-index: 500;
+  top: 86px;
+  left: 66px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.location-cluster-button {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  place-items: center;
+  color: var(--survey-blue);
+  background: var(--white);
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  cursor: pointer;
+}
+
+.location-cluster-button:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+.location-follow {
+  height: 46px;
+  padding: 0 14px;
+  color: var(--survey-blue);
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 2px solid var(--white);
+  border-radius: 23px;
+  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  cursor: pointer;
+}
+
+.location-privacy {
+  padding: 4px 8px;
+  color: var(--chart-ink);
+  font-size: 0.68rem;
+  line-height: 1.2;
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 4px;
+  box-shadow: 0 1px 8px rgba(18, 52, 59, 0.18);
+}
+
+/* Heading wedge on the live-location marker; the divIcon rotates the inner
+   element by the reported course. Non-interactive by construction. */
+.location-heading-anchor {
+  pointer-events: none;
+}
+
+.location-heading {
+  position: relative;
+  width: 44px;
+  height: 44px;
+}
+
+.location-heading::before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 50%;
+  border: 6px solid transparent;
+  border-bottom: 11px solid #2f80ed;
+  transform: translateX(-50%);
+}
+
 .modern-map-error {
   position: absolute;
   z-index: 500;
@@ -3017,6 +3093,10 @@ a {
     top: max(74px, calc(env(safe-area-inset-top) + 62px));
   }
 
+  .location-cluster {
+    top: max(74px, calc(env(safe-area-inset-top) + 62px));
+  }
+
   .location-message {
     top: max(234px, calc(env(safe-area-inset-top) + 222px));
   }
@@ -3127,7 +3207,8 @@ a {
   }
 
   .map-region.has-inspector .leaflet-control-zoom,
-  .map-region.has-inspector .location-button {
+  .map-region.has-inspector .location-button,
+  .map-region.has-inspector .location-cluster {
     pointer-events: none;
     opacity: 0;
   }
@@ -3164,6 +3245,7 @@ a {
 
 .print-map .leaflet-control-container,
 .print-map .location-button,
+.print-map .location-cluster,
 .print-map .location-message {
   display: none;
 }

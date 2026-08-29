@@ -2,8 +2,8 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event";
 import { useEffect, type CSSProperties, type PropsWithChildren } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { getBrowserLocation } from "../services/browserLocation";
 import { fetchArcGISFeatureOverlay } from "../services/arcGISFeatureOverlay";
+import type { LiveFix, LiveLocationSnapshot } from "../location/liveLocation";
 import {
   MapCanvas,
   IDENTIFY_CLICK_DELAY_MS,
@@ -34,6 +34,7 @@ const mapMock = vi.hoisted(() => ({
   addLayer: vi.fn(),
   fitBounds: vi.fn(),
   flyTo: vi.fn(),
+  panTo: vi.fn(),
   getCenter: vi.fn(() => ({ lat: 46.21351, lng: -61.09131 })),
   getBounds: vi.fn((): {
     getWest: () => number;
@@ -142,6 +143,9 @@ vi.mock("react-leaflet", () => ({
     geoJsonProps.calls.push(props);
     return <div data-testid="parcel-overlay" />;
   },
+  Marker: ({ position }: { position: [number, number] }) => (
+    <div data-testid="location-heading" data-position={position.join(",")} />
+  ),
   MapContainer: ({
     children,
     ref,
@@ -207,9 +211,44 @@ vi.mock("react-leaflet", () => ({
   },
 }));
 
-vi.mock("../services/browserLocation", () => ({
-  getBrowserLocation: vi.fn(),
+// The live-location service is mocked at the module seam: tests drive the
+// watch by pushing snapshots into the captured onChange, exactly the shape
+// the real startLiveLocation delivers.
+const liveLocationMock = vi.hoisted(() => ({
+  onChange: undefined as ((snapshot: unknown) => void) | undefined,
+  stop: vi.fn(),
 }));
+
+vi.mock("../location/liveLocation", () => ({
+  startLiveLocation: (onChange: (snapshot: unknown) => void) => {
+    liveLocationMock.onChange = onChange;
+    onChange({ status: "acquiring", fix: null });
+    return { stop: liveLocationMock.stop };
+  },
+}));
+
+function liveFix(overrides: Partial<LiveFix> = {}): LiveFix {
+  return {
+    latitude: 46.12,
+    longitude: -60.91,
+    accuracyM: 24,
+    altitudeM: null,
+    headingDeg: null,
+    speedMps: null,
+    timestampMs: Date.now(),
+    ...overrides,
+  };
+}
+
+function pushLiveSnapshot(snapshot: LiveLocationSnapshot) {
+  act(() => {
+    liveLocationMock.onChange?.(snapshot);
+  });
+}
+
+function pushLiveFix(overrides: Partial<LiveFix> = {}) {
+  pushLiveSnapshot({ status: "active", fix: liveFix(overrides) });
+}
 
 vi.mock("../services/arcGISFeatureOverlay", () => ({
   fetchArcGISFeatureOverlay: vi.fn(),
@@ -333,16 +372,12 @@ afterEach(() => {
   tileLayerProps.calls.length = 0;
   mineralLayerProps.current = undefined;
   oldGrowthLayerProps.current = undefined;
+  liveLocationMock.onChange = undefined;
 });
 
 describe("MapCanvas browser location", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(getBrowserLocation).mockResolvedValue({
-      latitude: 46.12,
-      longitude: -60.91,
-      accuracy: 24,
-    });
     vi.mocked(fetchArcGISFeatureOverlay).mockResolvedValue({
       type: "FeatureCollection",
       features: [],
@@ -382,6 +417,8 @@ describe("MapCanvas browser location", () => {
     );
 
     await user.click(screen.getByRole("button", { name: "Use my location" }));
+    expect(screen.getByText("Finding your location…")).toBeInTheDocument();
+    pushLiveFix();
 
     expect(await screen.findByTestId("location-accuracy")).toHaveAttribute(
       "data-center",
@@ -399,8 +436,291 @@ describe("MapCanvas browser location", () => {
       screen.getByText("Your location is shown on the map."),
     ).toBeInTheDocument();
     expect(
+      screen.getByText("Location stays on this device."),
+    ).toBeInTheDocument();
+    expect(
       screen.getByRole("button", { name: "Use my location" }).querySelector("svg"),
     ).not.toBeNull();
+  });
+
+  it("clears the watch and the marker when toggled off", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    const toggle = screen.getByRole("button", { name: "Use my location" });
+    await user.click(toggle);
+    pushLiveFix();
+    expect(screen.getByTestId("location-position")).toBeInTheDocument();
+    expect(toggle).toHaveAttribute("aria-pressed", "true");
+
+    await user.click(toggle);
+    expect(liveLocationMock.stop).toHaveBeenCalled();
+    expect(screen.queryByTestId("location-position")).not.toBeInTheDocument();
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("resets the toggle and explains when permission is denied", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    const toggle = screen.getByRole("button", { name: "Use my location" });
+    await user.click(toggle);
+    pushLiveSnapshot({ status: "denied", fix: null });
+
+    expect(
+      screen.getByText(
+        "Location permission was not granted. You can keep using the map.",
+      ),
+    ).toBeInTheDocument();
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+  });
+
+  it("dims but keeps the marker through a signal loss", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    const fix = liveFix();
+    pushLiveSnapshot({ status: "active", fix });
+    pushLiveSnapshot({ status: "signal-lost", fix });
+
+    expect(screen.getByTestId("location-position")).toBeInTheDocument();
+    expect(
+      screen.getByText("GPS signal lost — still trying."),
+    ).toBeInTheDocument();
+  });
+
+  it("follows later fixes with panTo until the user drags, then resumes via the pill", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14);
+
+    pushLiveFix({ latitude: 46.13 });
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.13, -60.91]);
+
+    const [, dragStartHandler] =
+      mapMock.on.mock.calls.filter(([event]) => event === "dragstart").pop() ??
+      [];
+    expect(dragStartHandler).toBeTypeOf("function");
+    act(() => dragStartHandler?.());
+
+    mapMock.panTo.mockClear();
+    pushLiveFix({ latitude: 46.14 });
+    expect(mapMock.panTo).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole("button", { name: "Follow" }));
+    pushLiveFix({ latitude: 46.15 });
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.15, -60.91]);
+  });
+
+  it("marks the current location with a fresh fix and reports the outcome", async () => {
+    const user = userEvent.setup();
+    const onMarkLocation = vi
+      .fn<(fix: LiveFix | null) => Promise<string | null>>()
+      .mockResolvedValue("Point saved to Field notes (±24 m).");
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onMarkLocation={onMarkLocation}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+    await user.click(screen.getByRole("button", { name: "Mark my location" }));
+
+    expect(onMarkLocation).toHaveBeenCalledTimes(1);
+    expect(onMarkLocation.mock.calls[0][0]).toMatchObject({
+      latitude: 46.12,
+      longitude: -60.91,
+      accuracyM: 24,
+    });
+    expect(
+      await screen.findByText("Point saved to Field notes (±24 m)."),
+    ).toBeInTheDocument();
+  });
+
+  it("hands the mark handler null instead of a stale or rough fix", async () => {
+    const user = userEvent.setup();
+    const onMarkLocation = vi
+      .fn<(fix: LiveFix | null) => Promise<string | null>>()
+      .mockResolvedValue(null);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onMarkLocation={onMarkLocation}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    // 61 m accuracy is past the 50 m mark cap: the handler must re-request.
+    pushLiveFix({ accuracyM: 61 });
+    await user.click(screen.getByRole("button", { name: "Mark my location" }));
+
+    expect(onMarkLocation).toHaveBeenCalledWith(null);
   });
 
   it("offers a retry when modern-map tiles fail", async () => {
@@ -480,6 +800,7 @@ describe("MapCanvas browser location", () => {
       fireEvent.click(screen.getByRole("button", { name: "Use my location" }));
       await Promise.resolve();
     });
+    pushLiveFix();
     expect(
       screen.getByText("Your location is shown on the map."),
     ).toBeInTheDocument();
@@ -528,6 +849,7 @@ describe("MapCanvas browser location", () => {
     const { rerender } = render(<MapCanvas {...props} />);
 
     await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
     expect(await screen.findByTestId("location-position")).toBeInTheDocument();
 
     rerender(<MapCanvas {...props} renderMode="print" />);
@@ -640,6 +962,7 @@ describe("MapCanvas viewport reporting", () => {
     onPositionChange.mockClear();
     onViewportChange.mockClear();
     await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
     await waitFor(
       () => {
         expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14);

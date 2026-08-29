@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { requestDurableStorage } from "../../services/durableStorage";
-import type { FeatureCollection } from "geojson";
+import type { Feature, FeatureCollection } from "geojson";
+import { FIELD_NOTES_LAYER_NAME } from "../../location/captureSpec";
+import { summarize } from "./summarize";
 import { UserMapImportError } from "../errors";
 import { generateId, stripExtension } from "../importUtils";
 import { downloadFile } from "../../services/downloadFile";
@@ -74,6 +76,17 @@ export type UserVectorLayersApi = {
   ) => Promise<void>;
   /** Creates an empty layer to draw into; returns its id. */
   createDrawnLayer: () => Promise<string>;
+  /** Finds or creates the drawn "Field notes" layer GPS marks land in. */
+  ensureFieldNotesLayer: () => Promise<string>;
+  /**
+   * Appends features to an existing layer outside an edit session, stamping
+   * modifiedAt so the row's provenance shows the layer changed. Returns the
+   * advanced record, or null when the layer no longer exists.
+   */
+  appendFeatures: (
+    layerId: string,
+    features: Feature[],
+  ) => Promise<UserVectorLayerRecord | null>;
   /** Applies an edit session's result to the list and the store. */
   applyLayerEdit: (
     record: UserVectorLayerRecord,
@@ -431,37 +444,118 @@ export function useUserVectorLayers(
     [store],
   );
 
+  const createEmptyDrawnLayer = useCallback(
+    async (name: string): Promise<string> => {
+      const now = new Date().toISOString();
+      const existing = recordsSnapshotRef.current;
+      const empty: FeatureCollection = { type: "FeatureCollection", features: [] };
+      const record: UserVectorLayerRecord = {
+        id: generateId(),
+        name,
+        source: "drawn",
+        origin: { kind: "drawn", createdAt: now },
+        createdAt: now,
+        revision: 0,
+        style: { color: nextLayerColor(existing.length) },
+        featureCount: 0,
+        // No geometry yet, so no extent — the fit has nothing to aim at until
+        // the user draws something.
+        bbox: null,
+      };
+      try {
+        await (await store()).saveVectorLayer(record, empty);
+      } catch {
+        // An unsaved drawing still works for this session. Marking it here is
+        // what makes the promise below true: the next edit write retries the
+        // CREATE, and its failure reaches the edit session's storage error.
+        unsavedDrawnIdsRef.current.add(record.id);
+      }
+      setRecords((prev) => [...prev, record]);
+      setGeometries((prev) => ({ ...prev, [record.id]: empty }));
+      // The snapshot refs normally catch up in an effect after the next
+      // render, but ensureFieldNotesLayer → appendFeatures chains within one
+      // tick and must see the layer it just created.
+      recordsSnapshotRef.current = [...recordsSnapshotRef.current, record];
+      geometriesSnapshotRef.current = {
+        ...geometriesSnapshotRef.current,
+        [record.id]: empty,
+      };
+      persistUiState({ ...loadUiState(), [record.id]: { enabled: true } });
+      return record.id;
+    },
+    [persistUiState, store],
+  );
+
   const createDrawnLayer = useCallback(async (): Promise<string> => {
-    const now = new Date().toISOString();
-    const existing = recordsSnapshotRef.current;
-    const drawnCount = existing.filter((r) => r.origin.kind === "drawn").length;
-    const empty: FeatureCollection = { type: "FeatureCollection", features: [] };
-    const record: UserVectorLayerRecord = {
-      id: generateId(),
-      name: drawnCount === 0 ? "My drawing" : `My drawing ${drawnCount + 1}`,
-      source: "drawn",
-      origin: { kind: "drawn", createdAt: now },
-      createdAt: now,
-      revision: 0,
-      style: { color: nextLayerColor(existing.length) },
-      featureCount: 0,
-      // No geometry yet, so no extent — the fit has nothing to aim at until
-      // the user draws something.
-      bbox: null,
-    };
-    try {
-      await (await store()).saveVectorLayer(record, empty);
-    } catch {
-      // An unsaved drawing still works for this session. Marking it here is
-      // what makes the promise below true: the next edit write retries the
-      // CREATE, and its failure reaches the edit session's storage error.
-      unsavedDrawnIdsRef.current.add(record.id);
+    const drawnCount = recordsSnapshotRef.current.filter(
+      (r) => r.origin.kind === "drawn",
+    ).length;
+    return createEmptyDrawnLayer(
+      drawnCount === 0 ? "My drawing" : `My drawing ${drawnCount + 1}`,
+    );
+  }, [createEmptyDrawnLayer]);
+
+  const ensureFieldNotesLayer = useCallback(async (): Promise<string> => {
+    // Find-or-create by name, per the field-capture contract: created once,
+    // reused after, recreated if the user deleted it.
+    const existing = recordsSnapshotRef.current.find(
+      (r) => r.origin.kind === "drawn" && r.name === FIELD_NOTES_LAYER_NAME,
+    );
+    if (existing) {
+      return existing.id;
     }
-    setRecords((prev) => [...prev, record]);
-    setGeometries((prev) => ({ ...prev, [record.id]: empty }));
-    persistUiState({ ...loadUiState(), [record.id]: { enabled: true } });
-    return record.id;
-  }, [persistUiState, store]);
+    return createEmptyDrawnLayer(FIELD_NOTES_LAYER_NAME);
+  }, [createEmptyDrawnLayer]);
+
+  const appendFeatures = useCallback(
+    async (
+      layerId: string,
+      features: Feature[],
+    ): Promise<UserVectorLayerRecord | null> => {
+      const record = recordsSnapshotRef.current.find((r) => r.id === layerId);
+      const data = geometriesSnapshotRef.current[layerId];
+      if (!record || !data || features.length === 0) {
+        return null;
+      }
+      const collection: FeatureCollection = {
+        type: "FeatureCollection",
+        features: [...data.features, ...features],
+      };
+      const advanced: UserVectorLayerRecord = {
+        ...record,
+        ...summarize(collection),
+        revision: record.revision + 1,
+        // modifiedAt keeps the row honest: an imported layer that gained GPS
+        // marks no longer matches its file, and the "· edited" suffix says so.
+        modifiedAt: new Date().toISOString(),
+      };
+      setRecords((prev) =>
+        prev.map((existing) => (existing.id === layerId ? advanced : existing)),
+      );
+      setGeometries((prev) => ({ ...prev, [layerId]: collection }));
+      recordsSnapshotRef.current = recordsSnapshotRef.current.map((existing) =>
+        existing.id === layerId ? advanced : existing,
+      );
+      geometriesSnapshotRef.current = {
+        ...geometriesSnapshotRef.current,
+        [layerId]: collection,
+      };
+      // A mark should be visible the moment it is saved, even if the layer
+      // row was toggled off.
+      persistUiState({ ...loadUiState(), [layerId]: { enabled: true } });
+      try {
+        await putVectorLayer(advanced, collection);
+      } catch {
+        // Same degrade contract as imports: a failed save never discards the
+        // feature — it stays on the map for this session.
+        setStorageError(
+          "Couldn't save this point — it stays available until you close the tab.",
+        );
+      }
+      return advanced;
+    },
+    [persistUiState, putVectorLayer],
+  );
 
   /**
    * Takes an edit session's working copy back into the list. The session
@@ -502,6 +596,8 @@ export function useUserVectorLayers(
     geometries,
     putVectorLayer,
     createDrawnLayer,
+    ensureFieldNotesLayer,
+    appendFeatures,
     applyLayerEdit,
   };
 }

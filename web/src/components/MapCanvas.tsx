@@ -19,6 +19,7 @@ import {
   CircleMarker,
   GeoJSON,
   MapContainer,
+  Marker,
   Pane,
   ScaleControl,
   TileLayer,
@@ -66,10 +67,12 @@ import type {
   NsprdFeatureCollection,
   NsprdFeatureProperties,
 } from "../services/nsprd";
+import { useLiveLocation } from "../location/useLiveLocation";
+import type { LiveFix } from "../location/liveLocation";
 import {
-  getBrowserLocation,
-  type BrowserLocation,
-} from "../services/browserLocation";
+  MARK_MAX_ACCURACY_M,
+  MARK_MAX_FIX_AGE_MS,
+} from "../location/captureSpec";
 import {
   hydroLineStyle,
   hydroPotentialLabel,
@@ -177,6 +180,13 @@ type MapCanvasProps = {
   preserveInitialPosition?: boolean;
   onPositionChange?: (position: MapPosition) => void;
   onViewportChange?: (viewport: PrintMapViewport) => void;
+  /**
+   * Saves a point at the user's position; resolves to a status message for
+   * the location live region (null for silence). Receives the current watch
+   * fix when it is fresh and accurate enough, else null — the handler then
+   * requests a one-shot fix itself.
+   */
+  onMarkLocation?: (fix: LiveFix | null) => Promise<string | null>;
   onLayerStatusChange?: (
     id: MapLayerId,
     status: MapLayerStatus,
@@ -1602,6 +1612,31 @@ function ParcelGeometryOverlay({
   );
 }
 
+function headingDivIcon(headingDeg: number): L.DivIcon {
+  // The interpolated value is forced numeric — nothing user-authored can
+  // reach this HTML string.
+  const rotation = Math.round(headingDeg) % 360;
+  return L.divIcon({
+    className: "location-heading-anchor",
+    html: `<div class="location-heading" style="transform: rotate(${rotation}deg)"></div>`,
+    iconSize: [44, 44],
+    iconAnchor: [22, 22],
+  });
+}
+
+function MarkLocationIcon() {
+  return (
+    <svg
+      className="location-button-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path d="M12 21s-6.5-5.9-6.5-10.4a6.5 6.5 0 0 1 13 0C18.5 15.1 12 21 12 21Z" />
+      <path d="M9.5 10h5M12 7.5v5" />
+    </svg>
+  );
+}
+
 function LocationControlIcon() {
   return (
     <svg
@@ -1649,6 +1684,7 @@ export function MapCanvas({
   preserveInitialPosition = false,
   onPositionChange,
   onViewportChange,
+  onMarkLocation,
   onLayerStatusChange,
   onResourceLayerStatusChange,
   renderMode = "interactive",
@@ -1698,7 +1734,14 @@ export function MapCanvas({
     suppressBrowserLocation: false,
     lastSuppressed: null,
   });
-  const [userLocation, setUserLocation] = useState<BrowserLocation | null>(null);
+  const [locationOn, setLocationOn] = useState(false);
+  const live = useLiveLocation(locationOn && !isPrintMode);
+  const [followOn, setFollowOn] = useState(false);
+  const [marking, setMarking] = useState(false);
+  // Once per toggle-on: the success message and the fly-to happen on the
+  // first fix only; later fixes just move the marker (and pan under follow).
+  const hasCenteredRef = useRef(false);
+  const hadFirstFixRef = useRef(false);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
   const [modernMapRetry, setModernMapRetry] = useState(0);
   const [modernMapFailed, setModernMapFailed] = useState(false);
@@ -1720,7 +1763,12 @@ export function MapCanvas({
   );
 
   useEffect(() => {
-    if (locationMessage !== LOCATION_SUCCESS_MESSAGE) {
+    // Good news auto-dismisses; problems ("permission was not granted",
+    // "signal lost") stay until the state changes.
+    const autoDismisses =
+      locationMessage === LOCATION_SUCCESS_MESSAGE ||
+      (locationMessage?.startsWith("Point saved") ?? false);
+    if (!autoDismisses) {
       return;
     }
 
@@ -1777,23 +1825,101 @@ export function MapCanvas({
     ],
   );
 
-  const requestLocation = () => {
+  const toggleLocation = () => {
+    if (locationOn) {
+      setLocationOn(false);
+      setFollowOn(false);
+      setLocationMessage(null);
+      hasCenteredRef.current = false;
+      hadFirstFixRef.current = false;
+      return;
+    }
+    setLocationOn(true);
+    // Follow is the point of turning location on; dragging opts back out.
+    setFollowOn(true);
     setLocationMessage("Finding your location…");
-    getBrowserLocation()
-      .then((location) => {
-        setUserLocation(location);
-        setLocationMessage(LOCATION_SUCCESS_MESSAGE);
-        if (map) {
-          printableViewportGuard.current.suppressBrowserLocation = true;
-          printableViewportGuard.current.lastSuppressed = null;
-          map.flyTo([location.latitude, location.longitude], 14);
-        }
-      })
-      .catch(() => {
-        setLocationMessage(
-          "Location permission was not granted. You can keep using the map.",
-        );
-      });
+  };
+
+  // Watch-status messages. Denial and a missing API are final for this
+  // toggle-on, so the button resets; signal loss keeps the (dimmed) marker.
+  useEffect(() => {
+    if (!locationOn) {
+      return;
+    }
+    if (live.status === "active" && !hadFirstFixRef.current) {
+      hadFirstFixRef.current = true;
+      setLocationMessage(LOCATION_SUCCESS_MESSAGE);
+    } else if (live.status === "signal-lost") {
+      setLocationMessage("GPS signal lost — still trying.");
+    } else if (live.status === "denied") {
+      setLocationOn(false);
+      setFollowOn(false);
+      hasCenteredRef.current = false;
+      hadFirstFixRef.current = false;
+      setLocationMessage(
+        "Location permission was not granted. You can keep using the map.",
+      );
+    } else if (live.status === "unavailable") {
+      setLocationOn(false);
+      setFollowOn(false);
+      setLocationMessage("Location is not available in this browser.");
+    }
+  }, [live.status, locationOn]);
+
+  // Dragging the map is how the user says "stop following me around".
+  useEffect(() => {
+    if (!map || !locationOn) {
+      return;
+    }
+    const onDragStart = () => setFollowOn(false);
+    map.on("dragstart", onDragStart);
+    return () => {
+      map.off("dragstart", onDragStart);
+    };
+  }, [map, locationOn]);
+
+  // Follow mode: every location-driven move arms the same viewport guard the
+  // old one-shot fly-to used, so a follow session never leaks the user's
+  // position into share URLs, print viewports, or evidence notes.
+  const lastCenteredFixRef = useRef<LiveFix | null>(null);
+  useEffect(() => {
+    if (!map || !followOn || !live.fix) {
+      return;
+    }
+    if (lastCenteredFixRef.current === live.fix) {
+      return;
+    }
+    lastCenteredFixRef.current = live.fix;
+    printableViewportGuard.current.suppressBrowserLocation = true;
+    printableViewportGuard.current.lastSuppressed = null;
+    if (!hasCenteredRef.current) {
+      hasCenteredRef.current = true;
+      map.flyTo([live.fix.latitude, live.fix.longitude], 14);
+    } else {
+      map.panTo([live.fix.latitude, live.fix.longitude]);
+    }
+  }, [followOn, live.fix, map]);
+
+  const handleMark = async () => {
+    if (!onMarkLocation || marking) {
+      return;
+    }
+    setMarking(true);
+    setLocationMessage("Saving a point at your location…");
+    try {
+      // A fresh, tight watch fix saves instantly; anything stale or rough
+      // makes the handler re-request so a mark never lands on old data.
+      const usable =
+        live.fix !== null &&
+        Date.now() - live.fix.timestampMs <= MARK_MAX_FIX_AGE_MS &&
+        live.fix.accuracyM <= MARK_MAX_ACCURACY_M
+          ? live.fix
+          : null;
+      const message = await onMarkLocation(usable);
+      setLocationMessage(message);
+    } finally {
+      setMarking(false);
+    }
   };
 
   return (
@@ -2021,30 +2147,42 @@ export function MapCanvas({
               renderMode={renderMode}
             />
           ))}
-        {!isPrintMode && userLocation ? (
+        {!isPrintMode && live.fix ? (
           <>
             <Circle
-              center={[userLocation.latitude, userLocation.longitude]}
-              radius={Math.max(userLocation.accuracy, 12)}
+              center={[live.fix.latitude, live.fix.longitude]}
+              radius={Math.max(live.fix.accuracyM, 12)}
               interactive={false}
               pathOptions={{
                 color: "#2f80ed",
                 fillColor: "#2f80ed",
-                fillOpacity: 0.18,
+                // A lost signal dims the marker in place: the last fix stays
+                // visible but no longer claims to be current.
+                opacity: live.status === "signal-lost" ? 0.45 : 1,
+                fillOpacity: live.status === "signal-lost" ? 0.08 : 0.18,
                 weight: 2,
               }}
             />
             <CircleMarker
-              center={[userLocation.latitude, userLocation.longitude]}
+              center={[live.fix.latitude, live.fix.longitude]}
               radius={8}
               interactive={false}
               pathOptions={{
-              color: "#ffffff",
-              fillColor: "#2f80ed",
-              fillOpacity: 1,
-              weight: 3,
+                color: "#ffffff",
+                fillColor: "#2f80ed",
+                opacity: live.status === "signal-lost" ? 0.6 : 1,
+                fillOpacity: live.status === "signal-lost" ? 0.5 : 1,
+                weight: 3,
               }}
             />
+            {live.fix.headingDeg !== null && (live.fix.speedMps ?? 0) > 0.5 ? (
+              <Marker
+                position={[live.fix.latitude, live.fix.longitude]}
+                icon={headingDivIcon(live.fix.headingDeg)}
+                interactive={false}
+                keyboard={false}
+              />
+            ) : null}
           </>
         ) : null}
         {isPrintMode ? <PrintBoundsController bounds={fitBounds} /> : <>
@@ -2104,11 +2242,38 @@ export function MapCanvas({
         className="location-button"
         type="button"
         aria-label="Use my location"
-        aria-pressed={userLocation !== null}
-        onClick={requestLocation}
+        aria-pressed={locationOn}
+        onClick={toggleLocation}
       >
         <LocationControlIcon />
       </button>
+      {locationOn ? (
+        <div className="location-cluster">
+          {onMarkLocation ? (
+            <button
+              type="button"
+              className="location-cluster-button"
+              aria-label="Mark my location"
+              disabled={marking}
+              onClick={() => void handleMark()}
+            >
+              <MarkLocationIcon />
+            </button>
+          ) : null}
+          {!followOn ? (
+            <button
+              type="button"
+              className="location-follow"
+              onClick={() => setFollowOn(true)}
+            >
+              Follow
+            </button>
+          ) : null}
+          <small className="location-privacy">
+            Location stays on this device.
+          </small>
+        </div>
+      ) : null}
       {showModernMap && modernMapFailed ? (
         <div className="modern-map-error" role="status">
           <span>Modern map did not load.</span>

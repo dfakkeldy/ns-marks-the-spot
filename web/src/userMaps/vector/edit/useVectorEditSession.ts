@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Feature, FeatureCollection } from "geojson";
 import { UserMapImportError } from "../../errors";
+import { summarize } from "../summarize";
 import type { UserVectorLayerRecord } from "../types";
 import type { VisibleUserVectorLayer } from "../useUserVectorLayers";
 
@@ -34,48 +35,6 @@ type Options = {
   ) => void;
   persistDelay?: number;
 };
-
-type Bounds = [west: number, south: number, east: number, north: number] | null;
-
-/**
- * Recomputes the record's summary from the geometry it now holds. Feature
- * count and bbox drive the row's subtitle and the fit, so leaving them at
- * their import-time values would make both lie after the first edit.
- */
-function summarize(collection: FeatureCollection): {
-  featureCount: number;
-  bbox: Bounds;
-} {
-  let west = Infinity;
-  let south = Infinity;
-  let east = -Infinity;
-  let north = -Infinity;
-  const visit = (coords: unknown): void => {
-    if (!Array.isArray(coords)) return;
-    if (typeof coords[0] === "number" && typeof coords[1] === "number") {
-      const [lon, lat] = coords as [number, number];
-      west = Math.min(west, lon);
-      east = Math.max(east, lon);
-      south = Math.min(south, lat);
-      north = Math.max(north, lat);
-      return;
-    }
-    for (const inner of coords) visit(inner);
-  };
-  for (const feature of collection.features) {
-    const geometry = feature.geometry;
-    if (!geometry) continue;
-    if (geometry.type === "GeometryCollection") {
-      for (const part of geometry.geometries) visit((part as { coordinates?: unknown }).coordinates);
-    } else {
-      visit(geometry.coordinates);
-    }
-  }
-  return {
-    featureCount: collection.features.length,
-    bbox: Number.isFinite(west) ? [west, south, east, north] : null,
-  };
-}
 
 /**
  * Owns one open editing session, kept separate from `useUserVectorLayers` so

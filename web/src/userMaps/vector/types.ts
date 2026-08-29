@@ -11,17 +11,25 @@ export type UserVectorSource =
   | "kmz"
   | "gpx"
   | "shapefile-zip"
-  | "drawn";
+  | "drawn"
+  | "recorded";
 
 /**
  * Provenance stays attached to the layer for the life of the record: an
  * imported file names its source file, a drawn layer names the device-local
- * act. The UI renders this so user-loaded material is never mistaken for an
- * official layer.
+ * act, a recorded layer names the GPS capture. The UI renders this so
+ * user-loaded material is never mistaken for an official layer.
+ *
+ * Reserved feature properties: app-owned metadata on individual features
+ * lives under the `nsmts:` prefix (capture time, GPS accuracy — see
+ * location/captureSpec.ts for the full pinned list shared with the native
+ * app). Imported files' own properties are carried untouched and never
+ * collide with the namespace.
  */
 export type UserVectorOrigin =
   | { kind: "imported"; filename: string; importedAt: string }
-  | { kind: "drawn"; createdAt: string };
+  | { kind: "drawn"; createdAt: string }
+  | { kind: "recorded"; startedAt: string; endedAt: string };
 
 export type UserVectorLayerRecord = {
   id: string;
