@@ -38,6 +38,7 @@ function api(overrides: Partial<UserVectorLayersApi> = {}): UserVectorLayersApi 
     removeLayer: vi.fn(async () => {}),
     setEnabled: vi.fn(),
     exportLayer: vi.fn(async () => {}),
+    exportRawRecording: vi.fn(async () => {}),
     createDrawnLayer: vi.fn(async () => "new-layer"),
     ensureFieldNotesLayer: vi.fn(async () => "field-notes"),
     createRecordedLayer: vi.fn(async () => record("recorded-layer")),
@@ -97,6 +98,42 @@ describe("UserVectorRows", () => {
       />,
     );
     expect(screen.getByText(/Drawn on this device · 3 features/)).toBeInTheDocument();
+  });
+
+  it("offers GPX export on every row and Raw GPX only on recorded layers", async () => {
+    const user = userEvent.setup();
+    const layers = api({
+      records: [
+        record("camps"),
+        record("walk", {
+          source: "recorded",
+          origin: {
+            kind: "recorded",
+            startedAt: "2026-08-29T14:00:00.000Z",
+            endedAt: "2026-08-29T14:20:00.000Z",
+          },
+        }),
+      ],
+    });
+    render(<UserVectorRows api={layers} />);
+
+    expect(
+      screen.getByRole("button", {
+        name: "Export Layer camps as GPX (points and tracks only)",
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", {
+        name: "Download the raw recording for Layer camps",
+      }),
+    ).not.toBeInTheDocument();
+
+    await user.click(
+      screen.getByRole("button", {
+        name: "Download the raw recording for Layer walk",
+      }),
+    );
+    expect(layers.exportRawRecording).toHaveBeenCalledWith("walk");
   });
 
   it("labels recorded layers as recorded on this device", () => {

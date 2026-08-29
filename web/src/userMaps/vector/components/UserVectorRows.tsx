@@ -95,6 +95,24 @@ function renderUserVectorControls({
                 >
                   KML
                 </button>
+                <button
+                  type="button"
+                  aria-label={`Export ${record.name} as GPX (points and tracks only)`}
+                  title="GPX carries points and tracks; areas are not included."
+                  onClick={() => void api.exportLayer(record.id, "gpx")}
+                >
+                  GPX
+                </button>
+                {record.source === "recorded" ? (
+                  <button
+                    type="button"
+                    aria-label={`Download the raw recording for ${record.name}`}
+                    title="Every GPS fix as received, before filtering — the evidence behind the drawn track."
+                    onClick={() => void api.exportRawRecording(record.id)}
+                  >
+                    Raw GPX
+                  </button>
+                ) : null}
               </div>
               {onEdit ? (
                 <button
