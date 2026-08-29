@@ -1508,6 +1508,89 @@ describe("NS Marks The Spot Online", () => {
     expect(mapSetupStatus()).toHaveTextContent("Explore Nova Scotia");
   });
 
+  it("reviews the Province licence from the NS Aerial row, then lets the user turn aerial on", async () => {
+    const user = userEvent.setup();
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    const backgrounds = openLayerCategory("Background Maps");
+    const aerial = within(backgrounds).getByLabelText("NS Aerial");
+    expect(aerial).toBeDisabled();
+    expect(aerial).not.toBeChecked();
+    expect(
+      within(aerial.closest("label") as HTMLElement).getByText(
+        "Province licence required",
+      ),
+    ).toBeInTheDocument();
+    expect(lastObservedInteractiveMapState.value).toContain("ns-aerial:off");
+
+    await user.click(
+      within(aerial.closest("label") as HTMLElement).getByRole("button", {
+        name: "Review Province licence for NS Aerial",
+      }),
+    );
+    const dialog = screen.getByRole("dialog", {
+      name: /province data licence/i,
+    });
+    await user.click(
+      within(dialog).getByRole("button", { name: "Accept and view map layers" }),
+    );
+
+    expect(aerial).toBeEnabled();
+    expect(aerial).not.toBeChecked();
+    expect(
+      within(aerial.closest("label") as HTMLElement).getByText(
+        "Online imagery · zoom 10+",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(aerial.closest("label") as HTMLElement).queryByRole("button", {
+        name: "Review Province licence for NS Aerial",
+      }),
+    ).not.toBeInTheDocument();
+
+    await user.click(aerial);
+
+    expect(aerial).toBeChecked();
+    expect(lastObservedInteractiveMapState.value).toContain("ns-aerial:on");
+    await waitFor(() =>
+      expect(new URL(window.location.href).searchParams.get("layers")).toContain(
+        "ns-aerial",
+      ),
+    );
+  });
+
+  it("still reviews the Province licence from the NSPRD row", async () => {
+    const user = userEvent.setup();
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+
+    const land = openLayerCategory("Land & Property");
+    const nsprd = within(land).getByLabelText("NS Property Boundaries");
+    expect(nsprd).toBeDisabled();
+
+    await user.click(
+      within(nsprd.closest("label") as HTMLElement).getByRole("button", {
+        name: "Review Province licence for NS Property Boundaries",
+      }),
+    );
+    const dialog = screen.getByRole("dialog", {
+      name: /province data licence/i,
+    });
+    await user.click(
+      within(dialog).getByRole("button", { name: "Accept and view map layers" }),
+    );
+
+    expect(nsprd).toBeEnabled();
+    expect(nsprd).not.toBeChecked();
+    await user.click(nsprd);
+    expect(nsprd).toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "property boundaries: on",
+    );
+    expect(lastObservedInteractiveMapState.value).toContain("nsprd:on");
+  });
+
   it("resolves a geometry-less PID to distinct not-evaluated evidence instead of eternal spinners", async () => {
     // A PID search or share link can select a PID NSPRD has no geometry for.
     // Every geometry-dependent evidence state used to stay on "Checking…"

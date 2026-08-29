@@ -2822,7 +2822,9 @@ a {
 
   .map-attribution {
     position: absolute;
-    z-index: 1100;
+    /* Above the open layer sheet so Data & licences stays the hit target
+       when a category accordion would otherwise overlap this strip. */
+    z-index: 1300;
     right: 0;
     bottom: 0;
     left: 0;
@@ -2838,9 +2840,9 @@ a {
     backdrop-filter: blur(14px);
   }
 
-  /* With the header hidden at this width, these two buttons are the phone's
-     only route to About and the licence review — give them the same 44px
-     target the rail controls get. */
+  /* With the header hidden at this width, About and Data & licences live
+     only in this strip — give them the same 44px target the rail controls
+     get. In-row Review is a second licence path, not a replacement. */
   .map-attribution button {
     min-height: 44px;
   }
@@ -2879,6 +2881,9 @@ a {
 
   .layer-rail.mobile-open {
     display: block;
+    /* 8px inset + the attribution strip's 72px max-height: keep Geology
+       (and the rest of the sheet) from covering Data & licences. */
+    bottom: 80px;
   }
 
   .map-theme-picker select,

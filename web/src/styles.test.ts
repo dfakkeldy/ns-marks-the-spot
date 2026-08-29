@@ -76,6 +76,23 @@ describe("phone-focused layer categories", () => {
     expect(mobileStyles).toMatch(/\.layer-rail\s*\{[^}]*position:\s*absolute/s);
     expect(mobileStyles).toMatch(/\.layer-rail\s*\{[^}]*max-height:\s*min\(86svh, 760px\)/s);
   });
+
+  it("keeps Data & licences tappable while the layer sheet is open", () => {
+    const mobileStart = styles.indexOf("@media (max-width: 860px)");
+    const mobileEnd = styles.indexOf("@media (max-width: 560px)", mobileStart);
+    const mobileStyles = styles.slice(mobileStart, mobileEnd);
+    const attributionZ = mobileStyles.match(
+      /\.map-attribution\s*\{[^}]*z-index:\s*(\d+)/s,
+    )?.[1];
+    const railZ = mobileStyles.match(
+      /\.layer-rail\s*\{[^}]*z-index:\s*(\d+)/s,
+    )?.[1];
+
+    expect(mobileStyles).toMatch(
+      /\.layer-rail\.mobile-open\s*\{[^}]*bottom:\s*80px/s,
+    );
+    expect(Number(attributionZ)).toBeGreaterThan(Number(railZ));
+  });
 });
 
 describe("tax-sale category master", () => {
@@ -215,9 +232,10 @@ describe("mobile parcel inspector layout", () => {
   });
 
   it("gives the phone's About and licence buttons a 44px target", () => {
-    // Below 861px the header is hidden, so the attribution strip's two
-    // buttons are the only route to About and the licence review — the
-    // phone media block must raise them to the rail controls' 44px target.
+    // Below 861px the header is hidden, so the attribution strip's About
+    // and Data & licences buttons need the same 44px target the rail
+    // controls get. In-row Review is a second licence path, not a smaller
+    // footer target.
     const phoneStart = styles.indexOf("@media (max-width: 860px)");
     expect(phoneStart).toBeGreaterThan(-1);
     const phoneStyles = styles.slice(

@@ -124,8 +124,16 @@ export const LayerToggle = memo(function LayerToggle({
           status={status}
         />
       </span>
-      {!licenceAccepted && layer.id === "nsprd" ? (
-        <button className="text-button" type="button" onClick={onReviewLicence}>
+      {/* Every province-restricted row used to disable the switch with no
+          in-row accept path except NSPRD. Aerial (and the rest) left phone
+          users hunting a footer control the open layer sheet can cover. */}
+      {!licenceAccepted ? (
+        <button
+          aria-label={`Review Province licence for ${layer.name}`}
+          className="text-button"
+          type="button"
+          onClick={onReviewLicence}
+        >
           Review
         </button>
       ) : null}
