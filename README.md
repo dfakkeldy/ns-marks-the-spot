@@ -66,6 +66,10 @@ open dataset, using an official notice AAN when available or a bounded
 point-in-parcel screen otherwise; multiple accounts remain separate and the UI
 does not treat assessment as current market value.
 
+On the live map, the locate control can show your GPS position, follow you as
+you move, and mark the current fix into a local Field notes layer with one tap.
+Location stays on the device.
+
 - **Your maps** — load your own GeoTIFFs (georeferenced scans, orthophotos) and
   drape them over Nova Scotia with an opacity slider. Anything without usable
   georeferencing of its own — a plain JPEG or PNG scan, or a TIFF that carries
