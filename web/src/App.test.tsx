@@ -1522,7 +1522,7 @@ describe("NS Marks The Spot Online", () => {
         "Province licence required",
       ),
     ).toBeInTheDocument();
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("ns-aerial:off");
+    expect(lastObservedInteractiveMapState.value).toContain("ns-aerial:off");
 
     await user.click(
       within(aerial.closest("label") as HTMLElement).getByRole("button", {
@@ -1552,7 +1552,7 @@ describe("NS Marks The Spot Online", () => {
     await user.click(aerial);
 
     expect(aerial).toBeChecked();
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("ns-aerial:on");
+    expect(lastObservedInteractiveMapState.value).toContain("ns-aerial:on");
     await waitFor(() =>
       expect(new URL(window.location.href).searchParams.get("layers")).toContain(
         "ns-aerial",
@@ -1585,7 +1585,10 @@ describe("NS Marks The Spot Online", () => {
     expect(nsprd).not.toBeChecked();
     await user.click(nsprd);
     expect(nsprd).toBeChecked();
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("nsprd:on");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent(
+      "property boundaries: on",
+    );
+    expect(lastObservedInteractiveMapState.value).toContain("nsprd:on");
   });
 
   it("resolves a geometry-less PID to distinct not-evaluated evidence instead of eternal spinners", async () => {
