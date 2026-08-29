@@ -101,8 +101,10 @@ these three tags and the matching `indexHtml.test.ts` assertions together.
    with the municipality.” Once the event is deliberately archived, its dated
    notice records can remain mapped with every outcome marked pending; sold,
    unsold, withdrawn, and winning-bid values are never inferred.
-6. Browser location stays in the browser and is drawn on the map. This app has
-   no application server receiving the coordinates.
+6. Browser location stays in the browser. A live watch is drawn on the map
+   and is not sent to an application server. If you mark a point or save a
+   track, those geometries (and for a recording, the raw GPX original) are
+   stored locally as user layers and leave only if you export or share them.
 7. For a selected PID, the browser reuses the exact NSPRD Polygon or
    MultiPolygon geometry to look up mapped physical-address points from the
    Nova Scotia Civic Address File. Municipal notice locations remain notice
