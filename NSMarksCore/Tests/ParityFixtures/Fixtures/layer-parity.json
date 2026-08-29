@@ -980,17 +980,17 @@
       "name": "Fletcher",
       "nativeDefaultVisibility": true,
       "opacity": 0.72,
-      "scale": "Independently georeferenced historical sheets",
+      "scale": "Independently georeferenced · accuracy varies by sheet",
       "serviceUrl": "",
       "sourceDate": "Hugh Fletcher · 1882–1884 source sheets",
       "uiOrder": 35,
       "webAvailability": "available",
-      "webCaveat": "24 direct-Rumsey sheets · native detail to zoom 16",
+      "webCaveat": "24 sheets · positions can sit several hundred metres off modern ground; sheets 16 & 19 refit to modern features",
       "webDefaultVisible": false
     }
   ],
   "fletcher": {
-    "tileRevision": "fletcher-direct-rumsey-20260726.1",
+    "tileRevision": "fletcher-direct-rumsey-20260828.1",
     "sheets": [
       {
         "sheet": 1,
@@ -1191,12 +1191,12 @@
         "sheet": 16,
         "bounds": [
           [
-            45.920587344733654,
-            -61.5948486328125
+            45.88236073018403,
+            -61.67724609375
           ],
           [
-            46.09989991062731,
-            -61.2213134765625
+            46.126556302418514,
+            -61.160888671875
           ]
         ]
       },
@@ -1231,10 +1231,10 @@
         "bounds": [
           [
             45.71768635790719,
-            -61.6607666015625
+            -61.6827392578125
           ],
           [
-            45.958787640356405,
+            45.962606222421634,
             -61.160888671875
           ]
         ]
