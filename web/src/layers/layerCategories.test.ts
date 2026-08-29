@@ -6,6 +6,7 @@ import {
   floodHazardLayerCatalog,
   forestryLayerCatalog,
   hydroPilotLayerCatalog,
+  liveConditionsLayerCatalog,
   provinceLayerCatalog,
   allResourceLayerCatalog,
   wellLogLayerCatalog,
@@ -28,6 +29,7 @@ const catalogueIds = [
   ...zoningLayerCatalog.map((layer) => layer.id),
   ...wellLogLayerCatalog.map((layer) => layer.id),
   ...churchLayerCatalog.map((layer) => layer.id),
+  ...liveConditionsLayerCatalog.map((layer) => layer.id),
 ];
 
 describe("layer category contract", () => {

@@ -7,6 +7,7 @@ import {
   floodHazardLayerCatalog,
   fletcherLayerCatalog,
   hydroPilotLayerCatalog,
+  liveConditionsLayerCatalog,
   provinceLayerCatalog,
   type EnvironmentalHealthLayerId,
   type ForestryLayerId,
@@ -14,6 +15,7 @@ import {
   type HydroPilotLayerId,
   type FloodHazardLayerId,
   type FletcherLayerId,
+  type LiveConditionsLayerId,
   type ProvinceLayerId,
   type ResourceLayerId,
   type ZoningLayerId,
@@ -33,7 +35,8 @@ export type ShareLayerId =
   | EnvironmentalHealthLayerId
   | ForestryLayerId
   | ZoningLayerId
-  | WellLogLayerId;
+  | WellLogLayerId
+  | LiveConditionsLayerId;
 
 export type MapPosition = {
   latitude: number;
@@ -78,6 +81,7 @@ const shareLayerIdSet = new Set<ShareLayerId>([
   ...forestryLayerCatalog.map(({ id }) => id),
   ...zoningLayerCatalog.map(({ id }) => id),
   ...wellLogLayerCatalog.map(({ id }) => id),
+  ...liveConditionsLayerCatalog.map(({ id }) => id),
 ]);
 
 export function isShareLayerId(value: unknown): value is ShareLayerId {

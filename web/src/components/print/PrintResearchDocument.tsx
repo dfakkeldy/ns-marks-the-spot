@@ -133,6 +133,10 @@ const PRINT_LEGEND_SYMBOL_KINDS: Record<ShareLayerId, string> = {
   "zoning-richmond": "zoning-richmond-fill",
   "zoning-cumberland": "zoning-cumberland-fill",
   "zoning-halifax": "zoning-halifax-fill",
+  // Live overlays are excluded from print capture (App's captureLayerIds), so
+  // these two exist only to keep this record total over ShareLayerId.
+  "highway-cameras": "camera-point",
+  "weather-radar": "radar-wash",
 };
 
 export function ActiveLayerLegend({

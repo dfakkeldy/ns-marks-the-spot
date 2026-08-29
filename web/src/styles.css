@@ -1260,6 +1260,35 @@ a {
   color: var(--chart-ink);
 }
 
+.camera-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
+  color: var(--chart-ink);
+}
+
+.camera-popup img {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  border-radius: 4px;
+}
+
+.camera-popup .camera-popup-unavailable {
+  margin: 0;
+  padding: 10px;
+  border-radius: 4px;
+  background: rgba(127, 127, 127, 0.12);
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.camera-popup small {
+  color: var(--muted);
+}
+
 .well-log-popup .well-log-popup-eyebrow {
   margin: 0 0 3px;
   color: #0284c7;

@@ -2834,3 +2834,120 @@ describe("feature click propagation", () => {
     expect(node.textContent).toBe("PID 50292390");
   });
 });
+
+describe("MapCanvas live conditions overlays", () => {
+  const hiddenProvinceLayers = {
+    "ns-aerial": false,
+    nsprd: false,
+    "crown-lands": false,
+    "flood-risk": false,
+    waterfalls: false,
+    "water-features": false,
+    roads: false,
+    buildings: false,
+    contours: false,
+    "place-names": false,
+    "main-roads": false,
+  };
+  const radarCapabilitiesXml = `<?xml version="1.0" encoding="UTF-8"?>
+<WMS_Capabilities xmlns="http://www.opengis.net/wms">
+  <Capability><Layer>
+    <Name>RADAR_1KM_RRAI</Name>
+    <Dimension name="time" units="ISO8601" default="2026-08-29T15:54:00Z">2026-08-29T12:54:00Z/2026-08-29T15:54:00Z/PT6M</Dimension>
+  </Layer></Capability>
+</WMS_Capabilities>`;
+
+  const baseProps = {
+    parcels: { type: "FeatureCollection" as const, features: [] },
+    taxSalePids: new Set<string>(),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    provinceLayers: hiddenProvinceLayers,
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showTaxSale: false,
+    showHistoricalTaxSales: false,
+  };
+
+  type WmsLikeLayer = { wmsParams?: { layers?: string; time?: string } };
+  const addedWmsRadarLayer = (): WmsLikeLayer | undefined =>
+    mapMock.addLayer.mock.calls
+      .map(([layer]) => layer as WmsLikeLayer)
+      .find((layer) => layer?.wmsParams?.layers === "RADAR_1KM_RRAI");
+  const cameraGeoJsonCall = () =>
+    geoJsonProps.calls.find(
+      (call) =>
+        (call.data as { features?: unknown[] } | undefined)?.features
+          ?.length === 57,
+    );
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("reports the bundled camera count when the camera layer is on", () => {
+    const onLayerStatusChange = vi.fn();
+    render(
+      <MapCanvas
+        {...baseProps}
+        liveConditionsLayers={{ "highway-cameras": true, "weather-radar": false }}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+      />,
+    );
+
+    expect(onLayerStatusChange).toHaveBeenCalledWith("highway-cameras", {
+      status: "ready",
+      count: 57,
+    });
+    expect(cameraGeoJsonCall()).toBeDefined();
+    expect(addedWmsRadarLayer()).toBeUndefined();
+  });
+
+  it("adds the GeoMet WMS layer and pins the frame time from capabilities", async () => {
+    const onLayerStatusChange = vi.fn();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        text: () => Promise.resolve(radarCapabilitiesXml),
+      }),
+    );
+    render(
+      <MapCanvas
+        {...baseProps}
+        liveConditionsLayers={{ "highway-cameras": false, "weather-radar": true }}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onLayerStatusChange={onLayerStatusChange}
+      />,
+    );
+
+    expect(onLayerStatusChange).toHaveBeenCalledWith("weather-radar", {
+      status: "loading",
+    });
+    const radarLayer = addedWmsRadarLayer();
+    expect(radarLayer).toBeDefined();
+    await waitFor(
+      () =>
+        expect(radarLayer?.wmsParams?.time).toBe("2026-08-29T15:54:00Z"),
+      { timeout: ASYNC_LAYER_TIMEOUT_MS },
+    );
+  });
+
+  it("renders neither live overlay in print mode", () => {
+    render(
+      <MapCanvas
+        {...baseProps}
+        liveConditionsLayers={{ "highway-cameras": true, "weather-radar": true }}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        renderMode="print"
+      />,
+    );
+
+    expect(addedWmsRadarLayer()).toBeUndefined();
+    expect(cameraGeoJsonCall()).toBeUndefined();
+  });
+});

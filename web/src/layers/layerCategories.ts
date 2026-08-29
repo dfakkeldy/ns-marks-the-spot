@@ -53,6 +53,8 @@ export const layerCategoryByLayerId = {
   roads: "roads-places",
   "main-roads": "roads-places",
   "place-names": "roads-places",
+  "highway-cameras": "roads-places",
+  "weather-radar": "environment-hazards",
   waterfalls: "water-terrain",
   "water-features": "water-terrain",
   contours: "water-terrain",

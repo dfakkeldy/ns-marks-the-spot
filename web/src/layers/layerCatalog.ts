@@ -124,6 +124,8 @@ export type ZoningLayerDescriptor = {
 
 export type WellLogLayerId = "ns-well-logs";
 
+export type LiveConditionsLayerId = "highway-cameras" | "weather-radar";
+
 export type FloodHazardLayerId =
   | "published-river-flood-zones"
   | "coastal-flood-current"
@@ -225,6 +227,49 @@ export type WellLogLayerDescriptor = {
   scale: string;
   coverage: string;
 };
+
+type LiveConditionsLayerBase = {
+  name: string;
+  sourceUrl: string;
+  /** Licence-mandated statement rendered whenever the layer is on screen. */
+  attribution: string;
+  licenceUrl: string;
+  minZoom: number;
+  maxZoom: number;
+  opacity: number;
+  webCaveat: string;
+  sourceDate: string;
+  scale: string;
+  coverage: string;
+};
+
+export type TrafficCameraLayerDescriptor = LiveConditionsLayerBase & {
+  id: "highway-cameras";
+  licence: "crown-copyright-live-view";
+  delivery: "bundled-points-live-images";
+  /** Live JPEG endpoint; `{id}` is the 511 map item id for one camera site. */
+  imageUrlTemplate: string;
+  markerColor: string;
+};
+
+export type WeatherRadarLayerDescriptor = LiveConditionsLayerBase & {
+  id: "weather-radar";
+  licence: "eccc-open";
+  delivery: "wms-raster";
+  serviceUrl: string;
+  wmsLayer: string;
+};
+
+/**
+ * Live-conditions overlays are moment-in-time context, not evidence: the
+ * radar frame and camera images have already changed by the time anyone acts
+ * on them. They are therefore excluded from the native parity fixture and
+ * from print/export capture — a sealed PDF must not carry a layer whose
+ * content cannot be re-derived from its stated source date.
+ */
+export type LiveConditionsLayerDescriptor =
+  | TrafficCameraLayerDescriptor
+  | WeatherRadarLayerDescriptor;
 
 export type ArcGISExportOptions = {
   transparent: boolean;
@@ -1498,4 +1543,77 @@ export const wellLogLayerCatalog: readonly WellLogLayerDescriptor[] = [
 
 export const initialWellLogLayerVisibility: Record<WellLogLayerId, boolean> = {
   "ns-well-logs": false,
+};
+
+/**
+ * Live conditions: what the province looks like right now.
+ *
+ * Two sources with two very different clearances, kept deliberately explicit:
+ *
+ * - 511 Nova Scotia publishes no open-data feed (its REST API is key-gated
+ *   and CORS-closed). The camera *locations and names* here are a
+ *   project-derived list catalogued from the public 511 map on
+ *   August 29, 2026; the *images* are never copied — each browser loads the
+ *   live JPEG straight from 511, the same request the 511 site itself makes.
+ *   Crown copyright, so the list carries attribution and a source link, not
+ *   an open licence.
+ * - Weather radar is served live from ECCC's MSC GeoMet WMS under its open
+ *   end-use licence, which requires the data-source statement carried in
+ *   `attribution`.
+ *
+ * Road conditions and BurnSafe restrictions were evaluated and rejected for
+ * now: both are CORS-closed with no open feed, and a bundled snapshot of a
+ * daily burn ban would show yesterday's "burning allowed" — a stale-green
+ * state the evidence contract treats as fail-open. See web/README.md.
+ */
+export const liveConditionsLayerCatalog: readonly LiveConditionsLayerDescriptor[] = [
+  {
+    id: "highway-cameras",
+    name: "Highway cameras",
+    sourceUrl: "https://511.novascotia.ca/map",
+    attribution:
+      "Camera imagery © Province of Nova Scotia, loaded live from 511 Nova Scotia.",
+    licenceUrl: "https://www.novascotia.ca/copyright",
+    licence: "crown-copyright-live-view",
+    delivery: "bundled-points-live-images",
+    imageUrlTemplate: "https://511.novascotia.ca/map/Cctv/{id}",
+    markerColor: "#1d7fbf",
+    minZoom: 7,
+    maxZoom: 23,
+    opacity: 0.95,
+    webCaveat:
+      "Tap a camera for its live image · a frozen or missing image is a camera fault, not road truth",
+    sourceDate:
+      "Camera list catalogued August 29, 2026 · images live from 511 Nova Scotia",
+    scale: "57 provincial highway camera sites",
+    coverage: "Nova Scotia provincial highways",
+  },
+  {
+    id: "weather-radar",
+    name: "Weather radar",
+    sourceUrl: "https://eccc-msc.github.io/open-data/msc-geomet/readme_en/",
+    attribution:
+      "Radar data source: Environment and Climate Change Canada, MSC GeoMet.",
+    licenceUrl: "https://eccc-msc.github.io/open-data/licence/readme_en/",
+    licence: "eccc-open",
+    delivery: "wms-raster",
+    serviceUrl: "https://geo.weather.gc.ca/geomet",
+    wmsLayer: "RADAR_1KM_RRAI",
+    minZoom: 7,
+    maxZoom: 23,
+    opacity: 0.7,
+    webCaveat:
+      "Observed rain rate, refreshed about every 6 minutes · not a forecast",
+    sourceDate: "Live service · new frame about every 6 minutes",
+    scale: "1 km North American radar composite (RADAR_1KM_RRAI)",
+    coverage: "Canadian radar network · full Nova Scotia coverage",
+  },
+] as const;
+
+export const initialLiveConditionsLayerVisibility: Record<
+  LiveConditionsLayerId,
+  boolean
+> = {
+  "highway-cameras": false,
+  "weather-radar": false,
 };

@@ -39,6 +39,7 @@ import {
   floodHazardLayerCatalog,
   forestryLayerCatalog,
   hydroPilotLayerCatalog,
+  liveConditionsLayerCatalog,
   provinceLayerCatalog,
   wellLogLayerCatalog,
   zoningLayerCatalog,
@@ -72,6 +73,7 @@ const currentCatalogueIds = [
   ...zoningLayerCatalog.map(({ id }) => id),
   ...wellLogLayerCatalog.map(({ id }) => id),
   ...churchLayerCatalog.map(({ id }) => id),
+  ...liveConditionsLayerCatalog.map(({ id }) => id),
 ];
 
 const expectedCataloguePlacement = [
@@ -88,6 +90,8 @@ const expectedCataloguePlacement = [
   { id: "roads", label: "Roads, trails & culverts", category: "Roads & Places", kind: "control" },
   { id: "main-roads", label: "Main roads only", category: "Roads & Places", kind: "control" },
   { id: "place-names", label: "Place names", category: "Roads & Places", kind: "control" },
+  { id: "highway-cameras", label: "Highway cameras", category: "Roads & Places", kind: "control" },
+  { id: "weather-radar", label: "Weather radar", category: "Environment & Hazards", kind: "control" },
   { id: "flood-risk", label: "Watersheds", category: "Environment & Hazards", kind: "control" },
   { id: "waterfalls", label: "Waterfalls", category: "Water & Terrain", kind: "control" },
   { id: "water-features", label: "Water features", category: "Water & Terrain", kind: "control" },

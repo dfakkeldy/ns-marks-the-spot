@@ -5,6 +5,7 @@ import {
   type CategorizedLayerId,
   type LayerCategoryId,
 } from "../layers/layerCategories";
+import { liveConditionsLayerCatalog } from "../layers/layerCatalog";
 import {
   isShareLayerId,
   type MapMode,
@@ -114,6 +115,15 @@ export const builtInMapThemes = [
   },
 ] as const satisfies readonly MapThemeDefinition[];
 
+/**
+ * Web-only live overlays sit outside the native parity universe (see the
+ * matching exclusion in layerParity.ts), so the portability fixture must not
+ * list them either — a native panel has no row to reproduce for them.
+ */
+const nativeExcludedLayerIds = new Set<CategorizedLayerId>(
+  liveConditionsLayerCatalog.map(({ id }) => id),
+);
+
 export function buildMapPresentationFixture(): MapPresentationFixture {
   return {
     version: 1,
@@ -122,7 +132,9 @@ export function buildMapPresentationFixture(): MapPresentationFixture {
       name,
       layerIds: id === "tax-sale" || id === "my-maps"
         ? []
-        : layerIdsForCategory(id),
+        : layerIdsForCategory(id).filter(
+            (layerId) => !nativeExcludedLayerIds.has(layerId),
+          ),
     })),
     builtInThemes: builtInMapThemes.map((theme) => ({
       id: theme.id,
