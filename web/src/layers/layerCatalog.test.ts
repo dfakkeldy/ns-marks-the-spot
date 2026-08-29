@@ -22,8 +22,13 @@ import {
   zoningLayerCatalog,
   wellLogLayerCatalog,
   initialWellLogLayerVisibility,
+  initialLiveConditionsLayerVisibility,
+  liveConditionsLayerCatalog,
   type ProvinceLayerId,
+  type TrafficCameraLayerDescriptor,
+  type WeatherRadarLayerDescriptor,
 } from "./layerCatalog";
+import { highwayCameras } from "../data/highwayCameras";
 import {
   OPEN_GOVERNMENT_LICENCE_TERMS_URL,
   PROVINCE_LICENSE_URL,
@@ -848,5 +853,70 @@ describe("A.F. Church county map series", () => {
 
   it("leaves Fletcher first so the rail can read it by index", () => {
     expect(nativeLayerCatalog[0].id).toBe("fletcher");
+  });
+});
+
+describe("live conditions catalog", () => {
+  const cameras = liveConditionsLayerCatalog.find(
+    (layer): layer is TrafficCameraLayerDescriptor =>
+      layer.id === "highway-cameras",
+  );
+  const radar = liveConditionsLayerCatalog.find(
+    (layer): layer is WeatherRadarLayerDescriptor =>
+      layer.id === "weather-radar",
+  );
+
+  it("publishes two optional live overlays, both off by default", () => {
+    expect(
+      liveConditionsLayerCatalog.map(({ id, delivery }) => ({ id, delivery })),
+    ).toEqual([
+      { id: "highway-cameras", delivery: "bundled-points-live-images" },
+      { id: "weather-radar", delivery: "wms-raster" },
+    ]);
+    expect(initialLiveConditionsLayerVisibility).toEqual({
+      "highway-cameras": false,
+      "weather-radar": false,
+    });
+  });
+
+  it("keeps camera imagery on 511's origin instead of copying it", () => {
+    expect(cameras?.imageUrlTemplate).toBe(
+      "https://511.novascotia.ca/map/Cctv/{id}",
+    );
+    expect(cameras?.sourceUrl).toBe("https://511.novascotia.ca/map");
+    expect(cameras?.licence).toBe("crown-copyright-live-view");
+    expect(cameras?.licenceUrl).toBe("https://www.novascotia.ca/copyright");
+    expect(cameras?.attribution).toContain("Province of Nova Scotia");
+    expect(cameras?.attribution).toContain("511");
+  });
+
+  it("dates the camera catalogue and matches the bundled list it describes", () => {
+    expect(cameras?.sourceDate).toContain("August 29, 2026");
+    expect(cameras?.scale).toContain(`${highwayCameras.length} `);
+    expect(highwayCameras).toHaveLength(57);
+    expect(new Set(highwayCameras.map(({ id }) => id)).size).toBe(
+      highwayCameras.length,
+    );
+    for (const camera of highwayCameras) {
+      expect(camera.name.length).toBeGreaterThan(0);
+      expect(camera.name).not.toMatch(/[<>&]|&#/u);
+      expect(camera.latitude).toBeGreaterThan(43);
+      expect(camera.latitude).toBeLessThan(47.1);
+      expect(camera.longitude).toBeGreaterThan(-66.5);
+      expect(camera.longitude).toBeLessThan(-59.5);
+    }
+  });
+
+  it("serves radar from ECCC GeoMet under the ECCC end-use licence", () => {
+    expect(radar?.serviceUrl).toBe("https://geo.weather.gc.ca/geomet");
+    expect(radar?.wmsLayer).toBe("RADAR_1KM_RRAI");
+    expect(radar?.licence).toBe("eccc-open");
+    expect(radar?.licenceUrl).toContain("eccc-msc.github.io/open-data/licence");
+    expect(radar?.attribution).toContain("Environment and Climate Change Canada");
+  });
+
+  it("says what a live frame is not: a forecast, or road truth", () => {
+    expect(radar?.webCaveat).toContain("not a forecast");
+    expect(cameras?.webCaveat).toContain("not road truth");
   });
 });

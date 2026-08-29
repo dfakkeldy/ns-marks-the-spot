@@ -29,6 +29,15 @@ describe("layer parity fixture", () => {
     expect(buildLayerParityFixture().layers).toHaveLength(36);
   });
 
+  it("keeps the web-only live overlays out of the native contract", () => {
+    // Highway cameras and weather radar are moment-in-time web overlays with
+    // no native counterpart; including them would demand Swift catalog rows
+    // for layers the native app does not ship.
+    const ids = new Set(buildLayerParityFixture().layers.map(({ id }) => id));
+    expect(ids.has("highway-cameras")).toBe(false);
+    expect(ids.has("weather-radar")).toBe(false);
+  });
+
   it("numbers uiOrder as a gapless sequence in panel order", () => {
     const orders = buildLayerParityFixture().layers.map(({ uiOrder }) => uiOrder);
     expect(orders).toEqual(orders.map((_, index) => index));

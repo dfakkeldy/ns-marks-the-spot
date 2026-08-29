@@ -35,6 +35,7 @@ import {
   FletcherLayerControl,
   LayerMetadata,
   LayerToggle,
+  LiveConditionsLayerToggle,
   ResourceLayerToggle,
   RoadLegend,
 } from "./components/LayerRows";
@@ -96,6 +97,7 @@ import {
   floodHazardLayerCatalog,
   fletcherLayerCatalog,
   hydroPilotLayerCatalog,
+  liveConditionsLayerCatalog,
   wellLogLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
@@ -104,6 +106,7 @@ import {
   type EnvironmentalHealthLayerId,
   type ForestryLayerId,
   type FloodHazardLayerId,
+  type LiveConditionsLayerId,
   type ProvinceLayerId,
   type ResourceLayerId,
   type ZoningLayerId,
@@ -311,6 +314,7 @@ const allMapLayerIds: MapLayerId[] = [
   ...forestryLayerCatalog.map(({ id }) => id),
   ...zoningLayerCatalog.map(({ id }) => id),
   ...wellLogLayerCatalog.map(({ id }) => id),
+  ...liveConditionsLayerCatalog.map(({ id }) => id),
 ];
 
 const restrictedThemeLayerIds = new Set<ShareLayerId>([
@@ -340,6 +344,7 @@ const themeLayerNames = new Map<ShareLayerId, string>([
   ...forestryLayerCatalog.map(({ id, name }) => [id, name] as const),
   ...zoningLayerCatalog.map(({ id, name }) => [id, `${name} zoning`] as const),
   ...wellLogLayerCatalog.map(({ id, name }) => [id, name] as const),
+  ...liveConditionsLayerCatalog.map(({ id, name }) => [id, name] as const),
 ]);
 
 function themeResolutionNotice(resolved: ResolvedTheme): string | null {
@@ -702,6 +707,17 @@ function printLayerSources(
     attribution: OPEN_GOVERNMENT_ATTRIBUTION,
     licenceUrl: OPEN_GOVERNMENT_LICENCE_URL,
   }));
+  // Listed for the Data & licences inventory; never captured into a print —
+  // captureLayerIds excludes the live overlays, so these entries cannot reach
+  // a sealed PDF.
+  liveConditionsLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: layer.attribution,
+    licenceUrl: layer.licenceUrl,
+  }));
   return sources;
 }
 
@@ -1035,6 +1051,7 @@ export function App() {
       ...forestryLayerCatalog.map(({ id }) => id),
       ...zoningLayerCatalog.map(({ id }) => id),
       ...wellLogLayerCatalog.map(({ id }) => id),
+      ...liveConditionsLayerCatalog.map(({ id }) => id),
     ]);
     if (!fletcherTileConfiguration.baseUrl) {
       ids.delete("fletcher");
@@ -1311,6 +1328,12 @@ export function App() {
   const [wellLogLayers, setWellLogLayers] = useState(
     () => visibilityRecordFor(
       wellLogLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
+  );
+  const [liveConditionsLayers, setLiveConditionsLayers] = useState(
+    () => visibilityRecordFor(
+      liveConditionsLayerCatalog.map(({ id }) => id),
       initialCatalogueLayerIds,
     ),
   );
@@ -2511,6 +2534,13 @@ export function App() {
     [],
   );
 
+  const setLiveConditionsLayerVisibility = useCallback(
+    (id: LiveConditionsLayerId, visible: boolean) => {
+    setLiveConditionsLayers((current) => ({ ...current, [id]: visible }));
+    },
+    [],
+  );
+
   const provinceToggleFor = useStablePerIdCallback(setProvinceLayerVisibility);
   const resourceToggleFor = useStablePerIdCallback(setResourceLayerVisibility);
   const hydroToggleFor = useStablePerIdCallback(setHydroPilotLayerVisibility);
@@ -2519,6 +2549,9 @@ export function App() {
   const environmentalToggleFor = useStablePerIdCallback(setEnvironmentalHealthLayerVisibility);
   const forestryToggleFor = useStablePerIdCallback(setForestryLayerVisibility);
   const zoningToggleFor = useStablePerIdCallback(setZoningLayerVisibility);
+  const liveConditionsToggleFor = useStablePerIdCallback(
+    setLiveConditionsLayerVisibility,
+  );
 
   const setLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
@@ -2533,7 +2566,9 @@ export function App() {
           ("minZoom" in previous ? previous.minZoom : undefined) ===
             ("minZoom" in status ? status.minZoom : undefined) &&
           ("count" in previous ? previous.count : undefined) ===
-            ("count" in status ? status.count : undefined)
+            ("count" in status ? status.count : undefined) &&
+          ("observedAt" in previous ? previous.observedAt : undefined) ===
+            ("observedAt" in status ? status.observedAt : undefined)
         ) {
           return current;
         }
@@ -2862,6 +2897,9 @@ export function App() {
       ...wellLogLayerCatalog
         .filter(({ id }) => wellLogLayers[id])
         .map(({ id }) => id),
+      ...liveConditionsLayerCatalog
+        .filter(({ id }) => liveConditionsLayers[id])
+        .map(({ id }) => id),
     ]);
     if (!licenceAccepted && licenceIntent?.kind === "layer") {
       initialCatalogueLayerIds.forEach((id) => {
@@ -2878,6 +2916,7 @@ export function App() {
     initialCatalogueLayerIds,
     licenceAccepted,
     licenceIntent,
+    liveConditionsLayers,
     provinceLayers,
     resourceLayers,
     showModernMap,
@@ -3100,6 +3139,9 @@ export function App() {
     ...wellLogLayerCatalog
       .filter(({ id }) => wellLogLayers[id])
       .map(({ id }) => id),
+    // Live-conditions overlays (highway cameras, weather radar) are
+    // deliberately absent: the print flow captures and seals evidence, and a
+    // live frame's content cannot be re-derived from any stated source date.
   ], [
     effectiveEnvironmentalHealthLayers,
     effectiveFloodHazardLayers,
@@ -3741,6 +3783,10 @@ export function App() {
               const wellCategoryLayers = wellLogLayerCatalog.filter(
                 ({ id }) => layerCategoryByLayerId[id] === category.id,
               );
+              const liveConditionsCategoryLayers =
+                liveConditionsLayerCatalog.filter(
+                  ({ id }) => layerCategoryByLayerId[id] === category.id,
+                );
               const churchCategoryLayers = churchLayerCatalog.filter(
                 ({ id }) => layerCategoryByLayerId[id] === category.id,
               );
@@ -4007,6 +4053,43 @@ export function App() {
                       </p>
                     </>
                   ) : null}
+
+                  {liveConditionsCategoryLayers.map((layer) => (
+                    <div className="layer-control" key={layer.id}>
+                      <LiveConditionsLayerToggle
+                        layer={layer}
+                        checked={liveConditionsLayers[layer.id]}
+                        status={layerStatuses[layer.id]}
+                        onChange={liveConditionsToggleFor(layer.id)}
+                      />
+                      <p className="resource-source-note">
+                        {layer.id === "highway-cameras" ? (
+                          <>
+                            Camera images load in your browser directly from
+                            511 Nova Scotia when you tap a camera; this map
+                            stores nothing. The camera list is a project
+                            catalogue of the public 511 map and can lag 511's
+                            own. {" "}
+                          </>
+                        ) : (
+                          <>
+                            Radar shows observed precipitation only — not a
+                            forecast. A gap or missing frame is missing data,
+                            not clear sky. {" "}
+                          </>
+                        )}
+                        <a
+                          href={layer.sourceUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {layer.id === "highway-cameras"
+                            ? "511 Nova Scotia map"
+                            : "MSC GeoMet service"}
+                        </a>
+                      </p>
+                    </div>
+                  ))}
 
                   {forestryCategoryLayers.map((layer) => (
                     <ForestryLayerToggle
@@ -4466,6 +4549,7 @@ export function App() {
             forestryLayers={forestryLayers}
             zoningLayers={zoningLayers}
             wellLogLayers={wellLogLayers}
+            liveConditionsLayers={liveConditionsLayers}
             wellLogAccuracyFilter={wellLogAccuracyFilter}
             fletcherVisible={fletcherVisible}
             fletcherOpacity={fletcherOpacity}
@@ -4629,6 +4713,11 @@ export function App() {
         {visibleZoningAttributions.map((attribution) => (
           <span key={attribution}>{attribution}</span>
         ))}
+        {liveConditionsLayerCatalog
+          .filter(({ id }) => liveConditionsLayers[id])
+          .map(({ id, attribution }) => (
+            <span key={id}>{attribution}</span>
+          ))}
         {fletcherVisible ? <span>{RUMSEY_ATTRIBUTION}</span> : null}
         <span>Boundaries are not a survey</span>
         <button type="button" onClick={() => setDataSourcesOpen(true)}>

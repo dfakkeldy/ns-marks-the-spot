@@ -5,6 +5,7 @@ import type {
   FloodHazardLayerDescriptor,
   ForestryLayerDescriptor,
   HydroPilotLayerDescriptor,
+  LiveConditionsLayerDescriptor,
   ProvinceLayerId,
   ResourceControlDescriptor,
   WebLayerDescriptor,
@@ -13,6 +14,7 @@ import type {
   FletcherLayerId,
 } from "../layers/layerCatalog";
 import type { MapLayerStatus } from "./MapCanvas";
+import { radarObservedLabel } from "../services/weatherRadar";
 import {
   WELL_ACCURACY_BANDS,
   type WellLogAccuracyFilter,
@@ -28,10 +30,20 @@ function layerRuntimeLabel(
   switch (status.status) {
     case "loading":
       return "Loading visible area…";
-    case "ready":
-      return status.count === undefined
-        ? "Ready"
-        : `Ready · ${status.count.toLocaleString("en-CA")} loaded`;
+    case "ready": {
+      const parts = ["Ready"];
+      if (status.count !== undefined) {
+        parts.push(`${status.count.toLocaleString("en-CA")} loaded`);
+      }
+      const observed =
+        status.observedAt === undefined
+          ? null
+          : radarObservedLabel(status.observedAt);
+      if (observed !== null) {
+        parts.push(`observed ${observed}`);
+      }
+      return parts.join(" · ");
+    }
     case "zoom":
       return `Zoom to ${status.minZoom}+ to load`;
     case "error":
@@ -319,6 +331,50 @@ export const HydroPilotLayerToggle = memo(function HydroPilotLayerToggle({
     </label>
   );
 });
+
+/**
+ * Live-conditions overlays (511 cameras, ECCC radar) come from federal and
+ * provincial live services outside the Province map-services licence, so —
+ * like zoning — the toggle takes no licenceAccepted prop.
+ */
+export const LiveConditionsLayerToggle = memo(
+  function LiveConditionsLayerToggle({
+    layer,
+    checked,
+    status,
+    onChange,
+  }: {
+    layer: LiveConditionsLayerDescriptor;
+    checked: boolean;
+    status: MapLayerStatus;
+    onChange: (checked: boolean) => void;
+  }) {
+    return (
+      <label className="layer-row live-conditions-layer-row">
+        <input
+          type="checkbox"
+          aria-label={layer.name}
+          checked={checked}
+          onChange={(event) => onChange(event.target.checked)}
+        />
+        <span className="switch" aria-hidden="true" />
+        <span>
+          <strong>{layer.name}</strong>
+          <small>{layer.webCaveat}</small>
+          <LayerMetadata
+            sourceDate={layer.sourceDate}
+            scale={layer.scale}
+            coverage={layer.coverage}
+            minZoom={layer.minZoom}
+            maxZoom={layer.maxZoom}
+            checked={checked}
+            status={status}
+          />
+        </span>
+      </label>
+    );
+  },
+);
 
 /**
  * Zoning comes from municipal servers, so it sits outside the Province licence

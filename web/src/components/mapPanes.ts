@@ -52,6 +52,22 @@ export const MINERAL_PROXIMITY_PANE_Z_INDEX = 390;
 export const WELL_LOG_PANE = "ns-well-logs-pane";
 export const WELL_LOG_PANE_Z_INDEX = 405;
 
+/**
+ * The radar wash renders above every reference raster — it is the newest
+ * information on screen — but below the place-names tile layer (300), whose
+ * labels must stay readable through weather, and below every vector pane.
+ * This is a tile-layer z-index inside Leaflet's tilePane, not a pane.
+ */
+export const WEATHER_RADAR_Z_INDEX = 295;
+
+/**
+ * Camera markers sit above well logs (405) — a tappable live view beats a
+ * historical point when both occupy the same pixel — and below the selected
+ * tax-sale parcels (420), which remain the visual authority.
+ */
+export const TRAFFIC_CAMERA_PANE = "traffic-cameras-pane";
+export const TRAFFIC_CAMERA_PANE_Z_INDEX = 410;
+
 export const ESTABLISHED_PARCEL_PANE = "established-parcel-overlays-pane";
 export const ESTABLISHED_PARCEL_PANE_Z_INDEX = 420;
 

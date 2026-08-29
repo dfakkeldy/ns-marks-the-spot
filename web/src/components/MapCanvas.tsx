@@ -35,10 +35,12 @@ import {
   floodHazardLayerCatalog,
   PROPERTY_BOUNDARY_MIN_ZOOM,
   allResourceLayerCatalog,
+  liveConditionsLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
   wellLogLayerCatalog,
   type HydroPilotLayerId,
+  type LiveConditionsLayerId,
   type EnvironmentalHealthLayerDescriptor,
   type EnvironmentalHealthLayerId,
   type ForestryLayerId,
@@ -49,6 +51,8 @@ import {
   type ResourceFeatureLayerDescriptor,
   type ResourceLayerId,
   type ResourceMapLayerDescriptor,
+  type TrafficCameraLayerDescriptor,
+  type WeatherRadarLayerDescriptor,
   type WebLayerDescriptor,
   zoningLayerCatalog,
   type ZoningLayerId,
@@ -100,6 +104,8 @@ import { MeasureTool, type MeasureMode } from "./MeasureTool";
 import { FletcherTileLayer } from "./FletcherTileLayer";
 import { ZoningLayer } from "./ZoningLayer";
 import { OldGrowthPolicyLayer } from "./OldGrowthPolicyLayer";
+import { TrafficCameraLayer } from "./TrafficCameraLayer";
+import { WeatherRadarLayer } from "./WeatherRadarLayer";
 import {
   ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX,
   ESTABLISHED_PARCEL_PANE,
@@ -109,6 +115,8 @@ import {
   OLD_GROWTH_POLICY_PANE,
   OLD_GROWTH_POLICY_PANE_Z_INDEX,
   PROVINCE_LAYER_Z_INDEXES,
+  TRAFFIC_CAMERA_PANE,
+  TRAFFIC_CAMERA_PANE_Z_INDEX,
   ZONING_PANE,
   ZONING_PANE_Z_INDEX,
   WELL_LOG_PANE,
@@ -166,6 +174,7 @@ type MapCanvasProps = {
   forestryLayers?: Record<ForestryLayerId, boolean>;
   zoningLayers?: Record<ZoningLayerId, boolean>;
   wellLogLayers?: Record<WellLogLayerId, boolean>;
+  liveConditionsLayers?: Record<LiveConditionsLayerId, boolean>;
   wellLogAccuracyFilter?: WellLogAccuracyFilter;
   fletcherVisible?: boolean;
   fletcherOpacity?: number;
@@ -244,12 +253,14 @@ export type MapLayerId =
   | EnvironmentalHealthLayerId
   | ForestryLayerId
   | ZoningLayerId
-  | WellLogLayerId;
+  | WellLogLayerId
+  | LiveConditionsLayerId;
 
 export type MapLayerStatus =
   | { status: "idle" | "loading" | "error" }
   | { status: "zoom"; minZoom: number }
-  | { status: "ready"; count?: number };
+  /** `observedAt`: ISO observation time of a live frame, when the source states one. */
+  | { status: "ready"; count?: number; observedAt?: string };
 
 export type ResourceLayerStatus = MapLayerStatus;
 
@@ -291,6 +302,10 @@ const HIDDEN_ZONING_LAYERS: Record<ZoningLayerId, boolean> = {
 };
 const HIDDEN_WELL_LOG_LAYERS: Record<WellLogLayerId, boolean> = {
   "ns-well-logs": false,
+};
+const HIDDEN_LIVE_CONDITIONS_LAYERS: Record<LiveConditionsLayerId, boolean> = {
+  "highway-cameras": false,
+  "weather-radar": false,
 };
 // Stable reference: a fresh `[]` default would be a new array identity every
 // render, churning the UserMapLayers bridge (and its layer-construction
@@ -1706,6 +1721,7 @@ export function MapCanvas({
   forestryLayers = HIDDEN_FORESTRY_LAYERS,
   zoningLayers = HIDDEN_ZONING_LAYERS,
   wellLogLayers = HIDDEN_WELL_LOG_LAYERS,
+  liveConditionsLayers = HIDDEN_LIVE_CONDITIONS_LAYERS,
   wellLogAccuracyFilter = "surveyed",
   fletcherVisible = false,
   fletcherOpacity = 0.72,
@@ -2162,6 +2178,20 @@ export function MapCanvas({
             renderMode={renderMode}
           />
         ))}
+        {liveConditionsLayerCatalog
+          .filter(
+            (layer): layer is WeatherRadarLayerDescriptor =>
+              layer.delivery === "wms-raster",
+          )
+          .map((layer) => (
+            <WeatherRadarLayer
+              key={layer.id}
+              layer={layer}
+              visible={liveConditionsLayers[layer.id]}
+              onStatusChange={reportLayerStatus}
+              renderMode={renderMode}
+            />
+          ))}
         <Pane
           name={OLD_GROWTH_POLICY_PANE}
           pane="tilePane"
@@ -2199,6 +2229,25 @@ export function MapCanvas({
               renderMode={renderMode}
             />
           ))}
+        </Pane>
+        <Pane
+          name={TRAFFIC_CAMERA_PANE}
+          style={{ zIndex: TRAFFIC_CAMERA_PANE_Z_INDEX }}
+        >
+          {liveConditionsLayerCatalog
+            .filter(
+              (layer): layer is TrafficCameraLayerDescriptor =>
+                layer.delivery === "bundled-points-live-images",
+            )
+            .map((layer) => (
+              <TrafficCameraLayer
+                key={layer.id}
+                layer={layer}
+                visible={liveConditionsLayers[layer.id]}
+                onStatusChange={reportLayerStatus}
+                renderMode={renderMode}
+              />
+            ))}
         </Pane>
         <Pane
           name={MINERAL_PROXIMITY_PANE}

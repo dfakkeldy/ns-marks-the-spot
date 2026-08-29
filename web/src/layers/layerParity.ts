@@ -163,6 +163,13 @@ const GROUP_ORDER: readonly LayerParityGroupId[] = [
   "historical",
 ];
 
+/**
+ * Deliberately absent: `liveConditionsLayerCatalog`. The live overlays
+ * (highway cameras, weather radar) are web-only moment-in-time context with
+ * no native counterpart, so they sit outside the parity contract — adding
+ * them here would demand a Swift catalog entry for layers the native app
+ * does not ship.
+ */
 type Source = {
   group: LayerParityGroupId;
   layers: readonly { id: string }[];

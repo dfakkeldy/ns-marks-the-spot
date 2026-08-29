@@ -213,6 +213,12 @@ position, or default-visibility change on one side fails the build on the other.
 What still differs is delivery: the browser is online-only, while the app can
 save an area's Fletcher tiles for use without a connection.
 
+The two live-conditions overlays (highway cameras, weather radar) sit outside
+this contract by design: they are web-only moment-in-time context with no
+native counterpart, and both `layerParity.ts` and the map-presentation fixture
+exclude them explicitly rather than forcing Swift rows for layers the app does
+not ship.
+
 The layers a reader is most likely to ask about:
 
 - NS Aerial streams the Province's NSODB 10k imagery from zoom 10 through map
@@ -446,6 +452,61 @@ underlying database may not be redistributed and is deliberately not used here,
 and the stale 2015 Socrata copy is not used either. The published table includes
 an `ADDRESS` column that can hold a well owner's civic address; it is excluded at
 the query rather than filtered out afterwards, so it never reaches the browser.
+
+## Live conditions
+
+Two default-off overlays show the province as it is right now rather than as a
+record: **Highway cameras** (Roads & Places) and **Weather radar**
+(Environment & Hazards). Both are web-only, outside the native parity
+contract, and excluded from print/export capture — a sealed PDF states a
+source date, and a live frame's content cannot be re-derived from one. Their
+attribution lines render in the footer while they are on, and both appear in
+Data & licences.
+
+**Highway cameras.** 511 Nova Scotia publishes no open-data feed: its REST API
+answers `{"Message":"Invalid Key"}` without a registered key and sends no CORS
+headers, so a browser app cannot call it either way. What ships instead is the
+narrowest workable slice: `src/data/highwayCameras.ts` is a project catalogue
+of the 57 camera sites (id, name, coordinates only) taken from the public 511
+map, and the live JPEG for a tapped camera loads in the visitor's browser
+directly from `511.novascotia.ca/map/Cctv/{id}` — the same request the 511
+site itself makes, with a cache-busting key per popup open. No imagery is
+copied into this repository or its deployments. The imagery and names are
+Crown copyright, carried with attribution and a source link rather than an
+open-licence claim. A failed image renders an explicit source-error note, not
+a blank: a frozen or missing camera is a camera fault, never road truth.
+
+### Highway camera source receipt — August 29, 2026
+
+Catalogued from `https://511.novascotia.ca/map/mapIcons/Cameras` (57 sites,
+ids 1–57, coordinates) joined with each site's public tooltip
+(`/tooltip/Cameras/{id}?lang=en`) for the display name. Image endpoint
+verified as `image/jpeg` for in-range ids; out-of-range ids return a
+placeholder PNG. The keyed developer API and its terms were not available to
+review; if 511 publishes an open feed or objects to the live hotlink, this
+layer's delivery should be revisited.
+
+**Weather radar.** The `RADAR_1KM_RRAI` rain-rate composite streams from
+Environment and Climate Change Canada's MSC GeoMet WMS — the codebase's first
+WMS layer — under the ECCC open data-server licence, which requires the
+data-source statement the footer shows. On toggle the layer reads the
+layer-scoped `GetCapabilities` time dimension to pin the newest frame, shows
+that observation time in the layer row (`Ready · observed 3:54 p.m.`), and
+re-checks every 5 minutes; GeoMet publishes a frame about every 6. Radar is
+observed precipitation only — not a forecast, and a gap or missing frame is
+missing data, not clear sky.
+
+**Evaluated and rejected for now.** Road conditions and BurnSafe burn
+restrictions were both researched and deliberately not shipped. 511's
+road-conditions data sits behind the same keyed, CORS-closed API as the
+cameras, with no image-style escape hatch. BurnSafe has no API at all — the
+daily county statuses are server-rendered into `novascotia.ca/burnsafe` with
+no CORS — and a bundled snapshot would show yesterday's "burning allowed"
+after conditions turned red: a stale-green failure mode the evidence contract
+treats as fail-open, worse than absence. Either layer becomes shippable with
+an authorized live feed (or, for BurnSafe, a same-day refresh pipeline with a
+fail-closed staleness gate that greys the layer out rather than showing an
+old green).
 
 ## Inverness micro-hydro screening pilot
 
