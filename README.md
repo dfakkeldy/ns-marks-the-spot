@@ -68,7 +68,11 @@ does not treat assessment as current market value.
 
 On the live map, the locate control can show your GPS position, follow you as
 you move, and mark the current fix into a local Field notes layer with one tap.
-Location stays on the device.
+The same cluster can record a foreground track (start, pause, resume, stop),
+simplify it on save, and keep the raw GPX as that layer's original file next
+to the processed LineString or MultiLineString. Saved recordings are local
+layers (origin recorded / "Recorded on this device"). Location stays on the
+device.
 
 - **Your maps** — load your own GeoTIFFs (georeferenced scans, orthophotos) and
   drape them over Nova Scotia with an opacity slider. Anything without usable

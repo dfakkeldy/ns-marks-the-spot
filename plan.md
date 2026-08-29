@@ -47,6 +47,8 @@
 - [x] Civic-address search through the authoritative Civic Address File with NSPRD parcel resolution
 - [x] Tap-to-identify any visible NSPRD parcel boundary and open the shared parcel sheet
 - [x] Browser-local current location display
+- [x] Live GPS location with follow mode and one-tap Field notes marking (field-capture W1, #261)
+- [x] Foreground track recording with raw-GPX evidence retention (field-capture W2, #262)
 - [x] Native catalog parity for NS Aerial, Property Boundaries, Crown Lands, Watersheds, and Waterfalls
 - [x] Coverage-aware parcel flood-hazard evidence with separate published river and coastal scenario sources
 - [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web

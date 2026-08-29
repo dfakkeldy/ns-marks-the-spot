@@ -1,10 +1,12 @@
 # Field capture design: GPS points, tracks, snapping, photos, attributes
 
-Status: approved scope, ready to implement. Produced 2026-08-28 from a code
-survey of both surfaces, four subsystem design passes, and an adversarial
-cross-review that reconciled them. Decisions marked "approved" were made by the
-project owner in this session and are fixed; "open" items are listed in the
-final section.
+Status: approved scope. Web W1 (live GPS + Field notes mark, #261) and W2
+(foreground track recording with raw-GPX original, #262) are implemented.
+Remaining web work starts at W3. Native recording (N1) is not shipped.
+Produced 2026-08-28 from a code survey of both surfaces, four subsystem design
+passes, and an adversarial cross-review that reconciled them. Decisions marked
+"approved" were made by the project owner in this session and are fixed;
+"open" items are listed in the final section.
 
 The single most important section is **The field-capture contract**. It pins
 every constant, key name, and file profile the two surfaces share. Implement
@@ -59,23 +61,35 @@ Web (`web/src/`):
   tools, reshape/move/delete, one layer in edit at a time, official layers
   protected by `L.PM.setOptIn(true)`
   ([EditableVectorLayer.tsx](../web/src/userMaps/vector/edit/EditableVectorLayer.tsx)).
-- User vector layers persisted in IndexedDB with provenance (`drawn` vs
-  `imported`), debounced saves, original-file blobs kept alongside live
-  geometry ([userVectorStore.ts](../web/src/userMaps/vector/store/userVectorStore.ts),
+- User vector layers persisted in IndexedDB with provenance (`drawn`,
+  `imported`, or `recorded`), debounced saves, original-file blobs kept
+  alongside live geometry
+  ([userVectorStore.ts](../web/src/userMaps/vector/store/userVectorStore.ts),
   schema owner [database.ts](../web/src/userMaps/store/database.ts), DB_VERSION 2).
 - Import: GeoJSON, KML, KMZ, GPX, zipped shapefile. Export: GeoJSON and KML,
-  user layers only.
-- One-shot "locate me" with the privacy guard that keeps location out of share
-  URLs and print ([MapCanvas.tsx](../web/src/components/MapCanvas.tsx) ~955-999).
+  user layers only. Recorded layers keep raw GPX as the original-file blob;
+  a dedicated GPX export download control is W3.
+- Live GPS watch (`watchPosition`) with follow mode, heading, and one-tap
+  mark into a Field notes layer. Location stays out of share URLs and print
+  ([liveLocation.ts](../web/src/location/liveLocation.ts),
+  [useLiveLocation.ts](../web/src/location/useLiveLocation.ts),
+  [MapCanvas.tsx](../web/src/components/MapCanvas.tsx)).
+- Foreground track recording: start/pause/resume/stop, contract filter
+  pipeline, Douglas-Peucker simplify on save, processed LineString /
+  MultiLineString plus raw GPX as the layer original, origin `recorded`
+  ("Recorded on this device")
+  ([trackRecorder.ts](../web/src/location/trackRecorder.ts),
+  [useTrackRecording.ts](../web/src/location/useTrackRecording.ts),
+  [SaveTrackDialog.tsx](../web/src/location/SaveTrackDialog.tsx),
+  [rawTrackGpx.ts](../web/src/location/rawTrackGpx.ts)).
 - NSPRD parcel polygons already reach the browser as GeoJSON for identify and
   mineral-proximity queries ([nsprd.ts](../web/src/services/nsprd.ts),
   [mineralProximity.ts](../web/src/services/mineralProximity.ts)); the paged
   bbox-query convention lives in
   [arcGISFeatureOverlay.ts](../web/src/services/arcGISFeatureOverlay.ts).
 
-Missing on web: watchPosition, any track recording or smoothing, GPX export,
-snap-to-parcels, points-to-path conversion, photos, EXIF, attribute editing
-beyond name/description.
+Missing on web: W3 GPX export UI, snap-to-parcels, points-to-path conversion,
+photos, EXIF, attribute editing beyond name/description.
 
 iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 
