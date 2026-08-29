@@ -39,6 +39,8 @@ function api(overrides: Partial<UserVectorLayersApi> = {}): UserVectorLayersApi 
     setEnabled: vi.fn(),
     exportLayer: vi.fn(async () => {}),
     createDrawnLayer: vi.fn(async () => "new-layer"),
+    ensureFieldNotesLayer: vi.fn(async () => "field-notes"),
+    appendFeatures: vi.fn(async () => null),
     applyLayerEdit: vi.fn(),
     geometries: {},
     putVectorLayer: vi.fn(async () => {}),
@@ -94,6 +96,28 @@ describe("UserVectorRows", () => {
       />,
     );
     expect(screen.getByText(/Drawn on this device · 3 features/)).toBeInTheDocument();
+  });
+
+  it("labels recorded layers as recorded on this device", () => {
+    render(
+      <UserVectorRows
+        api={api({
+          records: [
+            record("walk", {
+              source: "recorded",
+              origin: {
+                kind: "recorded",
+                startedAt: "2026-08-28T14:00:00.000Z",
+                endedAt: "2026-08-28T14:20:00.000Z",
+              },
+            }),
+          ],
+        })}
+      />,
+    );
+    expect(
+      screen.getByText(/Recorded on this device · 3 features/),
+    ).toBeInTheDocument();
   });
 
   it("toggles a layer through setEnabled", async () => {

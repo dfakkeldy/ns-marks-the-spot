@@ -449,3 +449,86 @@ describe("drawn-layer persistence retry", () => {
     );
   });
 });
+
+describe("field-capture append", () => {
+  function markFeature(id: string): GeoJSON.Feature {
+    return {
+      type: "Feature",
+      id,
+      geometry: { type: "Point", coordinates: [-60.91, 46.12] },
+      properties: {
+        "nsmts:capturedAt": "2026-08-28T14:05:00.000Z",
+        "nsmts:accuracyM": 7.4,
+      },
+    };
+  }
+
+  it("creates the Field notes layer once and reuses it, even in one tick", async () => {
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    let first = "";
+    let second = "";
+    await act(async () => {
+      // Both calls inside one act: the reuse must not depend on a re-render
+      // having refreshed the records snapshot in between.
+      first = await result.current.ensureFieldNotesLayer();
+      second = await result.current.ensureFieldNotesLayer();
+    });
+    expect(second).toBe(first);
+    const record = result.current.records.find(({ id }) => id === first);
+    expect(record?.name).toBe("Field notes");
+    expect(record?.origin.kind).toBe("drawn");
+  });
+
+  it("appends to a just-created layer, stamps modifiedAt, and persists", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(async () => {
+      const id = await result.current.ensureFieldNotesLayer();
+      const advanced = await result.current.appendFeatures(id, [
+        markFeature("mark-1"),
+      ]);
+      expect(advanced?.featureCount).toBe(1);
+      expect(advanced?.revision).toBe(1);
+      expect(advanced?.modifiedAt).toBeTruthy();
+      expect(advanced?.bbox).toEqual([-60.91, 46.12, -60.91, 46.12]);
+    });
+
+    const visible = result.current.visibleLayers.find(
+      ({ record }) => record.name === "Field notes",
+    );
+    expect(visible?.data.features.map(({ id }) => id)).toEqual(["mark-1"]);
+
+    const store = await UserVectorStore.open(factory);
+    const listed = await store.listVectorLayers();
+    expect(listed).toHaveLength(1);
+    expect(listed[0].featureCount).toBe(1);
+  });
+
+  it("chains marks within one tick without losing the earlier one", async () => {
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(async () => {
+      const id = await result.current.ensureFieldNotesLayer();
+      await result.current.appendFeatures(id, [markFeature("mark-1")]);
+      await result.current.appendFeatures(id, [markFeature("mark-2")]);
+    });
+    const layer = result.current.visibleLayers.find(
+      ({ record }) => record.name === "Field notes",
+    );
+    expect(layer?.data.features.map(({ id }) => id)).toEqual([
+      "mark-1",
+      "mark-2",
+    ]);
+    expect(layer?.record.revision).toBe(2);
+  });
+
+  it("returns null when appending to a layer that is gone", async () => {
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    let advanced: unknown = "sentinel";
+    await act(async () => {
+      advanced = await result.current.appendFeatures("missing", [
+        markFeature("mark-1"),
+      ]);
+    });
+    expect(advanced).toBeNull();
+  });
+});

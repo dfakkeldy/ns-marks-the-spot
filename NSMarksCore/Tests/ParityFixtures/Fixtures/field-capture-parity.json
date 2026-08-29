@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "reservedPrefix": "nsmts:",
+  "reservedPropertyKeys": [
+    "nsmts:capturedAt",
+    "nsmts:accuracyM",
+    "nsmts:altitudeM",
+    "nsmts:recording",
+    "nsmts:photos",
+    "nsmts:traced",
+    "nsmts:createdAt",
+    "nsmts:convertedFromPoints"
+  ],
+  "fieldNotesLayerName": "Field notes",
+  "recordedProvenance": "Recorded on this device",
+  "mark": {
+    "maxFixAgeMs": 10000,
+    "maxAccuracyM": 50
+  },
+  "trackFilter": {
+    "accuracyGateM": 25,
+    "maxSpeedMps": 30,
+    "smoothingAlpha": 0.6,
+    "minSpacingFloorM": 2,
+    "spacingAccuracyFactor": 0.5
+  },
+  "simplify": {
+    "defaultToleranceM": 1,
+    "presetsM": [
+      0,
+      0.5,
+      1,
+      2,
+      5
+    ]
+  },
+  "snap": {
+    "minZoom": 16,
+    "toleranceScreenUnits": 15,
+    "vertexPriority": "vertex-first",
+    "maxParcels": 600,
+    "parcelCaveat": "Traced boundaries are not a survey."
+  }
+}

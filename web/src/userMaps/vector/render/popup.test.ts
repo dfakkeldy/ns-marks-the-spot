@@ -72,4 +72,50 @@ describe("buildFeaturePopup", () => {
     );
     expect(popup.textContent).toMatch(/drawn on this device/i);
   });
+
+  it("labels recorded layers as recorded on this device", () => {
+    const popup = buildFeaturePopup(
+      feature({ name: "Walk" }),
+      record({
+        source: "recorded",
+        origin: {
+          kind: "recorded",
+          startedAt: "2026-08-28T14:00:00.000Z",
+          endedAt: "2026-08-28T14:20:00.000Z",
+        },
+      }),
+    );
+    expect(popup.textContent).toMatch(/recorded on this device/i);
+  });
+
+  it("announces GPS capture with rounded accuracy when both reserved keys are present", () => {
+    const popup = buildFeaturePopup(
+      feature({
+        name: "Corner post",
+        "nsmts:capturedAt": "2026-08-28T14:05:00.000Z",
+        "nsmts:accuracyM": 7.4,
+      }),
+      record(),
+    );
+    expect(popup.textContent).toContain(
+      "Marked from GPS on this device (±7 m)",
+    );
+  });
+
+  it("stays silent about GPS when either reserved key is missing or malformed", () => {
+    const timeOnly = buildFeaturePopup(
+      feature({ "nsmts:capturedAt": "2026-08-28T14:05:00.000Z" }),
+      record(),
+    );
+    expect(timeOnly.textContent).not.toContain("Marked from GPS");
+
+    const stringAccuracy = buildFeaturePopup(
+      feature({
+        "nsmts:capturedAt": "2026-08-28T14:05:00.000Z",
+        "nsmts:accuracyM": "7",
+      }),
+      record(),
+    );
+    expect(stringAccuracy.textContent).not.toContain("Marked from GPS");
+  });
 });

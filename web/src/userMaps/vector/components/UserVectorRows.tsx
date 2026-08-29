@@ -8,7 +8,9 @@ function provenance(record: UserVectorLayerRecord): string {
   const source =
     record.origin.kind === "imported"
       ? `Your file · ${record.origin.filename}`
-      : "Drawn on this device";
+      : record.origin.kind === "recorded"
+        ? "Recorded on this device"
+        : "Drawn on this device";
   // An edited layer no longer matches the file it came from, so the row says
   // so rather than letting the filename imply the data is still as imported.
   const edited = record.modifiedAt

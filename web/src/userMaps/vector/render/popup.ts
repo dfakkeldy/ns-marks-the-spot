@@ -37,12 +37,28 @@ export function buildFeaturePopup(
   if (description) {
     root.append(textLine("user-vector-popup-description", description));
   }
+  // A GPS-marked feature announces the claim its data makes about itself —
+  // when it was captured and how rough the fix was — so a ±40 m mark can
+  // never read as a surveyed corner. Both reserved keys must be present;
+  // this labels the data's own claim, not proof of where it was made.
+  const capturedAt = asText(props["nsmts:capturedAt"]);
+  const accuracy = props["nsmts:accuracyM"];
+  if (capturedAt && typeof accuracy === "number" && Number.isFinite(accuracy)) {
+    root.append(
+      textLine(
+        "user-vector-popup-gps",
+        `Marked from GPS on this device (±${Math.round(accuracy)} m)`,
+      ),
+    );
+  }
   root.append(
     textLine(
       "user-vector-popup-provenance",
       record.origin.kind === "imported"
         ? `From your file ${record.origin.filename}`
-        : "Drawn on this device",
+        : record.origin.kind === "recorded"
+          ? "Recorded on this device"
+          : "Drawn on this device",
     ),
   );
   return root;

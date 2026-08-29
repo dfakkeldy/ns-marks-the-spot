@@ -219,6 +219,10 @@ import { routeImportFiles } from "./userMaps/importRouting";
 import { useUserVectorLayers } from "./userMaps/vector/useUserVectorLayers";
 import { UserVectorControls } from "./userMaps/vector/components/UserVectorRows";
 import { useVectorEditSession } from "./userMaps/vector/edit/useVectorEditSession";
+import { getBrowserLocation } from "./services/browserLocation";
+import { buildGpsMarkFeature } from "./location/markFeature";
+import { FIELD_NOTES_LAYER_NAME } from "./location/captureSpec";
+import type { LiveFix } from "./location/liveLocation";
 import {
   VectorEditPanel,
   type EditMode,
@@ -1397,6 +1401,50 @@ export function App() {
     beginVectorEdit(id);
     setDrawMode("Marker");
   }, [beginVectorEdit, userVectorApi]);
+
+  /**
+   * Mark-my-location, per the field-capture contract: an open edit session
+   * receives the point through its own commit path (so the draft never
+   * forks), and otherwise the point lands in the auto-created "Field notes"
+   * drawn layer. The fix argument is MapCanvas's live watch fix when fresh
+   * and accurate enough; null means request one here.
+   */
+  const markCurrentLocation = useCallback(
+    async (fix: LiveFix | null): Promise<string | null> => {
+      let resolved = fix;
+      if (!resolved) {
+        try {
+          const oneShot = await getBrowserLocation();
+          resolved = {
+            latitude: oneShot.latitude,
+            longitude: oneShot.longitude,
+            accuracyM: oneShot.accuracy,
+            altitudeM: null,
+            headingDeg: null,
+            speedMps: null,
+            timestampMs: Date.now(),
+          };
+        } catch {
+          return "Location permission was not granted. You can keep using the map.";
+        }
+      }
+      const feature = buildGpsMarkFeature(resolved);
+      const accuracy = Math.round(resolved.accuracyM);
+      if (vectorEdit.editingLayer) {
+        vectorEdit.commitGeometry({
+          type: "FeatureCollection",
+          features: [...vectorEdit.editingLayer.data.features, feature],
+        });
+        return `Point saved to ${vectorEdit.editingLayer.record.name} (±${accuracy} m).`;
+      }
+      const layerId = await userVectorApi.ensureFieldNotesLayer();
+      const appended = await userVectorApi.appendFeatures(layerId, [feature]);
+      return appended
+        ? `Point saved to ${FIELD_NOTES_LAYER_NAME} (±${accuracy} m).`
+        : null;
+    },
+    [userVectorApi, vectorEdit],
+  );
 
   // The layer under edit is drawn by the Geoman bridge, so the read-only
   // list must drop it or every feature would render twice — once editable,
@@ -4442,6 +4490,7 @@ export function App() {
             initialPosition={initialShareState.position}
             preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
+            onMarkLocation={markCurrentLocation}
             onLayerStatusChange={setLayerStatus}
             exportFrame={
               exportSession?.stage === "framing" ? exportSession.frame : null
