@@ -1941,6 +1941,200 @@ a {
   box-shadow: 0 1px 8px rgba(18, 52, 59, 0.18);
 }
 
+/* Recording HUD: elapsed, distance, vertex count, and the fix-quality dot,
+   sitting under the location cluster while a session runs. */
+.location-hud {
+  position: absolute;
+  z-index: 500;
+  top: 138px;
+  left: 66px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 250px;
+  padding: 8px 10px;
+  color: var(--chart-ink);
+  font-size: 0.78rem;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+}
+
+.location-hud-stats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.location-hud-quality {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.location-hud-quality-green {
+  background: #1d8a4e;
+}
+
+.location-hud-quality-amber {
+  background: #c58a00;
+}
+
+.location-hud-quality-red {
+  background: #c0392b;
+}
+
+.location-hud small {
+  color: var(--chart-ink);
+  font-size: 0.7rem;
+  line-height: 1.3;
+}
+
+.location-hud-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.location-hud-actions button {
+  min-height: 44px;
+  flex: 1;
+  padding: 0 12px;
+  color: var(--survey-blue);
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Save-track dialog: the one moment recording data can be lost, so it is
+   modal and Discard confirms. */
+.save-track-backdrop {
+  position: fixed;
+  z-index: 1200;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(18, 52, 59, 0.45);
+}
+
+.save-track-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(420px, 100%);
+  max-height: 90vh;
+  padding: 18px 20px;
+  overflow-y: auto;
+  color: var(--chart-ink);
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(18, 52, 59, 0.35);
+}
+
+.save-track-dialog h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.save-track-stats {
+  margin: 0;
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.save-track-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.save-track-field input {
+  min-height: 44px;
+  padding: 0 10px;
+  font-size: 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.save-track-simplify {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.save-track-simplify legend {
+  padding: 0 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.save-track-simplify label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 44px;
+  font-size: 0.82rem;
+}
+
+.save-track-simplify small {
+  flex-basis: 100%;
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.save-track-note {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.save-track-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.save-track-actions button {
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-track-discard {
+  color: var(--chart-ink);
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+
+.save-track-save {
+  color: var(--white);
+  background: var(--survey-blue);
+  border: 0;
+}
+
+.save-track-save:disabled,
+.save-track-discard:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
 /* Heading wedge on the live-location marker; the divIcon rotates the inner
    element by the reported course. Non-interactive by construction. */
 .location-heading-anchor {
@@ -3097,6 +3291,10 @@ a {
     top: max(74px, calc(env(safe-area-inset-top) + 62px));
   }
 
+  .location-hud {
+    top: max(126px, calc(env(safe-area-inset-top) + 114px));
+  }
+
   .location-message {
     top: max(234px, calc(env(safe-area-inset-top) + 222px));
   }
@@ -3208,7 +3406,8 @@ a {
 
   .map-region.has-inspector .leaflet-control-zoom,
   .map-region.has-inspector .location-button,
-  .map-region.has-inspector .location-cluster {
+  .map-region.has-inspector .location-cluster,
+  .map-region.has-inspector .location-hud {
     pointer-events: none;
     opacity: 0;
   }
@@ -3246,6 +3445,7 @@ a {
 .print-map .leaflet-control-container,
 .print-map .location-button,
 .print-map .location-cluster,
+.print-map .location-hud,
 .print-map .location-message {
   display: none;
 }

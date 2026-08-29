@@ -16,7 +16,7 @@ export interface GeoPoint {
   lng: number;
 }
 
-function distanceMetres(from: GeoPoint, to: GeoPoint): number {
+export function distanceMetres(from: GeoPoint, to: GeoPoint): number {
   const fromLat = from.lat * DEGREES_TO_RADIANS;
   const toLat = to.lat * DEGREES_TO_RADIANS;
   const deltaLat = (to.lat - from.lat) * DEGREES_TO_RADIANS;

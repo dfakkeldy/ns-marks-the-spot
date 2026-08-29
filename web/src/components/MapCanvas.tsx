@@ -21,6 +21,7 @@ import {
   MapContainer,
   Marker,
   Pane,
+  Polyline,
   ScaleControl,
   TileLayer,
   useMap,
@@ -73,6 +74,12 @@ import {
   MARK_MAX_ACCURACY_M,
   MARK_MAX_FIX_AGE_MS,
 } from "../location/captureSpec";
+import { useTrackRecording } from "../location/useTrackRecording";
+import { SaveTrackDialog } from "../location/SaveTrackDialog";
+import { buildRecordedTrackFeature } from "../location/trackFeature";
+import { rawTrackGpxBlob } from "../location/rawTrackGpx";
+import type { StopResult } from "../location/trackRecorder";
+import { formatDistance } from "../services/geodesy";
 import {
   hydroLineStyle,
   hydroPotentialLabel,
@@ -187,6 +194,18 @@ type MapCanvasProps = {
    * requests a one-shot fix itself.
    */
   onMarkLocation?: (fix: LiveFix | null) => Promise<string | null>;
+  /**
+   * Saves a finished track recording as a new layer; resolves to a status
+   * message for the location live region (null for silence). The collection
+   * holds the processed track feature; rawGpx is every received fix.
+   */
+  onSaveTrack?: (input: {
+    name: string;
+    collection: GeoJSON.FeatureCollection;
+    rawGpx: Blob;
+    startedAt: string;
+    endedAt: string;
+  }) => Promise<string | null>;
   onLayerStatusChange?: (
     id: MapLayerId,
     status: MapLayerStatus,
@@ -1624,6 +1643,30 @@ function headingDivIcon(headingDeg: number): L.DivIcon {
   });
 }
 
+function formatElapsed(ms: number): string {
+  const totalSeconds = Math.floor(ms / 1_000);
+  const hours = Math.floor(totalSeconds / 3_600);
+  const minutes = Math.floor((totalSeconds % 3_600) / 60);
+  const seconds = totalSeconds % 60;
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return hours > 0
+    ? `${hours}:${pad(minutes)}:${pad(seconds)}`
+    : `${minutes}:${pad(seconds)}`;
+}
+
+function RecordTrackIcon() {
+  return (
+    <svg
+      className="location-button-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="3.5" fill="currentColor" />
+    </svg>
+  );
+}
+
 function MarkLocationIcon() {
   return (
     <svg
@@ -1685,6 +1728,7 @@ export function MapCanvas({
   onPositionChange,
   onViewportChange,
   onMarkLocation,
+  onSaveTrack,
   onLayerStatusChange,
   onResourceLayerStatusChange,
   renderMode = "interactive",
@@ -1735,7 +1779,13 @@ export function MapCanvas({
     lastSuppressed: null,
   });
   const [locationOn, setLocationOn] = useState(false);
-  const live = useLiveLocation(locationOn && !isPrintMode);
+  // Armed while a recording session exists (recording OR paused): the watch
+  // restarts with maximumAge 0 so no cached fix ever enters a track.
+  const [recorderArmed, setRecorderArmed] = useState(false);
+  const live = useLiveLocation(locationOn && !isPrintMode, recorderArmed);
+  const recording = useTrackRecording(live.fix);
+  const [stopResult, setStopResult] = useState<StopResult | null>(null);
+  const [savingTrack, setSavingTrack] = useState(false);
   const [followOn, setFollowOn] = useState(false);
   const [marking, setMarking] = useState(false);
   // Once per toggle-on: the success message and the fly-to happen on the
@@ -1767,7 +1817,8 @@ export function MapCanvas({
     // "signal lost") stay until the state changes.
     const autoDismisses =
       locationMessage === LOCATION_SUCCESS_MESSAGE ||
-      (locationMessage?.startsWith("Point saved") ?? false);
+      (locationMessage?.startsWith("Point saved") ?? false) ||
+      (locationMessage?.startsWith("Track saved") ?? false);
     if (!autoDismisses) {
       return;
     }
@@ -1826,6 +1877,12 @@ export function MapCanvas({
   );
 
   const toggleLocation = () => {
+    if (recording.status !== "idle" || stopResult) {
+      // Turning the watch off mid-recording would silently truncate the
+      // track; the user decides through the recorder controls instead.
+      setLocationMessage("Stop the track recording first.");
+      return;
+    }
     if (locationOn) {
       setLocationOn(false);
       setFollowOn(false);
@@ -1921,6 +1978,59 @@ export function MapCanvas({
       setMarking(false);
     }
   };
+
+  const startRecording = () => {
+    setRecorderArmed(true);
+    recording.start();
+  };
+
+  const stopRecording = () => {
+    const result = recording.stop();
+    setRecorderArmed(false);
+    if (result) {
+      setStopResult(result);
+    }
+  };
+
+  const handleSaveTrack = async (name: string, simplifyToleranceM: number) => {
+    if (!onSaveTrack || !stopResult) {
+      return;
+    }
+    const feature = buildRecordedTrackFeature(stopResult, name, simplifyToleranceM);
+    if (!feature) {
+      // The dialog disables Save in this state; this is the belt to its
+      // braces if the two ever disagree.
+      setLocationMessage("Too little movement was recorded to save a track.");
+      setStopResult(null);
+      return;
+    }
+    setSavingTrack(true);
+    try {
+      const message = await onSaveTrack({
+        name,
+        collection: { type: "FeatureCollection", features: [feature] },
+        rawGpx: rawTrackGpxBlob(name, stopResult.rawSegments),
+        startedAt: stopResult.startedAt,
+        endedAt: stopResult.endedAt,
+      });
+      setLocationMessage(message);
+      setStopResult(null);
+    } finally {
+      setSavingTrack(false);
+    }
+  };
+
+  // Quality dot thresholds match the accuracy gate: green is survey-walk
+  // quality, amber still passes the 25 m gate, red means fixes are being
+  // rejected (or the signal is gone) and the track is not growing.
+  const fixQuality =
+    live.status !== "active" || !live.fix
+      ? "red"
+      : live.fix.accuracyM <= 10
+        ? "green"
+        : live.fix.accuracyM <= 25
+          ? "amber"
+          : "red";
 
   return (
     <div
@@ -2185,6 +2295,24 @@ export function MapCanvas({
             ) : null}
           </>
         ) : null}
+        {!isPrintMode && recording.status !== "idle"
+          ? recording.liveSegments
+              .filter((segment) => segment.length >= 2)
+              .map((segment, index) => (
+                <Polyline
+                  // Index keys are safe here: segments only ever append.
+                  key={index}
+                  positions={segment}
+                  interactive={false}
+                  pathOptions={{
+                    color: "#2f80ed",
+                    weight: 3,
+                    dashArray: "6 8",
+                    opacity: 0.9,
+                  }}
+                />
+              ))
+          : null}
         {isPrintMode ? <PrintBoundsController bounds={fitBounds} /> : <>
           <InitialTaxSaleBoundsController
             parcels={parcels}
@@ -2260,6 +2388,16 @@ export function MapCanvas({
               <MarkLocationIcon />
             </button>
           ) : null}
+          {onSaveTrack && recording.status === "idle" && !stopResult ? (
+            <button
+              type="button"
+              className="location-cluster-button"
+              aria-label="Record a track"
+              onClick={startRecording}
+            >
+              <RecordTrackIcon />
+            </button>
+          ) : null}
           {!followOn ? (
             <button
               type="button"
@@ -2273,6 +2411,49 @@ export function MapCanvas({
             Location stays on this device.
           </small>
         </div>
+      ) : null}
+      {recording.status !== "idle" ? (
+        <div className="location-hud" role="status">
+          <div className="location-hud-stats">
+            <span
+              className={`location-hud-quality location-hud-quality-${fixQuality}`}
+              aria-hidden="true"
+            />
+            <span>{formatElapsed(recording.stats.elapsedMs)}</span>
+            <span>{formatDistance(recording.stats.distanceM)}</span>
+            <span>
+              {recording.stats.keptVertexCount.toLocaleString("en-CA")} pts
+            </span>
+          </div>
+          {recording.status === "paused" ? (
+            <small>Paused — the gap will not be connected.</small>
+          ) : null}
+          {recording.wakeLockSupported === false ? (
+            <small>Keep your screen on — this browser can't hold it awake.</small>
+          ) : null}
+          <div className="location-hud-actions">
+            {recording.status === "recording" ? (
+              <button type="button" onClick={recording.pause}>
+                Pause
+              </button>
+            ) : (
+              <button type="button" onClick={recording.resume}>
+                Resume
+              </button>
+            )}
+            <button type="button" onClick={stopRecording}>
+              Stop
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {stopResult ? (
+        <SaveTrackDialog
+          result={stopResult}
+          saving={savingTrack}
+          onSave={(name, toleranceM) => void handleSaveTrack(name, toleranceM)}
+          onDiscard={() => setStopResult(null)}
+        />
       ) : null}
       {showModernMap && modernMapFailed ? (
         <div className="modern-map-error" role="status">

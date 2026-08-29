@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  RECORDING_WATCH_OPTIONS,
   startLiveLocation,
   type LiveFix,
   type LiveLocationSnapshot,
@@ -13,10 +14,15 @@ const OFF: LiveLocationState = { status: "off", fix: null };
 
 /**
  * React face of the shared watch. One instance per map: the marker, the
- * follow mode, and Mark all read this state, so exactly one watchPosition
- * runs no matter how many consumers care.
+ * follow mode, Mark, and the track recorder all read this state, so exactly
+ * one watchPosition runs no matter how many consumers care. Toggling
+ * `recording` restarts the watch with maximumAge 0 (the field-capture
+ * contract: a recorded track never contains cached fixes).
  */
-export function useLiveLocation(enabled: boolean): LiveLocationState {
+export function useLiveLocation(
+  enabled: boolean,
+  recording = false,
+): LiveLocationState {
   const [state, setState] = useState<LiveLocationState>(OFF);
 
   useEffect(() => {
@@ -24,12 +30,16 @@ export function useLiveLocation(enabled: boolean): LiveLocationState {
       setState(OFF);
       return;
     }
-    const handle = startLiveLocation(setState);
+    const handle = startLiveLocation(
+      setState,
+      undefined,
+      recording ? RECORDING_WATCH_OPTIONS : undefined,
+    );
     return () => {
       handle.stop();
       setState(OFF);
     };
-  }, [enabled]);
+  }, [enabled, recording]);
 
   return state;
 }

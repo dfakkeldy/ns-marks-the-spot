@@ -146,6 +146,9 @@ vi.mock("react-leaflet", () => ({
   Marker: ({ position }: { position: [number, number] }) => (
     <div data-testid="location-heading" data-position={position.join(",")} />
   ),
+  Polyline: ({ positions }: { positions: [number, number][] }) => (
+    <div data-testid="live-trace" data-count={positions.length} />
+  ),
   MapContainer: ({
     children,
     ref,
@@ -220,6 +223,11 @@ const liveLocationMock = vi.hoisted(() => ({
 }));
 
 vi.mock("../location/liveLocation", () => ({
+  RECORDING_WATCH_OPTIONS: {
+    enableHighAccuracy: true,
+    maximumAge: 0,
+    timeout: 20_000,
+  },
   startLiveLocation: (onChange: (snapshot: unknown) => void) => {
     liveLocationMock.onChange = onChange;
     onChange({ status: "acquiring", fix: null });
@@ -677,6 +685,151 @@ describe("MapCanvas browser location", () => {
     expect(
       await screen.findByText("Point saved to Field notes (±24 m)."),
     ).toBeInTheDocument();
+  });
+
+  it("records a track and saves it through the App callback", async () => {
+    const user = userEvent.setup();
+    const onSaveTrack = vi
+      .fn<
+        (input: {
+          name: string;
+          collection: GeoJSON.FeatureCollection;
+          rawGpx: Blob;
+          startedAt: string;
+          endedAt: string;
+        }) => Promise<string | null>
+      >()
+      .mockResolvedValue('Track saved as "Boundary walk".');
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={onSaveTrack}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix({ accuracyM: 5 });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    // ~11 m steps at ~11 m/s with 5 m accuracy: every fix passes the filter.
+    const base = Date.now();
+    pushLiveFix({ accuracyM: 5, latitude: 46.12, timestampMs: base });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1201, timestampMs: base + 1_000 });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1202, timestampMs: base + 2_000 });
+
+    // The HUD is up, the live trace draws, and the locate toggle is locked.
+    expect(screen.getByRole("button", { name: "Stop" })).toBeInTheDocument();
+    expect(screen.getByTestId("live-trace")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    expect(
+      screen.getByText("Stop the track recording first."),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Stop" }));
+    expect(
+      screen.getByRole("dialog", { name: "Save track" }),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+    expect(onSaveTrack).toHaveBeenCalledTimes(1);
+    const input = onSaveTrack.mock.calls[0][0];
+    expect(input.name).toMatch(/^Track /);
+    expect(input.collection.features).toHaveLength(1);
+    expect(input.collection.features[0].geometry.type).toBe("LineString");
+    expect(input.rawGpx).toBeInstanceOf(Blob);
+    expect(
+      await screen.findByText('Track saved as "Boundary walk".'),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("dialog", { name: "Save track" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Record a track" }),
+    ).toBeInTheDocument();
+  });
+
+  it("pauses into segments and discards a recording with confirmation", async () => {
+    const user = userEvent.setup();
+    const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
+    const onSaveTrack = vi.fn();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={onSaveTrack}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+    await user.click(screen.getByRole("button", { name: "Pause" }));
+    expect(
+      screen.getByText("Paused — the gap will not be connected."),
+    ).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Resume" }));
+    await user.click(screen.getByRole("button", { name: "Stop" }));
+
+    // Nothing was recorded, so the dialog offers only Discard.
+    expect(
+      screen.getByText("Too little movement was recorded to save a track."),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Save track" }),
+    ).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Discard" }));
+    expect(confirmSpy).toHaveBeenCalled();
+    expect(
+      screen.queryByRole("dialog", { name: "Save track" }),
+    ).not.toBeInTheDocument();
+    expect(onSaveTrack).not.toHaveBeenCalled();
+    confirmSpy.mockRestore();
   });
 
   it("hands the mark handler null instead of a stale or rough fix", async () => {
