@@ -39,3 +39,40 @@ describe("geojsonExportBlob", () => {
     expect(await geojsonExportBlob(COLLECTION).text()).toContain("\n");
   });
 });
+
+describe("traced provenance", () => {
+  it("adds the foreign member when any feature was parcel-traced", async () => {
+    const blob = geojsonExportBlob({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "traced",
+          geometry: { type: "LineString", coordinates: [[-61, 46], [-61, 46.001]] },
+          properties: { "nsmts:traced": "nsprd-parcel" },
+        },
+      ],
+    });
+    const parsed = JSON.parse(await blob.text()) as Record<string, unknown>;
+    const note = parsed["nsmts:provenance"];
+    expect(typeof note).toBe("string");
+    expect(note).toContain("Traced boundaries are not a survey.");
+    expect(note).toContain("Province of Nova Scotia");
+  });
+
+  it("stays absent when nothing was traced", async () => {
+    const blob = geojsonExportBlob({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "plain",
+          geometry: { type: "Point", coordinates: [-61, 46] },
+          properties: { name: "Gate" },
+        },
+      ],
+    });
+    const parsed = JSON.parse(await blob.text()) as Record<string, unknown>;
+    expect(parsed["nsmts:provenance"]).toBeUndefined();
+  });
+});

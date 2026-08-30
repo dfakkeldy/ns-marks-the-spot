@@ -17,6 +17,13 @@ import type {
 type UserVectorLayersProps = {
   layers: VisibleUserVectorLayer[];
   fitRequest?: UserVectorFitRequest | null;
+  /**
+   * True while an edit session's "My features" snap target is armed: the
+   * read-only layers then carry snapIgnore false so Geoman's snap list
+   * includes them even under the session's L.PM.setOptIn(true). They never
+   * get pmIgnore false, so global edit/drag/delete still cannot touch them.
+   */
+  snapAsTargets?: boolean;
 };
 
 const POINT_RADIUS = 6;
@@ -38,6 +45,7 @@ function asText(value: unknown): string | null {
 export function UserVectorLayers({
   layers,
   fitRequest = null,
+  snapAsTargets = false,
 }: UserVectorLayersProps) {
   const map = useMap();
 
@@ -90,23 +98,27 @@ export function UserVectorLayers({
       {layers.map(({ record, data }) => (
         <GeoJSON
           // react-leaflet's GeoJSON never re-reads `data`; the revision in
-          // the key remounts the layer when edits (phase 4) bump it.
-          key={`${record.id}:${record.revision}`}
+          // the key remounts the layer when edits (phase 4) bump it, and the
+          // snap flag remounts it so children re-read their snapIgnore.
+          key={`${record.id}:${record.revision}:${snapAsTargets ? "snap" : "nosnap"}`}
           data={data}
           pane={USER_VECTOR_PANE}
           // The canvas renderer rides in PathOptions (react-leaflet's GeoJSON
           // props don't declare a renderer prop): L.GeoJSON.addData applies
           // the style before the child layer is added, so beforeAdd sees it.
+          // snapIgnore rides the same way, into each child's options.
           style={(feature) => ({
             ...styleForFeature(feature!, record.style),
             renderer,
+            snapIgnore: !snapAsTargets,
           })}
           pointToLayer={(_feature, latlng) =>
             L.circleMarker(latlng, {
               radius: POINT_RADIUS,
               pane: USER_VECTOR_PANE,
               renderer,
-            })
+              snapIgnore: !snapAsTargets,
+            } as L.CircleMarkerOptions)
           }
           onEachFeature={(feature, featureLayer) =>
             bindFeatureUi(feature, featureLayer, record)

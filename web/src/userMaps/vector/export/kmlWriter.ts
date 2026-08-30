@@ -1,4 +1,5 @@
 import type { Feature, FeatureCollection, Geometry, Position } from "geojson";
+import { TRACED_PROVENANCE_NOTE, hasTracedFeatures } from "./tracedProvenance";
 
 const KML_NS = "http://www.opengis.net/kml/2.2";
 
@@ -143,6 +144,9 @@ export function kmlDocumentString(
   const doc = document.implementation.createDocument(KML_NS, "kml", null);
   const documentNode = element(doc, "Document");
   documentNode.append(element(doc, "name", layerName));
+  if (hasTracedFeatures(collection)) {
+    documentNode.append(element(doc, "description", TRACED_PROVENANCE_NOTE));
+  }
   for (const feature of collection.features) {
     const node = placemark(doc, feature);
     if (node) {

@@ -42,6 +42,11 @@ function panel(overrides: Partial<Parameters<typeof VectorEditPanel>[0]> = {}) {
     selectedFeatureId: null as string | null,
     drawMode: null as EditMode | null,
     storageError: null as string | null,
+    snap: { enabled: true, myFeatures: true, parcels: false },
+    parcelSnapStatus: { status: "idle" } as const,
+    licenceAccepted: true,
+    onSnapChange: vi.fn(),
+    onRequestParcelSnapLicence: vi.fn(),
     onDrawMode: vi.fn(),
     onRename: vi.fn(),
     onUpdateFeature: vi.fn(),
@@ -154,5 +159,74 @@ describe("VectorEditPanel", () => {
     expect(screen.getByRole("alert")).toHaveTextContent("Storage is full.");
     // Editing must keep working when persistence fails.
     expect(screen.getByRole("button", { name: "Draw point" })).toBeEnabled();
+  });
+});
+
+describe("VectorEditPanel snapping controls", () => {
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
+
+  it("shows the pinned not-a-survey caveat whenever the parcels control is visible", () => {
+    panel();
+    expect(screen.getByLabelText("Parcel boundaries (NSPRD)")).toBeInTheDocument();
+    expect(
+      screen.getByText("Traced boundaries are not a survey."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Hold Alt to place a vertex without snapping."),
+    ).toBeInTheDocument();
+  });
+
+  it("hides the target choices, caveat included, when snapping is off entirely", () => {
+    panel({ snap: { enabled: false, myFeatures: true, parcels: false } });
+    expect(screen.getByLabelText("Snap while drawing")).not.toBeChecked();
+    expect(screen.queryByLabelText("Parcel boundaries (NSPRD)")).toBeNull();
+    expect(
+      screen.queryByText("Traced boundaries are not a survey."),
+    ).toBeNull();
+  });
+
+  it("routes the parcels toggle through the licence gate before acceptance", async () => {
+    const user = userEvent.setup();
+    const props = panel({ licenceAccepted: false });
+    await user.click(screen.getByLabelText("Parcel boundaries (NSPRD)"));
+    expect(props.onRequestParcelSnapLicence).toHaveBeenCalledTimes(1);
+    expect(props.onSnapChange).not.toHaveBeenCalled();
+  });
+
+  it("toggles parcels directly once the licence is accepted", async () => {
+    const user = userEvent.setup();
+    const props = panel({ licenceAccepted: true });
+    await user.click(screen.getByLabelText("Parcel boundaries (NSPRD)"));
+    expect(props.onSnapChange).toHaveBeenCalledWith({
+      enabled: true,
+      myFeatures: true,
+      parcels: true,
+    });
+    expect(props.onRequestParcelSnapLicence).not.toHaveBeenCalled();
+  });
+
+  it("renders each distinct parcel status as its own message", () => {
+    const cases = [
+      [{ status: "loading" } as const, "Loading parcels…"],
+      [{ status: "zoom", minZoom: 16 } as const, "Parcels load at zoom 16+"],
+      [
+        { status: "dense", count: 900, max: 600 } as const,
+        "Too many parcels here (900) — zoom in to snap",
+      ],
+      [{ status: "error" } as const, "Parcels didn't load"],
+      [{ status: "ready", count: 0 } as const, "0 parcels snappable"],
+      [{ status: "ready", count: 41 } as const, "41 parcels snappable"],
+    ] as const;
+    for (const [status, text] of cases) {
+      panel({
+        snap: { enabled: true, myFeatures: true, parcels: true },
+        parcelSnapStatus: status,
+      });
+      expect(screen.getByText(text)).toBeInTheDocument();
+      cleanup();
+    }
   });
 });

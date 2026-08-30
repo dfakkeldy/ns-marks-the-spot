@@ -4999,6 +4999,70 @@ a {
   border-color: var(--survey-blue);
 }
 
+.vector-edit-snap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 6px 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.vector-edit-snap legend {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.vector-edit-snap-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.vector-edit-snap-caveat {
+  color: var(--chart-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.vector-edit-snap-status {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.vector-edit-snap-hint {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+/* The snap indicator: one marker at the candidate point while a dragged or
+   drawn vertex is inside the snap radius — square for a parcel/feature
+   corner, round for a point along an edge. */
+.snap-indicator-anchor {
+  pointer-events: none;
+}
+
+.snap-indicator {
+  width: 12px;
+  height: 12px;
+  margin: 3px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 3px solid #b85c1e;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(18, 52, 59, 0.5);
+}
+
+.snap-indicator-vertex {
+  border-radius: 2px;
+}
+
 .vector-edit-field {
   display: grid;
   gap: 4px;

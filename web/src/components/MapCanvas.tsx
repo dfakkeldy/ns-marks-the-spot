@@ -144,6 +144,12 @@ import {
 } from "../userMaps/components/GeoreferenceMapLayer";
 import { UserVectorLayers } from "../userMaps/vector/components/UserVectorLayers";
 import type { VectorEditBinding } from "../userMaps/vector/edit/EditableVectorLayer";
+// Lazy like EditableVectorLayer: both exist only inside an edit session.
+const ParcelSnapTargetsLayer = lazy(() =>
+  import("../userMaps/vector/edit/ParcelSnapTargetsLayer").then((module) => ({
+    default: module.ParcelSnapTargetsLayer,
+  })),
+);
 // Geoman (572 KB JS + 26 KB CSS, ~60 KB gzip) patches L at module evaluation
 // and is only needed while a layer is actively being edited — lazy keeps it
 // out of every visitor's first paint. Module-eval side effects run identically
@@ -2077,17 +2083,31 @@ export function MapCanvas({
         {/* User vector data never reaches PrintMap: the print pipeline takes
             no userVectorLayers prop, keeping uploads out of the sealed print
             capture by construction (documented print/export boundary). */}
-        <UserVectorLayers layers={userVectorLayers} fitRequest={userVectorFitRequest} />
+        <UserVectorLayers
+          layers={userVectorLayers}
+          fitRequest={userVectorFitRequest}
+          snapAsTargets={Boolean(
+            userVectorEdit &&
+              userVectorEdit.snap.enabled &&
+              userVectorEdit.snap.myFeatures,
+          )}
+        />
         {userVectorEdit ? (
           <Suspense fallback={null}>
             <EditableVectorLayer
               key={userVectorEdit.record.id}
               record={userVectorEdit.record}
               data={userVectorEdit.data}
+              snap={userVectorEdit.snap}
               mode={userVectorEdit.mode}
               onGeometryChange={userVectorEdit.onGeometryChange}
               onSelectFeature={userVectorEdit.onSelectFeature}
             />
+            {userVectorEdit.snap.enabled && userVectorEdit.snap.parcels ? (
+              <ParcelSnapTargetsLayer
+                onStatusChange={userVectorEdit.onParcelSnapStatus}
+              />
+            ) : null}
           </Suspense>
         ) : null}
         {georeference ? <GeoreferenceMapLayer binding={georeference} /> : null}
@@ -2386,8 +2406,15 @@ export function MapCanvas({
           <ParcelIdentifyController
             // A click during georeferencing places a control point; letting
             // it also open the parcel inspector would fight the user for the
-            // same gesture. Same reasoning as the measure tool above.
-            enabled={provinceLayers.nsprd && !measuring && !georeference}
+            // same gesture. Same reasoning as the measure tool above — and
+            // the same again for an edit session, whose drawing clicks used
+            // to ALSO fire an identify 250 ms later.
+            enabled={
+              provinceLayers.nsprd &&
+              !measuring &&
+              !georeference &&
+              !userVectorEdit
+            }
             onIdentifyParcel={onIdentifyParcel}
           />
           {/* Unmounted for the duration of a session, not merely forced to
