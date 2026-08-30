@@ -1,8 +1,9 @@
 # Field capture design: GPS points, tracks, snapping, photos, attributes
 
-Status: approved scope. Web W1 (live GPS + Field notes mark, #261) and W2
-(foreground track recording with raw-GPX original, #262) are implemented.
-Remaining web work starts at W3. Native recording (N1) is not shipped.
+Status: approved scope. Web W1 (live GPS + Field notes mark, #261), W2
+(foreground track recording with raw-GPX original, #262), and W3 (GPX
+export for user layers and raw-recording downloads, #266) are implemented.
+Remaining web work starts at W4. Native recording (N1) is not shipped.
 Produced 2026-08-28 from a code survey of both surfaces, four subsystem design
 passes, and an adversarial cross-review that reconciled them. Decisions marked
 "approved" were made by the project owner in this session and are fixed;
@@ -66,9 +67,11 @@ Web (`web/src/`):
   alongside live geometry
   ([userVectorStore.ts](../web/src/userMaps/vector/store/userVectorStore.ts),
   schema owner [database.ts](../web/src/userMaps/store/database.ts), DB_VERSION 2).
-- Import: GeoJSON, KML, KMZ, GPX, zipped shapefile. Export: GeoJSON and KML,
-  user layers only. Recorded layers keep raw GPX as the original-file blob;
-  a dedicated GPX export download control is W3.
+- Import: GeoJSON, KML, KMZ, GPX, zipped shapefile. Export: GeoJSON, KML,
+  and GPX (layer GPX via
+  [gpxWriter.ts](../web/src/userMaps/vector/export/gpxWriter.ts); Raw GPX
+  original-file download on recorded layers), user layers only. Recorded
+  layers keep raw GPX as the original-file blob.
 - Live GPS watch (`watchPosition`) with follow mode, heading, and one-tap
   mark into a Field notes layer. Location stays out of share URLs and print
   ([liveLocation.ts](../web/src/location/liveLocation.ts),
@@ -88,8 +91,8 @@ Web (`web/src/`):
   bbox-query convention lives in
   [arcGISFeatureOverlay.ts](../web/src/services/arcGISFeatureOverlay.ts).
 
-Missing on web: W3 GPX export UI, snap-to-parcels, points-to-path conversion,
-photos, EXIF, attribute editing beyond name/description.
+Missing on web: snap-to-parcels, points-to-path conversion, photos, EXIF,
+attribute editing beyond name/description.
 
 iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 
