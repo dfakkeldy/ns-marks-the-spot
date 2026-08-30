@@ -15,11 +15,12 @@ import { parseXmlVector, type ParsedXmlVector } from "./parsers/xmlVectorSource"
 import { sniffVectorType } from "./parsers/sniffVector";
 import { geojsonExportBlob } from "./export/exportGeoJson";
 import { kmlExportBlob } from "./export/kmlWriter";
+import { gpxExportBlob } from "./export/gpxWriter";
 import { nextLayerColor } from "./render/style";
 import { UserVectorStore } from "./store/userVectorStore";
 import type { UserVectorLayerRecord, UserVectorSource } from "./types";
 
-export type VectorExportFormat = "geojson" | "kml";
+export type VectorExportFormat = "geojson" | "kml" | "gpx";
 
 /** One layer awaiting a record — a single file may produce several. */
 type PendingLayer = {
@@ -67,6 +68,12 @@ export type UserVectorLayersApi = {
   setEnabled: (id: string, enabled: boolean) => void;
   /** Export is offered for user layers ONLY — never for official sources. */
   exportLayer: (id: string, format: VectorExportFormat) => Promise<void>;
+  /**
+   * Downloads a recorded layer's original file — the raw GPX of every fix
+   * as received, before filtering. The processed geometry is the map layer;
+   * this is the evidence behind it.
+   */
+  exportRawRecording: (id: string) => Promise<void>;
   /** Geometry by layer id — the edit session seeds its working copy from this. */
   geometries: Record<string, FeatureCollection>;
   /** The store's guarded update, for the edit session's debounced writes. */
@@ -424,10 +431,40 @@ export function useUserVectorLayers(
         return;
       }
       const blob =
-        format === "kml" ? kmlExportBlob(record.name, data) : geojsonExportBlob(data);
+        format === "kml"
+          ? kmlExportBlob(record.name, data)
+          : format === "gpx"
+            ? gpxExportBlob(record.name, data)
+            : geojsonExportBlob(data);
       downloadRef.current(`${record.name}.${format}`, blob);
     },
     [],
+  );
+
+  const exportRawRecording = useCallback(
+    async (id: string) => {
+      const record = recordsSnapshotRef.current.find((r) => r.id === id);
+      if (!record) {
+        // The layer was removed between render and click; nothing to write.
+        return;
+      }
+      let blob: Blob | null = null;
+      try {
+        blob = await (await store()).getOriginalBlob(id);
+      } catch {
+        blob = null;
+      }
+      if (!blob) {
+        // Distinct from "no such layer": the layer exists but its original
+        // never made it into storage (a failed save, or another browser).
+        setStorageError(
+          "The raw recording for this layer isn't available in this browser's storage.",
+        );
+        return;
+      }
+      downloadRef.current(`${record.name} (raw).gpx`, blob);
+    },
+    [store],
   );
 
   /**
@@ -654,6 +691,7 @@ export function useUserVectorLayers(
     removeLayer,
     setEnabled,
     exportLayer,
+    exportRawRecording,
     geometries,
     putVectorLayer,
     createDrawnLayer,

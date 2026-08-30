@@ -591,3 +591,84 @@ describe("recorded layers", () => {
     expect(await original?.text()).toBe("<gpx/>");
   });
 });
+
+describe("GPX export", () => {
+  it("exports a layer as GPX through the shared download seam", async () => {
+    const downloads: Array<{ filename: string; blob: Blob }> = [];
+    const { result } = renderHook(() =>
+      useUserVectorLayers({
+        ...options(),
+        download: (filename, blob) => downloads.push({ filename, blob }),
+      }),
+    );
+    await act(() => result.current.importFiles([geojsonFile("camps.geojson")]));
+    const id = result.current.records[0].id;
+
+    await act(() => result.current.exportLayer(id, "gpx"));
+    expect(downloads[0].filename).toBe("camps.gpx");
+    const gpx = await downloads[0].blob.text();
+    expect(gpx).toContain('creator="NS Marks The Spot"');
+    expect(gpx).toContain("<wpt ");
+  });
+
+  it("downloads a recorded layer's raw GPX original", async () => {
+    const downloads: Array<{ filename: string; blob: Blob }> = [];
+    const { result } = renderHook(() =>
+      useUserVectorLayers({
+        ...options(),
+        download: (filename, blob) => downloads.push({ filename, blob }),
+      }),
+    );
+    let id = "";
+    await act(async () => {
+      const record = await result.current.createRecordedLayer({
+        name: "Boundary walk",
+        collection: {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              id: "track-1",
+              geometry: {
+                type: "LineString",
+                coordinates: [
+                  [-61, 46],
+                  [-61, 46.001],
+                ],
+              },
+              properties: {},
+            },
+          ],
+        },
+        rawGpx: new Blob(["<gpx>raw</gpx>"], { type: "application/gpx+xml" }),
+        startedAt: "2026-08-29T14:00:00.000Z",
+        endedAt: "2026-08-29T14:20:00.000Z",
+      });
+      id = record.id;
+    });
+
+    await act(() => result.current.exportRawRecording(id));
+    expect(downloads[0].filename).toBe("Boundary walk (raw).gpx");
+    expect(await downloads[0].blob.text()).toBe("<gpx>raw</gpx>");
+    expect(result.current.storageError).toBeNull();
+  });
+
+  it("reports a missing raw recording distinctly instead of downloading", async () => {
+    const downloads: Array<{ filename: string; blob: Blob }> = [];
+    const { result } = renderHook(() =>
+      useUserVectorLayers({
+        ...options(),
+        download: (filename, blob) => downloads.push({ filename, blob }),
+      }),
+    );
+    // A drawn layer has no original file, standing in for a recorded layer
+    // whose original save failed.
+    let id = "";
+    await act(async () => {
+      id = await result.current.createDrawnLayer();
+    });
+    await act(() => result.current.exportRawRecording(id));
+    expect(downloads).toHaveLength(0);
+    expect(result.current.storageError).toMatch(/raw recording/i);
+  });
+});
