@@ -96,3 +96,69 @@ extension Geodesy {
         return "\(format(hectares, fractionDigits: 2)) ha · \(format(acres, fractionDigits: 2)) ac"
     }
 }
+
+// MARK: - Local planar frame (snap geometry)
+
+extension Geodesy {
+    /// Equirectangular metres about `reference`. Parcel-edge lengths make the
+    /// planar error micrometres — six-plus orders below any snap radius —
+    /// matching `web/src/services/geodesy.ts` `localMetricProjection`.
+    public struct LocalMetricFrame: Sendable {
+        public let reference: GeoPoint
+        let metresPerLatDegree: Double
+        let metresPerLngDegree: Double
+
+        public func toXY(_ point: GeoPoint) -> (x: Double, y: Double) {
+            (
+                (point.lng - reference.lng) * metresPerLngDegree,
+                (point.lat - reference.lat) * metresPerLatDegree
+            )
+        }
+
+        public func toGeo(x: Double, y: Double) -> GeoPoint {
+            GeoPoint(
+                lat: reference.lat + y / metresPerLatDegree,
+                lng: reference.lng + x / metresPerLngDegree
+            )
+        }
+    }
+
+    public static func localMetricProjection(_ reference: GeoPoint) -> LocalMetricFrame {
+        let metresPerLatDegree = earthRadiusMetres * degreesToRadians
+        let metresPerLngDegree =
+            metresPerLatDegree * cos(reference.lat * degreesToRadians)
+        return LocalMetricFrame(
+            reference: reference,
+            metresPerLatDegree: metresPerLatDegree,
+            metresPerLngDegree: metresPerLngDegree
+        )
+    }
+
+    /// Nearest point on segment `a`→`b` to `point`, in the local planar frame
+    /// about `point`. `t` is clamped to [0, 1]; a degenerate segment returns
+    /// `a` with `t = 0`.
+    public static func nearestPointOnSegment(
+        point: GeoPoint, a: GeoPoint, b: GeoPoint
+    ) -> (point: GeoPoint, distanceMetres: Double, t: Double) {
+        let frame = localMetricProjection(point)
+        let target = frame.toXY(point)
+        let from = frame.toXY(a)
+        let to = frame.toXY(b)
+        let dx = to.x - from.x
+        let dy = to.y - from.y
+        let lengthSquared = dx * dx + dy * dy
+        let t: Double
+        if lengthSquared == 0 {
+            t = 0
+        } else {
+            t = max(
+                0,
+                min(1, ((target.x - from.x) * dx + (target.y - from.y) * dy) / lengthSquared)
+            )
+        }
+        let nearest = frame.toGeo(x: from.x + t * dx, y: from.y + t * dy)
+        let snapped = frame.toXY(nearest)
+        let distance = hypot(target.x - snapped.x, target.y - snapped.y)
+        return (nearest, distance, t)
+    }
+}

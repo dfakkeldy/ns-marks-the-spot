@@ -145,12 +145,30 @@ struct VectorStyleTests {
         #expect(callout.provenance == "Drawn on this device")
     }
 
+    @Test func aPhotosLayerSaysItCameFromTheLibrary() throws {
+        var record = Self.record
+        record.source = .photos
+        record.origin = .photos(createdAt: Date(timeIntervalSince1970: 0), count: 3)
+        let callout = VectorFeatureCallout(feature: GeoJsonFeature(geometry: nil), record: record)
+        #expect(callout.provenance == "From your photos · 3 photos")
+        let data = try JSONEncoder().encode(record.origin)
+        let decoded = try JSONDecoder().decode(UserVectorOrigin.self, from: data)
+        #expect(decoded == record.origin)
+        // The wire shape matches the web's (`web/src/userMaps/vector/types.ts`):
+        // kind "photo-import" with the date under `importedAt`, so the two
+        // surfaces' stored records stay mutually readable.
+        let json = try #require(String(data: data, encoding: .utf8))
+        #expect(json.contains("\"kind\":\"photo-import\""))
+        #expect(json.contains("\"importedAt\""))
+        #expect(!json.contains("\"createdAt\""))
+    }
+
     @Test func aLibraryFromALaterVersionIsNotReadable() {
         #expect(UserVectorLibrary(layers: []).isReadable)
-        // Version 2 is current since the recorded origin arrived; version 1
-        // documents from earlier builds still read.
+        // Version 3 is current since the photos origin arrived; earlier
+        // documents still read.
         #expect(UserVectorLibrary(version: 1, layers: []).isReadable)
-        #expect(!UserVectorLibrary(version: 3, layers: []).isReadable)
+        #expect(!UserVectorLibrary(version: 4, layers: []).isReadable)
         #expect(!UserVectorLibrary(version: 0, layers: []).isReadable)
     }
 

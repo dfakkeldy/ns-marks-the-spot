@@ -74,6 +74,20 @@ final class VectorEditSession {
     @ObservationIgnored private var pendingName: String?
     @ObservationIgnored private var renameTask: Task<Void, Never>?
 
+    /// Session-scoped snap prefs. Not persisted; each edit session starts
+    /// from the contract defaults (own features on, parcels off).
+    var snapEnabled = true
+    var snapOwnFeatures = true
+    var snapParcels = false
+    /// True once any vertex of the in-progress draft snapped to a parcel.
+    /// Consumed at commit; a later drag away keeps the stamp.
+    var draftSnappedToParcel = false
+    /// Why parcel snapping is not mounting rings, when it is not.
+    var parcelSnapNote: String?
+    /// Viewport parcel rings currently armed for snapping.
+    var parcelSnapTargets: [SnapEngine.Target] = []
+    var parcelSnapRings: [[[GeoJsonPosition]]] = []
+
     init(viewModel: UserVectorsViewModel, persistDelay: Duration = VectorEditSession.persistDelay) {
         self.viewModel = viewModel
         self.persistDelay = persistDelay
@@ -131,6 +145,7 @@ final class VectorEditSession {
     func startDrawing(_ shape: VectorEditShape) {
         selectedFeatureID = nil
         erased = []
+        draftSnappedToParcel = false
         tool = .drawing(shape)
         draft = VectorDraft(shape: shape)
     }
@@ -140,8 +155,9 @@ final class VectorEditSession {
         tool = .selecting
     }
 
-    /// A tap on the map, in whatever the current tool means.
-    func handleTap(latitude: Double, longitude: Double) {
+    /// A tap on the map. `parcelSnap` is recorded at event time, never by
+    /// comparing the stored coordinate afterwards.
+    func handleTap(latitude: Double, longitude: Double, parcelSnap: Bool = false) {
         guard isEditing else { return }
         switch tool {
         case .drawing(let shape):
@@ -149,7 +165,11 @@ final class VectorEditSession {
             // shows the selected feature's name fields, and leaving the
             // previous feature selected while a new one is being placed puts a
             // name field for shape A under the vertices of shape B.
-            if draft == nil { selectedFeatureID = nil }
+            if draft == nil {
+                selectedFeatureID = nil
+                draftSnappedToParcel = false
+            }
+            if parcelSnap { draftSnappedToParcel = true }
             var current = draft ?? VectorDraft(shape: shape)
             current.append(GeoJsonPosition(lng: longitude, lat: latitude))
             draft = current
@@ -208,8 +228,15 @@ final class VectorEditSession {
     /// Commits the drawn shape, if it is one yet.
     func finishDrawing() {
         guard let parsed, let geometry = draft?.geometry() else { return }
-        let edited = VectorEdit.adding(geometry, to: parsed)
+        var properties: [String: JSONValue] = [
+            CaptureSpec.createdAtKey: .string(CaptureTime.iso(Date()))
+        ]
+        if draftSnappedToParcel {
+            properties[CaptureSpec.tracedKey] = .string(CaptureSpec.tracedParcelValue)
+        }
+        let edited = VectorEdit.adding(geometry, to: parsed, properties: properties)
         draft = nil
+        draftSnappedToParcel = false
         // The tool stays armed, as the browser's does: someone marking six
         // culverts along a road marks them one after another, and reopening
         // Point between each is five taps that do nothing but restore the
@@ -470,17 +497,26 @@ final class VectorEditSession {
         commit(VectorEdit.removing(featureID: id, from: parsed))
     }
 
-    func moveVertex(featureID: String, ring: Int, vertex: Int, latitude: Double, longitude: Double) {
-        guard let parsed else { return }
-        commit(
-            VectorEdit.moving(
+    func moveVertex(
+        featureID: String, ring: Int, vertex: Int, latitude: Double, longitude: Double,
+        parcelSnap: Bool = false
+    ) {
+        guard var parsed else { return }
+        parsed = VectorEdit.moving(
+            featureID: featureID,
+            ring: ring,
+            vertex: vertex,
+            to: GeoJsonPosition(lng: longitude, lat: latitude),
+            in: parsed
+        )
+        if parcelSnap {
+            parsed = VectorEdit.updatingProperties(
                 featureID: featureID,
-                ring: ring,
-                vertex: vertex,
-                to: GeoJsonPosition(lng: longitude, lat: latitude),
+                patch: [CaptureSpec.tracedKey: .string(CaptureSpec.tracedParcelValue)],
                 in: parsed
             )
-        )
+        }
+        commit(parsed)
     }
 
     /// Carries a whole feature by the distance its handle travelled.

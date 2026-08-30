@@ -36,7 +36,7 @@ struct FieldCaptureStoreTests {
             Stamp.self, from: Data(contentsOf: libraryURL)
         )
         #expect(written.version == UserVectorLibrary.currentVersion)
-        #expect(written.version == 2)
+        #expect(written.version == 3)
     }
 
     @Test("A recording saves geometry, raw GPX original, and recorded origin")

@@ -442,6 +442,98 @@ final class UserVectorsViewModel {
         return row
     }
 
+    /// One geotagged photo the user confirmed for bulk placement.
+    struct PhotoPlacement: Sendable {
+        var gps: GeoPoint
+        var capturedAt: String?
+        var sourceName: String?
+        var processed: PhotoPipeline.Processed
+    }
+
+    /// Builds one `photos` layer from confirmed EXIF positions. Photos that
+    /// failed to decode or to store are reported distinctly and never kept.
+    @discardableResult
+    func addPhotosLayer(
+        name: String = "From your photos",
+        placements: [PhotoPlacement],
+        now: Date = Date()
+    ) async -> Row? {
+        let capped = Array(placements.prefix(PhotoDescriptor.maxPerLayer))
+        guard !capped.isEmpty else { return nil }
+        var features: [GeoJsonFeature] = []
+        var stored: [(id: String, processed: PhotoPipeline.Processed)] = []
+        for (index, placement) in capped.enumerated() {
+            let photoID = UUID().uuidString
+            let descriptor = PhotoDescriptor(
+                id: photoID,
+                capturedAt: placement.capturedAt,
+                sourceName: placement.sourceName,
+                width: Double(placement.processed.width),
+                height: Double(placement.processed.height)
+            )
+            var properties: [String: JSONValue] = [
+                CaptureSpec.createdAtKey: .string(CaptureTime.iso(now)),
+                CaptureSpec.photosKey: PhotoDescriptor.propertyValue(internalForm: [descriptor]),
+            ]
+            if let capturedAt = placement.capturedAt {
+                properties[CaptureSpec.capturedAtKey] = .string(capturedAt)
+            }
+            if let sourceName = placement.sourceName, !sourceName.isEmpty {
+                properties["name"] = .string(
+                    URL(fileURLWithPath: sourceName).deletingPathExtension().lastPathComponent
+                )
+            }
+            features.append(
+                GeoJsonFeature(
+                    id: "photo-\(index + 1)",
+                    geometry: .point(
+                        GeoJsonPosition(lng: placement.gps.lng, lat: placement.gps.lat)
+                    ),
+                    properties: properties
+                )
+            )
+            stored.append((photoID, placement.processed))
+        }
+        let parsed = VectorEdit.recomputed(features)
+        let record = UserVectorLayerRecord(
+            id: UUID().uuidString,
+            name: name,
+            source: .photos,
+            origin: .photos(createdAt: now, count: parsed.featureCount),
+            createdAt: now,
+            colorHex: VectorStyle.nextLayerColor(existingCount: rows.count),
+            featureCount: parsed.featureCount,
+            bbox: parsed.bbox
+        )
+        do {
+            _ = try await store.add(record, geometry: parsed)
+        } catch {
+            lastRefusal = Self.storageRefusal(
+                "These points could not be saved to your device. Free some space and try again."
+            )
+            return nil
+        }
+        for item in stored {
+            do {
+                try await store.addPhoto(
+                    layerID: record.id,
+                    photoID: item.id,
+                    full: item.processed.fullJpeg,
+                    thumb: item.processed.thumbJpeg
+                )
+            } catch {
+                reportExportShortfall(
+                    layerName: name,
+                    message: "A photo could not be stored on this device. The point was kept without it."
+                )
+            }
+        }
+        let row = Row(record: record, isVisible: true, parsed: parsed)
+        rows.append(row)
+        pendingFit = parsed.bbox
+        return row
+    }
+
     func setVisible(_ isVisible: Bool, id: String) {
         guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
         rows[index].isVisible = isVisible

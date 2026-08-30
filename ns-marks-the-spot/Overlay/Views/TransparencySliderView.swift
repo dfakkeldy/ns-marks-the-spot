@@ -1,6 +1,7 @@
 import GeoCore
 import MapCatalog
 import NSDataServices
+import PhotosUI
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -18,6 +19,10 @@ struct TransparencySliderView: View {
     var onEditLayer: ((UserVectorsViewModel.Row) -> Void)?
     /// Starts an empty layer to draw into.
     var onNewDrawingLayer: (() -> Void)?
+    /// The device photo library, shown as a catalogue-free My Maps row.
+    var photoMap: PhotoMapViewModel?
+    /// PhotosPicker items from the photo-map row, classified by the container.
+    var onPlacePhotos: (([PhotosPickerItem]) -> Void)?
     @Binding var isExpanded: Bool
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -153,6 +158,7 @@ struct TransparencySliderView: View {
     /// is the whole of what the My Maps heading has to count.
     private var addedMapCount: Int {
         (userMaps?.rows.count ?? 0) + (userVectors?.rows.count ?? 0)
+            + (photoMap == nil ? 0 : 1)
     }
 
     /// What a section holds besides its layer rows.
@@ -286,6 +292,10 @@ struct TransparencySliderView: View {
                 guard case .success(let urls) = result else { return }
                 Task { await UserFileImport.load(urls, maps: userMaps, vectors: userVectors) }
             }
+        }
+
+        if let photoMap, let onPlacePhotos {
+            PhotoMapRow(viewModel: photoMap, onPicked: onPlacePhotos)
         }
 
         if let userMaps {

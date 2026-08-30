@@ -130,6 +130,8 @@ struct VectorEditPanel: View {
                 .textFieldStyle(.roundedBorder)
                 .onChange(of: layerName) { _, name in session.setLayerName(name) }
 
+            snapSection
+
             convertSection
 
             if let feature = session.selectedFeature {
@@ -152,6 +154,13 @@ struct VectorEditPanel: View {
                     }
 
                     FeaturePhotoStrip(session: session, feature: feature)
+                    if feature.properties[CaptureSpec.tracedKey]?.stringValue
+                        == CaptureSpec.tracedParcelValue
+                    {
+                        Text(CaptureSpec.Snap.parcelCaveat)
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
                     // Named because the two kinds of handle look different and
                     // do different things, and nothing else on screen says so:
                     // a user who drags the middle one expecting a vertex would
@@ -296,6 +305,32 @@ struct VectorEditPanel: View {
             } label: {
                 Text("Make line or area from points")
                     .font(.caption)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var snapSection: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Toggle("Snap while drawing", isOn: $session.snapEnabled)
+                .font(.caption)
+            if session.snapEnabled {
+                Toggle("My features", isOn: $session.snapOwnFeatures)
+                    .font(.caption)
+                Toggle("Parcel boundaries (NSPRD)", isOn: $session.snapParcels)
+                    .font(.caption)
+                if session.snapParcels {
+                    Text(CaptureSpec.Snap.parcelCaveat)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                if let note = session.parcelSnapNote {
+                    Text(note)
+                        .font(.caption2)
+                        .foregroundStyle(.orange)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
         }
     }

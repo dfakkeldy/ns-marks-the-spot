@@ -568,8 +568,8 @@ final class MapController: NSObject {
 
     /// What the incremental user-vector path last installed, so a push that
     /// only touched the transient tail — the live trace once a second while
-    /// recording — does not tear down and rebuild every stored layer's
-    /// overlays with it.
+    /// recording, the photo map on every settle — does not tear down and
+    /// rebuild every stored layer's overlays with it.
     @ObservationIgnored private var installedUserVectors: [UserVectorDrawing] = []
 
     /// Replaces from the first changed drawing on. The prefix that is equal
@@ -607,7 +607,8 @@ final class MapController: NSObject {
     /// Overlays and annotations together, because a layer's points and its
     /// boundaries are one thing to the user: removing them in two passes
     /// would leave the waypoints of a layer that was switched off sitting on
-    /// the map.
+    /// the map. Clusters holding a removed layer's points go too — MapKit
+    /// does not reliably retire them on its own.
     private func removeUserVectorShapes(
         on mapView: MKMapView, matching: (String) -> Bool
     ) {
@@ -626,6 +627,11 @@ final class MapController: NSObject {
             mapView.annotations.filter { annotation in
                 if let point = annotation as? UserVectorAnnotation {
                     return matching(point.layerID)
+                }
+                if let cluster = annotation as? MKClusterAnnotation {
+                    return cluster.memberAnnotations.contains {
+                        ($0 as? UserVectorAnnotation).map { matching($0.layerID) } == true
+                    }
                 }
                 return false
             }
@@ -1405,6 +1411,20 @@ extension MapController: MKMapViewDelegate {
             return view
         }
 
+        if let cluster = annotation as? MKClusterAnnotation {
+            let identifier = "UserVectorCluster"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                as? MKMarkerAnnotationView
+                ?? MKMarkerAnnotationView(annotation: cluster, reuseIdentifier: identifier)
+            view.annotation = cluster
+            view.markerTintColor = UIColor(featureHex: "#7c3aed")
+            view.glyphText = "\(cluster.memberAnnotations.count)"
+            view.canShowCallout = false
+            view.displayPriority = .defaultHigh
+            return view
+        }
+
         // A user's own point, before both: it is drawn in their layer's colour
         // and its callout carries the provenance line that says the app did not
         // publish it.
@@ -1420,6 +1440,9 @@ extension MapController: MKMapViewDelegate {
             // imported has to say so wherever it is shown.
             view.canShowCallout = false
             view.image = UserVectorMarkerImage.image(for: point.style)
+            view.clusteringIdentifier = point.clusteringIdentifier
+            view.displayPriority = point.clusteringIdentifier == nil ? .required : .defaultLow
+            view.collisionMode = .circle
             return view
         }
 
@@ -1485,6 +1508,11 @@ extension MapController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let cluster = view.annotation as? MKClusterAnnotation {
+            mapView.showAnnotations(cluster.memberAnnotations, animated: true)
+            mapView.deselectAnnotation(cluster, animated: false)
+            return
+        }
         guard let annotation = view.annotation as? MapKitAnnotationIdentifying else { return }
         events?(.annotationSelected(id: annotation.mapAnnotationID))
     }

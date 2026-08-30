@@ -161,4 +161,36 @@ struct FieldCapturePhotoTests {
         let message = try #require(session.photoMessages.first)
         #expect(message.contains("20"))
     }
+
+    @Test("Bulk placement writes a photos origin and keeps re-encoded bytes")
+    func aPhotosLayerCarriesOriginAndBytes() async throws {
+        let (store, root) = try temporaryStore()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let viewModel = UserVectorsViewModel(store: store)
+        let processed = try PhotoPipeline.process(jpegBytes())
+        let row = try #require(
+            await viewModel.addPhotosLayer(
+                placements: [
+                    .init(
+                        gps: GeoPoint(lat: 44.65, lng: -63.58),
+                        capturedAt: "2026-08-30T12:00:00.000Z",
+                        sourceName: "dock.jpg",
+                        processed: processed
+                    )
+                ]
+            )
+        )
+        #expect(row.record.source == .photos)
+        #expect(row.record.origin == .photos(createdAt: row.record.createdAt, count: 1))
+        #expect(row.record.provenanceText == "From your photos · 1 photo")
+        let feature = try #require(row.parsed?.features.first)
+        #expect(feature.properties["name"] == .string("dock"))
+        let descriptors = PhotoDescriptor.read(from: feature.properties)
+        #expect(descriptors.count == 1)
+        #expect(
+            await viewModel.photoData(
+                layerID: row.id, photoID: descriptors[0].id, thumb: false
+            ) != nil
+        )
+    }
 }

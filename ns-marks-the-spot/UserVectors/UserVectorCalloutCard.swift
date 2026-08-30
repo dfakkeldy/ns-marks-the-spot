@@ -80,6 +80,12 @@ struct UserVectorCalloutCard: View {
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
+            if let tracedCaveat = callout.tracedCaveat {
+                Text(tracedCaveat)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
 
             // The provenance is the point of the card. This is the user's own
             // material, and a panel that presented it in the same voice as a

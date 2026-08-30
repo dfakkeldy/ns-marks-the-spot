@@ -158,14 +158,18 @@ public struct VectorFeatureCallout: Hashable, Sendable {
     /// a ±40 m mark can never read as a surveyed corner. Nil when either key
     /// is missing; the line is never fabricated.
     public var gpsProvenance: String?
+    /// The pinned not-a-survey caveat, only when `nsmts:traced` is present.
+    public var tracedCaveat: String?
 
     public init(
-        title: String, detail: String?, provenance: String, gpsProvenance: String? = nil
+        title: String, detail: String?, provenance: String, gpsProvenance: String? = nil,
+        tracedCaveat: String? = nil
     ) {
         self.title = title
         self.detail = detail
         self.provenance = provenance
         self.gpsProvenance = gpsProvenance
+        self.tracedCaveat = tracedCaveat
     }
 
     public init(feature: GeoJsonFeature, record: UserVectorLayerRecord) {
@@ -185,6 +189,9 @@ public struct VectorFeatureCallout: Hashable, Sendable {
         {
             self.gpsProvenance =
                 "Marked from GPS on this device (±\(Int(accuracy.rounded())) m)"
+        }
+        if feature.properties[CaptureSpec.tracedKey]?.stringValue == CaptureSpec.tracedParcelValue {
+            self.tracedCaveat = CaptureSpec.Snap.parcelCaveat
         }
     }
 }

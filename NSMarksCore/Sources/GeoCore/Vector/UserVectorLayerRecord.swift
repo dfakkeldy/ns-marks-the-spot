@@ -11,6 +11,9 @@ public enum UserVectorSource: String, Hashable, Sendable, Codable, CaseIterable 
     /// A track recorded on this device — the field-capture contract's
     /// recorded layer, saved with its raw GPX as the original file.
     case recorded
+    /// A layer of points placed from the device photo library (bulk EXIF /
+    /// PhotoKit placement).
+    case photos
 }
 
 /// Where a layer came from, kept for the life of the record.
@@ -27,6 +30,8 @@ public enum UserVectorOrigin: Hashable, Sendable {
     /// names match the web's `{ kind: "recorded", startedAt, endedAt }` so
     /// the two surfaces' stored records stay mutually readable in shape.
     case recorded(startedAt: Date, endedAt: Date)
+    /// Points placed from the device photo library.
+    case photos(createdAt: Date, count: Int)
 
     /// The provenance line a popup shows.
     public var provenanceText: String {
@@ -34,17 +39,24 @@ public enum UserVectorOrigin: Hashable, Sendable {
         case .imported(let filename, _): return "From your file \(filename)"
         case .drawn: return "Drawn on this device"
         case .recorded: return CaptureSpec.recordedProvenance
+        case .photos(_, let count):
+            return "From your photos · \(count) photo\(count == 1 ? "" : "s")"
         }
     }
 }
 
 extension UserVectorOrigin: Codable {
     private enum CodingKeys: String, CodingKey {
-        case kind, filename, importedAt, createdAt, startedAt, endedAt
+        case kind, filename, importedAt, createdAt, startedAt, endedAt, count
     }
 
     private enum Kind: String, Codable {
         case imported, drawn, recorded
+        /// The web's tag and key for this origin are `photo-import` /
+        /// `importedAt` (`web/src/userMaps/vector/types.ts`); the stored
+        /// shape matches them the way `recorded` matches, so the two
+        /// surfaces' records stay mutually readable.
+        case photos = "photo-import"
     }
 
     public init(from decoder: any Decoder) throws {
@@ -61,6 +73,11 @@ extension UserVectorOrigin: Codable {
             self = .recorded(
                 startedAt: try container.decode(Date.self, forKey: .startedAt),
                 endedAt: try container.decode(Date.self, forKey: .endedAt)
+            )
+        case .photos:
+            self = .photos(
+                createdAt: try container.decode(Date.self, forKey: .importedAt),
+                count: try container.decode(Int.self, forKey: .count)
             )
         }
     }
@@ -79,6 +96,10 @@ extension UserVectorOrigin: Codable {
             try container.encode(Kind.recorded, forKey: .kind)
             try container.encode(startedAt, forKey: .startedAt)
             try container.encode(endedAt, forKey: .endedAt)
+        case .photos(let createdAt, let count):
+            try container.encode(Kind.photos, forKey: .kind)
+            try container.encode(createdAt, forKey: .importedAt)
+            try container.encode(count, forKey: .count)
         }
     }
 }
@@ -158,11 +179,11 @@ public struct UserVectorLibrary: Hashable, Sendable, Codable {
     /// not have to do it again.
     public var hiddenLayerIDs: [String]
 
-    /// Version 2: the `recorded` source and origin arrived with native track
-    /// recording. Bumped so a build from before them refuses the document
+    /// Version 3: the `photos` source and origin arrived with the native
+    /// photo map. Bumped so a build from before them refuses the document
     /// cleanly (`fromALaterVersion`) instead of decoding an origin kind it
     /// has never heard of and reporting the library as damaged.
-    public static let currentVersion = 2
+    public static let currentVersion = 3
 
     public init(
         version: Int = UserVectorLibrary.currentVersion,
