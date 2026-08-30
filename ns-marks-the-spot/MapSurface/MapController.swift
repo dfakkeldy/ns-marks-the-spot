@@ -187,6 +187,10 @@ final class MapController: NSObject {
 
     @ObservationIgnored weak var mapView: MKMapView? {
         didSet {
+            // A replacement map view starts empty; the incremental
+            // user-vector path must not skip installs because the previous
+            // view already had them.
+            installedUserVectors = []
             syncStateToAttachedMapView()
             mapView?.layoutMargins.bottom = bottomOrnamentInset
             // The closest-zoom limit was installed on the map view that was
@@ -309,20 +313,7 @@ final class MapController: NSObject {
             }
 
         case .setUserVectors(let drawings):
-            // Overlays and annotations together, because a layer's points and
-            // its boundaries are one thing to the user: removing them in two
-            // passes would leave the waypoints of a layer that was switched off
-            // sitting on the map.
-            mapView.removeOverlays(
-                mapView.overlays.filter { $0 is UserVectorPolygon || $0 is UserVectorPolyline }
-            )
-            mapView.removeAnnotations(
-                mapView.annotations.compactMap { $0 as? UserVectorAnnotation }
-            )
-            for drawing in drawings {
-                mapView.installInDrawOrder(drawing.overlays())
-                mapView.addAnnotations(drawing.annotations())
-            }
+            applyUserVectors(drawings, on: mapView)
 
         case .setParcelOverviewMarkers:
             installParcelOverviewMarkers(on: mapView)
@@ -573,6 +564,72 @@ final class MapController: NSObject {
 
     func setUserVectors(_ drawings: [UserVectorDrawing]) {
         mutate { $0.userVectors = drawings }
+    }
+
+    /// What the incremental user-vector path last installed, so a push that
+    /// only touched the transient tail — the live trace once a second while
+    /// recording — does not tear down and rebuild every stored layer's
+    /// overlays with it.
+    @ObservationIgnored private var installedUserVectors: [UserVectorDrawing] = []
+
+    /// Replaces from the first changed drawing on. The prefix that is equal
+    /// to what is already installed stays untouched; the tail is removed and
+    /// re-installed in array order, which is the order a full rebuild would
+    /// have produced, because the prefix was installed first there too.
+    private func applyUserVectors(_ drawings: [UserVectorDrawing], on mapView: MKMapView) {
+        let old = installedUserVectors
+        installedUserVectors = drawings
+        var prefix = 0
+        while prefix < old.count, prefix < drawings.count, old[prefix] == drawings[prefix] {
+            prefix += 1
+        }
+        let removedIDs = Set(old[prefix...].map(\.record.id))
+        // A record id repeated across the boundary would let the id-keyed
+        // removal reach into the untouched prefix. Ids are unique in
+        // practice; the full rebuild is the safe answer if they ever are not.
+        guard removedIDs.isDisjoint(with: old[..<prefix].map(\.record.id)) else {
+            removeUserVectorShapes(on: mapView) { _ in true }
+            for drawing in drawings {
+                mapView.installInDrawOrder(drawing.overlays())
+                mapView.addAnnotations(drawing.annotations())
+            }
+            return
+        }
+        if !removedIDs.isEmpty {
+            removeUserVectorShapes(on: mapView) { removedIDs.contains($0) }
+        }
+        for drawing in drawings[prefix...] {
+            mapView.installInDrawOrder(drawing.overlays())
+            mapView.addAnnotations(drawing.annotations())
+        }
+    }
+
+    /// Overlays and annotations together, because a layer's points and its
+    /// boundaries are one thing to the user: removing them in two passes
+    /// would leave the waypoints of a layer that was switched off sitting on
+    /// the map.
+    private func removeUserVectorShapes(
+        on mapView: MKMapView, matching: (String) -> Bool
+    ) {
+        mapView.removeOverlays(
+            mapView.overlays.filter { overlay in
+                if let polygon = overlay as? UserVectorPolygon {
+                    return matching(polygon.layerID)
+                }
+                if let polyline = overlay as? UserVectorPolyline {
+                    return matching(polyline.layerID)
+                }
+                return false
+            }
+        )
+        mapView.removeAnnotations(
+            mapView.annotations.filter { annotation in
+                if let point = annotation as? UserVectorAnnotation {
+                    return matching(point.layerID)
+                }
+                return false
+            }
+        )
     }
 
     func setVectorDraft(_ draft: VectorDraftPreview?) {

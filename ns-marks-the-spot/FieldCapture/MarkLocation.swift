@@ -81,6 +81,15 @@ final class MarkLocation: NSObject {
 extension MarkLocation: @preconcurrency CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
+        // A non-positive horizontal accuracy is an invalid fix, not a perfect
+        // one — saving it would mark a point the device never actually had
+        // and caption it "±-1 m". A rough-but-valid fix is kept: its ± label
+        // is honest.
+        guard location.horizontalAccuracy > 0 else {
+            deliver?(nil)
+            deliver = nil
+            return
+        }
         let fix = TrackFix(
             latitude: location.coordinate.latitude,
             longitude: location.coordinate.longitude,

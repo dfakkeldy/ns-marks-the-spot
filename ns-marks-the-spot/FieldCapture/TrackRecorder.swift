@@ -76,6 +76,10 @@ final class TrackRecorder: NSObject {
 
     func stop(now: Date = Date()) -> TrackRecording.StopResult? {
         let result = recording.stop(now: now)
+        // A fresh state machine, so the next recording starts empty: the
+        // stopped one keeps its segments and counters in the StopResult, and
+        // the web replaces its recorder on stop the same way.
+        recording = TrackRecording()
         manager.stopUpdatingLocation()
         UIApplication.shared.isIdleTimerDisabled = false
         autoPauseMessage = nil

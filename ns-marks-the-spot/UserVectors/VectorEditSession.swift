@@ -82,6 +82,11 @@ final class VectorEditSession {
     var isEditing: Bool { editingID != nil }
 
     func begin(_ row: UserVectorsViewModel.Row) {
+        // A layer that has stored features but no loaded geometry must not be
+        // edited from an empty working copy: the first commit would persist
+        // that emptiness over the stored file. Callers load geometry first;
+        // this is the belt.
+        guard row.parsed != nil || row.record.featureCount == 0 else { return }
         storageError = nil
         selectedFeatureID = nil
         draft = nil
