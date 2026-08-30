@@ -129,10 +129,10 @@ struct TaxSaleCatalogTests {
     @Test func halifaxKeepsTheRowsNSPRDWillNotDrawOutOfTheMappedList() throws {
         let event = try #require(TaxSaleCatalog.bundled.event(id: "halifax-2026-09-15"))
 
-        // Twenty-nine rows in Schedule A; two of them have no exact NSPRD
+        // Twenty-eight rows in Schedule A; two of them have no exact NSPRD
         // parcel, so they are carried as exceptions rather than as listings a
         // reader could select on the map.
-        #expect(event.listings.count == 27)
+        #expect(event.listings.count == 26)
         #expect(event.geometryExceptions.count == 2)
         #expect(event.geometryExceptions.map(\.aan) == ["09417036", "09417044"])
         #expect(event.geometryExceptions.flatMap(\.pids) == ["41051889", "41051897"])

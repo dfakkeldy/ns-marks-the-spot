@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 const landingHtml = `
   <h2>Tender Number: HRM-TaxSale23</h2>
   <a href="/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf">Tender instructions</a>
-  <a href="/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-aug-18.26.pdf">Schedule A</a>`;
+  <a href="/sites/default/files/documents/home-property/property-taxes/copy-of-sept15.2026newspaper.website-draft-aug-25.26.pdf">Schedule A</a>`;
 
 const tenderText = `
   Halifax Regional Municipality Tax Sale by Tender
@@ -53,15 +53,15 @@ describe("Halifax September 2026 tender refresh", () => {
     expect(parseLandingPage(landingHtml)).toEqual({
       tenderNumber: "HRM-TaxSale23",
       tenderUrl: "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf",
-      scheduleUrl: "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-aug-18.26.pdf",
+      scheduleUrl: "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/copy-of-sept15.2026newspaper.website-draft-aug-25.26.pdf",
     });
   });
 
   it("rejects an external Schedule A origin or multiple official revisions", async () => {
     const { parseLandingPage } = await loadModule();
     const externalSchedule = landingHtml.replace(
-      "/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-aug-18.26.pdf",
-      "https://example.test/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-aug-18.26.pdf",
+      "/sites/default/files/documents/home-property/property-taxes/copy-of-sept15.2026newspaper.website-draft-aug-25.26.pdf",
+      "https://example.test/sites/default/files/documents/home-property/property-taxes/copy-of-sept15.2026newspaper.website-draft-aug-25.26.pdf",
     );
     const multipleSchedules = `${landingHtml}
       <a href="/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-aug-13.26.pdf">Prior Schedule A</a>`;
@@ -91,19 +91,20 @@ describe("Halifax September 2026 tender refresh", () => {
     expect(JSON.stringify(listings)).not.toMatch(/OWNER OMITTED/);
   });
 
-  it("fails closed unless the current Schedule A has 29 rows and 30 unique PIDs", async () => {
+  it("fails closed unless the current Schedule A has 28 rows and 28 unique PIDs", async () => {
     const { assertCurrentScheduleCounts } = await loadModule();
-    const currentListings = Array.from({ length: 29 }, (_, index) => ({
-      pids: index === 0 ? ["pid-00-a", "pid-00-b"] : [`pid-${String(index).padStart(2, "0")}`],
+    const currentListings = Array.from({ length: 28 }, (_, index) => ({
+      pids: [`pid-${String(index).padStart(2, "0")}`],
     }));
 
     expect(() => assertCurrentScheduleCounts(currentListings)).not.toThrow();
-    expect(() => assertCurrentScheduleCounts(currentListings.slice(0, 28))).toThrow(
-      /Expected 29 Halifax Schedule A rows, found 28/,
+    expect(() => assertCurrentScheduleCounts(currentListings.slice(0, 27))).toThrow(
+      /Expected 28 Halifax Schedule A rows, found 27/,
     );
-    expect(() => assertCurrentScheduleCounts(currentListings.map((listing, index) => (
-      index === 0 ? { pids: ["pid-00-a"] } : listing
-    )))).toThrow(/Expected 30 Halifax Schedule A PIDs, found 29/);
+    expect(() => assertCurrentScheduleCounts([
+      { pids: ["pid-00-a", "pid-00-b"] },
+      ...currentListings.slice(1),
+    ])).toThrow(/Expected 28 Halifax Schedule A PIDs, found 29/);
   });
 
   it("fails closed on a shifted column, duplicate PID, or unfamiliar status", async () => {

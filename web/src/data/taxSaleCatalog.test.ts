@@ -226,9 +226,9 @@ describe("the multi-municipality tax-sale catalog", () => {
       "victoria-county-2026-09-14",
       "halifax-2026-09-15",
     ]);
-    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(80);
-    expect(pidsForEvents(upcoming)).toHaveLength(83);
-    expect(advertisedPidsForEvents(upcoming)).toHaveLength(63);
+    expect(upcoming.flatMap(({ listings }) => listings)).toHaveLength(79);
+    expect(pidsForEvents(upcoming)).toHaveLength(81);
+    expect(advertisedPidsForEvents(upcoming)).toHaveLength(61);
     expect(geometryExceptionPidsForEvents(upcoming)).toEqual([
       "41051889",
       "41051897",
