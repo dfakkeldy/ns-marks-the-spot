@@ -3,6 +3,8 @@ import {
   SQUARE_METRES_PER_ACRE,
   formatArea,
   formatDistance,
+  localMetricProjection,
+  nearestPointOnSegment,
   pathDistanceMetres,
   polygonAreaSquareMetres,
   type GeoPoint,
@@ -119,5 +121,61 @@ describe("formatting", () => {
   it("formats areas as hectares and acres together", () => {
     expect(formatArea(5 * SQUARE_METRES_PER_ACRE)).toBe("2.02 ha · 5.00 ac");
     expect(formatArea(10_000)).toBe("1.00 ha · 2.47 ac");
+  });
+});
+
+describe("localMetricProjection", () => {
+  it("round-trips a point through the planar frame", () => {
+    const frame = localMetricProjection({ lat: 45.0, lng: -61.0 });
+    const original = { lat: 45.003, lng: -61.004 };
+    const back = frame.toGeo(frame.toXY(original));
+    expect(back.lat).toBeCloseTo(original.lat, 12);
+    expect(back.lng).toBeCloseTo(original.lng, 12);
+  });
+
+  it("agrees with haversine distance at parcel scales", () => {
+    const reference = { lat: 45.0, lng: -61.0 };
+    const frame = localMetricProjection(reference);
+    // ~500 m east at 45° N.
+    const east = { lat: 45.0, lng: -60.99366 };
+    const planar = Math.hypot(frame.toXY(east).x, frame.toXY(east).y);
+    const geodesic = pathDistanceMetres([reference, east]);
+    expect(Math.abs(planar - geodesic)).toBeLessThan(0.001);
+  });
+});
+
+describe("nearestPointOnSegment", () => {
+  // A ~500 m east-west segment at 45° N.
+  const a = { lat: 45.0, lng: -61.0 };
+  const b = { lat: 45.0, lng: -60.99366 };
+
+  it("finds an interior foot point whose distance matches haversine", () => {
+    const point = { lat: 45.001, lng: -60.9968 };
+    const result = nearestPointOnSegment(point, a, b);
+    expect(result.t).toBeGreaterThan(0.4);
+    expect(result.t).toBeLessThan(0.6);
+    // The planar answer and the haversine measurement of it agree to <1 mm.
+    expect(
+      Math.abs(result.distanceMetres - pathDistanceMetres([point, result.point])),
+    ).toBeLessThan(0.001);
+    // ~111 m of latitude offset is the whole distance.
+    expect(result.distanceMetres).toBeCloseTo(111.19, 0);
+  });
+
+  it("clamps to the endpoints beyond the segment", () => {
+    const beforeStart = nearestPointOnSegment({ lat: 45.0, lng: -61.001 }, a, b);
+    expect(beforeStart.t).toBe(0);
+    expect(beforeStart.point.lng).toBeCloseTo(a.lng, 9);
+
+    const pastEnd = nearestPointOnSegment({ lat: 45.0, lng: -60.99 }, a, b);
+    expect(pastEnd.t).toBe(1);
+    expect(pastEnd.point.lng).toBeCloseTo(b.lng, 9);
+  });
+
+  it("returns the endpoint itself for a degenerate segment", () => {
+    const result = nearestPointOnSegment({ lat: 45.001, lng: -61.0 }, a, a);
+    expect(result.t).toBe(0);
+    expect(result.point.lat).toBeCloseTo(a.lat, 12);
+    expect(result.distanceMetres).toBeCloseTo(111.19, 0);
   });
 });
