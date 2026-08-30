@@ -44,7 +44,9 @@ L.Map.addInitHook(function trackHook(this: L.Map) {
 let stripPmOnInit = false;
 L.Map.addInitHook(function stripHook(this: L.Map) {
   if (stripPmOnInit) {
-    (this as L.Map & { pm?: unknown }).pm = undefined;
+    // Through unknown: Geoman's d.ts declares map.pm as always-present,
+    // which is exactly the fiction this hook exists to break.
+    (this as unknown as { pm: unknown }).pm = undefined;
   }
 });
 

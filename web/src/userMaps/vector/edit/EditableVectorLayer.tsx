@@ -63,6 +63,25 @@ function snapOptions(snappable: boolean): {
 const POINT_RADIUS = 6;
 
 /**
+ * The app's one map is created at page load, long before this lazy chunk
+ * evaluates — and Geoman attaches `pm` only through a Map init hook, which
+ * touches maps created AFTER its module runs. Without this, every `map.pm`
+ * call in the session reads undefined and crashes the map (it did, on
+ * production, until this function). `new L.PM.Map(map)` is exactly what
+ * Geoman's own init hook runs for a non-opted-out map.
+ */
+function ensureGeomanMap(map: L.Map): void {
+  if (!map.pm) {
+    // The constructor is real but undeclared: Geoman's d.ts types `map.pm`
+    // as always-present PMMap (true only for post-load maps) and does not
+    // type `L.PM.Map` as constructable.
+    map.pm = new (L.PM as unknown as {
+      Map: new (mapInstance: L.Map) => L.PM.PMMap;
+    }).Map(map);
+  }
+}
+
+/**
  * The layer under edit, drawn imperatively rather than through react-leaflet's
  * `<GeoJSON>`.
  *
@@ -111,18 +130,7 @@ export function EditableVectorLayer({
   const groupRef = useRef<L.GeoJSON | null>(null);
 
   useEffect(() => {
-    // The app's one map is created at page load, long before this lazy chunk
-    // evaluates — and Geoman attaches `pm` only through a Map init hook,
-    // which touches maps created AFTER its module runs. Without this, every
-    // `map.pm` call below reads undefined and the session crashes the map
-    // (it did, on production, until this line). `new L.PM.Map(map)` is
-    // exactly what Geoman's own init hook runs for a non-opted-out map.
-    const mapWithPm = map as L.Map & { pm?: unknown };
-    if (!mapWithPm.pm) {
-      mapWithPm.pm = new (L.PM as unknown as {
-        Map: new (target: L.Map) => unknown;
-      }).Map(map);
-    }
+    ensureGeomanMap(map);
 
     if (!map.getPane(USER_VECTOR_PANE)) {
       const pane = map.createPane(USER_VECTOR_PANE);
