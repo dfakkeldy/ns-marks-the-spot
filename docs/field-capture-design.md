@@ -1,9 +1,10 @@
 # Field capture design: GPS points, tracks, snapping, photos, attributes
 
 Status: approved scope. Web W1 (live GPS + Field notes mark, #261), W2
-(foreground track recording with raw-GPX original, #262), and W3 (GPX
-export for user layers and raw-recording downloads, #266) are implemented.
-Remaining web work starts at W4. Native recording (N1) is not shipped.
+(foreground track recording with raw-GPX original, #262), W3 (GPX
+export for user layers and raw-recording downloads, #266), and W4 (snap
+geometry math and the NSPRD parcel snap source, #269) are implemented.
+Remaining web work starts at W5. Native recording (N1) is not shipped.
 Produced 2026-08-28 from a code survey of both surfaces, four subsystem design
 passes, and an adversarial cross-review that reconciled them. Decisions marked
 "approved" were made by the project owner in this session and are fixed;
@@ -90,6 +91,15 @@ Web (`web/src/`):
   [mineralProximity.ts](../web/src/services/mineralProximity.ts)); the paged
   bbox-query convention lives in
   [arcGISFeatureOverlay.ts](../web/src/services/arcGISFeatureOverlay.ts).
+- Snap geometry helpers on the existing geodesic module:
+  `localMetricProjection` and `nearestPointOnSegment` (planar metres about a
+  local reference; no UI)
+  ([geodesy.ts](../web/src/services/geodesy.ts)).
+- NSPRD parcel snap source: `fetchSnapParcels` (envelope query, PID-keyed,
+  polygons only) and in-memory `ParcelSnapCache` (LRU 3000, viewport
+  selection, fail-closed dense state). No UI, no schema change, no licence
+  gate in this layer — W5 arms snapping
+  ([parcelSnapSource.ts](../web/src/services/parcelSnapSource.ts)).
 
 Missing on web: snap-to-parcels, points-to-path conversion, photos, EXIF,
 attribute editing beyond name/description.
@@ -637,8 +647,9 @@ Then native, mirroring:
 | N2 | Attributes, photos, KMZ: photo file layout + sweeps, attributes editor + photo strip + callout rendering, camera/picker wrappers + Info.plist keys, ZipArchive writer, KML ExtendedData, kmz export/import, GeoJSON note |
 | N3 | Snapping + photo map (splits into 3a/3b if review size demands; they share no files): envelope query + fetcher, SnapEngine + session integration + caveat + traced stamping, PhotoLibraryIndex + PhotoMapViewModel + MapViewState.photoMarkers + clustered annotations + the three-state My Maps row |
 
-W1-W3 deliver the user's first ask (points and tracks at the current
-location) as a coherent slice and are worth shipping before starting W4.
+W1–W3 delivered the user's first ask (points and tracks at the current
+location) as a coherent slice. W4 (snap math + parcel source, no UI) has
+landed; remaining web work starts at W5.
 
 ## Risks and open questions
 
