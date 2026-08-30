@@ -1054,7 +1054,10 @@ when any feature was parcel-traced. Selected points can be converted into a
 line or area from the edit panel ("Make line or area from points"), with a
 numbered dashed preview of connect-the-dots order before commit. Source
 points stay by default, or can be consumed in the same commit; a one-shot
-Undo restores the conversion.
+Undo restores the conversion. Selected features can have freeform name/value
+attributes edited in the panel; KML export carries them as ExtendedData
+(values stored as strings; reserved and app-owned keys are handled per
+contract).
 The Fletcher web integration and immutable, bounded per-sheet package are
 implemented, but the layer remains disabled in builds without
 `VITE_FLETCHER_TILE_BASE_URL`. The 24 direct-Rumsey source trees are kept
