@@ -1543,6 +1543,7 @@ final class OverlayViewModel {
               let first = refused.first.flatMap(LayerID.init(rawValue:))
         else { return }
         pendingSharedLayerIDs = refused
+        licencePromptIsClearanceOnly = false
         licencePromptedLayerID = first
     }
 
@@ -1803,6 +1804,7 @@ final class OverlayViewModel {
                })
         {
             pendingThemeID = id
+            licencePromptIsClearanceOnly = false
             licencePromptedLayerID = restricted
             return
         }
@@ -2145,6 +2147,10 @@ final class OverlayViewModel {
         loadHistoricalParcels()
         let pending = licencePromptedLayerID
         licencePromptedLayerID = nil
+        // A clearance-only prompt (parcel snapping) named a layer so the
+        // sheet could say which licence, not so accepting would draw it.
+        let clearanceOnly = licencePromptIsClearanceOnly
+        licencePromptIsClearanceOnly = false
         // A whole setup was waiting on the answer, not one switch. Applying it
         // turns on the layer the sheet named along with the rest of it.
         if let pendingThemeID, let theme = themes.theme(pendingThemeID) {
@@ -2170,7 +2176,7 @@ final class OverlayViewModel {
             setupCameFromALink = fromALink
             return
         }
-        guard let pending else { return }
+        guard let pending, !clearanceOnly else { return }
         if let features, OverlayZIndex.vectorLayers.contains(pending) {
             features.setVisible(pending, to: true)
         } else if let layer = installedLayer(pending) {
@@ -2182,6 +2188,7 @@ final class OverlayViewModel {
         licenceStore.decline()
         clearanceBox.update(licenceStore.clearance)
         licencePromptedLayerID = nil
+        licencePromptIsClearanceOnly = false
         // Refusing is about what is on the screen, not only about what gets
         // requested next. Nothing restricted should be on at this point — they
         // install hidden and cannot be switched on without accepting — so this
@@ -2206,6 +2213,7 @@ final class OverlayViewModel {
 
     func dismissLicenceSheet() {
         licencePromptedLayerID = nil
+        licencePromptIsClearanceOnly = false
         // Dismissed without an answer, so nothing is applied: the setup was
         // waiting on a decision that was not made, and so were the link's
         // layers. The link's notice stays, because they are still off.
@@ -2222,11 +2230,17 @@ final class OverlayViewModel {
         clearanceBox.clearance.allowsRestrictedLayers
     }
 
+    /// True while the licence sheet was raised for a feature that only needs
+    /// the clearance — parcel snapping — so accepting must not also switch
+    /// the named catalogued overlay on.
+    @ObservationIgnored private var licencePromptIsClearanceOnly = false
+
     /// Raises the Province licence sheet for a restricted layer the user just
     /// reached for — parcel snapping, here — without turning a catalogued
     /// overlay on.
     func promptProvinceLicence(for layerID: LayerID) {
         guard licenceStore.needsDecision else { return }
+        licencePromptIsClearanceOnly = true
         licencePromptedLayerID = layerID
     }
 

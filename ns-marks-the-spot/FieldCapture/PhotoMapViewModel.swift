@@ -117,26 +117,37 @@ final class PhotoMapViewModel {
         isIndexing = true
         indexError = nil
         defer { isIndexing = false }
-        let fetched = PHAsset.fetchAssets(with: .image, options: nil)
-        var entries: [PhotoMapIndex.Entry] = []
-        entries.reserveCapacity(fetched.count)
-        fetched.enumerateObjects { asset, _, _ in
-            guard let location = asset.location else { return }
-            let captured = asset.creationDate.map { CaptureTime.iso($0) }
-            entries.append(
-                PhotoMapIndex.Entry(
-                    id: asset.localIdentifier,
-                    latitude: location.coordinate.latitude,
-                    longitude: location.coordinate.longitude,
-                    capturedAt: captured
+        // Detached: PhotoKit fetches are thread-safe, and enumerating a
+        // whole library on the main actor froze the map for the scan —
+        // the "Indexing your photos…" line could not even render. The
+        // snapshot write happens there too, off the main thread.
+        let storeURL = storeURL
+        let built = await Task.detached(
+            priority: .userInitiated
+        ) { () -> PhotoMapIndex.Snapshot in
+            let fetched = PHAsset.fetchAssets(with: .image, options: nil)
+            var entries: [PhotoMapIndex.Entry] = []
+            entries.reserveCapacity(fetched.count)
+            fetched.enumerateObjects { asset, _, _ in
+                guard let location = asset.location else { return }
+                let captured = asset.creationDate.map { CaptureTime.iso($0) }
+                entries.append(
+                    PhotoMapIndex.Entry(
+                        id: asset.localIdentifier,
+                        latitude: location.coordinate.latitude,
+                        longitude: location.coordinate.longitude,
+                        capturedAt: captured
+                    )
                 )
+            }
+            let snapshot = PhotoMapIndex.Snapshot(
+                entries: entries,
+                changeToken: Self.archiveToken(PHPhotoLibrary.shared().currentChangeToken)
             )
-        }
-        snapshot = PhotoMapIndex.Snapshot(
-            entries: entries,
-            changeToken: Self.archiveToken(PHPhotoLibrary.shared().currentChangeToken)
-        )
-        persist()
+            Self.persist(snapshot, to: storeURL)
+            return snapshot
+        }.value
+        snapshot = built
     }
 
     /// Transient overlay of the in-view geotagged library. Not a stored layer.
@@ -214,7 +225,7 @@ final class PhotoMapViewModel {
 
     static let layerID = "photo-map-layer"
 
-    private static func archiveToken(_ token: PHPersistentChangeToken) -> Data? {
+    private nonisolated static func archiveToken(_ token: PHPersistentChangeToken) -> Data? {
         try? NSKeyedArchiver.archivedData(withRootObject: token, requiringSecureCoding: true)
     }
 
@@ -224,23 +235,22 @@ final class PhotoMapViewModel {
         )
     }
 
+    /// The on-disk shape, shared by the loader and the writer. Nonisolated
+    /// so the detached rebuild can encode it off the main actor.
+    private nonisolated struct IndexFile: Codable {
+        var entries: [PhotoMapIndex.Entry]
+        var changeToken: Data?
+    }
+
     private func loadSnapshot() {
         guard let data = try? Data(contentsOf: storeURL) else { return }
-        struct File: Codable {
-            var entries: [PhotoMapIndex.Entry]
-            var changeToken: Data?
-        }
-        guard let file = try? JSONDecoder().decode(File.self, from: data) else { return }
+        guard let file = try? JSONDecoder().decode(IndexFile.self, from: data) else { return }
         snapshot = PhotoMapIndex.Snapshot(entries: file.entries, changeToken: file.changeToken)
     }
 
-    private func persist() {
-        struct File: Codable {
-            var entries: [PhotoMapIndex.Entry]
-            var changeToken: Data?
-        }
-        let file = File(entries: snapshot.entries, changeToken: snapshot.changeToken)
+    private nonisolated static func persist(_ snapshot: PhotoMapIndex.Snapshot, to url: URL) {
+        let file = IndexFile(entries: snapshot.entries, changeToken: snapshot.changeToken)
         guard let data = try? JSONEncoder().encode(file) else { return }
-        try? data.write(to: storeURL, options: .atomic)
+        try? data.write(to: url, options: .atomic)
     }
 }

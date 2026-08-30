@@ -58,7 +58,10 @@ struct BulkPhotoPlacementSheet: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Create \(selectedCount) point\(selectedCount == 1 ? "" : "s")") {
-                        onPlace(Array(checked))
+                        // Row order, not Set order: the stored array order is
+                        // contract-meaningful (points-to-path connects
+                        // features in the order they were added).
+                        onPlace(rows.map(\.candidate.id).filter(checked.contains))
                     }
                     .disabled(selectedCount == 0)
                 }

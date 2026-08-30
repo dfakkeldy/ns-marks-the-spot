@@ -568,8 +568,8 @@ final class MapController: NSObject {
 
     /// What the incremental user-vector path last installed, so a push that
     /// only touched the transient tail — the live trace once a second while
-    /// recording — does not tear down and rebuild every stored layer's
-    /// overlays with it.
+    /// recording, the photo map on every settle — does not tear down and
+    /// rebuild every stored layer's overlays with it.
     @ObservationIgnored private var installedUserVectors: [UserVectorDrawing] = []
 
     /// Replaces from the first changed drawing on. The prefix that is equal
@@ -607,7 +607,8 @@ final class MapController: NSObject {
     /// Overlays and annotations together, because a layer's points and its
     /// boundaries are one thing to the user: removing them in two passes
     /// would leave the waypoints of a layer that was switched off sitting on
-    /// the map.
+    /// the map. Clusters holding a removed layer's points go too — MapKit
+    /// does not reliably retire them on its own.
     private func removeUserVectorShapes(
         on mapView: MKMapView, matching: (String) -> Bool
     ) {
@@ -626,6 +627,11 @@ final class MapController: NSObject {
             mapView.annotations.filter { annotation in
                 if let point = annotation as? UserVectorAnnotation {
                     return matching(point.layerID)
+                }
+                if let cluster = annotation as? MKClusterAnnotation {
+                    return cluster.memberAnnotations.contains {
+                        ($0 as? UserVectorAnnotation).map { matching($0.layerID) } == true
+                    }
                 }
                 return false
             }

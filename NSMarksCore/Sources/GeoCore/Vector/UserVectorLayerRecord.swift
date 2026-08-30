@@ -51,7 +51,12 @@ extension UserVectorOrigin: Codable {
     }
 
     private enum Kind: String, Codable {
-        case imported, drawn, recorded, photos
+        case imported, drawn, recorded
+        /// The web's tag and key for this origin are `photo-import` /
+        /// `importedAt` (`web/src/userMaps/vector/types.ts`); the stored
+        /// shape matches them the way `recorded` matches, so the two
+        /// surfaces' records stay mutually readable.
+        case photos = "photo-import"
     }
 
     public init(from decoder: any Decoder) throws {
@@ -71,7 +76,7 @@ extension UserVectorOrigin: Codable {
             )
         case .photos:
             self = .photos(
-                createdAt: try container.decode(Date.self, forKey: .createdAt),
+                createdAt: try container.decode(Date.self, forKey: .importedAt),
                 count: try container.decode(Int.self, forKey: .count)
             )
         }
@@ -93,7 +98,7 @@ extension UserVectorOrigin: Codable {
             try container.encode(endedAt, forKey: .endedAt)
         case .photos(let createdAt, let count):
             try container.encode(Kind.photos, forKey: .kind)
-            try container.encode(createdAt, forKey: .createdAt)
+            try container.encode(createdAt, forKey: .importedAt)
             try container.encode(count, forKey: .count)
         }
     }

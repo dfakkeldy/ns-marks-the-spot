@@ -154,6 +154,13 @@ struct VectorStyleTests {
         let data = try JSONEncoder().encode(record.origin)
         let decoded = try JSONDecoder().decode(UserVectorOrigin.self, from: data)
         #expect(decoded == record.origin)
+        // The wire shape matches the web's (`web/src/userMaps/vector/types.ts`):
+        // kind "photo-import" with the date under `importedAt`, so the two
+        // surfaces' stored records stay mutually readable.
+        let json = try #require(String(data: data, encoding: .utf8))
+        #expect(json.contains("\"kind\":\"photo-import\""))
+        #expect(json.contains("\"importedAt\""))
+        #expect(!json.contains("\"createdAt\""))
     }
 
     @Test func aLibraryFromALaterVersionIsNotReadable() {
