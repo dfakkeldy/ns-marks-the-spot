@@ -28,20 +28,59 @@ public enum GpxParse {
 
         for track in root.descendants(named: "trk") {
             let segments = track.children(named: "trkseg")
-                .map { $0.children(named: "trkpt").compactMap(position(of:)) }
+                .map { segment in
+                    segment.children(named: "trkpt").compactMap { trkpt -> TrackVertex? in
+                        guard let position = position(of: trkpt) else { return nil }
+                        return TrackVertex(position: position, time: time(of: trkpt))
+                    }
+                }
                 .filter { $0.count >= 2 }
             guard !segments.isEmpty else { continue }
             // A paused-and-resumed recording is several segments of one track.
             // Joining them would draw a straight line across the gap the user
             // did not walk.
+            let lines = segments.map { $0.map(\.position) }
             let geometry: GeoJsonGeometry =
-                segments.count == 1 ? .lineString(segments[0]) : .multiLineString(segments)
+                segments.count == 1 ? .lineString(lines[0]) : .multiLineString(lines)
+            var trackProperties = properties(of: track)
+            // Per-vertex trkpt times ride `coordinateProperties.times` in the
+            // togeojson convention, parallel to `coordinates` (array of
+            // arrays for MultiLineString), so a field recording exported on
+            // either surface reimports with its times intact. A point with no
+            // time is null rather than dropped — dropping it would break the
+            // parallelism the arrays exist for — and a track with no times at
+            // all writes nothing rather than an array of nulls.
+            let timeSegments = segments.map { $0.map(\.time) }
+            if timeSegments.contains(where: { $0.contains { $0 != .null } }) {
+                let times: JSONValue =
+                    segments.count == 1
+                    ? .array(timeSegments[0])
+                    : .array(timeSegments.map { JSONValue.array($0) })
+                trackProperties["coordinateProperties"] = .object(["times": times])
+            }
             features.append(
-                GeoJsonFeature(geometry: geometry, properties: properties(of: track))
+                GeoJsonFeature(geometry: geometry, properties: trackProperties)
             )
         }
 
         return try UserVectorParse.normalize(features)
+    }
+
+    /// One trkpt: where it is, and when it was fixed if the file says.
+    private struct TrackVertex {
+        var position: GeoJsonPosition
+        var time: JSONValue
+    }
+
+    /// The trkpt's own `<time>` as a string, or null. Kept as text rather
+    /// than parsed into a date: the value is the file's claim, and rewriting
+    /// it through a date type would change bytes the app has no reason to
+    /// touch.
+    private static func time(of element: XmlElement) -> JSONValue {
+        guard let text = element.firstChild(named: "time")?.trimmedText, !text.isEmpty else {
+            return .null
+        }
+        return .string(text)
     }
 
     private static func position(of element: XmlElement) -> GeoJsonPosition? {

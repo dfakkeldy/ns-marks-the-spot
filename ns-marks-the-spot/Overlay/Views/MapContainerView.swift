@@ -23,6 +23,15 @@ struct MapContainerView: View {
     /// know about.
     @State private var editSession: VectorEditSession?
     @State private var vectorCallout: UserVectorCalloutItem?
+    /// The GPS track recorder. Foreground-only; owns its own location
+    /// manager so recording works without the map's location dot.
+    @State private var recorder = TrackRecorder()
+    /// One-tap mark-my-location, with its own one-shot fix request.
+    @State private var markLocation = MarkLocation()
+    /// A finished recording waiting in the save dialog. Identifiable so the
+    /// sheet can present it; the recording is the only copy of the walk, so
+    /// the sheet cannot be swiped away.
+    @State private var saveTrack: SaveTrackPayload?
     /// The measurement in progress, or none. Not persisted anywhere: a measured
     /// distance is a question about the map, asked and answered.
     @State private var measure: MeasureSession?
@@ -169,6 +178,25 @@ struct MapContainerView: View {
             .sheet(item: $share) { payload in
                 ShareSheet(items: payload.items)
             }
+            .sheet(item: $saveTrack) { payload in
+                SaveTrackSheet(result: payload.result) { name, toleranceM in
+                    saveTrack = nil
+                    Task {
+                        guard let row = await userVectorsVM.addRecordedLayer(
+                            payload.result, name: name, simplifyToleranceM: toleranceM
+                        ) else { return }
+                        if let box = row.record.bbox {
+                            controller.frame(box)
+                        }
+                    }
+                } onDiscard: {
+                    saveTrack = nil
+                }
+                // Save or Discard, said out loud: the stopped recording is
+                // the only copy of the walk, and a sheet swiped away would
+                // throw it out without asking.
+                .interactiveDismissDisabled()
+            }
             .alert(
                 "The evidence note could not be written.",
                 isPresented: .init(
@@ -288,6 +316,48 @@ struct MapContainerView: View {
                 // The message describes the map; it must not take taps from it.
                 .allowsHitTesting(false)
                 .accessibilityElement(children: .combine)
+            }
+
+            // The same top-centre slot as the location message, for the same
+            // reason: the mark button lives on the right rail with cards
+            // below, and its answer must not land under one of them.
+            if let outcome = markLocation.outcome {
+                VStack {
+                    Text(outcome.message)
+                        .font(.footnote)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 10)
+                        .background(.regularMaterial)
+                        .clipShape(.rect(cornerRadius: 8))
+                        .padding(.horizontal, 16)
+                        .padding(.top, 116)
+
+                    Spacer()
+                }
+                .allowsHitTesting(false)
+                .accessibilityElement(children: .combine)
+            }
+
+            // The recording HUD, top-centre: the bottom belongs to the edit
+            // panel and callout cards, and recording during an edit (marking
+            // culverts along a walked line) is a supported combination.
+            if recorder.isActive, printFrame == nil {
+                VStack {
+                    TrackRecordingHUD(recorder: recorder) {
+                        if let result = recorder.stop() {
+                            saveTrack = SaveTrackPayload(result: result)
+                        }
+                        // The live trace is drawn from the recorder, which
+                        // just went idle.
+                        pushUserVectors()
+                    }
+                    .frame(maxWidth: 420)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 60)
+
+                    Spacer()
+                }
             }
 
             // A card rather than a sheet, and not in `activeSheet`: the panel
@@ -611,6 +681,31 @@ struct MapContainerView: View {
                 }
                 .accessibilityLabel("Current Location")
                 .disabled(isSelectingSaveArea)
+
+                Button {
+                    Task { await markMyLocation() }
+                } label: {
+                    MapControlIcon(systemName: "mappin.and.ellipse")
+                }
+                .accessibilityLabel("Mark My Location")
+                .accessibilityIdentifier("mark-my-location")
+                .disabled(isSelectingSaveArea || markLocation.isAcquiring)
+
+                Button {
+                    controller.showsUserLocation = true
+                    recorder.start()
+                } label: {
+                    MapControlIcon(
+                        systemName: recorder.isActive ? "record.circle.fill" : "record.circle",
+                        tint: .red,
+                        isActive: recorder.isActive
+                    )
+                }
+                .accessibilityLabel("Record a Track")
+                .accessibilityIdentifier("record-track")
+                // While a recording runs, the HUD owns pause and stop; the
+                // rail button just shows the mode is on.
+                .disabled(isSelectingSaveArea || recorder.isActive)
 
                 // Two buttons rather than one with a mode, as on the
                 // web: distance and area are different questions, and a
@@ -949,6 +1044,14 @@ struct MapContainerView: View {
                 guard let message else { return }
                 AccessibilityNotification.Announcement(message.rawValue).post()
             }
+            .onChange(of: markLocation.outcome) { _, outcome in
+                guard let outcome else { return }
+                AccessibilityNotification.Announcement(outcome.message).post()
+            }
+            // The live trace follows the fixes as they arrive.
+            .onChange(of: recorder.recording.liveSegments) { _, _ in
+                pushUserVectors()
+            }
             // The view model owns the rows; the map only ever draws what they
             // currently say. Pushed on change rather than on a timer so a slider
             // drag moves the drape it is under.
@@ -987,9 +1090,15 @@ struct MapContainerView: View {
                 pushUserVectors()
                 controller.setVectorHandles(selectionHandles())
                 controller.setVectorMoveHandle(moveHandle())
+                pushDraftPreview()
             }
-            .onChange(of: editSession?.draft) { _, draft in
-                controller.setVectorDraft(draftPreview(draft))
+            .onChange(of: editSession?.draft) { _, _ in
+                pushDraftPreview()
+            }
+            // The connect-the-dots order, drawn while the convert section is
+            // open so the stored order is seen before it is committed.
+            .onChange(of: editSession?.isPreviewingConversion) { _, _ in
+                pushDraftPreview()
             }
             .onChange(of: editSession?.selectedFeatureID) { _, _ in
                 controller.setVectorHandles(selectionHandles())
@@ -1001,6 +1110,10 @@ struct MapContainerView: View {
                 }
             }
             .onChange(of: scenePhase) { _, newPhase in
+                // Recording is foreground-only: leaving the app pauses it and
+                // says so, rather than drawing a straight line across ground
+                // nobody walked.
+                recorder.scenePhaseChanged(isActive: newPhase == .active)
                 if newPhase != .active {
                     cancelBoundsSelection()
                     // A switch thrown without moving the map never settles the
@@ -1115,7 +1228,112 @@ struct MapContainerView: View {
                 drawings.append(live)
             }
         }
+        if let trace = liveTraceDrawing() {
+            drawings.append(trace)
+        }
         controller.setUserVectors(drawings)
+    }
+
+    /// The recording's accepted vertices as a transient drawing — the live
+    /// trace. Not a stored layer: it exists only while the recorder runs, is
+    /// never hit-tested (it is not in the view model's rows), and the saved
+    /// layer replaces it at stop time.
+    private func liveTraceDrawing() -> UserVectorDrawing? {
+        guard recorder.isActive else { return nil }
+        let segments = recorder.recording.liveSegments.filter { $0.count >= 2 }
+        guard !segments.isEmpty else { return nil }
+        let geometry: GeoJsonGeometry =
+            segments.count == 1 ? .lineString(segments[0]) : .multiLineString(segments)
+        // Fixed dates so successive pushes compare equal in the state diff.
+        let epoch = Date(timeIntervalSince1970: 0)
+        let record = UserVectorLayerRecord(
+            id: "recording-live-trace",
+            name: "Recording",
+            source: .recorded,
+            origin: .recorded(startedAt: epoch, endedAt: epoch),
+            createdAt: epoch,
+            colorHex: "#0072b2",
+            featureCount: 1,
+            bbox: nil
+        )
+        return UserVectorDrawing(
+            record: record,
+            parsed: ParsedVector(
+                features: [GeoJsonFeature(id: "recording-live-trace", geometry: geometry)],
+                bbox: nil
+            )
+        )
+    }
+
+    /// What the rubber-band overlay should draw: the conversion preview when
+    /// the convert section is open, else the shape being drawn.
+    private func pushDraftPreview() {
+        // Measuring owns the overlay while it runs; recording and editing
+        // cannot start while a measurement is up.
+        guard measure == nil else { return }
+        if let preview = conversionPreview() {
+            controller.setVectorDraft(preview)
+        } else {
+            controller.setVectorDraft(draftPreview(editSession?.draft))
+        }
+    }
+
+    /// The connect-the-dots order as a dashed amber path — the measure
+    /// colour, so a preview is never mistaken for a saved line.
+    private func conversionPreview() -> VectorDraftPreview? {
+        guard let session = editSession, session.isPreviewingConversion,
+              let plan = session.convertPlanLine, plan.positions.count >= 2
+        else { return nil }
+        return VectorDraftPreview(
+            shape: .line, vertices: plan.positions, colorHex: "#d97706"
+        )
+    }
+
+    /// One-tap mark: the recorder's fix when fresh and tight (the contract's
+    /// 10 s / 50 m rule), else one requested fix. Marks into the open edit
+    /// session, else the "Field notes" layer.
+    private func markMyLocation() async {
+        guard let fix = await markLocation.acquireFix(preferring: recorder.lastFix) else {
+            if markLocation.outcome == nil {
+                markLocation.report(.unavailable)
+            }
+            scheduleMarkOutcomeDismissal()
+            return
+        }
+        let feature = MarkFeature.buildGpsMarkFeature(fix)
+        if let session = editSession, session.isEditing {
+            session.appendMark(feature)
+            markLocation.report(
+                .marked(
+                    layerName: session.record?.name ?? "this layer",
+                    accuracyM: fix.accuracyM
+                )
+            )
+        } else {
+            guard let row = await userVectorsVM.fieldNotesRow(),
+                  await userVectorsVM.appendFeature(feature, to: row.id)
+            else {
+                markLocation.report(.unavailable)
+                scheduleMarkOutcomeDismissal()
+                return
+            }
+            markLocation.report(
+                .marked(layerName: row.record.name, accuracyM: fix.accuracyM)
+            )
+        }
+        scheduleMarkOutcomeDismissal()
+    }
+
+    /// Every mark outcome describes a finished attempt, so it expires — the
+    /// permission message a reader needs to act on is also in Settings.
+    private func scheduleMarkOutcomeDismissal() {
+        let shown = markLocation.outcome
+        Task {
+            try? await Task.sleep(for: .seconds(5))
+            if markLocation.outcome == shown {
+                markLocation.clearOutcome()
+            }
+        }
     }
 
     /// The finger's reach in degrees of longitude at this zoom, so a line stays
@@ -1301,6 +1519,13 @@ struct MapContainerView: View {
         controller.endBoundsSelection()
         isSelectingSaveArea = false
     }
+}
+
+/// A finished recording on its way into the save dialog. Identifiable for
+/// `.sheet(item:)`.
+private struct SaveTrackPayload: Identifiable {
+    let id = UUID()
+    let result: TrackRecording.StopResult
 }
 
 /// The one visual identity for the map control rail.

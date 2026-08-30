@@ -129,8 +129,15 @@ actor UserVectorStore {
     }
 
     private func write(_ library: UserVectorLibrary) throws {
+        // Stamped with this build's version, not the one the document was
+        // read with. Every mutation re-reads and writes back, so without the
+        // stamp a library created at version 1 stays version 1 forever even
+        // once it holds records only version 2 defines — and an old build
+        // that then opens it decodes garbage instead of refusing cleanly.
+        var stamped = library
+        stamped.version = UserVectorLibrary.currentVersion
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
-        let data = try encoder.encode(library)
+        let data = try encoder.encode(stamped)
         try data.write(to: libraryURL, options: .atomic)
     }
 

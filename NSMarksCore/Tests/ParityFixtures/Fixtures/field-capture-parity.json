@@ -40,5 +40,10 @@
     "vertexPriority": "vertex-first",
     "maxParcels": 600,
     "parcelCaveat": "Traced boundaries are not a survey."
+  },
+  "kmz": {
+    "docEntry": "doc.kml",
+    "photoDir": "files/",
+    "descriptionImgWidth": 400
   }
 }

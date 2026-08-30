@@ -256,6 +256,74 @@ final class UserVectorsViewModel {
         return row
     }
 
+    /// The "Field notes" destination for mark-my-location when no edit
+    /// session is open: found if it exists, created once if not, recreated if
+    /// the user deleted it. Matched by the pinned name among drawn layers so
+    /// an imported file that happens to be called "Field notes" is never
+    /// silently written into.
+    func fieldNotesRow(now: Date = Date()) async -> Row? {
+        if let row = rows.first(where: {
+            $0.record.name == CaptureSpec.fieldNotesLayerName && $0.record.source == .drawn
+        }) {
+            return row
+        }
+        return await newDrawingLayer(name: CaptureSpec.fieldNotesLayerName, now: now)
+    }
+
+    /// Appends one feature to a layer through the store's write path.
+    /// The mark path: the feature id was assigned by the builder, and the
+    /// modified date moves so a layer that gained GPS marks honestly shows
+    /// its edited date.
+    @discardableResult
+    func appendFeature(_ feature: GeoJsonFeature, to id: String, now: Date = Date()) async
+        -> Bool
+    {
+        guard let index = rows.firstIndex(where: { $0.id == id }) else { return false }
+        let existing = rows[index].parsed ?? ParsedVector(features: [], bbox: nil)
+        let appended = VectorEdit.recomputed(existing.features + [feature])
+        return await replaceGeometry(id: id, with: appended, now: now)
+    }
+
+    /// Saves a finished recording as a new layer: the processed line as
+    /// geometry, the raw GPX as the layer's original file, origin
+    /// `recorded`. Returns nil when nothing drawable survived the filter or
+    /// the device would not keep the layer.
+    @discardableResult
+    func addRecordedLayer(
+        _ result: TrackRecording.StopResult,
+        name: String,
+        simplifyToleranceM: Double,
+        now: Date = Date()
+    ) async -> Row? {
+        guard let feature = TrackFeature.buildRecordedTrackFeature(
+            result, name: name, simplifyToleranceM: simplifyToleranceM
+        ) else { return nil }
+        let parsed = VectorEdit.recomputed([feature])
+        let rawGpx = TrackGpx.rawGpx(name: name, rawSegments: result.rawSegments)
+        let record = UserVectorLayerRecord(
+            id: UUID().uuidString,
+            name: name,
+            source: .recorded,
+            origin: .recorded(startedAt: result.startedAt, endedAt: result.endedAt),
+            createdAt: now,
+            colorHex: VectorStyle.nextLayerColor(existingCount: rows.count),
+            featureCount: parsed.featureCount,
+            bbox: parsed.bbox,
+            originalFileID: UUID().uuidString
+        )
+        do {
+            _ = try await store.add(record, geometry: parsed, original: Data(rawGpx.utf8))
+        } catch {
+            lastRefusal = Self.storageRefusal(
+                "This track could not be saved to your device. Free some space and try again."
+            )
+            return nil
+        }
+        let row = Row(record: record, isVisible: true, parsed: parsed)
+        rows.append(row)
+        return row
+    }
+
     func setVisible(_ isVisible: Bool, id: String) {
         guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
         rows[index].isVisible = isVisible

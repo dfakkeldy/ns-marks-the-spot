@@ -39,6 +39,17 @@ struct UserVectorCalloutCard: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
+            // The claim the data makes about itself — when it was captured
+            // and how rough the fix was — so a ±40 m mark never reads as a
+            // surveyed corner. Rendered only when both reserved keys are
+            // present; see VectorFeatureCallout.
+            if let gpsProvenance = callout.gpsProvenance {
+                Label(gpsProvenance, systemImage: "location")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
             // The provenance is the point of the card. This is the user's own
             // material, and a panel that presented it in the same voice as a
             // registry parcel would be inviting a conclusion the map cannot
