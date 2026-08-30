@@ -47,6 +47,12 @@ function panel(overrides: Partial<Parameters<typeof VectorEditPanel>[0]> = {}) {
     licenceAccepted: true,
     onSnapChange: vi.fn(),
     onRequestParcelSnapLicence: vi.fn(),
+    convertShape: null as "line" | "area" | null,
+    conversionPlan: null,
+    onConvertShape: vi.fn(),
+    onConvertCreate: vi.fn(),
+    lastConversion: null as { label: string } | null,
+    onUndoConversion: vi.fn(),
     onDrawMode: vi.fn(),
     onRename: vi.fn(),
     onUpdateFeature: vi.fn(),
@@ -228,5 +234,92 @@ describe("VectorEditPanel snapping controls", () => {
       expect(screen.getByText(text)).toBeInTheDocument();
       cleanup();
     }
+  });
+});
+
+describe("VectorEditPanel points-to-path", () => {
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
+
+  const viablePlan = {
+    positions: [
+      [-63.5, 44.5],
+      [-63.4, 44.6],
+    ] as [number, number][],
+    sourcePointCount: 2,
+    viable: true,
+    lengthM: 1234,
+    areaM2: null,
+    selfIntersects: false,
+    traced: false,
+  };
+
+  it("offers the section only when the layer has two or more points", () => {
+    panel();
+    expect(
+      screen.getByRole("button", { name: "Line from points" }),
+    ).toBeInTheDocument();
+    cleanup();
+    panel({
+      data: {
+        type: "FeatureCollection",
+        features: data.features.slice(0, 1),
+      },
+    });
+    expect(
+      screen.queryByRole("button", { name: "Line from points" }),
+    ).toBeNull();
+  });
+
+  it("arms a shape and shows the plan's stats", async () => {
+    const user = userEvent.setup();
+    const props = panel();
+    await user.click(screen.getByRole("button", { name: "Area from points" }));
+    expect(props.onConvertShape).toHaveBeenCalledWith("area");
+    cleanup();
+
+    panel({ convertShape: "line", conversionPlan: viablePlan });
+    expect(screen.getByText(/2 points → 1\.23 km/)).toBeInTheDocument();
+  });
+
+  it("creates with the keep-source default and cancels cleanly", async () => {
+    const user = userEvent.setup();
+    const props = panel({ convertShape: "line", conversionPlan: viablePlan });
+    await user.click(screen.getByRole("button", { name: "Create line" }));
+    expect(props.onConvertCreate).toHaveBeenCalledWith(true);
+
+    await user.click(screen.getByRole("button", { name: "Cancel" }));
+    expect(props.onConvertShape).toHaveBeenCalledWith(null);
+  });
+
+  it("disables Create and explains when the plan is not viable", () => {
+    panel({
+      convertShape: "area",
+      conversionPlan: { ...viablePlan, viable: false, areaM2: null },
+    });
+    expect(
+      screen.getByText("An area needs at least 3 distinct points."),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Create area" })).toBeDisabled();
+  });
+
+  it("warns about a self-crossing path", () => {
+    panel({
+      convertShape: "area",
+      conversionPlan: { ...viablePlan, selfIntersects: true, areaM2: 100 },
+    });
+    expect(
+      screen.getByText(/crosses itself — check the numbered order/),
+    ).toBeInTheDocument();
+  });
+
+  it("shows the one-shot undo affordance", async () => {
+    const user = userEvent.setup();
+    const props = panel({ lastConversion: { label: "Converted 3 points" } });
+    expect(screen.getByText("Converted 3 points")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Undo" }));
+    expect(props.onUndoConversion).toHaveBeenCalled();
   });
 });

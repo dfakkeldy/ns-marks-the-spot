@@ -233,6 +233,10 @@ import {
 // Type-only, so the Geoman bundle behind EditableVectorLayer stays lazy.
 import type { VectorSnapTargets } from "./userMaps/vector/edit/EditableVectorLayer";
 import type { ParcelSnapStatus } from "./userMaps/vector/edit/ParcelSnapTargetsLayer";
+import {
+  planPointsToPath,
+  type ConvertShape,
+} from "./userMaps/vector/convert/pointsToPath";
 import { GeoreferencePanel } from "./userMaps/components/GeoreferencePanel";
 import { GeoPdfFrameChooser } from "./userMaps/components/GeoPdfFrameChooser";
 import type { ReferenceLayerId } from "./userMaps/components/GeoreferencePanel";
@@ -1424,6 +1428,7 @@ export function App() {
   const [parcelSnapStatus, setParcelSnapStatus] = useState<ParcelSnapStatus>({
     status: "idle",
   });
+  const [convertShape, setConvertShape] = useState<ConvertShape | null>(null);
 
   const beginVectorEdit = useCallback(
     (id: string) => {
@@ -1431,6 +1436,7 @@ export function App() {
       setSelectedFeatureId(null);
       setSnapTargets(DEFAULT_SNAP_TARGETS);
       setParcelSnapStatus({ status: "idle" });
+      setConvertShape(null);
       vectorEdit.beginEdit(id);
     },
     [vectorEdit],
@@ -1440,6 +1446,7 @@ export function App() {
     setSelectedFeatureId(null);
     setSnapTargets(DEFAULT_SNAP_TARGETS);
     setParcelSnapStatus({ status: "idle" });
+    setConvertShape(null);
     vectorEdit.endEdit();
   }, [vectorEdit]);
 
@@ -1447,6 +1454,38 @@ export function App() {
     setLicenceIntent({ kind: "snap" });
     setLicenceDialogOpen(true);
   }, []);
+
+  const conversionPlan = useMemo(
+    () =>
+      vectorEdit.editingLayer && convertShape
+        ? planPointsToPath(vectorEdit.editingLayer.data, convertShape)
+        : null,
+    [convertShape, vectorEdit.editingLayer],
+  );
+  const handleConvertShape = useCallback((shape: ConvertShape | null) => {
+    setConvertShape(shape);
+    if (shape) {
+      // The preview owns the map's attention; an armed draw tool would
+      // fight it for meaning.
+      setDrawMode(null);
+    }
+  }, []);
+  const handleConvertCreate = useCallback(
+    (keepSourcePoints: boolean) => {
+      if (!convertShape) {
+        return;
+      }
+      const createdId = vectorEdit.convertPoints({
+        shape: convertShape,
+        keepSourcePoints,
+      });
+      if (createdId) {
+        setSelectedFeatureId(createdId);
+      }
+      setConvertShape(null);
+    },
+    [convertShape, vectorEdit],
+  );
   // A new drawing layer opens straight into edit mode with the point tool
   // armed: the only reason to create one is to start drawing.
   const createAndEditVectorLayer = useCallback(async () => {
@@ -4609,6 +4648,13 @@ export function App() {
                     onGeometryChange: vectorEdit.commitGeometry,
                     onSelectFeature: setSelectedFeatureId,
                     onParcelSnapStatus: setParcelSnapStatus,
+                    conversionPreview:
+                      convertShape && conversionPlan?.viable
+                        ? {
+                            positions: conversionPlan.positions,
+                            closed: convertShape === "area",
+                          }
+                        : null,
                   }
                 : null
             }
@@ -4930,6 +4976,12 @@ export function App() {
         licenceAccepted={licenceAccepted}
         onSnapChange={setSnapTargets}
         onRequestParcelSnapLicence={requestParcelSnapLicence}
+        convertShape={convertShape}
+        conversionPlan={conversionPlan}
+        onConvertShape={handleConvertShape}
+        onConvertCreate={handleConvertCreate}
+        lastConversion={vectorEdit.lastConversion}
+        onUndoConversion={vectorEdit.undoConversion}
         onDrawMode={setDrawMode}
         onRename={vectorEdit.renameLayer}
         onUpdateFeature={vectorEdit.updateFeatureDetails}
