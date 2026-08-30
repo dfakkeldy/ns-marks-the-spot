@@ -8,8 +8,9 @@ drawing, licence-gated, with traced provenance, #271), W6 (points-to-path
 conversion with numbered preview, #273), W7 (freeform attributes + KML
 ExtendedData, #275), W8 (photo storage + attach + display, #277), and W9
 (KMZ photo interchange + bulk EXIF placement, #279) are implemented.
-Remaining web work for field-capture is done. Native N1 (#281) and N2
-(#283) are implemented; next is native N3 (not shipped).
+Remaining web work for field-capture is done. Native N1 (#281), N2
+(#283), and N3 (#284) are implemented; remaining native field-capture work
+for this plan is done.
 Produced 2026-08-28 from a code survey of both surfaces, four subsystem design
 passes, and an adversarial cross-review that reconciled them. Decisions marked
 "approved" were made by the project owner in this session and are fixed;
@@ -236,7 +237,7 @@ iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 - `GpxParse` reads trkpt `<time>` into `coordinateProperties.times`
   (null-padded, togeojson convention)
   ([GpxParse.swift](../NSMarksCore/Sources/GeoCore/Vector/GpxParse.swift)).
-- `UserVectorLibrary.currentVersion` is 2; `UserVectorStore.write(_:)` stamps
+- `UserVectorLibrary.currentVersion` is 3; `UserVectorStore.write(_:)` stamps
   `currentVersion`
   ([UserVectorLayerRecord.swift](../NSMarksCore/Sources/GeoCore/Vector/UserVectorLayerRecord.swift),
   [UserVectorStore.swift](../ns-marks-the-spot/UserVectors/UserVectorStore.swift)).
@@ -289,8 +290,31 @@ iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
   [KmzParse.swift](../NSMarksCore/Sources/GeoCore/Vector/KmzParse.swift),
   [KmzRelink.swift](../NSMarksCore/Sources/GeoCore/Vector/KmzRelink.swift),
   [UserVectorRowsView.swift](../ns-marks-the-spot/UserVectors/UserVectorRowsView.swift)).
-- Missing: snapping, photo-library map layer / bulk EXIF placement on
-  native (N3, not shipped).
+- Snapping: `SnapEngine` (vertex/edge candidates over `ownFeature | parcel`
+  only), `Geodesy.localMetricProjection` / `nearestPointOnSegment`,
+  licence-gated envelope query, session-scoped toggles, 15 pt, haptic,
+  `nsmts:traced` / `nsmts:createdAt` at event time, standing caveat
+  "Traced boundaries are not a survey.", zoom / licence / dense /
+  load-error / honest-empty notes
+  ([SnapEngine.swift](../NSMarksCore/Sources/GeoCore/Vector/SnapEngine.swift),
+  [Geodesy.swift](../NSMarksCore/Sources/GeoCore/Geodesy.swift),
+  [ParcelQuery.swift](../NSMarksCore/Sources/NSDataServices/ParcelQuery.swift),
+  [ParcelFetcher.swift](../NSMarksCore/Sources/NSDataServices/ParcelFetcher.swift),
+  [VectorEditPanel.swift](../ns-marks-the-spot/UserVectors/VectorEditPanel.swift),
+  [VectorEditSession.swift](../ns-marks-the-spot/UserVectors/VectorEditSession.swift),
+  [MapContainerView.swift](../ns-marks-the-spot/Overlay/Views/MapContainerView.swift)).
+- Photo-library map layer: `PhotoMapIndex` (z15 buckets, 500-annotation
+  cap), PhotoKit enumeration persisted to `Caches/PhotoMapIndex/index.json`
+  with the change token, My Maps row (`.myMaps` slot, LayerCatalog
+  untouched), MapKit clustering, subtitle "Your photos · never uploaded"
+  ([PhotoMapIndex.swift](../NSMarksCore/Sources/GeoCore/Vector/PhotoMapIndex.swift),
+  [PhotoMapViewModel.swift](../ns-marks-the-spot/FieldCapture/PhotoMapViewModel.swift),
+  [PhotoMapRow.swift](../ns-marks-the-spot/FieldCapture/PhotoMapRow.swift)).
+- Bulk EXIF placement: `PhotosPicker` → confirm sheet → `source: photos`
+  layer, provenance "From your photos · N photos"
+  ([BulkPhotoPlacement.swift](../NSMarksCore/Sources/GeoCore/Vector/BulkPhotoPlacement.swift),
+  [BulkPhotoPlacementSheet.swift](../ns-marks-the-spot/FieldCapture/BulkPhotoPlacementSheet.swift)).
+- Missing on native: none for this field-capture plan.
 
 ## The field-capture contract
 
@@ -341,8 +365,8 @@ makes about itself.
 
 ### Recorded layers and raw fixes
 
-- `UserVectorSource` gains `"recorded"` on both surfaces. Web also gains
-  `"photos"` for bulk photo-placement layers.
+- `UserVectorSource` gains `"recorded"` on both surfaces, and `"photos"`
+  for bulk photo-placement layers.
 - `UserVectorOrigin` gains `{ kind: "recorded", startedAt, endedAt }` (ISO
   strings on web, Dates in Swift Codable with those key names). Provenance
   string: "Recorded on this device".
@@ -357,7 +381,7 @@ makes about itself.
   MultiLineString when pause/resume produced multiple segments). The raw GPX is
   the evidence; the geometry is the labeled, processed view. There is no
   separate raw-track store and no per-fix disposition taxonomy.
-- iOS `UserVectorLibrary.currentVersion` is 2 so old builds refuse cleanly
+- iOS `UserVectorLibrary.currentVersion` is 3 so old builds refuse cleanly
   (`fromALaterVersion`) instead of reporting damage, and
   `UserVectorStore.write(_:)` stamps the current version.
 
@@ -703,8 +727,8 @@ that GeoCore `KmzRoundTripTests` mirrors byte-for-byte in structure.
 
 ## iOS mirror
 
-N1 (#281) and N2 (#283) are implemented. Remaining native work is N3
-(snapping + photo map).
+N1 (#281), N2 (#283), and N3 (#284) are implemented. Remaining native
+field-capture work for this plan is done.
 
 GeoCore N1 (pure, zero-dependency), present: `Capture/CaptureSpec.swift`
 (pinned by `FieldCaptureParityTests` against the shared fixture, including
@@ -727,10 +751,16 @@ plus `kmz(layerName:parsed:photos:)` (CDATA description + img width 400,
 KMZ-form descriptors with href; missing bytes dropped and counted),
 `KmzParse.parseWithAssets`, `KmzRelink` (re-minted ids, img-strip,
 missing/undecodable/capped distinct), and `VectorEdit.updatingProperties`.
-Remaining GeoCore work is N3: `Vector/SnapEngine.swift` (vertex/edge
-candidates over `ownFeature | parcel` sources only).
 
-NSDataServices (N3, not shipped): `ParcelQuery.envelopeQueryURL(bounds:clearance:)`
+GeoCore N3, present: `Vector/SnapEngine.swift` (vertex/edge candidates over
+`ownFeature | parcel` sources only, vertex-first; unreadable rings
+contribute nothing), `Geodesy.localMetricProjection` /
+`nearestPointOnSegment`, `Vector/BulkPhotoPlacement.swift` (in-view
+default-checked, out-of-view checkable, untagged unselectable),
+`Vector/PhotoMapIndex.swift` (z15 buckets, 500-annotation cap with
+truncated note).
+
+NSDataServices N3, present: `ParcelQuery.envelopeQueryURL(bounds:clearance:)`
 (`esriGeometryEnvelope`, `inSR=4326`, `outFields=PID`, `returnGeometry=true`),
 refusing without clearance exactly like the existing point query, and
 `ParcelFetcher.parcels(in:clearance:)` paging up to `maxSnapParcels`;
@@ -772,7 +802,7 @@ App N2, present:
   plus the honest GeoJSON/KML note and shortfall report; KMZ import
   re-link with distinct missing / undecodable / capped notes.
 
-Remaining App work is N3:
+App N3, present:
 
 - Photo-map layer, native-only: PhotoKit has no location predicate, so the
   index is one full enumeration per grant (`PHAsset.fetchAssets` reading
@@ -787,13 +817,17 @@ Remaining App work is N3:
   content), so `LayerCatalog` and every parity fixture are untouched. Three
   distinct row states: granted, limited ("Showing only the photos you
   selected · Manage"), denied (disabled with an explanation). Subtitle:
-  "Your photos · never uploaded".
+  "Your photos · never uploaded"
+  (`FieldCapture/PhotoMapViewModel.swift`, `PhotoMapRow.swift`).
 - Snapping in `VectorEditSession`/`MapContainerView`: candidates rebuild on
   `.visibleRegionSettled` while armed, own visible features plus cached
   parcel rings, tolerance 15 pt converted like the existing `fingerTolerance`,
   haptic tick on snap, the pinned caveat as a standing caption while parcels
   are armed. Unreadable or not-supplied parcel boundaries contribute no
   candidates; never a partial ring.
+- Bulk placement: `BulkPhotoPlacementSheet` (PhotosPicker → classify →
+  confirm) creates a `source: photos` layer with provenance
+  "From your photos · N photos". `UserVectorLibrary.currentVersion` is 3.
 
 Tests in the tree for N1: TrackFilter/TrackSimplify/TrackGpx against
 scripted sequences, FieldCaptureParityTests against the fixture,
@@ -802,11 +836,12 @@ auto-pause, save writes geometry + original + origin, library stamped v2,
 idle-timer restore). Tests in the tree for N2: PhotoDescriptor,
 PhotoPipeline, ZipWriter, KmlExtendedData, KmzRoundTrip (including the
 shared cross-surface fixture), VectorEdit.updatingProperties, photo
-store sweeps (`FieldCapturePhotoTests`), attribute editing. Remaining:
-SnapEngine priority and source exclusion, ParcelEnvelopeQuery,
-PhotoMapIndex behind a fake asset source. Run focused suites (the full
-bundle hangs on shared URLProtocol stubs); builds go through the
-xcode-build-slot wrapper.
+store sweeps (`FieldCapturePhotoTests`), attribute editing. Tests in the
+tree for N3: SnapEngine priority and source exclusion, ParcelEnvelopeQuery,
+PhotoMapIndex cap and buckets, BulkPhotoPlacement classify,
+`FieldCaptureSnapTests`. Remaining native field-capture tests for this
+plan: none. Run focused suites (the full bundle hangs on shared
+URLProtocol stubs); builds go through the xcode-build-slot wrapper.
 
 ## Cross-cutting compliance
 
@@ -856,15 +891,15 @@ Then native, mirroring:
 | --- | --- |
 | N1 | Recording core: FieldCaptureParityTests + GeoCore capture modules, GpxParse trkpt time, convertingPoints, recorded origin + library v2 + write-stamp fix, TrackRecorder + HUD + mark-my-location + scene-phase pause, raw-GPX original labeling, conversion UI |
 | N2 | (#283, implemented) Attributes, photos, KMZ: photo file layout + sweeps, attributes editor + photo strip + callout rendering, camera/picker wrappers + Info.plist keys, ZipArchive writer, KML ExtendedData, kmz export/import, GeoJSON note |
-| N3 | Snapping + photo map (splits into 3a/3b if review size demands; they share no files): envelope query + fetcher, SnapEngine + session integration + caveat + traced stamping, PhotoLibraryIndex + PhotoMapViewModel + MapViewState.photoMarkers + clustered annotations + the three-state My Maps row |
+| N3 | (#284, implemented) Snapping + photo map: envelope query + fetcher, SnapEngine + session integration + caveat + traced stamping, PhotoMapIndex + PhotoMapViewModel + clustered annotations + the three-state My Maps row + bulk EXIF placement |
 
 W1–W3 delivered the user's first ask (points and tracks at the current
 location) as a coherent slice. W4 (snap math + parcel source, no UI),
 W5 (snap engine + UI), W6 (points-to-path conversion), W7 (freeform
 attributes + KML ExtendedData), W8 (photo storage + attach + display),
 and W9 (KMZ photo interchange + bulk EXIF placement) have landed;
-remaining web work for field-capture is done. Native N1 (#281) and N2
-(#283) landed; next is native N3.
+remaining web work for field-capture is done. Native N1 (#281), N2
+(#283), and N3 (#284) landed; the field-capture plan is complete on nightly.
 
 ## Risks and open questions
 
