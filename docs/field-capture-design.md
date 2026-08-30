@@ -4,9 +4,10 @@ Status: approved scope. Web W1 (live GPS + Field notes mark, #261), W2
 (foreground track recording with raw-GPX original, #262), W3 (GPX
 export for user layers and raw-recording downloads, #266), W4 (snap
 geometry math and the NSPRD parcel snap source, #269), W5 (snap-to-parcel
-drawing, licence-gated, with traced provenance, #271), and W6 (points-to-path
-conversion with numbered preview, #273) are implemented.
-Remaining web work starts at W7 (freeform attributes + KML ExtendedData).
+drawing, licence-gated, with traced provenance, #271), W6 (points-to-path
+conversion with numbered preview, #273), and W7 (freeform attributes + KML
+ExtendedData, #275) are implemented.
+Remaining web work starts at W8 (photo storage + attach + display).
 Native recording (N1) is not shipped.
 Produced 2026-08-28 from a code survey of both surfaces, four subsystem design
 passes, and an adversarial cross-review that reconciled them. Decisions marked
@@ -144,8 +145,21 @@ Web (`web/src/`):
   (conversion output, undo-restored points, W1 mark-during-edit) get a live
   layer so the next gesture cannot publish them away
   ([EditableVectorLayer.tsx](../web/src/userMaps/vector/edit/EditableVectorLayer.tsx)).
+- Freeform attributes: `AttributeEditor` lists every property except `name`,
+  `description`, `coordinateProperties`, and the `nsmts:` namespace; values
+  entered in the app are stored as strings; reserved and duplicate names are
+  refused on add; imported objects/arrays render read-only
+  ([AttributeEditor.tsx](../web/src/userMaps/vector/edit/AttributeEditor.tsx)).
+- Session property patches: `updateFeatureProperties` sets string values and
+  deletes `undefined` keys without aliasing already-published collections
+  ([useVectorEditSession.ts](../web/src/userMaps/vector/edit/useVectorEditSession.ts)).
+- KML ExtendedData: one `<Data>` per carried property except `name`,
+  `description`, `coordinateProperties`, and `nsmts:photos`; `nsmts:`
+  provenance keys are included; numbers/booleans stringify, objects as JSON
+  text, nulls skipped
+  ([kmlWriter.ts](../web/src/userMaps/vector/export/kmlWriter.ts)).
 
-Missing on web: photos, EXIF, attribute editing beyond name/description.
+Missing on web: photos, EXIF.
 
 iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 
@@ -692,8 +706,8 @@ Then native, mirroring:
 
 W1–W3 delivered the user's first ask (points and tracks at the current
 location) as a coherent slice. W4 (snap math + parcel source, no UI),
-W5 (snap engine + UI), and W6 (points-to-path conversion) have landed;
-remaining web work starts at W7.
+W5 (snap engine + UI), W6 (points-to-path conversion), and W7 (freeform
+attributes + KML ExtendedData) have landed; remaining web work starts at W8.
 
 ## Risks and open questions
 

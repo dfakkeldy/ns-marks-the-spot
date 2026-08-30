@@ -53,6 +53,7 @@
 - [x] Snap math + NSPRD parcel snap source (field-capture W4, #269)
 - [x] Snap-to-parcel drawing licence-gated with traced provenance (field-capture W5, #271)
 - [x] Points-to-path conversion with numbered preview and one-shot undo (field-capture W6, #273)
+- [x] Freeform feature attributes + KML ExtendedData (field-capture W7, #275)
 - [x] Native catalog parity for NS Aerial, Property Boundaries, Crown Lands, Watersheds, and Waterfalls
 - [x] Coverage-aware parcel flood-hazard evidence with separate published river and coastal scenario sources
 - [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web
