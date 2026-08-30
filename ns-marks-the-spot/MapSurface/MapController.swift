@@ -1405,6 +1405,20 @@ extension MapController: MKMapViewDelegate {
             return view
         }
 
+        if let cluster = annotation as? MKClusterAnnotation {
+            let identifier = "UserVectorCluster"
+            let view =
+                mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                as? MKMarkerAnnotationView
+                ?? MKMarkerAnnotationView(annotation: cluster, reuseIdentifier: identifier)
+            view.annotation = cluster
+            view.markerTintColor = UIColor(featureHex: "#7c3aed")
+            view.glyphText = "\(cluster.memberAnnotations.count)"
+            view.canShowCallout = false
+            view.displayPriority = .defaultHigh
+            return view
+        }
+
         // A user's own point, before both: it is drawn in their layer's colour
         // and its callout carries the provenance line that says the app did not
         // publish it.
@@ -1420,6 +1434,9 @@ extension MapController: MKMapViewDelegate {
             // imported has to say so wherever it is shown.
             view.canShowCallout = false
             view.image = UserVectorMarkerImage.image(for: point.style)
+            view.clusteringIdentifier = point.clusteringIdentifier
+            view.displayPriority = point.clusteringIdentifier == nil ? .required : .defaultLow
+            view.collisionMode = .circle
             return view
         }
 
@@ -1485,6 +1502,11 @@ extension MapController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let cluster = view.annotation as? MKClusterAnnotation {
+            mapView.showAnnotations(cluster.memberAnnotations, animated: true)
+            mapView.deselectAnnotation(cluster, animated: false)
+            return
+        }
         guard let annotation = view.annotation as? MapKitAnnotationIdentifying else { return }
         events?(.annotationSelected(id: annotation.mapAnnotationID))
     }

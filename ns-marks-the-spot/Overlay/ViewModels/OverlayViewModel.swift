@@ -2222,6 +2222,14 @@ final class OverlayViewModel {
         clearanceBox.clearance.allowsRestrictedLayers
     }
 
+    /// Raises the Province licence sheet for a restricted layer the user just
+    /// reached for — parcel snapping, here — without turning a catalogued
+    /// overlay on.
+    func promptProvinceLicence(for layerID: LayerID) {
+        guard licenceStore.needsDecision else { return }
+        licencePromptedLayerID = layerID
+    }
+
     /// Tiles a revocation was supposed to delete and could not.
     ///
     /// Surfaced rather than swallowed. A revocation that stops the requests but

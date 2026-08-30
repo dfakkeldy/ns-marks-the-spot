@@ -286,7 +286,7 @@ struct UserVectorRowsView: View {
                 .filter { !$0.isEmpty }
                 .joined(separator: "-")
             filename = "\(safe.isEmpty ? "track" : safe).gpx"
-        case .drawn:
+        case .drawn, .photos:
             return nil
         }
         guard let data = await viewModel.originalFile(for: row.id) else { return nil }

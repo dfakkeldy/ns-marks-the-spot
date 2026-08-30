@@ -280,10 +280,49 @@ public enum ParcelResponse {
 
     // MARK: - Wire shapes
 
+    /// One envelope page, plus the flags that decide whether snapping may
+    /// mount the rings or must fail closed.
+    public struct SnapPage: Sendable, Equatable {
+        public var collection: ParcelFeatureCollection
+        public var exceededTransferLimit: Bool
+        /// Feature count the service sent, including unidentified shapes.
+        public var rawCount: Int
+    }
+
+    public static func decodeSnapPage(_ data: Data) throws(Failure) -> SnapPage {
+        let payload: Payload
+        do {
+            payload = try JSONDecoder().decode(Payload.self, from: data)
+        } catch {
+            throw .malformedJSON
+        }
+        if let error = payload.error {
+            throw .serviceError(code: error.code, message: error.message)
+        }
+        guard payload.type == "FeatureCollection", let features = payload.features else {
+            throw .notAFeatureCollection
+        }
+        let collection = try decode(data)
+        let exceeded =
+            payload.exceededTransferLimit == true
+            || payload.properties?.exceededTransferLimit == true
+        return SnapPage(
+            collection: collection,
+            exceededTransferLimit: exceeded,
+            rawCount: features.count
+        )
+    }
+
     private struct Payload: Decodable {
         let type: String?
         let features: [Feature]?
         let error: ServiceError?
+        let exceededTransferLimit: Bool?
+        let properties: CollectionProperties?
+    }
+
+    private struct CollectionProperties: Decodable {
+        let exceededTransferLimit: Bool?
     }
 
     private struct ServiceError: Decodable {

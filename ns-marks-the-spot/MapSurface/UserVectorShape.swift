@@ -419,6 +419,8 @@ nonisolated final class UserVectorAnnotation: MKPointAnnotation, MapKitAnnotatio
     let layerID: String
     let style: UserVectorStyle
     let provenance: String
+    /// Set for photo-map / bulk-photo points so MapKit clusters them.
+    let clusteringIdentifier: String?
 
     init(
         position: GeoJsonPosition,
@@ -434,6 +436,7 @@ nonisolated final class UserVectorAnnotation: MKPointAnnotation, MapKitAnnotatio
         self.style = style
         let callout = VectorFeatureCallout(feature: feature, record: record)
         provenance = callout.provenance
+        clusteringIdentifier = record.source == .photos ? "nsmts-photos" : nil
         super.init()
         title = callout.title
         subtitle = callout.detail

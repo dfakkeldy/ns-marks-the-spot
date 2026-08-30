@@ -1,6 +1,7 @@
 import GeoCore
 import MapCatalog
 import NSDataServices
+import PhotosUI
 import SwiftUI
 import UIKit
 
@@ -18,10 +19,13 @@ struct MapContainerView: View {
     /// this view needs them, and they never leave the device.
     @State private var userMapsVM = UserMapsViewModel()
     @State private var userVectorsVM = UserVectorsViewModel()
+    @State private var photoMapVM = PhotoMapViewModel()
+    @State private var bulkPlacement: BulkPlacementDraft?
     /// One open editing session, or none. Its own object so the layer list
     /// stays a list: editing is a mode the rest of the panel does not need to
     /// know about.
     @State private var editSession: VectorEditSession?
+    @State private var parcelSnapTask: Task<Void, Never>?
     @State private var vectorCallout: UserVectorCalloutItem?
     /// The GPS track recorder. Foreground-only; owns its own location
     /// manager so recording works without the map's location dot.
@@ -194,6 +198,25 @@ struct MapContainerView: View {
                 // throw it out without asking.
                 .interactiveDismissDisabled()
             }
+            .sheet(item: $bulkPlacement) { draft in
+                BulkPhotoPlacementSheet(
+                    rows: draft.rows,
+                    names: draft.names,
+                    onCancel: { bulkPlacement = nil },
+                    onPlace: { ids in
+                        let placements = ids.compactMap { draft.payloads[$0] }
+                        bulkPlacement = nil
+                        Task {
+                            guard let row = await userVectorsVM.addPhotosLayer(
+                                placements: placements
+                            ) else { return }
+                            if let box = row.record.bbox {
+                                controller.frame(box)
+                            }
+                        }
+                    }
+                )
+            }
             .alert(
                 "The evidence note could not be written.",
                 isPresented: .init(
@@ -264,6 +287,10 @@ struct MapContainerView: View {
                                     }
                                     beginEditing(row)
                                 }
+                            },
+                            photoMap: photoMapVM,
+                            onPlacePhotos: { items in
+                                Task { await beginBulkPlacement(from: items) }
                             },
                             isExpanded: $isLayersMenuExpanded,
                             expandedCategories: $openLayerSections
@@ -913,7 +940,9 @@ struct MapContainerView: View {
                         }
                         // A marker of the user's own says so, in the same card
                         // every other geometry type of theirs uses.
-                        if let item = userVectorsVM.feature(annotationID: annotationID) {
+                        if let item = userVectorsVM.feature(annotationID: annotationID)
+                            ?? photoMapVM.callout(annotationID: annotationID)
+                        {
                             vectorCallout = item
                             featureVM.clearSelection()
                             overlayVM.clearParcelSelection()
@@ -932,9 +961,15 @@ struct MapContainerView: View {
                     case .boundsSelected(let bounds):
                         finishBoundsSelection(with: bounds)
                     case .vertexMoved(let featureID, let ring, let vertex, let latitude, let longitude):
+                        let hit = snapHit(at: latitude, longitude: longitude)
+                        if hit != nil {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        }
                         editSession?.moveVertex(
                             featureID: featureID, ring: ring, vertex: vertex,
-                            latitude: latitude, longitude: longitude
+                            latitude: hit?.point.lat ?? latitude,
+                            longitude: hit?.point.lng ?? longitude,
+                            parcelSnap: hit?.source == .parcel
                         )
                     case .featureMoved(let featureID, let latitudeDelta, let longitudeDelta):
                         editSession?.moveFeature(
@@ -955,6 +990,8 @@ struct MapContainerView: View {
                         // services what is in the view the user actually stopped
                         // on, not the ones they panned through.
                         featureVM.refreshAll()
+                        refreshParcelSnap()
+                        refreshPhotoMap()
                     case .mapTapped(let latitude, let longitude):
                         // Measuring owns the tap, as the web's capture layer
                         // does: a tap placing a corner must not also identify
@@ -1064,6 +1101,15 @@ struct MapContainerView: View {
             .onChange(of: userVectorsVM.drawings) { _, _ in
                 pushUserVectors()
             }
+            .onChange(of: photoMapVM.isVisible) { _, _ in
+                refreshPhotoMap()
+            }
+            .onChange(of: photoMapVM.isIndexing) { _, indexing in
+                if !indexing { refreshPhotoMap() }
+            }
+            .onChange(of: photoMapVM.viewport.entries.count) { _, _ in
+                pushUserVectors()
+            }
             // An import brings the map to what was imported, the way the
             // browser does. Taken rather than read, so a later toggle cannot
             // fire the same journey a second time.
@@ -1071,6 +1117,15 @@ struct MapContainerView: View {
                 if let box = userVectorsVM.takePendingFit() {
                     controller.frame(box)
                 }
+            }
+            .onChange(of: editSession?.snapParcels) { _, _ in
+                refreshParcelSnap()
+            }
+            .onChange(of: editSession?.snapEnabled) { _, _ in
+                refreshParcelSnap()
+            }
+            .onChange(of: overlayVM.hasAcceptedProvinceLicence) { _, accepted in
+                if accepted { refreshParcelSnap() }
             }
             // The same journey for a raster that arrived already placed, or
             // whose PDF frame the reader has just changed.
@@ -1234,6 +1289,12 @@ struct MapContainerView: View {
         if let trace = liveTraceDrawing() {
             drawings.append(trace)
         }
+        if let snap = parcelSnapDrawing() {
+            drawings.append(snap)
+        }
+        if let photos = photoMapVM.drawing() {
+            drawings.append(photos)
+        }
         controller.setUserVectors(drawings)
     }
 
@@ -1266,6 +1327,207 @@ struct MapContainerView: View {
                 bbox: nil
             )
         )
+    }
+
+    /// Faint parcel rings currently armed for snapping. Not a stored layer,
+    /// not hit-tested, cleared when parcels are disarmed.
+    private func parcelSnapDrawing() -> UserVectorDrawing? {
+        guard let session = editSession, session.snapEnabled, session.snapParcels,
+              !session.parcelSnapRings.isEmpty
+        else { return nil }
+        let epoch = Date(timeIntervalSince1970: 0)
+        let record = UserVectorLayerRecord(
+            id: "snap-parcel-targets",
+            name: "Parcel snap",
+            source: .drawn,
+            origin: .drawn(createdAt: epoch),
+            createdAt: epoch,
+            colorHex: "#64748b",
+            featureCount: session.parcelSnapRings.count,
+            bbox: nil
+        )
+        let features = session.parcelSnapRings.enumerated().map { index, rings in
+            GeoJsonFeature(
+                id: "snap-parcel-\(index)",
+                geometry: .polygon(rings),
+                properties: ["fill-opacity": .number(0.05), "stroke-opacity": .number(0.55)]
+            )
+        }
+        return UserVectorDrawing(
+            record: record,
+            parsed: ParsedVector(features: features, bbox: nil)
+        )
+    }
+
+    private func snapHit(at latitude: Double, longitude: Double) -> SnapEngine.Hit? {
+        guard let session = editSession, session.snapEnabled else { return nil }
+        let point = GeoPoint(lat: latitude, lng: longitude)
+        var targets: [SnapEngine.Target] = []
+        if session.snapOwnFeatures, let parsed = session.parsed {
+            for feature in parsed.features {
+                if let geometry = feature.geometry {
+                    targets.append(.ownFeature(geometry))
+                }
+            }
+            if let draft = session.draft, draft.vertices.count >= 1 {
+                let points = draft.vertices.map(\.point)
+                var segments: [(GeoPoint, GeoPoint)] = []
+                if points.count >= 2 {
+                    for index in 1..<points.count {
+                        segments.append((points[index - 1], points[index]))
+                    }
+                }
+                targets.append(
+                    SnapEngine.Target(source: .ownFeature, vertices: points, segments: segments)
+                )
+            }
+        }
+        if session.snapParcels {
+            targets.append(contentsOf: session.parcelSnapTargets)
+        }
+        let metresPerPoint = controller.groundMetresPerPoint() ?? 1
+        let tolerance = CaptureSpec.Snap.toleranceScreenUnits * metresPerPoint
+        return SnapEngine.nearest(to: point, among: targets, toleranceMetres: tolerance)
+    }
+
+    private func refreshParcelSnap() {
+        guard let session = editSession, session.snapEnabled, session.snapParcels else {
+            editSession?.parcelSnapTargets = []
+            editSession?.parcelSnapRings = []
+            editSession?.parcelSnapNote = nil
+            pushUserVectors()
+            return
+        }
+        if controller.zoomLevel < CaptureSpec.Snap.minZoom {
+            session.parcelSnapTargets = []
+            session.parcelSnapRings = []
+            session.parcelSnapNote = "Zoom in to snap to parcels."
+            pushUserVectors()
+            return
+        }
+        if !overlayVM.hasAcceptedProvinceLicence {
+            session.parcelSnapTargets = []
+            session.parcelSnapRings = []
+            session.parcelSnapNote = "Accept the Province licence to snap to parcels."
+            overlayVM.promptProvinceLicence(for: .nsprd)
+            pushUserVectors()
+            return
+        }
+        guard let bounds = controller.currentVisibleBounds() else { return }
+        let box = GeoBoundingBox(
+            south: bounds.minLatitude, west: bounds.minLongitude,
+            north: bounds.maxLatitude, east: bounds.maxLongitude
+        )
+        session.parcelSnapNote = nil
+        parcelSnapTask?.cancel()
+        parcelSnapTask = Task {
+            let clearance = overlayVM.clearanceBox.clearance
+            do {
+                let collection = try await ParcelFetcher().parcels(in: box, clearance: clearance)
+                guard !Task.isCancelled, let session = editSession else { return }
+                var targets: [SnapEngine.Target] = []
+                var rings: [[[GeoJsonPosition]]] = []
+                for feature in collection.identifiedFeatures {
+                    switch feature.boundary {
+                    case .shape(let parts):
+                        for part in parts {
+                            targets.append(.parcel(rings: part))
+                            rings.append(
+                                part.map { ring in
+                                    ring.map { GeoJsonPosition(lng: $0.lng, lat: $0.lat) }
+                                }
+                            )
+                        }
+                    case .notSupplied, .unreadable:
+                        continue
+                    }
+                }
+                session.parcelSnapTargets = targets
+                session.parcelSnapRings = rings
+                session.parcelSnapNote =
+                    rings.isEmpty ? "0 parcels snappable in this view." : nil
+                pushUserVectors()
+            } catch ParcelLookupFailure.tooManyParcels(count: _) {
+                guard let session = editSession else { return }
+                session.parcelSnapTargets = []
+                session.parcelSnapRings = []
+                session.parcelSnapNote = "Too many parcels here, zoom in."
+                pushUserVectors()
+            } catch ParcelLookupFailure.cancelled {
+                return
+            } catch ParcelLookupFailure.refused(.licenceNotAccepted) {
+                guard let session = editSession else { return }
+                session.parcelSnapTargets = []
+                session.parcelSnapRings = []
+                session.parcelSnapNote = "Accept the Province licence to snap to parcels."
+                pushUserVectors()
+            } catch {
+                guard let session = editSession else { return }
+                session.parcelSnapTargets = []
+                session.parcelSnapRings = []
+                session.parcelSnapNote = "Parcel boundaries could not be loaded."
+                pushUserVectors()
+            }
+        }
+    }
+
+    private func refreshPhotoMap() {
+        photoMapVM.refreshViewport(bounds: visibleGeoBox())
+        pushUserVectors()
+    }
+
+    private func visibleGeoBox() -> GeoBoundingBox? {
+        guard let bounds = controller.currentVisibleBounds() else { return nil }
+        return GeoBoundingBox(
+            south: bounds.minLatitude, west: bounds.minLongitude,
+            north: bounds.maxLatitude, east: bounds.maxLongitude
+        )
+    }
+
+    private func beginBulkPlacement(from items: [PhotosPickerItem]) async {
+        var candidates: [BulkPhotoPlacement.Candidate] = []
+        var names: [String: String] = [:]
+        var payloads: [String: UserVectorsViewModel.PhotoPlacement] = [:]
+        for (index, item) in items.enumerated() {
+            let id = item.itemIdentifier ?? "picked-\(index)"
+            let name = "Photo \(index + 1)"
+            names[id] = name
+            guard let data = try? await item.loadTransferable(type: Data.self) else {
+                userVectorsVM.reportExportShortfall(
+                    layerName: name,
+                    message: "This photo couldn't be read. It wasn't added."
+                )
+                candidates.append(.init(id: id, gps: nil, capturedAt: nil))
+                continue
+            }
+            let claims = PhotoPipeline.captureClaims(data)
+            do {
+                let processed = try PhotoPipeline.process(data)
+                if let gps = claims.location {
+                    payloads[id] = .init(
+                        gps: gps,
+                        capturedAt: claims.capturedAt,
+                        sourceName: name,
+                        processed: processed
+                    )
+                } else {
+                    // Bytes re-encoded then dropped: a failed place is not
+                    // kept in memory.
+                    _ = processed
+                }
+                candidates.append(
+                    .init(id: id, gps: claims.location, capturedAt: claims.capturedAt)
+                )
+            } catch let refusal as PhotoPipeline.Refusal {
+                userVectorsVM.reportExportShortfall(
+                    layerName: name, message: refusal.userMessage
+                )
+                candidates.append(.init(id: id, gps: nil, capturedAt: nil))
+            }
+        }
+        let rows = BulkPhotoPlacement.classify(candidates, bounds: visibleGeoBox())
+        guard rows.contains(where: \.isPlaceable) else { return }
+        bulkPlacement = BulkPlacementDraft(rows: rows, names: names, payloads: payloads)
     }
 
     /// What the rubber-band overlay should draw: the conversion preview when
@@ -1490,6 +1752,7 @@ struct MapContainerView: View {
         let session = VectorEditSession(viewModel: userVectorsVM)
         session.begin(row)
         editSession = session
+        refreshParcelSnap()
         // A callout and an editing panel would be two cards over the same map.
         vectorCallout = nil
         // The layer panel would cover the ground being drawn on.
@@ -1526,7 +1789,15 @@ struct MapContainerView: View {
         session: VectorEditSession, latitude: Double, longitude: Double
     ) {
         if case .drawing = session.tool {
-            session.handleTap(latitude: latitude, longitude: longitude)
+            let hit = snapHit(at: latitude, longitude: longitude)
+            if hit != nil {
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            }
+            session.handleTap(
+                latitude: hit?.point.lat ?? latitude,
+                longitude: hit?.point.lng ?? longitude,
+                parcelSnap: hit?.source == .parcel
+            )
             return
         }
         guard let parsed = session.parsed else { return }
@@ -1562,6 +1833,15 @@ struct MapContainerView: View {
 private struct SaveTrackPayload: Identifiable {
     let id = UUID()
     let result: TrackRecording.StopResult
+}
+
+/// Photos the user picked for bulk EXIF placement, waiting on the confirm
+/// sheet. Identifiable for `.sheet(item:)`.
+private struct BulkPlacementDraft: Identifiable {
+    let id = UUID()
+    var rows: [BulkPhotoPlacement.Row]
+    var names: [String: String]
+    var payloads: [String: UserVectorsViewModel.PhotoPlacement]
 }
 
 /// The one visual identity for the map control rail.
