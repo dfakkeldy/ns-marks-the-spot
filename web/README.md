@@ -54,6 +54,31 @@ written by `src/themes/mapThemes.test.ts` and read by the Swift package's
 change. Custom themes are not transferred between web and iPhone; each surface
 keeps its own saved setups locally.
 
+## App icon
+
+`docs/assets/app-icon.svg` is the source of truth for the app mark: a red
+lobster embracing Cape Breton over the Nova Scotia land mass. The web app
+imports it for the header brand, the `docs/*.html` pages use it as their
+favicon and header logo, and the iOS `AppIcon.appiconset` SVGs are copies of
+it — the tinted slot is the same artwork in grayscale so iOS can apply the
+user's tint by luminance. The province outline is derived from Natural Earth
+1:10m Admin 1 States & Provinces (public domain), resampled and smoothed for
+legibility at icon sizes; it is identity artwork rather than a survey
+boundary and carries no positional accuracy claim.
+
+Regenerate the raster copies after changing the SVG:
+
+```sh
+rsvg-convert -w 512 -h 512 docs/assets/app-icon.svg -o web/public/app-icon-512.png
+rsvg-convert -w 180 -h 180 docs/assets/app-icon.svg -o web/public/app-icon-180.png
+```
+
+The iOS PNGs come from the same command at 1024×1024 against each
+`AppIcon-*.svg` in the appiconset. `index.html` carries a separate, coarser
+inline SVG favicon so a subpath host never requests `/favicon.ico`; it keeps
+the mark's black/green/red signature at 16 px, where the full artwork cannot
+resolve.
+
 ## Share card
 
 `index.html` declares Open Graph/Twitter tags pointing at
