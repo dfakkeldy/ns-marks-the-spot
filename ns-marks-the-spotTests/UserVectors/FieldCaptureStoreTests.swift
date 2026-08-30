@@ -56,7 +56,8 @@ struct FieldCaptureStoreTests {
                 )
             )
         }
-        let result = try #require(recording.stop(now: start.addingTimeInterval(40)))
+        let stopped = recording.stop(now: start.addingTimeInterval(40))
+        let result = try #require(stopped)
 
         let row = try #require(
             await viewModel.addRecordedLayer(result, name: "Morning walk", simplifyToleranceM: 1)

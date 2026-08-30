@@ -124,8 +124,8 @@ struct TrackFeatureTests {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(identifier: "America/Halifax")!
         let name = TrackFeature.defaultTrackName(startedAt: start, calendar: calendar)
-        // 2023-11-14 17:13 UTC is 13:13 in Halifax.
-        #expect(name == "Track 2023-11-14 13:13")
+        // 2023-11-14 22:13 UTC is 18:13 in Halifax (UTC−4 in November).
+        #expect(name == "Track 2023-11-14 18:13")
     }
 }
 

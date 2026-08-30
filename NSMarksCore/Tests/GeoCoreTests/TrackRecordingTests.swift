@@ -23,7 +23,8 @@ struct TrackRecordingTests {
         for index in 0...3 {
             recording.addFix(fix(lat: 44.6 + Double(index) * 0.0001, secondsIn: Double(index * 10)))
         }
-        let result = try #require(recording.stop(now: start.addingTimeInterval(30)))
+        let stopped = recording.stop(now: start.addingTimeInterval(30))
+        let result = try #require(stopped)
         #expect(result.segments.count == 1)
         #expect(result.rawFixCount == 4)
         #expect(result.acceptedFixCount == 4)
@@ -44,7 +45,8 @@ struct TrackRecordingTests {
         recording.resume(now: start.addingTimeInterval(60))
         recording.addFix(fix(lat: 44.61, secondsIn: 60))
         recording.addFix(fix(lat: 44.6102, secondsIn: 70))
-        let result = try #require(recording.stop(now: start.addingTimeInterval(75)))
+        let stopped = recording.stop(now: start.addingTimeInterval(75))
+        let result = try #require(stopped)
 
         #expect(result.segments.count == 2)
         #expect(result.rawSegments.count == 2)
@@ -62,7 +64,8 @@ struct TrackRecordingTests {
         recording.addFix(fix(lat: 44.6, secondsIn: 0))
         // ~1.1 m of movement: accepted, suppressed by the 2 m spacing floor.
         recording.addFix(fix(lat: 44.60001, secondsIn: 10))
-        let result = try #require(recording.stop(now: start.addingTimeInterval(12)))
+        let stopped = recording.stop(now: start.addingTimeInterval(12))
+        let result = try #require(stopped)
         // The track ends where the user did: the suppressed point is
         // appended on close.
         #expect(result.segments[0].count == 2)
@@ -76,7 +79,8 @@ struct TrackRecordingTests {
         // Gated by accuracy; never a vertex, always evidence.
         recording.addFix(fix(lat: 44.6001, accuracy: 80, secondsIn: 10))
         #expect(recording.lastFixGated)
-        let result = try #require(recording.stop(now: start.addingTimeInterval(12)))
+        let stopped = recording.stop(now: start.addingTimeInterval(12))
+        let result = try #require(stopped)
         #expect(result.rawFixCount == 2)
         #expect(result.acceptedFixCount == 1)
         #expect(result.rawSegments[0].count == 2)
@@ -92,8 +96,10 @@ struct TrackRecordingTests {
         #expect(live.status == .recording)
         #expect(live.elapsedSeconds == 20)
         #expect(live.keptVertexCount == 2)
-        // ~44 m of northward walk at Halifax's latitude.
-        #expect(abs(live.distanceM - 44.5) < 1)
+        // 0.0004° of raw northward movement smooths to 0.6 × 0.0004° =
+        // 0.00024° ≈ 26.7 m — the distance is measured over the smoothed
+        // vertices the track actually keeps.
+        #expect(abs(live.distanceM - 26.7) < 0.5)
 
         recording.pause(now: start.addingTimeInterval(30))
         let paused = recording.stats(now: start.addingTimeInterval(300))

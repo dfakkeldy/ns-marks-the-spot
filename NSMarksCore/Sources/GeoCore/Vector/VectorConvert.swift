@@ -125,7 +125,9 @@ extension VectorEdit {
         }
         guard segments.count >= 3 else { return false }
         for i in 0..<segments.count {
-            for j in (i + 2)..<segments.count {
+            // Clamped: the last segments have no non-adjacent successors,
+            // and an empty range must not be built descending.
+            for j in min(i + 2, segments.count)..<segments.count {
                 if closed, i == 0, j == segments.count - 1 { continue }
                 if segmentsCross(
                     segments[i].0, segments[i].1, segments[j].0, segments[j].1
