@@ -111,6 +111,7 @@ extension ZipArchive {
         // Worst-case DEFLATE output is slightly larger than the input; the
         // caller falls back to STORED when that happens.
         var output = Data(count: data.count + 1_024)
+        let destCount = output.count
         let written = output.withUnsafeMutableBytes { destination -> Int in
             guard let destinationBase = destination.bindMemory(to: UInt8.self).baseAddress
             else { return 0 }
@@ -118,7 +119,7 @@ extension ZipArchive {
                 guard let sourceBase = source.bindMemory(to: UInt8.self).baseAddress
                 else { return 0 }
                 return compression_encode_buffer(
-                    destinationBase, output.count, sourceBase, data.count, nil,
+                    destinationBase, destCount, sourceBase, data.count, nil,
                     COMPRESSION_ZLIB
                 )
             }

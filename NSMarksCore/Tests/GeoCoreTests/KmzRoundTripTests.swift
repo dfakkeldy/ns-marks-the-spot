@@ -137,7 +137,10 @@ struct KmzRoundTripTests {
         // and enough valid ones to push past the 20-per-feature cap.
         var descriptors: [PhotoDescriptor] = []
         var assets: [String: Data] = [:]
-        for index in 0..<22 {
+        // 1 missing + 1 undecodable + 21 valid: the two failures do not occupy
+        // a cap slot (same as the web's relink), so the 21st valid photo is
+        // the one that hits the per-feature cap.
+        for index in 0..<23 {
             let id = "photo-\(index)"
             descriptors.append(PhotoDescriptor(id: id))
             if index == 0 {
@@ -171,16 +174,12 @@ struct KmzRoundTripTests {
         )
         #expect(result.missingFromArchive == 1)
         #expect(result.undecodable == 1)
-        // 22 total − 1 missing − 1 undecodable = 20 valid, but the two
-        // failures were tried inside the cap window: descriptors past the
-        // 20th slot count as capped once 20 are attached... the arithmetic
-        // is pinned by the counts summing to the descriptor total.
-        #expect(result.linked <= 20)
+        #expect(result.linked == 20)
+        #expect(result.capped == 1)
         #expect(
             result.linked + result.missingFromArchive + result.undecodable + result.capped
-                == 22
+                == 23
         )
-        #expect(result.capped > 0)
         let note = try #require(result.noteText)
         #expect(note.contains("missing from the archive"))
         #expect(note.contains("couldn't be decoded"))

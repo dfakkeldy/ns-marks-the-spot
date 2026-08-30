@@ -1,6 +1,15 @@
 # Handoff — field capture N2 (attributes, photos, KMZ)
 
-## 2026-08-30 — N2 implemented; verification in progress (off-hours build authorized)
+## 2026-08-30 — N2 implemented and verified; stacked on nightly (N1 #281 merged)
+
+Verified: NSMarksCore `swift test` 640/640; focused `FieldCapturePhotoTests`
+(5) and `FieldCaptureStoreTests` (4) on iPhone 17. Live sim: Field notes
+and recorded track rows; export menu includes **KMZ (with photos)**;
+edit panel shows Attributes (Name/Value/Add) and Photos (Take photo /
+Add photos). Follow-up commit: ZipWriter exclusivity fix; KMZ relink cap
+test now matches web (failures do not occupy cap slots).
+
+N1 #281 merged to nightly. This branch rebases onto that squash.
 
 Done: GeoCore PhotoDescriptor (strict all-or-nothing reader, KMZ string
 form, caps 20/500/50 MB), PhotoPipeline (ImageIO 2048/0.8 + 256/0.7
@@ -21,9 +30,8 @@ PhotosPicker, caps named, lightbox), callout thumbnails, KMZ export menu
 item + honest GeoJSON/KML note + shortfall report, KMZ import relink with
 distinct notes, Info.plist camera/photo strings in both pbxproj configs.
 
-Next: verify N1 (swift test, app build, focused sim suites, live check),
-push + PR N1 → nightly; rebase this branch, same gates, PR N2 with base n1;
-then N3 (snapping + photo map) on a branch off n2.
+Next: PR this branch to nightly; then N3 (snapping + photo map) on a
+branch off n2.
 
 Resume:
 ```
