@@ -45,16 +45,22 @@ struct UserVectorRowsView: View {
                     onEdit: onEdit.map { edit in { edit(row) } },
                     onExport: row.parsed.map { parsed in
                         { format in
-                            if format == .original {
+                            switch format {
+                            case .original:
                                 Task {
                                     sharing = await originalPayload(row)
                                 }
-                            } else {
+                            case .kmz:
+                                Task {
+                                    sharing = await kmzPayload(row, parsed)
+                                }
+                            default:
                                 sharing = Self.payload(row.record, parsed, format)
                             }
                         }
                     },
                     hasOriginal: row.record.originalFileID != nil,
+                    hasPhotos: row.parsed.map(Self.hasPhotos) ?? false,
                     onDelete: { deleting = row }
                 )
             }
@@ -149,6 +155,9 @@ struct UserVectorRowsView: View {
     enum ExportFormat: String, CaseIterable {
         case geoJson = "GeoJSON"
         case kml = "KML"
+        /// The field-capture interchange profile: doc.kml plus the layer's
+        /// photos, which the plain formats cannot carry.
+        case kmz = "KMZ (with photos)"
         /// The bytes the user imported, byte for byte.
         ///
         /// Offered because the two above are conversions, and a conversion is
@@ -161,9 +170,16 @@ struct UserVectorRowsView: View {
             switch self {
             case .geoJson: return "geojson"
             case .kml: return "kml"
+            case .kmz: return "kmz"
             case .original: return "original"
             }
         }
+    }
+
+    /// Whether any feature carries photo descriptors — the export menu's
+    /// honest note hangs off it.
+    static func hasPhotos(_ parsed: ParsedVector) -> Bool {
+        parsed.features.contains { !PhotoDescriptor.read(from: $0.properties).isEmpty }
     }
 
     /// The layer written to a temporary file under its own name.
@@ -191,10 +207,66 @@ struct UserVectorRowsView: View {
                 text: VectorExport.kml(layerName: record.name, parsed: parsed),
                 filename: filename
             )
-        case .original:
-            // Handled by its caller, which has to read the bytes off disk.
+        case .kmz, .original:
+            // Handled by their callers, which have to read bytes off disk.
             return nil
         }
+    }
+
+    /// The safe filename stem the payloads share.
+    static func safeName(_ name: String) -> String {
+        let safe = name
+            .components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .filter { !$0.isEmpty }
+            .joined(separator: "-")
+        return safe.isEmpty ? "layer" : safe
+    }
+
+    /// The KMZ payload: the layer's photo bytes gathered from the store,
+    /// the archive built per the interchange profile, and any photos whose
+    /// bytes could not be read reported rather than dangled.
+    private func kmzPayload(
+        _ row: UserVectorsViewModel.Row, _ parsed: ParsedVector
+    ) async -> SharePayload? {
+        var photoBytes: [String: Data] = [:]
+        for feature in parsed.features {
+            for descriptor in PhotoDescriptor.read(from: feature.properties)
+            where photoBytes[descriptor.id] == nil {
+                if let data = await viewModel.photoData(
+                    layerID: row.id, photoID: descriptor.id, thumb: false
+                ) {
+                    photoBytes[descriptor.id] = data
+                }
+            }
+        }
+        // Detached: the archive is CRC-32 and Data assembly over what can be
+        // hundreds of megabytes of JPEG at the photo caps, and building it
+        // on the main actor froze the map for the whole export. The temp
+        // write happens there too.
+        let layerName = row.record.name
+        let url = FileManager.default.temporaryDirectory
+            .appending(path: "\(Self.safeName(layerName)).kmz")
+        let bytes = photoBytes
+        let outcome = await Task.detached(
+            priority: .userInitiated
+        ) { () -> (photosMissing: Int, written: Bool)? in
+            guard let export = VectorExport.kmz(
+                layerName: layerName, parsed: parsed, photos: bytes
+            ) else { return nil }
+            let written = (try? export.data.write(to: url, options: .atomic)) != nil
+            return (export.photosMissing, written)
+        }.value
+        guard let outcome else { return nil }
+        if outcome.photosMissing > 0 {
+            viewModel.reportExportShortfall(
+                layerName: layerName,
+                message:
+                    "\(outcome.photosMissing) photo\(outcome.photosMissing == 1 ? "" : "s") "
+                    + "couldn't be read and were left out of the KMZ."
+            )
+        }
+        guard outcome.written else { return nil }
+        return SharePayload(url: url)
     }
 
     /// The imported file under the name it arrived with.
@@ -244,6 +316,8 @@ private struct UserVectorRow: View {
     let onExport: ((UserVectorRowsView.ExportFormat) -> Void)?
     /// Whether this build still holds the file the layer was imported from.
     let hasOriginal: Bool
+    /// Whether any feature carries photos, for the export menu's honest note.
+    let hasPhotos: Bool
     let onDelete: () -> Void
 
     var body: some View {
@@ -280,6 +354,12 @@ private struct UserVectorRow: View {
                                             ? "Raw recording (GPX)" : format.rawValue
                                     ) { onExport(format) }
                                 }
+                            }
+                            if hasPhotos {
+                                // The honest note the web shows under its
+                                // export buttons: the plain formats cannot
+                                // carry photo bytes.
+                                Text("Photos aren't included in GeoJSON or KML. Use KMZ to carry photos.")
                             }
                         }
                     }

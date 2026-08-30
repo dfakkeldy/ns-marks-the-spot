@@ -77,6 +77,94 @@ actor UserVectorStore {
         return directory.appendingPathComponent("\(id).geojson")
     }
 
+    // MARK: - Photos
+
+    /// Photo bytes live as plain files under the store directory:
+    /// `photos/<layerID>/<photoID>.jpg` plus `<photoID>.thumb.jpg`. Files
+    /// rather than rows because the bytes are already their own format, and
+    /// a user whose device is failing can pull them out of a backup and open
+    /// them in anything — the same reasoning as the GeoJSON geometry files.
+    /// The feature's `nsmts:photos` descriptors are the only authority on
+    /// attachment; these files are just the bytes they point at.
+    private func photosDirectory(for layerID: String) -> URL {
+        precondition(
+            !layerID.contains("/") && !layerID.contains(".."), "a record id is not a path"
+        )
+        return directory
+            .appendingPathComponent("photos", isDirectory: true)
+            .appendingPathComponent(layerID, isDirectory: true)
+    }
+
+    private func photoURL(layerID: String, photoID: String, thumb: Bool) -> URL {
+        precondition(
+            !photoID.contains("/") && !photoID.contains(".."), "a photo id is not a path"
+        )
+        return photosDirectory(for: layerID)
+            .appendingPathComponent("\(photoID)\(thumb ? ".thumb" : "").jpg")
+    }
+
+    /// Both renditions in one call, full first: a thumb without its full
+    /// image is a preview of nothing, while the sweep collects the other
+    /// order's leftovers.
+    func addPhoto(layerID: String, photoID: String, full: Data, thumb: Data) throws {
+        try fileManager.createDirectory(
+            at: photosDirectory(for: layerID), withIntermediateDirectories: true
+        )
+        try full.write(to: photoURL(layerID: layerID, photoID: photoID, thumb: false), options: .atomic)
+        try thumb.write(to: photoURL(layerID: layerID, photoID: photoID, thumb: true), options: .atomic)
+    }
+
+    func photoData(layerID: String, photoID: String, thumb: Bool) -> Data? {
+        try? Data(contentsOf: photoURL(layerID: layerID, photoID: photoID, thumb: thumb))
+    }
+
+    func deletePhoto(layerID: String, photoID: String) {
+        try? fileManager.removeItem(
+            at: photoURL(layerID: layerID, photoID: photoID, thumb: false)
+        )
+        try? fileManager.removeItem(
+            at: photoURL(layerID: layerID, photoID: photoID, thumb: true)
+        )
+    }
+
+    /// How many photos the layer holds on disk — the per-layer cap's
+    /// denominator. Thumbs are the same photo, not a second one.
+    func photoCount(layerID: String) -> Int {
+        guard let files = try? fileManager.contentsOfDirectory(
+            at: photosDirectory(for: layerID), includingPropertiesForKeys: nil
+        ) else { return 0 }
+        return files.filter {
+            $0.pathExtension == "jpg" && !$0.lastPathComponent.hasSuffix(".thumb.jpg")
+        }.count
+    }
+
+    /// Deletes photo files no descriptor in the layer's geometry references.
+    ///
+    /// Reachable state: a photo attached and then removed by an edit that
+    /// only patched the descriptor, or a re-link interrupted between file
+    /// writes and the library write. Run beside every geometry replace, so
+    /// the files always converge on what the features claim.
+    private func sweepOrphanedPhotos(layerID: String, keeping parsed: ParsedVector) {
+        guard let files = try? fileManager.contentsOfDirectory(
+            at: photosDirectory(for: layerID), includingPropertiesForKeys: nil
+        ) else { return }
+        var referenced = Set<String>()
+        for feature in parsed.features {
+            for descriptor in PhotoDescriptor.read(from: feature.properties) {
+                referenced.insert(descriptor.id)
+            }
+        }
+        for file in files where file.pathExtension == "jpg" {
+            var name = file.deletingPathExtension().lastPathComponent
+            if name.hasSuffix(".thumb") {
+                name = String(name.dropLast(".thumb".count))
+            }
+            if !referenced.contains(name) {
+                try? fileManager.removeItem(at: file)
+            }
+        }
+    }
+
     /// The library as it is on disk right now, and the orphans swept.
     ///
     /// The sweep runs here and only here, on a document this build understood:
@@ -187,6 +275,9 @@ actor UserVectorStore {
         library.layers[index].featureCount = parsed.featureCount
         library.layers[index].bbox = parsed.bbox
         try write(library)
+        // The features just written are the only authority on attachment;
+        // photo files nothing references any more go with the edit.
+        sweepOrphanedPhotos(layerID: id, keeping: parsed)
         return library
     }
 
@@ -249,6 +340,8 @@ actor UserVectorStore {
         library.hiddenLayerIDs.removeAll { $0 == id }
         try write(library)
         try? fileManager.removeItem(at: geometryURL(for: id))
+        // The layer's photos go with it; they belong to no other layer.
+        try? fileManager.removeItem(at: photosDirectory(for: id))
         // The original stays until the last layer sharing it is gone, which the
         // sweep decides on the next load.
         try? sweepOrphanedGeometry(keeping: library.layers)
@@ -277,6 +370,17 @@ actor UserVectorStore {
                 if !keptOriginals.contains(name) { try? fileManager.removeItem(at: file) }
             default:
                 break
+            }
+        }
+        // Whole photo directories for layers no record claims — the delete
+        // interrupted between the library write and the directory removal.
+        if let photoDirectories = try? fileManager.contentsOfDirectory(
+            at: directory.appendingPathComponent("photos", isDirectory: true),
+            includingPropertiesForKeys: nil
+        ) {
+            for layerDirectory in photoDirectories
+            where !keptGeometry.contains(layerDirectory.lastPathComponent) {
+                try? fileManager.removeItem(at: layerDirectory)
             }
         }
     }

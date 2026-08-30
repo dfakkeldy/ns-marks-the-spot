@@ -140,6 +140,33 @@ public enum VectorEdit {
         return .string(text)
     }
 
+    /// The layer with one feature's properties patched: a value sets the
+    /// key, nil deletes it, and every key the patch does not name is left
+    /// exactly as it was. This is the freeform-attribute write path —
+    /// values entered in the app arrive as strings per the contract, but
+    /// the patch takes any JSONValue because the photo descriptors ride the
+    /// same path.
+    public static func updatingProperties(
+        featureID: String,
+        patch: [String: JSONValue?],
+        in parsed: ParsedVector
+    ) -> ParsedVector {
+        recomputed(
+            parsed.features.map { feature in
+                guard feature.id == featureID else { return feature }
+                var updated = feature
+                for (key, value) in patch {
+                    if let value {
+                        updated.properties[key] = value
+                    } else {
+                        updated.properties.removeValue(forKey: key)
+                    }
+                }
+                return updated
+            }
+        )
+    }
+
     public static func removing(featureID: String, from parsed: ParsedVector) -> ParsedVector {
         recomputed(parsed.features.filter { $0.id != featureID })
     }

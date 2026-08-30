@@ -11,7 +11,13 @@ import SwiftUI
 struct UserVectorCalloutCard: View {
     let callout: VectorFeatureCallout
     let layerName: String
+    /// The feature's photo descriptors and the bytes behind them. Nil loader
+    /// means no photo row — a preview or test without a store.
+    var photos: [PhotoDescriptor] = []
+    var loadPhoto: ((_ photoID: String, _ thumb: Bool) async -> Data?)?
     var onClose: () -> Void
+
+    @State private var lightbox: CalloutLightboxPhoto?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -39,6 +45,31 @@ struct UserVectorCalloutCard: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
+            // Thumbnails between the description and the provenance, as the
+            // web's popup places them.
+            if let loadPhoto, !photos.isEmpty {
+                ScrollView(.horizontal) {
+                    HStack(spacing: 8) {
+                        ForEach(Array(photos.enumerated()), id: \.element.id) {
+                            index, descriptor in
+                            Button {
+                                lightbox = CalloutLightboxPhoto(
+                                    id: descriptor.id,
+                                    title: descriptor.sourceName ?? "Photo \(index + 1)"
+                                )
+                            } label: {
+                                PhotoThumbView {
+                                    await loadPhoto(descriptor.id, true)
+                                }
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("Open photo \(index + 1) of \(photos.count)")
+                        }
+                    }
+                }
+                .scrollIndicators(.hidden)
+            }
+
             // The claim the data makes about itself — when it was captured
             // and how rough the fix was — so a ±40 m mark never reads as a
             // surveyed corner. Rendered only when both reserved keys are
@@ -62,7 +93,20 @@ struct UserVectorCalloutCard: View {
         .padding(12)
         .background(.regularMaterial)
         .clipShape(.rect(cornerRadius: 16))
+        .fullScreenCover(item: $lightbox) { photo in
+            PhotoLightboxView(
+                title: photo.title,
+                load: { await loadPhoto?(photo.id, false) }
+            ) {
+                lightbox = nil
+            }
+        }
     }
+}
+
+private struct CalloutLightboxPhoto: Identifiable {
+    let id: String
+    let title: String
 }
 
 /// A tapped feature, identified so a `.overlay` can present it.
@@ -70,10 +114,16 @@ struct UserVectorCalloutItem: Identifiable, Equatable {
     let id: String
     let callout: VectorFeatureCallout
     let layerName: String
+    /// The layer the feature belongs to and its photo descriptors, so the
+    /// card can load the bytes behind them.
+    let layerID: String
+    let photos: [PhotoDescriptor]
 
     init(feature: GeoJsonFeature, record: UserVectorLayerRecord) {
         id = "\(record.id)/\(feature.id ?? "feature")"
         callout = VectorFeatureCallout(feature: feature, record: record)
         layerName = record.name
+        layerID = record.id
+        photos = PhotoDescriptor.read(from: feature.properties)
     }
 }
