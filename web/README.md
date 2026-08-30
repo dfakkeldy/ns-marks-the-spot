@@ -1050,7 +1050,11 @@ and start a blank drawing layer of your own. While drawing or editing,
 optional snap to own features and licence-gated NSPRD parcel boundaries is
 available at zoom 16 and closer. The panel shows the standing caveat
 "Traced boundaries are not a survey." Exports can carry traced provenance
-when any feature was parcel-traced.
+when any feature was parcel-traced. Selected points can be converted into a
+line or area from the edit panel ("Make line or area from points"), with a
+numbered dashed preview of connect-the-dots order before commit. Source
+points stay by default, or can be consumed in the same commit; a one-shot
+Undo restores the conversion.
 The Fletcher web integration and immutable, bounded per-sheet package are
 implemented, but the layer remains disabled in builds without
 `VITE_FLETCHER_TILE_BASE_URL`. The 24 direct-Rumsey source trees are kept
