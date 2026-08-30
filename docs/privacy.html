@@ -116,11 +116,14 @@
             or share something yourself through the iOS share sheet.
           </p>
           <p>
-            Photos you attach to features on the browser map are stored only on your
-            device. They are re-encoded so EXIF (including GPS) is stripped from stored
-            bytes. A KMZ export can embed those re-encoded photo bytes; GeoJSON and KML
-            exports do not include photos. Photos leave the device only if you export
-            or share them yourself.
+            Photos you attach to features on the native app or the browser map are
+            stored only on your device. On the native app, Camera and Photos library
+            access are used only when you attach a photo. Photos are re-encoded so
+            EXIF (including GPS) is stripped from stored and exported bytes. A KMZ
+            export can embed those re-encoded photo bytes; GeoJSON and KML exports
+            do not include photos. Photos leave the device only if you export or
+            share them yourself. If a photo includes a geotag, that location is
+            used only if you accept a one-time offer to move the point.
           </p>
         </section>
 
