@@ -51,6 +51,7 @@
 - [x] Foreground track recording with raw-GPX evidence retention (field-capture W2, #262)
 - [x] GPX export for user layers and raw-recording downloads (field-capture W3, #266)
 - [x] Snap math + NSPRD parcel snap source (field-capture W4, #269)
+- [x] Snap-to-parcel drawing licence-gated with traced provenance (field-capture W5, #271)
 - [x] Native catalog parity for NS Aerial, Property Boundaries, Crown Lands, Watersheds, and Waterfalls
 - [x] Coverage-aware parcel flood-hazard evidence with separate published river and coastal scenario sources
 - [x] Native ArcGIS sublayer restrictions, symbology, zoom floors, and Province licence gate on the web

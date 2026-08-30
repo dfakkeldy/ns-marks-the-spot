@@ -2,9 +2,10 @@
 
 Status: approved scope. Web W1 (live GPS + Field notes mark, #261), W2
 (foreground track recording with raw-GPX original, #262), W3 (GPX
-export for user layers and raw-recording downloads, #266), and W4 (snap
-geometry math and the NSPRD parcel snap source, #269) are implemented.
-Remaining web work starts at W5. Native recording (N1) is not shipped.
+export for user layers and raw-recording downloads, #266), W4 (snap
+geometry math and the NSPRD parcel snap source, #269), and W5 (snap-to-parcel
+drawing, licence-gated, with traced provenance, #271) are implemented.
+Remaining web work starts at W6. Native recording (N1) is not shipped.
 Produced 2026-08-28 from a code survey of both surfaces, four subsystem design
 passes, and an adversarial cross-review that reconciled them. Decisions marked
 "approved" were made by the project owner in this session and are fixed;
@@ -98,10 +99,30 @@ Web (`web/src/`):
 - NSPRD parcel snap source: `fetchSnapParcels` (envelope query, PID-keyed,
   polygons only) and in-memory `ParcelSnapCache` (LRU 3000, viewport
   selection, fail-closed dense state). No UI, no schema change, no licence
-  gate in this layer — W5 arms snapping
+  gate in this data layer; the W5 UI consumes it
   ([parcelSnapSource.ts](../web/src/services/parcelSnapSource.ts)).
+- Parcel snap targets and snap tracker: `ParcelSnapTargetsLayer` mounts
+  viewport NSPRD polygons as faint dashed snap-only geometry (zoom 16+,
+  licence-gated at the mount site); `snapTracker` shows one indicator
+  (square = vertex, round = edge) and stamps `nsmts:traced: "nsprd-parcel"`
+  at snap-event time, plus `nsmts:createdAt` on the `pm:create` path
+  ([ParcelSnapTargetsLayer.tsx](../web/src/userMaps/vector/edit/ParcelSnapTargetsLayer.tsx),
+  [snapTracker.ts](../web/src/userMaps/vector/edit/snapTracker.ts)).
+- Panel snapping group: master toggle ("Snap while drawing"), My features,
+  and Parcel boundaries (NSPRD), with `LicenceIntent` kind `snap` and the
+  standing caveat "Traced boundaries are not a survey." Zoning stamps
+  `snapIgnore: true`
+  ([VectorEditPanel.tsx](../web/src/userMaps/vector/edit/VectorEditPanel.tsx),
+  [ZoningLayer.tsx](../web/src/components/ZoningLayer.tsx)).
+- Traced provenance on export: GeoJSON foreign member, KML Document
+  description, and GPX metadata desc when any feature was parcel-traced
+  ([tracedProvenance.ts](../web/src/userMaps/vector/export/tracedProvenance.ts)).
+- Geoman `map.pm` init: the session effect constructs `L.PM.Map` when the
+  page-load map never received Geoman's addInitHook (the New drawing layer
+  crash)
+  ([EditableVectorLayer.tsx](../web/src/userMaps/vector/edit/EditableVectorLayer.tsx)).
 
-Missing on web: snap-to-parcels, points-to-path conversion, photos, EXIF,
+Missing on web: points-to-path conversion, photos, EXIF,
 attribute editing beyond name/description.
 
 iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
@@ -648,8 +669,8 @@ Then native, mirroring:
 | N3 | Snapping + photo map (splits into 3a/3b if review size demands; they share no files): envelope query + fetcher, SnapEngine + session integration + caveat + traced stamping, PhotoLibraryIndex + PhotoMapViewModel + MapViewState.photoMarkers + clustered annotations + the three-state My Maps row |
 
 W1–W3 delivered the user's first ask (points and tracks at the current
-location) as a coherent slice. W4 (snap math + parcel source, no UI) has
-landed; remaining web work starts at W5.
+location) as a coherent slice. W4 (snap math + parcel source, no UI) and
+W5 (snap engine + UI) have landed; remaining web work starts at W6.
 
 ## Risks and open questions
 
