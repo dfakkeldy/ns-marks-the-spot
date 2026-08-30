@@ -9,6 +9,8 @@ export type UserMapImportErrorCode =
   | "parse-timeout"
   | "quota"
   | "storage-failed"
+  /** Pixel decode failed — e.g. HEIC outside Safari. EXIF may still read. */
+  | "unsupported-image"
   // Vector-data imports. "missing-crs" (no .prj at all) is deliberately
   // distinct from "unsupported-crs" (a declared CRS we can't use): the first
   // asks the user to re-export with projection info, the second tells them

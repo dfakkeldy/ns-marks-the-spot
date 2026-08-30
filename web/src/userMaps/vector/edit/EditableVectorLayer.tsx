@@ -345,6 +345,23 @@ export function EditableVectorLayer({
       if (draft.properties !== feature.properties) {
         feature.properties = { ...(draft.properties ?? {}) };
       }
+      // The one deliberate geometry exception: moveFeaturePoint ("use
+      // photo's location") repositions a Point in the draft, and the live
+      // circle marker must follow. Safe outside an active gesture — a
+      // point has no vertex handles mid-drag to fight with.
+      if (
+        draft.geometry?.type === "Point" &&
+        layer instanceof L.CircleMarker
+      ) {
+        const [lng, lat] = draft.geometry.coordinates;
+        const current = layer.getLatLng();
+        if (current.lat !== lat || current.lng !== lng) {
+          layer.setLatLng([lat, lng]);
+          if (feature.geometry?.type === "Point") {
+            feature.geometry = { type: "Point", coordinates: [lng, lat] };
+          }
+        }
+      }
     });
     for (const layer of removed) {
       (layer as L.Layer & { pm?: { disable?: () => void } }).pm?.disable?.();

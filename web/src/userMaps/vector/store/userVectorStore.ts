@@ -2,6 +2,8 @@ import type { FeatureCollection } from "geojson";
 import { UserMapImportError } from "../../errors";
 import {
   BLOBS,
+  PHOTOS,
+  PHOTOS_BY_LAYER_INDEX,
   VECTORS,
   fromStoredBlob,
   isQuotaError,
@@ -12,6 +14,12 @@ import {
   type StoredBlob,
 } from "../../store/database";
 import type { UserVectorLayerRecord } from "../types";
+import {
+  photoFullBlobKey,
+  photoThumbBlobKey,
+} from "../photos/photoStore";
+import { readPhotoDescriptors } from "../photos/types";
+import type { PhotoRecord } from "../photos/types";
 
 function geometryKey(id: string): string {
   return `${id}:vector`;
@@ -141,10 +149,59 @@ export class UserVectorStore {
   }
 
   async deleteVectorLayer(id: string): Promise<void> {
-    const tx = this.db.transaction([VECTORS, BLOBS], "readwrite");
+    // The layer's photos go with it — a removed layer must not leak its
+    // photo rows and blobs into storage forever.
+    const photos = await this.listLayerPhotoRecords(id);
+    const tx = this.db.transaction([VECTORS, BLOBS, PHOTOS], "readwrite");
     tx.objectStore(VECTORS).delete(id);
     tx.objectStore(BLOBS).delete(geometryKey(id));
     tx.objectStore(BLOBS).delete(originalKey(id));
+    for (const photo of photos) {
+      tx.objectStore(PHOTOS).delete(photo.id);
+      tx.objectStore(BLOBS).delete(photoFullBlobKey(photo.id));
+      tx.objectStore(BLOBS).delete(photoThumbBlobKey(photo.id));
+    }
+    await transactionDone(tx);
+  }
+
+  private async listLayerPhotoRecords(layerId: string): Promise<PhotoRecord[]> {
+    const tx = this.db.transaction(PHOTOS, "readonly");
+    return request(
+      tx
+        .objectStore(PHOTOS)
+        .index(PHOTOS_BY_LAYER_INDEX)
+        .getAll(layerId) as IDBRequest<PhotoRecord[]>,
+    );
+  }
+
+  /**
+   * The contract's per-commit sweep, called from the layer write path: photo
+   * rows for this layer that no feature descriptor references any more (a
+   * deleted feature takes its descriptors with it) are removed with their
+   * blobs. Fire-and-forget at the call site — a failed sweep is a small
+   * leak, never a failed save.
+   */
+  async sweepLayerPhotos(
+    layerId: string,
+    collection: FeatureCollection,
+  ): Promise<void> {
+    const referenced = new Set<string>();
+    for (const feature of collection.features) {
+      for (const descriptor of readPhotoDescriptors(feature.properties)) {
+        referenced.add(descriptor.id);
+      }
+    }
+    const rows = await this.listLayerPhotoRecords(layerId);
+    const orphans = rows.filter((row) => !referenced.has(row.id));
+    if (orphans.length === 0) {
+      return;
+    }
+    const tx = this.db.transaction([PHOTOS, BLOBS], "readwrite");
+    for (const row of orphans) {
+      tx.objectStore(PHOTOS).delete(row.id);
+      tx.objectStore(BLOBS).delete(photoFullBlobKey(row.id));
+      tx.objectStore(BLOBS).delete(photoThumbBlobKey(row.id));
+    }
     await transactionDone(tx);
   }
 

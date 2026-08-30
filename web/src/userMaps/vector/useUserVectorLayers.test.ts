@@ -672,3 +672,80 @@ describe("GPX export", () => {
     expect(result.current.storageError).toMatch(/raw recording/i);
   });
 });
+
+describe("photo cleanup", () => {
+  it("removing a layer removes its photo rows and blobs", async () => {
+    const factory = new IDBFactory();
+    const { UserPhotoStore } = await import("./photos/photoStore");
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile("camps.geojson")]));
+    const layerId = result.current.records[0].id;
+
+    const photos = await UserPhotoStore.open(factory);
+    await photos.savePhoto(
+      {
+        id: "photo-1",
+        layerId,
+        addedAt: "2026-08-30T00:00:00.000Z",
+        width: 10,
+        height: 10,
+        fullBytes: 1,
+        thumbBytes: 1,
+      },
+      new Blob(["full"], { type: "image/jpeg" }),
+      new Blob(["thumb"], { type: "image/jpeg" }),
+    );
+
+    await act(() => result.current.removeLayer(layerId));
+    expect(await photos.listLayerPhotos(layerId)).toHaveLength(0);
+    expect(await photos.getFullBlob("photo-1")).toBeNull();
+  });
+
+  it("the session write path sweeps rows no descriptor references", async () => {
+    const factory = new IDBFactory();
+    const { UserPhotoStore } = await import("./photos/photoStore");
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile("camps.geojson")]));
+    const layerId = result.current.records[0].id;
+    const record = result.current.records[0];
+
+    const photos = await UserPhotoStore.open(factory);
+    for (const id of ["referenced", "orphan"]) {
+      await photos.savePhoto(
+        {
+          id,
+          layerId,
+          addedAt: "2026-08-30T00:00:00.000Z",
+          width: 10,
+          height: 10,
+          fullBytes: 1,
+          thumbBytes: 1,
+        },
+        new Blob(["full"], { type: "image/jpeg" }),
+        new Blob(["thumb"], { type: "image/jpeg" }),
+      );
+    }
+
+    await act(() =>
+      result.current.putVectorLayer(record, {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "f1",
+            geometry: { type: "Point", coordinates: [-63.5, 44.5] },
+            properties: {
+              "nsmts:photos": [{ id: "referenced", width: 10, height: 10 }],
+            },
+          },
+        ],
+      }),
+    );
+    // The sweep is fire-and-forget behind the put; give it a beat.
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 25));
+    });
+    const remaining = await photos.listLayerPhotos(layerId);
+    expect(remaining.map(({ id }) => id)).toEqual(["referenced"]);
+  });
+});

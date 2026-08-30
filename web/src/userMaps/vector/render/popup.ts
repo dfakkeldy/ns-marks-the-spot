@@ -1,5 +1,15 @@
 import type { Feature } from "geojson";
+import {
+  readPhotoDescriptors,
+  type FeaturePhotoDescriptor,
+} from "../photos/types";
 import type { UserVectorLayerRecord } from "../types";
+
+/** How a popup reaches photo bytes and the lightbox; optional by design. */
+export type PopupPhotoUi = {
+  loadThumbUrl: (photoId: string) => Promise<string | null>;
+  onOpen: (descriptor: FeaturePhotoDescriptor) => void;
+};
 
 function textLine(className: string, text: string): HTMLElement {
   const line = document.createElement("div");
@@ -23,6 +33,7 @@ function asText(value: unknown): string | null {
 export function buildFeaturePopup(
   feature: Feature,
   record: UserVectorLayerRecord,
+  photoUi?: PopupPhotoUi,
 ): HTMLElement {
   const props: Record<string, unknown> =
     feature.properties && typeof feature.properties === "object"
@@ -36,6 +47,37 @@ export function buildFeaturePopup(
   const description = asText(props.description);
   if (description) {
     root.append(textLine("user-vector-popup-description", description));
+  }
+  const descriptors = readPhotoDescriptors(props);
+  if (photoUi && descriptors.length > 0) {
+    const strip = document.createElement("div");
+    strip.className = "user-vector-popup-photos";
+    descriptors.forEach((descriptor, index) => {
+      const open = document.createElement("button");
+      open.type = "button";
+      open.className = "user-vector-popup-photo";
+      open.setAttribute(
+        "aria-label",
+        `Open photo ${index + 1} of ${descriptors.length}${
+          descriptor.sourceName ? `: ${descriptor.sourceName}` : ""
+        }`,
+      );
+      // Placeholder immediately; the thumbnail swaps in when its blob
+      // loads. alt/aria text flows through attributes, never markup.
+      open.textContent = "…";
+      open.addEventListener("click", () => photoUi.onOpen(descriptor));
+      void photoUi.loadThumbUrl(descriptor.id).then((url) => {
+        if (!url || !open.isConnected) {
+          return;
+        }
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = descriptor.sourceName ?? `Photo ${index + 1}`;
+        open.replaceChildren(img);
+      });
+      strip.append(open);
+    });
+    root.append(strip);
   }
   // A GPS-marked feature announces the claim its data makes about itself —
   // when it was captured and how rough the fix was — so a ±40 m mark can
