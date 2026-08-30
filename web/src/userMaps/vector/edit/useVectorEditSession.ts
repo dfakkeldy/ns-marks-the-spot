@@ -22,6 +22,11 @@ export type VectorEditSession = {
   endEdit: () => void;
   commitGeometry: (collection: FeatureCollection) => void;
   updateFeatureDetails: (featureId: string, details: FeatureDetails) => void;
+  /** Freeform attribute writes: string values set, undefined deletes. */
+  updateFeatureProperties: (
+    featureId: string,
+    patch: Record<string, string | undefined>,
+  ) => void;
   deleteFeature: (featureId: string) => void;
   renameLayer: (name: string) => void;
   /**
@@ -236,6 +241,37 @@ export function useVectorEditSession({
     [commit, draftData, draftRecord],
   );
 
+  /**
+   * Freeform attribute writes: string values set, undefined deletes. New
+   * objects at both levels — collect() and earlier publishes share property
+   * references, so mutation would edit already-published collections.
+   */
+  const updateFeatureProperties = useCallback(
+    (featureId: string, patch: Record<string, string | undefined>) => {
+      if (!draftRecord || !draftData) {
+        return;
+      }
+      const features: Feature[] = draftData.features.map((feature) => {
+        if (String(feature.id) !== featureId) {
+          return feature;
+        }
+        const properties: Record<string, unknown> = {
+          ...(feature.properties ?? {}),
+        };
+        for (const [key, value] of Object.entries(patch)) {
+          if (value === undefined) {
+            delete properties[key];
+          } else {
+            properties[key] = value;
+          }
+        }
+        return { ...feature, properties };
+      });
+      commit(draftRecord, { type: "FeatureCollection", features });
+    },
+    [commit, draftData, draftRecord],
+  );
+
   const deleteFeature = useCallback(
     (featureId: string) => {
       if (!draftRecord || !draftData) {
@@ -310,6 +346,7 @@ export function useVectorEditSession({
     endEdit,
     commitGeometry,
     updateFeatureDetails,
+    updateFeatureProperties,
     deleteFeature,
     renameLayer,
     convertPoints,

@@ -5169,6 +5169,96 @@ a {
   gap: 4px;
 }
 
+.vector-edit-attributes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0 2px;
+  border-top: 1px solid var(--line);
+}
+
+.vector-edit-attributes h3 {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.vector-edit-attributes-empty {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.vector-edit-attribute-row {
+  display: flex;
+  gap: 6px;
+  align-items: end;
+}
+
+.vector-edit-attribute-row label {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+}
+
+.vector-edit-attribute-row label span {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vector-edit-attribute-complex {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-style: italic;
+  line-height: 44px;
+}
+
+.vector-edit-attribute-row button {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  color: var(--chart-ink);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vector-edit-attribute-add {
+  display: flex;
+  gap: 6px;
+}
+
+.vector-edit-attribute-add input {
+  flex: 1;
+  min-width: 0;
+}
+
+.vector-edit-attribute-add button {
+  min-height: 44px;
+  flex: 0 0 auto;
+  padding: 0 14px;
+  color: var(--survey-blue);
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vector-edit-attribute-error {
+  color: #8a4b00;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 .vector-edit-field span {
   color: var(--muted);
   font-size: 0.7rem;
