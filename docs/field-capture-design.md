@@ -6,11 +6,10 @@ export for user layers and raw-recording downloads, #266), W4 (snap
 geometry math and the NSPRD parcel snap source, #269), W5 (snap-to-parcel
 drawing, licence-gated, with traced provenance, #271), W6 (points-to-path
 conversion with numbered preview, #273), W7 (freeform attributes + KML
-ExtendedData, #275), and W8 (photo storage + attach + display, #277) are
-implemented.
-Remaining web work starts at W9 (KMZ with embedded photos + bulk EXIF
-placement).
-Native recording (N1) is not shipped.
+ExtendedData, #275), W8 (photo storage + attach + display, #277), and W9
+(KMZ photo interchange + bulk EXIF placement, #279) are implemented.
+Remaining web work for field-capture is done; next is native N1 (not
+shipped).
 Produced 2026-08-28 from a code survey of both surfaces, four subsystem design
 passes, and an adversarial cross-review that reconciled them. Decisions marked
 "approved" were made by the project owner in this session and are fixed;
@@ -75,7 +74,7 @@ Web (`web/src/`):
   ([userVectorStore.ts](../web/src/userMaps/vector/store/userVectorStore.ts),
   schema owner [database.ts](../web/src/userMaps/store/database.ts), DB_VERSION 3).
 - Import: GeoJSON, KML, KMZ, GPX, zipped shapefile. Export: GeoJSON, KML,
-  and GPX (layer GPX via
+  KMZ, and GPX (layer GPX via
   [gpxWriter.ts](../web/src/userMaps/vector/export/gpxWriter.ts); Raw GPX
   original-file download on recorded layers), user layers only. Recorded
   layers keep raw GPX as the original-file blob.
@@ -192,8 +191,37 @@ Web (`web/src/`):
   photos; the session write path sweeps rows no `nsmts:photos` descriptor
   references
   ([photoStore.ts](../web/src/userMaps/vector/photos/photoStore.ts)).
+- KMZ export: `buildKmzBlob` writes `doc.kml` (DEFLATE) plus STORED
+  `files/<photoId>.jpg` entries; descriptors whose blob cannot be read are
+  dropped from the written document (honest missing count, never a dangling
+  reference); KML photo mode `kmz` carries `href` in ExtendedData and a
+  CDATA description appendix of viewer `<img>` tags (width 400)
+  ([kmzWriter.ts](../web/src/userMaps/vector/export/kmzWriter.ts),
+  [kmlWriter.ts](../web/src/userMaps/vector/export/kmlWriter.ts),
+  [captureSpec.ts](../web/src/location/captureSpec.ts) `kmz` profile).
+- KMZ import re-link: `relinkKmzPhotos` resolves hrefs case-insensitively,
+  re-encodes through the photo pipeline (EXIF stripped by construction,
+  thumbs regenerated), re-mints ids, rewrites `nsmts:photos` to internal
+  form, and strips img tags whose src points into `files/`;
+  missing-from-archive, undecodable, and cap-overflow are distinct noted
+  states; the re-link gate is reference-based
+  ([relinkKmzPhotos.ts](../web/src/userMaps/vector/photos/relinkKmzPhotos.ts)).
+- Bulk EXIF placement: "Add photos to map" uses its own file input, not the
+  shared drop zone; `exifr` reads geotags locally; classification is in-view
+  (checked), out-of-view (unchecked but checkable), or no-location
+  (unselectable)
+  ([BulkPhotoImportDialog.tsx](../web/src/userMaps/vector/photos/BulkPhotoImportDialog.tsx),
+  [bulkPlacement.ts](../web/src/userMaps/vector/photos/bulkPlacement.ts)).
+- Photo-import layers: `createPhotoLayer` builds a `photos`-source layer
+  with photo-import provenance ("From your photos · N photos") and fits
+  the map to the new layer
+  ([useUserVectorLayers.ts](../web/src/userMaps/vector/useUserVectorLayers.ts)).
+- Honest GeoJSON/KML export titles ("Photos aren't included — use KMZ to
+  carry photos.") plus a KMZ button on user layers
+  ([UserVectorRows.tsx](../web/src/userMaps/vector/components/UserVectorRows.tsx)).
 
-Missing on web: KMZ with embedded photos, bulk EXIF placement (W9).
+Missing on web: none for the web field-capture plan. Native gaps stay under
+iOS.
 
 iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 
@@ -741,8 +769,9 @@ Then native, mirroring:
 W1–W3 delivered the user's first ask (points and tracks at the current
 location) as a coherent slice. W4 (snap math + parcel source, no UI),
 W5 (snap engine + UI), W6 (points-to-path conversion), W7 (freeform
-attributes + KML ExtendedData), and W8 (photo storage + attach + display)
-have landed; remaining web work starts at W9.
+attributes + KML ExtendedData), W8 (photo storage + attach + display),
+and W9 (KMZ photo interchange + bulk EXIF placement) have landed;
+remaining web work for field-capture is done. Next is native N1.
 
 ## Risks and open questions
 
