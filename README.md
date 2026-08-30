@@ -1,3 +1,5 @@
+<img src="docs/assets/app-icon.svg" alt="" width="96" height="96" align="right">
+
 # NS Marks The Spot
 
 Open-source tools for overlaying georeferenced historical Nova Scotia maps and
