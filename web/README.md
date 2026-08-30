@@ -1057,7 +1057,12 @@ points stay by default, or can be consumed in the same commit; a one-shot
 Undo restores the conversion. Selected features can have freeform name/value
 attributes edited in the panel; KML export carries them as ExtendedData
 (values stored as strings; reserved and app-owned keys are handled per
-contract).
+contract). Selected features can attach photos from the camera or a file.
+Each photo is stored as a re-encoded JPEG (full plus thumbnail) with EXIF,
+including GPS, stripped from stored bytes. The edit panel shows a photo
+strip and a lightbox; points with photos render as a hollow map indicator.
+When a photo is geotagged, you can optionally move the point to that
+location.
 The Fletcher web integration and immutable, bounded per-sheet package are
 implemented, but the layer remains disabled in builds without
 `VITE_FLETCHER_TILE_BASE_URL`. The 24 direct-Rumsey source trees are kept
