@@ -1046,7 +1046,11 @@ KML, or GPX (points and tracks; polygons are skipped). Recorded layers also
 offer a Raw GPX download of the original file. A shapefile without its `.prj`
 is refused rather than assumed to be longitude/latitude. Vector layers can also be drawn and edited on the map —
 add points, lines, and areas, reshape or move them, name individual features,
-and start a blank drawing layer of your own.
+and start a blank drawing layer of your own. While drawing or editing,
+optional snap to own features and licence-gated NSPRD parcel boundaries is
+available at zoom 16 and closer. The panel shows the standing caveat
+"Traced boundaries are not a survey." Exports can carry traced provenance
+when any feature was parcel-traced.
 The Fletcher web integration and immutable, bounded per-sheet package are
 implemented, but the layer remains disabled in builds without
 `VITE_FLETCHER_TILE_BASE_URL`. The 24 direct-Rumsey source trees are kept
