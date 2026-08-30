@@ -87,6 +87,8 @@ final class VectorEditSession {
         draft = nil
         erased = []
         conversionUndo = nil
+        photoMessages = []
+        photoLocationOffer = nil
         tool = .selecting
         editingID = row.id
         record = row.record
@@ -113,6 +115,8 @@ final class VectorEditSession {
         selectedFeatureID = nil
         erased = []
         conversionUndo = nil
+        photoMessages = []
+        photoLocationOffer = nil
         tool = .selecting
         return true
     }
@@ -290,6 +294,169 @@ final class VectorEditSession {
                 featureID: id, name: name, description: description, in: parsed
             )
         )
+    }
+
+    /// The freeform-attribute write path: a value sets the key, nil deletes
+    /// it. Values typed in the app arrive as strings per the contract.
+    func updateFeatureProperties(featureID: String, patch: [String: JSONValue?]) {
+        guard let parsed else { return }
+        commit(VectorEdit.updatingProperties(featureID: featureID, patch: patch, in: parsed))
+    }
+
+    // MARK: - Photos
+
+    /// One attach's outcome, for the strip to show. Failures name the cap
+    /// or the reason; quota, decode, and cap problems are distinct.
+    private(set) var photoMessages: [String] = []
+
+    /// The one narrow offer made at attach time: the photo's EXIF position,
+    /// held only until the strip acts on or dismisses it. Never persisted —
+    /// re-encoding strips the geotag from every stored byte, and the only
+    /// location that survives is geometry the user confirms here.
+    struct PhotoLocationOffer: Equatable {
+        var featureID: String
+        var position: GeoJsonPosition
+        var distanceM: Double
+    }
+    private(set) var photoLocationOffer: PhotoLocationOffer?
+
+    /// Attaches picked or captured photo bytes to the selected feature:
+    /// pipeline re-encode (EXIF stripped), caps checked with messages that
+    /// name them, files written through the store, descriptor patched
+    /// through the session's write path.
+    func attachPhotos(
+        _ items: [(data: Data, sourceName: String?, capturedAt: String?)]
+    ) async {
+        guard let layerID = editingID, let featureID = selectedFeatureID else { return }
+        photoMessages = []
+        for item in items {
+            guard let parsed,
+                  let feature = parsed.features.first(where: { $0.id == featureID })
+            else { return }
+            let existing = PhotoDescriptor.read(from: feature.properties)
+            if existing.count >= PhotoDescriptor.maxPerFeature {
+                photoMessages.append(
+                    "This feature already has \(PhotoDescriptor.maxPerFeature) photos — the cap. Not added."
+                )
+                continue
+            }
+            let layerCount = await viewModel.photoCount(layerID: layerID)
+            if layerCount >= PhotoDescriptor.maxPerLayer {
+                photoMessages.append(
+                    "This layer already has \(PhotoDescriptor.maxPerLayer) photos — the cap. Not added."
+                )
+                continue
+            }
+
+            let bytes = item.data
+            let outcome = await Task.detached(
+                priority: .userInitiated
+            ) { () -> Result<(PhotoPipeline.Processed, PhotoPipeline.CaptureClaims), PhotoPipeline.Refusal> in
+                // Claims read before the re-encode that strips them.
+                let claims = PhotoPipeline.captureClaims(bytes)
+                do throws(PhotoPipeline.Refusal) {
+                    return .success((try PhotoPipeline.process(bytes), claims))
+                } catch {
+                    return .failure(error)
+                }
+            }.value
+
+            let processed: PhotoPipeline.Processed
+            let claims: PhotoPipeline.CaptureClaims
+            switch outcome {
+            case .success(let value):
+                (processed, claims) = value
+            case .failure(let refusal):
+                photoMessages.append(refusal.userMessage)
+                continue
+            }
+
+            let photoID = UUID().uuidString
+            guard await viewModel.addPhotoFile(
+                layerID: layerID, photoID: photoID,
+                full: processed.fullJpeg, thumb: processed.thumbJpeg
+            ) else {
+                photoMessages.append(
+                    "This photo could not be saved to your device. Free some space and try again."
+                )
+                continue
+            }
+            let descriptor = PhotoDescriptor(
+                id: photoID,
+                // The photo's own claim (EXIF DateTimeOriginal) or the
+                // caller's (the camera's capture moment); never invented.
+                capturedAt: claims.capturedAt ?? item.capturedAt,
+                sourceName: item.sourceName,
+                width: Double(processed.width),
+                height: Double(processed.height)
+            )
+            updateFeatureProperties(
+                featureID: featureID,
+                patch: [
+                    CaptureSpec.photosKey: PhotoDescriptor.propertyValue(
+                        internalForm: existing + [descriptor]
+                    )
+                ]
+            )
+            // The geotag offer, once, for a Point feature: shown with the
+            // distance so "move my pin 3 km" is a decision, not a surprise.
+            if case .point(let current)? = feature.geometry, let location = claims.location {
+                photoLocationOffer = PhotoLocationOffer(
+                    featureID: featureID,
+                    position: GeoJsonPosition(lng: location.lng, lat: location.lat),
+                    distanceM: Geodesy.pathDistanceMetres([
+                        GeoPoint(lat: current.lat, lng: current.lng), location,
+                    ])
+                )
+            }
+        }
+    }
+
+    func removePhoto(featureID: String, photoID: String) async {
+        guard let layerID = editingID, let parsed,
+              let feature = parsed.features.first(where: { $0.id == featureID })
+        else { return }
+        let remaining = PhotoDescriptor.read(from: feature.properties)
+            .filter { $0.id != photoID }
+        updateFeatureProperties(
+            featureID: featureID,
+            patch: [
+                CaptureSpec.photosKey: remaining.isEmpty
+                    ? nil : PhotoDescriptor.propertyValue(internalForm: remaining)
+            ]
+        )
+        if photoLocationOffer?.featureID == featureID {
+            photoLocationOffer = nil
+        }
+        await viewModel.deletePhotoFile(layerID: layerID, photoID: photoID)
+    }
+
+    /// Accepts the attach-time geotag offer: the point moves to where the
+    /// photo says it was taken.
+    func acceptPhotoLocationOffer() {
+        guard let offer = photoLocationOffer, let parsed else { return }
+        photoLocationOffer = nil
+        commit(
+            VectorEdit.moving(
+                featureID: offer.featureID, ring: 0, vertex: 0,
+                to: offer.position, in: parsed
+            )
+        )
+    }
+
+    func dismissPhotoLocationOffer() {
+        photoLocationOffer = nil
+    }
+
+    func clearPhotoMessages() {
+        photoMessages = []
+    }
+
+    /// The bytes behind one of the edited layer's photos, for the strip and
+    /// the lightbox.
+    func photoData(photoID: String, thumb: Bool) async -> Data? {
+        guard let editingID else { return nil }
+        return await viewModel.photoData(layerID: editingID, photoID: photoID, thumb: thumb)
     }
 
     func deleteSelectedFeature() {

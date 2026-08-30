@@ -133,6 +133,10 @@ struct VectorEditPanel: View {
             convertSection
 
             if let feature = session.selectedFeature {
+                // Scrolls because attributes and photos grow with the
+                // feature; a panel taller than the phone would put its own
+                // Done button off screen.
+                ScrollView(.vertical) {
                 VStack(alignment: .leading, spacing: 8) {
                     TextField("Feature name", text: $featureName)
                         .textFieldStyle(.roundedBorder)
@@ -141,6 +145,13 @@ struct VectorEditPanel: View {
                         .lineLimit(2...4)
                         .textFieldStyle(.roundedBorder)
                         .onChange(of: featureDescription) { _, _ in commitFeature() }
+
+                    FeatureAttributesEditor(feature: feature) { patch in
+                        guard let id = feature.id else { return }
+                        session.updateFeatureProperties(featureID: id, patch: patch)
+                    }
+
+                    FeaturePhotoStrip(session: session, feature: feature)
                     // Named because the two kinds of handle look different and
                     // do different things, and nothing else on screen says so:
                     // a user who drags the middle one expecting a vertex would
@@ -166,6 +177,9 @@ struct VectorEditPanel: View {
                     .font(.caption)
                 }
                 .id(feature.id)
+                }
+                .frame(maxHeight: 300)
+                .scrollBounceBehavior(.basedOnSize)
             } else if session.tool != .erasing {
                 Text("Tap a feature to name it, or pick a tool to draw one.")
                     .font(.caption)

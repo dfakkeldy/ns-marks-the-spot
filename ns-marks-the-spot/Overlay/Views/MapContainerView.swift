@@ -528,7 +528,13 @@ struct MapContainerView: View {
             if let vectorCallout, editSession == nil {
                 UserVectorCalloutCard(
                     callout: vectorCallout.callout,
-                    layerName: vectorCallout.layerName
+                    layerName: vectorCallout.layerName,
+                    photos: vectorCallout.photos,
+                    loadPhoto: { photoID, thumb in
+                        await userVectorsVM.photoData(
+                            layerID: vectorCallout.layerID, photoID: photoID, thumb: thumb
+                        )
+                    }
                 ) {
                     self.vectorCallout = nil
                 }

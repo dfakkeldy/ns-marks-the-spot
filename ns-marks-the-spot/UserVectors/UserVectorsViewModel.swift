@@ -103,10 +103,42 @@ final class UserVectorsViewModel {
                 }
             }.value
             let imported = try outcome.get()
+            // A field-capture KMZ carries photo bytes beside its doc.kml.
+            // They re-link here — through the standard pipeline, under fresh
+            // ids — so an archive from either surface arrives with its
+            // photos attached and its viewer img appendix stripped.
+            var relinked: [Int: KmzRelink.Result] = [:]
+            if imported.source == .kmz {
+                let parsedLayers = imported.layers.map(\.parsed)
+                relinked = await Task.detached(
+                    priority: .userInitiated
+                ) { () -> [Int: KmzRelink.Result] in
+                    guard let opened = try? KmzParse.parseWithAssets(data),
+                          !opened.assets.isEmpty
+                    else { return [:] }
+                    var results: [Int: KmzRelink.Result] = [:]
+                    for (index, parsed) in parsedLayers.enumerated() {
+                        results[index] = KmzRelink.relink(
+                            parsed: parsed, assets: opened.assets
+                        ) { bytes in
+                            let processed = try PhotoPipeline.process(bytes)
+                            return KmzRelink.ProcessedPhoto(
+                                fullJpeg: processed.fullJpeg,
+                                thumbJpeg: processed.thumbJpeg,
+                                width: processed.width,
+                                height: processed.height
+                            )
+                        }
+                    }
+                    return results
+                }.value
+            }
             // One id for the file, shared by every layer it holds: a zipped
             // shapefile archive can carry several, and the archive is one file.
             let originalFileID = UUID().uuidString
-            for layer in imported.layers {
+            for (index, layer) in imported.layers.enumerated() {
+                let relink = relinked[index]
+                let parsed = relink?.parsed ?? layer.parsed
                 let record = UserVectorLayerRecord(
                     id: UUID().uuidString,
                     name: layer.name,
@@ -114,13 +146,28 @@ final class UserVectorsViewModel {
                     origin: .imported(filename: filename, importedAt: now),
                     createdAt: now,
                     colorHex: VectorStyle.nextLayerColor(existingCount: rows.count),
-                    featureCount: layer.parsed.featureCount,
-                    bbox: layer.parsed.bbox,
+                    featureCount: parsed.featureCount,
+                    bbox: parsed.bbox,
                     originalFileID: originalFileID
                 )
                 var isStored = true
                 do {
-                    _ = try await store.add(record, geometry: layer.parsed, original: data)
+                    _ = try await store.add(record, geometry: parsed, original: data)
+                    if let relink {
+                        for photo in relink.photos {
+                            try? await store.addPhoto(
+                                layerID: record.id,
+                                photoID: photo.id,
+                                full: photo.processed.fullJpeg,
+                                thumb: photo.processed.thumbJpeg
+                            )
+                        }
+                        // What became of the archive's photos — attached,
+                        // missing, undecodable, and capped stay distinct.
+                        if let text = relink.noteText {
+                            note(text, for: filename)
+                        }
+                    }
                 } catch {
                     isStored = false
                     // The browser's promise, kept here: a device that cannot
@@ -140,7 +187,7 @@ final class UserVectorsViewModel {
                 }
                 rows.append(
                     Row(
-                        record: record, isVisible: true, parsed: layer.parsed,
+                        record: record, isVisible: true, parsed: parsed,
                         isStored: isStored
                     )
                 )
@@ -188,6 +235,13 @@ final class UserVectorsViewModel {
     /// Says that a file the picker offered could not be opened at all.
     func reportUnreadable(name: String) {
         report("This file could not be opened from where it is stored.", for: name)
+    }
+
+    /// Says that an export completed but could not carry everything — the
+    /// KMZ writer's "N photos couldn't be read and were left out". A
+    /// shortfall is not a refusal: the file exists and is consistent.
+    func reportExportShortfall(layerName: String, message: String) {
+        note(message, for: layerName)
     }
 
     /// Says that a file was past the size limit before anything read it.
@@ -254,6 +308,32 @@ final class UserVectorsViewModel {
         let row = Row(record: record, isVisible: true, parsed: empty)
         rows.append(row)
         return row
+    }
+
+    // MARK: - Photos
+
+    /// The store's photo files, surfaced for the edit session and the
+    /// callout. Bytes rather than images here: the view model stays
+    /// UIKit-free, and the views decode where they display.
+    func photoData(layerID: String, photoID: String, thumb: Bool) async -> Data? {
+        await store.photoData(layerID: layerID, photoID: photoID, thumb: thumb)
+    }
+
+    func addPhotoFile(layerID: String, photoID: String, full: Data, thumb: Data) async -> Bool {
+        do {
+            try await store.addPhoto(layerID: layerID, photoID: photoID, full: full, thumb: thumb)
+            return true
+        } catch {
+            return false
+        }
+    }
+
+    func deletePhotoFile(layerID: String, photoID: String) async {
+        await store.deletePhoto(layerID: layerID, photoID: photoID)
+    }
+
+    func photoCount(layerID: String) async -> Int {
+        await store.photoCount(layerID: layerID)
     }
 
     /// The "Field notes" destination for mark-my-location when no edit

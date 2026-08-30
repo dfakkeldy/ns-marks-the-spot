@@ -426,6 +426,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "NS Marks the Spot";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows your current location on the map so you can compare where you are with historical maps and reference layers.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Takes photos to attach to your own map features. Photos stay on this device.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Attaches photos from your library to your own map features. Photos stay on this device.";
 				INFOPLIST_KEY_FletcherTileBaseURL = "$(FLETCHER_TILE_BASE_URL)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -461,6 +463,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "NS Marks the Spot";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows your current location on the map so you can compare where you are with historical maps and reference layers.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Takes photos to attach to your own map features. Photos stay on this device.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Attaches photos from your library to your own map features. Photos stay on this device.";
 				INFOPLIST_KEY_FletcherTileBaseURL = "$(FLETCHER_TILE_BASE_URL)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
