@@ -5,9 +5,11 @@ Status: approved scope. Web W1 (live GPS + Field notes mark, #261), W2
 export for user layers and raw-recording downloads, #266), W4 (snap
 geometry math and the NSPRD parcel snap source, #269), W5 (snap-to-parcel
 drawing, licence-gated, with traced provenance, #271), W6 (points-to-path
-conversion with numbered preview, #273), and W7 (freeform attributes + KML
-ExtendedData, #275) are implemented.
-Remaining web work starts at W8 (photo storage + attach + display).
+conversion with numbered preview, #273), W7 (freeform attributes + KML
+ExtendedData, #275), and W8 (photo storage + attach + display, #277) are
+implemented.
+Remaining web work starts at W9 (KMZ with embedded photos + bulk EXIF
+placement).
 Native recording (N1) is not shipped.
 Produced 2026-08-28 from a code survey of both surfaces, four subsystem design
 passes, and an adversarial cross-review that reconciled them. Decisions marked
@@ -71,7 +73,7 @@ Web (`web/src/`):
   `imported`, or `recorded`), debounced saves, original-file blobs kept
   alongside live geometry
   ([userVectorStore.ts](../web/src/userMaps/vector/store/userVectorStore.ts),
-  schema owner [database.ts](../web/src/userMaps/store/database.ts), DB_VERSION 2).
+  schema owner [database.ts](../web/src/userMaps/store/database.ts), DB_VERSION 3).
 - Import: GeoJSON, KML, KMZ, GPX, zipped shapefile. Export: GeoJSON, KML,
   and GPX (layer GPX via
   [gpxWriter.ts](../web/src/userMaps/vector/export/gpxWriter.ts); Raw GPX
@@ -158,8 +160,40 @@ Web (`web/src/`):
   provenance keys are included; numbers/booleans stringify, objects as JSON
   text, nulls skipped
   ([kmlWriter.ts](../web/src/userMaps/vector/export/kmlWriter.ts)).
+- Photo storage: `DB_VERSION` 3 adds the `photos` store (by-layer index);
+  bytes live in `blobs` as `${photoId}:photo` and `${photoId}:photo-thumb`
+  ([database.ts](../web/src/userMaps/store/database.ts),
+  [photoStore.ts](../web/src/userMaps/vector/photos/photoStore.ts)).
+- Photo pipeline: every attach re-encodes to a 2048 px JPEG plus a 256 px
+  thumb, which strips all EXIF including GPS from stored and exported bytes;
+  HEIC outside Safari is the distinct `unsupported-image` failure
+  ([photoPipeline.ts](../web/src/userMaps/vector/photos/photoPipeline.ts)).
+- EXIF confined to one module: pinned `exifr` 7.1.3; GPS and
+  DateTimeOriginal only; `(0,0)` treated as absent
+  ([exif.ts](../web/src/userMaps/vector/photos/exif.ts)).
+- Photo manager, strip, and lightbox: attach from camera
+  (`capture="environment"`) or files; caps 20/feature and 500/layer; bounded
+  revoking thumbnail LRU
+  ([usePhotoManager.ts](../web/src/userMaps/vector/photos/usePhotoManager.ts),
+  [PhotoStrip.tsx](../web/src/userMaps/vector/photos/PhotoStrip.tsx),
+  [PhotoLightbox.tsx](../web/src/userMaps/vector/photos/PhotoLightbox.tsx)).
+- Popup thumbnails: labelled "Open photo n of m" buttons between description
+  and provenance
+  ([popup.ts](../web/src/userMaps/vector/render/popup.ts)).
+- Hollow map indicator: points with photos render as a white-fill ring with a
+  "· photo" tooltip suffix
+  ([UserVectorLayers.tsx](../web/src/userMaps/vector/components/UserVectorLayers.tsx)).
+- Move-to-photo location: geotag is offered once at attach ("Move point to
+  photo's location") via session `moveFeaturePoint`; it is never persisted
+  on the photo bytes
+  ([PhotoStrip.tsx](../web/src/userMaps/vector/photos/PhotoStrip.tsx),
+  [useVectorEditSession.ts](../web/src/userMaps/vector/edit/useVectorEditSession.ts)).
+- Orphan sweeps: photo removal deletes row+blobs; layer delete takes its
+  photos; the session write path sweeps rows no `nsmts:photos` descriptor
+  references
+  ([photoStore.ts](../web/src/userMaps/vector/photos/photoStore.ts)).
 
-Missing on web: photos, EXIF.
+Missing on web: KMZ with embedded photos, bulk EXIF placement (W9).
 
 iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 
@@ -706,8 +740,9 @@ Then native, mirroring:
 
 W1–W3 delivered the user's first ask (points and tracks at the current
 location) as a coherent slice. W4 (snap math + parcel source, no UI),
-W5 (snap engine + UI), W6 (points-to-path conversion), and W7 (freeform
-attributes + KML ExtendedData) have landed; remaining web work starts at W8.
+W5 (snap engine + UI), W6 (points-to-path conversion), W7 (freeform
+attributes + KML ExtendedData), and W8 (photo storage + attach + display)
+have landed; remaining web work starts at W9.
 
 ## Risks and open questions
 
