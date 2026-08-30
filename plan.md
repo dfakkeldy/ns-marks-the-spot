@@ -15,6 +15,9 @@
 - [x] Fastlane metadata automation and release-prep verification
 - [x] Unit and UI test targets in place for v1.0
 
+### Native field-capture
+- [x] GPS marks, track recording, and points-to-path (field-capture N1, #281)
+
 ## v1.0 Milestones
 
 ### Map Experience
