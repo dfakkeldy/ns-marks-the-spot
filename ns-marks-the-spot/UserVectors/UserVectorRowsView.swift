@@ -200,11 +200,24 @@ struct UserVectorRowsView: View {
     /// The imported file under the name it arrived with.
     ///
     /// Its own name rather than the layer's, because this is the file the user
-    /// gave us and handing it back renamed would make it look converted.
+    /// gave us and handing it back renamed would make it look converted. A
+    /// recorded layer's original came from no file, so it goes out under the
+    /// layer's name with the extension it actually is: raw GPX.
     private func originalPayload(_ row: UserVectorsViewModel.Row) async -> SharePayload? {
-        guard case .imported(let filename, _) = row.record.origin,
-              let data = await viewModel.originalFile(for: row.id)
-        else { return nil }
+        let filename: String
+        switch row.record.origin {
+        case .imported(let imported, _):
+            filename = imported
+        case .recorded:
+            let safe = row.record.name
+                .components(separatedBy: CharacterSet.alphanumerics.inverted)
+                .filter { !$0.isEmpty }
+                .joined(separator: "-")
+            filename = "\(safe.isEmpty ? "track" : safe).gpx"
+        case .drawn:
+            return nil
+        }
+        guard let data = await viewModel.originalFile(for: row.id) else { return nil }
         let url = FileManager.default.temporaryDirectory.appending(path: filename)
         guard (try? data.write(to: url, options: .atomic)) != nil else { return nil }
         return SharePayload(url: url)
@@ -258,7 +271,14 @@ private struct UserVectorRow: View {
                         Menu("Export") {
                             ForEach(UserVectorRowsView.ExportFormat.allCases, id: \.self) { format in
                                 if format != .original || hasOriginal {
-                                    Button(format.rawValue) { onExport(format) }
+                                    // A recorded layer's original is the raw
+                                    // GPX of every fix — named for what it is,
+                                    // so the evidence is never mistaken for
+                                    // the processed line.
+                                    Button(
+                                        format == .original && row.record.source == .recorded
+                                            ? "Raw recording (GPX)" : format.rawValue
+                                    ) { onExport(format) }
                                 }
                             }
                         }

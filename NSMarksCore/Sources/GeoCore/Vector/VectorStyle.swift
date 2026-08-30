@@ -152,11 +152,20 @@ public struct VectorFeatureCallout: Hashable, Sendable {
     public var title: String
     public var detail: String?
     public var provenance: String
+    /// "Marked from GPS on this device (±N m)" when the feature carries both
+    /// `nsmts:capturedAt` and `nsmts:accuracyM`. This labels the claim the
+    /// data makes about itself — an imported file could carry the keys — so
+    /// a ±40 m mark can never read as a surveyed corner. Nil when either key
+    /// is missing; the line is never fabricated.
+    public var gpsProvenance: String?
 
-    public init(title: String, detail: String?, provenance: String) {
+    public init(
+        title: String, detail: String?, provenance: String, gpsProvenance: String? = nil
+    ) {
         self.title = title
         self.detail = detail
         self.provenance = provenance
+        self.gpsProvenance = gpsProvenance
     }
 
     public init(feature: GeoJsonFeature, record: UserVectorLayerRecord) {
@@ -171,5 +180,11 @@ public struct VectorFeatureCallout: Hashable, Sendable {
         self.title = text("name") ?? record.name
         self.detail = text("description")
         self.provenance = record.provenanceText
+        if feature.properties[CaptureSpec.capturedAtKey]?.stringValue != nil,
+           let accuracy = feature.properties[CaptureSpec.accuracyKey]?.doubleValue
+        {
+            self.gpsProvenance =
+                "Marked from GPS on this device (±\(Int(accuracy.rounded())) m)"
+        }
     }
 }

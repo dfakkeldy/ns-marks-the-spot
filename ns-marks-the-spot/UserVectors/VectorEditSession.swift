@@ -86,6 +86,7 @@ final class VectorEditSession {
         selectedFeatureID = nil
         draft = nil
         erased = []
+        conversionUndo = nil
         tool = .selecting
         editingID = row.id
         record = row.record
@@ -111,6 +112,7 @@ final class VectorEditSession {
         draft = nil
         selectedFeatureID = nil
         erased = []
+        conversionUndo = nil
         tool = .selecting
         return true
     }
@@ -212,6 +214,64 @@ final class VectorEditSession {
         commit(edited)
     }
 
+    // MARK: - Converting points
+
+    /// The layer as it was before the last conversion, for the one-shot
+    /// undo. Cleared by any later commit or by the session ending: an undo
+    /// that reached back past newer edits would take those edits with it.
+    private(set) var conversionUndo: ParsedVector?
+
+    /// Whether the convert section is open, so the map can draw the
+    /// connect-the-dots order before the user commits to it — the contract's
+    /// safeguard against a surprising stored order.
+    var isPreviewingConversion = false
+
+    var convertPlanLine: ConversionPlan? {
+        guard let parsed else { return nil }
+        return VectorEdit.conversionPlan(for: parsed, shape: .line)
+    }
+
+    var convertPlanArea: ConversionPlan? {
+        guard let parsed else { return nil }
+        return VectorEdit.conversionPlan(for: parsed, shape: .area)
+    }
+
+    /// Connects the layer's points into a line or area through the session's
+    /// single write path, remembering the pre-conversion collection for one
+    /// undo.
+    func convertPoints(shape: ConvertShape, keepSourcePoints: Bool) {
+        guard let parsed,
+              let result = VectorEdit.convertingPoints(
+                  in: parsed, shape: shape, keepSourcePoints: keepSourcePoints
+              )
+        else { return }
+        let before = parsed
+        selectedFeatureID = result.feature.id
+        commit(result.parsed)
+        // After the commit: `commit` is also where every other edit clears
+        // the undo, and the conversion's own commit must not clear its own.
+        conversionUndo = before
+    }
+
+    /// Recommits the pre-conversion collection through the normal write
+    /// path. One-shot: a second tap has nothing to reach for.
+    func undoConversion() {
+        guard let before = conversionUndo else { return }
+        selectedFeatureID = nil
+        commit(before)
+        conversionUndo = nil
+    }
+
+    // MARK: - Marking
+
+    /// A GPS mark taken while this session is open lands in the edited
+    /// layer, through the same write path as a drawn shape.
+    func appendMark(_ feature: GeoJsonFeature) {
+        guard let parsed else { return }
+        selectedFeatureID = feature.id
+        commit(VectorEdit.recomputed(parsed.features + [feature]))
+    }
+
     // MARK: - Features
 
     func select(featureID: String?) {
@@ -310,6 +370,10 @@ final class VectorEditSession {
 
     /// The single write path: hold the new geometry, then schedule the save.
     private func commit(_ edited: ParsedVector) {
+        // Any commit invalidates the conversion undo — reaching back past a
+        // newer edit would take that edit with it. `convertPoints` re-arms it
+        // immediately after its own commit.
+        conversionUndo = nil
         parsed = edited
         unsaved = edited
         revision += 1

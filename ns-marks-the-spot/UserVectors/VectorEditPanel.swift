@@ -15,6 +15,8 @@ struct VectorEditPanel: View {
     @State private var featureName = ""
     @State private var featureDescription = ""
     @State private var isConfirmingDelete = false
+    @State private var isConvertExpanded = false
+    @State private var keepSourcePoints = true
 
     private static let tools: [(shape: VectorEditShape, label: String, symbol: String)] = [
         (.point, "Point", "mappin"),
@@ -128,6 +130,8 @@ struct VectorEditPanel: View {
                 .textFieldStyle(.roundedBorder)
                 .onChange(of: layerName) { _, name in session.setLayerName(name) }
 
+            convertSection
+
             if let feature = session.selectedFeature {
                 VStack(alignment: .leading, spacing: 8) {
                     TextField("Feature name", text: $featureName)
@@ -184,6 +188,101 @@ struct VectorEditPanel: View {
             Button("Delete", role: .destructive) { session.deleteSelectedFeature() }
         } message: {
             Text("This cannot be undone.")
+        }
+    }
+
+    /// "Make line or area from points", per the field-capture contract:
+    /// stored array order, live length/area stats, keep-source default, and
+    /// a one-shot undo. Collapsed until asked for — most sessions never
+    /// convert — and absent entirely when the layer has no points to
+    /// connect.
+    @ViewBuilder
+    private var convertSection: some View {
+        let linePlan = session.convertPlanLine
+        let areaPlan = session.convertPlanArea
+        if session.conversionUndo != nil {
+            HStack {
+                Text("Points connected.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                Button("Undo") { session.undoConversion() }
+                    .font(.caption)
+            }
+        } else if let linePlan, linePlan.sourcePointCount >= 2 {
+            DisclosureGroup(
+                isExpanded: Binding(
+                    get: { isConvertExpanded },
+                    set: { expanded in
+                        isConvertExpanded = expanded
+                        // The map draws the connect-the-dots order while the
+                        // section is open, so the order is seen before it is
+                        // committed.
+                        session.isPreviewingConversion = expanded
+                    }
+                )
+            ) {
+                VStack(alignment: .leading, spacing: 8) {
+                    // The order is the stored order; there is no reordering
+                    // in v1, so say what will happen before it does.
+                    Text(
+                        "Connects the layer's \(linePlan.sourcePointCount) points "
+                            + "in the order they were added."
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                    if linePlan.selfIntersects || areaPlan?.selfIntersects == true {
+                        Label(
+                            "The path crosses itself. It can still be made.",
+                            systemImage: "exclamationmark.triangle"
+                        )
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                    }
+
+                    Toggle(isOn: $keepSourcePoints) {
+                        Text("Keep the points").font(.caption)
+                    }
+
+                    HStack(spacing: 8) {
+                        Button {
+                            session.convertPoints(shape: .line, keepSourcePoints: keepSourcePoints)
+                            isConvertExpanded = false
+                            session.isPreviewingConversion = false
+                        } label: {
+                            Text("Line · \(Geodesy.formatDistance(linePlan.lengthM))")
+                                .font(.caption)
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(!linePlan.viable)
+
+                        if let areaPlan {
+                            Button {
+                                session.convertPoints(
+                                    shape: .area, keepSourcePoints: keepSourcePoints
+                                )
+                                isConvertExpanded = false
+                                session.isPreviewingConversion = false
+                            } label: {
+                                Text(
+                                    areaPlan.viable
+                                        ? "Area · \(Geodesy.formatArea(areaPlan.areaM2 ?? 0))"
+                                        : "Area · needs 3 points"
+                                )
+                                .font(.caption)
+                            }
+                            .buttonStyle(.bordered)
+                            .disabled(!areaPlan.viable)
+                        }
+                    }
+                }
+                .padding(.top, 4)
+            } label: {
+                Text("Make line or area from points")
+                    .font(.caption)
+            }
         }
     }
 
