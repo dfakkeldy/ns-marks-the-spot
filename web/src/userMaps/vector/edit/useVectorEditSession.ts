@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Feature, FeatureCollection } from "geojson";
 import { UserMapImportError } from "../../errors";
+import {
+  buildPathFromPoints,
+  type ConvertShape,
+} from "../convert/pointsToPath";
 import { summarize } from "../summarize";
 import type { UserVectorLayerRecord } from "../types";
 import type { VisibleUserVectorLayer } from "../useUserVectorLayers";
@@ -20,6 +24,18 @@ export type VectorEditSession = {
   updateFeatureDetails: (featureId: string, details: FeatureDetails) => void;
   deleteFeature: (featureId: string) => void;
   renameLayer: (name: string) => void;
+  /**
+   * Converts the layer's points into a line or area per the field-capture
+   * contract; returns the new feature's id, or null when there is too
+   * little to convert.
+   */
+  convertPoints: (input: {
+    shape: ConvertShape;
+    keepSourcePoints: boolean;
+  }) => string | null;
+  /** Present while the last commit was a conversion; the one-shot undo. */
+  lastConversion: { label: string } | null;
+  undoConversion: () => void;
 };
 
 type Options = {
@@ -119,12 +135,25 @@ export function useVectorEditSession({
   // one moment the debounce would read as data loss.
   useEffect(() => flush, [flush]);
 
+  /**
+   * The pre-conversion collection, kept for exactly one undo. Held in a ref
+   * with a mirroring state: the ref is what undo recommits, the state is
+   * what renders the affordance. The single write path clears both, which
+   * is what makes the undo one-shot — any later commit is a newer truth.
+   */
+  const undoConversionRef = useRef<FeatureCollection | null>(null);
+  const [lastConversion, setLastConversion] = useState<{ label: string } | null>(
+    null,
+  );
+
   /** The single write path: advance the record, mirror it out, schedule. */
   const commit = useCallback(
     (
       nextRecord: UserVectorLayerRecord,
       nextCollection: FeatureCollection,
     ) => {
+      undoConversionRef.current = null;
+      setLastConversion(null);
       const summary = summarize(nextCollection);
       const advanced: UserVectorLayerRecord = {
         ...nextRecord,
@@ -172,6 +201,8 @@ export function useVectorEditSession({
 
   const endEdit = useCallback(() => {
     flush();
+    undoConversionRef.current = null;
+    setLastConversion(null);
     setEditingId(null);
     setDraftRecord(null);
     setDraftData(null);
@@ -230,6 +261,41 @@ export function useVectorEditSession({
     [commit, draftData, draftRecord],
   );
 
+  const convertPoints = useCallback(
+    (input: { shape: ConvertShape; keepSourcePoints: boolean }): string | null => {
+      if (!draftRecord || !draftData) {
+        return null;
+      }
+      const result = buildPathFromPoints(draftData, input);
+      if (!result) {
+        return null;
+      }
+      const before = draftData;
+      commit(draftRecord, result.collection);
+      // AFTER commit on purpose: commit clears the undo slot, and this
+      // conversion is the one commit allowed to refill it.
+      undoConversionRef.current = before;
+      setLastConversion({
+        label: `Converted ${(result.feature.properties as Record<string, unknown>)[
+          "nsmts:convertedFromPoints"
+        ] as number} points`,
+      });
+      return String(result.feature.id);
+    },
+    [commit, draftData, draftRecord],
+  );
+
+  const undoConversion = useCallback(() => {
+    const before = undoConversionRef.current;
+    if (!before || !draftRecord) {
+      return;
+    }
+    // Through the normal write path: the restore is a commit like any other
+    // (revision bump, summary, debounced persist), and commit clearing the
+    // slot is what makes this one-shot.
+    commit(draftRecord, before);
+  }, [commit, draftRecord]);
+
   const editingLayer = useMemo<VisibleUserVectorLayer | null>(
     () =>
       draftRecord && draftData ? { record: draftRecord, data: draftData } : null,
@@ -246,5 +312,8 @@ export function useVectorEditSession({
     updateFeatureDetails,
     deleteFeature,
     renameLayer,
+    convertPoints,
+    lastConversion,
+    undoConversion,
   };
 }

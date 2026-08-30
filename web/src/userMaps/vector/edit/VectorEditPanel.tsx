@@ -1,5 +1,11 @@
+import { useState } from "react";
 import type { FeatureCollection } from "geojson";
 import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
+import { formatArea, formatDistance } from "../../../services/geodesy";
+import type {
+  ConversionPlan,
+  ConvertShape,
+} from "../convert/pointsToPath";
 import type { UserVectorLayerRecord } from "../types";
 import type { VectorSnapTargets } from "./EditableVectorLayer";
 import type { ParcelSnapStatus } from "./ParcelSnapTargetsLayer";
@@ -21,6 +27,12 @@ type VectorEditPanelProps = {
   onSnapChange: (snap: VectorSnapTargets) => void;
   /** Parcels toggled before the province licence: open the licence dialog. */
   onRequestParcelSnapLicence: () => void;
+  convertShape: ConvertShape | null;
+  conversionPlan: ConversionPlan | null;
+  onConvertShape: (shape: ConvertShape | null) => void;
+  onConvertCreate: (keepSourcePoints: boolean) => void;
+  lastConversion: { label: string } | null;
+  onUndoConversion: () => void;
   onDrawMode: (mode: EditMode | null) => void;
   onRename: (name: string) => void;
   onUpdateFeature: (featureId: string, details: FeatureDetails) => void;
@@ -80,6 +92,12 @@ export function VectorEditPanel({
   licenceAccepted,
   onSnapChange,
   onRequestParcelSnapLicence,
+  convertShape,
+  conversionPlan,
+  onConvertShape,
+  onConvertCreate,
+  lastConversion,
+  onUndoConversion,
   onDrawMode,
   onRename,
   onUpdateFeature,
@@ -90,6 +108,12 @@ export function VectorEditPanel({
     (feature) => String(feature.id) === selectedFeatureId,
   );
   const properties = (selected?.properties ?? {}) as Record<string, unknown>;
+  const pointCount = data.features.filter(
+    (feature) => feature.geometry?.type === "Point",
+  ).length;
+  // Non-destructive by default: with no undo system beyond the one-shot
+  // conversion revert, keeping the source points is the safer failure mode.
+  const [keepSourcePoints, setKeepSourcePoints] = useState(true);
 
   return (
     <section className="vector-edit-panel" aria-label={`Editing ${record.name}`}>
@@ -178,6 +202,73 @@ export function VectorEditPanel({
           </>
         ) : null}
       </fieldset>
+
+      {pointCount >= 2 ? (
+        <fieldset className="vector-edit-convert">
+          <legend>Make line or area from points</legend>
+          {convertShape === null ? (
+            <div className="vector-edit-convert-pick" role="group">
+              <button type="button" onClick={() => onConvertShape("line")}>
+                Line from points
+              </button>
+              <button type="button" onClick={() => onConvertShape("area")}>
+                Area from points
+              </button>
+            </div>
+          ) : (
+            <>
+              <small className="vector-edit-convert-stats">
+                {conversionPlan?.viable
+                  ? `${conversionPlan.sourcePointCount} points → ${formatDistance(
+                      conversionPlan.lengthM,
+                    )}${
+                      conversionPlan.areaM2 !== null
+                        ? ` · ${formatArea(conversionPlan.areaM2)}`
+                        : ""
+                    }`
+                  : convertShape === "area"
+                    ? "An area needs at least 3 distinct points."
+                    : "A line needs at least 2 distinct points."}
+              </small>
+              {conversionPlan?.selfIntersects ? (
+                <small className="vector-edit-convert-warning">
+                  The path crosses itself — check the numbered order on the
+                  map.
+                </small>
+              ) : null}
+              <label className="vector-edit-snap-row">
+                <input
+                  type="checkbox"
+                  checked={keepSourcePoints}
+                  onChange={(event) => setKeepSourcePoints(event.target.checked)}
+                />
+                <span>Keep the source points</span>
+              </label>
+              <div className="vector-edit-convert-actions">
+                <button type="button" onClick={() => onConvertShape(null)}>
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="vector-edit-convert-create"
+                  disabled={!conversionPlan?.viable}
+                  onClick={() => onConvertCreate(keepSourcePoints)}
+                >
+                  {convertShape === "area" ? "Create area" : "Create line"}
+                </button>
+              </div>
+            </>
+          )}
+        </fieldset>
+      ) : null}
+      {lastConversion ? (
+        <div className="vector-edit-convert-undo">
+          <small>{lastConversion.label}</small>
+          <button type="button" onClick={onUndoConversion}>
+            Undo
+          </button>
+        </div>
+      ) : null}
 
       <label className="vector-edit-field">
         <span>Layer name</span>

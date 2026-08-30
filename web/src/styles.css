@@ -5063,6 +5063,107 @@ a {
   border-radius: 2px;
 }
 
+.vector-edit-convert {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.vector-edit-convert legend {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.vector-edit-convert-pick,
+.vector-edit-convert-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.vector-edit-convert-pick button,
+.vector-edit-convert-actions button {
+  min-height: 44px;
+  flex: 1;
+  padding: 0 10px;
+  color: var(--survey-blue);
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.vector-edit-convert-create {
+  color: #fff !important;
+  background: var(--survey-blue) !important;
+  border-color: var(--survey-blue) !important;
+}
+
+.vector-edit-convert-create:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.vector-edit-convert-stats {
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.vector-edit-convert-warning {
+  color: #8a4b00;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.vector-edit-convert-undo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 2px 2px 6px;
+}
+
+.vector-edit-convert-undo button {
+  min-height: 44px;
+  padding: 0 14px;
+  color: var(--survey-blue);
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Numbered vertex badges on the conversion preview: the order IS the
+   contract's safeguard, so the numbers must read at a glance. */
+.convert-badge-anchor {
+  pointer-events: none;
+}
+
+.convert-badge {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  background: #b85c1e;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(18, 52, 59, 0.5);
+}
+
 .vector-edit-field {
   display: grid;
   gap: 4px;

@@ -570,3 +570,52 @@ describe("EditableVectorLayer on a map created before Geoman loaded", () => {
     expect(collection.features).toHaveLength(2);
   });
 });
+
+describe("EditableVectorLayer session-added features", () => {
+  afterEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    cleanup();
+    createdMaps.length = 0;
+    document.body.replaceChildren();
+  });
+
+  it("materializes a draft-added feature so the next Geoman publish keeps it", async () => {
+    const { map, onGeometryChange, rerenderWith } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    // The session commits a feature the panel created (a conversion result,
+    // a restored point, a GPS mark): it exists in the draft only.
+    const added: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        ...DATA.features,
+        {
+          type: "Feature",
+          id: "converted-line",
+          geometry: {
+            type: "LineString",
+            coordinates: [
+              [-61.45, 45.75],
+              [-61.35, 45.85],
+            ],
+          },
+          properties: { "nsmts:convertedFromPoints": 2 },
+        },
+      ],
+    };
+    rerenderWith(added);
+    await waitFor(() =>
+      expect(findLayerByFeatureId(map, "converted-line")).toBeTruthy(),
+    );
+
+    // A Geoman gesture rebuilds the published collection from the group; the
+    // added feature must survive that rebuild.
+    const target = findLayerByFeatureId(map, "poly");
+    target!.fire("pm:edit", { layer: target! }, true);
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    const survived = collection.features.find((f) => f.id === "converted-line");
+    expect(survived?.geometry.type).toBe("LineString");
+    expect(survived?.properties?.["nsmts:convertedFromPoints"]).toBe(2);
+  });
+});

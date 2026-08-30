@@ -12,6 +12,7 @@ import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
 import { generateId } from "../../importUtils";
 import { styleForFeature } from "../render/style";
 import { attachSnapTracker } from "./snapTracker";
+import type { ConversionPreview } from "./ConversionPreviewLayer";
 import type { ParcelSnapStatus } from "./ParcelSnapTargetsLayer";
 import type { UserVectorLayerRecord } from "../types";
 
@@ -36,6 +37,8 @@ export type VectorEditBinding = EditableVectorLayerProps & {
   mode: string | null;
   /** Where the parcel snap-target layer reports its distinct states. */
   onParcelSnapStatus: (status: ParcelSnapStatus) => void;
+  /** Connect-the-dots preview while the convert dialog is open. */
+  conversionPreview: ConversionPreview | null;
 };
 
 /**
@@ -128,6 +131,9 @@ export function EditableVectorLayer({
   // Geoman for ownership of the geometry mid-gesture.
   const seedRef = useRef(data);
   const groupRef = useRef<L.GeoJSON | null>(null);
+  // Set by the session effect: turns a draft feature with no live layer into
+  // an adopted group child, with the session's pane/renderer/style.
+  const materializeRef = useRef<((feature: Feature) => void) | null>(null);
 
   useEffect(() => {
     ensureGeomanMap(map);
@@ -197,6 +203,27 @@ export function EditableVectorLayer({
 
     group.eachLayer(adopt);
     groupRef.current = group;
+    materializeRef.current = (feature) => {
+      // Same construction path as the seed, so an added feature is
+      // indistinguishable from one that was there at session start.
+      const addition = L.geoJSON(feature, {
+        pane: USER_VECTOR_PANE,
+        style: (added) => ({
+          ...styleForFeature(added!, styleRef.current),
+          renderer,
+        }),
+        pointToLayer: (_added, latlng) =>
+          L.circleMarker(latlng, {
+            radius: POINT_RADIUS,
+            pane: USER_VECTOR_PANE,
+            renderer,
+          }),
+      });
+      addition.eachLayer((child) => {
+        adopt(child);
+        group.addLayer(child);
+      });
+    };
 
     // Geoman's global edit/drag/removal modes enumerate EVERY qualifying
     // layer on the map — official evidence markers (well logs, abandoned
@@ -262,6 +289,7 @@ export function EditableVectorLayer({
       group.off("pm:dragend", publish);
       group.off("pm:markerdragend", publish);
       tracker.detach();
+      materializeRef.current = null;
       groupRef.current = null;
       L.PM.setOptIn(false);
       map.pm.disableDraw?.();
@@ -299,11 +327,13 @@ export function EditableVectorLayer({
         .map((feature) => [String(feature.id), feature]),
     );
     const removed: L.Layer[] = [];
+    const liveIds = new Set<string>();
     group.eachLayer((layer) => {
       const feature = (layer as L.Layer & { feature?: Feature }).feature;
       if (!feature || feature.id === undefined) {
         return;
       }
+      liveIds.add(String(feature.id));
       const draft = draftById.get(String(feature.id));
       if (!draft) {
         removed.push(layer);
@@ -319,6 +349,16 @@ export function EditableVectorLayer({
     for (const layer of removed) {
       (layer as L.Layer & { pm?: { disable?: () => void } }).pm?.disable?.();
       group.removeLayer(layer);
+    }
+    // The third writer's path: features the SESSION added to the draft —
+    // points-to-path output, an undone conversion's restored points, a GPS
+    // mark placed mid-session — have no live layer yet, and collect()
+    // rebuilds from the group, so without materializing them here the next
+    // Geoman gesture would silently publish them out of existence.
+    for (const [id, draft] of draftById) {
+      if (!liveIds.has(id) && draft.geometry) {
+        materializeRef.current?.(draft);
+      }
     }
   }, [data]);
 

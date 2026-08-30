@@ -144,6 +144,7 @@ import {
 } from "../userMaps/components/GeoreferenceMapLayer";
 import { UserVectorLayers } from "../userMaps/vector/components/UserVectorLayers";
 import type { VectorEditBinding } from "../userMaps/vector/edit/EditableVectorLayer";
+import { ConversionPreviewLayer } from "../userMaps/vector/edit/ConversionPreviewLayer";
 // Lazy like EditableVectorLayer: both exist only inside an edit session.
 const ParcelSnapTargetsLayer = lazy(() =>
   import("../userMaps/vector/edit/ParcelSnapTargetsLayer").then((module) => ({
@@ -2107,6 +2108,9 @@ export function MapCanvas({
               <ParcelSnapTargetsLayer
                 onStatusChange={userVectorEdit.onParcelSnapStatus}
               />
+            ) : null}
+            {userVectorEdit.conversionPreview ? (
+              <ConversionPreviewLayer {...userVectorEdit.conversionPreview} />
             ) : null}
           </Suspense>
         ) : null}

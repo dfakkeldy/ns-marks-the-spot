@@ -308,3 +308,121 @@ describe("useVectorEditSession", () => {
     expect(putVectorLayer).not.toHaveBeenCalled();
   });
 });
+
+describe("points-to-path conversion", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  function threePoints(): FeatureCollection {
+    return {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "p1",
+          geometry: { type: "Point", coordinates: [-61.0, 46.0] },
+          properties: {},
+        },
+        {
+          type: "Feature",
+          id: "p2",
+          geometry: { type: "Point", coordinates: [-61.0, 46.001] },
+          properties: {},
+        },
+        {
+          type: "Feature",
+          id: "p3",
+          geometry: { type: "Point", coordinates: [-60.999, 46.001] },
+          properties: {},
+        },
+      ],
+    };
+  }
+
+  it("converts, returns the new id, and offers a one-shot undo", () => {
+    const { options } = harness({
+      geometries: { "layer-1": threePoints() },
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+
+    let createdId: string | null = null;
+    act(() => {
+      createdId = result.current.convertPoints({
+        shape: "area",
+        keepSourcePoints: false,
+      });
+    });
+    expect(createdId).toBeTruthy();
+    expect(result.current.editingLayer?.data.features).toHaveLength(1);
+    expect(result.current.editingLayer?.data.features[0].geometry.type).toBe(
+      "Polygon",
+    );
+    expect(result.current.lastConversion?.label).toBe("Converted 3 points");
+
+    act(() => result.current.undoConversion());
+    expect(result.current.editingLayer?.data.features.map(({ id }) => id)).toEqual(
+      ["p1", "p2", "p3"],
+    );
+    // One-shot: the undo commit cleared the slot.
+    expect(result.current.lastConversion).toBeNull();
+    act(() => result.current.undoConversion());
+    expect(result.current.editingLayer?.data.features).toHaveLength(3);
+  });
+
+  it("clears the undo on any later commit", () => {
+    const { options } = harness({
+      geometries: { "layer-1": threePoints() },
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+    act(() => {
+      result.current.convertPoints({ shape: "line", keepSourcePoints: true });
+    });
+    expect(result.current.lastConversion).not.toBeNull();
+
+    act(() => result.current.renameLayer("Renamed"));
+    expect(result.current.lastConversion).toBeNull();
+  });
+
+  it("returns null without committing when there is too little to convert", () => {
+    const { options, onLayerChanged } = harness();
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+    onLayerChanged.mockClear();
+    let createdId: string | null = "sentinel";
+    act(() => {
+      createdId = result.current.convertPoints({
+        shape: "area",
+        keepSourcePoints: true,
+      });
+    });
+    expect(createdId).toBeNull();
+    expect(onLayerChanged).not.toHaveBeenCalled();
+  });
+
+  it("persists the conversion through the normal debounced write", async () => {
+    const { options, putVectorLayer } = harness({
+      geometries: { "layer-1": threePoints() },
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+    act(() => {
+      result.current.convertPoints({ shape: "line", keepSourcePoints: true });
+    });
+    await act(async () => {
+      vi.advanceTimersByTime(PERSIST_DELAY_MS + 1);
+      await Promise.resolve();
+    });
+    expect(putVectorLayer).toHaveBeenCalledTimes(1);
+    const persisted = (
+      putVectorLayer.mock.calls[0] as unknown as [unknown, FeatureCollection]
+    )[1];
+    expect(persisted.features).toHaveLength(4);
+  });
+});
