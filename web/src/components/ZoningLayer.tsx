@@ -27,23 +27,35 @@ type ZoningLayerProps = {
 const ZONING_POPUP_NOTE =
   "Unofficial rendering of a municipal map service, not the municipality's official copy and not for legal purposes. Confirm the zone and its rules with the municipality.";
 
-function zoningStyle(layer: ZoningLayerDescriptor): PathOptions {
+/**
+ * snapIgnore true is defence in depth for the field-capture licence
+ * boundary: zoning geometry is live-query-only and must never become a snap
+ * source (a snapped vertex would persist redistributed coordinates). The
+ * default Geoman semantics already exclude these layers under the edit
+ * session's opt-in mode; this makes the exclusion explicit and testable
+ * rather than hinging on a vendored default.
+ */
+// eslint-disable-next-line react-refresh/only-export-components -- exported so the snap-exclusion pin can assert on the real style.
+export function zoningStyle(layer: ZoningLayerDescriptor): PathOptions {
   return {
     color: layer.strokeColor,
     fillColor: layer.fillColor,
     fillOpacity: layer.opacity,
     weight: 1,
-  };
+    snapIgnore: true,
+  } as PathOptions;
 }
 
-const printZoningStyle: PathOptions = {
+// eslint-disable-next-line react-refresh/only-export-components -- exported so the snap-exclusion pin can assert on the real style.
+export const printZoningStyle: PathOptions = {
   color: "#333333",
   fillColor: "#ededed",
   fillOpacity: 0.35,
   weight: 1,
   dashArray: "1 2",
   className: "print-zoning-zone",
-};
+  snapIgnore: true,
+} as PathOptions;
 
 /**
  * Builds the popup as DOM nodes rather than an HTML string. Zone codes and

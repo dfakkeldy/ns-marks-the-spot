@@ -8,13 +8,24 @@ import {
   USER_VECTOR_PANE,
   USER_VECTOR_PANE_Z_INDEX,
 } from "../../../components/mapPanes";
+import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
 import { generateId } from "../../importUtils";
 import { styleForFeature } from "../render/style";
+import { attachSnapTracker } from "./snapTracker";
+import type { ParcelSnapStatus } from "./ParcelSnapTargetsLayer";
 import type { UserVectorLayerRecord } from "../types";
+
+/** Which geometry a drawn or dragged vertex may pull to. */
+export type VectorSnapTargets = {
+  enabled: boolean;
+  myFeatures: boolean;
+  parcels: boolean;
+};
 
 type EditableVectorLayerProps = {
   record: UserVectorLayerRecord;
   data: FeatureCollection;
+  snap: VectorSnapTargets;
   onGeometryChange: (collection: FeatureCollection) => void;
   onSelectFeature: (featureId: string | null) => void;
 };
@@ -23,7 +34,31 @@ type EditableVectorLayerProps = {
 export type VectorEditBinding = EditableVectorLayerProps & {
   /** Geoman mode the toolbar has selected, or null for plain selection. */
   mode: string | null;
+  /** Where the parcel snap-target layer reports its distinct states. */
+  onParcelSnapStatus: (status: ParcelSnapStatus) => void;
 };
+
+/**
+ * The contract's snap options, passed wherever Geoman takes them. snapMiddle
+ * stays off: segment midpoints would compete with parcel corners during
+ * tracing. Vertex-over-edge priority is Geoman's own snapVertex rule — the
+ * behavior the parity fixture pins as "vertex-first".
+ */
+function snapOptions(snappable: boolean): {
+  snappable: boolean;
+  snapDistance: number;
+  snapSegment: boolean;
+  snapVertex: boolean;
+  snapMiddle: boolean;
+} {
+  return {
+    snappable,
+    snapDistance: FIELD_CAPTURE_SPEC.snap.toleranceScreenUnits,
+    snapSegment: true,
+    snapVertex: true,
+    snapMiddle: false,
+  };
+}
 
 const POINT_RADIUS = 6;
 
@@ -52,6 +87,7 @@ const POINT_RADIUS = 6;
 export function EditableVectorLayer({
   record,
   data,
+  snap,
   mode = null,
   onGeometryChange,
   onSelectFeature,
@@ -75,6 +111,19 @@ export function EditableVectorLayer({
   const groupRef = useRef<L.GeoJSON | null>(null);
 
   useEffect(() => {
+    // The app's one map is created at page load, long before this lazy chunk
+    // evaluates — and Geoman attaches `pm` only through a Map init hook,
+    // which touches maps created AFTER its module runs. Without this, every
+    // `map.pm` call below reads undefined and the session crashes the map
+    // (it did, on production, until this line). `new L.PM.Map(map)` is
+    // exactly what Geoman's own init hook runs for a non-opted-out map.
+    const mapWithPm = map as L.Map & { pm?: unknown };
+    if (!mapWithPm.pm) {
+      mapWithPm.pm = new (L.PM as unknown as {
+        Map: new (target: L.Map) => unknown;
+      }).Map(map);
+    }
+
     if (!map.getPane(USER_VECTOR_PANE)) {
       const pane = map.createPane(USER_VECTOR_PANE);
       pane.style.zIndex = String(USER_VECTOR_PANE_Z_INDEX);
@@ -118,6 +167,8 @@ export function EditableVectorLayer({
 
     const publish = () => changeRef.current(collect());
 
+    const tracker = attachSnapTracker(map);
+
     const adopt = (layer: L.Layer) => {
       const target = layer as L.Layer & { feature?: Feature };
       target.feature ??= {
@@ -130,6 +181,7 @@ export function EditableVectorLayer({
       // The session's opt-in marker; see setOptIn below. Geoman stamps its
       // own drawn shapes with pmIgnore: false, this covers the seeded ones.
       (layer.options as { pmIgnore?: boolean }).pmIgnore = false;
+      tracker.watch(layer);
       layer.on("click", () => {
         selectRef.current(String((layer as { feature?: Feature }).feature?.id ?? ""));
       });
@@ -153,6 +205,18 @@ export function EditableVectorLayer({
       // everything else in the layer.
       map.removeLayer(event.layer);
       adopt(event.layer);
+      const feature = (event.layer as L.Layer & { feature?: Feature }).feature;
+      if (feature?.properties) {
+        // Stamped HERE and only here, per the field-capture contract: adopt()
+        // also runs for every seeded child at session mount, and stamping
+        // there would fabricate identical timestamps onto imported features.
+        feature.properties["nsmts:createdAt"] ??= new Date().toISOString();
+        // The working layer Geoman drew with is not this created layer, so a
+        // parcel snap during drawing arrives as the tracker's one-shot flag.
+        if (tracker.consumeDrawSnap()) {
+          feature.properties["nsmts:traced"] = "nsprd-parcel";
+        }
+      }
       group.addLayer(event.layer);
       publish();
     };
@@ -189,6 +253,7 @@ export function EditableVectorLayer({
       group.off("pm:edit", publish);
       group.off("pm:dragend", publish);
       group.off("pm:markerdragend", publish);
+      tracker.detach();
       groupRef.current = null;
       L.PM.setOptIn(false);
       map.pm.disableDraw?.();
@@ -263,16 +328,22 @@ export function EditableVectorLayer({
     pm.disableGlobalEditMode?.();
     pm.disableGlobalRemovalMode?.();
     pm.disableGlobalDragMode?.();
+    // Only the master toggle re-arms the tool. Target changes (my features,
+    // parcels) mount/unmount their layers, and Geoman rebuilds its snap list
+    // from the map's layeradd/layerremove events on its own.
+    const snapping = snapOptions(snap.enabled);
     if (mode === "edit") {
-      pm.enableGlobalEditMode?.({ allowSelfIntersection: false });
+      pm.enableGlobalEditMode?.({ allowSelfIntersection: false, ...snapping });
     } else if (mode === "drag") {
       pm.enableGlobalDragMode?.();
     } else if (mode === "remove") {
       pm.enableGlobalRemovalMode?.();
     } else if (mode) {
-      pm.enableDraw?.(mode, { snappable: true, continueDrawing: true });
+      pm.enableDraw?.(mode, { ...snapping, continueDrawing: true });
     }
-  }, [map, mode]);
+    // A primitive dep on purpose: App builds the snap object per render, and
+    // an object dep would disable/re-enable the active tool on every render.
+  }, [map, mode, snap.enabled]);
 
   return null;
 }

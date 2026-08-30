@@ -1,5 +1,8 @@
 import type { FeatureCollection } from "geojson";
+import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
 import type { UserVectorLayerRecord } from "../types";
+import type { VectorSnapTargets } from "./EditableVectorLayer";
+import type { ParcelSnapStatus } from "./ParcelSnapTargetsLayer";
 import type { FeatureDetails } from "./useVectorEditSession";
 
 /** Geoman shape names, kept out of the rest of the app's vocabulary. */
@@ -12,12 +15,36 @@ type VectorEditPanelProps = {
   selectedFeatureId: string | null;
   drawMode: EditMode | null;
   storageError: string | null;
+  snap: VectorSnapTargets;
+  parcelSnapStatus: ParcelSnapStatus;
+  licenceAccepted: boolean;
+  onSnapChange: (snap: VectorSnapTargets) => void;
+  /** Parcels toggled before the province licence: open the licence dialog. */
+  onRequestParcelSnapLicence: () => void;
   onDrawMode: (mode: EditMode | null) => void;
   onRename: (name: string) => void;
   onUpdateFeature: (featureId: string, details: FeatureDetails) => void;
   onDeleteFeature: (featureId: string) => void;
   onDone: () => void;
 };
+
+function parcelStatusText(status: ParcelSnapStatus): string | null {
+  switch (status.status) {
+    case "idle":
+      return null;
+    case "loading":
+      return "Loading parcels…";
+    case "zoom":
+      return `Parcels load at zoom ${status.minZoom}+`;
+    case "dense":
+      return `Too many parcels here (${status.count.toLocaleString("en-CA")}) — zoom in to snap`;
+    case "error":
+      return "Parcels didn't load";
+    case "ready":
+      // "0 parcels snappable" is an honest empty, not absence evidence.
+      return `${status.count.toLocaleString("en-CA")} parcels snappable`;
+  }
+}
 
 const TOOLS: Array<{ mode: EditMode; label: string; text: string }> = [
   { mode: "Marker", label: "Draw point", text: "Point" },
@@ -48,6 +75,11 @@ export function VectorEditPanel({
   selectedFeatureId,
   drawMode,
   storageError,
+  snap,
+  parcelSnapStatus,
+  licenceAccepted,
+  onSnapChange,
+  onRequestParcelSnapLicence,
   onDrawMode,
   onRename,
   onUpdateFeature,
@@ -88,6 +120,64 @@ export function VectorEditPanel({
           </button>
         ))}
       </div>
+
+      <fieldset className="vector-edit-snap">
+        <legend>Snapping</legend>
+        <label className="vector-edit-snap-row">
+          <input
+            type="checkbox"
+            checked={snap.enabled}
+            onChange={(event) =>
+              onSnapChange({ ...snap, enabled: event.target.checked })
+            }
+          />
+          <span>Snap while drawing</span>
+        </label>
+        {snap.enabled ? (
+          <>
+            <label className="vector-edit-snap-row">
+              <input
+                type="checkbox"
+                checked={snap.myFeatures}
+                onChange={(event) =>
+                  onSnapChange({ ...snap, myFeatures: event.target.checked })
+                }
+              />
+              <span>My features</span>
+            </label>
+            <label className="vector-edit-snap-row">
+              <input
+                type="checkbox"
+                checked={snap.parcels}
+                onChange={(event) => {
+                  if (event.target.checked && !licenceAccepted) {
+                    // The gate, not a toggle: acceptance completes the
+                    // intent and arms parcels; declining leaves it off.
+                    onRequestParcelSnapLicence();
+                    return;
+                  }
+                  onSnapChange({ ...snap, parcels: event.target.checked });
+                }}
+              />
+              <span>Parcel boundaries (NSPRD)</span>
+            </label>
+            {/* The pinned caveat stands whenever the parcels control is
+                visible — a traced line inherits NSPRD's own accuracy, and
+                NSPRD says it is not a survey. */}
+            <small className="vector-edit-snap-caveat">
+              {FIELD_CAPTURE_SPEC.snap.parcelCaveat}
+            </small>
+            {snap.parcels ? (
+              <small className="vector-edit-snap-status" aria-live="polite">
+                {parcelStatusText(parcelSnapStatus)}
+              </small>
+            ) : null}
+            <small className="vector-edit-snap-hint">
+              Hold Alt to place a vertex without snapping.
+            </small>
+          </>
+        ) : null}
+      </fieldset>
 
       <label className="vector-edit-field">
         <span>Layer name</span>

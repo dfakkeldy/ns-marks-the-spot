@@ -230,6 +230,9 @@ import {
   VectorEditPanel,
   type EditMode,
 } from "./userMaps/vector/edit/VectorEditPanel";
+// Type-only, so the Geoman bundle behind EditableVectorLayer stays lazy.
+import type { VectorSnapTargets } from "./userMaps/vector/edit/EditableVectorLayer";
+import type { ParcelSnapStatus } from "./userMaps/vector/edit/ParcelSnapTargetsLayer";
 import { GeoreferencePanel } from "./userMaps/components/GeoreferencePanel";
 import { GeoPdfFrameChooser } from "./userMaps/components/GeoPdfFrameChooser";
 import type { ReferenceLayerId } from "./userMaps/components/GeoreferencePanel";
@@ -258,6 +261,8 @@ type LicenceIntent =
   | { kind: "layer" }
   /** Parcel/civic search asked for licensed data before acceptance. */
   | { kind: "search"; query: string }
+  /** The edit panel's parcel-snap toggle asked before acceptance. */
+  | { kind: "snap" }
   /** "Data & licences" review — never a licence-state or layer-state change. */
   | { kind: "review" }
   | null;
@@ -265,6 +270,13 @@ type LicenceIntent =
 const EMPTY_FEATURES: NsprdFeatureCollection = {
   type: "FeatureCollection",
   features: [],
+};
+
+/** Each edit session re-arms snapping from here (field-capture contract). */
+const DEFAULT_SNAP_TARGETS: VectorSnapTargets = {
+  enabled: true,
+  myFeatures: true,
+  parcels: false,
 };
 const EMPTY_PID_SET = new Set<string>();
 
@@ -1403,11 +1415,22 @@ export function App() {
   });
   const [drawMode, setDrawMode] = useState<EditMode | null>(null);
   const [selectedFeatureId, setSelectedFeatureId] = useState<string | null>(null);
+  // Session-scoped on purpose (the field-capture contract): every edit
+  // session re-arms snapping from the defaults, so the licence-gated parcels
+  // toggle is a fresh, deliberate choice each time.
+  const [snapTargets, setSnapTargets] = useState<VectorSnapTargets>(
+    DEFAULT_SNAP_TARGETS,
+  );
+  const [parcelSnapStatus, setParcelSnapStatus] = useState<ParcelSnapStatus>({
+    status: "idle",
+  });
 
   const beginVectorEdit = useCallback(
     (id: string) => {
       setDrawMode(null);
       setSelectedFeatureId(null);
+      setSnapTargets(DEFAULT_SNAP_TARGETS);
+      setParcelSnapStatus({ status: "idle" });
       vectorEdit.beginEdit(id);
     },
     [vectorEdit],
@@ -1415,8 +1438,15 @@ export function App() {
   const endVectorEdit = useCallback(() => {
     setDrawMode(null);
     setSelectedFeatureId(null);
+    setSnapTargets(DEFAULT_SNAP_TARGETS);
+    setParcelSnapStatus({ status: "idle" });
     vectorEdit.endEdit();
   }, [vectorEdit]);
+
+  const requestParcelSnapLicence = useCallback(() => {
+    setLicenceIntent({ kind: "snap" });
+    setLicenceDialogOpen(true);
+  }, []);
   // A new drawing layer opens straight into edit mode with the point tool
   // armed: the only reason to create one is to start drawing.
   const createAndEditVectorLayer = useCallback(async () => {
@@ -2420,6 +2450,10 @@ export function App() {
       void runSearch(licenceIntent.query, { licenceJustAccepted: true });
     } else if (licenceIntent?.kind === "layer") {
       setProvinceLayers(intendedInitialProvinceLayers);
+    } else if (licenceIntent?.kind === "snap") {
+      // Acceptance completes the parcels toggle the edit panel refused to
+      // flip before the licence; declining leaves snapping to own features.
+      setSnapTargets((current) => ({ ...current, parcels: true }));
     }
     // "review" (and any other intent): accepting again is a pure dismiss.
     // This used to fall into the layer branch, so a user re-reading the
@@ -4565,8 +4599,16 @@ export function App() {
                     record: vectorEdit.editingLayer.record,
                     data: vectorEdit.editingLayer.data,
                     mode: drawMode,
+                    snap: {
+                      enabled: snapTargets.enabled,
+                      myFeatures: snapTargets.myFeatures,
+                      // Belt to the panel's braces: parcels never arm
+                      // without the accepted province licence.
+                      parcels: snapTargets.parcels && licenceAccepted,
+                    },
                     onGeometryChange: vectorEdit.commitGeometry,
                     onSelectFeature: setSelectedFeatureId,
+                    onParcelSnapStatus: setParcelSnapStatus,
                   }
                 : null
             }
@@ -4883,6 +4925,11 @@ export function App() {
         selectedFeatureId={selectedFeatureId}
         drawMode={drawMode}
         storageError={vectorEdit.storageError}
+        snap={snapTargets}
+        parcelSnapStatus={parcelSnapStatus}
+        licenceAccepted={licenceAccepted}
+        onSnapChange={setSnapTargets}
+        onRequestParcelSnapLicence={requestParcelSnapLicence}
         onDrawMode={setDrawMode}
         onRename={vectorEdit.renameLayer}
         onUpdateFeature={vectorEdit.updateFeatureDetails}

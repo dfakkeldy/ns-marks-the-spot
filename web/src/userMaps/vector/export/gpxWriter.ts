@@ -1,4 +1,5 @@
 import type { Feature, FeatureCollection, Position } from "geojson";
+import { TRACED_PROVENANCE_NOTE, hasTracedFeatures } from "./tracedProvenance";
 
 const GPX_NS = "http://www.topografix.com/GPX/1/1";
 
@@ -70,6 +71,9 @@ export function gpxDocumentString(
 
   const metadata = element("metadata");
   metadata.append(element("name", layerName));
+  if (hasTracedFeatures(collection)) {
+    metadata.append(element("desc", TRACED_PROVENANCE_NOTE));
+  }
   root.append(metadata);
 
   // GPX 1.1 is order-strict: inside wpt/trkpt, ele then time then name/desc;

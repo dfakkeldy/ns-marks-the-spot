@@ -144,3 +144,42 @@ describe("kmlDocumentString", () => {
     expect(kml).toContain("Something");
   });
 });
+
+describe("traced provenance", () => {
+  it("writes the note into the Document description when a feature was traced", () => {
+    const kml = kmlDocumentString("Traced", {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "traced",
+          geometry: {
+            type: "LineString",
+            coordinates: [
+              [-61, 46],
+              [-61, 46.001],
+            ],
+          },
+          properties: { "nsmts:traced": "nsprd-parcel" },
+        },
+      ],
+    });
+    expect(kml).toContain("Traced boundaries are not a survey.");
+    expect(kml).toContain("Province of Nova Scotia");
+  });
+
+  it("writes no note for an untraced layer", () => {
+    const kml = kmlDocumentString("Plain", {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "plain",
+          geometry: { type: "Point", coordinates: [-61, 46] },
+          properties: {},
+        },
+      ],
+    });
+    expect(kml).not.toContain("not a survey");
+  });
+});
