@@ -1789,29 +1789,6 @@ struct MapContainerView: View {
         )
     }
 
-    /// Saves the stopped recording as a layer. The sheet stays up until the
-    /// write lands: the recording is the only copy of the walk, and
-    /// dismissing before a failed save would throw it out while telling the
-    /// user to try again.
-    private func saveRecordedTrack(
-        _ result: TrackRecording.StopResult, name: String, toleranceM: Double
-    ) {
-        Task {
-            guard let row = await userVectorsVM.addRecordedLayer(
-                result, name: name, simplifyToleranceM: toleranceM
-            ) else {
-                saveTrackError = "This track could not be saved to your "
-                    + "device. Free some space and save again, or discard it."
-                return
-            }
-            saveTrackError = nil
-            saveTrack = nil
-            if let box = row.record.bbox {
-                controller.frame(box)
-            }
-        }
-    }
-
     private func beginEditing(_ row: UserVectorsViewModel.Row) {
         // A layer whose geometry has not loaded yet is loaded first: a
         // session begun on an empty working copy would persist that
