@@ -90,7 +90,10 @@
             overlay tiles, and Nova Scotia provincial geographic services. Those map
             providers may receive standard network requests for the tiles or layers you
             view. Searching by PID or civic address sends the search text to the
-            provincial services that answer it. If you turn on the optional
+            provincial services that answer it. If you turn on parcel snapping
+            while drawing, the native app sends only a licence-gated viewport
+            rectangle to the same provincial parcel service the identify tool
+            already queries. If you turn on the optional
             live-conditions layers in the browser map, your browser also requests
             camera imagery from 511 Nova Scotia and radar tiles from Environment and
             Climate Change Canada's MSC GeoMet. NS Marks The Spot does not operate its
@@ -113,14 +116,24 @@
             Maps you import, the placements you give them, the layers you draw, and
             GPS marks or tracks you save are stored only on your device. NS Marks The
             Spot does not upload them, and they leave the device only when you export
-            or share something yourself through the iOS share sheet.
+            or share something yourself through the iOS share sheet. Features traced
+            from parcel boundaries carry the not-a-survey caveat.
           </p>
           <p>
-            Photos you attach to features on the browser map are stored only on your
-            device. They are re-encoded so EXIF (including GPS) is stripped from stored
-            bytes. A KMZ export can embed those re-encoded photo bytes; GeoJSON and KML
-            exports do not include photos. Photos leave the device only if you export
-            or share them yourself.
+            Photos you attach to features on the native app or the browser map are
+            stored only on your device. On the native app, Camera and Photos library
+            access are used only when you attach a photo. Photos are re-encoded so
+            EXIF (including GPS) is stripped from stored and exported bytes. A KMZ
+            export can embed those re-encoded photo bytes; GeoJSON and KML exports
+            do not include photos. Photos leave the device only if you export or
+            share them yourself. If a photo includes a geotag, that location is
+            used only if you accept a one-time offer to move the point.
+          </p>
+          <p>
+            The native app can also show your photo library as a map layer. That
+            index stays on your device and is never uploaded. If you place
+            photos as points on the map, their geotags are read on the device to
+            create those points and are not uploaded.
           </p>
         </section>
 

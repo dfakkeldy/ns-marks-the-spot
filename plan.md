@@ -17,6 +17,8 @@
 
 ### Native field-capture
 - [x] GPS marks, track recording, and points-to-path (field-capture N1, #281)
+- [x] Freeform attributes, feature photos, and KMZ interchange (field-capture N2, #283)
+- [x] Parcel snapping, photo map, and bulk photo placement (field-capture N3, #284)
 
 ## v1.0 Milestones
 

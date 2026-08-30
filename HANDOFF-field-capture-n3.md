@@ -1,8 +1,8 @@
 # Handoff — field capture N3 (snapping, photo map, bulk placement)
 
-## 2026-08-30 — N3 implemented; stacked on `feature/ios-field-capture-n2`
+## 2026-08-30 — N3 implemented and verified; stacked on nightly (N2 #283 merged)
 
-N1 #281 merged to nightly. N2 #283 open, CI green at handoff time.
+N1 #281, N2 #283, and N3 #284 merged to nightly.
 
 Verified: NSMarksCore `swift test` 651/651. Focused app suites on iPhone 17
 (`FieldCapturePhotoTests` 6, `FieldCaptureStoreTests` 4, `FieldCaptureSnapTests`
@@ -35,11 +35,9 @@ Done:
   builds refuse cleanly.
 - `ParcelLookupMessage` names `tooManyParcels` distinctly (not “no parcel”).
 
-Resume (PR / CI):
+Resume (docs follow-up):
 
 ```
-Worktree: /Users/dfakkeldy/.t3/worktrees/ns-marks-the-spot/t3code-eaf0bbfa
-Branch: feature/ios-field-capture-n3
-Stacked PR onto feature/ios-field-capture-n2 (or nightly if #283 has merged).
-Do not regenerate field-capture-parity.json from Swift.
+N3 is on nightly as b640e0a7. Remaining native field-capture work for this
+plan is done. Do not regenerate field-capture-parity.json from Swift.
 ```
