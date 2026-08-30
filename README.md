@@ -74,8 +74,10 @@ you move, and mark the current fix into a local Field notes layer with one tap.
 The same cluster can record a foreground track (start, pause, resume, stop),
 simplify it on save, and keep the raw GPX as that layer's original file next
 to the processed LineString or MultiLineString. Saved recordings are local
-layers (origin recorded / "Recorded on this device"). Location stays on the
-device.
+layers (origin recorded / "Recorded on this device"). Every user layer can
+download GPX (points and tracks; polygons are skipped). Recorded layers also
+offer Raw GPX — the original file of every GPS fix as received. Location
+stays on the device.
 
 - **Your maps** — load your own GeoTIFFs (georeferenced scans, orthophotos) and
   drape them over Nova Scotia with an opacity slider. Anything without usable

@@ -1041,9 +1041,10 @@ User-loaded files stay in the browser: raster maps (GeoTIFF, GeoPDF, PNG,
 JPEG) under "Your maps" and vector data (GeoJSON, KML, KMZ, GPX, and zipped
 shapefiles) under "Your data" share one drop zone, are stored locally in
 IndexedDB, render clearly labeled as user-loaded material, and are excluded
-from print capture and share links. Vector layers export back out as GeoJSON
-or KML. A shapefile without its `.prj` is refused rather than assumed to be
-longitude/latitude. Vector layers can also be drawn and edited on the map —
+from print capture and share links. Vector layers export back out as GeoJSON,
+KML, or GPX (points and tracks; polygons are skipped). Recorded layers also
+offer a Raw GPX download of the original file. A shapefile without its `.prj`
+is refused rather than assumed to be longitude/latitude. Vector layers can also be drawn and edited on the map —
 add points, lines, and areas, reshape or move them, name individual features,
 and start a blank drawing layer of your own.
 The Fletcher web integration and immutable, bounded per-sheet package are
