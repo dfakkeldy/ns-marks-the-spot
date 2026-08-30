@@ -426,3 +426,62 @@ describe("points-to-path conversion", () => {
     expect(persisted.features).toHaveLength(4);
   });
 });
+
+describe("freeform attribute patches", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("sets string values and deletes undefined ones without aliasing", () => {
+    const { options } = harness();
+    const original = options.geometries["layer-1"];
+    const originalProps = original.features[0].properties;
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+
+    act(() =>
+      result.current.updateFeatureProperties("f1", {
+        species: "red spruce",
+        name: undefined,
+      }),
+    );
+    const patched = result.current.editingLayer?.data.features[0].properties;
+    expect(patched).toEqual({ species: "red spruce" });
+    // The seed collection's property object is untouched.
+    expect(originalProps).toEqual({ name: "Camp" });
+    expect(patched).not.toBe(originalProps);
+  });
+
+  it("touches only the addressed feature", () => {
+    const twoFeatures: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "f1",
+          geometry: { type: "Point", coordinates: [-63.5, 44.5] },
+          properties: { name: "Camp" },
+        },
+        {
+          type: "Feature",
+          id: "f2",
+          geometry: { type: "Point", coordinates: [-63.4, 44.6] },
+          properties: { name: "Dock" },
+        },
+      ],
+    };
+    const { options } = harness({ geometries: { "layer-1": twoFeatures } });
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+    act(() =>
+      result.current.updateFeatureProperties("f2", { depth: "3 m" }),
+    );
+    const [first, second] = result.current.editingLayer!.data.features;
+    expect(first.properties).toEqual({ name: "Camp" });
+    expect(second.properties).toEqual({ name: "Dock", depth: "3 m" });
+  });
+});

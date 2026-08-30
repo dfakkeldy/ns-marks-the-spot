@@ -103,6 +103,54 @@ function asText(value: unknown): string | null {
   return typeof value === "string" && value.length > 0 ? value : null;
 }
 
+/**
+ * ExtendedData carries every property except the ones with their own KML
+ * homes (`name`, `description`), togeojson's per-vertex `coordinateProperties`
+ * (times are a GPX/GeoJSON concern per the field-capture contract), and
+ * `nsmts:photos` (whose KMZ form arrives with the photo work; a plain KML
+ * must not carry dangling photo references). All other `nsmts:` keys ARE
+ * written — a parcel-traced or recorded feature keeps its provenance through
+ * a KML round trip. KML is string-typed: numbers and booleans stringify, and
+ * objects ride as JSON text; GeoJSON stays the type-faithful format.
+ */
+const EXTENDED_DATA_EXCLUDED = new Set([
+  "name",
+  "description",
+  "coordinateProperties",
+  "nsmts:photos",
+]);
+
+function extendedData(
+  doc: Document,
+  props: Record<string, unknown>,
+): Element | null {
+  const entries = Object.entries(props).filter(
+    ([key, value]) =>
+      !EXTENDED_DATA_EXCLUDED.has(key) && value !== null && value !== undefined,
+  );
+  if (entries.length === 0) {
+    return null;
+  }
+  const node = element(doc, "ExtendedData");
+  for (const [key, value] of entries) {
+    const data = element(doc, "Data");
+    data.setAttribute("name", key);
+    data.append(
+      element(
+        doc,
+        "value",
+        typeof value === "string"
+          ? value
+          : typeof value === "object"
+            ? JSON.stringify(value)
+            : String(value),
+      ),
+    );
+    node.append(data);
+  }
+  return node;
+}
+
 function placemark(doc: Document, feature: Feature): Element | null {
   if (!feature.geometry) {
     return null;
@@ -120,6 +168,10 @@ function placemark(doc: Document, feature: Feature): Element | null {
   const description = asText(props.description);
   if (description) {
     node.append(element(doc, "description", description));
+  }
+  const data = extendedData(doc, props);
+  if (data) {
+    node.append(data);
   }
   node.append(geometry);
   return node;

@@ -7,6 +7,7 @@ import type {
   ConvertShape,
 } from "../convert/pointsToPath";
 import type { UserVectorLayerRecord } from "../types";
+import { AttributeEditor, type AttributePatch } from "./AttributeEditor";
 import type { VectorSnapTargets } from "./EditableVectorLayer";
 import type { ParcelSnapStatus } from "./ParcelSnapTargetsLayer";
 import type { FeatureDetails } from "./useVectorEditSession";
@@ -36,6 +37,7 @@ type VectorEditPanelProps = {
   onDrawMode: (mode: EditMode | null) => void;
   onRename: (name: string) => void;
   onUpdateFeature: (featureId: string, details: FeatureDetails) => void;
+  onPatchAttributes: (featureId: string, patch: AttributePatch) => void;
   onDeleteFeature: (featureId: string) => void;
   onDone: () => void;
 };
@@ -101,6 +103,7 @@ export function VectorEditPanel({
   onDrawMode,
   onRename,
   onUpdateFeature,
+  onPatchAttributes,
   onDeleteFeature,
   onDone,
 }: VectorEditPanelProps) {
@@ -303,6 +306,10 @@ export function VectorEditPanel({
               }
             />
           </label>
+          <AttributeEditor
+            feature={selected}
+            onPatch={(patch) => onPatchAttributes(String(selected.id), patch)}
+          />
           <button
             type="button"
             className="user-map-remove"

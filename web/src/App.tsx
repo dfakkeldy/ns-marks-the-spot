@@ -4985,6 +4985,7 @@ export function App() {
         onDrawMode={setDrawMode}
         onRename={vectorEdit.renameLayer}
         onUpdateFeature={vectorEdit.updateFeatureDetails}
+        onPatchAttributes={vectorEdit.updateFeatureProperties}
         onDeleteFeature={(featureId) => {
           vectorEdit.deleteFeature(featureId);
           setSelectedFeatureId(null);

@@ -56,6 +56,7 @@ function panel(overrides: Partial<Parameters<typeof VectorEditPanel>[0]> = {}) {
     onDrawMode: vi.fn(),
     onRename: vi.fn(),
     onUpdateFeature: vi.fn(),
+    onPatchAttributes: vi.fn(),
     onDeleteFeature: vi.fn(),
     onDone: vi.fn(),
     ...overrides,
