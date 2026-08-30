@@ -100,7 +100,9 @@ export function buildFeaturePopup(
         ? `From your file ${record.origin.filename}`
         : record.origin.kind === "recorded"
           ? "Recorded on this device"
-          : "Drawn on this device",
+          : record.origin.kind === "photo-import"
+            ? "From photos on this device"
+            : "Drawn on this device",
     ),
   );
   return root;

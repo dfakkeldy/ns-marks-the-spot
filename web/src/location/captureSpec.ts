@@ -48,6 +48,14 @@ export const FIELD_CAPTURE_SPEC = {
     maxParcels: 600,
     parcelCaveat: "Traced boundaries are not a survey.",
   },
+  kmz: {
+    /** The KML document entry, DEFLATE-compressed. */
+    docEntry: "doc.kml",
+    /** Photo entries: `files/<photoId>.jpg`, STORED (already compressed). */
+    photoDir: "files/",
+    /** Width attribute on the description's viewer-facing img appendix. */
+    descriptionImgWidth: 400,
+  },
 } as const;
 
 export const NSMTS_CAPTURED_AT = "nsmts:capturedAt";

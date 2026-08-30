@@ -10,7 +10,11 @@ function provenance(record: UserVectorLayerRecord): string {
       ? `Your file · ${record.origin.filename}`
       : record.origin.kind === "recorded"
         ? "Recorded on this device"
-        : "Drawn on this device";
+        : record.origin.kind === "photo-import"
+          ? `From your photos · ${record.origin.count.toLocaleString("en-CA")} photo${
+              record.origin.count === 1 ? "" : "s"
+            }`
+          : "Drawn on this device";
   // An edited layer no longer matches the file it came from, so the row says
   // so rather than letting the filename imply the data is still as imported.
   const edited = record.modifiedAt
@@ -32,6 +36,7 @@ export interface UserVectorRowsProps {
   api: UserVectorLayersApi;
   onEdit?: (id: string) => void;
   onNewLayer?: () => void;
+  onBulkPhotos?: () => void;
   editingId?: string | null;
 }
 
@@ -39,6 +44,7 @@ function renderUserVectorControls({
   api,
   onEdit,
   onNewLayer,
+  onBulkPhotos,
   editingId = null,
 }: UserVectorRowsProps) {
   return (
@@ -55,6 +61,16 @@ function renderUserVectorControls({
             onClick={() => onNewLayer()}
           >
             New drawing layer
+          </button>
+        ) : null}
+      {onBulkPhotos ? (
+          <button
+            type="button"
+            className="user-vector-new"
+            title="Pick photos from this device; geotagged ones become points on a new layer."
+            onClick={() => onBulkPhotos()}
+          >
+            Add photos to map
           </button>
         ) : null}
       {api.records.map((record) => {
@@ -84,6 +100,7 @@ function renderUserVectorControls({
                 <button
                   type="button"
                   aria-label={`Export ${record.name} as GeoJSON`}
+                  title="Photos aren't included in GeoJSON — use KMZ to carry photos."
                   onClick={() => void api.exportLayer(record.id, "geojson")}
                 >
                   GeoJSON
@@ -91,9 +108,18 @@ function renderUserVectorControls({
                 <button
                   type="button"
                   aria-label={`Export ${record.name} as KML`}
+                  title="Photos aren't included in KML — use KMZ to carry photos."
                   onClick={() => void api.exportLayer(record.id, "kml")}
                 >
                   KML
+                </button>
+                <button
+                  type="button"
+                  aria-label={`Export ${record.name} as KMZ with photos embedded`}
+                  title="Photos attached to features travel inside the KMZ file."
+                  onClick={() => void api.exportLayer(record.id, "kmz")}
+                >
+                  KMZ
                 </button>
                 <button
                   type="button"

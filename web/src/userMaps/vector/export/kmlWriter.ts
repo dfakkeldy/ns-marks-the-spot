@@ -1,5 +1,24 @@
 import type { Feature, FeatureCollection, Geometry, Position } from "geojson";
+import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
+import {
+  PHOTOS_PROPERTY,
+  readPhotoDescriptors,
+  type FeaturePhotoDescriptor,
+} from "../photos/types";
 import { TRACED_PROVENANCE_NOTE, hasTracedFeatures } from "./tracedProvenance";
+
+/**
+ * The KMZ photo profile (field-capture contract): descriptors gain a
+ * required href (`files/<id>.jpg`) in ExtendedData, and the description
+ * becomes a CDATA section carrying the user's text plus one viewer-facing
+ * `<img>` per photo so Google Earth renders them from the archive. Plain
+ * KML omits both — a lone .kml must never dangle photo references.
+ */
+export type KmlPhotoMode = "omit" | "kmz";
+
+function kmzHref(descriptor: FeaturePhotoDescriptor): string {
+  return `${FIELD_CAPTURE_SPEC.kmz.photoDir}${descriptor.id}.jpg`;
+}
 
 const KML_NS = "http://www.opengis.net/kml/2.2";
 
@@ -117,18 +136,19 @@ const EXTENDED_DATA_EXCLUDED = new Set([
   "name",
   "description",
   "coordinateProperties",
-  "nsmts:photos",
+  PHOTOS_PROPERTY,
 ]);
 
 function extendedData(
   doc: Document,
   props: Record<string, unknown>,
+  kmzDescriptors: FeaturePhotoDescriptor[] | null,
 ): Element | null {
   const entries = Object.entries(props).filter(
     ([key, value]) =>
       !EXTENDED_DATA_EXCLUDED.has(key) && value !== null && value !== undefined,
   );
-  if (entries.length === 0) {
+  if (entries.length === 0 && (!kmzDescriptors || kmzDescriptors.length === 0)) {
     return null;
   }
   const node = element(doc, "ExtendedData");
@@ -148,10 +168,31 @@ function extendedData(
     );
     node.append(data);
   }
+  if (kmzDescriptors && kmzDescriptors.length > 0) {
+    const data = element(doc, "Data");
+    data.setAttribute("name", PHOTOS_PROPERTY);
+    data.append(
+      element(
+        doc,
+        "value",
+        JSON.stringify(
+          kmzDescriptors.map((descriptor) => ({
+            ...descriptor,
+            href: kmzHref(descriptor),
+          })),
+        ),
+      ),
+    );
+    node.append(data);
+  }
   return node;
 }
 
-function placemark(doc: Document, feature: Feature): Element | null {
+function placemark(
+  doc: Document,
+  feature: Feature,
+  photoMode: KmlPhotoMode,
+): Element | null {
   if (!feature.geometry) {
     return null;
   }
@@ -161,15 +202,34 @@ function placemark(doc: Document, feature: Feature): Element | null {
   }
   const node = element(doc, "Placemark");
   const props = (feature.properties ?? {}) as Record<string, unknown>;
+  const descriptors =
+    photoMode === "kmz" ? readPhotoDescriptors(props) : [];
   const name = asText(props.name);
   if (name) {
     node.append(element(doc, "name", name));
   }
   const description = asText(props.description);
-  if (description) {
+  if (descriptors.length > 0) {
+    // CDATA per the contract profile: the user's text, a blank line, then
+    // one viewer-facing img per photo. Import strips exactly the img tags
+    // whose src begins with the photo directory.
+    const imgTags = descriptors
+      .map(
+        (descriptor) =>
+          `<img src="${kmzHref(descriptor)}" width="${FIELD_CAPTURE_SPEC.kmz.descriptionImgWidth}"/>`,
+      )
+      .join("");
+    const descriptionNode = element(doc, "description");
+    descriptionNode.append(
+      doc.createCDATASection(
+        `${description ? `${description}\n\n` : ""}${imgTags}`,
+      ),
+    );
+    node.append(descriptionNode);
+  } else if (description) {
     node.append(element(doc, "description", description));
   }
-  const data = extendedData(doc, props);
+  const data = extendedData(doc, props, photoMode === "kmz" ? descriptors : null);
   if (data) {
     node.append(data);
   }
@@ -192,6 +252,7 @@ function placemark(doc: Document, feature: Feature): Element | null {
 export function kmlDocumentString(
   layerName: string,
   collection: FeatureCollection,
+  photoMode: KmlPhotoMode = "omit",
 ): string {
   const doc = document.implementation.createDocument(KML_NS, "kml", null);
   const documentNode = element(doc, "Document");
@@ -200,7 +261,7 @@ export function kmlDocumentString(
     documentNode.append(element(doc, "description", TRACED_PROVENANCE_NOTE));
   }
   for (const feature of collection.features) {
-    const node = placemark(doc, feature);
+    const node = placemark(doc, feature, photoMode);
     if (node) {
       documentNode.append(node);
     }

@@ -239,6 +239,7 @@ import {
 } from "./userMaps/vector/convert/pointsToPath";
 import { usePhotoManager } from "./userMaps/vector/photos/usePhotoManager";
 import { PhotoLightbox } from "./userMaps/vector/photos/PhotoLightbox";
+import { BulkPhotoImportDialog } from "./userMaps/vector/photos/BulkPhotoImportDialog";
 import type { FeaturePhotoDescriptor } from "./userMaps/vector/photos/types";
 import { GeoreferencePanel } from "./userMaps/components/GeoreferencePanel";
 import { GeoPdfFrameChooser } from "./userMaps/components/GeoPdfFrameChooser";
@@ -1436,6 +1437,7 @@ export function App() {
   const [openPhoto, setOpenPhoto] = useState<FeaturePhotoDescriptor | null>(
     null,
   );
+  const [bulkPhotosOpen, setBulkPhotosOpen] = useState(false);
   const photoPopupUi = useMemo(
     () => ({ loadThumbUrl: photoManager.loadThumbUrl, onOpen: setOpenPhoto }),
     [photoManager.loadThumbUrl],
@@ -4584,6 +4586,7 @@ export function App() {
                             ? endVectorEdit()
                             : beginVectorEdit(id)}
                         onNewLayer={() => void createAndEditVectorLayer()}
+                        onBulkPhotos={() => setBulkPhotosOpen(true)}
                         editingId={vectorEdit.editingId}
                       />
                     </>
@@ -4981,6 +4984,13 @@ export function App() {
         descriptor={openPhoto}
         manager={photoManager}
         onClose={() => setOpenPhoto(null)}
+      />
+    ) : null}
+    {bulkPhotosOpen ? (
+      <BulkPhotoImportDialog
+        bounds={mapViewport.bounds}
+        onCreate={userVectorApi.createPhotoLayer}
+        onClose={() => setBulkPhotosOpen(false)}
       />
     ) : null}
     {vectorEdit.editingLayer ? (
