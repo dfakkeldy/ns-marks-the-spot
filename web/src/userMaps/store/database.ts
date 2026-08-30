@@ -2,22 +2,27 @@ export const DB_NAME = "ns-marks-the-spot-user-maps";
 export const MAPS = "maps";
 export const BLOBS = "blobs";
 export const VECTORS = "vectors";
+export const PHOTOS = "photos";
+export const PHOTOS_BY_LAYER_INDEX = "by-layer";
 
 /**
- * Version 2 added the `vectors` store. Every consumer of this database MUST
- * open it through `openUserContentDatabase` — a second open path with its own
- * version constant would throw VersionError the moment the constants diverge,
- * taking the whole "Your maps" / "Your data" UI down with it.
+ * Version 2 added the `vectors` store; version 3 added `photos`. Every
+ * consumer of this database MUST open it through `openUserContentDatabase` —
+ * a second open path with its own version constant would throw VersionError
+ * the moment the constants diverge, taking the whole "Your maps" /
+ * "Your data" UI down with it.
  */
-export const DB_VERSION = 2;
+export const DB_VERSION = 3;
 
 /**
  * One schema owner for the shared user-content database:
  * - `maps` holds small raster-map metadata records (listed on every load),
  * - `vectors` holds small vector-layer metadata records,
+ * - `photos` holds small photo metadata records, indexed by owning layer id,
  * - `blobs` holds the heavy payloads out-of-line (`${id}:raster`,
- *   `${id}:preview`, `${id}:vector`, `${id}:vector-original`) so listing
- *   never deserializes megabytes of data.
+ *   `${id}:preview`, `${id}:vector`, `${id}:vector-original`,
+ *   `${photoId}:photo`, `${photoId}:photo-thumb`) so listing never
+ *   deserializes megabytes of data.
  *
  * Upgrade guards are additive (`if (!contains) create`) so any older version
  * reaches the current schema without touching existing rows.
@@ -37,6 +42,10 @@ export function openUserContentDatabase(
       }
       if (!db.objectStoreNames.contains(VECTORS)) {
         db.createObjectStore(VECTORS, { keyPath: "id" });
+      }
+      if (!db.objectStoreNames.contains(PHOTOS)) {
+        const photos = db.createObjectStore(PHOTOS, { keyPath: "id" });
+        photos.createIndex(PHOTOS_BY_LAYER_INDEX, "layerId");
       }
     };
     openRequest.onsuccess = () => {

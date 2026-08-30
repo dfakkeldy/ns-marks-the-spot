@@ -145,6 +145,7 @@ import {
 import { UserVectorLayers } from "../userMaps/vector/components/UserVectorLayers";
 import type { VectorEditBinding } from "../userMaps/vector/edit/EditableVectorLayer";
 import { ConversionPreviewLayer } from "../userMaps/vector/edit/ConversionPreviewLayer";
+import type { PopupPhotoUi } from "../userMaps/vector/render/popup";
 // Lazy like EditableVectorLayer: both exist only inside an edit session.
 const ParcelSnapTargetsLayer = lazy(() =>
   import("../userMaps/vector/edit/ParcelSnapTargetsLayer").then((module) => ({
@@ -192,6 +193,8 @@ type MapCanvasProps = {
   userVectorLayers?: VisibleUserVectorLayer[];
   userVectorFitRequest?: UserVectorFitRequest | null;
   userVectorEdit?: VectorEditBinding | null;
+  /** Photo thumbnails in user-feature popups and the lightbox opener. */
+  userVectorPhotoUi?: PopupPhotoUi | null;
   georeference?: GeoreferenceBinding | null;
   showModernMap: boolean;
   showTaxSale: boolean;
@@ -1739,6 +1742,7 @@ export function MapCanvas({
   userVectorLayers = EMPTY_USER_VECTOR_LAYERS,
   userVectorFitRequest = null,
   userVectorEdit = null,
+  userVectorPhotoUi = null,
   georeference = null,
   showModernMap,
   showTaxSale,
@@ -2087,6 +2091,7 @@ export function MapCanvas({
         <UserVectorLayers
           layers={userVectorLayers}
           fitRequest={userVectorFitRequest}
+          photoUi={userVectorPhotoUi}
           snapAsTargets={Boolean(
             userVectorEdit &&
               userVectorEdit.snap.enabled &&

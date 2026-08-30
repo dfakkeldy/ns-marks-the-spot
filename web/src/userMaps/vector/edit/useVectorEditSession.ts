@@ -5,6 +5,10 @@ import {
   buildPathFromPoints,
   type ConvertShape,
 } from "../convert/pointsToPath";
+import {
+  PHOTOS_PROPERTY,
+  type FeaturePhotoDescriptor,
+} from "../photos/types";
 import { summarize } from "../summarize";
 import type { UserVectorLayerRecord } from "../types";
 import type { VisibleUserVectorLayer } from "../useUserVectorLayers";
@@ -29,6 +33,17 @@ export type VectorEditSession = {
   ) => void;
   deleteFeature: (featureId: string) => void;
   renameLayer: (name: string) => void;
+  /** Rewrites a feature's photo descriptors; an empty list removes the key. */
+  setFeaturePhotos: (
+    featureId: string,
+    descriptors: FeaturePhotoDescriptor[],
+  ) => void;
+  /**
+   * Moves a Point feature to an exact position — the "use photo's location"
+   * offer. Geometry is otherwise Geoman-owned; this is the one deliberate
+   * exception, reconciled into the live layer by the edit bridge.
+   */
+  moveFeaturePoint: (featureId: string, position: [number, number]) => void;
   /**
    * Converts the layer's points into a line or area per the field-capture
    * contract; returns the new feature's id, or null when there is too
@@ -297,6 +312,48 @@ export function useVectorEditSession({
     [commit, draftData, draftRecord],
   );
 
+  const setFeaturePhotos = useCallback(
+    (featureId: string, descriptors: FeaturePhotoDescriptor[]) => {
+      if (!draftRecord || !draftData) {
+        return;
+      }
+      const features: Feature[] = draftData.features.map((feature) => {
+        if (String(feature.id) !== featureId) {
+          return feature;
+        }
+        const properties: Record<string, unknown> = {
+          ...(feature.properties ?? {}),
+        };
+        if (descriptors.length === 0) {
+          delete properties[PHOTOS_PROPERTY];
+        } else {
+          properties[PHOTOS_PROPERTY] = descriptors.map((d) => ({ ...d }));
+        }
+        return { ...feature, properties };
+      });
+      commit(draftRecord, { type: "FeatureCollection", features });
+    },
+    [commit, draftData, draftRecord],
+  );
+
+  const moveFeaturePoint = useCallback(
+    (featureId: string, position: [number, number]) => {
+      if (!draftRecord || !draftData) {
+        return;
+      }
+      const features: Feature[] = draftData.features.map((feature) =>
+        String(feature.id) === featureId && feature.geometry?.type === "Point"
+          ? {
+              ...feature,
+              geometry: { type: "Point", coordinates: [...position] },
+            }
+          : feature,
+      );
+      commit(draftRecord, { type: "FeatureCollection", features });
+    },
+    [commit, draftData, draftRecord],
+  );
+
   const convertPoints = useCallback(
     (input: { shape: ConvertShape; keepSourcePoints: boolean }): string | null => {
       if (!draftRecord || !draftData) {
@@ -349,6 +406,8 @@ export function useVectorEditSession({
     updateFeatureProperties,
     deleteFeature,
     renameLayer,
+    setFeaturePhotos,
+    moveFeaturePoint,
     convertPoints,
     lastConversion,
     undoConversion,

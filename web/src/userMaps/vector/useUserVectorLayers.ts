@@ -485,9 +485,12 @@ export function useUserVectorLayers(
       if (unsavedDrawnIdsRef.current.has(record.id)) {
         await opened.saveVectorLayer(record, collection);
         unsavedDrawnIdsRef.current.delete(record.id);
-        return;
+      } else {
+        await opened.putVectorLayer(record, collection);
       }
-      await opened.putVectorLayer(record, collection);
+      // Fire-and-forget: a failed orphan sweep is a small leak, never a
+      // failed save.
+      void opened.sweepLayerPhotos(record.id, collection).catch(() => {});
     },
     [store],
   );

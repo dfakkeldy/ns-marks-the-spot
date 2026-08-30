@@ -619,3 +619,73 @@ describe("EditableVectorLayer session-added features", () => {
     expect(survived?.properties?.["nsmts:convertedFromPoints"]).toBe(2);
   });
 });
+
+describe("EditableVectorLayer point moves", () => {
+  afterEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    cleanup();
+    createdMaps.length = 0;
+    document.body.replaceChildren();
+  });
+
+  it("follows a draft Point move and keeps publishing the new position", async () => {
+    const pointData: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "mark",
+          geometry: { type: "Point", coordinates: [-61.4, 45.8] },
+          properties: { name: "Corner" },
+        },
+      ],
+    };
+    const onGeometryChange = vi.fn();
+    const host = document.createElement("div");
+    document.body.append(host);
+    const view = (data: FeatureCollection) => (
+      <MapContainer center={[45.8, -61.4]} zoom={12} zoomControl={false}>
+        <EditableVectorLayer
+          record={RECORD}
+          data={data}
+          snap={SNAP_ALL}
+          onGeometryChange={onGeometryChange}
+          onSelectFeature={vi.fn()}
+        />
+      </MapContainer>
+    );
+    const { rerender } = render(view(pointData), { container: host });
+    const map = createdMaps[0];
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    // The session moved the point ("use photo's location").
+    const moved: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "mark",
+          geometry: { type: "Point", coordinates: [-61.39, 45.81] },
+          properties: { name: "Corner" },
+        },
+      ],
+    };
+    rerender(view(moved));
+
+    const live = findLayerByFeatureId(map, "mark") as L.CircleMarker;
+    await waitFor(() => {
+      const at = live.getLatLng();
+      expect(at.lat).toBeCloseTo(45.81, 9);
+      expect(at.lng).toBeCloseTo(-61.39, 9);
+    });
+
+    // The next Geoman publish reports the moved position, not the seed.
+    live.fire("pm:edit", { layer: live }, true);
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    const published = collection.features.find((f) => f.id === "mark");
+    expect(
+      published?.geometry.type === "Point" && published.geometry.coordinates,
+    ).toEqual([-61.39, 45.81]);
+  });
+});

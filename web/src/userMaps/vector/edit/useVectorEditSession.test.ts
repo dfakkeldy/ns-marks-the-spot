@@ -485,3 +485,49 @@ describe("freeform attribute patches", () => {
     expect(second.properties).toEqual({ name: "Dock", depth: "3 m" });
   });
 });
+
+describe("photos and point moves", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("writes and clears photo descriptors", () => {
+    const { options } = harness();
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+
+    act(() =>
+      result.current.setFeaturePhotos("f1", [
+        { id: "p1", width: 10, height: 10 },
+      ]),
+    );
+    expect(
+      result.current.editingLayer?.data.features[0].properties?.["nsmts:photos"],
+    ).toEqual([{ id: "p1", width: 10, height: 10 }]);
+
+    act(() => result.current.setFeaturePhotos("f1", []));
+    expect(
+      result.current.editingLayer?.data.features[0].properties,
+    ).not.toHaveProperty("nsmts:photos");
+  });
+
+  it("moves a Point and recomputes the layer's bbox", () => {
+    const { options } = harness();
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+
+    act(() => result.current.moveFeaturePoint("f1", [-60.9, 46.1]));
+    const feature = result.current.editingLayer?.data.features[0];
+    expect(feature?.geometry).toEqual({
+      type: "Point",
+      coordinates: [-60.9, 46.1],
+    });
+    expect(result.current.editingLayer?.record.bbox).toEqual([
+      -60.9, 46.1, -60.9, 46.1,
+    ]);
+  });
+});

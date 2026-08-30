@@ -237,6 +237,9 @@ import {
   planPointsToPath,
   type ConvertShape,
 } from "./userMaps/vector/convert/pointsToPath";
+import { usePhotoManager } from "./userMaps/vector/photos/usePhotoManager";
+import { PhotoLightbox } from "./userMaps/vector/photos/PhotoLightbox";
+import type { FeaturePhotoDescriptor } from "./userMaps/vector/photos/types";
 import { GeoreferencePanel } from "./userMaps/components/GeoreferencePanel";
 import { GeoPdfFrameChooser } from "./userMaps/components/GeoPdfFrameChooser";
 import type { ReferenceLayerId } from "./userMaps/components/GeoreferencePanel";
@@ -1429,6 +1432,14 @@ export function App() {
     status: "idle",
   });
   const [convertShape, setConvertShape] = useState<ConvertShape | null>(null);
+  const photoManager = usePhotoManager();
+  const [openPhoto, setOpenPhoto] = useState<FeaturePhotoDescriptor | null>(
+    null,
+  );
+  const photoPopupUi = useMemo(
+    () => ({ loadThumbUrl: photoManager.loadThumbUrl, onOpen: setOpenPhoto }),
+    [photoManager.loadThumbUrl],
+  );
 
   const beginVectorEdit = useCallback(
     (id: string) => {
@@ -4632,6 +4643,7 @@ export function App() {
             userMapFitRequest={userMapsApi.fitRequest}
             userVectorLayers={readOnlyVectorLayers}
             userVectorFitRequest={userVectorApi.fitRequest}
+            userVectorPhotoUi={photoPopupUi}
             userVectorEdit={
               vectorEdit.editingLayer
                 ? {
@@ -4964,6 +4976,13 @@ export function App() {
         }
       />
     ) : null}
+    {openPhoto ? (
+      <PhotoLightbox
+        descriptor={openPhoto}
+        manager={photoManager}
+        onClose={() => setOpenPhoto(null)}
+      />
+    ) : null}
     {vectorEdit.editingLayer ? (
       <VectorEditPanel
         record={vectorEdit.editingLayer.record}
@@ -4986,6 +5005,10 @@ export function App() {
         onRename={vectorEdit.renameLayer}
         onUpdateFeature={vectorEdit.updateFeatureDetails}
         onPatchAttributes={vectorEdit.updateFeatureProperties}
+        photoManager={photoManager}
+        onSetFeaturePhotos={vectorEdit.setFeaturePhotos}
+        onMoveFeaturePoint={vectorEdit.moveFeaturePoint}
+        onOpenPhoto={setOpenPhoto}
         onDeleteFeature={(featureId) => {
           vectorEdit.deleteFeature(featureId);
           setSelectedFeatureId(null);

@@ -8,6 +8,12 @@ import type {
 } from "../convert/pointsToPath";
 import type { UserVectorLayerRecord } from "../types";
 import { AttributeEditor, type AttributePatch } from "./AttributeEditor";
+import { PhotoStrip } from "../photos/PhotoStrip";
+import {
+  readPhotoDescriptors,
+  type FeaturePhotoDescriptor,
+} from "../photos/types";
+import type { PhotoManagerApi } from "../photos/usePhotoManager";
 import type { VectorSnapTargets } from "./EditableVectorLayer";
 import type { ParcelSnapStatus } from "./ParcelSnapTargetsLayer";
 import type { FeatureDetails } from "./useVectorEditSession";
@@ -38,6 +44,13 @@ type VectorEditPanelProps = {
   onRename: (name: string) => void;
   onUpdateFeature: (featureId: string, details: FeatureDetails) => void;
   onPatchAttributes: (featureId: string, patch: AttributePatch) => void;
+  photoManager: PhotoManagerApi;
+  onSetFeaturePhotos: (
+    featureId: string,
+    descriptors: FeaturePhotoDescriptor[],
+  ) => void;
+  onMoveFeaturePoint: (featureId: string, position: [number, number]) => void;
+  onOpenPhoto: (descriptor: FeaturePhotoDescriptor) => void;
   onDeleteFeature: (featureId: string) => void;
   onDone: () => void;
 };
@@ -104,6 +117,10 @@ export function VectorEditPanel({
   onRename,
   onUpdateFeature,
   onPatchAttributes,
+  photoManager,
+  onSetFeaturePhotos,
+  onMoveFeaturePoint,
+  onOpenPhoto,
   onDeleteFeature,
   onDone,
 }: VectorEditPanelProps) {
@@ -309,6 +326,26 @@ export function VectorEditPanel({
           <AttributeEditor
             feature={selected}
             onPatch={(patch) => onPatchAttributes(String(selected.id), patch)}
+          />
+          <PhotoStrip
+            descriptors={readPhotoDescriptors(selected.properties)}
+            pointPosition={
+              selected.geometry?.type === "Point"
+                ? [
+                    selected.geometry.coordinates[0],
+                    selected.geometry.coordinates[1],
+                  ]
+                : null
+            }
+            layerId={record.id}
+            manager={photoManager}
+            onDescriptors={(descriptors) =>
+              onSetFeaturePhotos(String(selected.id), descriptors)
+            }
+            onMovePoint={(position) =>
+              onMoveFeaturePoint(String(selected.id), position)
+            }
+            onOpenPhoto={onOpenPhoto}
           />
           <button
             type="button"

@@ -6,7 +6,8 @@ import {
   USER_VECTOR_PANE_Z_INDEX,
 } from "../../../components/mapPanes";
 import { textTooltip } from "../../../components/mapTooltip";
-import { buildFeaturePopup } from "../render/popup";
+import { buildFeaturePopup, type PopupPhotoUi } from "../render/popup";
+import { readPhotoDescriptors } from "../photos/types";
 import { styleForFeature } from "../render/style";
 import type { UserVectorLayerRecord } from "../types";
 import type {
@@ -17,6 +18,8 @@ import type {
 type UserVectorLayersProps = {
   layers: VisibleUserVectorLayer[];
   fitRequest?: UserVectorFitRequest | null;
+  /** Photo thumbnails in popups and the lightbox opener; optional. */
+  photoUi?: PopupPhotoUi | null;
   /**
    * True while an edit session's "My features" snap target is armed: the
    * read-only layers then carry snapIgnore false so Geoman's snap list
@@ -45,6 +48,7 @@ function asText(value: unknown): string | null {
 export function UserVectorLayers({
   layers,
   fitRequest = null,
+  photoUi = null,
   snapAsTargets = false,
 }: UserVectorLayersProps) {
   const map = useMap();
@@ -112,16 +116,33 @@ export function UserVectorLayers({
             renderer,
             snapIgnore: !snapAsTargets,
           })}
-          pointToLayer={(_feature, latlng) =>
-            L.circleMarker(latlng, {
-              radius: POINT_RADIUS,
-              pane: USER_VECTOR_PANE,
-              renderer,
-              snapIgnore: !snapAsTargets,
-            } as L.CircleMarkerOptions)
+          pointToLayer={(feature, latlng) =>
+            L.circleMarker(
+              latlng,
+              readPhotoDescriptors(feature.properties).length > 0
+                ? // Hollow ring: a point that carries photos reads
+                  // differently at a glance, without a DOM icon that would
+                  // escape this pane's z-contract.
+                  ({
+                    radius: POINT_RADIUS + 2,
+                    weight: 3,
+                    color: styleForFeature(feature, record.style).color,
+                    fillColor: "#ffffff",
+                    fillOpacity: 1,
+                    pane: USER_VECTOR_PANE,
+                    renderer,
+                    snapIgnore: !snapAsTargets,
+                  } as L.CircleMarkerOptions)
+                : ({
+                    radius: POINT_RADIUS,
+                    pane: USER_VECTOR_PANE,
+                    renderer,
+                    snapIgnore: !snapAsTargets,
+                  } as L.CircleMarkerOptions),
+            )
           }
           onEachFeature={(feature, featureLayer) =>
-            bindFeatureUi(feature, featureLayer, record)
+            bindFeatureUi(feature, featureLayer, record, photoUi)
           }
         />
       ))}
@@ -133,20 +154,29 @@ function bindFeatureUi(
   feature: GeoJSON.Feature,
   featureLayer: L.Layer,
   record: UserVectorLayerRecord,
+  photoUi: PopupPhotoUi | null,
 ): void {
   // Built lazily so a 10k-feature import doesn't create 10k popup DOM trees
   // up front; textContent-only construction lives in buildFeaturePopup.
-  featureLayer.bindPopup(() => buildFeaturePopup(feature, record));
+  featureLayer.bindPopup(() =>
+    buildFeaturePopup(feature, record, photoUi ?? undefined),
+  );
   const name = asText(
     feature.properties && typeof feature.properties === "object"
       ? (feature.properties as Record<string, unknown>).name
       : null,
   );
-  if (name) {
+  const hasPhotos = readPhotoDescriptors(feature.properties).length > 0;
+  if (name || hasPhotos) {
     // A DOM node, not the raw string: Leaflet assigns string tooltip content
     // with innerHTML, so a feature name from an imported file was live markup
     // — the one property-to-DOM path buildFeaturePopup's textContent-only
     // construction did not cover.
-    featureLayer.bindTooltip(textTooltip(name), { sticky: true });
+    featureLayer.bindTooltip(
+      textTooltip(
+        name ? (hasPhotos ? `${name} · photo` : name) : "photo",
+      ),
+      { sticky: true },
+    );
   }
 }

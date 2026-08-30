@@ -119,3 +119,45 @@ describe("buildFeaturePopup", () => {
     expect(stringAccuracy.textContent).not.toContain("Marked from GPS");
   });
 });
+
+describe("photo thumbnails", () => {
+  it("renders a labelled button per descriptor, opening the lightbox", async () => {
+    const opened: unknown[] = [];
+    const popup = buildFeaturePopup(
+      feature({
+        name: "Gate",
+        "nsmts:photos": [
+          { id: "p1", sourceName: "IMG_1.jpg", width: 10, height: 10 },
+          { id: "p2", width: 10, height: 10 },
+        ],
+      }),
+      record(),
+      {
+        loadThumbUrl: async () => "blob:fake",
+        onOpen: (descriptor) => opened.push(descriptor),
+      },
+    );
+    const buttons = popup.querySelectorAll(".user-vector-popup-photo");
+    expect(buttons).toHaveLength(2);
+    expect(buttons[0].getAttribute("aria-label")).toBe(
+      "Open photo 1 of 2: IMG_1.jpg",
+    );
+    (buttons[1] as HTMLButtonElement).click();
+    expect(opened).toEqual([{ id: "p2", width: 10, height: 10 }]);
+  });
+
+  it("shows nothing photo-shaped without the ui hooks or for malformed descriptors", () => {
+    const withoutHooks = buildFeaturePopup(
+      feature({ "nsmts:photos": [{ id: "p1" }] }),
+      record(),
+    );
+    expect(withoutHooks.querySelector(".user-vector-popup-photos")).toBeNull();
+
+    const malformed = buildFeaturePopup(
+      feature({ "nsmts:photos": [{ id: 42 }] }),
+      record(),
+      { loadThumbUrl: async () => null, onOpen: () => {} },
+    );
+    expect(malformed.querySelector(".user-vector-popup-photos")).toBeNull();
+  });
+});
