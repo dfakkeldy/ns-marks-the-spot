@@ -113,8 +113,12 @@ final class UserVectorsViewModel {
                 relinked = await Task.detached(
                     priority: .userInitiated
                 ) { () -> [Int: KmzRelink.Result] in
-                    guard let opened = try? KmzParse.parseWithAssets(data),
-                          !opened.assets.isEmpty
+                    // The relink runs even when the archive holds no photo
+                    // bytes: an archive whose files/ entries were stripped
+                    // still needs its descriptors resolved (and counted as
+                    // missing) and its viewer img appendix removed — silence
+                    // here left them dangling.
+                    guard let opened = try? KmzParse.parseWithAssets(data)
                     else { return [:] }
                     var results: [Int: KmzRelink.Result] = [:]
                     for (index, parsed) in parsedLayers.enumerated() {
@@ -154,18 +158,37 @@ final class UserVectorsViewModel {
                 do {
                     _ = try await store.add(record, geometry: parsed, original: data)
                     if let relink {
+                        // A photo whose bytes could not be written is a
+                        // distinct fact about this device, counted rather
+                        // than swallowed — a note claiming "attached" for
+                        // bytes that never landed would be a false receipt.
+                        var unstored = 0
                         for photo in relink.photos {
-                            try? await store.addPhoto(
-                                layerID: record.id,
-                                photoID: photo.id,
-                                full: photo.processed.fullJpeg,
-                                thumb: photo.processed.thumbJpeg
-                            )
+                            do {
+                                try await store.addPhoto(
+                                    layerID: record.id,
+                                    photoID: photo.id,
+                                    full: photo.processed.fullJpeg,
+                                    thumb: photo.processed.thumbJpeg
+                                )
+                            } catch {
+                                unstored += 1
+                            }
                         }
                         // What became of the archive's photos — attached,
                         // missing, undecodable, and capped stay distinct.
+                        var parts: [String] = []
                         if let text = relink.noteText {
-                            note(text, for: filename)
+                            parts.append(text)
+                        }
+                        if unstored > 0 {
+                            parts.append(
+                                "\(unstored) photo\(unstored == 1 ? "" : "s") couldn't be "
+                                    + "stored on this device."
+                            )
+                        }
+                        if !parts.isEmpty {
+                            note(parts.joined(separator: " "), for: filename)
                         }
                     }
                 } catch {

@@ -41,6 +41,23 @@ struct PhotoDescriptorTests {
         #expect(PhotoDescriptor.read(from: ["nsmts:photos": .string("[]")]).isEmpty)
     }
 
+    /// An id is a filename stem, never a path: the store builds file paths
+    /// from it, and a path-shaped id from a foreign file must read as
+    /// malformed (all-or-nothing) rather than reach the file system.
+    @Test func aPathShapedIdDropsTheWholeArray() {
+        for id in ["files/IMG_1.jpg", "..\\evil", "a/../b", ".."] {
+            let properties: [String: JSONValue] = [
+                "nsmts:photos": .array([.object(["id": .string(id)])])
+            ]
+            #expect(PhotoDescriptor.read(from: properties).isEmpty)
+        }
+        #expect(
+            PhotoDescriptor.read(from: [
+                "nsmts:photos": .array([.object(["id": .string("photo-1")])])
+            ]).count == 1
+        )
+    }
+
     /// Unknown fields are ignored per the contract, so a future surface can
     /// add fields without breaking this parser.
     @Test func unknownFieldsAreIgnored() {

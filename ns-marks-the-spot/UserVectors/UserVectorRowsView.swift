@@ -239,20 +239,33 @@ struct UserVectorRowsView: View {
                 }
             }
         }
-        guard let export = VectorExport.kmz(
-            layerName: row.record.name, parsed: parsed, photos: photoBytes
-        ) else { return nil }
-        if export.photosMissing > 0 {
+        // Detached: the archive is CRC-32 and Data assembly over what can be
+        // hundreds of megabytes of JPEG at the photo caps, and building it
+        // on the main actor froze the map for the whole export. The temp
+        // write happens there too.
+        let layerName = row.record.name
+        let url = FileManager.default.temporaryDirectory
+            .appending(path: "\(Self.safeName(layerName)).kmz")
+        let bytes = photoBytes
+        let outcome = await Task.detached(
+            priority: .userInitiated
+        ) { () -> (photosMissing: Int, written: Bool)? in
+            guard let export = VectorExport.kmz(
+                layerName: layerName, parsed: parsed, photos: bytes
+            ) else { return nil }
+            let written = (try? export.data.write(to: url, options: .atomic)) != nil
+            return (export.photosMissing, written)
+        }.value
+        guard let outcome else { return nil }
+        if outcome.photosMissing > 0 {
             viewModel.reportExportShortfall(
-                layerName: row.record.name,
+                layerName: layerName,
                 message:
-                    "\(export.photosMissing) photo\(export.photosMissing == 1 ? "" : "s") "
+                    "\(outcome.photosMissing) photo\(outcome.photosMissing == 1 ? "" : "s") "
                     + "couldn't be read and were left out of the KMZ."
             )
         }
-        let url = FileManager.default.temporaryDirectory
-            .appending(path: "\(Self.safeName(row.record.name)).kmz")
-        guard (try? export.data.write(to: url, options: .atomic)) != nil else { return nil }
+        guard outcome.written else { return nil }
         return SharePayload(url: url)
     }
 

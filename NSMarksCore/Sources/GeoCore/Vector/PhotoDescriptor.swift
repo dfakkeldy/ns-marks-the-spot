@@ -48,7 +48,13 @@ public struct PhotoDescriptor: Hashable, Sendable {
 
     private static func fromValue(_ value: JSONValue) -> PhotoDescriptor? {
         guard case .object(let object) = value,
-              let id = object["id"]?.stringValue, !id.isEmpty
+              let id = object["id"]?.stringValue, !id.isEmpty,
+              // An id is a filename stem, never a path. A foreign file can
+              // carry any string here, and the store builds file paths from
+              // the id — a path-shaped id (`files/IMG_1.jpg`) would trap its
+              // precondition. All-or-nothing, like the rest of this parser:
+              // the value then renders as an opaque attribute.
+              !id.contains("/"), !id.contains("\\"), !id.contains("..")
         else { return nil }
         return PhotoDescriptor(
             id: id,
