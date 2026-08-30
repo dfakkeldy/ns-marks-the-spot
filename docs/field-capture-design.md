@@ -3,9 +3,11 @@
 Status: approved scope. Web W1 (live GPS + Field notes mark, #261), W2
 (foreground track recording with raw-GPX original, #262), W3 (GPX
 export for user layers and raw-recording downloads, #266), W4 (snap
-geometry math and the NSPRD parcel snap source, #269), and W5 (snap-to-parcel
-drawing, licence-gated, with traced provenance, #271) are implemented.
-Remaining web work starts at W6. Native recording (N1) is not shipped.
+geometry math and the NSPRD parcel snap source, #269), W5 (snap-to-parcel
+drawing, licence-gated, with traced provenance, #271), and W6 (points-to-path
+conversion with numbered preview, #273) are implemented.
+Remaining web work starts at W7 (freeform attributes + KML ExtendedData).
+Native recording (N1) is not shipped.
 Produced 2026-08-28 from a code survey of both surfaces, four subsystem design
 passes, and an adversarial cross-review that reconciled them. Decisions marked
 "approved" were made by the project owner in this session and are fixed;
@@ -121,9 +123,29 @@ Web (`web/src/`):
   page-load map never received Geoman's addInitHook (the New drawing layer
   crash)
   ([EditableVectorLayer.tsx](../web/src/userMaps/vector/edit/EditableVectorLayer.tsx)).
+- Points-to-path conversion: `planPointsToPath` / `buildPathFromPoints` use
+  stored array order (creation order for drawn layers), drop consecutive
+  duplicates, close rings without double-closing a hand-closed last point,
+  require at least 2 (line) or 3 (area) distinct points, warn on
+  self-intersection without blocking, stamp `nsmts:createdAt` and
+  `nsmts:convertedFromPoints`, and inherit `nsmts:traced` from any
+  parcel-snapped source point
+  ([pointsToPath.ts](../web/src/userMaps/vector/convert/pointsToPath.ts)).
+- Numbered dashed preview: `ConversionPreviewLayer` draws the
+  connect-the-dots order before commit, non-interactive
+  ([ConversionPreviewLayer.tsx](../web/src/userMaps/vector/edit/ConversionPreviewLayer.tsx)).
+- Panel convert section: "Make line or area from points" with live
+  length/area stats and keep-source default
+  ([VectorEditPanel.tsx](../web/src/userMaps/vector/edit/VectorEditPanel.tsx)).
+- Session convert/undo: `convertPoints` and one-shot `undoConversion` go
+  through the session's single write path so any later commit clears the undo
+  ([useVectorEditSession.ts](../web/src/userMaps/vector/edit/useVectorEditSession.ts)).
+- Draft-ADDED Geoman materialization: features the session adds to the draft
+  (conversion output, undo-restored points, W1 mark-during-edit) get a live
+  layer so the next gesture cannot publish them away
+  ([EditableVectorLayer.tsx](../web/src/userMaps/vector/edit/EditableVectorLayer.tsx)).
 
-Missing on web: points-to-path conversion, photos, EXIF,
-attribute editing beyond name/description.
+Missing on web: photos, EXIF, attribute editing beyond name/description.
 
 iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 
@@ -669,8 +691,9 @@ Then native, mirroring:
 | N3 | Snapping + photo map (splits into 3a/3b if review size demands; they share no files): envelope query + fetcher, SnapEngine + session integration + caveat + traced stamping, PhotoLibraryIndex + PhotoMapViewModel + MapViewState.photoMarkers + clustered annotations + the three-state My Maps row |
 
 W1–W3 delivered the user's first ask (points and tracks at the current
-location) as a coherent slice. W4 (snap math + parcel source, no UI) and
-W5 (snap engine + UI) have landed; remaining web work starts at W6.
+location) as a coherent slice. W4 (snap math + parcel source, no UI),
+W5 (snap engine + UI), and W6 (points-to-path conversion) have landed;
+remaining web work starts at W7.
 
 ## Risks and open questions
 
