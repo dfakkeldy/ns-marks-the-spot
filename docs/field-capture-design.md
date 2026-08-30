@@ -8,8 +8,8 @@ drawing, licence-gated, with traced provenance, #271), W6 (points-to-path
 conversion with numbered preview, #273), W7 (freeform attributes + KML
 ExtendedData, #275), W8 (photo storage + attach + display, #277), and W9
 (KMZ photo interchange + bulk EXIF placement, #279) are implemented.
-Remaining web work for field-capture is done; next is native N1 (not
-shipped).
+Remaining web work for field-capture is done. Native N1 (#281) is
+implemented; next is native N2 (not shipped).
 Produced 2026-08-28 from a code survey of both surfaces, four subsystem design
 passes, and an adversarial cross-review that reconciled them. Decisions marked
 "approved" were made by the project owner in this session and are fixed;
@@ -226,13 +226,35 @@ iOS.
 iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 
 - Drawing (point/line/area), import/export of the same formats, actor-guarded
-  JSON persistence, display-only location dot, licence gating, print export.
-- Missing: track recording, any camera or PhotoKit code (no permission strings
-  exist), per-feature notes/photos/attributes, snapping, conversion.
-- Known bug found during this design:
-  `UserVectorStore.write(_:)` writes back whatever library version it read
-  instead of stamping `UserVectorLibrary.currentVersion`. Fix rides the first
-  native PR.
+  JSON persistence, location display, licence gating, print export.
+- Foreground track recording: `CaptureSpec` pinned by `FieldCaptureParityTests`
+  against the shared fixture (kmz block copied verbatim from W9, never
+  regenerated from Swift), `TrackFix`, `TrackFilter` plus stack-based
+  Douglas-Peucker `TrackSimplify`, the pure `TrackRecording` state machine,
+  `TrackFeature`, `MarkFeature` (10 s / 50 m freshness), `TrackGpx` raw writer
+  ([Capture/](../NSMarksCore/Sources/GeoCore/Capture/)).
+- `GpxParse` reads trkpt `<time>` into `coordinateProperties.times`
+  (null-padded, togeojson convention)
+  ([GpxParse.swift](../NSMarksCore/Sources/GeoCore/Vector/GpxParse.swift)).
+- `UserVectorLibrary.currentVersion` is 2; `UserVectorStore.write(_:)` stamps
+  `currentVersion`
+  ([UserVectorLayerRecord.swift](../NSMarksCore/Sources/GeoCore/Vector/UserVectorLayerRecord.swift),
+  [UserVectorStore.swift](../ns-marks-the-spot/UserVectors/UserVectorStore.swift)).
+- App: `TrackRecorder` (foreground-only `CLLocationManager`, idle-timer,
+  auto-pause on background with a visible message), recording HUD,
+  `SaveTrackSheet` (simplify presets, live vertex counts), raw GPX as the
+  layer original labeled "Raw recording (GPX)", mark-my-location into the
+  open edit session else auto-created "Field notes", points→line/area
+  conversion in stored array order with keep-source default, one-shot undo,
+  dashed on-map preview, GPS callout "Marked from GPS on this device (±N m)"
+  only when both reserved keys are present
+  ([FieldCapture/](../ns-marks-the-spot/FieldCapture/),
+  [VectorConvert.swift](../NSMarksCore/Sources/GeoCore/Vector/VectorConvert.swift),
+  [VectorEditSession.swift](../ns-marks-the-spot/UserVectors/VectorEditSession.swift),
+  [VectorEditPanel.swift](../ns-marks-the-spot/UserVectors/VectorEditPanel.swift)).
+- Missing: any camera or PhotoKit code (no permission strings exist),
+  per-feature notes/photos/attributes, KMZ photo interchange, snapping,
+  photo-library map layer.
 
 ## The field-capture contract
 
@@ -241,7 +263,7 @@ one checked-in fixture,
 `NSMarksCore/Tests/ParityFixtures/Fixtures/field-capture-parity.json`,
 following the existing `layer-parity.json` pattern. Web asserts its constants
 against the fixture by relative path (precedent:
-[layerParity.test.ts](../web/src/layers/layerParity.test.ts)); a new Swift
+[layerParity.test.ts](../web/src/layers/layerParity.test.ts));
 `FieldCaptureParityTests` asserts the GeoCore constants. Each surface defines
 each constant exactly once (web: `web/src/location/captureSpec.ts` plus the
 snapping constants module; iOS: GeoCore), imported by the modules and asserted
@@ -271,10 +293,9 @@ or anything starting with `nsmts:`.
 Per-vertex track timestamps use the togeojson convention, not the namespace:
 `properties.coordinateProperties.times` is a string array parallel to
 `coordinates` (array of arrays for MultiLineString). Both GPX writers emit
-per-vertex `<time>` from it; both GPX parsers must read trkpt `<time>` into it.
-The iOS `GpxParse` currently drops trkpt time and gains that parsing in the
-first native PR. KML/KMZ export drops per-vertex times; GeoJSON and GPX are the
-formats that carry them.
+per-vertex `<time>` from it; both GPX parsers read trkpt `<time>` into it
+(iOS `GpxParse` included, null-padded). KML/KMZ export drops per-vertex times;
+GeoJSON and GPX are the formats that carry them.
 
 Popups and callouts render GPS provenance ("Marked from GPS on this device
 (±7 m)") only when `nsmts:capturedAt` and `nsmts:accuracyM` are both present.
@@ -300,9 +321,9 @@ makes about itself.
   MultiLineString when pause/resume produced multiple segments). The raw GPX is
   the evidence; the geometry is the labeled, processed view. There is no
   separate raw-track store and no per-fix disposition taxonomy.
-- iOS bumps `UserVectorLibrary.currentVersion` to 2 so old builds refuse
-  cleanly (`fromALaterVersion`) instead of reporting damage, and
-  `UserVectorStore.write(_:)` stamps the current version (the bug above).
+- iOS `UserVectorLibrary.currentVersion` is 2 so old builds refuse cleanly
+  (`fromALaterVersion`) instead of reporting damage, and
+  `UserVectorStore.write(_:)` stamps the current version.
 
 ### Track filter and simplification constants
 
@@ -646,30 +667,47 @@ that the future Swift test mirrors byte-for-byte in structure.
 
 ## iOS mirror
 
-GeoCore additions (pure, zero-dependency): `Capture/TrackFix.swift`,
-`Capture/TrackFilter.swift` (contract pipeline and simplify),
-`Capture/TrackGpx.swift` (raw GPX writer that round-trips through `GpxParse`),
-`Vector/VectorEdit.convertingPoints`, `Vector/SnapEngine.swift` (vertex/edge
-candidates over `ownFeature | parcel` sources only), `VectorExport` KML
-ExtendedData plus `kmz(layerName:parsed:photos:)`, a `ZipArchive` writer
-(STORED for jpegs, DEFLATE via `compression_encode_buffer` for doc.kml), and
-`KmzParse.attachments`. `GpxParse` gains trkpt `<time>` into
-`coordinateProperties.times`.
+N1 (#281) is implemented. Remaining native work is N2 (attributes, photos,
+KMZ) and N3 (snapping + photo map).
 
-NSDataServices: `ParcelQuery.envelopeQueryURL(bounds:clearance:)`
+GeoCore N1 (pure, zero-dependency), present: `Capture/CaptureSpec.swift`
+(pinned by `FieldCaptureParityTests` against the shared fixture, including
+the kmz block copied verbatim from W9 and never regenerated from Swift),
+`Capture/TrackFix.swift`, `Capture/TrackFilter.swift` (contract pipeline and
+stack-based Douglas-Peucker `TrackSimplify`), `Capture/TrackRecording.swift`,
+`Capture/TrackFeature.swift`, `Capture/MarkFeature.swift`,
+`Capture/TrackGpx.swift` (raw GPX writer that round-trips through
+`GpxParse`), and `Vector/VectorConvert.swift`
+(`VectorEdit.convertingPoints`). `GpxParse` reads trkpt `<time>` into
+`coordinateProperties.times`. Remaining GeoCore work is N2/N3:
+`Vector/SnapEngine.swift` (vertex/edge candidates over `ownFeature | parcel`
+sources only), `VectorExport` KML ExtendedData plus
+`kmz(layerName:parsed:photos:)`, a `ZipArchive` writer (STORED for jpegs,
+DEFLATE via `compression_encode_buffer` for doc.kml), and
+`KmzParse.attachments`.
+
+NSDataServices (N3, not shipped): `ParcelQuery.envelopeQueryURL(bounds:clearance:)`
 (`esriGeometryEnvelope`, `inSR=4326`, `outFields=PID`, `returnGeometry=true`),
 refusing without clearance exactly like the existing point query, and
 `ParcelFetcher.parcels(in:clearance:)` paging up to `maxSnapParcels`;
 `exceededTransferLimit` or over-cap reads as the distinct "too many parcels
 here, zoom in" state, never as fewer parcels.
 
-App:
+App N1, present:
 
 - `FieldCapture/TrackRecorder.swift` (@Observable, own CLLocationManager
   when-in-use, `isIdleTimerDisabled` while recording and restored on stop or
   scene-phase change, auto-pause on leaving foreground with "Recording paused
   while the app was in the background"), `TrackRecordingHUD.swift`,
-  `MarkLocation.swift`.
+  `SaveTrackSheet.swift`, `MarkLocation.swift`. Conversion UI in
+  `UserVectors/VectorEditPanel.swift` / `VectorEditSession.swift`
+  (keep-source default, one-shot undo); dashed preview in
+  `MapContainerView`. GPS callout "Marked from GPS on this device (±N m)"
+  only when both reserved keys are present. Mark-my-location destination
+  follows the contract (open session, else "Field notes").
+
+Remaining App work is N2/N3:
+
 - `UserVectors/FeatureAttributesEditor.swift` (key-value rows stored as
   strings, reserved keys refused) and `FeaturePhotoPicker.swift`
   (`PhotosPicker` for library, permissionless out-of-process, plus
@@ -703,18 +741,17 @@ App:
   haptic tick on snap, the pinned caveat as a standing caption while parcels
   are armed. Unreadable or not-supplied parcel boundaries contribute no
   candidates; never a partial ring.
-- Conversion, mark-my-location destination, attribute typing, and KMZ profile
-  all follow the contract verbatim.
+- Attribute typing and KMZ profile still follow the contract, unshipped.
 
-Tests: TrackFilter/TrackSimplify/TrackGpx against scripted sequences,
-FieldCaptureParityTests against the fixture, SnapEngine priority and source
-exclusion, KmzRoundTrip (including the shared cross-surface fixture),
-convertingPoints, ParcelEnvelopeQuery, TrackRecorder with an injected fix
-source (segmentation, auto-pause, save writes geometry + original + origin,
-library stamped v2, idle-timer restore), photo store sweeps, attribute
-editing, PhotoMapIndex behind a fake asset source. Run focused suites (the
-full bundle hangs on shared URLProtocol stubs); builds go through the
-xcode-build-slot wrapper.
+Tests in the tree for N1: TrackFilter/TrackSimplify/TrackGpx against
+scripted sequences, FieldCaptureParityTests against the fixture,
+convertingPoints, TrackRecorder with an injected fix source (segmentation,
+auto-pause, save writes geometry + original + origin, library stamped v2,
+idle-timer restore). Remaining: SnapEngine priority and source exclusion,
+KmzRoundTrip (including the shared cross-surface fixture),
+ParcelEnvelopeQuery, photo store sweeps, attribute editing, PhotoMapIndex
+behind a fake asset source. Run focused suites (the full bundle hangs on
+shared URLProtocol stubs); builds go through the xcode-build-slot wrapper.
 
 ## Cross-cutting compliance
 
@@ -771,7 +808,8 @@ location) as a coherent slice. W4 (snap math + parcel source, no UI),
 W5 (snap engine + UI), W6 (points-to-path conversion), W7 (freeform
 attributes + KML ExtendedData), W8 (photo storage + attach + display),
 and W9 (KMZ photo interchange + bulk EXIF placement) have landed;
-remaining web work for field-capture is done. Next is native N1.
+remaining web work for field-capture is done. Native N1 (#281) landed;
+next is native N2.
 
 ## Risks and open questions
 
