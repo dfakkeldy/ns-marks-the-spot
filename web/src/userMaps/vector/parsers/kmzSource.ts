@@ -51,6 +51,41 @@ export async function parseKmz(buffer: ArrayBuffer): Promise<ParsedVector> {
   return parseKml(await extractKmzDocument(buffer));
 }
 
+export type ParsedKmzWithAssets = {
+  parsed: ParsedVector;
+  /** Non-KML archive entries, keyed by LOWERCASED entry name. */
+  assets: Map<string, Uint8Array>;
+};
+
+/**
+ * KMZ parse that keeps the archive's other entries — the photo bytes a
+ * field-capture KMZ carries under `files/`. Names are lowercased for the
+ * case-insensitive href resolution the interchange profile requires (KMZs
+ * edited by other tools do not preserve case reliably).
+ */
+export async function parseKmzWithAssets(
+  buffer: ArrayBuffer,
+): Promise<ParsedKmzWithAssets> {
+  const entries = await unzipAsync(new Uint8Array(buffer));
+  const names = Object.keys(entries);
+  const rootDoc = names.find((name) => name.toLowerCase() === "doc.kml");
+  const anyKml = names.find((name) => name.toLowerCase().endsWith(".kml"));
+  const chosen = rootDoc ?? anyKml;
+  if (!chosen) {
+    throw new UserMapImportError(
+      "corrupt-file",
+      "This archive has no KML file inside it.",
+    );
+  }
+  const assets = new Map<string, Uint8Array>();
+  for (const name of names) {
+    if (name !== chosen) {
+      assets.set(name.toLowerCase(), entries[name]);
+    }
+  }
+  return { parsed: parseKml(strFromU8(entries[chosen])), assets };
+}
+
 /**
  * Distinguishes a KMZ from the other zip a user may drop — a zipped
  * shapefile. Both share the same magic bytes, so only the entry names can

@@ -43,6 +43,7 @@ function api(overrides: Partial<UserVectorLayersApi> = {}): UserVectorLayersApi 
     ensureFieldNotesLayer: vi.fn(async () => "field-notes"),
     createRecordedLayer: vi.fn(async () => record("recorded-layer")),
     appendFeatures: vi.fn(async () => null),
+    createPhotoLayer: vi.fn(async () => ({ id: null, notes: [] })),
     applyLayerEdit: vi.fn(),
     geometries: {},
     putVectorLayer: vi.fn(async () => {}),
@@ -194,6 +195,56 @@ describe("UserVectorRows", () => {
       screen.getByRole("button", { name: "Export Layer camps as KML" }),
     );
     expect(layers.exportLayer).toHaveBeenCalledWith("camps", "kml");
+  });
+
+  it("offers KMZ export with photos embedded per layer", async () => {
+    const layers = api({ records: [record("camps")] });
+    render(<UserVectorRows api={layers} />);
+
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: "Export Layer camps as KMZ with photos embedded",
+      }),
+    );
+    expect(layers.exportLayer).toHaveBeenCalledWith("camps", "kmz");
+    // The photo-free formats say so instead of silently dropping photos.
+    expect(
+      screen.getByRole("button", { name: "Export Layer camps as GeoJSON" }),
+    ).toHaveAttribute("title", expect.stringContaining("use KMZ"));
+    expect(
+      screen.getByRole("button", { name: "Export Layer camps as KML" }),
+    ).toHaveAttribute("title", expect.stringContaining("use KMZ"));
+  });
+
+  it("labels photo-import layers with their photo provenance", () => {
+    render(
+      <UserVectorRows
+        api={api({
+          records: [
+            record("snaps", {
+              source: "photos",
+              origin: {
+                kind: "photo-import",
+                count: 3,
+                importedAt: "2026-08-30T00:00:00.000Z",
+              },
+            }),
+          ],
+        })}
+      />,
+    );
+    expect(
+      screen.getByText(/From your photos · 3 photos · 3 features/),
+    ).toBeInTheDocument();
+  });
+
+  it("offers bulk photo placement when the app wires it", async () => {
+    const onBulkPhotos = vi.fn();
+    render(<UserVectorRows api={api()} onBulkPhotos={onBulkPhotos} />);
+    await userEvent.click(
+      screen.getByRole("button", { name: "Add photos to map" }),
+    );
+    expect(onBulkPhotos).toHaveBeenCalled();
   });
 
   it("starts an edit session for a layer", async () => {

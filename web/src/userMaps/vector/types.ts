@@ -12,7 +12,8 @@ export type UserVectorSource =
   | "gpx"
   | "shapefile-zip"
   | "drawn"
-  | "recorded";
+  | "recorded"
+  | "photos";
 
 /**
  * Provenance stays attached to the layer for the life of the record: an
@@ -29,7 +30,8 @@ export type UserVectorSource =
 export type UserVectorOrigin =
   | { kind: "imported"; filename: string; importedAt: string }
   | { kind: "drawn"; createdAt: string }
-  | { kind: "recorded"; startedAt: string; endedAt: string };
+  | { kind: "recorded"; startedAt: string; endedAt: string }
+  | { kind: "photo-import"; count: number; importedAt: string };
 
 export type UserVectorLayerRecord = {
   id: string;

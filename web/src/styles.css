@@ -2158,6 +2158,110 @@ a {
   border: 0;
 }
 
+.bulk-photos-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(460px, 100%);
+  max-height: 90vh;
+  padding: 18px 20px;
+  overflow-y: auto;
+  color: var(--chart-ink);
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(18, 52, 59, 0.35);
+}
+
+.bulk-photos-dialog h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.bulk-photos-note,
+.bulk-photos-done {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.bulk-photos-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 40vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.bulk-photos-rows label {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 6px;
+  font-size: 0.82rem;
+  border-radius: 6px;
+}
+
+.bulk-photos-rows label:hover {
+  background: var(--paper, #f4f1e8);
+}
+
+.bulk-photos-rows input {
+  grid-row: span 2;
+}
+
+.bulk-photos-name {
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bulk-photos-rows small {
+  font-family: "IBM Plex Mono", Menlo, monospace;
+  font-size: 0.7rem;
+}
+
+.bulk-photos-pick,
+.bulk-photos-create {
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--white);
+  cursor: pointer;
+  background: var(--survey-blue);
+  border: 0;
+  border-radius: 6px;
+}
+
+.bulk-photos-pick:disabled,
+.bulk-photos-create:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.bulk-photos-close {
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--chart-ink);
+  cursor: pointer;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.bulk-photos-error {
+  font-size: 0.75rem;
+  color: var(--tax-sale-red, #a0341f);
+}
+
 .save-track-save:disabled,
 .save-track-discard:disabled {
   opacity: 0.55;

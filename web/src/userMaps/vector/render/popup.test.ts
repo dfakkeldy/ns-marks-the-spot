@@ -73,6 +73,21 @@ describe("buildFeaturePopup", () => {
     expect(popup.textContent).toMatch(/drawn on this device/i);
   });
 
+  it("labels photo-import layers as from photos on this device", () => {
+    const popup = buildFeaturePopup(
+      feature({ name: "IMG_0042" }),
+      record({
+        source: "photos",
+        origin: {
+          kind: "photo-import",
+          count: 3,
+          importedAt: "2026-08-30T00:00:00.000Z",
+        },
+      }),
+    );
+    expect(popup.textContent).toMatch(/from photos on this device/i);
+  });
+
   it("labels recorded layers as recorded on this device", () => {
     const popup = buildFeaturePopup(
       feature({ name: "Walk" }),

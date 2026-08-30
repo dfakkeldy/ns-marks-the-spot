@@ -10,13 +10,18 @@
 
 export const PHOTOS_PROPERTY = "nsmts:photos";
 
-/** Portable descriptor, the value elements of `nsmts:photos`. */
+/**
+ * Portable descriptor, the value elements of `nsmts:photos`. `href` exists
+ * only in the KMZ form (`files/<id>.jpg`): export adds it, import resolves
+ * it against the archive and strips it while re-minting ids.
+ */
 export type FeaturePhotoDescriptor = {
   id: string;
   capturedAt?: string;
   sourceName?: string;
   width?: number;
   height?: number;
+  href?: string;
 };
 
 /** Device-local metadata row; bytes live out-of-line in `blobs`. */
@@ -58,7 +63,32 @@ function asDescriptor(value: unknown): FeaturePhotoDescriptor | null {
   if (typeof candidate.height === "number" && Number.isFinite(candidate.height)) {
     descriptor.height = candidate.height;
   }
+  if (typeof candidate.href === "string") {
+    descriptor.href = candidate.href;
+  }
   return descriptor;
+}
+
+/**
+ * The KMZ-side reader: ExtendedData values come back from togeojson as
+ * STRINGS, so the property may be a JSON string rather than an array. Same
+ * all-or-nothing tolerance; a malformed value stays an opaque attribute.
+ */
+export function readKmzPhotoDescriptors(
+  properties: unknown,
+): FeaturePhotoDescriptor[] {
+  if (!properties || typeof properties !== "object") {
+    return [];
+  }
+  const raw = (properties as Record<string, unknown>)[PHOTOS_PROPERTY];
+  if (typeof raw !== "string") {
+    return readPhotoDescriptors(properties);
+  }
+  try {
+    return readPhotoDescriptors({ [PHOTOS_PROPERTY]: JSON.parse(raw) });
+  } catch {
+    return [];
+  }
 }
 
 /**
