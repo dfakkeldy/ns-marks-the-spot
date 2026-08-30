@@ -7,6 +7,10 @@ import SwiftUI
 /// `nsmts:recording.simplifyToleranceM`.
 struct SaveTrackSheet: View {
     let result: TrackRecording.StopResult
+    /// Why the last save attempt failed, or nil. The sheet stays up on a
+    /// failed write — it holds the only copy of the walk — so the failure
+    /// has to be said here, where Save and Discard still work.
+    var saveError: String?
     var onSave: (_ name: String, _ simplifyToleranceM: Double) -> Void
     var onDiscard: () -> Void
 
@@ -15,10 +19,12 @@ struct SaveTrackSheet: View {
 
     init(
         result: TrackRecording.StopResult,
+        saveError: String? = nil,
         onSave: @escaping (_ name: String, _ simplifyToleranceM: Double) -> Void,
         onDiscard: @escaping () -> Void
     ) {
         self.result = result
+        self.saveError = saveError
         self.onSave = onSave
         self.onDiscard = onDiscard
         _name = State(initialValue: TrackFeature.defaultTrackName(startedAt: result.startedAt))
@@ -44,6 +50,14 @@ struct SaveTrackSheet: View {
     var body: some View {
         NavigationStack {
             Form {
+                if let saveError {
+                    Section {
+                        Label(saveError, systemImage: "exclamationmark.triangle")
+                            .font(.callout)
+                            .foregroundStyle(.orange)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
                 if isEmpty {
                     Section {
                         Text(

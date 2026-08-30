@@ -270,16 +270,31 @@ final class UserVectorsViewModel {
         return await newDrawingLayer(name: CaptureSpec.fieldNotesLayerName, now: now)
     }
 
+    /// The row with its geometry loaded, reading the store directly when the
+    /// launch load has not reached it yet. Nil when the layer is gone or its
+    /// geometry cannot be read — a write path that treated "not loaded yet"
+    /// as "empty" would persist an empty collection over the stored one.
+    func loadedRow(id: String) async -> Row? {
+        guard let row = rows.first(where: { $0.id == id }) else { return nil }
+        if row.parsed != nil { return row }
+        guard let parsed = try? await store.geometry(id: id) else { return nil }
+        // Found again rather than remembered: the row set can change across
+        // the await, exactly as in load().
+        guard let index = rows.firstIndex(where: { $0.id == id }) else { return nil }
+        rows[index].parsed = parsed
+        return rows[index]
+    }
+
     /// Appends one feature to a layer through the store's write path.
     /// The mark path: the feature id was assigned by the builder, and the
     /// modified date moves so a layer that gained GPS marks honestly shows
-    /// its edited date.
+    /// its edited date. Refuses rather than guesses when the layer's stored
+    /// geometry cannot be read.
     @discardableResult
     func appendFeature(_ feature: GeoJsonFeature, to id: String, now: Date = Date()) async
         -> Bool
     {
-        guard let index = rows.firstIndex(where: { $0.id == id }) else { return false }
-        let existing = rows[index].parsed ?? ParsedVector(features: [], bbox: nil)
+        guard let existing = await loadedRow(id: id)?.parsed else { return false }
         let appended = VectorEdit.recomputed(existing.features + [feature])
         return await replaceGeometry(id: id, with: appended, now: now)
     }

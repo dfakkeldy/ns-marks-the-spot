@@ -32,6 +32,9 @@ struct MapContainerView: View {
     /// sheet can present it; the recording is the only copy of the walk, so
     /// the sheet cannot be swiped away.
     @State private var saveTrack: SaveTrackPayload?
+    /// Why the last save attempt failed, shown inside the sheet — which
+    /// stays up on failure, holding the only copy of the walk.
+    @State private var saveTrackError: String?
     /// The measurement in progress, or none. Not persisted anywhere: a measured
     /// distance is a question about the map, asked and answered.
     @State private var measure: MeasureSession?
@@ -179,17 +182,11 @@ struct MapContainerView: View {
                 ShareSheet(items: payload.items)
             }
             .sheet(item: $saveTrack) { payload in
-                SaveTrackSheet(result: payload.result) { name, toleranceM in
-                    saveTrack = nil
-                    Task {
-                        guard let row = await userVectorsVM.addRecordedLayer(
-                            payload.result, name: name, simplifyToleranceM: toleranceM
-                        ) else { return }
-                        if let box = row.record.bbox {
-                            controller.frame(box)
-                        }
-                    }
+                SaveTrackSheet(result: payload.result, saveError: saveTrackError) {
+                    name, toleranceM in
+                    saveRecordedTrack(payload.result, name: name, toleranceM: toleranceM)
                 } onDiscard: {
+                    saveTrackError = nil
                     saveTrack = nil
                 }
                 // Save or Discard, said out loud: the stopped recording is
@@ -1428,7 +1425,40 @@ struct MapContainerView: View {
         )
     }
 
+    /// Saves the stopped recording as a layer. The sheet stays up until the
+    /// write lands: the recording is the only copy of the walk, and
+    /// dismissing before a failed save would throw it out while telling the
+    /// user to try again.
+    private func saveRecordedTrack(
+        _ result: TrackRecording.StopResult, name: String, toleranceM: Double
+    ) {
+        Task {
+            guard let row = await userVectorsVM.addRecordedLayer(
+                result, name: name, simplifyToleranceM: toleranceM
+            ) else {
+                saveTrackError = "This track could not be saved to your "
+                    + "device. Free some space and save again, or discard it."
+                return
+            }
+            saveTrackError = nil
+            saveTrack = nil
+            if let box = row.record.bbox {
+                controller.frame(box)
+            }
+        }
+    }
+
     private func beginEditing(_ row: UserVectorsViewModel.Row) {
+        // A layer whose geometry has not loaded yet is loaded first: a
+        // session begun on an empty working copy would persist that
+        // emptiness over the stored features on its first commit.
+        if row.parsed == nil {
+            Task {
+                guard let loaded = await userVectorsVM.loadedRow(id: row.id) else { return }
+                beginEditing(loaded)
+            }
+            return
+        }
         // Editing and measuring both claim the map's taps. Beginning an edit
         // ends the measurement rather than leaving a live readout no tap will
         // ever reach.
