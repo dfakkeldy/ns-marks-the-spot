@@ -72,7 +72,9 @@
             share them yourself. Continuous live watching does not send your
             coordinates to an application server. If you attach a photo that includes
             a geotag, that location is used only if you accept the optional offer to
-            move the feature to the photo's location.
+            move the feature to the photo's location. If you pick photos to place on
+            the map, their geotags are read in the browser to create points and are
+            not uploaded.
           </p>
         </section>
 
@@ -111,8 +113,9 @@
           <p>
             Photos you attach to features on the browser map are stored only on your
             device. They are re-encoded so EXIF (including GPS) is stripped from stored
-            and exported bytes, and they leave the device only if you export or share
-            them yourself.
+            bytes. A KMZ export can embed those re-encoded photo bytes; GeoJSON and KML
+            exports do not include photos. Photos leave the device only if you export
+            or share them yourself.
           </p>
         </section>
 

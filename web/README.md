@@ -1042,8 +1042,8 @@ JPEG) under "Your maps" and vector data (GeoJSON, KML, KMZ, GPX, and zipped
 shapefiles) under "Your data" share one drop zone, are stored locally in
 IndexedDB, render clearly labeled as user-loaded material, and are excluded
 from print capture and share links. Vector layers export back out as GeoJSON,
-KML, or GPX (points and tracks; polygons are skipped). Recorded layers also
-offer a Raw GPX download of the original file. A shapefile without its `.prj`
+KML, KMZ, or GPX (GPX carries points and tracks; polygons are skipped).
+Recorded layers also offer a Raw GPX download of the original file. A shapefile without its `.prj`
 is refused rather than assumed to be longitude/latitude. Vector layers can also be drawn and edited on the map —
 add points, lines, and areas, reshape or move them, name individual features,
 and start a blank drawing layer of your own. While drawing or editing,
@@ -1062,7 +1062,12 @@ Each photo is stored as a re-encoded JPEG (full plus thumbnail) with EXIF,
 including GPS, stripped from stored bytes. The edit panel shows a photo
 strip and a lightbox; points with photos render as a hollow map indicator.
 When a photo is geotagged, you can optionally move the point to that
-location.
+location. KMZ export and import can carry those photos as embedded
+EXIF-stripped JPEGs; GeoJSON and KML export titles note that photos aren't
+included and to use KMZ. "Add photos to map" bulk-places geotagged JPEGs
+from its own file picker (not the shared drop zone): files are classified
+in-view, out-of-view, or no-location, and confirmed photos become a
+photos-source layer of points.
 The Fletcher web integration and immutable, bounded per-sheet package are
 implemented, but the layer remains disabled in builds without
 `VITE_FLETCHER_TILE_BASE_URL`. The 24 direct-Rumsey source trees are kept
