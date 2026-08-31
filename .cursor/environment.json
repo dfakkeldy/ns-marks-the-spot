@@ -1,0 +1,5 @@
+{
+  "name": "NS Marks The Spot (Linux tooling)",
+  "user": "ubuntu",
+  "install": "bash .cursor/install.sh"
+}
