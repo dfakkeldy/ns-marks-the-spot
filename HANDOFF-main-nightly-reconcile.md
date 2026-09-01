@@ -27,3 +27,24 @@ Branch claude/vigilant-poincare-7e6615
 Next: on user approval, open feature/* PR into nightly adding APP_REVIEW_CONTACT_PHONE to
 .github/workflows/release-trains.yml (mirroring origin/main:228) plus any of the 5 docs the user keeps.
 ```
+
+## 2026-09-01 — Fix implemented on feature/restore-app-review-phone
+
+Done:
+- User approved option (a) narrow PR into nightly, carrying none of the 5 main-only docs.
+- Added `APP_REVIEW_CONTACT_PHONE: ${{ secrets.APP_REVIEW_CONTACT_PHONE }}` to the
+  "Upload TestFlight build" step in `.github/workflows/release-trains.yml`, matching
+  main's placement. actionlint clean; upload-step env key set now identical to main's.
+
+Next:
+- Merge into nightly, then promote nightly -> weekly -> main so main keeps the line.
+- Delete this handoff file in the PR that closes the task.
+- Open, not addressed here: `lint_metadata` also requires the phone but is local-only
+  (no workflow runs it); the MapEngine facade in CLAUDE.md no longer exists on nightly.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/vigilant-poincare-7e6615
+Branch feature/restore-app-review-phone
+Next: watch the PR's "Build gate + tests" check, then merge into nightly.
+```
