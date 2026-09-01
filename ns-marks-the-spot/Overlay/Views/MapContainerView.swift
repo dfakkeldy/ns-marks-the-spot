@@ -55,6 +55,12 @@ struct MapContainerView: View {
     /// How tall the right-hand controls are, so the column can be given
     /// exactly that height and no more. Zero until the first layout.
     @State private var controlsHeight: CGFloat = 0
+    /// How wide that rail is, so the layers panel can be floated clear of it.
+    /// Measured rather than allowed for: the rail's icons are scaled metrics,
+    /// and at an accessibility text size a fixed allowance puts the panel
+    /// under the buttons it is meant to sit beside. Starts at the rail's own
+    /// unscaled width so the first layout is already clear of it.
+    @State private var controlsWidth: CGFloat = 44
 
     /// How much of the rail the area-selection controls are holding, so the
     /// scrolling part below them gives up the same amount.
@@ -271,39 +277,6 @@ struct MapContainerView: View {
 
                     Spacer()
 
-                    if isLayersMenuExpanded {
-                        TransparencySliderView(
-                            viewModel: overlayVM,
-                            userMaps: userMapsVM,
-                            userVectors: userVectorsVM,
-                            onZoomToLayer: { controller.frame($0) },
-                            onEditLayer: { row in
-                                beginEditing(row)
-                            },
-                            onNewDrawingLayer: {
-                                Task {
-                                    guard let row = await userVectorsVM.newDrawingLayer() else {
-                                        return
-                                    }
-                                    beginEditing(row)
-                                }
-                            },
-                            photoMap: photoMapVM,
-                            onPlacePhotos: { items in
-                                Task { await beginBulkPlacement(from: items) }
-                            },
-                            isExpanded: $isLayersMenuExpanded,
-                            expandedCategories: $openLayerSections
-                        )
-                            .frame(width: 300)
-                            .frame(maxHeight: max(320, mapHeight - 132))
-                            .transition(.asymmetric(
-                                insertion: .move(edge: .trailing).combined(with: .opacity),
-                                removal: .move(edge: .trailing).combined(with: .opacity)
-                            ))
-                            .padding(.top, 60)
-                    }
-
                     // Not while a page is being framed: the framing toolbar
                     // owns the screen, every one of these controls is inert in
                     // that mode, and a rail left at full brightness over the
@@ -318,6 +291,46 @@ struct MapContainerView: View {
             }
             .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
                 mapHeight = height
+            }
+
+            // Floated over the map rather than laid out in the row above.
+            //
+            // The panel is 300 points wide, the search column asks for up to
+            // 260, and the control rail takes the rest; on a phone the three
+            // together are wider than the screen. A row that cannot fit does
+            // not shrink — it overflows, and an overflowing row grows the
+            // stack it sits in. That took every other thing drawn over the
+            // map with it: the parcel card was laid out hundreds of points
+            // wider than the phone and centred, so its title, its figures and
+            // the attribution strip all hung off both edges.
+            //
+            // Anchored to the trailing edge and capped at 300, it keeps the
+            // place it had beside the rail on a screen with room for both, and
+            // on a phone it covers the search field instead of shoving it off
+            // the screen. The outer flexible frame is what holds the line: it
+            // reports the size it was offered, so nothing in here can grow the
+            // stack again.
+            if isLayersMenuExpanded {
+                layersPanel
+                    .frame(maxWidth: 300)
+                    .frame(maxHeight: max(320, mapHeight - 132))
+                    // Attached to the panel itself rather than to the frame
+                    // that positions it, so the slide is the width of the
+                    // panel and not the width of the screen.
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .trailing).combined(with: .opacity)
+                    ))
+                    .padding(.top, 60)
+                    // Clear of the rail at any text size: its icons are
+                    // scaled metrics, so a fixed allowance would slide the
+                    // panel under them at an accessibility size.
+                    .padding(.trailing, 24 + controlsWidth)
+                    .frame(
+                        maxWidth: .infinity,
+                        maxHeight: .infinity,
+                        alignment: .topTrailing
+                    )
             }
 
             // Top-centre, clear of the search bar. The location button sits on
@@ -669,6 +682,33 @@ struct MapContainerView: View {
         }
     }
 
+    /// The layers panel, without the placement that floats it over the map.
+    private var layersPanel: some View {
+        TransparencySliderView(
+            viewModel: overlayVM,
+            userMaps: userMapsVM,
+            userVectors: userVectorsVM,
+            onZoomToLayer: { controller.frame($0) },
+            onEditLayer: { row in
+                beginEditing(row)
+            },
+            onNewDrawingLayer: {
+                Task {
+                    guard let row = await userVectorsVM.newDrawingLayer() else {
+                        return
+                    }
+                    beginEditing(row)
+                }
+            },
+            photoMap: photoMapVM,
+            onPlacePhotos: { items in
+                Task { await beginBulkPlacement(from: items) }
+            },
+            isExpanded: $isLayersMenuExpanded,
+            expandedCategories: $openLayerSections
+        )
+    }
+
     /// The right-hand rail.
     private var controlColumn: some View {
         VStack(alignment: .trailing, spacing: 12) {
@@ -864,6 +904,9 @@ struct MapContainerView: View {
             .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
                 controlsHeight = height
             }
+            .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width in
+                controlsWidth = width
+            }
         }
         // The indicator is left visible. It appears only while the column is
         // actually scrolling, and that is the one moment a reader needs to be
@@ -996,6 +1039,27 @@ struct MapContainerView: View {
                         refreshParcelSnap()
                         refreshPhotoMap()
                     case .mapTapped(let latitude, let longitude):
+                        // An open layers panel takes the first tap on the map
+                        // and spends it on closing itself.
+                        //
+                        // The panel covers most of a phone screen, so a tap on
+                        // what is left of the map is far more often a reader
+                        // reaching past the panel than one asking about the
+                        // ground under their finger — and the answer used to
+                        // be a parcel card opened behind the panel, about a
+                        // parcel nobody was aiming at. Only the tap is taken:
+                        // panning and zooming still reach the map, so the
+                        // panel can be left up while the view is moved under
+                        // it.
+                        if isLayersMenuExpanded {
+                            withAnimation(
+                                .spring(response: 0.35, dampingFraction: 0.85)
+                                    .unlessReduced(reduceMotion)
+                            ) {
+                                isLayersMenuExpanded = false
+                            }
+                            break
+                        }
                         // Measuring owns the tap, as the web's capture layer
                         // does: a tap placing a corner must not also identify
                         // the parcel under it and open a card over the shape.
