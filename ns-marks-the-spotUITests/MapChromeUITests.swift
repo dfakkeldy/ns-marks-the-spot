@@ -218,4 +218,42 @@ final class MapChromeUITests: XCTestCase {
             "All sources does not open the sources sheet"
         )
     }
+
+    /// The chrome over the map stays on the screen while the layers panel is
+    /// open.
+    ///
+    /// The panel used to be laid out in the same row as the search field and
+    /// the control rail. The three of them are wider than a phone, and a row
+    /// that cannot fit overflows rather than shrinking — which grew the stack
+    /// every other thing drawn over the map sits in. The search field went off
+    /// the left edge, the rail off the right, and a parcel card opened in that
+    /// state was laid out hundreds of points wider than the phone and centred,
+    /// so its title and figures hung off both sides.
+    ///
+    /// Asserted on frames rather than on hittability: an element pushed off
+    /// the edge of the screen is reported as existing, and the attribution
+    /// strip and the rail are the two ends of the row that showed it.
+    @MainActor
+    func testTheMapChromeStaysOnScreenWithTheLayersPanelOpen() throws {
+        let app = XCUIApplication.launchedForUITests()
+        let layers = app.buttons["Toggle Layers Menu"]
+        XCTAssertTrue(layers.waitForHittable(timeout: timeout))
+        layers.tap()
+        XCTAssertTrue(
+            app.buttons["Close layers menu"].waitForHittable(timeout: timeout),
+            "the layers panel did not open"
+        )
+
+        let screen = app.windows.firstMatch.frame
+        let strip = app.descendants(matching: .any)["map-attribution"]
+        XCTAssertTrue(strip.waitForExistence(timeout: timeout), "no attribution on the map")
+        XCTAssertTrue(
+            screen.contains(strip.frame),
+            "the attribution strip is \(strip.frame) on a \(screen.width) point screen"
+        )
+        XCTAssertTrue(
+            screen.contains(layers.frame),
+            "the control rail is \(layers.frame) on a \(screen.width) point screen"
+        )
+    }
 }
