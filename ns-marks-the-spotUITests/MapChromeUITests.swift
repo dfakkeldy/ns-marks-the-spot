@@ -256,4 +256,43 @@ final class MapChromeUITests: XCTestCase {
             "the control rail is \(layers.frame) on a \(screen.width) point screen"
         )
     }
+
+    /// A tap on the map with the panel open puts the panel away.
+    ///
+    /// The panel covers most of a phone, so the map left around it is mostly
+    /// the gap a reader aims for to dismiss it. That tap used to fall through
+    /// to the map and identify a parcel behind the panel instead.
+    @MainActor
+    func testTappingTheMapClosesTheLayersPanel() throws {
+        let app = XCUIApplication.launchedForUITests()
+        let layers = app.buttons["Toggle Layers Menu"]
+        XCTAssertTrue(layers.waitForHittable(timeout: timeout))
+        layers.tap()
+
+        let close = app.buttons["Close layers menu"]
+        XCTAssertTrue(close.waitForHittable(timeout: timeout), "the layers panel did not open")
+
+        // Measured off the panel rather than tapped at a fixed point: it is
+        // anchored to the trailing edge and capped at 300 points, so the map
+        // it leaves exposed is a strip down the leading edge as wide as the
+        // screen allows.
+        let panel = app.scrollViews["layer-panel-scroll"]
+        XCTAssertTrue(panel.waitForExistence(timeout: timeout), "the panel has no scrolling region")
+        let exposed = panel.frame.minX
+        try XCTSkipIf(exposed < 24, "no map is exposed beside the panel on this screen")
+        app.coordinate(withNormalizedOffset: .zero)
+            .withOffset(CGVector(dx: exposed / 2, dy: panel.frame.midY))
+            .tap()
+
+        XCTAssertTrue(
+            close.waitForNonExistence(timeout: 10),
+            "a tap on the map beside the panel left it open"
+        )
+        // And the map is still there to be used: the panel gave the tap up,
+        // it did not put a card over what it was covering.
+        XCTAssertFalse(
+            app.descendants(matching: .any)["parcel-inspector"].exists,
+            "the tap that closed the panel also opened a parcel card"
+        )
+    }
 }

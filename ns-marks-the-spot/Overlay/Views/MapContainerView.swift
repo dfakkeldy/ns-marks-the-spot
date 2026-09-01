@@ -1039,6 +1039,27 @@ struct MapContainerView: View {
                         refreshParcelSnap()
                         refreshPhotoMap()
                     case .mapTapped(let latitude, let longitude):
+                        // An open layers panel takes the first tap on the map
+                        // and spends it on closing itself.
+                        //
+                        // The panel covers most of a phone screen, so a tap on
+                        // what is left of the map is far more often a reader
+                        // reaching past the panel than one asking about the
+                        // ground under their finger — and the answer used to
+                        // be a parcel card opened behind the panel, about a
+                        // parcel nobody was aiming at. Only the tap is taken:
+                        // panning and zooming still reach the map, so the
+                        // panel can be left up while the view is moved under
+                        // it.
+                        if isLayersMenuExpanded {
+                            withAnimation(
+                                .spring(response: 0.35, dampingFraction: 0.85)
+                                    .unlessReduced(reduceMotion)
+                            ) {
+                                isLayersMenuExpanded = false
+                            }
+                            break
+                        }
                         // Measuring owns the tap, as the web's capture layer
                         // does: a tap placing a corner must not also identify
                         // the parcel under it and open a card over the shape.
