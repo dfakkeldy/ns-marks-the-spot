@@ -103,7 +103,7 @@ describe("buildFeaturePopup", () => {
     expect(popup.textContent).toMatch(/recorded on this device/i);
   });
 
-  it("announces GPS capture with rounded accuracy when both reserved keys are present", () => {
+  it("announces the capture and its radius when both reserved keys are present", () => {
     const popup = buildFeaturePopup(
       feature({
         name: "Corner post",
@@ -112,17 +112,22 @@ describe("buildFeaturePopup", () => {
       }),
       record(),
     );
+    // Under ten metres the label keeps a decimal, and never rounds an
+    // uncertainty down: 7.4 m is not 7 m.
     expect(popup.textContent).toContain(
-      "Marked from GPS on this device (±7 m)",
+      "Marked from this device's location (±7.4 m)",
     );
+    // Never "GPS": the Geolocation API answers from a satellite fix, a
+    // Wi-Fi lookup or an IP estimate and says which none of the time.
+    expect(popup.textContent).not.toContain("GPS");
   });
 
-  it("stays silent about GPS when either reserved key is missing or malformed", () => {
+  it("stays silent about the fix when either reserved key is missing or malformed", () => {
     const timeOnly = buildFeaturePopup(
       feature({ "nsmts:capturedAt": "2026-08-28T14:05:00.000Z" }),
       record(),
     );
-    expect(timeOnly.textContent).not.toContain("Marked from GPS");
+    expect(timeOnly.textContent).not.toContain("Marked from this device");
 
     const stringAccuracy = buildFeaturePopup(
       feature({
@@ -131,7 +136,7 @@ describe("buildFeaturePopup", () => {
       }),
       record(),
     );
-    expect(stringAccuracy.textContent).not.toContain("Marked from GPS");
+    expect(stringAccuracy.textContent).not.toContain("Marked from this device");
   });
 });
 

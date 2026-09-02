@@ -616,10 +616,14 @@ describe("MapCanvas browser location", () => {
 
     await user.click(screen.getByRole("button", { name: "Use my location" }));
     pushLiveFix();
-    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14);
+    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14, {
+      animate: true,
+    });
 
     pushLiveFix({ latitude: 46.13 });
-    expect(mapMock.panTo).toHaveBeenCalledWith([46.13, -60.91]);
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.13, -60.91], {
+      animate: true,
+    });
 
     const [, dragStartHandler] =
       mapMock.on.mock.calls.filter(([event]) => event === "dragstart").pop() ??
@@ -633,7 +637,9 @@ describe("MapCanvas browser location", () => {
 
     await user.click(screen.getByRole("button", { name: "Follow" }));
     pushLiveFix({ latitude: 46.15 });
-    expect(mapMock.panTo).toHaveBeenCalledWith([46.15, -60.91]);
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.15, -60.91], {
+      animate: true,
+    });
   });
 
   it("keeps a closer zoom when the first fix arrives, and only pans", async () => {
@@ -675,7 +681,62 @@ describe("MapCanvas browser location", () => {
 
     // The fix is brought into view without throwing the parcel away.
     expect(mapMock.flyTo).not.toHaveBeenCalled();
-    expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91]);
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91], {
+      animate: true,
+    });
+  });
+
+  it("arrives without animating when the reader asked for less motion", async () => {
+    const user = userEvent.setup();
+    // Leaflet animates in JavaScript, where the stylesheet's media rule
+    // cannot reach it, so the setting has to be read here.
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+
+    // Still brought to the fix — it just arrives.
+    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14, {
+      animate: false,
+    });
   });
 
   it("marks the current location with a fresh fix and reports the outcome", async () => {
@@ -1163,7 +1224,9 @@ describe("MapCanvas viewport reporting", () => {
     // move, which is what this test is about.
     await waitFor(
       () => {
-        expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91]);
+        expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91], {
+          animate: true,
+        });
       },
       { timeout: ASYNC_LAYER_TIMEOUT_MS },
     );

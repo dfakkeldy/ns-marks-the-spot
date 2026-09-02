@@ -21,6 +21,45 @@ export type OneShotOutcome =
   | { kind: "fix"; fix: LiveFix }
   | { kind: "refused"; message: string };
 
+/**
+ * Whether a fix may become a mark: a position on Earth, an accuracy the
+ * device stands behind, and a moment neither older than the contract's
+ * window nor ahead of this device's clock.
+ *
+ * One rule for the live watch fix and for the one-shot that replaces it,
+ * because they write the same reserved keys onto the same kind of feature.
+ */
+export function isUsableMarkFix(fix: LiveFix, nowMs: number): boolean {
+  if (!Number.isFinite(fix.latitude) || !Number.isFinite(fix.longitude)) {
+    return false;
+  }
+  if (Math.abs(fix.latitude) > 90 || Math.abs(fix.longitude) > 180) {
+    return false;
+  }
+  if (!Number.isFinite(fix.accuracyM) || fix.accuracyM < 0) {
+    return false;
+  }
+  if (fix.accuracyM > MARK_MAX_ACCURACY_M) {
+    return false;
+  }
+  const ageMs = nowMs - fix.timestampMs;
+  return Number.isFinite(ageMs) && ageMs >= 0 && ageMs <= MARK_MAX_FIX_AGE_MS;
+}
+
+/**
+ * An accuracy as a label that never reads tighter than the device reported:
+ * one decimal below ten metres, so ±0.4 m is not "±0 m", and whole metres
+ * rounded up above. The native app formats the same way.
+ */
+export function formatAccuracyM(accuracyM: number): string {
+  if (!Number.isFinite(accuracyM) || accuracyM < 0) {
+    return "?";
+  }
+  return accuracyM < 10
+    ? (Math.ceil(accuracyM * 10) / 10).toFixed(1)
+    : String(Math.ceil(accuracyM));
+}
+
 /** What each browser failure means for somebody standing there. */
 export function markFailureMessage(failure: BrowserLocationFailure): string {
   switch (failure) {
@@ -48,8 +87,11 @@ export function oneShotMarkFix(
   nowMs: number,
 ): OneShotOutcome {
   const { accuracy } = location;
-  if (!Number.isFinite(accuracy) || accuracy <= 0) {
-    // A non-positive accuracy is the platform's "invalid", not "perfect".
+  if (!Number.isFinite(accuracy) || accuracy < 0) {
+    // The Geolocation API defines accuracy as a non-negative radius, so zero
+    // is a claim of certainty rather than the "invalid" a negative one is on
+    // CoreLocation. Only a negative or non-finite value is refused here, and
+    // the live watch path reads it the same way.
     return {
       kind: "refused",
       message: "Your location couldn't be found. Try again outdoors.",
@@ -59,7 +101,7 @@ export function oneShotMarkFix(
     return {
       kind: "refused",
       message:
-        `Your location was found only to within ${Math.round(accuracy)} m, and a mark ` +
+        `Your location was found only to within ${formatAccuracyM(accuracy)} m, and a mark ` +
         `is saved only within ${MARK_MAX_ACCURACY_M} m. Try again outdoors.`,
     };
   }

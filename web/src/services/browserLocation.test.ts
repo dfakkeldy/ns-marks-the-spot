@@ -63,6 +63,7 @@ describe("browser location", () => {
     const getCurrentPosition = vi.fn((success: PositionCallback) => {
       success({
         coords: { latitude: 46.02, longitude: -61.53, accuracy: 18, altitude: null },
+        timestamp: 1_700_000_000_000,
       } as GeolocationPosition);
     });
 
@@ -70,9 +71,22 @@ describe("browser location", () => {
       getCurrentPosition,
     } as unknown as Geolocation);
     expect(fix.altitude).toBeNull();
-    // No timestamp from the browser is not a reason to refuse the fix; the
-    // caller's freshness gate reads what we put here.
-    expect(fix.timestampMs).toBeTypeOf("number");
+  });
+
+  it("refuses a position with no moment rather than dating it from the clock", async () => {
+    const getCurrentPosition = vi.fn((success: PositionCallback) => {
+      success({
+        coords: { latitude: 46.02, longitude: -61.53, accuracy: 18 },
+      } as GeolocationPosition);
+    });
+
+    const rejection = await getBrowserLocation({
+      getCurrentPosition,
+    } as unknown as Geolocation).catch((error: unknown) => error);
+
+    // That value becomes `nsmts:capturedAt`; the clock is not it.
+    expect(browserLocationFailure(rejection)).toBe("unavailable");
+    expect((rejection as Error).message).toContain("no acquisition time");
   });
 
   it.each([

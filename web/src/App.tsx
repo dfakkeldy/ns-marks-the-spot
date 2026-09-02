@@ -229,7 +229,11 @@ import {
 } from "./services/browserLocation";
 import { buildGpsMarkFeature } from "./location/markFeature";
 import { FIELD_NOTES_LAYER_NAME } from "./location/captureSpec";
-import { markFailureMessage, oneShotMarkFix } from "./location/markFix";
+import {
+  formatAccuracyM,
+  markFailureMessage,
+  oneShotMarkFix,
+} from "./location/markFix";
 import type { LiveFix } from "./location/liveLocation";
 import {
   VectorEditPanel,
@@ -1541,7 +1545,9 @@ export function App() {
         resolved = outcome.fix;
       }
       const feature = buildGpsMarkFeature(resolved);
-      const accuracy = Math.round(resolved.accuracyM);
+      // Never rounded down: a ±0.4 m fix is not "±0 m", and a ±49.4 m one is
+      // not tighter than the device said.
+      const accuracy = formatAccuracyM(resolved.accuracyM);
       if (vectorEdit.editingLayer) {
         vectorEdit.commitGeometry({
           type: "FeatureCollection",
@@ -1551,11 +1557,16 @@ export function App() {
       }
       const layerId = await userVectorApi.ensureFieldNotesLayer();
       const appended = await userVectorApi.appendFeatures(layerId, [feature]);
-      // Silence here read as a mark that landed. It did not: the layer the
-      // point was meant for could not be found or written.
-      return appended
+      // Silence here read as a mark that landed, and so did "saved" for a
+      // point the device refused to write: it is on the map, and gone with
+      // the tab. Each outcome says which it is.
+      if (!appended) {
+        return `The point couldn't be added to ${FIELD_NOTES_LAYER_NAME}. Try again.`;
+      }
+      return appended.persisted
         ? `Point saved to ${FIELD_NOTES_LAYER_NAME} (±${accuracy} m).`
-        : `The point couldn't be added to ${FIELD_NOTES_LAYER_NAME}. Try again.`;
+        : `Point added to ${FIELD_NOTES_LAYER_NAME} (±${accuracy} m), but it couldn't be ` +
+          `written to this device — it stays until you close the tab.`;
     },
     [userVectorApi, vectorEdit],
   );

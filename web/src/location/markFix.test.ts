@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { markFailureMessage, oneShotMarkFix } from "./markFix";
+import {
+  formatAccuracyM,
+  isUsableMarkFix,
+  markFailureMessage,
+  oneShotMarkFix,
+} from "./markFix";
 import { MARK_MAX_ACCURACY_M, MARK_MAX_FIX_AGE_MS } from "./captureSpec";
 import type { BrowserLocation } from "../services/browserLocation";
+import type { LiveFix } from "./liveLocation";
 
 const NOW = 1_700_000_000_000;
 
@@ -71,7 +77,13 @@ describe("a one-shot fix for a mark", () => {
     );
   });
 
-  it.each([0, -1, Number.NaN, Number.POSITIVE_INFINITY])(
+  it("keeps a zero radius, which the Geolocation API allows", () => {
+    // Not CoreLocation's "invalid": the web's accuracy is a non-negative
+    // radius, an emulator can report zero, and the live watch path takes it.
+    expect(oneShotMarkFix(position({ accuracy: 0 }), NOW).kind).toBe("fix");
+  });
+
+  it.each([-1, Number.NaN, Number.POSITIVE_INFINITY])(
     "treats accuracy %s as no position at all",
     (accuracy) => {
       const outcome = oneShotMarkFix(position({ accuracy }), NOW);
@@ -100,5 +112,52 @@ describe("what a browser failure is told as", () => {
     // somebody into their browser settings to fix a signal problem.
     expect(messages[1]).not.toContain("permission");
     expect(messages[2]).not.toContain("permission");
+  });
+});
+
+describe("the rule both fix paths are held to", () => {
+  function live(overrides: Partial<LiveFix> = {}): LiveFix {
+    return {
+      latitude: 45.8,
+      longitude: -61.47,
+      accuracyM: 12,
+      altitudeM: null,
+      headingDeg: null,
+      speedMps: null,
+      timestampMs: NOW - 2_000,
+      ...overrides,
+    };
+  }
+
+  it("takes a fresh, tight fix on the globe", () => {
+    expect(isUsableMarkFix(live(), NOW)).toBe(true);
+    expect(isUsableMarkFix(live({ accuracyM: MARK_MAX_ACCURACY_M }), NOW)).toBe(true);
+    expect(
+      isUsableMarkFix(live({ timestampMs: NOW - MARK_MAX_FIX_AGE_MS }), NOW),
+    ).toBe(true);
+  });
+
+  it("refuses what the one-shot would refuse", () => {
+    // Future-dated: the watch path used to take this, and stamp it.
+    expect(isUsableMarkFix(live({ timestampMs: NOW + 3_600_000 }), NOW)).toBe(false);
+    expect(
+      isUsableMarkFix(live({ timestampMs: NOW - MARK_MAX_FIX_AGE_MS - 1 }), NOW),
+    ).toBe(false);
+    expect(isUsableMarkFix(live({ accuracyM: MARK_MAX_ACCURACY_M + 1 }), NOW)).toBe(false);
+    expect(isUsableMarkFix(live({ accuracyM: -1 }), NOW)).toBe(false);
+    expect(isUsableMarkFix(live({ accuracyM: Number.NaN }), NOW)).toBe(false);
+    expect(isUsableMarkFix(live({ latitude: 91 }), NOW)).toBe(false);
+    expect(isUsableMarkFix(live({ longitude: Number.POSITIVE_INFINITY }), NOW)).toBe(false);
+  });
+});
+
+describe("an accuracy label", () => {
+  it("never reads tighter than the device reported", () => {
+    expect(formatAccuracyM(0.4)).toBe("0.4");
+    expect(formatAccuracyM(0.04)).toBe("0.1");
+    expect(formatAccuracyM(7.41)).toBe("7.5");
+    expect(formatAccuracyM(49.4)).toBe("50");
+    expect(formatAccuracyM(12)).toBe("12");
+    expect(formatAccuracyM(-1)).toBe("?");
   });
 });

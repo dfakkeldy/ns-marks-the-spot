@@ -1,4 +1,5 @@
 import type { Feature } from "geojson";
+import { formatAccuracyM } from "../../../location/markFix";
 import {
   readPhotoDescriptors,
   type FeaturePhotoDescriptor,
@@ -79,17 +80,22 @@ export function buildFeaturePopup(
     });
     root.append(strip);
   }
-  // A GPS-marked feature announces the claim its data makes about itself —
-  // when it was captured and how rough the fix was — so a ±40 m mark can
-  // never read as a surveyed corner. Both reserved keys must be present;
-  // this labels the data's own claim, not proof of where it was made.
+  // A marked feature announces the claim its data makes about itself — when
+  // it was captured and how rough the fix was — so a ±40 m mark can never
+  // read as a surveyed corner. Both reserved keys must be present; this
+  // labels the data's own claim, not proof of where it was made.
+  //
+  // "From this device's location", not "from GPS": the Geolocation API names
+  // no source, and the same call answers from a satellite fix, a Wi-Fi
+  // lookup or an IP estimate. Naming the sensor would be a claim the
+  // browser never made.
   const capturedAt = asText(props["nsmts:capturedAt"]);
   const accuracy = props["nsmts:accuracyM"];
   if (capturedAt && typeof accuracy === "number" && Number.isFinite(accuracy)) {
     root.append(
       textLine(
         "user-vector-popup-gps",
-        `Marked from GPS on this device (±${Math.round(accuracy)} m)`,
+        `Marked from this device's location (±${formatAccuracyM(accuracy)} m)`,
       ),
     );
   }

@@ -74,10 +74,7 @@ import type {
 } from "../services/nsprd";
 import { useLiveLocation } from "../location/useLiveLocation";
 import type { LiveFix } from "../location/liveLocation";
-import {
-  MARK_MAX_ACCURACY_M,
-  MARK_MAX_FIX_AGE_MS,
-} from "../location/captureSpec";
+import { isUsableMarkFix } from "../location/markFix";
 import { useTrackRecording } from "../location/useTrackRecording";
 import { SaveTrackDialog } from "../location/SaveTrackDialog";
 import { buildRecordedTrackFeature } from "../location/trackFeature";
@@ -175,6 +172,15 @@ import type { PdfTemplateId } from "../print/pdf/templates/types";
  * it: the web's long-standing 14, kept as a floor rather than a target.
  */
 const LOCATE_MIN_ZOOM = 14;
+
+/** The system's own answer, read at the moment of the move. */
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -1983,6 +1989,10 @@ export function MapCanvas({
     lastCenteredFixRef.current = live.fix;
     printableViewportGuard.current.suppressBrowserLocation = true;
     printableViewportGuard.current.lastSuppressed = null;
+    // Reduce Motion is a system setting about movement, and Leaflet's fly
+    // and pan animate in JavaScript, where the stylesheet's media rule
+    // cannot reach them. The map still goes to the fix; it just arrives.
+    const animate = !prefersReducedMotion();
     if (!hasCenteredRef.current) {
       hasCenteredRef.current = true;
       // The reader's zoom is theirs. A parcel searched at 16, or imagery
@@ -1992,12 +2002,14 @@ export function MapCanvas({
       // for the case it was written for — a view further out than the
       // locate scale — and closer in the map only pans.
       if (map.getZoom() >= LOCATE_MIN_ZOOM) {
-        map.panTo([live.fix.latitude, live.fix.longitude]);
+        map.panTo([live.fix.latitude, live.fix.longitude], { animate });
       } else {
-        map.flyTo([live.fix.latitude, live.fix.longitude], LOCATE_MIN_ZOOM);
+        map.flyTo([live.fix.latitude, live.fix.longitude], LOCATE_MIN_ZOOM, {
+          animate,
+        });
       }
     } else {
-      map.panTo([live.fix.latitude, live.fix.longitude]);
+      map.panTo([live.fix.latitude, live.fix.longitude], { animate });
     }
   }, [followOn, live.fix, map]);
 
@@ -2008,12 +2020,12 @@ export function MapCanvas({
     setMarking(true);
     setLocationMessage("Saving a point at your location…");
     try {
-      // A fresh, tight watch fix saves instantly; anything stale or rough
-      // makes the handler re-request so a mark never lands on old data.
+      // A fresh, tight watch fix saves instantly; anything stale, rough,
+      // future-dated or off the globe makes the handler re-request, so a
+      // mark never lands on data the one-shot would have refused. One rule,
+      // shared with that path.
       const usable =
-        live.fix !== null &&
-        Date.now() - live.fix.timestampMs <= MARK_MAX_FIX_AGE_MS &&
-        live.fix.accuracyM <= MARK_MAX_ACCURACY_M
+        live.fix !== null && isUsableMarkFix(live.fix, Date.now())
           ? live.fix
           : null;
       const message = await onMarkLocation(usable);

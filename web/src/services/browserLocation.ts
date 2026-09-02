@@ -9,7 +9,8 @@ export type BrowserLocation = {
   /**
    * When the device fixed this position — not when we asked for it. A
    * one-shot may answer from the platform's cache, and dating that from the
-   * clock would claim a freshness the fix does not have.
+   * clock would claim a freshness the fix does not have, in a value that
+   * becomes `nsmts:capturedAt` on a saved mark.
    */
   timestampMs: number;
 };
@@ -62,6 +63,19 @@ export function getBrowserLocation(
         const { coords } = position;
         const altitude = coords.altitude;
         const timestamp = position.timestamp;
+        if (typeof timestamp !== "number" || !Number.isFinite(timestamp)) {
+          // The specification requires an acquisition time, and this value
+          // becomes the mark's `nsmts:capturedAt`. Substituting the clock
+          // would date a fix of unknown age to this instant, so a position
+          // without a moment is refused instead.
+          reject(
+            new BrowserLocationError(
+              "unavailable",
+              "The browser reported a position with no acquisition time.",
+            ),
+          );
+          return;
+        }
         resolve({
           latitude: coords.latitude,
           longitude: coords.longitude,
@@ -70,10 +84,7 @@ export function getBrowserLocation(
             typeof altitude === "number" && Number.isFinite(altitude)
               ? altitude
               : null,
-          timestampMs:
-            typeof timestamp === "number" && Number.isFinite(timestamp)
-              ? timestamp
-              : Date.now(),
+          timestampMs: timestamp,
         });
       },
       (error) => reject(failureOf(error)),
