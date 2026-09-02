@@ -56,3 +56,29 @@ Next:     ssh dan@100.95.69.48, export R2_ACCOUNT_ID / AWS_ACCESS_KEY_ID /
           AWS_SECRET_ACCESS_KEY, then:
           nohup ~/publish-fletcher-tiles.sh > ~/fletcher-publish-0831.out 2>&1 &
 ```
+
+## 2026-09-01 — Tiles published; PR open; CI fix pushed
+
+Done: uploaded and verified `fletcher-direct-rumsey-20260831.1` — 108,703
+objects / 7,203,505,343 bytes, exact match on count and bytes, `source.json` and
+a re-cropped sheet-18 tile both 200 through the public host, CORS applied.
+Opened PR #291 into `nightly`. CI caught two real consequences of the crop that
+no local gate did, both now fixed in d8dcc55f2: the offline sample area started
+4.7km south of cropped sheet 12 (a "download of nothing" bug, moved to
+46.095-46.195, exact count 101 -> 86), and `maximumSavedAreaTileCount` (100,000)
+is now unreachable because the whole survey at z10-16 fell from 107,961 to
+~94,600 tiles — asserted as a fact rather than papered over.
+
+Next: merge #291 once green, let the hourly promotion build the deploy PR, merge
+that, verify the live map, then delete the old revision from R2.
+
+Resume:
+```
+Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-code-hig-audit-710af7
+Branch:   claude/fletcher-maps-web-unavailable-2b6951 (PR #291 -> nightly)
+Host:     dan@100.95.69.48  (MagicDNS `bazzite` stopped resolving)
+Next:     After #291 merges, watch KinNoKiLabsSite for the automation deploy PR
+          (hourly at :23), merge it, then load
+          https://kinnokilabs.com/apps/nsmarksthespot/map/?taxSale=off&mode=current&layers=modern,fletcher&position=45.87,-61.15,13
+          and confirm sheet collars are gone. Only then delete the old revision.
+```
