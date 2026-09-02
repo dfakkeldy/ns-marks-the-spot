@@ -144,6 +144,19 @@ actor UserVectorStore {
     /// only patched the descriptor, or a re-link interrupted between file
     /// writes and the library write. Run beside every geometry replace, so
     /// the files always converge on what the features claim.
+    /// Photo files written ahead of the feature that will reference them.
+    /// The sweep keeps them until a write references them, so a write of an
+    /// older working copy cannot take a photo that is still being attached.
+    private var reservedPhotoIDs: Set<String> = []
+
+    func reservePhoto(id: String) {
+        reservedPhotoIDs.insert(id)
+    }
+
+    func releasePhoto(id: String) {
+        reservedPhotoIDs.remove(id)
+    }
+
     private func sweepOrphanedPhotos(layerID: String, keeping parsed: ParsedVector) {
         guard let files = try? fileManager.contentsOfDirectory(
             at: photosDirectory(for: layerID), includingPropertiesForKeys: nil
@@ -154,12 +167,14 @@ actor UserVectorStore {
                 referenced.insert(descriptor.id)
             }
         }
+        // Referenced now, so no longer in need of a reservation.
+        reservedPhotoIDs.subtract(referenced)
         for file in files where file.pathExtension == "jpg" {
             var name = file.deletingPathExtension().lastPathComponent
             if name.hasSuffix(".thumb") {
                 name = String(name.dropLast(".thumb".count))
             }
-            if !referenced.contains(name) {
+            if !referenced.contains(name), !reservedPhotoIDs.contains(name) {
                 try? fileManager.removeItem(at: file)
             }
         }
@@ -293,6 +308,12 @@ actor UserVectorStore {
 
     func setVisible(_ isVisible: Bool, id: String) throws -> UserVectorLibrary {
         var library = try read()
+        // A layer that is not there cannot be shown or hidden: a switch that
+        // succeeded against a deleted layer let the app report a mark as
+        // saved in it.
+        guard library.layers.contains(where: { $0.id == id }) else {
+            throw StoreRefusal.noSuchLayer(id)
+        }
         var hidden = Set(library.hiddenLayerIDs)
         if isVisible {
             hidden.remove(id)

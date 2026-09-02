@@ -2175,7 +2175,12 @@ extension MapController: MKMapViewDelegate {
             // provenance is not optional decoration — a marker the user
             // imported has to say so wherever it is shown.
             view.canShowCallout = false
-            view.image = UserVectorMarkerImage.image(for: point.style)
+            view.image = UserVectorMarkerImage.image(
+                for: point.pointStyle, hasPhotos: point.hasPhotos, isHighlighted: point.isHighlighted
+            )
+            // The badge is visual; VoiceOver hears the same fact.
+            view.accessibilityLabel = point.title
+            view.accessibilityValue = point.hasPhotos ? "Has photos" : nil
             view.clusteringIdentifier = point.clusteringIdentifier
             view.displayPriority = point.clusteringIdentifier == nil ? .required : .defaultLow
             view.collisionMode = .circle

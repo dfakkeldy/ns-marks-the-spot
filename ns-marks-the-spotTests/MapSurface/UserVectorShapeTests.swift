@@ -26,6 +26,44 @@ struct UserVectorShapeTests {
         )
     }
 
+    /// A point is solid in its colour with a white rim unless its file said
+    /// otherwise; an authored opacity or stroke survives the import.
+    @Test func aPointIsSolidUnlessItsFileSaidOtherwise() {
+        let plain = GeoJsonFeature(id: "p", geometry: .point(GeoJsonPosition(lng: -63, lat: 44)))
+        let style = VectorStyle.pointStyle(for: plain, layerColorHex: "#0072b2")
+        #expect(style.fillHex == "#0072b2")
+        #expect(style.fillOpacity == 1)
+        #expect(style.rimHex == "#ffffff")
+
+        let authored = GeoJsonFeature(
+            id: "a", geometry: .point(GeoJsonPosition(lng: -63, lat: 44)),
+            properties: [
+                "marker-color": .string("#ff0000"), "fill-opacity": .number(0.1),
+                "stroke": .string("#000000"), "stroke-opacity": .number(0),
+                "stroke-width": .number(8),
+            ]
+        )
+        let kept = VectorStyle.pointStyle(for: authored, layerColorHex: "#0072b2")
+        #expect(kept.fillHex == "#ff0000")
+        #expect(kept.fillOpacity == 0.1)
+        #expect(kept.rimHex == "#000000")
+        #expect(kept.rimOpacity == 0)
+        // Clamped: an eight-point rim would be the whole disc.
+        #expect(kept.rimWidth == 6)
+        #expect(style.rimOpacity == 1)
+        #expect(style.rimWidth == 2.5)
+
+        // The marker is a 44-point target whatever it is filled with.
+        #expect(UserVectorMarkerImage.image(for: kept).size == CGSize(width: 44, height: 44))
+
+        // An eight-digit colour the style layer accepts is drawn, with its
+        // alpha, rather than falling to the diagnostic magenta.
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        UIColor(featureHex: "#ff000080").getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        #expect(red == 1 && green == 0 && blue == 0)
+        #expect(abs(alpha - 128.0 / 255.0) < 0.001)
+    }
+
     /// A ring after the first is a hole. A parcel with a right-of-way cut out
     /// of it must not be painted over the strip it excludes.
     @Test func holesAreDrawnAsInteriorPolygons() throws {

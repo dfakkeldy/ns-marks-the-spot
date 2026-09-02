@@ -30,6 +30,50 @@ final class VectorEditSession {
     private(set) var selectedFeatureID: String?
     var tool: Tool = .selecting
 
+    /// The feature the last commit added, for the map to halo while the reader
+    /// can still connect the tap to the shape. A point that dropped to its
+    /// resting marker the instant it was placed read as a point that had
+    /// vanished. Cleared after `commitHighlightDuration`.
+    private(set) var recentlyCommittedFeatureID: String?
+    static let commitHighlightDuration: Duration = .milliseconds(2500)
+    /// Overridable so a test can watch the halo come off without waiting.
+    @ObservationIgnored var commitHighlightLifetime: Duration =
+        VectorEditSession.commitHighlightDuration
+    @ObservationIgnored private var commitHighlightTask: Task<Void, Never>?
+
+    /// What the last tap snapped to, in words, for the panel.
+    ///
+    /// A snap that only ticked the haptic was a tap that seemed to do nothing
+    /// when the snapped point landed where a mark already was.
+    private(set) var snapNotice: String?
+    static let snapNoticeDuration: Duration = .seconds(2)
+    @ObservationIgnored private var snapNoticeTask: Task<Void, Never>?
+
+    /// True from Done until the last write has landed or failed. Taps on the
+    /// map are ignored meanwhile: a vertex placed while the save was in
+    /// flight was cleared with the session when the write returned.
+    private(set) var isEnding = false
+
+    /// True from the moment the scene stops being active until it is active
+    /// again. New operations and attachments are refused meanwhile, as they
+    /// are once Done has begun: one accepted after the drain would be lost
+    /// with the process. Closed synchronously by the container when the
+    /// scene leaves `.active` — before any task the last tap started can
+    /// run — and opened again only when the scene is back.
+    private(set) var isSuspending = false
+
+    func beginSuspension() {
+        isSuspending = true
+    }
+
+    func endSuspension() {
+        isSuspending = false
+    }
+
+    /// Whether anything was committed in this session, so `end()` knows if
+    /// there is work a hidden layer would swallow.
+    @ObservationIgnored private var editedThisSession = false
+
     /// What this erase run took off, oldest first, each with the place it
     /// came from.
     ///
@@ -70,6 +114,10 @@ final class VectorEditSession {
     /// wrote is still the newest thing the user has done.
     @ObservationIgnored private var revision = 0
 
+    /// Photos attached to a feature since the last successful write, by id:
+    /// reserved in the store until a write carries their descriptors.
+    @ObservationIgnored private var committedPhotoIDs: Set<String> = []
+
     /// A layer name typed but not written yet, and the timer that will write it.
     @ObservationIgnored private var pendingName: String?
     @ObservationIgnored private var renameTask: Task<Void, Never>?
@@ -79,9 +127,17 @@ final class VectorEditSession {
     var snapEnabled = true
     var snapOwnFeatures = true
     var snapParcels = false
-    /// True once any vertex of the in-progress draft snapped to a parcel.
-    /// Consumed at commit; a later drag away keeps the stamp.
-    var draftSnappedToParcel = false
+    /// Which of the draft's vertices were placed by a parcel snap, in vertex
+    /// order. Undo takes a vertex's flag with it: a line whose only snapped
+    /// corner was undone has no coordinate from NSPRD and is not stamped as
+    /// traced from it. Consumed at commit; a later drag away keeps the stamp.
+    private(set) var draftVertexSnaps: [Bool] = []
+    var draftSnappedToParcel: Bool { draftVertexSnaps.contains(true) }
+
+    /// Photo attachments in flight: picked photos being loaded, re-encoded
+    /// and written. Done waits for them, so a photo chosen a moment before
+    /// Done lands in the layer rather than in a session that has closed.
+    @ObservationIgnored private var attachments: [UUID: Task<Void, Never>] = [:]
     /// Why parcel snapping is not mounting rings, when it is not.
     var parcelSnapNote: String?
     /// Viewport parcel rings currently armed for snapping.
@@ -109,6 +165,9 @@ final class VectorEditSession {
         photoMessages = []
         photoLocationOffer = nil
         tool = .selecting
+        editedThisSession = false
+        recentlyCommittedFeatureID = nil
+        snapNotice = nil
         editingID = row.id
         record = row.record
         // An empty working copy rather than nothing, so a layer whose geometry
@@ -126,7 +185,45 @@ final class VectorEditSession {
     /// full.
     @discardableResult
     func end() async -> Bool {
-        guard await flush() else { return false }
+        isEnding = true
+        // A photo picked a moment before Done is still being written. Waited
+        // for, not raced: the flush below writes only what has been
+        // committed, and an attachment landing after it would patch a
+        // session that no longer exists and leave its files orphaned.
+        await drainAttachments()
+        // A draft that is a shape already is kept, as Done keeps everything
+        // else the session did. Only one too short to be a shape is dropped,
+        // and the panel asks before calling this with one of those.
+        settleDraft(droppingPartial: true)
+        guard await flush() else {
+            isEnding = false
+            return false
+        }
+        // Photos attached this session whose descriptors the final copy no
+        // longer carries — erased, and past any undo now that the session
+        // is closing — give up their reservations here, at the one barrier
+        // no interactive write can race, so the next write's sweep takes
+        // the files rather than holding them for good.
+        if let parsed {
+            let referenced = Set(parsed.features.flatMap { PhotoDescriptor.read(from: $0.properties).map(\.id) })
+            for id in committedPhotoIDs where !referenced.contains(id) {
+                await viewModel.releasePhotoID(id)
+            }
+        }
+        committedPhotoIDs = []
+        if editedThisSession, let editingID, layerIsHidden {
+            // The layer was switched off when editing began. Its new features
+            // must not vanish the moment the panel closes; the panel said this
+            // would happen while the session was open. Awaited, so "switched
+            // on" is not said before the library has it: the features are
+            // safe either way, and a failed switch keeps the panel up with
+            // the reason — and a Show now that failed earlier is simply
+            // tried again here, by the same path.
+            guard await showLayer() else {
+                isEnding = false
+                return false
+            }
+        }
         editingID = nil
         record = nil
         parsed = nil
@@ -136,29 +233,267 @@ final class VectorEditSession {
         conversionUndo = nil
         photoMessages = []
         photoLocationOffer = nil
+        recentlyCommittedFeatureID = nil
+        snapNotice = nil
         tool = .selecting
+        isEnding = false
         return true
+    }
+
+    /// Whether the layer under edit is switched off in the layers panel.
+    ///
+    /// The map draws the session's copy regardless, so the reader sees what
+    /// they draw; without this the panel had no way to say that Done would
+    /// hide it again.
+    var layerIsHidden: Bool {
+        guard let editingID else { return false }
+        return viewModel.rows.first { $0.id == editingID }?.isVisible == false
+    }
+
+    /// Switches the layer on, and says whether the library has it. A refusal
+    /// is put where the panel shows refusals, so "Show now" that did nothing
+    /// says why.
+    @discardableResult
+    func showLayer() async -> Bool {
+        guard let editingID else { return false }
+        // Done waits for this, so a failure cannot land on a closed panel.
+        let operation = beginOperation()
+        defer { if let operation { endOperation(operation) } }
+        let shown = await viewModel.showLayer(id: editingID)
+        if shown {
+            // A retry that worked takes the earlier failure down with it —
+            // its own; a geometry or a name still unsaved keeps its words.
+            if unsaved == nil, pendingName == nil { storageError = nil }
+            note("Layer switched on.")
+        } else {
+            storageError = viewModel.lastRefusal?.userMessage
+                ?? "The layer could not be switched on. Turn it on from Layers."
+        }
+        return shown
+    }
+
+    // MARK: - Attachments
+
+    /// Runs `work` as an attachment the session owns and Done waits for.
+    /// Refused once Done has begun: there is no session for the photo to
+    /// land in, and the picker is not reachable then anyway.
+    func beginAttachment(_ work: @escaping @Sendable @MainActor () async -> Void) {
+        guard isEditing, !isEnding, !isSuspending else { return }
+        let id = UUID()
+        attachments[id] = Task { [weak self] in
+            await work()
+            self?.attachments[id] = nil
+        }
+    }
+
+    /// Whether a photo attachment is still being written.
+    var hasAttachmentInFlight: Bool { !attachments.isEmpty }
+
+    /// A longer operation the session must outlive: a mark being written and
+    /// its layer switched on, a Show now in flight. Done waits for these as
+    /// it waits for attachments, so an accepted mark is never reported
+    /// against a session that has already closed, and a late failure is not
+    /// set on a panel that has gone.
+    @ObservationIgnored private var operations: Set<UUID> = []
+    @ObservationIgnored private var operationWaiters: [CheckedContinuation<Void, Never>] = []
+
+    /// Nil once Done has begun: work that registers late would slip past
+    /// the drain, and a panel that has gone cannot show its failure.
+    func beginOperation() -> UUID? {
+        guard !isEnding, !isSuspending else { return nil }
+        let id = UUID()
+        operations.insert(id)
+        return id
+    }
+
+    /// Show now, from the panel: the operation is registered synchronously,
+    /// before any task starts, so a Done tapped a moment later waits for it.
+    func requestShowLayer() {
+        guard let operation = beginOperation() else { return }
+        Task { [weak self] in
+            await self?.showLayer()
+            self?.endOperation(operation)
+        }
+    }
+
+    /// The app is being put away: the draft settled if asked, every accepted
+    /// attachment and operation finished, the geometry written, and a hidden
+    /// layer that was edited switched on. Done's own sequence, without the
+    /// closing, so iOS ending the process afterwards loses nothing.
+    func prepareForSuspension(settlingDraft: Bool) async -> Bool {
+        // Closed here too, for a caller that did not close it first; opened
+        // again by the container when the scene is active, not by this
+        // returning — the app is still away when it does.
+        isSuspending = true
+        if settlingDraft {
+            settleDraft()
+        }
+        await drainAttachments()
+        guard await flush() else { return false }
+        if editedThisSession, layerIsHidden {
+            // Through the same path as Show now, so a success here takes an
+            // earlier failure's words down, and a failure leaves its own for
+            // the reader to come back to.
+            guard await showLayer() else { return false }
+        }
+        return true
+    }
+
+    func endOperation(_ id: UUID) {
+        operations.remove(id)
+        let waiters = operationWaiters
+        operationWaiters = []
+        for waiter in waiters { waiter.resume() }
+    }
+
+    var hasOperationInFlight: Bool { !operations.isEmpty }
+
+    private func drainAttachments() async {
+        while true {
+            if let task = attachments.values.first {
+                await task.value
+                continue
+            }
+            if operations.isEmpty { return }
+            await withCheckedContinuation { operationWaiters.append($0) }
+        }
     }
 
     // MARK: - Drawing
 
+    /// What became of the draft when the tool changed hands.
+    enum DraftDisposition: Equatable {
+        /// Nothing to keep: no draft, or one with no vertices.
+        case cleared
+        /// A shape already, and committed to the layer.
+        case finished
+        /// Vertices placed but too few for the shape. Left in place for the
+        /// reader to decide about.
+        case needsConfirmation
+    }
+
+    /// Settles the draft before the tool changes hands.
+    ///
+    /// A draft that is already a shape is committed: Done, a tool switch and
+    /// the eraser all used to throw it away without a word, which is the most
+    /// direct explanation of "the features I drew disappeared". An empty
+    /// draft is nothing to keep. One with vertices but too few for its shape
+    /// is left where it is and reported, so the panel can ask; with
+    /// `droppingPartial` it is dropped instead, for the paths that have
+    /// already asked or have nobody to ask.
+    @discardableResult
+    func settleDraft(droppingPartial: Bool = false) -> DraftDisposition {
+        guard let current = draft, !current.vertices.isEmpty else {
+            draft = nil
+            return .cleared
+        }
+        if current.canFinish {
+            finishDrawing()
+            return .finished
+        }
+        if droppingPartial {
+            discardDraft()
+            return .cleared
+        }
+        return .needsConfirmation
+    }
+
+    /// The reader chose to throw a partial draft away.
+    func discardDraft() {
+        draft = nil
+        draftVertexSnaps = []
+    }
+
     func startDrawing(_ shape: VectorEditShape) {
+        settleDraft(droppingPartial: true)
         selectedFeatureID = nil
         erased = []
-        draftSnappedToParcel = false
+        draftVertexSnaps = []
         tool = .drawing(shape)
         draft = VectorDraft(shape: shape)
     }
 
+    /// Puts the tool down. A draft that is a shape is finished first: tapping
+    /// the lit tool says "I'm done with this", not "throw it away".
     func cancelDrawing() {
+        settleDraft(droppingPartial: true)
         draft = nil
         tool = .selecting
+    }
+
+    /// The part of one of the layer's own features that may be snapped to
+    /// with this tool armed, or nil for none of it.
+    ///
+    /// With the Point tool up, the layer's points are not targets: a new point
+    /// that snapped onto an existing one sat exactly on top of it, an
+    /// invisible duplicate that read as a tap that did nothing. Lines and
+    /// areas stay targets, so a culvert can still be put on a bend, and a
+    /// collection keeps its lines and areas while losing its points. Every
+    /// other tool keeps every target.
+    static func snapTargetGeometry(_ geometry: GeoJsonGeometry, tool: Tool) -> GeoJsonGeometry? {
+        guard tool == .drawing(.point) else { return geometry }
+        switch geometry {
+        case .point, .multiPoint:
+            return nil
+        case .collection(let children):
+            let kept = children.compactMap { snapTargetGeometry($0, tool: tool) }
+            return kept.isEmpty ? nil : .collection(kept)
+        case .lineString, .multiLineString, .polygon, .multiPolygon:
+            return geometry
+        }
+    }
+
+    /// Says what a tap snapped to. Cleared after a moment; the next snap
+    /// replaces it.
+    func noteSnap(_ hit: SnapEngine.Hit) {
+        note(
+            Self.snapNoticeText(
+                source: hit.source, kind: hit.kind, pointToolArmed: tool == .drawing(.point)
+            )
+        )
+    }
+
+    /// The eraser found nothing under the finger; said, so a tap on open
+    /// ground is not a tap that did nothing.
+    func noteEraseMiss() {
+        note("No feature here.")
+    }
+
+    /// Counts notices, so the same words twice in a row are two events: the
+    /// panel announces on this, not on the text, which SwiftUI would see as
+    /// unchanged.
+    private(set) var snapNoticeGeneration = 0
+
+    /// A one-line answer to a tap, for the panel; cleared after a moment.
+    private func note(_ text: String) {
+        snapNotice = text
+        snapNoticeGeneration += 1
+        snapNoticeTask?.cancel()
+        snapNoticeTask = Task { [weak self] in
+            try? await Task.sleep(for: Self.snapNoticeDuration)
+            guard !Task.isCancelled else { return }
+            self?.snapNotice = nil
+        }
+    }
+
+    /// With the Point tool armed, the layer's points are not targets, so a
+    /// vertex hit is a corner of a line or area; with any other tool it may
+    /// as well be a point feature, and "point" covers both in plain words.
+    static func snapNoticeText(
+        source: SnapEngine.Source, kind: SnapEngine.Kind, pointToolArmed: Bool = false
+    ) -> String {
+        switch (source, kind) {
+        case (.parcel, _): "Snapped to a parcel boundary."
+        case (.ownFeature, .vertex):
+            pointToolArmed ? "Snapped to an existing corner." : "Snapped to an existing point."
+        case (.ownFeature, .edge): "Snapped to an existing edge."
+        }
     }
 
     /// A tap on the map. `parcelSnap` is recorded at event time, never by
     /// comparing the stored coordinate afterwards.
     func handleTap(latitude: Double, longitude: Double, parcelSnap: Bool = false) {
-        guard isEditing else { return }
+        guard isEditing, !isEnding else { return }
         switch tool {
         case .drawing(let shape):
             // The first tap of a new shape lets go of the last one. The panel
@@ -167,11 +502,40 @@ final class VectorEditSession {
             // name field for shape A under the vertices of shape B.
             if draft == nil {
                 selectedFeatureID = nil
-                draftSnappedToParcel = false
+                draftVertexSnaps = []
             }
-            if parcelSnap { draftSnappedToParcel = true }
             var current = draft ?? VectorDraft(shape: shape)
-            current.append(GeoJsonPosition(lng: longitude, lat: latitude))
+            let position = GeoJsonPosition(lng: longitude, lat: latitude)
+            if shape == .area, current.vertices.count >= 3, position == current.vertices.first {
+                // Tapping the first corner again closes the area, as drawing
+                // tools have always let a reader do; the closing position is
+                // added by `geometry()`, not stored twice. Whether the tap
+                // that closed it was a snap says nothing about how the first
+                // corner was placed, so it records no provenance.
+                draft = current
+                finishDrawing()
+                return
+            }
+            // A line may come back to an earlier corner — an out-and-back
+            // track does — but not to the one just placed, which would be a
+            // zero-length segment that counts towards a shape and draws
+            // nothing. An area may not revisit any corner but its first,
+            // which closes it above: a ring that touches itself is not the
+            // area anyone meant. Most often this is a snap onto a corner
+            // already placed.
+            let repeats = shape == .line
+                ? current.vertices.last == position
+                : shape == .area && current.vertices.contains(position)
+            if repeats {
+                note("Already a corner here.")
+                return
+            }
+            current.append(position)
+            if shape == .point {
+                draftVertexSnaps = [parcelSnap]
+            } else {
+                draftVertexSnaps.append(parcelSnap)
+            }
             draft = current
             // A point is finished the moment it is placed. Asking the user to
             // confirm a single tap would be asking twice for one decision.
@@ -188,8 +552,10 @@ final class VectorEditSession {
 
     // MARK: - Erasing
 
-    /// Arms the eraser. Each tap takes off the feature under the finger.
+    /// Arms the eraser. Each tap takes off the feature under the finger. A
+    /// draft that is a shape is finished first, not erased by implication.
     func startErasing() {
+        settleDraft(droppingPartial: true)
         draft = nil
         selectedFeatureID = nil
         erased = []
@@ -210,6 +576,9 @@ final class VectorEditSession {
         erased.append((index, parsed.features[index]))
         if selectedFeatureID == featureID { selectedFeatureID = nil }
         commit(VectorEdit.removing(featureID: featureID, from: parsed))
+        // Said, where the panel's notices are said: an erase with no sound
+        // and no dialog is otherwise a tap that did nothing, to VoiceOver.
+        note("Feature deleted. Undo available.")
     }
 
     var erasedCount: Int { erased.count }
@@ -222,7 +591,11 @@ final class VectorEditSession {
     }
 
     func undoLastVertex() {
-        draft?.removeLastVertex()
+        guard let draft, !draft.vertices.isEmpty else { return }
+        self.draft?.removeLastVertex()
+        if !draftVertexSnaps.isEmpty {
+            draftVertexSnaps.removeLast()
+        }
     }
 
     /// Commits the drawn shape, if it is one yet.
@@ -236,7 +609,7 @@ final class VectorEditSession {
         }
         let edited = VectorEdit.adding(geometry, to: parsed, properties: properties)
         draft = nil
-        draftSnappedToParcel = false
+        draftVertexSnaps = []
         // The tool stays armed, as the browser's does: someone marking six
         // culverts along a road marks them one after another, and reopening
         // Point between each is five taps that do nothing but restore the
@@ -248,6 +621,19 @@ final class VectorEditSession {
         // on the map lets go of it again.
         selectedFeatureID = edited.features.last?.id
         commit(edited)
+        markRecentlyCommitted(edited.features.last?.id)
+    }
+
+    private func markRecentlyCommitted(_ id: String?) {
+        recentlyCommittedFeatureID = id
+        commitHighlightTask?.cancel()
+        guard id != nil else { return }
+        let lifetime = commitHighlightLifetime
+        commitHighlightTask = Task { [weak self] in
+            try? await Task.sleep(for: lifetime)
+            guard !Task.isCancelled, self?.recentlyCommittedFeatureID == id else { return }
+            self?.recentlyCommittedFeatureID = nil
+        }
     }
 
     // MARK: - Converting points
@@ -301,11 +687,21 @@ final class VectorEditSession {
     // MARK: - Marking
 
     /// A GPS mark taken while this session is open lands in the edited
-    /// layer, through the same write path as a drawn shape.
-    func appendMark(_ feature: GeoJsonFeature) {
-        guard let parsed else { return }
+    /// layer, through the same write path as a drawn shape. False once Done
+    /// has begun — the session is closing, and a mark written into it could
+    /// land after the final flush and be lost — unless the mark holds an
+    /// operation registered before Done began: Done is waiting for exactly
+    /// that, and flushes after it, so the mark is committed through this
+    /// session as the field-capture contract says.
+    @discardableResult
+    func appendMark(_ feature: GeoJsonFeature, holding operation: UUID? = nil) -> Bool {
+        guard let parsed else { return false }
+        let held = operation.map(operations.contains) ?? false
+        guard !isEnding || held else { return false }
         selectedFeatureID = feature.id
         commit(VectorEdit.recomputed(parsed.features + [feature]))
+        markRecentlyCommitted(feature.id)
+        return true
     }
 
     // MARK: - Features
@@ -339,7 +735,13 @@ final class VectorEditSession {
 
     /// One attach's outcome, for the strip to show. Failures name the cap
     /// or the reason; quota, decode, and cap problems are distinct.
-    private(set) var photoMessages: [String] = []
+    private(set) var photoMessages: [String] = [] {
+        didSet {
+            // Counted, so the same failure twice is two events to VoiceOver.
+            if !photoMessages.isEmpty { photoMessageGeneration += 1 }
+        }
+    }
+    private(set) var photoMessageGeneration = 0
 
     /// The one narrow offer made at attach time: the photo's EXIF position,
     /// held only until the strip acts on or dismisses it. Never persisted —
@@ -357,10 +759,25 @@ final class VectorEditSession {
     /// name them, files written through the store, descriptor patched
     /// through the session's write path.
     func attachPhotos(
-        _ items: [(data: Data, sourceName: String?, capturedAt: String?)]
+        _ items: [(data: Data, sourceName: String?, capturedAt: String?)],
+        to targetFeatureID: String? = nil,
+        failedLoads: Int = 0
     ) async {
-        guard let layerID = editingID, let featureID = selectedFeatureID else { return }
+        // The feature the photos were picked for, named at the pick: the
+        // selection can move to another feature while the library loads, and
+        // evidence must not land on the wrong one.
+        guard let layerID = editingID, let featureID = targetFeatureID ?? selectedFeatureID
+        else { return }
         photoMessages = []
+        if failedLoads > 0 {
+            // A picker that closed on nothing was a picker that did nothing,
+            // as far as the reader could tell.
+            photoMessages.append(
+                failedLoads == 1
+                    ? "1 selected photo could not be loaded from your library."
+                    : "\(failedLoads) selected photos could not be loaded from your library."
+            )
+        }
         for item in items {
             guard let parsed,
                   let feature = parsed.features.first(where: { $0.id == featureID })
@@ -404,10 +821,16 @@ final class VectorEditSession {
             }
 
             let photoID = UUID().uuidString
+            // Reserved before it is written: the file lands ahead of the
+            // feature that will reference it, and a debounced write of the
+            // older working copy meanwhile would sweep it as an orphan. The
+            // store lets the reservation go once a write references it.
+            await viewModel.reservePhotoID(photoID)
             guard await viewModel.addPhotoFile(
                 layerID: layerID, photoID: photoID,
                 full: processed.fullJpeg, thumb: processed.thumbJpeg
             ) else {
+                await viewModel.releasePhotoID(photoID)
                 photoMessages.append(
                     "This photo could not be saved to your device. Free some space and try again."
                 )
@@ -422,25 +845,60 @@ final class VectorEditSession {
                 width: Double(processed.width),
                 height: Double(processed.height)
             )
+            // Read again, after the waits: another attachment or a removal
+            // may have changed the feature's photos meanwhile, and a stale
+            // list written back would drop theirs. A feature deleted
+            // meanwhile takes its new files with it, and says so.
+            guard editingID == layerID, let latestParsed = self.parsed,
+                  let current = latestParsed.features.first(where: { $0.id == featureID })
+            else {
+                await viewModel.deletePhotoFile(layerID: layerID, photoID: photoID)
+                await viewModel.releasePhotoID(photoID)
+                photoMessages.append("The feature was removed before this photo could be attached.")
+                continue
+            }
+            let latest = PhotoDescriptor.read(from: current.properties)
+            guard latest.count < PhotoDescriptor.maxPerFeature else {
+                await viewModel.deletePhotoFile(layerID: layerID, photoID: photoID)
+                await viewModel.releasePhotoID(photoID)
+                photoMessages.append(
+                    "This feature already has \(PhotoDescriptor.maxPerFeature) photos — the cap. Not added."
+                )
+                continue
+            }
             updateFeatureProperties(
                 featureID: featureID,
                 patch: [
                     CaptureSpec.photosKey: PhotoDescriptor.propertyValue(
-                        internalForm: existing + [descriptor]
+                        internalForm: latest + [descriptor]
                     )
                 ]
             )
+            committedPhotoIDs.insert(photoID)
             // The geotag offer, once, for a Point feature: shown with the
             // distance so "move my pin 3 km" is a decision, not a surprise.
-            if case .point(let current)? = feature.geometry, let location = claims.location {
+            // Measured from where the point is now, after the waits, not
+            // from where it was when the picker opened.
+            if case .point(let position)? = current.geometry, let location = claims.location {
                 photoLocationOffer = PhotoLocationOffer(
                     featureID: featureID,
                     position: GeoJsonPosition(lng: location.lng, lat: location.lat),
                     distanceM: Geodesy.pathDistanceMetres([
-                        GeoPoint(lat: current.lat, lng: current.lng), location,
+                        GeoPoint(lat: position.lat, lng: position.lng), location,
                     ])
                 )
             }
+        }
+    }
+
+    /// Removes a photo as an operation Done waits for: registered now, on
+    /// the tap, before the first await, so a Done tap a moment later cannot
+    /// close the session over the file delete.
+    func requestRemovePhoto(featureID: String, photoID: String) {
+        guard let operation = beginOperation() else { return }
+        Task { [weak self] in
+            await self?.removePhoto(featureID: featureID, photoID: photoID)
+            self?.endOperation(operation)
         }
     }
 
@@ -560,18 +1018,55 @@ final class VectorEditSession {
         }
     }
 
-    private func writePendingName() async {
-        guard let name = pendingName else { return }
-        pendingName = nil
-        await renameLayer(name)
+    /// The rename write that is out, if one is: a flush that finds one waits
+    /// for it rather than treating its cancelled timer as a name written.
+    @ObservationIgnored private var renameWrite: Task<Bool, Never>?
+
+    /// Nothing pending is a success: there is no name that failed to save.
+    /// The name stays pending until its write lands, so a Done that arrives
+    /// while a rename is out waits for it, and a name that failed is tried
+    /// again by the next flush — the next Done — rather than the session
+    /// closing with the old name stored under a field showing the new one.
+    private func writePendingName() async -> Bool {
+        var ok = true
+        if let inFlight = renameWrite {
+            ok = await inFlight.value
+        }
+        while let name = pendingName {
+            let write = Task { [weak self] () -> Bool in
+                guard let self else { return false }
+                return await self.renameLayer(name)
+            }
+            renameWrite = write
+            ok = await write.value
+            if renameWrite == write { renameWrite = nil }
+            if ok, pendingName == name { pendingName = nil }
+            if !ok { break }
+        }
+        return ok
     }
 
-    func renameLayer(_ name: String) async {
-        guard let editingID else { return }
+    @discardableResult
+    func renameLayer(_ name: String) async -> Bool {
+        guard let editingID else { return false }
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
+        guard !trimmed.isEmpty else { return false }
         record?.name = trimmed
-        await viewModel.rename(id: editingID, to: trimmed)
+        if await viewModel.rename(id: editingID, to: trimmed) {
+            // A rename is a change the panel promised would switch a hidden
+            // layer on — once it is written.
+            editedThisSession = true
+            // Only a name failure is cleared by a name success; a geometry
+            // write still pending keeps its own words up.
+            if unsaved == nil { storageError = nil }
+            return true
+        }
+        // The typed name stays on the record and in the field, with the
+        // refusal under it: it is what the reader asked for, and the next
+        // flush writes it.
+        storageError = viewModel.lastRefusal?.userMessage
+            ?? "This name could not be saved to your device."
+        return false
     }
 
     // MARK: - Writing
@@ -584,6 +1079,7 @@ final class VectorEditSession {
         conversionUndo = nil
         parsed = edited
         unsaved = edited
+        editedThisSession = true
         revision += 1
         record?.featureCount = edited.featureCount
         record?.bbox = edited.bbox
@@ -610,10 +1106,13 @@ final class VectorEditSession {
     func flush() async -> Bool {
         renameTask?.cancel()
         renameTask = nil
-        await writePendingName()
+        // Both are tried, whatever the first came to: a name that could not
+        // be saved must not keep the geometry from being.
+        let named = await writePendingName()
         persistTask?.cancel()
         persistTask = nil
-        return await write()
+        let written = await write()
+        return named && written
     }
 
     /// Writes what is pending, and anything committed while that was in
@@ -641,7 +1140,8 @@ final class VectorEditSession {
                 storageError = viewModel.lastRefusal?.userMessage
                 return false
             }
-            storageError = nil
+            // A geometry success does not speak for a name still unsaved.
+            if pendingName == nil { storageError = nil }
             record = viewModel.rows.first { $0.id == editingID }?.record ?? record
             guard revision == written else { continue }
             unsaved = nil
