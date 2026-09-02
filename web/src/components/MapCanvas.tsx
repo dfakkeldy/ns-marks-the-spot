@@ -146,6 +146,7 @@ import { UserVectorLayers } from "../userMaps/vector/components/UserVectorLayers
 import type { VectorEditBinding } from "../userMaps/vector/edit/EditableVectorLayer";
 import { ConversionPreviewLayer } from "../userMaps/vector/edit/ConversionPreviewLayer";
 import type { PopupPhotoUi } from "../userMaps/vector/render/popup";
+
 // Lazy like EditableVectorLayer: both exist only inside an edit session.
 const ParcelSnapTargetsLayer = lazy(() =>
   import("../userMaps/vector/edit/ParcelSnapTargetsLayer").then((module) => ({
@@ -168,6 +169,12 @@ import type {
 import { ExportFrameLayer } from "../print/pdf/ExportFrameLayer";
 import type { FrameState } from "../print/pdf/frameGeometry";
 import type { PdfTemplateId } from "../print/pdf/templates/types";
+
+/**
+ * The scale a locate brings a reader to when their view is further out than
+ * it: the web's long-standing 14, kept as a floor rather than a target.
+ */
+const LOCATE_MIN_ZOOM = 14;
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -1978,7 +1985,17 @@ export function MapCanvas({
     printableViewportGuard.current.lastSuppressed = null;
     if (!hasCenteredRef.current) {
       hasCenteredRef.current = true;
-      map.flyTo([live.fix.latitude, live.fix.longitude], 14);
+      // The reader's zoom is theirs. A parcel searched at 16, or imagery
+      // read at 18, is not something the locate button may throw away to
+      // reach a fixed 14: at that scale a 12 m accuracy circle is
+      // sub-pixel and the lot they were reading is gone. The fixed zoom is
+      // for the case it was written for — a view further out than the
+      // locate scale — and closer in the map only pans.
+      if (map.getZoom() >= LOCATE_MIN_ZOOM) {
+        map.panTo([live.fix.latitude, live.fix.longitude]);
+      } else {
+        map.flyTo([live.fix.latitude, live.fix.longitude], LOCATE_MIN_ZOOM);
+      }
     } else {
       map.panTo([live.fix.latitude, live.fix.longitude]);
     }

@@ -636,6 +636,48 @@ describe("MapCanvas browser location", () => {
     expect(mapMock.panTo).toHaveBeenCalledWith([46.15, -60.91]);
   });
 
+  it("keeps a closer zoom when the first fix arrives, and only pans", async () => {
+    const user = userEvent.setup();
+    // The reader searched a parcel and is reading it at 16.
+    mapMock.getZoom.mockReturnValue(16);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+
+    // The fix is brought into view without throwing the parcel away.
+    expect(mapMock.flyTo).not.toHaveBeenCalled();
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91]);
+  });
+
   it("marks the current location with a fresh fix and reports the outcome", async () => {
     const user = userEvent.setup();
     const onMarkLocation = vi
@@ -1116,15 +1158,18 @@ describe("MapCanvas viewport reporting", () => {
     onViewportChange.mockClear();
     await user.click(screen.getByRole("button", { name: "Use my location" }));
     pushLiveFix();
+    // This view is already closer than the locate scale, so the fix is
+    // panned to rather than flown to; either way it is a location-driven
+    // move, which is what this test is about.
     await waitFor(
       () => {
-        expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14);
+        expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91]);
       },
       { timeout: ASYNC_LAYER_TIMEOUT_MS },
     );
 
     mapMock.getCenter.mockReturnValue({ lat: 46.12, lng: -60.91 });
-    mapMock.getZoom.mockReturnValue(14);
+    mapMock.getZoom.mockReturnValue(15);
     mapMock.getBounds.mockReturnValue({
       getWest: () => -60.96,
       getSouth: () => 46.07,
@@ -1147,7 +1192,7 @@ describe("MapCanvas viewport reporting", () => {
     expect(onPositionChange).toHaveBeenLastCalledWith({
       latitude: 46.12,
       longitude: -60.91,
-      zoom: 14,
+      zoom: 15,
     });
     expect(onViewportChange).not.toHaveBeenCalled();
 

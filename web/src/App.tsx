@@ -222,9 +222,14 @@ import { routeImportFiles } from "./userMaps/importRouting";
 import { useUserVectorLayers } from "./userMaps/vector/useUserVectorLayers";
 import { UserVectorControls } from "./userMaps/vector/components/UserVectorRows";
 import { useVectorEditSession } from "./userMaps/vector/edit/useVectorEditSession";
-import { getBrowserLocation } from "./services/browserLocation";
+import {
+  browserLocationFailure,
+  getBrowserLocation,
+  type BrowserLocation,
+} from "./services/browserLocation";
 import { buildGpsMarkFeature } from "./location/markFeature";
 import { FIELD_NOTES_LAYER_NAME } from "./location/captureSpec";
+import { markFailureMessage, oneShotMarkFix } from "./location/markFix";
 import type { LiveFix } from "./location/liveLocation";
 import {
   VectorEditPanel,
@@ -1518,20 +1523,22 @@ export function App() {
     async (fix: LiveFix | null): Promise<string | null> => {
       let resolved = fix;
       if (!resolved) {
+        let oneShot: BrowserLocation;
         try {
-          const oneShot = await getBrowserLocation();
-          resolved = {
-            latitude: oneShot.latitude,
-            longitude: oneShot.longitude,
-            accuracyM: oneShot.accuracy,
-            altitudeM: null,
-            headingDeg: null,
-            speedMps: null,
-            timestampMs: Date.now(),
-          };
-        } catch {
-          return "Location permission was not granted. You can keep using the map.";
+          oneShot = await getBrowserLocation();
+        } catch (error) {
+          // Each of the browser's failures says something different, and
+          // only one of them is a refusal.
+          return markFailureMessage(browserLocationFailure(error));
         }
+        // The one-shot is held to the same rule as the watch fix that sent
+        // it here: a mark is saved only from a position fresh and tight
+        // enough, and a refusal says which half failed.
+        const outcome = oneShotMarkFix(oneShot, Date.now());
+        if (outcome.kind === "refused") {
+          return outcome.message;
+        }
+        resolved = outcome.fix;
       }
       const feature = buildGpsMarkFeature(resolved);
       const accuracy = Math.round(resolved.accuracyM);
@@ -1544,9 +1551,11 @@ export function App() {
       }
       const layerId = await userVectorApi.ensureFieldNotesLayer();
       const appended = await userVectorApi.appendFeatures(layerId, [feature]);
+      // Silence here read as a mark that landed. It did not: the layer the
+      // point was meant for could not be found or written.
       return appended
         ? `Point saved to ${FIELD_NOTES_LAYER_NAME} (±${accuracy} m).`
-        : null;
+        : `The point couldn't be added to ${FIELD_NOTES_LAYER_NAME}. Try again.`;
     },
     [userVectorApi, vectorEdit],
   );
