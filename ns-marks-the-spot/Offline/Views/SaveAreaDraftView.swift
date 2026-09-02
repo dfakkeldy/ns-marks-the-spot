@@ -51,12 +51,6 @@ struct SaveAreaDraftView: View {
                         )
                     )
 
-                    if isOverTileBudget(draftArea) {
-                        Text("Selected area is too large for an offline download.")
-                            .font(.footnote)
-                            .foregroundStyle(.orange)
-                    }
-
                     // A count of zero is the one number this screen must
                     // explain rather than print. The reader is owed the
                     // difference between a survey that has no ground here and
@@ -119,7 +113,6 @@ struct SaveAreaDraftView: View {
                     .disabled(
                         viewModel.isStorageOperationInProgress
                             || didSave
-                            || isOverTileBudget(draftArea)
                             || isOutsideSurvey
                             || draftArea.estimatedTileCount == 0
                     )
@@ -168,10 +161,6 @@ struct SaveAreaDraftView: View {
 
     private var isOutsideSurvey: Bool {
         !FletcherTilePlanner.coversAnyGround(in: bounds)
-    }
-
-    private func isOverTileBudget(_ area: SavedOfflineArea) -> Bool {
-        area.estimatedTileCount > viewModel.maximumSavedAreaTileCount
     }
 
     private func estimateDraft() {

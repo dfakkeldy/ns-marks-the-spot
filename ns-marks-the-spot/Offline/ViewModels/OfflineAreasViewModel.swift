@@ -21,7 +21,6 @@ final class OfflineAreasViewModel {
     private(set) var isStorageOperationInProgress = false
     private(set) var activeDownloadAreaID: String?
 
-    static let maximumSavedAreaTileCount = 100_000
     @ObservationIgnored private let tileStore: TileStore
     @ObservationIgnored private let tileCache: TileCache
     @ObservationIgnored private let savedAreaRepository: SavedOfflineAreaRepository
@@ -37,10 +36,6 @@ final class OfflineAreasViewModel {
     /// `startDownloadTask`. Distinct from `activeDownloadAreaID`, which is the
     /// UI-facing value the cancel button reads.
     @ObservationIgnored private var liveDownloadAreaID: String?
-
-    var maximumSavedAreaTileCount: Int {
-        Self.maximumSavedAreaTileCount
-    }
 
     var layerStorageSummaries: [OfflineLayerStorageSummary] {
         storageSummary.layerBytes
@@ -100,7 +95,7 @@ final class OfflineAreasViewModel {
             maxZoom: maxZoom,
             estimatedTileCount: estimate.tileCount,
             estimatedBytes: estimate.estimatedBytes,
-            state: estimate.tileCount > Self.maximumSavedAreaTileCount ? .failed : .estimating
+            state: .estimating
         )
     }
 

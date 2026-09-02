@@ -29,9 +29,10 @@ nonisolated final class TileDownloadManager: Sendable {
 
     /// `@concurrent`, not merely nonisolated: under approachable concurrency a
     /// nonisolated async function runs on its caller's actor, and the caller is
-    /// the main-actor view model. A download of up to 100,000 tiles must not
-    /// interleave its per-tile work into main-thread frames; only the progress
-    /// closure hops back.
+    /// the main-actor view model. A download of tens of thousands of tiles —
+    /// the whole survey at zoom 8-16 is 94,608 — must not interleave its
+    /// per-tile work into main-thread frames; only the progress closure hops
+    /// back.
     @concurrent
     func download(
         area: SavedOfflineArea,
