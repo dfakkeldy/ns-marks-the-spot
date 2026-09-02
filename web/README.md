@@ -289,11 +289,12 @@ The layers a reader is most likely to ask about:
   access, flood exposure, or buildability.
 - Fletcher has a real default-off control for the 24 independently accepted
   direct-Rumsey sheets. The browser renders bounded per-sheet XYZ trees from
-  the immutable `fletcher-direct-rumsey-20260726.1` revision and supports
-  opacity, share links, print/evidence attribution, and retryable error state.
-  It fails closed with “Tile hosting not configured” unless
-  `VITE_FLETCHER_TILE_BASE_URL` names an authorized HTTPS object host. No
-  OldMapsOnline endpoint is used.
+  the immutable `fletcher-direct-rumsey-20260831.1` revision (twelve sheets
+  cropped to their engraved neat line in this package; the other twelve were
+  already cropped) and supports opacity, share links, print/evidence
+  attribution, and retryable error state. It fails closed with “Tile hosting
+  not configured” unless `VITE_FLETCHER_TILE_BASE_URL` names an authorized
+  HTTPS object host. No OldMapsOnline endpoint is used.
 - The four A.F. Church Cape Breton county sheets (Inverness, Victoria,
   Richmond, Cape Breton; 1884–85, David Rumsey Map Collection) are catalogued
   as disabled rows: no tiles have been produced for them yet. See
