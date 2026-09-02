@@ -170,7 +170,15 @@ public enum UserVectorParse {
     }
 
     /// Parses a GeoJSON document.
-    public static func parseGeoJson(_ data: Data) throws(UserMapImportRefusal) -> ParsedVector {
+    ///
+    /// `allowingEmpty` is for the app's own stored layers. A drawn layer that
+    /// has no features yet, or none again after the last one was erased, is a
+    /// legitimate empty collection there, not a file with nothing to import;
+    /// refusing it made the layer unreadable on the next launch. The import
+    /// path keeps the refusal, and its test.
+    public static func parseGeoJson(
+        _ data: Data, allowingEmpty: Bool = false
+    ) throws(UserMapImportRefusal) -> ParsedVector {
         let root: Any
         do {
             root = try JSONSerialization.jsonObject(with: data, options: [])
@@ -185,6 +193,9 @@ public enum UserVectorParse {
         let type = document["type"] as? String
         if type == "FeatureCollection" {
             guard let raw = document["features"] as? [Any] else { throw corrupt() }
+            if raw.isEmpty, allowingEmpty {
+                return ParsedVector(features: [], bbox: nil)
+            }
             var features: [GeoJsonFeature] = []
             features.reserveCapacity(raw.count)
             for element in raw {

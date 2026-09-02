@@ -380,7 +380,16 @@ final class UserVectorsViewModel {
     func loadedRow(id: String) async -> Row? {
         guard let row = rows.first(where: { $0.id == id }) else { return nil }
         if row.parsed != nil { return row }
-        guard let parsed = try? await store.geometry(id: id) else { return nil }
+        guard let parsed = try? await store.geometry(id: id) else {
+            // Said, rather than returned as a bare nil: the callers turn nil
+            // into "Edit does nothing" and "the mark was not saved", and a
+            // read that failed silently reads as a device that lost the
+            // layer. The words name the actual failure.
+            lastRefusal = Self.storageRefusal(
+                "This layer's stored features could not be read on this device."
+            )
+            return nil
+        }
         // Found again rather than remembered: the row set can change across
         // the await, exactly as in load().
         guard let index = rows.firstIndex(where: { $0.id == id }) else { return nil }

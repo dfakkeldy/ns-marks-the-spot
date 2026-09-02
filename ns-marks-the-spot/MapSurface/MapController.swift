@@ -817,6 +817,17 @@ final class MapController: NSObject {
         }
     }
 
+    /// The fix MapKit is drawing the user dot from, in the recorder's type.
+    ///
+    /// Nil until the map has one. Offered to the mark button so it can use the
+    /// position already on screen instead of asking CoreLocation for a fresh
+    /// one, which can take ten seconds and, with no location at all, fails
+    /// while the dot is still showing.
+    func userLocationFix() -> TrackFix? {
+        guard let location = mapView?.userLocation.location else { return nil }
+        return TrackFix(location: location)
+    }
+
     func centerOnUserLocation() {
         if let refusal = Self.locationMessage(
             for: locationManager.authorizationStatus, readerAsked: true
