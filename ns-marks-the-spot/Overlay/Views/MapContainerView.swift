@@ -513,8 +513,48 @@ struct MapContainerView: View {
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
+        .overlay {
+            // The crosshair, over the middle of the uncovered map, with the
+            // ground under it and a button that places there. Ignoring the
+            // safe area so its coordinates are the map view's.
+            if let editSession, !editSession.isEnding, case .drawing(let shape) = editSession.tool,
+               let point = controller.reticlePoint, let ground = controller.reticleCoordinate,
+               let room = controller.reticleRoom
+            {
+                // The snap is resolved here, before the readout, and the same
+                // resolution is what the button commits: the coordinate shown
+                // is the coordinate placed.
+                let hit = snapHit(at: ground.lat, longitude: ground.lng)
+                PlacementReticle(
+                    point: point,
+                    room: room,
+                    shape: shape,
+                    ground: ground,
+                    snapped: hit?.point,
+                    snappedPoint: hit.flatMap { controller.screenPoint(for: $0.point) },
+                    snapNote: hit.map {
+                        VectorEditSession.snapNoticeText(
+                            source: $0.source, kind: $0.kind,
+                            pointToolArmed: shape == .point
+                        ).replacingOccurrences(of: "Snapped", with: "Snaps")
+                    },
+                    finishesArea: Self.reticleFinishesArea(
+                        shape: shape, draft: editSession.draft, candidate: hit?.point ?? ground
+                    ),
+                    onPlace: {
+                        placeAtReticle(session: editSession, shape: shape, ground: ground, hit: hit)
+                    }
+                )
+                .ignoresSafeArea()
+            }
+        }
         .overlay(alignment: .bottom) {
             if let editSession {
+                let placing: VectorEditShape? = {
+                    if case .drawing(let shape) = editSession.tool { return shape }
+                    return nil
+                }()
+                let reticleGround = controller.reticleCoordinate
                 VectorEditPanel(
                     session: editSession,
                     onDone: {
@@ -557,6 +597,32 @@ struct MapContainerView: View {
                             note: VectorEditSession.snapNoticeText(
                                 source: hit.source, kind: hit.kind, pointToolArmed: false
                             )
+                        )
+                    },
+                    // The crosshair's placement, from the panel as well: with
+                    // the map covered down to a sliver the crosshair's own
+                    // button has no room, and this one is always on screen.
+                    // Nil — shown disabled, with the reason — while the
+                    // middle of the map is above the horizon.
+                    placeAtCentre: placing != nil && reticleGround != nil
+                        ? { placeAtCentreFromPanel(editSession) } : nil,
+                    placeAtCentreValue: {
+                        guard let ground = controller.reticleCoordinate else { return nil }
+                        let hit = snapHit(at: ground.lat, longitude: ground.lng)
+                        let effective = hit?.point ?? ground
+                        let note = hit.map {
+                            VectorEditSession.snapNoticeText(
+                                source: $0.source, kind: $0.kind, pointToolArmed: placing == .point
+                            ).replacingOccurrences(of: "Snapped", with: "Snaps")
+                        }
+                        return String(format: "%.5f, %.5f", effective.lat, effective.lng)
+                            + (note.map { ". \($0)" } ?? "")
+                    },
+                    placeAtCentreFinishesArea: {
+                        guard let shape = placing, let ground = controller.reticleCoordinate else { return false }
+                        let hit = snapHit(at: ground.lat, longitude: ground.lng)
+                        return Self.reticleFinishesArea(
+                            shape: shape, draft: editSession.draft, candidate: hit?.point ?? ground
                         )
                     }
                 )
@@ -1052,7 +1118,9 @@ struct MapContainerView: View {
                     )
                 }
                 .accessibilityLabel("Save Area")
-                .disabled(isSelectingSaveArea)
+                // Not over an edit: the selection and the crosshair both
+                // claim the map, as Layers and Measure already know.
+                .disabled(isSelectingSaveArea || editSession != nil)
 
                 Button {
                     withAnimation(
@@ -1262,6 +1330,17 @@ struct MapContainerView: View {
                         featureVM.refreshAll()
                         refreshParcelSnap()
                         refreshPhotoMap()
+                    case .mapLongPressed(let latitude, let longitude):
+                        // Only while a drawing tool is armed: the other way to
+                        // drop a point, through the same tap handler, snap and
+                        // haptic as a tap. At any other time a press-and-hold
+                        // means nothing here.
+                        if let editSession, editSession.isEditing, !editSession.isEnding,
+                           case .drawing = editSession.tool
+                        {
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            handleEditTap(session: editSession, latitude: latitude, longitude: longitude)
+                        }
                     case .mapTapped(let latitude, let longitude):
                         // An open layers panel takes the first tap on the map
                         // and spends it on closing itself.
@@ -1492,6 +1571,22 @@ struct MapContainerView: View {
             }
             .onChange(of: editSession?.draft) { _, _ in
                 pushDraftPreview()
+            }
+            // The reticle is up exactly while a drawing tool is armed and
+            // the session is not on its way out: recognized while Done is
+            // in flight, the press-and-hold would take the pan from MapKit
+            // and place nothing.
+            .onChange(of: editSession?.tool) { _, _ in
+                controller.setReticleArmed(reticleShouldArm)
+            }
+            .onChange(of: editSession == nil) { _, _ in
+                controller.setReticleArmed(reticleShouldArm)
+            }
+            .onChange(of: editSession?.isEnding) { _, _ in
+                controller.setReticleArmed(reticleShouldArm)
+            }
+            .onChange(of: isSelectingSaveArea) { _, _ in
+                controller.setReticleArmed(reticleShouldArm)
             }
             // The just-committed halo coming on and, a moment later, off.
             .onChange(of: editSession?.recentlyCommittedFeatureID) { _, _ in
@@ -2114,6 +2209,114 @@ struct MapContainerView: View {
         bulkPlacement = BulkPlacementDraft(rows: rows, names: names, payloads: payloads)
     }
 
+    private var reticleShouldArm: Bool {
+        Self.reticleShouldArm(
+            isEditing: editSession?.isEditing ?? false,
+            isEnding: editSession?.isEnding ?? false,
+            tool: editSession?.tool,
+            selectingBounds: isSelectingSaveArea
+        )
+    }
+
+    /// Whether placing at `candidate` closes the area being drawn: the same
+    /// test the tap handler applies — three corners down and the candidate
+    /// on the first of them, which a snap onto it makes exact.
+    static func reticleFinishesArea(shape: VectorEditShape, draft: VectorDraft?, candidate: GeoPoint) -> Bool {
+        guard shape == .area, let draft, draft.canFinish, let first = draft.vertices.first else {
+            return false
+        }
+        return first.lat == candidate.lat && first.lng == candidate.lng
+    }
+
+    /// Placement is available while a drawing tool is armed in a session
+    /// that is not ending, and no save-area selection has the map.
+    static func reticleShouldArm(
+        isEditing: Bool, isEnding: Bool, tool: VectorEditSession.Tool?, selectingBounds: Bool = false
+    ) -> Bool {
+        guard isEditing, !isEnding, !selectingBounds, let tool else { return false }
+        if case .drawing = tool { return true }
+        return false
+    }
+
+    /// Places at the candidate that was on screen: the ground under the
+    /// crosshair and the snap resolved for it when the frame was drawn, not
+    /// a second resolution against targets that may have changed since. A
+    /// parcel target whose licence has gone meanwhile places nothing and
+    /// says so.
+    /// The panel's placement: the same act as the crosshair's button, with
+    /// the candidate resolved now.
+    private func placeAtCentreFromPanel(_ session: VectorEditSession) {
+        guard case .drawing(let shape) = session.tool, let ground = controller.reticleCoordinate else {
+            return
+        }
+        placeAtReticle(
+            session: session, shape: shape, ground: ground,
+            hit: snapHit(at: ground.lat, longitude: ground.lng)
+        )
+    }
+
+    private func placeAtReticle(
+        session: VectorEditSession, shape: VectorEditShape, ground: GeoPoint, hit: SnapEngine.Hit?
+    ) {
+        // Checked again at the tap, against the session as it is now: the
+        // tool, the snap switches and the licence can all change between the
+        // frame that drew the readout and the finger reaching the button,
+        // and the coordinate placed must be one the reader would still be
+        // shown. Anything that no longer holds places nothing, and says so.
+        guard session.tool == .drawing(shape), !isSelectingSaveArea else { return }
+        // And resolved again now, against the targets as they are: a parcel
+        // fetch landing, or an own feature moved, while the finger was on
+        // the button would otherwise place a snap the map no longer shows
+        // — and stamp its provenance. The crosshair must still be where the
+        // readout said, too.
+        guard controller.reticleCoordinate == ground else {
+            session.notePlacementChanged()
+            return
+        }
+        // The licence first, when that is what changed: a parcel corner the
+        // reader was shown, under a licence withdrawn while their finger was
+        // on the button, is a licence message, not "snapping changed".
+        if hit?.source == .parcel, !overlayVM.hasAcceptedProvinceLicence {
+            session.noteParcelSnapLicenceWithdrawn()
+            return
+        }
+        let current = snapHit(at: ground.lat, longitude: ground.lng)
+        guard current?.point == hit?.point, current?.source == hit?.source else {
+            session.notePlacementChanged()
+            return
+        }
+        if let hit {
+            guard session.snapEnabled else {
+                session.notePlacementChanged()
+                return
+            }
+            if hit.source == .parcel {
+                guard session.snapParcels else {
+                    session.notePlacementChanged()
+                    return
+                }
+                guard overlayVM.hasAcceptedProvinceLicence else {
+                    session.noteParcelSnapLicenceWithdrawn()
+                    return
+                }
+            } else {
+                guard session.snapOwnFeatures else {
+                    session.notePlacementChanged()
+                    return
+                }
+            }
+        }
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        if let hit {
+            session.noteSnap(hit)
+        }
+        session.handleTap(
+            latitude: hit?.point.lat ?? ground.lat,
+            longitude: hit?.point.lng ?? ground.lng,
+            parcelSnap: hit?.source == .parcel
+        )
+    }
+
     /// What the rubber-band overlay should draw: the conversion preview when
     /// the convert section is open, else the shape being drawn.
     private func pushDraftPreview() {
@@ -2588,6 +2791,204 @@ private struct MapControlIcon: View {
             .background(.regularMaterial)
             .clipShape(Circle())
             .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+    }
+}
+
+/// The crosshair a drawing tool aims with, and the button that places there.
+///
+/// Placement was a bare finger tap, which lands under the fingertip with no
+/// preview; the reticle shows the exact spot before it is placed and reads
+/// out the coordinate, which is also the accessible way to place a point
+/// without aiming a finger. What it places is a drawn point: it goes through
+/// the same tap handler as a tap, with the snap and the haptic, and carries
+/// no GPS provenance, because it is not a fix.
+private struct PlacementReticle: View {
+    let point: CGPoint
+    /// The uncovered map: the controls stay inside it, above the crosshair
+    /// when there is no room below, so the edit panel never covers them.
+    let room: CGRect
+    let shape: VectorEditShape
+    let ground: GeoPoint
+    /// Where a placement would actually land, when a snap target is within
+    /// reach of the crosshair; the readout shows this, not the raw ground,
+    /// and a second ring marks it on the map.
+    let snapped: GeoPoint?
+    let snappedPoint: CGPoint?
+    let snapNote: String?
+    /// Whether this placement closes the area: three corners down and the
+    /// crosshair on the first of them.
+    let finishesArea: Bool
+    let onPlace: () -> Void
+
+    /// Measured, not assumed: both grow with Dynamic Type. The readout's
+    /// last measurement stands while it is hidden, so hiding it cannot
+    /// change the number that hid it — the decision settles in one step.
+    /// A change of text size starts the measurements over, since a hidden
+    /// control cannot report that it would now fit.
+    @State private var buttonHeight: CGFloat = 44
+    @State private var buttonWidth: CGFloat = 160
+    @State private var readoutHeight: CGFloat = 40
+    @State private var controlsWidth: CGFloat = 160
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    private var effective: GeoPoint { snapped ?? ground }
+
+    private var placeLabel: String {
+        switch shape {
+        case .point: "Place point here"
+        case .line: "Add line point here"
+        case .area: finishesArea ? "Finish area here" : "Add area corner here"
+        }
+    }
+
+    private var readoutText: String {
+        String(format: "%.5f, %.5f", effective.lat, effective.lng)
+    }
+
+    private var readoutView: some View {
+        VStack(spacing: 2) {
+            Text(readoutText)
+                .font(.caption.monospacedDigit())
+            if let snapNote {
+                Text(snapNote)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(.regularMaterial)
+        .clipShape(.rect(cornerRadius: 6))
+    }
+
+    /// Whether the readout fits with the button inside the uncovered map;
+    /// when it does not, only the button is shown, carrying the coordinate
+    /// as its value so VoiceOver still hears where it places.
+    private var showsReadout: Bool { room.height >= buttonHeight + 6 + readoutHeight + 16 }
+
+    /// Whether even the button fits, both ways. When it does not — a card
+    /// and the panel between them leave a sliver, or a narrow window — the
+    /// crosshair alone is shown, rather than a button clamped into a space
+    /// that cannot hold it; the edit panel carries the same action.
+    private var showsControls: Bool {
+        room.height >= buttonHeight + 16 && room.width >= buttonWidth + 16
+    }
+
+    /// The controls' centre across: on the crosshair, clamped inside the
+    /// uncovered map by the stack's measured width.
+    private var controlsCentreX: CGFloat {
+        let half = min(controlsWidth, room.width) / 2
+        return min(max(room.minX + half, point.x), room.maxX - half)
+    }
+
+    private var controlsHeight: CGFloat {
+        showsReadout ? buttonHeight + 6 + readoutHeight : buttonHeight
+    }
+
+    /// The controls' centre: 72 points below the crosshair when their whole
+    /// height fits there, else above it, else clamped inside the uncovered
+    /// map — which `showsControls` guarantees can hold them, so the clamp is
+    /// never inverted. Never under the edit panel, which is drawn on top.
+    private var controlsCentreY: CGFloat {
+        let half = controlsHeight / 2
+        let below = point.y + 72
+        if below + half <= room.maxY { return below }
+        let above = point.y - 72
+        if above - half >= room.minY { return above }
+        return min(max(room.minY + half, point.y), room.maxY - half)
+    }
+
+    var body: some View {
+        GeometryReader { _ in
+            ZStack {
+                Circle()
+                    .stroke(Color.accentColor, lineWidth: 2)
+                    .frame(width: 28, height: 28)
+                Circle()
+                    .stroke(Color.white.opacity(0.9), lineWidth: 1)
+                    .frame(width: 32, height: 32)
+                Rectangle().fill(Color.accentColor).frame(width: 1.5, height: 44)
+                Rectangle().fill(Color.accentColor).frame(width: 44, height: 1.5)
+                Circle().fill(Color.accentColor).frame(width: 4, height: 4)
+            }
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
+            .position(point)
+
+            // Where the placement lands when it snaps: a second ring at the
+            // target, joined to the crosshair, so the map shows the same
+            // spot the readout names.
+            if let snappedPoint {
+                Path { path in
+                    path.move(to: point)
+                    path.addLine(to: snappedPoint)
+                }
+                .stroke(Color.accentColor.opacity(0.7), style: StrokeStyle(lineWidth: 1.5, dash: [3, 3]))
+                .allowsHitTesting(false)
+                .accessibilityHidden(true)
+                Circle()
+                    .stroke(Color.accentColor, lineWidth: 2)
+                    .background(Circle().fill(Color.white.opacity(0.85)))
+                    .frame(width: 18, height: 18)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
+                    .position(snappedPoint)
+            }
+
+            if showsControls {
+                VStack(spacing: 6) {
+                    Button(action: onPlace) {
+                        Label(placeLabel, systemImage: "scope")
+                            .font(.subheadline.weight(.semibold))
+                            .frame(minHeight: 44)
+                            .padding(.horizontal, 6)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .onGeometryChange(for: CGSize.self) { $0.size } action: {
+                        buttonHeight = $0.height
+                        buttonWidth = $0.width
+                    }
+                    // The readout is measured whether or not it is shown — a
+                    // hidden copy, laid out at its natural size behind the
+                    // button — so a note that wrapped and then went away
+                    // lets the readout come back.
+                    .background(alignment: .top) {
+                        readoutView
+                            .fixedSize()
+                            .hidden()
+                            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
+                                readoutHeight = $0
+                            }
+                    }
+                    // The coordinate is the button's value as well as the
+                    // readout's text: with the readout hidden for room, the
+                    // button still says where it places.
+                    .accessibilityValue(readoutText + (snapNote.map { ". \($0)" } ?? ""))
+                    .accessibilityHint(
+                        finishesArea
+                            ? "Closes the area at its first corner."
+                            : snapped == nil
+                                ? "Places at the crosshair in the middle of the map."
+                                : "Places at the snap target marked next to the crosshair."
+                    )
+
+                    if showsReadout {
+                        readoutView
+                            // Said once, by the button.
+                            .accessibilityHidden(true)
+                    }
+                }
+                .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { controlsWidth = $0 }
+                .position(x: controlsCentreX, y: controlsCentreY)
+            }
+        }
+        .onChange(of: dynamicTypeSize) { _, _ in
+            buttonHeight = 44
+            buttonWidth = 160
+            readoutHeight = 40
+            controlsWidth = 160
+        }
     }
 }
 

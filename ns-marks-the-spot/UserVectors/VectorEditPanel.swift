@@ -30,6 +30,16 @@ struct VectorEditPanel: View {
         CentreTarget(position: position)
     }
 
+    /// Places at the crosshair in the middle of the map, as the crosshair's
+    /// own button does; nil while the middle of the map has no ground under
+    /// it. Always on screen, so a reader who cannot reach the crosshair's
+    /// button — no room for it, or no aim — still has the placement.
+    var placeAtCentre: (() -> Void)?
+    /// The coordinate the placement would land on, and what it snaps to.
+    var placeAtCentreValue: () -> String? = { nil }
+    /// Whether that placement would close the area being drawn.
+    var placeAtCentreFinishesArea: () -> Bool = { false }
+
     @State private var layerName = ""
     @State private var featureName = ""
     @State private var featureDescription = ""
@@ -194,10 +204,16 @@ struct VectorEditPanel: View {
                     // two taps is not an area.
                     .disabled(!draft.canFinish)
                 }
-            } else if case .drawing = session.tool {
-                Text("Tap the map to place a point.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                // Beside the draft's own controls, not instead of them: the
+                // panel's placement used to disappear at the first corner of
+                // a line or area — exactly when a covered map leaves the
+                // crosshair's own button no room — and the account of a
+                // centre above the horizon went with it.
+                if case .drawing(let shape) = session.tool {
+                    placementRow(shape)
+                }
+            } else if case .drawing(let shape) = session.tool {
+                placementRow(shape)
             } else if session.tool == .erasing {
                 HStack {
                     Text(
@@ -406,6 +422,44 @@ struct VectorEditPanel: View {
     /// a one-shot undo. Collapsed until asked for — most sessions never
     /// convert — and absent entirely when the layer has no points to
     /// connect.
+    /// The crosshair's placement, reachable from the panel.
+    private func placementRow(_ shape: VectorEditShape) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Button {
+                placeAtCentre?()
+            } label: {
+                Label(Self.placeLabel(shape, finishesArea: placeAtCentreFinishesArea()), systemImage: "scope")
+                    .font(.caption)
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.bordered)
+            .disabled(placeAtCentre == nil)
+            .accessibilityValue(placeAtCentreValue() ?? "No ground under the crosshair")
+            .accessibilityHint(
+                placeAtCentre == nil
+                    ? "Flatten the map until the crosshair is over ground."
+                    : "Places at the crosshair in the middle of the map."
+            )
+            Text(
+                placeAtCentre == nil
+                    ? "The middle of the map is above the horizon. Flatten the map to place there."
+                    : "Tap the map, press and hold, or place at the crosshair."
+            )
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    static func placeLabel(_ shape: VectorEditShape, finishesArea: Bool) -> String {
+        switch shape {
+        case .point: "Place point at crosshair"
+        case .line: "Add line point at crosshair"
+        case .area: finishesArea ? "Finish area at crosshair" : "Add area corner at crosshair"
+        }
+    }
+
     @ViewBuilder
     private var convertSection: some View {
         let linePlan = session.convertPlanLine

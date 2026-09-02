@@ -65,6 +65,19 @@ struct MapSurfaceView: UIViewRepresentable {
         }
         mapView.addGestureRecognizer(identifyTap)
 
+        // Press-and-hold places a point while a drawing tool is armed. It
+        // yields to MapKit over annotation views (the delegate refuses it
+        // there), because press-and-hold on a handle is a drag.
+        let placeLongPress = UILongPressGestureRecognizer(
+            target: controller,
+            action: #selector(MapController.handlePlaceLongPress(_:))
+        )
+        placeLongPress.name = MapController.placeLongPressName
+        placeLongPress.minimumPressDuration = 0.45
+        placeLongPress.delegate = controller
+        placeLongPress.cancelsTouchesInView = false
+        mapView.addGestureRecognizer(placeLongPress)
+
         controller.mapView = mapView
         // Held until layout, then applied without animation. Skipped when
         // something is already held: a link or a resumed session asked for that
