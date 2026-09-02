@@ -49,7 +49,7 @@ struct FeaturePhotoStrip: View {
 
             if !descriptors.isEmpty {
                 ScrollView(.horizontal) {
-                    HStack(spacing: 8) {
+                    LazyHStack(spacing: 8) {
                         ForEach(Array(descriptors.enumerated()), id: \.element.id) {
                             index, descriptor in
                             thumb(descriptor, index: index, count: descriptors.count)
@@ -183,9 +183,12 @@ private struct LightboxPhoto: Identifiable {
 
 /// One async-loaded thumbnail, 56 pt square.
 struct PhotoThumbView: View {
+    /// Download progress while the bytes are still coming from iCloud.
+    var progress: Double? = nil
     var load: () async -> Data?
 
     @State private var image: UIImage?
+    @State private var unavailable = false
 
     var body: some View {
         Group {
@@ -193,19 +196,30 @@ struct PhotoThumbView: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
+            } else if let progress {
+                Color.secondary.opacity(0.2)
+                    .overlay {
+                        ProgressView(value: progress)
+                            .progressViewStyle(.circular)
+                            .accessibilityLabel("Downloading photo")
+                    }
             } else {
                 Color.secondary.opacity(0.2)
                     .overlay {
-                        Image(systemName: "photo")
+                        Image(systemName: unavailable ? "photo.badge.exclamationmark" : "photo")
                             .foregroundStyle(.secondary)
                     }
+                    .accessibilityLabel(unavailable ? "Photo unavailable" : "Photo loading")
             }
         }
         .frame(width: 56, height: 56)
         .clipShape(.rect(cornerRadius: 8))
         .task {
-            guard image == nil, let data = await load() else { return }
-            image = UIImage(data: data)
+            guard image == nil else { return }
+            let data = await load()
+            image = data.flatMap(UIImage.init(data:))
+            // Said as unavailable, not left loading: nothing else is coming.
+            unavailable = image == nil && !Task.isCancelled
         }
     }
 }
@@ -218,6 +232,7 @@ struct PhotoLightboxView: View {
     var onClose: () -> Void
 
     @State private var image: UIImage?
+    @State private var unavailable = false
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -226,6 +241,13 @@ struct PhotoLightboxView: View {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if unavailable {
+                // The load ended with nothing: said, rather than a spinner
+                // that never stops.
+                Text("This photo couldn't be loaded.")
+                    .font(.footnote)
+                    .foregroundStyle(.white)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 ProgressView()
@@ -243,8 +265,9 @@ struct PhotoLightboxView: View {
             .padding()
         }
         .task {
-            guard let data = await load() else { return }
-            image = UIImage(data: data)
+            let data = await load()
+            image = data.flatMap(UIImage.init(data:))
+            unavailable = image == nil && !Task.isCancelled
         }
         .onTapGesture { onClose() }
         .accessibilityLabel(title)

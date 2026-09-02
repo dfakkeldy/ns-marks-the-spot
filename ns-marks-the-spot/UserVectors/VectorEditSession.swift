@@ -1079,6 +1079,13 @@ final class VectorEditSession {
             parsed = VectorEdit.updatingProperties(
                 featureID: featureID, patch: Self.gpsProvenanceRemoval, in: parsed
             )
+        } else if feature.properties[CaptureSpec.capturedAtKey] != nil {
+            // A photo point's top-level capture time says when this position
+            // was captured; moved by hand, the position no longer is. The
+            // photo's own date stays on its descriptor.
+            parsed = VectorEdit.updatingProperties(
+                featureID: featureID, patch: [CaptureSpec.capturedAtKey: nil], in: parsed
+            )
         }
         if !carryingAltitude, feature.properties[CaptureSpec.altitudeKey] != nil {
             // The stored altitude property goes with the geometry's third
@@ -1120,15 +1127,22 @@ final class VectorEditSession {
             keepingAltitude: !gpsMark
         )
         guard moved != parsed else { return .unchanged }
-        // The GPS keys go with a moved GPS mark; `nsmts:traced` stays, as it
-        // does in `moveVertex`.
-        commit(
-            gpsMark
-                ? VectorEdit.updatingProperties(
-                    featureID: featureID, patch: Self.gpsProvenanceRemoval, in: moved
-                )
-                : moved
-        )
+        // The GPS keys go with a moved GPS mark, and a photo point's capture
+        // time with a moved photo point; `nsmts:traced` stays, as it does in
+        // `moveVertex`.
+        let stripped: ParsedVector
+        if gpsMark {
+            stripped = VectorEdit.updatingProperties(
+                featureID: featureID, patch: Self.gpsProvenanceRemoval, in: moved
+            )
+        } else if feature?.properties[CaptureSpec.capturedAtKey] != nil {
+            stripped = VectorEdit.updatingProperties(
+                featureID: featureID, patch: [CaptureSpec.capturedAtKey: nil], in: moved
+            )
+        } else {
+            stripped = moved
+        }
+        commit(stripped)
         return .moved
     }
 

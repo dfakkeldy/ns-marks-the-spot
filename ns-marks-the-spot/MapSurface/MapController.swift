@@ -25,6 +25,10 @@ enum MapEvent {
     /// the viewport feature layers re-query on — every frame of a pan would be
     /// a query for ground the user is already leaving.
     case visibleRegionSettled
+    /// A cluster whose members zooming cannot pull apart: several photos
+    /// from one standing spot, or a map already as close as it goes. The
+    /// members' annotation ids, for a card that shows them together.
+    case clusterSelected(ids: [String])
 }
 
 /// Owns the MKMapView, its delegate work, and the applied `MapViewState`.
@@ -626,6 +630,29 @@ final class MapController: NSObject {
         while prefix < old.count, prefix < drawings.count, old[prefix] == drawings[prefix] {
             prefix += 1
         }
+        // The same layers in the same places past the prefix: each is
+        // updated on its own, and a points-only layer whose record did not
+        // change — the photo map on every pan — has only the points that
+        // changed added and removed. Tearing the whole layer down re-formed
+        // every cluster under the finger and closed the open callout.
+        if old.count == drawings.count,
+           zip(old[prefix...], drawings[prefix...]).allSatisfy({ $0.record.id == $1.record.id })
+        {
+            for index in prefix..<drawings.count {
+                let before = old[index]
+                let after = drawings[index]
+                if before.record == after.record,
+                   Self.isIncrementallyUpdatable(before), Self.isIncrementallyUpdatable(after)
+                {
+                    updateAnnotations(from: before, to: after, on: mapView)
+                } else {
+                    removeUserVectorShapes(on: mapView) { $0 == after.record.id }
+                    mapView.installInDrawOrder(after.overlays())
+                    mapView.addAnnotations(after.annotations())
+                }
+            }
+            return
+        }
         let removedIDs = Set(old[prefix...].map(\.record.id))
         // A record id repeated across the boundary would let the id-keyed
         // removal reach into the untouched prefix. Ids are unique in
@@ -645,6 +672,64 @@ final class MapController: NSObject {
             mapView.installInDrawOrder(drawing.overlays())
             mapView.addAnnotations(drawing.annotations())
         }
+    }
+
+    /// Whether a layer's annotations can be diffed by id: single points with
+    /// unique ids, one annotation each. A `MultiPoint` expands to several
+    /// annotations under one id, and two of them under one key made the diff
+    /// drop one; such a layer is rebuilt whole instead.
+    static func isIncrementallyUpdatable(_ drawing: UserVectorDrawing) -> Bool {
+        var seen = Set<String>()
+        for feature in drawing.parsed.features {
+            switch feature.geometry {
+            case .none:
+                continue
+            case .point:
+                guard let id = feature.id, seen.insert(id).inserted else { return false }
+            default:
+                return false
+            }
+        }
+        return true
+    }
+
+    /// Adds and removes only the points that changed between two versions of
+    /// one points-only layer. Keyed by annotation id; a point whose look
+    /// changed (its halo, its badge, its title) is replaced.
+    private func updateAnnotations(
+        from before: UserVectorDrawing, to after: UserVectorDrawing, on mapView: MKMapView
+    ) {
+        let wanted = after.annotations()
+        var wantedByID: [String: UserVectorAnnotation] = [:]
+        for annotation in wanted { wantedByID[annotation.mapAnnotationID] = annotation }
+        var kept = Set<String>()
+        var stale: [UserVectorAnnotation] = []
+        for case let point as UserVectorAnnotation in mapView.annotations
+        where point.layerID == after.id {
+            if let want = wantedByID[point.mapAnnotationID],
+               want.isHighlighted == point.isHighlighted,
+               want.hasPhotos == point.hasPhotos,
+               want.pointStyle == point.pointStyle,
+               want.coordinate.latitude == point.coordinate.latitude,
+               want.coordinate.longitude == point.coordinate.longitude,
+               want.title == point.title, want.subtitle == point.subtitle
+            {
+                kept.insert(point.mapAnnotationID)
+            } else {
+                stale.append(point)
+            }
+        }
+        guard !stale.isEmpty || kept.count < wanted.count else { return }
+        let staleIDs = Set(stale.map(\.mapAnnotationID))
+        // Clusters holding a stale member go too; MapKit re-forms the rest.
+        let clusters = mapView.annotations.filter { annotation in
+            guard let cluster = annotation as? MKClusterAnnotation else { return false }
+            return cluster.memberAnnotations.contains {
+                ($0 as? UserVectorAnnotation).map { staleIDs.contains($0.mapAnnotationID) } == true
+            }
+        }
+        mapView.removeAnnotations(stale + clusters)
+        mapView.addAnnotations(wanted.filter { !kept.contains($0.mapAnnotationID) })
     }
 
     /// Overlays and annotations together, because a layer's points and its
@@ -2214,9 +2299,14 @@ extension MapController: MKMapViewDelegate {
                 ?? MKMarkerAnnotationView(annotation: cluster, reuseIdentifier: identifier)
             view.annotation = cluster
             view.markerTintColor = UIColor(featureHex: "#7c3aed")
-            view.glyphText = "\(cluster.memberAnnotations.count)"
+            let count = cluster.memberAnnotations.count
+            view.glyphText = "\(count)"
             view.canShowCallout = false
             view.displayPriority = .defaultHigh
+            // The glyph is visual; VoiceOver hears what the cluster is and
+            // what a tap does. Only photo layers cluster.
+            view.accessibilityLabel = "\(count) photo points"
+            view.accessibilityHint = "Zooms in to separate them, or shows them together when they share one spot."
             return view
         }
 
@@ -2241,7 +2331,10 @@ extension MapController: MKMapViewDelegate {
             view.accessibilityLabel = point.title
             view.accessibilityValue = point.hasPhotos ? "Has photos" : nil
             view.clusteringIdentifier = point.clusteringIdentifier
-            view.displayPriority = point.clusteringIdentifier == nil ? .required : .defaultLow
+            // Clustered points yield to the user's own drawn markers but not
+            // to every other marker on the map: at `.defaultLow` a photo pin
+            // was hidden under any catalogued point near it.
+            view.displayPriority = point.clusteringIdentifier == nil ? .required : .defaultHigh
             view.collisionMode = .circle
             return view
         }
@@ -2309,17 +2402,48 @@ extension MapController: MKMapViewDelegate {
         )
     }
 
+    /// Whether a cluster's members are too close to be separated by zooming,
+    /// or the map is already as close as it goes.
+    static func clusterIsInseparable(_ members: [MKAnnotation], in mapView: MKMapView) -> Bool {
+        guard !members.isEmpty else { return true }
+        // The diagonal of the members' bounding box, which does not depend
+        // on which member MapKit happened to list first.
+        var rect = MKMapRect.null
+        for member in members {
+            let point = MKMapPoint(member.coordinate)
+            rect = rect.union(MKMapRect(origin: point, size: MKMapSize(width: 0, height: 0)))
+        }
+        let spreadMetres = MKMapPoint(x: rect.minX, y: rect.minY)
+            .distance(to: MKMapPoint(x: rect.maxX, y: rect.maxY))
+        if spreadMetres <= inseparableSpreadMetres { return true }
+        let closest = mapView.cameraZoomRange.minCenterCoordinateDistance
+        return mapView.camera.centerCoordinateDistance <= closest * 1.05
+    }
+
+    /// Members within this of each other are one standing spot: at the
+    /// closest zoom a few metres is still under the width of a marker.
+    static let inseparableSpreadMetres: Double = 5
+
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         // A selection queued on a replaced map is not a tap on this one: it
         // must neither take the camera nor open a card.
         guard mapView === self.mapView else { return }
         if let cluster = view.annotation as? MKClusterAnnotation {
-            // Zooming to the cluster is a deliberate move: it takes the camera
-            // from a locate or a follow, which would otherwise pull the map
-            // back to the dot with the next fix, and from the sale fit.
-            readerHasClaimedTheCamera = true
-            cameraTakenByAnotherFeature()
-            mapView.showAnnotations(cluster.memberAnnotations, animated: true)
+            let members = cluster.memberAnnotations
+            if Self.clusterIsInseparable(members, in: mapView) {
+                // Zooming would only re-form the same cluster under the
+                // finger; the members are shown together instead.
+                let ids = members.compactMap { ($0 as? MapKitAnnotationIdentifying)?.mapAnnotationID }
+                events?(.clusterSelected(ids: ids))
+            } else {
+                // Zooming to the cluster is a deliberate move: it takes the
+                // camera from a locate or a follow, which would otherwise pull
+                // the map back to the dot with the next fix, and from the
+                // sale fit.
+                readerHasClaimedTheCamera = true
+                cameraTakenByAnotherFeature()
+                mapView.showAnnotations(members, animated: animatesLocate)
+            }
             mapView.deselectAnnotation(cluster, animated: false)
             return
         }

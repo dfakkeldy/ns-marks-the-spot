@@ -428,6 +428,34 @@ struct MapContainerView: View {
             .padding(.top, recorder.isActive ? 60 + hudHeight + 8 : 116)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
+            // The photo map's cap, on the map: the row that also says it is
+            // behind the closed layers panel while the pins are looked at.
+            // It shares the top slot with the location and mark notices and
+            // yields to them: the answer to the tap just made comes first,
+            // and the cap is still there when it has gone.
+            if let note = photoMapVM.truncationNote, printFrame == nil,
+               controller.locationMessage == nil, markLocation.outcome == nil,
+               !markLocation.isAcquiring
+            {
+                VStack {
+                    Text(note)
+                        .font(.footnote)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 10)
+                        .background(.regularMaterial)
+                        .clipShape(.rect(cornerRadius: 8))
+                        .padding(.horizontal, 16)
+                        // Under the recording HUD when there is one, as the
+                        // notices it shares the slot with are.
+                        .padding(.top, recorder.isActive ? 60 + hudHeight + 8 : 116)
+
+                    Spacer()
+                }
+                .allowsHitTesting(false)
+                .accessibilityElement(children: .combine)
+            }
+
             // The recording HUD, top-centre: the bottom belongs to the edit
             // panel and callout cards, and recording during an edit (marking
             // culverts along a walked line) is a supported combination.
@@ -656,10 +684,17 @@ struct MapContainerView: View {
                     layerName: vectorCallout.layerName,
                     photos: vectorCallout.photos,
                     loadPhoto: { photoID, thumb in
-                        await userVectorsVM.photoData(
+                        // The photo map's points are library assets, loaded
+                        // through PhotoKit; every other layer's photos are
+                        // the store's own files.
+                        if vectorCallout.layerID == PhotoMapViewModel.layerID {
+                            return await photoMapVM.imageData(assetID: photoID, thumb: thumb)
+                        }
+                        return await userVectorsVM.photoData(
                             layerID: vectorCallout.layerID, photoID: photoID, thumb: thumb
                         )
-                    }
+                    },
+                    loadProgress: { photoID in photoMapVM.downloadProgress[photoID] }
                 ) {
                     self.vectorCallout = nil
                 }
@@ -1120,10 +1155,13 @@ struct MapContainerView: View {
                             break
                         }
                         // A marker of the user's own says so, in the same card
-                        // every other geometry type of theirs uses.
+                        // every other geometry type of theirs uses — unless
+                        // the reader is measuring or editing, which own the
+                        // map the same way they do for a tap.
                         if let item = userVectorsVM.feature(annotationID: annotationID)
                             ?? photoMapVM.callout(annotationID: annotationID)
                         {
+                            guard measure == nil, editSession?.isEditing != true else { break }
                             vectorCallout = item
                             featureVM.clearSelection()
                             overlayVM.clearParcelSelection()
@@ -1187,6 +1225,24 @@ struct MapContainerView: View {
                             editSession?.noteMoveRefused()
                         }
 
+                    case .clusterSelected(let ids):
+                        // Several photos from one spot: one card with all of
+                        // them, from the photo map or from one of the
+                        // reader's own photo layers. Clusters never span
+                        // layers, so one of the two answers. Not over
+                        // measuring or editing, as for any other annotation.
+                        guard measure == nil, editSession?.isEditing != true else { break }
+                        if let item = photoMapVM.callout(clusterMemberIDs: ids)
+                            ?? userVectorsVM.callout(clusterMemberIDs: ids)
+                        {
+                            vectorCallout = item
+                            featureVM.clearSelection()
+                            overlayVM.clearParcelSelection()
+                            // MapKit deselects the cluster at once and the card
+                            // arrives below: said, so the double-tap has a
+                            // spoken result wherever focus was left.
+                            AccessibilityNotification.Announcement(item.callout.title).post()
+                        }
                     case .visibleRegionSettled:
                         // The readout says where the map is, following or not.
                         mapPosition = overlayVM.currentPosition
@@ -1356,11 +1412,20 @@ struct MapContainerView: View {
             .onChange(of: userVectorsVM.drawings) { _, _ in
                 pushUserVectors()
             }
-            .onChange(of: photoMapVM.isVisible) { _, _ in
+            .onChange(of: photoMapVM.isVisible) { _, visible in
                 refreshPhotoMap()
+                // The layer off, access gone, or a read failed: a card about
+                // one of its photos closes with its pin.
+                if !visible, vectorCallout?.layerID == PhotoMapViewModel.layerID {
+                    vectorCallout = nil
+                }
             }
-            .onChange(of: photoMapVM.isIndexing) { _, indexing in
-                if !indexing { refreshPhotoMap() }
+            // On the snapshot itself, not on the falling edge of an indexing
+            // flag: a second read finishing early cleared the flag before the
+            // first had written its snapshot, and the pins waited for a pan.
+            .onChange(of: photoMapVM.snapshotGeneration) { _, _ in
+                refreshPhotoMap()
+                reconcilePhotoMapCallout()
             }
     }
 
@@ -1535,10 +1600,12 @@ struct MapContainerView: View {
     /// re-checks access and applies persistent changes; an unchanged token
     /// returns without a rebuild.
     private func refreshPhotoMapAfterReturning() {
-        guard photoMapVM.isVisible else { return }
+        // Access is re-read whether or not the layer is on: it changes in
+        // Settings, and a revocation does not relaunch the app.
         photoMapVM.refreshAccess()
+        guard photoMapVM.isOn else { return }
         Task {
-            await photoMapVM.setVisible(true)
+            await photoMapVM.refreshIndex()
             refreshPhotoMap()
         }
     }
@@ -1915,6 +1982,14 @@ struct MapContainerView: View {
             && (!requiringLicence || overlayVM.hasAcceptedProvinceLicence)
     }
 
+    /// A card about a photo the library no longer shows — deleted, or no
+    /// longer in a limited selection — is closed, or replaced with what the
+    /// index says now.
+    private func reconcilePhotoMapCallout() {
+        guard let open = vectorCallout, open.layerID == PhotoMapViewModel.layerID else { return }
+        vectorCallout = photoMapVM.callout(matching: open)
+    }
+
     private func refreshPhotoMap() {
         photoMapVM.refreshViewport(bounds: visibleGeoBox())
         pushUserVectors()
@@ -1928,10 +2003,41 @@ struct MapContainerView: View {
         )
     }
 
+    /// Why a pick placed nothing, in terms of what was actually found out:
+    /// photos that were read and had no location, and photos that could not
+    /// be read at all, whose location is unknown rather than absent.
+    static func nothingPlacedMessage(untagged: Int, notInspected: Int, refused: Int = 0) -> String {
+        if notInspected == 0, refused == 0 {
+            return "No selected photos had a location, so none were added."
+        }
+        if untagged == 0, refused == 0 {
+            return notInspected == 1
+                ? "The selected photo couldn't be read, so it wasn't added."
+                : "None of the \(notInspected) selected photos could be read, so none were added."
+        }
+        if untagged == 0, notInspected == 0 {
+            return refused == 1
+                ? "The selected photo was refused for its size or format, so it wasn't added."
+                : "All \(refused) selected photos were refused for size or format, so none were added."
+        }
+        var parts: [String] = []
+        if untagged > 0 { parts.append("\(untagged) had no location") }
+        if notInspected > 0 { parts.append("\(notInspected) couldn't be read") }
+        if refused > 0 { parts.append("\(refused) \(refused == 1 ? "was" : "were") refused for size or format") }
+        return "Of the selected photos, " + parts.joined(separator: ", ") + ", so none were added."
+    }
+
     private func beginBulkPlacement(from items: [PhotosPickerItem]) async {
         var candidates: [BulkPhotoPlacement.Candidate] = []
         var names: [String: String] = [:]
         var payloads: [String: UserVectorsViewModel.PhotoPlacement] = [:]
+        // Photos that could not be read at all, and photos that were read
+        // and refused for size or format, are counted apart from the ones
+        // that were read and had no location: "none had a location" is a
+        // claim about the photos, and it is only made about photos that
+        // were read.
+        var notInspected = 0
+        var refused = 0
         for (index, item) in items.enumerated() {
             let id = item.itemIdentifier ?? "picked-\(index)"
             let name = "Photo \(index + 1)"
@@ -1941,7 +2047,8 @@ struct MapContainerView: View {
                     layerName: name,
                     message: "This photo couldn't be read. It wasn't added."
                 )
-                candidates.append(.init(id: id, gps: nil, capturedAt: nil))
+                notInspected += 1
+                candidates.append(.init(id: id, gps: nil, capturedAt: nil, unplaceable: .unreadable))
                 continue
             }
             // Detached, like the edit session's attach path: the decode and
@@ -1982,7 +2089,10 @@ struct MapContainerView: View {
                 userVectorsVM.reportExportShortfall(
                     layerName: name, message: refusal.userMessage
                 )
-                candidates.append(.init(id: id, gps: nil, capturedAt: nil))
+                refused += 1
+                candidates.append(
+                    .init(id: id, gps: nil, capturedAt: nil, unplaceable: .refused(refusal.userMessage))
+                )
             case nil:
                 candidates.append(
                     .init(id: id, gps: nil, capturedAt: outcome.claims.capturedAt)
@@ -1990,7 +2100,17 @@ struct MapContainerView: View {
             }
         }
         let rows = BulkPhotoPlacement.classify(candidates, bounds: visibleGeoBox())
-        guard rows.contains(where: \.isPlaceable) else { return }
+        guard rows.contains(where: \.isPlaceable) else {
+            // Nothing to place is an answer, not silence: the picker closed
+            // and the reader is told why nothing appeared.
+            let message = Self.nothingPlacedMessage(
+                untagged: candidates.count - notInspected - refused,
+                notInspected: notInspected, refused: refused
+            )
+            userVectorsVM.reportExportShortfall(layerName: "Add photos to map", message: message)
+            AccessibilityNotification.Announcement(message).post()
+            return
+        }
         bulkPlacement = BulkPlacementDraft(rows: rows, names: names, payloads: payloads)
     }
 

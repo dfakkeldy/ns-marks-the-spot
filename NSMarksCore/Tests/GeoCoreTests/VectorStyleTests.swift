@@ -150,7 +150,7 @@ struct VectorStyleTests {
         record.source = .photos
         record.origin = .photos(createdAt: Date(timeIntervalSince1970: 0), count: 3)
         let callout = VectorFeatureCallout(feature: GeoJsonFeature(geometry: nil), record: record)
-        #expect(callout.provenance == "From your photos · 3 photos")
+        #expect(callout.provenance == "Created from 3 of your photos")
         let data = try JSONEncoder().encode(record.origin)
         let decoded = try JSONDecoder().decode(UserVectorOrigin.self, from: data)
         #expect(decoded == record.origin)

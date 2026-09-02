@@ -563,7 +563,12 @@ nonisolated final class UserVectorAnnotation: MKPointAnnotation, MapKitAnnotatio
         self.style = style
         let callout = VectorFeatureCallout(feature: feature, record: record)
         provenance = callout.provenance
-        clusteringIdentifier = record.source == .photos ? "nsmts-photos" : nil
+        // Layer-qualified: a cluster is opened as one card, and a card can
+        // load photos from one layer's store. Two photo layers at one spot
+        // stay two clusters. Only points that carry photos cluster: a plain
+        // point drawn into a photo layer is not a photo, and a cluster that
+        // counted it as one would be wrong.
+        clusteringIdentifier = record.source == .photos && hasPhotos ? "nsmts-photos-\(record.id)" : nil
         super.init()
         title = callout.title
         subtitle = callout.detail

@@ -28,6 +28,8 @@ struct OpenSettingsButton: View {
                 .contentShape(Rectangle())
         }
         .buttonStyle(.borderless)
-        .accessibilityHint("Opens this app's settings, where location permission can be changed.")
+        // The same button serves location and photo refusals; the hint names
+        // the page, not one permission.
+        .accessibilityHint("Opens this app's page in Settings.")
     }
 }
