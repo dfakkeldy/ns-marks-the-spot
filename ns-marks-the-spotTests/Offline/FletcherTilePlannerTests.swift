@@ -226,23 +226,13 @@ struct FletcherTilePlannerTests {
 
         // Large enough to prove the count is walked rather than materialised,
         // and short of the counting limit so the number is exact rather than
-        // the early return.
+        // the early return. No upper bound beyond that: the saved-area cap
+        // that used to sit between these two numbers was dropped once revision
+        // 20260831.1 put the whole survey under it (94,608 tiles at zoom 8-16),
+        // and a reader may now save all of it.
         #expect(estimate.tileCount > 50_000)
         #expect(estimate.tileCount < FletcherTilePlanner.countingLimit)
         #expect(estimate.estimatedBytes == estimate.tileCount * 12_000)
-
-        // This used to read `> maximumSavedAreaTileCount`, and it stopped
-        // holding when revision 20260831.1 cropped twelve sheets to their neat
-        // line: the survey lost ~27% of its tiles, and the WHOLE of it at these
-        // zooms now sits under the cap. So the cap can no longer reject any
-        // selection a reader can make — it is dead code that reads like a
-        // safeguard.
-        //
-        // Asserted rather than deleted, because whether to lower the cap or
-        // accept that it no longer binds is a product decision, and this is
-        // where someone making it will be told the fact. Lowering the cap
-        // should fail this test and be looked at, not absorbed.
-        #expect(estimate.tileCount < OfflineAreasViewModel.maximumSavedAreaTileCount)
     }
 
     @Test func normalizesInvertedBounds() {

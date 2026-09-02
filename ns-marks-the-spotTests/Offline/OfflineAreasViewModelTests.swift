@@ -27,30 +27,6 @@ struct OfflineAreasViewModelTests {
         #expect(area.state == .estimating)
     }
 
-    @Test func estimateDraftMarksOversizedAreasUnsavable() {
-        let storeRoot = makeTemporaryRoot()
-        defer { try? FileManager.default.removeItem(at: storeRoot) }
-        let viewModel = OfflineAreasViewModel(
-            tileStore: TileStore(rootDirectory: storeRoot),
-            tileCache: TileCache(),
-            savedAreaRepository: makeRepository(root: storeRoot)
-        )
-        let area = viewModel.estimateDraft(
-            name: "Province",
-            bounds: MapBounds(
-                minLatitude: 43.0,
-                minLongitude: -66.5,
-                maxLatitude: 47.0,
-                maxLongitude: -59.5
-            ),
-            minZoom: 10,
-            maxZoom: 18
-        )
-
-        #expect(area.estimatedTileCount > viewModel.maximumSavedAreaTileCount)
-        #expect(area.state == .failed)
-    }
-
     @Test func refreshStorageSummaryAggregatesTileStoreAndTileCacheBytes() async throws {
         let storeRoot = makeTemporaryRoot()
         let cacheRoot = makeTemporaryRoot()
