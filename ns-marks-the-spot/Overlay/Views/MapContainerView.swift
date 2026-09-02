@@ -25,7 +25,12 @@ struct MapContainerView: View {
     /// stays a list: editing is a mode the rest of the panel does not need to
     /// know about.
     @State private var editSession: VectorEditSession?
+    /// Which mark toast is up, so only its own timer takes it down.
+    @State private var markOutcomeGeneration = 0
     @State private var parcelSnapTask: Task<Void, Never>?
+    /// The recording HUD's measured height while it is up, so the notice
+    /// stack sits below it rather than under it.
+    @State private var hudHeight: CGFloat = 0
     @State private var vectorCallout: UserVectorCalloutItem?
     /// The GPS track recorder. Foreground-only; owns its own location
     /// manager so recording works without the map's location dot.
@@ -333,52 +338,73 @@ struct MapContainerView: View {
                     )
             }
 
-            // Top-centre, clear of the search bar. The location button sits on
-            // the right with nothing under it, so a refusal reported down at
-            // the bottom would land under whichever card happens to be open.
-            if let locationMessage = controller.locationMessage {
-                VStack {
-                    Text(locationMessage.rawValue)
-                        .font(.footnote)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 10)
-                        .background(.regularMaterial)
-                        .clipShape(.rect(cornerRadius: 8))
-                        .padding(.horizontal, 16)
-                        .padding(.top, 116)
-
-                    Spacer()
+            // Top-centre, clear of the search bar, one notice above another:
+            // the location button and the mark button sit on the right with
+            // nothing under them, so an answer reported down at the bottom
+            // would land under whichever card happens to be open — and two
+            // answers at one spot covered each other's buttons.
+            VStack(spacing: 8) {
+                if let locationMessage = controller.locationMessage {
+                    // Settings helps only with this app's own settings: its
+                    // permission and its Precise Location switch. Neither a
+                    // device restriction nor the device-wide Location Services
+                    // switch lives on that page. A message that asks for a
+                    // decision stays until the reader makes one or waves it
+                    // away; a timer took the button down before a VoiceOver
+                    // reader reached it.
+                    let isRefusal = MapController.staysUntilDismissed(locationMessage)
+                    VStack(spacing: 6) {
+                        Text(locationMessage.rawValue)
+                            .font(.footnote)
+                            .multilineTextAlignment(.center)
+                        if isRefusal {
+                            HStack(spacing: 16) {
+                                if MapController.offersSettings(locationMessage) {
+                                    // Opening Settings is not dismissal: the
+                                    // notice stays until the state changes or
+                                    // the reader waves it away.
+                                    OpenSettingsButton()
+                                }
+                                DismissNoticeButton { controller.dismissLocationMessage() }
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .background(.regularMaterial)
+                    .clipShape(.rect(cornerRadius: 8))
+                    // The message describes the map; it must not take taps
+                    // from it. The one exception is the button a refusal
+                    // carries.
+                    .allowsHitTesting(isRefusal)
+                    .accessibilityElement(children: isRefusal ? .contain : .combine)
                 }
-                // The message describes the map; it must not take taps from it.
-                .allowsHitTesting(false)
-                .accessibilityElement(children: .combine)
-            }
 
-            // The same top-centre slot as the location message, for the same
-            // reason: the mark button lives on the right rail with cards
-            // below, and its answer must not land under one of them.
-            if let outcome = markLocation.outcome {
-                VStack {
-                    Text(outcome.message)
-                        .font(.footnote)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 10)
-                        .background(.regularMaterial)
-                        .clipShape(.rect(cornerRadius: 8))
-                        .padding(.horizontal, 16)
-                        .padding(.top, 116)
-
-                    Spacer()
-                }
-                .allowsHitTesting(false)
-                .accessibilityElement(children: .combine)
-            } else if markLocation.isAcquiring {
-                // While the fix is being requested. The rail button is only
-                // dimmed meanwhile, and up to ten silent seconds after a tap
-                // read as a button that did nothing.
-                VStack {
+                if let outcome = markLocation.outcome {
+                    let isRefusal = Self.markOutcomeStaysUntilDismissed(outcome)
+                    VStack(spacing: 6) {
+                        Text(outcome.message)
+                            .font(.footnote)
+                            .multilineTextAlignment(.center)
+                        if isRefusal {
+                            HStack(spacing: 16) {
+                                if outcome == .denied {
+                                    OpenSettingsButton()
+                                }
+                                DismissNoticeButton { markLocation.clearOutcome() }
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .background(.regularMaterial)
+                    .clipShape(.rect(cornerRadius: 8))
+                    .allowsHitTesting(isRefusal)
+                    .accessibilityElement(children: isRefusal ? .contain : .combine)
+                } else if markLocation.isAcquiring {
+                    // While the fix is being requested. The rail button is
+                    // only dimmed meanwhile, and up to ten silent seconds
+                    // after a tap read as a button that did nothing.
                     Text(MarkLocation.acquiringMessage)
                         .font(.footnote)
                         .multilineTextAlignment(.center)
@@ -386,14 +412,15 @@ struct MapContainerView: View {
                         .padding(.vertical, 10)
                         .background(.regularMaterial)
                         .clipShape(.rect(cornerRadius: 8))
-                        .padding(.horizontal, 16)
-                        .padding(.top, 116)
-
-                    Spacer()
+                        .allowsHitTesting(false)
+                        .accessibilityElement(children: .combine)
                 }
-                .allowsHitTesting(false)
-                .accessibilityElement(children: .combine)
             }
+            .padding(.horizontal, 16)
+            // Below the recording HUD while it is up, measured rather than
+            // guessed: the HUD grows with Dynamic Type.
+            .padding(.top, recorder.isActive ? 60 + hudHeight + 8 : 116)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
             // The recording HUD, top-centre: the bottom belongs to the edit
             // panel and callout cards, and recording during an edit (marking
@@ -409,6 +436,7 @@ struct MapContainerView: View {
                         pushUserVectors()
                     }
                     .frame(maxWidth: 420)
+                    .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { hudHeight = $0 }
                     .padding(.horizontal, 16)
                     .padding(.top, 60)
 
@@ -445,6 +473,7 @@ struct MapContainerView: View {
                         .frame(maxHeight: min(360, proxy.size.height * 0.45))
                         .padding(.horizontal, 12)
                         .padding(.bottom, 12 + attributionHeight)
+                        .coversMapBottom(.parcel, on: controller)
                     }
                 }
                 .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -468,6 +497,7 @@ struct MapContainerView: View {
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .coversMapBottom(.editPanel, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -573,6 +603,7 @@ struct MapContainerView: View {
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .coversMapBottom(.measure, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
                     measurePanelHeight = $0
@@ -597,6 +628,7 @@ struct MapContainerView: View {
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .coversMapBottom(.vectorCallout, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -659,6 +691,7 @@ struct MapContainerView: View {
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .coversMapBottom(.featureCallout, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
@@ -763,10 +796,21 @@ struct MapContainerView: View {
                     .disabled(isSelectingSaveArea)
 
                 Button {
+                    // The panel covers the ground the dot is about to be put
+                    // on, as it would cover a shape being drawn.
+                    if isLayersMenuExpanded {
+                        withAnimation(
+                            .spring(response: 0.35, dampingFraction: 0.85)
+                                .unlessReduced(reduceMotion)
+                        ) {
+                            isLayersMenuExpanded = false
+                        }
+                    }
+                    controller.animatesLocate = !reduceMotion
                     controller.showsUserLocation = true
                     controller.centerOnUserLocation()
                 } label: {
-                    MapControlIcon(systemName: "location.fill")
+                    LocationButtonIcon(controller: controller)
                 }
                 .accessibilityLabel("Current Location")
                 .disabled(isSelectingSaveArea)
@@ -1044,7 +1088,12 @@ struct MapContainerView: View {
                         )
 
                     case .visibleRegionSettled:
-                        mapPosition = overlayVM.mapPosition
+                        // The readout says where the map is, following or not.
+                        mapPosition = overlayVM.currentPosition
+                        // What is written down is the view the reader chose:
+                        // a followed position is not remembered, shared or
+                        // printed.
+                        overlayVM.notePositionSettled()
                         // Leaflet rewrites its address bar on every move. This
                         // is the same act: the view the reader stopped on is
                         // the one the next launch opens.
@@ -1186,6 +1235,12 @@ struct MapContainerView: View {
                 guard let outcome else { return }
                 AccessibilityNotification.Announcement(outcome.message).post()
             }
+            // The wait is said too: up to ten silent seconds after a tap read
+            // as a button that did nothing.
+            .onChange(of: markLocation.isAcquiring) { _, acquiring in
+                guard acquiring else { return }
+                AccessibilityNotification.Announcement(MarkLocation.acquiringMessage).post()
+            }
             // The live trace follows the fixes as they arrive.
             .onChange(of: recorder.recording.liveSegments) { _, _ in
                 pushUserVectors()
@@ -1279,6 +1334,10 @@ struct MapContainerView: View {
                 recorder.scenePhaseChanged(isActive: newPhase == .active)
                 if newPhase == .active {
                     refreshPhotoMapAfterReturning()
+                    // A refusal notice may describe a cause changed in
+                    // Settings while the app was away.
+                    controller.reconcileLocationNotice()
+                    markLocation.reconcileOutcome()
                 }
                 if newPhase != .active {
                     cancelBoundsSelection()
@@ -1737,6 +1796,7 @@ struct MapContainerView: View {
     /// 10 s / 50 m rule), else one requested fix. Marks into the open edit
     /// session, else the "Field notes" layer.
     private func markMyLocation() async {
+        beginMarkAttempt()
         // The recorder's fix first, then the one behind the map's own blue
         // dot: a position already on screen is used before CoreLocation is
         // asked for another.
@@ -1781,13 +1841,34 @@ struct MapContainerView: View {
         scheduleMarkOutcomeDismissal()
     }
 
-    /// Every mark outcome describes a finished attempt, so it expires — the
-    /// permission message a reader needs to act on is also in Settings.
+    /// The mark outcomes that stay up until the reader takes them down: a
+    /// refusal is a decision to make in Settings, and a five-second timer
+    /// took the button away before an assistive-technology reader reached
+    /// it. Every other outcome describes a finished attempt, and expires.
+    static func markOutcomeStaysUntilDismissed(_ outcome: MarkLocation.Outcome) -> Bool {
+        switch outcome {
+        case .denied, .restricted, .servicesOff: true
+        default: false
+        }
+    }
+
+    /// Called when an attempt begins: a timer set by the last outcome must
+    /// not take this attempt's down, however the two interleave.
+    private func beginMarkAttempt() {
+        markOutcomeGeneration += 1
+    }
+
     private func scheduleMarkOutcomeDismissal() {
-        let shown = markLocation.outcome
+        // Counted rather than compared: two equal outcomes five seconds apart
+        // would let the first timer take the second one down early.
+        markOutcomeGeneration += 1
+        let mine = markOutcomeGeneration
+        if let outcome = markLocation.outcome, Self.markOutcomeStaysUntilDismissed(outcome) {
+            return
+        }
         Task {
             try? await Task.sleep(for: .seconds(5))
-            if markLocation.outcome == shown {
+            if markOutcomeGeneration == mine {
                 markLocation.clearOutcome()
             }
         }
@@ -2023,22 +2104,80 @@ private struct MapControlIcon: View {
     let systemName: String
     var tint: Color = .blue
     var isActive = false
+    /// A spinner in place of the glyph, for the span between a tap and its
+    /// answer.
+    var isBusy = false
 
     /// Scaled with the reader's type size, capped by the metric's own curve:
     /// the control grows enough to match large text without the rail
     /// swallowing the map.
     @ScaledMetric(relativeTo: .title3) private var glyphSize: CGFloat = 18
-    @ScaledMetric(relativeTo: .title3) private var diameter: CGFloat = 44
+    @ScaledMetric(relativeTo: .title3) private var scaledDiameter: CGFloat = 44
+
+    /// Scales up with large text, never down: 44 points is the floor for a
+    /// control, whatever the text size.
+    private var diameter: CGFloat { max(44, scaledDiameter) }
 
     var body: some View {
         Image(systemName: systemName)
             .font(.system(size: glyphSize, weight: .semibold))
             .foregroundStyle(isActive ? Color.white : tint)
+            .opacity(isBusy ? 0 : 1)
+            .overlay {
+                if isBusy {
+                    ProgressView()
+                        .tint(isActive ? Color.white : tint)
+                }
+            }
             .frame(width: diameter, height: diameter)
             .background(isActive ? Color.blue : Color.primary.opacity(0.001))
             .background(.regularMaterial)
             .clipShape(Circle())
             .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+    }
+}
+
+/// The location button's glyph: idle, searching, following, heading-up.
+///
+/// The states Maps taught every iPhone user, so the same button reads the
+/// same way here. Its own leaf view so the container's body is not
+/// re-evaluated for a state only this glyph draws.
+private struct LocationButtonIcon: View {
+    let controller: MapController
+
+    var body: some View {
+        switch controller.userTrackingState {
+        case .idle:
+            // "Not following" rather than "Off": after a pan the dot is still
+            // on the map and still updating; only the following stopped.
+            MapControlIcon(systemName: "location")
+                .accessibilityValue("Not following")
+        case .searching:
+            MapControlIcon(systemName: "location", isBusy: true)
+                .accessibilityValue("Finding your location")
+        case .following:
+            MapControlIcon(systemName: "location.fill", isActive: true)
+                .accessibilityValue("Following")
+        case .heading:
+            MapControlIcon(systemName: "location.north.line.fill", isActive: true)
+                .accessibilityValue("Following, heading up")
+        }
+    }
+}
+
+private extension View {
+    /// Reports how much of the bottom of the map this card covers, so the
+    /// location button centres the dot in the part of the map the reader can
+    /// see. Applied outside the padding above the source strip, because the
+    /// strip is covered ground too.
+    func coversMapBottom(
+        _ card: MapController.BottomCard, on controller: MapController
+    ) -> some View {
+        self
+            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
+                controller.setBottomCardHeight($0, for: card)
+            }
+            .onDisappear { controller.setBottomCardHeight(0, for: card) }
     }
 }
 
@@ -2055,6 +2194,7 @@ private struct CompassResetButton: View {
     var body: some View {
         if controller.mapHeading != 0 {
             Button {
+                controller.animatesLocate = !reduceMotion
                 withAnimation(
                     .spring(response: 0.4, dampingFraction: 0.8)
                         .unlessReduced(reduceMotion)

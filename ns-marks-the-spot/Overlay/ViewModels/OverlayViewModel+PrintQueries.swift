@@ -11,10 +11,11 @@ import NSDataServices
 /// over state the class already exposes — nothing here mutates, so the split
 /// costs no encapsulation and takes a self-contained concern with it.
 extension OverlayViewModel {
-    /// Where the map is, as a latitude, a longitude, and a tile zoom.
+    /// Where the map is now, as a latitude, a longitude, and a tile zoom.
     ///
-    /// Read by the share link, the evidence note, the readout on the map, and
-    /// the session written on the way out.
+    /// The readout on the map reads this — it describes what is on screen,
+    /// including a followed position. What leaves the device reads
+    /// `mapPosition` instead.
     ///
     /// Before the map has been laid out there is no view to measure, and the
     /// answer is whatever it has been told to open on: a link's position, or
@@ -22,7 +23,7 @@ extension OverlayViewModel {
     /// the opening view, and there it is the truth. Reading `.default` in every
     /// case is what let a scene going inactive between launch and the map
     /// attaching write the province over the map the reader left.
-    var mapPosition: MapPosition {
+    var currentPosition: MapPosition {
         guard controller.hasReportedItsPosition,
               let bounds = controller.currentVisibleBounds()
         else {
@@ -33,6 +34,27 @@ extension OverlayViewModel {
             longitude: (bounds.minLongitude + bounds.maxLongitude) / 2,
             zoom: controller.zoomLevel
         )
+    }
+
+    /// The position a share link, an evidence note, a printed receipt and the
+    /// saved session carry: the last view the reader chose.
+    ///
+    /// A view the reader's own location put on screen is not one of those.
+    /// The field-capture contract keeps location-driven viewports out of
+    /// everything that leaves the device or outlives the session, so while
+    /// the map is following, the last chosen view stands. Before any view
+    /// has been chosen there is the link or session the app opened on, and
+    /// failing that the province.
+    var mapPosition: MapPosition {
+        guard controller.viewportIsLocationDriven else { return currentPosition }
+        return readerPosition ?? controller.heldPosition ?? .default
+    }
+
+    /// Remembers the settled view when it is the reader's own. Called from
+    /// the map's settle, before anything is written down.
+    func notePositionSettled() {
+        guard !controller.viewportIsLocationDriven else { return }
+        readerPosition = currentPosition
     }
 
     /// Whether the open parcel has heard back from every source the note
