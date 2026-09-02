@@ -98,6 +98,57 @@ struct FieldCaptureStoreTests {
         #expect(third.id != first.id)
     }
 
+    /// The relaunch bug behind "Your location couldn't be found" with the blue
+    /// dot on screen. The store read its own files through the import parser,
+    /// which refuses an empty collection, so a drawn layer that had no
+    /// features yet came back unreadable on the next launch: Edit did nothing,
+    /// and a mark into Field notes failed with a message about GPS.
+    @Test("An empty drawn layer reads back after relaunch and takes a mark")
+    func anEmptyDrawnLayerSurvivesRelaunch() async throws {
+        let (store, root) = try temporaryStore()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let firstLaunch = UserVectorsViewModel(store: store)
+        let created = try #require(await firstLaunch.fieldNotesRow())
+        #expect(created.record.featureCount == 0)
+
+        // The empty collection is on disk and reads back as one.
+        let stored = try await store.geometry(id: created.id)
+        #expect(stored.featureCount == 0)
+        #expect(stored.bbox == nil)
+
+        let secondLaunch = UserVectorsViewModel(store: store)
+        await secondLaunch.load()
+        let reloaded = try #require(secondLaunch.rows.first { $0.id == created.id })
+        #expect(reloaded.parsed != nil)
+        #expect(await secondLaunch.loadedRow(id: created.id) != nil)
+        #expect(secondLaunch.lastRefusal == nil)
+
+        let fix = TrackFix(
+            latitude: 45.80849, longitude: -61.47137, accuracyM: 8,
+            timestamp: Date(timeIntervalSince1970: 1_700_000_000)
+        )
+        let feature = MarkFeature.buildGpsMarkFeature(fix)
+        #expect(await secondLaunch.appendFeature(feature, to: created.id))
+        #expect(secondLaunch.rows.first { $0.id == created.id }?.record.featureCount == 1)
+    }
+
+    /// A geometry file this build cannot read is said, not swallowed: the
+    /// callers turn a bare nil into "Edit does nothing" and "the mark was
+    /// not saved".
+    @Test("An unreadable geometry file is reported as a storage refusal")
+    func anUnreadableGeometryFileIsReported() async throws {
+        let (store, root) = try temporaryStore()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let viewModel = UserVectorsViewModel(store: store)
+        let row = try #require(await viewModel.newDrawingLayer())
+        try Data("not json".utf8).write(to: root.appendingPathComponent("\(row.id).geojson"))
+
+        let relaunched = UserVectorsViewModel(store: store)
+        await relaunched.load()
+        #expect(await relaunched.loadedRow(id: row.id) == nil)
+        #expect(relaunched.lastRefusal?.userMessage.contains("could not be read") == true)
+    }
+
     @Test("A GPS mark appends to its layer and dates the edit")
     func aMarkAppendsAndDatesTheLayer() async throws {
         let (store, root) = try temporaryStore()

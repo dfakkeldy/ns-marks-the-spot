@@ -374,6 +374,25 @@ struct MapContainerView: View {
                 }
                 .allowsHitTesting(false)
                 .accessibilityElement(children: .combine)
+            } else if markLocation.isAcquiring {
+                // While the fix is being requested. The rail button is only
+                // dimmed meanwhile, and up to ten silent seconds after a tap
+                // read as a button that did nothing.
+                VStack {
+                    Text(MarkLocation.acquiringMessage)
+                        .font(.footnote)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 10)
+                        .background(.regularMaterial)
+                        .clipShape(.rect(cornerRadius: 8))
+                        .padding(.horizontal, 16)
+                        .padding(.top, 116)
+
+                    Spacer()
+                }
+                .allowsHitTesting(false)
+                .accessibilityElement(children: .combine)
             }
 
             // The recording HUD, top-centre: the bottom belongs to the edit
@@ -1718,7 +1737,12 @@ struct MapContainerView: View {
     /// 10 s / 50 m rule), else one requested fix. Marks into the open edit
     /// session, else the "Field notes" layer.
     private func markMyLocation() async {
-        guard let fix = await markLocation.acquireFix(preferring: recorder.lastFix) else {
+        // The recorder's fix first, then the one behind the map's own blue
+        // dot: a position already on screen is used before CoreLocation is
+        // asked for another.
+        guard let fix = await markLocation.acquireFix(
+            preferring: [recorder.lastFix, controller.userLocationFix()]
+        ) else {
             if markLocation.outcome == nil {
                 markLocation.report(.unavailable)
             }
@@ -1738,7 +1762,15 @@ struct MapContainerView: View {
             guard let row = await userVectorsVM.fieldNotesRow(),
                   await userVectorsVM.appendFeature(feature, to: row.id)
             else {
-                markLocation.report(.unavailable)
+                // A fix was had; the layer refused it. Said in the store's
+                // words — a storage failure reported as a GPS failure sent
+                // the reader outdoors to fix a full disk.
+                markLocation.report(
+                    .storageFailed(
+                        userVectorsVM.lastRefusal?.userMessage
+                            ?? MarkLocation.storageFallbackMessage
+                    )
+                )
                 scheduleMarkOutcomeDismissal()
                 return
             }

@@ -322,9 +322,16 @@ actor UserVectorStore {
         try? Data(contentsOf: originalURL(for: fileID))
     }
 
+    /// The layer's features as stored.
+    ///
+    /// Read with the import parser, but allowing an empty collection: this
+    /// store writes one for every new drawing layer and whenever the last
+    /// feature is erased, and refusing it on the way back made such a layer
+    /// unreadable after relaunch — Edit did nothing, and a mark into Field
+    /// notes failed with a message about GPS.
     func geometry(id: String) throws -> ParsedVector {
         guard let data = try? Data(contentsOf: geometryURL(for: id)),
-              let parsed = try? UserVectorParse.parseGeoJson(data)
+              let parsed = try? UserVectorParse.parseGeoJson(data, allowingEmpty: true)
         else { throw StoreRefusal.geometryMissing(id) }
         return parsed
     }
