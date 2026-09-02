@@ -82,3 +82,26 @@ Next:     After #291 merges, watch KinNoKiLabsSite for the automation deploy PR
           https://kinnokilabs.com/apps/nsmarksthespot/map/?taxSale=off&mode=current&layers=modern,fletcher&position=45.87,-61.15,13
           and confirm sheet collars are gone. Only then delete the old revision.
 ```
+
+## 2026-09-02 — #291 merged; site promotion dispatched
+
+Done: #291 was still OPEN with CI running when the deploy task started, not
+merged as believed. Waited for green, squash-merged as 3366bc22f (file set
+verified against the branch). Dispatched KinNoKiLabsSite promote run
+33622428220; detect stage accepted the web change. Baseline screenshot of the
+collars over Glendale saved (headless Chrome, 1400x900). Tile-walk replicated in
+Python and validated (86 sample, 107,961 pre-crop): whole survey z8-16 is now
+94,608 tiles, so `maximumSavedAreaTileCount` (100,000) cannot bind — owner's call.
+Found: nightly TestFlight train built today from 20260828.1; weekly pins
+20260726.1 which is already 404.
+
+Next: merge the automation deploy PR, confirm the live bundle names 20260831.1,
+screenshot Glendale, then hand the owner the R2 delete command (not run).
+
+Resume:
+```
+Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/fletcher-neatline-crop-deploy-d71f30
+Branch:   claude/fletcher-neatline-crop-deploy-d71f30 (nightly + this note)
+Next:     gh pr list --repo dfakkeldy/KinNoKiLabsSite --state open   # automation/ns-marks-web-3366bc22fd92
+          merge it, then curl the live bundle for fletcher-direct-rumsey-20260831.1
+```
