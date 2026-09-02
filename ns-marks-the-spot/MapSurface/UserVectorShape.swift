@@ -291,8 +291,18 @@ nonisolated struct VectorSelectionHandles: Equatable, Sendable {
         self.colorHex = colorHex
     }
 
-    func handles() -> [VectorVertexHandleAnnotation] {
-        var annotations: [VectorVertexHandleAnnotation] = []
+    /// One draggable corner, addressed the way `VectorEdit.moving` wants it.
+    struct Corner: Equatable, Sendable {
+        var ring: Int
+        var vertex: Int
+        var position: GeoJsonPosition
+    }
+
+    /// The corners a reader can move, in ring order, without the closing
+    /// duplicate of a ring. The same list the handles are made from, so the
+    /// panel's "corner 3 of 5" is the third handle on the map.
+    static func corners(of rings: [[GeoJsonPosition]]) -> [Corner] {
+        var corners: [Corner] = []
         for (ring, positions) in rings.enumerated() {
             for (vertex, position) in positions.enumerated() {
                 // A closed ring's last position is its first one. Two handles
@@ -303,15 +313,96 @@ nonisolated struct VectorSelectionHandles: Equatable, Sendable {
                 {
                     continue
                 }
-                annotations.append(
-                    VectorVertexHandleAnnotation(
-                        featureID: featureID, ring: ring, vertex: vertex,
-                        position: position, colorHex: colorHex
-                    )
-                )
+                corners.append(Corner(ring: ring, vertex: vertex, position: position))
             }
         }
-        return annotations
+        return corners
+    }
+
+    /// The reshapable corners of a feature; empty for one with too many, and
+    /// for one with no id, which no edit could be addressed to.
+    static func corners(of feature: GeoJsonFeature) -> [Corner] {
+        guard feature.id != nil, isReshapable(feature), let geometry = feature.geometry else {
+            return []
+        }
+        return corners(of: VectorEdit.rings(of: geometry))
+    }
+
+    func handles() -> [VectorVertexHandleAnnotation] {
+        let corners = Self.corners(of: rings)
+        return corners.enumerated().map { index, corner in
+            VectorVertexHandleAnnotation(
+                featureID: featureID, ring: corner.ring, vertex: corner.vertex,
+                position: corner.position, colorHex: colorHex,
+                ordinal: index + 1, total: corners.count
+            )
+        }
+    }
+}
+
+/// The view a vertex or move handle is drawn in.
+///
+/// MapKit's contract for a draggable annotation view: the map view moves it
+/// to `.starting`, `.canceling` and `.ending` on its own, and the implementer
+/// moves it on to `.dragging` and back to `.none`. A plain `MKAnnotationView`
+/// never does, so a handle was left in `.ending` after its first drag, handed
+/// back by the reuse queue in that state, and could not be dragged again.
+/// `super` is told the state MapKit set first, so the delegate still sees
+/// `.starting` and `.ending`; the follow-on state is set straight after.
+nonisolated final class VectorHandleAnnotationView: MKAnnotationView {
+    override func setDragState(_ newState: MKAnnotationView.DragState, animated: Bool) {
+        super.setDragState(newState, animated: animated)
+        switch newState {
+        case .starting:
+            dragState = .dragging
+        case .ending, .canceling:
+            dragState = .none
+        case .none, .dragging:
+            break
+        @unknown default:
+            break
+        }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        dragState = .none
+    }
+}
+
+/// The handle a selected feature's corner is drawn as: a white disc with a
+/// coloured rim and centre, on a 44-point canvas.
+///
+/// Unlike the small hollow draft dot on purpose: those cannot be dragged and
+/// these can, and two handles that looked alike made the drag feel absent.
+/// The canvas is the touch target; the disc is what is seen.
+nonisolated enum VectorVertexHandleImage {
+    private static let cache = MarkerImageCache()
+
+    static let canvasSize: CGFloat = 44
+    static let discDiameter: CGFloat = 22
+
+    static func image(colorHex: String) -> UIImage {
+        cache.image(for: colorHex) { render(colorHex: colorHex) }
+    }
+
+    private static func render(colorHex: String) -> UIImage {
+        let canvas = canvasSize
+        let colour = UIColor(featureHex: colorHex)
+        let disc = CGRect(
+            x: (canvas - discDiameter) / 2, y: (canvas - discDiameter) / 2,
+            width: discDiameter, height: discDiameter
+        )
+        return UIGraphicsImageRenderer(size: CGSize(width: canvas, height: canvas)).image { _ in
+            UIColor.white.setFill()
+            UIBezierPath(ovalIn: disc).fill()
+            let rim = UIBezierPath(ovalIn: disc.insetBy(dx: 1.5, dy: 1.5))
+            rim.lineWidth = 3
+            colour.setStroke()
+            rim.stroke()
+            colour.setFill()
+            UIBezierPath(ovalIn: disc.insetBy(dx: 8, dy: 8)).fill()
+        }
     }
 }
 
@@ -324,13 +415,23 @@ nonisolated final class VectorVertexHandleAnnotation: MKPointAnnotation,
     let ring: Int
     let vertex: Int
     let colorHex: String
+    /// Which corner this is of how many, as the panel counts them, so
+    /// VoiceOver can tell four identical handles apart; a total of one is a
+    /// point, not a corner.
+    let ordinal: Int
+    let total: Int
 
-    init(featureID: String, ring: Int, vertex: Int, position: GeoJsonPosition, colorHex: String) {
+    init(
+        featureID: String, ring: Int, vertex: Int, position: GeoJsonPosition, colorHex: String,
+        ordinal: Int = 1, total: Int = 1
+    ) {
         mapAnnotationID = "vertex-\(featureID)-\(ring)-\(vertex)"
         self.featureID = featureID
         self.ring = ring
         self.vertex = vertex
         self.colorHex = colorHex
+        self.ordinal = ordinal
+        self.total = total
         super.init()
         coordinate = CLLocationCoordinate2D(latitude: position.lat, longitude: position.lng)
     }
@@ -371,13 +472,19 @@ nonisolated enum VectorMoveHandleImage {
         cache.image(for: colorHex) { render(colorHex: colorHex) }
     }
 
+    static let canvasSize: CGFloat = 44
+    static let discDiameter: CGFloat = 36
+
     private static func render(colorHex: String) -> UIImage {
-        let diameter: CGFloat = 30
-        let size = CGSize(width: diameter, height: diameter)
-        return UIGraphicsImageRenderer(size: size).image { _ in
-            let circle = UIBezierPath(
-                ovalIn: CGRect(x: 1, y: 1, width: diameter - 2, height: diameter - 2)
-            )
+        // A 44-point canvas, the touch target the guidelines ask for; the
+        // disc inside it is what is seen.
+        let canvas = canvasSize
+        let disc = CGRect(
+            x: (canvas - discDiameter) / 2, y: (canvas - discDiameter) / 2,
+            width: discDiameter, height: discDiameter
+        )
+        return UIGraphicsImageRenderer(size: CGSize(width: canvas, height: canvas)).image { _ in
+            let circle = UIBezierPath(ovalIn: disc.insetBy(dx: 1, dy: 1))
             UIColor(featureHex: colorHex).setFill()
             circle.fill()
             UIColor.white.setStroke()
@@ -387,7 +494,7 @@ nonisolated enum VectorMoveHandleImage {
             let glyph = UIImage(systemName: "arrow.up.and.down.and.arrow.left.and.right")?
                 .withTintColor(.white, renderingMode: .alwaysOriginal)
             glyph?.draw(
-                in: CGRect(x: diameter / 2 - 7, y: diameter / 2 - 7, width: 14, height: 14)
+                in: CGRect(x: canvas / 2 - 9, y: canvas / 2 - 9, width: 18, height: 18)
             )
         }
     }

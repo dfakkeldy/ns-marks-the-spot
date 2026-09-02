@@ -10,6 +10,25 @@ import SwiftUI
 struct VectorEditPanel: View {
     @Bindable var session: VectorEditSession
     var onDone: () -> Void
+    /// The coordinate under the middle of the map, for moving a corner
+    /// without dragging it. Nil before the map has laid out.
+    var mapCentre: () -> GeoJsonPosition? = { nil }
+    /// Pans the map to a corner, so the reader can see which one the
+    /// stepper is on.
+    var showCorner: (GeoJsonPosition) -> Void = { _ in }
+
+    /// What a move to the map centre lands on: the centre itself, or the
+    /// snap target under it, resolved by the container with the same rules
+    /// as a drag — own features, the parcel fabric under its licence, the
+    /// same tolerance — so the panel's move and a finger's move agree.
+    struct CentreTarget {
+        var position: GeoJsonPosition
+        var parcelSnap = false
+        var note: String?
+    }
+    var snapCentre: (GeoJsonPosition, String) -> CentreTarget = { position, _ in
+        CentreTarget(position: position)
+    }
 
     @State private var layerName = ""
     @State private var featureName = ""
@@ -17,6 +36,8 @@ struct VectorEditPanel: View {
     @State private var isConfirmingDelete = false
     @State private var isConvertExpanded = false
     @State private var keepSourcePoints = true
+    /// Which corner the non-drag mover is on. Reset with the selection.
+    @State private var cornerIndex = 0
     /// The tool change waiting on the reader's answer about a partial draft.
     @State private var pendingDraftAction: PendingDraftAction?
 
@@ -242,10 +263,24 @@ struct VectorEditPanel: View {
                     // Named because the two kinds of handle look different and
                     // do different things, and nothing else on screen says so:
                     // a user who drags the middle one expecting a vertex would
-                    // move their whole shape and not know why.
-                    Text("Drag the arrows in the middle to move the whole feature.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    // move their whole shape and not know why. And press-and-
+                    // hold is MapKit's drag gesture, which nothing on screen
+                    // says either. A point has one handle and is called a
+                    // point, not a corner.
+                    let corners = VectorSelectionHandles.corners(of: feature)
+                    if corners.count == 1 {
+                        Text("Press and hold the handle to drag the point.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    } else if !corners.isEmpty {
+                        Text("Press and hold a corner handle to drag it.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Text("Drag the arrows in the middle to move the whole feature.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    cornerMover(feature, corners: corners)
                     if !VectorSelectionHandles.isReshapable(feature) {
                         // Said out loud, because a selected shape that grew no
                         // corner handles otherwise reads as the app failing to
@@ -491,6 +526,102 @@ struct VectorEditPanel: View {
         featureName = session.selectedFeature?.properties["name"]?.stringValue ?? ""
         featureDescription =
             session.selectedFeature?.properties["description"]?.stringValue ?? ""
+        cornerIndex = 0
+    }
+
+    /// The way to move a corner without dragging it: step to the corner,
+    /// pan the map until its middle is where the corner belongs, and move
+    /// the corner there. What VoiceOver and Switch Control readers have
+    /// instead of a press-and-hold drag, and a steadier hand for anyone.
+    @ViewBuilder
+    private func cornerMover(
+        _ feature: GeoJsonFeature, corners: [VectorSelectionHandles.Corner]
+    ) -> some View {
+        // The whole shape first, and for every shape that has a middle: a
+        // feature with too many corners for handles can still be moved, and
+        // a reader who cannot press-and-hold the arrows handle needs this
+        // button most of all for exactly those.
+        if let featureID = feature.id, corners.count != 1,
+           let middle = VectorMoveHandle(feature: feature, colorHex: "#000000")?.centre
+        {
+            Button {
+                guard let centre = mapCentre() else { return }
+                session.announce(
+                    session.moveFeature(
+                        featureID: featureID,
+                        latitudeDelta: centre.lat - middle.lat,
+                        longitudeDelta: centre.lng - middle.lng
+                    ),
+                    of: "The feature"
+                )
+            } label: {
+                Label(
+                    "Move whole feature to map centre",
+                    systemImage: "arrow.up.and.down.and.arrow.left.and.right"
+                )
+                .font(.caption)
+                .frame(minHeight: 44)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.bordered)
+            // Off, not silent, while the map has no centre to move to.
+            .disabled(mapCentre() == nil)
+            .accessibilityHint(
+                "Pan the map until its middle is where the feature's middle belongs, then move it there."
+            )
+        }
+        if !corners.isEmpty, let featureID = feature.id {
+            let index = min(cornerIndex, corners.count - 1)
+            let corner = corners[index]
+            VStack(alignment: .leading, spacing: 6) {
+                if corners.count > 1 {
+                    Stepper(
+                        value: Binding(
+                            get: { index },
+                            set: { next in
+                                cornerIndex = next
+                                showCorner(corners[next].position)
+                            }
+                        ),
+                        in: 0...(corners.count - 1)
+                    ) {
+                        Text("Corner \(index + 1) of \(corners.count)")
+                            .font(.caption)
+                    }
+                    .accessibilityHint("Moves the map to that corner.")
+                }
+                Button {
+                    guard let centre = mapCentre() else { return }
+                    let target = snapCentre(centre, featureID)
+                    session.announce(
+                        session.moveVertex(
+                            featureID: featureID, ring: corner.ring, vertex: corner.vertex,
+                            latitude: target.position.lat, longitude: target.position.lng,
+                            parcelSnap: target.parcelSnap
+                        ),
+                        of: corners.count > 1 ? "Corner \(index + 1)" : "The point",
+                        snapNote: target.note
+                    )
+                } label: {
+                    Label(
+                        corners.count > 1
+                            ? "Move corner \(index + 1) to map centre"
+                            : "Move point to map centre",
+                        systemImage: "scope"
+                    )
+                    .font(.caption)
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.bordered)
+                .disabled(mapCentre() == nil)
+                .accessibilityHint(
+                    corners.count > 1
+                        ? "Pan the map until its middle is where the corner belongs, then move it there."
+                        : "Pan the map until its middle is where the point belongs, then move it there."
+                )
+            }
+        }
     }
 
     /// Writes the typed text, unless it is already what the feature says.

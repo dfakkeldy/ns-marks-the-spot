@@ -487,21 +487,51 @@ struct MapContainerView: View {
         }
         .overlay(alignment: .bottom) {
             if let editSession {
-                VectorEditPanel(session: editSession) {
-                    // Done outranks any Edit tap still loading its layer.
-                    editLoadGeneration += 1
-                    Task {
-                        // Only closed once the last edit is on disk. A session
-                        // dismissed over a failed write would take the only
-                        // copy of the shape with it.
-                        guard await editSession.end() else { return }
-                        self.editSession = nil
-                        controller.setVectorDraft(nil)
-                        controller.setVectorHandles(nil)
-                        controller.setVectorMoveHandle(nil)
-                        pushUserVectors()
+                VectorEditPanel(
+                    session: editSession,
+                    onDone: {
+                        // Done outranks any Edit tap still loading its layer.
+                        editLoadGeneration += 1
+                        Task {
+                            // Only closed once the last edit is on disk. A
+                            // session dismissed over a failed write would take
+                            // the only copy of the shape with it.
+                            guard await editSession.end() else { return }
+                            self.editSession = nil
+                            controller.setVectorDraft(nil)
+                            controller.setVectorHandles(nil)
+                            controller.setVectorMoveHandle(nil)
+                            pushUserVectors()
+                        }
+                    },
+                    mapCentre: {
+                        controller.visibleCentre().map { GeoJsonPosition(lng: $0.lng, lat: $0.lat) }
+                    },
+                    showCorner: { position in
+                        // Without animation: the reader may tap "Move corner to
+                        // map centre" straight after stepping, and a centre read
+                        // mid-flight would move the corner somewhere between.
+                        // It also honours Reduce Motion by construction.
+                        controller.pan(to: GeoPoint(lat: position.lat, lng: position.lng), animated: false)
+                    },
+                    snapCentre: { centre, featureID in
+                        // The same resolution as a drag's release, tick
+                        // included; the snap is said with the move.
+                        guard let hit = snapHit(
+                            at: centre.lat, longitude: centre.lng, excludingFeatureID: featureID
+                        ) else {
+                            return VectorEditPanel.CentreTarget(position: centre)
+                        }
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        return VectorEditPanel.CentreTarget(
+                            position: GeoJsonPosition(lng: hit.point.lng, lat: hit.point.lat),
+                            parcelSnap: hit.source == .parcel,
+                            note: VectorEditSession.snapNoticeText(
+                                source: hit.source, kind: hit.kind, pointToolArmed: false
+                            )
+                        )
                     }
-                }
+                )
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
@@ -1116,21 +1146,46 @@ struct MapContainerView: View {
                             at: latitude, longitude: longitude,
                             excludingFeatureID: featureID
                         )
-                        if hit != nil {
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                        }
-                        editSession?.moveVertex(
+                        let outcome = editSession?.moveVertex(
                             featureID: featureID, ring: ring, vertex: vertex,
                             latitude: hit?.point.lat ?? latitude,
                             longitude: hit?.point.lng ?? longitude,
                             parcelSnap: hit?.source == .parcel
                         )
+                        // The tick and the words only for a snap that took:
+                        // a session on its way out refuses the move, and
+                        // "Snapped to a parcel corner" over a handle that
+                        // sprang back would be a lie.
+                        if let hit, outcome != .refused {
+                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            // In words as well as the tick, as a drawing tap
+                            // is: the caption names what was snapped to, and
+                            // VoiceOver hears it.
+                            editSession?.noteSnap(hit)
+                        }
+                        // A snap back onto the stored coordinate changes no
+                        // geometry, so nothing rebuilds the handles, and the
+                        // dragged one would stay where the finger let go.
+                        if outcome != .moved {
+                            controller.reinstallVectorHandles()
+                        }
+                        if outcome == .refused {
+                            editSession?.noteMoveRefused()
+                        }
                     case .featureMoved(let featureID, let latitudeDelta, let longitudeDelta):
-                        editSession?.moveFeature(
+                        let outcome = editSession?.moveFeature(
                             featureID: featureID,
                             latitudeDelta: latitudeDelta,
                             longitudeDelta: longitudeDelta
                         )
+                        // A refused or empty move leaves the arrows where the
+                        // finger let go unless they are put back.
+                        if outcome != .moved {
+                            controller.reinstallVectorHandles()
+                        }
+                        if outcome == .refused {
+                            editSession?.noteMoveRefused()
+                        }
 
                     case .visibleRegionSettled:
                         // The readout says where the map is, following or not.
@@ -1385,6 +1440,18 @@ struct MapContainerView: View {
             .onChange(of: editSession?.selectedFeatureID) { _, _ in
                 controller.setVectorHandles(selectionHandles())
                 controller.setVectorMoveHandle(moveHandle())
+            }
+            // Done draining takes the handles down with the panel's controls,
+            // so a drag cannot be attempted and refused; they come back if
+            // Done fails and the session stays open.
+            .onChange(of: editSession?.isEnding) { _, ending in
+                if ending == true {
+                    controller.setVectorHandles(nil)
+                    controller.setVectorMoveHandle(nil)
+                } else if ending == false {
+                    controller.setVectorHandles(selectionHandles())
+                    controller.setVectorMoveHandle(moveHandle())
+                }
             }
     }
 
@@ -2263,14 +2330,22 @@ struct MapContainerView: View {
 
     /// The handles for whichever feature is selected, or none.
     private func selectionHandles() -> VectorSelectionHandles? {
-        guard let session = editSession, let feature = session.selectedFeature else { return nil }
+        // None while Done drains: an attachment landing meanwhile changes the
+        // geometry, and that observer must not put the handles back over a
+        // session that refuses every move. They return if Done fails.
+        guard let session = editSession, !session.isEnding, let feature = session.selectedFeature
+        else { return nil }
         return VectorSelectionHandles(
             feature: feature, colorHex: session.record?.colorHex ?? "#d55e00"
         )
     }
 
     private func moveHandle() -> VectorMoveHandle? {
-        guard let session = editSession, let feature = session.selectedFeature else { return nil }
+        guard let session = editSession, !session.isEnding, let feature = session.selectedFeature
+        else { return nil }
+        // A lone point has one handle, its own: a second one on the same
+        // spot hid the first and, being the move handle, skipped snapping.
+        guard VectorSelectionHandles.corners(of: feature).count != 1 else { return nil }
         return VectorMoveHandle(
             feature: feature, colorHex: session.record?.colorHex ?? "#d55e00"
         )

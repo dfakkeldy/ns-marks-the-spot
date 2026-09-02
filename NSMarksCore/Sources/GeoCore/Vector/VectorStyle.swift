@@ -213,6 +213,38 @@ public struct VectorFeatureCallout: Hashable, Sendable {
         self.tracedCaveat = tracedCaveat
     }
 
+    /// The GPS claim a feature makes about itself, as its reported accuracy,
+    /// or nil: a Point whose `nsmts:capturedAt` is a moment and whose
+    /// `nsmts:accuracyM` is a radius a receiver could report. One test for
+    /// the callout that says "Marked from GPS" and the editor that removes
+    /// the claim after a hand move, so nothing is labelled — or deleted — on
+    /// the strength of a key merely being present. Stricter than the web's
+    /// popup, which checks a non-blank string and a finite number: ±1e300 m,
+    /// a negative radius, or a capture "time" that is not one, is no claim.
+    public static func gpsAccuracy(of feature: GeoJsonFeature) -> Double? {
+        guard case .point? = feature.geometry,
+              let when = feature.properties[CaptureSpec.capturedAtKey]?.stringValue,
+              CaptureTime.parse(when) != nil,
+              let accuracy = feature.properties[CaptureSpec.accuracyKey]?.doubleValue,
+              accuracy.isFinite, accuracy > 0, accuracy <= maxCredibleAccuracyM
+        else { return nil }
+        return accuracy
+    }
+
+    /// Past this an accuracy radius is not a measurement: CoreLocation's own
+    /// worst case is a few kilometres, and a thousand-kilometre claim says
+    /// nothing about where the point is.
+    public static let maxCredibleAccuracyM: Double = 1_000_000
+
+    /// The radius as a label that never understates it: rounded up to the
+    /// next tenth under ten metres, so ±0.04 m is "±0.1 m" and never
+    /// "±0.0 m", and to the next whole metre above.
+    public static func accuracyLabel(_ accuracyM: Double) -> String {
+        accuracyM < 10
+            ? String(format: "%.1f", (accuracyM * 10).rounded(.up) / 10)
+            : String(Int(accuracyM.rounded(.up)))
+    }
+
     public init(feature: GeoJsonFeature, record: UserVectorLayerRecord) {
         func text(_ key: String) -> String? {
             guard let value = feature.properties[key]?.stringValue,
@@ -225,11 +257,9 @@ public struct VectorFeatureCallout: Hashable, Sendable {
         self.title = text("name") ?? record.name
         self.detail = text("description")
         self.provenance = record.provenanceText
-        if feature.properties[CaptureSpec.capturedAtKey]?.stringValue != nil,
-           let accuracy = feature.properties[CaptureSpec.accuracyKey]?.doubleValue
-        {
+        if let accuracy = Self.gpsAccuracy(of: feature) {
             self.gpsProvenance =
-                "Marked from GPS on this device (±\(Int(accuracy.rounded())) m)"
+                "Marked from GPS on this device (±\(Self.accuracyLabel(accuracy)) m)"
         }
         if feature.properties[CaptureSpec.tracedKey]?.stringValue == CaptureSpec.tracedParcelValue {
             // The whole provenance, not only the caveat: a corner traced from
