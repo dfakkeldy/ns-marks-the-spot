@@ -21,3 +21,16 @@ branch feature/ios-empty-layer-readback-and-mark-fix. Run the focused app suites
 FieldCaptureStoreTests, MarkLocationTests, UserVectorEditingTests on iPhone 17
 (id 24FBD923-387E-4B7E-9063-FCF166239B1C) via the build slot, then commit and PR to nightly.
 ```
+
+## 2026-09-02 — committed, pushed, PR #292 open to nightly
+
+Done: commit 129af0a24 on `feature/ios-empty-layer-readback-and-mark-fix`;
+package suite 22/22 and app suites 25/25 passed locally through the build slot;
+PR https://github.com/dfakkeldy/ns-marks-the-spot/pull/292 open against `nightly`.
+Next: watch the `Build gate + tests` check; on green, drop this file and merge.
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-web-map-review-88eda8,
+branch feature/ios-empty-layer-readback-and-mark-fix. Check `gh pr checks 292`; if green,
+remove HANDOFF-ios-empty-layer-mark-fix.md in a final commit and merge to nightly.
+```
