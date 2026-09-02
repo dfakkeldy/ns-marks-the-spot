@@ -203,7 +203,10 @@ struct MapContainerView: View {
                 ShareSheet(items: payload.items)
             }
             .sheet(item: $saveTrack) { payload in
-                SaveTrackSheet(result: payload.result, saveError: saveTrackError) {
+                SaveTrackSheet(
+                    result: payload.result, saveError: saveTrackError,
+                    stoppedWhileRefused: payload.stoppedWhileRefused
+                ) {
                     name, toleranceM in
                     saveRecordedTrack(payload.result, name: name, toleranceM: toleranceM)
                 } onDiscard: {
@@ -283,7 +286,7 @@ struct MapContainerView: View {
                         ParcelSearchBar(viewModel: overlayVM, availableHeight: mapHeight)
                             .frame(maxWidth: 260, alignment: .leading)
                             .padding(.leading, 12)
-                            .padding(.top, 60)
+                            .padding(.top, 16)
                     }
 
                     Spacer()
@@ -292,10 +295,14 @@ struct MapContainerView: View {
                     // owns the screen, every one of these controls is inert in
                     // that mode, and a rail left at full brightness over the
                     // dimmed map competed with the one task the mode is for.
+                    // Sixteen points below the safe area, not sixty: the
+                    // stack already respects the safe area, and the extra
+                    // pushed a rail of nine buttons down into the bottom
+                    // cards' zone on a 6.1-inch phone.
                     if printFrame == nil {
                         controlColumn
                             .padding(.trailing, 12)
-                            .padding(.top, 60)
+                            .padding(.top, 16)
                     }
                 }
                 Spacer()
@@ -425,7 +432,7 @@ struct MapContainerView: View {
             .padding(.horizontal, 16)
             // Below the recording HUD while it is up, measured rather than
             // guessed: the HUD grows with Dynamic Type.
-            .padding(.top, recorder.isActive ? 60 + hudHeight + 8 : 116)
+            .padding(.top, recorder.isActive || recorder.refusal != nil ? 60 + hudHeight + 8 : 116)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
             // The photo map's cap, on the map: the row that also says it is
@@ -448,7 +455,7 @@ struct MapContainerView: View {
                         .padding(.horizontal, 16)
                         // Under the recording HUD when there is one, as the
                         // notices it shares the slot with are.
-                        .padding(.top, recorder.isActive ? 60 + hudHeight + 8 : 116)
+                        .padding(.top, recorder.isActive || recorder.refusal != nil ? 60 + hudHeight + 8 : 116)
 
                     Spacer()
                 }
@@ -459,11 +466,14 @@ struct MapContainerView: View {
             // The recording HUD, top-centre: the bottom belongs to the edit
             // panel and callout cards, and recording during an edit (marking
             // culverts along a walked line) is a supported combination.
-            if recorder.isActive, printFrame == nil {
+            if recorder.isActive || recorder.refusal != nil, printFrame == nil {
                 VStack {
                     TrackRecordingHUD(recorder: recorder) {
+                        // Read before the stop, which is what the sheet's
+                        // empty-result wording is about.
+                        let refused = recorder.stoppedWhileRefused
                         if let result = recorder.stop() {
-                            saveTrack = SaveTrackPayload(result: result)
+                            saveTrack = SaveTrackPayload(result: result, stoppedWhileRefused: refused)
                         }
                         // The live trace is drawn from the recorder, which
                         // just went idle.
@@ -472,6 +482,9 @@ struct MapContainerView: View {
                     .frame(maxWidth: 420)
                     .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { hudHeight = $0 }
                     .padding(.horizontal, 16)
+                    // Clear of the rail, as the cards are: on a phone the HUD
+                    // reached under Current Location and Mark My Location.
+                    .clearOfRail(controlsWidth)
                     .padding(.top, 60)
 
                     Spacer()
@@ -507,6 +520,7 @@ struct MapContainerView: View {
                         .frame(maxHeight: min(360, proxy.size.height * 0.45))
                         .padding(.horizontal, 12)
                         .padding(.bottom, 12 + attributionHeight)
+                        .clearOfRail(controlsWidth)
                         .coversMapBottom(.parcel, on: controller)
                     }
                 }
@@ -629,6 +643,7 @@ struct MapContainerView: View {
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .clearOfRail(controlsWidth)
                 .coversMapBottom(.editPanel, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
@@ -735,6 +750,7 @@ struct MapContainerView: View {
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .clearOfRail(controlsWidth)
                 .coversMapBottom(.measure, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: {
@@ -767,6 +783,7 @@ struct MapContainerView: View {
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .clearOfRail(controlsWidth)
                 .coversMapBottom(.vectorCallout, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
@@ -830,6 +847,7 @@ struct MapContainerView: View {
                 .frame(maxWidth: 420)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
+                .clearOfRail(controlsWidth)
                 .coversMapBottom(.featureCallout, on: controller)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
@@ -890,6 +908,13 @@ struct MapContainerView: View {
                 let mine = editLoadGeneration
                 Task {
                     guard let row = await userVectorsVM.newDrawingLayer() else {
+                        // Refused — a sealed library, a full disk. The layers
+                        // panel shows the refusal; VoiceOver hears it too,
+                        // since a Draw tap that did nothing reads as a
+                        // button that is broken.
+                        if let refusal = userVectorsVM.lastRefusal {
+                            AccessibilityNotification.Announcement(refusal.userMessage).post()
+                        }
                         return
                     }
                     guard mine == editLoadGeneration, editSession == nil else {
@@ -999,7 +1024,13 @@ struct MapContainerView: View {
 
                 Button {
                     controller.showsUserLocation = true
-                    recorder.start()
+                    // Said on every attempt, not on a value changing: the
+                    // second refused tap is a second answer. A first prompt's
+                    // answer arrives later, through the recorder's own
+                    // announcement.
+                    if let refusal = recorder.start() {
+                        AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
+                    }
                 } label: {
                     MapControlIcon(
                         systemName: recorder.isActive ? "record.circle.fill" : "record.circle",
@@ -1467,6 +1498,18 @@ struct MapContainerView: View {
             .onChange(of: controller.locationMessage) { _, message in
                 guard let message else { return }
                 AccessibilityNotification.Announcement(message.rawValue).post()
+            }
+            // The first prompt's answer, and a start granted from Settings:
+            // neither comes back through the button that asked.
+            .onChange(of: recorder.announcementGeneration) { _, _ in
+                switch recorder.announcement {
+                case .refused(let refusal)?:
+                    AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
+                case .started?:
+                    AccessibilityNotification.Announcement("Recording started").post()
+                case nil:
+                    break
+                }
             }
             .onChange(of: markLocation.outcome) { _, outcome in
                 guard let outcome else { return }
@@ -2740,6 +2783,7 @@ struct MapContainerView: View {
 private struct SaveTrackPayload: Identifiable {
     let id = UUID()
     let result: TrackRecording.StopResult
+    var stoppedWhileRefused = false
 }
 
 /// Photos the user picked for bulk EXIF placement, waiting on the confirm
@@ -3021,6 +3065,14 @@ private struct LocationButtonIcon: View {
 }
 
 private extension View {
+    /// Keeps a bottom card clear of the right-hand rail, as the layers panel
+    /// is kept: a card drawn under the rail's lower buttons covered Layers,
+    /// Save Area and More on a phone, exactly the controls a reader with a
+    /// parcel open wants next.
+    func clearOfRail(_ controlsWidth: CGFloat) -> some View {
+        padding(.trailing, controlsWidth + 12)
+    }
+
     /// Reports how much of the bottom of the map this card covers, so the
     /// location button centres the dot in the part of the map the reader can
     /// see. Applied outside the padding above the source strip, because the

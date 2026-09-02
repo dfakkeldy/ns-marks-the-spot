@@ -54,28 +54,91 @@ final class UserVectorsViewModel {
     /// The rows appear before their features do, for the same reason the raster
     /// panel's do: a user with a ten-thousand-feature layer should see it
     /// listed while it parses rather than face an empty panel.
+    /// True when there is a library on this device that this build could not
+    /// read, so nothing may be written over it. The file holds layers the
+    /// reader still has; every write is refused with words that name the
+    /// library rather than the disk, as `UserMapsViewModel` does for maps.
+    private(set) var isLibrarySealed = false
+    private(set) var sealedMessage: String?
+    /// Why, when it is: a newer build's document waits for that build; a
+    /// damaged one at this version can be set aside.
+    enum SealedReason: Equatable {
+        case laterVersion
+        /// The document decoded as no library: damaged, and can be set aside.
+        case unreadable
+        /// The file could not be read at all — permissions, I/O. Not proof
+        /// of damage, so nothing is offered to move aside; try again later.
+        case storageError
+    }
+    /// True while a damaged library is being moved aside.
+    private(set) var isSettingAside = false
+    private(set) var sealedReason: SealedReason?
+    /// Said once after a damaged library was set aside and a new one begun.
+    private(set) var recoveryNotice: String?
+
+    static let laterVersionMessage =
+        "Your drawn layers were saved by a newer version of this app and cannot be opened "
+        + "here. Nothing was deleted; update the app to see them. Until then, new layers, "
+        + "marks and recordings cannot be saved."
+    static let unreadableLibraryMessage =
+        "Your drawn layers' library could not be read on this device. Nothing was deleted, "
+        + "but until it is repaired new layers, marks and recordings cannot be saved."
+    static let storageErrorMessage =
+        "Your drawn layers couldn't be opened right now because of an error reading them. "
+        + "Nothing was deleted; try again later."
+
+    /// Counts library writes, so a load that was out while one landed does
+    /// not put the rows back the way they were before it.
+    @ObservationIgnored private var writeGeneration = 0
+
     func load() async {
+        let generation = writeGeneration
         let library: UserVectorLibrary
         do {
             library = try await store.load()
+            isLibrarySealed = false
+            sealedMessage = nil
         } catch {
             // A library this build cannot read is left exactly as it is. The
             // rows stay empty rather than being replaced by an empty library
-            // the next save would write over the user's layers.
+            // the next save would write over the user's layers — and the
+            // panel says so, instead of an empty list and "free some space"
+            // on every later write.
             rows = []
+            seal(after: error)
             return
         }
+        // A write landed while the library was being read: what was read is
+        // already old. Read again rather than roll the rows back over it.
+        if generation != writeGeneration {
+            return await load()
+        }
+        isLibrarySealed = false
+        sealedMessage = nil
+        sealedReason = nil
         let hidden = Set(library.hiddenLayerIDs)
         rows = library.layers.map {
             Row(record: $0, isVisible: !hidden.contains($0.id), parsed: nil)
         }
+        // A refusal the seal put up is over once the library has opened.
+        if let refusal = lastRefusal,
+           [Self.storageErrorMessage, Self.unreadableLibraryMessage, Self.laterVersionMessage]
+               .contains(refusal.userMessage)
+        {
+            lastRefusal = nil
+        }
         for record in library.layers {
+            let before = writeGeneration
             let parsed = try? await store.geometry(id: record.id)
             // Found again rather than remembered: the user can delete a layer,
             // or import another, while this loop is suspended reading a large
             // one, and an index taken before the await would then land on
             // somebody else's row.
             guard let index = rows.firstIndex(where: { $0.id == record.id }) else { continue }
+            // A write that landed while this row's geometry was being read
+            // has already put the newer copy on the row; the older one read
+            // here must not go back over it.
+            if before != writeGeneration, rows[index].parsed != nil { continue }
             rows[index].parsed = parsed
         }
     }
@@ -88,6 +151,14 @@ final class UserVectorsViewModel {
     /// one off.
     func importFile(data: Data, filename: String, now: Date = Date()) async {
         lastRefusal = nil
+        if isLibrarySealed {
+            // Nothing is parsed or written: the file would be kept as a
+            // session-only row and refused in the disk's words.
+            let message = sealedMessage ?? Self.unreadableLibraryMessage
+            report(message, for: filename)
+            lastRefusal = Self.storageRefusal(message)
+            return
+        }
         do {
             // Detached: parsing a large GeoJSON or shapefile archive is CPU
             // work that has no business on the main actor. Carried across the
@@ -118,12 +189,15 @@ final class UserVectorsViewModel {
                     // still needs its descriptors resolved (and counted as
                     // missing) and its viewer img appendix removed — silence
                     // here left them dangling.
-                    guard let opened = try? KmzParse.parseWithAssets(data)
+                    // One asset at a time through the source, never the whole
+                    // archive inflated: a phone's memory is the bound, and the
+                    // document was parsed once already by the import.
+                    guard let source = try? KmzParse.AssetSource(data: data)
                     else { return [:] }
                     var results: [Int: KmzRelink.Result] = [:]
                     for (index, parsed) in parsedLayers.enumerated() {
                         results[index] = KmzRelink.relink(
-                            parsed: parsed, assets: opened.assets
+                            parsed: parsed, assets: { source.read(named: $0) }
                         ) { bytes in
                             let processed = try PhotoPipeline.process(bytes)
                             return KmzRelink.ProcessedPhoto(
@@ -136,6 +210,14 @@ final class UserVectorsViewModel {
                     }
                     return results
                 }.value
+            }
+            // Sealed while the file was being parsed — the initial load landed
+            // on a newer library meanwhile: refused now, in its words.
+            if isLibrarySealed {
+                let message = sealedMessage ?? Self.unreadableLibraryMessage
+                report(message, for: filename)
+                lastRefusal = Self.storageRefusal(message)
+                return
             }
             // One id for the file, shared by every layer it holds: a zipped
             // shapefile archive can carry several, and the archive is one file.
@@ -156,6 +238,7 @@ final class UserVectorsViewModel {
                 )
                 var isStored = true
                 do {
+                    writeGeneration += 1
                     _ = try await store.add(record, geometry: parsed, original: data)
                     if let relink {
                         // A photo whose bytes could not be written is a
@@ -165,6 +248,7 @@ final class UserVectorsViewModel {
                         var unstored = 0
                         for photo in relink.photos {
                             do {
+                                writeGeneration += 1
                                 try await store.addPhoto(
                                     layerID: record.id,
                                     photoID: photo.id,
@@ -192,6 +276,17 @@ final class UserVectorsViewModel {
                         }
                     }
                 } catch {
+                    if Self.isLibraryRefusal(error) {
+                        // Not the disk: the library itself refused, because a
+                        // newer build wrote it or it cannot be read. Sealed
+                        // now, said in the library's words, and nothing of
+                        // this file is kept as a session-only row that would
+                        // vanish with the app.
+                        seal(after: error)
+                        let message = sealedMessage ?? Self.unreadableLibraryMessage
+                        report(message, for: filename)
+                        return
+                    }
                     isStored = false
                     // The browser's promise, kept here: a device that cannot
                     // keep a layer never takes it away from the reader who just
@@ -309,6 +404,10 @@ final class UserVectorsViewModel {
     /// the row so the caller can open the editor on it.
     @discardableResult
     func newDrawingLayer(name: String = "My drawing", now: Date = Date()) async -> Row? {
+        guard !isLibrarySealed else {
+            refuse("")
+            return nil
+        }
         let record = UserVectorLayerRecord(
             id: UUID().uuidString,
             name: name,
@@ -321,10 +420,12 @@ final class UserVectorsViewModel {
         )
         let empty = ParsedVector(features: [], bbox: nil)
         do {
+            writeGeneration += 1
             _ = try await store.add(record, geometry: empty)
         } catch {
-            lastRefusal = Self.storageRefusal(
-                "This layer could not be saved to your device. Free some space and try again."
+            refuse(
+                "This layer could not be saved to your device. Free some space and try again.",
+                after: error
             )
             return nil
         }
@@ -344,6 +445,7 @@ final class UserVectorsViewModel {
 
     func addPhotoFile(layerID: String, photoID: String, full: Data, thumb: Data) async -> Bool {
         do {
+            writeGeneration += 1
             try await store.addPhoto(layerID: layerID, photoID: photoID, full: full, thumb: thumb)
             return true
         } catch {
@@ -362,6 +464,7 @@ final class UserVectorsViewModel {
     }
 
     func deletePhotoFile(layerID: String, photoID: String) async {
+        writeGeneration += 1
         await store.deletePhoto(layerID: layerID, photoID: photoID)
     }
 
@@ -395,7 +498,7 @@ final class UserVectorsViewModel {
             // into "Edit does nothing" and "the mark was not saved", and a
             // read that failed silently reads as a device that lost the
             // layer. The words name the actual failure.
-            lastRefusal = Self.storageRefusal(
+            refuse(
                 "This layer's stored features could not be read on this device."
             )
             return nil
@@ -449,10 +552,12 @@ final class UserVectorsViewModel {
             originalFileID: UUID().uuidString
         )
         do {
+            writeGeneration += 1
             _ = try await store.add(record, geometry: parsed, original: Data(rawGpx.utf8))
         } catch {
-            lastRefusal = Self.storageRefusal(
-                "This track could not be saved to your device. Free some space and try again."
+            refuse(
+                "This track could not be saved to your device. Free some space and try again.",
+                after: error
             )
             return nil
         }
@@ -525,15 +630,18 @@ final class UserVectorsViewModel {
             bbox: parsed.bbox
         )
         do {
+            writeGeneration += 1
             _ = try await store.add(record, geometry: parsed)
         } catch {
-            lastRefusal = Self.storageRefusal(
-                "These points could not be saved to your device. Free some space and try again."
+            refuse(
+                "These points could not be saved to your device. Free some space and try again.",
+                after: error
             )
             return nil
         }
         for item in stored {
             do {
+                writeGeneration += 1
                 try await store.addPhoto(
                     layerID: record.id,
                     photoID: item.id,
@@ -568,6 +676,7 @@ final class UserVectorsViewModel {
             guard !Task.isCancelled,
                   let latest = self?.rows.first(where: { $0.id == id })?.isVisible
             else { return }
+            self?.writeGeneration += 1
             _ = try? await store.setVisible(latest, id: id)
         }
     }
@@ -581,6 +690,7 @@ final class UserVectorsViewModel {
         visibilityWrites[id]?.cancel()
         visibilityWrites[id] = nil
         do {
+            writeGeneration += 1
             _ = try await store.setVisible(true, id: id)
             // Shown only once the library has it: a row switched on over a
             // failed write would be hidden again at the next launch, and the
@@ -589,7 +699,7 @@ final class UserVectorsViewModel {
                 // Deleted while the switch was being written: there is no
                 // layer to have been shown, whatever the library now says,
                 // and a success toast over it would be about nothing.
-                lastRefusal = Self.storageRefusal(
+                refuse(
                     "The layer was deleted while it was being switched on."
                 )
                 return false
@@ -602,8 +712,9 @@ final class UserVectorsViewModel {
             )
             return false
         } catch {
-            lastRefusal = Self.storageRefusal(
-                "The layer could not be switched on. It is still in your list; turn it on from Layers."
+            refuse(
+                "The layer could not be switched on. It is still in your list; turn it on from Layers.",
+                after: error
             )
             return false
         }
@@ -616,10 +727,12 @@ final class UserVectorsViewModel {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, rows.contains(where: { $0.id == id }) else { return false }
         do {
+            writeGeneration += 1
             _ = try await store.rename(id: id, to: trimmed)
         } catch {
-            lastRefusal = Self.storageRefusal(
-                "This name could not be saved to your device. Free some space and try again."
+            refuse(
+                "This name could not be saved to your device. Free some space and try again.",
+                after: error
             )
             return false
         }
@@ -640,10 +753,12 @@ final class UserVectorsViewModel {
     ) async -> Bool {
         let library: UserVectorLibrary
         do {
+            writeGeneration += 1
             library = try await store.replaceGeometry(id: id, with: parsed, now: now)
         } catch {
-            lastRefusal = Self.storageRefusal(
-                "This edit could not be saved to your device. Free some space and try again."
+            refuse(
+                "This edit could not be saved to your device. Free some space and try again.",
+                after: error
             )
             return false
         }
@@ -666,6 +781,7 @@ final class UserVectorsViewModel {
     /// map the first time the user deleted anything at all.
     func delete(id: String) async {
         let sessionOnly = rows.first { $0.id == id }?.isStored == false
+        writeGeneration += 1
         guard let library = try? await store.delete(id: id) else {
             // Nothing on disk to refuse it: a layer that is only in memory is
             // deleted by forgetting it.
@@ -773,6 +889,83 @@ final class UserVectorsViewModel {
             photos: photos,
             memberFeatureIDs: featureIDs.sorted()
         )
+    }
+
+    /// A write that did not land, in the library's words when the library
+    /// is sealed: a full disk was never the problem then.
+    private func refuse(_ message: String, after error: (any Error)? = nil) {
+        // A new failure outranks the notice that a library was set aside.
+        recoveryNotice = nil
+        // A refusal that is the library's, not the disk's, seals it now
+        // rather than on the next launch: every later write then says why.
+        if let error, Self.isLibraryRefusal(error) {
+            seal(after: error)
+        }
+        lastRefusal = Self.storageRefusal(
+            isLibrarySealed ? (sealedMessage ?? Self.unreadableLibraryMessage) : message
+        )
+    }
+
+    private static func isLibraryRefusal(_ error: any Error) -> Bool {
+        guard let refusal = error as? UserVectorStore.StoreRefusal else { return false }
+        switch refusal {
+        case .fromALaterVersion, .unreadable: return true
+        default: return false
+        }
+    }
+
+    private func seal(after error: any Error) {
+        isLibrarySealed = true
+        recoveryNotice = nil
+        switch error as? UserVectorStore.StoreRefusal {
+        case .fromALaterVersion?:
+            sealedReason = .laterVersion
+            sealedMessage = Self.laterVersionMessage
+        case .unreadable?:
+            sealedReason = .unreadable
+            sealedMessage = Self.unreadableLibraryMessage
+        default:
+            // A raw read failure is not evidence of damage; nothing is
+            // offered to move aside on its strength.
+            sealedReason = .storageError
+            sealedMessage = Self.storageErrorMessage
+        }
+        lastRefusal = Self.storageRefusal(sealedMessage ?? Self.unreadableLibraryMessage)
+    }
+
+    /// Moves a damaged library aside and starts a new one. Only for a
+    /// document damaged at this build's own version; a newer build's is left
+    /// for that build. Nothing is deleted.
+    @discardableResult
+    func setAsideDamagedLibrary() async -> Bool {
+        guard sealedReason == .unreadable, !isSettingAside else { return false }
+        isSettingAside = true
+        defer { isSettingAside = false }
+        let recovered: Bool
+        do {
+            writeGeneration += 1
+            recovered = try await store.setAsideDamagedLibrary()
+        } catch {
+            recovered = false
+        }
+        guard recovered else {
+            // Said, not swallowed: the reader tapped a button that did
+            // nothing otherwise.
+            lastRefusal = Self.storageRefusal(
+                "The library couldn't be set aside. Nothing was changed; try again later."
+            )
+            return false
+        }
+        isLibrarySealed = false
+        sealedMessage = nil
+        sealedReason = nil
+        lastRefusal = nil
+        rows = []
+        recoveryNotice =
+            "Your drawn layers could not be read, so they were set aside and a new library "
+            + "started. Nothing was deleted."
+        await load()
+        return true
     }
 
     private static func storageRefusal(_ message: String) -> UserMapImportRefusal {

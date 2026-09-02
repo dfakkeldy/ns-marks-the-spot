@@ -1356,6 +1356,98 @@ struct UserVectorEditingTests {
         }
     }
 
+    // MARK: - A library this build cannot read
+
+    /// A library written by a newer build is left alone and named: the panel
+    /// says why the list is empty, and a write is refused in the library's
+    /// words rather than "free some space".
+    @Test("A newer-version library is sealed and says so")
+    func aNewerVersionLibraryIsSealedAndSaysSo() async throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        try Data(#"{"version": 999, "layers": []}"#.utf8)
+            .write(to: root.appendingPathComponent("library.json"))
+        let viewModel = UserVectorsViewModel(store: UserVectorStore(directory: root))
+
+        await viewModel.load()
+
+        #expect(viewModel.isLibrarySealed)
+        #expect(viewModel.sealedMessage?.contains("newer version") == true)
+        #expect(viewModel.rows.isEmpty)
+
+        let row = await viewModel.newDrawingLayer()
+        #expect(row == nil)
+        #expect(viewModel.lastRefusal?.userMessage.contains("newer version") == true)
+        #expect(viewModel.lastRefusal?.userMessage.contains("space") == false)
+        #expect(viewModel.sealedReason == .laterVersion)
+
+        // An import is refused in the same words, and nothing is written.
+        await viewModel.importFile(data: Self.geoJson(), filename: "lots.geojson")
+        #expect(viewModel.lastRefusal?.userMessage.contains("newer version") == true)
+        #expect(viewModel.importNotices.last?.message.contains("newer version") == true)
+        #expect(viewModel.rows.isEmpty)
+        // Not a newer build's document to set aside.
+        #expect(await viewModel.setAsideDamagedLibrary() == false)
+
+        // And the directory holds exactly what it did: the library, alone.
+        let contents = try FileManager.default.contentsOfDirectory(atPath: root.path)
+        #expect(contents == ["library.json"])
+        let kept = try String(contentsOf: root.appendingPathComponent("library.json"), encoding: .utf8)
+        #expect(kept.contains("999"))
+    }
+
+    /// An import that arrives before the library has been read: the store's
+    /// refusal seals the library on the spot, in its words, and nothing of the
+    /// file is kept as a session-only row.
+    @Test("An import racing the first load is refused in the library's words")
+    func anImportRacingTheFirstLoadIsRefusedInTheLibrarysWords() async throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        try Data(#"{"version": 999, "layers": []}"#.utf8)
+            .write(to: root.appendingPathComponent("library.json"))
+        let viewModel = UserVectorsViewModel(store: UserVectorStore(directory: root))
+        #expect(!viewModel.isLibrarySealed)
+
+        await viewModel.importFile(data: Self.geoJson(), filename: "lots.geojson")
+
+        #expect(viewModel.isLibrarySealed)
+        #expect(viewModel.sealedReason == .laterVersion)
+        #expect(viewModel.rows.isEmpty)
+        #expect(viewModel.importNotices.last?.message.contains("newer version") == true)
+        #expect(viewModel.importNotices.last?.message.contains("space") == false)
+        #expect(try FileManager.default.contentsOfDirectory(atPath: root.path) == ["library.json"])
+    }
+
+    /// A library damaged at this build's own version can be set aside — moved,
+    /// never deleted — and a new one begun.
+    @Test("A damaged library can be set aside and a new one started")
+    func aDamagedLibraryCanBeSetAside() async throws {
+        let parent = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let root = parent.appendingPathComponent("UserVectors", isDirectory: true)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: parent) }
+        try Data(#"{"version":3,"layers":[}"#.utf8).write(to: root.appendingPathComponent("library.json"))
+        let viewModel = UserVectorsViewModel(store: UserVectorStore(directory: root))
+
+        await viewModel.load()
+        #expect(viewModel.isLibrarySealed)
+        #expect(viewModel.sealedReason == .unreadable)
+
+        #expect(await viewModel.setAsideDamagedLibrary())
+
+        #expect(!viewModel.isLibrarySealed)
+        #expect(viewModel.recoveryNotice?.contains("Nothing was deleted") == true)
+        let setAside = parent.appendingPathComponent("UserVectors-damaged", isDirectory: true)
+        #expect(FileManager.default.fileExists(atPath: setAside.appendingPathComponent("library.json").path))
+        // And the new library takes a layer.
+        #expect(await viewModel.newDrawingLayer() != nil)
+    }
+
     // MARK: - Fixtures
 
     private func withViewModel(

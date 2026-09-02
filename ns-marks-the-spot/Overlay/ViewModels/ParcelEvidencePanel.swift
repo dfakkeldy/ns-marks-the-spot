@@ -430,7 +430,13 @@ final class ParcelEvidencePanel {
             inspection?.assessments = .unavailable(
                 ParcelLookupMessage.assessmentEvidenceFailure(failure)
             )
-            inspection?.dwellings = .unavailable(ParcelLookupMessage.dwellingsNotLookedUp)
+            // Never asked, for the same reason the assessment was not: no
+            // usable boundary is not an outage, and is not exported as one.
+            inspection?.dwellings = .unavailable(
+                failure == .refused(.noBoundary)
+                    ? ParcelLookupMessage.noBoundaryToAskWith
+                    : ParcelLookupMessage.dwellingsNotLookedUp
+            )
         case .dwellings(.success(let result)):
             inspection?.dwellings = .ready(result)
         case .dwellings(.failure(let failure)):

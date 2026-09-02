@@ -11,6 +11,25 @@ import Testing
 @MainActor
 @Suite("Sharing a view and exporting a parcel's evidence")
 struct MapShareAndEvidenceTests {
+    /// The screen says a source was never asked; the exported note must say
+    /// the same, not "unavailable at export time".
+    @Test func aNeverAskedPvscSourceExportsAsNeverAsked() throws {
+        let inspection = Self.inspection(
+            assessments: .unavailable(ParcelLookupMessage.noBoundaryToAskWith),
+            dwellings: .unavailable(ParcelLookupMessage.noParcelRecordToAskWith)
+        )
+        let note = Self.note(inspection).markdown
+        let sentence =
+            "Not evaluated — this PID's NSPRD geometry is unavailable, and no municipal "
+            + "notice supplied an AAN."
+        let assessmentStart = try #require(note.range(of: "## PVSC assessment accounts"))
+        let dwellingStart = try #require(note.range(of: "## PVSC residential dwelling records"))
+        #expect(note[assessmentStart.upperBound..<dwellingStart.lowerBound].contains(sentence))
+        #expect(note[dwellingStart.upperBound...].contains(sentence))
+        #expect(!note.contains("PVSC assessment source unavailable at export time."))
+        #expect(!note.contains("PVSC residential dwelling source unavailable at export time."))
+    }
+
     private static func inspection(
         pid: String = "15234636",
         notice: TaxSaleNoticeContext? = nil,

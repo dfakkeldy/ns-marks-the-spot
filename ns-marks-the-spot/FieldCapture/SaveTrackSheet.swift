@@ -11,6 +11,9 @@ struct SaveTrackSheet: View {
     /// failed write — it holds the only copy of the walk — so the failure
     /// has to be said here, where Save and Discard still work.
     var saveError: String?
+    /// Location was refused during the recording, so no fix could arrive:
+    /// an empty result is that, not weak GPS.
+    var stoppedWhileRefused = false
     var onSave: (_ name: String, _ simplifyToleranceM: Double) -> Void
     var onDiscard: () -> Void
 
@@ -20,11 +23,13 @@ struct SaveTrackSheet: View {
     init(
         result: TrackRecording.StopResult,
         saveError: String? = nil,
+        stoppedWhileRefused: Bool = false,
         onSave: @escaping (_ name: String, _ simplifyToleranceM: Double) -> Void,
         onDiscard: @escaping () -> Void
     ) {
         self.result = result
         self.saveError = saveError
+        self.stoppedWhileRefused = stoppedWhileRefused
         self.onSave = onSave
         self.onDiscard = onDiscard
         _name = State(initialValue: TrackFeature.defaultTrackName(startedAt: result.startedAt))
@@ -61,9 +66,13 @@ struct SaveTrackSheet: View {
                 if isEmpty {
                     Section {
                         Text(
-                            "No usable track was recorded. Every fix was filtered "
-                                + "out — usually weak GPS. The recording can only "
-                                + "be discarded."
+                            stoppedWhileRefused
+                                ? "No usable track was recorded. Location was refused during "
+                                    + "the recording, so no fixes could arrive. The recording can "
+                                    + "only be discarded."
+                                : "No usable track was recorded. Every fix was filtered "
+                                    + "out — usually weak GPS. The recording can only "
+                                    + "be discarded."
                         )
                         .font(.callout)
                     }

@@ -302,6 +302,12 @@ nonisolated enum ParcelEvidenceExport {
         // would print a source that failed, which is an answer this one has
         // not given.
         case .looking: return .stillOut
+        // A PID with no NSPRD record or no rings was never asked about: the
+        // panel says so, and the note must not print an outage instead.
+        case .unavailable(let reason)
+            where reason == ParcelLookupMessage.noParcelRecordToAskWith
+                || reason == ParcelLookupMessage.noBoundaryToAskWith:
+            return .geometryUnavailable
         case .unavailable: return .error
         }
     }
@@ -316,10 +322,16 @@ nonisolated enum ParcelEvidenceExport {
         switch inspection.dwellings {
         case .ready(let result):
             return .ready(result)
-        case .unavailable(let reason)
-            where reason == ParcelLookupMessage.noAccountToAskDwellingsWith
-                || reason == ParcelLookupMessage.dwellingsNotLookedUp:
+        case .unavailable(let reason) where reason == ParcelLookupMessage.noAccountToAskDwellingsWith:
             return .blocked
+        case .unavailable(let reason) where reason == ParcelLookupMessage.dwellingsNotLookedUp:
+            // The account lookup failed, so this one was never made: told as
+            // the outage it is, not as an account that could not be found.
+            return .upstreamUnavailable
+        case .unavailable(let reason)
+            where reason == ParcelLookupMessage.noParcelRecordToAskWith
+                || reason == ParcelLookupMessage.noBoundaryToAskWith:
+            return .geometryUnavailable
         case .unavailable:
             return .error
         case .looking:

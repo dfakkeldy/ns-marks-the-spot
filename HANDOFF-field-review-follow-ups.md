@@ -164,3 +164,104 @@ views via `longPressMayBegin`) → `.mapLongPressed` → `handleEditTap`;
 `PlacementReticleTests`; provenance test for reticle-placed points.
 Next: build+test E (PlacementReticleTests, UserVectorEditingTests,
 MapControllerTests), Codex E, then open PRs A–E.
+
+## 2026-09-02 10:50 — Codex rounds addressed on A–D, E rebased, F applied; nothing rebuilt yet
+
+Done: A r4 (Precise-Location-off message, stale-fix deadline leaves the map,
+camera taken by search/link/frame, rotated keep-zoom, follow-time failures,
+refusals persist with Dismiss), B r4 (Done drains photo attachments,
+per-vertex snap provenance, lines may revisit corners, stale parcel catches
+guarded, drafts settle only on .background, mark refused while ending,
+Finish 44 pt, traced note in panel), C r3 (altitude and photo capture date
+kept on move, moves refused while ending, exact snap-back records the trace,
+handle reinstall, move outcomes announced), D r2 (PhotoKit id folding,
+per-layer clusters + merged stored-layer card, scope-aware index with
+downgrade clear, continuation owned by the request, MultiPoint diff guard,
+restricted/unavailable access, album-only changes, notices yield, copy),
+F on `feature/ios-field-review-highs` (§3.1 recorder refusals at start,
+§3.2 sealed library, §7.1 never-asked PVSC evidence, §6.2 cards clear of the
+rail and rail at 16 pt, §7.2 KMZ inflation caps).
+Stack: A 67c97f5b1 → B f9a8e8dfe → C 4fb6c5646 → D 7e8d31714 → E c096804b0 → F.
+Next: `queue.sh` in the scratchpad runs each branch's suites through the
+slot (logs/queue-*.log); fix failures; `swift test` for NSMarksCore on F;
+Codex rounds A r5, B r5, C r4, D r2, E r1, F r1 (round.sh now passes
+`-c mcp_servers={}` so Codex no longer holds the build slot); then open PRs
+A→nightly, B→A, C→B, D→C, E→D, F→E with `open-prs.sh`.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+git checkout feature/ios-field-review-highs
+# read scratchpad logs/queue-*.log; fix red suites on the owning branch and
+# rebase the branches above it; then Codex rounds, then open-prs.sh A..F
+```
+
+## 2026-09-02 11:46 — Whole stack green on its final commits; one more Codex round running
+
+Done: two more review rounds folded in (A r5, B r5, C r4, D r2, E r1, F r1:
+camera ownership for the automatic parcel fit, signal-recovery caveats,
+session operations drained by Done, GPS-mark predicate, scope-tagged photo
+index, reticle margins and snap preview, KMZ referenced-only inflation,
+sealed-library gating and set-aside). Per-branch suites pass through the
+slot: A 67/3, B 50/4, C 49/4, D 74/4, E 58/3, F 153/5; `swift test`
+NSMarksCore 24/2 + 35/6. PR bodies drafted in the scratchpad `pr/` with
+every round's disposition table (`RESULT_ROUND_FINAL` awaits this round).
+Stack: A a6368badd → B 5a40ee299 → C f3768a2e3 → D 392c7dbd6 → E 6d5a7f229 → F (this commit).
+Next: read `codex/out-{A-r6,B-r6,C-r5,D-r3,E-r2,F-r2}-*.md`; fix only Highs
+that hold (then rerun the owning branch's suites and rebase above), fill
+`RESULT_ROUND_FINAL`, then `open-prs.sh A B C D E F` (bases: nightly, A, B,
+C, D, E). Web clusters G/H/I follow.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+git checkout feature/ios-field-review-highs
+# triage the latest Codex verdicts in the scratchpad, then open-prs.sh A..F
+```
+
+## 2026-09-02 12:35 — Second full review pass folded in; whole stack green; final Codex round running
+
+Done: A r6, B r6, C r5, D r3, E r2, F r2 addressed (camera-claim generation,
+refusal reclassification, suspension drains, shared GPS predicate and the
+contract-true `nsmts:traced` retention, scope-tagged photo index with
+synchronous persistence, reticle candidate committed as shown, streaming KMZ
+assets with archive caps, refused recording is not a recording). Per-branch
+suites through the slot: A 70/3, B 51/4, C 50/4, D 77/4, E 61/3, F 161/5;
+`swift test` 24/2 + 38/6. Stack: A b96470aec → B 46841083c → C 1d7c4b37b →
+D 509f17387 → E a6a3b2881 → F (this commit).
+Next: triage `codex/out-{A-r7,B-r7,C-r6,D-r4,E-r3,F-r3}-*.md` (fix only Highs
+that hold), fill `RESULT_ROUND_FINAL` in the six bodies, then
+`open-all.sh` (pushes and opens A→nightly, B→A, C→B, D→C, E→D, F→E and
+rewrites the #PR_X placeholders). Web clusters G/H/I follow.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+git checkout feature/ios-field-review-highs
+# triage the latest Codex verdicts in the scratchpad, then open-all.sh
+```
+
+## 2026-09-02 — Ten review rounds landed, stack rebased on nightly, PRs opened
+Done: applied Codex rounds through A r10, B r10, C r8, D r6, E r5, F r5 plus a
+three-agent triage pass over the last verdicts (`apply_pr*.py` in the
+scratchpad). Rebased the stack onto origin/nightly df7763dd5. Suites through the
+build slot: A 77/3, B 58/4, C 56/4, D 89/4, E 69/3, F 179/5; `swift test`
+NSMarksCore 25/2 + 42/6. Stack: A 45c85f7a7 -> B f05646032 -> C 10cd9771f ->
+D 132a7d33f -> E a74fca0f2 -> F (this commit). PRs #295-#300, A to nightly.
+CI's first run found two things the focused suites could not: unit tests asking
+CoreLocation for permission left a system alert that hung the UI suite
+(`MapController.isRunningUnitTests` now suppresses it in a test host only), and
+`UIColor(featureHex:)` had lost bare-hex parsing. The full bundle — 859 unit
+tests in 82 suites plus the UI suite — now passes on the tip against a freshly
+installed app. Everything raised is fixed,
+refuted with a citation, or deferred in the PR bodies to PR K (iOS HIG and
+concurrency mediums), PR L (performance) or PR G/H (web).
+Next: PR G (web mark/locate parity, section 2.3 and 2.9) from origin/nightly:
+keep the zoom on the first fix, gate flyTo on reduced motion, classify one-shot
+geolocation errors, apply the age and accuracy gate to the one-shot, stamp
+nsmts:capturedAt from position.timestamp, surface the storage failure, and keep
+the layer's own points out of the Geoman snap targets while Marker is armed.
+Then H, I, J.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+git fetch origin && git checkout -b feature/web-mark-locate-parity origin/nightly
+# PR G: web/src/components/MapCanvas.tsx ~1913-1984, web/src/location/browserLocation.ts, web/src/App.tsx:1517-1550
+```
