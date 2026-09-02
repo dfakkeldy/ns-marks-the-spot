@@ -41,11 +41,14 @@ const mapMock = vi.hoisted(() => ({
     getSouth: () => number;
     getEast: () => number;
     getNorth: () => number;
+    contains?: (point: [number, number]) => boolean;
   } => ({
     getWest: () => -62,
     getSouth: () => 45,
     getEast: () => -60,
     getNorth: () => 47,
+    // The province-wide default holds every fix these tests push.
+    contains: () => true,
   })),
   getZoom: vi.fn(() => 9),
   getContainer: vi.fn(() => document.body),
@@ -373,6 +376,7 @@ afterEach(() => {
     getSouth: () => 45,
     getEast: () => -60,
     getNorth: () => 47,
+    contains: () => true,
   });
   mapContainerProps.current = undefined;
   geoJsonProps.calls.length = 0;
@@ -574,11 +578,18 @@ describe("MapCanvas browser location", () => {
     await user.click(screen.getByRole("button", { name: "Use my location" }));
     const fix = liveFix();
     pushLiveSnapshot({ status: "active", fix });
-    pushLiveSnapshot({ status: "signal-lost", fix });
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "timeout" });
 
     expect(screen.getByTestId("location-position")).toBeInTheDocument();
+    // Never "GPS": the browser names no source. And a device still trying is
+    // told apart from one that cannot place itself.
     expect(
-      screen.getByText("GPS signal lost — still trying."),
+      screen.getByText("Your location is taking longer than expected — still trying."),
+    ).toBeInTheDocument();
+
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "unavailable" });
+    expect(
+      screen.getByText("Your location is unavailable right now — still trying."),
     ).toBeInTheDocument();
   });
 
@@ -684,6 +695,58 @@ describe("MapCanvas browser location", () => {
     expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91], {
       animate: true,
     });
+  });
+
+  it("flies to a fix outside the view rather than panning across the province", async () => {
+    const user = userEvent.setup();
+    // Reading a parcel in Yarmouth with the device in Cape Breton: Leaflet
+    // will not fetch the tiles between, so a pan is the wrong move.
+    mapMock.getZoom.mockReturnValue(18);
+    mapMock.getBounds.mockReturnValue({
+      getWest: () => -66.2,
+      getSouth: () => 43.8,
+      getEast: () => -66.1,
+      getNorth: () => 43.9,
+      contains: () => false,
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+
+    // And the closer zoom is still the reader's.
+    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 18, {
+      animate: true,
+    });
+    expect(mapMock.panTo).not.toHaveBeenCalled();
   });
 
   it("arrives without animating when the reader asked for less motion", async () => {

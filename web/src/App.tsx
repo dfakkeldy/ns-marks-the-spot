@@ -1553,7 +1553,10 @@ export function App() {
           type: "FeatureCollection",
           features: [...vectorEdit.editingLayer.data.features, feature],
         });
-        return `Point saved to ${vectorEdit.editingLayer.record.name} (±${accuracy} m).`;
+        // "Added", not "saved": the edit session writes on its own debounce,
+        // so the point is on the map and its write has not answered yet. The
+        // panel carries the storage error if that write fails.
+        return `Point added to ${vectorEdit.editingLayer.record.name} (±${accuracy} m).`;
       }
       const layerId = await userVectorApi.ensureFieldNotesLayer();
       const appended = await userVectorApi.appendFeatures(layerId, [feature]);

@@ -89,13 +89,27 @@ export function buildFeaturePopup(
   // no source, and the same call answers from a satellite fix, a Wi-Fi
   // lookup or an IP estimate. Naming the sensor would be a claim the
   // browser never made.
+  //
+  // A radius must be a radius and a capture time must name a moment: an
+  // imported file may carry `-1` or `"unknown"` under these keys, and a line
+  // reading "±? m" would be this app asserting a claim the data cannot make.
   const capturedAt = asText(props["nsmts:capturedAt"]);
   const accuracy = props["nsmts:accuracyM"];
-  if (capturedAt && typeof accuracy === "number" && Number.isFinite(accuracy)) {
+  const claimsAFix =
+    capturedAt !== null &&
+    !Number.isNaN(Date.parse(capturedAt)) &&
+    typeof accuracy === "number" &&
+    Number.isFinite(accuracy) &&
+    accuracy >= 0;
+  if (claimsAFix) {
     root.append(
       textLine(
         "user-vector-popup-gps",
-        `Marked from this device's location (±${formatAccuracyM(accuracy)} m)`,
+        // "This device" only for a layer made here. An imported file's mark
+        // was somebody else's device, and this app cannot say whose.
+        record.origin.kind === "imported"
+          ? `Marked from a device's location (±${formatAccuracyM(accuracy)} m)`
+          : `Marked from this device's location (±${formatAccuracyM(accuracy)} m)`,
       ),
     );
   }

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { withoutMovedCaptureProvenance } from "./captureProvenance";
 import type { Feature, FeatureCollection } from "geojson";
 import { UserMapImportError } from "../../errors";
 import {
@@ -64,7 +65,7 @@ type Options = {
   putVectorLayer: (
     record: UserVectorLayerRecord,
     collection: FeatureCollection,
-  ) => Promise<void>;
+  ) => Promise<boolean | void>;
   onLayerChanged: (
     record: UserVectorLayerRecord,
     collection: FeatureCollection,
@@ -174,6 +175,10 @@ export function useVectorEditSession({
     ) => {
       undoConversionRef.current = null;
       setLastConversion(null);
+      // A point a hand has moved is no longer where its fix was: the capture
+      // time, the accuracy and the fix's altitude come off it here, on the
+      // one path every geometry write goes through.
+      nextCollection = withoutMovedCaptureProvenance(draftData, nextCollection);
       const summary = summarize(nextCollection);
       const advanced: UserVectorLayerRecord = {
         ...nextRecord,
@@ -186,7 +191,7 @@ export function useVectorEditSession({
       changedRef.current(advanced, nextCollection);
       schedulePersist(advanced, nextCollection);
     },
-    [schedulePersist],
+    [draftData, schedulePersist],
   );
 
   const beginEdit = useCallback((id: string) => {

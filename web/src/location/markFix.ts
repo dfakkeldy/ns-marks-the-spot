@@ -120,18 +120,24 @@ export function oneShotMarkFix(
       message: "The only location available was too old to save. Try again outdoors.",
     };
   }
-  return {
-    kind: "fix",
-    fix: {
-      latitude: location.latitude,
-      longitude: location.longitude,
-      accuracyM: accuracy,
-      altitudeM: location.altitude,
-      headingDeg: null,
-      speedMps: null,
-      // The position's own moment: `nsmts:capturedAt` says when the device
-      // fixed it, not when this handler read it.
-      timestampMs: location.timestampMs,
-    },
+  const fix: LiveFix = {
+    latitude: location.latitude,
+    longitude: location.longitude,
+    accuracyM: accuracy,
+    altitudeM: location.altitude,
+    headingDeg: null,
+    speedMps: null,
+    // The position's own moment: `nsmts:capturedAt` says when the device
+    // fixed it, not when this handler read it.
+    timestampMs: location.timestampMs,
   };
+  // The same rule the watch fix is held to, coordinates included: a pair of
+  // numbers off the globe is not a position, whatever its accuracy says.
+  if (!isUsableMarkFix(fix, nowMs)) {
+    return {
+      kind: "refused",
+      message: "Your location couldn't be found. Try again outdoors.",
+    };
+  }
+  return { kind: "fix", fix };
 }

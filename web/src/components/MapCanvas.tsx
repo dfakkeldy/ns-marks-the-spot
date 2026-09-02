@@ -1939,6 +1939,10 @@ export function MapCanvas({
 
   // Watch-status messages. Denial and a missing API are final for this
   // toggle-on, so the button resets; signal loss keeps the (dimmed) marker.
+  // The transient reason is a dependency of its own: a watch that goes from
+  // "still trying" to "cannot place you" stays `signal-lost` throughout, and
+  // the sentence has to follow the change the status does not show.
+  const lostReason = live.status === "signal-lost" ? live.reason : null;
   useEffect(() => {
     if (!locationOn) {
       return;
@@ -1947,7 +1951,14 @@ export function MapCanvas({
       hadFirstFixRef.current = true;
       setLocationMessage(LOCATION_SUCCESS_MESSAGE);
     } else if (live.status === "signal-lost") {
-      setLocationMessage("GPS signal lost — still trying.");
+      // Not "GPS": the browser answers from a satellite fix, a Wi-Fi lookup
+      // or an IP estimate and never says which. And a device still trying is
+      // not a device that cannot place itself.
+      setLocationMessage(
+        lostReason === "timeout"
+          ? "Your location is taking longer than expected — still trying."
+          : "Your location is unavailable right now — still trying.",
+      );
     } else if (live.status === "denied") {
       setLocationOn(false);
       setFollowOn(false);
@@ -1961,7 +1972,7 @@ export function MapCanvas({
       setFollowOn(false);
       setLocationMessage("Location is not available in this browser.");
     }
-  }, [live.status, locationOn]);
+  }, [live.status, lostReason, locationOn]);
 
   // Dragging the map is how the user says "stop following me around".
   useEffect(() => {
@@ -2001,12 +2012,16 @@ export function MapCanvas({
       // sub-pixel and the lot they were reading is gone. The fixed zoom is
       // for the case it was written for — a view further out than the
       // locate scale — and closer in the map only pans.
-      if (map.getZoom() >= LOCATE_MIN_ZOOM) {
-        map.panTo([live.fix.latitude, live.fix.longitude], { animate });
+      const target: [number, number] = [live.fix.latitude, live.fix.longitude];
+      // Only a fix already on screen is panned to. Leaflet declines to
+      // animate a pan longer than the viewport for good reason — the tiles
+      // between are never fetched — and a parcel in Yarmouth with the reader
+      // in Cape Breton is exactly that. Out of view, the map flies, keeping
+      // the closer zoom when there is one.
+      if (map.getZoom() >= LOCATE_MIN_ZOOM && map.getBounds().contains(target)) {
+        map.panTo(target, { animate });
       } else {
-        map.flyTo([live.fix.latitude, live.fix.longitude], LOCATE_MIN_ZOOM, {
-          animate,
-        });
+        map.flyTo(target, Math.max(map.getZoom(), LOCATE_MIN_ZOOM), { animate });
       }
     } else {
       map.panTo([live.fix.latitude, live.fix.longitude], { animate });

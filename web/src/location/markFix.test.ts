@@ -44,6 +44,15 @@ describe("a one-shot fix for a mark", () => {
     expect(outcome.kind === "fix" && outcome.fix.altitudeM).toBe(31.5);
   });
 
+  it("refuses a position that is not on the globe", () => {
+    for (const off of [{ latitude: 91 }, { longitude: 181 }, { latitude: Number.NaN }]) {
+      expect(oneShotMarkFix(position(off), NOW)).toEqual({
+        kind: "refused",
+        message: "Your location couldn't be found. Try again outdoors.",
+      });
+    }
+  });
+
   it("refuses a fix rougher than a mark may be, and says how rough", () => {
     const outcome = oneShotMarkFix(position({ accuracy: 500 }), NOW);
     expect(outcome).toEqual({

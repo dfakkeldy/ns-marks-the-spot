@@ -28,13 +28,23 @@ export type LiveFix = {
 export type LiveLocationSnapshot =
   | { status: "acquiring"; fix: null }
   | { status: "active"; fix: LiveFix }
-  | { status: "signal-lost"; fix: LiveFix | null }
+  | {
+      status: "signal-lost";
+      fix: LiveFix | null;
+      /**
+       * Which transient failure this is. The browser keeps trying either
+       * way, but a device that has not answered yet and one that cannot
+       * place itself are different things to be told.
+       */
+      reason: "timeout" | "unavailable";
+    }
   | { status: "denied"; fix: null }
   | { status: "unavailable"; fix: null };
 
 export type LiveLocationHandle = { stop: () => void };
 
 const PERMISSION_DENIED = 1;
+const TIMEOUT = 3;
 
 /**
  * maximumAge 5 s: a marker may show a briefly cached fix. The 20 s timeout
@@ -113,8 +123,13 @@ export function startLiveLocation(
         onChange({ status: "denied", fix: null });
         return;
       }
-      // Timeout or position-unavailable: the watch keeps trying on its own.
-      onChange({ status: "signal-lost", fix: lastFix });
+      // Timeout or position-unavailable: the watch keeps trying on its own,
+      // and the two are told apart rather than merged.
+      onChange({
+        status: "signal-lost",
+        fix: lastFix,
+        reason: error.code === TIMEOUT ? "timeout" : "unavailable",
+      });
     },
     options,
   );
