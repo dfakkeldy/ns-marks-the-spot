@@ -15,10 +15,17 @@ struct OfflineStorageView: View {
     /// Breton one, so the estimate came back at zero tiles and the button under
     /// it offered to save a download of nothing. `FletcherTilePlannerTests`
     /// keeps this box inside the survey.
+    /// Moved north for revision 20260831.1, which cropped sheet 12 to its neat
+    /// line and lifted its southern edge to 46.0923. The old box started at
+    /// 46.05, so 4.7km of its bottom was ground the survey no longer covers —
+    /// the same "download of nothing" this box exists to avoid, reintroduced by
+    /// a change to the sheet index rather than to this file. Baddeck sits only
+    /// ~850m inside the new edge, so the southern margin here is deliberately
+    /// thin (~300m) to keep the village in a box labelled for it.
     static let sampleAreaBounds = MapBounds(
-        minLatitude: 46.05,
+        minLatitude: 46.095,
         minLongitude: -60.83,
-        maxLatitude: 46.15,
+        maxLatitude: 46.195,
         maxLongitude: -60.68
     )
 

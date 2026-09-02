@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+import math
 import pathlib
 import sys
 import tempfile
@@ -12,7 +14,10 @@ from tools.fletcher.georeference import (
     build_transform_command,
     build_translate_command,
     build_warp_command,
+    cutline_feature_collection,
+    densify_ring,
     georeference,
+    project_cutline,
 )
 from tools.fletcher.pipeline import CandidateAccuracy
 
@@ -119,3 +124,63 @@ class GeoreferenceCommandTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CutlineTests(unittest.TestCase):
+    """The neat-line mask: densify, project, serialise, and apply."""
+
+    def test_warp_without_a_cutline_is_unchanged(self) -> None:
+        command = build_warp_command("tps", "in.vrt", "out.tif")
+        self.assertNotIn("-cutline", command)
+        self.assertNotIn("-crop_to_cutline", command)
+
+    def test_warp_crops_to_the_cutline_when_one_is_given(self) -> None:
+        command = build_warp_command("tps", "in.vrt", "out.tif", cutline="c.geojson")
+        self.assertIn("-cutline", command)
+        self.assertEqual(command[command.index("-cutline") + 1], "c.geojson")
+        # Without -crop_to_cutline gdalwarp masks but keeps the full extent,
+        # which would leave the collar as transparent padding around every sheet.
+        self.assertIn("-crop_to_cutline", command)
+
+    def test_densify_subdivides_every_edge_beyond_the_spacing(self) -> None:
+        # A TPS bends straight lines; four corners alone would cut a chord
+        # across the curve and shave real map content off the edge.
+        ring = [(0.0, 0.0), (1000.0, 0.0), (1000.0, 1000.0), (0.0, 1000.0)]
+        dense = densify_ring(ring, 250.0)
+        self.assertGreater(len(dense), len(ring))
+        for (x0, y0), (x1, y1) in zip(dense[:-1], dense[1:], strict=True):
+            self.assertLessEqual(round(math.hypot(x1 - x0, y1 - y0), 6), 250.0)
+
+    def test_densify_closes_an_open_ring(self) -> None:
+        dense = densify_ring([(0.0, 0.0), (100.0, 0.0), (100.0, 100.0)], 250.0)
+        self.assertEqual(dense[0], dense[-1])
+
+    def test_densify_rejects_a_degenerate_frame(self) -> None:
+        with self.assertRaises(ValueError):
+            densify_ring([(0.0, 0.0), (1.0, 1.0)], 250.0)
+        with self.assertRaises(ValueError):
+            densify_ring([(0.0, 0.0), (1.0, 0.0), (1.0, 1.0)], 0.0)
+
+    def test_cutline_declares_the_projected_crs_not_pixel_space(self) -> None:
+        # gdalwarp reads the ring in the target CRS; mislabelling it as pixels
+        # would silently place the mask somewhere in the Atlantic.
+        payload = json.loads(cutline_feature_collection(
+            [(-6770641.7, 5964514.0), (-6727228.2, 5964788.3),
+             (-6727302.7, 5936870.7), (-6770716.1, 5936596.3)]
+        ))
+        self.assertEqual(
+            payload["crs"]["properties"]["name"], "urn:ogc:def:crs:EPSG::3857"
+        )
+        ring = payload["features"][0]["geometry"]["coordinates"][0]
+        self.assertEqual(ring[0], ring[-1], "polygon ring must close")
+
+    def test_projection_refuses_a_short_transform_result(self) -> None:
+        # gdaltransform dropping vertices would yield a smaller mask that
+        # quietly clips map content, so a count mismatch must raise.
+        ring = [(0.0, 0.0), (1000.0, 0.0), (1000.0, 1000.0), (0.0, 1000.0)]
+        with mock.patch(
+            "tools.fletcher.georeference.subprocess.run",
+            return_value=mock.Mock(stdout="0 0 0\n1 1 0\n"),
+        ):
+            with self.assertRaises(ValueError):
+                project_cutline(ring, "tps", pathlib.Path("in.vrt"))
