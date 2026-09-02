@@ -105,3 +105,25 @@ Branch:   claude/fletcher-neatline-crop-deploy-d71f30 (nightly + this note)
 Next:     gh pr list --repo dfakkeldy/KinNoKiLabsSite --state open   # automation/ns-marks-web-3366bc22fd92
           merge it, then curl the live bundle for fletcher-direct-rumsey-20260831.1
 ```
+
+## 2026-09-02 — Live map verified on 20260831.1
+
+Done: KinNoKiLabsSite PR #143 (pin 3366bc22f) merged 11:07:50Z by the owner;
+live `source.json` flipped ~40 s later; bundle `index-Da10m7-J.js` names
+`fletcher-direct-rumsey-20260831.1`. Glendale gate URL loaded in a fresh
+browser: 30 tile requests, all 20260831.1, 0 non-OK; paper margin and grey sheet
+edge over River Denys gone, map face continuous across the join. Before/after
+1400x900 captures delivered to the owner. Old revision 20260828.1 still in R2 —
+delete command handed over, NOT run (today's nightly TestFlight still pins it).
+
+Next: owner runs the R2 delete (after tomorrow's nightly train if the beta
+matters); owner decides `maximumSavedAreaTileCount` (94,608 max selectable vs
+100,000 cap). Then delete this handoff in the PR that closes the task.
+
+Resume:
+```
+Worktree: /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/fletcher-neatline-crop-deploy-d71f30
+Branch:   claude/fletcher-neatline-crop-deploy-d71f30
+Next:     apply the owner's cap decision in OfflineAreasViewModel.swift +
+          FletcherTilePlannerTests.swift, delete this file, PR -> nightly
+```
