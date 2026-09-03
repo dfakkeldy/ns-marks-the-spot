@@ -234,6 +234,11 @@ struct PhotoThumbView: View {
 /// The full-size viewer: the stored (already re-encoded) bytes, a close
 /// button, black surround.
 struct PhotoLightboxView: View {
+    /// A definite touch target that scales with the reader's text, not a
+    /// minimum. A minimum lets the enclosing row propose whatever width it has
+    /// left, and a control squeezed to nothing has no point to tap at all.
+    @ScaledMetric(relativeTo: .title3) private var controlTarget: CGFloat = 44
+
     let title: String
     var load: () async -> Data?
     var onClose: () -> Void
@@ -266,7 +271,7 @@ struct PhotoLightboxView: View {
                 Image(systemName: "xmark.circle.fill")
                     .font(.title)
                     .foregroundStyle(.white, .black.opacity(0.5))
-                    .frame(minWidth: 44, minHeight: 44)
+                    .frame(width: controlTarget, height: controlTarget)
             }
             .accessibilityLabel("Close photo")
             .padding()

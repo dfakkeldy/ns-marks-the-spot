@@ -6,6 +6,11 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct TransparencySliderView: View {
+    /// A definite touch target that scales with the reader's text, not a
+    /// minimum. A minimum lets the enclosing row propose whatever width it has
+    /// left, and a control squeezed to nothing has no point to tap at all.
+    @ScaledMetric(relativeTo: .title3) private var controlTarget: CGFloat = 44
+
     let viewModel: OverlayViewModel
     /// The user's own maps. Optional because they are a separate concern from
     /// the catalogued layers, and a panel shown without them (a preview, a
@@ -75,7 +80,7 @@ struct TransparencySliderView: View {
                         .font(.title3)
                         .foregroundStyle(.secondary)
                         .symbolRenderingMode(.hierarchical)
-                        .frame(minWidth: 44, minHeight: 44)
+                        .frame(width: controlTarget, height: controlTarget)
                         .contentShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -480,6 +485,11 @@ private struct LayerProvenanceDisclosure: View {
 }
 
 private struct LayerRowView: View {
+    /// A definite touch target that scales with the reader's text, not a
+    /// minimum. A minimum lets the enclosing row propose whatever width it has
+    /// left, and a control squeezed to nothing has no point to tap at all.
+    @ScaledMetric(relativeTo: .title3) private var controlTarget: CGFloat = 44
+
     let row: LayerRow
     let viewModel: OverlayViewModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -560,7 +570,7 @@ private struct LayerRowView: View {
                         Image(systemName: "lock.fill")
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
-                            .frame(minWidth: 44, minHeight: 44)
+                            .frame(width: controlTarget, height: controlTarget)
                             .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)

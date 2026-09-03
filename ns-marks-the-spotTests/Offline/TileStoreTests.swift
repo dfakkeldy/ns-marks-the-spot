@@ -177,27 +177,67 @@ struct TileStoreTests {
         #expect(summary.layerBytes["ns-aerial"] == 1)
     }
 
-    @Test func deleteAllKeepsTheStoreRootExcludedFromBackup() async throws {
-        var root = makeTemporaryRoot()
+    /// The exclusion is applied to the root and nowhere else, so anything that
+    /// recreates the root without it takes every area downloaded afterwards
+    /// into iCloud and device backups. Nothing here sets the attribute by
+    /// hand: a test that applied it itself would pass over a store that never
+    /// applies it at all.
+    @Test func theStoreRootStaysExcludedFromBackupThroughACacheDeletion() async throws {
+        let root = makeTemporaryRoot()
         defer { try? FileManager.default.removeItem(at: root) }
+        // A root that does not exist yet, which is how a first launch and a
+        // once-failed creation both look.
+        #expect(!FileManager.default.fileExists(atPath: root.path))
         let store = TileStore(rootDirectory: root)
 
         try await store.store(Data([0x01]), z: 3, x: 4, y: 5, layerID: "fletcher", savedAreaID: nil)
-        var exclusion = URLResourceValues()
-        exclusion.isExcludedFromBackup = true
-        try root.setResourceValues(exclusion)
-
         try await store.deleteAll()
         let emptied = await store.summary()
         #expect(FileManager.default.fileExists(atPath: root.path))
 
         try await store.store(Data([0x02]), z: 3, x: 4, y: 5, layerID: "fletcher", savedAreaID: nil)
-        let rereadRoot = URL(fileURLWithPath: root.path)
-        let values = try rereadRoot.resourceValues(forKeys: [.isExcludedFromBackupKey])
+        let values = try URL(fileURLWithPath: root.path)
+            .resourceValues(forKeys: [.isExcludedFromBackupKey])
 
         #expect(emptied.totalBytes == 0)
         #expect(values.isExcludedFromBackup == true)
         #expect(await store.tile(z: 3, x: 4, y: 5, layerID: "fletcher") == Data([0x02]))
+    }
+
+    /// Something outside the app can take the root away between launches. The
+    /// next write brings it back, and it has to bring the exclusion with it.
+    @Test func aRootRemovedAfterInitComesBackExcluded() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+        try FileManager.default.removeItem(at: root)
+
+        try await store.store(Data([0x03]), z: 3, x: 4, y: 5, layerID: "fletcher", savedAreaID: nil)
+
+        let values = try URL(fileURLWithPath: root.path)
+            .resourceValues(forKeys: [.isExcludedFromBackupKey])
+        #expect(values.isExcludedFromBackup == true)
+    }
+
+    /// A record says which saved areas a tile belongs to. Removing the bytes
+    /// while leaving that claim behind would count a later download of the
+    /// same coordinate into an area whose tiles are gone.
+    @Test func aClearThatCannotFinishLosesTheClaimBeforeTheBytes() async throws {
+        let root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+        try await store.store(
+            Data([0x01]), z: 3, x: 4, y: 5, layerID: "fletcher", savedAreaID: "area-a"
+        )
+
+        try await store.deleteAll()
+        try await store.store(
+            Data([0x02]), z: 3, x: 4, y: 5, layerID: "fletcher", savedAreaID: "area-b"
+        )
+
+        let summary = await store.summary()
+        #expect(summary.savedAreaBytes["area-a"] == nil)
+        #expect(summary.savedAreaBytes["area-b"] == 1)
     }
 
     private func makeTemporaryRoot() -> URL {
