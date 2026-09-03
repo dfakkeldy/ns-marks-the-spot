@@ -216,12 +216,22 @@ describe("NSPRD point replies", () => {
       unidentifiedCount: 0,
     });
 
+    // A padded or non-canonical PID is a gap too: the selection, the share
+    // URL and the evidence requests all key on the eight-digit form, and
+    // repairing the wire value would put a PID the user never saw on the page.
     const unreadable = identifyParcelsAtPoint(
-      reply(pointFeature(null), pointFeature(""), pointFeature(50251750)),
+      reply(
+        pointFeature(null),
+        pointFeature(""),
+        pointFeature(50251750),
+        pointFeature("   "),
+        pointFeature("50251750 "),
+        pointFeature("unknown"),
+      ),
     );
     expect(unreadable.pids).toEqual([]);
     expect(unreadable.identified.features).toEqual([]);
-    expect(unreadable.unidentifiedCount).toBe(3);
+    expect(unreadable.unidentifiedCount).toBe(6);
   });
 
   it("keeps every distinct PID where parcels meet, in the order NSPRD listed", () => {

@@ -6,6 +6,7 @@ import {
   floodHazardLayerCatalog,
   forestryLayerCatalog,
   hydroPilotLayerCatalog,
+  COASTAL_HAZARD_NOTICES,
   initialEnvironmentalHealthLayerVisibility,
   initialFloodHazardLayerVisibility,
   initialForestryLayerVisibility,
@@ -134,6 +135,16 @@ export type LayerParityFixture = {
    * at once already. Running the real functions and recording the answer means
    * the Swift side is tested against what ships, not against a reading of it.
    */
+  /**
+   * The notices the Unrestricted Map Services licence requires with the
+   * coastal data, in the order both surfaces print them.
+   *
+   * A layer row carries a licence URL and a restricted/open flag, neither of
+   * which is the text the licence asks for. The two surfaces disagreed on that
+   * text — one sentence in the browser against three on the phone — and no
+   * fixture could catch it, because nothing pinned the words themselves.
+   */
+  coastalHazardNotices: readonly string[];
   parcelQuery: {
     layerUrl: string;
     pidBatchSize: number;
@@ -335,6 +346,7 @@ export function buildLayerParityFixture(): LayerParityFixture {
       tileRevision: FLETCHER_TILE_REVISION,
       sheets: fletcherSheets,
     },
+    coastalHazardNotices: COASTAL_HAZARD_NOTICES,
     parcelQuery: {
       layerUrl: NSPRD_LAYER_URL,
       pidBatchSize: NSPRD_PID_BATCH_SIZE,

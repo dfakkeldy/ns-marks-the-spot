@@ -3696,7 +3696,14 @@ describe("NS Marks The Spot Online", () => {
         name: "Parcel 50251750 details",
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText("PID 50251750 selected.")).toBeInTheDocument();
+    // The boundary that could not be named is still a parcel meeting at that
+    // point, so the selection is not reported as the only answer.
+    expect(
+      screen.getByText(
+        "PID 50251750 selected. 2 parcels meet at that point, one of which NSPRD returned with no readable PID; this is the first NSPRD listed, not a determination of which one it is.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("PID 50251750 selected.")).not.toBeInTheDocument();
   });
 
   it("says several parcels meet at the tapped point rather than naming one", async () => {
@@ -5284,6 +5291,40 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.getByText(
         "The civic address file has not answered, so a road named only by an address on this parcel would not be listed.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        "No intersecting, adjacent, or civic-address road was found for this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  // A partial read is not an answer about the whole parcel: one of the rows
+  // that could not be read may carry a road name.
+  it("marks the road list short when a civic row could not be read", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelContext).mockResolvedValueOnce({ roads: [], water: [] });
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [],
+      unreadableRows: 1,
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(
+      await screen.findByText("No mapped road intersects or runs beside this parcel."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "A civic address point here could not be read, so a road named only by that address would not be listed.",
       ),
     ).toBeInTheDocument();
     expect(

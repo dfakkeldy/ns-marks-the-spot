@@ -556,22 +556,30 @@ export async function fetchCivicAddresses(
   const addresses = new Map<string, CivicAddress>();
   // Counted apart from the rows dropped for falling outside the boundary or
   // for repeating a pntid. Those two are answers about this parcel; this is a
-  // row the file sent that the browser could not read, and it has neither a
-  // coordinate to test against the boundary nor a pntid to deduplicate on.
+  // row the file sent that the browser could not read, and it has no pntid to
+  // deduplicate on — nor, in the worst case, a coordinate to place it by.
   let unreadableRows = 0;
 
   for (const feature of candidates) {
+    // Containment is tested before readability, on the coordinate alone. A row
+    // the browser can place outside the parcel is an answer about somewhere
+    // else in the bounding box, and counting it would report a shortfall here
+    // that the file never had. A row whose coordinate cannot be read is still
+    // counted: it came back for this parcel's box and there is no way to say
+    // it is not inside.
+    const coordinates = pointCoordinates(feature);
+    if (
+      coordinates &&
+      !polygonParts.some((part) => pointInPolygonPart(coordinates, part))
+    ) {
+      continue;
+    }
     const address = civicAddressForFeature(feature);
     if (!address) {
       unreadableRows += 1;
       continue;
     }
-    if (
-      !polygonParts.some((part) =>
-        pointInPolygonPart(address.coordinates, part),
-      ) ||
-      addresses.has(address.pntid)
-    ) {
+    if (addresses.has(address.pntid)) {
       continue;
     }
 

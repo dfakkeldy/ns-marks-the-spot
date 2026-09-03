@@ -367,6 +367,10 @@ function Context({ snapshot }: { snapshot: PrintSnapshot }) {
           addresses.value.addresses,
         )
       : [];
+  // A partial read is not an answer about the whole parcel: one of the rows
+  // that could not be read may carry a road name.
+  const addressesReadInFull =
+    addresses.status === "ready" && addresses.value.unreadableRows === 0;
 
   return (
     <>
@@ -391,15 +395,25 @@ function Context({ snapshot }: { snapshot: PrintSnapshot }) {
             The civic address file has not answered, so a road named only by an
             address on this parcel would not be listed.
           </p>
-        ) : civicRoads.length > 0 ? (
-          <ContextList features={civicRoads} />
-        ) : state.status === "ready" ? (
-          <p>
-            No civic address on this parcel names a road the mapped road layers
-            did not already return.
-          </p>
         ) : (
-          <p>No civic address on this parcel names a road.</p>
+          <>
+            {civicRoads.length > 0 ? (
+              <ContextList features={civicRoads} />
+            ) : addressesReadInFull && state.status === "ready" ? (
+              <p>
+                No civic address on this parcel names a road the mapped road
+                layers did not already return.
+              </p>
+            ) : addressesReadInFull ? (
+              <p>No civic address on this parcel names a road.</p>
+            ) : null}
+            {addressesReadInFull ? null : (
+              <p>
+                A civic address point here could not be read, so a road named
+                only by that address would not be listed.
+              </p>
+            )}
+          </>
         )}
       </EvidenceSection>
       <EvidenceSection

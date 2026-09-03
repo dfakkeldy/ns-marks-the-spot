@@ -162,6 +162,31 @@ describe("print capture", () => {
       .not.toContain("Source unavailable at export time.");
   });
 
+  // A lookup that could not start because its input never arrived did not go
+  // silent, and the sealed page must not say it did.
+  it("seals a blocked pending slot with the reason it never started", () => {
+    const capture = startPrintCapture(base, {
+      ...pendingEvidence,
+      dwellings: {
+        status: "pending",
+        message: "The dwelling lookup had not started: assessment had not answered.",
+      },
+    });
+    const snapshot = sealPrintSnapshot(capture, "research", {
+      timedOut: true,
+      generatedAt: "2026-07-23T13:42:15.000Z",
+    });
+
+    expect(snapshot.evidence.dwellings).toEqual({
+      status: "unanswered",
+      message: "The dwelling lookup had not started: assessment had not answered.",
+    });
+    expect(snapshot.evidence.buildings).toEqual({
+      status: "unanswered",
+      message: PRINT_SOURCE_UNANSWERED,
+    });
+  });
+
   it("keeps a settled source error out of the unanswered state", () => {
     const capture = startPrintCapture(base, {
       ...pendingEvidence,

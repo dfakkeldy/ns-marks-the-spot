@@ -27,10 +27,20 @@ export type PrintTemplate = "research" | "field";
 export const PRINT_SOURCE_UNANSWERED =
   "This source had not answered when this page was made. Nothing is concluded from its silence.";
 
-/** An evidence slot carrying no value, and why it carries none. */
+/**
+ * An evidence slot carrying no value, and why it carries none.
+ *
+ * `pending` may name what it is waiting for: a lookup that cannot start until
+ * another answers is not a source going quiet, and if the capture times out
+ * that reason is the honest thing to print. `not-asked` is terminal — there
+ * was no question to put, or the input it needed never arrived — and is kept
+ * apart from `error` because a receipt that calls it unavailable reports an
+ * outage that never happened.
+ */
 export type UnsettledPrintLoad =
-  | { status: "pending" }
+  | { status: "pending"; message?: string }
   | { status: "error"; message: string }
+  | { status: "not-asked"; message: string }
   | { status: "unanswered"; message: string };
 
 export type PrintLoadState<T> =
@@ -300,7 +310,10 @@ export function sealPrintSnapshot(
     state: PrintLoadState<T>,
   ): PrintLoadState<T> =>
     state.status === "pending"
-      ? { status: "unanswered", message: PRINT_SOURCE_UNANSWERED }
+      ? {
+          status: "unanswered",
+          message: state.message ?? PRINT_SOURCE_UNANSWERED,
+        }
       : state;
   const clonedEvidence = clone(capture.evidence);
   const evidence = template === "research" && options.timedOut
@@ -335,22 +348,26 @@ export function sealPrintSnapshot(
  * rather than being reported as an outage.
  */
 export function printEvidenceMessage(state: UnsettledPrintLoad): string {
-  return state.status === "pending" ? PRINT_SOURCE_UNANSWERED : state.message;
+  return state.status === "pending"
+    ? state.message ?? PRINT_SOURCE_UNANSWERED
+    : state.message;
 }
 
 /**
  * What the front-page receipt calls a slot.
  *
- * "Unavailable" and "did not answer" are different receipts. One source gave
- * an answer the page could not use; the other gave nothing, and a receipt that
- * calls both unavailable tells the reader the page was refused when in fact it
- * never heard back.
+ * "Unavailable", "not asked" and "did not answer" are three different
+ * receipts. One source gave an answer the page could not use; one was never
+ * put a question at all; the third gave nothing back. A receipt that calls
+ * them all unavailable tells the reader the page was refused when in fact it
+ * never asked, or never heard back.
  */
 export function printEvidenceReceiptStatus(state: {
   readonly status: PrintLoadState<unknown>["status"];
-}): "captured" | "unavailable" | "did not answer" {
+}): "captured" | "unavailable" | "not asked" | "did not answer" {
   if (state.status === "ready") return "captured";
-  return state.status === "error" ? "unavailable" : "did not answer";
+  if (state.status === "error") return "unavailable";
+  return state.status === "not-asked" ? "not asked" : "did not answer";
 }
 
 /** The appendix headings, so the front page and the appendix agree. */

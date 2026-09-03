@@ -106,6 +106,13 @@ public struct ParityFixture: Sendable {
     public let layers: [String: [String: JSONValue]]
     public let fletcher: [String: JSONValue]?
     public let parcelQuery: [String: JSONValue]?
+    /// The coastal licence notices the web renders, in its own order.
+    ///
+    /// A layer row carries a licence URL and an open/restricted flag, neither
+    /// of which is the text the licence asks for. The two surfaces disagreed on
+    /// that text once, and nothing could catch it because nothing pinned the
+    /// words.
+    public let coastalHazardNotices: [String]?
 
     /// The sheet index, decoded from the fixture's `[[south, west], [north,
     /// east]]` corner pairs.
@@ -214,7 +221,9 @@ public struct ParityFixture: Sendable {
                 result[id] = entry
             },
             fletcher: root["fletcher"]?.object,
-            parcelQuery: root["parcelQuery"]?.object
+            parcelQuery: root["parcelQuery"]?.object,
+            coastalHazardNotices: root["coastalHazardNotices"]?.array?
+                .compactMap(\.string)
         )
     }()
 

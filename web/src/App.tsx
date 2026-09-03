@@ -578,6 +578,7 @@ function printStateForRequest<T>(
 function printDwellingStateForRequest(
   state: DwellingState,
   request: SelectedEvidenceRequest | null,
+  assessmentReady: boolean,
 ): PrintLoadState<PvscDwellingAccount[]> {
   if (!request || !isCurrentEvidenceRequest(state.request, request)) {
     return { status: "pending" };
@@ -585,23 +586,26 @@ function printDwellingStateForRequest(
   if (state.status === "ready") {
     return { status: "ready", value: state.value };
   }
+  // Three ways the dwelling dataset goes unasked, and none of them is the
+  // source failing. Printing them as errors put "unavailable" on the receipt
+  // for a lookup that was never run.
   if (state.status === "blocked") {
     return {
-      status: "error",
+      status: "not-asked",
       message:
         "Dwelling lookup was not run because assessment account evidence was unavailable.",
     };
   }
   if (state.status === "no-account") {
     return {
-      status: "error",
+      status: "not-asked",
       message:
         "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
     };
   }
   if (state.status === "geometry-unavailable") {
     return {
-      status: "error",
+      status: "not-asked",
       message:
         "Not evaluated — this PID's NSPRD geometry is unavailable, so no assessment account could be matched and the dwelling dataset was not asked.",
     };
@@ -612,7 +616,17 @@ function printDwellingStateForRequest(
       message: "PVSC dwelling source unavailable at export time.",
     };
   }
-  return { status: "pending" };
+  // Idle or loading. The dwelling request cannot start until the assessment
+  // lookup supplies an account number, so while that is still out this slot
+  // is not a source going quiet, and a capture that times out here must not
+  // print it as one.
+  return assessmentReady
+    ? { status: "pending" }
+    : {
+        status: "pending",
+        message:
+          "The PVSC dwelling lookup had not started when this page was made: the assessment account lookup had not answered, so there was no account to ask with.",
+      };
 }
 
 function printEventForCurrent(event: TaxSaleEvent, now: number): PrintEvent {
@@ -2870,13 +2884,23 @@ export function App() {
       if (focusOnSelect) {
         requestParcelFocus(pid);
       }
-      // More than one PID under one point: the parcels meet there, and the
-      // order NSPRD listed them in is not evidence of which one the point
+      // More than one boundary under one point: the parcels meet there, and
+      // the order NSPRD listed them in is not evidence of which one the point
       // belongs to. "PID … selected." on its own would let a reader
       // researching a boundary act on the first-listed parcel as a finding.
+      // A boundary this build could not name counts too — it is one more
+      // parcel meeting at the point, and saying nothing about it would report
+      // a choice as though there had been none.
+      const boundaries = pids.length + unidentifiedCount;
       setParcelLookupMessage(
-        pids.length > 1
-          ? `PID ${pid} selected. ${pids.length} parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.`
+        boundaries > 1
+          ? `PID ${pid} selected. ${boundaries} parcels meet at that point${
+              unidentifiedCount > 0
+                ? unidentifiedCount === 1
+                  ? ", one of which NSPRD returned with no readable PID"
+                  : `, ${unidentifiedCount} of which NSPRD returned with no readable PID`
+                : ""
+            }; this is the first NSPRD listed, not a determination of which one it is.`
           : `PID ${pid} selected.`,
       );
     } catch (error: unknown) {
@@ -3359,6 +3383,7 @@ export function App() {
     dwellings: printDwellingStateForRequest(
       dwellingState,
       selectedEvidenceRequest,
+      assessmentState.status === "ready",
     ),
     civicAddresses: printStateForRequest(civicAddresses, selectedEvidenceRequest),
     mappedContext: printStateForRequest(mappedContext, selectedEvidenceRequest),

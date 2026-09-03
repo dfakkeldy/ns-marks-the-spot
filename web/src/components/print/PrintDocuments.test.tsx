@@ -661,6 +661,44 @@ describe("print documents", () => {
     expect(screen.getByText(/Cabot Trail/)).toBeInTheDocument();
   });
 
+  it("does not read a partial civic answer as no addressed road", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            mappedContext: {
+              status: "ready",
+              value: { roads: [], water: [] },
+            },
+            civicAddresses: {
+              status: "ready",
+              value: { addresses: [], unreadableRows: 2 },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(
+      screen.getByText(
+        "A civic address point here could not be read, so a road named only by that address would not be listed.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/No civic address on this parcel names a road/),
+    ).not.toBeInTheDocument();
+  });
+
   it("does not read a failed civic lookup as no addressed road", () => {
     render(
       <PrintResearchDocument
@@ -1032,6 +1070,45 @@ describe("print documents", () => {
       />,
     );
 
+    expect(screen.queryByText(/had not answered/u)).not.toBeInTheDocument();
+  });
+
+  // A lookup that was never run is not a source that failed. The receipt used
+  // to call all three "unavailable".
+  it("says a dwelling dataset was not asked rather than unavailable", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            dwellings: {
+              status: "not-asked",
+              message:
+                "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const receipt = within(
+      screen.getByRole("region", { name: "Evidence receipt status" }),
+    );
+    expect(receipt.getByText("Dwelling characteristics: not asked")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+      ),
+    ).toBeInTheDocument();
     expect(screen.queryByText(/had not answered/u)).not.toBeInTheDocument();
   });
 

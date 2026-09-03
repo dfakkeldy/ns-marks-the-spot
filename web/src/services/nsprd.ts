@@ -135,12 +135,13 @@ export function identifyParcelsAtPoint(
   for (const feature of collection.features) {
     // Read through `unknown` rather than the declared `PID: string`: that
     // declaration says what the rest of the app may assume about a parcel it
-    // has stored, not what ArcGIS is allowed to send. A null, a blank, or a
-    // numeric PID is counted rather than dropped in silence, and never
-    // repaired into a string — a PID the selection cannot match is a gap in
-    // the reply, not a parcel.
+    // has stored, not what ArcGIS is allowed to send. A null, a blank, a
+    // padded, or a numeric PID is counted rather than dropped in silence, and
+    // never repaired — the selection, the share URL and the evidence requests
+    // all key on the eight-digit form, so a value that is not already that
+    // form is a gap in the reply rather than a parcel this app can name.
     const pid = (feature.properties as { PID?: unknown }).PID;
-    if (typeof pid !== "string" || pid === "") {
+    if (typeof pid !== "string" || normalizePid(pid) !== pid) {
       unidentifiedCount += 1;
       continue;
     }

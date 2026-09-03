@@ -57,7 +57,11 @@ a {
 
 .app-shell {
   display: grid;
-  grid-template-rows: 68px minmax(0, 1fr) 46px;
+  /* The attribution row is auto-sized, not fixed: it carries licence
+     obligations whose length is set by whichever layers are on, and a fixed
+     46px clipped the coastal notices — and the Data & licences button under
+     them — the moment a coastal layer was switched on. */
+  grid-template-rows: 68px minmax(0, 1fr) auto;
   height: var(--app-viewport-height, 100dvh);
   min-height: var(--app-viewport-height, 100dvh);
   overflow: hidden;
@@ -97,7 +101,7 @@ a {
 }
 
 .app-shell.header-collapsed {
-  grid-template-rows: 36px minmax(0, 1fr) 46px;
+  grid-template-rows: 36px minmax(0, 1fr) auto;
 }
 
 .header-collapsed .app-header {
@@ -3078,10 +3082,15 @@ a {
   flex-wrap: wrap;
   align-items: center;
   row-gap: 2px;
+  /* Wrap and grow, never clip: this strip is where the Province attribution
+     and the coastal licence notices — licence obligations — actually render,
+     and nowrap+overflow cut them mid-sentence. The cap keeps a long notice
+     set from taking the map: past it the strip scrolls, the same answer the
+     narrow breakpoint below already gives. */
+  min-height: 46px;
+  max-height: 30dvh;
   padding: 2px 28px;
-  /* Wrap, never clip: this strip is where the Province attribution — a
-     licence obligation — actually renders, and nowrap+overflow cut it to
-     "…provided witho" on ordinary desktop widths. */
+  overflow-y: auto;
   font-size: 0.72rem;
   background: var(--paper);
   border-top: 1px solid var(--line);

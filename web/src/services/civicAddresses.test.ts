@@ -389,6 +389,64 @@ describe("Nova Scotia Civic Address File lookup", () => {
     expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["inside"]);
   });
 
+  // A row the browser can place outside the parcel is an answer about
+  // somewhere else in the bounding box. Counting it reported a shortfall this
+  // parcel never had.
+  it("does not count an unreadable row it can place outside the parcel", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        geoJsonResponse([
+          civicPoint("inside", [0.5, 0.5]),
+          civicPoint("", [1.8, 1.8]),
+        ]),
+      ),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [
+          [
+            [0, 0],
+            [2, 0],
+            [0, 2],
+            [0, 0],
+          ],
+        ],
+      }),
+    ]);
+
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["inside"]);
+    expect(reading.unreadableRows).toBe(0);
+  });
+
+  it("still counts a row it cannot place at all", async () => {
+    const unplaceable = civicPoint("100", [0.5, 0.5]);
+    unplaceable.geometry = null;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(geoJsonResponse([unplaceable])),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [
+          [
+            [0, 0],
+            [2, 0],
+            [0, 2],
+            [0, 0],
+          ],
+        ],
+      }),
+    ]);
+
+    expect(reading.addresses).toEqual([]);
+    expect(reading.unreadableRows).toBe(1);
+  });
+
   it("excludes points in holes while treating ring boundary points as inside", async () => {
     vi.stubGlobal(
       "fetch",

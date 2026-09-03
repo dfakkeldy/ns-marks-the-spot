@@ -1077,12 +1077,18 @@ function MappedContextDetails({
   }
 
   // Only the sources that actually answered may be named in the empty
-  // sentence. A civic lookup that is still loading, that failed, or that was
-  // never run for want of geometry has not looked and found nothing.
+  // sentence, and only a source read in full may be reported as having found
+  // nothing. A lookup still loading, failed, or never run for want of
+  // geometry has not looked; a lookup with unreadable rows has looked at part
+  // of what it was sent, and one of those rows can carry a road name.
   const addressesAnswered = civicAddresses.status === "ready";
   const civicRoads = addressesAnswered
     ? roadsNamedByCivicAddress(state.value.roads, civicAddresses.value.addresses)
     : [];
+  const unreadableAddressRows = addressesAnswered
+    ? civicAddresses.value.unreadableRows
+    : 0;
+  const addressesReadInFull = addressesAnswered && unreadableAddressRows === 0;
   const roads = [...state.value.roads, ...civicRoads];
 
   return (
@@ -1090,18 +1096,19 @@ function MappedContextDetails({
       <MappedFeatureList
         title="Roads at or beside parcel"
         emptyMessage={
-          addressesAnswered
+          addressesReadInFull
             ? "No intersecting, adjacent, or civic-address road was found for this parcel."
             : "No mapped road intersects or runs beside this parcel."
         }
         features={roads}
       />
-      {addressesAnswered ? null : (
+      {addressesReadInFull ? null : (
         // A list missing the roads one source would have named looks exactly
         // like a complete one, so the shortfall is said under it.
         <p className="road-access-caveat">
-          The civic address file has not answered, so a road named only by an
-          address on this parcel would not be listed.
+          {addressesAnswered
+            ? "A civic address point here could not be read, so a road named only by that address would not be listed."
+            : "The civic address file has not answered, so a road named only by an address on this parcel would not be listed."}
         </p>
       )}
       <p className="road-access-caveat">
