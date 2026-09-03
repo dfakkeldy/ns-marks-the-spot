@@ -774,7 +774,19 @@ describe("Geoman vertex handles on a coarse pointer", () => {
     // The rule must stay scoped to draggable handles: Geoman gives vertices
     // placed while DRAWING the same `.marker-icon` at `draggable: false`,
     // and a tap on one of those is what finishes the shape.
-    expect(styles).not.toMatch(/\n\s*\.marker-icon\s*\{/);
+    // Not a bare-name guard: the regression to keep out is any coarse-pointer
+    // rule that enlarges Geoman's handle class without excluding the vertices
+    // placed while DRAWING, which carry the same class at draggable: false.
+    const coarseRules = [
+      ...styles
+        .slice(styles.indexOf("@media (pointer: coarse)"))
+        .matchAll(/\n\s*([^\n{]*marker-icon[^\n{]*)\{/g),
+    ].map(([, selector]) => selector.trim());
+    expect(coarseRules.length).toBeGreaterThan(0);
+    for (const selector of coarseRules) {
+      expect(selector).toContain(".leaflet-marker-draggable");
+      expect(selector).toContain(":not(.marker-icon-middle)");
+    }
   });
 
   it("draws the seen disc at 22px, rim included", () => {
@@ -817,9 +829,13 @@ describe("phone vector editing panel", () => {
   // the first is the layer rail's.
   const panelBase = styles.indexOf(".vector-edit-panel {");
   const phoneStart = styles.indexOf("@media (max-width: 860px)", panelBase);
+  // Comments stripped: a regex over the rule body would otherwise match the
+  // prose explaining the declaration rather than the declaration, and stay
+  // green if someone deleted the value it is meant to pin.
   const phonePanel = styles
     .slice(phoneStart)
-    .match(/\.vector-edit-panel\s*\{([^}]*)\}/s)?.[1];
+    .match(/\.vector-edit-panel\s*\{([^}]*)\}/s)?.[1]
+    .replace(/\/\*[\s\S]*?\*\//g, "");
 
   it("lifts the card clear of the attribution strip", () => {
     const railClearance =
@@ -841,6 +857,16 @@ describe("phone vector editing panel", () => {
       new RegExp(
         `bottom:[^;]*var\\(--app-viewport-height[^;]*${railClearance}px`,
       ),
+    );
+  });
+
+  it("is chrome, so a printed page never stamps it", () => {
+    // Rendered outside `.app-shell`, so the print block's shell rule cannot
+    // reach it — and a page box is narrower than 860px, so the phone rule
+    // above applies to paged media too.
+    const printStyles = styles.slice(styles.indexOf("@media print {"));
+    expect(printStyles).toMatch(
+      /\.vector-edit-panel\s*\{[^}]*display:\s*none\s*!important/s,
     );
   });
 

@@ -5041,6 +5041,16 @@ a {
     display: none !important;
   }
 
+  /* Same exposure again, for the vector edit card. It is rendered OUTSIDE
+     `.app-shell` as well, and a printed page box is narrower than 860px, so
+     the phone block below applies to it: the card's `bottom` is offset by
+     `100%` minus the screen's visual-viewport height, which on Letter puts
+     it in the middle of the field sheet with its own `overflow-y: auto`
+     cropping whatever will not fit. Chrome, never document. */
+  .vector-edit-panel {
+    display: none !important;
+  }
+
   .print-preview-controls,
   .print-document--inactive {
     display: none !important;
