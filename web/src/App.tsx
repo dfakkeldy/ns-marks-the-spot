@@ -1265,6 +1265,11 @@ export function App() {
     initialShareState.pid,
   );
   const selectionGeneration = useRef(initialShareState.pid ? 1 : 0);
+  // Closing the parcel inspector unmounts it, and focus would otherwise fall
+  // to <body> — the next Tab would restart at the top of the document. The
+  // map region is the panel's own container, so it is where focus goes back
+  // to. A programmatic landing spot only, never a tab stop.
+  const mapRegionRef = useRef<HTMLElement | null>(null);
   // Name the tab after the open parcel: multi-tab research otherwise produces
   // indistinguishable tabs and identical history entries. The PID is already
   // in the share URL, so this discloses nothing new.
@@ -4905,6 +4910,8 @@ export function App() {
         </aside>
 
         <section
+          ref={mapRegionRef}
+          tabIndex={-1}
           className={`map-region${selectedPid ? " has-inspector" : ""}`}
           aria-label="Map and parcel details"
         >
@@ -5056,8 +5063,29 @@ export function App() {
                   dwellingState.status === "no-record-for-notice-aan" ||
                   dwellingState.status === "geometry-unavailable")
               }
+              dismissOnEscape={
+                // The panel is the bottom layer under all of these, and the
+                // rule the controls sheet already follows applies here: "so
+                // one keypress never closes two layers". printCapture is in
+                // the list because closing the panel clears it, which would
+                // tear the capture out from under an open print preview;
+                // editingMap is in it because the georeferencer's own Escape
+                // is deliberately unscoped.
+                !aboutOpen &&
+                !dataSourcesOpen &&
+                !licenceDialogOpen &&
+                !themeManagerOpen &&
+                !mobileControlsOpen &&
+                !editingMap &&
+                !printCapture
+              }
               now={currentTime}
               onClose={() => {
+                // Focus would otherwise fall to <body>. The map region is
+                // this panel's own container. preventScroll because it is
+                // already on screen, and scrolling it into view here would
+                // move the map under the reader.
+                mapRegionRef.current?.focus({ preventScroll: true });
                 setSelectedPid(null);
                 setSelectedEvidenceRequest(null);
                 setPrintCapture(null);

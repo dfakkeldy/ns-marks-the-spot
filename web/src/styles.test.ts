@@ -172,9 +172,6 @@ describe("mobile parcel inspector layout", () => {
     const inspectorClose = styles.match(
       /\.inspector-close\s*\{([^}]*)\}/,
     )?.[1];
-    const inspectorHeading = styles.match(
-      /\.parcel-inspector h2\s*\{([^}]*)\}/,
-    )?.[1];
     const mobileStart = styles.indexOf("@media (max-width: 860px)");
     const mobileEnd = styles.indexOf("@media (max-width: 560px)", mobileStart);
     const mobileStyles = styles.slice(mobileStart, mobileEnd);
@@ -185,11 +182,42 @@ describe("mobile parcel inspector layout", () => {
     expect(inspectorClose).toMatch(/width:\s*44px/);
     expect(inspectorClose).toMatch(/height:\s*44px/);
     expect(inspectorClose).toMatch(/font-size:\s*min\(1\.8rem, 32px\)/);
-    expect(inspectorHeading).toMatch(/padding-right:\s*52px/);
     expect(sheetClose).toMatch(/flex:\s*0 0 44px/);
     expect(sheetClose).toMatch(/width:\s*44px/);
     expect(sheetClose).toMatch(/height:\s*44px/);
     expect(sheetClose).toMatch(/font-size:\s*min\(1\.7rem, 32px\)/);
+  });
+
+  it("pins the inspector's close control above the panel's own scroll", () => {
+    const header = styles.match(/\.inspector-header\s*\{([^}]*)\}/)?.[1];
+    const inspectorClose = styles.match(
+      /\.inspector-close\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(header).toMatch(/position:\s*sticky/);
+    expect(header).toMatch(/top:\s*0/);
+    expect(header).toMatch(/margin:\s*0 -24px 16px/);
+    // An absolutely positioned child of a scrollport is translated by the
+    // scroll offset: that is how the close button used to leave the screen.
+    expect(inspectorClose).not.toMatch(/position:\s*absolute/);
+    expect(inspectorClose).toMatch(/flex:\s*0 0 44px/);
+  });
+
+  it("re-insets the pinned inspector header on the phone panel", () => {
+    const phoneStart = styles.indexOf("@media (max-width: 560px)");
+    const phoneEnd = styles.indexOf(
+      "@media (prefers-reduced-motion: reduce)",
+      phoneStart,
+    );
+    const phoneStyles = styles.slice(phoneStart, phoneEnd);
+    const header = phoneStyles.match(
+      /\.inspector-header\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(phoneStart).toBeGreaterThanOrEqual(0);
+    expect(phoneEnd).toBeGreaterThan(phoneStart);
+    expect(header).toMatch(/margin-inline:\s*-20px/);
+    expect(header).toMatch(/padding-left:\s*20px/);
   });
 
   it("wraps long event metadata inside the inspector", () => {
@@ -347,9 +375,12 @@ describe("standalone bottom safe area", () => {
     expect(narrowStyles).toMatch(
       /\.parcel-inspector\s*\{[^}]*bottom:\s*calc\(42px \+ env\(safe-area-inset-bottom\)\)/s,
     );
-    // The vector editor keeps its own phone block further down the sheet.
+    // The vector editor keeps its own phone block further down the sheet. Its
+    // offset also has to clear the attribution strip (see the phone editing
+    // panel block below), so the inset rides on that clearance rather than on
+    // a bare 12px.
     expect(styles).toMatch(
-      /\.vector-edit-panel\s*\{[^}]*bottom:\s*calc\(12px \+ env\(safe-area-inset-bottom\)\)/s,
+      /\.vector-edit-panel\s*\{[^}]*env\(safe-area-inset-bottom\)/s,
     );
   });
 });
@@ -712,5 +743,114 @@ describe("georeferencer overlay", () => {
     // The helper sentence is secondary text, like the locked-layers note.
     const helper = styles.match(/\.georeference-method small\s*\{([^}]*)\}/)?.[1];
     expect(helper).toMatch(/color:\s*var\(--muted\)/);
+  });
+});
+
+describe("Geoman vertex handles on a coarse pointer", () => {
+  // The `@media (pointer: coarse)` block, sliced at its own closing brace in
+  // column 0 — every nested rule in this stylesheet closes indented.
+  const coarse = styles.match(
+    /@media \(pointer: coarse\) \{\n([\s\S]*?)\n\}/,
+  )?.[1];
+  const HANDLE =
+    /\.leaflet-marker-draggable\.marker-icon:not\(\.marker-icon-middle\)\s*\{([^}]*)\}/;
+
+  it("gives a draggable vertex handle the 44px canvas the native handle uses", () => {
+    expect(coarse).toBeDefined();
+    const handle = coarse!.match(HANDLE)?.[1];
+    expect(handle).toBeDefined();
+    // Geoman ships `.marker-icon` at 14px !important, so this has to carry
+    // !important too AND out-specify one class, or it ties and loses.
+    expect(handle).toMatch(/width:\s*44px\s*!important/);
+    expect(handle).toMatch(/height:\s*44px\s*!important/);
+    // Leaflet anchors a divIcon by margin; half the size is what centres it.
+    expect(handle).toMatch(/margin:\s*-22px 0 0 -22px\s*!important/);
+    // 44 = 22 disc + 2 x 11 padding, and only under border-box.
+    expect(handle).toMatch(/box-sizing:\s*border-box/);
+    expect(handle).toMatch(/padding:\s*11px/);
+    // The canvas is the touch target; the disc below is what is seen.
+    expect(handle).toMatch(/background-color:\s*transparent/);
+    expect(handle).toMatch(/border:\s*0/);
+    // The rule must stay scoped to draggable handles: Geoman gives vertices
+    // placed while DRAWING the same `.marker-icon` at `draggable: false`,
+    // and a tap on one of those is what finishes the shape.
+    expect(styles).not.toMatch(/\n\s*\.marker-icon\s*\{/);
+  });
+
+  it("draws the seen disc at 22px, rim included", () => {
+    // The `*` rule at the top of this file does not reach pseudo-elements,
+    // so without its own border-box the 2px rim would make the disc 26px and
+    // push it off the vertex it marks — a coordinate error, in a map.
+    const disc = coarse!.match(
+      /\.leaflet-marker-draggable\.marker-icon:not\(\.marker-icon-middle\)::before\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(disc).toBeDefined();
+    expect(disc).toMatch(/box-sizing:\s*border-box/);
+    expect(disc).toMatch(/width:\s*22px/);
+    expect(disc).toMatch(/height:\s*22px/);
+  });
+
+  it("swaps the Alt hint for one a touch user can act on", () => {
+    // Both sentences are in the DOM and CSS picks, so the component never
+    // has to ask what kind of pointer is in front of it.
+    expect(styles).toMatch(
+      /\.vector-edit-snap-hint-coarse\s*\{\s*display:\s*none/,
+    );
+    expect(coarse).toMatch(/\.vector-edit-snap-hint-fine\s*\{\s*display:\s*none/);
+    expect(coarse).toMatch(
+      /\.vector-edit-snap-hint-coarse\s*\{\s*display:\s*block/,
+    );
+  });
+});
+
+
+describe("phone vector editing panel", () => {
+  // App.tsx renders <VectorEditPanel> outside `.app-shell`, as a sibling of
+  // it, so this card's `bottom` is measured against the initial containing
+  // block while the attribution strip's `bottom: 0` is measured against
+  // `.app-shell`. jsdom does no layout, so the declarations that reconcile
+  // those two frames are what gets asserted — the same reason the
+  // georeferencer tests below assert CSS text rather than geometry.
+  //
+  // Sliced from the card's own base rule, not from the first
+  // `@media (max-width: 860px)` in the sheet: there are three of those, and
+  // the first is the layer rail's.
+  const panelBase = styles.indexOf(".vector-edit-panel {");
+  const phoneStart = styles.indexOf("@media (max-width: 860px)", panelBase);
+  const phonePanel = styles
+    .slice(phoneStart)
+    .match(/\.vector-edit-panel\s*\{([^}]*)\}/s)?.[1];
+
+  it("lifts the card clear of the attribution strip", () => {
+    const railClearance =
+      styles
+        .slice(styles.indexOf("@media (max-width: 860px)"))
+        .match(
+          /\.layer-rail\.mobile-open\s*\{[^}]*bottom:\s*calc\((\d+)px/s,
+        )?.[1] ?? "";
+
+    expect(panelBase).toBeGreaterThan(-1);
+    expect(phoneStart).toBeGreaterThan(panelBase);
+    expect(railClearance).not.toBe("");
+    // Read off the sheet's rule rather than written out again, so the two can
+    // only drift together — and stated against `--app-viewport-height`, the
+    // height `.app-shell`, and so the strip's bottom edge, is set to. A bare
+    // pixel offset here is measured from a different edge than the strip it
+    // has to clear, which is how the card ended up underneath it.
+    expect(phonePanel).toMatch(
+      new RegExp(
+        `bottom:[^;]*var\\(--app-viewport-height[^;]*${railClearance}px`,
+      ),
+    );
+  });
+
+  it("caps the card so Done editing cannot leave the viewport", () => {
+    // Bottom-anchored and uncapped, a card carrying a selected feature's
+    // fields, attributes and photos grew past the top of the initial
+    // containing block, where nothing scrolls, taking "Done editing" with it.
+    expect(phonePanel).toMatch(
+      /max-height:\s*calc\(\s*var\(--app-viewport-height,\s*100dvh\)\s*-\s*92px/,
+    );
+    expect(phonePanel).toMatch(/overflow-y:\s*auto/);
   });
 });

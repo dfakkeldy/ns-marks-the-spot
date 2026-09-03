@@ -1806,6 +1806,19 @@ a {
   overflow: hidden;
 }
 
+/* Closing the parcel inspector hands focus back here, so the next Tab starts
+   at the map rather than at the top of the document. A keyboard user should
+   see where focus landed; someone who closed the panel with a pointer should
+   not get a ring drawn around the whole map. */
+.map-region:focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: -3px;
+}
+
+.map-region:focus:not(:focus-visible) {
+  outline: none;
+}
+
 .map-canvas,
 .leaflet-container {
   width: 100%;
@@ -2432,17 +2445,52 @@ a {
   box-shadow: var(--shadow);
 }
 
+/* The one part of the panel that does not scroll: which parcel this is, and
+   the way out of it. The panel above is its own scrollport, and an absolutely
+   positioned child of a scrollport is translated by the scroll offset — the
+   close button left the screen with the first swipe of content. On a phone
+   that was the only exit: at 560px and under the panel is full-screen,
+   `.map-region.has-inspector .mobile-map-chrome` is display: none, and the
+   zoom and location controls are faded to opacity 0. Sticky row, negative
+   inline margins bleeding it to the padding box, solid background: the same
+   construction the layer rail's own sticky sheet header uses. The background
+   is fully opaque rather than the panel's 0.98 so scrolled content cannot
+   ghost through the row.
+
+   The native card has a non-scrolling bar for the same reason, but it is not
+   the same bar: ParcelInspectorView.swift pins the short `PID <pid>` and puts
+   everything else in the scroll, while this pins the panel's heading, which
+   is the civic address. Same idea, different content — not parity. */
+.inspector-header {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 -24px 16px;
+  padding: 14px 14px 12px 24px;
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+}
+
 .parcel-inspector h2 {
-  padding-right: 52px;
+  /* The 52px right gutter this used to carry was clearance for the
+     absolutely positioned close button; the flex gap reserves it now.
+     min-width keeps a long address from forcing the row wider than the
+     panel. */
+  min-width: 0;
   font-size: 1.75rem;
 }
 
 .inspector-close {
-  position: absolute;
-  top: 14px;
-  right: 14px;
+  display: grid;
+  flex: 0 0 44px;
   width: 44px;
   height: 44px;
+  place-items: center;
+  padding: 0;
   color: var(--chart-ink);
   font-size: min(1.8rem, 32px);
   line-height: 1;
@@ -3625,6 +3673,15 @@ a {
     padding: 20px;
     padding-bottom: 84px;
     overflow-y: auto;
+  }
+
+  /* The phone panel pads at 20px, not 24px, so the pinned row is re-inset to
+     bleed to that padding box rather than overhang the panel's border — the
+     same re-inset the rail's sticky sheet header gets in this block for its
+     own padding. */
+  .inspector-header {
+    margin-inline: -20px;
+    padding-left: 20px;
   }
 
   .map-region.has-inspector .leaflet-control-zoom,
@@ -5239,6 +5296,86 @@ a {
   font-size: 0.7rem;
 }
 
+/* Both hints are in the DOM and one is shown. "Hold Alt" names a keyboard
+   modifier a phone has no way to press, so the coarse-pointer block below
+   swaps it for the only route a touch user has: the master toggle above. */
+.vector-edit-snap-hint-coarse {
+  display: none;
+}
+
+/* Coarse pointers: the vertex drag target, and the sentence that tells the
+   truth about it.
+
+   Geoman pins its vertex handles at 14px !important (its own `.marker-icon`
+   rule) — a 14px drag target beside the 15-unit snap radius this panel arms,
+   on the one control here that needs precision most, in a panel where every
+   other control is already 44px. The native app settled the shape of the
+   answer in `VectorVertexHandleImage`: a 44-point canvas as the touch
+   target, a 22-point disc as what is seen. This is that, in CSS; web is the
+   surface catching up.
+
+   `.leaflet-marker-draggable` is what scopes this to reshaping, and it is
+   load-bearing. Leaflet adds that class only while a marker's own drag
+   handler is enabled, and Geoman builds vertices placed WHILE DRAWING with
+   `draggable: false` while edit-mode handles are `draggable: true`. A tap on
+   a draw-time vertex is what finishes a line or closes an area and it never
+   reaches the map underneath, so enlarging those would make any tap within
+   22px of an earlier vertex end the shape instead of extending it. The
+   second class is needed for a second reason: Geoman's rule carries
+   `!important`, so this one needs `!important` too AND has to win on
+   specificity, which one class cannot.
+
+   Middle markers are excluded and keep Geoman's 10px, and that is a stated
+   gap rather than a compliment. A middle marker inserts a vertex on click
+   and inserts-then-drags on movestart, so on touch it is the only way to add
+   a vertex at all — removal is bound to `contextmenu`, which touch has no
+   gesture for. Enlarging one would put it over the handle it sits between
+   and take back the drag this block exists to give. So inserting a vertex
+   stays a 10px touch target, and on a segment shorter than the handle an
+   enlarged handle can cover the midpoint outright; zooming in separates
+   them. Neither is fixed here. */
+@media (pointer: coarse) {
+  .leaflet-marker-draggable.marker-icon:not(.marker-icon-middle) {
+    /* Stated, not inherited from this sheet's `*` rule: the disc geometry
+       below is 44 minus 2 x 11 and only holds under border-box. */
+    box-sizing: border-box;
+    width: 44px !important;
+    height: 44px !important;
+    /* Leaflet anchors a divIcon by margin; half the new size is what keeps
+       the handle centred on its vertex instead of offset from it. */
+    margin: -22px 0 0 -22px !important;
+    padding: 11px;
+    /* The canvas is the touch target and the disc below is what is seen, so
+       the canvas draws nothing — and stays square, because a browser
+       hit-tests inside the border radius and Geoman's is 50%. */
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .leaflet-marker-draggable.marker-icon:not(.marker-icon-middle)::before {
+    content: "";
+    display: block;
+    /* This sheet's `*` rule does not reach pseudo-elements. Without its own
+       border-box the 2px rim would make the disc 26px and push it off the
+       vertex it marks. */
+    box-sizing: border-box;
+    width: 22px;
+    height: 22px;
+    background-color: #fff;
+    border: 2px solid #3388ff;
+    border-radius: 50%;
+  }
+
+  .vector-edit-snap-hint-fine {
+    display: none;
+  }
+
+  .vector-edit-snap-hint-coarse {
+    display: block;
+  }
+}
+
 /* The snap indicator: one marker at the candidate point while a dragged or
    drawn vertex is inside the snap radius — square for a parcel/feature
    corner, round for a point along an edge. */
@@ -5692,12 +5829,49 @@ a {
 @media (max-width: 860px) {
   .vector-edit-panel {
     top: auto;
-    /* The same home-indicator inset the rest of the phone chrome carries: at
-       a bare 12px this panel's controls sat in the system gesture zone. */
-    bottom: calc(12px + env(safe-area-inset-bottom));
+    /* Above the attribution strip, not behind it, and clear of the home
+       indicator. At this width the strip is `position: absolute;
+       z-index: 1300` with a 72px cap while this card is z-index 1000, and
+       neither sits in a stacking context of its own — so at a bare 12px the
+       strip painted over the card's bottom 20-60px and swallowed the taps
+       with it. That band is where "Delete this feature", the Take photo /
+       Add photos row and the select-a-feature hint land.
+
+       80px is the clearance `.layer-rail.mobile-open` already takes for this
+       same strip. The frame has to be converted before that number means
+       anything: the strip's `bottom: 0` is measured against `.app-shell`,
+       whose height is the visual viewport (`var(--app-viewport-height)`),
+       while App.tsx renders this card outside the shell, so its own `bottom`
+       is measured against the initial containing block. The gap between
+       those two bottom edges is `100%` minus that variable — zero while the
+       two viewports agree, the keyboard's height while it is open — so
+       adding it lands the card 80px above the strip either way. The floor
+       keeps a pinch-zoomed-out viewport, where the visual viewport is the
+       taller of the two, from pushing the card off screen; the inset is what
+       the rest of the phone chrome carries for the home indicator. */
+    bottom: calc(
+      max(80px, 100% - var(--app-viewport-height, 100dvh) + 80px) +
+        env(safe-area-inset-bottom)
+    );
     left: 12px;
     right: 12px;
     width: auto;
+    /* Bounded and scrolled. Bottom-anchored with no cap, a card carrying a
+       selected feature's fields, attributes and 64px photo thumbs grew
+       UPWARD out of the top of the initial containing block, and nothing
+       scrolls above the origin — so the header holding "Done editing" was
+       unreachable rather than merely off screen. 92px is the 80px clearance
+       plus a 12px top inset, so the card can grow to the top of the app's
+       own viewport and no further.
+
+       Done editing scrolls back to the top of the card rather than pinning:
+       `position: sticky` on a grid item is clamped to its grid area, which
+       here is exactly the header's own box, so a sticky header would have
+       zero travel. */
+    max-height: calc(
+      var(--app-viewport-height, 100dvh) - 92px - env(safe-area-inset-bottom)
+    );
+    overflow-y: auto;
   }
 }
 
