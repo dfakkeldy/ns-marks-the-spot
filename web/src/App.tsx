@@ -1685,9 +1685,19 @@ export function App() {
       rawGpx: Blob;
       startedAt: string;
       endedAt: string;
-    }): Promise<string | null> => {
-      const record = await userVectorApi.createRecordedLayer(input);
-      return `Track saved as "${record.name}".`;
+      /** True only for a walk recovered from an interrupted session. */
+      interrupted: boolean;
+    }): Promise<{ message: string; persisted: boolean }> => {
+      const { record, persisted } = await userVectorApi.createRecordedLayer(input);
+      // "Saved" only when it was: a track the device refused is on the map and
+      // nowhere else, and the map must not say otherwise.
+      return {
+        message: persisted
+          ? `Track saved as "${record.name}".`
+          : `Track "${record.name}" is on the map, but it couldn't be written ` +
+            `to this device — it stays until you close the tab.`,
+        persisted,
+      };
     },
     [userVectorApi],
   );

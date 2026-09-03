@@ -158,7 +158,9 @@ export function buildFeaturePopup(
       record.origin.kind === "imported"
         ? `From your file ${record.origin.filename}`
         : record.origin.kind === "recorded"
-          ? "Recorded on this device"
+          ? record.origin.interrupted
+            ? "Recorded on this device — interrupted, so it may be cut short"
+            : "Recorded on this device"
           : record.origin.kind === "photo-import"
             ? "From photos on this device"
             : "Drawn on this device",

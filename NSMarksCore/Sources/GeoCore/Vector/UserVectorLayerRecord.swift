@@ -29,6 +29,13 @@ public enum UserVectorOrigin: Hashable, Sendable {
     /// A track recorded on this device, and when the recording ran. The key
     /// names match the web's `{ kind: "recorded", startedAt, endedAt }` so
     /// the two surfaces' stored records stay mutually readable in shape.
+    ///
+    /// The web origin also carries an optional `interrupted`, set when a walk
+    /// was saved from the copy its device kept while it ran and so ends at
+    /// the last position stored. This decoder ignores that key, so such a
+    /// layer reads here as a plain recorded one — a known gap, not parity:
+    /// this app does not keep that copy yet, and cannot say what it does not
+    /// know about a walk another surface saved.
     case recorded(startedAt: Date, endedAt: Date)
     /// Points placed from the device photo library.
     case photos(createdAt: Date, count: Int)

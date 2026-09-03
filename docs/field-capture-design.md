@@ -88,7 +88,8 @@ Web (`web/src/`):
 - Foreground track recording: start/pause/resume/stop, contract filter
   pipeline, Douglas-Peucker simplify on save, processed LineString /
   MultiLineString plus raw GPX as the layer original, origin `recorded`
-  ("Recorded on this device")
+  ("Recorded on this device", or "interrupted" when it was saved from the
+  device's copy of a walk in progress)
   ([trackRecorder.ts](../web/src/location/trackRecorder.ts),
   [useTrackRecording.ts](../web/src/location/useTrackRecording.ts),
   [SaveTrackDialog.tsx](../web/src/location/SaveTrackDialog.tsx),
@@ -392,7 +393,11 @@ the claim the data makes about itself.
   for bulk photo-placement layers.
 - `UserVectorOrigin` gains `{ kind: "recorded", startedAt, endedAt }` (ISO
   strings on web, Dates in Swift Codable with those key names). Provenance
-  string: "Recorded on this device".
+  string: "Recorded on this device". The web origin also carries an optional
+  `interrupted` for a walk saved from the copy the device kept while it ran,
+  which says so in its provenance instead; Swift decodes the two shared keys
+  and ignores it, so a recovered walk reads as a plain recorded one there
+  until the native surface carries the same flag.
 - Every recording saves as a new layer. The raw recording rides the existing
   original-file mechanism: a GPX 1.1 document containing every received fix
   (kept and dropped alike), one `<trkseg>` per recording segment, `<time>` and
@@ -587,7 +592,8 @@ New modules under `web/src/location/`:
 | `captureSpec.ts` | the contract constants, asserted against the fixture |
 | `trackFilter.ts` | pure per-fix pipeline: gate, outlier, smooth, spacing |
 | `trackRecorder.ts` | recorder state machine (idle/recording/paused), segments, raw-fix accumulation, live stats; injectable clock |
-| `useTrackRecording.ts` | wires fixes into the recorder, owns the wake lock, exposes start/pause/resume/stop |
+| `useTrackRecording.ts` | wires fixes into the recorder, owns the wake lock and the in-progress draft, exposes start/pause/resume/stop |
+| `trackDraftStore.ts` | the in-progress recording in the shared user-content database, one overwritten `blobs` key; written only while a walk runs, offered back after an interrupted session, deleted on save or discard |
 | `wakeLock.ts` | acquire/release with `visibilitychange` re-acquire; graceful hint when unsupported |
 | `simplifyTrack.ts` | metres-based Douglas-Peucker with parallel-times index selection |
 | `LocationControls.tsx` | map-corner cluster (locate/follow/mark/record, recording HUD, privacy line), replacing the bare button at MapCanvas.tsx ~2102 |
@@ -956,7 +962,9 @@ user-initiated exports. Photo re-encoding strips EXIF GPS from every stored
 and exported image byte. The iOS App Store privacy label (zero collected data
 types) stays true.
 
-Evidence and provenance: recorded layers say "Recorded on this device"; photo
+Evidence and provenance: recorded layers say "Recorded on this device", and
+one saved from the device's copy of a walk in progress says it may be cut
+short; photo
 layers say "From your photos · N photos"; marked points show their accuracy
 (web names the device's location, not GPS; iOS callouts still say GPS);
 traced features carry `nsmts:traced` and the not-a-survey caveat

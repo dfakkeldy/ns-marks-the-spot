@@ -102,3 +102,73 @@ describe("createTrackRecorder", () => {
     expect(createTrackRecorder(() => 0).stop()).toBeNull();
   });
 });
+
+describe("reading the walk so far", () => {
+  it("reads the walk without disturbing the recording", () => {
+    const time = clock(0);
+    const recorder = createTrackRecorder(time.now);
+    recorder.start();
+    recorder.addFix(fix(0, 0));
+    recorder.addFix(fix(10, 1_000));
+    recorder.addFix(fix(20, 2_000));
+    time.advanceTo(2_500);
+
+    const draft = recorder.draft();
+    expect(draft).not.toBeNull();
+    expect(draft!.segments[0]).toHaveLength(3);
+    expect(draft!.rawFixCount).toBe(3);
+    expect(draft!.recordingMs).toBe(recorder.stats().elapsedMs);
+
+    recorder.addFix(fix(30, 3_000));
+    recorder.addFix(fix(40, 4_000));
+    // The draft is a copy: the walk went on without it.
+    expect(draft!.segments[0]).toHaveLength(3);
+    time.advanceTo(4_500);
+    expect(recorder.stop()!.segments[0]).toHaveLength(5);
+  });
+
+  it("ends a draft at the last fix received, never at the clock", () => {
+    const time = clock(0);
+    const recorder = createTrackRecorder(time.now);
+    recorder.start();
+    recorder.addFix(fix(0, 1_000));
+    recorder.addFix(fix(10, 2_000));
+    // The tab has been in the background for a minute; the clock has moved
+    // and the device has not.
+    time.advanceTo(62_000);
+
+    expect(recorder.draft()!.endedAt).toBe(new Date(2_000).toISOString());
+    expect(recorder.stop()!.endedAt).toBe(new Date(62_000).toISOString());
+  });
+
+  it("has no draft before a fix, or after stop", () => {
+    const time = clock(0);
+    const recorder = createTrackRecorder(time.now);
+    expect(recorder.draft()).toBeNull();
+    recorder.start();
+    expect(recorder.draft()).toBeNull();
+    recorder.addFix(fix(0, 0));
+    expect(recorder.draft()).not.toBeNull();
+    time.advanceTo(1_000);
+    recorder.stop();
+    expect(recorder.draft()).toBeNull();
+  });
+
+  it("does not append the pending tail twice when a draft is read first", () => {
+    const time = clock(0);
+    const recorder = createTrackRecorder(time.now);
+    recorder.start();
+    recorder.addFix(fix(0, 0));
+    recorder.addFix(fix(10, 1_000));
+    // Inside the minimum spacing, so it is accepted but not kept as a vertex
+    // until the segment closes — the contract's final-fix rule.
+    recorder.addFix(fix(10.5, 1_500));
+
+    const draftVertices = recorder.draft()!.segments[0].length;
+    time.advanceTo(2_000);
+    const stopped = recorder.stop();
+
+    expect(stopped).not.toBeNull();
+    expect(stopped!.segments[0]).toHaveLength(draftVertices);
+  });
+});

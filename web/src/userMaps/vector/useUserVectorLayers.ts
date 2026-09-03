@@ -130,7 +130,9 @@ export type UserVectorLayersApi = {
     rawGpx: Blob;
     startedAt: string;
     endedAt: string;
-  }) => Promise<UserVectorLayerRecord>;
+    /** True only for a walk recovered from an interrupted session. */
+    interrupted?: boolean;
+  }) => Promise<{ record: UserVectorLayerRecord; persisted: boolean }>;
   /**
    * Appends features to an existing layer outside an edit session, stamping
    * modifiedAt so the row's provenance shows the layer changed. Returns the
@@ -745,21 +747,32 @@ export function useUserVectorLayers(
       rawGpx: Blob;
       startedAt: string;
       endedAt: string;
-    }): Promise<UserVectorLayerRecord> => {
+      interrupted?: boolean;
+    }): Promise<{ record: UserVectorLayerRecord; persisted: boolean }> => {
       const record: UserVectorLayerRecord = {
         id: generateId(),
         name: input.name,
         source: "recorded",
-        origin: {
-          kind: "recorded",
-          startedAt: input.startedAt,
-          endedAt: input.endedAt,
-        },
+        // A recovered walk stays marked for the life of the record: the row
+        // and the popup must not read as a walk the user chose to end.
+        origin: input.interrupted
+          ? {
+              kind: "recorded",
+              startedAt: input.startedAt,
+              endedAt: input.endedAt,
+              interrupted: true,
+            }
+          : {
+              kind: "recorded",
+              startedAt: input.startedAt,
+              endedAt: input.endedAt,
+            },
         createdAt: new Date().toISOString(),
         revision: 0,
         style: { color: nextLayerColor(recordsSnapshotRef.current.length) },
         ...summarize(input.collection),
       };
+      let persisted = true;
       try {
         // The raw GPX rides the original-file slot, exactly like an import's
         // source file: the record says how the data came to be, the original
@@ -768,7 +781,10 @@ export function useUserVectorLayers(
         requestDurableStorage();
       } catch (saveError) {
         // Same degrade contract as imports: a failed save never discards the
-        // recording — the track stays on the map for this session.
+        // recording — the track stays on the map for this session. The caller
+        // is told, so a track that will not survive the tab is not called
+        // saved, and the unsaved recording it can be recovered from is kept.
+        persisted = false;
         setStorageError(
           saveError instanceof UserMapImportError
             ? saveError.userMessage
@@ -786,7 +802,7 @@ export function useUserVectorLayers(
         ...current,
         [record.id]: { enabled: true },
       }));
-      return record;
+      return { record, persisted };
     },
     [persistUiState, store],
   );
