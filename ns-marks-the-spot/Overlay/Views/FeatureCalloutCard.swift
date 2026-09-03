@@ -25,10 +25,10 @@ struct FeatureCalloutCard: View {
                 Spacer()
                 Button(action: onClose) {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 18))
+                        .font(.title3)
                         .foregroundStyle(.secondary)
                         .symbolRenderingMode(.hierarchical)
-                        .frame(width: 44, height: 44)
+                        .frame(minWidth: 44, minHeight: 44)
                         .contentShape(Circle())
                 }
                 .buttonStyle(.plain)

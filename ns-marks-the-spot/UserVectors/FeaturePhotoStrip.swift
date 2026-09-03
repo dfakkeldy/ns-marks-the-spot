@@ -166,7 +166,7 @@ struct FeaturePhotoStrip: View {
                 session.requestRemovePhoto(featureID: feature.id ?? "", photoID: descriptor.id)
             } label: {
                 Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 16))
+                    .font(.callout)
                     .foregroundStyle(.white, .black.opacity(0.6))
             }
             .buttonStyle(.plain)
@@ -181,11 +181,18 @@ private struct LightboxPhoto: Identifiable {
     let title: String
 }
 
-/// One async-loaded thumbnail, 56 pt square.
+/// One async-loaded thumbnail, 56 pt square at the default text size.
 struct PhotoThumbView: View {
     /// Download progress while the bytes are still coming from iCloud.
     var progress: Double? = nil
     var load: () async -> Data?
+
+    /// Capped, not frozen: the thumbnail grows with the reader's text size so
+    /// it stays proportionate to the labels beside it, and stops growing
+    /// before a row of them takes the height the callout card needs for its
+    /// provenance. The browser pins its own thumbnail at 64 px.
+    @ScaledMetric private var scaledSide: CGFloat = 56
+    private var side: CGFloat { min(scaledSide, 96) }
 
     @State private var image: UIImage?
     @State private var unavailable = false
@@ -212,7 +219,7 @@ struct PhotoThumbView: View {
                     .accessibilityLabel(unavailable ? "Photo unavailable" : "Photo loading")
             }
         }
-        .frame(width: 56, height: 56)
+        .frame(width: side, height: side)
         .clipShape(.rect(cornerRadius: 8))
         .task {
             guard image == nil else { return }
@@ -257,9 +264,9 @@ struct PhotoLightboxView: View {
                 onClose()
             } label: {
                 Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 28))
+                    .font(.title)
                     .foregroundStyle(.white, .black.opacity(0.5))
-                    .frame(width: 44, height: 44)
+                    .frame(minWidth: 44, minHeight: 44)
             }
             .accessibilityLabel("Close photo")
             .padding()
