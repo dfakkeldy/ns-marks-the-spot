@@ -5208,8 +5208,11 @@ a {
    and the display-scale readout keeps its 50px and becomes the top of the
    stack. 88px clears it. Full width here, as .modern-map-error is. */
 @media (max-width: 860px) {
+  /* The attribution strip below reaches 72px + env(safe-area-inset-bottom),
+     so a bare 88px leaves the alert's bottom rows — and its Dismiss target —
+     painted under the strip on a home-indicator phone. */
   .vector-edit-write-errors {
-    bottom: 88px;
+    bottom: calc(88px + env(safe-area-inset-bottom));
     right: 12px;
     max-width: none;
   }

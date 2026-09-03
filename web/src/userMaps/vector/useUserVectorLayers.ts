@@ -122,7 +122,8 @@ export type UserVectorLayersApi = {
   ensureFieldNotesLayer: () => Promise<string>;
   /**
    * Saves a finished track recording as a new layer: origin "recorded", the
-   * processed geometry as the layer, the raw GPX as its original file.
+   * processed geometry as the layer, the raw GPX as its original file. A
+   * retry after a refused save rewrites the layer that save left on the map.
    */
   createRecordedLayer: (input: {
     name: string;
@@ -132,6 +133,12 @@ export type UserVectorLayersApi = {
     endedAt: string;
     /** True only for a walk recovered from an interrupted session. */
     interrupted?: boolean;
+    /**
+     * The layer a refused save of this same walk already put on the map.
+     * Without it a retry appends a second copy of the track and leaves the
+     * first one behind.
+     */
+    replaceLayerId?: string;
   }) => Promise<{ record: UserVectorLayerRecord; persisted: boolean }>;
   /**
    * Appends features to an existing layer outside an edit session, stamping
@@ -157,20 +164,32 @@ export type UserVectorLayersApi = {
   ) => void;
 };
 
-function loadUiState(): UserVectorUiState {
+function parseUiState(raw: string): UserVectorUiState | null {
   try {
-    // `?? "{}"` only covers a missing key. A stored `null`, array or number
-    // parses without throwing, and the cast then launders it into something
-    // every caller indexes — `uiState[id]` in visibleLayers and the rows, and
-    // again in each setter that reads this back. Indexing `null` throws, so
-    // one corrupt value would take the map to the error boundary on every
-    // load. Only a plain object can carry this state; anything else counts as
-    // nothing remembered, exactly like an empty store.
-    const parsed: unknown = JSON.parse(localStorage.getItem(UI_STATE_KEY) ?? "{}");
+    // A stored `null`, array or number parses without throwing, and the cast
+    // then launders it into something every caller indexes — `uiState[id]` in
+    // visibleLayers and the rows, and again in each setter that reads this
+    // back. Indexing `null` throws, so one corrupt value would take the map to
+    // the error boundary. Only a plain object can carry this state; null here
+    // means the value could not be read, and the two callers answer that
+    // differently.
+    const parsed: unknown = JSON.parse(raw);
     if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
-      return {};
+      return null;
     }
     return parsed as UserVectorUiState;
+  } catch {
+    return null;
+  }
+}
+
+function loadUiState(): UserVectorUiState {
+  try {
+    // `?? "{}"` only covers a missing key; on load an unreadable value is the
+    // same fact — nothing remembered, exactly like an empty store. The getItem
+    // itself throws in Safari with "Block all cookies" and in some in-app
+    // WebViews, which is that fact once more.
+    return parseUiState(localStorage.getItem(UI_STATE_KEY) ?? "{}") ?? {};
   } catch {
     return {};
   }
@@ -211,7 +230,8 @@ export function useUserVectorLayers(
   const [uiState, setUiState] = useState<UserVectorUiState>(loadUiState);
   // The same record as `uiState`, readable from a callback without capturing
   // it. Storage is read once — the initializer above — and never again;
-  // persistUiState says why.
+  // persistUiState says why. The only other thing that replaces this record is
+  // another tab writing the key, which arrives as a `storage` event below.
   const uiStateRef = useRef<UserVectorUiState>(uiState);
   const [importing, setImporting] = useState(false);
   const [importingLabel, setImportingLabel] = useState<string | null>(null);
@@ -279,6 +299,50 @@ export function useUserVectorLayers(
     },
     [],
   );
+
+  /**
+   * The same record, changed in another tab. The browser fires `storage` only
+   * in the OTHER same-origin tabs and never in the one that wrote, so nothing
+   * arriving here can be an echo of this tab's own change and no guard against
+   * that is needed. Taking it is what keeps two open tabs from undoing each
+   * other: without it this tab keeps computing from the record it loaded, and
+   * its next toggle writes that older record back over the layer the other tab
+   * just switched on.
+   */
+  useEffect(() => {
+    const onStorage = (event: StorageEvent) => {
+      // sessionStorage fires this event too, and this hook never reads it.
+      if (event.key !== UI_STATE_KEY || event.storageArea !== localStorage) {
+        // A whole-store `clear()` arrives with a null key and stops here,
+        // which is the same answer as the removal below.
+        return;
+      }
+      // A removed key, and a value this tab cannot read, are both silence
+      // rather than an instruction to switch every layer off. Acting on either
+      // would take layers off this tab that the user never touched; the next
+      // change made here writes the whole record again.
+      const incoming =
+        event.newValue === null ? null : parseUiState(event.newValue);
+      if (incoming === null) {
+        return;
+      }
+      // Merged over what this tab holds, not swapped for it. A tab whose own
+      // writes are refused — quota, private mode, "Block all cookies" — never
+      // published anything it imported or switched on this session, so the
+      // other tab's record has no entry for those at all, and replacing would
+      // take every one of them off the map with nothing said. What a removal
+      // in the other tab costs is that its entry lingers here, which is the
+      // cheaper mistake: the layer is still in this tab's memory and its row
+      // reads the record either way.
+      const next = { ...uiStateRef.current, ...incoming };
+      uiStateRef.current = next;
+      setUiState(next);
+    };
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
 
   const requestFit = useCallback((layerId: string) => {
     fitRevisionRef.current += 1;
@@ -759,9 +823,25 @@ export function useUserVectorLayers(
       startedAt: string;
       endedAt: string;
       interrupted?: boolean;
+      replaceLayerId?: string;
     }): Promise<{ record: UserVectorLayerRecord; persisted: boolean }> => {
+      // A retry after a refused save has to land on the layer that save
+      // already put on the map. A second generated id left the same walk on
+      // the map twice, and once more for every further attempt. An id that is
+      // no longer in the list means the user deleted it, and this is a create.
+      // Only a recorded layer can be rewritten this way: this is public API,
+      // and an imported or drawn layer's id must never let a track overwrite
+      // somebody's file.
+      const refused =
+        input.replaceLayerId === undefined
+          ? undefined
+          : recordsSnapshotRef.current.find(
+              (existing) =>
+                existing.id === input.replaceLayerId &&
+                existing.origin.kind === "recorded",
+            );
       const record: UserVectorLayerRecord = {
-        id: generateId(),
+        id: refused?.id ?? generateId(),
         name: input.name,
         source: "recorded",
         // A recovered walk stays marked for the life of the record: the row
@@ -778,9 +858,13 @@ export function useUserVectorLayers(
               startedAt: input.startedAt,
               endedAt: input.endedAt,
             },
-        createdAt: new Date().toISOString(),
+        createdAt: refused?.createdAt ?? new Date().toISOString(),
         revision: 0,
-        style: { color: nextLayerColor(recordsSnapshotRef.current.length) },
+        // The retry keeps the colour the map has been drawing this walk in;
+        // a fresh one would read as a second, different layer.
+        style: refused?.style ?? {
+          color: nextLayerColor(recordsSnapshotRef.current.length),
+        },
         ...summarize(input.collection),
       };
       let persisted = true;
@@ -802,9 +886,25 @@ export function useUserVectorLayers(
             : "Couldn't save this track — it stays available until you close the tab.",
         );
       }
-      setRecords((prev) => [...prev, record]);
+      // The panel is still carrying the refusal this retry has just undone.
+      // Left up, it would keep telling the reader a track that is now on the
+      // device will not survive the tab.
+      if (persisted && refused) {
+        setStorageError(null);
+      }
+      setRecords((prev) =>
+        refused
+          ? prev.map((existing) =>
+              existing.id === record.id ? record : existing,
+            )
+          : [...prev, record],
+      );
       setGeometries((prev) => ({ ...prev, [record.id]: input.collection }));
-      recordsSnapshotRef.current = [...recordsSnapshotRef.current, record];
+      recordsSnapshotRef.current = refused
+        ? recordsSnapshotRef.current.map((existing) =>
+            existing.id === record.id ? record : existing,
+          )
+        : [...recordsSnapshotRef.current, record];
       geometriesSnapshotRef.current = {
         ...geometriesSnapshotRef.current,
         [record.id]: input.collection,

@@ -25,8 +25,12 @@ export type LiveFix = {
  * "location failed". `signal-lost` keeps the last fix so the marker can dim
  * in place instead of vanishing — and a null `fix` there is the state before
  * any position has been delivered on this watch, which is not a signal that
- * was lost. A consumer must say "not found yet" there and never promise the
- * recovery of something that was never had.
+ * was lost. A consumer must never promise there the recovery of something
+ * that was never had, and it says something different for each of the two
+ * transient reasons: one is still waiting for an answer, the other has been
+ * given one. A pre-fix run of the second ends the watch in
+ * `position-unavailable`, which is the one state here that is not a report on
+ * a watch still running.
  */
 export type LiveLocationSnapshot =
   | { status: "acquiring"; fix: null }
@@ -42,12 +46,31 @@ export type LiveLocationSnapshot =
       reason: "timeout" | "unavailable";
     }
   | { status: "denied"; fix: null }
+  /**
+   * The device answered, more than once, that it cannot work out where it is,
+   * and no position ever arrived. Not `unavailable`: that one is a browser
+   * with no Geolocation API at all, and this is a browser that has one and got
+   * nowhere. The watch is already cleared when this arrives, so a consumer
+   * must take its search off the screen; starting a fresh watch is the
+   * consumer's to offer.
+   */
+  | { status: "position-unavailable"; fix: null }
   | { status: "unavailable"; fix: null };
 
 export type LiveLocationHandle = { stop: () => void };
 
 const PERMISSION_DENIED = 1;
+const POSITION_UNAVAILABLE = 2;
 const TIMEOUT = 3;
+
+/**
+ * How many times, before any position has arrived, the device may report that
+ * it cannot place itself before this watch stops. Three is past what a single
+ * provider hiccup or one cold start produces, and a device that has said it
+ * three times without ever delivering a position is not about to. A timeout
+ * does not count towards it: still waiting is not the same answer as cannot.
+ */
+const PRE_FIX_UNAVAILABLE_LIMIT = 3;
 
 /**
  * maximumAge 5 s: a marker may show a briefly cached fix. The 20 s timeout
@@ -90,6 +113,14 @@ export function startLiveLocation(
     ? navigator.geolocation
     : undefined,
   options: PositionOptions = MARKER_WATCH_OPTIONS,
+  /**
+   * Whether a run of pre-fix "position unavailable" reports may end this
+   * watch. False while a track is being recorded: the walk's only source of
+   * fixes is this watch, and a device struggling at the start of a session has
+   * to be given the whole session to produce one rather than have the
+   * recording's supply cut off after three replies.
+   */
+  endsWhenNeverPlaced = true,
 ): LiveLocationHandle {
   if (!geolocation) {
     onChange({ status: "unavailable", fix: null });
@@ -98,6 +129,10 @@ export function startLiveLocation(
 
   let stopped = false;
   let lastFix: LiveFix | null = null;
+  // Counted only before the first fix, and never reset: `lastFix` stays set
+  // once a position arrives, so this is strictly how many times this watch was
+  // told the position is unavailable while it had nothing to show.
+  let preFixUnavailable = 0;
   // The error callback can run synchronously inside watchPosition (fakes and
   // some permission-cached browsers), before the watch id exists to clear.
   let watchId: number | null = null;
@@ -125,6 +160,27 @@ export function startLiveLocation(
         }
         onChange({ status: "denied", fix: null });
         return;
+      }
+      if (
+        endsWhenNeverPlaced &&
+        error.code === POSITION_UNAVAILABLE &&
+        lastFix === null
+      ) {
+        preFixUnavailable += 1;
+        if (preFixUnavailable >= PRE_FIX_UNAVAILABLE_LIMIT) {
+          // The browser would go on reporting this for as long as the page is
+          // open. Stop the watch so the consumer can take down a search that
+          // has already failed, and pass on only what the device said: the
+          // position is unavailable. Not a refusal, and not a machine without
+          // a way to locate itself.
+          stopped = true;
+          stopRequested = true;
+          if (watchId !== null) {
+            geolocation.clearWatch(watchId);
+          }
+          onChange({ status: "position-unavailable", fix: null });
+          return;
+        }
       }
       // Timeout or position-unavailable: the watch keeps trying on its own,
       // and the two are told apart rather than merged.

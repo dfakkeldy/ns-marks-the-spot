@@ -31,13 +31,35 @@ const DRAFT_VERSION = 1;
 /** How far the walk may run ahead of the copy on the device. */
 export const TRACK_DRAFT_INTERVAL_MS = 5_000;
 
+/**
+ * How long the one-time read may hold Record before the device is called
+ * unreadable. An open blocked by another tab's upgrade never answers, and
+ * locking the recorder out for the rest of the session would be worse than
+ * saying plainly that the device could not be read.
+ */
+export const TRACK_DRAFT_READ_TIMEOUT_MS = 4_000;
+
 export type TrackDraftFailure = "quota" | "failed";
+
+/**
+ * What a read found, which is not the same question as what it returned.
+ *
+ * A store that could not be opened and a store with nothing in it are
+ * different evidence: the first may still hold a walk, so nothing may
+ * overwrite it and the reader is owed the news. Returning null for both let a
+ * blocked store read as "no unsaved recording".
+ */
+export type TrackDraftRead =
+  | { status: "empty" }
+  | { status: "ready"; result: StopResult }
+  | { status: "unreadable" };
 
 export type TrackDraftStore = {
   /** Never rejects: a refused write is reported, not thrown mid-walk. */
   save: (draft: StopResult) => Promise<TrackDraftFailure | null>;
-  read: () => Promise<StopResult | null>;
-  clear: () => Promise<void>;
+  read: () => Promise<TrackDraftRead>;
+  /** Never rejects; a refused delete is reported so the offer can stand. */
+  clear: () => Promise<TrackDraftFailure | null>;
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -159,17 +181,23 @@ export function createTrackDraftStore(
         }
       }),
     read: () =>
-      enqueue(async () => {
+      enqueue(async (): Promise<TrackDraftRead> => {
         try {
           const tx = (await database()).transaction(BLOBS, "readonly");
-          return parseDraft(
-            await request(
-              tx.objectStore(BLOBS).get(DRAFT_KEY) as IDBRequest<unknown>,
-            ),
+          const stored = await request(
+            tx.objectStore(BLOBS).get(DRAFT_KEY) as IDBRequest<unknown>,
           );
+          if (stored === undefined) {
+            return { status: "empty" };
+          }
+          const result = parseDraft(stored);
+          // Something is there and it is not a walk this build can read. Not
+          // "empty": the key is taken, and overwriting it would destroy
+          // whatever it is.
+          return result ? { status: "ready", result } : { status: "unreadable" };
         } catch {
           open = null;
-          return null;
+          return { status: "unreadable" };
         }
       }),
     clear: () =>
@@ -178,8 +206,10 @@ export function createTrackDraftStore(
           const tx = (await database()).transaction(BLOBS, "readwrite");
           tx.objectStore(BLOBS).delete(DRAFT_KEY);
           await transactionDone(tx);
-        } catch {
+          return null;
+        } catch (error) {
           open = null;
+          return isQuotaError(error) ? "quota" : "failed";
         }
       }),
   };

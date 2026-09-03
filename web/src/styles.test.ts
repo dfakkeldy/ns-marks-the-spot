@@ -375,6 +375,14 @@ describe("standalone bottom safe area", () => {
     expect(narrowStyles).toMatch(
       /\.parcel-inspector\s*\{[^}]*bottom:\s*calc\(42px \+ env\(safe-area-inset-bottom\)\)/s,
     );
+    // The write-failure alerts stack above the strip too: at 88px flat their
+    // bottom rows, Dismiss included, are painted under it on a phone with an
+    // indicator. Their phone rule lives with the rest of the vector-editing
+    // CSS further down the sheet, in its own 860px block, so this reads the
+    // whole file rather than the slice above.
+    expect(styles).toMatch(
+      /\.vector-edit-write-errors\s*\{[^}]*bottom:\s*calc\(88px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
     // The vector editor keeps its own phone block further down the sheet. Its
     // offset also has to clear the attribution strip (see the phone editing
     // panel block below), so the inset rides on that clearance rather than on

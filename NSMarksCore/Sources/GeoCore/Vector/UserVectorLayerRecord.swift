@@ -30,13 +30,13 @@ public enum UserVectorOrigin: Hashable, Sendable {
     /// names match the web's `{ kind: "recorded", startedAt, endedAt }` so
     /// the two surfaces' stored records stay mutually readable in shape.
     ///
-    /// The web origin also carries an optional `interrupted`, set when a walk
-    /// was saved from the copy its device kept while it ran and so ends at
-    /// the last position stored. This decoder ignores that key, so such a
-    /// layer reads here as a plain recorded one — a known gap, not parity:
-    /// this app does not keep that copy yet, and cannot say what it does not
-    /// know about a walk another surface saved.
-    case recorded(startedAt: Date, endedAt: Date)
+    /// `interrupted` is set when the walk was saved from the copy its device
+    /// kept while it ran, so it ends at the last position stored and may be
+    /// cut short. This app does not keep such a copy yet, so it never sets
+    /// the flag — but it carries one it is given: dropping it would file a
+    /// walk that says it may be incomplete as a complete one, and re-encoding
+    /// would take the caveat off the record for good.
+    case recorded(startedAt: Date, endedAt: Date, interrupted: Bool = false)
     /// Points placed from the device photo library.
     case photos(createdAt: Date, count: Int)
 
@@ -45,7 +45,10 @@ public enum UserVectorOrigin: Hashable, Sendable {
         switch self {
         case .imported(let filename, _): return "From your file \(filename)"
         case .drawn: return "Drawn on this device"
-        case .recorded: return CaptureSpec.recordedProvenance
+        case .recorded(_, _, let interrupted):
+            return interrupted
+                ? "\(CaptureSpec.recordedProvenance) — interrupted, so it may be cut short"
+                : CaptureSpec.recordedProvenance
         case .photos(_, let count):
             // Historical: how the layer began, not how many photos it holds
             // now, which the features themselves say. "Your photos" is the
@@ -59,6 +62,7 @@ public enum UserVectorOrigin: Hashable, Sendable {
 extension UserVectorOrigin: Codable {
     private enum CodingKeys: String, CodingKey {
         case kind, filename, importedAt, createdAt, startedAt, endedAt, count
+        case interrupted
     }
 
     private enum Kind: String, Codable {
@@ -83,7 +87,12 @@ extension UserVectorOrigin: Codable {
         case .recorded:
             self = .recorded(
                 startedAt: try container.decode(Date.self, forKey: .startedAt),
-                endedAt: try container.decode(Date.self, forKey: .endedAt)
+                endedAt: try container.decode(Date.self, forKey: .endedAt),
+                // Absent on a walk this app recorded, and on every walk saved
+                // before the web kept a copy; absent means not interrupted.
+                interrupted: try container.decodeIfPresent(
+                    Bool.self, forKey: .interrupted
+                ) ?? false
             )
         case .photos:
             self = .photos(
@@ -103,10 +112,15 @@ extension UserVectorOrigin: Codable {
         case .drawn(let createdAt):
             try container.encode(Kind.drawn, forKey: .kind)
             try container.encode(createdAt, forKey: .createdAt)
-        case .recorded(let startedAt, let endedAt):
+        case .recorded(let startedAt, let endedAt, let interrupted):
             try container.encode(Kind.recorded, forKey: .kind)
             try container.encode(startedAt, forKey: .startedAt)
             try container.encode(endedAt, forKey: .endedAt)
+            // Only when true, so a walk this app recorded encodes the shape
+            // the web wrote before the flag existed.
+            if interrupted {
+                try container.encode(true, forKey: .interrupted)
+            }
         case .photos(let createdAt, let count):
             try container.encode(Kind.photos, forKey: .kind)
             try container.encode(createdAt, forKey: .importedAt)

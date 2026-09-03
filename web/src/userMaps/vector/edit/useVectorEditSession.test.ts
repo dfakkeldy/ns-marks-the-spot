@@ -228,8 +228,10 @@ describe("useVectorEditSession", () => {
 
   // A guarded write that finds no row is the layer being gone, which is a
   // different thing from the disk refusing it. Removing the layer under an
-  // open session used to be the ordinary way to reach this, and now the
-  // removal closes the session first — so this branch means what it says.
+  // open session used to be the ordinary way to reach this; a removal made
+  // here is now told to the session, which drops the edit and stays quiet
+  // about that layer — so this branch is only reached when another tab did
+  // the deleting, and means what it says.
   it("says an edit could not be saved when the layer's row is gone", async () => {
     const { options } = harness({ putVectorLayer: vi.fn(async () => false) });
     const { result } = renderHook(() => useVectorEditSession(options));
@@ -684,5 +686,101 @@ describe("a write that fails with no panel to show it", () => {
     });
 
     expect(result.current.closedSessionErrors["layer-1"]).toBeDefined();
+  });
+});
+
+describe("a layer the user asked to remove", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  const twoLayers = () => ({
+    records: [record(), record("layer-2")],
+    geometries: { "layer-1": collection(), "layer-2": collection() },
+  });
+
+  it("drops the unsaved edit instead of writing it into a layer being removed", async () => {
+    const { options, putVectorLayer } = harness();
+    const { result } = renderHook(() => useVectorEditSession(options));
+
+    act(() => result.current.beginEdit("layer-1"));
+    act(() => result.current.commitGeometry(collection()));
+    act(() => result.current.abandonLayer("layer-1"));
+    await act(async () => {
+      vi.advanceTimersByTime(PERSIST_DELAY_MS);
+    });
+
+    // Remove is not Done: nothing is worth saving into a layer the user has
+    // just asked to delete, and the write would race the delete.
+    expect(putVectorLayer).not.toHaveBeenCalled();
+    expect(result.current.editingId).toBeNull();
+  });
+
+  it("does not blame another tab for a deletion this tab performed", async () => {
+    let answer: ((wrote: boolean) => void) | undefined;
+    const { options } = harness({
+      putVectorLayer: vi.fn(
+        () =>
+          new Promise<boolean>((resolve) => {
+            answer = resolve;
+          }),
+      ),
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+
+    act(() => result.current.beginEdit("layer-1"));
+    act(() => result.current.commitGeometry(collection()));
+    // Done starts the write; Remove lands while it is still converting the
+    // geometry, so the guarded update finds the row already gone.
+    act(() => result.current.endEdit());
+    act(() => result.current.abandonLayer("layer-1"));
+    await act(async () => {
+      answer?.(false);
+    });
+
+    expect(result.current.closedSessionErrors).toEqual({});
+    expect(result.current.storageError).toBeNull();
+  });
+
+  it("still reports a layer another tab deleted while a different layer is removed here", async () => {
+    let answer: ((wrote: boolean) => void) | undefined;
+    const { options } = harness({
+      ...twoLayers(),
+      putVectorLayer: vi.fn(
+        () =>
+          new Promise<boolean>((resolve) => {
+            answer = resolve;
+          }),
+      ),
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+
+    act(() => result.current.beginEdit("layer-1"));
+    act(() => result.current.commitGeometry(collection()));
+    act(() => result.current.endEdit());
+    act(() => result.current.abandonLayer("layer-2"));
+    await act(async () => {
+      answer?.(false);
+    });
+
+    // Nothing this tab did explains layer-1's missing row.
+    expect(result.current.closedSessionErrors["layer-1"]).toContain(
+      "deleted in another tab",
+    );
+  });
+
+  it("leaves a session open on the layer that was not removed", () => {
+    const { options } = harness(twoLayers());
+    const { result } = renderHook(() => useVectorEditSession(options));
+
+    act(() => result.current.beginEdit("layer-2"));
+    act(() => result.current.abandonLayer("layer-1"));
+
+    expect(result.current.editingId).toBe("layer-2");
+    expect(result.current.editingLayer?.record.id).toBe("layer-2");
   });
 });

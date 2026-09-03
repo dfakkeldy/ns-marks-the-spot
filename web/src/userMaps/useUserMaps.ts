@@ -190,20 +190,32 @@ function sameGcps(left: Gcp[], right: Gcp[]): boolean {
   );
 }
 
-function loadUiState(): UserMapUiState {
+function parseUiState(raw: string): UserMapUiState | null {
   try {
-    // `?? "{}"` only covers a missing key. A stored `null`, array or number
-    // parses without throwing, and the cast then launders it into something
-    // every caller indexes — `uiState[id]` in visibleMaps and the rows, and
-    // again in setEnabled/setOpacity, which re-read this on each call.
-    // Indexing `null` throws, so one corrupt value would take the map to the
-    // error boundary on every load. Only a plain object can carry this state;
-    // anything else counts as nothing remembered, like an empty store.
-    const parsed: unknown = JSON.parse(localStorage.getItem(UI_STATE_KEY) ?? "{}");
+    // A stored `null`, array or number parses without throwing, and the cast
+    // then launders it into something every caller indexes — `uiState[id]` in
+    // visibleMaps and the rows, and again in setEnabled/setOpacity, which
+    // re-read this on each call. Indexing `null` throws, so one corrupt value
+    // would take the map to the error boundary. Only a plain object can carry
+    // this state; null here means the value could not be read, and the two
+    // callers answer that differently.
+    const parsed: unknown = JSON.parse(raw);
     if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
-      return {};
+      return null;
     }
     return parsed as UserMapUiState;
+  } catch {
+    return null;
+  }
+}
+
+function loadUiState(): UserMapUiState {
+  try {
+    // `?? "{}"` only covers a missing key; on load an unreadable value is the
+    // same fact — nothing remembered, like an empty store. The getItem itself
+    // throws in Safari with "Block all cookies" and in some in-app WebViews,
+    // which is that fact once more.
+    return parseUiState(localStorage.getItem(UI_STATE_KEY) ?? "{}") ?? {};
   } catch {
     return {};
   }
@@ -255,7 +267,8 @@ export function useUserMaps(
   const [uiState, setUiState] = useState<UserMapUiState>(loadUiState);
   // The same record as `uiState`, readable from a callback without capturing
   // it. Storage is read once — the initializer above — and never again;
-  // persistUiState says why.
+  // persistUiState says why. The only other thing that replaces this record is
+  // another tab writing the key, which arrives as a `storage` event below.
   const uiStateRef = useRef<UserMapUiState>(uiState);
   const [previewUrls, setPreviewUrls] = useState<Record<string, string>>({});
   const [importing, setImporting] = useState(false);
@@ -329,6 +342,50 @@ export function useUserMaps(
     },
     [],
   );
+
+  /**
+   * The same record, changed in another tab. The browser fires `storage` only
+   * in the OTHER same-origin tabs and never in the one that wrote, so nothing
+   * arriving here can be an echo of this tab's own change and no guard against
+   * that is needed. Taking it is what keeps two open tabs from undoing each
+   * other: without it this tab keeps computing from the record it loaded, and
+   * its next toggle writes that older record back over the map the other tab
+   * just switched on.
+   */
+  useEffect(() => {
+    const onStorage = (event: StorageEvent) => {
+      // sessionStorage fires this event too, and this hook never reads it.
+      if (event.key !== UI_STATE_KEY || event.storageArea !== localStorage) {
+        // A whole-store `clear()` arrives with a null key and stops here,
+        // which is the same answer as the removal below.
+        return;
+      }
+      // A removed key, and a value this tab cannot read, are both silence
+      // rather than an instruction to switch every map off. Acting on either
+      // would take maps off this tab that the user never touched; the next
+      // change made here writes the whole record again.
+      const incoming =
+        event.newValue === null ? null : parseUiState(event.newValue);
+      if (incoming === null) {
+        return;
+      }
+      // Merged over what this tab holds, not swapped for it. A tab whose own
+      // writes are refused — quota, private mode, "Block all cookies" — never
+      // published anything it imported or switched on this session, so the
+      // other tab's record has no entry for those at all, and replacing would
+      // take every one of them off the map with nothing said. What a removal
+      // in the other tab costs is that its entry lingers here, which is the
+      // cheaper mistake: the map is still in this tab's memory and its row
+      // reads the record either way.
+      const next = { ...uiStateRef.current, ...incoming };
+      uiStateRef.current = next;
+      setUiState(next);
+    };
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
 
   const registerPreviewUrl = useCallback((id: string, blob: Blob) => {
     const previous = previewUrlsRef.current[id];

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { acquireScreenWakeLock, type WakeLockHandle } from "./wakeLock";
 import {
   TRACK_DRAFT_INTERVAL_MS,
+  TRACK_DRAFT_READ_TIMEOUT_MS,
   sharedTrackDraftStore,
   type TrackDraftFailure,
   type TrackDraftStore,
@@ -25,6 +26,14 @@ export type UnsavedRecording = {
   interrupted: boolean;
 };
 
+/**
+ * Where the one read of this device's copy has got to. `pending` is not
+ * "nothing here": a walk may be sitting on the device, so no new recording
+ * may start writing over that key yet. `unreadable` means the key is taken by
+ * something this browser could not read — still not an empty device.
+ */
+export type DraftRestore = "pending" | "settled" | "unreadable";
+
 export type TrackRecordingApi = {
   status: RecorderStatus;
   stats: RecorderStats;
@@ -38,10 +47,24 @@ export type TrackRecordingApi = {
    * device write succeeded.
    */
   unsaved: UnsavedRecording | null;
+  /**
+   * Whether this device has been asked yet what it is holding. Recording is
+   * held until it has answered, because the first periodic write would
+   * overwrite the one key an unread walk lives under.
+   */
+  restore: DraftRestore;
   /** Set when the device refused the in-progress write, so the HUD says so. */
   draftError: TrackDraftFailure | null;
+  /**
+   * Set when the device would not delete the copy it holds. The walk is no
+   * longer offered — the user has saved or discarded it — but the device has
+   * not forgotten it, and will offer it again after a reload.
+   */
+  clearError: TrackDraftFailure | null;
   /** Forgets both copies — after the track is saved, or discarded. */
   clearUnsaved: () => void;
+  /** Asks the device again to forget a copy it refused to delete. */
+  retryClear: () => void;
   start: () => void;
   pause: () => void;
   resume: () => void;
@@ -76,22 +99,42 @@ export function useTrackRecording(
   const [wakeLockSupported, setWakeLockSupported] = useState<boolean | null>(null);
   const [unsaved, setUnsaved] = useState<UnsavedRecording | null>(null);
   const [draftError, setDraftError] = useState<TrackDraftFailure | null>(null);
+  const [clearError, setClearError] = useState<TrackDraftFailure | null>(null);
+  const [restore, setRestore] = useState<DraftRestore>("pending");
   const draftErrorRef = useRef<TrackDraftFailure | null>(null);
   const draftTimerRef = useRef<number | null>(null);
+  const startedRef = useRef(false);
 
   // An interrupted recording is on the device, not in this tab: read it once
-  // on load and offer it back. Only a found draft touches state — an empty
-  // read must not re-render every map that mounts, nor land an update outside
-  // act() in every test that renders one.
+  // on load and offer it back. The answer also decides when Record may be
+  // pressed, because the walk that comes back and the walk that would be
+  // recorded next share the one key on the device.
   useEffect(() => {
     let cancelled = false;
-    void draftStore.read().then((result) => {
-      if (!cancelled && result) {
-        setUnsaved({ result, interrupted: true });
+    // A read that never answers must not take Record away for the rest of the
+    // session; after this long the device is reported unreadable, which at
+    // least says so on screen.
+    const giveUp = window.setTimeout(() => {
+      if (!cancelled) {
+        setRestore((current) => (current === "pending" ? "unreadable" : current));
       }
+    }, TRACK_DRAFT_READ_TIMEOUT_MS);
+    void draftStore.read().then((read) => {
+      window.clearTimeout(giveUp);
+      // A recording that has already started owns the key now. Offering the
+      // walk this read found would put a stale recording on screen while the
+      // new one writes over it.
+      if (cancelled || startedRef.current) {
+        return;
+      }
+      if (read.status === "ready") {
+        setUnsaved((current) => current ?? { result: read.result, interrupted: true });
+      }
+      setRestore(read.status === "unreadable" ? "unreadable" : "settled");
     });
     return () => {
       cancelled = true;
+      window.clearTimeout(giveUp);
     };
   }, [draftStore]);
 
@@ -187,17 +230,22 @@ export function useTrackRecording(
   );
 
   const start = useCallback(() => {
-    if (recorderRef.current.status() !== "idle") {
+    // Until the device has answered, a walk may be sitting under the key this
+    // session would start writing to. The Record button is disabled for the
+    // same reason; this is the guard behind it.
+    if (recorderRef.current.status() !== "idle" || restore === "pending") {
       return;
     }
+    startedRef.current = true;
     recorderRef.current.start();
     const wakeLock = acquireScreenWakeLock();
     wakeLockRef.current = wakeLock;
     setWakeLockSupported(wakeLock.supported);
     draftErrorRef.current = null;
     setDraftError(null);
+    setClearError(null);
     setStatus("recording");
-  }, []);
+  }, [restore]);
 
   const pause = useCallback(() => {
     recorderRef.current.pause();
@@ -232,11 +280,18 @@ export function useTrackRecording(
     return result;
   }, [cancelDraftWrite, releaseWakeLock]);
 
+  // The offer goes as soon as the user saves or discards — leaving "waiting to
+  // be saved" up after a successful save would be a lie. What survives is the
+  // fact that the device still holds a copy, which is what will come back.
   const clearUnsaved = useCallback(() => {
     cancelDraftWrite();
     setUnsaved(null);
-    void draftStore.clear();
+    void draftStore.clear().then(setClearError);
   }, [cancelDraftWrite, draftStore]);
+
+  const retryClear = useCallback(() => {
+    void draftStore.clear().then(setClearError);
+  }, [draftStore]);
 
   return {
     status,
@@ -244,8 +299,11 @@ export function useTrackRecording(
     liveSegments: recorderRef.current.liveSegments(),
     wakeLockSupported,
     unsaved,
+    restore,
     draftError,
+    clearError,
     clearUnsaved,
+    retryClear,
     start,
     pause,
     resume,

@@ -189,6 +189,40 @@ struct RecordedOriginTests {
         #expect(object["kind"] as? String == "recorded")
         #expect(object["startedAt"] != nil)
         #expect(object["endedAt"] != nil)
+        // A walk this app recorded writes the shape the web wrote before the
+        // flag existed: absent, not false.
+        #expect(object["interrupted"] == nil)
+    }
+
+    /// A walk the web saved from the copy its device kept while it ran says
+    /// so. Dropping the flag on the way in would file a walk that may be cut
+    /// short as a complete one, and re-encoding would take the caveat off the
+    /// record for good.
+    @Test func anInterruptedWalkKeepsItsCaveatThroughACodableRoundTrip() throws {
+        let fromTheWeb = Data(
+            """
+            {"kind":"recorded","startedAt":1700000000,"endedAt":1700000600,
+             "interrupted":true}
+            """.utf8
+        )
+        let decoded = try JSONDecoder().decode(UserVectorOrigin.self, from: fromTheWeb)
+
+        #expect(
+            decoded
+                == .recorded(
+                    startedAt: Date(timeIntervalSinceReferenceDate: 1_700_000_000),
+                    endedAt: Date(timeIntervalSinceReferenceDate: 1_700_000_600),
+                    interrupted: true
+                )
+        )
+        #expect(decoded.provenanceText.contains("may be cut short"))
+
+        let object = try #require(
+            try JSONSerialization.jsonObject(
+                with: try JSONEncoder().encode(decoded)
+            ) as? [String: Any]
+        )
+        #expect(object["interrupted"] as? Bool == true)
     }
 
     @Test func theProvenanceLineIsThePinnedString() {

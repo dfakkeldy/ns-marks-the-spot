@@ -599,7 +599,7 @@ describe("MapCanvas browser location", () => {
     ).toBeInTheDocument();
   });
 
-  it("says nothing was found yet, not lost, when the watch fails before any fix", async () => {
+  it("tells a pre-fix timeout from a pre-fix unavailable, and calls neither a loss", async () => {
     const user = userEvent.setup();
     render(
       <MapCanvas
@@ -633,24 +633,33 @@ describe("MapCanvas browser location", () => {
 
     await user.click(screen.getByRole("button", { name: "Use my location" }));
     // Location Services off for the device, or a desktop with no positioning
-    // source: code 2 forever, with nothing ever delivered.
+    // source: code 2 until the watch gives up, with nothing ever delivered.
     pushLiveSnapshot({
       status: "signal-lost",
       fix: null,
       reason: "unavailable",
     });
 
-    const notFoundYet =
-      "Your location hasn't been found yet — still looking. Move outdoors, " +
-      "or check that location is switched on for this device.";
-    // Nothing is drawn, so nothing may be said to have been lost.
+    // Nothing is drawn, so nothing may be said to have been lost — and the
+    // device did not fail to answer, it answered that it cannot place itself.
     expect(screen.queryByTestId("location-position")).not.toBeInTheDocument();
-    expect(screen.getByText(notFoundYet)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Your location is unavailable — the device cannot work out where it " +
+          "is. Still trying. Move outdoors, or check that location is " +
+          "switched on for this device.",
+      ),
+    ).toBeInTheDocument();
 
-    // A timeout with nothing delivered is the same situation and the same
-    // sentence: neither code claims a signal that was never had.
+    // A timeout with nothing delivered has had no answer at all, and says so.
+    // Neither code claims a signal that was never had.
     pushLiveSnapshot({ status: "signal-lost", fix: null, reason: "timeout" });
-    expect(screen.getByText(notFoundYet)).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Your location hasn't been found yet — still looking. Move outdoors, " +
+          "or check that location is switched on for this device.",
+      ),
+    ).toBeInTheDocument();
 
     // Once a fix has been had, a loss is a loss again.
     const fix = liveFix();
@@ -659,6 +668,61 @@ describe("MapCanvas browser location", () => {
     expect(
       screen.getByText("Your location is unavailable right now — still trying."),
     ).toBeInTheDocument();
+  });
+
+  it("lifts the toggle and offers a retry when the watch gives up on an unavailable position", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    const toggle = screen.getByRole("button", { name: "Use my location" });
+    await user.click(toggle);
+    pushLiveSnapshot({ status: "position-unavailable", fix: null });
+
+    expect(
+      screen.getByText(
+        "The device reported your location as unavailable several times, so " +
+          "the map stopped asking. Location may be switched off for this " +
+          "device, or there may be nothing here to place you by. Press Use " +
+          "my location to try again.",
+      ),
+    ).toBeInTheDocument();
+    // A pressed toggle over a search that has stopped is the defect this
+    // closes.
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+    // And giving up is not a refusal: the reader was never asked.
+    expect(
+      screen.queryByText(
+        "Location permission was not granted. You can keep using the map.",
+      ),
+    ).not.toBeInTheDocument();
   });
 
   it("follows later fixes with panTo until the user drags, then resumes via the pill", async () => {
@@ -1037,11 +1101,16 @@ describe("MapCanvas browser location", () => {
           rawGpx: Blob;
           startedAt: string;
           endedAt: string;
-        }) => Promise<{ message: string | null; persisted: boolean }>
+        }) => Promise<{
+          message: string | null;
+          persisted: boolean;
+          layerId: string;
+        }>
       >()
       .mockResolvedValue({
         message: 'Track saved as "Boundary walk".',
         persisted: true,
+        layerId: "track-layer-1",
       });
     render(
       <MapCanvas
@@ -1112,6 +1181,89 @@ describe("MapCanvas browser location", () => {
     ).not.toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Record a track" }),
+    ).toBeInTheDocument();
+  });
+
+  it("retries a refused track save onto the same layer instead of a second copy", async () => {
+    const user = userEvent.setup();
+    const onSaveTrack = vi
+      .fn<
+        (input: {
+          name: string;
+          collection: GeoJSON.FeatureCollection;
+          rawGpx: Blob;
+          startedAt: string;
+          endedAt: string;
+          interrupted: boolean;
+          replaceLayerId?: string;
+        }) => Promise<{
+          message: string | null;
+          persisted: boolean;
+          layerId: string;
+        }>
+      >()
+      .mockResolvedValueOnce({
+        message: "Track is on the map, but it couldn't be written.",
+        persisted: false,
+        layerId: "track-layer-1",
+      })
+      .mockResolvedValue({
+        message: 'Track saved as "Boundary walk".',
+        persisted: true,
+        layerId: "track-layer-1",
+      });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={onSaveTrack}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix({ accuracyM: 5 });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    const base = Date.now();
+    pushLiveFix({ accuracyM: 5, latitude: 46.12, timestampMs: base });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1201, timestampMs: base + 1_000 });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1202, timestampMs: base + 2_000 });
+
+    await user.click(screen.getByRole("button", { name: "Stop" }));
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+
+    // The device refused the write, so the walk is still offered back.
+    await user.click(
+      await screen.findByRole("button", { name: "Recover unsaved track" }),
+    );
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+
+    expect(onSaveTrack).toHaveBeenCalledTimes(2);
+    expect(onSaveTrack.mock.calls[0][0].replaceLayerId).toBeUndefined();
+    expect(onSaveTrack.mock.calls[1][0].replaceLayerId).toBe("track-layer-1");
+    expect(
+      await screen.findByText('Track saved as "Boundary walk".'),
     ).toBeInTheDocument();
   });
 

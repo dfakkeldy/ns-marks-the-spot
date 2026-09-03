@@ -395,9 +395,9 @@ the claim the data makes about itself.
   strings on web, Dates in Swift Codable with those key names). Provenance
   string: "Recorded on this device". The web origin also carries an optional
   `interrupted` for a walk saved from the copy the device kept while it ran,
-  which says so in its provenance instead; Swift decodes the two shared keys
-  and ignores it, so a recovered walk reads as a plain recorded one there
-  until the native surface carries the same flag.
+  which says so in its provenance. Swift carries the flag through decode and
+  re-encode and says the same thing, though it never sets one: this app keeps
+  no such copy yet.
 - Every recording saves as a new layer. The raw recording rides the existing
   original-file mechanism: a GPX 1.1 document containing every received fix
   (kept and dropped alike), one `<trkseg>` per recording segment, `<time>` and
@@ -586,13 +586,13 @@ New modules under `web/src/location/`:
 
 | File | Responsibility |
 | --- | --- |
-| `liveLocation.ts` | framework-free `watchPosition` wrapper; `LiveFix`; state union `off / acquiring / active / signal-lost / denied / unavailable`; injectable Geolocation for tests |
+| `liveLocation.ts` | framework-free `watchPosition` wrapper; `LiveFix`; state union `off / acquiring / active / signal-lost / denied / position-unavailable / unavailable`; a run of three pre-fix POSITION_UNAVAILABLE reports ends a non-recording watch in `position-unavailable`; injectable Geolocation for tests |
 | `useLiveLocation.ts` | React hook; one shared watch feeds the marker, follow mode, mark, and the recorder |
 | `markFix.ts` | one-shot held to the same 10 s / 50 m watch rule; four distinct browser-failure sentences; accuracy formatting |
 | `captureSpec.ts` | the contract constants, asserted against the fixture |
 | `trackFilter.ts` | pure per-fix pipeline: gate, outlier, smooth, spacing |
 | `trackRecorder.ts` | recorder state machine (idle/recording/paused), segments, raw-fix accumulation, live stats; injectable clock |
-| `useTrackRecording.ts` | wires fixes into the recorder, owns the wake lock and the in-progress draft, exposes start/pause/resume/stop |
+| `useTrackRecording.ts` | wires fixes into the recorder, owns the wake lock and the in-progress draft, holds Record until the device has said what it is already storing, exposes start/pause/resume/stop |
 | `trackDraftStore.ts` | the in-progress recording in the shared user-content database, one overwritten `blobs` key; written only while a walk runs, offered back after an interrupted session, deleted on save or discard |
 | `wakeLock.ts` | acquire/release with `visibilitychange` re-acquire; graceful hint when unsupported |
 | `simplifyTrack.ts` | metres-based Douglas-Peucker with parallel-times index selection |

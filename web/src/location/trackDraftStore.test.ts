@@ -41,8 +41,10 @@ describe("the recording draft on this device", () => {
     expect(await store.save(draft())).toBeNull();
     const read = await store.read();
 
-    expect(read).toEqual(draft());
-    expect(read?.segments[0][0].altitudeM).toBeNull();
+    expect(read).toEqual({ status: "ready", result: draft() });
+    expect(
+      read.status === "ready" ? read.result.segments[0][0].altitudeM : undefined,
+    ).toBeNull();
   });
 
   it("has nothing to offer once the walk is saved or discarded", async () => {
@@ -51,7 +53,7 @@ describe("the recording draft on this device", () => {
 
     await store.clear();
 
-    expect(await store.read()).toBeNull();
+    expect(await store.read()).toEqual({ status: "empty" });
   });
 
   // Half a walk is worse than none: the save dialog measures and simplifies
@@ -72,7 +74,7 @@ describe("the recording draft on this device", () => {
         },
       },
     ],
-  ])("refuses %s", async (_label, stored) => {
+  ])("refuses %s, and does not call it an empty device", async (_label, stored) => {
     const factory = new IDBFactory();
     const store = createTrackDraftStore(factory);
     const database = await openUserContentDatabase(factory);
@@ -83,7 +85,23 @@ describe("the recording draft on this device", () => {
     });
     database.close();
 
-    expect(await store.read()).toBeNull();
+    // Not "empty": the key is taken by something, and a new recording
+    // overwriting it would destroy whatever that is.
+    expect(await store.read()).toEqual({ status: "unreadable" });
+  });
+
+  // A device that will not open may still be holding a walk. Calling that
+  // "nothing here" would let the next recording write straight over it.
+  it("tells a device it cannot read from a device with nothing on it", async () => {
+    const blocked = {
+      open: () => {
+        throw new Error("storage is blocked");
+      },
+    } as unknown as IDBFactory;
+
+    expect(await createTrackDraftStore(blocked).read()).toEqual({
+      status: "unreadable",
+    });
   });
 
   // A walk the user has already saved must not come back as unsaved because
@@ -94,6 +112,6 @@ describe("the recording draft on this device", () => {
     void store.save(draft());
     await store.clear();
 
-    expect(await store.read()).toBeNull();
+    expect(await store.read()).toEqual({ status: "empty" });
   });
 });
