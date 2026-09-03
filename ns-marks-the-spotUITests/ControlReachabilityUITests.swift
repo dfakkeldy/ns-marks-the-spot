@@ -14,7 +14,7 @@ final class ControlReachabilityUITests: XCTestCase {
     /// the end of a landscape screen. Share, print and the sources sheet live
     /// inside "More Map Actions" now, so the menu control is the reachable
     /// thing.
-    private let endOfRail = ["More Map Actions", "Save Area", "Toggle Layers Menu"]
+    private let endOfRail = ["More Map Actions", "Save Area", "toggle-layers-menu"]
 
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -49,8 +49,8 @@ final class ControlReachabilityUITests: XCTestCase {
 
         // And the route ends somewhere. Opening the panel is the claim the
         // Layers control makes.
-        XCTAssertTrue(app.scroll(app.buttons["Toggle Layers Menu"], into: rail))
-        app.buttons["Toggle Layers Menu"].tap()
+        XCTAssertTrue(app.scroll(app.buttons["toggle-layers-menu"], into: rail))
+        app.buttons["toggle-layers-menu"].tap()
         XCTAssertTrue(
             app.buttons["Close layers menu"].waitForHittable(timeout: timeout),
             "the layers panel did not open from landscape"
@@ -70,7 +70,7 @@ final class ControlReachabilityUITests: XCTestCase {
             "the first control is not on screen"
         )
         XCTAssertTrue(
-            app.buttons["Toggle Layers Menu"].waitForHittable(timeout: timeout),
+            app.buttons["toggle-layers-menu"].waitForHittable(timeout: timeout),
             "the last control is not on screen in portrait"
         )
     }

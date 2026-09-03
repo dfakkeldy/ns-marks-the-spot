@@ -1041,7 +1041,14 @@ struct MapContainerView: View {
                 .accessibilityLabel("Record a Track")
                 .accessibilityIdentifier("record-track")
                 // While a recording runs, the HUD owns pause and stop; the
-                // rail button just shows the mode is on.
+                // rail button just shows the mode is on — in the value as much
+                // as the fill. Dimmed is not a state, and a paused recorder is
+                // not recording, so the value says what the HUD says.
+                .accessibilityValue(
+                    recorder.isActive
+                        ? (recorder.status == .paused ? "Recording paused" : "Recording")
+                        : ""
+                )
                 .disabled(isSelectingSaveArea || recorder.isActive)
 
                 // Two buttons rather than one with a mode, as on the
@@ -1149,6 +1156,9 @@ struct MapContainerView: View {
                     )
                 }
                 .accessibilityLabel("Save Area")
+                // Dimmed by the mode it just started, which on its own reads
+                // as a broken control rather than an armed one.
+                .accessibilityValue(isSelectingSaveArea ? "Selecting an area" : "")
                 // Not over an edit: the selection and the crosshair both
                 // claim the map, as Layers and Measure already know.
                 .disabled(isSelectingSaveArea || editSession != nil)
@@ -1167,7 +1177,14 @@ struct MapContainerView: View {
                         isActive: isLayersMenuExpanded
                     )
                 }
-                .accessibilityLabel("Toggle Layers Menu")
+                .accessibilityLabel("Layers")
+                .accessibilityIdentifier("toggle-layers-menu")
+                // The control is named and the panel's state is the value.
+                // "Toggle Layers Menu" named the gesture and the menu rather
+                // than the thing, and open and closed sounded identical when
+                // the fill was the only state. Identified so a later change of
+                // wording does not move the tests' handle on it.
+                .accessibilityValue(isLayersMenuExpanded ? "Open" : "Closed")
                 // Not while editing, as the measure buttons are not: the
                 // panel's first map tap closes it instead of drawing, and its
                 // Edit rows would end the session under the reader's feet.

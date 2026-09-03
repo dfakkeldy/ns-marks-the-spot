@@ -148,7 +148,7 @@ final class MapChromeUITests: XCTestCase {
     @MainActor
     func testAcceptingTheLicenceTurnsTheLayerOnAndCreditsIt() throws {
         let app = XCUIApplication.launchedForUITests()
-        let layers = app.buttons["Toggle Layers Menu"]
+        let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
         layers.tap()
 
@@ -236,7 +236,7 @@ final class MapChromeUITests: XCTestCase {
     @MainActor
     func testTheMapChromeStaysOnScreenWithTheLayersPanelOpen() throws {
         let app = XCUIApplication.launchedForUITests()
-        let layers = app.buttons["Toggle Layers Menu"]
+        let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
         layers.tap()
         XCTAssertTrue(
@@ -265,7 +265,7 @@ final class MapChromeUITests: XCTestCase {
     @MainActor
     func testTappingTheMapClosesTheLayersPanel() throws {
         let app = XCUIApplication.launchedForUITests()
-        let layers = app.buttons["Toggle Layers Menu"]
+        let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
         layers.tap()
 
