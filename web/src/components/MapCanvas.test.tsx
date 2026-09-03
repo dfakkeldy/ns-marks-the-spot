@@ -591,6 +591,12 @@ describe("MapCanvas browser location", () => {
     expect(
       screen.getByText("Your location is unavailable right now — still trying."),
     ).toBeInTheDocument();
+
+    // And a fix that comes back takes the failure down, first one or not.
+    pushLiveSnapshot({ status: "active", fix });
+    expect(
+      screen.getByText("Your location is shown on the map."),
+    ).toBeInTheDocument();
   });
 
   it("follows later fixes with panTo until the user drags, then resumes via the pill", async () => {
@@ -693,6 +699,61 @@ describe("MapCanvas browser location", () => {
     // The fix is brought into view without throwing the parcel away.
     expect(mapMock.flyTo).not.toHaveBeenCalled();
     expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91], {
+      animate: true,
+    });
+  });
+
+  it("flies to a later fix that drifts out of view, at the zoom the reader has", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+    mapMock.flyTo.mockClear();
+    mapMock.panTo.mockClear();
+
+    // The browser corrects itself to somewhere off the screen.
+    mapMock.getZoom.mockReturnValue(12);
+    mapMock.getBounds.mockReturnValue({
+      getWest: () => -62,
+      getSouth: () => 45,
+      getEast: () => -60,
+      getNorth: () => 47,
+      contains: () => false,
+    });
+    pushLiveFix({ latitude: 43.85 });
+
+    // Flown to, not panned across — and the follow keeps the reader's zoom.
+    expect(mapMock.panTo).not.toHaveBeenCalled();
+    expect(mapMock.flyTo).toHaveBeenCalledWith([43.85, -60.91], 12, {
       animate: true,
     });
   });

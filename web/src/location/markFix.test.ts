@@ -44,6 +44,26 @@ describe("a one-shot fix for a mark", () => {
     expect(outcome.kind === "fix" && outcome.fix.altitudeM).toBe(31.5);
   });
 
+  it("judges the position's shape before its accuracy or its age", () => {
+    // Off the globe and rough, or off the globe and old: neither sentence
+    // about accuracy or age would be about a position that existed.
+    const roughAndOff = oneShotMarkFix(
+      position({ latitude: 91, accuracy: 500 }),
+      NOW,
+    );
+    expect(roughAndOff).toEqual({
+      kind: "refused",
+      message: "Your location couldn't be found. Try again outdoors.",
+    });
+    const oldAndOff = oneShotMarkFix(
+      position({ longitude: 181, timestampMs: NOW - 600_000 }),
+      NOW,
+    );
+    expect(oldAndOff.kind === "refused" && oldAndOff.message).toContain(
+      "couldn't be found",
+    );
+  });
+
   it("refuses a position that is not on the globe", () => {
     for (const off of [{ latitude: 91 }, { longitude: 181 }, { latitude: Number.NaN }]) {
       expect(oneShotMarkFix(position(off), NOW)).toEqual({

@@ -115,7 +115,17 @@ export function useVectorEditSession({
     }
     dirtyRef.current = null;
     try {
-      await putRef.current(pending.record, pending.collection);
+      const wrote = await putRef.current(pending.record, pending.collection);
+      if (wrote === false) {
+        // The layer is gone from the database — another tab deleted it — so
+        // the update deliberately wrote nothing. The edit stays on screen,
+        // and the panel says it will not outlive the tab.
+        setStorageError(
+          "This layer was deleted in another tab, so the edit can't be saved — " +
+            "it stays available until you close the tab.",
+        );
+        return;
+      }
     } catch (error) {
       // A failed write must never interrupt drawing: the edit stays on screen
       // and in memory, and the user is told persistence is the problem.

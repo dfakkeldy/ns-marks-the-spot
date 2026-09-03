@@ -1430,6 +1430,10 @@ export function App() {
     putVectorLayer: userVectorApi.putVectorLayer,
     onLayerChanged: userVectorApi.applyLayerEdit,
   });
+  // The session as it is now, for handlers that resume after an await.
+  const vectorEditRef = useRef(vectorEdit);
+  vectorEditRef.current = vectorEdit;
+
   const [drawMode, setDrawMode] = useState<EditMode | null>(null);
   const [selectedFeatureId, setSelectedFeatureId] = useState<string | null>(null);
   // Session-scoped on purpose (the field-capture contract): every edit
@@ -1525,6 +1529,11 @@ export function App() {
    */
   const markCurrentLocation = useCallback(
     async (fix: LiveFix | null): Promise<string | null> => {
+      // The layer this mark was aimed at, read at the tap. Finding a fix can
+      // take seconds, and Done, or opening another layer, must not have the
+      // point land somewhere the reader did not aim it — nor revive a panel
+      // they closed.
+      const destinationId = vectorEdit.editingLayer?.record.id ?? null;
       let resolved = fix;
       if (!resolved) {
         let oneShot: BrowserLocation;
@@ -1544,19 +1553,25 @@ export function App() {
         }
         resolved = outcome.fix;
       }
+      // Read again, after the wait: `vectorEdit` in this closure is the
+      // session as it was at the tap.
+      const session = vectorEditRef.current;
+      if ((session.editingLayer?.record.id ?? null) !== destinationId) {
+        return "The layer being edited changed while your position was being found. Nothing was saved.";
+      }
       const feature = buildGpsMarkFeature(resolved);
       // Never rounded down: a ±0.4 m fix is not "±0 m", and a ±49.4 m one is
       // not tighter than the device said.
       const accuracy = formatAccuracyM(resolved.accuracyM);
-      if (vectorEdit.editingLayer) {
-        vectorEdit.commitGeometry({
+      if (session.editingLayer) {
+        session.commitGeometry({
           type: "FeatureCollection",
-          features: [...vectorEdit.editingLayer.data.features, feature],
+          features: [...session.editingLayer.data.features, feature],
         });
         // "Added", not "saved": the edit session writes on its own debounce,
         // so the point is on the map and its write has not answered yet. The
         // panel carries the storage error if that write fails.
-        return `Point added to ${vectorEdit.editingLayer.record.name} (±${accuracy} m).`;
+        return `Point added to ${session.editingLayer.record.name} (±${accuracy} m).`;
       }
       const layerId = await userVectorApi.ensureFieldNotesLayer();
       const appended = await userVectorApi.appendFeatures(layerId, [feature]);

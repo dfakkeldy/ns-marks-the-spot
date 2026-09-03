@@ -87,6 +87,20 @@ export function oneShotMarkFix(
   nowMs: number,
 ): OneShotOutcome {
   const { accuracy } = location;
+  // The shape first: a pair of numbers off the globe is not a position, and
+  // "found only to within 500 m" about one would name a fix that was never
+  // anywhere.
+  if (
+    !Number.isFinite(location.latitude) ||
+    !Number.isFinite(location.longitude) ||
+    Math.abs(location.latitude) > 90 ||
+    Math.abs(location.longitude) > 180
+  ) {
+    return {
+      kind: "refused",
+      message: "Your location couldn't be found. Try again outdoors.",
+    };
+  }
   if (!Number.isFinite(accuracy) || accuracy < 0) {
     // The Geolocation API defines accuracy as a non-negative radius, so zero
     // is a claim of certainty rather than the "invalid" a negative one is on

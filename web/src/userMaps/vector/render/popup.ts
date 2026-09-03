@@ -22,6 +22,26 @@ function textLine(className: string, text: string): HTMLElement {
   return line;
 }
 
+/**
+ * Whether a stored capture time is an instant this app will repeat.
+ *
+ * `Date.parse` alone is far too generous — it reads "2026" as a January
+ * morning — and the line built from this asserts that a device fixed a
+ * position at a moment. A shorthand, a calendar that does not exist, or a
+ * time that has not happened yet is not that moment, so the claim is left
+ * unmade rather than dressed up.
+ */
+function isCaptureInstant(value: string | null): value is string {
+  if (value === null) {
+    return false;
+  }
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})$/.test(value)) {
+    return false;
+  }
+  const parsed = Date.parse(value);
+  return !Number.isNaN(parsed) && parsed <= Date.now();
+}
+
 function asText(value: unknown): string | null {
   return typeof value === "string" && value.trim().length > 0 ? value : null;
 }
@@ -96,8 +116,10 @@ export function buildFeaturePopup(
   const capturedAt = asText(props["nsmts:capturedAt"]);
   const accuracy = props["nsmts:accuracyM"];
   const claimsAFix =
-    capturedAt !== null &&
-    !Number.isNaN(Date.parse(capturedAt)) &&
+    // A mark is a Point. The reserved keys on a line or an area came from
+    // somewhere else, and this app will not read them as a fix.
+    feature.geometry?.type === "Point" &&
+    isCaptureInstant(capturedAt) &&
     typeof accuracy === "number" &&
     Number.isFinite(accuracy) &&
     accuracy >= 0;

@@ -1858,7 +1858,10 @@ export function MapCanvas({
     const autoDismisses =
       locationMessage === LOCATION_SUCCESS_MESSAGE ||
       (locationMessage?.startsWith("Point saved") ?? false) ||
-      (locationMessage?.startsWith("Track saved") ?? false);
+      (locationMessage?.startsWith("Track saved") ?? false) ||
+      // A point committed to an open edit session, whose write is debounced.
+      // The session-only warning is a different sentence and stays.
+      (locationMessage?.startsWith("Point added") ?? false);
     if (!autoDismisses) {
       return;
     }
@@ -1947,7 +1950,10 @@ export function MapCanvas({
     if (!locationOn) {
       return;
     }
-    if (live.status === "active" && !hadFirstFixRef.current) {
+    if (live.status === "active") {
+      // Every return to a fix, not only the first: a watch that timed out
+      // and then answered would otherwise leave "still trying" on screen
+      // over a map that is showing the reader where they are.
       hadFirstFixRef.current = true;
       setLocationMessage(LOCATION_SUCCESS_MESSAGE);
     } else if (live.status === "signal-lost") {
@@ -2004,27 +2010,31 @@ export function MapCanvas({
     // and pan animate in JavaScript, where the stylesheet's media rule
     // cannot reach them. The map still goes to the fix; it just arrives.
     const animate = !prefersReducedMotion();
+    const target: [number, number] = [live.fix.latitude, live.fix.longitude];
+    const onScreen = map.getBounds().contains(target);
+    const zoom = map.getZoom();
     if (!hasCenteredRef.current) {
       hasCenteredRef.current = true;
       // The reader's zoom is theirs. A parcel searched at 16, or imagery
       // read at 18, is not something the locate button may throw away to
-      // reach a fixed 14: at that scale a 12 m accuracy circle is
-      // sub-pixel and the lot they were reading is gone. The fixed zoom is
-      // for the case it was written for — a view further out than the
-      // locate scale — and closer in the map only pans.
-      const target: [number, number] = [live.fix.latitude, live.fix.longitude];
-      // Only a fix already on screen is panned to. Leaflet declines to
-      // animate a pan longer than the viewport for good reason — the tiles
-      // between are never fetched — and a parcel in Yarmouth with the reader
-      // in Cape Breton is exactly that. Out of view, the map flies, keeping
-      // the closer zoom when there is one.
-      if (map.getZoom() >= LOCATE_MIN_ZOOM && map.getBounds().contains(target)) {
+      // reach a fixed 14: at that scale a 12 m accuracy circle is sub-pixel
+      // and the lot they were reading is gone. The fixed locate scale is
+      // for the case it was written for — a view further out than it.
+      if (onScreen && zoom >= LOCATE_MIN_ZOOM) {
         map.panTo(target, { animate });
       } else {
-        map.flyTo(target, Math.max(map.getZoom(), LOCATE_MIN_ZOOM), { animate });
+        map.flyTo(target, Math.max(zoom, LOCATE_MIN_ZOOM), { animate });
       }
+      return;
+    }
+    // Following: the zoom stays where the reader left it, and only a fix on
+    // screen is panned to. Leaflet declines to animate a pan longer than the
+    // viewport for good reason — the tiles between are never fetched — so a
+    // fix that has moved out of view is flown to instead.
+    if (onScreen) {
+      map.panTo(target, { animate });
     } else {
-      map.panTo([live.fix.latitude, live.fix.longitude], { animate });
+      map.flyTo(target, zoom, { animate });
     }
   }, [followOn, live.fix, map]);
 

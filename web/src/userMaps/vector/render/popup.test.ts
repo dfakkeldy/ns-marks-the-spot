@@ -141,7 +141,7 @@ describe("buildFeaturePopup", () => {
       feature({ "nsmts:capturedAt": "2026-08-28T14:05:00.000Z" }),
       record(),
     );
-    expect(timeOnly.textContent).not.toContain("Marked from this device");
+    expect(timeOnly.querySelector(".user-vector-popup-gps")).toBeNull();
 
     const stringAccuracy = buildFeaturePopup(
       feature({
@@ -150,7 +150,7 @@ describe("buildFeaturePopup", () => {
       }),
       record(),
     );
-    expect(stringAccuracy.textContent).not.toContain("Marked from this device");
+    expect(stringAccuracy.querySelector(".user-vector-popup-gps")).toBeNull();
 
     // An imported file may carry a negative radius or a capture time that
     // names no moment. Neither is a claim this app will make on its behalf.
@@ -161,13 +161,44 @@ describe("buildFeaturePopup", () => {
       }),
       record(),
     );
-    expect(negative.textContent).not.toContain("Marked from this device");
+    expect(negative.querySelector(".user-vector-popup-gps")).toBeNull();
 
     const notADate = buildFeaturePopup(
       feature({ "nsmts:capturedAt": "unknown", "nsmts:accuracyM": 7 }),
       record(),
     );
-    expect(notADate.textContent).not.toContain("Marked from this device");
+    expect(notADate.querySelector(".user-vector-popup-gps")).toBeNull();
+
+    // A mark is a Point. The same keys on a line came from somewhere else.
+    const line = buildFeaturePopup(
+      {
+        type: "Feature",
+        id: "line-1",
+        geometry: {
+          type: "LineString",
+          coordinates: [
+            [-61.47, 45.8],
+            [-61.46, 45.81],
+          ],
+        },
+        properties: {
+          "nsmts:capturedAt": "2026-08-28T14:05:00.000Z",
+          "nsmts:accuracyM": 7,
+        },
+      },
+      record(),
+    );
+    expect(line.querySelector(".user-vector-popup-gps")).toBeNull();
+
+    // "2026" is a date to Date.parse and not an acquisition instant; a
+    // moment that has not happened is not one either.
+    for (const when of ["2026", "2026-13-02T14:05:00.000Z", "9999-01-01T00:00:00.000Z"]) {
+      const odd = buildFeaturePopup(
+        feature({ "nsmts:capturedAt": when, "nsmts:accuracyM": 7 }),
+        record(),
+      );
+      expect(odd.querySelector(".user-vector-popup-gps")).toBeNull();
+    }
   });
 });
 
