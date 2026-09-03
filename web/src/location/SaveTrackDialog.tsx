@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useDialogChrome } from "../components/useDialogChrome";
 import { formatDistance } from "../services/geodesy";
 import { FIELD_CAPTURE_SPEC } from "./captureSpec";
 import { simplifyTrackSegments } from "./simplifyTrack";
@@ -66,6 +67,9 @@ export function SaveTrackDialog({
   const [toleranceM, setToleranceM] = useState<number>(
     initialToleranceM ?? FIELD_CAPTURE_SPEC.simplify.defaultToleranceM,
   );
+  // null: this dialog holds a walked track, and a stray Escape must not throw
+  // it away. What it gains is the Tab trap and the focus restore it never had.
+  const dialogRef = useDialogChrome<HTMLDivElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     nameRef.current?.focus();
@@ -90,6 +94,7 @@ export function SaveTrackDialog({
   return (
     <div className="save-track-backdrop">
       <div
+        ref={dialogRef}
         className="save-track-dialog"
         role="dialog"
         aria-modal="true"

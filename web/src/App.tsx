@@ -326,6 +326,8 @@ type GeoPdfExportSession =
   | { stage: "framing"; frame: FrameState }
   | { stage: "dialog"; bounds: PrintMapBounds; orientation: PdfTemplateId };
 
+import { useDialogChrome } from "./components/useDialogChrome";
+
 function isCurrentEvidenceRequest(
   current: SelectedEvidenceRequest | null,
   expected: SelectedEvidenceRequest,
@@ -832,31 +834,6 @@ function printLayerSources(
  * inline-arrow props don't re-run the mount effect (which would bounce focus
  * on every parent render).
  */
-function useDialogChrome(onDismiss: () => void) {
-  const dialogRef = useRef<HTMLElement | null>(null);
-  const dismissRef = useRef(onDismiss);
-  dismissRef.current = onDismiss;
-  useEffect(() => {
-    const opener =
-      document.activeElement instanceof HTMLElement
-        ? document.activeElement
-        : null;
-    dialogRef.current?.focus();
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        dismissRef.current();
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      opener?.focus();
-    };
-  }, []);
-  return dialogRef;
-}
-
 function LicenceDialog({
   onAccept,
   onContinueWithout,

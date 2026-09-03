@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDialogChrome } from "../../../components/useDialogChrome";
 import type { PhotoManagerApi } from "./usePhotoManager";
 import type { FeaturePhotoDescriptor } from "./types";
 
@@ -41,15 +42,13 @@ export function PhotoLightbox({ descriptor, manager, onClose }: PhotoLightboxPro
     };
   }, [descriptor.id, manager]);
 
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [onClose]);
+  // This one never moved focus at all: a reader opened a full-screen photo and
+  // was left behind it, tabbing through the map. The shared chrome moves focus
+  // in, keeps Tab inside and gives it back — to the thumbnail, when the
+  // thumbnail is still there. Opened from a Leaflet popup it is not: the popup
+  // is torn down with it, and focus falls to the document rather than to a
+  // node that no longer exists.
+  const dialogRef = useDialogChrome<HTMLDivElement>(onClose);
 
   return (
     <div
@@ -58,6 +57,7 @@ export function PhotoLightbox({ descriptor, manager, onClose }: PhotoLightboxPro
       role="presentation"
     >
       <div
+        ref={dialogRef}
         className="photo-lightbox"
         role="dialog"
         aria-modal="true"

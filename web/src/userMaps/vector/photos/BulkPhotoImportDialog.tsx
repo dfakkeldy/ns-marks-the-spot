@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useDialogChrome } from "../../../components/useDialogChrome";
 import { readPhotoExif } from "./exif";
 import {
   classifyBulkPhotos,
@@ -31,6 +32,9 @@ export function BulkPhotoImportDialog({
   onClose,
   readExif = readPhotoExif,
 }: BulkPhotoImportDialogProps) {
+  // This one moved no focus and answered no Escape: a reader opened it and was
+  // left behind it. The shared chrome does both, and keeps Tab inside.
+  const dialogRef = useDialogChrome<HTMLDivElement>(onClose);
   const inputRef = useRef<HTMLInputElement>(null);
   const [reading, setReading] = useState(false);
   const [creating, setCreating] = useState(false);
@@ -86,13 +90,14 @@ export function BulkPhotoImportDialog({
   return (
     <div className="save-track-backdrop" role="presentation" onClick={onClose}>
       <div
+        ref={dialogRef}
         className="bulk-photos-dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="bulk-photos-title"
-        // Nothing under this dialog may take Escape while it is open. It does
-        // not move focus into itself yet, so this only holds once focus is
-        // inside it; the panel behind it is held closed by App as well.
+        // Nothing under this dialog may take Escape while it is open, and now
+        // that focus starts inside it this holds from the first keypress; the
+        // panel behind it is held closed by App as well.
         data-owns-escape=""
         onClick={(event) => event.stopPropagation()}
       >

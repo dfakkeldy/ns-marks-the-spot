@@ -849,6 +849,27 @@ describe("NS Marks The Spot Online", () => {
     expect(outside).toHaveFocus();
   });
 
+  // aria-modal is an announcement, not a barrier: before the shared chrome a
+  // Tab out of the About dialog walked into the map behind it.
+  it("keeps Tab inside a dialog instead of letting it reach the map", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    renderAppWithCategoriesOpen();
+
+    // Two of them: the header's and the attribution strip's.
+    const opener = screen.getAllByRole("button", { name: "About this map" })[0];
+    await user.click(opener);
+    const dialog = await screen.findByRole("dialog", { name: /About/ });
+
+    for (let press = 0; press < 12; press += 1) {
+      await user.tab();
+      expect(dialog.contains(document.activeElement)).toBe(true);
+    }
+
+    await user.keyboard("{Escape}");
+    expect(opener).toHaveFocus();
+  });
+
   it("keeps exactly one page heading, outside the parts a phone hides", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/");
