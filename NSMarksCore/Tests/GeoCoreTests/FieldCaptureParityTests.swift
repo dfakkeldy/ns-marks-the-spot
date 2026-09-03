@@ -63,6 +63,24 @@ struct FieldCaptureParityTests {
         #expect(snap["vertexPriority"]?.string == CaptureSpec.Snap.vertexPriority)
         #expect(snap["maxParcels"]?.int == CaptureSpec.Snap.maxParcels)
         #expect(snap["parcelCaveat"]?.string == CaptureSpec.Snap.parcelCaveat)
+        #expect(snap["tracedValue"]?.string == CaptureSpec.tracedParcelValue)
+    }
+
+    /// The photo caps and the re-encode sizes.
+    ///
+    /// Both surfaces declared these independently and neither fixture nor
+    /// test knew about them, so the numbers agreeing was luck rather than a
+    /// guard. The re-encode sizes are part of the contract because the
+    /// re-encode is what leaves the EXIF — GPS included — behind.
+    @Test func thePhotoContractMatches() throws {
+        let photos = try #require(fixture.object("photos"))
+        #expect(photos["maxPerFeature"]?.int == PhotoDescriptor.maxPerFeature)
+        #expect(photos["maxPerLayer"]?.int == PhotoDescriptor.maxPerLayer)
+        #expect(photos["maxFileBytes"]?.int == PhotoDescriptor.maxFileBytes)
+        #expect(photos["fullLongEdgePx"]?.int == PhotoPipeline.fullLongEdgePx)
+        #expect(photos["fullJpegQuality"]?.double == PhotoPipeline.fullJpegQuality)
+        #expect(photos["thumbLongEdgePx"]?.int == PhotoPipeline.thumbLongEdgePx)
+        #expect(photos["thumbJpegQuality"]?.double == PhotoPipeline.thumbJpegQuality)
     }
 
     @Test func theKmzProfileMatches() throws {

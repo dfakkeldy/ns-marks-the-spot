@@ -1,3 +1,4 @@
+import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
 import { UserMapImportError } from "../../errors";
 import { MAX_PHOTO_FILE_BYTES } from "./types";
 
@@ -12,10 +13,10 @@ import { MAX_PHOTO_FILE_BYTES } from "./types";
  * exported pure for the same reason.
  */
 
-export const FULL_LONG_EDGE_PX = 2_048;
-export const FULL_JPEG_QUALITY = 0.8;
-export const THUMB_LONG_EDGE_PX = 256;
-export const THUMB_JPEG_QUALITY = 0.7;
+export const FULL_LONG_EDGE_PX = FIELD_CAPTURE_SPEC.photos.fullLongEdgePx;
+export const FULL_JPEG_QUALITY = FIELD_CAPTURE_SPEC.photos.fullJpegQuality;
+export const THUMB_LONG_EDGE_PX = FIELD_CAPTURE_SPEC.photos.thumbLongEdgePx;
+export const THUMB_JPEG_QUALITY = FIELD_CAPTURE_SPEC.photos.thumbJpegQuality;
 
 export type ProcessedPhoto = {
   full: Blob;

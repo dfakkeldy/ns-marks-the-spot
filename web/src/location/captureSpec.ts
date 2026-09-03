@@ -47,6 +47,27 @@ export const FIELD_CAPTURE_SPEC = {
     vertexPriority: "vertex-first",
     maxParcels: 600,
     parcelCaveat: "Traced boundaries are not a survey.",
+    /**
+     * The only value `nsmts:traced` takes: some vertex was placed by a
+     * parcel snap, and the not-a-survey caveat travels with the feature.
+     * The snap-target layer carries the same string as its
+     * `nsmtsSnapSource` option, so writer and reader cannot drift apart.
+     */
+    tracedValue: "nsprd-parcel",
+  },
+  photos: {
+    /** Contract caps; refusal messages name them. */
+    maxPerFeature: 20,
+    maxPerLayer: 500,
+    maxFileBytes: 50 * 1024 * 1024,
+    /**
+     * Every ingested photo is re-encoded to this, which is also the privacy
+     * mechanism: the re-encode leaves the EXIF behind, GPS included.
+     */
+    fullLongEdgePx: 2_048,
+    fullJpegQuality: 0.8,
+    thumbLongEdgePx: 256,
+    thumbJpegQuality: 0.7,
   },
   kmz: {
     /** The KML document entry, DEFLATE-compressed. */
@@ -61,6 +82,8 @@ export const FIELD_CAPTURE_SPEC = {
 export const NSMTS_CAPTURED_AT = "nsmts:capturedAt";
 export const NSMTS_ACCURACY_M = "nsmts:accuracyM";
 export const NSMTS_ALTITUDE_M = "nsmts:altitudeM";
+export const NSMTS_TRACED = "nsmts:traced";
+export const NSMTS_TRACED_PARCEL = FIELD_CAPTURE_SPEC.snap.tracedValue;
 
 export const FIELD_NOTES_LAYER_NAME = FIELD_CAPTURE_SPEC.fieldNotesLayerName;
 export const RECORDED_PROVENANCE = FIELD_CAPTURE_SPEC.recordedProvenance;

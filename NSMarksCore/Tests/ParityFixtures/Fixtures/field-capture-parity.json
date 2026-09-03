@@ -39,7 +39,17 @@
     "toleranceScreenUnits": 15,
     "vertexPriority": "vertex-first",
     "maxParcels": 600,
-    "parcelCaveat": "Traced boundaries are not a survey."
+    "parcelCaveat": "Traced boundaries are not a survey.",
+    "tracedValue": "nsprd-parcel"
+  },
+  "photos": {
+    "maxPerFeature": 20,
+    "maxPerLayer": 500,
+    "maxFileBytes": 52428800,
+    "fullLongEdgePx": 2048,
+    "fullJpegQuality": 0.8,
+    "thumbLongEdgePx": 256,
+    "thumbJpegQuality": 0.7
   },
   "kmz": {
     "docEntry": "doc.kml",

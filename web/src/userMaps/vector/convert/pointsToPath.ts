@@ -1,5 +1,9 @@
 import type { Feature, FeatureCollection, Position } from "geojson";
 import {
+  NSMTS_TRACED,
+  NSMTS_TRACED_PARCEL,
+} from "../../../location/captureSpec";
+import {
   pathDistanceMetres,
   polygonAreaSquareMetres,
 } from "../../../services/geodesy";
@@ -104,7 +108,7 @@ export function planPointsToPath(
     }
     if (
       feature.properties &&
-      (feature.properties as Record<string, unknown>)["nsmts:traced"] !==
+      (feature.properties as Record<string, unknown>)[NSMTS_TRACED] !==
         undefined
     ) {
       traced = true;
@@ -152,7 +156,7 @@ export function buildPathFromPoints(
     "nsmts:convertedFromPoints": plan.sourcePointCount,
   };
   if (plan.traced) {
-    properties["nsmts:traced"] = "nsprd-parcel";
+    properties[NSMTS_TRACED] = NSMTS_TRACED_PARCEL;
   }
   const feature: Feature = {
     type: "Feature",

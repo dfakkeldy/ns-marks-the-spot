@@ -1,5 +1,8 @@
 import type { FeatureCollection } from "geojson";
-import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
+import {
+  FIELD_CAPTURE_SPEC,
+  NSMTS_TRACED,
+} from "../../../location/captureSpec";
 import { PROVINCE_ATTRIBUTION } from "../../../licensing/provinceLicense";
 
 /**
@@ -19,7 +22,7 @@ export function hasTracedFeatures(collection: FeatureCollection): boolean {
     (feature) =>
       feature.properties &&
       typeof feature.properties === "object" &&
-      (feature.properties as Record<string, unknown>)["nsmts:traced"] !==
+      (feature.properties as Record<string, unknown>)[NSMTS_TRACED] !==
         undefined,
   );
 }

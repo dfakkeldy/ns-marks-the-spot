@@ -1,3 +1,5 @@
+import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
+
 /**
  * Photo attachments per the field-capture contract. The portable side is the
  * `nsmts:photos` feature property: an array of descriptors that travels
@@ -38,9 +40,9 @@ export type PhotoRecord = {
 };
 
 /** Contract caps; refusal messages name them. */
-export const MAX_PHOTOS_PER_FEATURE = 20;
-export const MAX_PHOTOS_PER_LAYER = 500;
-export const MAX_PHOTO_FILE_BYTES = 50 * 1024 * 1024;
+export const MAX_PHOTOS_PER_FEATURE = FIELD_CAPTURE_SPEC.photos.maxPerFeature;
+export const MAX_PHOTOS_PER_LAYER = FIELD_CAPTURE_SPEC.photos.maxPerLayer;
+export const MAX_PHOTO_FILE_BYTES = FIELD_CAPTURE_SPEC.photos.maxFileBytes;
 
 function asDescriptor(value: unknown): FeaturePhotoDescriptor | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
