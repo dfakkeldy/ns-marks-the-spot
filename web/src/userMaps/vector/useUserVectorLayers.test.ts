@@ -283,6 +283,27 @@ describe("useUserVectorLayers", () => {
     });
   });
 
+  // A layer the user removed must not come back through a commit dispatched
+  // for it. The row is gone from the list; putting its geometry back left a
+  // map entry for a layer nothing owns.
+  it("does not restore a removed layer's geometry from a late edit", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    const original = result.current.records[0];
+
+    await act(() => result.current.removeLayer(original.id));
+    act(() =>
+      result.current.applyLayerEdit({ ...original, revision: 1 }, {
+        type: "FeatureCollection",
+        features: [],
+      }),
+    );
+
+    expect(result.current.records).toHaveLength(0);
+    expect(result.current.geometries[original.id]).toBeUndefined();
+  });
+
   it("ignores an export request for a layer that is gone", async () => {
     const downloads: Array<{ filename: string; blob: Blob }> = [];
     const { result } = renderHook(() =>

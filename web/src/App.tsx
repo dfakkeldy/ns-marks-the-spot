@@ -4889,6 +4889,7 @@ export function App() {
                           vectorEdit.editingId === id
                             ? endVectorEdit()
                             : beginVectorEdit(id)}
+                        onEndEdit={endVectorEdit}
                         onNewLayer={() => void createAndEditVectorLayer()}
                         onBulkPhotos={() => setBulkPhotosOpen(true)}
                         editingId={vectorEdit.editingId}

@@ -35,6 +35,13 @@ function provenance(record: UserVectorLayerRecord): string {
 export interface UserVectorRowsProps {
   api: UserVectorLayersApi;
   onEdit?: (id: string) => void;
+  /**
+   * Closes the open edit session. Removing the layer under edit must go
+   * through this first: the session holds its own copy of the record and
+   * geometry and would otherwise stay open over a layer that no longer
+   * exists.
+   */
+  onEndEdit?: () => void;
   onNewLayer?: () => void;
   onBulkPhotos?: () => void;
   editingId?: string | null;
@@ -43,6 +50,7 @@ export interface UserVectorRowsProps {
 function renderUserVectorControls({
   api,
   onEdit,
+  onEndEdit,
   onNewLayer,
   onBulkPhotos,
   editingId = null,
@@ -162,6 +170,18 @@ function renderUserVectorControls({
                         "file on your computer is not affected.",
                     )
                   ) {
+                    // The editor holds its own copy of the record and
+                    // geometry, so it does not notice its row is gone: left
+                    // open, it would keep accepting drawings into a layer
+                    // that no longer exists and take them all with it at
+                    // Done. Closed first, so the session's last write still
+                    // has a row to land in. The native app holds the same
+                    // rule by disabling its Layers menu for the session
+                    // (MapContainerView.swift); the web rail stays live, so
+                    // the removal closes the session instead.
+                    if (editingId === record.id) {
+                      onEndEdit?.();
+                    }
                     void api.removeLayer(record.id);
                   }
                 }}

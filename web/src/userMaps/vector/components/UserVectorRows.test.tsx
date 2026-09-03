@@ -182,6 +182,46 @@ describe("UserVectorRows", () => {
     expect(layers.removeLayer).toHaveBeenCalledWith("camps");
   });
 
+  // The session holds its own copy of the record and geometry, so removing
+  // the layer under it left an editor open over a layer that no longer
+  // exists — and its debounced write then reported the removal the user had
+  // just asked for as "deleted in another tab".
+  it("closes an open edit session before removing the layer it is on", async () => {
+    const order: string[] = [];
+    const layers = api({
+      records: [record("camps")],
+      removeLayer: vi.fn(async () => {
+        order.push("remove");
+      }),
+    });
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    render(
+      <UserVectorRows
+        api={layers}
+        editingId="camps"
+        onEndEdit={() => order.push("end")}
+      />,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Remove Layer camps" }));
+
+    expect(order).toEqual(["end", "remove"]);
+  });
+
+  it("leaves an edit session on another layer alone when a row is removed", async () => {
+    const layers = api({ records: [record("camps"), record("wells")] });
+    const onEndEdit = vi.fn();
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    render(
+      <UserVectorRows api={layers} editingId="wells" onEndEdit={onEndEdit} />,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Remove Layer camps" }));
+
+    expect(onEndEdit).not.toHaveBeenCalled();
+    expect(layers.removeLayer).toHaveBeenCalledWith("camps");
+  });
+
   it("offers GeoJSON and KML export per layer", async () => {
     const layers = api({ records: [record("camps")] });
     render(<UserVectorRows api={layers} />);
