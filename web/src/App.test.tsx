@@ -566,6 +566,15 @@ const parcelFeature = (pid: string) => ({
   },
 });
 
+// A shape NSPRD returned with nothing to identify it by. The declared
+// `PID: string` describes what a stored parcel may be assumed to carry, not
+// what the service is allowed to send, so the fixture casts across that gap.
+const unreadableParcelFeature = () =>
+  ({
+    ...parcelFeature("00000000"),
+    properties: { PID: null, "SHAPE.AREA": 111_057.27135 },
+  }) as unknown as ReturnType<typeof parcelFeature>;
+
 const civicAddress = (pntid: string, label: string): CivicAddress => ({
   pntid,
   coordinates: [-61.15, 46.35],
@@ -3648,6 +3657,68 @@ describe("NS Marks The Spot Online", () => {
     ).not.toBeInTheDocument();
   });
 
+  // A reply that arrived carrying shapes is not a reply that found nothing.
+  it("does not call an unreadable NSPRD reply an empty one", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [unreadableParcelFeature(), unreadableParcelFeature()],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+
+    expect(
+      await screen.findByText(
+        "NSPRD returned 2 boundaries at that point with no readable PID.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("No NSPRD parcel was found at that point."),
+    ).not.toBeInTheDocument();
+  });
+
+  it("opens the first readable parcel even when an unreadable shape leads the reply", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [unreadableParcelFeature(), parcelFeature("50251750")],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+
+    expect(
+      await screen.findByRole("complementary", {
+        name: "Parcel 50251750 details",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("PID 50251750 selected.")).toBeInTheDocument();
+  });
+
+  it("says several parcels meet at the tapped point rather than naming one", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50251750"), parcelFeature("50334317")],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+
+    expect(
+      await screen.findByText(
+        "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.",
+      ),
+    ).toBeInTheDocument();
+    await screen.findByRole("complementary", {
+      name: "Parcel 50251750 details",
+    });
+  });
+
   it("keeps writing the address bar when replaceState is rate-limited", async () => {
     // Safari refuses more than 100 history.replaceState calls per 30 seconds
     // and raises SecurityError. Thrown from inside the effect that writes the
@@ -3720,6 +3791,33 @@ describe("NS Marks The Spot Online", () => {
       expect(
         screen.queryByText("PID 50251750 selected."),
       ).not.toBeInTheDocument();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("keeps the shared-boundary notice up after the toast timeout", async () => {
+    vi.useFakeTimers();
+    try {
+      localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+      vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+        type: "FeatureCollection",
+        features: [parcelFeature("50251750"), parcelFeature("50334317")],
+      });
+      renderAppWithCategoriesOpen();
+
+      fireEvent.click(screen.getByRole("button", { name: "Tap map parcel" }));
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(0);
+      });
+      const notice =
+        "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.";
+      expect(screen.getByText(notice)).toBeInTheDocument();
+
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(6_000);
+      });
+      expect(screen.getByText(notice)).toBeInTheDocument();
     } finally {
       vi.useRealTimers();
     }

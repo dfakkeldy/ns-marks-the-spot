@@ -109,6 +109,54 @@ export async function fetchParcelAtPoint(
   return fetchParcelCollection(buildPointQueryUrl(latitude, longitude), signal);
 }
 
+/**
+ * What one point query answered with, split by what could be read from it.
+ *
+ * A reply holding nothing and a reply holding shapes with no usable PID are
+ * different evidence and owe the reader different sentences: the first is the
+ * service looking and finding no parcel, the second is something being there
+ * that this build cannot name. `pids` is separate from `identified` because a
+ * point on a shared boundary comes back as several parcels, and which one
+ * NSPRD listed first is not evidence of which one the point belongs to.
+ */
+export type ParcelPointIdentification = {
+  identified: NsprdFeatureCollection;
+  pids: string[];
+  unidentifiedCount: number;
+};
+
+export function identifyParcelsAtPoint(
+  collection: NsprdFeatureCollection,
+): ParcelPointIdentification {
+  const features: NsprdFeatureCollection["features"] = [];
+  const pids: string[] = [];
+  let unidentifiedCount = 0;
+
+  for (const feature of collection.features) {
+    // Read through `unknown` rather than the declared `PID: string`: that
+    // declaration says what the rest of the app may assume about a parcel it
+    // has stored, not what ArcGIS is allowed to send. A null, a blank, or a
+    // numeric PID is counted rather than dropped in silence, and never
+    // repaired into a string — a PID the selection cannot match is a gap in
+    // the reply, not a parcel.
+    const pid = (feature.properties as { PID?: unknown }).PID;
+    if (typeof pid !== "string" || pid === "") {
+      unidentifiedCount += 1;
+      continue;
+    }
+    features.push(feature);
+    if (!pids.includes(pid)) {
+      pids.push(pid);
+    }
+  }
+
+  return {
+    identified: { type: "FeatureCollection", features },
+    pids,
+    unidentifiedCount,
+  };
+}
+
 async function fetchParcelBatch(
   pids: string[],
   signal?: AbortSignal,

@@ -5,7 +5,9 @@ import {
   buildPidQueryUrl,
   fetchParcelAtPoint,
   fetchParcels,
+  identifyParcelsAtPoint,
   normalizePid,
+  type NsprdFeatureCollection,
 } from "./nsprd";
 
 afterEach(() => {
@@ -189,5 +191,60 @@ describe("NSPRD PID queries", () => {
     await expect(collectionPromise).resolves.toEqual(
       expect.objectContaining({ features: expect.any(Array) }),
     );
+  });
+});
+
+describe("NSPRD point replies", () => {
+  // NSPRD may answer with a null, blank, or numeric PID. The declared
+  // `PID: string` says what a stored parcel may be assumed to carry, not what
+  // the wire is allowed to send, and the cast is that gap in one place.
+  const pointFeature = (pid: unknown) =>
+    ({
+      type: "Feature",
+      properties: { PID: pid },
+      geometry: { type: "Point", coordinates: [-61.414138, 46.059488] },
+    }) as unknown as NsprdFeatureCollection["features"][number];
+
+  const reply = (
+    ...features: NsprdFeatureCollection["features"]
+  ): NsprdFeatureCollection => ({ type: "FeatureCollection", features });
+
+  it("tells an empty reply apart from one carrying no readable PID", () => {
+    expect(identifyParcelsAtPoint(reply())).toEqual({
+      identified: { type: "FeatureCollection", features: [] },
+      pids: [],
+      unidentifiedCount: 0,
+    });
+
+    const unreadable = identifyParcelsAtPoint(
+      reply(pointFeature(null), pointFeature(""), pointFeature(50251750)),
+    );
+    expect(unreadable.pids).toEqual([]);
+    expect(unreadable.identified.features).toEqual([]);
+    expect(unreadable.unidentifiedCount).toBe(3);
+  });
+
+  it("keeps every distinct PID where parcels meet, in the order NSPRD listed", () => {
+    const result = identifyParcelsAtPoint(
+      reply(
+        pointFeature("50251750"),
+        pointFeature("50334317"),
+        pointFeature("50251750"),
+      ),
+    );
+
+    expect(result.pids).toEqual(["50251750", "50334317"]);
+    expect(result.identified.features).toHaveLength(3);
+    expect(result.unidentifiedCount).toBe(0);
+  });
+
+  it("does not let one unreadable shape hide the parcels behind it", () => {
+    const result = identifyParcelsAtPoint(
+      reply(pointFeature(null), pointFeature("50251750")),
+    );
+
+    expect(result.pids).toEqual(["50251750"]);
+    expect(result.identified.features).toHaveLength(1);
+    expect(result.unidentifiedCount).toBe(1);
   });
 });

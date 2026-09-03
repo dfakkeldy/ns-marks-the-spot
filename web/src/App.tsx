@@ -135,6 +135,7 @@ import {
 import {
   fetchParcelAtPoint,
   fetchParcels,
+  identifyParcelsAtPoint,
   normalizePid,
   NSPRD_LAYER_URL,
   type NsprdFeatureCollection,
@@ -1237,7 +1238,15 @@ export function App() {
   );
 
   useEffect(() => {
-    if (!parcelLookupMessage || !/^PID \d+ selected/.test(parcelLookupMessage)) {
+    // Good news dismisses itself; a caution stays until the state changes.
+    // "PID 50251750 selected." is the whole of the good news, so the rule
+    // matches the whole sentence: the shared-boundary notice starts the same
+    // way and then says the choice was not a determination, and a reader who
+    // looked away for six seconds would be left with only the good half.
+    if (
+      !parcelLookupMessage ||
+      !/^PID \d+ selected( from shared map state)?\.$/.test(parcelLookupMessage)
+    ) {
       return;
     }
     const timer = window.setTimeout(
@@ -2815,13 +2824,27 @@ export function App() {
         return;
       }
 
-      const pid = collection.features[0]?.properties.PID;
+      const { identified, pids, unidentifiedCount } =
+        identifyParcelsAtPoint(collection);
+      const pid = pids[0];
       if (!pid) {
-        setParcelLookupMessage("No NSPRD parcel was found at that point.");
+        // Two different nothings. A reply with no features at all is the
+        // service looking and finding no parcel, and that is the only
+        // sentence here allowed to say anything about the ground. Shapes that
+        // arrived carrying no readable PID are the service finding something
+        // this build cannot name, which is neither "there is no parcel" nor
+        // "the lookup failed".
+        setParcelLookupMessage(
+          unidentifiedCount === 0
+            ? "No NSPRD parcel was found at that point."
+            : unidentifiedCount === 1
+              ? "NSPRD returned a boundary at that point with no readable PID."
+              : `NSPRD returned ${unidentifiedCount} boundaries at that point with no readable PID.`,
+        );
         return;
       }
 
-      setParcels((current) => mergeFeatureCollections(current, collection));
+      setParcels((current) => mergeFeatureCollections(current, identified));
       if (!addressLabel) {
         setQuery(pid);
       }
@@ -2829,7 +2852,15 @@ export function App() {
       if (focusOnSelect) {
         requestParcelFocus(pid);
       }
-      setParcelLookupMessage(`PID ${pid} selected.`);
+      // More than one PID under one point: the parcels meet there, and the
+      // order NSPRD listed them in is not evidence of which one the point
+      // belongs to. "PID … selected." on its own would let a reader
+      // researching a boundary act on the first-listed parcel as a finding.
+      setParcelLookupMessage(
+        pids.length > 1
+          ? `PID ${pid} selected. ${pids.length} parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.`
+          : `PID ${pid} selected.`,
+      );
     } catch (error: unknown) {
       if (error instanceof DOMException && error.name === "AbortError") {
         return;
