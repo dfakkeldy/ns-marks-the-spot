@@ -1985,6 +1985,19 @@ export function App() {
     mapModeRef.current = mapMode;
   }, [mapMode, taxSaleEnabled]);
 
+  /**
+   * How the parcel's own geometry resolved, for the note.
+   *
+   * "The geometry is unavailable" is what every dependent source can say;
+   * WHY it is unavailable is a fact about NSPRD, and the two outcomes are
+   * different evidence: a service that answered with no parcel for this PID,
+   * and a service that did not answer. The live message says which, and the
+   * exported note used to carry neither.
+   */
+  const [geometryOutcome, setGeometryOutcome] = useState<
+    "returned-empty" | "source-error" | "unusable-geometry" | null
+  >(null);
+
   const markGeometryEvidenceTerminal = useCallback(
     (
       request: SelectedEvidenceRequest,
@@ -2056,6 +2069,7 @@ export function App() {
       .then((collection) => {
         if (collection.features.length === 0) {
           setParcelLookupMessage(`No NSPRD parcel was found for PID ${selectedPid}.`);
+          setGeometryOutcome("returned-empty");
           if (request) {
             markGeometryEvidenceTerminal(request, "geometry-unavailable");
           }
@@ -2069,6 +2083,7 @@ export function App() {
           return;
         }
         setParcelLookupMessage("The shared PID could not be loaded right now.");
+        setGeometryOutcome("source-error");
         if (request) {
           markGeometryEvidenceTerminal(request, "geometry-unavailable");
         }
@@ -2219,6 +2234,7 @@ export function App() {
     if (!parcels.features.some(({ properties }) => properties.PID === selectedPid)) {
       return;
     }
+    setGeometryOutcome("unusable-geometry");
     markGeometryEvidenceTerminal(selectedEvidenceRequest, "geometry-unavailable");
   }, [
     // mapMode and taxSaleEnabled are inputs, not noise: they decide whether a
@@ -2872,6 +2888,7 @@ export function App() {
 
   const selectParcel = (pid: string): SelectedEvidenceRequest => {
     setMobileControlsOpen(false);
+    setGeometryOutcome(null);
     // A caution belongs to the selection it was raised for, and re-selecting
     // the same PID unambiguously is a new selection: without this the
     // shared-boundary notice would stand over a tap that had no ambiguity.
@@ -3104,12 +3121,14 @@ export function App() {
       const collection = await fetchParcels([pid]);
       if (collection.features.length === 0) {
         setSearchError("No NSPRD parcel was found for that PID.");
+        setGeometryOutcome("returned-empty");
         markGeometryEvidenceTerminal(request, "geometry-unavailable");
         return;
       }
       setParcels((current) => mergeFeatureCollections(current, collection));
     } catch {
       setSearchError("The Province parcel search is unavailable right now.");
+      setGeometryOutcome("source-error");
       markGeometryEvidenceTerminal(request, "geometry-unavailable");
     } finally {
       if (pendingGeometryFetchPidRef.current === pid) {
@@ -3146,6 +3165,7 @@ export function App() {
         setParcelLookupMessage(
           `PID ${pid} details opened, but its map geometry is unavailable.`,
         );
+        setGeometryOutcome("returned-empty");
         markGeometryEvidenceTerminal(request, "geometry-unavailable");
         return;
       }
@@ -3155,6 +3175,7 @@ export function App() {
       setParcelLookupMessage(
         `PID ${pid} details opened, but the Province parcel service is unavailable.`,
       );
+      setGeometryOutcome("source-error");
       markGeometryEvidenceTerminal(request, "geometry-unavailable");
     } finally {
       if (pendingGeometryFetchPidRef.current === pid) {
@@ -3843,6 +3864,7 @@ export function App() {
       shareUrl,
       position: mapViewport.position,
       activeLayers,
+      parcelGeometry: geometryOutcome,
       events: selectedListingContext
         ? [{
             name: `${selectedListingContext.event.shortMunicipality} — ${eventDateLabel(selectedListingContext.event)}`,

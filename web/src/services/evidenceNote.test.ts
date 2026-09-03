@@ -273,6 +273,56 @@ describe("parcel evidence note", () => {
     );
   });
 
+  // Every dependent source can say only that it was not evaluated. Which of
+  // the two NSPRD outcomes produced that is a fact about NSPRD, and the live
+  // message carrying it does not travel with the file.
+  it.each([
+    ["returned-empty", "returned no parcel for this PID"],
+    ["source-error", "did not answer for this PID"],
+    ["unusable-geometry", "a geometry this build cannot query against"],
+  ] as const)("records how the parcel geometry resolved: %s", (outcome, sentence) => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: false,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      parcelGeometry: outcome,
+      civicAddresses: { status: "geometry-unavailable" },
+      assessmentEvidence: { status: "geometry-unavailable" },
+      dwellingEvidence: { status: "geometry-unavailable" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain("## NSPRD parcel geometry");
+    expect(note.markdown).toContain(sentence);
+  });
+
+  it("says nothing about the parcel geometry when it resolved", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: false,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).not.toContain("## NSPRD parcel geometry");
+  });
+
   it("records a civic address source failure explicitly instead of claiming absence", () => {
     const note = buildEvidenceNote({
       generatedAt: new Date("2026-07-20T14:05:06.000Z"),

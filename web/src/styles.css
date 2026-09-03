@@ -3569,6 +3569,12 @@ a {
     max-width: none;
     max-height: 30dvh;
     overflow-y: auto;
+    /* A scroll container nothing can reach is a message with a hidden half:
+       the base rule turns pointer events off so the box never takes the
+       inspector's close control, and that also passed a swipe over this text
+       to the panel underneath. Restored here, where the box is capped, and
+       kept clear of that control by sitting below it. */
+    pointer-events: auto;
   }
 
   .parcel-inspector {

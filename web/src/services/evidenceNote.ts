@@ -72,6 +72,16 @@ export type EvidenceNoteInput = {
   position: MapPosition;
   activeLayers: EvidenceSource[];
   events: EvidenceEvent[];
+  /**
+   * How the parcel's own NSPRD geometry resolved, when it did not.
+   *
+   * Every dependent source can say only that it was not evaluated. Whether
+   * NSPRD answered with no parcel for this PID, did not answer at all, or
+   * answered with a shape nothing here can query is a fact about NSPRD, it
+   * decides whether asking again is worth anything, and the live message
+   * carrying it does not travel with the file.
+   */
+  parcelGeometry?: "returned-empty" | "source-error" | "unusable-geometry" | null;
   civicAddresses: CivicEvidence;
   assessmentEvidence: AssessmentEvidence;
   dwellingEvidence: DwellingEvidence;
@@ -260,6 +270,19 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
     ? "NSPRD geometry and mapped area are approximate and are not a legal survey. Road adjacency and civic addressing do not prove legal access or frontage. Tax-sale notices and results are dated source records and require current verification with the municipality."
     : "NSPRD geometry and mapped area are approximate and are not a legal survey. Road adjacency and civic addressing do not prove legal access or frontage.";
 
+  const geometrySection = input.parcelGeometry
+    ? [
+        "",
+        "## NSPRD parcel geometry",
+        "",
+        input.parcelGeometry === "returned-empty"
+          ? "- The Province parcel service returned no parcel for this PID. A returned-empty result is not proof that no parcel exists."
+          : input.parcelGeometry === "source-error"
+            ? "- The Province parcel service did not answer for this PID. Nothing below was asked, and no absence is inferred."
+            : "- The Province parcel service answered for this PID with a geometry this build cannot query against. Nothing below was asked.",
+      ]
+    : [];
+
   const markdown = [
     "# NS Marks The Spot parcel evidence note",
     "",
@@ -269,6 +292,7 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
     `Map position: ${input.position.latitude.toFixed(5)}, ${input.position.longitude.toFixed(5)} at zoom ${input.position.zoom}`,
     `[Open this map state](${input.shareUrl})`,
     ...eventSection,
+    ...geometrySection,
     "",
     "## Active map sources",
     "",

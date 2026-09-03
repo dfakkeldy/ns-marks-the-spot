@@ -170,16 +170,34 @@ export function PrintPreview({
     return () => window.clearTimeout(timer);
   }, [captureReadiness.ready, sealSnapshot, snapshot, template]);
 
+  // One deadline per capture, held as an absolute moment. The wait belongs to
+  // the capture, not to the template on screen: an effect that tore its timer
+  // down when the reader looked at the field sheet started a fresh fifteen
+  // seconds on the way back, and switching often enough postponed the seal
+  // for as long as the reader kept switching.
+  const evidenceDeadlineRef = useRef<{ token: string; at: number } | null>(null);
+  const [evidenceDeadline, setEvidenceDeadline] = useState(
+    () => Date.now() + EVIDENCE_TIMEOUT_MS,
+  );
+  useEffect(() => {
+    // A new capture token is a new wait; the same token keeps the deadline it
+    // started with, whatever else changed.
+    if (evidenceDeadlineRef.current?.token === capture.token) return;
+    const at = Date.now() + EVIDENCE_TIMEOUT_MS;
+    evidenceDeadlineRef.current = { token: capture.token, at };
+    setEvidenceDeadline(at);
+  }, [capture.token]);
+
   useEffect(() => {
     if (template !== "research" || captureReadiness.ready) return;
     const timer = window.setTimeout(
       () => {
         sealSnapshot("research", true);
       },
-      EVIDENCE_TIMEOUT_MS,
+      Math.max(0, evidenceDeadline - Date.now()),
     );
     return () => window.clearTimeout(timer);
-  }, [captureReadiness.ready, sealSnapshot, template]);
+  }, [captureReadiness.ready, evidenceDeadline, sealSnapshot, template]);
 
   useEffect(() => {
     if (!attemptToken || !snapshot) return;

@@ -245,6 +245,30 @@ describe("PrintPreview", () => {
     expect(screen.getByText(/^Sealed while .* had not answered\./u)).toBeInTheDocument();
   });
 
+  // The wait belongs to the capture, not to the template on screen: looking
+  // at the field sheet and coming back used to start a fresh fifteen seconds,
+  // and switching often enough postponed the seal indefinitely.
+  it("does not restart the wait when the reader looks at the field sheet", async () => {
+    vi.useFakeTimers();
+    render(
+      <PrintPreview capture={capture(true)} baseUrl="https://example.com/map/" onClose={onClose} />,
+    );
+    markMapReady();
+
+    await act(() => vi.advanceTimersByTimeAsync(10_000));
+    const selector = screen.getByLabelText("Document template");
+    await act(async () => {
+      fireEvent.change(selector, { target: { value: "field" } });
+    });
+    await act(() => vi.advanceTimersByTimeAsync(3_000));
+    await act(async () => {
+      fireEvent.change(selector, { target: { value: "research" } });
+    });
+    await act(() => vi.advanceTimersByTimeAsync(2_100));
+
+    expect(screen.getByText(/^Sealed while .* had not answered\./u)).toBeInTheDocument();
+  });
+
   it("names the silent sources in the controls before the user prints", async () => {
     vi.useFakeTimers();
     render(<PrintPreview capture={capture(true)} baseUrl="https://example.com/map/" onClose={onClose} />);
