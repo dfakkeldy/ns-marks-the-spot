@@ -2461,6 +2461,21 @@ a {
    the same bar: ParcelInspectorView.swift pins the short `PID <pid>` and puts
    everything else in the scroll, while this pins the panel's heading, which
    is the civic address. Same idea, different content — not parity. */
+/* The map's caution, carried inside the panel while one is open. Above the
+   pinned row rather than over it: on a phone the panel covers the map, so an
+   overlaid message had nowhere to go that was not on top of this panel's own
+   heading and close control. */
+.inspector-lookup-message {
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  color: var(--chart-ink);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
 .inspector-header {
   position: sticky;
   z-index: 2;

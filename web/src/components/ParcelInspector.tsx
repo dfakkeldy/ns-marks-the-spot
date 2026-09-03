@@ -319,6 +319,7 @@ export function ParcelInspector({
   evidenceReady,
   now,
   dismissOnEscape,
+  lookupMessage,
   onClose,
 }: {
   pid: string;
@@ -351,6 +352,14 @@ export function ParcelInspector({
    * keypress never closes two layers".
    */
   dismissOnEscape: boolean;
+  /**
+   * The map's own status line, while this panel is open.
+   *
+   * A shared-boundary tap raises a caution that stands until the selection
+   * changes; overlaid on a phone it sat across the panel's pinned row. It is
+   * about this parcel, so it travels with it.
+   */
+  lookupMessage: string | null;
   onClose: () => void;
 }) {
   const listing = context?.listing;
@@ -391,6 +400,22 @@ export function ParcelInspector({
       if (keyEvent.key !== "Escape") {
         return;
       }
+      // Escape in a field is the browser's own revert; the search box in the
+      // rail is reachable the whole time this panel is open. MeasureTool's
+      // window listener carries the same bail-out for the same reason.
+      const target = keyEvent.target;
+      if (
+        target instanceof HTMLElement &&
+        (target instanceof HTMLInputElement ||
+          target instanceof HTMLTextAreaElement ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+      // Silencing the event here is what keeps one keypress from closing two
+      // layers — a `window` listener runs after this one, so a surface that
+      // owns Escape above this panel must be excluded by `dismissOnEscape`
+      // rather than left to race it.
       keyEvent.stopPropagation();
       dismissRef.current();
     };
@@ -406,6 +431,14 @@ export function ParcelInspector({
           screen with the first swipe of content — and on a phone, where the
           panel is full-screen and the map chrome, zoom and location controls
           are hidden behind it, that was the only way out. */}
+      {lookupMessage ? (
+        // In the panel's own flow, under the pinned row. Overlaid on a phone
+        // it covered that row — where the close control and the address are —
+        // and it is a caution ABOUT this selection, so it belongs with it.
+        <p className="inspector-lookup-message" role="status">
+          {lookupMessage}
+        </p>
+      ) : null}
       <div className="inspector-header">
         <h2>
           {listing?.addressOrDescription ??

@@ -3747,14 +3747,15 @@ describe("NS Marks The Spot Online", () => {
 
     await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
 
-    expect(
-      await screen.findByText(
-        "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.",
-      ),
-    ).toBeInTheDocument();
-    await screen.findByRole("complementary", {
+    const notice = await screen.findByText(
+      "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.",
+    );
+    const inspector = await screen.findByRole("complementary", {
       name: "Parcel 50251750 details",
     });
+    // Inside the panel, not over it: on a phone the panel covers the map, so
+    // an overlaid caution sat across its own heading and close control.
+    expect(inspector).toContainElement(notice);
   });
 
   it("keeps writing the address bar when replaceState is rate-limited", async () => {
