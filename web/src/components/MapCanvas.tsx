@@ -121,6 +121,7 @@ import {
 } from "./mapPanes";
 import { textTooltip } from "./mapTooltip";
 import { prefersReducedMotion } from "./mapMotion";
+import { FIELD_CAPTURE_SPEC } from "../location/captureSpec";
 import {
   fetchWellLogs,
   printWellLogMarkerStyle,
@@ -349,6 +350,30 @@ const EMPTY_USER_MAPS: VisibleUserMap[] = [];
 const EMPTY_USER_VECTOR_LAYERS: VisibleUserVectorLayer[] = [];
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
+// The recorder's caveats are said in two places: under the numbers, where a
+// reader watching the screen sees them, and in the one-line announcement a
+// screen reader hears. They are written once here so the two cannot end up
+// saying different things about the same walk.
+const RECORDER_PAUSED_NOTE = "Paused — the gap will not be connected.";
+const RECORDER_WAKE_LOCK_NOTE =
+  "Keep your screen on — this browser can't hold it awake.";
+const RECORDER_QUOTA_NOTE =
+  "Storage is full — this recording isn't being kept as you go. A reload " +
+  "would lose it.";
+const RECORDER_DRAFT_REFUSED_NOTE =
+  "This browser isn't keeping this recording as you go. A reload would " +
+  "lose it.";
+// A write that ran past its deadline is still out there and may yet land, so
+// this says what was not confirmed rather than what was refused.
+const RECORDER_DRAFT_UNVERIFIED_NOTE =
+  "This browser hasn't confirmed the recording is being kept. A reload may " +
+  "lose it.";
+// The quality dot goes red for two different situations, and this is the one
+// the location message never covers: the watch is healthy and delivering, and
+// every fix is being thrown out by the accuracy gate, so the track has stopped
+// growing. On screen that is a red dot and nothing else — colour alone.
+const RECORDER_FIXES_TOO_ROUGH_NOTE =
+  "Positions are too rough to add to the track right now.";
 const CSS_METRES_PER_PIXEL = 0.0254 / 96;
 const DISPLAY_SCALE_SAMPLE_WIDTH_CSS_PIXELS = 100;
 const DISPLAY_SCALE_EXPLANATION =
@@ -2255,6 +2280,43 @@ export function MapCanvas({
           ? "amber"
           : "red";
 
+  // Which refusal the device gave, in the words the HUD already shows.
+  const recorderDraftNote =
+    recording.draftError === "quota"
+      ? RECORDER_QUOTA_NOTE
+      : recording.draftError === "unverified"
+        ? RECORDER_DRAFT_UNVERIFIED_NOTE
+        : recording.draftError
+          ? RECORDER_DRAFT_REFUSED_NOTE
+          : null;
+  // Everything a screen reader is told about the recorder, and it changes only
+  // when the recorder does: a walk starts, pauses, resumes, or stops being
+  // written to the device. The elapsed time, distance and point count are
+  // deliberately absent. They move every second, and a live region carrying
+  // them reads the clock over the top of everything else for the length of the
+  // walk; they are read from the "Track recording" region instead, whenever the
+  // reader goes and asks for them.
+  const recorderAnnouncement =
+    recording.status === "idle"
+      ? ""
+      : [
+          recording.status === "paused"
+            ? RECORDER_PAUSED_NOTE
+            : "Recording a track.",
+          recording.wakeLockSupported === false
+            ? RECORDER_WAKE_LOCK_NOTE
+            : null,
+          recording.status === "recording" &&
+          live.status === "active" &&
+          live.fix !== null &&
+          live.fix.accuracyM > FIELD_CAPTURE_SPEC.trackFilter.accuracyGateM
+            ? RECORDER_FIXES_TOO_ROUGH_NOTE
+            : null,
+          recorderDraftNote,
+        ]
+          .filter((part) => part !== null)
+          .join(" ");
+
   return (
     /* The wrapper carried this label from the start, but a name on a div with
        no role is discarded, so the map had no name in the accessibility tree
@@ -2707,43 +2769,48 @@ export function MapCanvas({
           </small>
         </div>
       ) : null}
+      {/* A named region, not a live region. These numbers change once a
+          second, and role="status" had a screen reader reading the clock, the
+          distance and the point count over the top of everything else for the
+          length of the walk. The reader now goes to "Track recording" and
+          reads them when they want them, and hears the recorder's state
+          changes from the announcement further down. The three notices below
+          this one keep their live regions: each is written once when
+          something happens and then sits still, which is what a live region
+          is for. */}
       {recording.status !== "idle" ? (
-        <div className="location-hud" role="status">
+        <div
+          className="location-hud"
+          role="region"
+          aria-label="Track recording"
+        >
           <div className="location-hud-stats">
             <span
               className={`location-hud-quality location-hud-quality-${fixQuality}`}
               aria-hidden="true"
             />
-            <span>{formatElapsed(recording.stats.elapsedMs)}</span>
-            <span>{formatDistance(recording.stats.distanceM)}</span>
+            {/* Read aloud on their own, "12:34" and "1.20 km" say nothing
+                about which is which. The labels are hidden because on screen
+                the column position already says it. */}
+            <span>
+              <span className="visually-hidden">Elapsed </span>
+              {formatElapsed(recording.stats.elapsedMs)}
+            </span>
+            <span>
+              <span className="visually-hidden">Distance </span>
+              {formatDistance(recording.stats.distanceM)}
+            </span>
             <span>
               {recording.stats.keptVertexCount.toLocaleString("en-CA")} pts
             </span>
           </div>
           {recording.status === "paused" ? (
-            <small>Paused — the gap will not be connected.</small>
+            <small>{RECORDER_PAUSED_NOTE}</small>
           ) : null}
           {recording.wakeLockSupported === false ? (
-            <small>Keep your screen on — this browser can't hold it awake.</small>
+            <small>{RECORDER_WAKE_LOCK_NOTE}</small>
           ) : null}
-          {recording.draftError === "quota" ? (
-            <small>
-              Storage is full — this recording isn't being kept as you go. A
-              reload would lose it.
-            </small>
-          ) : recording.draftError === "unverified" ? (
-            // The write is still out there and may yet land. "Would lose it"
-            // is a claim about a transaction nobody has watched finish.
-            <small>
-              This browser hasn't confirmed the recording is being kept. A
-              reload may lose it.
-            </small>
-          ) : recording.draftError ? (
-            <small>
-              This browser isn't keeping this recording as you go. A reload
-              would lose it.
-            </small>
-          ) : null}
+          {recorderDraftNote ? <small>{recorderDraftNote}</small> : null}
           <div className="location-hud-actions">
             {recording.status === "recording" ? (
               <button type="button" onClick={recording.pause}>
@@ -2830,6 +2897,16 @@ export function MapCanvas({
           </button>
         </div>
       ) : null}
+      {/* Outside the HUD, and rendered whether or not a walk is running: a
+          live region has to be in the document before its text changes, or
+          the first change — the recording starting — is the one nobody hears.
+          Stopping empties it, and the save dialog that opens takes focus,
+          which is what says the walk has ended. It is kept apart from the
+          location message below because that one belongs to the watch and to
+          save outcomes, and it dismisses itself on its own schedule. */}
+      <p className="visually-hidden" role="status" aria-live="polite">
+        {recorderAnnouncement}
+      </p>
       <p className="location-message" role="status" aria-live="polite">
         {locationMessage}
       </p>

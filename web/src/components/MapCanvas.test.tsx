@@ -369,6 +369,12 @@ const hiddenResourceLayers = {
 afterEach(() => {
   vi.useRealTimers();
   vi.unstubAllGlobals();
+  // The recorder tests that need a wake lock define one on `navigator`, which
+  // jsdom does not have. Left behind it would change what the HUD says about
+  // keeping the screen on in every test after them.
+  if ("wakeLock" in navigator) {
+    Reflect.deleteProperty(navigator, "wakeLock");
+  }
   mapMock.getCenter.mockReturnValue({ lat: 46.35, lng: -61.15 });
   mapMock.getZoom.mockReturnValue(9);
   mapMock.getBounds.mockReturnValue({
@@ -1308,9 +1314,15 @@ describe("MapCanvas browser location", () => {
     await user.click(screen.getByRole("button", { name: "Stop" }));
     await user.click(screen.getByRole("button", { name: "Save track" }));
 
-    // The device refused the write, so the walk is still offered back.
+    // The device refused the write, so the walk is still offered back. That
+    // offer is written once and then sits still, so unlike the ticking HUD it
+    // keeps its live region and is spoken when it appears.
+    const offer = await screen.findByText(
+      "A track recording is waiting to be saved.",
+    );
+    expect(offer.closest('[role="status"]')).not.toBeNull();
     await user.click(
-      await screen.findByRole("button", { name: "Recover unsaved track" }),
+      screen.getByRole("button", { name: "Recover unsaved track" }),
     );
     await user.click(screen.getByRole("button", { name: "Save track" }));
 
@@ -1408,6 +1420,193 @@ describe("MapCanvas browser location", () => {
     expect(onSaveTrack.mock.calls[1][0].name).toBe("North boundary");
   });
 
+  it("reads the recording clock only when a screen reader asks, not once a second", async () => {
+    const user = userEvent.setup();
+    // jsdom has no Screen Wake Lock, and without this the recorder reports it
+    // as unsupported and its caveat joins the announcement — so the sentences
+    // under test would be the ones this browser produces rather than the ones
+    // a reader's does.
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    // The numbers are still there, still reachable, and now say which is
+    // which when they are read out of context.
+    const hud = screen.getByRole("region", { name: "Track recording" });
+    expect(hud).toHaveTextContent(/Elapsed \d+:\d\d/);
+    expect(hud).toHaveTextContent(/Distance \d/);
+
+    // And nothing about them is announced as they tick.
+    expect(hud).not.toHaveAttribute("aria-live");
+    expect(hud.closest('[role="status"], [aria-live]')).toBeNull();
+  });
+
+  it("announces a walk starting, pausing and resuming without reading the numbers", async () => {
+    const user = userEvent.setup();
+    // jsdom has no Screen Wake Lock, and without this the recorder reports it
+    // as unsupported and its caveat joins the announcement — so the sentences
+    // under test would be the ones this browser produces rather than the ones
+    // a reader's does.
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    expect(screen.queryByText("Recording a track.")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+    const announcement = screen.getByText("Recording a track.");
+    expect(announcement).toHaveAttribute("role", "status");
+    // No digits: the clock, the distance and the point count are the things
+    // that change every second, and none of them is in here.
+    expect(announcement.textContent).not.toMatch(/\d/);
+
+    await user.click(screen.getByRole("button", { name: "Pause" }));
+    expect(screen.queryByText("Recording a track.")).not.toBeInTheDocument();
+    // Once under the numbers where it is seen, once where it is heard.
+    expect(
+      screen.getAllByText("Paused — the gap will not be connected."),
+    ).toHaveLength(2);
+
+    await user.click(screen.getByRole("button", { name: "Resume" }));
+    expect(screen.getByText("Recording a track.")).toBeInTheDocument();
+  });
+
+  it("still announces a lost signal while a walk is being recorded", async () => {
+    const user = userEvent.setup();
+    // jsdom has no Screen Wake Lock, and without this the recorder reports it
+    // as unsupported and its caveat joins the announcement — so the sentences
+    // under test would be the ones this browser produces rather than the ones
+    // a reader's does.
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    const fix = liveFix({ accuracyM: 5 });
+    pushLiveSnapshot({ status: "active", fix });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "unavailable" });
+
+    // The quality dot is the only place the HUD shows this, and it is hidden
+    // from a screen reader, so the sentence has to carry it.
+    expect(
+      screen.getByText("Your location is unavailable right now — still trying."),
+    ).toHaveAttribute("role", "status");
+    // Two regions, two facts: losing the signal does not overwrite the fact
+    // that a walk is still running.
+    expect(screen.getByText("Recording a track.")).toBeInTheDocument();
+  });
+
   it("pauses into segments and discards a recording with confirmation", async () => {
     const user = userEvent.setup();
     const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
@@ -1446,9 +1645,11 @@ describe("MapCanvas browser location", () => {
     await user.click(screen.getByRole("button", { name: "Use my location" }));
     await user.click(screen.getByRole("button", { name: "Record a track" }));
     await user.click(screen.getByRole("button", { name: "Pause" }));
+    // Scoped to the HUD: the same sentence is also in the announcement a
+    // screen reader hears, which is the point of the split.
     expect(
-      screen.getByText("Paused — the gap will not be connected."),
-    ).toBeInTheDocument();
+      screen.getByRole("region", { name: "Track recording" }),
+    ).toHaveTextContent("Paused — the gap will not be connected.");
     await user.click(screen.getByRole("button", { name: "Resume" }));
     await user.click(screen.getByRole("button", { name: "Stop" }));
 
