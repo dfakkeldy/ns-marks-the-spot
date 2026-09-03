@@ -4,6 +4,7 @@ import {
   OPEN_GOVERNMENT_ATTRIBUTION,
   OPEN_GOVERNMENT_LICENCE_URL,
 } from "../../services/civicAddresses";
+import { COASTAL_HAZARD_ATTRIBUTION } from "../../layers/layerCatalog";
 import { PVSC_OPEN_DATA_ATTRIBUTION } from "../../services/pvscAssessments";
 import { PVSC_DWELLING_DATASET_URL } from "../../services/pvscDwellings";
 import {
@@ -14,7 +15,11 @@ import {
   RUMSEY_ATTRIBUTION,
   RUMSEY_LICENCE_URL,
 } from "../../licensing/rumseyLicense";
-import type { PrintLayerSource, PrintSnapshot } from "../../services/printSnapshot";
+import {
+  PRINT_SOURCE_UNANSWERED,
+  type PrintLayerSource,
+  type PrintSnapshot,
+} from "../../services/printSnapshot";
 import { PrintFieldDocument } from "./PrintFieldDocument";
 import { PrintResearchDocument } from "./PrintResearchDocument";
 
@@ -55,9 +60,9 @@ const actualFieldCatalogSources: PrintLayerSource[] = [
   ["inverness-hydro-potential", "Inverness micro-hydro screen", "Watersheds 2021 · NSHN retrieved July 21, 2026", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["old-growth-policy", "Old-growth policy areas", "Policy layer as of October 24, 2025 · updated October 27, 2025", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["published-river-flood-zones", "Published river flood zones", "NSGC 2006-era mapping · service checked July 22, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
-  ["coastal-flood-current", "Coastal flooding — current", "Live Coastal Hazard Map · checked July 22, 2026", OPEN_GOVERNMENT_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
-  ["coastal-flood-2050", "Coastal flooding — 2050", "Live Coastal Hazard Map · checked July 22, 2026", OPEN_GOVERNMENT_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
-  ["coastal-flood-2100", "Coastal flooding — 2100", "Live Coastal Hazard Map · checked July 22, 2026", OPEN_GOVERNMENT_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
+  ["coastal-flood-current", "Coastal flooding — current", "Live Coastal Hazard Map · checked July 22, 2026", COASTAL_HAZARD_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
+  ["coastal-flood-2050", "Coastal flooding — 2050", "Live Coastal Hazard Map · checked July 22, 2026", COASTAL_HAZARD_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
+  ["coastal-flood-2100", "Coastal flooding — 2100", "Live Coastal Hazard Map · checked July 22, 2026", COASTAL_HAZARD_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
 ].map(([id, name, sourceDate, attribution, licenceUrl]) => ({
   id: id as PrintLayerSource["id"],
   name,
@@ -135,7 +140,10 @@ function snapshot(overrides: Record<string, unknown> = {}) {
           }],
         }],
       },
-      civicAddresses: { status: "ready", value: [] },
+      civicAddresses: {
+        status: "ready",
+        value: { addresses: [], unreadableRows: 0 },
+      },
       mappedContext: { status: "ready", value: { roads: [], water: [] } },
       floodHazard: {
         status: "ready",
@@ -556,7 +564,10 @@ describe("print documents", () => {
               status: "ready",
               value: { river: { status: "outside-published-layer-extents", aep: [] }, coastal: [] },
             },
-            assessments: { status: "error", message: "offline" },
+            assessments: {
+              status: "error",
+              message: "PVSC assessment source unavailable at export time.",
+            },
           },
         })}
         map={map}
@@ -576,7 +587,153 @@ describe("print documents", () => {
         .getByText("No mapped building feature returned."),
     ).toBeInTheDocument();
     expect(screen.getByText("Outside published river-study extents.")).toBeInTheDocument();
-    expect(screen.getByText("Source unavailable at export time.")).toBeInTheDocument();
+    // The section prints the state's own reason, not one fixed sentence.
+    expect(
+      screen.getByText("PVSC assessment source unavailable at export time."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "No civic address on this parcel names a road the mapped road layers did not already return.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  // A road the reader saw on screen as "Named by civic address" was absent
+  // from the printed sheet: the appendix rendered only the NSTDB roads.
+  it("prints the roads only a civic address names, credited to the address file", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            mappedContext: {
+              status: "ready",
+              value: {
+                roads: [
+                  { name: "Cabot Trail", kind: "Arterial", relationship: "intersects" },
+                ],
+                water: [],
+              },
+            },
+            civicAddresses: {
+              status: "ready",
+              value: {
+                addresses: [{
+                  pntid: "100",
+                  coordinates: [-61.15, 46.35],
+                  label: "12 Main St, Mabou",
+                  properties: {
+                    pntid: "100", civicnum: "12", civsuffix: null,
+                    unit_num: null, add_loc: null, strprefix: null,
+                    strname: "Main", strsuffix: "St", strdir: null,
+                    comm: "Mabou", mun: "Inverness", county: "Inverness",
+                  },
+                }],
+                unreadableRows: 0,
+              },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const section = screen
+      .getByRole("heading", { name: "Roads named by civic address" })
+      .closest("section");
+    expect(section).not.toBeNull();
+    const civic = within(section as HTMLElement);
+    expect(civic.getByText(/Main St/)).toBeInTheDocument();
+    expect(civic.getByText(/Named by civic address/)).toBeInTheDocument();
+    // Credited to the file that named it, not to the roads service.
+    expect(civic.getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
+    expect(civic.getByRole("link", { name: OPEN_GOVERNMENT_LICENCE_URL }))
+      .toHaveAttribute("href", OPEN_GOVERNMENT_LICENCE_URL);
+    expect(civic.queryByText(/Cabot Trail/)).not.toBeInTheDocument();
+    expect(screen.getByText(/Cabot Trail/)).toBeInTheDocument();
+  });
+
+  it("does not read a partial civic answer as no addressed road", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            mappedContext: {
+              status: "ready",
+              value: { roads: [], water: [] },
+            },
+            civicAddresses: {
+              status: "ready",
+              value: { addresses: [], unreadableRows: 2 },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(
+      screen.getByText(
+        "A civic address point here could not be read, so a road named only by that address would not be listed.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/No civic address on this parcel names a road/),
+    ).not.toBeInTheDocument();
+  });
+
+  it("does not read a failed civic lookup as no addressed road", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            mappedContext: {
+              status: "ready",
+              value: { roads: [], water: [] },
+            },
+            civicAddresses: { status: "error", message: "offline" },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    // The reason printed here is the state's own, so it cannot contradict the
+    // civic section above it.
+    expect(
+      screen.getByText(
+        /offline A road named only by a civic address on this parcel would not be listed\./u,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/No civic address on this parcel names a road/),
+    ).not.toBeInTheDocument();
   });
 
   it("keeps mandatory NSPRD and evidence attribution when no optional layer rendered", () => {
@@ -624,6 +781,15 @@ describe("print documents", () => {
       .toHaveAttribute("href", expect.stringContaining("flood_risk_areas"));
     expect(screen.getByRole("link", { name: "Coastal flood evidence source" }))
       .toHaveAttribute("href", "https://nsgi.novascotia.ca/chm");
+    // The coastal data is open, but under the Unrestricted Map Services
+    // licence. The appendix printed the OGL-NS sentence directly above a link
+    // to the unrestricted PDF — one licence named, another quoted, over the
+    // same findings.
+    expect(screen.getAllByText(COASTAL_HAZARD_ATTRIBUTION).length)
+      .toBeGreaterThan(0);
+    expect(
+      screen.getAllByRole("link", { name: "Coastal flood evidence licence" })[0],
+    ).toHaveAttribute("href", expect.stringContaining("unrestrictedLicense.pdf"));
   });
 
   it("renders captured event facts, sources, limitations, mapped-area detail, and assessment match method", () => {
@@ -728,6 +894,350 @@ describe("print documents", () => {
     expect(screen.getByText("Coastal scenarios")).toBeInTheDocument();
     expect(screen.getByText("No 2050 map pixels intersected this parcel; this is not proof of no coastal hazard."))
       .toBeInTheDocument();
+  });
+
+  // A printed document outlives the session. A parcel that took no sample
+  // must not print a 0% share as though the scenario had been read off it.
+  it("prints an unsampled coastal scenario as nothing measured", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            floodHazard: {
+              status: "ready",
+              value: {
+                river: { status: "outside-published-layer-extents", aep: [] },
+                coastal: [
+                  {
+                    scenario: "2050",
+                    status: "not-sampled",
+                    stormAnnualExceedanceProbabilityPercent: 1,
+                    sampledParcelPixels: 0,
+                  },
+                  {
+                    scenario: "2100",
+                    status: "geometry-unavailable",
+                    stormAnnualExceedanceProbabilityPercent: 1,
+                  },
+                ],
+              },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(
+      screen.getByText(/2050: this parcel is too small at the sampled resolution/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/2100: not evaluated — this parcel had no usable outline/),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/parcel pixels sampled/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/map pixels intersected this parcel/)).not.toBeInTheDocument();
+  });
+
+  // "Unavailable" and "did not answer" are different receipts, and the page
+  // used to give both the same one.
+  it("tells a source that never answered apart from one that failed", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            civicAddresses: {
+              status: "unanswered",
+              message: PRINT_SOURCE_UNANSWERED,
+            },
+            assessments: {
+              status: "error",
+              message: "Source unavailable at export time.",
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const receipt = within(
+      screen.getByRole("region", { name: "Evidence receipt status" }),
+    );
+    expect(receipt.getByText("Civic addresses: did not answer")).toBeInTheDocument();
+    expect(receipt.getByText("Assessment: unavailable")).toBeInTheDocument();
+    expect(screen.getAllByText(PRINT_SOURCE_UNANSWERED).length).toBeGreaterThan(0);
+    expect(
+      screen.getByText(
+        "This page was made while Civic addresses had not answered. The appendix names each of them as unanswered, which is not a finding about this parcel.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("prints a source's own reason for not being evaluated", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            buildings: {
+              status: "error",
+              message: "Not evaluated — this PID's NSPRD geometry is unavailable.",
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    // Once on the fact grid, once in the appendix section.
+    expect(
+      screen.getAllByText("Not evaluated — this PID's NSPRD geometry is unavailable."),
+    ).toHaveLength(2);
+    expect(
+      screen.queryByText("Source unavailable at export time."),
+    ).not.toBeInTheDocument();
+  });
+
+  it("keeps the flood no-absence guard when the lookup never answered", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            floodHazard: {
+              status: "unanswered",
+              message: PRINT_SOURCE_UNANSWERED,
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(screen.getAllByText(PRINT_SOURCE_UNANSWERED).length).toBeGreaterThan(0);
+    expect(
+      screen.getByText("No absence of published river mapping is inferred."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("No absence of coastal hazard is inferred."),
+    ).toBeInTheDocument();
+  });
+
+  it("says nothing about unanswered sources when every source answered", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot()}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(screen.queryByText(/had not answered/u)).not.toBeInTheDocument();
+  });
+
+  // A lookup that was never run is not a source that failed. The receipt used
+  // to call all three "unavailable".
+  it("says a dwelling dataset was not asked rather than unavailable", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            dwellings: {
+              status: "not-asked",
+              message:
+                "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const receipt = within(
+      screen.getByRole("region", { name: "Evidence receipt status" }),
+    );
+    expect(receipt.getByText("Dwelling characteristics: not asked")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/had not answered/u)).not.toBeInTheDocument();
+  });
+
+  // The flood and resource slots answer ready with per-query states inside
+  // them, so "captured" could sit on the front page over a source that was
+  // down — the appendix's own collapse, one level up.
+  it("says a slot was partially captured when one of its sources failed", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            floodHazard: {
+              status: "ready",
+              value: {
+                river: { status: "error", aep: [], message: "offline" },
+                coastal: [
+                  { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 72 },
+                  { scenario: "2100", status: "error", stormAnnualExceedanceProbabilityPercent: 1, message: "offline" },
+                ],
+              },
+            },
+            resources: {
+              status: "ready",
+              value: {
+                "mineral-occurrences": { status: "error", intersections: [] },
+                "mineral-tenure": { status: "ready", intersections: [] },
+                "abandoned-mines": { status: "ready", intersections: [] },
+              },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const receipt = within(
+      screen.getByRole("region", { name: "Evidence receipt status" }),
+    );
+    expect(
+      receipt.getByText(
+        "Flood evidence: partially captured; Published river, Coastal 2100 unavailable",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      receipt.getByText(
+        "Resource evidence: partially captured; Mineral occurrences unavailable",
+      ),
+    ).toBeInTheDocument();
+    expect(receipt.queryByText("Flood evidence: captured")).not.toBeInTheDocument();
+  });
+
+  // A document printed without the appendix would otherwise carry no sign at
+  // all that the civic list is a floor.
+  it("puts the civic shortfall on the front page even with no appendix", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            civicAddresses: {
+              status: "ready",
+              value: { addresses: [], unreadableRows: 2 },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(
+      within(screen.getByRole("region", { name: "Evidence receipt status" }))
+        .getByText("Civic addresses: partially captured; 2 returned rows unreadable"),
+    ).toBeInTheDocument();
+  });
+
+  it("says nothing was captured when every named source in a slot failed", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            resources: {
+              status: "ready",
+              value: {
+                "mineral-occurrences": { status: "error", intersections: [] },
+                "mineral-tenure": { status: "error", intersections: [] },
+                "abandoned-mines": { status: "error", intersections: [] },
+              },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const receipt = within(
+      screen.getByRole("region", { name: "Evidence receipt status" }),
+    );
+    expect(
+      receipt.getByText(/^Resource evidence: unavailable; .* all failed$/u),
+    ).toBeInTheDocument();
+    expect(receipt.queryByText(/Resource evidence: partially/u)).not.toBeInTheDocument();
   });
 
   it("prints monochrome legend samples and a north indicator", () => {

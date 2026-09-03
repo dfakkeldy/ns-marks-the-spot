@@ -265,3 +265,25 @@ cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follo
 git fetch origin && git checkout -b feature/web-mark-locate-parity origin/nightly
 # PR G: web/src/components/MapCanvas.tsx ~1913-1984, web/src/location/browserLocation.ts, web/src/App.tsx:1517-1550
 ```
+
+## 2026-09-03 — PR H ready (web evidence contract, section 11)
+Done: 12 commits on feature/web-evidence-contract, rebased onto nightly after
+PR G merged as d11a92e47. Closes review 11.2-11.7, 11.9, 11.11, 11.12: an
+unreadable civic row is no longer an absence, a coastal scenario that sampled
+nothing is not a miss, a dwelling dataset that was never asked does not answer,
+a point reply gives three states instead of two, the coastal licence's three
+notices reach every surface and the parity fixture, a partial civic answer no
+longer completes a road list, and print keeps unavailable, unanswered and
+not-asked apart. Four Codex rounds also brought: containment before counting,
+canonical PIDs only, a parcel with no queryable polygon asking nothing at all,
+traced provenance only for the value the spec declares, and a receipt that can
+say partly. Gates: npm test 1879, lint, build, NSMarksCore swift test 671, all
+clean; verified in the running app at 1024x768 and 375x812.
+Next: open the PR, then PR I (web correctness/mobile, section 8 and 10, plus
+PR G's and PR H's deferrals), then PR J.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+git fetch origin && git checkout -b feature/web-correctness-mobile origin/nightly
+# PR I: review sections 8 and 10, plus the deferrals listed in PR G and PR H
+```

@@ -9,7 +9,11 @@ import {
   historicalOutcomeLabel,
   type HistoricalRecordContext,
 } from "../data/historicalTaxSales";
-import { resourceLayerCatalog } from "../layers/layerCatalog";
+import {
+  COASTAL_HAZARD_LICENCE_URL,
+  COASTAL_HAZARD_NOTICES,
+  resourceLayerCatalog,
+} from "../layers/layerCatalog";
 import {
   PROVINCE_ATTRIBUTION,
   PROVINCE_LICENSE_URL,
@@ -18,8 +22,9 @@ import {
   CIVIC_ADDRESS_DATASET_URL,
   OPEN_GOVERNMENT_ATTRIBUTION,
   OPEN_GOVERNMENT_LICENCE_URL,
-  formatCivicRoadName,
-  type CivicAddress,
+  civicAddressShortfall,
+  noReadableCivicAddresses,
+  type CivicAddressReading,
 } from "../services/civicAddresses";
 import {
   googleMapsDirectionsUrl,
@@ -27,6 +32,7 @@ import {
 } from "../services/googleMaps";
 import {
   ADJACENT_ROAD_DISTANCE_METRES,
+  roadsNamedByCivicAddress,
   type MappedArea,
   type ParcelContext,
 } from "../services/parcelContext";
@@ -68,6 +74,12 @@ export type SelectedEvidenceRequest = { pid: string; generation: number };
  * resolve. Distinct from a source error on purpose: nothing was queried, so
  * nothing "failed" — the parcel simply cannot be evaluated spatially.
  */
+/**
+ * Said by every source that depends on the parcel's outline when the outline
+ * never arrived — whether NSPRD answered with no such parcel or did not answer
+ * at all. Which of those happened is reported once, by the search or lookup
+ * message; what each source here can say is only that it was never asked.
+ */
 export const GEOMETRY_UNAVAILABLE_MESSAGE =
   "Not evaluated — this PID's NSPRD geometry is unavailable in the Province parcel service.";
 
@@ -76,8 +88,8 @@ export type ParcelContextState =
   | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelContext };
 
 export type CivicAddressState =
-  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable"; value: CivicAddress[] }
-  | { request: SelectedEvidenceRequest; status: "ready"; value: CivicAddress[] };
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable"; value: CivicAddressReading }
+  | { request: SelectedEvidenceRequest; status: "ready"; value: CivicAddressReading };
 
 export type ParcelResourceState =
   /**
@@ -102,10 +114,26 @@ export type AssessmentState =
   | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable" }
   | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelAssessmentResult };
 
+/**
+ * "blocked", "no-account" and "geometry-unavailable" are three different
+ * reasons the dwelling dataset was never asked, and each is rendered with its
+ * own cause. Collapsing them told a reader the dataset had answered, or named
+ * a source outage that never happened.
+ */
 export type DwellingState =
   | {
       request: SelectedEvidenceRequest | null;
-      status: "idle" | "loading" | "error" | "blocked";
+      status:
+        | "idle"
+        | "loading"
+        | "error"
+        | "blocked"
+        | "no-account"
+        // The notice gave an AAN and PVSC returned no assessment record for
+        // it: an account was available to ask with, and the assessment
+        // dataset answered. That is not "no account was matched".
+        | "no-record-for-notice-aan"
+        | "geometry-unavailable";
     }
   | {
       request: SelectedEvidenceRequest;
@@ -588,6 +616,22 @@ function DwellingDetails({ state }: { state: DwellingState }) {
           Dwelling records were not looked up because the PVSC assessment
           account lookup was unavailable.
         </p>
+      ) : state.status === "geometry-unavailable" ? (
+        <p className="assessment-status" role="status">
+          Not evaluated — this PID&apos;s NSPRD geometry is unavailable, so no
+          assessment account could be matched and the dwelling dataset was not
+          asked.
+        </p>
+      ) : state.status === "no-account" ? (
+        <p className="assessment-status" role="status">
+          No PVSC assessment account was matched to this parcel, so the dwelling
+          dataset could not be asked about it.
+        </p>
+      ) : state.status === "no-record-for-notice-aan" ? (
+        <p className="assessment-status" role="status">
+          The municipal notice supplied an AAN, but PVSC returned no assessment
+          record for it, so the dwelling dataset was not asked.
+        </p>
       ) : state.status === "error" ? (
         <p className="assessment-status error" role="status">
           PVSC dwelling data is unavailable. No absence is inferred.
@@ -757,8 +801,6 @@ function AssessmentDetails({
 }
 
 const COASTAL_HAZARD_MAP_URL = "https://nsgi.novascotia.ca/chm";
-const COASTAL_HAZARD_LICENCE_URL =
-  "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf";
 const PUBLISHED_RIVER_FLOOD_URL =
   "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer";
 
@@ -826,6 +868,24 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
             if (result.status === "error") {
               return <li key={result.scenario}>{label}: source unavailable — no absence is inferred.</li>;
             }
+            if (result.status === "geometry-unavailable") {
+              return (
+                <li key={result.scenario}>
+                  {label}: not evaluated — this parcel has no usable outline to sample against.
+                </li>
+              );
+            }
+            // Nothing measured is not nothing found. A parcel that took no
+            // sample gets its own row so the no-hit sentence keeps meaning a
+            // parcel that was sampled and came back dry.
+            if (result.status === "not-sampled") {
+              return (
+                <li key={result.scenario}>
+                  {label}: this parcel is too small at the sampled resolution to read off the
+                  scenario map, so nothing was measured.
+                </li>
+              );
+            }
             if (result.status === "no-intersection") {
               return <li key={result.scenario}>{label}: no mapped pixels intersected this parcel.</li>;
             }
@@ -839,7 +899,7 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
             );
           })}
         </ul>
-        {coastal.some(({ status }) => status !== "intersects") ? (
+        {coastal.some(({ status }) => status === "no-intersection") ? (
           <p className="mapped-area-note">
             No intersecting pixels is not proof of no coastal hazard.
           </p>
@@ -856,27 +916,45 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
         and <a href={COASTAL_HAZARD_MAP_URL} target="_blank" rel="noreferrer">Nova Scotia Coastal Hazard Map</a>.{" "}
         Coastal data <a href={COASTAL_HAZARD_LICENCE_URL} target="_blank" rel="noreferrer">licence and notices</a>.
       </p>
+      {/* Conditions of using the coastal data, not a credit line, so they are
+          read from the catalogue the credit line, the printed page and the
+          exported strip read rather than typed out again here. */}
       <div className="flood-hazard-licence-notice">
-        <p>Reproduced and distributed with the permission of the Department of Service Nova Scotia.</p>
-        <p>
-          This product has been produced by KinNoKi Labs and includes data provided
-          by the Department of Service Nova Scotia. The incorporation of that data
-          shall not be construed as constituting an endorsement by the Department
-          of Service Nova Scotia of this product.
-        </p>
-        <p>
-          Service Nova Scotia makes no representation and gives no warranty of any
-          kind respecting the data’s accuracy, usefulness, novelty, validity, scope,
-          completeness, or currency.
-        </p>
+        {COASTAL_HAZARD_NOTICES.map((notice) => (
+          <p key={notice}>{notice}</p>
+        ))}
       </div>
     </section>
   );
 }
 
+/**
+ * Why a road named only by a civic address might be missing from the list.
+ *
+ * Four different reasons, and one sentence for all of them said the file had
+ * not answered when it had failed, or when it had answered in part.
+ */
+function civicAddressShortfallReason(state: CivicAddressState): string {
+  if (state.status === "error") {
+    return "The civic address file is unavailable right now, so a road named only by an address on this parcel would not be listed.";
+  }
+  if (state.status === "geometry-unavailable") {
+    return "The civic address file was not asked — this PID's NSPRD geometry is unavailable — so a road named only by an address on this parcel would not be listed.";
+  }
+  if (state.status === "ready") {
+    return "A civic address point here could not be read, so a road named only by that address would not be listed.";
+  }
+  return "The civic address file has not answered, so a road named only by an address on this parcel would not be listed.";
+}
+
 function CivicAddressDetails({ state }: { state: CivicAddressState }) {
+  // A row the browser could not read is not a row that is not there. The list
+  // and the absence sentence both have to say so, or a partial read reads as
+  // proof that no address is mapped inside the parcel.
+  const addresses = state.status === "ready" ? state.value.addresses : [];
+  const unreadableRows = state.status === "ready" ? state.value.unreadableRows : 0;
   const heading =
-    state.status === "ready" && state.value.length === 1
+    state.status === "ready" && addresses.length === 1
       ? "Mapped civic address"
       : "Mapped civic addresses";
 
@@ -900,13 +978,15 @@ function CivicAddressDetails({ state }: { state: CivicAddressState }) {
         <p className="civic-address-status error" role="status">
           Civic address lookup is unavailable right now.
         </p>
-      ) : state.value.length === 0 ? (
+      ) : addresses.length === 0 ? (
         <p className="civic-address-status">
-          No civic address point is mapped inside this parcel.
+          {unreadableRows > 0
+            ? noReadableCivicAddresses(unreadableRows)
+            : "No civic address point is mapped inside this parcel."}
         </p>
       ) : (
         <ul>
-          {state.value.map(({ pntid, label, coordinates }) => {
+          {addresses.map(({ pntid, label, coordinates }) => {
             const plusCode = plusCodeForCoordinates(coordinates);
 
             return (
@@ -927,6 +1007,11 @@ function CivicAddressDetails({ state }: { state: CivicAddressState }) {
           })}
         </ul>
       )}
+      {addresses.length > 0 && unreadableRows > 0 ? (
+        <p className="civic-address-status">
+          {civicAddressShortfall(unreadableRows)}
+        </p>
+      ) : null}
       <p className="civic-address-source">
         Source: {" "}
         <a href={CIVIC_ADDRESS_DATASET_URL} target="_blank" rel="noreferrer">
@@ -1001,58 +1086,83 @@ function MappedContextDetails({
   state: ParcelContextState;
   civicAddresses: CivicAddressState;
 }) {
-  if (state.status === "idle" || state.status === "loading") {
+  // Only the sources that actually answered may be named in the empty
+  // sentence, and only a source read in full may be reported as having found
+  // nothing. A lookup still loading, failed, or never run for want of
+  // geometry has not looked; a lookup with unreadable rows has looked at part
+  // of what it was sent, and one of those rows can carry a road name.
+  const addressesAnswered = civicAddresses.status === "ready";
+  const mappedRoads = state.status === "ready" ? state.value.roads : [];
+  const civicRoads = addressesAnswered
+    ? roadsNamedByCivicAddress(mappedRoads, civicAddresses.value.addresses)
+    : [];
+  const unreadableAddressRows = addressesAnswered
+    ? civicAddresses.value.unreadableRows
+    : 0;
+  const addressesReadInFull = addressesAnswered && unreadableAddressRows === 0;
+
+  // The road layers and the address file are two sources, and one failing is
+  // not the other going quiet: a road the address file named belongs on the
+  // panel whatever the NSTDB service did, which is what the printed appendix
+  // already does.
+  if (state.status !== "ready") {
     return (
-      <p className="mapped-context-status" role="status">
-        Loading mapped road and water intersections…
-      </p>
+      <div className="mapped-context">
+        <p
+          className={`mapped-context-status${state.status === "error" ? " error" : ""}`}
+          role="status"
+        >
+          {state.status === "geometry-unavailable"
+            ? GEOMETRY_UNAVAILABLE_MESSAGE
+            : state.status === "error"
+              ? "Mapped road and water intersections are unavailable right now."
+              : "Loading mapped road and water intersections…"}
+        </p>
+        {civicRoads.length > 0 ? (
+          <MappedFeatureList
+            title="Roads named by civic address"
+            emptyMessage="No civic address on this parcel names a road."
+            features={civicRoads}
+          />
+        ) : null}
+        {addressesReadInFull ? null : (
+          <p className="road-access-caveat">
+            {civicAddressShortfallReason(civicAddresses)}
+          </p>
+        )}
+        {civicRoads.length > 0 ? (
+          // The caveat belongs to the roads shown, whichever source named
+          // them, so it cannot be left behind in the ready branch.
+          <p className="road-access-caveat">
+            Adjacency and civic addressing are useful map context, not proof of
+            legal access or road frontage.
+          </p>
+        ) : null}
+      </div>
     );
   }
 
-  if (state.status === "geometry-unavailable") {
-    return (
-      <p className="mapped-context-status" role="status">
-        {GEOMETRY_UNAVAILABLE_MESSAGE}
-      </p>
-    );
-  }
-
-  if (state.status === "error") {
-    return (
-      <p className="mapped-context-status error" role="status">
-        Mapped road and water intersections are unavailable right now.
-      </p>
-    );
-  }
-
-  const mappedRoadNames = new Set(
-    state.value.roads.map(({ name }) => name.toLocaleLowerCase()),
-  );
-  const civicRoads =
-    civicAddresses.status === "ready"
-      ? Array.from(
-          new Set(
-            civicAddresses.value
-              .map(({ properties }) => formatCivicRoadName(properties))
-              .filter((name): name is string => name !== null),
-          ),
-        )
-          .filter((name) => !mappedRoadNames.has(name.toLocaleLowerCase()))
-          .map((name) => ({
-            name,
-            kind: "Civic Address File",
-            relationship: "civic-address" as const,
-          }))
-      : [];
   const roads = [...state.value.roads, ...civicRoads];
 
   return (
     <div className="mapped-context">
       <MappedFeatureList
         title="Roads at or beside parcel"
-        emptyMessage="No intersecting, adjacent, or civic-address road was found for this parcel."
+        emptyMessage={
+          addressesReadInFull
+            ? "No intersecting, adjacent, or civic-address road was found for this parcel."
+            : "No mapped road intersects or runs beside this parcel."
+        }
         features={roads}
       />
+      {addressesReadInFull ? null : (
+        // A list missing the roads one source would have named looks exactly
+        // like a complete one, so the shortfall is said under it — naming the
+        // reason the file's roads are missing, not one sentence for all four.
+        <p className="road-access-caveat">
+          {civicAddressShortfallReason(civicAddresses)}
+        </p>
+      )}
       <p className="road-access-caveat">
         Adjacency and civic addressing are useful map context, not proof of legal
         access or road frontage.

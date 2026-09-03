@@ -1,6 +1,14 @@
 import type { ReactNode } from "react";
-import type { PrintSnapshot } from "../../services/printSnapshot";
+import { roadsNamedByCivicAddress } from "../../services/parcelContext";
+import {
+  printEvidenceMessage,
+  type PrintSnapshot,
+} from "../../services/printSnapshot";
 import type { PvscDwelling } from "../../services/pvscDwellings";
+import {
+  civicAddressShortfall,
+  noReadableCivicAddresses,
+} from "../../services/civicAddresses";
 import {
   printEvidenceAttribution,
   type PrintEvidenceAttribution,
@@ -126,7 +134,7 @@ function Buildings({ snapshot }: { snapshot: PrintSnapshot }) {
   const state = snapshot.evidence.buildings;
   let result: ReactNode;
   if (state.status !== "ready") {
-    result = <p>Source unavailable at export time.</p>;
+    result = <p>{printEvidenceMessage(state)}</p>;
   } else if (state.value.count === 0) {
     result = <p>No mapped building feature returned.</p>;
   } else {
@@ -159,7 +167,7 @@ function Assessments({ snapshot }: { snapshot: PrintSnapshot }) {
   const state = snapshot.evidence.assessments;
   let result: ReactNode;
   if (state.status !== "ready") {
-    result = <p>Source unavailable at export time.</p>;
+    result = <p>{printEvidenceMessage(state)}</p>;
   } else {
     result = (
       <>
@@ -222,13 +230,7 @@ function Dwellings({ snapshot }: { snapshot: PrintSnapshot }) {
   const state = snapshot.evidence.dwellings;
   let result: ReactNode;
   if (state.status !== "ready") {
-    result = (
-      <p>
-        {state.status === "error"
-          ? state.message
-          : "Source unavailable at export time."}
-      </p>
-    );
+    result = <p>{printEvidenceMessage(state)}</p>;
   } else if (state.value.length === 0) {
     result = (
       <p>
@@ -276,18 +278,31 @@ function Addresses({ snapshot }: { snapshot: PrintSnapshot }) {
   const state = snapshot.evidence.civicAddresses;
   let result: ReactNode;
   if (state.status !== "ready") {
-    result = <p>Source unavailable at export time.</p>;
-  } else if (state.value.length === 0) {
-    result = <p>No mapped record returned by the named source.</p>;
+    result = <p>{printEvidenceMessage(state)}</p>;
+  } else if (state.value.addresses.length === 0) {
+    // A printed absence outlives the session that produced it. It may only be
+    // written when every returned row was read.
+    result = (
+      <p>
+        {state.value.unreadableRows > 0
+          ? noReadableCivicAddresses(state.value.unreadableRows)
+          : "No mapped record returned by the named source."}
+      </p>
+    );
   } else {
     result = (
-      <ul>
-        {state.value.map((address) => (
-          <li key={address.pntid}>
-            {address.label} (PNTID {address.pntid})
-          </li>
-        ))}
-      </ul>
+      <>
+        <ul>
+          {state.value.addresses.map((address) => (
+            <li key={address.pntid}>
+              {address.label} (PNTID {address.pntid})
+            </li>
+          ))}
+        </ul>
+        {state.value.unreadableRows > 0 ? (
+          <p>{civicAddressShortfall(state.value.unreadableRows)}</p>
+        ) : null}
+      </>
     );
   }
 
@@ -336,7 +351,26 @@ function ContextList({
 
 function Context({ snapshot }: { snapshot: PrintSnapshot }) {
   const state = snapshot.evidence.mappedContext;
-  const unavailable = <p>Source unavailable at export time.</p>;
+  const addresses = snapshot.evidence.civicAddresses;
+  // Roads and water come from one lookup, so one unsettled sentence serves
+  // both sections, and it is the state's own.
+  const unsettled =
+    state.status === "ready" ? null : <p>{printEvidenceMessage(state)}</p>;
+  // The panel merges the addressed roads into one list. On paper they get
+  // their own section instead, so the NSTDB provenance block below the mapped
+  // list never credits a road name the address file supplied. Before this the
+  // printed sheet simply dropped a road the reader had just seen on screen.
+  const civicRoads =
+    addresses.status === "ready"
+      ? roadsNamedByCivicAddress(
+          state.status === "ready" ? state.value.roads : [],
+          addresses.value.addresses,
+        )
+      : [];
+  // A partial read is not an answer about the whole parcel: one of the rows
+  // that could not be read may carry a road name.
+  const addressesReadInFull =
+    addresses.status === "ready" && addresses.value.unreadableRows === 0;
 
   return (
     <>
@@ -348,7 +382,41 @@ function Context({ snapshot }: { snapshot: PrintSnapshot }) {
         {state.status === "ready" ? (
           <ContextList features={state.value.roads} />
         ) : (
-          unavailable
+          unsettled
+        )}
+      </EvidenceSection>
+      <EvidenceSection
+        heading="Roads named by civic address"
+        source={printEvidenceAttribution("civic-addresses")}
+        snapshot={snapshot}
+      >
+        {addresses.status !== "ready" ? (
+          // The four ways it can be missing are four different sentences: the
+          // appendix already prints the state's own reason above, and this
+          // line must not contradict it.
+          <p>
+            {printEvidenceMessage(addresses)} A road named only by a civic
+            address on this parcel would not be listed.
+          </p>
+        ) : (
+          <>
+            {civicRoads.length > 0 ? (
+              <ContextList features={civicRoads} />
+            ) : addressesReadInFull && state.status === "ready" ? (
+              <p>
+                No civic address on this parcel names a road the mapped road
+                layers did not already return.
+              </p>
+            ) : addressesReadInFull ? (
+              <p>No civic address on this parcel names a road.</p>
+            ) : null}
+            {addressesReadInFull ? null : (
+              <p>
+                A civic address point here could not be read, so a road named
+                only by that address would not be listed.
+              </p>
+            )}
+          </>
         )}
       </EvidenceSection>
       <EvidenceSection
@@ -359,7 +427,7 @@ function Context({ snapshot }: { snapshot: PrintSnapshot }) {
         {state.status === "ready" ? (
           <ContextList features={state.value.water} />
         ) : (
-          unavailable
+          unsettled
         )}
       </EvidenceSection>
     </>
@@ -368,7 +436,18 @@ function Context({ snapshot }: { snapshot: PrintSnapshot }) {
 
 function RiverResult({ snapshot }: { snapshot: PrintSnapshot }) {
   const state = snapshot.evidence.floodHazard;
-  if (state.status !== "ready" || state.value.river.status === "error") {
+  // A flood lookup that never settled and a river source that answered badly
+  // are different reasons for the same blank, and the reader is owed the one
+  // that happened.
+  if (state.status !== "ready") {
+    return (
+      <>
+        <p>{printEvidenceMessage(state)}</p>
+        <p>No absence of published river mapping is inferred.</p>
+      </>
+    );
+  }
+  if (state.value.river.status === "error") {
     return (
       <p>
         Published river source unavailable at export time; no absence is
@@ -406,9 +485,10 @@ function CoastalResult({ snapshot }: { snapshot: PrintSnapshot }) {
   const state = snapshot.evidence.floodHazard;
   if (state.status !== "ready") {
     return (
-      <p>
-        Coastal source unavailable at export time; no absence is inferred.
-      </p>
+      <>
+        <p>{printEvidenceMessage(state)}</p>
+        <p>No absence of coastal hazard is inferred.</p>
+      </>
     );
   }
   if (state.value.coastal.length === 0) {
@@ -422,6 +502,23 @@ function CoastalResult({ snapshot }: { snapshot: PrintSnapshot }) {
             <li key={scenario.scenario}>
               {scenario.scenario}: source unavailable at export time; no absence
               is inferred.
+            </li>
+          );
+        }
+        if (scenario.status === "geometry-unavailable") {
+          return (
+            <li key={scenario.scenario}>
+              {scenario.scenario}: not evaluated — this parcel had no usable
+              outline to sample against at export time.
+            </li>
+          );
+        }
+        if (scenario.status === "not-sampled") {
+          return (
+            <li key={scenario.scenario}>
+              {scenario.scenario}: this parcel is too small at the sampled
+              resolution to read off the scenario map, so nothing was measured.
+              No share of the parcel is reported.
             </li>
           );
         }
@@ -517,7 +614,9 @@ function Resources({ snapshot }: { snapshot: PrintSnapshot }) {
       <h3>Resources</h3>
       {entries.map(({ id, label, source }) => {
         let result: ReactNode;
-        if (state.status !== "ready" || state.value[id].status === "error") {
+        if (state.status !== "ready") {
+          result = <p>{label}: {printEvidenceMessage(state)}</p>;
+        } else if (state.value[id].status === "error") {
           result = <p>{label}: Source unavailable at export time.</p>;
         } else if (state.value[id].intersections.length === 0) {
           result = <p>{label}: No mapped record returned by the named source.</p>;
@@ -567,9 +666,9 @@ export function PrintEvidenceAppendix({
       </header>
       <p>
         This appendix preserves the captured evidence state, including
-        unavailable and no-hit results. Screening results are not legal,
-        survey, access, condition, value, permission, service, or feasibility
-        conclusions.
+        unavailable, unanswered, and no-hit results. Screening results are not
+        legal, survey, access, condition, value, permission, service, or
+        feasibility conclusions.
       </p>
       {snapshot.taxSaleEnabled ? <SelectedEvents snapshot={snapshot} /> : null}
       <MappedArea snapshot={snapshot} />

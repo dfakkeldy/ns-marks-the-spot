@@ -5,9 +5,12 @@ import {
   CIVIC_ADDRESS_SEARCH_LIMIT,
   buildCivicAddressQueryUrl,
   buildCivicAddressSearchUrl,
+  CivicAddressGeometryError,
+  civicAddressShortfall,
   fetchCivicAddresses,
   formatCivicAddress,
   formatCivicRoadName,
+  noReadableCivicAddresses,
   searchCivicAddresses,
   type CivicAddressProperties,
 } from "./civicAddresses";
@@ -39,7 +42,11 @@ const civicPoint = (
   overrides: Partial<CivicAddressProperties> = {},
 ) => ({
   type: "Feature" as const,
-  geometry: { type: "Point" as const, coordinates },
+  // Nullable, as Socrata sends it for a row whose the_geom column is empty.
+  geometry: { type: "Point" as const, coordinates } as {
+    type: "Point";
+    coordinates: [number, number];
+  } | null,
   properties: completeProperties({ pntid, ...overrides }),
 });
 
@@ -277,7 +284,7 @@ describe("Nova Scotia Civic Address File lookup", () => {
     );
     vi.stubGlobal("fetch", fetchMock);
 
-    const addresses = await fetchCivicAddresses(
+    const reading = await fetchCivicAddresses(
       [
         parcelFeature({
           type: "Polygon",
@@ -301,22 +308,25 @@ describe("Nova Scotia Civic Address File lookup", () => {
         new URL(String(input)).searchParams.get("$offset"),
       ),
     ).toEqual(["0", String(CIVIC_ADDRESS_PAGE_SIZE)]);
-    expect(addresses).toHaveLength(CIVIC_ADDRESS_PAGE_SIZE + 1);
-    expect(addresses.at(-1)?.pntid).toBe("last");
+    expect(reading.addresses).toHaveLength(CIVIC_ADDRESS_PAGE_SIZE + 1);
+    expect(reading.addresses.at(-1)?.pntid).toBe("last");
+    expect(reading.unreadableRows).toBe(0);
   });
 
-  it("keeps polygon points and rejects bounding-box false positives", async () => {
+  it("counts rows it cannot place instead of reporting them as no address", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValue(
         geoJsonResponse([
-          civicPoint("inside", [0.5, 0.5]),
-          civicPoint("bbox-only", [1.8, 1.8]),
+          civicPoint("readable", [0.5, 0.5]),
+          // A row with no pntid, and one whose geometry column was empty.
+          { ...civicPoint("", [0.5, 0.5]) },
+          { ...civicPoint("no-geometry", [0.5, 0.5]), geometry: null },
         ]),
       ),
     );
 
-    const addresses = await fetchCivicAddresses([
+    const reading = await fetchCivicAddresses([
       parcelFeature({
         type: "Polygon",
         coordinates: [
@@ -330,7 +340,287 @@ describe("Nova Scotia Civic Address File lookup", () => {
       }),
     ]);
 
-    expect(addresses.map(({ pntid }) => pntid)).toEqual(["inside"]);
+    // The rows the file sent that this build could not read are counted, not
+    // folded in with the ones that fell outside the boundary.
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["readable"]);
+    expect(reading.unreadableRows).toBe(2);
+  });
+
+  it("words the shortfall and the unknown for one row and for several", () => {
+    expect(civicAddressShortfall(1)).toBe(
+      "One more mapped point here could not be read, so it is not listed.",
+    );
+    expect(civicAddressShortfall(3)).toBe(
+      "3 more mapped points here could not be read, so they are not listed.",
+    );
+    // Never "no civic address point is mapped inside this parcel": the file
+    // had rows for it.
+    expect(noReadableCivicAddresses(1)).toBe(
+      "One mapped point here could not be read. Whether an address is mapped inside this parcel is unknown.",
+    );
+    expect(noReadableCivicAddresses(2)).toContain("2 mapped points here could not be read");
+    expect(noReadableCivicAddresses(2)).not.toContain("no civic address point");
+  });
+
+  it("keeps polygon points and rejects bounding-box false positives", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        geoJsonResponse([
+          civicPoint("inside", [0.5, 0.5]),
+          civicPoint("bbox-only", [1.8, 1.8]),
+        ]),
+      ),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [
+          [
+            [0, 0],
+            [2, 0],
+            [0, 2],
+            [0, 0],
+          ],
+        ],
+      }),
+    ]);
+
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["inside"]);
+  });
+
+  // A row the browser can place outside the parcel is an answer about
+  // somewhere else in the bounding box. Counting it reported a shortfall this
+  // parcel never had.
+  it("does not count an unreadable row it can place outside the parcel", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        geoJsonResponse([
+          civicPoint("inside", [0.5, 0.5]),
+          civicPoint("", [1.8, 1.8]),
+        ]),
+      ),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [
+          [
+            [0, 0],
+            [2, 0],
+            [0, 2],
+            [0, 0],
+          ],
+        ],
+      }),
+    ]);
+
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["inside"]);
+    expect(reading.unreadableRows).toBe(0);
+  });
+
+  // A parcel of several parts is asked once per part, and their boxes can
+  // overlap. One bad row coming back twice used to read as two.
+  it("counts one unreadable row once when two parts return it", async () => {
+    const unreadable = civicPoint("", [0.5, 0.5]);
+    // A fresh Response per call: each part asks its own query, and a body can
+    // only be read once.
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => geoJsonResponse([unreadable])),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "MultiPolygon",
+        coordinates: [
+          [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+          [[[0.1, 0.1], [2.1, 0.1], [0.1, 2.1], [0.1, 0.1]]],
+        ],
+      }),
+    ]);
+
+    expect(reading.addresses).toEqual([]);
+    expect(reading.unreadableRows).toBe(1);
+  });
+
+  // Two identical rows the file really sent are two rows; the same row echoed
+  // by two overlapping part queries is one. A flat set across replies would
+  // swallow the first case, and summing would inflate the second.
+  it("counts a repeated unreadable row once per reply that carried it", async () => {
+    const unreadable = civicPoint("", [0.5, 0.5]);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => geoJsonResponse([unreadable, unreadable])),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "MultiPolygon",
+        coordinates: [
+          [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+          [[[0.1, 0.1], [2.1, 0.1], [0.1, 2.1], [0.1, 0.1]]],
+        ],
+      }),
+    ]);
+
+    expect(reading.unreadableRows).toBe(2);
+  });
+
+  // One malformed row is not a source outage, and it must not take the
+  // readable addresses in the same reply with it.
+  it("reads the rest of a reply that carries a malformed row", async () => {
+    const malformed = civicPoint("bad", [0.5, 0.5]);
+    (malformed.geometry as unknown as { coordinates: unknown }).coordinates = 5;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => geoJsonResponse([civicPoint("100", [0.5, 0.5]), malformed])),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+      }),
+    ]);
+
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["100"]);
+    expect(reading.unreadableRows).toBe(1);
+  });
+
+  // JSON member order carries no meaning, so two spellings of one echoed row
+  // are one row.
+  it("counts an echoed row once however the service ordered its members", async () => {
+    const rowA = civicPoint("", [0.5, 0.5]);
+    const rowB = {
+      ...civicPoint("", [0.5, 0.5]),
+      properties: Object.fromEntries(
+        Object.entries(civicPoint("", [0.5, 0.5]).properties).reverse(),
+      ) as typeof rowA.properties,
+    };
+    let call = 0;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => geoJsonResponse([(call++ % 2 === 0 ? rowA : rowB)])),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "MultiPolygon",
+        coordinates: [
+          [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+          [[[0.1, 0.1], [2.1, 0.1], [0.1, 2.1], [0.1, 0.1]]],
+        ],
+      }),
+    ]);
+
+    expect(reading.unreadableRows).toBe(1);
+  });
+
+  // A row whose fields are not what the file's schema declares cannot be
+  // repaired into one: String([27700002]) is an official identifier this app
+  // would have made up.
+  it("does not coerce a malformed field into an identifier or a road name", async () => {
+    const malformed = civicPoint("100", [0.5, 0.5]);
+    (malformed.properties as unknown as Record<string, unknown>).pntid = [
+      27700002,
+    ];
+    vi.stubGlobal("fetch", vi.fn(async () => geoJsonResponse([malformed])));
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+      }),
+    ]);
+
+    expect(reading.addresses).toEqual([]);
+    expect(reading.unreadableRows).toBe(1);
+  });
+
+  // A road name assembled from what is left of a malformed row is a road this
+  // app made up: with strname an array, "12 Main St" became "12 St".
+  it("refuses a row whose optional field is not what the schema declares", async () => {
+    const malformed = civicPoint("100", [0.5, 0.5]);
+    (malformed.properties as unknown as Record<string, unknown>).strname = [
+      "Main",
+    ];
+    vi.stubGlobal("fetch", vi.fn(async () => geoJsonResponse([malformed])));
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+      }),
+    ]);
+
+    expect(reading.addresses).toEqual([]);
+    expect(reading.unreadableRows).toBe(1);
+  });
+
+  it("keeps the readable rows when the service sends a null feature", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        geoJsonResponse([
+          civicPoint("100", [0.5, 0.5]),
+          null as unknown as ReturnType<typeof civicPoint>,
+        ]),
+      ),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+      }),
+    ]);
+
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["100"]);
+    expect(reading.unreadableRows).toBe(1);
+  });
+
+  it("does not report an empty answer for a parcel it cannot query inside", async () => {
+    vi.stubGlobal("fetch", vi.fn());
+
+    await expect(
+      fetchCivicAddresses([
+        parcelFeature({
+          type: "LineString",
+          coordinates: [[0, 0], [1, 1]],
+        } as never),
+      ]),
+    ).rejects.toBeInstanceOf(CivicAddressGeometryError);
+    expect(vi.mocked(fetch)).not.toHaveBeenCalled();
+  });
+
+  it("still counts a row it cannot place at all", async () => {
+    const unplaceable = civicPoint("100", [0.5, 0.5]);
+    unplaceable.geometry = null;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(geoJsonResponse([unplaceable])),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [
+          [
+            [0, 0],
+            [2, 0],
+            [0, 2],
+            [0, 0],
+          ],
+        ],
+      }),
+    ]);
+
+    expect(reading.addresses).toEqual([]);
+    expect(reading.unreadableRows).toBe(1);
   });
 
   it("excludes points in holes while treating ring boundary points as inside", async () => {
@@ -346,7 +636,7 @@ describe("Nova Scotia Civic Address File lookup", () => {
       ),
     );
 
-    const addresses = await fetchCivicAddresses([
+    const reading = await fetchCivicAddresses([
       parcelFeature({
         type: "Polygon",
         coordinates: [
@@ -368,7 +658,7 @@ describe("Nova Scotia Civic Address File lookup", () => {
       }),
     ]);
 
-    expect(addresses.map(({ pntid }) => pntid)).toEqual([
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual([
       "parcel-interior",
       "outer-boundary",
       "hole-boundary",
@@ -387,7 +677,7 @@ describe("Nova Scotia Civic Address File lookup", () => {
     });
     vi.stubGlobal("fetch", fetchMock);
 
-    const addresses = await fetchCivicAddresses([
+    const reading = await fetchCivicAddresses([
       parcelFeature({
         type: "MultiPolygon",
         coordinates: [
@@ -414,7 +704,7 @@ describe("Nova Scotia Civic Address File lookup", () => {
     ]);
 
     expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(addresses.map(({ pntid }) => pntid)).toEqual(["first", "second"]);
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["first", "second"]);
   });
 
   it("formats all optional components without duplicate locality or placeholder text", () => {

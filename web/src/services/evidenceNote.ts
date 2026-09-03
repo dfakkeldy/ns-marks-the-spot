@@ -1,5 +1,9 @@
 import type { MapMode, MapPosition } from "./mapShareState";
 import {
+  civicAddressShortfall,
+  noReadableCivicAddresses,
+} from "./civicAddresses";
+import {
   PVSC_ASSESSMENT_DATASET_URL,
   PVSC_ASSESSMENT_SOURCE_DATE,
   PVSC_OPEN_DATA_ATTRIBUTION,
@@ -40,10 +44,22 @@ type AssessmentEvidence =
 type DwellingEvidence =
   | { status: "ready"; accounts: PvscDwellingAccount[] }
   | { status: "error" }
-  | { status: "blocked" };
+  | { status: "blocked" }
+  // No account to ask with, no record for the account a notice named, and no
+  // NSPRD outline to match one by: none of them is the dwelling dataset
+  // answering, and none is a source outage.
+  | { status: "no-account" }
+  | { status: "no-record-for-notice-aan" }
+  | { status: "geometry-unavailable" };
 
 type CivicEvidence =
-  | { status: "ready"; points: Array<{ label: string; sourceUrl: string }> }
+  | {
+      status: "ready";
+      points: Array<{ label: string; sourceUrl: string }>;
+      // Rows the address file returned that the browser could not place. The
+      // note may report an absence only when this is zero.
+      unreadableRows: number;
+    }
   | { status: "error" }
   | { status: "geometry-unavailable" };
 
@@ -56,6 +72,16 @@ export type EvidenceNoteInput = {
   position: MapPosition;
   activeLayers: EvidenceSource[];
   events: EvidenceEvent[];
+  /**
+   * How the parcel's own NSPRD geometry resolved, when it did not.
+   *
+   * Every dependent source can say only that it was not evaluated. Whether
+   * NSPRD answered with no parcel for this PID, did not answer at all, or
+   * answered with a shape nothing here can query is a fact about NSPRD, it
+   * decides whether asking again is worth anything, and the live message
+   * carrying it does not travel with the file.
+   */
+  parcelGeometry?: "returned-empty" | "source-error" | "unusable-geometry" | null;
   civicAddresses: CivicEvidence;
   assessmentEvidence: AssessmentEvidence;
   dwellingEvidence: DwellingEvidence;
@@ -151,13 +177,53 @@ function dwellingFacts(dwelling: PvscDwelling): string {
     .join(" · ");
 }
 
+// The civic section may report an absence only when the browser read every row
+// the address file sent. A list built from a partly unreadable response is a
+// floor, not the file's answer, so the shortfall is printed under it.
+function civicLines(evidence: CivicEvidence): string[] {
+  if (evidence.status === "geometry-unavailable") {
+    return ["- Not evaluated — this PID's NSPRD geometry is unavailable."];
+  }
+  if (evidence.status === "error") {
+    return ["- Civic address source unavailable at export time."];
+  }
+  if (evidence.points.length === 0) {
+    return [
+      evidence.unreadableRows > 0
+        ? `- ${noReadableCivicAddresses(evidence.unreadableRows)}`
+        : "- No mapped civic address point returned inside the parcel.",
+    ];
+  }
+  return [
+    ...evidence.points.map(({ label, sourceUrl }) => `- [${label}](${sourceUrl})`),
+    ...(evidence.unreadableRows > 0
+      ? [`- ${civicAddressShortfall(evidence.unreadableRows)}`]
+      : []),
+  ];
+}
+
 function dwellingLines(evidence: DwellingEvidence): string[] {
   if (evidence.status === "error") {
     return ["PVSC residential dwelling source unavailable at export time."];
   }
   if (evidence.status === "blocked") {
     return [
-      "Dwelling records were not looked up because no PVSC assessment account could be resolved.",
+      "Dwelling records were not looked up because the PVSC assessment account lookup was unavailable.",
+    ];
+  }
+  if (evidence.status === "no-account") {
+    return [
+      "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+    ];
+  }
+  if (evidence.status === "no-record-for-notice-aan") {
+    return [
+      "The municipal notice supplied an AAN, but PVSC returned no assessment record for it, so the dwelling dataset was not asked.",
+    ];
+  }
+  if (evidence.status === "geometry-unavailable") {
+    return [
+      "Not evaluated — this PID's NSPRD geometry is unavailable, so no assessment account could be matched and the dwelling dataset was not asked.",
     ];
   }
   if (evidence.accounts.length === 0) {
@@ -181,15 +247,7 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
           `- [${name}](${sourceUrl}) — ${sourceDate}`,
       )
     : ["- No optional map layers enabled."];
-  const civic = input.civicAddresses.status === "geometry-unavailable"
-    ? ["- Not evaluated — this PID's NSPRD geometry is unavailable."]
-    : input.civicAddresses.status === "error"
-    ? ["- Civic address source unavailable at export time."]
-    : input.civicAddresses.points.length > 0
-      ? input.civicAddresses.points.map(
-          ({ label, sourceUrl }) => `- [${label}](${sourceUrl})`,
-        )
-      : ["- No mapped civic address point returned inside the parcel."];
+  const civic = civicLines(input.civicAddresses);
   const resources = input.resourceResults.flatMap(resultLines);
   const assessments = assessmentLines(input.assessmentEvidence);
   const dwellings = dwellingLines(input.dwellingEvidence);
@@ -212,6 +270,19 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
     ? "NSPRD geometry and mapped area are approximate and are not a legal survey. Road adjacency and civic addressing do not prove legal access or frontage. Tax-sale notices and results are dated source records and require current verification with the municipality."
     : "NSPRD geometry and mapped area are approximate and are not a legal survey. Road adjacency and civic addressing do not prove legal access or frontage.";
 
+  const geometrySection = input.parcelGeometry
+    ? [
+        "",
+        "## NSPRD parcel geometry",
+        "",
+        input.parcelGeometry === "returned-empty"
+          ? "- The Province parcel service returned no parcel for this PID. A returned-empty result is not proof that no parcel exists."
+          : input.parcelGeometry === "source-error"
+            ? "- The Province parcel service did not answer for this PID. Nothing below was asked, and no absence is inferred."
+            : "- The Province parcel service answered for this PID with a geometry this build cannot query against. Nothing below was asked.",
+      ]
+    : [];
+
   const markdown = [
     "# NS Marks The Spot parcel evidence note",
     "",
@@ -221,6 +292,7 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
     `Map position: ${input.position.latitude.toFixed(5)}, ${input.position.longitude.toFixed(5)} at zoom ${input.position.zoom}`,
     `[Open this map state](${input.shareUrl})`,
     ...eventSection,
+    ...geometrySection,
     "",
     "## Active map sources",
     "",

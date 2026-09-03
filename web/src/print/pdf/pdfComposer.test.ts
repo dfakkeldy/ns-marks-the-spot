@@ -6,6 +6,10 @@ import {
 } from "pdf-lib";
 import { describe, expect, it } from "vitest";
 import {
+  COASTAL_HAZARD_ATTRIBUTION,
+  COASTAL_HAZARD_LICENCE_URL,
+} from "../../layers/layerCatalog";
+import {
   extractGeoPdfMetadata,
   type PdfViewportGeometry,
 } from "../../userMaps/parsers/geoPdfMetadata";
@@ -67,9 +71,12 @@ function decodeWinAnsiHex(hex: string): string {
  * character/word spacing. That 1:1 Tm-to-Tj shape is what's parsed below;
  * it is not a general PDF content-stream parser.
  */
-async function extractDrawnText(bytes: Uint8Array): Promise<DrawnText[]> {
+async function extractDrawnText(
+  bytes: Uint8Array,
+  pageIndex = 0,
+): Promise<DrawnText[]> {
   const document = await PDFDocument.load(bytes);
-  const page = document.getPage(0);
+  const page = document.getPage(pageIndex);
   const contents = page.node.Contents();
 
   const streamCandidates: unknown[] = [];
@@ -402,7 +409,46 @@ describe("composeGeoPdf", () => {
     );
   }
 
-  it("ellipsizes an attribution set too long even for the minimum caption size", async () => {
+  // The coastal licence requires three notices, not one, and the joined
+  // paragraph is about six times the length the strip used to carry for that
+  // source. If it no longer fits, the answer is the strip's height, not a
+  // shorter notice — so this asserts the whole obligation reaches the page.
+  it("carries the coastal licence's three notices in full, uncut", async () => {
+    const bytes = await composeGeoPdf(input({
+      attributionLines: [
+        ...defaultLayerAttribution,
+        "Coastal flooding — current, Coastal flooding — 2050, Coastal " +
+          `flooding — 2100: ${COASTAL_HAZARD_ATTRIBUTION} — ` +
+          COASTAL_HAZARD_LICENCE_URL,
+      ],
+    }));
+    const document = await PDFDocument.load(bytes);
+    let text = "";
+    for (let index = 0; index < document.getPageCount(); index += 1) {
+      text += `${(await extractDrawnText(bytes, index))
+        .map((d) => d.text)
+        .join(" ")} `;
+    }
+    text = text.replace(/\s+/gu, " ");
+
+    // All three notices, the licence URL and the stamp reach the reader. The
+    // strip alone cannot hold them at a readable size, which is why the
+    // remainder gets its own page instead of an ellipsis mid-caveat.
+    expect(text).toContain(
+      "Reproduced and distributed with the permission of the Department of Service Nova Scotia.",
+    );
+    // Asserted from after the page break: the endorsement sentence starts on
+    // the strip and finishes on the continuation page, which is the point.
+    expect(text).toContain(
+      "constituting an endorsement by the Department of Service Nova Scotia of this product.",
+    );
+    expect(text).toContain("scope, completeness, or currency.");
+    expect(text).toContain("unrestrictedLicense.pdf");
+    expect(text).toContain("Generated 2026-07-31");
+    expect(text).not.toContain("…");
+  });
+
+  it("carries an attribution set too long for the strip onto its own pages", async () => {
     const absurd = Array.from(
       { length: 60 },
       (_, i) =>
@@ -410,14 +456,32 @@ describe("composeGeoPdf", () => {
         "Province of Nova Scotia which is provided without warranty or " +
         `liability for errors or omissions. — https://example.invalid/${i}`,
     );
-    const drawn = await extractDrawnText(
-      await composeGeoPdf(input({ attributionLines: absurd })),
-    );
-    const texts = drawn.map((d) => d.text);
+    const bytes = await composeGeoPdf(input({ attributionLines: absurd }));
+    const document = await PDFDocument.load(bytes);
+    expect(document.getPageCount()).toBeGreaterThan(1);
+
+    const strip = (await extractDrawnText(bytes)).map((d) => d.text);
     // It still renders — a strip this overlong must not blank itself out.
-    expect(texts.some((t) => t.includes("Layer 0"))).toBe(true);
-    // …and the truncation is VISIBLE rather than silent.
-    expect(texts.some((t) => t.endsWith("…"))).toBe(true);
+    expect(strip.some((t) => t.includes("Layer 0"))).toBe(true);
+    // …and the strip accounts for what it does not show.
+    expect(
+      strip.some((t) => t.includes("continue on the next page")),
+    ).toBe(true);
+    expect(strip.some((t) => t.endsWith("…"))).toBe(false);
+
+    // The obligation itself reaches the reader rather than being cut: the
+    // last layer's licence sentence and its URL are both on a later page.
+    let continued = "";
+    for (let index = 1; index < document.getPageCount(); index += 1) {
+      continued += `${(await extractDrawnText(bytes, index))
+        .map((d) => d.text)
+        .join(" ")} `;
+    }
+    continued = continued.replace(/\s+/gu, " ");
+    expect(continued).toContain("Sources and licences (continued)");
+    expect(continued).toContain("Layer 59");
+    expect(continued).toContain("https://example.invalid/59");
+    expect(continued).toContain("Generated 2026-07-31");
   });
 
   it("falls back to the neutral chip colour instead of crashing on a malformed swatchColor", async () => {

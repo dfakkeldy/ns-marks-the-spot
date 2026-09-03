@@ -50,13 +50,17 @@ export type CivicAddressProperties = {
   county: AddressComponent;
 };
 
+// The geometry is nullable because a row whose `the_geom` column is empty
+// comes back as `"geometry": null`. Typing that away made reading its
+// coordinate throw, so one unplaceable row failed the whole request instead of
+// being reported as the one row it is.
 type CivicPointFeature = GeoJSON.Feature<
-  GeoJSON.Point,
+  GeoJSON.Point | null,
   CivicAddressProperties
 >;
 
 type CivicPointCollection = GeoJSON.FeatureCollection<
-  GeoJSON.Point,
+  GeoJSON.Point | null,
   CivicAddressProperties
 >;
 
@@ -66,6 +70,47 @@ export type CivicAddress = {
   label: string;
   properties: CivicAddressProperties;
 };
+
+/**
+ * What a parcel's civic lookup read, and what it could not.
+ *
+ * The count is not decoration. The panel is allowed to say a parcel has no
+ * mapped civic address, and that sentence is only true when every row the file
+ * sent was read: a row with no `pntid`, or no usable coordinate, is one this
+ * build cannot place and cannot describe. Carrying the number is what lets the
+ * panel say "none I could read" instead of "none".
+ */
+export type CivicAddressReading = {
+  addresses: CivicAddress[];
+  unreadableRows: number;
+};
+
+/**
+ * Said under a list that does have addresses in it: the list is real, it is
+ * just not the whole of what the file holds here, and a reader counting
+ * addresses off it should be told the count is a floor.
+ *
+ * The native app's sentence, so the two surfaces say the same thing about the
+ * same rows (`ParcelLookupMessage.addressShortfall`).
+ */
+export function civicAddressShortfall(rows: number): string {
+  return rows === 1
+    ? "One more mapped point here could not be read, so it is not listed."
+    : `${rows} more mapped points here could not be read, so they are not listed.`;
+}
+
+/**
+ * Every row the file sent for this parcel was unreadable.
+ *
+ * Deliberately not "no civic address point is mapped inside this parcel": the
+ * file had rows for it. What this build has is nothing it could place
+ * (`ParcelLookupMessage.noReadableAddresses`).
+ */
+export function noReadableCivicAddresses(rows: number): string {
+  return rows === 1
+    ? "One mapped point here could not be read. Whether an address is mapped inside this parcel is unknown."
+    : `${rows} mapped points here could not be read. Whether an address is mapped inside this parcel is unknown.`;
+}
 
 export type CivicAddressBounds = {
   north: number;
@@ -148,7 +193,13 @@ function officialSearchFallback(query: string): string | null {
 }
 
 function cleanComponent(value: AddressComponent): string | null {
-  if (value === null || value === undefined) {
+  // Only what the file's schema declares. An array or an object reaching
+  // String() became "27700002" or "[object Object]" — an official identifier
+  // and a road name this app made up out of a row it could not read.
+  if (typeof value !== "string" && typeof value !== "number") {
+    return null;
+  }
+  if (typeof value === "number" && !Number.isFinite(value)) {
     return null;
   }
 
@@ -342,9 +393,46 @@ function pointInPolygonPart(
   );
 }
 
+/**
+ * A row's identity, independent of the order the service wrote its members in.
+ *
+ * The same source row echoed by two overlapping bounding-box queries has to
+ * count once, and JSON member order carries no meaning — two spellings of one
+ * row were counted as two mapped points the file never sent.
+ */
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) {
+    return `[${value.map(canonicalJson).join(",")}]`;
+  }
+  if (value !== null && typeof value === "object") {
+    return `{${Object.keys(value as Record<string, unknown>)
+      .sort()
+      .map(
+        (key) =>
+          `${JSON.stringify(key)}:${canonicalJson(
+            (value as Record<string, unknown>)[key],
+          )}`,
+      )
+      .join(",")}}`;
+  }
+  return JSON.stringify(value) ?? "null";
+}
+
 function pointCoordinates(feature: CivicPointFeature): PointCoordinates | null {
-  const [longitude, latitude] = feature.geometry.coordinates;
-  return Number.isFinite(longitude) && Number.isFinite(latitude)
+  // Read through `unknown`: the declared type says what a placed point may be
+  // assumed to carry, and nothing validates the wire against it. A row whose
+  // "coordinates" is a number destructured to a TypeError, which rejected the
+  // whole request — one unreadable row reported as a source outage, taking
+  // every readable address in the same reply with it.
+  const coordinates = (
+    feature as { geometry?: { coordinates?: unknown } | null } | null
+  )?.geometry?.coordinates;
+  if (!Array.isArray(coordinates)) return null;
+  const [longitude, latitude] = coordinates as unknown[];
+  return typeof longitude === "number" &&
+    typeof latitude === "number" &&
+    Number.isFinite(longitude) &&
+    Number.isFinite(latitude)
     ? [longitude, latitude]
     : null;
 }
@@ -352,6 +440,29 @@ function pointCoordinates(feature: CivicPointFeature): PointCoordinates | null {
 function civicAddressForFeature(
   feature: CivicPointFeature,
 ): CivicAddress | null {
+  if (
+    typeof feature !== "object" ||
+    feature === null ||
+    typeof feature.properties !== "object" ||
+    feature.properties === null
+  ) {
+    return null;
+  }
+  // Every declared field, not only the two the row is keyed by. A component
+  // outside the scalar-or-null shape the file declares is not an absent
+  // component: dropping it silently built "12 St, Mabou" out of a row whose
+  // street name was an array, and named a civic road "St".
+  if (
+    Object.values(feature.properties).some(
+      (value) =>
+        value !== null &&
+        value !== undefined &&
+        typeof value !== "string" &&
+        typeof value !== "number",
+    )
+  ) {
+    return null;
+  }
   const pntid = cleanComponent(feature.properties.pntid);
   const coordinates = pointCoordinates(feature);
   if (!pntid || !coordinates) {
@@ -493,37 +604,88 @@ async function fetchCandidates(
   return candidates;
 }
 
+/**
+ * Raised when the parcel has no polygon to ask inside.
+ *
+ * NSPRD can answer for a PID with a geometry this build cannot query against —
+ * a LineString, a collection, a ring with no usable positions. Returning an
+ * empty reading for that made a lookup that was never made read as a file that
+ * answered and named nothing.
+ */
+export class CivicAddressGeometryError extends Error {
+  constructor() {
+    super("This parcel has no polygon to look for civic addresses inside.");
+    this.name = "CivicAddressGeometryError";
+  }
+}
+
 export async function fetchCivicAddresses(
   features: readonly ParcelFeature[],
   signal?: AbortSignal,
-): Promise<CivicAddress[]> {
+): Promise<CivicAddressReading> {
   const polygonParts = polygonPartsForFeatures(features);
   const bounds = polygonParts
     .map(boundsForPolygonPart)
     .filter((value): value is CivicAddressBounds => value !== null);
   if (bounds.length === 0) {
-    return [];
+    throw new CivicAddressGeometryError();
   }
 
-  const candidates = (
-    await Promise.all(bounds.map((partBounds) => fetchCandidates(partBounds, signal)))
-  ).flat();
+  const perPart = await Promise.all(
+    bounds.map((partBounds) => fetchCandidates(partBounds, signal)),
+  );
   const addresses = new Map<string, CivicAddress>();
+  // Counted apart from the rows dropped for falling outside the boundary or
+  // for repeating a pntid. Those two are answers about this parcel; this is a
+  // row the file sent that the browser could not read, and it has no pntid to
+  // deduplicate on — nor, in the worst case, a coordinate to place it by.
+  //
+  // A parcel of several parts is asked once per part, and their boxes can
+  // overlap, so the same source row can come back in more than one reply. The
+  // count is the largest number of times a row appeared in ANY ONE reply:
+  // two identical rows the file really sent count twice, while one row echoed
+  // by two overlapping queries counts once. Summing would inflate the
+  // shortfall; a flat set across replies would swallow a genuine duplicate.
+  const unreadableByRow = new Map<string, number>();
 
-  for (const feature of candidates) {
-    const address = civicAddressForFeature(feature);
-    if (
-      !address ||
-      !polygonParts.some((part) =>
-        pointInPolygonPart(address.coordinates, part),
-      ) ||
-      addresses.has(address.pntid)
-    ) {
-      continue;
+  for (const candidates of perPart) {
+    const inThisPart = new Map<string, number>();
+    for (const feature of candidates) {
+      // Containment is tested before readability, on the coordinate alone. A
+      // row the browser can place outside the parcel is an answer about
+      // somewhere else in the bounding box, and counting it would report a
+      // shortfall here that the file never had. A row whose coordinate cannot
+      // be read is still counted: it came back for this parcel's box and
+      // there is no way to say it is not inside.
+      const coordinates = pointCoordinates(feature);
+      if (
+        coordinates &&
+        !polygonParts.some((part) => pointInPolygonPart(coordinates, part))
+      ) {
+        continue;
+      }
+      const address = civicAddressForFeature(feature);
+      if (!address) {
+        const key = canonicalJson(feature);
+        inThisPart.set(key, (inThisPart.get(key) ?? 0) + 1);
+        continue;
+      }
+      if (addresses.has(address.pntid)) {
+        continue;
+      }
+
+      addresses.set(address.pntid, address);
     }
-
-    addresses.set(address.pntid, address);
+    for (const [key, count] of inThisPart) {
+      unreadableByRow.set(key, Math.max(unreadableByRow.get(key) ?? 0, count));
+    }
   }
 
-  return [...addresses.values()];
+  return {
+    addresses: [...addresses.values()],
+    unreadableRows: [...unreadableByRow.values()].reduce(
+      (total, count) => total + count,
+      0,
+    ),
+  };
 }

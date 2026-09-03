@@ -76,8 +76,17 @@ public enum VectorExport {
         + "Nova Scotia which is provided without warranty or liability for "
         + "errors or omissions."
 
+    /// Whether anything here was traced off an NSPRD boundary.
+    ///
+    /// The value the spec declares, not merely the key. An imported file may
+    /// carry its own "nsmts:traced"; treating that as a trace would put the
+    /// NSPRD note and the Province's attribution on an export the Province had
+    /// nothing to do with.
     public static func hasTracedFeatures(_ parsed: ParsedVector) -> Bool {
-        parsed.features.contains { $0.properties[CaptureSpec.tracedKey] != nil }
+        parsed.features.contains {
+            $0.properties[CaptureSpec.tracedKey]?.stringValue
+                == CaptureSpec.tracedParcelValue
+        }
     }
 
     /// The layer as a KML document.

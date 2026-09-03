@@ -29,6 +29,34 @@ struct VectorExportTests {
         #expect(reparsed == original)
     }
 
+    /// Only the value the spec declares means a vertex came off an NSPRD
+    /// boundary. An imported file's own "nsmts:traced" earned the NSPRD note
+    /// and the Province's attribution on export, which the Province had
+    /// nothing to do with.
+    @Test func onlyTheSpecsTracedValueClaimsNsprdProvenance() throws {
+        let traced = try parse(
+            """
+            {"type":"FeatureCollection","features":[
+              {"type":"Feature","id":"a","geometry":{"type":"Point","coordinates":[-63.5,44.6]},
+               "properties":{"nsmts:traced":"nsprd-parcel"}}
+            ]}
+            """
+        )
+        #expect(VectorExport.hasTracedFeatures(traced))
+
+        for value in ["\"manual\"", "false", "1", "null"] {
+            let imported = try parse(
+                """
+                {"type":"FeatureCollection","features":[
+                  {"type":"Feature","id":"a","geometry":{"type":"Point","coordinates":[-63.5,44.6]},
+                   "properties":{"nsmts:traced":\(value)}}
+                ]}
+                """
+            )
+            #expect(!VectorExport.hasTracedFeatures(imported), "claimed for \(value)")
+        }
+    }
+
     @Test func aNullGeometryRowIsWrittenBackAsOne() throws {
         let parsed = try parse(
             """

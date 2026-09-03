@@ -23,6 +23,7 @@ import {
   fetchCivicAddresses,
   searchCivicAddresses,
   type CivicAddress,
+  CivicAddressGeometryError,
 } from "./services/civicAddresses";
 import { fetchParcelAtPoint, fetchParcels, NSPRD_LAYER_URL } from "./services/nsprd";
 import { fetchParcelContext } from "./services/parcelContext";
@@ -32,6 +33,7 @@ import { fetchParcelBuildingCount } from "./services/buildings";
 import { fetchParcelAssessments } from "./services/pvscAssessments";
 import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
 import {
+  COASTAL_HAZARD_NOTICES,
   allResourceLayerCatalog,
   churchLayerCatalog,
   environmentalHealthLayerCatalog,
@@ -44,6 +46,7 @@ import {
   wellLogLayerCatalog,
   zoningLayerCatalog,
 } from "./layers/layerCatalog";
+import { GEOMETRY_UNAVAILABLE_MESSAGE } from "./components/ParcelInspector";
 import { UserMapStore } from "./userMaps/store/userMapStore";
 import { PERSIST_DELAY_MS } from "./userMaps/useGeoreferenceSession";
 import type {
@@ -478,7 +481,7 @@ vi.mock("./services/civicAddresses", async (importOriginal) => {
   const original = await importOriginal<typeof import("./services/civicAddresses")>();
   return {
     ...original,
-    fetchCivicAddresses: vi.fn().mockResolvedValue([]),
+    fetchCivicAddresses: vi.fn().mockResolvedValue({ addresses: [], unreadableRows: 0 }),
     searchCivicAddresses: vi.fn().mockResolvedValue([]),
   };
 });
@@ -565,6 +568,15 @@ const parcelFeature = (pid: string) => ({
     ],
   },
 });
+
+// A shape NSPRD returned with nothing to identify it by. The declared
+// `PID: string` describes what a stored parcel may be assumed to carry, not
+// what the service is allowed to send, so the fixture casts across that gap.
+const unreadableParcelFeature = () =>
+  ({
+    ...parcelFeature("00000000"),
+    properties: { PID: null, "SHAPE.AREA": 111_057.27135 },
+  }) as unknown as ReturnType<typeof parcelFeature>;
 
 const civicAddress = (pntid: string, label: string): CivicAddress => ({
   pntid,
@@ -743,7 +755,7 @@ describe("NS Marks The Spot Online", () => {
       features: [],
     });
     vi.mocked(fetchParcelContext).mockResolvedValue({ roads: [], water: [] });
-    vi.mocked(fetchCivicAddresses).mockResolvedValue([]);
+    vi.mocked(fetchCivicAddresses).mockResolvedValue({ addresses: [], unreadableRows: 0 });
     vi.mocked(searchCivicAddresses).mockResolvedValue([]);
     vi.mocked(fetchParcelResourceIntersections).mockResolvedValue({
       "mineral-occurrences": { status: "ready", intersections: [] },
@@ -3614,12 +3626,15 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50251750")],
     });
-    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [
       civicAddress(
         "27700002",
         "11064 Highway 19, Southwest Mabou, Inverness County",
       ),
-    ]);
+      ],
+      unreadableRows: 0,
+    });
     renderAppWithCategoriesOpen();
 
     await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
@@ -3643,6 +3658,75 @@ describe("NS Marks The Spot Online", () => {
     expect(
       within(inspector).queryByText("View direct official source"),
     ).not.toBeInTheDocument();
+  });
+
+  // A reply that arrived carrying shapes is not a reply that found nothing.
+  it("does not call an unreadable NSPRD reply an empty one", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [unreadableParcelFeature(), unreadableParcelFeature()],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+
+    expect(
+      await screen.findByText(
+        "NSPRD returned 2 boundaries at that point with no readable PID.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText("No NSPRD parcel was found at that point."),
+    ).not.toBeInTheDocument();
+  });
+
+  it("opens the first readable parcel even when an unreadable shape leads the reply", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [unreadableParcelFeature(), parcelFeature("50251750")],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+
+    expect(
+      await screen.findByRole("complementary", {
+        name: "Parcel 50251750 details",
+      }),
+    ).toBeInTheDocument();
+    // The boundary that could not be named is reported, but not counted as a
+    // parcel: two unnamed records may be one parcel in two pieces.
+    expect(
+      screen.getByText(
+        "PID 50251750 selected. NSPRD also returned a boundary at that point with no readable PID.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("PID 50251750 selected.")).not.toBeInTheDocument();
+  });
+
+  it("says several parcels meet at the tapped point rather than naming one", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50251750"), parcelFeature("50334317")],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+
+    expect(
+      await screen.findByText(
+        "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.",
+      ),
+    ).toBeInTheDocument();
+    await screen.findByRole("complementary", {
+      name: "Parcel 50251750 details",
+    });
   });
 
   it("keeps writing the address bar when replaceState is rate-limited", async () => {
@@ -3717,6 +3801,33 @@ describe("NS Marks The Spot Online", () => {
       expect(
         screen.queryByText("PID 50251750 selected."),
       ).not.toBeInTheDocument();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("keeps the shared-boundary notice up after the toast timeout", async () => {
+    vi.useFakeTimers();
+    try {
+      localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+      vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+        type: "FeatureCollection",
+        features: [parcelFeature("50251750"), parcelFeature("50334317")],
+      });
+      renderAppWithCategoriesOpen();
+
+      fireEvent.click(screen.getByRole("button", { name: "Tap map parcel" }));
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(0);
+      });
+      const notice =
+        "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.";
+      expect(screen.getByText(notice)).toBeInTheDocument();
+
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(6_000);
+      });
+      expect(screen.getByText(notice)).toBeInTheDocument();
     } finally {
       vi.useRealTimers();
     }
@@ -4303,6 +4414,45 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
   });
 
+  // With no account there is no question to put to the dwelling dataset. The
+  // old code answered as though the dataset had been asked and said no.
+  it("does not present an unasked dwelling dataset as an empty answer", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50319672")],
+    });
+    vi.mocked(fetchParcelAssessments).mockResolvedValueOnce({
+      matchMethod: "spatial",
+      accounts: [],
+    });
+    vi.mocked(fetchDwellingCharacteristics).mockClear();
+    renderAppWithCategoriesOpen();
+
+    await user.type(
+      screen.getByLabelText("Search by PID or civic address"),
+      "50319672",
+    );
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50319672 details",
+    });
+    const dwellingSection = await within(inspector).findByRole("region", {
+      name: "PVSC dwellings",
+    });
+    expect(
+      await within(dwellingSection).findByText(
+        "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(dwellingSection).queryByText(/No residential dwelling record was returned/),
+    ).not.toBeInTheDocument();
+    expect(vi.mocked(fetchDwellingCharacteristics)).not.toHaveBeenCalled();
+  });
+
   it("keeps multiple spatially matched assessment accounts separate", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
@@ -4458,9 +4608,12 @@ describe("NS Marks The Spot Online", () => {
         { name: "Mabou River", kind: "River or stream", relationship: "intersects" },
       ],
     });
-    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [
       civicAddress("address-road", "12 Main St, Mabou"),
-    ]);
+      ],
+      unreadableRows: 0,
+    });
     renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -4488,11 +4641,7 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(fetchParcels).mockResolvedValueOnce({
       type: "FeatureCollection",
       features: [
-        {
-          type: "Feature",
-          properties: { PID: "50203256", "SHAPE.AREA": 728.4341 },
-          geometry: { type: "Point", coordinates: [-61, 46] },
-        },
+        { ...parcelFeature("50203256"), properties: { PID: "50203256", "SHAPE.AREA": 728.4341 } },
       ],
     });
     vi.mocked(fetchParcelContext).mockRejectedValueOnce(new Error("offline"));
@@ -4509,6 +4658,50 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
   });
 
+  // NSPRD can answer for a PID with a geometry nothing here can ask against.
+  // Every spatial lookup returned a clean empty answer for it, and a panel of
+  // those reads as a parcel with no buildings, no roads and no accounts —
+  // none of which was ever asked.
+  it("does not answer for a parcel whose geometry cannot be queried", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: { PID: "50203256", "SHAPE.AREA": 728.4341 },
+          geometry: { type: "Point", coordinates: [-61, 46] },
+        },
+      ],
+    });
+    vi.mocked(fetchParcelContext).mockClear();
+    vi.mocked(fetchCivicAddresses).mockClear();
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50203256");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50203256 details",
+    });
+    expect(
+      (await within(inspector).findAllByText(GEOMETRY_UNAVAILABLE_MESSAGE)).length,
+    ).toBeGreaterThan(0);
+    expect(
+      within(inspector).queryByText(
+        "No intersecting, adjacent, or civic-address road was found for this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+    expect(
+      within(inspector).queryByText(
+        "No civic address point is mapped inside this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+    expect(vi.mocked(fetchParcelContext)).not.toHaveBeenCalled();
+    expect(vi.mocked(fetchCivicAddresses)).not.toHaveBeenCalled();
+  });
+
   it("shows an honest loading state and one mapped civic address with its own licence", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
@@ -4516,7 +4709,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
     });
-    let resolveAddresses!: (addresses: CivicAddress[]) => void;
+    let resolveAddresses!: (reading: { addresses: CivicAddress[]; unreadableRows: number }) => void;
     vi.mocked(fetchCivicAddresses).mockReturnValueOnce(
       new Promise((resolve) => {
         resolveAddresses = resolve;
@@ -4531,9 +4724,10 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText("Looking up mapped civic addresses…"),
     ).toBeInTheDocument();
     await act(async () => {
-      resolveAddresses([
-        civicAddress("100", "12 Main St, Mabou, Inverness County"),
-      ]);
+      resolveAddresses({
+        addresses: [civicAddress("100", "12 Main St, Mabou, Inverness County")],
+        unreadableRows: 0,
+      });
     });
 
     const inspector = await screen.findByRole("complementary", {
@@ -4592,6 +4786,70 @@ describe("NS Marks The Spot Online", () => {
       building.getByRole("link", { name: "Read the Province licence" }),
     ).toHaveAttribute("href", PROVINCE_LICENSE_URL);
   });
+
+  // A civic row the browser could not read is not a row that is not there.
+  // Reporting an absence off a partial read told a reader no address is
+  // mapped inside the parcel when the source had said no such thing.
+  it("says an address may be mapped when no returned civic row could be read", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [],
+      unreadableRows: 2,
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(
+      within(inspector).getByText(
+        "2 mapped points here could not be read. Whether an address is mapped inside this parcel is unknown.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).queryByText(
+        "No civic address point is mapped inside this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  it("marks a civic address list as incomplete when a row could not be read", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [civicAddress("100", "12 Main St, Mabou, Inverness County")],
+      unreadableRows: 1,
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(
+      within(inspector).getByText("12 Main St, Mabou, Inverness County"),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).getByText(
+        "One more mapped point here could not be read, so it is not listed.",
+      ),
+    ).toBeInTheDocument();
+  });
+
 
   it("shows explicit official-source resource intersections in the parcel sheet", async () => {
     const user = userEvent.setup();
@@ -4684,9 +4942,82 @@ describe("NS Marks The Spot Online", () => {
         "No intersecting pixels is not proof of no coastal hazard.",
       ),
     ).toBeInTheDocument();
-    expect(within(evidence).getByText(/Reproduced and distributed with the permission/)).toBeInTheDocument();
-    expect(within(evidence).getByText(/shall not be construed as constituting an endorsement/)).toBeInTheDocument();
+    // All three, by exact text: the panel was the only surface carrying the
+    // full set, and a loose match here is what let the credit line drop two of
+    // them without failing anything.
+    for (const notice of COASTAL_HAZARD_NOTICES) {
+      expect(within(evidence).getByText(notice)).toBeInTheDocument();
+    }
     expect(within(evidence).queryByText(/parcel flood probability/i)).not.toBeInTheDocument();
+  });
+
+  // Nothing measured and nothing found are different answers. The old code
+  // reported an unsampled parcel as a scenario miss at 0%.
+  it("separates an unsampled coastal parcel from a scenario that missed it", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelFloodHazardEvidence).mockResolvedValueOnce({
+      river: { status: "outside-published-layer-extents", aep: [] },
+      coastal: [
+        { scenario: "current", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
+        { scenario: "2050", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
+        { scenario: "2100", status: "geometry-unavailable", stormAnnualExceedanceProbabilityPercent: 1 },
+      ],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const evidence = await screen.findByRole("region", { name: "Flood hazard evidence" });
+    expect(
+      within(evidence).getAllByText(
+        /too small at the sampled resolution to read off the scenario map, so nothing was measured/,
+      ),
+    ).toHaveLength(2);
+    expect(
+      within(evidence).getByText(/2100: not evaluated — this parcel has no usable outline/),
+    ).toBeInTheDocument();
+    expect(
+      within(evidence).queryByText(/no mapped pixels intersected this parcel/),
+    ).not.toBeInTheDocument();
+    // The no-hit caveat belongs to a real no-hit row, and there is none here.
+    expect(
+      within(evidence).queryByText(
+        "No intersecting pixels is not proof of no coastal hazard.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  // Section 4.1 asks for its notices on every reproduction, and a layer drawn
+  // on the map is one. Excluding coastal from the OGL-NS test stopped the
+  // wrong licence being claimed but left the right one unsaid.
+  it("names the coastal licence's notices in the footer while a coastal layer is on", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    renderAppWithCategoriesOpen();
+
+    for (const notice of COASTAL_HAZARD_NOTICES) {
+      expect(
+        screen.queryByText(notice, { selector: "footer span" }),
+      ).not.toBeInTheDocument();
+    }
+
+    await user.click(screen.getByLabelText("Coastal flooding — current"));
+
+    for (const notice of COASTAL_HAZARD_NOTICES) {
+      expect(
+        screen.getByText(notice, { selector: "footer span" }),
+      ).toBeInTheDocument();
+    }
+    // And still no OGL-NS claim over data that licence does not cover.
+    expect(
+      screen.queryByText(OPEN_GOVERNMENT_ATTRIBUTION, { selector: "footer span" }),
+    ).not.toBeInTheDocument();
   });
 
   it("uses bounded mineral empty-result wording", async () => {
@@ -4897,10 +5228,13 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
     });
-    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [
       civicAddress("100", "12 Main St, Mabou, Inverness County"),
       civicAddress("101", "Unit 2, 12 Main St, Mabou, Inverness County"),
-    ]);
+      ],
+      unreadableRows: 0,
+    });
     renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -4969,6 +5303,256 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.getByText("Civic address lookup is unavailable right now."),
     ).toBeInTheDocument();
+    // A list missing what one source would have named looks exactly like a
+    // complete one, so the road list names why the file's roads are missing.
+    expect(
+      screen.getByText(
+        "The civic address file is unavailable right now, so a road named only by an address on this parcel would not be listed.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  // The empty sentence may only name the sources that actually looked.
+  it("does not say the civic file found no road when it never answered", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelContext).mockResolvedValueOnce({ roads: [], water: [] });
+    vi.mocked(fetchCivicAddresses).mockRejectedValueOnce(new Error("offline"));
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(
+      await screen.findByText("No mapped road intersects or runs beside this parcel."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "The civic address file is unavailable right now, so a road named only by an address on this parcel would not be listed.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        "No intersecting, adjacent, or civic-address road was found for this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  // A partial read is not an answer about the whole parcel: one of the rows
+  // that could not be read may carry a road name.
+  it("marks the road list short when a civic row could not be read", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelContext).mockResolvedValueOnce({ roads: [], water: [] });
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [],
+      unreadableRows: 1,
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(
+      await screen.findByText("No mapped road intersects or runs beside this parcel."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "A civic address point here could not be read, so a road named only by that address would not be listed.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        "No intersecting, adjacent, or civic-address road was found for this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  // Two sources, and one failing is not the other going quiet: the printed
+  // appendix already listed a road the address file named while the road
+  // service was down, and the panel dropped it.
+  it("keeps a civic-named road when the mapped road service fails", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelContext).mockRejectedValueOnce(new Error("offline"));
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [civicAddress("100", "12 Main St, Mabou")],
+      unreadableRows: 0,
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(
+      await within(inspector).findByText(
+        "Mapped road and water intersections are unavailable right now.",
+      ),
+    ).toBeInTheDocument();
+    const civicRoads = within(inspector)
+      .getByRole("heading", { name: "Roads named by civic address" })
+      .closest("section");
+    expect(civicRoads).not.toBeNull();
+    expect(within(civicRoads as HTMLElement).getByText("Main St")).toBeInTheDocument();
+  });
+
+  // A parcel NSPRD answers for with a geometry this build cannot query
+  // against was never asked about, and an empty answer would say it was.
+  it("does not report an empty civic answer for a parcel with no polygon", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchCivicAddresses).mockRejectedValueOnce(
+      new CivicAddressGeometryError(),
+    );
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(
+      await within(inspector).findByText(GEOMETRY_UNAVAILABLE_MESSAGE),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).queryByText(
+        "No civic address point is mapped inside this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  // A caution belongs to the selection it was raised for. It outlives the
+  // success toast on purpose; it must not outlive the parcel.
+  it("clears the shared-boundary caution when the parcel is closed", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50251750"), parcelFeature("50334317")],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+    const notice =
+      "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.";
+    expect(await screen.findByText(notice)).toBeInTheDocument();
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50251750 details",
+    });
+    await user.click(within(inspector).getByRole("button", { name: "Close parcel details" }));
+
+    expect(screen.queryByText(notice)).not.toBeInTheDocument();
+  });
+
+  // A caution belongs to its selection, and re-selecting the same PID with no
+  // ambiguity is a new selection.
+  it("clears the shared-boundary caution when the same parcel is selected again", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcelAtPoint)
+      .mockResolvedValueOnce({
+        type: "FeatureCollection",
+        features: [parcelFeature("50251750"), parcelFeature("50334317")],
+      })
+      .mockResolvedValueOnce({
+        type: "FeatureCollection",
+        features: [parcelFeature("50251750")],
+      });
+    renderAppWithCategoriesOpen();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+    const notice =
+      "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.";
+    expect(await screen.findByText(notice)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+
+    expect(await screen.findByText("PID 50251750 selected.")).toBeInTheDocument();
+    expect(screen.queryByText(notice)).not.toBeInTheDocument();
+  });
+
+  // NSPRD can send "geometry": null for a PID it otherwise answers for.
+  it("does not throw on a parcel returned with no geometry at all", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: { PID: "50203256", "SHAPE.AREA": 728.4341 },
+          geometry: null,
+        },
+        {
+          type: "Feature",
+          properties: { PID: "50203256", "SHAPE.AREA": 728.4341 },
+          geometry: { type: "MultiPolygon", coordinates: null },
+        },
+      ] as unknown as ReturnType<typeof parcelFeature>[],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50203256");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50203256 details",
+    });
+    expect(
+      (await within(inspector).findAllByText(GEOMETRY_UNAVAILABLE_MESSAGE)).length,
+    ).toBeGreaterThan(0);
+    // And nothing unusable reaches the map: L.geoJSON reads coordinates.length
+    // and would throw on either of these, taking the map down before the panel
+    // could say the geometry was unusable.
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("geometry count: 0");
+  });
+
+  it("keeps the two-source empty sentence when both sources answered", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelContext).mockResolvedValueOnce({ roads: [], water: [] });
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [],
+      unreadableRows: 0,
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(
+      await screen.findByText(
+        "No intersecting, adjacent, or civic-address road was found for this parcel.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/civic address file has not answered/u),
+    ).not.toBeInTheDocument();
   });
 
   it("keeps civic results visible when road and water lookup fails", async () => {
@@ -4979,9 +5563,12 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("50334317")],
     });
     vi.mocked(fetchParcelContext).mockRejectedValueOnce(new Error("offline"));
-    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [
       civicAddress("100", "12 Main St, Mabou, Inverness County"),
-    ]);
+      ],
+      unreadableRows: 0,
+    });
     renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -5015,9 +5602,12 @@ describe("NS Marks The Spot Online", () => {
           });
         });
       }
-      return Promise.resolve([
-        civicAddress("200", "8 Second St, Whycocomagh, Inverness County"),
-      ]);
+      return Promise.resolve({
+        addresses: [
+          civicAddress("200", "8 Second St, Whycocomagh, Inverness County"),
+        ],
+        unreadableRows: 0,
+      });
     });
     renderAppWithCategoriesOpen();
 
@@ -5240,11 +5830,16 @@ describe("NS Marks The Spot Online", () => {
       expect(within(dialog).getAllByText(PROVINCE_ATTRIBUTION).length)
         .toBeGreaterThan(0),
     );
+    // No assessment account was matched, so the dwelling dataset was never
+    // asked. Printing "0 accounts captured" claimed a capture that never ran.
     expect(
       await within(dialog).findByText(
-        "Dwelling characteristics: 0 accounts captured",
+        "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
       ),
     ).toBeInTheDocument();
+    expect(
+      within(dialog).queryByText("Dwelling characteristics: 0 accounts captured"),
+    ).not.toBeInTheDocument();
     expect(within(dialog).queryByText("Your location is shown on the map.")).not.toBeInTheDocument();
     expect(within(dialog).queryByText("46.25,-61.25,13")).not.toBeInTheDocument();
 

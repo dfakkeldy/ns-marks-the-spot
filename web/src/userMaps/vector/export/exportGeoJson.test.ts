@@ -60,6 +60,28 @@ describe("traced provenance", () => {
     expect(note).toContain("Province of Nova Scotia");
   });
 
+  // An imported file can carry its own "nsmts:traced" with any value. Only
+  // the one the spec declares means a vertex came off an NSPRD boundary, and
+  // anything else would put the Province's attribution on an export it had
+  // nothing to do with.
+  it("does not claim NSPRD provenance for another file's traced value", async () => {
+    for (const traced of [false, null, "manual", 1]) {
+      const blob = geojsonExportBlob({
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "imported",
+            geometry: { type: "LineString", coordinates: [[-61, 46], [-61, 46.001]] },
+            properties: { "nsmts:traced": traced },
+          },
+        ],
+      });
+      const parsed = JSON.parse(await blob.text()) as Record<string, unknown>;
+      expect(parsed["nsmts:provenance"], `traced: ${String(traced)}`).toBeUndefined();
+    }
+  });
+
   it("stays absent when nothing was traced", async () => {
     const blob = geojsonExportBlob({
       type: "FeatureCollection",

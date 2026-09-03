@@ -135,6 +135,12 @@ const CAPTION_LEADING = 2;
  */
 const MIN_CAPTION_SIZE = 5;
 
+/** Said on the strip's last line when the notices run onto their own page. */
+const CONTINUATION_NOTICE = "Sources and licences continue on the next page.";
+
+/** Heading on each page that carries attribution the strip could not hold. */
+const CONTINUATION_HEADING = "Sources and licences (continued)";
+
 /**
  * Fits the attribution text INTO `strip` rather than cutting it to length.
  *
@@ -146,19 +152,23 @@ const MIN_CAPTION_SIZE = 5;
  * cutting the attribution is worse than not having it.
  *
  * So step the caption size down until the wrapped text fits the strip's real
- * height. Only if even `MIN_CAPTION_SIZE` cannot hold it does the last
- * visible line get ellipsized — visible truncation, never silent.
+ * height. When even `MIN_CAPTION_SIZE` cannot hold it, the remainder moves to
+ * a continuation page and the strip's last line says so. Truncating it here
+ * was the older answer, and it stopped being defensible once the coastal
+ * licence's three required notices joined the strip: an ellipsis in the
+ * middle of a no-warranty caveat is a licence condition the page does not
+ * carry.
  */
 function fitAttribution(
   text: string,
   font: PDFFont,
   strip: PdfRect,
   preferredSize: number,
-): { size: number; lines: string[] } {
+): { size: number; lines: string[]; overflow: string } {
   for (let size = preferredSize; size >= MIN_CAPTION_SIZE; size -= 0.5) {
     const lines = wrapText(text, font, size, strip.width);
     if (lines.length * (size + CAPTION_LEADING) <= strip.height) {
-      return { size, lines };
+      return { size, lines, overflow: "" };
     }
   }
   // Floor reached. `wrapText` at the floor is re-run rather than reused from
@@ -169,12 +179,58 @@ function fitAttribution(
   const maxLines = Math.max(
     1, Math.floor(strip.height / (size + CAPTION_LEADING)),
   );
-  if (lines.length <= maxLines) return { size, lines };
-  const visible = lines.slice(0, maxLines);
-  visible[maxLines - 1] = ellipsize(
-    visible[maxLines - 1], font, size, strip.width,
-  );
-  return { size, lines: visible };
+  if (lines.length <= maxLines) return { size, lines, overflow: "" };
+  // One line of the strip is spent pointing at the continuation, so what the
+  // reader sees on the map page always accounts for what it does not show.
+  const kept = lines.slice(0, Math.max(0, maxLines - 1));
+  return {
+    size,
+    lines: [...kept, ellipsize(CONTINUATION_NOTICE, font, size, strip.width)
+      .replace(/…$/u, "")],
+    overflow: lines.slice(kept.length).join(" "),
+  };
+}
+
+/**
+ * Draws attribution the strip could not hold onto its own page or pages.
+ *
+ * The map page stays georeferenced and unchanged; these pages carry the rest
+ * of the obligation at a readable size rather than at the strip's 5pt floor.
+ */
+function drawAttributionOverflow(
+  document: PDFDocument,
+  template: PdfTemplate,
+  fonts: { bold: PDFFont; regular: PDFFont },
+  text: string,
+): void {
+  const size = template.type.body;
+  const lineHeight = size + 3;
+  const width = template.page.width - template.margin * 2;
+  let remaining = wrapText(text, fonts.regular, size, width);
+  while (remaining.length > 0) {
+    const page = document.addPage([template.page.width, template.page.height]);
+    const headingY =
+      template.page.height - template.margin - template.type.subtitle;
+    page.drawText(CONTINUATION_HEADING, {
+      x: template.margin,
+      y: headingY,
+      size: template.type.subtitle,
+      font: fonts.bold,
+      color: INK,
+    });
+    const top = headingY - template.type.subtitle - 8;
+    const capacity = Math.max(
+      1, Math.floor((top - template.margin) / lineHeight),
+    );
+    remaining.slice(0, capacity).forEach((line, index) => {
+      page.drawText(line, {
+        x: template.margin,
+        y: top - index * lineHeight,
+        size, font: fonts.regular, color: MUTED,
+      });
+    });
+    remaining = remaining.slice(capacity);
+  }
 }
 
 /**
@@ -428,7 +484,7 @@ export async function composeGeoPdf(input: ComposeInput): Promise<Uint8Array> {
     (line) => sanitizeForPdf(line, regular),
   );
   const attributionText = [...safeAttributionLines, stamp].join("  ·  ");
-  const { size: capSize, lines } = fitAttribution(
+  const { size: capSize, lines, overflow } = fitAttribution(
     attributionText, regular, strip, template.type.caption,
   );
   lines.forEach((line, index) => {
@@ -440,5 +496,8 @@ export async function composeGeoPdf(input: ComposeInput): Promise<Uint8Array> {
   });
 
   attachGeoRegistration(document, page, input.bounds, frame);
+  if (overflow) {
+    drawAttributionOverflow(document, template, { bold, regular }, overflow);
+  }
   return document.save({ useObjectStreams: false });
 }

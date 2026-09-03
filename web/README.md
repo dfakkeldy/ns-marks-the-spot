@@ -191,7 +191,9 @@ source is never presented as an empty result or proof of absence.
 The **Print / Save PDF** action invokes the browser's print dialog. The separate
 **Export map (PDF)** action generates a PDF directly in the browser: it fetches
 the map images for the framed area, composites them onto a canvas, and writes a
-single raster page. Everything happens client-side — no server round trip, and
+single raster page — plus, only when the licence statements for the layers on it
+cannot fit the attribution strip, plain continuation pages carrying the rest of
+that attribution. Everything happens client-side — no server round trip, and
 nothing is uploaded. What it produces is a picture of the map, not the data
 behind it: there is still no raw geometry download, no tile archive, and no bulk
 data export. OpenStreetMap and ArcGIS images stay browser-rendered in a

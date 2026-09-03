@@ -124,9 +124,13 @@ agree; stale results cannot attach to a new selection. Losing the selected PID,
 request generation, or Province licence closes the capture.
 
 `services/printSnapshot.ts` owns the capture/readiness/seal domain. Research
-waits for all evidence states or converts only still-pending states to
-“Source unavailable at export time” after the bounded timeout; field output
-does not wait for research evidence. Sealing deep-clones and deep-freezes a
+waits for all evidence states or, after the bounded timeout, seals the ones
+still pending as *unanswered* — or *not asked*, where a slot named the source
+it was waiting on and so never started. Neither is “Source unavailable at
+export time”, which stays reserved for a source that answered and failed:
+the printed page names which of the three happened, and its front page names
+the sources that were still out. Field output does not wait for research
+evidence. Sealing deep-clones and deep-freezes a
 template-specific `PrintSnapshot`, so later application, map, or source changes
 cannot mutate an open document. Research bounds derive from the complete
 selected parcel geometry. Field bounds preserve the complete frozen live

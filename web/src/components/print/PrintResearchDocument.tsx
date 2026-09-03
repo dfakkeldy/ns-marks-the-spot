@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import type { PrintQrResult } from "../../services/printQr";
 import {
+  printEvidenceMessage,
+  printEvidenceReceiptStatus,
+  unansweredEvidenceNames,
   type PrintLayerSource,
   type PrintScale,
   type PrintSnapshot,
@@ -11,6 +14,7 @@ import {
   requiredSelectedGeometryAttribution,
   type PrintEvidenceAttribution,
 } from "../../services/printEvidenceAttribution";
+import { resourceLayerCatalog } from "../../layers/layerCatalog";
 import { renderedPrintLayerSources } from "../../services/printRenderedLayers";
 import { PrintEvidenceAppendix } from "./PrintEvidenceAppendix";
 
@@ -335,8 +339,8 @@ export function FieldRequiredAttribution({
 function stateText(
   state: PrintSnapshot["evidence"]["buildings"],
 ): string {
-  if (state.status === "pending" || state.status === "error") {
-    return "Source unavailable at export time.";
+  if (state.status !== "ready") {
+    return printEvidenceMessage(state);
   }
   if (state.value.count === 0) {
     return "No mapped building feature returned.";
@@ -366,16 +370,114 @@ export function ResearchFactGrid({ snapshot }: { snapshot: PrintSnapshot }) {
   );
 }
 
+const UNANSWERED_LIST = new Intl.ListFormat("en-CA", {
+  style: "long",
+  type: "conjunction",
+});
+
+/**
+ * The sources that were still out when the page was made, named on the front.
+ *
+ * The appendix says it source by source, and a reader who acts on a research
+ * summary may never turn that page. The answer that never arrived may be the
+ * one they came for.
+ */
+export function UnansweredEvidenceNotice({
+  snapshot,
+  includeAppendix,
+}: {
+  snapshot: PrintSnapshot;
+  includeAppendix: boolean;
+}) {
+  const names = unansweredEvidenceNames(snapshot);
+  if (names.length === 0) return null;
+  return (
+    <p className="print-unanswered-evidence">
+      This page was made while {UNANSWERED_LIST.format(names)} had not
+      answered.{" "}
+      {includeAppendix
+        ? "The appendix names each of them as unanswered, which is not a finding about this parcel."
+        : "That is not a finding about this parcel, and this page carries no appendix naming them."}
+    </p>
+  );
+}
+
+/**
+ * The receipt for a source that answered, but not for everything it was asked.
+ *
+ * The flood and resource lookups resolve ready with per-query states inside
+ * them, so a slot can be "captured" while one of its sources was down. A
+ * receipt that says captured over a failed query is the same collapse the
+ * appendix was fixed for, one level up.
+ */
+function nestedReceipt(
+  ready: boolean,
+  failed: readonly string[],
+  captured: number,
+  whenUnsettled: string,
+): string {
+  if (!ready) return whenUnsettled;
+  if (failed.length === 0) return "captured";
+  // "Partially" has to mean part of it arrived. With every named source down,
+  // nothing was captured, and the receipt says so.
+  return captured === 0
+    ? `unavailable; ${failed.join(", ")} all failed`
+    : `partially captured; ${failed.join(", ")} unavailable`;
+}
+
+/**
+ * The civic receipt, which has to carry the rows that could not be read.
+ *
+ * The appendix says it, and a document printed without the appendix would
+ * otherwise carry no sign at all that the list is a floor.
+ */
+function civicReceipt(state: PrintSnapshot["evidence"]["civicAddresses"]): string {
+  if (state.status !== "ready") return printEvidenceReceiptStatus(state);
+  const { unreadableRows } = state.value;
+  if (unreadableRows === 0) return "captured";
+  return `partially captured; ${unreadableRows} returned row${
+    unreadableRows === 1 ? "" : "s"
+  } unreadable`;
+}
+
 export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
   const assessment = snapshot.evidence.assessments;
   const dwellings = snapshot.evidence.dwellings;
+  const flood = snapshot.evidence.floodHazard;
+  const resources = snapshot.evidence.resources;
+  const floodCaptured =
+    flood.status === "ready"
+      ? (flood.value.river.status === "error" ? 0 : 1) +
+        flood.value.coastal.filter(({ status }) => status !== "error").length
+      : 0;
+  const resourceCaptured =
+    resources.status === "ready"
+      ? resourceLayerCatalog.filter(
+          ({ id }) => resources.value[id]?.status !== "error",
+        ).length
+      : 0;
+  const floodFailures =
+    flood.status === "ready"
+      ? [
+          ...(flood.value.river.status === "error" ? ["Published river"] : []),
+          ...flood.value.coastal
+            .filter(({ status }) => status === "error")
+            .map(({ scenario }) => `Coastal ${scenario}`),
+        ]
+      : [];
+  const resourceFailures =
+    resources.status === "ready"
+      ? resourceLayerCatalog
+          .filter(({ id }) => resources.value[id]?.status === "error")
+          .map(({ name }) => name)
+      : [];
   const entries = [
-    `Civic addresses: ${snapshot.evidence.civicAddresses.status === "ready" ? "captured" : "unavailable"}`,
-    `Assessment: ${assessment.status === "ready" ? `${assessment.value.accounts.length} account${assessment.value.accounts.length === 1 ? "" : "s"} captured` : "unavailable"}`,
-    `Dwelling characteristics: ${dwellings.status === "ready" ? `${dwellings.value.length} account${dwellings.value.length === 1 ? "" : "s"} captured` : "unavailable"}`,
-    `Roads and water: ${snapshot.evidence.mappedContext.status === "ready" ? "captured" : "unavailable"}`,
-    `Flood evidence: ${snapshot.evidence.floodHazard.status === "ready" ? "captured" : "unavailable"}`,
-    `Resource evidence: ${snapshot.evidence.resources.status === "ready" ? "captured" : "unavailable"}`,
+    `Civic addresses: ${civicReceipt(snapshot.evidence.civicAddresses)}`,
+    `Assessment: ${assessment.status === "ready" ? `${assessment.value.accounts.length} account${assessment.value.accounts.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(assessment)}`,
+    `Dwelling characteristics: ${dwellings.status === "ready" ? `${dwellings.value.length} account${dwellings.value.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(dwellings)}`,
+    `Roads and water: ${printEvidenceReceiptStatus(snapshot.evidence.mappedContext)}`,
+    `Flood evidence: ${nestedReceipt(flood.status === "ready", floodFailures, floodCaptured, printEvidenceReceiptStatus(flood))}`,
+    `Resource evidence: ${nestedReceipt(resources.status === "ready", resourceFailures, resourceCaptured, printEvidenceReceiptStatus(resources))}`,
   ];
   return (
     <section className="print-evidence-status-grid" aria-label="Evidence receipt status">
@@ -496,6 +598,7 @@ export function PrintResearchDocument({
             mapMode={snapshot.taxSaleEnabled ? snapshot.mode : undefined}
           />
           <div className="print-research-details">
+            <UnansweredEvidenceNotice snapshot={snapshot} includeAppendix={includeAppendix} />
             <PrintScaleOmission sources={snapshot.layerSources} belowZoomLayerIds={belowZoomLayerIds} />
             <PrintMapFailure sources={snapshot.layerSources} failedLayerIds={failedLayerIds} />
             <ApproximateScale scale={scale} />

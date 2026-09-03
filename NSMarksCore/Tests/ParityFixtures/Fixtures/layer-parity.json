@@ -1306,6 +1306,11 @@
       }
     ]
   },
+  "coastalHazardNotices": [
+    "Reproduced and distributed with the permission of the Department of Service Nova Scotia.",
+    "This product has been produced by KinNoKi Labs and includes data provided by the Department of Service Nova Scotia. The incorporation of that data shall not be construed as constituting an endorsement by the Department of Service Nova Scotia of this product.",
+    "Service Nova Scotia makes no representation and gives no warranty of any kind respecting the data's accuracy, usefulness, novelty, validity, scope, completeness, or currency."
+  ],
   "parcelQuery": {
     "layerUrl": "https://nsgiwa2.novascotia.ca/arcgis/rest/services/PLAN/PLAN_NSPRD_WM84/MapServer/0",
     "pidBatchSize": 40,

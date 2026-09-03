@@ -90,6 +90,7 @@ import {
 import {
   COASTAL_HAZARD_ATTRIBUTION,
   COASTAL_HAZARD_LICENCE_URL,
+  COASTAL_HAZARD_NOTICES,
   allResourceLayerCatalog,
   churchLayerCatalog,
   environmentalHealthLayerCatalog,
@@ -127,13 +128,17 @@ import {
   CIVIC_ADDRESS_DATASET_URL,
   OPEN_GOVERNMENT_ATTRIBUTION,
   OPEN_GOVERNMENT_LICENCE_URL,
+  CivicAddressGeometryError,
   fetchCivicAddresses,
   searchCivicAddresses,
   type CivicAddress,
+  type CivicAddressReading,
 } from "./services/civicAddresses";
 import {
   fetchParcelAtPoint,
   fetchParcels,
+  hasQueryablePolygon,
+  identifyParcelsAtPoint,
   normalizePid,
   NSPRD_LAYER_URL,
   type NsprdFeatureCollection,
@@ -325,7 +330,12 @@ function isCurrentEvidenceRequest(
 }
 
 const EMPTY_PARCEL_CONTEXT: ParcelContext = { roads: [], water: [] };
-const EMPTY_CIVIC_ADDRESSES: CivicAddress[] = [];
+// A lookup that has not answered carries no addresses and no shortfall: zero
+// unreadable rows here is the absence of a claim, not a claim of completeness.
+const EMPTY_CIVIC_ADDRESSES: CivicAddressReading = {
+  addresses: [],
+  unreadableRows: 0,
+};
 const EMPTY_RESOURCE_INTERSECTIONS: ParcelResourceIntersections = {
   "mineral-occurrences": { status: "ready", intersections: [] },
   "mineral-tenure": { status: "ready", intersections: [] },
@@ -503,7 +513,9 @@ export function mergeFeatureCollections(
       }
       for (const inner of coords) visit(inner);
     };
-    visit((feature.geometry as { coordinates?: unknown }).coordinates);
+    // Optional: NSPRD can send "geometry": null, and the declared type says
+    // what a stored parcel may be assumed to carry, not what the wire sends.
+    visit((feature.geometry as { coordinates?: unknown } | null)?.coordinates);
     const head = positions.slice(0, 2).join(",");
     const tail = positions.slice(-2).join(",");
     return `${feature.properties.PID}:${positions.length}:${head}:${tail}`;
@@ -545,9 +557,10 @@ function printState<T>(
   }
   if (state.status === "geometry-unavailable") {
     // Unreachable while canPrintExport requires resolved geometry, but the
-    // honest message costs nothing if that gate ever loosens.
+    // honest state costs nothing if that gate ever loosens: nothing was asked
+    // of the source, so the receipt must not call it unavailable.
     return {
-      status: "error",
+      status: "not-asked",
       message: "Not evaluated — this PID's NSPRD geometry is unavailable.",
     };
   }
@@ -570,6 +583,7 @@ function printStateForRequest<T>(
 function printDwellingStateForRequest(
   state: DwellingState,
   request: SelectedEvidenceRequest | null,
+  assessmentReady: boolean,
 ): PrintLoadState<PvscDwellingAccount[]> {
   if (!request || !isCurrentEvidenceRequest(state.request, request)) {
     return { status: "pending" };
@@ -577,11 +591,35 @@ function printDwellingStateForRequest(
   if (state.status === "ready") {
     return { status: "ready", value: state.value };
   }
+  // Three ways the dwelling dataset goes unasked, and none of them is the
+  // source failing. Printing them as errors put "unavailable" on the receipt
+  // for a lookup that was never run.
   if (state.status === "blocked") {
     return {
-      status: "error",
+      status: "not-asked",
       message:
         "Dwelling lookup was not run because assessment account evidence was unavailable.",
+    };
+  }
+  if (state.status === "no-account") {
+    return {
+      status: "not-asked",
+      message:
+        "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+    };
+  }
+  if (state.status === "no-record-for-notice-aan") {
+    return {
+      status: "not-asked",
+      message:
+        "The municipal notice supplied an AAN, but PVSC returned no assessment record for it, so the dwelling dataset was not asked.",
+    };
+  }
+  if (state.status === "geometry-unavailable") {
+    return {
+      status: "not-asked",
+      message:
+        "Not evaluated — this PID's NSPRD geometry is unavailable, so no assessment account could be matched and the dwelling dataset was not asked.",
     };
   }
   if (state.status === "error") {
@@ -590,7 +628,17 @@ function printDwellingStateForRequest(
       message: "PVSC dwelling source unavailable at export time.",
     };
   }
-  return { status: "pending" };
+  // Idle or loading. The dwelling request cannot start until the assessment
+  // lookup supplies an account number, so while that is still out this slot
+  // is not a source going quiet, and a capture that times out here must not
+  // print it as one.
+  return assessmentReady
+    ? { status: "pending" }
+    : {
+        status: "pending",
+        message:
+          "The PVSC dwelling lookup had not started when this page was made: the assessment account lookup had not answered, so there was no account to ask with.",
+      };
 }
 
 function printEventForCurrent(event: TaxSaleEvent, now: number): PrintEvent {
@@ -1217,7 +1265,15 @@ export function App() {
   );
 
   useEffect(() => {
-    if (!parcelLookupMessage || !/^PID \d+ selected/.test(parcelLookupMessage)) {
+    // Good news dismisses itself; a caution stays until the state changes.
+    // "PID 50251750 selected." is the whole of the good news, so the rule
+    // matches the whole sentence: the shared-boundary notice starts the same
+    // way and then says the choice was not a determination, and a reader who
+    // looked away for six seconds would be left with only the good half.
+    if (
+      !parcelLookupMessage ||
+      !/^PID \d+ selected( from shared map state)?\.$/.test(parcelLookupMessage)
+    ) {
       return;
     }
     const timer = window.setTimeout(
@@ -1796,6 +1852,23 @@ export function App() {
     setHistoricalParcelMessage(null);
   }, []);
 
+  /**
+   * Whether a coastal projection is on screen, which the OGL–NS test below
+   * deliberately excludes. Excluding them stopped the wrong licence being
+   * claimed but left the right one unsaid: section 4.1 of the unrestricted
+   * licence asks for its notices on every reproduction, and a layer drawn on
+   * the map is one.
+   */
+  const coastalLayerVisible = useMemo(
+    () =>
+      floodHazardLayerCatalog.some(
+        (layer) =>
+          layer.licenceUrl === COASTAL_HAZARD_LICENCE_URL &&
+          effectiveFloodHazardLayers[layer.id],
+      ),
+    [effectiveFloodHazardLayers],
+  );
+
   /** Any visible layer whose licence mandates the OGL–NS statement. */
   const oglLayerVisible = useMemo(
     () =>
@@ -1912,11 +1985,29 @@ export function App() {
     mapModeRef.current = mapMode;
   }, [mapMode, taxSaleEnabled]);
 
+  /**
+   * How the parcel's own geometry resolved, for the note.
+   *
+   * "The geometry is unavailable" is what every dependent source can say;
+   * WHY it is unavailable is a fact about NSPRD, and the two outcomes are
+   * different evidence: a service that answered with no parcel for this PID,
+   * and a service that did not answer. The live message says which, and the
+   * exported note used to carry neither.
+   */
+  const [geometryOutcome, setGeometryOutcome] = useState<
+    "returned-empty" | "source-error" | "unusable-geometry" | null
+  >(null);
+
   const markGeometryEvidenceTerminal = useCallback(
     (
       request: SelectedEvidenceRequest,
       status: "geometry-unavailable" | "error",
     ) => {
+      // `status` is what happened to the GEOMETRY, and every source below
+      // depends on it. "error" therefore belongs to a source that answered
+      // badly — never to one this never asked because the outline never
+      // arrived. The call sites pass "geometry-unavailable" for a failed
+      // NSPRD fetch and report that outage once, in the lookup message.
       setMappedContext((current) =>
         isCurrentEvidenceRequest(current.request, request)
           ? { status, value: EMPTY_PARCEL_CONTEXT, request }
@@ -1946,9 +2037,12 @@ export function App() {
       if (!noticeAan) {
         // Dwellings follow automatically: the mirror effect maps a non-ready
         // assessment into the blocked dwelling state.
+        // Including a ready one: with no geometry and no notice, a ready
+        // assessment can only be one a notice supplied before the reader
+        // turned tax-sale information off, and it would go on claiming a
+        // match from a notice the panel no longer shows.
         setAssessmentState((current) =>
-          isCurrentEvidenceRequest(current.request, request) &&
-          current.status !== "ready"
+          isCurrentEvidenceRequest(current.request, request)
             ? { status: "geometry-unavailable", request }
             : current);
       }
@@ -1975,6 +2069,7 @@ export function App() {
       .then((collection) => {
         if (collection.features.length === 0) {
           setParcelLookupMessage(`No NSPRD parcel was found for PID ${selectedPid}.`);
+          setGeometryOutcome("returned-empty");
           if (request) {
             markGeometryEvidenceTerminal(request, "geometry-unavailable");
           }
@@ -1988,8 +2083,9 @@ export function App() {
           return;
         }
         setParcelLookupMessage("The shared PID could not be loaded right now.");
+        setGeometryOutcome("source-error");
         if (request) {
-          markGeometryEvidenceTerminal(request, "error");
+          markGeometryEvidenceTerminal(request, "geometry-unavailable");
         }
       });
 
@@ -2088,11 +2184,15 @@ export function App() {
    * honest "did MY parcel change" test.
    */
   const selectedFeaturesRef = useRef<NsprdFeatureCollection["features"]>([]);
+  // Only the parts with a polygon to ask against. A feature NSPRD returns
+  // with an unusable geometry cannot be queried, drawn or measured, and every
+  // spatial lookup would answer emptily for it — a panel of clean negatives
+  // about a parcel nothing was asked about.
   const selectedParcelFeatures = useMemo(() => {
     const next = selectedPid
       ? parcels.features.filter(
           ({ properties }) => properties.PID === selectedPid,
-        )
+        ).filter(hasQueryablePolygon)
       : [];
     const previous = selectedFeaturesRef.current;
     if (
@@ -2104,6 +2204,61 @@ export function App() {
     selectedFeaturesRef.current = next;
     return next;
   }, [parcels, selectedPid]);
+
+  /**
+   * The parcels with a polygon to draw, which is also the set that can be
+   * asked about.
+   *
+   * `parcels` keeps every feature NSPRD answered with, because the terminal
+   * geometry-unavailable decision below has to know the PID was answered for
+   * at all. What reaches Leaflet and the print map is this: `L.geoJSON` reads
+   * `coordinates.length` and throws on a null geometry, taking the map down
+   * before the panel could say the geometry was unusable.
+   */
+  const drawableParcels = useMemo(
+    () => ({
+      type: "FeatureCollection" as const,
+      features: parcels.features.filter(hasQueryablePolygon),
+    }),
+    [parcels],
+  );
+
+  // NSPRD answered for the PID, but with nothing this build can query
+  // against. Every evidence effect below bails on an empty feature list, so
+  // without this the panel would sit on "Checking…" for a condition already
+  // known — and the sources that do answer without geometry would leave the
+  // rest reading as clean negatives.
+  useEffect(() => {
+    if (!selectedPid || !selectedEvidenceRequest) return;
+    if (selectedParcelFeatures.length > 0) return;
+    if (!parcels.features.some(({ properties }) => properties.PID === selectedPid)) {
+      return;
+    }
+    setGeometryOutcome("unusable-geometry");
+    markGeometryEvidenceTerminal(selectedEvidenceRequest, "geometry-unavailable");
+  }, [
+    // mapMode and taxSaleEnabled are inputs, not noise: they decide whether a
+    // notice AAN is still standing in for the missing geometry.
+    mapMode,
+    markGeometryEvidenceTerminal,
+    parcels,
+    selectedEvidenceRequest,
+    selectedParcelFeatures,
+    selectedPid,
+    taxSaleEnabled,
+  ]);
+
+  // A caution belongs to the selection it was raised for. The shared-boundary
+  // notice deliberately outlives the success toast, so without this it would
+  // outlive the parcel too and name a PID nothing has selected.
+  useEffect(() => {
+    setParcelLookupMessage((current) => {
+      if (!current) return current;
+      const named = /^PID (\d+) /u.exec(current)?.[1];
+      if (!named) return current;
+      return named === selectedPid ? current : null;
+    });
+  }, [selectedPid]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
@@ -2183,12 +2338,11 @@ export function App() {
 
   useEffect(() => {
     if (assessmentState.status !== "ready") {
+      // A failed assessment lookup and a missing outline are different
+      // reasons the dwelling dataset went unasked. "blocked" claims a source
+      // outage, which never happened on the geometry path.
       setDwellingState({
-        status:
-          assessmentState.status === "error" ||
-          assessmentState.status === "geometry-unavailable"
-            ? "blocked"
-            : assessmentState.status,
+        status: assessmentState.status === "error" ? "blocked" : assessmentState.status,
         request: assessmentState.request,
       });
       return;
@@ -2197,24 +2351,44 @@ export function App() {
     const request = assessmentState.request;
     const aans = assessmentState.value.accounts.map(({ aan }) => aan);
     if (aans.length === 0) {
-      setDwellingState({ status: "ready", value: [], request });
+      // No account is no question, not a dataset that answered no — and a
+      // notice that supplied an AAN PVSC has no record for is a third thing
+      // again: an account WAS available, and the assessment dataset answered.
+      setDwellingState({
+        status:
+          assessmentState.value.matchMethod === "notice-aan"
+            ? "no-record-for-notice-aan"
+            : "no-account",
+        request,
+      });
       return;
     }
 
     const controller = new AbortController();
     setDwellingState({ status: "loading", request });
     fetchDwellingCharacteristics(aans, controller.signal)
-      .then((value) => setDwellingState((current) =>
-        isCurrentEvidenceRequest(current.request, request)
-          ? { status: "ready", value, request }
-          : current,
-      ))
+      .then((value) => {
+        if (controller.signal.aborted) return;
+        // Only a state still waiting for THIS request may be answered. The
+        // generation alone is not enough: a geometry-unavailable transition
+        // keeps it, so a late answer to a question the app stopped asking
+        // could put a notice-derived result back after the reader had turned
+        // tax-sale information off.
+        setDwellingState((current) =>
+          isCurrentEvidenceRequest(current.request, request) &&
+          current.status === "loading"
+            ? { status: "ready", value, request }
+            : current,
+        );
+      })
       .catch((error: unknown) => {
+        if (controller.signal.aborted) return;
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
         setDwellingState((current) =>
-          isCurrentEvidenceRequest(current.request, request)
+          isCurrentEvidenceRequest(current.request, request) &&
+          current.status === "loading"
             ? { status: "error", request }
             : current,
         );
@@ -2350,9 +2524,15 @@ export function App() {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
+        // A parcel with no polygon to ask inside was never asked; calling
+        // that a source error would blame a service that was never reached.
+        const status =
+          error instanceof CivicAddressGeometryError
+            ? ("geometry-unavailable" as const)
+            : ("error" as const);
         setCivicAddresses((current) =>
           isCurrentEvidenceRequest(current.request, request)
-            ? { status: "error", value: EMPTY_CIVIC_ADDRESSES, request }
+            ? { status, value: EMPTY_CIVIC_ADDRESSES, request }
             : current,
         );
       });
@@ -2708,6 +2888,11 @@ export function App() {
 
   const selectParcel = (pid: string): SelectedEvidenceRequest => {
     setMobileControlsOpen(false);
+    setGeometryOutcome(null);
+    // A caution belongs to the selection it was raised for, and re-selecting
+    // the same PID unambiguously is a new selection: without this the
+    // shared-boundary notice would stand over a tap that had no ambiguity.
+    setParcelLookupMessage(null);
     const request = { pid, generation: selectionGeneration.current + 1 };
     selectionGeneration.current = request.generation;
     setSelectedPid(pid);
@@ -2795,13 +2980,27 @@ export function App() {
         return;
       }
 
-      const pid = collection.features[0]?.properties.PID;
+      const { identified, pids, unidentifiedCount } =
+        identifyParcelsAtPoint(collection);
+      const pid = pids[0];
       if (!pid) {
-        setParcelLookupMessage("No NSPRD parcel was found at that point.");
+        // Two different nothings. A reply with no features at all is the
+        // service looking and finding no parcel, and that is the only
+        // sentence here allowed to say anything about the ground. Shapes that
+        // arrived carrying no readable PID are the service finding something
+        // this build cannot name, which is neither "there is no parcel" nor
+        // "the lookup failed".
+        setParcelLookupMessage(
+          unidentifiedCount === 0
+            ? "No NSPRD parcel was found at that point."
+            : unidentifiedCount === 1
+              ? "NSPRD returned a boundary at that point with no readable PID."
+              : `NSPRD returned ${unidentifiedCount} boundaries at that point with no readable PID.`,
+        );
         return;
       }
 
-      setParcels((current) => mergeFeatureCollections(current, collection));
+      setParcels((current) => mergeFeatureCollections(current, identified));
       if (!addressLabel) {
         setQuery(pid);
       }
@@ -2809,7 +3008,31 @@ export function App() {
       if (focusOnSelect) {
         requestParcelFocus(pid);
       }
-      setParcelLookupMessage(`PID ${pid} selected.`);
+      // More than one PID under one point: the parcels meet there, and the
+      // order NSPRD listed them in is not evidence of which one the point
+      // belongs to. "PID … selected." on its own would let a reader
+      // researching a boundary act on the first-listed parcel as a finding.
+      //
+      // A boundary with no readable PID is reported separately rather than
+      // added to the count. Two unnamed records may be two parcels or one
+      // parcel in two pieces, and this build cannot tell which — a count that
+      // included them would state a number nothing established.
+      const meeting =
+        pids.length > 1
+          ? `PID ${pid} selected. ${pids.length} parcels meet at that point; this is the first ${
+              // "the first NSPRD listed" is only true when nothing ahead of it
+              // was dropped. With an unnamed boundary in the reply it may have
+              // been listed second, and the sentence has to say which first.
+              unidentifiedCount > 0 ? "NSPRD named" : "NSPRD listed"
+            }, not a determination of which one it is.`
+          : `PID ${pid} selected.`;
+      setParcelLookupMessage(
+        unidentifiedCount === 0
+          ? meeting
+          : unidentifiedCount === 1
+            ? `${meeting} NSPRD also returned a boundary at that point with no readable PID.`
+            : `${meeting} NSPRD also returned ${unidentifiedCount} boundaries at that point with no readable PID.`,
+      );
     } catch (error: unknown) {
       if (error instanceof DOMException && error.name === "AbortError") {
         return;
@@ -2898,13 +3121,15 @@ export function App() {
       const collection = await fetchParcels([pid]);
       if (collection.features.length === 0) {
         setSearchError("No NSPRD parcel was found for that PID.");
+        setGeometryOutcome("returned-empty");
         markGeometryEvidenceTerminal(request, "geometry-unavailable");
         return;
       }
       setParcels((current) => mergeFeatureCollections(current, collection));
     } catch {
       setSearchError("The Province parcel search is unavailable right now.");
-      markGeometryEvidenceTerminal(request, "error");
+      setGeometryOutcome("source-error");
+      markGeometryEvidenceTerminal(request, "geometry-unavailable");
     } finally {
       if (pendingGeometryFetchPidRef.current === pid) {
         pendingGeometryFetchPidRef.current = null;
@@ -2940,6 +3165,7 @@ export function App() {
         setParcelLookupMessage(
           `PID ${pid} details opened, but its map geometry is unavailable.`,
         );
+        setGeometryOutcome("returned-empty");
         markGeometryEvidenceTerminal(request, "geometry-unavailable");
         return;
       }
@@ -2949,7 +3175,8 @@ export function App() {
       setParcelLookupMessage(
         `PID ${pid} details opened, but the Province parcel service is unavailable.`,
       );
-      markGeometryEvidenceTerminal(request, "error");
+      setGeometryOutcome("source-error");
+      markGeometryEvidenceTerminal(request, "geometry-unavailable");
     } finally {
       if (pendingGeometryFetchPidRef.current === pid) {
         pendingGeometryFetchPidRef.current = null;
@@ -3290,6 +3517,7 @@ export function App() {
     dwellings: printDwellingStateForRequest(
       dwellingState,
       selectedEvidenceRequest,
+      assessmentState.status === "ready",
     ),
     civicAddresses: printStateForRequest(civicAddresses, selectedEvidenceRequest),
     mappedContext: printStateForRequest(mappedContext, selectedEvidenceRequest),
@@ -3455,7 +3683,7 @@ export function App() {
       eventIds: printEventIds,
       events: printEvents,
       selectedParcelGeometry,
-      mapParcels: parcels,
+      mapParcels: drawableParcels,
       taxSalePids: Array.from(effectiveTaxSalePids),
       historicalTaxSalePids: Array.from(effectiveHistoricalTaxSalePids),
       viewport: mapViewport,
@@ -3529,7 +3757,10 @@ export function App() {
         assessmentState.status !== "geometry-unavailable") ||
       (dwellingState.status !== "ready" &&
         dwellingState.status !== "error" &&
-        dwellingState.status !== "blocked")
+        dwellingState.status !== "blocked" &&
+        dwellingState.status !== "no-account" &&
+        dwellingState.status !== "no-record-for-notice-aan" &&
+        dwellingState.status !== "geometry-unavailable")
     ) {
       return;
     }
@@ -3633,6 +3864,7 @@ export function App() {
       shareUrl,
       position: mapViewport.position,
       activeLayers,
+      parcelGeometry: geometryOutcome,
       events: selectedListingContext
         ? [{
             name: `${selectedListingContext.event.shortMunicipality} — ${eventDateLabel(selectedListingContext.event)}`,
@@ -3661,10 +3893,11 @@ export function App() {
       civicAddresses: civicAddresses.status === "ready"
         ? {
             status: "ready",
-            points: civicAddresses.value.map(({ label }) => ({
+            points: civicAddresses.value.addresses.map(({ label }) => ({
               label,
               sourceUrl: CIVIC_ADDRESS_DATASET_URL,
             })),
+            unreadableRows: civicAddresses.value.unreadableRows,
           }
         : civicAddresses.status === "geometry-unavailable"
           ? { status: "geometry-unavailable" }
@@ -3678,7 +3911,13 @@ export function App() {
         ? { status: "ready", accounts: dwellingState.value }
         : dwellingState.status === "blocked"
           ? { status: "blocked" }
-          : { status: "error" },
+          : dwellingState.status === "no-account"
+            ? { status: "no-account" }
+            : dwellingState.status === "no-record-for-notice-aan"
+              ? { status: "no-record-for-notice-aan" }
+              : dwellingState.status === "geometry-unavailable"
+                ? { status: "geometry-unavailable" }
+                : { status: "error" },
       resourceResults: resourceLayerCatalog.map((layer) => {
         if (resourceIntersections.status !== "ready") {
           // Terminal but not evaluated: the note records the condition per
@@ -4666,7 +4905,7 @@ export function App() {
             </button>
           </div>
           <MapCanvas
-            parcels={parcels}
+            parcels={drawableParcels}
             taxSalePids={effectiveTaxSalePids}
             historicalTaxSalePids={effectiveHistoricalTaxSalePids}
             selectedPid={selectedPid}
@@ -4788,7 +5027,10 @@ export function App() {
                   assessmentState.status === "geometry-unavailable") &&
                 (dwellingState.status === "ready" ||
                   dwellingState.status === "error" ||
-                  dwellingState.status === "blocked")
+                  dwellingState.status === "blocked" ||
+                  dwellingState.status === "no-account" ||
+                  dwellingState.status === "no-record-for-notice-aan" ||
+                  dwellingState.status === "geometry-unavailable")
               }
               now={currentTime}
               onClose={() => {
@@ -4855,6 +5097,11 @@ export function App() {
         {oglLayerVisible ? (
           <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>
         ) : null}
+        {coastalLayerVisible
+          ? COASTAL_HAZARD_NOTICES.map((notice) => (
+              <span key={notice}>{notice}</span>
+            ))
+          : null}
         {visibleZoningAttributions.map((attribution) => (
           <span key={attribution}>{attribution}</span>
         ))}

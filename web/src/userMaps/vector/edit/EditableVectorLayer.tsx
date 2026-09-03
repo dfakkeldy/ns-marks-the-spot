@@ -8,7 +8,11 @@ import {
   USER_VECTOR_PANE,
   USER_VECTOR_PANE_Z_INDEX,
 } from "../../../components/mapPanes";
-import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
+import {
+  FIELD_CAPTURE_SPEC,
+  NSMTS_TRACED,
+  NSMTS_TRACED_PARCEL,
+} from "../../../location/captureSpec";
 import { generateId } from "../../importUtils";
 import { styleForFeature } from "../render/style";
 import { attachSnapTracker } from "./snapTracker";
@@ -249,7 +253,7 @@ export function EditableVectorLayer({
         // The working layer Geoman drew with is not this created layer, so a
         // parcel snap during drawing arrives as the tracker's one-shot flag.
         if (tracker.consumeDrawSnap()) {
-          feature.properties["nsmts:traced"] = "nsprd-parcel";
+          feature.properties[NSMTS_TRACED] = NSMTS_TRACED_PARCEL;
         }
       }
       group.addLayer(event.layer);

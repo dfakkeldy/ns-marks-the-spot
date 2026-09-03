@@ -57,7 +57,11 @@ a {
 
 .app-shell {
   display: grid;
-  grid-template-rows: 68px minmax(0, 1fr) 46px;
+  /* The attribution row is auto-sized, not fixed: it carries licence
+     obligations whose length is set by whichever layers are on, and a fixed
+     46px clipped the coastal notices — and the Data & licences button under
+     them — the moment a coastal layer was switched on. */
+  grid-template-rows: 68px minmax(0, 1fr) auto;
   height: var(--app-viewport-height, 100dvh);
   min-height: var(--app-viewport-height, 100dvh);
   overflow: hidden;
@@ -97,7 +101,7 @@ a {
 }
 
 .app-shell.header-collapsed {
-  grid-template-rows: 36px minmax(0, 1fr) 46px;
+  grid-template-rows: 36px minmax(0, 1fr) auto;
 }
 
 .header-collapsed .app-header {
@@ -2383,10 +2387,18 @@ a {
 
 .parcel-lookup-message {
   position: absolute;
-  z-index: 500;
+  /* Above the inspector, which opens over it the moment a parcel is selected.
+     The message is where a shared-boundary tap says the choice was not a
+     determination, and a caution behind an opaque panel is a caution nobody
+     reads. It is inset from the right at every width so it never covers the
+     inspector's 44px close control: pointer-events keeps that button
+     clickable, but a target nobody can see is not a target. */
+  z-index: 950;
   top: 12px;
-  right: 12px;
-  max-width: min(340px, calc(100% - 84px));
+  /* Past the whole 44px close target and its own inset (16 + 14 + 44), not
+     up to its edge: an 8px strip of a control is not a visible control. */
+  right: 82px;
+  max-width: min(340px, calc(100% - 154px));
   margin: 0;
   padding: 8px 10px;
   color: var(--chart-ink);
@@ -2396,6 +2408,9 @@ a {
   border: 1px solid var(--line);
   border-radius: 4px;
   box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  /* It sits over the inspector so it can be read; it must not take the
+     inspector's close button with it. Nothing here is interactive. */
+  pointer-events: none;
 }
 
 .parcel-lookup-message:empty {
@@ -3078,10 +3093,15 @@ a {
   flex-wrap: wrap;
   align-items: center;
   row-gap: 2px;
+  /* Wrap and grow, never clip: this strip is where the Province attribution
+     and the coastal licence notices — licence obligations — actually render,
+     and nowrap+overflow cut them mid-sentence. The cap keeps a long notice
+     set from taking the map: past it the strip scrolls, the same answer the
+     narrow breakpoint below already gives. */
+  min-height: 46px;
+  max-height: 30dvh;
   padding: 2px 28px;
-  /* Wrap, never clip: this strip is where the Province attribution — a
-     licence obligation — actually renders, and nowrap+overflow cut it to
-     "…provided witho" on ordinary desktop widths. */
+  overflow-y: auto;
   font-size: 0.72rem;
   background: var(--paper);
   border-top: 1px solid var(--line);
@@ -3221,6 +3241,15 @@ a {
 
   .app-header {
     display: none;
+  }
+
+  /* The strip floats over the map from this width down, and grows to its
+     72px cap when a layer's licence needs several notices. The inspector's
+     scroll area is padded by that much wherever the strip overlays it, so
+     its last row — Copy, Export, Print and the exact-state link — can always
+     be scrolled clear rather than sitting behind it. */
+  .parcel-inspector {
+    padding-bottom: 84px;
   }
 
   .map-attribution {
@@ -3528,12 +3557,33 @@ a {
     padding-inline: 10px;
   }
 
+  /* Full width under the close row rather than squeezed into the strip
+     beside it: at 200% text the 154px inset left a column a few words wide
+     and taller than the screen, with the inspector under it and no way to
+     scroll either. Bounded and scrollable, so a long caution cannot cover
+     the evidence it is about. */
+  .parcel-lookup-message {
+    top: 64px;
+    right: 12px;
+    left: 12px;
+    max-width: none;
+    max-height: 30dvh;
+    overflow-y: auto;
+    /* A scroll container nothing can reach is a message with a hidden half:
+       the base rule turns pointer events off so the box never takes the
+       inspector's close control, and that also passed a swipe over this text
+       to the panel underneath. Restored here, where the box is capped, and
+       kept clear of that control by sitting below it. */
+    pointer-events: auto;
+  }
+
   .parcel-inspector {
     top: 10px;
     right: 10px;
     bottom: 42px;
     width: calc(100% - 20px);
     padding: 20px;
+    padding-bottom: 84px;
     overflow-y: auto;
   }
 
@@ -3769,6 +3819,7 @@ a {
 .print-general-limitations,
 .print-scale-omission,
 .print-map-failure,
+.print-unanswered-evidence,
 .print-receipt,
 .print-evidence-section {
   margin-right: 10mm;
@@ -3989,7 +4040,8 @@ a {
 .print-research-support .print-required-attribution,
 .print-research-support .print-scale,
 .print-research-support .print-scale-omission,
-.print-research-support .print-map-failure {
+.print-research-support .print-map-failure,
+.print-research-support .print-unanswered-evidence {
   margin: 0;
 }
 
@@ -4517,7 +4569,8 @@ a {
 .print-required-attribution,
 .print-general-limitations,
 .print-scale-omission,
-.print-map-failure {
+.print-map-failure,
+.print-unanswered-evidence {
   margin-top: 3mm;
   margin-bottom: 0;
 }

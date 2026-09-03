@@ -4,7 +4,10 @@ import { useEffect } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MapPosition } from "../../services/mapShareState";
 import type { PrintMapReadiness } from "./PrintMap";
-import type { PrintCapture } from "../../services/printSnapshot";
+import {
+  PRINT_SOURCE_UNANSWERED,
+  type PrintCapture,
+} from "../../services/printSnapshot";
 import { PrintPreview } from "./PrintPreview";
 
 const printMap = vi.hoisted(() => ({
@@ -52,7 +55,6 @@ vi.mock("../../services/printQr", () => ({
 const mapPosition = { latitude: 46.35, longitude: -61.15, zoom: 15 };
 
 function capture(pending = false): PrintCapture {
-  const state = pending ? { status: "pending" as const } : { status: "ready" as const, value: [] };
   return {
     token: "capture-1",
     capturedAt: "2026-07-23T13:42:00.000Z",
@@ -86,7 +88,9 @@ function capture(pending = false): PrintCapture {
       buildings: pending ? { status: "pending" } : { status: "ready", value: { count: 0, pointCount: 0, polygonCount: 0 } },
       assessments: pending ? { status: "pending" } : { status: "ready", value: { matchMethod: "spatial", accounts: [] } },
       dwellings: pending ? { status: "pending" } : { status: "ready", value: [] },
-      civicAddresses: state,
+      civicAddresses: pending
+        ? { status: "pending" as const }
+        : { status: "ready" as const, value: { addresses: [], unreadableRows: 0 } },
       mappedContext: pending ? { status: "pending" } : { status: "ready", value: { roads: [], water: [] } },
       floodHazard: pending ? { status: "pending" } : { status: "ready", value: { river: { status: "within-published-layer-extent", aep: [] }, coastal: [] } },
       resources: pending ? { status: "pending" } : {
@@ -180,7 +184,15 @@ describe("PrintPreview", () => {
 
     await act(() => vi.advanceTimersByTimeAsync(15_000));
 
-    expect(screen.getAllByText("Source unavailable at export time.").length).toBeGreaterThan(0);
+    // A source that ran out of time never answered; a source that failed did.
+    // Both used to print the outage sentence.
+    expect(
+      screen.getAllByText(PRINT_SOURCE_UNANSWERED).length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.queryByText("Source unavailable at export time."),
+    ).not.toBeInTheDocument();
+    expect(screen.getByText(/^This page was made while /u)).toBeInTheDocument();
     expect(screen.queryByText("No mapped record returned")).not.toBeInTheDocument();
   });
 
@@ -198,8 +210,75 @@ describe("PrintPreview", () => {
     };
     rerender(<PrintPreview capture={lateEvidence} baseUrl="https://example.com/map/" onClose={onClose} />);
 
-    expect(screen.getAllByText("Source unavailable at export time.").length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(PRINT_SOURCE_UNANSWERED).length,
+    ).toBeGreaterThan(0);
     expect(screen.queryByText("7")).not.toBeInTheDocument();
+  });
+
+  // The wait can end badly as well as well, and the control rail said nothing
+  // about which sources the document was sealed without.
+  // Every evidence answer produces a new capture. A deadline that was torn
+  // down and recreated with it meant a page with several slow sources sealed
+  // long after the fifteen seconds it promises — each answer pushing the
+  // deadline out again.
+  it("seals fifteen seconds after the wait began, not after the last answer", async () => {
+    vi.useFakeTimers();
+    const pending = capture(true);
+    const { rerender } = render(
+      <PrintPreview capture={pending} baseUrl="https://example.com/map/" onClose={onClose} />,
+    );
+    markMapReady();
+
+    await act(() => vi.advanceTimersByTimeAsync(10_000));
+    // One source answers at ten seconds; the rest are still out.
+    const partly = capture(true);
+    partly.evidence.buildings = {
+      status: "ready",
+      value: { count: 0, pointCount: 0, polygonCount: 0 },
+    };
+    rerender(
+      <PrintPreview capture={partly} baseUrl="https://example.com/map/" onClose={onClose} />,
+    );
+    await act(() => vi.advanceTimersByTimeAsync(5_100));
+
+    expect(screen.getByText(/^Sealed while .* had not answered\./u)).toBeInTheDocument();
+  });
+
+  // The wait belongs to the capture, not to the template on screen: looking
+  // at the field sheet and coming back used to start a fresh fifteen seconds,
+  // and switching often enough postponed the seal indefinitely.
+  it("does not restart the wait when the reader looks at the field sheet", async () => {
+    vi.useFakeTimers();
+    render(
+      <PrintPreview capture={capture(true)} baseUrl="https://example.com/map/" onClose={onClose} />,
+    );
+    markMapReady();
+
+    await act(() => vi.advanceTimersByTimeAsync(10_000));
+    const selector = screen.getByLabelText("Document template");
+    await act(async () => {
+      fireEvent.change(selector, { target: { value: "field" } });
+    });
+    await act(() => vi.advanceTimersByTimeAsync(3_000));
+    await act(async () => {
+      fireEvent.change(selector, { target: { value: "research" } });
+    });
+    await act(() => vi.advanceTimersByTimeAsync(2_100));
+
+    expect(screen.getByText(/^Sealed while .* had not answered\./u)).toBeInTheDocument();
+  });
+
+  it("names the silent sources in the controls before the user prints", async () => {
+    vi.useFakeTimers();
+    render(<PrintPreview capture={capture(true)} baseUrl="https://example.com/map/" onClose={onClose} />);
+    markMapReady();
+
+    await act(() => vi.advanceTimersByTimeAsync(15_000));
+
+    expect(
+      screen.getByText(/^Sealed while .* had not answered\./u),
+    ).toBeInTheDocument();
   });
 
   it("starts a new map attempt when switching templates and accepts only its callbacks", async () => {

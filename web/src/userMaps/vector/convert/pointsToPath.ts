@@ -1,5 +1,9 @@
 import type { Feature, FeatureCollection, Position } from "geojson";
 import {
+  NSMTS_TRACED,
+  NSMTS_TRACED_PARCEL,
+} from "../../../location/captureSpec";
+import {
   pathDistanceMetres,
   polygonAreaSquareMetres,
 } from "../../../services/geodesy";
@@ -102,10 +106,14 @@ export function planPointsToPath(
     if (!previous || !samePosition(previous, position)) {
       positions.push(position);
     }
+    // The spec declares one value this key may take. Any other value is a
+    // property an imported file happened to carry, and promoting it would
+    // stamp NSPRD provenance — and the Province's attribution — on a path
+    // nothing traced.
     if (
       feature.properties &&
-      (feature.properties as Record<string, unknown>)["nsmts:traced"] !==
-        undefined
+      (feature.properties as Record<string, unknown>)[NSMTS_TRACED] ===
+        NSMTS_TRACED_PARCEL
     ) {
       traced = true;
     }
@@ -152,7 +160,7 @@ export function buildPathFromPoints(
     "nsmts:convertedFromPoints": plan.sourcePointCount,
   };
   if (plan.traced) {
-    properties["nsmts:traced"] = "nsprd-parcel";
+    properties[NSMTS_TRACED] = NSMTS_TRACED_PARCEL;
   }
   const feature: Feature = {
     type: "Feature",

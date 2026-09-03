@@ -5,6 +5,7 @@ import {
   SNAP_TARGET_PANE,
   SNAP_TARGET_PANE_Z_INDEX,
 } from "../../../components/mapPanes";
+import { NSMTS_TRACED_PARCEL } from "../../../location/captureSpec";
 import {
   PARCEL_SNAP_MIN_ZOOM,
   ParcelSnapCache,
@@ -100,7 +101,7 @@ export function ParcelSnapTargetsLayer({
           // documented override that joins Geoman's snap list without
           // opting the layer in to its edit/drag/delete enumeration.
           snapIgnore: false,
-          nsmtsSnapSource: "nsprd-parcel",
+          nsmtsSnapSource: NSMTS_TRACED_PARCEL,
           style: { ...TARGET_STYLE, renderer },
         } as L.GeoJSONOptions,
       ).addTo(map);

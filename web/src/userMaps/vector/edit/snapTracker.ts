@@ -1,4 +1,8 @@
 import L from "leaflet";
+import {
+  NSMTS_TRACED,
+  NSMTS_TRACED_PARCEL,
+} from "../../../location/captureSpec";
 
 /**
  * Watches Geoman's snap events for two jobs the contract pins:
@@ -18,9 +22,6 @@ import L from "leaflet";
  * layer is NOT the layer pm:create later hands over, so draw snaps set a
  * flag the pm:create handler consumes for the created feature.
  */
-
-export const NSMTS_TRACED_KEY = "nsmts:traced";
-export const NSMTS_TRACED_PARCEL = "nsprd-parcel";
 
 type SnapEvent = {
   snapLatLng?: L.LatLngLiteral;
@@ -101,7 +102,7 @@ export function attachSnapTracker(map: L.Map): SnapTracker {
         ...target.feature,
         properties: {
           ...(target.feature.properties ?? {}),
-          [NSMTS_TRACED_KEY]: NSMTS_TRACED_PARCEL,
+          [NSMTS_TRACED]: NSMTS_TRACED_PARCEL,
         },
       };
     }
