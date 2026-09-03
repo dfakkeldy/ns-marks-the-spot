@@ -2062,7 +2062,7 @@ export function MapCanvas({
           : stoppedReason === "no-answer"
             ? "The device reported your location as unavailable and then " +
               "stopped answering, so the map stopped asking. "
-            : "Your location wasn't found, so after half a minute the map " +
+            : "Your location wasn't found in half a minute, so the map " +
               "stopped looking. ") +
           "Location may be switched off for this device, or there may be " +
           "nothing here to place you by. Press Use my location to try again.",
@@ -2728,6 +2728,13 @@ export function MapCanvas({
               Storage is full — this recording isn't being kept as you go. A
               reload would lose it.
             </small>
+          ) : recording.draftError === "unverified" ? (
+            // The write is still out there and may yet land. "Would lose it"
+            // is a claim about a transaction nobody has watched finish.
+            <small>
+              This browser hasn't confirmed the recording is being kept. A
+              reload may lose it.
+            </small>
           ) : recording.draftError ? (
             <small>
               This browser isn't keeping this recording as you go. A reload
@@ -2778,8 +2785,11 @@ export function MapCanvas({
       {recording.clearError ? (
         <div className="location-hud" role="status">
           <small>
-            This device still has a copy of that recording — it wouldn't be
-            deleted, so it may be offered again after a reload.
+            {recording.clearError === "unverified"
+              ? "This browser hasn't confirmed that copy of the recording was " +
+                "deleted, so it may be offered again after a reload."
+              : "This device still has a copy of that recording — it wouldn't " +
+                "be deleted, so it may be offered again after a reload."}
           </small>
           <div className="location-hud-actions">
             <button type="button" onClick={recording.retryClear}>

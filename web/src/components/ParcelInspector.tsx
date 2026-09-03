@@ -1006,7 +1006,11 @@ function CoastalFloodResult({ state }: { state: CoastalFloodState }) {
             if (result.status === "unanswered") {
               return (
                 <li key={result.scenario}>
-                  {label}: the scenario service did not answer in time, so nothing was measured — no absence is inferred.
+                  {label}:{" "}
+                  {result.stage === "processing"
+                    ? "the scenario's map came back but could not be read in time"
+                    : "the scenario service did not answer in time"}
+                  , so nothing was measured — no absence is inferred.
                 </li>
               );
             }

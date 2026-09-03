@@ -1009,6 +1009,7 @@ describe("print documents", () => {
                     scenario: "2100",
                     status: "unanswered",
                     stormAnnualExceedanceProbabilityPercent: 1,
+                    stage: "request" as const,
                   },
                 ] },
           },

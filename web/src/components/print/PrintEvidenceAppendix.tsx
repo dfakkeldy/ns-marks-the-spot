@@ -522,9 +522,12 @@ function CoastalResult({ snapshot }: { snapshot: PrintSnapshot }) {
         if (scenario.status === "unanswered") {
           return (
             <li key={scenario.scenario}>
-              {scenario.scenario}: the scenario service had not answered when
-              this page was made, so nothing was measured. Its silence is not
-              evidence that the scenario misses this parcel.
+              {scenario.scenario}:{" "}
+              {scenario.stage === "processing"
+                ? "the scenario's map came back but had not been read when this page was made"
+                : "the scenario service had not answered when this page was made"}
+              , so nothing was measured. That is not evidence that the scenario
+              misses this parcel.
             </li>
           );
         }

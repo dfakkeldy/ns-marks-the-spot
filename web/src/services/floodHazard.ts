@@ -80,6 +80,14 @@ export type CoastalFloodEvidence =
       scenario: CoastalScenario;
       status: "unanswered";
       stormAnnualExceedanceProbabilityPercent: 1;
+      /**
+       * Where the deadline caught it. `request` is the province never
+       * replying; `processing` is a reply that arrived and could not be read
+       * in time, which is this browser's failure and not the service's. The
+       * two are told apart because blaming the source for a decode that ran
+       * long is a claim about somebody else's system.
+       */
+      stage: "request" | "processing";
     }
   | {
       scenario: CoastalScenario;
@@ -416,6 +424,10 @@ export async function fetchCoastalFloodEvidence(
       // stack — answered with a failure, and calling that silence would
       // collapse the two states this split exists to keep apart.
       let ranOutOfTime = false;
+      // Whether the province has replied by the time the deadline lands. A
+      // reply that arrived and then could not be read is this browser running
+      // long, not the service going quiet.
+      let replied = false;
       let reportSilence: ((answer: CoastalFloodEvidence) => void) | null = null;
       const silence = new Promise<CoastalFloodEvidence>((resolve) => {
         reportSilence = resolve;
@@ -427,6 +439,7 @@ export async function fetchCoastalFloodEvidence(
           scenario,
           status: "unanswered",
           stormAnnualExceedanceProbabilityPercent: 1,
+          stage: replied ? "processing" : "request",
         });
       }, COASTAL_SCENARIO_TIMEOUT_MS);
       const ask = async (): Promise<CoastalFloodEvidence> => {
@@ -443,10 +456,21 @@ export async function fetchCoastalFloodEvidence(
           const response = await fetch(`${serviceUrl}/export?${query}`, {
             signal: attempt.signal,
           });
+          replied = true;
           if (!response.ok) {
             throw new Error(`Coastal flood request failed with status ${response.status}.`);
           }
-          const decoded = await decode(await response.blob());
+          const bytes = await response.blob();
+          // Neither the body read nor the decoder watches the signal, so the
+          // abort is checked between them: a selection that has moved on must
+          // not have an older geometry's measurement land on it.
+          if (attempt.signal.aborted) {
+            throw new DOMException("The scenario was abandoned.", "AbortError");
+          }
+          const decoded = await decode(bytes);
+          if (attempt.signal.aborted) {
+            throw new DOMException("The scenario was abandoned.", "AbortError");
+          }
           const summary = summarizeRasterAlpha({
             ...decoded,
             bounds,
@@ -491,8 +515,18 @@ export async function fetchCoastalFloodEvidence(
       // Handled here as well as in the race, so a body that rejects after the
       // deadline has already answered is not an unhandled rejection.
       asking.catch(() => {});
+      // The caller giving up has to win over both, including while a decoder
+      // that watches nothing is still running: without this the effect that
+      // tore down waited out the whole scenario deadline.
+      const abandoned = new Promise<never>((_, reject) => {
+        const stop = () =>
+          reject(new DOMException("The scenario was abandoned.", "AbortError"));
+        if (signal?.aborted) stop();
+        signal?.addEventListener("abort", stop);
+      });
+      abandoned.catch(() => {});
       try {
-        return await Promise.race([asking, silence]);
+        return await Promise.race([asking, silence, abandoned]);
       } finally {
         clearTimeout(deadline);
         signal?.removeEventListener("abort", abandon);

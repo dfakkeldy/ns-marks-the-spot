@@ -637,6 +637,30 @@ describe("photos and point moves", () => {
     expect(result.current.discardedPhotos).toEqual([]);
   });
 
+  // The reader can dismiss the discard notice while the delete is still
+  // running. A failure arriving after that used to have nothing to attach
+  // itself to and said nothing at all.
+  it("still reports a failed cleanup after its first notice was dismissed", () => {
+    const { options } = harness();
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+
+    const midAttach = result.current.attachFeaturePhotos;
+    act(() => result.current.deleteFeature("f1"));
+    act(() => {
+      midAttach("layer-1", "f1", [{ id: "pB", width: 20, height: 20 }]);
+    });
+    act(() => result.current.dismissDiscardedPhoto("pB"));
+    expect(result.current.discardedPhotos).toEqual([]);
+
+    act(() => result.current.notePhotoCleanupFailure("pB"));
+
+    expect(result.current.discardedPhotos).toHaveLength(1);
+    expect(result.current.discardedPhotos[0].message).toContain(
+      "still on this device",
+    );
+  });
+
   it("a photo is never added to another layer's feature of the same id", () => {
     const { options } = harness({
       records: [record(), record("layer-2")],
