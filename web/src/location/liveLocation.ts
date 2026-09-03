@@ -62,9 +62,9 @@ export type LiveLocationSnapshot =
        * a consumer must not tell one as another. `repeated` is the device
        * answering that it cannot place itself, over and over. `no-answer` is
        * one such answer and then silence until the deadline — nothing was
-       * said several times. `no-fix` is a watch that only ever timed out:
-       * the device never said it could not place itself, it just never
-       * placed itself.
+       * said several times. `no-fix` is a watch that went on answering —
+       * timing out — right up to the deadline without ever placing itself,
+       * which is not silence either.
        */
       reason: "repeated" | "no-answer" | "no-fix";
     }
@@ -157,6 +157,11 @@ export function startLiveLocation(
   // once a position arrives, so this is strictly how many times this watch was
   // told the position is unavailable while it had nothing to show.
   let preFixUnavailable = 0;
+  // Which failure came last, not which ever came: a watch that reported the
+  // position unavailable and then went on timing out has not stopped
+  // answering, and saying it had would be an account of the device nobody
+  // observed.
+  let lastPreFixCode: number | null = null;
   let unavailableDeadline: ReturnType<typeof setTimeout> | null = null;
   const clearDeadline = () => {
     if (unavailableDeadline !== null) {
@@ -218,8 +223,9 @@ export function startLiveLocation(
         // would wait forever on a browser that reports one and then says
         // nothing more, and on one that only ever times out — neither of
         // which the API forbids.
+        lastPreFixCode = error.code;
         unavailableDeadline ??= setTimeout(() => {
-          giveUp(preFixUnavailable > 0 ? "no-answer" : "no-fix");
+          giveUp(lastPreFixCode === POSITION_UNAVAILABLE ? "no-answer" : "no-fix");
         }, PRE_FIX_DEADLINE_MS);
         if (error.code === POSITION_UNAVAILABLE) {
           preFixUnavailable += 1;

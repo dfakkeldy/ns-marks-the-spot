@@ -918,6 +918,82 @@ describe("recorded layers", () => {
     expect(result.current.records).toHaveLength(0);
     expect(result.current.storageError).toContain("wouldn't delete its copy");
   });
+
+  // An edit to a session-only recording writes the row. A recorded row whose
+  // original never went with it offers a Raw GPX button that answers with
+  // nothing — the evidence behind the drawn track, missing from the one place
+  // it is filed.
+  it("writes the raw recording with the row when an edit creates it", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    const collection: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "track-1",
+          geometry: {
+            type: "LineString",
+            coordinates: [
+              [-61, 46],
+              [-61, 46.001],
+            ],
+          },
+          properties: {},
+        },
+      ],
+    };
+
+    let refusedId = "";
+    await act(async () => {
+      const save = vi
+        .spyOn(UserVectorStore.prototype, "saveVectorLayer")
+        .mockRejectedValue(new Error("quota"));
+      refusedId = (
+        await result.current.createRecordedLayer({
+          name: "Boundary walk",
+          collection,
+          rawGpx: new Blob(["<gpx/>"], { type: "application/gpx+xml" }),
+          startedAt: "2026-08-29T14:00:00.000Z",
+          endedAt: "2026-08-29T14:20:00.000Z",
+        })
+      ).record.id;
+      save.mockRestore();
+    });
+    expect(result.current.storageError).not.toBeNull();
+
+    await act(async () => {
+      const edited = result.current.records.find(({ id }) => id === refusedId);
+      await result.current.putVectorLayer({ ...edited! }, collection);
+    });
+
+    const store = await UserVectorStore.open(factory);
+    expect(await (await store.getOriginalBlob(refusedId))?.text()).toBe("<gpx/>");
+    // And the refusal that write has just undone is off the panel.
+    expect(result.current.storageError).toBeNull();
+  });
+
+  // Nothing was ever stored for a layer whose first save was refused, so a
+  // failed delete has left no copy to come back.
+  it("does not invent a stored copy for a layer that was never saved", async () => {
+    const factory = new IDBFactory();
+    const refuse = vi
+      .spyOn(UserVectorStore.prototype, "saveVectorLayer")
+      .mockRejectedValue(new Error("quota"));
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    refuse.mockRestore();
+    const id = result.current.records[0].id;
+
+    const refuseDelete = vi
+      .spyOn(UserVectorStore.prototype, "deleteVectorLayer")
+      .mockRejectedValue(new Error("blocked"));
+    await act(() => result.current.removeLayer(id));
+    refuseDelete.mockRestore();
+
+    expect(result.current.records).toHaveLength(0);
+    expect(result.current.storageError ?? "").not.toContain("delete its copy");
+  });
 });
 
 describe("GPX export", () => {

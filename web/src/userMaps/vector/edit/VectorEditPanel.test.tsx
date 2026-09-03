@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { FeatureCollection } from "geojson";
@@ -80,6 +80,46 @@ describe("VectorEditPanel", () => {
   afterEach(() => {
     cleanup();
     vi.restoreAllMocks();
+  });
+
+  // Done closes the session, and an attach that finishes afterwards has no
+  // feature left to land on: its bytes are deleted and the reader loses a
+  // photo they watched being added.
+  it("holds Done while a photo is still being processed", async () => {
+    let finishAttach: ((outcomes: never[]) => void) | undefined;
+    panel({
+      selectedFeatureId: "f2",
+      photoManager: {
+        attachPhotos: vi.fn(
+          () =>
+            new Promise<never[]>((resolve) => {
+              finishAttach = resolve;
+            }),
+        ),
+        removePhoto: vi.fn(async () => true),
+        loadThumbUrl: vi.fn(async () => null),
+        loadFullBlob: vi.fn(async () => null),
+      },
+    });
+
+    // Two inputs carry that label — the file picker and the camera; the
+    // picker is the first.
+    fireEvent.change(screen.getAllByLabelText("Add photos from files")[0], {
+      target: { files: [new File(["bytes"], "IMG_1.jpg", { type: "image/jpeg" })] },
+    });
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "Finishing a photo…" }),
+      ).toBeDisabled(),
+    );
+
+    await act(async () => {
+      finishAttach?.([]);
+    });
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "Done editing" })).toBeEnabled(),
+    );
   });
 
   it("offers the draw tools the phase supports", () => {

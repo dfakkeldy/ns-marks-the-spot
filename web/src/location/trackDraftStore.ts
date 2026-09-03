@@ -46,7 +46,14 @@ export const TRACK_DRAFT_INTERVAL_MS = 5_000;
  */
 export const TRACK_DRAFT_READ_TIMEOUT_MS = 4_000;
 
-export type TrackDraftFailure = "quota" | "failed";
+/**
+ * How a write or a delete ended. `quota` and `failed` are answers the device
+ * gave. `unverified` is the absence of one: the operation ran past its
+ * deadline and is still out there, so it may yet land — which is a different
+ * thing to tell the reader than a refusal, and the only honest one, because
+ * nothing here can cancel an IndexedDB transaction that has already begun.
+ */
+export type TrackDraftFailure = "quota" | "failed" | "unverified";
 
 /**
  * How long any one operation may hold the queue. A hung `open()` — another
@@ -318,6 +325,16 @@ export function createTrackDraftStore(
   // user already saved or discarded comes back as "unsaved" on the next load.
   // Every operation below resolves rather than rejects, so the chain cannot
   // break.
+  // How many times the walk on the device has been asked to go. A write is
+  // stamped with this when it is asked for, and drops itself if the count has
+  // moved by the time it can run: the walk it carries has been saved or
+  // discarded since, and landing then would put it back under a key the
+  // reader believes is empty. IndexedDB orders transactions on one store by
+  // the order they were created, so this only has to cover the window before
+  // a write's transaction exists — which is exactly the window a deadline can
+  // leave open.
+  let discards = 0;
+
   let queue: Promise<unknown> = Promise.resolve();
   // The deadline is around the whole operation, not around the open alone. A
   // request that never fires success or error, and a transaction that never
@@ -326,26 +343,41 @@ export function createTrackDraftStore(
   // handle itself is kept where it can be: a late open still resolves, and
   // the next operation uses it.
   const enqueue = <T>(work: () => Promise<T>, whenLate: T): Promise<T> => {
-    const next = queue.then(
-      () =>
-        Promise.race([
-          work(),
-          new Promise<T>((resolve) => {
-            setTimeout(() => resolve(whenLate), OPERATION_TIMEOUT_MS);
-          }),
-        ]),
-      // Never rejects, so the chain cannot break; every operation below
-      // resolves with its own answer instead.
-    );
-    queue = next;
-    return next;
+    let settle!: (value: T) => void;
+    const answer = new Promise<T>((resolve) => {
+      settle = resolve;
+    });
+    const ran = queue.then(async () => {
+      // The deadline starts when the operation does, not when it was asked
+      // for: three writes queued behind a slow one each get their own turn
+      // rather than expiring while they wait.
+      const timer = setTimeout(() => settle(whenLate), OPERATION_TIMEOUT_MS);
+      try {
+        settle(await work());
+      } finally {
+        clearTimeout(timer);
+      }
+    });
+    // The queue moves on when this call does. Waiting for an operation that
+    // has already run past its deadline would put every later write behind a
+    // transaction that may never end, which is the thing the deadline exists
+    // to prevent. Ordering is kept by the discard count below instead.
+    queue = Promise.race([ran.catch(() => undefined), answer]);
+    return answer;
   };
 
   return {
-    save: (draft, stopped = false) =>
-      enqueue(async () => {
+    save: (draft, stopped = false) => {
+      const asked = discards;
+      return enqueue(async () => {
         try {
-          const tx = (await database()).transaction(BLOBS, "readwrite");
+          const opened = await database();
+          if (discards !== asked) {
+            // Saved or discarded while this write was waiting. There is
+            // nothing to keep and nothing to warn about.
+            return null;
+          }
+          const tx = opened.transaction(BLOBS, "readwrite");
           // Inside the try: Safari can throw QuotaExceededError synchronously
           // from put() rather than through the abort event.
           tx.objectStore(BLOBS).put(
@@ -362,10 +394,11 @@ export function createTrackDraftStore(
           open = null;
           return isQuotaError(error) ? "quota" : "failed";
         }
-        // A write the device never answered is a write that did not land, and
-        // the HUD says so — a walk being kept nowhere must not look like one
-        // that is.
-      }, "failed"),
+        // A write the device has not answered has not been refused either.
+        // It may still land, so the HUD says the walk is not confirmed rather
+        // than claiming a refusal nobody saw.
+      }, "unverified");
+    },
     read: () =>
       enqueue(async (): Promise<TrackDraftRead> => {
         try {
@@ -390,8 +423,9 @@ export function createTrackDraftStore(
         // Not "empty": a device that never answered has not said it is
         // holding nothing.
       }, { status: "unreadable" }),
-    clear: () =>
-      enqueue(async () => {
+    clear: () => {
+      discards += 1;
+      return enqueue(async () => {
         try {
           const tx = (await database()).transaction(BLOBS, "readwrite");
           tx.objectStore(BLOBS).delete(DRAFT_KEY);
@@ -401,9 +435,11 @@ export function createTrackDraftStore(
           open = null;
           return isQuotaError(error) ? "quota" : "failed";
         }
-        // A delete the device never answered has not deleted anything, and
-        // the copy it holds will be offered again.
-      }, "failed"),
+        // A delete the device has not answered may still be on its way. The
+        // copy may come back, which is what the reader is told; saying it
+        // would be back is a claim about a transaction still in flight.
+      }, "unverified");
+    },
   };
 }
 

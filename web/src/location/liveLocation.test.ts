@@ -249,6 +249,31 @@ describe("startLiveLocation", () => {
     }
   });
 
+  // A watch that said the position was unavailable and then went on timing
+  // out has not stopped answering, and telling the reader it had would be an
+  // account of their device that nobody observed.
+  it("does not call a watch that kept timing out a watch that went quiet", () => {
+    vi.useFakeTimers();
+    try {
+      const fake = fakeGeolocation();
+      const { snapshots, onChange } = collect();
+      startLiveLocation(onChange, fake.geolocation);
+
+      fake.pushError(2); // POSITION_UNAVAILABLE
+      vi.advanceTimersByTime(29_000);
+      fake.pushError(3); // TIMEOUT — still answering
+      vi.advanceTimersByTime(2_000);
+
+      expect(snapshots.at(-1)).toEqual({
+        status: "position-unavailable",
+        fix: null,
+        reason: "no-fix",
+      });
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("lets a position that arrives inside the deadline stand", () => {
     vi.useFakeTimers();
     try {

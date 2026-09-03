@@ -25,6 +25,13 @@ type PhotoStripProps = {
    * happen; the delete is attempted here, so its failure is reported here.
    */
   onPhotoCleanupFailed: (photoId: string) => void;
+  /**
+   * Whether photos are being processed right now. The panel holds Done while
+   * they are: an attach that finishes after the session closes has no feature
+   * left to land on, and its bytes are deleted — so the way to keep a photo
+   * the reader watched being added is to keep the session open until it is.
+   */
+  onBusyChange?: (busy: boolean) => void;
   onMovePoint: (position: [number, number]) => void;
   onOpenPhoto: (descriptor: FeaturePhotoDescriptor) => void;
 };
@@ -49,6 +56,7 @@ export function PhotoStrip({
   onDescriptors,
   onAttachDescriptors,
   onPhotoCleanupFailed,
+  onBusyChange,
   onMovePoint,
   onOpenPhoto,
 }: PhotoStripProps) {
@@ -56,6 +64,13 @@ export function PhotoStrip({
   const libraryRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [failures, setFailures] = useState<PhotoAttachOutcome[]>([]);
+  /**
+   * Photos whose bytes are still on the device after the reader asked for
+   * them to go. The descriptor is off the feature either way — that is what
+   * they asked for and it happened — but the copy is not, and saying nothing
+   * would report a removal only half of which took place.
+   */
+  const [undeleted, setUndeleted] = useState<string[]>([]);
   const [offer, setOffer] = useState<LocationOffer | null>(null);
   const [thumbs, setThumbs] = useState<Record<string, string>>({});
 
@@ -81,6 +96,7 @@ export function PhotoStrip({
       return;
     }
     setBusy(true);
+    onBusyChange?.(true);
     setFailures([]);
     setOffer(null);
     try {
@@ -131,6 +147,7 @@ export function PhotoStrip({
       }
     } finally {
       setBusy(false);
+      onBusyChange?.(false);
     }
   };
 
@@ -143,7 +160,14 @@ export function PhotoStrip({
       return;
     }
     onDescriptors(descriptors.filter(({ id }) => id !== descriptor.id));
-    void manager.removePhoto(descriptor.id);
+    void manager.removePhoto(descriptor.id).then((removed) => {
+      if (!removed) {
+        setUndeleted((current) => [
+          ...current,
+          descriptor.sourceName ?? "the photo",
+        ]);
+      }
+    });
   };
 
   return (
@@ -207,6 +231,16 @@ export function PhotoStrip({
           key={failure.fileName}
         >
           {failure.fileName}: {failure.ok ? "" : failure.message}
+        </small>
+      ))}
+      {undeleted.map((name, index) => (
+        <small
+          role="alert"
+          className="vector-edit-photo-error"
+          key={`${name}-${index}`}
+        >
+          {name}: taken off this feature, but this device wouldn&apos;t delete
+          its copy.
         </small>
       ))}
       <div className="vector-edit-photo-actions">
