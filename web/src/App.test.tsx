@@ -5441,6 +5441,30 @@ describe("NS Marks The Spot Online", () => {
     ).not.toBeInTheDocument();
   });
 
+  // A caution belongs to the selection it was raised for. It outlives the
+  // success toast on purpose; it must not outlive the parcel.
+  it("clears the shared-boundary caution when the parcel is closed", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50251750"), parcelFeature("50334317")],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+    const notice =
+      "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.";
+    expect(await screen.findByText(notice)).toBeInTheDocument();
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50251750 details",
+    });
+    await user.click(within(inspector).getByRole("button", { name: "Close parcel details" }));
+
+    expect(screen.queryByText(notice)).not.toBeInTheDocument();
+  });
+
   it("keeps the two-source empty sentence when both sources answered", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");

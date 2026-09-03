@@ -5,6 +5,7 @@ import {
   buildPidQueryUrl,
   fetchParcelAtPoint,
   fetchParcels,
+  hasQueryablePolygon,
   identifyParcelsAtPoint,
   normalizePid,
   type NsprdFeatureCollection,
@@ -256,5 +257,66 @@ describe("NSPRD point replies", () => {
     expect(result.pids).toEqual(["50251750"]);
     expect(result.identified.features).toHaveLength(1);
     expect(result.unidentifiedCount).toBe(1);
+  });
+});
+
+describe("queryable parcel geometry", () => {
+  const parcel = (geometry: unknown) =>
+    ({
+      type: "Feature",
+      properties: { PID: "50251750", "SHAPE.AREA": 100 },
+      geometry,
+    }) as unknown as NsprdFeatureCollection["features"][number];
+
+  it("accepts a closed polygon with area", () => {
+    expect(
+      hasQueryablePolygon(
+        parcel({
+          type: "Polygon",
+          coordinates: [[[-61, 46], [-60.9, 46], [-60.9, 46.1], [-61, 46]]],
+        }),
+      ),
+    ).toBe(true);
+  });
+
+  // Each of these answers "outside" for every point on the map, so every
+  // spatial lookup would come back empty — a negative about the ground
+  // produced by a shape that encloses nothing.
+  it.each([
+    ["null", null],
+    ["a point", { type: "Point", coordinates: [-61, 46] }],
+    ["a line", { type: "LineString", coordinates: [[-61, 46], [-60.9, 46]] }],
+    ["an unclosed ring", {
+      type: "Polygon",
+      coordinates: [[[-61, 46], [-60.9, 46], [-60.9, 46.1]]],
+    }],
+    ["a collinear ring", {
+      type: "Polygon",
+      coordinates: [[[-61, 46], [-60.999, 46.001], [-60.998, 46.002], [-61, 46]]],
+    }],
+    ["a ring off the globe", {
+      type: "Polygon",
+      coordinates: [[[-361, 46], [-60.9, 46], [-60.9, 46.1], [-361, 46]]],
+    }],
+    ["a ring with a non-finite position", {
+      type: "Polygon",
+      coordinates: [[[-61, 46], [Number.NaN, 46], [-60.9, 46.1], [-61, 46]]],
+    }],
+  ])("refuses %s", (_label, geometry) => {
+    expect(hasQueryablePolygon(parcel(geometry))).toBe(false);
+  });
+
+  it("accepts a MultiPolygon with one usable part", () => {
+    expect(
+      hasQueryablePolygon(
+        parcel({
+          type: "MultiPolygon",
+          coordinates: [
+            [[[-61, 46], [-60.9, 46], [-60.9, 46.1]]],
+            [[[-61, 46], [-60.9, 46], [-60.9, 46.1], [-61, 46]]],
+          ],
+        }),
+      ),
+    ).toBe(true);
   });
 });

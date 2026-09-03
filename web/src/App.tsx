@@ -2010,9 +2010,12 @@ export function App() {
       if (!noticeAan) {
         // Dwellings follow automatically: the mirror effect maps a non-ready
         // assessment into the blocked dwelling state.
+        // Including a ready one: with no geometry and no notice, a ready
+        // assessment can only be one a notice supplied before the reader
+        // turned tax-sale information off, and it would go on claiming a
+        // match from a notice the panel no longer shows.
         setAssessmentState((current) =>
-          isCurrentEvidenceRequest(current.request, request) &&
-          current.status !== "ready"
+          isCurrentEvidenceRequest(current.request, request)
             ? { status: "geometry-unavailable", request }
             : current);
       }
@@ -2186,12 +2189,28 @@ export function App() {
     }
     markGeometryEvidenceTerminal(selectedEvidenceRequest, "geometry-unavailable");
   }, [
+    // mapMode and taxSaleEnabled are inputs, not noise: they decide whether a
+    // notice AAN is still standing in for the missing geometry.
+    mapMode,
     markGeometryEvidenceTerminal,
     parcels,
     selectedEvidenceRequest,
     selectedParcelFeatures,
     selectedPid,
+    taxSaleEnabled,
   ]);
+
+  // A caution belongs to the selection it was raised for. The shared-boundary
+  // notice deliberately outlives the success toast, so without this it would
+  // outlive the parcel too and name a PID nothing has selected.
+  useEffect(() => {
+    setParcelLookupMessage((current) => {
+      if (!current) return current;
+      const named = /^PID (\d+) /u.exec(current)?.[1];
+      if (!named) return current;
+      return named === selectedPid ? current : null;
+    });
+  }, [selectedPid]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {

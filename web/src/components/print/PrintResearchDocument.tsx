@@ -413,12 +413,31 @@ export function UnansweredEvidenceNotice({
 function nestedReceipt(
   ready: boolean,
   failed: readonly string[],
+  captured: number,
   whenUnsettled: string,
 ): string {
   if (!ready) return whenUnsettled;
-  return failed.length === 0
-    ? "captured"
+  if (failed.length === 0) return "captured";
+  // "Partially" has to mean part of it arrived. With every named source down,
+  // nothing was captured, and the receipt says so.
+  return captured === 0
+    ? `unavailable; ${failed.join(", ")} all failed`
     : `partially captured; ${failed.join(", ")} unavailable`;
+}
+
+/**
+ * The civic receipt, which has to carry the rows that could not be read.
+ *
+ * The appendix says it, and a document printed without the appendix would
+ * otherwise carry no sign at all that the list is a floor.
+ */
+function civicReceipt(state: PrintSnapshot["evidence"]["civicAddresses"]): string {
+  if (state.status !== "ready") return printEvidenceReceiptStatus(state);
+  const { unreadableRows } = state.value;
+  if (unreadableRows === 0) return "captured";
+  return `partially captured; ${unreadableRows} returned row${
+    unreadableRows === 1 ? "" : "s"
+  } unreadable`;
 }
 
 export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
@@ -426,6 +445,17 @@ export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
   const dwellings = snapshot.evidence.dwellings;
   const flood = snapshot.evidence.floodHazard;
   const resources = snapshot.evidence.resources;
+  const floodCaptured =
+    flood.status === "ready"
+      ? (flood.value.river.status === "error" ? 0 : 1) +
+        flood.value.coastal.filter(({ status }) => status !== "error").length
+      : 0;
+  const resourceCaptured =
+    resources.status === "ready"
+      ? resourceLayerCatalog.filter(
+          ({ id }) => resources.value[id]?.status !== "error",
+        ).length
+      : 0;
   const floodFailures =
     flood.status === "ready"
       ? [
@@ -442,12 +472,12 @@ export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
           .map(({ name }) => name)
       : [];
   const entries = [
-    `Civic addresses: ${printEvidenceReceiptStatus(snapshot.evidence.civicAddresses)}`,
+    `Civic addresses: ${civicReceipt(snapshot.evidence.civicAddresses)}`,
     `Assessment: ${assessment.status === "ready" ? `${assessment.value.accounts.length} account${assessment.value.accounts.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(assessment)}`,
     `Dwelling characteristics: ${dwellings.status === "ready" ? `${dwellings.value.length} account${dwellings.value.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(dwellings)}`,
     `Roads and water: ${printEvidenceReceiptStatus(snapshot.evidence.mappedContext)}`,
-    `Flood evidence: ${nestedReceipt(flood.status === "ready", floodFailures, printEvidenceReceiptStatus(flood))}`,
-    `Resource evidence: ${nestedReceipt(resources.status === "ready", resourceFailures, printEvidenceReceiptStatus(resources))}`,
+    `Flood evidence: ${nestedReceipt(flood.status === "ready", floodFailures, floodCaptured, printEvidenceReceiptStatus(flood))}`,
+    `Resource evidence: ${nestedReceipt(resources.status === "ready", resourceFailures, resourceCaptured, printEvidenceReceiptStatus(resources))}`,
   ];
   return (
     <section className="print-evidence-status-grid" aria-label="Evidence receipt status">

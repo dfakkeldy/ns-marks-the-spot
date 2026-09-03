@@ -118,23 +118,74 @@ export async function fetchParcelAtPoint(
  * parcel with no buildings, no roads, no accounts and no resources, none of
  * which was ever asked.
  */
+/**
+ * Twice the ring's area, in degrees squared.
+ *
+ * Taken about the ring's own first vertex rather than the origin: at Nova
+ * Scotia's coordinates the raw products are around 2,800, and a collinear
+ * ring's terms then cancel to floating-point noise rather than to zero —
+ * noise larger than the true area of a small parcel.
+ */
+function ringArea(ring: readonly (readonly number[])[]): number {
+  const [originX, originY] = ring[0];
+  let total = 0;
+  for (let index = 0; index < ring.length - 1; index += 1) {
+    const x1 = ring[index][0] - originX;
+    const y1 = ring[index][1] - originY;
+    const x2 = ring[index + 1][0] - originX;
+    const y2 = ring[index + 1][1] - originY;
+    total += x1 * y2 - x2 * y1;
+  }
+  return Math.abs(total);
+}
+
+/** About 0.06 m² at this latitude: below any parcel, above the noise. */
+const MINIMUM_RING_AREA_DEGREES_SQUARED = 1e-14;
+
+function isUsableRing(ring: unknown): boolean {
+  if (!Array.isArray(ring) || ring.length < 4) return false;
+  const positions = ring as readonly (readonly number[])[];
+  const usable = positions.every(
+    (position) =>
+      Array.isArray(position) &&
+      position.length >= 2 &&
+      Number.isFinite(position[0]) &&
+      Number.isFinite(position[1]) &&
+      Math.abs(position[0]) <= 180 &&
+      Math.abs(position[1]) <= 90,
+  );
+  if (!usable) return false;
+  const [first] = positions;
+  const last = positions[positions.length - 1];
+  // A ring that does not close, or closes on itself with no area, encloses
+  // nothing: a point-in-polygon test against it answers "outside" for the
+  // whole province, which is a negative about the ground rather than about
+  // the shape.
+  return (
+    first[0] === last[0] &&
+    first[1] === last[1] &&
+    ringArea(positions) > MINIMUM_RING_AREA_DEGREES_SQUARED
+  );
+}
+
 export function hasQueryablePolygon(
   feature: NsprdFeatureCollection["features"][number],
 ): boolean {
+  // Read through `unknown`: the declared type says what a stored parcel may
+  // be assumed to carry, and the wire is not validated against it — a null
+  // geometry would throw here rather than answer.
+  const geometry = feature.geometry as
+    | { type?: unknown; coordinates?: unknown }
+    | null
+    | undefined;
   const rings =
-    feature.geometry.type === "Polygon"
-      ? [feature.geometry.coordinates]
-      : feature.geometry.type === "MultiPolygon"
-        ? feature.geometry.coordinates
+    geometry?.type === "Polygon"
+      ? [geometry.coordinates]
+      : geometry?.type === "MultiPolygon"
+        ? (geometry.coordinates as unknown[])
         : [];
   return rings.some(
-    ([outer]) =>
-      Array.isArray(outer) &&
-      outer.length >= 3 &&
-      outer.every(
-        ([longitude, latitude]) =>
-          Number.isFinite(longitude) && Number.isFinite(latitude),
-      ),
+    (polygon) => Array.isArray(polygon) && isUsableRing(polygon[0]),
   );
 }
 

@@ -1171,6 +1171,75 @@ describe("print documents", () => {
     expect(receipt.queryByText("Flood evidence: captured")).not.toBeInTheDocument();
   });
 
+  // A document printed without the appendix would otherwise carry no sign at
+  // all that the civic list is a floor.
+  it("puts the civic shortfall on the front page even with no appendix", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            civicAddresses: {
+              status: "ready",
+              value: { addresses: [], unreadableRows: 2 },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix={false}
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(
+      within(screen.getByRole("region", { name: "Evidence receipt status" }))
+        .getByText("Civic addresses: partially captured; 2 returned rows unreadable"),
+    ).toBeInTheDocument();
+  });
+
+  it("says nothing was captured when every named source in a slot failed", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            resources: {
+              status: "ready",
+              value: {
+                "mineral-occurrences": { status: "error", intersections: [] },
+                "mineral-tenure": { status: "error", intersections: [] },
+                "abandoned-mines": { status: "error", intersections: [] },
+              },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const receipt = within(
+      screen.getByRole("region", { name: "Evidence receipt status" }),
+    );
+    expect(
+      receipt.getByText(/^Resource evidence: unavailable; .* all failed$/u),
+    ).toBeInTheDocument();
+    expect(receipt.queryByText(/Resource evidence: partially/u)).not.toBeInTheDocument();
+  });
+
   it("prints monochrome legend samples and a north indicator", () => {
     render(
       <PrintFieldDocument
