@@ -79,6 +79,10 @@ export function SaveTrackDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="save-track-title"
+        // This dialog deliberately ignores Escape — a wrong tap must not throw
+        // away a walked track — and saying so here is what keeps the keypress
+        // from closing the parcel panel behind it instead.
+        data-owns-escape=""
       >
         <h2 id="save-track-title">Save track</h2>
         <p className="save-track-stats">

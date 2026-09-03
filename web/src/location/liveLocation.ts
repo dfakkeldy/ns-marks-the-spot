@@ -73,6 +73,16 @@ const TIMEOUT = 3;
 const PRE_FIX_UNAVAILABLE_LIMIT = 3;
 
 /**
+ * And how long the watch has, from the first such report, to produce a
+ * position before it gives up anyway. The API promises no second callback, so
+ * a browser that says the position is unavailable once and then falls silent
+ * would leave a pressed toggle over a search that will never end. Thirty
+ * seconds is past one full 20-second watch timeout, so a cold start that is
+ * genuinely still working is not cut off.
+ */
+const PRE_FIX_UNAVAILABLE_DEADLINE_MS = 30_000;
+
+/**
  * maximumAge 5 s: a marker may show a briefly cached fix. The 20 s timeout
  * turns a silent GPS stall into a visible `signal-lost` instead of an
  * eternal spinner.
@@ -133,10 +143,35 @@ export function startLiveLocation(
   // once a position arrives, so this is strictly how many times this watch was
   // told the position is unavailable while it had nothing to show.
   let preFixUnavailable = 0;
+  let unavailableDeadline: ReturnType<typeof setTimeout> | null = null;
+  const clearDeadline = () => {
+    if (unavailableDeadline !== null) {
+      clearTimeout(unavailableDeadline);
+      unavailableDeadline = null;
+    }
+  };
   // The error callback can run synchronously inside watchPosition (fakes and
   // some permission-cached browsers), before the watch id exists to clear.
   let watchId: number | null = null;
   let stopRequested = false;
+
+  // The browser would go on reporting an unavailable position for as long as
+  // the page is open. Stopping the watch is what lets the consumer take down
+  // a search that has already failed, and what is passed on is only what the
+  // device said: the position is unavailable. Not a refusal, and not a
+  // machine without a way to locate itself.
+  const giveUp = () => {
+    if (stopped) {
+      return;
+    }
+    stopped = true;
+    stopRequested = true;
+    clearDeadline();
+    if (watchId !== null) {
+      geolocation.clearWatch(watchId);
+    }
+    onChange({ status: "position-unavailable", fix: null });
+  };
 
   onChange({ status: "acquiring", fix: null });
   const id = geolocation.watchPosition(
@@ -145,6 +180,8 @@ export function startLiveLocation(
         return;
       }
       lastFix = toLiveFix(position);
+      // A position arrived, so the deadline below has nothing left to decide.
+      clearDeadline();
       onChange({ status: "active", fix: lastFix });
     },
     (error) => {
@@ -155,6 +192,7 @@ export function startLiveLocation(
         // A denial is final for this watch; keep the browser from retrying.
         stopped = true;
         stopRequested = true;
+        clearDeadline();
         if (watchId !== null) {
           geolocation.clearWatch(watchId);
         }
@@ -167,18 +205,11 @@ export function startLiveLocation(
         lastFix === null
       ) {
         preFixUnavailable += 1;
+        // Counting alone would wait forever on a browser that reports this
+        // once and then says nothing more, which nothing in the API forbids.
+        unavailableDeadline ??= setTimeout(giveUp, PRE_FIX_UNAVAILABLE_DEADLINE_MS);
         if (preFixUnavailable >= PRE_FIX_UNAVAILABLE_LIMIT) {
-          // The browser would go on reporting this for as long as the page is
-          // open. Stop the watch so the consumer can take down a search that
-          // has already failed, and pass on only what the device said: the
-          // position is unavailable. Not a refusal, and not a machine without
-          // a way to locate itself.
-          stopped = true;
-          stopRequested = true;
-          if (watchId !== null) {
-            geolocation.clearWatch(watchId);
-          }
-          onChange({ status: "position-unavailable", fix: null });
+          giveUp();
           return;
         }
       }
@@ -200,6 +231,7 @@ export function startLiveLocation(
   return {
     stop: () => {
       stopped = true;
+      clearDeadline();
       geolocation.clearWatch(id);
     },
   };

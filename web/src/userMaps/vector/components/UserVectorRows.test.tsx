@@ -211,6 +211,31 @@ describe("UserVectorRows", () => {
     expect(order).toEqual(["abandon camps", "remove"]);
   });
 
+  // The row lives until the store answers. Editing one on its way out opened
+  // a session over a layer that then vanished under the reader.
+  it("will not reopen a layer whose removal has not answered yet", async () => {
+    let finishRemoval: (() => void) | undefined;
+    const layers = api({
+      records: [record("camps")],
+      removeLayer: vi.fn(
+        () =>
+          new Promise<void>((resolve) => {
+            finishRemoval = resolve;
+          }),
+      ),
+    });
+    const onEdit = vi.fn();
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    render(<UserVectorRows api={layers} onEdit={onEdit} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Remove Layer camps" }));
+
+    expect(screen.getByRole("button", { name: "Edit Layer camps" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Remove Layer camps" })).toBeDisabled();
+    expect(onEdit).not.toHaveBeenCalled();
+    finishRemoval?.();
+  });
+
   it("tells the session about a removal even when another layer is under edit", async () => {
     const layers = api({ records: [record("camps"), record("wells")] });
     const onAbandonLayer = vi.fn();

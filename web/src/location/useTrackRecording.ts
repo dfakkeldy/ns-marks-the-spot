@@ -128,7 +128,10 @@ export function useTrackRecording(
         return;
       }
       if (read.status === "ready") {
-        setUnsaved((current) => current ?? { result: read.result, interrupted: true });
+        setUnsaved(
+          (current) =>
+            current ?? { result: read.result, interrupted: !read.stopped },
+        );
       }
       setRestore(read.status === "unreadable" ? "unreadable" : "settled");
     });
@@ -139,12 +142,12 @@ export function useTrackRecording(
   }, [draftStore]);
 
   const writeDraft = useCallback(
-    (draft: StopResult) => {
+    (draft: StopResult, stopped = false) => {
       // Only a change is reported. A write that succeeds while nothing was
       // wrong must not re-render the HUD it exists to protect; a write that
       // succeeds after a refusal must take the warning down, because by then
       // the whole walk is on the device again.
-      void draftStore.save(draft).then((failure) => {
+      void draftStore.save(draft, stopped).then((failure) => {
         if (failure === draftErrorRef.current) {
           return;
         }
@@ -269,16 +272,18 @@ export function useTrackRecording(
     const result = recorderRef.current.stop();
     releaseWakeLock();
     // Kept until the track is saved or discarded, so a refused save still has
-    // the walk. Not written: the device's copy stays mid-walk, which is what
-    // makes every recovered draft an honestly interrupted recording.
+    // the walk — and written to the device as a whole walk, because until now
+    // a track stopped before the first periodic write existed only in this
+    // tab, and every other track lost its last few seconds to a reload.
     if (result && worthKeeping(result)) {
       setUnsaved({ result, interrupted: false });
+      writeDraft(result, true);
     }
     // A fresh recorder per session: stop() leaves the old one spent.
     recorderRef.current = createTrackRecorder();
     setStatus("idle");
     return result;
-  }, [cancelDraftWrite, releaseWakeLock]);
+  }, [cancelDraftWrite, releaseWakeLock, writeDraft]);
 
   // The offer goes as soon as the user saves or discards — leaving "waiting to
   // be saved" up after a successful save would be a lie. What survives is the

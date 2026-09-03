@@ -642,6 +642,37 @@ describe("useUserMaps", () => {
     expect(stored["other-tab-map"]).toEqual({ enabled: true, opacity: 0.5 });
   });
 
+  // Agreeing on screen is not enough: whichever tab wrote last is what the
+  // next load reads, so a merge that only lives in memory loses the other
+  // tab's map anyway.
+  it("writes the merge back so the other tab's map survives a reload", async () => {
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    const id = result.current.records[0].id;
+
+    // The other tab never saw this map, so its record has no entry for it.
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          storageArea: localStorage,
+          key: "user-map-ui-state-v1",
+          newValue: JSON.stringify({ "other-tab-map": { enabled: true, opacity: 0.5 } }),
+        }),
+      );
+    });
+
+    expect(
+      JSON.parse(localStorage.getItem("user-map-ui-state-v1") ?? "{}"),
+    ).toEqual({
+      [id]: { enabled: true, opacity: DEFAULT_OPACITY },
+      "other-tab-map": { enabled: true, opacity: 0.5 },
+    });
+    expect(result.current.visibleMaps).toHaveLength(1);
+  });
+
   it("keeps the maps it is showing when another tab clears or corrupts the record", async () => {
     // A value this tab cannot read and a removed key are both silence, not an
     // instruction to switch every map off. Acting on either would take a map

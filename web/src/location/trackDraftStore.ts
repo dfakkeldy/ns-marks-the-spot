@@ -10,14 +10,19 @@ import type { TrackPoint } from "./trackFilter";
 import type { StopResult } from "./trackRecorder";
 
 /**
- * The in-progress recording, kept on this device while a walk runs so a
- * reloaded or discarded tab does not take the whole track with it. One key,
- * overwritten in place: this is the current recording, not a history.
+ * The current recording, kept on this device while a walk runs and again the
+ * moment it is stopped, so a reloaded or discarded tab does not take the
+ * track with it. One key, overwritten in place: this is the current
+ * recording, not a history.
  *
- * Nothing is written at Stop. Every stored draft is therefore mid-walk by
- * construction, so a draft that comes back is always a walk that was cut
- * short — which is exactly what the save dialog and the saved record then
- * say. A stopped walk is held in memory by useTrackRecording instead.
+ * The record says which of the two it is. A draft written by the periodic
+ * write is mid-walk by construction, and a walk recovered from one ends at
+ * the last position stored and may be cut short — which is what the save
+ * dialog and the saved record then say. A draft written at Stop is the whole
+ * walk and carries no such caveat. Writing nothing at Stop made every
+ * recovered draft honestly interrupted, but it also meant a walk stopped
+ * inside the first few seconds, and the last few seconds of any walk, existed
+ * only in the tab that was about to be reloaded.
  *
  * No schema change: the draft rides the existing `blobs` store as a plain
  * structured-cloneable record, the same out-of-line treatment layer geometry
@@ -42,6 +47,16 @@ export const TRACK_DRAFT_READ_TIMEOUT_MS = 4_000;
 export type TrackDraftFailure = "quota" | "failed";
 
 /**
+ * How long any one operation may hold the queue. A hung `open()` — another
+ * tab's upgrade never answering, a browser that has taken the store away
+ * mid-session — would otherwise sit at the head of the queue for the life of
+ * the tab, and every write of the walk behind it would wait there in silence.
+ * Shorter than TRACK_DRAFT_READ_TIMEOUT_MS, so the read answers rather than
+ * being given up on.
+ */
+const OPERATION_TIMEOUT_MS = 3_000;
+
+/**
  * What a read found, which is not the same question as what it returned.
  *
  * A store that could not be opened and a store with nothing in it are
@@ -51,12 +66,25 @@ export type TrackDraftFailure = "quota" | "failed";
  */
 export type TrackDraftRead =
   | { status: "empty" }
-  | { status: "ready"; result: StopResult }
+  | {
+      status: "ready";
+      result: StopResult;
+      /**
+       * True when this was written at Stop rather than by the periodic write,
+       * so it is the whole walk. A draft without it ends at the last position
+       * the device stored and may be cut short.
+       */
+      stopped: boolean;
+    }
   | { status: "unreadable" };
 
 export type TrackDraftStore = {
-  /** Never rejects: a refused write is reported, not thrown mid-walk. */
-  save: (draft: StopResult) => Promise<TrackDraftFailure | null>;
+  /**
+   * Never rejects: a refused write is reported, not thrown mid-walk.
+   * `stopped` marks the walk as whole rather than mid-walk, which is what
+   * decides whether a recovered copy carries the truncation caveat.
+   */
+  save: (draft: StopResult, stopped?: boolean) => Promise<TrackDraftFailure | null>;
   read: () => Promise<TrackDraftRead>;
   /** Never rejects; a refused delete is reported so the offer can stand. */
   clear: () => Promise<TrackDraftFailure | null>;
@@ -117,8 +145,14 @@ function isSegments<T>(
  * would reach the save dialog, which measures and simplifies it during
  * render, and one bad vertex there takes the map down.
  */
-function parseDraft(value: unknown): StopResult | null {
+function parseDraft(value: unknown): { result: StopResult; stopped: boolean } | null {
   if (!isRecord(value) || value.version !== DRAFT_VERSION) {
+    return null;
+  }
+  // Absent on every draft written before Stop began writing one, and on every
+  // periodic write since. Absent means mid-walk, which is the caveated
+  // reading and the safe one to be wrong about.
+  if (value.stopped !== undefined && typeof value.stopped !== "boolean") {
     return null;
   }
   const draft = value.result;
@@ -135,7 +169,10 @@ function parseDraft(value: unknown): StopResult | null {
   ) {
     return null;
   }
-  return draft as unknown as StopResult;
+  return {
+    result: draft as unknown as StopResult,
+    stopped: value.stopped === true,
+  };
 }
 
 export function createTrackDraftStore(
@@ -147,7 +184,19 @@ export function createTrackDraftStore(
   let open: Promise<IDBDatabase> | null = null;
   const database = () => {
     open ??= openUserContentDatabase(factory);
-    return open;
+    // Raced, not awaited outright. The handle itself is kept — a late open
+    // still resolves, and the next operation uses it — but this call gives up
+    // so the queue behind it moves, and the walk's next write can report a
+    // device that is not answering instead of waiting in silence.
+    return Promise.race([
+      open,
+      new Promise<IDBDatabase>((_, reject) => {
+        setTimeout(
+          () => reject(new Error("The device did not open in time.")),
+          OPERATION_TIMEOUT_MS,
+        );
+      }),
+    ]);
   };
 
   // One key, one order. A clear() asked for after a save() must delete what
@@ -163,14 +212,18 @@ export function createTrackDraftStore(
   };
 
   return {
-    save: (draft) =>
+    save: (draft, stopped = false) =>
       enqueue(async () => {
         try {
           const tx = (await database()).transaction(BLOBS, "readwrite");
           // Inside the try: Safari can throw QuotaExceededError synchronously
           // from put() rather than through the abort event.
           tx.objectStore(BLOBS).put(
-            { version: DRAFT_VERSION, result: draft },
+            // `stopped` is written only when true, so a mid-walk draft keeps
+            // the shape every earlier build wrote.
+            stopped
+              ? { version: DRAFT_VERSION, result: draft, stopped: true }
+              : { version: DRAFT_VERSION, result: draft },
             DRAFT_KEY,
           );
           await transactionDone(tx);
@@ -190,11 +243,13 @@ export function createTrackDraftStore(
           if (stored === undefined) {
             return { status: "empty" };
           }
-          const result = parseDraft(stored);
+          const parsed = parseDraft(stored);
           // Something is there and it is not a walk this build can read. Not
           // "empty": the key is taken, and overwriting it would destroy
           // whatever it is.
-          return result ? { status: "ready", result } : { status: "unreadable" };
+          return parsed
+            ? { status: "ready", result: parsed.result, stopped: parsed.stopped }
+            : { status: "unreadable" };
         } catch {
           open = null;
           return { status: "unreadable" };

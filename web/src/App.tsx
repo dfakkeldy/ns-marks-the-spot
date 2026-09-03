@@ -5172,6 +5172,13 @@ export function App() {
                 // this panel silences the event to keep one keypress from
                 // closing two layers: without them, the viewer would be left
                 // with no way out and the panel behind it would close.
+                // The PDF export dialog and the bulk photo import are here
+                // for the same reason as the rest: both listen for Escape on
+                // the document, where stopPropagation does not reach a
+                // sibling listener, so one keypress cancelled the export and
+                // closed the panel behind it. The save-track dialog lives
+                // inside MapCanvas, which App cannot see, so it says the same
+                // thing with data-owns-escape on its own root.
                 !aboutOpen &&
                 !dataSourcesOpen &&
                 !licenceDialogOpen &&
@@ -5179,6 +5186,8 @@ export function App() {
                 !mobileControlsOpen &&
                 !editingMap &&
                 !openPhoto &&
+                !bulkPhotosOpen &&
+                !exportSession &&
                 !userMapsApi.frameChoosingMap &&
                 !printCapture
               }

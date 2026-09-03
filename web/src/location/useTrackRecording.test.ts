@@ -95,20 +95,22 @@ describe("useTrackRecording", () => {
 /** An in-memory stand-in for the device's copy of the walk. */
 function draftStoreDouble(initial: StopResult | null = null) {
   let held = initial;
+  let heldStopped = false;
   let failure: TrackDraftFailure | null = null;
   let unreadable = false;
   let refuseClear: TrackDraftFailure | null = null;
   const store: TrackDraftStore = {
-    save: async (draft) => {
+    save: async (draft, stopped = false) => {
       if (failure) return failure;
       held = draft;
+      heldStopped = stopped;
       return null;
     },
     read: async () =>
       unreadable
         ? { status: "unreadable" }
         : held
-          ? { status: "ready", result: held }
+          ? { status: "ready", result: held, stopped: heldStopped }
           : { status: "empty" },
     clear: async () => {
       if (refuseClear) return refuseClear;
@@ -119,6 +121,7 @@ function draftStoreDouble(initial: StopResult | null = null) {
   return {
     store,
     held: () => held,
+    heldStopped: () => heldStopped,
     refuse: (next: TrackDraftFailure | null) => {
       failure = next;
     },
@@ -193,8 +196,9 @@ describe("keeping the walk on this device", () => {
     await waitFor(() => expect(result.current.unsaved).not.toBeNull());
     expect(result.current.unsaved?.interrupted).toBe(true);
 
-    // A walk the user stopped is held in memory; nothing is written at Stop,
-    // so it can never come back as an interrupted one.
+    // A walk the user stopped is written too, and marked as the whole walk,
+    // so a reload before it is saved offers it back without the caveat that
+    // belongs to a walk cut short.
     const fresh = draftStoreDouble();
     const second = renderHook(
       ({ current }: { current: LiveFix | null }) =>
@@ -209,7 +213,13 @@ describe("keeping the walk on this device", () => {
     act(() => second.result.current.stop());
 
     expect(second.result.current.unsaved?.interrupted).toBe(false);
-    expect(fresh.held()).toBeNull();
+    expect(fresh.held()).not.toBeNull();
+    expect(fresh.heldStopped()).toBe(true);
+
+    // And a third session reading that same copy off the device agrees.
+    const third = renderHook(() => useTrackRecording(null, fresh.store));
+    await settled();
+    expect(third.result.current.unsaved?.interrupted).toBe(false);
   });
 
   it("reports a refused write and takes the warning back down", async () => {
