@@ -15,6 +15,9 @@ import type { LiveFix } from "./liveLocation";
  * drags across time the user wasn't recording. When a segment closes, the
  * last accepted fix is appended if spacing had suppressed it, so the track
  * ends where the user actually stopped (the contract's final-fix rule).
+ * `draft()` is that same result at any moment, so an interrupted session can
+ * be written to the device and recovered without the recorder ever knowing
+ * that storage exists.
  */
 
 export type RecorderStatus = "idle" | "recording" | "paused";
@@ -45,6 +48,13 @@ export type TrackRecorder = {
   pause: () => void;
   resume: () => void;
   stop: () => StopResult | null;
+  /**
+   * What stop() would return if it were called now, without touching the
+   * running recording — the walk so far, in the shape the save path already
+   * takes. Null when idle, and null until a fix has arrived: a draft's
+   * `endedAt` is the last position received, never a reading off the clock.
+   */
+  draft: () => StopResult | null;
   addFix: (fix: LiveFix) => boolean;
   stats: () => RecorderStats;
   /** Current vertices for the live trace, one array per segment. */
@@ -70,17 +80,30 @@ export function createTrackRecorder(now: () => number = Date.now): TrackRecorder
     filter = createTrackFilterState();
   };
 
-  const closeSegment = () => {
+  // The last accepted fix when spacing suppressed it: the vertex the
+  // contract's final-fix rule appends as a segment closes. The draft reads it
+  // too, so a recovered walk ends where a stopped one would.
+  const pendingTail = (): TrackPoint | null => {
     const segment = segments[segments.length - 1];
     const last = filter.lastAccepted;
-    if (segment && last && segment[segment.length - 1] !== last) {
-      const previous = segment[segment.length - 1];
-      if (previous) {
-        distanceM += distanceMetres(previous, last);
-      }
-      segment.push(last);
-      keptCount += 1;
+    if (!segment || !last || segment[segment.length - 1] === last) {
+      return null;
     }
+    return last;
+  };
+
+  const closeSegment = () => {
+    const last = pendingTail();
+    if (!last) {
+      return;
+    }
+    const segment = segments[segments.length - 1];
+    const previous = segment[segment.length - 1];
+    if (previous) {
+      distanceM += distanceMetres(previous, last);
+    }
+    segment.push(last);
+    keptCount += 1;
   };
 
   return {
@@ -128,6 +151,39 @@ export function createTrackRecorder(now: () => number = Date.now): TrackRecorder
         acceptedFixCount: acceptedCount,
         distanceM,
         recordingMs,
+      };
+    },
+    draft: () => {
+      if (status === "idle") {
+        return null;
+      }
+      let lastFix: LiveFix | null = null;
+      for (let index = rawSegments.length - 1; index >= 0 && !lastFix; index -= 1) {
+        const segment = rawSegments[index];
+        lastFix = segment.length > 0 ? segment[segment.length - 1] : null;
+      }
+      if (!lastFix) {
+        return null;
+      }
+      const tail = pendingTail();
+      const openIndex = segments.length - 1;
+      const openSegment = segments[openIndex];
+      const openEnd = openSegment[openSegment.length - 1];
+      return {
+        startedAt: new Date(startedAtMs).toISOString(),
+        // The last position this device actually recorded — never the clock
+        // at the moment of the snapshot, which is a time no fix ever had.
+        endedAt: new Date(lastFix.timestampMs).toISOString(),
+        segments: segments.map((segment, index) =>
+          tail && index === openIndex ? [...segment, tail] : [...segment],
+        ),
+        rawSegments: rawSegments.map((segment) => [...segment]),
+        rawFixCount: rawCount,
+        acceptedFixCount: acceptedCount,
+        distanceM:
+          tail && openEnd ? distanceM + distanceMetres(openEnd, tail) : distanceM,
+        recordingMs:
+          status === "recording" ? recordingMs + (now() - resumedAtMs) : recordingMs,
       };
     },
     addFix: (fix) => {

@@ -685,7 +685,7 @@ describe("recorded layers", () => {
       endedAt: "2026-08-29T14:20:00.000Z",
     });
     expect(record?.featureCount).toBe(1);
-    expect(created).toEqual(record);
+    expect(created).toEqual({ record, persisted: true });
     expect(
       result.current.visibleLayers.some(
         ({ record: visible }) => visible.id === record?.id,
@@ -730,7 +730,7 @@ describe("GPX export", () => {
     );
     let id = "";
     await act(async () => {
-      const record = await result.current.createRecordedLayer({
+      const { record } = await result.current.createRecordedLayer({
         name: "Boundary walk",
         collection: {
           type: "FeatureCollection",

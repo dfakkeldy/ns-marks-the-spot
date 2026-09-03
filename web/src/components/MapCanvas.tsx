@@ -228,8 +228,11 @@ type MapCanvasProps = {
   onMarkLocation?: (fix: LiveFix | null) => Promise<string | null>;
   /**
    * Saves a finished track recording as a new layer; resolves to a status
-   * message for the location live region (null for silence). The collection
-   * holds the processed track feature; rawGpx is every received fix.
+   * message for the location live region (null for silence) and whether the
+   * layer actually reached this device. The collection holds the processed
+   * track feature; rawGpx is every received fix. `persisted` is load-bearing:
+   * the unsaved recording is forgotten only when it is true, so a refused
+   * write never destroys the last copy of the walk.
    */
   onSaveTrack?: (input: {
     name: string;
@@ -237,7 +240,13 @@ type MapCanvasProps = {
     rawGpx: Blob;
     startedAt: string;
     endedAt: string;
-  }) => Promise<string | null>;
+    /**
+     * True only for a walk recovered from an interrupted session: it ends at
+     * the last fix this device stored rather than at a Stop, and the saved
+     * layer says so for the life of the record.
+     */
+    interrupted: boolean;
+  }) => Promise<{ message: string | null; persisted: boolean }>;
   onLayerStatusChange?: (
     id: MapLayerId,
     status: MapLayerStatus,
@@ -2093,6 +2102,16 @@ export function MapCanvas({
     }
   };
 
+  // A walk that has not been saved or discarded: this session's own Stop, or
+  // a recording this device stored before the tab went away.
+  const unsavedTrack = recording.unsaved;
+  // Only the second kind carries the truncation caveat, and only it is marked
+  // interrupted on the record it becomes.
+  const recoveredDraft =
+    unsavedTrack !== null &&
+    unsavedTrack.interrupted &&
+    stopResult === unsavedTrack.result;
+
   const startRecording = () => {
     setRecorderArmed(true);
     recording.start();
@@ -2113,21 +2132,30 @@ export function MapCanvas({
     const feature = buildRecordedTrackFeature(stopResult, name, simplifyToleranceM);
     if (!feature) {
       // The dialog disables Save in this state; this is the belt to its
-      // braces if the two ever disagree.
+      // braces if the two ever disagree. Nothing here can be saved, so the
+      // device's copy goes too rather than being offered back forever.
       setLocationMessage("Too little movement was recorded to save a track.");
+      recording.clearUnsaved();
       setStopResult(null);
       return;
     }
     setSavingTrack(true);
     try {
-      const message = await onSaveTrack({
+      const outcome = await onSaveTrack({
         name,
         collection: { type: "FeatureCollection", features: [feature] },
         rawGpx: rawTrackGpxBlob(name, stopResult.rawSegments),
         startedAt: stopResult.startedAt,
         endedAt: stopResult.endedAt,
+        interrupted: recoveredDraft,
       });
-      setLocationMessage(message);
+      setLocationMessage(outcome.message);
+      // A layer the device refused leaves the walk with no durable copy at
+      // all, so it is kept and offered back instead of being forgotten on the
+      // strength of a message.
+      if (outcome.persisted) {
+        recording.clearUnsaved();
+      }
       setStopResult(null);
     } finally {
       setSavingTrack(false);
@@ -2560,7 +2588,10 @@ export function MapCanvas({
               <MarkLocationIcon />
             </button>
           ) : null}
-          {onSaveTrack && recording.status === "idle" && !stopResult ? (
+          {onSaveTrack &&
+          recording.status === "idle" &&
+          !stopResult &&
+          !unsavedTrack ? (
             <button
               type="button"
               className="location-cluster-button"
@@ -2603,6 +2634,17 @@ export function MapCanvas({
           {recording.wakeLockSupported === false ? (
             <small>Keep your screen on — this browser can't hold it awake.</small>
           ) : null}
+          {recording.draftError === "quota" ? (
+            <small>
+              Storage is full — this recording isn't being kept as you go. A
+              reload would lose it.
+            </small>
+          ) : recording.draftError ? (
+            <small>
+              This browser isn't keeping this recording as you go. A reload
+              would lose it.
+            </small>
+          ) : null}
           <div className="location-hud-actions">
             {recording.status === "recording" ? (
               <button type="button" onClick={recording.pause}>
@@ -2619,12 +2661,29 @@ export function MapCanvas({
           </div>
         </div>
       ) : null}
+      {onSaveTrack && unsavedTrack && !stopResult && recording.status === "idle" ? (
+        <div className="location-hud" role="status">
+          <small>A track recording is waiting to be saved.</small>
+          <div className="location-hud-actions">
+            <button
+              type="button"
+              onClick={() => setStopResult(unsavedTrack.result)}
+            >
+              Recover unsaved track
+            </button>
+          </div>
+        </div>
+      ) : null}
       {stopResult ? (
         <SaveTrackDialog
           result={stopResult}
+          recovered={recoveredDraft}
           saving={savingTrack}
           onSave={(name, toleranceM) => void handleSaveTrack(name, toleranceM)}
-          onDiscard={() => setStopResult(null)}
+          onDiscard={() => {
+            recording.clearUnsaved();
+            setStopResult(null);
+          }}
         />
       ) : null}
       {showModernMap && modernMapFailed ? (

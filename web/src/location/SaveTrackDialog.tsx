@@ -7,6 +7,11 @@ import type { StopResult } from "./trackRecorder";
 
 export interface SaveTrackDialogProps {
   result: StopResult;
+  /**
+   * True for a walk recovered from an interrupted session rather than one the
+   * user stopped: it ends at the last fix this device stored.
+   */
+  recovered?: boolean;
   saving: boolean;
   onSave: (name: string, simplifyToleranceM: number) => void;
   onDiscard: () => void;
@@ -37,6 +42,7 @@ function formatRecordingTime(ms: number): string {
  */
 export function SaveTrackDialog({
   result,
+  recovered = false,
   saving,
   onSave,
   onDiscard,
@@ -80,6 +86,13 @@ export function SaveTrackDialog({
           {formatRecordingTime(result.recordingMs)} recorded ·{" "}
           {result.rawFixCount.toLocaleString("en-CA")} GPS fixes
         </p>
+        {recovered ? (
+          <p className="save-track-note">
+            Recovered from an interrupted recording. It ends at the last
+            position this device stored, so the last part of the walk may be
+            missing.
+          </p>
+        ) : null}
         {saveable ? (
           <>
             <label className="save-track-field">

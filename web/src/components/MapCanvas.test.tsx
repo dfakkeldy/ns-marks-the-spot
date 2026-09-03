@@ -1037,9 +1037,12 @@ describe("MapCanvas browser location", () => {
           rawGpx: Blob;
           startedAt: string;
           endedAt: string;
-        }) => Promise<string | null>
+        }) => Promise<{ message: string | null; persisted: boolean }>
       >()
-      .mockResolvedValue('Track saved as "Boundary walk".');
+      .mockResolvedValue({
+        message: 'Track saved as "Boundary walk".',
+        persisted: true,
+      });
     render(
       <MapCanvas
         parcels={{ type: "FeatureCollection", features: [] }}

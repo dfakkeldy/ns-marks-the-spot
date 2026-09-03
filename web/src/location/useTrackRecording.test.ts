@@ -1,5 +1,10 @@
-import { act, renderHook } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { act, renderHook, waitFor } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+  TRACK_DRAFT_INTERVAL_MS,
+  type TrackDraftFailure,
+  type TrackDraftStore,
+} from "./trackDraftStore";
 import { useTrackRecording } from "./useTrackRecording";
 import type { StopResult } from "./trackRecorder";
 import type { LiveFix } from "./liveLocation";
@@ -76,5 +81,145 @@ describe("useTrackRecording", () => {
     expect(result.current.status).toBe("idle");
     expect(result.current.stats.keptVertexCount).toBe(0);
     expect(result.current.liveSegments).toEqual([]);
+  });
+});
+
+/** An in-memory stand-in for the device's copy of the walk. */
+function draftStoreDouble(initial: StopResult | null = null) {
+  let held = initial;
+  let failure: TrackDraftFailure | null = null;
+  const store: TrackDraftStore = {
+    save: async (draft) => {
+      if (failure) return failure;
+      held = draft;
+      return null;
+    },
+    read: async () => held,
+    clear: async () => {
+      held = null;
+    },
+  };
+  return {
+    store,
+    held: () => held,
+    refuse: (next: TrackDraftFailure | null) => {
+      failure = next;
+    },
+  };
+}
+
+function stopped(): StopResult {
+  return {
+    segments: [
+      [
+        { lat: 46, lng: -61, accuracyM: 5, altitudeM: null, timestampMs: 0 },
+        { lat: 46.001, lng: -61, accuracyM: 5, altitudeM: null, timestampMs: 1_000 },
+      ],
+    ],
+    rawSegments: [[fix(0, 0), fix(10, 1_000)]],
+    startedAt: "2026-09-03T00:00:00.000Z",
+    endedAt: "2026-09-03T00:00:01.000Z",
+    rawFixCount: 2,
+    acceptedFixCount: 2,
+    distanceM: 111,
+    recordingMs: 1_000,
+  };
+}
+
+describe("keeping the walk on this device", () => {
+  // Every case here injects its own store double, so nothing reaches the
+  // shared one — and jsdom has no IndexedDB to clear it through.
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("writes the walk so far while it runs", async () => {
+    vi.useFakeTimers();
+    const double = draftStoreDouble();
+    const { result, rerender } = renderHook(
+      ({ current }: { current: LiveFix | null }) =>
+        useTrackRecording(current, double.store),
+      { initialProps: { current: null as LiveFix | null } },
+    );
+
+    act(() => result.current.start());
+    // The fix already in state when recording starts is deliberately skipped,
+    // so the walk begins with the next two.
+    rerender({ current: fix(0, 0) });
+    rerender({ current: fix(10, 1_000) });
+    rerender({ current: fix(20, 2_000) });
+    await act(async () => {
+      vi.advanceTimersByTime(TRACK_DRAFT_INTERVAL_MS);
+    });
+
+    expect(double.held()?.rawSegments[0]).toHaveLength(3);
+  });
+
+  it("tells a recovered walk from a stopped one", async () => {
+    const recovered = draftStoreDouble(stopped());
+    const { result } = renderHook(() =>
+      useTrackRecording(null, recovered.store),
+    );
+
+    await waitFor(() => expect(result.current.unsaved).not.toBeNull());
+    expect(result.current.unsaved?.interrupted).toBe(true);
+
+    // A walk the user stopped is held in memory; nothing is written at Stop,
+    // so it can never come back as an interrupted one.
+    const fresh = draftStoreDouble();
+    const second = renderHook(
+      ({ current }: { current: LiveFix | null }) =>
+        useTrackRecording(current, fresh.store),
+      { initialProps: { current: null as LiveFix | null } },
+    );
+    act(() => second.result.current.start());
+    second.rerender({ current: fix(0, 0) });
+    second.rerender({ current: fix(10, 1_000) });
+    second.rerender({ current: fix(20, 2_000) });
+    act(() => second.result.current.stop());
+
+    expect(second.result.current.unsaved?.interrupted).toBe(false);
+    expect(fresh.held()).toBeNull();
+  });
+
+  it("reports a refused write and takes the warning back down", async () => {
+    vi.useFakeTimers();
+    const double = draftStoreDouble();
+    double.refuse("quota");
+    const { result, rerender } = renderHook(
+      ({ current }: { current: LiveFix | null }) =>
+        useTrackRecording(current, double.store),
+      { initialProps: { current: null as LiveFix | null } },
+    );
+
+    act(() => result.current.start());
+    rerender({ current: fix(0, 0) });
+    rerender({ current: fix(10, 1_000) });
+    rerender({ current: fix(20, 2_000) });
+    await act(async () => {
+      vi.advanceTimersByTime(TRACK_DRAFT_INTERVAL_MS);
+    });
+    expect(result.current.draftError).toBe("quota");
+
+    double.refuse(null);
+    rerender({ current: fix(30, 3_000) });
+    await act(async () => {
+      vi.advanceTimersByTime(TRACK_DRAFT_INTERVAL_MS);
+    });
+    expect(result.current.draftError).toBeNull();
+  });
+
+  it("writes nothing for a walk too short to save", async () => {
+    vi.useFakeTimers();
+    const double = draftStoreDouble();
+    const { result } = renderHook(() => useTrackRecording(null, double.store));
+
+    act(() => result.current.start());
+    act(() => result.current.pause());
+    await act(async () => {
+      vi.advanceTimersByTime(TRACK_DRAFT_INTERVAL_MS * 2);
+    });
+
+    expect(double.held()).toBeNull();
   });
 });

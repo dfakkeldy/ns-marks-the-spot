@@ -9,7 +9,9 @@ function provenance(record: UserVectorLayerRecord): string {
     record.origin.kind === "imported"
       ? `Your file · ${record.origin.filename}`
       : record.origin.kind === "recorded"
-        ? "Recorded on this device"
+        ? record.origin.interrupted
+          ? "Recorded on this device · interrupted"
+          : "Recorded on this device"
         : record.origin.kind === "photo-import"
           ? `From your photos · ${record.origin.count.toLocaleString("en-CA")} photo${
               record.origin.count === 1 ? "" : "s"
