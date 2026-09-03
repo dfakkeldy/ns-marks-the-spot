@@ -9,11 +9,10 @@ import SwiftUI
 /// the eyebrow above the title.
 struct FeatureCalloutCard: View {
     /// A control's touch target, scaled with the reader's text so the glyph
-    /// inside it never outgrows the box around it. A definite size, not a
-    /// minimum: a minimum lets the enclosing row propose whatever width it has
-    /// left, and a control squeezed to nothing has no point to tap at all —
-    /// which is how the layers panel's lock stopped being hittable. The
-    /// pattern is MapControlIcon's, which the rail already uses.
+    /// inside it never outgrows the box around it. A definite size rather than
+    /// a minimum, which is the pattern MapControlIcon already uses on the
+    /// rail: a minimum lets the enclosing row propose whatever width it has
+    /// left, so the target is only as certain as the layout around it.
     @ScaledMetric(relativeTo: .title3) private var controlTarget: CGFloat = 44
 
     let callout: FeatureCallout

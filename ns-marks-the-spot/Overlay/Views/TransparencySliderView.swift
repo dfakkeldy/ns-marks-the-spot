@@ -8,7 +8,8 @@ import UniformTypeIdentifiers
 struct TransparencySliderView: View {
     /// A definite touch target that scales with the reader's text, not a
     /// minimum. A minimum lets the enclosing row propose whatever width it has
-    /// left, and a control squeezed to nothing has no point to tap at all.
+    /// left, so the target is only as certain as the layout around it; the
+    /// rail's MapControlIcon has always sized itself this way.
     @ScaledMetric(relativeTo: .title3) private var controlTarget: CGFloat = 44
 
     let viewModel: OverlayViewModel
@@ -487,7 +488,8 @@ private struct LayerProvenanceDisclosure: View {
 private struct LayerRowView: View {
     /// A definite touch target that scales with the reader's text, not a
     /// minimum. A minimum lets the enclosing row propose whatever width it has
-    /// left, and a control squeezed to nothing has no point to tap at all.
+    /// left, so the target is only as certain as the layout around it; the
+    /// rail's MapControlIcon has always sized itself this way.
     @ScaledMetric(relativeTo: .title3) private var controlTarget: CGFloat = 44
 
     let row: LayerRow
