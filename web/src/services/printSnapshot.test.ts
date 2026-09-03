@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  PRINT_SOURCE_UNANSWERED,
   boundsForParcelGeometry,
   buildPrintMapShareUrl,
   printBoundsForTemplate,
@@ -8,6 +9,7 @@ import {
   printedLayerIds,
   sealPrintSnapshot,
   startPrintCapture,
+  unansweredEvidenceNames,
   updatePrintCaptureEvidence,
   type PrintCaptureBase,
   type PrintEvidence,
@@ -73,6 +75,33 @@ const pendingEvidence: PrintEvidence = {
   resources: { status: "pending" },
 };
 
+const readyEvidence: PrintEvidence = {
+  mappedArea: null,
+  buildings: { status: "ready", value: { count: 0, pointCount: 0, polygonCount: 0 } },
+  assessments: { status: "ready", value: { matchMethod: "spatial", accounts: [] } },
+  dwellings: { status: "ready", value: [] },
+  civicAddresses: {
+    status: "ready",
+    value: { addresses: [], unreadableRows: 0 },
+  },
+  mappedContext: { status: "ready", value: { roads: [], water: [] } },
+  floodHazard: {
+    status: "ready",
+    value: {
+      river: { status: "within-published-layer-extent", aep: [] },
+      coastal: [],
+    },
+  },
+  resources: {
+    status: "ready",
+    value: {
+      "mineral-occurrences": { status: "ready", intersections: [] },
+      "mineral-tenure": { status: "ready", intersections: [] },
+      "abandoned-mines": { status: "ready", intersections: [] },
+    },
+  },
+};
+
 describe("print capture", () => {
   it("accepts only evidence updates for its own token, PID, and evidence request", () => {
     const capture = startPrintCapture(base, pendingEvidence);
@@ -111,21 +140,68 @@ describe("print capture", () => {
     );
   });
 
-  it("converts timed-out research slots to explicit errors", () => {
+  // A source that ran out of time never answered. Sealing it as an outage put
+  // it under the sentence a failed service gets, and the reader holding the
+  // page could not tell the two apart.
+  it("seals timed-out research slots as unanswered, not as failures", () => {
     const capture = startPrintCapture(base, pendingEvidence);
     const snapshot = sealPrintSnapshot(capture, "research", {
       timedOut: true,
       generatedAt: "2026-07-23T13:42:15.000Z",
     });
     expect(snapshot.evidence.buildings).toEqual({
-      status: "error",
-      message: "Source unavailable at export time.",
+      status: "unanswered",
+      message: PRINT_SOURCE_UNANSWERED,
     });
-    expect(snapshot.evidence.civicAddresses.status).toBe("error");
+    expect(snapshot.evidence.civicAddresses.status).toBe("unanswered");
     expect(snapshot.evidence.dwellings).toEqual({
-      status: "error",
-      message: "Source unavailable at export time.",
+      status: "unanswered",
+      message: PRINT_SOURCE_UNANSWERED,
     });
+    expect(JSON.stringify(snapshot.evidence))
+      .not.toContain("Source unavailable at export time.");
+  });
+
+  it("keeps a settled source error out of the unanswered state", () => {
+    const capture = startPrintCapture(base, {
+      ...pendingEvidence,
+      assessments: { status: "error", message: "Assessment source unavailable." },
+    });
+    const snapshot = sealPrintSnapshot(capture, "research", {
+      timedOut: true,
+      generatedAt: "2026-07-23T13:42:15.000Z",
+    });
+
+    expect(snapshot.evidence.assessments).toEqual({
+      status: "error",
+      message: "Assessment source unavailable.",
+    });
+    expect(snapshot.evidence.buildings.status).toBe("unanswered");
+  });
+
+  it("names the unanswered sources under their appendix headings", () => {
+    const capture = startPrintCapture(base, {
+      ...readyEvidence,
+      buildings: { status: "pending" },
+      floodHazard: { status: "pending" },
+    });
+    const snapshot = sealPrintSnapshot(capture, "research", {
+      timedOut: true,
+      generatedAt: "2026-07-23T13:42:15.000Z",
+    });
+
+    expect(unansweredEvidenceNames(snapshot)).toEqual([
+      "Mapped buildings",
+      "Flood evidence",
+    ]);
+    expect(
+      unansweredEvidenceNames(
+        sealPrintSnapshot(startPrintCapture(base, readyEvidence), "research", {
+          timedOut: false,
+          generatedAt: "2026-07-23T13:42:15.000Z",
+        }),
+      ),
+    ).toEqual([]);
   });
 
   it("seals a snapshot whose nested graph cannot be mutated", () => {

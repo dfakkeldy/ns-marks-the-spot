@@ -16,10 +16,26 @@ import type { WellLogAccuracyFilter } from "./wellLogs";
 
 export type PrintTemplate = "research" | "field";
 
-export type PrintLoadState<T> =
+/**
+ * What a printed source that never answered says for itself.
+ *
+ * Kept apart from "unavailable at export time" on purpose. A source that
+ * failed has answered, and a reader can weigh a failure; a source that went
+ * silent has given nothing at all, and the difference decides whether asking
+ * again is worth anything.
+ */
+export const PRINT_SOURCE_UNANSWERED =
+  "This source had not answered when this page was made. Nothing is concluded from its silence.";
+
+/** An evidence slot carrying no value, and why it carries none. */
+export type UnsettledPrintLoad =
   | { status: "pending" }
+  | { status: "error"; message: string }
+  | { status: "unanswered"; message: string };
+
+export type PrintLoadState<T> =
   | { status: "ready"; value: T }
-  | { status: "error"; message: string };
+  | UnsettledPrintLoad;
 
 export type PrintMapBounds = {
   north: number;
@@ -277,23 +293,26 @@ export function sealPrintSnapshot(
   template: PrintTemplate,
   options: { timedOut: boolean; generatedAt: string },
 ): PrintSnapshot {
-  const unavailableIfPending = <T,>(
+  // A source that ran out of time never answered. Sealing it as an error puts
+  // it under the same sentence as a service that failed, and the reader
+  // holding the page has no way to tell the two apart.
+  const unansweredIfPending = <T,>(
     state: PrintLoadState<T>,
   ): PrintLoadState<T> =>
     state.status === "pending"
-      ? { status: "error", message: "Source unavailable at export time." }
+      ? { status: "unanswered", message: PRINT_SOURCE_UNANSWERED }
       : state;
   const clonedEvidence = clone(capture.evidence);
   const evidence = template === "research" && options.timedOut
     ? {
         ...clonedEvidence,
-        buildings: unavailableIfPending(clonedEvidence.buildings),
-        assessments: unavailableIfPending(clonedEvidence.assessments),
-        dwellings: unavailableIfPending(clonedEvidence.dwellings),
-        civicAddresses: unavailableIfPending(clonedEvidence.civicAddresses),
-        mappedContext: unavailableIfPending(clonedEvidence.mappedContext),
-        floodHazard: unavailableIfPending(clonedEvidence.floodHazard),
-        resources: unavailableIfPending(clonedEvidence.resources),
+        buildings: unansweredIfPending(clonedEvidence.buildings),
+        assessments: unansweredIfPending(clonedEvidence.assessments),
+        dwellings: unansweredIfPending(clonedEvidence.dwellings),
+        civicAddresses: unansweredIfPending(clonedEvidence.civicAddresses),
+        mappedContext: unansweredIfPending(clonedEvidence.mappedContext),
+        floodHazard: unansweredIfPending(clonedEvidence.floodHazard),
+        resources: unansweredIfPending(clonedEvidence.resources),
       }
     : clonedEvidence;
   if (!options.timedOut && !printCaptureReadiness(capture, template).ready) {
@@ -305,4 +324,56 @@ export function sealPrintSnapshot(
     template,
     generatedAt: options.generatedAt,
   }));
+}
+
+/**
+ * What an unsettled slot prints.
+ *
+ * Every state carries its own sentence, because why a section is blank is what
+ * decides whether a reader may conclude anything from it. A slot still pending
+ * on a printed page never answered either, so it gets the unanswered sentence
+ * rather than being reported as an outage.
+ */
+export function printEvidenceMessage(state: UnsettledPrintLoad): string {
+  return state.status === "pending" ? PRINT_SOURCE_UNANSWERED : state.message;
+}
+
+/**
+ * What the front-page receipt calls a slot.
+ *
+ * "Unavailable" and "did not answer" are different receipts. One source gave
+ * an answer the page could not use; the other gave nothing, and a receipt that
+ * calls both unavailable tells the reader the page was refused when in fact it
+ * never heard back.
+ */
+export function printEvidenceReceiptStatus(state: {
+  readonly status: PrintLoadState<unknown>["status"];
+}): "captured" | "unavailable" | "did not answer" {
+  if (state.status === "ready") return "captured";
+  return state.status === "error" ? "unavailable" : "did not answer";
+}
+
+/** The appendix headings, so the front page and the appendix agree. */
+const RESEARCH_EVIDENCE_NAMES: Record<EvidenceKey, string> = {
+  buildings: "Mapped buildings",
+  assessments: "Assessment accounts",
+  dwellings: "PVSC dwelling characteristics",
+  civicAddresses: "Civic addresses",
+  mappedContext: "Mapped roads and water",
+  floodHazard: "Flood evidence",
+  resources: "Resources",
+};
+
+/**
+ * The sources that never answered, in the order the appendix prints them.
+ *
+ * Named rather than counted: how long a reader should wait, and whether asking
+ * again is worth anything, depends entirely on which source went silent.
+ */
+export function unansweredEvidenceNames(
+  snapshot: Pick<PrintSnapshot, "evidence">,
+): string[] {
+  return RESEARCH_KEYS.filter(
+    (key) => snapshot.evidence[key].status === "unanswered",
+  ).map((key) => RESEARCH_EVIDENCE_NAMES[key]);
 }

@@ -15,7 +15,11 @@ import {
   RUMSEY_ATTRIBUTION,
   RUMSEY_LICENCE_URL,
 } from "../../licensing/rumseyLicense";
-import type { PrintLayerSource, PrintSnapshot } from "../../services/printSnapshot";
+import {
+  PRINT_SOURCE_UNANSWERED,
+  type PrintLayerSource,
+  type PrintSnapshot,
+} from "../../services/printSnapshot";
 import { PrintFieldDocument } from "./PrintFieldDocument";
 import { PrintResearchDocument } from "./PrintResearchDocument";
 
@@ -560,7 +564,10 @@ describe("print documents", () => {
               status: "ready",
               value: { river: { status: "outside-published-layer-extents", aep: [] }, coastal: [] },
             },
-            assessments: { status: "error", message: "offline" },
+            assessments: {
+              status: "error",
+              message: "PVSC assessment source unavailable at export time.",
+            },
           },
         })}
         map={map}
@@ -580,7 +587,10 @@ describe("print documents", () => {
         .getByText("No mapped building feature returned."),
     ).toBeInTheDocument();
     expect(screen.getByText("Outside published river-study extents.")).toBeInTheDocument();
-    expect(screen.getByText("Source unavailable at export time.")).toBeInTheDocument();
+    // The section prints the state's own reason, not one fixed sentence.
+    expect(
+      screen.getByText("PVSC assessment source unavailable at export time."),
+    ).toBeInTheDocument();
     expect(
       screen.getByText(
         "No civic address on this parcel names a road the mapped road layers did not already return.",
@@ -895,6 +905,134 @@ describe("print documents", () => {
     ).toBeInTheDocument();
     expect(screen.queryByText(/parcel pixels sampled/)).not.toBeInTheDocument();
     expect(screen.queryByText(/map pixels intersected this parcel/)).not.toBeInTheDocument();
+  });
+
+  // "Unavailable" and "did not answer" are different receipts, and the page
+  // used to give both the same one.
+  it("tells a source that never answered apart from one that failed", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            civicAddresses: {
+              status: "unanswered",
+              message: PRINT_SOURCE_UNANSWERED,
+            },
+            assessments: {
+              status: "error",
+              message: "Source unavailable at export time.",
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const receipt = within(
+      screen.getByRole("region", { name: "Evidence receipt status" }),
+    );
+    expect(receipt.getByText("Civic addresses: did not answer")).toBeInTheDocument();
+    expect(receipt.getByText("Assessment: unavailable")).toBeInTheDocument();
+    expect(screen.getAllByText(PRINT_SOURCE_UNANSWERED).length).toBeGreaterThan(0);
+    expect(
+      screen.getByText(
+        "This page was made while Civic addresses had not answered. The appendix names each of them as unanswered, which is not a finding about this parcel.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("prints a source's own reason for not being evaluated", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            buildings: {
+              status: "error",
+              message: "Not evaluated — this PID's NSPRD geometry is unavailable.",
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    // Once on the fact grid, once in the appendix section.
+    expect(
+      screen.getAllByText("Not evaluated — this PID's NSPRD geometry is unavailable."),
+    ).toHaveLength(2);
+    expect(
+      screen.queryByText("Source unavailable at export time."),
+    ).not.toBeInTheDocument();
+  });
+
+  it("keeps the flood no-absence guard when the lookup never answered", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            floodHazard: {
+              status: "unanswered",
+              message: PRINT_SOURCE_UNANSWERED,
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(screen.getAllByText(PRINT_SOURCE_UNANSWERED).length).toBeGreaterThan(0);
+    expect(
+      screen.getByText("No absence of published river mapping is inferred."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("No absence of coastal hazard is inferred."),
+    ).toBeInTheDocument();
+  });
+
+  it("says nothing about unanswered sources when every source answered", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot()}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(screen.queryByText(/had not answered/u)).not.toBeInTheDocument();
   });
 
   it("prints monochrome legend samples and a north indicator", () => {

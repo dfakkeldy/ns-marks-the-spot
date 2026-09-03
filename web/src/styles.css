@@ -3769,6 +3769,7 @@ a {
 .print-general-limitations,
 .print-scale-omission,
 .print-map-failure,
+.print-unanswered-evidence,
 .print-receipt,
 .print-evidence-section {
   margin-right: 10mm;
@@ -3989,7 +3990,8 @@ a {
 .print-research-support .print-required-attribution,
 .print-research-support .print-scale,
 .print-research-support .print-scale-omission,
-.print-research-support .print-map-failure {
+.print-research-support .print-map-failure,
+.print-research-support .print-unanswered-evidence {
   margin: 0;
 }
 
@@ -4517,7 +4519,8 @@ a {
 .print-required-attribution,
 .print-general-limitations,
 .print-scale-omission,
-.print-map-failure {
+.print-map-failure,
+.print-unanswered-evidence {
   margin-top: 3mm;
   margin-bottom: 0;
 }

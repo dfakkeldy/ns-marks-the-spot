@@ -8,6 +8,7 @@ import {
   printedLayerIds,
   printScaleForPosition,
   sealPrintSnapshot,
+  unansweredEvidenceNames,
   type PrintCapture,
   type PrintSnapshot,
   type PrintTemplate,
@@ -332,6 +333,7 @@ export function PrintPreview({
             id,
         )
       : [];
+  const unansweredNames = snapshot ? unansweredEvidenceNames(snapshot) : [];
   const appendixAvailable = template === "research";
   const aerialAvailable = capture.layerIds.includes("ns-aerial");
 
@@ -410,6 +412,12 @@ export function PrintPreview({
             <p>Aerial imagery was not captured in this map state.</p>
           ) : null}
           {!snapshot ? <p role="status">Waiting for research evidence to settle.</p> : null}
+          {unansweredNames.length > 0 ? (
+            <p role="status">
+              Sealed while {unansweredNames.join(", ")} had not answered. The
+              document says so on its front page.
+            </p>
+          ) : null}
           {mapReadiness.status === "loading" && snapshot ? <p role="status">Preparing map preview.</p> : null}
           {mapReadiness.status === "error" ? (
             <div className="print-map-error" role="alert">

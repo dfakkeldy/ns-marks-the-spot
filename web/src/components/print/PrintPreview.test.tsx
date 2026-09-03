@@ -4,7 +4,10 @@ import { useEffect } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MapPosition } from "../../services/mapShareState";
 import type { PrintMapReadiness } from "./PrintMap";
-import type { PrintCapture } from "../../services/printSnapshot";
+import {
+  PRINT_SOURCE_UNANSWERED,
+  type PrintCapture,
+} from "../../services/printSnapshot";
 import { PrintPreview } from "./PrintPreview";
 
 const printMap = vi.hoisted(() => ({
@@ -181,7 +184,15 @@ describe("PrintPreview", () => {
 
     await act(() => vi.advanceTimersByTimeAsync(15_000));
 
-    expect(screen.getAllByText("Source unavailable at export time.").length).toBeGreaterThan(0);
+    // A source that ran out of time never answered; a source that failed did.
+    // Both used to print the outage sentence.
+    expect(
+      screen.getAllByText(PRINT_SOURCE_UNANSWERED).length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.queryByText("Source unavailable at export time."),
+    ).not.toBeInTheDocument();
+    expect(screen.getByText(/^This page was made while /u)).toBeInTheDocument();
     expect(screen.queryByText("No mapped record returned")).not.toBeInTheDocument();
   });
 
@@ -199,8 +210,24 @@ describe("PrintPreview", () => {
     };
     rerender(<PrintPreview capture={lateEvidence} baseUrl="https://example.com/map/" onClose={onClose} />);
 
-    expect(screen.getAllByText("Source unavailable at export time.").length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(PRINT_SOURCE_UNANSWERED).length,
+    ).toBeGreaterThan(0);
     expect(screen.queryByText("7")).not.toBeInTheDocument();
+  });
+
+  // The wait can end badly as well as well, and the control rail said nothing
+  // about which sources the document was sealed without.
+  it("names the silent sources in the controls before the user prints", async () => {
+    vi.useFakeTimers();
+    render(<PrintPreview capture={capture(true)} baseUrl="https://example.com/map/" onClose={onClose} />);
+    markMapReady();
+
+    await act(() => vi.advanceTimersByTimeAsync(15_000));
+
+    expect(
+      screen.getByText(/^Sealed while .* had not answered\./u),
+    ).toBeInTheDocument();
   });
 
   it("starts a new map attempt when switching templates and accepts only its callbacks", async () => {
