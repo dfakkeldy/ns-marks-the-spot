@@ -23,6 +23,7 @@ import {
   fetchCivicAddresses,
   searchCivicAddresses,
   type CivicAddress,
+  CivicAddressGeometryError,
 } from "./services/civicAddresses";
 import { fetchParcelAtPoint, fetchParcels, NSPRD_LAYER_URL } from "./services/nsprd";
 import { fetchParcelContext } from "./services/parcelContext";
@@ -45,6 +46,7 @@ import {
   wellLogLayerCatalog,
   zoningLayerCatalog,
 } from "./layers/layerCatalog";
+import { GEOMETRY_UNAVAILABLE_MESSAGE } from "./components/ParcelInspector";
 import { UserMapStore } from "./userMaps/store/userMapStore";
 import { PERSIST_DELAY_MS } from "./userMaps/useGeoreferenceSession";
 import type {
@@ -3696,11 +3698,11 @@ describe("NS Marks The Spot Online", () => {
         name: "Parcel 50251750 details",
       }),
     ).toBeInTheDocument();
-    // The boundary that could not be named is still a parcel meeting at that
-    // point, so the selection is not reported as the only answer.
+    // The boundary that could not be named is reported, but not counted as a
+    // parcel: two unnamed records may be one parcel in two pieces.
     expect(
       screen.getByText(
-        "PID 50251750 selected. 2 parcels meet at that point, one of which NSPRD returned with no readable PID; this is the first NSPRD listed, not a determination of which one it is.",
+        "PID 50251750 selected. NSPRD also returned a boundary at that point with no readable PID.",
       ),
     ).toBeInTheDocument();
     expect(screen.queryByText("PID 50251750 selected.")).not.toBeInTheDocument();
@@ -5262,10 +5264,10 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText("Civic address lookup is unavailable right now."),
     ).toBeInTheDocument();
     // A list missing what one source would have named looks exactly like a
-    // complete one, so the road list says the address file has not answered.
+    // complete one, so the road list names why the file's roads are missing.
     expect(
       screen.getByText(
-        "The civic address file has not answered, so a road named only by an address on this parcel would not be listed.",
+        "The civic address file is unavailable right now, so a road named only by an address on this parcel would not be listed.",
       ),
     ).toBeInTheDocument();
   });
@@ -5290,7 +5292,7 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByText(
-        "The civic address file has not answered, so a road named only by an address on this parcel would not be listed.",
+        "The civic address file is unavailable right now, so a road named only by an address on this parcel would not be listed.",
       ),
     ).toBeInTheDocument();
     expect(
@@ -5330,6 +5332,71 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.queryByText(
         "No intersecting, adjacent, or civic-address road was found for this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  // Two sources, and one failing is not the other going quiet: the printed
+  // appendix already listed a road the address file named while the road
+  // service was down, and the panel dropped it.
+  it("keeps a civic-named road when the mapped road service fails", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelContext).mockRejectedValueOnce(new Error("offline"));
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [civicAddress("100", "12 Main St, Mabou")],
+      unreadableRows: 0,
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(
+      await within(inspector).findByText(
+        "Mapped road and water intersections are unavailable right now.",
+      ),
+    ).toBeInTheDocument();
+    const civicRoads = within(inspector)
+      .getByRole("heading", { name: "Roads named by civic address" })
+      .closest("section");
+    expect(civicRoads).not.toBeNull();
+    expect(within(civicRoads as HTMLElement).getByText("Main St")).toBeInTheDocument();
+  });
+
+  // A parcel NSPRD answers for with a geometry this build cannot query
+  // against was never asked about, and an empty answer would say it was.
+  it("does not report an empty civic answer for a parcel with no polygon", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchCivicAddresses).mockRejectedValueOnce(
+      new CivicAddressGeometryError(),
+    );
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(
+      await within(inspector).findByText(GEOMETRY_UNAVAILABLE_MESSAGE),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).queryByText(
+        "No civic address point is mapped inside this parcel.",
       ),
     ).not.toBeInTheDocument();
   });

@@ -724,9 +724,11 @@ describe("print documents", () => {
       />,
     );
 
+    // The reason printed here is the state's own, so it cannot contradict the
+    // civic section above it.
     expect(
       screen.getByText(
-        "The civic address file has not answered, so a road named only by an address on this parcel would not be listed.",
+        /offline A road named only by a civic address on this parcel would not be listed\./u,
       ),
     ).toBeInTheDocument();
     expect(

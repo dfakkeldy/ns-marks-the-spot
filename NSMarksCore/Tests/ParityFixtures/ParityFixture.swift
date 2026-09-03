@@ -211,6 +211,15 @@ public struct ParityFixture: Sendable {
             fatalError("layer-parity.json carries a category this reader could not read")
         }
 
+        // A partial decode would shrink the comparison rather than fail it: a
+        // fourth entry this reader dropped would leave the three it kept
+        // matching, and a notice the web added would go unnoticed.
+        let noticeEntries = root["coastalHazardNotices"]?.array
+        let notices = noticeEntries?.compactMap(\.string)
+        if let noticeEntries, notices?.count != noticeEntries.count {
+            fatalError("layer-parity.json carries a coastal notice this reader could not read")
+        }
+
         let objects = entries.compactMap(\.object)
         return ParityFixture(
             groupOrder: groupOrder.compactMap(\.string),
@@ -222,8 +231,7 @@ public struct ParityFixture: Sendable {
             },
             fletcher: root["fletcher"]?.object,
             parcelQuery: root["parcelQuery"]?.object,
-            coastalHazardNotices: root["coastalHazardNotices"]?.array?
-                .compactMap(\.string)
+            coastalHazardNotices: notices
         )
     }()
 

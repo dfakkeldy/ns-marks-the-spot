@@ -538,6 +538,21 @@ async function fetchCandidates(
   return candidates;
 }
 
+/**
+ * Raised when the parcel has no polygon to ask inside.
+ *
+ * NSPRD can answer for a PID with a geometry this build cannot query against —
+ * a LineString, a collection, a ring with no usable positions. Returning an
+ * empty reading for that made a lookup that was never made read as a file that
+ * answered and named nothing.
+ */
+export class CivicAddressGeometryError extends Error {
+  constructor() {
+    super("This parcel has no polygon to look for civic addresses inside.");
+    this.name = "CivicAddressGeometryError";
+  }
+}
+
 export async function fetchCivicAddresses(
   features: readonly ParcelFeature[],
   signal?: AbortSignal,
@@ -547,13 +562,19 @@ export async function fetchCivicAddresses(
     .map(boundsForPolygonPart)
     .filter((value): value is CivicAddressBounds => value !== null);
   if (bounds.length === 0) {
-    return { addresses: [], unreadableRows: 0 };
+    throw new CivicAddressGeometryError();
   }
 
   const candidates = (
     await Promise.all(bounds.map((partBounds) => fetchCandidates(partBounds, signal)))
   ).flat();
   const addresses = new Map<string, CivicAddress>();
+  // A parcel of several parts is asked once per part, and their boxes can
+  // overlap, so one source row can come back more than once. Readable rows
+  // deduplicate on pntid; an unreadable row has no identity to key on, so it
+  // is keyed on the row itself. Counting the same bad row twice would report
+  // two mapped points where the file sent one.
+  const countedUnreadable = new Set<string>();
   // Counted apart from the rows dropped for falling outside the boundary or
   // for repeating a pntid. Those two are answers about this parcel; this is a
   // row the file sent that the browser could not read, and it has no pntid to
@@ -576,7 +597,11 @@ export async function fetchCivicAddresses(
     }
     const address = civicAddressForFeature(feature);
     if (!address) {
-      unreadableRows += 1;
+      const key = JSON.stringify(feature);
+      if (!countedUnreadable.has(key)) {
+        countedUnreadable.add(key);
+        unreadableRows += 1;
+      }
       continue;
     }
     if (addresses.has(address.pntid)) {

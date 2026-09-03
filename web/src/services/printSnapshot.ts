@@ -306,26 +306,26 @@ export function sealPrintSnapshot(
   // A source that ran out of time never answered. Sealing it as an error puts
   // it under the same sentence as a service that failed, and the reader
   // holding the page has no way to tell the two apart.
-  const unansweredIfPending = <T,>(
-    state: PrintLoadState<T>,
-  ): PrintLoadState<T> =>
+  // A pending slot that carries its own message is one that explained why it
+  // had not started — a lookup waiting on another source was never asked, so
+  // it is sealed as not-asked and stays out of the silent-sources notice.
+  const sealPending = <T,>(state: PrintLoadState<T>): PrintLoadState<T> =>
     state.status === "pending"
-      ? {
-          status: "unanswered",
-          message: state.message ?? PRINT_SOURCE_UNANSWERED,
-        }
+      ? state.message === undefined
+        ? { status: "unanswered", message: PRINT_SOURCE_UNANSWERED }
+        : { status: "not-asked", message: state.message }
       : state;
   const clonedEvidence = clone(capture.evidence);
   const evidence = template === "research" && options.timedOut
     ? {
         ...clonedEvidence,
-        buildings: unansweredIfPending(clonedEvidence.buildings),
-        assessments: unansweredIfPending(clonedEvidence.assessments),
-        dwellings: unansweredIfPending(clonedEvidence.dwellings),
-        civicAddresses: unansweredIfPending(clonedEvidence.civicAddresses),
-        mappedContext: unansweredIfPending(clonedEvidence.mappedContext),
-        floodHazard: unansweredIfPending(clonedEvidence.floodHazard),
-        resources: unansweredIfPending(clonedEvidence.resources),
+        buildings: sealPending(clonedEvidence.buildings),
+        assessments: sealPending(clonedEvidence.assessments),
+        dwellings: sealPending(clonedEvidence.dwellings),
+        civicAddresses: sealPending(clonedEvidence.civicAddresses),
+        mappedContext: sealPending(clonedEvidence.mappedContext),
+        floodHazard: sealPending(clonedEvidence.floodHazard),
+        resources: sealPending(clonedEvidence.resources),
       }
     : clonedEvidence;
   if (!options.timedOut && !printCaptureReadiness(capture, template).ready) {

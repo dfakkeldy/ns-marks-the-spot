@@ -391,8 +391,11 @@ function Context({ snapshot }: { snapshot: PrintSnapshot }) {
         snapshot={snapshot}
       >
         {addresses.status !== "ready" ? (
+          // The four ways it can be missing are four different sentences: the
+          // appendix already prints the state's own reason above, and this
+          // line must not contradict it.
           <p>
-            The civic address file has not answered, so a road named only by an
+            {printEvidenceMessage(addresses)} A road named only by a civic
             address on this parcel would not be listed.
           </p>
         ) : (

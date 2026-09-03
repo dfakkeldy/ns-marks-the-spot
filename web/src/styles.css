@@ -2387,7 +2387,11 @@ a {
 
 .parcel-lookup-message {
   position: absolute;
-  z-index: 500;
+  /* Above the inspector, which opens over it on a phone the moment a parcel
+     is selected. The message is where a shared-boundary tap says the choice
+     was not a determination, and a caution behind an opaque panel is a
+     caution nobody reads. */
+  z-index: 950;
   top: 12px;
   right: 12px;
   max-width: min(340px, calc(100% - 84px));
@@ -2400,6 +2404,9 @@ a {
   border: 1px solid var(--line);
   border-radius: 4px;
   box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+  /* It sits over the inspector so it can be read; it must not take the
+     inspector's close button with it. Nothing here is interactive. */
+  pointer-events: none;
 }
 
 .parcel-lookup-message:empty {
@@ -3543,6 +3550,11 @@ a {
     bottom: 42px;
     width: calc(100% - 20px);
     padding: 20px;
+    /* The strip below grows to its 72px cap when a layer's licence needs
+       several notices, and it floats over this panel. Padding the scroll
+       area by that much means the last row can always be scrolled clear of
+       it rather than sitting under it. */
+    padding-bottom: 84px;
     overflow-y: auto;
   }
 

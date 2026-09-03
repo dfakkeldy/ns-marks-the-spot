@@ -177,10 +177,15 @@ describe("print capture", () => {
       generatedAt: "2026-07-23T13:42:15.000Z",
     });
 
+    // Not "unanswered": a lookup that never started did not go silent, and it
+    // must stay out of the front page's list of sources that did.
     expect(snapshot.evidence.dwellings).toEqual({
-      status: "unanswered",
+      status: "not-asked",
       message: "The dwelling lookup had not started: assessment had not answered.",
     });
+    expect(unansweredEvidenceNames(snapshot)).not.toContain(
+      "PVSC dwelling characteristics",
+    );
     expect(snapshot.evidence.buildings).toEqual({
       status: "unanswered",
       message: PRINT_SOURCE_UNANSWERED,

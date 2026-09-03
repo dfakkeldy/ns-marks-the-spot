@@ -913,6 +913,25 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
   );
 }
 
+/**
+ * Why a road named only by a civic address might be missing from the list.
+ *
+ * Four different reasons, and one sentence for all of them said the file had
+ * not answered when it had failed, or when it had answered in part.
+ */
+function civicAddressShortfallReason(state: CivicAddressState): string {
+  if (state.status === "error") {
+    return "The civic address file is unavailable right now, so a road named only by an address on this parcel would not be listed.";
+  }
+  if (state.status === "geometry-unavailable") {
+    return "The civic address file was not asked — this PID's NSPRD geometry is unavailable — so a road named only by an address on this parcel would not be listed.";
+  }
+  if (state.status === "ready") {
+    return "A civic address point here could not be read, so a road named only by that address would not be listed.";
+  }
+  return "The civic address file has not answered, so a road named only by an address on this parcel would not be listed.";
+}
+
 function CivicAddressDetails({ state }: { state: CivicAddressState }) {
   // A row the browser could not read is not a row that is not there. The list
   // and the absence sentence both have to say so, or a partial read reads as
@@ -1052,43 +1071,49 @@ function MappedContextDetails({
   state: ParcelContextState;
   civicAddresses: CivicAddressState;
 }) {
-  if (state.status === "idle" || state.status === "loading") {
-    return (
-      <p className="mapped-context-status" role="status">
-        Loading mapped road and water intersections…
-      </p>
-    );
-  }
-
-  if (state.status === "geometry-unavailable") {
-    return (
-      <p className="mapped-context-status" role="status">
-        {GEOMETRY_UNAVAILABLE_MESSAGE}
-      </p>
-    );
-  }
-
-  if (state.status === "error") {
-    return (
-      <p className="mapped-context-status error" role="status">
-        Mapped road and water intersections are unavailable right now.
-      </p>
-    );
-  }
-
   // Only the sources that actually answered may be named in the empty
   // sentence, and only a source read in full may be reported as having found
   // nothing. A lookup still loading, failed, or never run for want of
   // geometry has not looked; a lookup with unreadable rows has looked at part
   // of what it was sent, and one of those rows can carry a road name.
   const addressesAnswered = civicAddresses.status === "ready";
+  const mappedRoads = state.status === "ready" ? state.value.roads : [];
   const civicRoads = addressesAnswered
-    ? roadsNamedByCivicAddress(state.value.roads, civicAddresses.value.addresses)
+    ? roadsNamedByCivicAddress(mappedRoads, civicAddresses.value.addresses)
     : [];
   const unreadableAddressRows = addressesAnswered
     ? civicAddresses.value.unreadableRows
     : 0;
   const addressesReadInFull = addressesAnswered && unreadableAddressRows === 0;
+
+  // The road layers and the address file are two sources, and one failing is
+  // not the other going quiet: a road the address file named belongs on the
+  // panel whatever the NSTDB service did, which is what the printed appendix
+  // already does.
+  if (state.status !== "ready") {
+    return (
+      <div className="mapped-context">
+        <p
+          className={`mapped-context-status${state.status === "error" ? " error" : ""}`}
+          role="status"
+        >
+          {state.status === "geometry-unavailable"
+            ? GEOMETRY_UNAVAILABLE_MESSAGE
+            : state.status === "error"
+              ? "Mapped road and water intersections are unavailable right now."
+              : "Loading mapped road and water intersections…"}
+        </p>
+        {civicRoads.length > 0 ? (
+          <MappedFeatureList
+            title="Roads named by civic address"
+            emptyMessage="No civic address on this parcel names a road."
+            features={civicRoads}
+          />
+        ) : null}
+      </div>
+    );
+  }
+
   const roads = [...state.value.roads, ...civicRoads];
 
   return (
@@ -1104,11 +1129,10 @@ function MappedContextDetails({
       />
       {addressesReadInFull ? null : (
         // A list missing the roads one source would have named looks exactly
-        // like a complete one, so the shortfall is said under it.
+        // like a complete one, so the shortfall is said under it — naming the
+        // reason the file's roads are missing, not one sentence for all four.
         <p className="road-access-caveat">
-          {addressesAnswered
-            ? "A civic address point here could not be read, so a road named only by that address would not be listed."
-            : "The civic address file has not answered, so a road named only by an address on this parcel would not be listed."}
+          {civicAddressShortfallReason(civicAddresses)}
         </p>
       )}
       <p className="road-access-caveat">

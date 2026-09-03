@@ -128,6 +128,7 @@ import {
   CIVIC_ADDRESS_DATASET_URL,
   OPEN_GOVERNMENT_ATTRIBUTION,
   OPEN_GOVERNMENT_LICENCE_URL,
+  CivicAddressGeometryError,
   fetchCivicAddresses,
   searchCivicAddresses,
   type CivicAddress,
@@ -2411,9 +2412,15 @@ export function App() {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
+        // A parcel with no polygon to ask inside was never asked; calling
+        // that a source error would blame a service that was never reached.
+        const status =
+          error instanceof CivicAddressGeometryError
+            ? ("geometry-unavailable" as const)
+            : ("error" as const);
         setCivicAddresses((current) =>
           isCurrentEvidenceRequest(current.request, request)
-            ? { status: "error", value: EMPTY_CIVIC_ADDRESSES, request }
+            ? { status, value: EMPTY_CIVIC_ADDRESSES, request }
             : current,
         );
       });
@@ -2884,24 +2891,25 @@ export function App() {
       if (focusOnSelect) {
         requestParcelFocus(pid);
       }
-      // More than one boundary under one point: the parcels meet there, and
-      // the order NSPRD listed them in is not evidence of which one the point
+      // More than one PID under one point: the parcels meet there, and the
+      // order NSPRD listed them in is not evidence of which one the point
       // belongs to. "PID … selected." on its own would let a reader
       // researching a boundary act on the first-listed parcel as a finding.
-      // A boundary this build could not name counts too — it is one more
-      // parcel meeting at the point, and saying nothing about it would report
-      // a choice as though there had been none.
-      const boundaries = pids.length + unidentifiedCount;
+      //
+      // A boundary with no readable PID is reported separately rather than
+      // added to the count. Two unnamed records may be two parcels or one
+      // parcel in two pieces, and this build cannot tell which — a count that
+      // included them would state a number nothing established.
+      const meeting =
+        pids.length > 1
+          ? `PID ${pid} selected. ${pids.length} parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.`
+          : `PID ${pid} selected.`;
       setParcelLookupMessage(
-        boundaries > 1
-          ? `PID ${pid} selected. ${boundaries} parcels meet at that point${
-              unidentifiedCount > 0
-                ? unidentifiedCount === 1
-                  ? ", one of which NSPRD returned with no readable PID"
-                  : `, ${unidentifiedCount} of which NSPRD returned with no readable PID`
-                : ""
-            }; this is the first NSPRD listed, not a determination of which one it is.`
-          : `PID ${pid} selected.`,
+        unidentifiedCount === 0
+          ? meeting
+          : unidentifiedCount === 1
+            ? `${meeting} NSPRD also returned a boundary at that point with no readable PID.`
+            : `${meeting} NSPRD also returned ${unidentifiedCount} boundaries at that point with no readable PID.`,
       );
     } catch (error: unknown) {
       if (error instanceof DOMException && error.name === "AbortError") {

@@ -5,6 +5,7 @@ import {
   CIVIC_ADDRESS_SEARCH_LIMIT,
   buildCivicAddressQueryUrl,
   buildCivicAddressSearchUrl,
+  CivicAddressGeometryError,
   civicAddressShortfall,
   fetchCivicAddresses,
   formatCivicAddress,
@@ -419,6 +420,45 @@ describe("Nova Scotia Civic Address File lookup", () => {
 
     expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["inside"]);
     expect(reading.unreadableRows).toBe(0);
+  });
+
+  // A parcel of several parts is asked once per part, and their boxes can
+  // overlap. One bad row coming back twice used to read as two.
+  it("counts one unreadable row once when two parts return it", async () => {
+    const unreadable = civicPoint("", [0.5, 0.5]);
+    // A fresh Response per call: each part asks its own query, and a body can
+    // only be read once.
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => geoJsonResponse([unreadable])),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "MultiPolygon",
+        coordinates: [
+          [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+          [[[0.1, 0.1], [2.1, 0.1], [0.1, 2.1], [0.1, 0.1]]],
+        ],
+      }),
+    ]);
+
+    expect(reading.addresses).toEqual([]);
+    expect(reading.unreadableRows).toBe(1);
+  });
+
+  it("does not report an empty answer for a parcel it cannot query inside", async () => {
+    vi.stubGlobal("fetch", vi.fn());
+
+    await expect(
+      fetchCivicAddresses([
+        parcelFeature({
+          type: "LineString",
+          coordinates: [[0, 0], [1, 1]],
+        } as never),
+      ]),
+    ).rejects.toBeInstanceOf(CivicAddressGeometryError);
+    expect(vi.mocked(fetch)).not.toHaveBeenCalled();
   });
 
   it("still counts a row it cannot place at all", async () => {
