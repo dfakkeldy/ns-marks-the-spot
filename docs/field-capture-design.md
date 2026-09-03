@@ -310,16 +310,21 @@ iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
   [VectorEditSession.swift](../ns-marks-the-spot/UserVectors/VectorEditSession.swift),
   [MapContainerView.swift](../ns-marks-the-spot/Overlay/Views/MapContainerView.swift)).
 - Photo-library map layer: `PhotoMapIndex` (z15 buckets, 500-annotation
-  cap), PhotoKit enumeration persisted to `Caches/PhotoMapIndex/index.json`
-  with the change token, My Maps row (`.myMaps` slot, LayerCatalog
+  cap keeping the most recent in a fixed order), PhotoKit enumeration
+  persisted to `Caches/PhotoMapIndex/index.json` with the change token and
+  on-disk `accessScope` (in-memory `indexedAccess`), incremental
+  `fetchPersistentChanges(since:)` under unchanged full access (limited
+  always a full re-read), My Maps row (`.myMaps` slot, LayerCatalog
   untouched), MapKit clustering, subtitle "Your photos · never uploaded"
   ([PhotoMapIndex.swift](../NSMarksCore/Sources/GeoCore/Vector/PhotoMapIndex.swift),
   [PhotoMapViewModel.swift](../ns-marks-the-spot/FieldCapture/PhotoMapViewModel.swift),
   [PhotoMapRow.swift](../ns-marks-the-spot/FieldCapture/PhotoMapRow.swift)).
-- Bulk EXIF placement: `PhotosPicker` → confirm sheet → `source: photos`
-  layer, provenance "From your photos · N photos"
+- Bulk EXIF placement: row button "Add photos to map" (`PhotosPicker`) →
+  confirm sheet titled "Place photos" → `source: photos` layer, provenance
+  "Created from N of your photos"
   ([BulkPhotoPlacement.swift](../NSMarksCore/Sources/GeoCore/Vector/BulkPhotoPlacement.swift),
-  [BulkPhotoPlacementSheet.swift](../ns-marks-the-spot/FieldCapture/BulkPhotoPlacementSheet.swift)).
+  [BulkPhotoPlacementSheet.swift](../ns-marks-the-spot/FieldCapture/BulkPhotoPlacementSheet.swift),
+  [UserVectorLayerRecord.swift](../NSMarksCore/Sources/GeoCore/Vector/UserVectorLayerRecord.swift)).
 - Missing on native: none for this field-capture plan.
 
 ## The field-capture contract
@@ -785,8 +790,8 @@ GeoCore N3, present: `Vector/SnapEngine.swift` (vertex/edge candidates over
 contribute nothing), `Geodesy.localMetricProjection` /
 `nearestPointOnSegment`, `Vector/BulkPhotoPlacement.swift` (in-view
 default-checked, out-of-view checkable, untagged unselectable),
-`Vector/PhotoMapIndex.swift` (z15 buckets, 500-annotation cap with
-truncated note).
+`Vector/PhotoMapIndex.swift` (z15 buckets, 500-annotation cap keeping
+the most recent in a fixed order; the row and map say so).
 
 NSDataServices N3, present: `ParcelQuery.envelopeQueryURL(bounds:clearance:)`
 (`esriGeometryEnvelope`, `inSR=4326`, `outFields=PID`, `returnGeometry=true`),
@@ -815,9 +820,17 @@ App N2, present:
   read-only) and `FeaturePhotoStrip.swift` (`PhotosPicker` for library,
   permissionless out-of-process, plus `CameraPicker` wrapping
   `UIImagePickerController`). Info.plist keys in both pbxproj config
-  blocks: `INFOPLIST_KEY_NSCameraUsageDescription` and
-  `INFOPLIST_KEY_NSPhotoLibraryUsageDescription`, both stating photos stay
-  on device. `PrivacyInfo.xcprivacy` stays zero-collection; CoreLocation and
+  blocks: `INFOPLIST_KEY_NSCameraUsageDescription` ("Takes photos to attach
+  to your own map features. Photos stay on this device.") and
+  `INFOPLIST_KEY_NSPhotoLibraryUsageDescription` ("Shows the locations stored
+  with your photos by indexing them on this device, and attaches photos you
+  choose to your own map features. Attached photos and their locations leave
+  this device only when you export or share a layer yourself.").
+  `GENERATE_INFOPLIST_FILE` merges
+  [`Config/NSMarksTheSpot-Info.plist`](../Config/NSMarksTheSpot-Info.plist),
+  which sets `PHPhotoLibraryPreventAutomaticLimitedAccessAlert` because the
+  photo-map row presents the limited-library picker itself. `PrivacyInfo.xcprivacy`
+  stays zero-collection; CoreLocation and
   PhotoKit are not required-reason categories, so it is otherwise unchanged.
 - Photo bytes as files under the existing store directory:
   `photos/<layerID>/<photoID>.jpg` and `.thumb.jpg`. `UserVectorStore`
@@ -832,30 +845,64 @@ App N2, present:
 
 App N3, present:
 
-- Photo-map layer, native-only: PhotoKit has no location predicate, so the
-  index is one full enumeration per grant (`PHAsset.fetchAssets` reading
-  `asset.location`, with progress UI), persisted to
-  `Caches/PhotoMapIndex/index.json` with the `PHPersistentChangeToken`;
-  later launches apply `fetchPersistentChanges(since:)` and touch only changed
-  assets. In memory the index buckets by z15 web-Mercator tile; a viewport
-  query unions intersecting buckets; MapKit clustering renders with a 500
-  annotation cap per viewport ("Zoom in to see all photos" over the cap);
-  thumbnails via `PHCachingImageManager`. The row lives in the My Maps panel
-  section (the `.myMaps` slot the parity tests reserve for catalogue-free
-  content), so `LayerCatalog` and every parity fixture are untouched. Three
-  distinct row states: granted, limited ("Showing only the photos you
-  selected · Manage"), denied (disabled with an explanation). Subtitle:
-  "Your photos · never uploaded"
-  (`FieldCapture/PhotoMapViewModel.swift`, `PhotoMapRow.swift`).
+- Photo-map layer, native-only (tip after #298): PhotoKit has no location
+  predicate, so the first grant is one full enumeration (`PHAsset.fetchAssets`
+  reading `asset.location`). The snapshot is persisted to
+  `Caches/PhotoMapIndex/index.json` with the `PHPersistentChangeToken` and
+  on-disk `accessScope` (in-memory `indexedAccess`). Later refreshes apply
+  `fetchPersistentChanges(since:)` only under unchanged full access; limited
+  access always re-reads the whole selection (the change history there
+  covers only the selected photos). A downgrade clears the pins. Under limited access, every
+  foreground return (and the prompt's first answer) treats the selection as
+  possibly changed: pins come down at once and any in-flight read is
+  discarded. Library reads are single-flight; an intent counter wins if
+  the switch is turned off mid-read; authorization is re-read on every
+  return to the foreground. In memory the index buckets by z15 web-Mercator
+  tile; a viewport query unions intersecting buckets
+  and, over `PhotoMapIndex.maxAnnotations` (500), keeps the most recent in
+  a fixed order. The row says "Showing the 500 most recent of N in view";
+  the map overlay says "Showing the 500 most recent of N photos here."
+  They do not advise zooming in. The photo drawing's record is
+  stable across pans; viewport pins are diffed by id for single points with
+  unique ids (`MapController.isIncrementallyUpdatable`); clusters are
+  layer-qualified (`nsmts-photos-<layerID>`). Co-located members, or a
+  cluster already at closest zoom, open one card with all members' photos
+  ("N photos here"). A pin card is titled by capture date when the library
+  reported one; the card loads the thumbnail and full image through
+  PhotoKit (`imageData`, progress in `downloadProgress`, cancel on dismiss).
+  The row lives in the My Maps panel section (the `.myMaps` slot the
+  parity tests reserve for catalogue-free content), so `LayerCatalog` and
+  every parity fixture are untouched. `PhotoMapViewModel.State` is
+  `off` / `requestingAccess` / `indexing` / `on` / `failed`, with lines such
+  as "Waiting for photo access…", "Indexing your photos…", "Updating your
+  photo index…", and "Your photo library couldn't be read. Turn the switch
+  off and on to try again." Access is separate: limited says "Showing only
+  the photos you selected." with a **Manage** button that presents
+  `PHPhotoLibrary.presentLimitedLibraryPicker` in place (not Settings);
+  denied says "Photo access is off. The map cannot show your library." with
+  **Open Settings**; restricted says "Photo access is restricted on this
+  device, for example by Screen Time or a management profile." and
+  unavailable says "The photo library is not available on this device.",
+  neither with a Settings route. Empty and in-view lines: "No photos with a
+  location were found in your library." / limited "No selected photos with
+  a location were found." / "N geotagged photos indexed · none in this
+  view" / "N of M geotagged photos in this view". Subtitle: "Your photos ·
+  never uploaded". The bulk-placement picker on the row is labelled "Add
+  photos to map"; the confirm sheet's navigation title is still "Place
+  photos"
+  (`FieldCapture/PhotoMapViewModel.swift`, `PhotoMapRow.swift`,
+  `UserVectorsViewModel.swift`, `UserVectorCalloutCard.swift`,
+  `MapController.swift`).
 - Snapping in `VectorEditSession`/`MapContainerView`: candidates rebuild on
   `.visibleRegionSettled` while armed, own visible features plus cached
   parcel rings, tolerance 15 pt converted like the existing `fingerTolerance`,
   haptic tick on snap, the pinned caveat as a standing caption while parcels
   are armed. Unreadable or not-supplied parcel boundaries contribute no
   candidates; never a partial ring.
-- Bulk placement: `BulkPhotoPlacementSheet` (PhotosPicker → classify →
-  confirm) creates a `source: photos` layer with provenance
-  "From your photos · N photos". `UserVectorLibrary.currentVersion` is 3.
+- Bulk placement: the row's "Add photos to map" `PhotosPicker` → classify →
+  `BulkPhotoPlacementSheet` (navigation title "Place photos") creates a
+  `source: photos` layer with provenance
+  "Created from N of your photos". `UserVectorLibrary.currentVersion` is 3.
 
 Tests in the tree for N1: TrackFilter/TrackSimplify/TrackGpx against
 scripted sequences, FieldCaptureParityTests against the fixture,
@@ -866,8 +913,11 @@ PhotoPipeline, ZipWriter, KmlExtendedData, KmzRoundTrip (including the
 shared cross-surface fixture), VectorEdit.updatingProperties, photo
 store sweeps (`FieldCapturePhotoTests`), attribute editing. Tests in the
 tree for N3: SnapEngine priority and source exclusion, ParcelEnvelopeQuery,
-PhotoMapIndex cap and buckets, BulkPhotoPlacement classify,
-`FieldCaptureSnapTests`. Remaining native field-capture tests for this
+PhotoMapIndex cap and buckets (`PhotoMapIndexTests`,
+`PhotoMapIndexBucketTests`), BulkPhotoPlacement classify,
+`FieldCaptureSnapTests`, `PhotoMapViewModelTests`, and the extra
+`UserVectorShapeTests` / `UserVectorEditingTests` cases that landed with
+#298. Remaining native field-capture tests for this
 plan: none. Run focused suites (the full bundle hangs on shared
 URLProtocol stubs); builds go through the xcode-build-slot wrapper.
 
@@ -923,7 +973,7 @@ Then native, mirroring:
 | --- | --- |
 | N1 | Recording core: FieldCaptureParityTests + GeoCore capture modules, GpxParse trkpt time, convertingPoints, recorded origin + library v2 + write-stamp fix, TrackRecorder + HUD + mark-my-location + scene-phase pause, raw-GPX original labeling, conversion UI |
 | N2 | (#283, implemented) Attributes, photos, KMZ: photo file layout + sweeps, attributes editor + photo strip + callout rendering, camera/picker wrappers + Info.plist keys, ZipArchive writer, KML ExtendedData, kmz export/import, GeoJSON note |
-| N3 | (#284, implemented) Snapping + photo map: envelope query + fetcher, SnapEngine + session integration + caveat + traced stamping, PhotoMapIndex + PhotoMapViewModel + clustered annotations + the three-state My Maps row + bulk EXIF placement |
+| N3 | (#284, implemented; photo-map follow-up #298) Snapping + photo map: envelope query + fetcher, SnapEngine + session integration + caveat + traced stamping, PhotoMapIndex + PhotoMapViewModel + clustered annotations + photo-map row states + bulk EXIF placement |
 
 W1–W3 delivered the user's first ask (points and tracks at the current
 location) as a coherent slice. W4 (snap math + parcel source, no UI),
