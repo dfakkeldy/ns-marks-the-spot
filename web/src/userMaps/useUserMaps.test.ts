@@ -586,6 +586,24 @@ describe("useUserMaps", () => {
     expect(stored[id]).toEqual({ enabled: false, opacity: 0.4 });
   });
 
+  it("starts from nothing when the stored display state is not an object", async () => {
+    // The app never writes this, but a corrupt or tampered value parses
+    // without throwing and is then indexed — in the render path once a
+    // record loads, and in setOpacity, which re-reads storage every call.
+    localStorage.setItem("user-map-ui-state-v1", "null");
+    const { result } = renderHook(() => useUserMaps(options()));
+    expect(result.current.uiState).toEqual({});
+
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    const id = result.current.records[0].id;
+
+    act(() => result.current.setOpacity(id, 0.4));
+    expect(result.current.uiState[id]).toEqual({ enabled: true, opacity: 0.4 });
+  });
+
   it("removes a map everywhere and revokes its preview URL", async () => {
     const { result } = renderHook(() => useUserMaps(options()));
     await act(async () => {

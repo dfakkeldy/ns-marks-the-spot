@@ -159,7 +159,18 @@ export type UserVectorLayersApi = {
 
 function loadUiState(): UserVectorUiState {
   try {
-    return JSON.parse(localStorage.getItem(UI_STATE_KEY) ?? "{}") as UserVectorUiState;
+    // `?? "{}"` only covers a missing key. A stored `null`, array or number
+    // parses without throwing, and the cast then launders it into something
+    // every caller indexes — `uiState[id]` in visibleLayers and the rows, and
+    // again in each setter that reads this back. Indexing `null` throws, so
+    // one corrupt value would take the map to the error boundary on every
+    // load. Only a plain object can carry this state; anything else counts as
+    // nothing remembered, exactly like an empty store.
+    const parsed: unknown = JSON.parse(localStorage.getItem(UI_STATE_KEY) ?? "{}");
+    if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+      return {};
+    }
+    return parsed as UserVectorUiState;
   } catch {
     return {};
   }

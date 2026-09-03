@@ -379,6 +379,21 @@ describe("useUserVectorLayers", () => {
     expect(result.current.visibleLayers).toHaveLength(1);
   });
 
+  it("starts from nothing when the stored layer state is not an object", async () => {
+    // A corrupt or tampered value parses without throwing and is then indexed
+    // by visibleLayers and by setEnabled, which re-reads storage every call.
+    localStorage.setItem("user-vector-ui-state-v1", "null");
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    expect(result.current.uiState).toEqual({});
+
+    await act(() => result.current.importFiles([geojsonFile()]));
+    const id = result.current.records[0].id;
+    expect(result.current.visibleLayers).toHaveLength(1);
+
+    act(() => result.current.setEnabled(id, false));
+    expect(result.current.visibleLayers).toHaveLength(0);
+  });
+
   it("keeps every layer on the map when the browser refuses the write", async () => {
     // Quota, or a store that takes reads and refuses writes. What the session
     // is showing is held in state, so nothing already switched on may drop

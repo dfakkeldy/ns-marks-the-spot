@@ -141,4 +141,17 @@ describe("usePhotoManager", () => {
     });
     expect(missing).toBeNull();
   });
+
+  it("keeps one api identity across renders so consumer effects hold", () => {
+    const factory = new IDBFactory();
+    const { result, rerender } = renderHook(() =>
+      usePhotoManager({ openStore: () => UserPhotoStore.open(factory) }),
+    );
+    const first = result.current;
+    rerender();
+    // PhotoLightbox lists the manager in its load effect's deps: a fresh object
+    // each render would revoke the open photo's object URL and re-read the
+    // full-size blob every time App re-renders.
+    expect(result.current).toBe(first);
+  });
 });
