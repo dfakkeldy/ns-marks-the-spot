@@ -221,7 +221,7 @@ struct RecordedOriginTests {
         )
         #expect(
             VectorFeatureCallout(feature: marked, record: record).gpsProvenance
-                == "Marked from GPS on this device (±7 m)"
+                == "Marked from GPS on this device (±6.7 m)"
         )
         // Either key missing means no line — the claim is only rendered when
         // the data actually makes it.
@@ -230,5 +230,60 @@ struct RecordedOriginTests {
             properties: [CaptureSpec.accuracyKey: .number(6.7)]
         )
         #expect(VectorFeatureCallout(feature: bare, record: record).gpsProvenance == nil)
+        // A line cannot be a GPS mark, whatever keys it carries, and a blank
+        // capture time is no capture time.
+        let line = GeoJsonFeature(
+            id: "line",
+            geometry: .lineString([
+                GeoJsonPosition(lng: -63.5, lat: 44.6), GeoJsonPosition(lng: -63.4, lat: 44.7),
+            ]),
+            properties: [
+                CaptureSpec.capturedAtKey: .string("2026-08-29T14:00:00.000Z"),
+                CaptureSpec.accuracyKey: .number(6.7),
+            ]
+        )
+        #expect(VectorFeatureCallout(feature: line, record: record).gpsProvenance == nil)
+        let blank = GeoJsonFeature(
+            id: "blank", geometry: .point(GeoJsonPosition(lng: -63.5, lat: 44.6)),
+            properties: [CaptureSpec.capturedAtKey: .string("   "), CaptureSpec.accuracyKey: .number(6.7)]
+        )
+        #expect(VectorFeatureCallout(feature: blank, record: record).gpsProvenance == nil)
+        #expect(VectorFeatureCallout.gpsAccuracy(of: marked) == 6.7)
+    }
+
+    /// A GPS claim is a plausible one: a positive radius a receiver could
+    /// report, and a capture time that names a moment. Anything else is
+    /// unlabelled — and nothing is deleted from it on a move.
+    @Test func implausibleGpsClaimsAreNotClaims() {
+        func point(_ accuracy: JSONValue, _ when: JSONValue) -> GeoJsonFeature {
+            GeoJsonFeature(
+                id: "p", geometry: .point(GeoJsonPosition(lng: -61.47, lat: 45.8)),
+                properties: [CaptureSpec.accuracyKey: accuracy, CaptureSpec.capturedAtKey: when]
+            )
+        }
+        let when = JSONValue.string("2026-09-02T13:14:00.000Z")
+        #expect(VectorFeatureCallout.gpsAccuracy(of: point(.number(6.7), when)) == 6.7)
+        #expect(VectorFeatureCallout.gpsAccuracy(of: point(.number(6.7), .string("2026-09-02T13:14:00Z"))) == 6.7)
+        #expect(VectorFeatureCallout.gpsAccuracy(of: point(.number(1e300), when)) == nil)
+        #expect(VectorFeatureCallout.gpsAccuracy(of: point(.number(-5), when)) == nil)
+        #expect(VectorFeatureCallout.gpsAccuracy(of: point(.number(0), when)) == nil)
+        #expect(VectorFeatureCallout.gpsAccuracy(of: point(.number(6.7), .string("not-a-date"))) == nil)
+        #expect(CaptureTime.parse("2026-09-02T13:14:00.000Z") != nil)
+        #expect(CaptureTime.parse("2026-09-02T13:14:00+00:00") != nil)
+        #expect(CaptureTime.parse(" ") == nil)
+        // ISO 8601's basic form and a bare offset are claims too: a file
+        // from elsewhere that carries one must have its fix read as a fix.
+        #expect(CaptureTime.parse("20260902T131400Z") != nil)
+        #expect(CaptureTime.parse("2026-09-02T13:14:00+0000") != nil)
+        #expect(VectorFeatureCallout.gpsAccuracy(of: point(.number(6.7), .string("20260902T131400Z"))) == 6.7)
+        #expect(CaptureTime.parse("2026-09-02") == nil)
+        // The label never understates the radius.
+        #expect(VectorFeatureCallout.accuracyLabel(0.4) == "0.4")
+        #expect(VectorFeatureCallout.accuracyLabel(6.4) == "6.4")
+        #expect(VectorFeatureCallout.accuracyLabel(12.2) == "13")
+        // Up, never down: no positive radius reads as zero.
+        #expect(VectorFeatureCallout.accuracyLabel(0.04) == "0.1")
+        #expect(VectorFeatureCallout.accuracyLabel(6.74) == "6.8")
+        #expect(VectorFeatureCallout.gpsAccuracy(of: point(.number(1_000_000), when)) == 1_000_000)
     }
 }

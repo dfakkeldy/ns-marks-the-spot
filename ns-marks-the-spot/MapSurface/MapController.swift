@@ -689,6 +689,29 @@ final class MapController: NSObject {
         mutate { $0.vectorHandles = handles }
     }
 
+    /// Puts the handles back where the geometry says. For a drag that ended
+    /// with the geometry unchanged — a snap back onto the stored coordinate —
+    /// the state diff sees an equal value and rebuilds nothing, and MapKit
+    /// leaves the dragged annotation where the finger let go.
+    func reinstallVectorHandles() {
+        guard let mapView else { return }
+        mapView.removeAnnotations(
+            mapView.annotations.compactMap { $0 as? VectorVertexHandleAnnotation }
+        )
+        if let handles = appliedVectorHandles {
+            mapView.addAnnotations(handles.handles())
+        }
+        // The move handle too: a refused whole-feature drag left the arrows
+        // where the finger let go, and the next drag was measured from
+        // where they had been.
+        mapView.removeAnnotations(
+            mapView.annotations.compactMap { $0 as? VectorMoveHandleAnnotation }
+        )
+        if let handle = appliedVectorMoveHandle {
+            mapView.addAnnotation(handle.annotation())
+        }
+    }
+
     func setVectorMoveHandle(_ handle: VectorMoveHandle?) {
         mutate { $0.vectorMoveHandle = handle }
     }
@@ -1437,6 +1460,26 @@ final class MapController: NSObject {
         mapView?.layoutMargins.bottom = max(bottomOrnamentInset, bottomCardInset)
     }
 
+    // MARK: - Centre
+
+    /// The coordinate under the middle of the map, or nil before layout.
+    ///
+    /// For the non-drag way of moving a corner: pan the map until its middle
+    /// is where the corner belongs, then move the corner there.
+    func visibleCentre() -> GeoPoint? {
+        guard let mapView, mapView.bounds.width > 0 else { return nil }
+        let centre = mapView.centerCoordinate
+        return GeoPoint(lat: centre.latitude, lng: centre.longitude)
+    }
+
+    /// Pans to a point, keeping the zoom.
+    func pan(to point: GeoPoint, animated: Bool = true) {
+        mapView?.setCenter(
+            CLLocationCoordinate2D(latitude: point.lat, longitude: point.lng),
+            animated: animated
+        )
+    }
+
     // MARK: - Heading
 
     func resetHeading() {
@@ -2106,16 +2149,29 @@ extension MapController: MKMapViewDelegate {
 
         if let handle = annotation as? VectorVertexHandleAnnotation {
             let identifier = "VectorVertexHandle"
+            // The subclass, not a plain view: it is what completes MapKit's
+            // drag-state contract, without which a handle could be dragged
+            // once and never again.
             let view =
                 mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-                ?? MKAnnotationView(annotation: handle, reuseIdentifier: identifier)
+                ?? VectorHandleAnnotationView(annotation: handle, reuseIdentifier: identifier)
             view.annotation = handle
             view.canShowCallout = false
             // Dragged rather than tapped-then-tapped: MapKit's own drag is the
             // gesture the user already knows, and it moves the handle under the
             // finger instead of asking them to aim twice.
             view.isDraggable = true
-            view.image = VectorDraftHandleImage.image(colorHex: handle.colorHex)
+            view.image = VectorVertexHandleImage.image(colorHex: handle.colorHex)
+            view.isAccessibilityElement = true
+            if handle.total == 1 {
+                view.accessibilityLabel = "Point handle"
+                view.accessibilityValue = nil
+                view.accessibilityHint = "Press and hold, then drag. The editing panel can also move the point to the map centre."
+            } else {
+                view.accessibilityLabel = "Corner handle"
+                view.accessibilityValue = "\(handle.ordinal) of \(handle.total)"
+                view.accessibilityHint = "Press and hold, then drag. The editing panel can also move each corner to the map centre."
+            }
             return view
         }
 
@@ -2123,7 +2179,7 @@ extension MapController: MKMapViewDelegate {
             let identifier = "VectorMoveHandle"
             let view =
                 mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-                ?? MKAnnotationView(annotation: handle, reuseIdentifier: identifier)
+                ?? VectorHandleAnnotationView(annotation: handle, reuseIdentifier: identifier)
             view.annotation = handle
             view.canShowCallout = false
             view.isDraggable = true
@@ -2131,6 +2187,9 @@ extension MapController: MKMapViewDelegate {
             // whole shape, and two handles that looked the same would make that
             // a surprise rather than a choice.
             view.image = VectorMoveHandleImage.image(colorHex: handle.colorHex)
+            view.isAccessibilityElement = true
+            view.accessibilityLabel = "Move entire feature"
+            view.accessibilityHint = "Press and hold, then drag. The editing panel can also move the whole feature to the map centre."
             return view
         }
 
@@ -2217,6 +2276,8 @@ extension MapController: MKMapViewDelegate {
         didChange newState: MKAnnotationView.DragState,
         fromOldState oldState: MKAnnotationView.DragState
     ) {
+        // A drag finishing on a replaced map is not an edit on this one.
+        guard mapView === self.mapView else { return }
         if let handle = view.annotation as? VectorMoveHandleAnnotation {
             guard newState == .ending else { return }
             let landed = handle.coordinate

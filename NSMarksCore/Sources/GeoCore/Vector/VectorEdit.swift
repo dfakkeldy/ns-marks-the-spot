@@ -303,11 +303,15 @@ public enum VectorEdit {
     ///
     /// Multi-part geometry moves as one: a shift applies to every position
     /// equally, so the parts keep their distances from each other.
+    /// `keepingAltitude` is the default: an imported elevation travels with
+    /// its corner through a move on the map. A GPS mark's caller turns it
+    /// off, because the fix's altitude was measured where the fix was.
     public static func translating(
         featureID: String,
         byLatitude latitudeDelta: Double,
         longitude longitudeDelta: Double,
-        in parsed: ParsedVector
+        in parsed: ParsedVector,
+        keepingAltitude: Bool = true
     ) -> ParsedVector {
         guard latitudeDelta != 0 || longitudeDelta != 0 else { return parsed }
         return recomputed(
@@ -317,7 +321,8 @@ public enum VectorEdit {
                 }
                 var updated = feature
                 updated.geometry = translated(
-                    geometry, byLatitude: latitudeDelta, longitude: longitudeDelta
+                    geometry, byLatitude: latitudeDelta, longitude: longitudeDelta,
+                    keepingAltitude: keepingAltitude
                 )
                 return updated
             }
@@ -325,17 +330,20 @@ public enum VectorEdit {
     }
 
     private static func translated(
-        _ geometry: GeoJsonGeometry, byLatitude dLat: Double, longitude dLng: Double
+        _ geometry: GeoJsonGeometry, byLatitude dLat: Double, longitude dLng: Double,
+        keepingAltitude: Bool
     ) -> GeoJsonGeometry {
         func shift(_ position: GeoJsonPosition) -> GeoJsonPosition {
             // Latitude is held inside the world rather than wrapped: a shape
             // pushed off the top of the map is a shape the user can no longer
             // see or recover. Longitude is left alone, because this app's
             // ground is nowhere near the antimeridian and clamping there would
-            // deform a shape rather than stop it.
+            // deform a shape rather than stop it. The third coordinate is
+            // the file's, and a move across the map does not change it.
             GeoJsonPosition(
                 lng: position.lng + dLng,
-                lat: min(90, max(-90, position.lat + dLat))
+                lat: min(90, max(-90, position.lat + dLat)),
+                altitude: keepingAltitude ? position.altitude : nil
             )
         }
         func shiftAll(_ positions: [GeoJsonPosition]) -> [GeoJsonPosition] {
@@ -352,7 +360,9 @@ public enum VectorEdit {
             return .multiPolygon(polygons.map { $0.map(shiftAll) })
         case .collection(let geometries):
             return .collection(
-                geometries.map { translated($0, byLatitude: dLat, longitude: dLng) }
+                geometries.map {
+                    translated($0, byLatitude: dLat, longitude: dLng, keepingAltitude: keepingAltitude)
+                }
             )
         }
     }

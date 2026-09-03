@@ -392,6 +392,48 @@ struct UserVectorEditingTests {
         }
     }
 
+    /// A photo's location says nothing about height: accepting it moves the
+    /// point and leaves an imported elevation behind, rather than carrying
+    /// it to a spot it was never measured at.
+    @Test("A photo's location does not carry the point's altitude with it")
+    func acceptingAPhotoLocationLeavesTheAltitudeBehind() async throws {
+        try await withViewModel { viewModel in
+            let geoJson = Data(
+                """
+                {"type":"FeatureCollection","features":[{"type":"Feature","id":"p1",\
+                "geometry":{"type":"Point","coordinates":[-63.5,44.6,120.5]},\
+                "properties":{"name":"Cairn","nsmts:altitudeM":120.5}}]}
+                """.utf8
+            )
+            await viewModel.importFile(data: geoJson, filename: "cairn.geojson")
+            let imported = try #require(viewModel.rows.first)
+            let row = try #require(await viewModel.loadedRow(id: imported.id))
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(row)
+            let featureID = try #require(session.parsed?.features.first?.id)
+            #expect(
+                session.parsed?.features.first?.geometry
+                    == .point(GeoJsonPosition(lng: -63.5, lat: 44.6, altitude: 120.5))
+            )
+
+            session.offerPhotoLocation(
+                VectorEditSession.PhotoLocationOffer(
+                    featureID: featureID,
+                    position: GeoJsonPosition(lng: -63.4, lat: 44.7),
+                    distanceM: 13_000
+                )
+            )
+            session.acceptPhotoLocationOffer()
+
+            let moved = try #require(session.parsed?.features.first)
+            #expect(moved.geometry == .point(GeoJsonPosition(lng: -63.4, lat: 44.7)))
+            // The stored altitude property goes too; the name stays.
+            #expect(moved.properties[CaptureSpec.altitudeKey] == nil)
+            #expect(moved.properties["name"]?.stringValue == "Cairn")
+            #expect(session.photoLocationOffer == nil)
+        }
+    }
+
     /// The reported disappearance: two taps of a line, then Done, as anywhere
     /// else in iOS. The line is a shape, so Done keeps it.
     @Test("Done finishes a draft that is already a shape")
@@ -500,6 +542,299 @@ struct UserVectorEditingTests {
 
             #expect(session.settleDraft() == .cleared)
             #expect(session.parsed?.features.isEmpty == true)
+        }
+    }
+
+    /// Finish is an explicit end. With the tool still up, a tap near a corner
+    /// of the new line placed a fresh vertex instead of selecting the line to
+    /// drag it; points keep their tool, as the test above pins.
+    @Test("Finishing a line or area puts the tool down")
+    func finishingALineOrAreaPutsTheToolDown() async throws {
+        try await withViewModel { viewModel in
+            let row = try #require(await viewModel.newDrawingLayer())
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(row)
+            session.startDrawing(.line)
+            session.handleTap(latitude: 44.61, longitude: -63.51)
+            session.handleTap(latitude: 44.62, longitude: -63.52)
+
+            session.finishDrawing()
+
+            #expect(session.parsed?.features.count == 1)
+            #expect(session.tool == .selecting)
+            // Selected, so its corners grow handles at once.
+            #expect(session.selectedFeatureID != nil)
+        }
+    }
+
+    /// A mark moved by hand is no longer where the fix put it. Its GPS claim
+    /// goes with the move, or the callout would read "Marked from GPS (±5 m)"
+    /// over a point somebody dragged; the name and the creation stamp stay.
+    @Test("Moving a GPS mark by hand takes its GPS provenance with it")
+    func movingAMarkByHandDropsItsGpsProvenance() async throws {
+        try await withViewModel { viewModel in
+            let row = try #require(await viewModel.newDrawingLayer())
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(row)
+            let fix = TrackFix(
+                latitude: 45.80849, longitude: -61.47137, altitudeM: 12, accuracyM: 5,
+                timestamp: Date()
+            )
+            session.appendMark(MarkFeature.buildGpsMarkFeature(fix))
+            let marked = try #require(session.parsed?.features.last)
+            let id = try #require(marked.id)
+            #expect(marked.properties[CaptureSpec.accuracyKey] != nil)
+            #expect(marked.properties[CaptureSpec.capturedAtKey] != nil)
+            session.updateSelectedFeature(name: "Culvert", description: nil)
+
+            session.moveVertex(featureID: id, ring: 0, vertex: 0, latitude: 45.809, longitude: -61.472)
+
+            let dragged = try #require(session.parsed?.features.last)
+            #expect(dragged.properties[CaptureSpec.accuracyKey] == nil)
+            #expect(dragged.properties[CaptureSpec.capturedAtKey] == nil)
+            #expect(dragged.properties[CaptureSpec.altitudeKey] == nil)
+            // The fix's altitude was measured where the fix was.
+            if case .point(let at)? = dragged.geometry { #expect(at.altitude == nil) }
+            // What the reader wrote is still true of the point.
+            #expect(dragged.properties["name"]?.stringValue == "Culvert")
+            #expect(VectorFeatureCallout(feature: dragged, record: row.record).gpsProvenance == nil)
+
+            // Carrying the whole feature is a move too.
+            session.appendMark(MarkFeature.buildGpsMarkFeature(fix))
+            let second = try #require(session.parsed?.features.last?.id)
+            session.moveFeature(featureID: second, latitudeDelta: 0.001, longitudeDelta: 0)
+            let carried = try #require(session.parsed?.features.last)
+            #expect(carried.properties[CaptureSpec.accuracyKey] == nil)
+            #expect(carried.properties[CaptureSpec.capturedAtKey] == nil)
+
+            // A move that moved nothing is not an edit and keeps the claim.
+            session.appendMark(MarkFeature.buildGpsMarkFeature(fix))
+            let still = try #require(session.parsed?.features.last?.id)
+            session.moveFeature(featureID: still, latitudeDelta: 0, longitudeDelta: 0)
+            session.moveVertex(featureID: still, ring: 0, vertex: 0, latitude: 45.80849, longitude: -61.47137)
+            session.moveVertex(featureID: still, ring: 3, vertex: 9, latitude: 45.9, longitude: -61.5)
+            let unmoved = try #require(session.parsed?.features.last)
+            #expect(unmoved.properties[CaptureSpec.accuracyKey] != nil)
+
+            // And so is taking a photo's own position: the point then sits
+            // where the photo says, not where the fix put it.
+            session.appendMark(MarkFeature.buildGpsMarkFeature(fix))
+            let third = try #require(session.parsed?.features.last?.id)
+            session.select(featureID: third)
+            session.offerPhotoLocationForTesting(
+                featureID: third, position: GeoJsonPosition(lng: -61.470, lat: 45.810)
+            )
+            session.acceptPhotoLocationOffer()
+            let relocated = try #require(session.parsed?.features.last)
+            #expect(relocated.properties[CaptureSpec.accuracyKey] == nil)
+            #expect(relocated.properties[CaptureSpec.capturedAtKey] == nil)
+            guard case .point(let at)? = relocated.geometry else {
+                Issue.record("expected a point")
+                return
+            }
+            #expect(abs(at.lat - 45.810) < 0.000001)
+        }
+    }
+
+    /// A file's elevations are the file's: a corner moved on the map keeps
+    /// its third coordinate, one corner at a time or the whole shape at once.
+    @Test("Moving an imported point keeps its elevation")
+    func movingAnImportedPointKeepsItsElevation() async throws {
+        try await withViewModel { viewModel in
+            let data = Data(
+                """
+                {"type":"FeatureCollection","features":[{"type":"Feature","properties":{},\
+                "geometry":{"type":"LineString","coordinates":[[-63.5,44.6,120.5],[-63.4,44.7,131]]}}]}
+                """.utf8
+            )
+            await viewModel.importFile(data: data, filename: "ridge.geojson")
+            let row = try #require(viewModel.rows.first)
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(row)
+            let id = try #require(session.parsed?.features.first?.id)
+
+            #expect(session.moveVertex(featureID: id, ring: 0, vertex: 0, latitude: 44.61, longitude: -63.51) == .moved)
+            guard case .lineString(let line)? = session.parsed?.features.first?.geometry else {
+                Issue.record("expected a line")
+                return
+            }
+            #expect(line[0].altitude == 120.5)
+            #expect(line[1].altitude == 131)
+
+            #expect(session.moveFeature(featureID: id, latitudeDelta: 0.01, longitudeDelta: 0) == .moved)
+            guard case .lineString(let carried)? = session.parsed?.features.first?.geometry else {
+                Issue.record("expected a line")
+                return
+            }
+            #expect(carried.map(\.altitude) == [120.5, 131])
+        }
+    }
+
+    /// A photo point carries its capture date under the same key as a GPS
+    /// mark, with no accuracy: moving it does not change when the photo was
+    /// taken, so the date stays.
+    @Test("Moving a photo point keeps its capture date")
+    func movingAPhotoPointKeepsItsCaptureDate() async throws {
+        try await withViewModel { viewModel in
+            let row = try #require(await viewModel.newDrawingLayer())
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(row)
+            let photo = GeoJsonFeature(
+                id: "photo-1",
+                geometry: .point(GeoJsonPosition(lng: -61.47, lat: 45.80)),
+                properties: [CaptureSpec.capturedAtKey: .string("2026-09-02T10:00:00.000Z")]
+            )
+            session.appendMark(photo)
+            #expect(!VectorEditSession.isGpsMark(photo))
+
+            #expect(session.moveVertex(featureID: "photo-1", ring: 0, vertex: 0, latitude: 45.81, longitude: -61.48) == .moved)
+            let moved = try #require(session.parsed?.features.last)
+            #expect(moved.properties[CaptureSpec.capturedAtKey]?.stringValue == "2026-09-02T10:00:00.000Z")
+
+            session.moveFeature(featureID: "photo-1", latitudeDelta: 0.001, longitudeDelta: 0)
+            let carried = try #require(session.parsed?.features.last)
+            #expect(carried.properties[CaptureSpec.capturedAtKey]?.stringValue == "2026-09-02T10:00:00.000Z")
+        }
+    }
+
+    /// The GPS-mark test is the callout's: a Point with a capture time and a
+    /// finite accuracy. Anything less is not a claim the app makes, and
+    /// nothing is deleted from it.
+    @Test("Only a real GPS mark is one")
+    func onlyARealGpsMarkIsOne() {
+        let point = GeoJsonGeometry.point(GeoJsonPosition(lng: -63.5, lat: 44.6, altitude: 120.5))
+        func feature(_ properties: [String: JSONValue], geometry: GeoJsonGeometry = point) -> GeoJsonFeature {
+            GeoJsonFeature(id: "f", geometry: geometry, properties: properties)
+        }
+        let when = JSONValue.string("2026-09-02T10:00:00.000Z")
+        #expect(VectorEditSession.isGpsMark(feature([CaptureSpec.capturedAtKey: when, CaptureSpec.accuracyKey: .number(6.7)])))
+        #expect(!VectorEditSession.isGpsMark(feature([CaptureSpec.accuracyKey: .number(6.7)])))
+        #expect(!VectorEditSession.isGpsMark(feature([CaptureSpec.capturedAtKey: when, CaptureSpec.accuracyKey: .null])))
+        #expect(!VectorEditSession.isGpsMark(feature([CaptureSpec.capturedAtKey: when, CaptureSpec.accuracyKey: .string("6.7")])))
+        #expect(!VectorEditSession.isGpsMark(feature([CaptureSpec.capturedAtKey: when])))
+        // A blank capture time is no capture time, on either surface.
+        #expect(!VectorEditSession.isGpsMark(feature([CaptureSpec.capturedAtKey: .string("   "), CaptureSpec.accuracyKey: .number(6.7)])))
+        #expect(!VectorEditSession.isGpsMark(feature(
+            [CaptureSpec.capturedAtKey: when, CaptureSpec.accuracyKey: .number(6.7)],
+            geometry: .lineString([GeoJsonPosition(lng: -63.5, lat: 44.6), GeoJsonPosition(lng: -63.4, lat: 44.7)])
+        )))
+    }
+
+    /// An imported point with an accuracy attribute and no capture time is
+    /// not a GPS mark: moving it keeps its elevation and its attribute.
+    @Test("Moving an accuracy-only point keeps its elevation")
+    func movingAnAccuracyOnlyPointKeepsItsElevation() async throws {
+        try await withViewModel { viewModel in
+            let row = try #require(await viewModel.newDrawingLayer())
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(row)
+            session.appendMark(
+                GeoJsonFeature(
+                    id: "imported",
+                    geometry: .point(GeoJsonPosition(lng: -63.5, lat: 44.6, altitude: 120.5)),
+                    properties: [CaptureSpec.accuracyKey: .number(6.7)]
+                )
+            )
+
+            #expect(session.moveVertex(featureID: "imported", ring: 0, vertex: 0, latitude: 44.61, longitude: -63.51) == .moved)
+
+            let moved = try #require(session.parsed?.features.last)
+            #expect(moved.properties[CaptureSpec.accuracyKey]?.doubleValue == 6.7)
+            guard case .point(let at)? = moved.geometry else {
+                Issue.record("expected a point")
+                return
+            }
+            #expect(at.altitude == 120.5)
+        }
+    }
+
+    /// `nsmts:traced` is event-time provenance, by the field-capture
+    /// contract: a feature that ever took a corner from a parcel snap keeps
+    /// the stamp — and the Province's attribution and the not-a-survey
+    /// caveat — through later moves, point or line alike. The web does the
+    /// same; conservative over-labelling is acceptable, silent under-labelling
+    /// is not.
+    @Test("A traced feature keeps its stamp when moved")
+    func aTracedFeatureKeepsItsStampWhenMoved() async throws {
+        try await withViewModel { viewModel in
+            let row = try #require(await viewModel.newDrawingLayer())
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(row)
+            session.startDrawing(.point)
+            session.handleTap(latitude: 45.80, longitude: -61.47, parcelSnap: true)
+            let point = try #require(session.selectedFeatureID)
+            #expect(VectorEditSession.isTraced(try #require(session.parsed?.features.last)))
+
+            #expect(session.moveVertex(featureID: point, ring: 0, vertex: 0, latitude: 45.81, longitude: -61.48) == .moved)
+            #expect(VectorEditSession.isTraced(try #require(session.parsed?.features.last)))
+            #expect(session.moveFeature(featureID: point, latitudeDelta: 0.001, longitudeDelta: 0) == .moved)
+            #expect(VectorEditSession.isTraced(try #require(session.parsed?.features.last)))
+
+            session.startDrawing(.line)
+            session.handleTap(latitude: 45.82, longitude: -61.49, parcelSnap: true)
+            session.handleTap(latitude: 45.83, longitude: -61.50)
+            session.finishDrawing()
+            let line = try #require(session.selectedFeatureID)
+            // The only snapped corner moved away: the stamp stays, as the
+            // contract says it must.
+            #expect(session.moveVertex(featureID: line, ring: 0, vertex: 0, latitude: 45.84, longitude: -61.51) == .moved)
+            #expect(VectorEditSession.isTraced(try #require(session.parsed?.features.last)))
+        }
+    }
+
+    /// A drag that snaps back onto the coordinate the vertex already had is
+    /// not a move — but it was a parcel snap, and the trace is recorded.
+    @Test("An exact snap back still records the parcel trace")
+    func anExactSnapBackStillRecordsTheParcelTrace() async throws {
+        try await withViewModel { viewModel in
+            let row = try #require(await viewModel.newDrawingLayer())
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(row)
+            session.startDrawing(.point)
+            session.handleTap(latitude: 45.80, longitude: -61.47)
+            let id = try #require(session.selectedFeatureID)
+            #expect(session.parsed?.features.last?.properties[CaptureSpec.tracedKey] == nil)
+
+            let outcome = session.moveVertex(
+                featureID: id, ring: 0, vertex: 0, latitude: 45.80, longitude: -61.47, parcelSnap: true
+            )
+
+            #expect(outcome == .unchanged)
+            let traced = try #require(session.parsed?.features.last)
+            #expect(traced.properties[CaptureSpec.tracedKey]?.stringValue == CaptureSpec.tracedParcelValue)
+        }
+    }
+
+    /// Once Done has begun, a handle that is still on screen moves nothing:
+    /// a move committed after the final flush would be lost with the session.
+    @Test("Moves are refused once Done has begun")
+    func movesAreRefusedOnceDoneHasBegun() async throws {
+        try await withViewModel { viewModel in
+            let row = try #require(await viewModel.newDrawingLayer())
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(row)
+            session.startDrawing(.point)
+            session.handleTap(latitude: 45.80, longitude: -61.47)
+            let id = try #require(session.selectedFeatureID)
+            let gate = Gate()
+            session.beginAttachment { await gate.wait() }
+
+            async let ended = session.end()
+            // Until Done has begun, not one turn of the run loop: the child
+            // task's first suspension is not guaranteed after a single yield.
+            await settles("Done to begin") { session.isEnding }
+            #expect(session.isEnding)
+            #expect(session.moveVertex(featureID: id, ring: 0, vertex: 0, latitude: 45.9, longitude: -61.5) == .refused)
+            #expect(session.moveFeature(featureID: id, latitudeDelta: 0.1, longitudeDelta: 0) == .refused)
+            gate.open()
+            #expect(await ended)
+
+            let stored = try #require(viewModel.rows.first { $0.id == row.id })
+            guard case .point(let at)? = stored.parsed?.features.first?.geometry else {
+                Issue.record("expected a point")
+                return
+            }
+            #expect(abs(at.lat - 45.80) < 0.000001)
         }
     }
 

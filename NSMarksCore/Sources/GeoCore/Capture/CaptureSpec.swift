@@ -101,4 +101,32 @@ public enum CaptureTime {
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         return formatter.string(from: date)
     }
+
+    /// The moment a stored capture time names, or nil for a string that
+    /// names none. Both surfaces write the extended RFC 3339 form, but a
+    /// file from elsewhere may carry ISO 8601's basic form or an offset
+    /// without a colon, and a real claim in either must still be read as
+    /// one: a mark whose claim went unrecognised would keep a fix's
+    /// accuracy and altitude through a move.
+    public static func parse(_ text: String) -> Date? {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return nil }
+        for options in parseOptions {
+            let formatter = ISO8601DateFormatter()
+            formatter.formatOptions = options
+            if let date = formatter.date(from: trimmed) { return date }
+        }
+        return nil
+    }
+
+    /// Extended with a colon offset, extended with a bare offset, basic;
+    /// each with and without fractional seconds.
+    private static let parseOptions: [ISO8601DateFormatter.Options] = [
+        [.withInternetDateTime, .withFractionalSeconds],
+        [.withInternetDateTime],
+        [.withFullDate, .withTime, .withColonSeparatorInTime, .withTimeZone, .withFractionalSeconds],
+        [.withFullDate, .withTime, .withColonSeparatorInTime, .withTimeZone],
+        [.withYear, .withMonth, .withDay, .withTime, .withTimeZone, .withFractionalSeconds],
+        [.withYear, .withMonth, .withDay, .withTime, .withTimeZone],
+    ]
 }

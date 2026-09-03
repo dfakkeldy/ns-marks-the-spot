@@ -223,6 +223,13 @@ final class VectorEditSession {
                 isEnding = false
                 return false
             }
+            // Moves and attachments are refused while ending, so nothing
+            // should have been committed during the switch; a write that
+            // slipped in is written rather than lost with the session.
+            guard await flush() else {
+                isEnding = false
+                return false
+            }
         }
         editingID = nil
         record = nil
@@ -608,17 +615,23 @@ final class VectorEditSession {
             properties[CaptureSpec.tracedKey] = .string(CaptureSpec.tracedParcelValue)
         }
         let edited = VectorEdit.adding(geometry, to: parsed, properties: properties)
+        let shape = draft?.shape
         draft = nil
         draftVertexSnaps = []
-        // The tool stays armed, as the browser's does: someone marking six
-        // culverts along a road marks them one after another, and reopening
-        // Point between each is five taps that do nothing but restore the
-        // state the app just left. The tool button stays lit, and tapping it
-        // again puts the tool down.
+        // The Point tool stays armed: someone marking six culverts along a
+        // road marks them one after another, and reopening Point between each
+        // is five taps that do nothing but restore the state the app just
+        // left. A finished line or area puts its tool down, though: Finish is
+        // an explicit end, and with the tool still up a tap near a corner of
+        // the new shape placed a fresh vertex instead of selecting the shape
+        // to drag it.
         //
         // Selected on commit, so the panel opens on the feature just drawn and
         // it can be named while the user still knows what it is. The next tap
         // on the map lets go of it again.
+        if shape != .point {
+            tool = .selecting
+        }
         selectedFeatureID = edited.features.last?.id
         commit(edited)
         markRecentlyCommitted(edited.features.last?.id)
@@ -880,12 +893,14 @@ final class VectorEditSession {
             // Measured from where the point is now, after the waits, not
             // from where it was when the picker opened.
             if case .point(let position)? = current.geometry, let location = claims.location {
-                photoLocationOffer = PhotoLocationOffer(
-                    featureID: featureID,
-                    position: GeoJsonPosition(lng: location.lng, lat: location.lat),
-                    distanceM: Geodesy.pathDistanceMetres([
-                        GeoPoint(lat: position.lat, lng: position.lng), location,
-                    ])
+                offerPhotoLocation(
+                    PhotoLocationOffer(
+                        featureID: featureID,
+                        position: GeoJsonPosition(lng: location.lng, lat: location.lat),
+                        distanceM: Geodesy.pathDistanceMetres([
+                            GeoPoint(lat: position.lat, lng: position.lng), location,
+                        ])
+                    )
                 )
             }
         }
@@ -924,18 +939,32 @@ final class VectorEditSession {
     /// Accepts the attach-time geotag offer: the point moves to where the
     /// photo says it was taken.
     func acceptPhotoLocationOffer() {
-        guard let offer = photoLocationOffer, let parsed else { return }
+        guard let offer = photoLocationOffer, parsed != nil else { return }
         photoLocationOffer = nil
-        commit(
-            VectorEdit.moving(
-                featureID: offer.featureID, ring: 0, vertex: 0,
-                to: offer.position, in: parsed
-            )
+        // Through the same path as a drag: the point now sits where the photo
+        // says it was taken, not where the fix put it, so the fix's GPS claim
+        // goes with the move — and so does any stored elevation, which was
+        // measured where the point was, not where the photo puts it.
+        moveVertex(
+            featureID: offer.featureID, ring: 0, vertex: 0,
+            latitude: offer.position.lat, longitude: offer.position.lng,
+            carryingAltitude: false
         )
+    }
+
+    /// Puts a photo's location up for the reader to accept or wave away.
+    func offerPhotoLocation(_ offer: PhotoLocationOffer) {
+        photoLocationOffer = offer
     }
 
     func dismissPhotoLocationOffer() {
         photoLocationOffer = nil
+    }
+
+    /// Puts an offer up without a photo behind it, for a test of what
+    /// accepting one does to the feature.
+    func offerPhotoLocationForTesting(featureID: String, position: GeoJsonPosition) {
+        photoLocationOffer = PhotoLocationOffer(featureID: featureID, position: position, distanceM: 0)
     }
 
     func clearPhotoMessages() {
@@ -955,18 +984,109 @@ final class VectorEditSession {
         commit(VectorEdit.removing(featureID: id, from: parsed))
     }
 
+    /// The claim a GPS mark makes about itself, taken off a feature the reader
+    /// has moved by hand.
+    ///
+    /// A dragged point is no longer where the fix put it, so "Marked from GPS
+    /// on this device (±5 m)" would be a false statement about a position
+    /// somebody chose. The keys go with the move; `nsmts:createdAt` and any
+    /// name or photos stay, because those are still true.
+    static let gpsProvenanceRemoval: [String: JSONValue?] = [
+        CaptureSpec.capturedAtKey: nil,
+        CaptureSpec.accuracyKey: nil,
+        CaptureSpec.altitudeKey: nil,
+    ]
+
+    /// What a move came to, so the caller can say so: a handle snapped back
+    /// onto the coordinate it already had is not a move, and a session that
+    /// is closing takes none.
+    enum MoveOutcome: Equatable, Sendable {
+        case moved, unchanged, refused
+    }
+
+    /// Whether the feature's position is a GPS fix's. Only then does a hand
+    /// move take the fix's claims, and its measured altitude, with it.
+    ///
+    /// The same test the callout applies before it says "Marked from GPS": a
+    /// Point, a capture time that is a string, and an accuracy that is a
+    /// finite number. Anything less — a photo point's capture date with no
+    /// accuracy, an imported accuracy with no capture time, a null, a string
+    /// where a number should be — is not a claim this app makes, so nothing
+    /// is deleted from it on the strength of a key merely being present.
+    static func isGpsMark(_ feature: GeoJsonFeature) -> Bool {
+        VectorFeatureCallout.gpsAccuracy(of: feature) != nil
+    }
+
+    /// Whether the feature says a vertex of it was placed by a parcel snap.
+    static func isTraced(_ feature: GeoJsonFeature) -> Bool {
+        feature.properties[CaptureSpec.tracedKey]?.stringValue == CaptureSpec.tracedParcelValue
+    }
+
+    @discardableResult
+    /// `carryingAltitude` is false for a caller that knows the new place says
+    /// nothing about height — a photo's location — so an imported elevation
+    /// is not carried to a spot it was never measured at.
     func moveVertex(
         featureID: String, ring: Int, vertex: Int, latitude: Double, longitude: Double,
-        parcelSnap: Bool = false
-    ) {
-        guard var parsed else { return }
-        parsed = VectorEdit.moving(
+        parcelSnap: Bool = false, carryingAltitude: Bool = true
+    ) -> MoveOutcome {
+        // Refused while Done is in progress: a move committed after the final
+        // flush would be lost with the session.
+        guard let before = self.parsed, !isEnding else { return .refused }
+        guard let feature = before.features.first(where: { $0.id == featureID }),
+              let geometry = feature.geometry
+        else { return .unchanged }
+        let rings = VectorEdit.rings(of: geometry)
+        guard rings.indices.contains(ring), rings[ring].indices.contains(vertex) else {
+            // A vertex address the feature does not have: nothing to move.
+            return .unchanged
+        }
+        let existing = rings[ring][vertex]
+        let gpsMark = Self.isGpsMark(feature)
+        let traced = Self.isTraced(feature)
+        if existing.lat == latitude, existing.lng == longitude {
+            // The same spot again is not a move, whatever altitude the fix had
+            // recorded there: no GPS claim to take away. A snap onto a parcel
+            // corner the vertex already sat on is still a snap, though, and
+            // the trace it records is recorded — as metadata only.
+            if parcelSnap, !traced {
+                commit(
+                    VectorEdit.updatingProperties(
+                        featureID: featureID,
+                        patch: [CaptureSpec.tracedKey: .string(CaptureSpec.tracedParcelValue)],
+                        in: before
+                    )
+                )
+            }
+            return .unchanged
+        }
+        var parsed = VectorEdit.moving(
             featureID: featureID,
             ring: ring,
             vertex: vertex,
-            to: GeoJsonPosition(lng: longitude, lat: latitude),
-            in: parsed
+            // An imported elevation travels with its corner; a fix's altitude
+            // does not, since the corner is no longer where the fix was, and
+            // nor does either when the caller says the new place has no
+            // height of its own.
+            to: GeoJsonPosition(
+                lng: longitude, lat: latitude,
+                altitude: gpsMark || !carryingAltitude ? nil : existing.altitude
+            ),
+            in: before
         )
+        guard parsed != before else { return .unchanged }
+        if gpsMark {
+            parsed = VectorEdit.updatingProperties(
+                featureID: featureID, patch: Self.gpsProvenanceRemoval, in: parsed
+            )
+        }
+        if !carryingAltitude, feature.properties[CaptureSpec.altitudeKey] != nil {
+            // The stored altitude property goes with the geometry's third
+            // coordinate: neither was measured where the photo puts the point.
+            parsed = VectorEdit.updatingProperties(
+                featureID: featureID, patch: [CaptureSpec.altitudeKey: nil], in: parsed
+            )
+        }
         if parcelSnap {
             parsed = VectorEdit.updatingProperties(
                 featureID: featureID,
@@ -974,23 +1094,65 @@ final class VectorEditSession {
                 in: parsed
             )
         }
+        // `nsmts:traced` stays through a move, by the field-capture contract:
+        // it records that a parcel snap placed a vertex, at the time it did,
+        // and carries the Province's attribution and the not-a-survey caveat.
+        // The web keeps it too. Conservative over-labelling is acceptable;
+        // silent under-labelling is not.
         commit(parsed)
+        return .moved
     }
 
     /// Carries a whole feature by the distance its handle travelled.
     ///
     /// A shape drawn in the wrong place would otherwise have to be corrected a
     /// vertex at a time, which is slow and comes out a different shape.
-    func moveFeature(featureID: String, latitudeDelta: Double, longitudeDelta: Double) {
-        guard let parsed else { return }
-        commit(
-            VectorEdit.translating(
-                featureID: featureID,
-                byLatitude: latitudeDelta,
-                longitude: longitudeDelta,
-                in: parsed
-            )
+    @discardableResult
+    func moveFeature(featureID: String, latitudeDelta: Double, longitudeDelta: Double) -> MoveOutcome {
+        guard let parsed, !isEnding else { return .refused }
+        let feature = parsed.features.first { $0.id == featureID }
+        let gpsMark = feature.map(Self.isGpsMark) ?? false
+        let moved = VectorEdit.translating(
+            featureID: featureID,
+            byLatitude: latitudeDelta,
+            longitude: longitudeDelta,
+            in: parsed,
+            keepingAltitude: !gpsMark
         )
+        guard moved != parsed else { return .unchanged }
+        // The GPS keys go with a moved GPS mark; `nsmts:traced` stays, as it
+        // does in `moveVertex`.
+        commit(
+            gpsMark
+                ? VectorEdit.updatingProperties(
+                    featureID: featureID, patch: Self.gpsProvenanceRemoval, in: moved
+                )
+                : moved
+        )
+        return .moved
+    }
+
+    /// Says what a move from the panel came to, where the panel shows its
+    /// notices and VoiceOver hears them: the button looks the same whether
+    /// the corner moved, was already there, or could not be moved.
+    /// `snapNote` is what the centre snapped to, when it did, said in the
+    /// same breath as the move so the reader hears where the corner went.
+    func announce(_ outcome: MoveOutcome, of what: String, snapNote: String? = nil) {
+        // Where it went, said as where it went: a snap near the centre is
+        // not the centre.
+        switch (outcome, snapNote) {
+        case (.moved, nil): note("\(what) moved to the map centre.")
+        case (.moved, let snap?): note("\(what) moved to a snap target near the map centre. \(snap)")
+        case (.unchanged, nil): note("\(what) is already at the map centre.")
+        case (.unchanged, let snap?): note("\(what) is already on the snap target near the map centre. \(snap)")
+        case (.refused, _): note("The session is closing; nothing was moved.")
+        }
+    }
+
+    /// A handle let go while Done was already draining: said, since the
+    /// spring-back alone reads as a drag that did nothing.
+    func noteMoveRefused() {
+        note("Saving; the handle can't be moved now.")
     }
 
     /// Takes the layer name as it is typed, and writes it once typing stops.
