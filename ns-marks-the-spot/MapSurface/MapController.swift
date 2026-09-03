@@ -15,6 +15,10 @@ enum MapEvent {
     /// Whether it means anything is the handler's decision — this reports where
     /// the user touched, not that a parcel should be identified.
     case mapTapped(latitude: Double, longitude: Double)
+    /// A press-and-hold on the map itself, at the coordinate under the
+    /// finger: the other way to place a point while a drawing tool is armed.
+    /// Never begins on an annotation view, whose press-and-hold is a drag.
+    case mapLongPressed(latitude: Double, longitude: Double)
     /// A vertex handle the user dragged to a new place.
     case vertexMoved(featureID: String, ring: Int, vertex: Int, latitude: Double, longitude: Double)
     /// A whole feature carried, reported as the offset it travelled rather than
@@ -1543,6 +1547,87 @@ final class MapController: NSObject {
 
     private func applyBottomLayoutMargin() {
         mapView?.layoutMargins.bottom = max(bottomOrnamentInset, bottomCardInset)
+        updateReticle()
+    }
+
+    // MARK: - Reticle
+
+    /// Where the aiming reticle sits, in the map view's coordinates, and the
+    /// ground under it; nil while no drawing tool is armed. Written on every
+    /// frame of a pan while armed, guarded by equality like the heading.
+    private(set) var reticlePoint: CGPoint?
+    private(set) var reticleCoordinate: GeoPoint?
+    /// The uncovered map, in the map view's coordinates: what the reticle
+    /// is centred in, and what its controls must stay inside.
+    private(set) var reticleRoom: CGRect?
+    @ObservationIgnored private var reticleArmed = false
+
+    /// Arms or disarms the reticle. Armed, it follows the middle of the
+    /// uncovered map as the reader pans.
+    func setReticleArmed(_ armed: Bool) {
+        reticleArmed = armed
+        updateReticle()
+    }
+
+    private func updateReticle() {
+        guard reticleArmed, let mapView, mapView.bounds.width > 0 else {
+            if reticlePoint != nil { reticlePoint = nil }
+            if reticleCoordinate != nil { reticleCoordinate = nil }
+            if reticleRoom != nil { reticleRoom = nil }
+            return
+        }
+        let room = Self.uncoveredRect(in: mapView.bounds, insets: mapView.layoutMargins)
+        let point = CGPoint(x: room.midX, y: room.midY)
+        let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
+        // A pitched map can put the middle above the horizon, where MapKit
+        // has no coordinate to give: no reticle then, rather than an invalid
+        // number offered as somewhere to place.
+        guard CLLocationCoordinate2DIsValid(coordinate) else {
+            if reticlePoint != nil { reticlePoint = nil }
+            if reticleCoordinate != nil { reticleCoordinate = nil }
+            if reticleRoom != nil { reticleRoom = nil }
+            return
+        }
+        let ground = GeoPoint(lat: coordinate.latitude, lng: coordinate.longitude)
+        if reticleRoom != room { reticleRoom = room }
+        if reticlePoint != point { reticlePoint = point }
+        if reticleCoordinate != ground { reticleCoordinate = ground }
+    }
+
+    /// Where a coordinate falls on the screen, in the map view's coordinates,
+    /// or nil before layout.
+    func screenPoint(for point: GeoPoint) -> CGPoint? {
+        guard let mapView, mapView.bounds.width > 0 else { return nil }
+        return mapView.convert(
+            CLLocationCoordinate2D(latitude: point.lat, longitude: point.lng), toPointTo: mapView
+        )
+    }
+
+    /// The map the reader can see: the bounds inside the layout margins,
+    /// which is the rectangle MapKit centres a followed user in. The safe
+    /// area feeds the top and sides; the cards report the bottom. Each inset
+    /// is clamped so a card taller than the map leaves an empty rectangle
+    /// rather than an inverted one.
+    static func uncoveredRect(in bounds: CGRect, insets: UIEdgeInsets) -> CGRect {
+        let top = min(max(insets.top, 0), bounds.height)
+        let bottom = min(max(insets.bottom, 0), bounds.height - top)
+        let left = min(max(insets.left, 0), bounds.width)
+        let right = min(max(insets.right, 0), bounds.width - left)
+        return CGRect(
+            x: bounds.minX + left, y: bounds.minY + top,
+            width: bounds.width - left - right, height: bounds.height - top - bottom
+        )
+    }
+
+    /// The middle of the map the reader can see, given the margins.
+    static func reticlePoint(in bounds: CGRect, insets: UIEdgeInsets) -> CGPoint {
+        let room = uncoveredRect(in: bounds, insets: insets)
+        return CGPoint(x: room.midX, y: room.midY)
+    }
+
+    /// The same, with only a bottom card in the way.
+    static func reticlePoint(in bounds: CGRect, bottomMargin: CGFloat) -> CGPoint {
+        reticlePoint(in: bounds, insets: UIEdgeInsets(top: 0, left: 0, bottom: bottomMargin, right: 0))
     }
 
     // MARK: - Centre
@@ -1553,7 +1638,14 @@ final class MapController: NSObject {
     /// is where the corner belongs, then move the corner there.
     func visibleCentre() -> GeoPoint? {
         guard let mapView, mapView.bounds.width > 0 else { return nil }
-        let centre = mapView.centerCoordinate
+        // The reticle's arithmetic, so "map centre" means the same spot to
+        // the corner mover, to the crosshair, and to `pan(to:)`: the middle
+        // of the map inside its layout margins, which is also where MapKit's
+        // `setCenter` puts a coordinate. Step to a corner, then move a
+        // corner here, and nothing moves.
+        let point = Self.reticlePoint(in: mapView.bounds, insets: mapView.layoutMargins)
+        let centre = mapView.convert(point, toCoordinateFrom: mapView)
+        guard CLLocationCoordinate2DIsValid(centre) else { return nil }
         return GeoPoint(lat: centre.latitude, lng: centre.longitude)
     }
 
@@ -1742,6 +1834,41 @@ final class MapController: NSObject {
         events?(.mapTapped(latitude: coordinate.latitude, longitude: coordinate.longitude))
     }
 
+    @objc func handlePlaceLongPress(_ recognizer: UILongPressGestureRecognizer) {
+        guard recognizer.state == .began,
+              let mapView = recognizer.view as? MKMapView else { return }
+        let coordinate = mapView.convert(
+            recognizer.location(in: mapView), toCoordinateFrom: mapView
+        )
+        guard CLLocationCoordinate2DIsValid(coordinate) else { return }
+        events?(.mapLongPressed(latitude: coordinate.latitude, longitude: coordinate.longitude))
+    }
+
+    /// Whether a press-and-hold at this view may place a point: not on a
+    /// draggable handle or anything inside one, whose press-and-hold is
+    /// MapKit's drag of a vertex or move handle. Over any other annotation —
+    /// a draft corner, a photo pin, a parcel marker — it may: holding the
+    /// first draft corner is one way to close an area.
+    static func longPressMayBegin(over view: UIView?) -> Bool {
+        var current = view
+        while let candidate = current {
+            if let annotationView = candidate as? MKAnnotationView,
+               annotationView is VectorHandleAnnotationView || annotationView.isDraggable
+            {
+                return false
+            }
+            current = candidate.superview
+        }
+        return true
+    }
+
+    /// Whether the placing press-and-hold may begin at all: only while the
+    /// reticle is armed. Recognized at any other time it would win the
+    /// gesture from MapKit's pan and then do nothing with it.
+    static func placementMayBegin(armed: Bool, selectingBounds: Bool, over view: UIView?) -> Bool {
+        armed && !selectingBounds && longPressMayBegin(over: view)
+    }
+
     @objc func handleSelectionPan(_ recognizer: UIPanGestureRecognizer) {
         guard let mapView = recognizer.view as? MKMapView else { return }
 
@@ -1827,6 +1954,7 @@ extension MapController: MKMapViewDelegate {
         }
 
         clampClosestZoom(mapView)
+        updateReticle()
 
         if let zoom = Self.tileZoomLevel(of: mapView) {
             recordZoomLevel(zoom)
@@ -2463,9 +2591,34 @@ extension MapController: UIGestureRecognizerDelegate {
     /// type is what keeps adding one from disabling the other.
     static let identifyTapName = "ParcelIdentifyTap"
 
+    /// The name the placing press-and-hold is registered under.
+    static let placeLongPressName = "PlaceLongPress"
+
+    /// Judged where the touch began, not where the finger is when the press
+    /// matures: a drag that started on a handle and crept off it before the
+    /// press timer fired is the handle's, and must not become a placement.
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard gestureRecognizer.name == Self.placeLongPressName else { return true }
+        return Self.longPressMayBegin(over: touch.view)
+    }
+
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer.name == Self.identifyTapName {
             return !isSelectingBounds
+        }
+        if gestureRecognizer.name == Self.placeLongPressName {
+            guard let mapView = gestureRecognizer.view else { return false }
+            let location = gestureRecognizer.location(in: mapView)
+            if let map = mapView as? MKMapView {
+                // A press over the sky of a pitched map has no ground under
+                // it: not begun, rather than begun with no coordinate.
+                let coordinate = map.convert(location, toCoordinateFrom: map)
+                guard CLLocationCoordinate2DIsValid(coordinate) else { return false }
+            }
+            return Self.placementMayBegin(
+                armed: reticleArmed, selectingBounds: isSelectingBounds,
+                over: mapView.hitTest(location, with: nil)
+            )
         }
         return isSelectingBounds
     }

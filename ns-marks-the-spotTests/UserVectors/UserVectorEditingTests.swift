@@ -844,6 +844,49 @@ struct UserVectorEditingTests {
         }
     }
 
+    /// A point placed with the crosshair or a press-and-hold is a drawn point,
+    /// not a fix: it goes through the same tap handler and carries only its
+    /// creation stamp, never `nsmts:capturedAt` or `nsmts:accuracyM`.
+    @Test("A reticle-placed point carries no GPS provenance")
+    func aReticlePlacedPointCarriesNoGpsProvenance() async throws {
+        try await withViewModel { viewModel in
+            let row = try #require(await viewModel.newDrawingLayer())
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(row)
+            session.startDrawing(.point)
+
+            session.handleTap(latitude: 45.80849, longitude: -61.47137)
+
+            let placed = try #require(session.parsed?.features.last)
+            #expect(placed.properties[CaptureSpec.createdAtKey] != nil)
+            #expect(placed.properties[CaptureSpec.capturedAtKey] == nil)
+            #expect(placed.properties[CaptureSpec.accuracyKey] == nil)
+            #expect(placed.properties[CaptureSpec.altitudeKey] == nil)
+            #expect(VectorFeatureCallout(feature: placed, record: row.record).gpsProvenance == nil)
+        }
+    }
+
+    /// Numbers that are not a place on Earth never reach the layer, whatever
+    /// path offers them.
+    @Test("An invalid coordinate is never placed or moved to")
+    func anInvalidCoordinateIsNeverPlaced() async throws {
+        try await withViewModel { viewModel in
+            let row = try #require(await viewModel.newDrawingLayer())
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(row)
+            session.startDrawing(.point)
+            session.handleTap(latitude: .nan, longitude: -63.5)
+            session.handleTap(latitude: 91, longitude: -63.5)
+            session.handleTap(latitude: 44.6, longitude: .infinity)
+            #expect(session.parsed?.features.isEmpty == true)
+
+            session.handleTap(latitude: 44.6, longitude: -63.5)
+            let id = try #require(session.selectedFeatureID)
+            #expect(session.moveVertex(featureID: id, ring: 0, vertex: 0, latitude: .nan, longitude: -63.4) == .unchanged)
+            #expect(!VectorEditSession.isPlaceable(latitude: 44.6, longitude: 181))
+        }
+    }
+
     // MARK: - Points snap to lines, not to other points
 
     /// With the Point tool up, an existing point is not a snap target; a

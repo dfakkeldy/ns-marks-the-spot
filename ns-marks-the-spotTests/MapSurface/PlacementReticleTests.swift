@@ -1,0 +1,142 @@
+import GeoCore
+import MapKit
+import Testing
+
+@testable import ns_marks_the_spot
+
+/// Where the crosshair sits, and when a press-and-hold may place.
+@Suite("Placement reticle")
+@MainActor
+struct PlacementReticleTests {
+    /// The middle of the uncovered map: with a card reporting 300 points into
+    /// the bottom margin, the reticle sits at the middle of the top 400.
+    @Test func theReticleSitsInTheMiddleOfTheUncoveredMap() {
+        let bounds = CGRect(x: 0, y: 0, width: 390, height: 700)
+        #expect(MapController.reticlePoint(in: bounds, bottomMargin: 0) == CGPoint(x: 195, y: 350))
+        #expect(MapController.reticlePoint(in: bounds, bottomMargin: 300) == CGPoint(x: 195, y: 200))
+        // A margin taller than the map is clamped rather than sending the
+        // reticle above the screen.
+        #expect(MapController.reticlePoint(in: bounds, bottomMargin: 900).y == 0)
+    }
+
+    /// The controller's reticle follows the card inset the container reports,
+    /// and disarms to nothing.
+    @Test func theReticleFollowsTheCardInset() {
+        let controller = MapController()
+        let mapView = MKMapView(frame: CGRect(x: 0, y: 0, width: 390, height: 700))
+        controller.mapView = mapView
+        controller.setReticleArmed(true)
+        #expect(controller.reticlePoint?.y == 350)
+        #expect(controller.reticleCoordinate != nil)
+
+        controller.setBottomCardHeight(300, for: .editPanel)
+        #expect(controller.reticlePoint?.y == 200)
+
+        controller.setReticleArmed(false)
+        #expect(controller.reticlePoint == nil)
+        #expect(controller.reticleCoordinate == nil)
+    }
+
+    /// A press-and-hold on a handle is MapKit's drag, never a placement; over
+    /// any other annotation — a draft corner, a photo pin — it may place.
+    @Test func aLongPressYieldsOnlyToDraggableHandles() {
+        let handle = VectorHandleAnnotationView(annotation: nil, reuseIdentifier: "h")
+        let inner = UIView()
+        handle.addSubview(inner)
+        #expect(!MapController.longPressMayBegin(over: handle))
+        #expect(!MapController.longPressMayBegin(over: inner))
+        #expect(MapController.longPressMayBegin(over: MKAnnotationView(annotation: nil, reuseIdentifier: "pin")))
+        #expect(MapController.longPressMayBegin(over: UIView()))
+        #expect(MapController.longPressMayBegin(over: nil))
+    }
+
+    /// The press-and-hold is recognized only while the reticle is armed:
+    /// recognized at any other time it would take the pan from MapKit and do
+    /// nothing with it.
+    @Test func placementBeginsOnlyWhileArmed() {
+        #expect(MapController.placementMayBegin(armed: true, selectingBounds: false, over: nil))
+        #expect(!MapController.placementMayBegin(armed: false, selectingBounds: false, over: nil))
+        #expect(!MapController.placementMayBegin(armed: true, selectingBounds: true, over: nil))
+        let handle = VectorHandleAnnotationView(annotation: nil, reuseIdentifier: "h")
+        #expect(!MapController.placementMayBegin(armed: true, selectingBounds: false, over: handle))
+    }
+
+    /// The reticle sits in the middle of the map inside all four layout
+    /// margins, as MapKit centres a followed user: a 59-point safe area on
+    /// top and a 300-point panel below put it at 305.5, not 276.
+    @Test func theReticleHonoursEveryMargin() {
+        let bounds = CGRect(x: 0, y: 0, width: 390, height: 852)
+        let insets = UIEdgeInsets(top: 59, left: 0, bottom: 300, right: 0)
+        #expect(MapController.reticlePoint(in: bounds, insets: insets) == CGPoint(x: 195, y: 305.5))
+        let wide = UIEdgeInsets(top: 0, left: 100, bottom: 0, right: 20)
+        #expect(MapController.reticlePoint(in: bounds, insets: wide).x == 235)
+        // Insets past the map leave an empty rectangle, never an inverted one.
+        let room = MapController.uncoveredRect(in: bounds, insets: UIEdgeInsets(top: 900, left: 0, bottom: 900, right: 0))
+        #expect(room.height == 0)
+        #expect(room.minY == 852)
+    }
+
+    /// The button says "Finish area here" only when the placement would
+    /// close the area: three corners down and the crosshair on the first.
+    @Test func theButtonSaysWhenItClosesTheArea() {
+        var draft = VectorDraft(shape: .area)
+        draft.append(GeoJsonPosition(lng: -61.47, lat: 45.80))
+        draft.append(GeoJsonPosition(lng: -61.46, lat: 45.80))
+        let first = GeoPoint(lat: 45.80, lng: -61.47)
+        #expect(!MapContainerView.reticleFinishesArea(shape: .area, draft: draft, candidate: first))
+        draft.append(GeoJsonPosition(lng: -61.46, lat: 45.81))
+        #expect(MapContainerView.reticleFinishesArea(shape: .area, draft: draft, candidate: first))
+        #expect(!MapContainerView.reticleFinishesArea(shape: .area, draft: draft, candidate: GeoPoint(lat: 45.81, lng: -61.46)))
+        #expect(!MapContainerView.reticleFinishesArea(shape: .line, draft: draft, candidate: first))
+        #expect(!MapContainerView.reticleFinishesArea(shape: .area, draft: nil, candidate: first))
+    }
+
+    /// The panel's placement button names the shape and the closing corner
+    /// as the crosshair's does.
+    @Test func thePanelPlacementLabelNamesTheShape() {
+        #expect(VectorEditPanel.placeLabel(.point, finishesArea: false) == "Place point at crosshair")
+        #expect(VectorEditPanel.placeLabel(.line, finishesArea: false) == "Add line point at crosshair")
+        #expect(VectorEditPanel.placeLabel(.area, finishesArea: false) == "Add area corner at crosshair")
+        #expect(VectorEditPanel.placeLabel(.area, finishesArea: true) == "Finish area at crosshair")
+    }
+
+    /// Placement is armed only for a drawing tool in a session that is not
+    /// on its way out.
+    @Test func placementArmsOnlyWhileDrawingAndNotEnding() {
+        #expect(MapContainerView.reticleShouldArm(isEditing: true, isEnding: false, tool: .drawing(.point)))
+        #expect(!MapContainerView.reticleShouldArm(isEditing: true, isEnding: true, tool: .drawing(.point)))
+        #expect(!MapContainerView.reticleShouldArm(isEditing: true, isEnding: false, tool: .selecting))
+        #expect(!MapContainerView.reticleShouldArm(isEditing: false, isEnding: false, tool: .drawing(.line)))
+        #expect(!MapContainerView.reticleShouldArm(isEditing: true, isEnding: false, tool: nil))
+        // A save-area selection has the map; the crosshair stands down.
+        #expect(
+            !MapContainerView.reticleShouldArm(
+                isEditing: true, isEnding: false, tool: .drawing(.point), selectingBounds: true
+            )
+        )
+    }
+
+    /// Step to a corner, then move a corner to the map centre without
+    /// panning: nothing moves, because `pan(to:)` and `visibleCentre()` mean
+    /// the same spot inside the layout margins.
+    @Test func panningToAPointPutsItAtTheVisibleCentre() {
+        let controller = MapController()
+        let mapView = MKMapView(frame: CGRect(x: 0, y: 0, width: 390, height: 700))
+        controller.mapView = mapView
+        mapView.region = MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 45.80, longitude: -61.47),
+            latitudinalMeters: 1_000, longitudinalMeters: 1_000
+        )
+        mapView.layoutMargins = UIEdgeInsets(top: 59, left: 0, bottom: 300, right: 0)
+        let corner = GeoPoint(lat: 45.8031, lng: -61.4712)
+
+        controller.pan(to: corner, animated: false)
+
+        let centre = controller.visibleCentre()
+        #expect(centre != nil)
+        if let centre {
+            #expect(abs(centre.lat - corner.lat) < 0.00005)
+            #expect(abs(centre.lng - corner.lng) < 0.00005)
+        }
+    }
+}

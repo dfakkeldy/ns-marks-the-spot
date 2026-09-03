@@ -152,3 +152,15 @@ Done: A 2c867c55b 53/53, B 5e74f7f10 80/80, C 22b6d4e2a 44/44, D bf378c5dc
 B r4, C r3, D r1; outputs `codex/out-*-r4-*`, `out-C-r3-*`, `out-D-r1-*`).
 Next: read verdicts, fix only Highs that hold, then `open-prs.sh A|B|C|D`
 (D's base is C's branch); then PR E from `apply_prE.py` on a branch from D.
+
+## 2026-09-02 10:07 — PR E applied (stacked on D), not yet built
+
+Done: `feature/ios-crosshair-placement`: `MapController.reticlePoint`/
+`reticleCoordinate` (armed while a drawing tool is up; the middle of the map
+above the bottom layout margin, the same spot `visibleCentre()` now uses),
+`PlacementReticle` overlay with "Place here" and a coordinate readout, a
+press-and-hold recognizer (`handlePlaceLongPress`, refused over annotation
+views via `longPressMayBegin`) → `.mapLongPressed` → `handleEditTap`;
+`PlacementReticleTests`; provenance test for reticle-placed points.
+Next: build+test E (PlacementReticleTests, UserVectorEditingTests,
+MapControllerTests), Codex E, then open PRs A–E.

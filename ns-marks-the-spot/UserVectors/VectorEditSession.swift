@@ -499,8 +499,14 @@ final class VectorEditSession {
 
     /// A tap on the map. `parcelSnap` is recorded at event time, never by
     /// comparing the stored coordinate afterwards.
+    /// Whether a pair of numbers is a place on Earth: finite and inside the
+    /// WGS84 range. The last guard before a coordinate is written.
+    static func isPlaceable(latitude: Double, longitude: Double) -> Bool {
+        latitude.isFinite && longitude.isFinite && abs(latitude) <= 90 && abs(longitude) <= 180
+    }
+
     func handleTap(latitude: Double, longitude: Double, parcelSnap: Bool = false) {
-        guard isEditing, !isEnding else { return }
+        guard isEditing, !isEnding, Self.isPlaceable(latitude: latitude, longitude: longitude) else { return }
         switch tool {
         case .drawing(let shape):
             // The first tap of a new shape lets go of the last one. The panel
@@ -1033,6 +1039,7 @@ final class VectorEditSession {
         // Refused while Done is in progress: a move committed after the final
         // flush would be lost with the session.
         guard let before = self.parsed, !isEnding else { return .refused }
+        guard Self.isPlaceable(latitude: latitude, longitude: longitude) else { return .unchanged }
         guard let feature = before.features.first(where: { $0.id == featureID }),
               let geometry = feature.geometry
         else { return .unchanged }
@@ -1144,6 +1151,20 @@ final class VectorEditSession {
         }
         commit(stripped)
         return .moved
+    }
+
+    /// The snap under the crosshair changed between the frame and the tap:
+    /// said, and nothing placed, rather than a coordinate the reader did not
+    /// see.
+    func notePlacementChanged() {
+        note("Snapping changed under the crosshair. Aim again.")
+    }
+
+    /// The crosshair was on a parcel corner when the licence that made it a
+    /// target was withdrawn: said as that, so the reader knows why a spot
+    /// they were shown was not placed.
+    func noteParcelSnapLicenceWithdrawn() {
+        note("Parcel snapping is off until the Province's licence is accepted. Nothing placed.")
     }
 
     /// Says what a move from the panel came to, where the panel shows its
