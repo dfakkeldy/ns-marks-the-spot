@@ -94,6 +94,21 @@ final class ControlReachabilityUITests: XCTestCase {
             )
         }
 
+        // And the rest of the rail reads as switched off while it is up. The
+        // whole scrolling column is out of the gesture path in this mode, but
+        // a control that is merely inert still announces as available: one
+        // button offering itself in a column of dimmed ones reads as the one
+        // thing still on offer, and taps on it do nothing.
+        let offlineMaps = app.buttons["Offline Maps"]
+        XCTAssertTrue(
+            offlineMaps.exists,
+            "Offline Maps left the hierarchy while an area is being chosen"
+        )
+        XCTAssertFalse(
+            offlineMaps.isEnabled,
+            "Offline Maps still reads as available while an area is being chosen"
+        )
+
         app.buttons["Cancel"].tap()
         XCTAssertTrue(
             app.buttons["Use Visible Map"].waitForNonExistence(timeout: timeout),

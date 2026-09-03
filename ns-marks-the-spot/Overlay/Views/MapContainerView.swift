@@ -1082,6 +1082,7 @@ struct MapContainerView: View {
                     MapControlIcon(systemName: "externaldrive")
                 }
                 .accessibilityLabel("Offline Maps")
+                .disabled(isSelectingSaveArea)
 
                 // One list at a time, as the web renders one panel at a
                 // time. Both on screen at once would let a reader pick a
