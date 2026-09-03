@@ -3557,6 +3557,20 @@ a {
     padding-inline: 10px;
   }
 
+  /* Full width under the close row rather than squeezed into the strip
+     beside it: at 200% text the 154px inset left a column a few words wide
+     and taller than the screen, with the inspector under it and no way to
+     scroll either. Bounded and scrollable, so a long caution cannot cover
+     the evidence it is about. */
+  .parcel-lookup-message {
+    top: 64px;
+    right: 12px;
+    left: 12px;
+    max-width: none;
+    max-height: 30dvh;
+    overflow-y: auto;
+  }
+
   .parcel-inspector {
     top: 10px;
     right: 10px;

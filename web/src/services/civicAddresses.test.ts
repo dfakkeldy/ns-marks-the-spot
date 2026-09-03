@@ -541,6 +541,26 @@ describe("Nova Scotia Civic Address File lookup", () => {
     expect(reading.unreadableRows).toBe(1);
   });
 
+  // A road name assembled from what is left of a malformed row is a road this
+  // app made up: with strname an array, "12 Main St" became "12 St".
+  it("refuses a row whose optional field is not what the schema declares", async () => {
+    const malformed = civicPoint("100", [0.5, 0.5]);
+    (malformed.properties as unknown as Record<string, unknown>).strname = [
+      "Main",
+    ];
+    vi.stubGlobal("fetch", vi.fn(async () => geoJsonResponse([malformed])));
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+      }),
+    ]);
+
+    expect(reading.addresses).toEqual([]);
+    expect(reading.unreadableRows).toBe(1);
+  });
+
   it("keeps the readable rows when the service sends a null feature", async () => {
     vi.stubGlobal(
       "fetch",

@@ -45,9 +45,11 @@ type DwellingEvidence =
   | { status: "ready"; accounts: PvscDwellingAccount[] }
   | { status: "error" }
   | { status: "blocked" }
-  // No account to ask with, and no NSPRD outline to match one: neither is the
-  // dwelling dataset answering, and neither is a source outage.
+  // No account to ask with, no record for the account a notice named, and no
+  // NSPRD outline to match one by: none of them is the dwelling dataset
+  // answering, and none is a source outage.
   | { status: "no-account" }
+  | { status: "no-record-for-notice-aan" }
   | { status: "geometry-unavailable" };
 
 type CivicEvidence =
@@ -202,6 +204,11 @@ function dwellingLines(evidence: DwellingEvidence): string[] {
   if (evidence.status === "no-account") {
     return [
       "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+    ];
+  }
+  if (evidence.status === "no-record-for-notice-aan") {
+    return [
+      "The municipal notice supplied an AAN, but PVSC returned no assessment record for it, so the dwelling dataset was not asked.",
     ];
   }
   if (evidence.status === "geometry-unavailable") {

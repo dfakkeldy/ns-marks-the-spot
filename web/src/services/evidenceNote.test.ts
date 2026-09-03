@@ -385,6 +385,36 @@ describe("parcel evidence note", () => {
     );
   });
 
+  // An AAN the notice supplied is an account that was available to ask with,
+  // and PVSC answering with no record for it is the assessment dataset
+  // answering. "No account was matched" is a different fact.
+  it("says a notice AAN had no assessment record rather than no account", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "notice-aan", accounts: [] },
+      },
+      dwellingEvidence: { status: "no-record-for-notice-aan" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "The municipal notice supplied an AAN, but PVSC returned no assessment record for it, so the dwelling dataset was not asked.",
+    );
+    expect(note.markdown).not.toContain(
+      "No PVSC assessment account was matched to this parcel",
+    );
+  });
+
   it("does not blame a source outage when the parcel had no geometry to match an account with", () => {
     const note = buildEvidenceNote({
       generatedAt: new Date("2026-07-20T14:05:06.000Z"),

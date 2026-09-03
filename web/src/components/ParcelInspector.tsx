@@ -74,6 +74,12 @@ export type SelectedEvidenceRequest = { pid: string; generation: number };
  * resolve. Distinct from a source error on purpose: nothing was queried, so
  * nothing "failed" — the parcel simply cannot be evaluated spatially.
  */
+/**
+ * Said by every source that depends on the parcel's outline when the outline
+ * never arrived — whether NSPRD answered with no such parcel or did not answer
+ * at all. Which of those happened is reported once, by the search or lookup
+ * message; what each source here can say is only that it was never asked.
+ */
 export const GEOMETRY_UNAVAILABLE_MESSAGE =
   "Not evaluated — this PID's NSPRD geometry is unavailable in the Province parcel service.";
 
@@ -123,6 +129,10 @@ export type DwellingState =
         | "error"
         | "blocked"
         | "no-account"
+        // The notice gave an AAN and PVSC returned no assessment record for
+        // it: an account was available to ask with, and the assessment
+        // dataset answered. That is not "no account was matched".
+        | "no-record-for-notice-aan"
         | "geometry-unavailable";
     }
   | {
@@ -616,6 +626,11 @@ function DwellingDetails({ state }: { state: DwellingState }) {
         <p className="assessment-status" role="status">
           No PVSC assessment account was matched to this parcel, so the dwelling
           dataset could not be asked about it.
+        </p>
+      ) : state.status === "no-record-for-notice-aan" ? (
+        <p className="assessment-status" role="status">
+          The municipal notice supplied an AAN, but PVSC returned no assessment
+          record for it, so the dwelling dataset was not asked.
         </p>
       ) : state.status === "error" ? (
         <p className="assessment-status error" role="status">

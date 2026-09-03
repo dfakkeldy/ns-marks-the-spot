@@ -218,6 +218,33 @@ describe("PrintPreview", () => {
 
   // The wait can end badly as well as well, and the control rail said nothing
   // about which sources the document was sealed without.
+  // Every evidence answer produces a new capture. A deadline that was torn
+  // down and recreated with it meant a page with several slow sources sealed
+  // long after the fifteen seconds it promises — each answer pushing the
+  // deadline out again.
+  it("seals fifteen seconds after the wait began, not after the last answer", async () => {
+    vi.useFakeTimers();
+    const pending = capture(true);
+    const { rerender } = render(
+      <PrintPreview capture={pending} baseUrl="https://example.com/map/" onClose={onClose} />,
+    );
+    markMapReady();
+
+    await act(() => vi.advanceTimersByTimeAsync(10_000));
+    // One source answers at ten seconds; the rest are still out.
+    const partly = capture(true);
+    partly.evidence.buildings = {
+      status: "ready",
+      value: { count: 0, pointCount: 0, polygonCount: 0 },
+    };
+    rerender(
+      <PrintPreview capture={partly} baseUrl="https://example.com/map/" onClose={onClose} />,
+    );
+    await act(() => vi.advanceTimersByTimeAsync(5_100));
+
+    expect(screen.getByText(/^Sealed while .* had not answered\./u)).toBeInTheDocument();
+  });
+
   it("names the silent sources in the controls before the user prints", async () => {
     vi.useFakeTimers();
     render(<PrintPreview capture={capture(true)} baseUrl="https://example.com/map/" onClose={onClose} />);

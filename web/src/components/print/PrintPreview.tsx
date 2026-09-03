@@ -83,24 +83,34 @@ export function PrintPreview({
   const snapshot = sealedSnapshots.captureToken === capture.token
     ? sealedSnapshots.byTemplate[template] ?? null
     : null;
+  // The capture behind the seal, read at the moment of sealing rather than
+  // captured in the callback. Every evidence answer produces a new `capture`,
+  // and a `sealSnapshot` that changed with it restarted the timeout below —
+  // so a page with several slow sources sealed long after the fifteen seconds
+  // it promises, or never, while each answer pushed the deadline out again.
+  const captureRef = useRef(capture);
+  useEffect(() => {
+    captureRef.current = capture;
+  }, [capture]);
   const sealSnapshot = useCallback((templateToSeal: PrintTemplate, didTimeOut: boolean) => {
+    const sealing = captureRef.current;
     setSealedSnapshots((current) => {
-      const byTemplate = current.captureToken === capture.token
+      const byTemplate = current.captureToken === sealing.token
         ? current.byTemplate
         : {};
       if (byTemplate[templateToSeal]) return current;
       return {
-        captureToken: capture.token,
+        captureToken: sealing.token,
         byTemplate: {
           ...byTemplate,
-          [templateToSeal]: sealPrintSnapshot(capture, templateToSeal, {
+          [templateToSeal]: sealPrintSnapshot(sealing, templateToSeal, {
             timedOut: didTimeOut,
             generatedAt: new Date().toISOString(),
           }),
         },
       };
     });
-  }, [capture]);
+  }, []);
   const bounds = useMemo(
     () => snapshot ? printBoundsForTemplate(snapshot, snapshot.template) : null,
     [snapshot],

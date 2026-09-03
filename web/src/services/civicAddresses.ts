@@ -448,6 +448,21 @@ function civicAddressForFeature(
   ) {
     return null;
   }
+  // Every declared field, not only the two the row is keyed by. A component
+  // outside the scalar-or-null shape the file declares is not an absent
+  // component: dropping it silently built "12 St, Mabou" out of a row whose
+  // street name was an array, and named a civic road "St".
+  if (
+    Object.values(feature.properties).some(
+      (value) =>
+        value !== null &&
+        value !== undefined &&
+        typeof value !== "string" &&
+        typeof value !== "number",
+    )
+  ) {
+    return null;
+  }
   const pntid = cleanComponent(feature.properties.pntid);
   const coordinates = pointCoordinates(feature);
   if (!pntid || !coordinates) {

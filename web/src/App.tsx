@@ -608,6 +608,13 @@ function printDwellingStateForRequest(
         "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
     };
   }
+  if (state.status === "no-record-for-notice-aan") {
+    return {
+      status: "not-asked",
+      message:
+        "The municipal notice supplied an AAN, but PVSC returned no assessment record for it, so the dwelling dataset was not asked.",
+    };
+  }
   if (state.status === "geometry-unavailable") {
     return {
       status: "not-asked",
@@ -1983,6 +1990,11 @@ export function App() {
       request: SelectedEvidenceRequest,
       status: "geometry-unavailable" | "error",
     ) => {
+      // `status` is what happened to the GEOMETRY, and every source below
+      // depends on it. "error" therefore belongs to a source that answered
+      // badly — never to one this never asked because the outline never
+      // arrived. The call sites pass "geometry-unavailable" for a failed
+      // NSPRD fetch and report that outage once, in the lookup message.
       setMappedContext((current) =>
         isCurrentEvidenceRequest(current.request, request)
           ? { status, value: EMPTY_PARCEL_CONTEXT, request }
@@ -2058,7 +2070,7 @@ export function App() {
         }
         setParcelLookupMessage("The shared PID could not be loaded right now.");
         if (request) {
-          markGeometryEvidenceTerminal(request, "error");
+          markGeometryEvidenceTerminal(request, "geometry-unavailable");
         }
       });
 
@@ -2323,8 +2335,16 @@ export function App() {
     const request = assessmentState.request;
     const aans = assessmentState.value.accounts.map(({ aan }) => aan);
     if (aans.length === 0) {
-      // No account is no question, not a dataset that answered no.
-      setDwellingState({ status: "no-account", request });
+      // No account is no question, not a dataset that answered no — and a
+      // notice that supplied an AAN PVSC has no record for is a third thing
+      // again: an account WAS available, and the assessment dataset answered.
+      setDwellingState({
+        status:
+          assessmentState.value.matchMethod === "notice-aan"
+            ? "no-record-for-notice-aan"
+            : "no-account",
+        request,
+      });
       return;
     }
 
@@ -3090,7 +3110,7 @@ export function App() {
       setParcels((current) => mergeFeatureCollections(current, collection));
     } catch {
       setSearchError("The Province parcel search is unavailable right now.");
-      markGeometryEvidenceTerminal(request, "error");
+      markGeometryEvidenceTerminal(request, "geometry-unavailable");
     } finally {
       if (pendingGeometryFetchPidRef.current === pid) {
         pendingGeometryFetchPidRef.current = null;
@@ -3135,7 +3155,7 @@ export function App() {
       setParcelLookupMessage(
         `PID ${pid} details opened, but the Province parcel service is unavailable.`,
       );
-      markGeometryEvidenceTerminal(request, "error");
+      markGeometryEvidenceTerminal(request, "geometry-unavailable");
     } finally {
       if (pendingGeometryFetchPidRef.current === pid) {
         pendingGeometryFetchPidRef.current = null;
@@ -3718,6 +3738,7 @@ export function App() {
         dwellingState.status !== "error" &&
         dwellingState.status !== "blocked" &&
         dwellingState.status !== "no-account" &&
+        dwellingState.status !== "no-record-for-notice-aan" &&
         dwellingState.status !== "geometry-unavailable")
     ) {
       return;
@@ -3870,9 +3891,11 @@ export function App() {
           ? { status: "blocked" }
           : dwellingState.status === "no-account"
             ? { status: "no-account" }
-            : dwellingState.status === "geometry-unavailable"
-              ? { status: "geometry-unavailable" }
-              : { status: "error" },
+            : dwellingState.status === "no-record-for-notice-aan"
+              ? { status: "no-record-for-notice-aan" }
+              : dwellingState.status === "geometry-unavailable"
+                ? { status: "geometry-unavailable" }
+                : { status: "error" },
       resourceResults: resourceLayerCatalog.map((layer) => {
         if (resourceIntersections.status !== "ready") {
           // Terminal but not evaluated: the note records the condition per
@@ -4984,6 +5007,7 @@ export function App() {
                   dwellingState.status === "error" ||
                   dwellingState.status === "blocked" ||
                   dwellingState.status === "no-account" ||
+                  dwellingState.status === "no-record-for-notice-aan" ||
                   dwellingState.status === "geometry-unavailable")
               }
               now={currentTime}
