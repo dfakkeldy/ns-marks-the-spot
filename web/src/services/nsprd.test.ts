@@ -235,6 +235,19 @@ describe("NSPRD point replies", () => {
     expect(unreadable.unidentifiedCount).toBe(6);
   });
 
+  it("counts a feature with no properties at all as unidentified", () => {
+    const result = identifyParcelsAtPoint(
+      reply(
+        { type: "Feature", properties: null, geometry: null } as unknown as
+          NsprdFeatureCollection["features"][number],
+        pointFeature("50251750"),
+      ),
+    );
+
+    expect(result.pids).toEqual(["50251750"]);
+    expect(result.unidentifiedCount).toBe(1);
+  });
+
   it("keeps every distinct PID where parcels meet, in the order NSPRD listed", () => {
     const result = identifyParcelsAtPoint(
       reply(

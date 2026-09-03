@@ -220,7 +220,8 @@ export function identifyParcelsAtPoint(
     // never repaired — the selection, the share URL and the evidence requests
     // all key on the eight-digit form, so a value that is not already that
     // form is a gap in the reply rather than a parcel this app can name.
-    const pid = (feature.properties as { PID?: unknown }).PID;
+    const pid = (feature as { properties?: { PID?: unknown } | null } | null)
+      ?.properties?.PID;
     if (typeof pid !== "string" || normalizePid(pid) !== pid) {
       unidentifiedCount += 1;
       continue;

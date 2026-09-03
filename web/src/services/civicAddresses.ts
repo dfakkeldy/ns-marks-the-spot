@@ -193,7 +193,13 @@ function officialSearchFallback(query: string): string | null {
 }
 
 function cleanComponent(value: AddressComponent): string | null {
-  if (value === null || value === undefined) {
+  // Only what the file's schema declares. An array or an object reaching
+  // String() became "27700002" or "[object Object]" — an official identifier
+  // and a road name this app made up out of a row it could not read.
+  if (typeof value !== "string" && typeof value !== "number") {
+    return null;
+  }
+  if (typeof value === "number" && !Number.isFinite(value)) {
     return null;
   }
 
@@ -387,14 +393,40 @@ function pointInPolygonPart(
   );
 }
 
+/**
+ * A row's identity, independent of the order the service wrote its members in.
+ *
+ * The same source row echoed by two overlapping bounding-box queries has to
+ * count once, and JSON member order carries no meaning — two spellings of one
+ * row were counted as two mapped points the file never sent.
+ */
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) {
+    return `[${value.map(canonicalJson).join(",")}]`;
+  }
+  if (value !== null && typeof value === "object") {
+    return `{${Object.keys(value as Record<string, unknown>)
+      .sort()
+      .map(
+        (key) =>
+          `${JSON.stringify(key)}:${canonicalJson(
+            (value as Record<string, unknown>)[key],
+          )}`,
+      )
+      .join(",")}}`;
+  }
+  return JSON.stringify(value) ?? "null";
+}
+
 function pointCoordinates(feature: CivicPointFeature): PointCoordinates | null {
   // Read through `unknown`: the declared type says what a placed point may be
   // assumed to carry, and nothing validates the wire against it. A row whose
   // "coordinates" is a number destructured to a TypeError, which rejected the
   // whole request — one unreadable row reported as a source outage, taking
   // every readable address in the same reply with it.
-  const coordinates = (feature.geometry as { coordinates?: unknown } | null)
-    ?.coordinates;
+  const coordinates = (
+    feature as { geometry?: { coordinates?: unknown } | null } | null
+  )?.geometry?.coordinates;
   if (!Array.isArray(coordinates)) return null;
   const [longitude, latitude] = coordinates as unknown[];
   return typeof longitude === "number" &&
@@ -408,7 +440,12 @@ function pointCoordinates(feature: CivicPointFeature): PointCoordinates | null {
 function civicAddressForFeature(
   feature: CivicPointFeature,
 ): CivicAddress | null {
-  if (typeof feature.properties !== "object" || feature.properties === null) {
+  if (
+    typeof feature !== "object" ||
+    feature === null ||
+    typeof feature.properties !== "object" ||
+    feature.properties === null
+  ) {
     return null;
   }
   const pntid = cleanComponent(feature.properties.pntid);
@@ -614,7 +651,7 @@ export async function fetchCivicAddresses(
       }
       const address = civicAddressForFeature(feature);
       if (!address) {
-        const key = JSON.stringify(feature);
+        const key = canonicalJson(feature);
         inThisPart.set(key, (inThisPart.get(key) ?? 0) + 1);
         continue;
       }

@@ -491,6 +491,78 @@ describe("Nova Scotia Civic Address File lookup", () => {
     expect(reading.unreadableRows).toBe(1);
   });
 
+  // JSON member order carries no meaning, so two spellings of one echoed row
+  // are one row.
+  it("counts an echoed row once however the service ordered its members", async () => {
+    const rowA = civicPoint("", [0.5, 0.5]);
+    const rowB = {
+      ...civicPoint("", [0.5, 0.5]),
+      properties: Object.fromEntries(
+        Object.entries(civicPoint("", [0.5, 0.5]).properties).reverse(),
+      ) as typeof rowA.properties,
+    };
+    let call = 0;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => geoJsonResponse([(call++ % 2 === 0 ? rowA : rowB)])),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "MultiPolygon",
+        coordinates: [
+          [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+          [[[0.1, 0.1], [2.1, 0.1], [0.1, 2.1], [0.1, 0.1]]],
+        ],
+      }),
+    ]);
+
+    expect(reading.unreadableRows).toBe(1);
+  });
+
+  // A row whose fields are not what the file's schema declares cannot be
+  // repaired into one: String([27700002]) is an official identifier this app
+  // would have made up.
+  it("does not coerce a malformed field into an identifier or a road name", async () => {
+    const malformed = civicPoint("100", [0.5, 0.5]);
+    (malformed.properties as unknown as Record<string, unknown>).pntid = [
+      27700002,
+    ];
+    vi.stubGlobal("fetch", vi.fn(async () => geoJsonResponse([malformed])));
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+      }),
+    ]);
+
+    expect(reading.addresses).toEqual([]);
+    expect(reading.unreadableRows).toBe(1);
+  });
+
+  it("keeps the readable rows when the service sends a null feature", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        geoJsonResponse([
+          civicPoint("100", [0.5, 0.5]),
+          null as unknown as ReturnType<typeof civicPoint>,
+        ]),
+      ),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+      }),
+    ]);
+
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["100"]);
+    expect(reading.unreadableRows).toBe(1);
+  });
+
   it("does not report an empty answer for a parcel it cannot query inside", async () => {
     vi.stubGlobal("fetch", vi.fn());
 
