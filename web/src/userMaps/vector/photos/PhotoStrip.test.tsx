@@ -7,7 +7,7 @@ import type { PhotoManagerApi } from "./usePhotoManager";
 function manager(overrides: Partial<PhotoManagerApi> = {}): PhotoManagerApi {
   return {
     attachPhotos: vi.fn(async () => []),
-    removePhoto: vi.fn(async () => {}),
+    removePhoto: vi.fn(async () => true),
     loadThumbUrl: vi.fn(async () => "blob:thumb"),
     loadFullBlob: vi.fn(async () => null),
     ...overrides,
@@ -42,6 +42,7 @@ describe("PhotoStrip", () => {
         manager={api}
         onDescriptors={onDescriptors}
         onAttachDescriptors={onAttachDescriptors}
+        onPhotoCleanupFailed={vi.fn()}
         onMovePoint={onMovePoint}
         onOpenPhoto={vi.fn()}
       />,
@@ -88,6 +89,7 @@ describe("PhotoStrip", () => {
         manager={api}
         onDescriptors={vi.fn()}
         onAttachDescriptors={vi.fn(() => [])}
+        onPhotoCleanupFailed={vi.fn()}
         onMovePoint={vi.fn()}
         onOpenPhoto={vi.fn()}
       />,
@@ -116,6 +118,7 @@ describe("PhotoStrip", () => {
         manager={api}
         onDescriptors={onDescriptors}
         onAttachDescriptors={vi.fn(() => [])}
+        onPhotoCleanupFailed={vi.fn()}
         onMovePoint={vi.fn()}
         onOpenPhoto={vi.fn()}
       />,
@@ -136,6 +139,7 @@ describe("PhotoStrip", () => {
         manager={manager()}
         onDescriptors={vi.fn()}
         onAttachDescriptors={vi.fn(() => [])}
+        onPhotoCleanupFailed={vi.fn()}
         onMovePoint={vi.fn()}
         onOpenPhoto={onOpenPhoto}
       />,
@@ -167,6 +171,7 @@ describe("PhotoStrip", () => {
       { id: "p2", sourceName: "IMG_2.jpg", width: 10, height: 10 },
     ]);
     const onDescriptors = vi.fn();
+    const onPhotoCleanupFailed = vi.fn();
     render(
       <PhotoStrip
         descriptors={[{ id: "p1", width: 10, height: 10 }]}
@@ -175,6 +180,7 @@ describe("PhotoStrip", () => {
         manager={api}
         onDescriptors={onDescriptors}
         onAttachDescriptors={onAttachDescriptors}
+        onPhotoCleanupFailed={onPhotoCleanupFailed}
         onMovePoint={vi.fn()}
         onOpenPhoto={vi.fn()}
       />,
@@ -186,9 +192,49 @@ describe("PhotoStrip", () => {
 
     await waitFor(() => expect(api.removePhoto).toHaveBeenCalledWith("p2"));
     expect(onDescriptors).not.toHaveBeenCalled();
+    expect(onPhotoCleanupFailed).not.toHaveBeenCalled();
+
     // Nothing was attached, so there is no point to offer to move.
     expect(
       screen.queryByRole("button", { name: "Move point to photo's location" }),
     ).not.toBeInTheDocument();
+  });
+
+  // No layer lists this row, so no later sweep will find it: a delete the
+  // device refuses has to be said out loud rather than assumed.
+  it("says so when a discarded photo's copy could not be taken off the device", async () => {
+    const api = manager({
+      attachPhotos: vi.fn(async () => [
+        {
+          fileName: "IMG_3.jpg",
+          ok: true as const,
+          descriptor: { id: "p3", sourceName: "IMG_3.jpg", width: 10, height: 10 },
+          gps: null,
+        },
+      ]),
+      removePhoto: vi.fn(async () => false),
+    });
+    const onPhotoCleanupFailed = vi.fn();
+    render(
+      <PhotoStrip
+        descriptors={[]}
+        pointPosition={null}
+        layerId="layer-1"
+        manager={api}
+        onDescriptors={vi.fn()}
+        onAttachDescriptors={vi.fn(() => [
+          { id: "p3", sourceName: "IMG_3.jpg", width: 10, height: 10 },
+        ])}
+        onPhotoCleanupFailed={onPhotoCleanupFailed}
+        onMovePoint={vi.fn()}
+        onOpenPhoto={vi.fn()}
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText("Add photos from files"), {
+      target: { files: [new File(["bytes"], "IMG_3.jpg", { type: "image/jpeg" })] },
+    });
+
+    await waitFor(() => expect(onPhotoCleanupFailed).toHaveBeenCalledWith("p3"));
   });
 });

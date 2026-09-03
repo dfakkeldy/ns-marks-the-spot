@@ -54,7 +54,20 @@ export type LiveLocationSnapshot =
    * must take its search off the screen; starting a fresh watch is the
    * consumer's to offer.
    */
-  | { status: "position-unavailable"; fix: null }
+  | {
+      status: "position-unavailable";
+      fix: null;
+      /**
+       * Why the watch stopped, because the three are different accounts and
+       * a consumer must not tell one as another. `repeated` is the device
+       * answering that it cannot place itself, over and over. `no-answer` is
+       * one such answer and then silence until the deadline — nothing was
+       * said several times. `no-fix` is a watch that only ever timed out:
+       * the device never said it could not place itself, it just never
+       * placed itself.
+       */
+      reason: "repeated" | "no-answer" | "no-fix";
+    }
   | { status: "unavailable"; fix: null };
 
 export type LiveLocationHandle = { stop: () => void };
@@ -73,14 +86,15 @@ const TIMEOUT = 3;
 const PRE_FIX_UNAVAILABLE_LIMIT = 3;
 
 /**
- * And how long the watch has, from the first such report, to produce a
- * position before it gives up anyway. The API promises no second callback, so
- * a browser that says the position is unavailable once and then falls silent
- * would leave a pressed toggle over a search that will never end. Thirty
- * seconds is past one full 20-second watch timeout, so a cold start that is
- * genuinely still working is not cut off.
+ * And how long the watch has, from its first failure of any kind, to produce
+ * a position before it gives up anyway. The API promises no second callback
+ * of any sort, so a browser that answers once and then falls silent — or that
+ * only ever times out — would leave a pressed toggle over a search that will
+ * never end. Thirty seconds is past one full 20-second watch timeout, so a
+ * cold start that is genuinely still working is not cut off, and a device
+ * indoors gets a second attempt from the toggle rather than an endless first.
  */
-const PRE_FIX_UNAVAILABLE_DEADLINE_MS = 30_000;
+const PRE_FIX_DEADLINE_MS = 30_000;
 
 /**
  * maximumAge 5 s: a marker may show a briefly cached fix. The 20 s timeout
@@ -160,7 +174,7 @@ export function startLiveLocation(
   // a search that has already failed, and what is passed on is only what the
   // device said: the position is unavailable. Not a refusal, and not a
   // machine without a way to locate itself.
-  const giveUp = () => {
+  const giveUp = (reason: "repeated" | "no-answer" | "no-fix") => {
     if (stopped) {
       return;
     }
@@ -170,7 +184,7 @@ export function startLiveLocation(
     if (watchId !== null) {
       geolocation.clearWatch(watchId);
     }
-    onChange({ status: "position-unavailable", fix: null });
+    onChange({ status: "position-unavailable", fix: null, reason });
   };
 
   onChange({ status: "acquiring", fix: null });
@@ -199,18 +213,20 @@ export function startLiveLocation(
         onChange({ status: "denied", fix: null });
         return;
       }
-      if (
-        endsWhenNeverPlaced &&
-        error.code === POSITION_UNAVAILABLE &&
-        lastFix === null
-      ) {
-        preFixUnavailable += 1;
-        // Counting alone would wait forever on a browser that reports this
-        // once and then says nothing more, which nothing in the API forbids.
-        unavailableDeadline ??= setTimeout(giveUp, PRE_FIX_UNAVAILABLE_DEADLINE_MS);
-        if (preFixUnavailable >= PRE_FIX_UNAVAILABLE_LIMIT) {
-          giveUp();
-          return;
+      if (endsWhenNeverPlaced && lastFix === null) {
+        // Armed by the first failure of any kind. Counting code 2s alone
+        // would wait forever on a browser that reports one and then says
+        // nothing more, and on one that only ever times out — neither of
+        // which the API forbids.
+        unavailableDeadline ??= setTimeout(() => {
+          giveUp(preFixUnavailable > 0 ? "no-answer" : "no-fix");
+        }, PRE_FIX_DEADLINE_MS);
+        if (error.code === POSITION_UNAVAILABLE) {
+          preFixUnavailable += 1;
+          if (preFixUnavailable >= PRE_FIX_UNAVAILABLE_LIMIT) {
+            giveUp("repeated");
+            return;
+          }
         }
       }
       // Timeout or position-unavailable: the watch keeps trying on its own,

@@ -159,6 +159,7 @@ describe("startLiveLocation", () => {
     expect(snapshots.at(-1)).toEqual({
       status: "position-unavailable",
       fix: null,
+      reason: "repeated",
     });
     expect(fake.clearWatch).toHaveBeenCalledWith(7);
 
@@ -167,6 +168,7 @@ describe("startLiveLocation", () => {
     expect(snapshots.at(-1)).toEqual({
       status: "position-unavailable",
       fix: null,
+      reason: "repeated",
     });
   });
 
@@ -207,9 +209,39 @@ describe("startLiveLocation", () => {
 
       vi.advanceTimersByTime(30_000);
 
+      // One report, then silence: the deadline ended it, and the state says
+      // which of the two endings this was.
       expect(snapshots.at(-1)).toEqual({
         status: "position-unavailable",
         fix: null,
+        reason: "no-answer",
+      });
+      expect(fake.clearWatch).toHaveBeenCalledWith(7);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  // A watch that only ever times out never said the position was
+  // unavailable — it just never found one. Left alone it searched forever
+  // under a pressed toggle.
+  it("gives up on a watch that only ever times out", () => {
+    vi.useFakeTimers();
+    try {
+      const fake = fakeGeolocation();
+      const { snapshots, onChange } = collect();
+      startLiveLocation(onChange, fake.geolocation);
+
+      fake.pushError(3); // TIMEOUT
+      fake.pushError(3);
+      expect(snapshots.at(-1)?.status).toBe("signal-lost");
+
+      vi.advanceTimersByTime(30_000);
+
+      expect(snapshots.at(-1)).toEqual({
+        status: "position-unavailable",
+        fix: null,
+        reason: "no-fix",
       });
       expect(fake.clearWatch).toHaveBeenCalledWith(7);
     } finally {

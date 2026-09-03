@@ -178,6 +178,25 @@ describe("the recording draft on this device", () => {
       "a segment with no raw segment beside it",
       { version: 1, result: { ...draft(), segments: [...draft().segments, []] } },
     ],
+    [
+      "a distance no walk between these positions could have covered",
+      { version: 1, result: { ...draft(), distanceM: 1_000_000_000 } },
+    ],
+    [
+      "a kept position looser than the filter's own accuracy gate",
+      {
+        version: 1,
+        result: {
+          ...draft(),
+          segments: [
+            [
+              { ...draft().segments[0][0], accuracyM: 400 },
+              draft().segments[0][1],
+            ],
+          ],
+        },
+      },
+    ],
   ])("refuses %s, and does not call it an empty device", async (_label, stored) => {
     const factory = new IDBFactory();
     const store = createTrackDraftStore(factory);
@@ -261,6 +280,42 @@ describe("the recording draft on this device", () => {
       const write = store.save(draft());
       // Past two operation deadlines: the read gives up, and the write behind
       // it then gets its own turn to.
+      await vi.advanceTimersByTimeAsync(10_000);
+
+      expect(await read).toEqual({ status: "unreadable" });
+      expect(await write).toBe("failed");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  // The open is not the only thing that can hang. A request that never fires
+  // success or error, and a transaction that never completes or aborts, hold
+  // the queue exactly as a hung open does.
+  it("gives up on a device that opens and then never answers", async () => {
+    vi.useFakeTimers();
+    try {
+      const silentStore = {
+        get: () => ({}) as IDBRequest,
+        put: () => ({}) as IDBRequest,
+        delete: () => ({}) as IDBRequest,
+      };
+      const database = {
+        transaction: () =>
+          ({ objectStore: () => silentStore }) as unknown as IDBTransaction,
+      } as unknown as IDBDatabase;
+      const opens = {
+        open: () => {
+          const request = { result: database } as unknown as IDBOpenDBRequest;
+          // The open answers on the next turn; nothing after it ever does.
+          setTimeout(() => request.onsuccess?.(new Event("success")), 0);
+          return request;
+        },
+      } as unknown as IDBFactory;
+      const store = createTrackDraftStore(opens);
+
+      const read = store.read();
+      const write = store.save(draft());
       await vi.advanceTimersByTimeAsync(10_000);
 
       expect(await read).toEqual({ status: "unreadable" });

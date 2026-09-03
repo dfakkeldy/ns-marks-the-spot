@@ -1,3 +1,5 @@
+import { distanceMetres } from "../services/geodesy";
+import { FIELD_CAPTURE_SPEC } from "./captureSpec";
 import {
   BLOBS,
   isQuotaError,
@@ -167,12 +169,26 @@ function isInstant(value: unknown): boolean {
   return Number.isFinite(ms) && new Date(ms).toISOString() === value;
 }
 
+/**
+ * A kept vertex, not a raw fix. trackFilter reads a non-positive accuracy as
+ * a broken fix rather than a perfect one, and throws out anything looser than
+ * the gate, so a vertex outside that band is one the recorder could not have
+ * produced — and these are the positions the saved geometry is drawn from.
+ */
+function isKeptAccuracy(value: unknown): boolean {
+  return (
+    typeof value === "number" &&
+    value > 0 &&
+    value <= FIELD_CAPTURE_SPEC.trackFilter.accuracyGateM
+  );
+}
+
 function isPoint(value: unknown): value is TrackPoint {
   return (
     isRecord(value) &&
     isLatitude(value.lat) &&
     isLongitude(value.lng) &&
-    isNonNegative(value.accuracyM) &&
+    isKeptAccuracy(value.accuracyM) &&
     isTimestamp(value.timestampMs) &&
     isNullableNumber(value.altitudeM)
   );
@@ -259,6 +275,29 @@ function parseDraft(value: unknown): { result: StopResult; stopped: boolean } | 
   ) {
     return null;
   }
+  // The recorder's distance is exactly the sum of the legs between kept
+  // vertices, segment by segment, so it can be recomputed here rather than
+  // taken on trust. It is shown to the reader as a measurement of their walk,
+  // and a stored number nothing checks can say a hundred kilometres over a
+  // track a hundred metres long. The tolerance is for the arithmetic, not for
+  // the claim: a metre over a walk of any length is float noise.
+  //
+  // `recordingMs` is not checked with it. That one is wall-clock time from
+  // this device while the walk ran, and every other time here comes from the
+  // location provider; there is no second reading of it to compare against.
+  const walked = result.segments.reduce(
+    (metres, segment) =>
+      metres +
+      segment.reduce(
+        (leg, point, index) =>
+          index === 0 ? leg : leg + distanceMetres(segment[index - 1], point),
+        0,
+      ),
+    0,
+  );
+  if (Math.abs(walked - result.distanceM) > 1) {
+    return null;
+  }
   return { result, stopped: value.stopped === true };
 }
 
@@ -271,19 +310,7 @@ export function createTrackDraftStore(
   let open: Promise<IDBDatabase> | null = null;
   const database = () => {
     open ??= openUserContentDatabase(factory);
-    // Raced, not awaited outright. The handle itself is kept — a late open
-    // still resolves, and the next operation uses it — but this call gives up
-    // so the queue behind it moves, and the walk's next write can report a
-    // device that is not answering instead of waiting in silence.
-    return Promise.race([
-      open,
-      new Promise<IDBDatabase>((_, reject) => {
-        setTimeout(
-          () => reject(new Error("The device did not open in time.")),
-          OPERATION_TIMEOUT_MS,
-        );
-      }),
-    ]);
+    return open;
   };
 
   // One key, one order. A clear() asked for after a save() must delete what
@@ -292,8 +319,24 @@ export function createTrackDraftStore(
   // Every operation below resolves rather than rejects, so the chain cannot
   // break.
   let queue: Promise<unknown> = Promise.resolve();
-  const enqueue = <T>(work: () => Promise<T>): Promise<T> => {
-    const next = queue.then(work);
+  // The deadline is around the whole operation, not around the open alone. A
+  // request that never fires success or error, and a transaction that never
+  // completes or aborts, hold the queue exactly as a hung open does — and
+  // every write of the walk waits behind whichever it is, in silence. The
+  // handle itself is kept where it can be: a late open still resolves, and
+  // the next operation uses it.
+  const enqueue = <T>(work: () => Promise<T>, whenLate: T): Promise<T> => {
+    const next = queue.then(
+      () =>
+        Promise.race([
+          work(),
+          new Promise<T>((resolve) => {
+            setTimeout(() => resolve(whenLate), OPERATION_TIMEOUT_MS);
+          }),
+        ]),
+      // Never rejects, so the chain cannot break; every operation below
+      // resolves with its own answer instead.
+    );
     queue = next;
     return next;
   };
@@ -319,7 +362,10 @@ export function createTrackDraftStore(
           open = null;
           return isQuotaError(error) ? "quota" : "failed";
         }
-      }),
+        // A write the device never answered is a write that did not land, and
+        // the HUD says so — a walk being kept nowhere must not look like one
+        // that is.
+      }, "failed"),
     read: () =>
       enqueue(async (): Promise<TrackDraftRead> => {
         try {
@@ -341,7 +387,9 @@ export function createTrackDraftStore(
           open = null;
           return { status: "unreadable" };
         }
-      }),
+        // Not "empty": a device that never answered has not said it is
+        // holding nothing.
+      }, { status: "unreadable" }),
     clear: () =>
       enqueue(async () => {
         try {
@@ -353,7 +401,9 @@ export function createTrackDraftStore(
           open = null;
           return isQuotaError(error) ? "quota" : "failed";
         }
-      }),
+        // A delete the device never answered has not deleted anything, and
+        // the copy it holds will be offered again.
+      }, "failed"),
   };
 }
 

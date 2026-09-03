@@ -82,6 +82,13 @@ export type VectorEditSession = {
   /** Takes one notice down once it has been read. */
   dismissDiscardedPhoto: (photoId: string) => void;
   /**
+   * Says that the discarded photo's bytes are still on the device. The notice
+   * above only claims the photo is not on the map, which the session watched
+   * happen; whether the copy went is the caller's to observe, and a promise
+   * that it did would be a removal nobody verified.
+   */
+  notePhotoCleanupFailure: (photoId: string) => void;
+  /**
    * Moves a Point feature to an exact position — the "use photo's location"
    * offer. Geometry is otherwise Geoman-owned; this is the one deliberate
    * exception, reconciled into the live layer by the edit bridge.
@@ -199,6 +206,18 @@ export function useVectorEditSession({
   >([]);
   const dismissDiscardedPhoto = useCallback((photoId: string) => {
     setDiscardedPhotos((prev) => prev.filter((photo) => photo.id !== photoId));
+  }, []);
+  const notePhotoCleanupFailure = useCallback((photoId: string) => {
+    setDiscardedPhotos((prev) =>
+      prev.map((photo) =>
+        photo.id === photoId
+          ? {
+              ...photo,
+              message: `${photo.message} The copy on this device couldn't be removed either.`,
+            }
+          : photo,
+      ),
+    );
   }, []);
 
   const timerRef = useRef<number | null>(null);
@@ -600,8 +619,7 @@ export function useVectorEditSession({
             message:
               `Couldn't attach ${descriptor.sourceName ?? "a photo"}: that ` +
               "feature was no longer being edited when the photo finished " +
-              "processing. It is not on the map, and the copy on this device " +
-              "is being removed.",
+              "processing. It is not on the map.",
           })),
         ]);
         return descriptors;
@@ -702,6 +720,7 @@ export function useVectorEditSession({
     attachFeaturePhotos,
     discardedPhotos,
     dismissDiscardedPhoto,
+    notePhotoCleanupFailure,
     moveFeaturePoint,
     convertPoints,
     lastConversion,

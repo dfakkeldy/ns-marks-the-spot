@@ -95,6 +95,13 @@ export type UserVectorLayersApi = {
   storageError: string | null;
   outcomes: VectorImportOutcome[];
   importFiles: (files: ArrayLike<File>) => Promise<void>;
+  /**
+   * Takes a layer off the map and out of this device's store. It always
+   * settles, and never rejects. A layer that never had a row is removed
+   * cleanly; a stored layer the device refuses to delete is still taken off
+   * the map, because the reader asked for it, and the refusal is reported —
+   * that copy comes back on the next load.
+   */
   removeLayer: (id: string) => Promise<void>;
   setEnabled: (id: string, enabled: boolean) => void;
   /** Export is offered for user layers ONLY — never for official sources. */
@@ -630,13 +637,25 @@ export function useUserVectorLayers(
 
   const removeLayer = useCallback(
     async (id: string) => {
-      // A removed layer must not linger in the create-retry set.
-      unsavedDrawnIdsRef.current.delete(id);
+      // A removed layer must not linger in the create-retry set. It also
+      // says which kind of layer this is: an id in the set never reached the
+      // store, so there is nothing on the device to refuse to delete.
+      const neverStored = unsavedDrawnIdsRef.current.delete(id);
       try {
         await (await store()).deleteVectorLayer(id);
       } catch {
-        // Deleting an unsaved (in-memory) or already-broken-store layer is
-        // still a successful removal from the UI's point of view.
+        // The layer still leaves the map — the reader asked for that, and
+        // refusing to take it off the screen because the device would not
+        // forget it helps nobody. What is not true is that it is gone: a
+        // stored layer whose delete was refused is on this device still, and
+        // will be listed again on the next load. A layer that never had a row
+        // is a different thing and says nothing.
+        if (!neverStored) {
+          setStorageError(
+            "Removed from this session, but this device wouldn't delete its " +
+              "copy — the layer will be back the next time the map is opened.",
+          );
+        }
       }
       setRecords((prev) => prev.filter((r) => r.id !== id));
       setGeometries((prev) => {
@@ -842,14 +861,19 @@ export function useUserVectorLayers(
       // no longer in the list means the user deleted it, and this is a create.
       // Only a recorded layer can be rewritten this way: this is public API,
       // and an imported or drawn layer's id must never let a track overwrite
-      // somebody's file.
+      // somebody's file. And only an untouched one — a layer the reader has
+      // edited since the refusal is no longer the walk that was saved, and
+      // rewriting it would replace their work with the original recording.
+      // Such a retry lands as its own layer instead: two layers is honest
+      // where one of them would be a deletion nobody asked for.
       const refused =
         input.replaceLayerId === undefined
           ? undefined
           : recordsSnapshotRef.current.find(
               (existing) =>
                 existing.id === input.replaceLayerId &&
-                existing.origin.kind === "recorded",
+                existing.origin.kind === "recorded" &&
+                existing.revision === 0,
             );
       const record: UserVectorLayerRecord = {
         id: refused?.id ?? generateId(),
@@ -891,17 +915,26 @@ export function useUserVectorLayers(
         // is told, so a track that will not survive the tab is not called
         // saved, and the unsaved recording it can be recovered from is kept.
         persisted = false;
+        // The row does not exist, so this layer's next write has to CREATE it
+        // rather than take the guarded update, which would find no row and be
+        // reported as another tab's deletion. Without this an edit to the
+        // track silently wrote nothing all session, exactly as a never-saved
+        // drawing used to.
+        unsavedDrawnIdsRef.current.add(record.id);
         setStorageError(
           saveError instanceof UserMapImportError
             ? saveError.userMessage
             : "Couldn't save this track — it stays available until you close the tab.",
         );
       }
-      // The panel is still carrying the refusal this retry has just undone.
-      // Left up, it would keep telling the reader a track that is now on the
-      // device will not survive the tab.
-      if (persisted && refused) {
-        setStorageError(null);
+      // Left up, a refusal would keep telling the reader that a track now on
+      // the device will not survive the tab.
+      if (persisted) {
+        unsavedDrawnIdsRef.current.delete(record.id);
+        // The panel is still carrying a refusal this write has just undone.
+        if (refused) {
+          setStorageError(null);
+        }
       }
       setRecords((prev) =>
         refused

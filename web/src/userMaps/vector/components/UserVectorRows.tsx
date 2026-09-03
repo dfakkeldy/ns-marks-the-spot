@@ -61,10 +61,12 @@ function renderUserVectorControls({
   editingId = null,
   removing,
   onRemoving,
+  onRemoved,
 }: UserVectorRowsProps & {
   /** Ids whose delete has been asked for and has not answered yet. */
   removing: ReadonlySet<string>;
   onRemoving: (id: string) => void;
+  onRemoved: (id: string) => void;
 }) {
   return (
     <>
@@ -202,7 +204,13 @@ function renderUserVectorControls({
                     // the removal hands the layer to the session instead.
                     onAbandonLayer?.(record.id);
                     onRemoving(record.id);
-                    void api.removeLayer(record.id);
+                    // Released when the store answers, whatever it answers.
+                    // A refused delete still takes the row off the map, and a
+                    // row that outlives its own delete must not be left with
+                    // both its controls disabled and nothing said.
+                    void api
+                      .removeLayer(record.id)
+                      .finally(() => onRemoved(record.id));
                   }
                 }}
               >
@@ -216,30 +224,44 @@ function renderUserVectorControls({
 }
 
 /**
- * Which layers have been asked to go and are waiting on the store. Never
- * pruned: a row whose delete answered is gone from `api.records` anyway, and
- * an id belongs to one layer for the life of the tab.
+ * Which layers have been asked to go and are waiting on the store. The id
+ * leaves the set when the store answers, however it answers: a delete the
+ * device refuses still takes the row off the map, but one that fails and
+ * leaves the row behind must not leave it disabled with nothing said.
  */
-function useRemoving(): [ReadonlySet<string>, (id: string) => void] {
+function useRemoving(): [
+  ReadonlySet<string>,
+  (id: string) => void,
+  (id: string) => void,
+] {
   const [removing, setRemoving] = useState<ReadonlySet<string>>(new Set());
   return [
     removing,
     (id) => setRemoving((current) => new Set(current).add(id)),
+    (id) =>
+      setRemoving((current) => {
+        if (!current.has(id)) {
+          return current;
+        }
+        const next = new Set(current);
+        next.delete(id);
+        return next;
+      }),
   ];
 }
 
 export function UserVectorControls(props: UserVectorRowsProps) {
-  const [removing, onRemoving] = useRemoving();
+  const [removing, onRemoving, onRemoved] = useRemoving();
   return (
     <div className="resource-layer-controls">
-      {renderUserVectorControls({ ...props, removing, onRemoving })}
+      {renderUserVectorControls({ ...props, removing, onRemoving, onRemoved })}
     </div>
   );
 }
 
 export function UserVectorRows(props: UserVectorRowsProps) {
   const { api } = props;
-  const [removing, onRemoving] = useRemoving();
+  const [removing, onRemoving, onRemoved] = useRemoving();
   return (
     <details className="resource-layer-group user-vector-group" open>
       <summary>
@@ -251,7 +273,7 @@ export function UserVectorRows(props: UserVectorRowsProps) {
         </small>
       </summary>
       <div className="resource-layer-controls">
-        {renderUserVectorControls({ ...props, removing, onRemoving })}
+        {renderUserVectorControls({ ...props, removing, onRemoving, onRemoved })}
       </div>
     </details>
   );

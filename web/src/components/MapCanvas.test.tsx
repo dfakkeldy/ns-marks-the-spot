@@ -704,7 +704,11 @@ describe("MapCanvas browser location", () => {
 
     const toggle = screen.getByRole("button", { name: "Use my location" });
     await user.click(toggle);
-    pushLiveSnapshot({ status: "position-unavailable", fix: null });
+    pushLiveSnapshot({
+      status: "position-unavailable",
+      fix: null,
+      reason: "repeated",
+    });
 
     expect(
       screen.getByText(
@@ -723,6 +727,57 @@ describe("MapCanvas browser location", () => {
         "Location permission was not granted. You can keep using the map.",
       ),
     ).not.toBeInTheDocument();
+  });
+
+  // One report and then silence is not several reports. The two endings get
+  // two sentences, because a count nobody made is a claim about the device.
+  it("does not say several times when the device said it once and went quiet", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveSnapshot({
+      status: "position-unavailable",
+      fix: null,
+      reason: "no-answer",
+    });
+
+    expect(
+      screen.getByText(
+        "The device reported your location as unavailable and then stopped " +
+          "answering, so the map stopped asking. Location may be switched " +
+          "off for this device, or there may be nothing here to place you " +
+          "by. Press Use my location to try again.",
+      ),
+    ).toBeInTheDocument();
   });
 
   it("follows later fixes with panTo until the user drags, then resumes via the pill", async () => {

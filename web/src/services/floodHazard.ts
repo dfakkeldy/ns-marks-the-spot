@@ -398,9 +398,12 @@ export async function fetchCoastalFloodEvidence(
   return Promise.all(
     coastalScenarios.map(async ({ scenario, serviceUrl }): Promise<CoastalFloodEvidence> => {
       // Every scenario is asked under its own deadline, so one service that
-      // never comes back cannot hold the two that did. The request is dropped
-      // rather than merely ignored, because a raster export nobody is waiting
-      // for should not keep a connection open for the rest of the selection.
+      // never comes back cannot hold the two that did. The deadline covers
+      // the whole scenario and not the request alone: a service that answers
+      // and then hands back bytes the decoder never finishes with would
+      // otherwise hold the set exactly as a silent fetch did. The request is
+      // aborted as well, because a raster export nobody is waiting for should
+      // not keep a connection open for the rest of the selection.
       const attempt = new AbortController();
       const abandon = () => attempt.abort();
       // A caller that has already given up is not made to wait out the
@@ -408,67 +411,88 @@ export async function fetchCoastalFloodEvidence(
       // added after it.
       if (signal?.aborted) abandon();
       signal?.addEventListener("abort", abandon);
-      const deadline = setTimeout(abandon, COASTAL_SCENARIO_TIMEOUT_MS);
+      // Only this flag makes a scenario "unanswered". A fetch that rejects
+      // with an AbortError of its own — a connection dropped by the network
+      // stack — answered with a failure, and calling that silence would
+      // collapse the two states this split exists to keep apart.
+      let ranOutOfTime = false;
+      let reportSilence: ((answer: CoastalFloodEvidence) => void) | null = null;
+      const silence = new Promise<CoastalFloodEvidence>((resolve) => {
+        reportSilence = resolve;
+      });
+      const deadline = setTimeout(() => {
+        ranOutOfTime = true;
+        abandon();
+        reportSilence?.({
+          scenario,
+          status: "unanswered",
+          stormAnnualExceedanceProbabilityPercent: 1,
+        });
+      }, COASTAL_SCENARIO_TIMEOUT_MS);
+      const ask = async (): Promise<CoastalFloodEvidence> => {
+        try {
+          const query = new URLSearchParams({
+            f: "image",
+            bbox: [bounds.west, bounds.south, bounds.east, bounds.north].join(","),
+            bboxSR: "4326",
+            imageSR: "4326",
+            size: `${width},${imageHeight}`,
+            format: "png32",
+            transparent: "true",
+          });
+          const response = await fetch(`${serviceUrl}/export?${query}`, {
+            signal: attempt.signal,
+          });
+          if (!response.ok) {
+            throw new Error(`Coastal flood request failed with status ${response.status}.`);
+          }
+          const decoded = await decode(await response.blob());
+          const summary = summarizeRasterAlpha({
+            ...decoded,
+            bounds,
+            features,
+            mappedAreaSquareMetres,
+          });
+          if (summary.sampledParcelPixels === 0) {
+            return {
+              scenario,
+              status: "not-sampled",
+              stormAnnualExceedanceProbabilityPercent: 1,
+              sampledParcelPixels: 0,
+            };
+          }
+          return {
+            scenario,
+            status: summary.floodedParcelPixels > 0 ? "intersects" : "no-intersection",
+            stormAnnualExceedanceProbabilityPercent: 1,
+            approximateAffectedPercent: summary.approximateAffectedPercent,
+            approximateAffectedSquareMetres: summary.approximateAffectedSquareMetres,
+            sampledParcelPixels: summary.sampledParcelPixels,
+          };
+        } catch (error) {
+          if (error instanceof DOMException && error.name === "AbortError") {
+            // Three different aborts can arrive here. The caller giving up is
+            // the effect tearing down, and it is rethrown as before so a stale
+            // answer never lands. The deadline firing is this scenario running
+            // out of time, and the race below has already answered for it.
+            // Anything else is a request the network stack dropped, which is a
+            // failure the reader can weigh, not a silence.
+            if (signal?.aborted || ranOutOfTime) throw error;
+          }
+          return {
+            scenario,
+            status: "error",
+            stormAnnualExceedanceProbabilityPercent: 1,
+            message: error instanceof Error ? error.message : "Coastal flood request failed.",
+          };
+        }
+      };
+      const asking = ask();
+      // Handled here as well as in the race, so a body that rejects after the
+      // deadline has already answered is not an unhandled rejection.
+      asking.catch(() => {});
       try {
-        const query = new URLSearchParams({
-          f: "image",
-          bbox: [bounds.west, bounds.south, bounds.east, bounds.north].join(","),
-          bboxSR: "4326",
-          imageSR: "4326",
-          size: `${width},${imageHeight}`,
-          format: "png32",
-          transparent: "true",
-        });
-        const response = await fetch(`${serviceUrl}/export?${query}`, {
-          signal: attempt.signal,
-        });
-        if (!response.ok) {
-          throw new Error(`Coastal flood request failed with status ${response.status}.`);
-        }
-        const decoded = await decode(await response.blob());
-        const summary = summarizeRasterAlpha({
-          ...decoded,
-          bounds,
-          features,
-          mappedAreaSquareMetres,
-        });
-        if (summary.sampledParcelPixels === 0) {
-          return {
-            scenario,
-            status: "not-sampled",
-            stormAnnualExceedanceProbabilityPercent: 1,
-            sampledParcelPixels: 0,
-          };
-        }
-        return {
-          scenario,
-          status: summary.floodedParcelPixels > 0 ? "intersects" : "no-intersection",
-          stormAnnualExceedanceProbabilityPercent: 1,
-          approximateAffectedPercent: summary.approximateAffectedPercent,
-          approximateAffectedSquareMetres: summary.approximateAffectedSquareMetres,
-          sampledParcelPixels: summary.sampledParcelPixels,
-        };
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") {
-          // Two different aborts arrive here. The caller giving up is the
-          // effect tearing down, and it is rethrown as before so a stale
-          // answer never lands. The deadline firing is this scenario running
-          // out of time, which is an answer of its own: the other two settle
-          // on their own results, and this one says only that the province
-          // never replied.
-          if (signal?.aborted) throw error;
-          return {
-            scenario,
-            status: "unanswered",
-            stormAnnualExceedanceProbabilityPercent: 1,
-          };
-        }
-        return {
-          scenario,
-          status: "error",
-          stormAnnualExceedanceProbabilityPercent: 1,
-          message: error instanceof Error ? error.message : "Coastal flood request failed.",
-        };
+        return await Promise.race([asking, silence]);
       } finally {
         clearTimeout(deadline);
         signal?.removeEventListener("abort", abandon);

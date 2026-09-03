@@ -35,7 +35,14 @@ export type PhotoManagerApi = {
     existingOnFeature: number,
     files: ArrayLike<File>,
   ) => Promise<PhotoAttachOutcome[]>;
-  removePhoto: (photoId: string) => Promise<void>;
+  /**
+   * Takes a photo out of this device's store. Answers whether the bytes
+   * actually went: for a photo still referenced by a layer the next sweep
+   * retries a failed delete, but a photo discarded because its feature was
+   * gone has no layer to sweep for it, and the caller has to be able to say
+   * so rather than promise a removal that did not happen.
+   */
+  removePhoto: (photoId: string) => Promise<boolean>;
   /** Object URL from the bounded cache; null when the blob is missing. */
   loadThumbUrl: (photoId: string) => Promise<string | null>;
   loadFullBlob: (photoId: string) => Promise<Blob | null>;
@@ -181,9 +188,13 @@ export function usePhotoManager(
       releasePhotoId(photoId);
       try {
         await (await store()).deletePhoto(photoId);
+        return true;
       } catch {
-        // The descriptor removal is the user-visible truth; a failed blob
-        // delete is a small leak the next sweep retries.
+        // For a photo the layer still lists, the descriptor removal is the
+        // user-visible truth and the next sweep retries this. For a discarded
+        // attach there is no such sweep, so the answer goes back to the
+        // caller instead of being swallowed here.
+        return false;
       }
     },
     [store],
