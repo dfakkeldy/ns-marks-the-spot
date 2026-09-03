@@ -9,31 +9,54 @@ struct TrackRecordingHUD: View {
     let recorder: TrackRecorder
     var onStop: () -> Void
 
+    /// A refused start: no clock, no transport, the refusal and a way to
+    /// wave it away.
+    private var isRefusedOnly: Bool { !recorder.isActive && recorder.refusal != nil }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
-                qualityDot
-                Text(recorder.status == .paused ? "Recording paused" : "Recording")
-                    .font(.headline)
+                if !isRefusedOnly { qualityDot }
+                Text(
+                    isRefusedOnly
+                        ? "Recording not started"
+                        : recorder.status == .paused ? "Recording paused" : "Recording"
+                )
+                .font(.headline)
                 Spacer()
-                if recorder.status == .paused {
-                    Button("Resume") { recorder.resume() }
-                        .buttonStyle(.bordered)
+                if isRefusedOnly {
+                    Button {
+                        recorder.dismissRefusal()
+                    } label: {
+                        Text("Dismiss")
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.bordered)
                 } else {
-                    Button("Pause") { recorder.pause() }
-                        .buttonStyle(.bordered)
+                    if recorder.status == .paused {
+                        // Off while refused: the refusal under it says why.
+                        Button("Resume") { recorder.resume() }
+                            .buttonStyle(.bordered)
+                            .disabled(recorder.refusal != nil)
+                    } else {
+                        Button("Pause") { recorder.pause() }
+                            .buttonStyle(.bordered)
+                    }
+                    Button("Stop", role: .destructive) { onStop() }
+                        .buttonStyle(.borderedProminent)
                 }
-                Button("Stop", role: .destructive) { onStop() }
-                    .buttonStyle(.borderedProminent)
             }
 
             // Once a second while recording; the stats are wall-clock.
-            TimelineView(.periodic(from: .now, by: 1)) { context in
-                let stats = recorder.recording.stats(now: context.date)
-                HStack(spacing: 16) {
-                    statView("Time", elapsedText(stats.elapsedSeconds))
-                    statView("Distance", Geodesy.formatDistance(stats.distanceM))
-                    statView("Points", "\(stats.keptVertexCount)")
+            if !isRefusedOnly {
+                TimelineView(.periodic(from: .now, by: 1)) { context in
+                    let stats = recorder.recording.stats(now: context.date)
+                    HStack(spacing: 16) {
+                        statView("Time", elapsedText(stats.elapsedSeconds))
+                        statView("Distance", Geodesy.formatDistance(stats.distanceM))
+                        statView("Points", "\(stats.keptVertexCount)")
+                    }
                 }
             }
 
@@ -43,20 +66,14 @@ struct TrackRecordingHUD: View {
                     .foregroundStyle(.orange)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            if recorder.permissionDenied {
-                Label(
-                    recorder.permissionRestricted
-                        ? "Location is restricted on this device, for example by Screen Time "
-                            + "or a management profile. You can keep using the map."
-                        : "Location permission was not granted. You can keep using the map.",
-                    systemImage: "location.slash"
-                )
-                .font(.caption)
-                .foregroundStyle(.orange)
-                .fixedSize(horizontal: false, vertical: true)
-                // No Settings button for a restriction: the app's page cannot
-                // lift it.
-                if !recorder.permissionRestricted {
+            if let refusal = recorder.refusal {
+                Label(Self.refusalText(refusal), systemImage: "location.slash")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+                // Settings only for this app's refusal: the app's page lifts
+                // neither a device restriction nor the device-wide switch.
+                if refusal == .denied {
                     OpenSettingsButton()
                 }
             }
@@ -70,6 +87,20 @@ struct TrackRecordingHUD: View {
         .clipShape(.rect(cornerRadius: 16))
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Track recording")
+    }
+
+    /// The same words the locate banner and the mark toast use for each.
+    static func refusalText(_ refusal: TrackRecorder.Refusal) -> String {
+        switch refusal {
+        case .denied:
+            "Location permission was not granted. You can keep using the map."
+        case .restricted:
+            "Location is restricted on this device, for example by Screen Time "
+                + "or a management profile. You can keep using the map."
+        case .servicesOff:
+            "Location Services are off for this device. Turn them on in Settings, "
+                + "under Privacy & Security."
+        }
     }
 
     /// Green ≤ 10 m, amber within the 25 m gate, red when the current fix is

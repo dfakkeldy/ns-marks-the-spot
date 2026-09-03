@@ -24,13 +24,34 @@ final class TrackRecorder: NSObject {
     /// quality — the HUD's quality dot and Mark's freshness rule read it.
     private(set) var lastFix: TrackFix?
 
-    /// Location permission was refused; the HUD says so instead of
-    /// pretending to wait for fixes that will never come.
-    private(set) var permissionDenied = false
-    /// The refusal is a device restriction (Screen Time, a management
-    /// profile) rather than the reader's choice, so no Settings page lifts
-    /// it. Only meaningful while `permissionDenied` is true.
-    private(set) var permissionRestricted = false
+    /// Why fixes will not come, when they will not: the reader's refusal, a
+    /// device restriction, or Location Services off for the whole device.
+    /// Three different things to say, and only the first has a Settings page.
+    enum Refusal: Equatable, Sendable {
+        case denied
+        case restricted
+        case servicesOff
+    }
+
+    /// Set from the authorization status at start and whenever it changes,
+    /// so a recording begun with location already refused says so at once
+    /// rather than showing a red dot and a ticking clock for fixes that will
+    /// never come.
+    private(set) var refusal: Refusal?
+
+    var permissionDenied: Bool { refusal != nil }
+    var permissionRestricted: Bool { refusal == .restricted }
+
+    /// Whether Location Services are on for the device. Injected for tests.
+    @ObservationIgnored var servicesEnabled: () -> Bool = { CLLocationManager.locationServicesEnabled() }
+
+    static func refusal(for status: CLAuthorizationStatus, servicesEnabled: Bool) -> Refusal? {
+        switch status {
+        case .denied: servicesEnabled ? .denied : .servicesOff
+        case .restricted: .restricted
+        default: nil
+        }
+    }
 
     private(set) var recording = TrackRecording()
 
@@ -48,20 +69,45 @@ final class TrackRecorder: NSObject {
         manager.distanceFilter = kCLDistanceFilterNone
     }
 
-    func start(now: Date = Date()) {
-        guard recording.status == .idle else { return }
+    /// True while a refused start waits for a grant: granted in Settings and
+    /// back, the recording begins then, with the clock started then.
+    private(set) var isWaitingForPermission = false
+
+    /// Starts recording, or says why it cannot. A refused start is not a
+    /// recording: the clock does not run, nothing is asked of CoreLocation,
+    /// and the HUD shows the refusal instead of "Recording". The refusal is
+    /// returned as well as kept, so the button can say it out loud on every
+    /// attempt.
+    @discardableResult
+    func start(now: Date = Date()) -> Refusal? {
+        guard recording.status == .idle else { return nil }
         autoPauseMessage = nil
-        permissionDenied = false
-        permissionRestricted = false
-        if manager.authorizationStatus == .notDetermined {
+        let status = manager.authorizationStatus
+        // Read now, not waited for: the delegate reports a status only when
+        // it changes, and a refusal already on file never changes again.
+        refusal = Self.refusal(
+            for: status, servicesEnabled: status == .denied ? servicesEnabled() : true
+        )
+        if status == .notDetermined {
+            // Asked, and waited for: the recording begins when the answer
+            // comes — the delegate starts it — not now, under a prompt, with
+            // a clock running on fixes that cannot arrive yet.
+            isWaitingForPermission = true
             manager.requestWhenInUseAuthorization()
+            return nil
         }
+        if let refusal {
+            isWaitingForPermission = true
+            return refusal
+        }
+        isWaitingForPermission = false
         recording.start(now: now)
         manager.startUpdatingLocation()
         // The screen stays on for the walk. Restored on stop and on leaving
         // the foreground — the system owns the idle timer again the moment
         // this app is not actively recording.
         UIApplication.shared.isIdleTimerDisabled = true
+        return nil
     }
 
     func pause(now: Date = Date()) {
@@ -72,7 +118,9 @@ final class TrackRecorder: NSObject {
     }
 
     func resume(now: Date = Date()) {
-        guard recording.status == .paused else { return }
+        // Not while refused: resumed, the clock would run on fixes that
+        // cannot come, which is the state the pause was there to end.
+        guard recording.status == .paused, refusal == nil else { return }
         autoPauseMessage = nil
         recording.resume(now: now)
         manager.startUpdatingLocation()
@@ -101,6 +149,50 @@ final class TrackRecorder: NSObject {
         autoPauseMessage = "Recording paused while the app was in the background"
     }
 
+    /// What the reader is owed a word about, counted so each is said once:
+    /// a refusal that arrived after the tap (the first prompt answered No),
+    /// or a recording that began on a grant.
+    enum Announcement: Equatable {
+        case refused(Refusal)
+        case started
+    }
+    private(set) var announcement: Announcement?
+    private(set) var announcementGeneration = 0
+
+    private func announce(_ what: Announcement) {
+        announcement = what
+        announcementGeneration += 1
+    }
+
+    /// The one place a change of refusal meets a recording, from whichever
+    /// callback brought it: refused mid-walk pauses, with the reason,
+    /// rather than leaving "Recording" with a clock running on fixes that
+    /// will not come; a grant lets a waiting start begin. Ordering between
+    /// the authorization callback and a denied error no longer matters.
+    /// `granted` is whether the status actually allows location now. A
+    /// callback carrying `.notDetermined` — the prompt is up, and unanswered
+    /// — is neither a refusal nor a grant: the wait goes on, and nothing is
+    /// started or said.
+    private func apply(refusal newRefusal: Refusal?, granted: Bool) {
+        let wasRefused = refusal != nil
+        refusal = newRefusal
+        if isWaitingForPermission {
+            if let newRefusal {
+                if !wasRefused { announce(.refused(newRefusal)) }
+            } else if granted, recording.status == .idle {
+                // Granted while the refused start waited: the recording
+                // begins now, and its clock with it.
+                start()
+                announce(.started)
+                return
+            }
+        }
+        guard recording.status == .recording, newRefusal != nil, !wasRefused else { return }
+        recording.pause(now: Date())
+        manager.stopUpdatingLocation()
+        UIApplication.shared.isIdleTimerDisabled = false
+    }
+
     private func receive(_ location: CLLocation) {
         let fix = TrackFix(
             latitude: location.coordinate.latitude,
@@ -127,22 +219,38 @@ extension TrackRecorder: @preconcurrency CLLocationManagerDelegate {
         }
     }
 
+    /// The reader waved the refusal away: nothing is waiting any more.
+    func dismissRefusal() {
+        refusal = nil
+        isWaitingForPermission = false
+    }
+
+    /// Whether a recording stopped without a fix because location was
+    /// refused during it, for the save sheet's empty-result wording.
+    var stoppedWhileRefused: Bool { refusal != nil }
+
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .denied:
-            permissionDenied = true
-            permissionRestricted = false
-        case .restricted:
-            permissionDenied = true
-            permissionRestricted = true
-        default:
-            permissionDenied = false
-            permissionRestricted = false
-        }
+        let status = manager.authorizationStatus
+        apply(
+            refusal: Self.refusal(
+                for: status, servicesEnabled: status == .denied ? servicesEnabled() : true
+            ),
+            granted: status == .authorizedWhenInUse || status == .authorizedAlways
+        )
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
         // Transient failures (no signal in a building) are what the HUD's
-        // red state is for; nothing to store.
+        // red state is for; nothing to store. A refusal delivered as a
+        // failure is the refusal.
+        guard (error as? CLError)?.code == .denied else { return }
+        let status = manager.authorizationStatus
+        // The status names the refusal when it can; a denied error under a
+        // status that does not explain it is still a refusal, and Location
+        // Services off for the device is told apart from this app's.
+        let classified = Self.refusal(
+            for: status, servicesEnabled: status == .denied ? servicesEnabled() : true
+        ) ?? (servicesEnabled() ? .denied : .servicesOff)
+        apply(refusal: classified, granted: false)
     }
 }

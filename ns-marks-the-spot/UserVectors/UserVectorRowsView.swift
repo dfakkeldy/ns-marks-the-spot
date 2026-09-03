@@ -65,13 +65,68 @@ struct UserVectorRowsView: View {
                 )
             }
 
-            if let refusal = viewModel.lastRefusal {
+            if let sealed = viewModel.sealedMessage {
+                // The library is there and cannot be read by this build. Said
+                // once, up here, rather than discovered write by write. A
+                // document damaged at this version can be set aside; one
+                // from a newer build is left for that build.
+                Label(sealed, systemImage: "lock.doc")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+                if viewModel.sealedReason == .unreadable {
+                    Button {
+                        Task { await viewModel.setAsideDamagedLibrary() }
+                    } label: {
+                        Text("Set aside and start a new library")
+                            .font(.caption.weight(.semibold))
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.borderless)
+                    .disabled(viewModel.isSettingAside)
+                    .accessibilityHint("Moves the unreadable library aside; nothing is deleted.")
+                }
+                if viewModel.sealedReason == .storageError {
+                    // A read that failed for a reason that passes — a full
+                    // disk, a file mid-sync — is tried again on request,
+                    // rather than only on the next launch.
+                    Button {
+                        Task {
+                            await viewModel.load()
+                            // Said either way: the sealed line going, or
+                            // staying, is otherwise a tap that did nothing.
+                            AccessibilityNotification.Announcement(
+                                viewModel.sealedMessage ?? "Your layers opened."
+                            ).post()
+                        }
+                    } label: {
+                        Text("Try again")
+                            .font(.caption.weight(.semibold))
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.borderless)
+                }
+                if let refusal = viewModel.lastRefusal, refusal.userMessage != sealed {
+                    // A set-aside that failed, said under the sealed line.
+                    Label(refusal.userMessage, systemImage: "exclamationmark.triangle")
+                        .font(.caption)
+                        .foregroundStyle(.orange)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } else if let refusal = viewModel.lastRefusal {
                 // The refusal's own words. They were written for the person who
                 // chose the file and they say what to do about it; a generic
                 // "import failed" here would throw that away.
                 Label(refusal.userMessage, systemImage: "exclamationmark.triangle")
                     .font(.caption)
                     .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else if let recovery = viewModel.recoveryNotice {
+                Label(recovery, systemImage: "checkmark.circle")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
 

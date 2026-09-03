@@ -254,6 +254,10 @@ actor UserVectorStore {
         geometry: ParsedVector,
         original: Data? = nil
     ) throws -> UserVectorLibrary {
+        // The library first: a document this build cannot read refuses here,
+        // before a geometry file and an original are written beside it for
+        // nothing.
+        var library = try read()
         try writeGeometry(geometry, id: record.id)
         if let original, let originalFileID = record.originalFileID {
             try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
@@ -265,10 +269,44 @@ actor UserVectorStore {
                 try original.write(to: url, options: .atomic)
             }
         }
-        var library = try read()
         library.layers.append(record)
         try write(library)
         return library
+    }
+
+    /// Moves a library this build should have been able to read out of the
+    /// way, so a new one can start. Never for a later version's document,
+    /// which a newer build is coming back for; only for one that is damaged
+    /// at this build's own version. Nothing is deleted: the directory moves
+    /// whole, geometry and photos with it, to a `-damaged` sibling.
+    ///
+    /// Answers whether the damaged library is out of the way, which a call
+    /// that found nothing left to move has achieved as much as one that
+    /// moved it.
+    @discardableResult
+    func setAsideDamagedLibrary() throws -> Bool {
+        guard fileManager.fileExists(atPath: directory.path) else { return true }
+        // Read again first: only a document that decodes as no library is
+        // moved. One that reads now, or one a newer build wrote, stays.
+        do {
+            _ = try read()
+            return false
+        } catch StoreRefusal.unreadable {
+            // The case this exists for.
+        } catch {
+            return false
+        }
+        let parent = directory.deletingLastPathComponent()
+        let stem = "\(directory.lastPathComponent)-damaged"
+        var destination = parent.appendingPathComponent(stem, isDirectory: true)
+        if fileManager.fileExists(atPath: destination.path) {
+            // Genuinely unique, not the last of a numbered run.
+            destination = parent.appendingPathComponent(
+                "\(stem)-\(UUID().uuidString)", isDirectory: true
+            )
+        }
+        try fileManager.moveItem(at: directory, to: destination)
+        return true
     }
 
     /// Replaces a layer's features and advances its revision in one operation.

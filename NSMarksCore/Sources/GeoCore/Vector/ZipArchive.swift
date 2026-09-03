@@ -32,14 +32,24 @@ public enum ZipArchive {
         "Couldn't read this archive — the zip inside it is malformed or unsupported."
 
     /// The archive's entries, in central-directory order.
+    /// The most entries an archive may list. A map archive holds a handful
+    /// of files, a KMZ a document and its photos; a directory declaring a
+    /// million records is asking for the allocation, not describing a map,
+    /// and is refused before one record is read.
+    public static let maxEntries = 10_000
+
     public static func entries(in data: Data) throws(UserMapImportRefusal) -> [Entry] {
         let bytes = [UInt8](data)
         guard let directory = endOfCentralDirectory(in: bytes) else {
             throw refusal(unreadable)
         }
+        guard directory.declared <= maxEntries else { throw tooManyEntries }
         var offset = directory.start
         var entries: [Entry] = []
         while offset + 46 <= bytes.count, read32(bytes, offset) == 0x0201_4b50 {
+            // Counted as read, not only as declared: the count in the end
+            // record is a claim like any other.
+            guard entries.count < maxEntries else { throw tooManyEntries }
             let flags = read16(bytes, offset + 8)
             // Bit 0 is the encryption flag. An encrypted entry decompresses to
             // noise, and noise parsed as a shapefile is worse than a refusal.
@@ -225,6 +235,16 @@ public enum ZipArchive {
         return nil
     }
 
+    private static var tooManyEntries: UserMapImportRefusal {
+        UserMapImportRefusal(
+            code: .tooLarge,
+            userMessage: """
+                This archive lists more than \(maxEntries) files, which is more than \
+                this app can read. Export a smaller area and import that.
+                """
+        )
+    }
+
     /// One entry's bytes.
     public static func contents(
         of entry: Entry, in data: Data
@@ -244,6 +264,10 @@ public enum ZipArchive {
 
         switch entry.method {
         case 0:
+            // Stored means the two sizes are one size. A record declaring one
+            // byte over a 48 MB payload would otherwise pass a size gate on
+            // the declaration and hand back the payload.
+            guard entry.compressedSize == entry.uncompressedSize else { throw refusal(unreadable) }
             return payload
         case 8:
             guard let inflated = inflate(payload, expecting: entry.uncompressedSize) else {
@@ -262,8 +286,10 @@ public enum ZipArchive {
 
     /// Raw DEFLATE, which is what a zip entry holds — no zlib wrapper.
     private static func inflate(_ data: Data, expecting size: Int) -> Data? {
-        guard size > 0 else { return Data() }
-        var output = Data(count: size)
+        // One byte more than declared — for a declaration of zero as well,
+        // which a non-empty stream must not satisfy — so a stream that runs
+        // past its declaration is seen to, rather than cut to fit it.
+        var output = Data(count: size + 1)
         let written = output.withUnsafeMutableBytes { destination -> Int in
             guard let destinationBase = destination.bindMemory(to: UInt8.self).baseAddress
             else { return 0 }
@@ -271,14 +297,17 @@ public enum ZipArchive {
                 guard let sourceBase = source.bindMemory(to: UInt8.self).baseAddress
                 else { return 0 }
                 return compression_decode_buffer(
-                    destinationBase, size, sourceBase, data.count, nil, COMPRESSION_ZLIB
+                    destinationBase, size + 1, sourceBase, data.count, nil, COMPRESSION_ZLIB
                 )
             }
         }
-        // A short read means the entry's declared size and its bytes disagree.
-        // Returning the partial buffer would hand a truncated .dbf to the
-        // attribute reader, which would read the missing rows as blanks.
+        // Anything but exactly the declared size means the entry's
+        // declaration and its bytes disagree. Returning a partial buffer
+        // would hand a truncated .dbf to the attribute reader, which would
+        // read the missing rows as blanks; returning a truncated long one
+        // would hand it a file with its tail cut off.
         guard written == size else { return nil }
+        output.removeLast()
         return output
     }
 
@@ -324,8 +353,10 @@ public enum ZipArchive {
         guard read32(bytes, at) == 0x0606_4b50 else { return nil }
         let start = read64(bytes, at + 48)
         guard start < UInt64(bytes.count) else { return nil }
+        // Clamped, never zeroed: a count past what the file could hold is
+        // an excessive count, and is refused as one.
         let declared = read64(bytes, at + 32)
-        return (Int(start), declared <= UInt64(bytes.count) ? Int(declared) : 0)
+        return (Int(start), Int(clamping: declared))
     }
 
     static func read16(_ bytes: [UInt8], _ offset: Int) -> UInt16 {
