@@ -83,6 +83,7 @@ Web (`web/src/`):
   mark into a Field notes layer. Location stays out of share URLs and print
   ([liveLocation.ts](../web/src/location/liveLocation.ts),
   [useLiveLocation.ts](../web/src/location/useLiveLocation.ts),
+  [markFix.ts](../web/src/location/markFix.ts),
   [MapCanvas.tsx](../web/src/components/MapCanvas.tsx)).
 - Foreground track recording: start/pause/resume/stop, contract filter
   pipeline, Douglas-Peucker simplify on save, processed LineString /
@@ -177,6 +178,11 @@ Web (`web/src/`):
   ([usePhotoManager.ts](../web/src/userMaps/vector/photos/usePhotoManager.ts),
   [PhotoStrip.tsx](../web/src/userMaps/vector/photos/PhotoStrip.tsx),
   [PhotoLightbox.tsx](../web/src/userMaps/vector/photos/PhotoLightbox.tsx)).
+- Marked-point popups: a layer made here says "Marked from this device's
+  location (±N m)"; an imported layer says "Marked from a device's location
+  (±N m)". Reserved keys that are not a claim render no provenance line;
+  only Point features may claim capture. The line does not say GPS
+  ([popup.ts](../web/src/userMaps/vector/render/popup.ts)).
 - Popup thumbnails: labelled "Open photo n of m" buttons between description
   and provenance
   ([popup.ts](../web/src/userMaps/vector/render/popup.ts)).
@@ -357,11 +363,19 @@ per-vertex `<time>` from it; both GPX parsers read trkpt `<time>` into it
 (iOS `GpxParse` included, null-padded). KML/KMZ export drops per-vertex times;
 GeoJSON and GPX are the formats that carry them.
 
-Popups and callouts render GPS provenance ("Marked from GPS on this device
-(±7 m)") only when `nsmts:capturedAt` and `nsmts:accuracyM` are both present.
-This is honest labeling of user data, not proof; an imported file could carry
-the keys, and the provenance line still correctly describes the claim the data
-makes about itself.
+Popups and callouts render capture provenance from `nsmts:capturedAt` and
+`nsmts:accuracyM`. This is honest labeling of user data, not proof; an
+imported file could carry the keys.
+
+Web (`popup.ts`) does not say GPS — the Geolocation API names no sensor.
+Only a Point with a real capture instant and a non-negative finite accuracy
+may claim a fix. Layers made here say "Marked from this device's location
+(±N m)"; imported layers say "Marked from a device's location (±N m)".
+Reserved keys that are not a claim render no provenance line.
+
+iOS callouts still say "Marked from GPS on this device (±N m)" when both
+reserved keys are present (`VectorStyle.swift`). The line still describes
+the claim the data makes about itself.
 
 ### Recorded layers and raw fixes
 
@@ -542,6 +556,7 @@ New modules under `web/src/location/`:
 | --- | --- |
 | `liveLocation.ts` | framework-free `watchPosition` wrapper; `LiveFix`; state union `off / acquiring / active / signal-lost / denied / unavailable`; injectable Geolocation for tests |
 | `useLiveLocation.ts` | React hook; one shared watch feeds the marker, follow mode, mark, and the recorder |
+| `markFix.ts` | one-shot held to the same 10 s / 50 m watch rule; four distinct browser-failure sentences; accuracy formatting |
 | `captureSpec.ts` | the contract constants, asserted against the fixture |
 | `trackFilter.ts` | pure per-fix pipeline: gate, outlier, smooth, spacing |
 | `trackRecorder.ts` | recorder state machine (idle/recording/paused), segments, raw-fix accumulation, live stats; injectable clock |
@@ -564,12 +579,24 @@ Interaction:
   each fix re-centres behind the print/share viewport guard; dragging the map
   turns follow off but keeps the marker; a "Follow" pill re-enables it; second
   tap on the button clears the watch and marker. Signal loss dims the marker
-  and shows "GPS signal lost, still trying" without dropping the last fix. A
-  heading wedge renders when moving with a heading. Under the cluster, one
+  without dropping the last fix, and the live region names the reason without
+  saying GPS: timeout → "Your location is taking longer than expected — still
+  trying."; unavailable → "Your location is unavailable right now — still
+  trying." When the view is already closer than the locate scale (zoom 14),
+  the first locate pans and keeps the reader's zoom; it flies to zoom 14 only
+  when further out. Leaflet fly/pan honours Reduce Motion (no JS animation).
+  A heading wedge renders when moving with a heading. Under the cluster, one
   permanent line: "Location stays on this device."
-- Mark uses the current watch fix if fresher than 10 s and accuracy ≤ 50 m,
-  else falls back to the existing one-shot `getBrowserLocation()`. Toast names
-  the destination layer and accuracy.
+- Mark uses the current watch fix if fresher than 10 s and accuracy ≤ 50 m
+  (`MARK_MAX_FIX_AGE_MS` / `MARK_MAX_ACCURACY_M`), else falls back to a
+  one-shot `getBrowserLocation()` held to the same 10 s / 50 m rule. A rough
+  or stale one-shot names which half failed. Browser failures are four
+  distinct sentences (denied / timeout / unsupported / unavailable); only
+  denied is about permission. The toast names the destination layer and
+  accuracy. An open edit session says "added", not "saved". A failed append
+  or a guarded store no-op is said out loud, not treated as silent success.
+  A point later moved by hand drops `nsmts:capturedAt`, `nsmts:accuracyM`,
+  `nsmts:altitudeM`, and the fix altitude coordinate.
 - Recording shows a HUD (elapsed, distance, accepted vertex count, fix-quality
   dot: green ≤ 10 m, amber ≤ 25 m, red = currently gated). The live trace is a
   plain Polyline in the user-vector pane. Recording owns no map clicks, so the
@@ -856,13 +883,17 @@ and exported image byte. The iOS App Store privacy label (zero collected data
 types) stays true.
 
 Evidence and provenance: recorded layers say "Recorded on this device"; photo
-layers say "From your photos · N photos"; GPS-marked points show their
-accuracy; traced features carry `nsmts:traced` and the not-a-survey caveat
+layers say "From your photos · N photos"; marked points show their accuracy
+(web names the device's location, not GPS; iOS callouts still say GPS);
+traced features carry `nsmts:traced` and the not-a-survey caveat
 permanently, including through exports. Raw fixes are never silently promoted
 into the processed line; they are a separate artifact with its own export.
-Distinct states stay distinct everywhere: permission denied vs unavailable vs
-signal lost; quota vs storage-failed vs unsupported-image; licence vs zoom vs
-dense vs error vs an honest empty.
+Distinct states stay distinct everywhere: on web, permission denied vs
+timeout vs unsupported vs unavailable — timeout and unavailable are two
+live-region sentences, not one "GPS signal lost" line; on iOS, permission
+denied vs unavailable vs "GPS signal lost — still trying."; quota vs
+storage-failed vs unsupported-image; licence vs zoom vs dense vs error vs
+an honest empty.
 
 Licensing: parcel snapping requires the accepted province licence before any
 URL is assembled, on both surfaces. Zoning geometry is structurally
