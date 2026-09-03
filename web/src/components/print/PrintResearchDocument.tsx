@@ -405,10 +405,11 @@ export function UnansweredEvidenceNotice({
 /**
  * The receipt for a source that answered, but not for everything it was asked.
  *
- * The flood and resource lookups resolve ready with per-query states inside
+ * The coastal and resource lookups resolve ready with per-query states inside
  * them, so a slot can be "captured" while one of its sources was down. A
  * receipt that says captured over a failed query is the same collapse the
- * appendix was fixed for, one level up.
+ * appendix was fixed for, one level up. (The river slot holds one source and
+ * is read directly.)
  */
 function nestedReceipt(
   ready: boolean,
@@ -443,12 +444,18 @@ function civicReceipt(state: PrintSnapshot["evidence"]["civicAddresses"]): strin
 export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
   const assessment = snapshot.evidence.assessments;
   const dwellings = snapshot.evidence.dwellings;
-  const flood = snapshot.evidence.floodHazard;
+  const river = snapshot.evidence.riverFlood;
+  const coastal = snapshot.evidence.coastalFlood;
   const resources = snapshot.evidence.resources;
-  const floodCaptured =
-    flood.status === "ready"
-      ? (flood.value.river.status === "error" ? 0 : 1) +
-        flood.value.coastal.filter(({ status }) => status !== "error").length
+  // One source, so no roll-up: a ready slot holding an error is unavailable,
+  // and printEvidenceReceiptStatus on its own would call it captured.
+  const riverReceipt =
+    river.status === "ready" && river.value.status === "error"
+      ? "unavailable"
+      : printEvidenceReceiptStatus(river);
+  const coastalCaptured =
+    coastal.status === "ready"
+      ? coastal.value.filter(({ status }) => status !== "error").length
       : 0;
   const resourceCaptured =
     resources.status === "ready"
@@ -456,14 +463,11 @@ export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
           ({ id }) => resources.value[id]?.status !== "error",
         ).length
       : 0;
-  const floodFailures =
-    flood.status === "ready"
-      ? [
-          ...(flood.value.river.status === "error" ? ["Published river"] : []),
-          ...flood.value.coastal
-            .filter(({ status }) => status === "error")
-            .map(({ scenario }) => `Coastal ${scenario}`),
-        ]
+  const coastalFailures =
+    coastal.status === "ready"
+      ? coastal.value
+          .filter(({ status }) => status === "error")
+          .map(({ scenario }) => `Coastal ${scenario}`)
       : [];
   const resourceFailures =
     resources.status === "ready"
@@ -476,7 +480,8 @@ export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
     `Assessment: ${assessment.status === "ready" ? `${assessment.value.accounts.length} account${assessment.value.accounts.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(assessment)}`,
     `Dwelling characteristics: ${dwellings.status === "ready" ? `${dwellings.value.length} account${dwellings.value.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(dwellings)}`,
     `Roads and water: ${printEvidenceReceiptStatus(snapshot.evidence.mappedContext)}`,
-    `Flood evidence: ${nestedReceipt(flood.status === "ready", floodFailures, floodCaptured, printEvidenceReceiptStatus(flood))}`,
+    `Published river mapping: ${riverReceipt}`,
+    `Coastal scenarios: ${nestedReceipt(coastal.status === "ready", coastalFailures, coastalCaptured, printEvidenceReceiptStatus(coastal))}`,
     `Resource evidence: ${nestedReceipt(resources.status === "ready", resourceFailures, resourceCaptured, printEvidenceReceiptStatus(resources))}`,
   ];
   return (

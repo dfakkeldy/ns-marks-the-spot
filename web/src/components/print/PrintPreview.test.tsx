@@ -92,7 +92,8 @@ function capture(pending = false): PrintCapture {
         ? { status: "pending" as const }
         : { status: "ready" as const, value: { addresses: [], unreadableRows: 0 } },
       mappedContext: pending ? { status: "pending" } : { status: "ready", value: { roads: [], water: [] } },
-      floodHazard: pending ? { status: "pending" } : { status: "ready", value: { river: { status: "within-published-layer-extent", aep: [] }, coastal: [] } },
+      riverFlood: pending ? { status: "pending" } : { status: "ready", value: { status: "within-published-layer-extent", aep: [] } },
+      coastalFlood: pending ? { status: "pending" } : { status: "ready", value: [] },
       resources: pending ? { status: "pending" } : {
         status: "ready",
         value: {

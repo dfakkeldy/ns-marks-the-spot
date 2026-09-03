@@ -36,7 +36,10 @@ import {
   type MappedArea,
   type ParcelContext,
 } from "../services/parcelContext";
-import type { ParcelFloodHazardEvidence } from "../services/floodHazard";
+import type {
+  CoastalFloodEvidence,
+  PublishedRiverFloodEvidence,
+} from "../services/floodHazard";
 import type { MapMode } from "../services/mapShareState";
 import type { ParcelResourceIntersections } from "../services/parcelResources";
 import {
@@ -102,9 +105,20 @@ export type ParcelResourceState =
   | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable"; value: ParcelResourceIntersections }
   | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelResourceIntersections };
 
-export type FloodHazardState =
+/**
+ * River and coastal are two services, and each settles on its own.
+ *
+ * Held as one state, a coastal request that never came back kept an answered
+ * river result off the panel and off the printed page, where the capture's
+ * timeout then reported the river source as one that had not answered.
+ */
+export type RiverFloodState =
   | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable" }
-  | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelFloodHazardEvidence };
+  | { request: SelectedEvidenceRequest; status: "ready"; value: PublishedRiverFloodEvidence };
+
+export type CoastalFloodState =
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable" }
+  | { request: SelectedEvidenceRequest; status: "ready"; value: CoastalFloodEvidence[] };
 
 export type BuildingCountState =
   | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable" }
@@ -307,7 +321,8 @@ export function ParcelInspector({
   historicalContexts,
   pidInAnyIncludedNotice,
   resourceIntersections,
-  floodHazard,
+  riverFlood,
+  coastalFlood,
   taxSaleEnabled,
   mapMode,
   shareUrl,
@@ -333,7 +348,8 @@ export function ParcelInspector({
   historicalContexts: HistoricalRecordContext[];
   pidInAnyIncludedNotice: boolean;
   resourceIntersections: ParcelResourceState;
-  floodHazard: FloodHazardState;
+  riverFlood: RiverFloodState;
+  coastalFlood: CoastalFloodState;
   taxSaleEnabled: boolean;
   mapMode: MapMode;
   shareUrl: string;
@@ -593,7 +609,7 @@ export function ParcelInspector({
       ) : null}
       <CivicAddressDetails state={civicAddresses} />
       <MappedContextDetails state={mappedContext} civicAddresses={civicAddresses} />
-      <FloodHazardDetails state={floodHazard} />
+      <FloodHazardDetails river={riverFlood} coastal={coastalFlood} />
       <ParcelResourceDetails state={resourceIntersections} />
       {listing ? (
         <p className="sale-warning">
@@ -890,36 +906,49 @@ const COASTAL_HAZARD_MAP_URL = "https://nsgi.novascotia.ca/chm";
 const PUBLISHED_RIVER_FLOOD_URL =
   "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer";
 
-function FloodHazardDetails({ state }: { state: FloodHazardState }) {
-  if (state.status !== "ready") {
+/** What one flood source that has not answered says for itself. */
+function FloodSourceStatus({
+  state,
+  checking,
+  unavailable,
+}: {
+  state: { status: "idle" | "loading" | "error" | "geometry-unavailable" };
+  checking: string;
+  unavailable: string;
+}) {
+  if (state.status === "geometry-unavailable") {
     return (
-      <section className="flood-hazard-evidence" aria-label="Flood hazard evidence">
-        <h3>Flood hazard evidence</h3>
-        {state.status === "geometry-unavailable" ? (
-          <p className="mapped-context-status" role="status">
-            {GEOMETRY_UNAVAILABLE_MESSAGE}
-          </p>
-        ) : state.status === "error" ? (
-          <p className="mapped-context-status error" role="status">
-            Flood hazard mapping is unavailable right now; absence is not
-            inferred.
-          </p>
-        ) : (
-          <p className="mapped-context-status" role="status">
-            Checking published river and coastal hazard mapping…
-          </p>
-        )}
-      </section>
+      <p className="mapped-context-status" role="status">
+        {GEOMETRY_UNAVAILABLE_MESSAGE}
+      </p>
     );
   }
-
-  const { river, coastal } = state.value;
+  if (state.status === "error") {
+    return (
+      <p className="mapped-context-status error" role="status">
+        {unavailable}
+      </p>
+    );
+  }
   return (
-    <section className="flood-hazard-evidence" aria-label="Flood hazard evidence">
-      <h3>Flood hazard evidence</h3>
-      <div className="flood-hazard-group">
-        <h4>Published river mapping</h4>
-        {river.status === "published-intersection" ? (
+    <p className="mapped-context-status" role="status">
+      {checking}
+    </p>
+  );
+}
+
+function RiverFloodResult({ state }: { state: RiverFloodState }) {
+  if (state.status !== "ready") {
+    return (
+      <FloodSourceStatus
+        state={state}
+        checking="Checking published river flood mapping…"
+        unavailable="Published river flood mapping is unavailable right now; absence is not inferred."
+      />
+    );
+  }
+  const river = state.value;
+  return river.status === "published-intersection" ? (
           <ul>
             {river.aep.map(({ annualExceedanceProbabilityPercent, relationship, places }) => (
               <li key={`${annualExceedanceProbabilityPercent}:${relationship}`}>
@@ -938,16 +967,24 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
             Outside the geographic extents of the four published river-flood study
             layers. River flood probability is not assessed.
           </p>
-        ) : (
-          <p className="error">Published river source unavailable; no absence is inferred.</p>
-        )}
-      </div>
-      <div className="flood-hazard-group">
-        <h4>Coastal scenarios</h4>
-        {/* Compact status rows instead of three near-identical sentences;
-            the distinct states (error vs no-intersection vs intersection)
-            stay distinct, and the shared not-proof caveat renders once
-            below whenever any row needs it. */}
+  ) : (
+    <p className="error">Published river source unavailable; no absence is inferred.</p>
+  );
+}
+
+function CoastalFloodResult({ state }: { state: CoastalFloodState }) {
+  if (state.status !== "ready") {
+    return (
+      <FloodSourceStatus
+        state={state}
+        checking="Checking coastal hazard scenarios…"
+        unavailable="Coastal hazard scenarios are unavailable right now; absence is not inferred."
+      />
+    );
+  }
+  const coastal = state.value;
+  return (
+    <>
         <ul className="coastal-scenario-list">
           {coastal.map((result) => {
             const label = result.scenario === "current" ? "Current" : result.scenario;
@@ -985,31 +1022,71 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
             );
           })}
         </ul>
-        {coastal.some(({ status }) => status === "no-intersection") ? (
-          <p className="mapped-area-note">
-            No intersecting pixels is not proof of no coastal hazard.
+      {coastal.some(({ status }) => status === "no-intersection") ? (
+        <p className="mapped-area-note">
+          No intersecting pixels is not proof of no coastal hazard.
+        </p>
+      ) : null}
+    </>
+  );
+}
+
+// Two services, two answers, two status lines. One section-level status
+// reported both halves as still checking until the slower one arrived, so an
+// answered river finding sat unread behind a coastal request that never came
+// back.
+function FloodHazardDetails({
+  river,
+  coastal,
+}: {
+  river: RiverFloodState;
+  coastal: CoastalFloodState;
+}) {
+  // The caveat, the source links and the coastal licence notices belong to a
+  // result. They printed only when the joined state was ready, and they still
+  // print only once a half has answered — otherwise a parcel whose flood
+  // sources were never asked would carry a page of conditions for data it does
+  // not have. A ready coastal half always satisfies this, so no coastal row is
+  // ever shown without its notices.
+  const answered = river.status === "ready" || coastal.status === "ready";
+  return (
+    <section className="flood-hazard-evidence" aria-label="Flood hazard evidence">
+      <h3>Flood hazard evidence</h3>
+      <div className="flood-hazard-group">
+        <h4>Published river mapping</h4>
+        <RiverFloodResult state={river} />
+      </div>
+      <div className="flood-hazard-group">
+        <h4>Coastal scenarios</h4>
+        {/* Compact status rows instead of three near-identical sentences;
+            the distinct states (error vs no-intersection vs intersection)
+            stay distinct, and the shared not-proof caveat renders once
+            below whenever any row needs it. */}
+        <CoastalFloodResult state={coastal} />
+      </div>
+      {answered ? (
+        <>
+          <p className="flood-hazard-caveat">
+            A 1% or 5% annual-exceedance probability describes the mapped flood event,
+            not a universal probability for the whole PID. Coastal 2050 and 2100 values
+            are sea-level scenarios, not additional probabilities. Raster area is an
+            approximate screen, not a survey, elevation certificate, or insurance finding.
           </p>
-        ) : null}
-      </div>
-      <p className="flood-hazard-caveat">
-        A 1% or 5% annual-exceedance probability describes the mapped flood event,
-        not a universal probability for the whole PID. Coastal 2050 and 2100 values
-        are sea-level scenarios, not additional probabilities. Raster area is an
-        approximate screen, not a survey, elevation certificate, or insurance finding.
-      </p>
-      <p className="flood-hazard-sources">
-        Sources: <a href={PUBLISHED_RIVER_FLOOD_URL} target="_blank" rel="noreferrer">published river layers</a>{" "}
-        and <a href={COASTAL_HAZARD_MAP_URL} target="_blank" rel="noreferrer">Nova Scotia Coastal Hazard Map</a>.{" "}
-        Coastal data <a href={COASTAL_HAZARD_LICENCE_URL} target="_blank" rel="noreferrer">licence and notices</a>.
-      </p>
-      {/* Conditions of using the coastal data, not a credit line, so they are
-          read from the catalogue the credit line, the printed page and the
-          exported strip read rather than typed out again here. */}
-      <div className="flood-hazard-licence-notice">
-        {COASTAL_HAZARD_NOTICES.map((notice) => (
-          <p key={notice}>{notice}</p>
-        ))}
-      </div>
+          <p className="flood-hazard-sources">
+            Sources: <a href={PUBLISHED_RIVER_FLOOD_URL} target="_blank" rel="noreferrer">published river layers</a>{" "}
+            and <a href={COASTAL_HAZARD_MAP_URL} target="_blank" rel="noreferrer">Nova Scotia Coastal Hazard Map</a>.{" "}
+            Coastal data <a href={COASTAL_HAZARD_LICENCE_URL} target="_blank" rel="noreferrer">licence and notices</a>.
+          </p>
+          {/* Conditions of using the coastal data, not a credit line, so they are
+              read from the catalogue the credit line, the printed page and the
+              exported strip read rather than typed out again here. */}
+          <div className="flood-hazard-licence-notice">
+            {COASTAL_HAZARD_NOTICES.map((notice) => (
+              <p key={notice}>{notice}</p>
+            ))}
+          </div>
+        </>
+      ) : null}
     </section>
   );
 }

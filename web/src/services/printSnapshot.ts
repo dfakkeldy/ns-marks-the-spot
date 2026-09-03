@@ -1,6 +1,9 @@
 import type { CivicAddressReading } from "./civicAddresses";
 import type { ParcelBuildingCount } from "./buildings";
-import type { ParcelFloodHazardEvidence } from "./floodHazard";
+import type {
+  CoastalFloodEvidence,
+  PublishedRiverFloodEvidence,
+} from "./floodHazard";
 import {
   buildMapShareUrl,
   type MapMode,
@@ -85,7 +88,14 @@ export type PrintEvidence = {
   dwellings: PrintLoadState<PvscDwellingAccount[]>;
   civicAddresses: PrintLoadState<CivicAddressReading>;
   mappedContext: PrintLoadState<ParcelContext>;
-  floodHazard: PrintLoadState<ParcelFloodHazardEvidence>;
+  /**
+   * The two flood sources settle apart, because they are two services and one
+   * hanging says nothing about the other. Held as one slot, a coastal request
+   * that never came back sealed an answered river result as a source that had
+   * not answered — a source that spoke, reported as one that went silent.
+   */
+  riverFlood: PrintLoadState<PublishedRiverFloodEvidence>;
+  coastalFlood: PrintLoadState<CoastalFloodEvidence[]>;
   resources: PrintLoadState<ParcelResourceIntersections>;
 };
 
@@ -141,7 +151,8 @@ const RESEARCH_KEYS = [
   "dwellings",
   "civicAddresses",
   "mappedContext",
-  "floodHazard",
+  "riverFlood",
+  "coastalFlood",
   "resources",
 ] as const;
 
@@ -324,7 +335,8 @@ export function sealPrintSnapshot(
         dwellings: sealPending(clonedEvidence.dwellings),
         civicAddresses: sealPending(clonedEvidence.civicAddresses),
         mappedContext: sealPending(clonedEvidence.mappedContext),
-        floodHazard: sealPending(clonedEvidence.floodHazard),
+        riverFlood: sealPending(clonedEvidence.riverFlood),
+        coastalFlood: sealPending(clonedEvidence.coastalFlood),
         resources: sealPending(clonedEvidence.resources),
       }
     : clonedEvidence;
@@ -377,7 +389,8 @@ const RESEARCH_EVIDENCE_NAMES: Record<EvidenceKey, string> = {
   dwellings: "PVSC dwelling characteristics",
   civicAddresses: "Civic addresses",
   mappedContext: "Mapped roads and water",
-  floodHazard: "Flood evidence",
+  riverFlood: "Published river mapping",
+  coastalFlood: "Coastal scenarios",
   resources: "Resources",
 };
 

@@ -44,10 +44,11 @@ import {
   type AssessmentState,
   type BuildingCountState,
   type CivicAddressState,
+  type CoastalFloodState,
   type DwellingState,
-  type FloodHazardState,
   type ParcelContextState,
   type ParcelResourceState,
+  type RiverFloodState,
 } from "./components/ParcelInspector";
 // Print preview and PDF export ride behind React.lazy: qrcode plus the print
 // components on one, pdf-lib (~150 KB gzip, the largest dependency after the
@@ -149,7 +150,10 @@ import {
   type ParcelContext,
 } from "./services/parcelContext";
 import { buildEvidenceNote } from "./services/evidenceNote";
-import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
+import {
+  fetchCoastalFloodEvidence,
+  fetchPublishedRiverFloodEvidence,
+} from "./services/floodHazard";
 import {
   buildMapShareUrl,
   hasRecognizedMapShareState,
@@ -1332,7 +1336,13 @@ export function App() {
         ? { pid: initialShareState.pid, generation: selectionGeneration.current }
         : null,
     });
-  const [floodHazard, setFloodHazard] = useState<FloodHazardState>({
+  const [riverFlood, setRiverFlood] = useState<RiverFloodState>({
+    status: initialShareState.pid ? "loading" : "idle",
+    request: initialShareState.pid
+      ? { pid: initialShareState.pid, generation: selectionGeneration.current }
+      : null,
+  });
+  const [coastalFlood, setCoastalFlood] = useState<CoastalFloodState>({
     status: initialShareState.pid ? "loading" : "idle",
     request: initialShareState.pid
       ? { pid: initialShareState.pid, generation: selectionGeneration.current }
@@ -2056,7 +2066,11 @@ export function App() {
         isCurrentEvidenceRequest(current.request, request)
           ? { status, request }
           : current);
-      setFloodHazard((current) =>
+      setRiverFlood((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status, request }
+          : current);
+      setCoastalFlood((current) =>
         isCurrentEvidenceRequest(current.request, request)
           ? { status, request }
           : current);
@@ -2450,28 +2464,40 @@ export function App() {
       { type: "FeatureCollection", features: selectedFeatures },
       selectedPid,
     );
-    fetchParcelFloodHazardEvidence(
+    // Asked apart, settled apart. Joined in one promise, a coastal raster that
+    // never came back kept an answered river result off the panel, and the
+    // print capture's fifteen-second timeout sealed it as a source that had
+    // not answered. The reverse held too: a hanging river query sank three
+    // answered coastal scenarios.
+    fetchPublishedRiverFloodEvidence(selectedFeatures, controller.signal)
+      .then((value) => setRiverFlood((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status: "ready", value, request }
+          : current,
+      ))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setRiverFlood((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "error", request }
+            : current,
+        );
+      });
+    fetchCoastalFloodEvidence(
       selectedFeatures,
       mappedArea?.squareMetres ?? null,
       controller.signal,
-    ).then((value) => setFloodHazard((current) =>
-      isCurrentEvidenceRequest(current.request, request)
-        ? { status: "ready", value, request }
-        : current,
-    ))
+    )
+      .then((value) => setCoastalFlood((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status: "ready", value, request }
+          : current,
+      ))
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
-        setFloodHazard((current) =>
+        setCoastalFlood((current) =>
           isCurrentEvidenceRequest(current.request, request)
-            ? { status: "ready", request, value: {
-            river: { status: "error", aep: [], message: "Flood evidence request failed." },
-            coastal: ["current", "2050", "2100"].map((scenario) => ({
-              scenario: scenario as "current" | "2050" | "2100",
-              status: "error" as const,
-              stormAnnualExceedanceProbabilityPercent: 1 as const,
-              message: "Flood evidence request failed.",
-            })),
-            } }
+            ? { status: "error", request }
             : current,
         );
       });
@@ -2941,7 +2967,8 @@ export function App() {
     setBuildingCount({ status: "loading", request });
     setAssessmentState({ status: "loading", request });
     setDwellingState({ status: "loading", request });
-    setFloodHazard({ status: "loading", request });
+    setRiverFlood({ status: "loading", request });
+    setCoastalFlood({ status: "loading", request });
     setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES, request });
     setResourceIntersections({
       status: "loading",
@@ -2963,7 +2990,8 @@ export function App() {
     setMappedContext({ status: "idle", value: EMPTY_PARCEL_CONTEXT, request: null });
     setBuildingCount({ status: "idle", request: null });
     setAssessmentState({ status: "idle", request: null });
-    setFloodHazard({ status: "idle", request: null });
+    setRiverFlood({ status: "idle", request: null });
+    setCoastalFlood({ status: "idle", request: null });
     setCivicAddresses({ status: "idle", value: EMPTY_CIVIC_ADDRESSES, request: null });
     setResourceIntersections({
       status: "idle",
@@ -3561,16 +3589,18 @@ export function App() {
     ),
     civicAddresses: printStateForRequest(civicAddresses, selectedEvidenceRequest),
     mappedContext: printStateForRequest(mappedContext, selectedEvidenceRequest),
-    floodHazard: printStateForRequest(floodHazard, selectedEvidenceRequest),
+    riverFlood: printStateForRequest(riverFlood, selectedEvidenceRequest),
+    coastalFlood: printStateForRequest(coastalFlood, selectedEvidenceRequest),
     resources: printStateForRequest(resourceIntersections, selectedEvidenceRequest),
   }), [
     assessmentState,
     buildingCount,
     civicAddresses,
+    coastalFlood,
     dwellingState,
-    floodHazard,
     mappedContext,
     resourceIntersections,
+    riverFlood,
     selectedEvidenceRequest,
     selectedMappedArea,
   ]);
@@ -5079,7 +5109,8 @@ export function App() {
               mappedContext={mappedContext}
               civicAddresses={civicAddresses}
               resourceIntersections={resourceIntersections}
-              floodHazard={floodHazard}
+              riverFlood={riverFlood}
+              coastalFlood={coastalFlood}
               taxSaleEnabled={taxSaleEnabled}
               mapMode={mapMode}
               shareUrl={shareUrl}
@@ -5156,7 +5187,8 @@ export function App() {
                   value: EMPTY_RESOURCE_INTERSECTIONS,
                   request: null,
                 });
-                setFloodHazard({ status: "idle", request: null });
+                setRiverFlood({ status: "idle", request: null });
+                setCoastalFlood({ status: "idle", request: null });
                 setShareMessage(null);
               }}
             />

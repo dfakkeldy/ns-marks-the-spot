@@ -28,7 +28,10 @@ import {
 import { fetchParcelAtPoint, fetchParcels, NSPRD_LAYER_URL } from "./services/nsprd";
 import { fetchParcelContext } from "./services/parcelContext";
 import { fetchParcelResourceIntersections } from "./services/parcelResources";
-import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
+import {
+  fetchCoastalFloodEvidence,
+  fetchPublishedRiverFloodEvidence,
+} from "./services/floodHazard";
 import { fetchParcelBuildingCount } from "./services/buildings";
 import { fetchParcelAssessments } from "./services/pvscAssessments";
 import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
@@ -502,14 +505,14 @@ vi.mock("./services/floodHazard", async (importOriginal) => {
   const original = await importOriginal<typeof import("./services/floodHazard")>();
   return {
     ...original,
-    fetchParcelFloodHazardEvidence: vi.fn().mockResolvedValue({
-      river: { status: "outside-published-layer-extents", aep: [] },
-      coastal: [
+    fetchPublishedRiverFloodEvidence: vi
+      .fn()
+      .mockResolvedValue({ status: "outside-published-layer-extents", aep: [] }),
+    fetchCoastalFloodEvidence: vi.fn().mockResolvedValue([
         { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2100", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
-      ],
-    }),
+      ]),
   };
 });
 
@@ -762,14 +765,15 @@ describe("NS Marks The Spot Online", () => {
       "mineral-tenure": { status: "ready", intersections: [] },
       "abandoned-mines": { status: "ready", intersections: [] },
     });
-    vi.mocked(fetchParcelFloodHazardEvidence).mockResolvedValue({
-      river: { status: "outside-published-layer-extents", aep: [] },
-      coastal: [
+    vi.mocked(fetchPublishedRiverFloodEvidence).mockResolvedValue({
+      status: "outside-published-layer-extents",
+      aep: [],
+    });
+    vi.mocked(fetchCoastalFloodEvidence).mockResolvedValue([
         { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2100", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
-      ],
-    });
+      ]);
     vi.mocked(fetchParcelBuildingCount).mockResolvedValue({
       count: 0,
       pointCount: 0,
@@ -4936,20 +4940,18 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
     });
-    vi.mocked(fetchParcelFloodHazardEvidence).mockResolvedValueOnce({
-      river: {
-        status: "published-intersection",
-        aep: [
-          { annualExceedanceProbabilityPercent: 5, relationship: "area", places: ["Bedford / Sackville"] },
-          { annualExceedanceProbabilityPercent: 1, relationship: "boundary", places: ["Pictou"] },
-        ],
-      },
-      coastal: [
-        { scenario: "current", status: "intersects", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 12.5, approximateAffectedSquareMetres: 13_882, sampledParcelPixels: 320 },
-        { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 320 },
-        { scenario: "2100", status: "error", stormAnnualExceedanceProbabilityPercent: 1, message: "Unavailable" },
+    vi.mocked(fetchPublishedRiverFloodEvidence).mockResolvedValueOnce({
+      status: "published-intersection",
+      aep: [
+        { annualExceedanceProbabilityPercent: 5, relationship: "area", places: ["Bedford / Sackville"] },
+        { annualExceedanceProbabilityPercent: 1, relationship: "boundary", places: ["Pictou"] },
       ],
     });
+    vi.mocked(fetchCoastalFloodEvidence).mockResolvedValueOnce([
+      { scenario: "current", status: "intersects", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 12.5, approximateAffectedSquareMetres: 13_882, sampledParcelPixels: 320 },
+      { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 320 },
+      { scenario: "2100", status: "error", stormAnnualExceedanceProbabilityPercent: 1, message: "Unavailable" },
+    ]);
     renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -4989,14 +4991,11 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
     });
-    vi.mocked(fetchParcelFloodHazardEvidence).mockResolvedValueOnce({
-      river: { status: "outside-published-layer-extents", aep: [] },
-      coastal: [
-        { scenario: "current", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
-        { scenario: "2050", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
-        { scenario: "2100", status: "geometry-unavailable", stormAnnualExceedanceProbabilityPercent: 1 },
-      ],
-    });
+    vi.mocked(fetchCoastalFloodEvidence).mockResolvedValueOnce([
+      { scenario: "current", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
+      { scenario: "2050", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
+      { scenario: "2100", status: "geometry-unavailable", stormAnnualExceedanceProbabilityPercent: 1 },
+    ]);
     renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
