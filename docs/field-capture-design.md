@@ -946,8 +946,10 @@ permanently, including through exports. Raw fixes are never silently promoted
 into the processed line; they are a separate artifact with its own export.
 Distinct states stay distinct everywhere: on web, permission denied vs
 timeout vs unsupported vs unavailable — timeout and unavailable are two
-live-region sentences, not one "GPS signal lost" line; on iOS, permission
-denied vs unavailable vs "GPS signal lost — still trying."; quota vs
+live-region sentences once a fix has been had, and a third before any has
+arrived ("hasn't been found yet", never "lost"), none of them a "GPS signal
+lost" line; on iOS, permission denied vs unavailable vs "GPS signal lost —
+still trying."; quota vs
 storage-failed vs unsupported-image; licence vs zoom vs dense vs error vs
 an honest empty.
 
