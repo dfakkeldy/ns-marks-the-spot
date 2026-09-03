@@ -177,6 +177,29 @@ struct TileStoreTests {
         #expect(summary.layerBytes["ns-aerial"] == 1)
     }
 
+    @Test func deleteAllKeepsTheStoreRootExcludedFromBackup() async throws {
+        var root = makeTemporaryRoot()
+        defer { try? FileManager.default.removeItem(at: root) }
+        let store = TileStore(rootDirectory: root)
+
+        try await store.store(Data([0x01]), z: 3, x: 4, y: 5, layerID: "fletcher", savedAreaID: nil)
+        var exclusion = URLResourceValues()
+        exclusion.isExcludedFromBackup = true
+        try root.setResourceValues(exclusion)
+
+        try await store.deleteAll()
+        let emptied = await store.summary()
+        #expect(FileManager.default.fileExists(atPath: root.path))
+
+        try await store.store(Data([0x02]), z: 3, x: 4, y: 5, layerID: "fletcher", savedAreaID: nil)
+        let rereadRoot = URL(fileURLWithPath: root.path)
+        let values = try rereadRoot.resourceValues(forKeys: [.isExcludedFromBackupKey])
+
+        #expect(emptied.totalBytes == 0)
+        #expect(values.isExcludedFromBackup == true)
+        #expect(await store.tile(z: 3, x: 4, y: 5, layerID: "fletcher") == Data([0x02]))
+    }
+
     private func makeTemporaryRoot() -> URL {
         FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString, isDirectory: true)

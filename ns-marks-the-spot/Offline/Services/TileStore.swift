@@ -208,8 +208,18 @@ actor TileStore {
     }
 
     func deleteAll() async throws {
-        guard fileManager.fileExists(atPath: rootDirectory.path) else { return }
-        try fileManager.removeItem(at: rootDirectory)
+        // Empty the root rather than remove it. The root directory is what
+        // carries `isExcludedFromBackup`, applied in `init`; delete it and the
+        // next `storeTile` brings it back through
+        // `createDirectory(withIntermediateDirectories:)` with default
+        // attributes, so every area downloaded after "Delete Cached Tiles"
+        // would ride along into iCloud and device backups until the next
+        // launch re-applies the exclusion. Re-applying it per tile instead is
+        // a syscall on each of up to 100,000 writes.
+        try removeIfExists(rootDirectory
+            .appendingPathComponent("tiles", isDirectory: true))
+        try removeIfExists(rootDirectory
+            .appendingPathComponent("records", isDirectory: true))
     }
 
     func deleteLayer(_ layerID: String) async throws {
