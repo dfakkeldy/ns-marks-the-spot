@@ -358,6 +358,37 @@ describe("useUserVectorLayers", () => {
     expect(result.current.visibleLayers).toHaveLength(1);
   });
 
+  it("keeps every layer on the map when the browser refuses the write", async () => {
+    // Quota, or a store that takes reads and refuses writes. What the session
+    // is showing is held in state, so nothing already switched on may drop
+    // off the map because the note-to-self did not land.
+    const setItem = vi
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new DOMException("quota", "QuotaExceededError");
+      });
+    try {
+      const { result } = renderHook(() => useUserVectorLayers(options()));
+      await act(() => result.current.importFiles([geojsonFile("a.geojson", -63)]));
+      const first = result.current.records[0].id;
+      await act(() => result.current.importFiles([geojsonFile("b.geojson", -62)]));
+      const second = result.current.records[1].id;
+      // The second import must not take the first layer off the map.
+      expect(result.current.visibleLayers.map(({ record }) => record.id)).toEqual([
+        first,
+        second,
+      ]);
+
+      // Nor may switching one row off switch another one off with it.
+      act(() => result.current.setEnabled(second, false));
+      expect(result.current.visibleLayers.map(({ record }) => record.id)).toEqual([
+        first,
+      ]);
+    } finally {
+      setItem.mockRestore();
+    }
+  });
+
   it("loads persisted layers on mount", async () => {
     const factory = new IDBFactory();
     const first = renderHook(() => useUserVectorLayers(options(factory)));
@@ -504,6 +535,37 @@ describe("field-capture append", () => {
     const listed = await store.listVectorLayers();
     expect(listed).toHaveLength(1);
     expect(listed[0].featureCount).toBe(1);
+  });
+
+  // The session's own record, not a re-read of storage: with the write
+  // refused, rebuilding from an empty store dropped every layer enabled
+  // before this one off the map and out of visibleLayers, silently.
+  it("keeps every layer on the map when the browser refuses the write", async () => {
+    const setItem = vi
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new DOMException("quota", "QuotaExceededError");
+      });
+    try {
+      const { result } = renderHook(() => useUserVectorLayers(options()));
+      await act(() => result.current.importFiles([geojsonFile("first.geojson")]));
+      await act(() => result.current.importFiles([geojsonFile("second.geojson")]));
+
+      await waitFor(() => expect(result.current.records).toHaveLength(2));
+      expect(result.current.visibleLayers).toHaveLength(2);
+
+      const second = result.current.records.find(
+        ({ name }) => name === "second",
+      );
+      expect(second).toBeDefined();
+      await act(() => {
+        result.current.setEnabled(second!.id, false);
+        return Promise.resolve();
+      });
+      expect(result.current.visibleLayers).toHaveLength(1);
+    } finally {
+      setItem.mockRestore();
+    }
   });
 
   it("chains marks within one tick without losing the earlier one", async () => {
@@ -773,5 +835,62 @@ describe("photo cleanup", () => {
     });
     const remaining = await photos.listLayerPhotos(layerId);
     expect(remaining.map(({ id }) => id)).toEqual(["referenced"]);
+  });
+
+  // A photo row lands before the feature that will reference it. Every layer
+  // write carries a working copy captured before it ran, so that collection
+  // saying nothing about the row is not evidence the row is an orphan — and
+  // deleting it left the strip showing a permanent placeholder for a photo
+  // the user had just taken.
+  it("keeps a photo an in-flight attach has not committed yet", async () => {
+    const factory = new IDBFactory();
+    const { UserPhotoStore, reservePhotoId, resetPhotoReservationsForTests } =
+      await import("./photos/photoStore");
+    resetPhotoReservationsForTests();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile("camps.geojson")]));
+    const record = result.current.records[0];
+
+    const photos = await UserPhotoStore.open(factory);
+    // Exactly the window attachPhotos opens: the row is saved, the
+    // reservation is held, and the descriptor has not been committed yet.
+    reservePhotoId("attaching");
+    await photos.savePhoto(
+      {
+        id: "attaching",
+        layerId: record.id,
+        addedAt: "2026-08-30T00:00:00.000Z",
+        width: 10,
+        height: 10,
+        fullBytes: 1,
+        thumbBytes: 1,
+      },
+      new Blob(["full"], { type: "image/jpeg" }),
+      new Blob(["thumb"], { type: "image/jpeg" }),
+    );
+
+    // A keystroke in the name field, or any Geoman gesture, commits the
+    // pre-attach collection through the same debounced write.
+    await act(() =>
+      result.current.putVectorLayer(record, {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "f1",
+            geometry: { type: "Point", coordinates: [-63.5, 44.5] },
+            properties: {},
+          },
+        ],
+      }),
+    );
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 25));
+    });
+
+    expect(
+      (await photos.listLayerPhotos(record.id)).map(({ id }) => id),
+    ).toEqual(["attaching"]);
+    expect(await (await photos.getFullBlob("attaching"))?.text()).toBe("full");
   });
 });

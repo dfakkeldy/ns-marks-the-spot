@@ -15,8 +15,10 @@ import {
 } from "../../store/database";
 import type { UserVectorLayerRecord } from "../types";
 import {
+  isPhotoIdReserved,
   photoFullBlobKey,
   photoThumbBlobKey,
+  releasePhotoId,
 } from "../photos/photoStore";
 import { readPhotoDescriptors } from "../photos/types";
 import type { PhotoRecord } from "../photos/types";
@@ -184,6 +186,12 @@ export class UserVectorStore {
    * deleted feature takes its descriptors with it) are removed with their
    * blobs. Fire-and-forget at the call site — a failed sweep is a small
    * leak, never a failed save.
+   *
+   * Reserved rows are exempt. Every write carries a working copy captured
+   * before it ran, and a photo attached since then is already in the store
+   * with its descriptor still in flight — this collection saying nothing
+   * about that row is not evidence the row is an orphan. The reservation
+   * ends here, the moment a write does reference the id.
    */
   async sweepLayerPhotos(
     layerId: string,
@@ -195,8 +203,16 @@ export class UserVectorStore {
         referenced.add(descriptor.id);
       }
     }
+    // Referenced now, so no longer in need of a reservation. Before the
+    // early return below: a write that references an id and sweeps nothing
+    // must still end that id's reservation.
+    for (const id of referenced) {
+      releasePhotoId(id);
+    }
     const rows = await this.listLayerPhotoRecords(layerId);
-    const orphans = rows.filter((row) => !referenced.has(row.id));
+    const orphans = rows.filter(
+      (row) => !referenced.has(row.id) && !isPhotoIdReserved(row.id),
+    );
     if (orphans.length === 0) {
       return;
     }
