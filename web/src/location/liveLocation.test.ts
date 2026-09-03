@@ -142,6 +142,74 @@ describe("startLiveLocation", () => {
     expect(snapshots.at(-1)).toEqual({ status: "denied", fix: null });
   });
 
+  it("stops the watch after a third pre-fix report that the position is unavailable", () => {
+    const fake = fakeGeolocation();
+    const { snapshots, onChange } = collect();
+    startLiveLocation(onChange, fake.geolocation);
+
+    fake.pushError(2); // POSITION_UNAVAILABLE
+    // A timeout is the device still working, not the device answering, so it
+    // does not count towards giving up.
+    fake.pushError(3); // TIMEOUT
+    fake.pushError(2);
+    expect(snapshots.at(-1)?.status).toBe("signal-lost");
+    expect(fake.clearWatch).not.toHaveBeenCalled();
+
+    fake.pushError(2);
+    expect(snapshots.at(-1)).toEqual({
+      status: "position-unavailable",
+      fix: null,
+    });
+    expect(fake.clearWatch).toHaveBeenCalledWith(7);
+
+    // A watch that has stopped delivers nothing more.
+    fake.pushPosition({ latitude: 45.5 });
+    expect(snapshots.at(-1)).toEqual({
+      status: "position-unavailable",
+      fix: null,
+    });
+  });
+
+  it("keeps trying forever once a fix has been had, however often the position goes unavailable", () => {
+    const fake = fakeGeolocation();
+    const { snapshots, onChange } = collect();
+    startLiveLocation(onChange, fake.geolocation);
+
+    fake.pushPosition({ latitude: 45.5 });
+    // A marker is on the map and a fix can come back at any moment. Giving up
+    // on a followed position because the signal is poor would take the
+    // reader's location off the map while they are standing in it.
+    fake.pushError(2);
+    fake.pushError(2);
+    fake.pushError(2);
+    fake.pushError(2);
+
+    const last = snapshots.at(-1);
+    expect(last?.status).toBe("signal-lost");
+    expect(last?.fix?.latitude).toBe(45.5);
+    expect(fake.clearWatch).not.toHaveBeenCalled();
+  });
+
+  // The walk has no other source of fixes: ending the watch would end the
+  // track, which is a worse answer than a device that is still struggling.
+  it("never gives up while a track is recording", () => {
+    const fake = fakeGeolocation();
+    const { snapshots, onChange } = collect();
+    startLiveLocation(onChange, fake.geolocation, undefined, false);
+
+    fake.pushError(2);
+    fake.pushError(2);
+    fake.pushError(2);
+    fake.pushError(2);
+
+    expect(snapshots.at(-1)).toEqual({
+      status: "signal-lost",
+      fix: null,
+      reason: "unavailable",
+    });
+    expect(fake.clearWatch).not.toHaveBeenCalled();
+  });
+
   it("stops delivering after stop() and clears the watch", () => {
     const fake = fakeGeolocation();
     const { snapshots, onChange } = collect();

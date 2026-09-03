@@ -189,7 +189,7 @@ describe("UserVectorRows", () => {
   // the layer under it left an editor open over a layer that no longer
   // exists — and its debounced write then reported the removal the user had
   // just asked for as "deleted in another tab".
-  it("closes an open edit session before removing the layer it is on", async () => {
+  it("hands the layer to the edit session before the row is removed", async () => {
     const order: string[] = [];
     const layers = api({
       records: [record("camps")],
@@ -202,26 +202,33 @@ describe("UserVectorRows", () => {
       <UserVectorRows
         api={layers}
         editingId="camps"
-        onEndEdit={() => order.push("end")}
+        onAbandonLayer={(id) => order.push(`abandon ${id}`)}
       />,
     );
 
     await userEvent.click(screen.getByRole("button", { name: "Remove Layer camps" }));
 
-    expect(order).toEqual(["end", "remove"]);
+    expect(order).toEqual(["abandon camps", "remove"]);
   });
 
-  it("leaves an edit session on another layer alone when a row is removed", async () => {
+  it("tells the session about a removal even when another layer is under edit", async () => {
     const layers = api({ records: [record("camps"), record("wells")] });
-    const onEndEdit = vi.fn();
+    const onAbandonLayer = vi.fn();
     vi.spyOn(window, "confirm").mockReturnValue(true);
     render(
-      <UserVectorRows api={layers} editingId="wells" onEndEdit={onEndEdit} />,
+      <UserVectorRows
+        api={layers}
+        editingId="wells"
+        onAbandonLayer={onAbandonLayer}
+      />,
     );
 
     await userEvent.click(screen.getByRole("button", { name: "Remove Layer camps" }));
 
-    expect(onEndEdit).not.toHaveBeenCalled();
+    // A write from the session just closed can still be in flight for the
+    // removed layer, so the session is told which layer went whether or not
+    // it is the one on screen.
+    expect(onAbandonLayer).toHaveBeenCalledWith("camps");
     expect(layers.removeLayer).toHaveBeenCalledWith("camps");
   });
 

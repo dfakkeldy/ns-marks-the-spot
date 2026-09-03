@@ -37,6 +37,14 @@ export type VectorEditSession = {
   closedSessionErrors: Record<string, string>;
   /** Takes one notice down. The edit is still unsaved either way. */
   dismissClosedSessionError: (layerId: string) => void;
+  /**
+   * A layer this tab is removing, told to the session before the row goes.
+   * Unsaved work for it is dropped rather than written — Done's flush would
+   * start a write that reaches the store after the delete — and a write
+   * already on its way is not allowed to report this tab's own removal as
+   * another tab's deletion.
+   */
+  abandonLayer: (layerId: string) => void;
   beginEdit: (id: string) => void;
   endEdit: () => void;
   commitGeometry: (collection: FeatureCollection) => void;
@@ -154,6 +162,14 @@ export function useVectorEditSession({
     /** The session this edit was made in; see `writeDirty`. */
     generation: number;
   } | null>(null);
+  /**
+   * Layers this tab removed. The store answers a write for a missing row
+   * with false, which normally means another tab deleted the layer — but a
+   * write still in flight when Remove was pressed gets that same answer for
+   * a deletion this tab performed, and naming another tab there would be a
+   * lie. Never pruned: an id belongs to one layer for the life of the tab.
+   */
+  const removedHereRef = useRef(new Set<string>());
   const putRef = useRef(putVectorLayer);
   const changedRef = useRef(onLayerChanged);
   useEffect(() => {
@@ -186,6 +202,13 @@ export function useVectorEditSession({
     try {
       const wrote = await putRef.current(pending.record, pending.collection);
       if (wrote === false) {
+        // Except when this tab is the one that removed it: a write already on
+        // its way when Remove was pressed gets the same answer, and naming
+        // another tab there would be a lie. Only this branch is gated — a
+        // store that refuses the write still says so, whoever deleted what.
+        if (removedHereRef.current.has(id)) {
+          return;
+        }
         // The layer is gone from the database — another tab deleted it — so
         // the update deliberately wrote nothing. The edit stays on screen,
         // and the reader is told it will not outlive the tab.
@@ -344,6 +367,38 @@ export function useVectorEditSession({
     setDraftRecord(null);
     setDraftData(null);
   }, [flush]);
+
+  const abandonLayer = useCallback(
+    (layerId: string) => {
+      removedHereRef.current.add(layerId);
+      // Dropped rather than flushed: the user asked for the layer to be
+      // gone, and a write racing the delete comes back reading as a
+      // deletion this tab did not do.
+      if (dirtyRef.current?.record.id === layerId) {
+        if (timerRef.current !== null) {
+          window.clearTimeout(timerRef.current);
+          timerRef.current = null;
+        }
+        dirtyRef.current = null;
+      }
+      // A standing notice promises the edit stays available until the tab
+      // closes. Once the layer is removed, that is no longer true.
+      dismissClosedSessionError(layerId);
+      if (editingId !== layerId) {
+        return;
+      }
+      // The session over the removed layer closes the way Done closes it,
+      // minus the write.
+      undoConversionRef.current = null;
+      setLastConversion(null);
+      generationRef.current += 1;
+      setEditGeneration(generationRef.current);
+      setEditingId(null);
+      setDraftRecord(null);
+      setDraftData(null);
+    },
+    [dismissClosedSessionError, editingId],
+  );
 
   const commitGeometry = useCallback(
     (collection: FeatureCollection) => {
@@ -519,6 +574,7 @@ export function useVectorEditSession({
     storageError,
     closedSessionErrors,
     dismissClosedSessionError,
+    abandonLayer,
     beginEdit,
     endEdit,
     commitGeometry,

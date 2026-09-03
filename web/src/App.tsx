@@ -1569,6 +1569,24 @@ export function App() {
     setConvertShape(null);
     vectorEdit.endEdit();
   }, [vectorEdit]);
+  // Remove is not Done. Done flushes the debounce so the last edit lands;
+  // Remove asks for the layer to be gone, and flushing would start a write
+  // that reaches the store after the delete and report the user's own
+  // removal as another tab's. The panel state only needs re-arming when the
+  // layer going is the one under edit.
+  const abandonVectorLayer = useCallback(
+    (layerId: string) => {
+      if (vectorEdit.editingId === layerId) {
+        setDrawMode(null);
+        setSelectedFeatureId(null);
+        setSnapTargets(DEFAULT_SNAP_TARGETS);
+        setParcelSnapStatus({ status: "idle" });
+        setConvertShape(null);
+      }
+      vectorEdit.abandonLayer(layerId);
+    },
+    [vectorEdit],
+  );
 
   const requestParcelSnapLicence = useCallback(() => {
     setLicenceIntent({ kind: "snap" });
@@ -1699,7 +1717,9 @@ export function App() {
       endedAt: string;
       /** True only for a walk recovered from an interrupted session. */
       interrupted: boolean;
-    }): Promise<{ message: string; persisted: boolean }> => {
+      /** Set when this is a retry of a save the device already refused. */
+      replaceLayerId?: string;
+    }): Promise<{ message: string; persisted: boolean; layerId: string }> => {
       const { record, persisted } = await userVectorApi.createRecordedLayer(input);
       // "Saved" only when it was: a track the device refused is on the map and
       // nowhere else, and the map must not say otherwise.
@@ -1709,6 +1729,9 @@ export function App() {
           : `Track "${record.name}" is on the map, but it couldn't be written ` +
             `to this device — it stays until you close the tab.`,
         persisted,
+        // The layer this walk is on, so a retry can be aimed at it instead of
+        // adding a second copy.
+        layerId: record.id,
       };
     },
     [userVectorApi],
@@ -4936,7 +4959,7 @@ export function App() {
                           vectorEdit.editingId === id
                             ? endVectorEdit()
                             : beginVectorEdit(id)}
-                        onEndEdit={endVectorEdit}
+                        onAbandonLayer={abandonVectorLayer}
                         onNewLayer={() => void createAndEditVectorLayer()}
                         onBulkPhotos={() => setBulkPhotosOpen(true)}
                         editingId={vectorEdit.editingId}

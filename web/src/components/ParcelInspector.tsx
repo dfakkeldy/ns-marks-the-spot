@@ -416,15 +416,16 @@ export function ParcelInspector({
       if (keyEvent.key !== "Escape") {
         return;
       }
-      // Escape in a field is the browser's own revert; the search box in the
-      // rail is reachable the whole time this panel is open. MeasureTool's
-      // window listener carries the same bail-out for the same reason.
+      // Only a control that owns Escape keeps it. A blanket exemption for
+      // every field took the panel's only dismissal away from the place
+      // focus actually is after a PID search — its own search box, which has
+      // no Escape behaviour of its own.
       const target = keyEvent.target;
       if (
         target instanceof HTMLElement &&
-        (target instanceof HTMLInputElement ||
-          target instanceof HTMLTextAreaElement ||
-          target.isContentEditable)
+        (target instanceof HTMLTextAreaElement ||
+          target.isContentEditable ||
+          target.closest("[data-owns-escape]") !== null)
       ) {
         return;
       }

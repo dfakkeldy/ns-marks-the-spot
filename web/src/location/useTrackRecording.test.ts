@@ -24,17 +24,22 @@ function fix(latMetres: number, timestampMs: number): LiveFix {
 }
 
 describe("useTrackRecording", () => {
-  it("never consumes the stale fix already in state when recording starts or resumes", () => {
+  it("never consumes the stale fix already in state when recording starts or resumes", async () => {
     // Regression: the fix sitting in state at start/resume arrived before
     // that moment. Feeding it in put a paused-era position into the new
     // segment, and its old timestamp made the next real fix look like a
     // teleport — found live, in the browser, on the first field simulation.
     const stale = fix(0, 0);
+    // Its own device copy: nothing here is about storage, and the shared
+    // store would carry state between the tests in this file.
+    const double = draftStoreDouble();
     const { result, rerender } = renderHook(
-      ({ current }: { current: LiveFix | null }) => useTrackRecording(current),
+      ({ current }: { current: LiveFix | null }) =>
+        useTrackRecording(current, double.store),
       { initialProps: { current: stale as LiveFix | null } },
     );
 
+    await settled();
     act(() => result.current.start());
     // Same object still in state after the start re-render: not consumed.
     rerender({ current: stale });
@@ -68,11 +73,14 @@ describe("useTrackRecording", () => {
     ]);
   });
 
-  it("resets to a fresh recorder after stop so a new session starts clean", () => {
+  it("resets to a fresh recorder after stop so a new session starts clean", async () => {
+    const double = draftStoreDouble();
     const { result, rerender } = renderHook(
-      ({ current }: { current: LiveFix | null }) => useTrackRecording(current),
+      ({ current }: { current: LiveFix | null }) =>
+        useTrackRecording(current, double.store),
       { initialProps: { current: null as LiveFix | null } },
     );
+    await settled();
     act(() => result.current.start());
     rerender({ current: fix(10, 1_000) });
     act(() => {
@@ -88,15 +96,24 @@ describe("useTrackRecording", () => {
 function draftStoreDouble(initial: StopResult | null = null) {
   let held = initial;
   let failure: TrackDraftFailure | null = null;
+  let unreadable = false;
+  let refuseClear: TrackDraftFailure | null = null;
   const store: TrackDraftStore = {
     save: async (draft) => {
       if (failure) return failure;
       held = draft;
       return null;
     },
-    read: async () => held,
+    read: async () =>
+      unreadable
+        ? { status: "unreadable" }
+        : held
+          ? { status: "ready", result: held }
+          : { status: "empty" },
     clear: async () => {
+      if (refuseClear) return refuseClear;
       held = null;
+      return null;
     },
   };
   return {
@@ -105,7 +122,18 @@ function draftStoreDouble(initial: StopResult | null = null) {
     refuse: (next: TrackDraftFailure | null) => {
       failure = next;
     },
+    refuseClear: (next: TrackDraftFailure | null) => {
+      refuseClear = next;
+    },
+    beUnreadable: () => {
+      unreadable = true;
+    },
   };
+}
+
+/** The one-time device read settles on a microtask; Record waits for it. */
+async function settled() {
+  await act(async () => {});
 }
 
 function stopped(): StopResult {
@@ -142,6 +170,7 @@ describe("keeping the walk on this device", () => {
       { initialProps: { current: null as LiveFix | null } },
     );
 
+    await settled();
     act(() => result.current.start());
     // The fix already in state when recording starts is deliberately skipped,
     // so the walk begins with the next two.
@@ -172,6 +201,7 @@ describe("keeping the walk on this device", () => {
         useTrackRecording(current, fresh.store),
       { initialProps: { current: null as LiveFix | null } },
     );
+    await settled();
     act(() => second.result.current.start());
     second.rerender({ current: fix(0, 0) });
     second.rerender({ current: fix(10, 1_000) });
@@ -192,6 +222,7 @@ describe("keeping the walk on this device", () => {
       { initialProps: { current: null as LiveFix | null } },
     );
 
+    await settled();
     act(() => result.current.start());
     rerender({ current: fix(0, 0) });
     rerender({ current: fix(10, 1_000) });
@@ -209,11 +240,61 @@ describe("keeping the walk on this device", () => {
     expect(result.current.draftError).toBeNull();
   });
 
+  // The device holds one recording under one key. Starting a new walk before
+  // the old one has been read would write straight over it.
+  it("will not start a recording until the device has answered", async () => {
+    const double = draftStoreDouble(stopped());
+    const { result } = renderHook(() => useTrackRecording(null, double.store));
+
+    expect(result.current.restore).toBe("pending");
+    act(() => result.current.start());
+    expect(result.current.status).toBe("idle");
+
+    await settled();
+    expect(result.current.restore).toBe("settled");
+    expect(result.current.unsaved?.interrupted).toBe(true);
+    act(() => result.current.start());
+    expect(result.current.status).toBe("recording");
+  });
+
+  it("says a device could not be read rather than treating it as empty", async () => {
+    const double = draftStoreDouble();
+    double.beUnreadable();
+    const { result } = renderHook(() => useTrackRecording(null, double.store));
+
+    await settled();
+
+    expect(result.current.restore).toBe("unreadable");
+    expect(result.current.unsaved).toBeNull();
+  });
+
+  // A discard the device refused is not a discard: the walk comes back on the
+  // next load, so the user is told now rather than surprised then.
+  it("reports a copy the device would not delete, and can be asked again", async () => {
+    const double = draftStoreDouble(stopped());
+    double.refuseClear("failed");
+    const { result } = renderHook(() => useTrackRecording(null, double.store));
+    await settled();
+
+    act(() => result.current.clearUnsaved());
+    await settled();
+    expect(result.current.unsaved).toBeNull();
+    expect(result.current.clearError).toBe("failed");
+    expect(double.held()).not.toBeNull();
+
+    double.refuseClear(null);
+    act(() => result.current.retryClear());
+    await settled();
+    expect(result.current.clearError).toBeNull();
+    expect(double.held()).toBeNull();
+  });
+
   it("writes nothing for a walk too short to save", async () => {
     vi.useFakeTimers();
     const double = draftStoreDouble();
     const { result } = renderHook(() => useTrackRecording(null, double.store));
 
+    await settled();
     act(() => result.current.start());
     act(() => result.current.pause());
     await act(async () => {

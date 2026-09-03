@@ -604,6 +604,83 @@ describe("useUserMaps", () => {
     expect(result.current.uiState[id]).toEqual({ enabled: true, opacity: 0.4 });
   });
 
+  it("takes another tab's display change instead of writing over it", async () => {
+    // The tab that writes never receives its own `storage` event, so this is
+    // the only way a second tab hears the first one's toggle. Before the
+    // listener, this tab kept computing from the record it loaded and put the
+    // other tab's choice straight back the way it was.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.records).toHaveLength(1));
+    const id = result.current.records[0].id;
+    act(() => result.current.setEnabled(id, false));
+    expect(result.current.visibleMaps).toHaveLength(0);
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-map-ui-state-v1",
+          newValue: JSON.stringify({
+            [id]: { enabled: true, opacity: 0.4 },
+            "other-tab-map": { enabled: true, opacity: 0.5 },
+          }),
+        }),
+      );
+    });
+    expect(result.current.visibleMaps).toHaveLength(1);
+
+    act(() => result.current.setOpacity(id, 0.6));
+    const stored = JSON.parse(
+      localStorage.getItem("user-map-ui-state-v1") ?? "{}",
+    ) as Record<string, { enabled: boolean; opacity: number }>;
+    expect(stored[id]).toEqual({ enabled: true, opacity: 0.6 });
+    expect(stored["other-tab-map"]).toEqual({ enabled: true, opacity: 0.5 });
+  });
+
+  it("keeps the maps it is showing when another tab clears or corrupts the record", async () => {
+    // A value this tab cannot read and a removed key are both silence, not an
+    // instruction to switch every map off. Acting on either would take a map
+    // the user never touched off this tab's map, with nothing said.
+    const { result } = renderHook(() => useUserMaps(options()));
+    await act(async () => {
+      await result.current.importFiles([fixtureFile()]);
+    });
+    await waitFor(() => expect(result.current.visibleMaps).toHaveLength(1));
+    const id = result.current.records[0].id;
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-map-ui-state-v1",
+          newValue: "not json",
+        }),
+      );
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-map-ui-state-v1",
+          newValue: null,
+        }),
+      );
+    });
+
+    expect(result.current.uiState[id]).toEqual({
+      enabled: true,
+      opacity: DEFAULT_OPACITY,
+    });
+    expect(result.current.visibleMaps).toHaveLength(1);
+  });
+
   it("removes a map everywhere and revokes its preview URL", async () => {
     const { result } = renderHook(() => useUserMaps(options()));
     await act(async () => {

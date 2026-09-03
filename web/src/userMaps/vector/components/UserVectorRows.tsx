@@ -38,12 +38,14 @@ export interface UserVectorRowsProps {
   api: UserVectorLayersApi;
   onEdit?: (id: string) => void;
   /**
-   * Closes the open edit session. Removing the layer under edit must go
-   * through this first: the session holds its own copy of the record and
-   * geometry and would otherwise stay open over a layer that no longer
-   * exists.
+   * The layer about to be removed, told to the edit session first. It drops
+   * unsaved work for that layer instead of writing it, and closes if it was
+   * open over it: the session holds its own copy of the record and geometry
+   * and would otherwise stay open over a layer that no longer exists. Called
+   * for every removal, not only the layer under edit — a write from the
+   * session just closed can still be in flight for it.
    */
-  onEndEdit?: () => void;
+  onAbandonLayer?: (id: string) => void;
   onNewLayer?: () => void;
   onBulkPhotos?: () => void;
   editingId?: string | null;
@@ -52,7 +54,7 @@ export interface UserVectorRowsProps {
 function renderUserVectorControls({
   api,
   onEdit,
-  onEndEdit,
+  onAbandonLayer,
   onNewLayer,
   onBulkPhotos,
   editingId = null,
@@ -176,14 +178,16 @@ function renderUserVectorControls({
                     // geometry, so it does not notice its row is gone: left
                     // open, it would keep accepting drawings into a layer
                     // that no longer exists and take them all with it at
-                    // Done. Closed first, so the session's last write still
-                    // has a row to land in. The native app holds the same
-                    // rule by disabling its Layers menu for the session
+                    // Done. Abandoned rather than closed with Done, whose
+                    // flush starts a write that lands after the delete and
+                    // comes back reading as another tab's deletion. Told on
+                    // every removal, not only the layer under edit, because
+                    // a write from the session just closed can still be in
+                    // flight. The native app holds the same rule by
+                    // disabling its Layers menu for the session
                     // (MapContainerView.swift); the web rail stays live, so
-                    // the removal closes the session instead.
-                    if (editingId === record.id) {
-                      onEndEdit?.();
-                    }
+                    // the removal hands the layer to the session instead.
+                    onAbandonLayer?.(record.id);
                     void api.removeLayer(record.id);
                   }
                 }}

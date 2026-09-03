@@ -425,6 +425,75 @@ describe("useUserVectorLayers", () => {
     }
   });
 
+  it("takes another tab's layer change instead of writing over it", async () => {
+    // `storage` fires only in the OTHER same-origin tabs, never in the one
+    // that wrote, so this is how a second tab hears the first one's toggle.
+    // Before the listener, this tab's next change was computed from the record
+    // it loaded and put the other tab's choice back the way it was.
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    const id = result.current.records[0].id;
+    act(() => result.current.setEnabled(id, false));
+    expect(result.current.visibleLayers).toHaveLength(0);
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-vector-ui-state-v1",
+          newValue: JSON.stringify({
+            [id]: { enabled: true },
+            "other-tab-layer": { enabled: true },
+          }),
+        }),
+      );
+    });
+    expect(result.current.visibleLayers).toHaveLength(1);
+
+    act(() => result.current.setEnabled(id, false));
+    expect(
+      JSON.parse(localStorage.getItem("user-vector-ui-state-v1") ?? "{}"),
+    ).toEqual({
+      [id]: { enabled: false },
+      "other-tab-layer": { enabled: true },
+    });
+  });
+
+  it("keeps the layers it is showing when another tab clears or corrupts the record", async () => {
+    // The vector hook keeps its own listener against its own key, so its
+    // early returns need their own guard: a value this tab cannot read and a
+    // removed key are both silence, not an instruction to switch every layer
+    // off.
+    const { result } = renderHook(() => useUserVectorLayers(options()));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    expect(result.current.visibleLayers).toHaveLength(1);
+
+    act(() => {
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-vector-ui-state-v1",
+          newValue: "not json",
+        }),
+      );
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          // A real browser names the store the change happened in; the
+          // listener checks it, because sessionStorage fires this too.
+          storageArea: localStorage,
+          key: "user-vector-ui-state-v1",
+          newValue: null,
+        }),
+      );
+    });
+
+    expect(result.current.visibleLayers).toHaveLength(1);
+  });
+
   it("loads persisted layers on mount", async () => {
     const factory = new IDBFactory();
     const first = renderHook(() => useUserVectorLayers(options(factory)));
@@ -713,6 +782,62 @@ describe("recorded layers", () => {
     const original = await store.getOriginalBlob(listed[0].id);
     expect(original).not.toBeNull();
     expect(await original?.text()).toBe("<gpx/>");
+  });
+
+  it("puts a retried track back on the layer the refused save left, not beside it", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    const input = {
+      name: "Boundary walk",
+      collection: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "track-1",
+            geometry: {
+              type: "LineString",
+              coordinates: [
+                [-61, 46],
+                [-61, 46.001],
+              ],
+            },
+            properties: {},
+          },
+        ],
+      } as FeatureCollection,
+      rawGpx: new Blob(["<gpx/>"], { type: "application/gpx+xml" }),
+      startedAt: "2026-08-29T14:00:00.000Z",
+      endedAt: "2026-08-29T14:20:00.000Z",
+    };
+
+    let refusedId = "";
+    let refusedPersisted = true;
+    await act(async () => {
+      // The device refuses the write: quota, private mode, a closed store.
+      const save = vi
+        .spyOn(UserVectorStore.prototype, "saveVectorLayer")
+        .mockRejectedValue(new Error("quota"));
+      const refused = await result.current.createRecordedLayer(input);
+      refusedId = refused.record.id;
+      refusedPersisted = refused.persisted;
+      save.mockRestore();
+    });
+    expect(refusedPersisted).toBe(false);
+    expect(result.current.records).toHaveLength(1);
+
+    let retried: unknown;
+    await act(async () => {
+      retried = await result.current.createRecordedLayer({
+        ...input,
+        replaceLayerId: refusedId,
+      });
+    });
+
+    expect(retried).toMatchObject({ persisted: true });
+    expect(result.current.records.map(({ id }) => id)).toEqual([refusedId]);
+    const store = await UserVectorStore.open(factory);
+    expect(await store.listVectorLayers()).toHaveLength(1);
   });
 });
 
