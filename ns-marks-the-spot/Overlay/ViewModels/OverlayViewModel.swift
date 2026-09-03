@@ -493,6 +493,10 @@ final class OverlayViewModel {
         cancelAddressLookup()
         parcelMessage = address.map(ParcelLookupMessage.searching(for:))
             ?? ParcelLookupMessage.searchingAtPoint
+        // Claimed before the wait: the sale fit landing meanwhile must not
+        // move the map, nor the claim, out from under this answer.
+        controller.readerClaimsTheCamera()
+        let claim = controller.cameraClaimGeneration
         startLookup(forPointTap: true) { [parcelFetcher, clearance = clearanceBox.clearance] in
             // `do throws(…)` rather than a bare `do`: inside a closure the
             // thrown type is not inferred, and an untyped catch would widen the
@@ -520,7 +524,10 @@ final class OverlayViewModel {
                     : ParcelLookupMessage.unidentifiedAtPoint(collection.unidentifiedFeatureCount)
                 return
             }
-            adopt(collection, selecting: pid, focus: focus, labelling: address)
+            adopt(
+                collection, selecting: pid,
+                focus: focus && controller.cameraClaimGeneration == claim, labelling: address
+            )
         }
     }
 
@@ -617,6 +624,12 @@ final class OverlayViewModel {
         }
 
         parcelMessage = ParcelLookupMessage.loading(pid: pid)
+        // The camera as it stands when the lookup leaves: a locate, a pan or
+        // another search meanwhile outranks this answer's focus. The parcel
+        // is still adopted and selected; only the move is dropped. Claimed
+        // before the wait, so the sale fit yields to this search.
+        controller.readerClaimsTheCamera()
+        let claim = controller.cameraClaimGeneration
         startLookup(forPointTap: false) { [parcelFetcher, clearance = clearanceBox.clearance] in
             do throws(ParcelLookupFailure) {
                 return .success(try await parcelFetcher.parcels(pids: [pid], clearance: clearance))
@@ -647,7 +660,7 @@ final class OverlayViewModel {
                     : ParcelLookupMessage.unidentifiedForPID(collection.unidentifiedFeatureCount)
                 return
             }
-            adopt(collection, selecting: pid, focus: true)
+            adopt(collection, selecting: pid, focus: controller.cameraClaimGeneration == claim)
         }
     }
 
@@ -1109,14 +1122,19 @@ final class OverlayViewModel {
     /// and moving off it would answer a question the sender did not ask. Not in
     /// historical mode either — the fit is to what is advertised now.
     private func frameListedParcelsOnce() {
+        // Not once the reader has taken the map themselves or asked for their
+        // location: this fit lands whenever its request returns, and a late
+        // return must not move the map off what they chose.
         guard !hasFramedListedParcels, !isHoldingLinkPosition, showsTaxSale,
+              !controller.readerHasClaimedTheCamera,
               mapRecordMode == .current,
               let listed = taxSale?.highlightedPIDs, !listed.isEmpty,
               let bounds = parcels.bounds(forPIDs: listed)
         else { return }
         hasFramedListedParcels = true
-        // The web's own cap on this fit.
-        controller.focus(on: bounds, maxZoom: 13)
+        // The web's own cap on this fit. Not the reader's choice, so it does
+        // not count as one against a later search or link.
+        controller.focus(on: bounds, maxZoom: 13, asReader: false)
     }
 
     /// A tap on the dot standing in for a parcel too small to see.
@@ -1226,6 +1244,10 @@ final class OverlayViewModel {
     }
 
     @ObservationIgnored private let sessionStore: MapSessionStore
+
+    /// The last view the reader chose, as opposed to one their location put
+    /// on screen. See `mapPosition`.
+    @ObservationIgnored var readerPosition: MapPosition?
 
     /// Writes down the current view so the next launch can open on it.
     ///

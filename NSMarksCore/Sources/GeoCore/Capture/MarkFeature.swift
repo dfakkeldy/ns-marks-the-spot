@@ -33,5 +33,13 @@ public enum MarkFeature {
         let ageMs = now.timeIntervalSince(fix.timestamp) * 1_000
         return ageMs >= 0 && ageMs <= CaptureSpec.Mark.maxFixAgeMs
             && fix.accuracyM > 0 && fix.accuracyM <= CaptureSpec.Mark.maxAccuracyM
+            && isPosition(latitude: fix.latitude, longitude: fix.longitude)
+    }
+
+    /// A pair of numbers that is a place on Earth: finite and inside the
+    /// WGS84 range. A fix off the globe is never a mark, whatever its
+    /// accuracy says.
+    public static func isPosition(latitude: Double, longitude: Double) -> Bool {
+        latitude.isFinite && longitude.isFinite && abs(latitude) <= 90 && abs(longitude) <= 180
     }
 }

@@ -27,6 +27,10 @@ final class TrackRecorder: NSObject {
     /// Location permission was refused; the HUD says so instead of
     /// pretending to wait for fixes that will never come.
     private(set) var permissionDenied = false
+    /// The refusal is a device restriction (Screen Time, a management
+    /// profile) rather than the reader's choice, so no Settings page lifts
+    /// it. Only meaningful while `permissionDenied` is true.
+    private(set) var permissionRestricted = false
 
     private(set) var recording = TrackRecording()
 
@@ -48,6 +52,7 @@ final class TrackRecorder: NSObject {
         guard recording.status == .idle else { return }
         autoPauseMessage = nil
         permissionDenied = false
+        permissionRestricted = false
         if manager.authorizationStatus == .notDetermined {
             manager.requestWhenInUseAuthorization()
         }
@@ -124,10 +129,15 @@ extension TrackRecorder: @preconcurrency CLLocationManagerDelegate {
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
-        case .denied, .restricted:
+        case .denied:
             permissionDenied = true
+            permissionRestricted = false
+        case .restricted:
+            permissionDenied = true
+            permissionRestricted = true
         default:
             permissionDenied = false
+            permissionRestricted = false
         }
     }
 

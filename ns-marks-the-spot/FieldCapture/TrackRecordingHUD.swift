@@ -45,12 +45,20 @@ struct TrackRecordingHUD: View {
             }
             if recorder.permissionDenied {
                 Label(
-                    "Location permission was not granted. You can keep using the map.",
+                    recorder.permissionRestricted
+                        ? "Location is restricted on this device, for example by Screen Time "
+                            + "or a management profile. You can keep using the map."
+                        : "Location permission was not granted. You can keep using the map.",
                     systemImage: "location.slash"
                 )
                 .font(.caption)
                 .foregroundStyle(.orange)
                 .fixedSize(horizontal: false, vertical: true)
+                // No Settings button for a restriction: the app's page cannot
+                // lift it.
+                if !recorder.permissionRestricted {
+                    OpenSettingsButton()
+                }
             }
 
             Text("Location stays on this device.")

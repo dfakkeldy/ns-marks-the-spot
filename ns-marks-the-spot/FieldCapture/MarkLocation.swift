@@ -16,7 +16,19 @@ final class MarkLocation: NSObject {
     enum Outcome: Equatable {
         case marked(layerName: String, accuracyM: Double)
         case denied
+        /// Blocked by Screen Time or a management profile, not refused by
+        /// the reader; there is no Settings page that lifts it.
+        case restricted
+        /// Location Services are off for the whole device, which CoreLocation
+        /// also reports as denied; a different switch from this app's.
+        case servicesOff
+        /// A fix came back to the request and failed the contract's 10 s /
+        /// 50 m rule. Not saved, and said as which half failed.
+        case poorFix(accuracyM: Double, reason: PoorFixReason)
         case unavailable
+        /// CoreLocation failed for a reason that is not the sky: a network
+        /// error, most often. Going outdoors would not repair it.
+        case failed
         /// A fix was had and the layer refused it. Carries the store's own
         /// words: a full disk or an unreadable layer is not a GPS problem,
         /// and telling the reader to try again outdoors sends them to fix
@@ -29,12 +41,40 @@ final class MarkLocation: NSObject {
                 return "Marked in \(layerName) (±\(Int(accuracyM.rounded())) m)"
             case .denied:
                 return "Location permission was not granted. You can keep using the map."
+            case .restricted:
+                return "Location is restricted on this device, for example by Screen Time "
+                    + "or a management profile. You can keep using the map."
+            case .servicesOff:
+                return "Location Services are off for this device. Turn them on in Settings, "
+                    + "under Privacy & Security."
+            case .poorFix(let accuracyM, let reason):
+                switch reason {
+                case .rough:
+                    return "Your location was found only to within \(Int(accuracyM.rounded(.up))) m, and a mark "
+                        + "is saved only within \(Int(CaptureSpec.Mark.maxAccuracyM)) m. Try again outdoors."
+                case .old:
+                    return "The only location available was too old to save. Try again outdoors."
+                case .futureDated:
+                    return "The only location available carried a time ahead of this device's clock, so it "
+                        + "was not saved. Check the date and time, then try again."
+                }
             case .unavailable:
                 return "Your location couldn't be found. Try again outdoors."
+            case .failed:
+                return "Your location couldn't be determined. Try again in a moment."
             case .storageFailed(let reason):
                 return reason
             }
         }
+    }
+
+    /// The radius as a label that never understates it: rounded up to the
+    /// next tenth under ten metres, so ±0.04 m is "±0.1 m" and never
+    /// "±0.0 m", and to the next whole metre above.
+    static func accuracyLabel(_ accuracyM: Double) -> String {
+        accuracyM < 10
+            ? String(format: "%.1f", (accuracyM * 10).rounded(.up) / 10)
+            : String(Int(accuracyM.rounded(.up)))
     }
 
     /// What the mark says when the layer refused the fix and the store gave
@@ -44,7 +84,25 @@ final class MarkLocation: NSObject {
 
     /// The message shown while a fix is being requested. Ten silent seconds
     /// after a tap read as a button that did nothing.
-    static let acquiringMessage = "Finding your position…"
+    static let acquiringMessage = "Saving a point at your location…"
+
+    /// What an authorization status refuses with, or nil when it does not.
+    ///
+    /// Denied and restricted are different outcomes: one the reader can
+    /// change in Settings, one they cannot; and `.denied` with Location
+    /// Services off for the device is a third.
+    nonisolated static func refusal(
+        for status: CLAuthorizationStatus, servicesEnabled: Bool = true
+    ) -> Outcome? {
+        switch status {
+        case .denied: servicesEnabled ? .denied : .servicesOff
+        case .restricted: .restricted
+        default: nil
+        }
+    }
+
+    /// Whether Location Services are on for the device. Injected for tests.
+    @ObservationIgnored var servicesEnabled: () -> Bool = { CLLocationManager.locationServicesEnabled() }
 
     /// What the last mark attempt came to, for the toast.
     private(set) var outcome: Outcome?
@@ -75,16 +133,54 @@ final class MarkLocation: NSObject {
         return nil
     }
 
+    /// Which half of the rule a requested fix failed. Told apart, because
+    /// the reader can do something about two of them and nothing about the
+    /// third: a rough fix wants open sky, an old one another try, and one
+    /// dated ahead of the clock says the clock is wrong, not the fix old.
+    enum PoorFixReason: Equatable {
+        case rough
+        case old
+        case futureDated
+    }
+
+    /// What a fix requested from CoreLocation is worth, by the same 10 s /
+    /// 50 m rule as a cached one: a mark is never built from a fix the rule
+    /// refused, and the refusal says which half failed. Nil for both when
+    /// the location is not a position at all.
+    nonisolated static func requestedFix(
+        _ location: CLLocation, now: Date
+    ) -> (fix: TrackFix?, outcome: Outcome?) {
+        guard let fix = TrackFix(location: location) else { return (nil, nil) }
+        if MarkFeature.isUsable(fix, now: now) { return (fix, nil) }
+        let age = now.timeIntervalSince(fix.timestamp)
+        let reason: PoorFixReason =
+            if age < 0 {
+                .futureDated
+            } else if fix.accuracyM > CaptureSpec.Mark.maxAccuracyM {
+                .rough
+            } else {
+                .old
+            }
+        return (nil, .poorFix(accuracyM: fix.accuracyM, reason: reason))
+    }
+
     /// A usable fix: the first usable candidate, else one requested now.
     /// Nil when permission is refused or no fix arrives.
     func acquireFix(preferring candidates: [TrackFix?], now: Date = Date()) async -> TrackFix? {
+        // A new attempt starts clean: a success still on screen from the
+        // last one must not stand in for this one's answer.
+        outcome = nil
         if let fix = Self.usableFix(among: candidates, now: now) {
             return fix
         }
-        switch manager.authorizationStatus {
-        case .denied, .restricted:
-            outcome = .denied
+        let status = manager.authorizationStatus
+        if let refusal = Self.refusal(
+            for: status, servicesEnabled: status == .denied ? servicesEnabled() : true
+        ) {
+            outcome = refusal
             return nil
+        }
+        switch status {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
         default:
@@ -113,23 +209,83 @@ final class MarkLocation: NSObject {
 extension MarkLocation: @preconcurrency CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        // A rough-but-valid fix is kept: its ± label is honest. An invalid
-        // one (see `TrackFix.init(location:)`) answers with nothing.
-        deliver?(TrackFix(location: location))
+        // Held to the rule the cached candidates were: a requested fix that
+        // is too rough or too old is not saved as a mark, and the outcome
+        // says so. An invalid one (see `TrackFix.init(location:)`) answers
+        // with nothing.
+        let (fix, outcome) = Self.requestedFix(location, now: Date())
+        if let outcome { self.outcome = outcome }
+        deliver?(fix)
         deliver = nil
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+        // A refusal delivered as a failure is the refusal, not "try outdoors";
+        // any other failure names itself, and only "no position" sends the
+        // reader outdoors.
+        if deliver != nil {
+            switch (error as? CLError)?.code {
+            case .denied:
+                let status = manager.authorizationStatus
+                outcome = Self.refusal(
+                    for: status, servicesEnabled: status == .denied ? servicesEnabled() : true
+                ) ?? .denied
+            case .locationUnknown:
+                break
+            default:
+                // Including an error that is not CoreLocation's at all: an
+                // unknown failure is not "no position", and the sky will
+                // not repair it.
+                outcome = .failed
+            }
+        }
         deliver?(nil)
         deliver = nil
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        // A refusal answered mid-request ends it; a grant lets the pending
-        // requestLocation proceed on its own.
-        if manager.authorizationStatus == .denied || manager.authorizationStatus == .restricted {
+        // A refusal answered mid-request ends it, and names itself: answered
+        // with a bare nil it read as a fix that never came. A grant lets the
+        // pending requestLocation proceed on its own.
+        let status = manager.authorizationStatus
+        if let refusal = Self.refusal(
+            for: status, servicesEnabled: status == .denied ? servicesEnabled() : true
+        ) {
+            if deliver != nil {
+                outcome = refusal
+            } else if let current = outcome, Self.isRefusal(current), current != refusal {
+                // The cause changed under a refusal still on screen: said as
+                // what it now is.
+                outcome = refusal
+            }
             deliver?(nil)
             deliver = nil
+        } else if let current = outcome, Self.isRefusal(current) {
+            // Lifted: the reader went to Settings as the toast told them, and
+            // a toast still saying so would be wrong.
+            outcome = nil
+        }
+    }
+
+    /// Re-reads the authorization on return to the foreground: a refusal
+    /// still on the toast may name a cause the reader has since changed.
+    func reconcileOutcome() {
+        guard let current = outcome, Self.isRefusal(current) else { return }
+        let status = manager.authorizationStatus
+        let refusal = Self.refusal(
+            for: status, servicesEnabled: status == .denied ? servicesEnabled() : true
+        )
+        if let refusal {
+            if refusal != current { outcome = refusal }
+        } else {
+            outcome = nil
+        }
+    }
+
+    static func isRefusal(_ outcome: Outcome) -> Bool {
+        switch outcome {
+        case .denied, .restricted, .servicesOff: true
+        default: false
         }
     }
 }
@@ -141,8 +297,10 @@ extension TrackFix {
     /// "perfect": saving it would mark a point the device never actually had
     /// and caption it "±-1 m". A negative vertical accuracy means the altitude
     /// is invalid, and it is never zero-filled.
-    init?(location: CLLocation) {
-        guard location.horizontalAccuracy > 0 else { return nil }
+    nonisolated init?(location: CLLocation) {
+        // Off the globe is not a position either, whatever its accuracy.
+        guard location.horizontalAccuracy > 0, CLLocationCoordinate2DIsValid(location.coordinate)
+        else { return nil }
         self.init(
             latitude: location.coordinate.latitude,
             longitude: location.coordinate.longitude,

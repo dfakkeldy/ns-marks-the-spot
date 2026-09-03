@@ -144,6 +144,18 @@ final class MapController: NSObject {
     /// is not at. Anything writing that pair down has to ask this first.
     private(set) var hasReportedItsPosition = false
 
+    /// Whether the view on screen was put there by the reader's location
+    /// rather than by the reader.
+    ///
+    /// Following moves the camera on every fix, and the field-capture
+    /// contract keeps those views out of share links, evidence notes,
+    /// printed receipts and the saved session: where somebody is standing is
+    /// not what they chose to look at, and a link is something they hand to
+    /// someone else. The browser sets a suppress flag for the same reason.
+    /// Cleared by anything the reader chose — a hand on the map, a search, a
+    /// link, a framing — because those views are theirs to share.
+    private(set) var viewportIsLocationDriven = false
+
     /// What each installed layer's tiles are doing, keyed by layer id.
     ///
     /// Written from `progress`, which counts on MapKit's queues and reports
@@ -187,12 +199,27 @@ final class MapController: NSObject {
 
     @ObservationIgnored weak var mapView: MKMapView? {
         didSet {
+            // A replaced map view must stop talking: a callback it had already
+            // queued would otherwise set the glyph for a map that is gone.
+            if let oldValue, oldValue !== mapView, oldValue.delegate === self {
+                oldValue.delegate = nil
+            }
             // A replacement map view starts empty; the incremental
             // user-vector path must not skip installs because the previous
             // view already had them.
             installedUserVectors = []
             syncStateToAttachedMapView()
-            mapView?.layoutMargins.bottom = bottomOrnamentInset
+            applyBottomLayoutMargin()
+            // A replacement map starts with no tracking mode, whatever the
+            // glyph said of the old one; a follow armed for the old map's
+            // flight has nothing to land on.
+            followsOnceSettled = false
+            followFallback?.cancel()
+            followFallback = nil
+            if userTrackingState == .following || userTrackingState == .heading {
+                userTrackingState = .idle
+            }
+            dismissFollowMessages()
             // The closest-zoom limit was installed on the map view that was
             // measured for it, and a replacement carries none. Forgetting the
             // measurement is what makes the next region change take it again;
@@ -214,7 +241,7 @@ final class MapController: NSObject {
     func setBottomOrnamentInset(_ inset: CGFloat) {
         guard inset != bottomOrnamentInset else { return }
         bottomOrnamentInset = inset
-        mapView?.layoutMargins.bottom = inset
+        applyBottomLayoutMargin()
     }
 
     // MARK: - State application
@@ -352,7 +379,10 @@ final class MapController: NSObject {
             }
 
         case .setShowsUserLocation(let shows):
-            mapView.showsUserLocation = shows
+            // MapKit asks for permission itself when the dot goes on. Not in
+            // a unit-test host: see `isRunningUnitTests`. The state is kept
+            // either way, so what the diff reports is unchanged.
+            mapView.showsUserLocation = shows && !Self.isRunningUnitTests
 
         case .beginBoundsSelection:
             wasScrollEnabled = mapView.isScrollEnabled
@@ -478,10 +508,23 @@ final class MapController: NSObject {
         set { mutate { $0.baseMapType = newValue } }
     }
 
+    /// True while this process is a unit-test host.
+    ///
+    /// The unit tests drive the real controller, so following a fix reaches
+    /// the same code a tap does — and on a simulator whose permission has
+    /// never been answered, that puts a system alert on the device. Nothing
+    /// in a unit test dismisses it, and it outlives the process: the UI
+    /// suite that runs next on the same simulator then meets an alert it did
+    /// not raise, and its interruption handler cannot clear it. The UI tests
+    /// run against the app itself, where this is false and the prompt
+    /// behaves exactly as it does for a reader.
+    nonisolated static let isRunningUnitTests =
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+
     var showsUserLocation: Bool {
         get { appliedShowsUserLocation }
         set {
-            if newValue {
+            if newValue, !Self.isRunningUnitTests {
                 locationManager.requestWhenInUseAuthorization()
             }
             mutate { $0.showsUserLocation = newValue }
@@ -663,11 +706,16 @@ final class MapController: NSObject {
     /// `maxZoom` caps how far in the fit may go, as the web's `fitBounds` does.
     /// Without it, a sale that advertised one small lot would open the map at
     /// the lot's fence line, which says nothing about where the sale is.
-    func focus(on bounds: MapBounds, maxZoom: Int? = nil) {
+    /// `asReader` is false only for the automatic fit to a sale's parcels,
+    /// which is not the reader choosing a view and must not count as one.
+    func focus(on bounds: MapBounds, maxZoom: Int? = nil, asReader: Bool = true) {
         // Anything that moves the map deliberately outranks a link's held
         // position: applying it later would drag the reader off what they just
-        // asked to see.
+        // asked to see. And a locate or a follow, for the same reason — and
+        // the automatic sale fit, which yields to a reader who has chosen.
         pendingCenter = nil
+        if asReader { readerHasClaimedTheCamera = true }
+        cameraTakenByAnotherFeature()
         guard let mapView else { return }
         let corner = MKMapPoint(
             CLLocationCoordinate2D(
@@ -720,6 +768,7 @@ final class MapController: NSObject {
     /// `animated` is false for the opening view, which has no previous position
     /// to travel from: the map would otherwise fly to its own first frame.
     func center(on point: GeoPoint, zoom: Int, animated: Bool = true) {
+        cameraTakenByAnotherFeature()
         guard let mapView, mapView.bounds.width > 0 else {
             // A link opened at launch arrives before the map has a width. Held
             // rather than dropped, because the alternative is a reader who
@@ -763,6 +812,9 @@ final class MapController: NSObject {
         let longitudeSpan = max((box.east - box.west) * 1.25, 0.002)
         guard latitudeSpan.isFinite, longitudeSpan.isFinite else { return }
         pendingCenter = nil
+        // A layer or an import framed on request: the reader's choice.
+        readerHasClaimedTheCamera = true
+        cameraTakenByAnotherFeature()
         mapView.setRegion(
             MKCoordinateRegion(
                 center: CLLocationCoordinate2D(
@@ -788,15 +840,152 @@ final class MapController: NSObject {
         case searching = "Finding your location\u{2026}"
         case found = "Your location is shown on the map."
         case denied = "Location permission was not granted. You can keep using the map."
+        /// Not a refusal the reader made: Screen Time or a management profile
+        /// blocks location, and the app's Settings page cannot lift it.
+        case restricted = "Location is restricted on this device, for example by Screen Time or a management profile. You can keep using the map."
+        /// Location Services are off for the whole device, which CoreLocation
+        /// also reports as `.denied`. Not a refusal the reader made for this
+        /// app, and the switch is a different one.
+        case servicesOff = "Location Services are off for this device. Turn them on in Settings, under Privacy & Security."
+        /// The deadline passed with no fix at all. The same words as a failed
+        /// mark: both mean the phone has no position.
+        case unavailable = "Your location couldn't be found. Try again outdoors."
+        /// The deadline passed with only a fix the gate would not take: old,
+        /// coarse, or both. The map goes there anyway, since that is where the
+        /// dot is drawn, but it is not called found.
+        case approximate = "Your location may be out of date or approximate. Move outdoors for a better fix."
+        /// CoreLocation failed for a reason that is not the sky: a network
+        /// error, most often. Going outdoors would not repair it.
+        case failed = "Your location couldn't be determined. Try again in a moment."
+        /// Following, and the fixes stopped. The web's words; cleared by the
+        /// next fix or by leaving follow mode.
+        case signalLost = "GPS signal lost — still trying."
+        /// Precise Location is off for this app: every fix is kilometres
+        /// wide by design, and no amount of sky refines it. Said as the
+        /// setting it is, with the way to it, rather than as weather.
+        case reducedAccuracy = "Precise Location is off for this app, so your location is approximate. You can turn it on in Settings."
+        /// The deadline passed with only a fix too old to trust: the phone
+        /// has not had a position for a long while, and the map does not go
+        /// to where it last was.
+        case stale = "Your last location fix is too old, or its time could not be trusted, so it is not shown. Try again outdoors."
+    }
+
+    /// The messages that stay up until the reader takes them down: each
+    /// carries a decision to make in Settings, and a timer took the button
+    /// away before a VoiceOver or Switch Control reader could reach it.
+    static func staysUntilDismissed(_ message: LocationMessage) -> Bool {
+        switch message {
+        case .denied, .restricted, .servicesOff, .reducedAccuracy: true
+        default: false
+        }
+    }
+
+    /// The messages whose way out is Settings: this app's page can change
+    /// its permission and its Precise Location switch, and nothing else.
+    static func offersSettings(_ message: LocationMessage) -> Bool {
+        message == .denied || message == .reducedAccuracy
+    }
+
+    /// What the location button is doing, for its glyph.
+    ///
+    /// The four states every iPhone user knows from Maps: nothing, looking,
+    /// following the dot, and following it heading-up. `searching` is the
+    /// span between the tap and the first fix the map can use.
+    enum UserTrackingState: Equatable, Sendable {
+        case idle, searching, following, heading
     }
 
     /// What to tell the reader about the last location request, if anything.
     private(set) var locationMessage: LocationMessage?
+    private(set) var userTrackingState: UserTrackingState = .idle
 
-    /// How long the success message stays up, as the web keeps it.
-    static let locationFoundMessageDuration: Duration = .seconds(4)
+    /// How long a message stays up, or nil for one ended by an event rather
+    /// than by time.
+    ///
+    /// `searching` describes a request in flight and is replaced by the fix or
+    /// by the deadline; the others describe something finished. The refusal
+    /// stays longest because it carries a button. Overridable so a test can
+    /// watch a message expire without waiting for it.
+    @ObservationIgnored var messageLifetime: @MainActor (LocationMessage) -> Duration? =
+        MapController.lifetime(of:)
+
+    static func lifetime(of message: LocationMessage) -> Duration? {
+        switch message {
+        // Ended by an event: the fix, the pan, the reader's own dismissal.
+        // `approximate` stays while the dot is followed, because the caveat
+        // is about the dot and holds until a better fix replaces it.
+        case .searching, .signalLost, .approximate,
+             .denied, .restricted, .servicesOff, .reducedAccuracy: nil
+        case .found: .seconds(4)
+        case .unavailable, .stale, .failed: .seconds(6)
+        }
+    }
+
+    /// Whether Location Services are on for the device. Injected so a test can
+    /// name an answer; CoreLocation's own reading is the default.
+    @ObservationIgnored var servicesEnabled: () -> Bool = { CLLocationManager.locationServicesEnabled() }
+
+    /// True once the reader has moved the map themselves or asked for their
+    /// location. The automatic fit to a sale's parcels, which lands whenever
+    /// its request returns, yields to them: a fit arriving late must not take
+    /// the map from a reader who has said where they want it.
+    private(set) var readerHasClaimedTheCamera = false
+    /// Counts every deliberate claim on the camera: a locate tap, a pan, a
+    /// search or link or framing that moved the map. An asynchronous lookup
+    /// notes the count when it starts and focuses on its result only if the
+    /// count has not moved since — a parcel that answers after the reader
+    /// asked for their location must not take the map back from them.
+    private(set) var cameraClaimGeneration = 0
+
+    /// How long the button waits for a fix the gate would take before it
+    /// settles for whatever the map has, or says that it has nothing.
+    static let locateDeadline: Duration = .seconds(10)
+
+    /// The loosest fix the button centres on before the deadline.
+    ///
+    /// Looser than Mark's 10 s / 50 m rule, which decides what is saved as
+    /// evidence; this only decides where the map goes, and follow mode moves
+    /// it again as the fix refines. Tight enough to skip CoreLocation's cached
+    /// last-known position, which a cold first tap was otherwise centred on.
+    static let locateMaxAccuracyM: Double = 100
+    static let locateMaxFixAge: TimeInterval = 30
+    /// The oldest fix the deadline settles for. A few minutes old is still
+    /// about where the reader is; hours old is where the phone last had a
+    /// position, and sending the map there was the stale-location jump
+    /// this button was reported for, arriving ten seconds late.
+    static let locateStaleFixAge: TimeInterval = 600
+    /// Under Precise Location off, CoreLocation hands out a coarse fix about
+    /// every fifteen to twenty minutes and says so (`CLLocationManager.h`: a
+    /// reduced-accuracy location may be up to twenty minutes old). A fix
+    /// that age is the best the setting allows, not a phone that has lost
+    /// its position; the deadline takes it, named as the setting.
+    static let reducedAccuracyMaxFixAge: TimeInterval = 1200
+    /// Whether this app has only approximate location. Injected for tests;
+    /// CoreLocation's own reading is the default.
+    @ObservationIgnored var isReducedAccuracy: (() -> Bool)?
+    private var hasReducedAccuracy: Bool {
+        isReducedAccuracy?() ?? (locationManager.accuracyAuthorization == .reducedAccuracy)
+    }
+    /// A fix stamped a moment ahead of the clock is jitter (and, in the
+    /// simulator, every simulated fix); one stamped an hour ahead is not a
+    /// fix to trust.
+    static let locateClockTolerance: TimeInterval = 2
+
+    /// Whether the locate flight and follow mode animate. The container sets
+    /// it from Reduce Motion before each tap.
+    @ObservationIgnored var animatesLocate = true
+
+    /// The widest the button leaves the map, as ground across the view: a
+    /// locate from a province-wide view comes in to this, one from closer
+    /// stays where it is.
+    static let locateSpanMetres: Double = 5000
 
     @ObservationIgnored private var locationMessageDismissal: Task<Void, Never>?
+    @ObservationIgnored private var locateDeadlineTask: Task<Void, Never>?
+    @ObservationIgnored private var followFallback: Task<Void, Never>?
+    /// Follow mode is switched on once the locate flight has settled, not
+    /// during it: MapKit's own centring would cut the animation short.
+    @ObservationIgnored private var followsOnceSettled = false
 
     /// What an authorization answer is worth telling the reader.
     ///
@@ -807,11 +996,18 @@ final class MapController: NSObject {
     /// a `CLLocationManager` in a test process cannot be given one.
     static func locationMessage(
         for status: CLAuthorizationStatus,
-        readerAsked: Bool
+        readerAsked: Bool,
+        servicesEnabled: Bool = true
     ) -> LocationMessage? {
         switch status {
-        case .denied, .restricted:
-            return readerAsked ? .denied : nil
+        case .denied:
+            // `.denied` is also what CoreLocation says when Location Services
+            // are off for the whole device; that is a different switch.
+            return readerAsked ? (servicesEnabled ? .denied : .servicesOff) : nil
+        case .restricted:
+            // Kept apart from a refusal: a Settings button cannot lift it,
+            // and calling it "not granted" blames the reader for a policy.
+            return readerAsked ? .restricted : nil
         default:
             return nil
         }
@@ -828,65 +1024,431 @@ final class MapController: NSObject {
         return TrackFix(location: location)
     }
 
-    func centerOnUserLocation() {
+    /// The location button.
+    ///
+    /// The first tap finds the reader and follows them; the next switches to
+    /// heading-up, and the one after that back to plain follow, as Maps does.
+    /// A pan releases follow mode through MapKit, and the delegate mirrors
+    /// whatever it settled on.
+    func centerOnUserLocation(now: Date = Date()) {
+        // Asked for, whatever the answer: an automatic fit that lands later
+        // must not take the map from a reader who has said where they want it.
+        readerHasClaimedTheCamera = true
+        cameraClaimGeneration += 1
+        dismissedReducedAccuracy = false
+        let status = locationManager.authorizationStatus
         if let refusal = Self.locationMessage(
-            for: locationManager.authorizationStatus, readerAsked: true
+            for: status, readerAsked: true,
+            servicesEnabled: status == .denied ? servicesEnabled() : true
         ) {
             // Answered before the map asked. The delegate is not called for a
             // status that did not change, so a refusal already on file has to
             // be reported here or the button stays silent for exactly the
             // readers who need to know why nothing happened.
-            isWaitingToCenterOnUserLocation = false
+            stopLocating()
             report(refusal)
             return
         }
-        report(.searching)
-        guard let location = mapView?.userLocation.location else {
-            isWaitingToCenterOnUserLocation = true
+        if let mode = Self.nextTrackingMode(after: userTrackingState) {
+            setTracking(mode)
             return
         }
-        center(on: location)
+        // One search at a time; a second tap does not restart its deadline.
+        guard userTrackingState == .idle else { return }
+        userTrackingState = .searching
+        report(.searching)
+        isWaitingToCenterOnUserLocation = true
+        // Not while the system prompt is up: the reader may take longer than
+        // the deadline to read it, and a deadline that ran meanwhile ended
+        // the search before CoreLocation had been allowed to start. The
+        // authorization callback starts it once the answer is in.
+        if Self.deadlineStarts(for: status) {
+            startLocateDeadline()
+        }
+        centerIfTheFixIsGoodEnough(now: now)
     }
 
-    /// Shows a message, and takes the success one down again after a while.
+    /// Whether a search may start its deadline under this authorization: not
+    /// before the reader has answered the prompt.
+    static func deadlineStarts(for status: CLAuthorizationStatus) -> Bool {
+        status != .notDetermined
+    }
+
+    /// Whether a fix is a position at all. A non-positive accuracy is
+    /// CoreLocation's "invalid", not "approximate".
+    static func isPosition(_ location: CLLocation) -> Bool {
+        location.horizontalAccuracy > 0 && CLLocationCoordinate2DIsValid(location.coordinate)
+    }
+
+    /// What a tap on the button does once the reader is already followed.
+    static func nextTrackingMode(after state: UserTrackingState) -> MKUserTrackingMode? {
+        switch state {
+        case .following: .followWithHeading
+        case .heading: .follow
+        case .idle, .searching: nil
+        }
+    }
+
+    static func trackingState(for mode: MKUserTrackingMode) -> UserTrackingState {
+        switch mode {
+        case .follow: .following
+        case .followWithHeading: .heading
+        case .none: .idle
+        @unknown default: .idle
+        }
+    }
+
+    /// Whether a fix is good enough to centre on before the deadline.
+    static func isFixGoodEnoughToCentreOn(_ location: CLLocation, now: Date) -> Bool {
+        let age = now.timeIntervalSince(location.timestamp)
+        return isPosition(location)
+            && location.horizontalAccuracy <= locateMaxAccuracyM
+            && age >= -locateClockTolerance && age <= locateMaxFixAge
+    }
+
+    private func centerIfTheFixIsGoodEnough(now: Date) {
+        guard isWaitingToCenterOnUserLocation,
+              let location = mapView?.userLocation.location,
+              Self.isFixGoodEnoughToCentreOn(location, now: now) else { return }
+        // A cached fix from before Precise Location was switched off can be
+        // tight; the setting still governs what the next ones will be.
+        center(on: location, message: hasReducedAccuracy ? .reducedAccuracy : .found)
+    }
+
+    private func startLocateDeadline() {
+        locateDeadlineTask?.cancel()
+        locateDeadlineTask = Task { [weak self] in
+            try? await Task.sleep(for: Self.locateDeadline)
+            guard !Task.isCancelled else { return }
+            self?.locateDeadlineElapsed()
+        }
+    }
+
+    /// The deadline passed without a fix the gate would take.
+    func locateDeadlineElapsed() {
+        settleLocate(with: mapView?.userLocation.location, now: Date())
+    }
+
+    /// The deadline's decision, apart from the clock so a test can hand it a
+    /// fix.
     ///
-    /// Only the success message expires. The other two describe a request that
-    /// has not finished and a setting that has not changed, and neither stops
-    /// being true because time passed.
+    /// A fix the gate would take is found. One it would not — old, coarse, or
+    /// both — is still where the dot is drawn, so the map goes there and
+    /// follows, and follow mode corrects it as fixes refine; but the reader is
+    /// told it is approximate rather than found, because indoors a refining
+    /// fix may never come and a map kilometres off must not claim success.
+    /// Saying the location could not be found while the dot is on screen was
+    /// one of the reported failures; no fix at all is the one case that is.
+    func settleLocate(with location: CLLocation?, now: Date) {
+        guard isWaitingToCenterOnUserLocation else { return }
+        guard let location, Self.isPosition(location) else {
+            // Nothing, or an invalid position: not somewhere to send the map.
+            stopLocating()
+            report(.unavailable)
+            return
+        }
+        let age = now.timeIntervalSince(location.timestamp)
+        let staleAfter = hasReducedAccuracy ? Self.reducedAccuracyMaxFixAge : Self.locateStaleFixAge
+        guard age <= staleAfter, age >= -Self.locateClockTolerance else {
+            // Where the phone was hours ago, or a clock that cannot be
+            // trusted: the map stays where the reader has it.
+            stopLocating()
+            report(.stale)
+            return
+        }
+        // The setting first: a tight fix cached from before Precise
+        // Location was switched off says nothing about the next ones.
+        let message: LocationMessage =
+            if hasReducedAccuracy {
+                // Coarse by setting, not by sky. Said as the setting.
+                .reducedAccuracy
+            } else if Self.isFixGoodEnoughToCentreOn(location, now: now) {
+                .found
+            } else {
+                .approximate
+            }
+        center(on: location, message: message)
+    }
+
+    /// Another feature moved the camera on purpose: a parcel search, a
+    /// shared link, a layer being framed. It outranks a locate in flight and
+    /// a follow in progress, both of which would otherwise drag the map back
+    /// to the dot a moment later; and a message about the dot being shown
+    /// no longer describes the map.
+    /// A search or an address the reader chose: theirs before its answer
+    /// arrives, so the automatic sale fit landing meanwhile yields to it —
+    /// and cannot move the claim generation out from under the search.
+    func readerClaimsTheCamera() {
+        readerHasClaimedTheCamera = true
+    }
+
+    private func cameraTakenByAnotherFeature() {
+        cameraClaimGeneration += 1
+        viewportIsLocationDriven = false
+        stopLocating()
+        endFollowing()
+        if let locationMessage, !Self.staysUntilDismissed(locationMessage) {
+            dismissLocationMessage()
+        }
+    }
+
+    /// Ends a search without a result: the flag, the deadline and the glyph.
+    private func stopLocating() {
+        isWaitingToCenterOnUserLocation = false
+        locateDeadlineTask?.cancel()
+        locateDeadlineTask = nil
+        if userTrackingState == .searching {
+            userTrackingState = .idle
+        }
+    }
+
+    /// Shows a message, and takes it down again after its lifetime, if it has
+    /// one.
     private func report(_ message: LocationMessage) {
         locationMessageDismissal?.cancel()
         locationMessageDismissal = nil
         locationMessage = message
-        guard message == .found else { return }
+        guard let lifetime = messageLifetime(message) else { return }
         locationMessageDismissal = Task { [weak self] in
-            try? await Task.sleep(for: Self.locationFoundMessageDuration)
+            try? await Task.sleep(for: lifetime)
             guard !Task.isCancelled else { return }
-            guard self?.locationMessage == .found else { return }
+            guard self?.locationMessage == message else { return }
             self?.locationMessage = nil
         }
     }
 
-    private func center(on location: CLLocation) {
+    /// The reader acted on the message, or waved it away. A waved-away
+    /// Precise Location caveat stays away until the setting changes or the
+    /// reader asks for their location again; a foreground return does not
+    /// bring it back.
+    func dismissLocationMessage() {
+        if locationMessage == .reducedAccuracy { dismissedReducedAccuracy = true }
+        locationMessageDismissal?.cancel()
+        locationMessageDismissal = nil
+        locationMessage = nil
+    }
+
+    @ObservationIgnored private var dismissedReducedAccuracy = false
+
+    /// Puts the fix in the middle of the map the reader can see, and follows
+    /// it from there.
+    ///
+    /// Closer than the locate scale, the map only pans: the reader zoomed to a
+    /// parcel and asked where they are on it, and a fixed region would throw
+    /// the parcel away. Farther out, it comes in to the locate scale.
+    ///
+    /// "The map the reader can see" is not the screen: a parcel card or an
+    /// edit panel covers the bottom of it. The cards report their heights into
+    /// the map's layout margins, and MapKit centres inside those margins on
+    /// its own, for `setCenter`, `setRegion` and a followed user alike. Nothing
+    /// is offset here; a test pins the dot at the middle of the uncovered map.
+    ///
+    /// `animated` is a seam for tests, which read the region back at once;
+    /// otherwise Reduce Motion decides. `message` is what the fix is called.
+    func center(on location: CLLocation, animated: Bool? = nil, message: LocationMessage = .found) {
+        let animated = animated ?? animatesLocate
         isWaitingToCenterOnUserLocation = false
-        report(.found)
+        locateDeadlineTask?.cancel()
+        locateDeadlineTask = nil
+        // Where the reader is, not where they chose to look: this view stays
+        // out of links, notes, receipts and the saved session until they take
+        // the map back.
+        viewportIsLocationDriven = true
+        report(message)
+        // Following from the moment the map moves, as far as the glyph is
+        // concerned; the mode itself is set once the flight settles.
+        userTrackingState = .following
         // Same rule as `focus(on:)`: going to where the reader is outranks a
         // link's held position.
         pendingCenter = nil
-        let region = MKCoordinateRegion(
-            center: location.coordinate,
-            latitudinalMeters: 5000,
-            longitudinalMeters: 5000
-        )
-        mapView?.setRegion(region, animated: true)
+        guard let mapView else { return }
+        let coordinate = location.coordinate
+        if Self.keepsZoom(mapView, locating: coordinate) {
+            mapView.setCenter(coordinate, animated: animated)
+        } else {
+            mapView.setRegion(
+                MKCoordinateRegion(
+                    center: coordinate,
+                    latitudinalMeters: Self.locateSpanMetres,
+                    longitudinalMeters: Self.locateSpanMetres
+                ),
+                animated: animated
+            )
+        }
+        armFollow()
+    }
+
+    /// Whether the map is already closer than the locate scale, so a locate
+    /// keeps its zoom. An unsized view has no zoom to keep.
+    static func keepsZoom(_ mapView: MKMapView, locating coordinate: CLLocationCoordinate2D) -> Bool {
+        // Measured across the screen rather than read off the region: the
+        // region is the axis-aligned box around a rotated or pitched view,
+        // which is wider than the ground the reader sees, and a turned map
+        // at parcel scale was being zoomed out on locate.
+        if let width = visibleGroundWidth(of: mapView) {
+            return width <= locateSpanMetres
+        }
+        guard let zoom = mercatorZoom(of: mapView) else { return false }
+        return zoom >= locateZoom(forWidth: mapView.bounds.width, at: coordinate.latitude)
+    }
+
+    /// How much ground the view spans from its left edge to its right,
+    /// through its vertical middle, in metres. Nil for an unsized view.
+    static func visibleGroundWidth(of mapView: MKMapView) -> Double? {
+        let bounds = mapView.bounds
+        guard bounds.width > 0, bounds.height > 0 else { return nil }
+        let left = mapView.convert(CGPoint(x: bounds.minX, y: bounds.midY), toCoordinateFrom: mapView)
+        let right = mapView.convert(CGPoint(x: bounds.maxX, y: bounds.midY), toCoordinateFrom: mapView)
+        guard CLLocationCoordinate2DIsValid(left), CLLocationCoordinate2DIsValid(right) else {
+            return nil
+        }
+        let metres = MKMapPoint(left).distance(to: MKMapPoint(right))
+        guard metres.isFinite, metres > 0 else { return nil }
+        return metres
+    }
+
+    /// The Mercator zoom at which `locateSpanMetres` spans a view this wide,
+    /// by the same 256-point-tile arithmetic `center(on:zoom:)` uses.
+    static func locateZoom(forWidth width: CGFloat, at latitude: Double) -> Double {
+        log2(156_543.03392 * cos(latitude * .pi / 180) * Double(width) / locateSpanMetres)
+    }
+
+    /// Arms follow mode for when the locate flight settles.
+    ///
+    /// `regionDidChangeAnimated` is the honest signal; the timer covers a
+    /// locate that did not move the map at all, which changes no region.
+    private func armFollow() {
+        followsOnceSettled = true
+        followFallback?.cancel()
+        followFallback = Task { [weak self] in
+            try? await Task.sleep(for: .milliseconds(1500))
+            guard !Task.isCancelled else { return }
+            self?.startFollowingIfArmed()
+        }
+    }
+
+    private func startFollowingIfArmed() {
+        guard followsOnceSettled else { return }
+        followsOnceSettled = false
+        followFallback?.cancel()
+        followFallback = nil
+        setTracking(.follow)
+    }
+
+    /// The reader moved the map before follow mode had started.
+    ///
+    /// The flight's armed follow is dropped and the glyph goes idle: MapKit
+    /// cannot report the release, because there was no follow mode yet to
+    /// release, and a follow that started when their gesture settled would
+    /// snatch the map back from them.
+    func userTookTheMap() {
+        guard followsOnceSettled else { return }
+        followsOnceSettled = false
+        followFallback?.cancel()
+        followFallback = nil
+        if userTrackingState == .following {
+            userTrackingState = .idle
+        }
+        dismissFollowMessages()
+    }
+
+    /// The messages that are about the dot being followed: gone when it no
+    /// longer is. The approximate caveat is about the dot's position; after
+    /// a pan the dot may not even be on screen.
+    private func dismissFollowMessages() {
+        // "Shown on the map" included: after a pan the dot may not be.
+        if locationMessage == .signalLost || locationMessage == .approximate
+            || locationMessage == .found
+        {
+            dismissLocationMessage()
+        }
+    }
+
+    /// Every way out of following: the mode, the armed follow, the glyph and
+    /// the follow messages, together.
+    private func endFollowing() {
+        followsOnceSettled = false
+        followFallback?.cancel()
+        followFallback = nil
+        if let mapView, mapView.userTrackingMode != .none {
+            mapView.setUserTrackingMode(.none, animated: false)
+        }
+        if userTrackingState != .searching {
+            userTrackingState = .idle
+        }
+        dismissFollowMessages()
+    }
+
+    /// Whether one of MapKit's own recognizers is mid-gesture: the only way
+    /// this app learns of a pan or pinch, since MapKit consumes them.
+    static func hasActiveGesture(_ mapView: MKMapView) -> Bool {
+        for subview in mapView.subviews {
+            for recognizer in subview.gestureRecognizers ?? []
+            where recognizer.state == .began || recognizer.state == .changed {
+                return true
+            }
+        }
+        return false
+    }
+
+    private func setTracking(_ mode: MKUserTrackingMode) {
+        guard let mapView else { return }
+        // An explicit mode outranks the one armed for the end of a flight: a
+        // second tap during the flight asks for heading-up, and the armed
+        // plain follow must not land on top of it a second later.
+        followsOnceSettled = false
+        followFallback?.cancel()
+        followFallback = nil
+        // Following needs the dot, and MapKit switches it on itself; the
+        // applied state has to agree or the next apply() would switch it off.
+        if mode != .none, !appliedShowsUserLocation {
+            showsUserLocation = true
+        }
+        mapView.setUserTrackingMode(mode, animated: animatesLocate)
+        // Mirrored here as well as in the delegate: the callback comes a turn
+        // later, and the glyph must not lag the tap.
+        userTrackingState = Self.trackingState(for: mode)
+    }
+
+    // MARK: - Bottom cards
+
+    /// The cards that can cover the bottom of the map, keyed so one leaving
+    /// does not zero the height of another arriving in the same update.
+    enum BottomCard: Hashable, Sendable {
+        case parcel, editPanel, vectorCallout, featureCallout, measure
+    }
+
+    @ObservationIgnored private var bottomCardHeights: [BottomCard: CGFloat] = [:]
+
+    /// How much of the bottom of the map the tallest open card covers.
+    private var bottomCardInset: CGFloat { bottomCardHeights.values.max() ?? 0 }
+
+    /// Reported by the container as cards open, resize and close. Routed
+    /// into the map's layout margins, which is where MapKit centres a
+    /// followed user and keeps its own logo and Legal link.
+    func setBottomCardHeight(_ height: CGFloat, for card: BottomCard) {
+        let clamped = max(0, height)
+        guard (bottomCardHeights[card] ?? 0) != clamped else { return }
+        bottomCardHeights[card] = clamped == 0 ? nil : clamped
+        applyBottomLayoutMargin()
+    }
+
+    private func applyBottomLayoutMargin() {
+        mapView?.layoutMargins.bottom = max(bottomOrnamentInset, bottomCardInset)
     }
 
     // MARK: - Heading
 
     func resetHeading() {
         guard let mapView else { return }
+        if userTrackingState == .heading {
+            // Heading-up would turn the map straight back; north-up while
+            // still following means plain follow.
+            setTracking(.follow)
+        }
         let camera = mapView.camera.copy() as! MKMapCamera
         camera.heading = 0
-        mapView.setCamera(camera, animated: true)
+        mapView.setCamera(camera, animated: animatesLocate)
         mapHeading = 0
         events?(.headingChanged(0))
     }
@@ -918,6 +1480,9 @@ final class MapController: NSObject {
     // MARK: - Bounds selection
 
     func beginBoundsSelection() {
+        // Same rule as print framing: the selection owns the camera.
+        readerHasClaimedTheCamera = true
+        cameraTakenByAnotherFeature()
         mutate { $0.interactionMode = .selectingBounds }
     }
 
@@ -970,6 +1535,11 @@ final class MapController: NSObject {
     /// visible and undoable; exporting the wrong ground is neither.
     func beginPrintFraming() {
         guard let mapView else { return }
+        // The frame owns the camera: a locate that landed under it, or a
+        // follow that went on re-centring, would move the page out from under
+        // the reader — and so would a search answering late, or the sale fit.
+        readerHasClaimedTheCamera = true
+        cameraTakenByAnotherFeature()
         mapView.isRotateEnabled = false
         mapView.isPitchEnabled = false
         guard mapView.camera.heading != 0 || mapView.camera.pitch != 0 else { return }
@@ -1078,12 +1648,45 @@ final class MapController: NSObject {
 // MARK: - MKMapViewDelegate
 
 extension MapController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        guard mapView === self.mapView else { return }
+        guard Self.hasActiveGesture(mapView) else { return }
+        readerTookTheMapByHand()
+    }
+
+    /// The reader's own hand on the map: the automatic fit yields to it, and
+    /// a pan or pinch while the locate flight is still in the air takes the
+    /// map back — including a locate still waiting for its first fix, which
+    /// would otherwise pull the map back to the dot when one came. Apart
+    /// from the delegate so a test can hand over the gesture.
+    func readerTookTheMapByHand() {
+        readerHasClaimedTheCamera = true
+        cameraClaimGeneration += 1
+        // Panned away from the dot: this view is the reader's again, and may
+        // be shared, printed and remembered.
+        viewportIsLocationDriven = false
+        if isWaitingToCenterOnUserLocation {
+            stopLocating()
+            if locationMessage == .searching {
+                dismissLocationMessage()
+            }
+        }
+        if followsOnceSettled {
+            userTookTheMap()
+        }
+    }
+
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        guard mapView === self.mapView else { return }
         applyPendingCenterIfPossible()
+        startFollowingIfArmed()
         events?(.visibleRegionSettled)
     }
 
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        // A replaced map's last frames must not write the heading and zoom
+        // of the map that replaced it.
+        guard mapView === self.mapView else { return }
         applyPendingCenterIfPossible()
         // This runs on every frame of a pan or rotation, and @Observable has
         // no equality gate of its own: an unguarded set notifies observers of
@@ -1210,9 +1813,131 @@ extension MapController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-        guard isWaitingToCenterOnUserLocation,
-              userLocation.location != nil else { return }
-        centerOnUserLocation()
+        guard mapView === self.mapView, let location = userLocation.location else { return }
+        receiveFix(location, now: Date())
+    }
+
+    /// A fix from the map's own location, apart from the delegate so a test
+    /// can hand one over.
+    func receiveFix(_ location: CLLocation, now: Date) {
+        // An invalid position is not a fix: it neither restores the signal
+        // nor promotes anything.
+        guard Self.isPosition(location) else { return }
+        let stillFollowing = followsOnceSettled
+            || userTrackingState == .following || userTrackingState == .heading
+        // Fresh on both sides of the clock, as the gate reads it: a fix an
+        // hour ahead is no more the signal returning than one an hour behind.
+        let age = now.timeIntervalSince(location.timestamp)
+        let fresh = age >= -Self.locateClockTolerance && age <= Self.locateMaxFixAge
+        let good = Self.isFixGoodEnoughToCentreOn(location, now: now)
+        if locationMessage == .signalLost, fresh {
+            // The signal is back — a cached position is not it returning —
+            // and what it brought back decides the caveat: under Precise
+            // Location off the setting's caveat returns whatever the fix; a
+            // good fix needs none; a coarse one is approximate.
+            if hasReducedAccuracy {
+                // Unless the reader waved the caveat away: the signal coming
+                // back is not a new reason to raise it.
+                if dismissedReducedAccuracy {
+                    dismissLocationMessage()
+                } else {
+                    report(.reducedAccuracy)
+                }
+            } else if good || !stillFollowing {
+                dismissLocationMessage()
+            } else {
+                report(.approximate)
+            }
+        }
+        // A fix the gate takes makes an approximate position a found one,
+        // while the map is still following it (after a pan the dot may be
+        // off screen, and "shown on the map" would not be true); and the
+        // Precise Location caveat, once precision is back, becomes whatever
+        // the next fresh fix is — found if good, approximate if not: the
+        // setting is no longer the reason.
+        if stillFollowing, good, locationMessage == .approximate {
+            report(hasReducedAccuracy ? .reducedAccuracy : .found)
+        }
+        if stillFollowing, fresh, locationMessage == .reducedAccuracy, !hasReducedAccuracy {
+            report(good ? .found : .approximate)
+        }
+        // Gated rather than taken as it comes: the first fix after the dot is
+        // switched on is usually CoreLocation's cached last-known position,
+        // and a map centred on it was a map centred kilometres from the dot.
+        centerIfTheFixIsGoodEnough(now: now)
+    }
+
+    func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: any Error) {
+        guard mapView === self.mapView else { return }
+        let code = (error as? CLError)?.code
+        if isWaitingToCenterOnUserLocation {
+            switch code {
+            case .locationUnknown:
+                // CoreLocation keeps trying after this one; the deadline decides.
+                return
+            case .denied:
+                stopLocating()
+                report(
+                    Self.locationMessage(
+                        for: locationManager.authorizationStatus, readerAsked: true,
+                        servicesEnabled: servicesEnabled()
+                    ) ?? .denied
+                )
+            default:
+                // Not the sky: a network error, most often. Said as a failure
+                // to try again, not as a position that could not be found.
+                stopLocating()
+                report(.failed)
+            }
+            return
+        }
+        // Following, and something went wrong: said, rather than a glyph
+        // that goes on claiming to follow.
+        guard followsOnceSettled || userTrackingState == .following || userTrackingState == .heading
+        else { return }
+        switch code {
+        case .locationUnknown:
+            // The fixes stopped coming; CoreLocation keeps trying. The web's
+            // words, cleared by the next fix.
+            report(.signalLost)
+        case .headingFailure:
+            // The compass failed, not the position: heading-up falls back to
+            // plain follow rather than showing a heading it does not have.
+            if userTrackingState == .heading {
+                setTracking(.follow)
+            }
+        case .denied:
+            endFollowing()
+            report(
+                Self.locationMessage(
+                    for: locationManager.authorizationStatus, readerAsked: true,
+                    servicesEnabled: servicesEnabled()
+                ) ?? .denied
+            )
+        default:
+            // A network error, most often: following cannot go on without
+            // fixes, and saying so beats a glyph that claims otherwise.
+            endFollowing()
+            report(.failed)
+        }
+    }
+
+    func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
+        guard mapView === self.mapView else { return }
+        // MapKit releases follow mode itself when the reader pans, and this
+        // app never learns of the pan; whatever MapKit settled on is what the
+        // glyph shows. A search that has not found anything yet is not
+        // released by a report of `.none`, which is the mode it was in anyway.
+        let state = Self.trackingState(for: mode)
+        if state == .idle, userTrackingState == .searching { return }
+        if state == .idle {
+            // No longer following, so no longer waiting for the signal, and
+            // no longer vouching for where the dot is.
+            dismissFollowMessages()
+        }
+        if userTrackingState != state {
+            userTrackingState = state
+        }
     }
 
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -1519,7 +2244,15 @@ extension MapController: MKMapViewDelegate {
     }
 
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        // A selection queued on a replaced map is not a tap on this one: it
+        // must neither take the camera nor open a card.
+        guard mapView === self.mapView else { return }
         if let cluster = view.annotation as? MKClusterAnnotation {
+            // Zooming to the cluster is a deliberate move: it takes the camera
+            // from a locate or a follow, which would otherwise pull the map
+            // back to the dot with the next fix, and from the sale fit.
+            readerHasClaimedTheCamera = true
+            cameraTakenByAnotherFeature()
             mapView.showAnnotations(cluster.memberAnnotations, animated: true)
             mapView.deselectAnnotation(cluster, animated: false)
             return
@@ -1562,20 +2295,75 @@ extension MapController: UIGestureRecognizerDelegate {
 // main thread and may satisfy the requirements from this main-actor class.
 extension MapController: @preconcurrency CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        let status = manager.authorizationStatus
+        authorizationChanged(to: manager.authorizationStatus)
+    }
+
+    /// A refusal that has been lifted comes down: the reader went to Settings
+    /// as the notice told them and came back, and a notice still saying the
+    /// switch is off would be wrong. Precise Location is reconciled both ways
+    /// while the dot is followed: turned off, the caveat goes up; turned on,
+    /// it comes down.
+    private func reconcileNoticesAfterGrant() {
+        switch locationMessage {
+        case .denied, .restricted, .servicesOff:
+            dismissLocationMessage()
+        default:
+            // The Precise Location caveat stays through a grant: the map is
+            // still showing the coarse fix, and `receiveFix` replaces the
+            // caveat with "found" when a precise fix actually arrives.
+            break
+        }
+        let following = userTrackingState == .following || userTrackingState == .heading
+        if !hasReducedAccuracy { dismissedReducedAccuracy = false }
+        // Not over "signal lost": no fix has come back to be coarse yet, and
+        // the recovery reports the caveat when one does. Not after the reader
+        // waved it away, either.
+        if following, hasReducedAccuracy, !dismissedReducedAccuracy,
+           locationMessage != .reducedAccuracy, locationMessage != .signalLost
+        {
+            report(.reducedAccuracy)
+        }
+    }
+
+    /// Re-reads the authorization on return to the foreground: a notice
+    /// still up may describe a cause the reader has since changed in
+    /// Settings.
+    func reconcileLocationNotice() {
+        authorizationChanged(to: locationManager.authorizationStatus)
+    }
+
+    /// The authorization answer, apart from the delegate so a test can give
+    /// one. A refusal is announced only to a reader who asked: the one whose
+    /// search is waiting on the prompt, or the one being followed until now.
+    func authorizationChanged(to status: CLAuthorizationStatus) {
+        let wasAsked = isWaitingToCenterOnUserLocation
+            || userTrackingState == .following || userTrackingState == .heading
+        // A refusal already on screen is re-said as what it now is when its
+        // cause changes — Location Services back on while the app stays
+        // denied — without waiting for a new request.
+        let showingRefusal = locationMessage.map { Self.staysUntilDismissed($0) } ?? false
         if let message = Self.locationMessage(
-            for: status, readerAsked: isWaitingToCenterOnUserLocation
-        ) {
+            for: status, readerAsked: wasAsked || showingRefusal,
+            servicesEnabled: status == .denied ? servicesEnabled() : true
+        ), message != locationMessage {
             report(message)
         }
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             mapView?.showsUserLocation = appliedShowsUserLocation
-            if isWaitingToCenterOnUserLocation {
-                centerOnUserLocation()
+            reconcileNoticesAfterGrant()
+            // The search that waited on the prompt gets its deadline now,
+            // with CoreLocation allowed to start. A fix this early is rare;
+            // `didUpdate` takes the ones that follow.
+            if isWaitingToCenterOnUserLocation, locateDeadlineTask == nil {
+                startLocateDeadline()
             }
+            centerIfTheFixIsGoodEnough(now: Date())
         case .denied, .restricted:
-            isWaitingToCenterOnUserLocation = false
+            // Whether searching or already following: the refusal ends it,
+            // and the glyph must not go on claiming to follow.
+            stopLocating()
+            endFollowing()
         case .notDetermined:
             break
         @unknown default:
