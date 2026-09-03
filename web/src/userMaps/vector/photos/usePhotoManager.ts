@@ -4,7 +4,11 @@ import { UserMapImportError } from "../../errors";
 import { generateId } from "../../importUtils";
 import { readPhotoExif } from "./exif";
 import { processPhoto } from "./photoPipeline";
-import { UserPhotoStore } from "./photoStore";
+import {
+  releasePhotoId,
+  reservePhotoId,
+  UserPhotoStore,
+} from "./photoStore";
 import {
   MAX_PHOTOS_PER_FEATURE,
   MAX_PHOTOS_PER_LAYER,
@@ -122,7 +126,18 @@ export function usePhotoManager(
             fullBytes: processed.full.size,
             thumbBytes: processed.thumb.size,
           };
-          await opened.savePhoto(record, processed.full, processed.thumb);
+          // Reserved before it is written: the row lands ahead of the
+          // feature that will reference it, and a debounced layer write of an
+          // older working copy meanwhile would sweep it as an orphan. The
+          // sweep lets the reservation go once a write references the id.
+          reservePhotoId(record.id);
+          try {
+            await opened.savePhoto(record, processed.full, processed.thumb);
+          } catch (error) {
+            // Nothing was stored, so nothing will ever reference it.
+            releasePhotoId(record.id);
+            throw error;
+          }
           requestDurableStorage();
           onFeature += 1;
           onLayer += 1;

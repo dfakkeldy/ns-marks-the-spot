@@ -16,6 +16,7 @@ import type {
   PdfRegistrationCandidate,
 } from "./types";
 import {
+  DEFAULT_OPACITY,
   needsFrameSelection,
   needsGeoreferencing,
   useUserMaps,
@@ -478,6 +479,72 @@ describe("useUserMaps", () => {
       });
       await waitFor(() => expect(result.current.records).toHaveLength(1));
       expect(result.current.outcomes[0]).toMatchObject({ ok: true });
+    } finally {
+      setItem.mockRestore();
+    }
+  });
+
+  // What the session is showing is the truth; storage only writes it down.
+  // Rebuilding the record from a store that refused every write dropped every
+  // map switched on before the current one, off the map and out of its row,
+  // with nothing said.
+  it("keeps a map already switched on when the write is refused", async () => {
+    const setItem = vi
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new DOMException("quota", "QuotaExceededError");
+      });
+    try {
+      const { result } = renderHook(() => useUserMaps(options()));
+      await act(async () => {
+        await result.current.importFiles([fixtureFile("first.tif")]);
+      });
+      await act(async () => {
+        await result.current.importFiles([fixtureFile("second.tif")]);
+      });
+
+      await waitFor(() => expect(result.current.records).toHaveLength(2));
+      expect(result.current.visibleMaps).toHaveLength(2);
+    } finally {
+      setItem.mockRestore();
+    }
+  });
+
+  it("keeps a map already switched on when the write is refused", async () => {
+    // The other half of the promise above: the write that failed must not
+    // cost a map that is already on the map. State is what the session is
+    // showing; storage is only where it is written down.
+    const setItem = vi
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new DOMException("quota", "QuotaExceededError");
+      });
+    try {
+      const { result } = renderHook(() => useUserMaps(options()));
+      await act(async () => {
+        await result.current.importFiles([fixtureFile("first.tif")]);
+      });
+      await act(async () => {
+        await result.current.importFiles([fixtureFile("second.tif")]);
+      });
+      await waitFor(() => expect(result.current.records).toHaveLength(2));
+      const [first, second] = result.current.records.map(({ id }) => id);
+      await waitFor(() =>
+        expect(result.current.visibleMaps.map(({ record }) => record.id)).toEqual([
+          first,
+          second,
+        ]),
+      );
+
+      act(() => result.current.setOpacity(second, 0.4));
+      expect(result.current.uiState[first]).toEqual({
+        enabled: true,
+        opacity: DEFAULT_OPACITY,
+      });
+      expect(result.current.visibleMaps.map(({ record }) => record.id)).toEqual([
+        first,
+        second,
+      ]);
     } finally {
       setItem.mockRestore();
     }

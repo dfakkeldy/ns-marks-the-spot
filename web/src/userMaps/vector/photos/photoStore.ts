@@ -25,6 +25,41 @@ const fullKey = photoFullBlobKey;
 const thumbKey = photoThumbBlobKey;
 
 /**
+ * Photo rows written ahead of the feature that will reference them. The
+ * sweep keeps a reserved id until a write references it, so a debounced
+ * layer write carrying an older working copy cannot delete a photo that is
+ * still being attached: a collection captured before the row existed saying
+ * nothing about it is not evidence the row is an orphan.
+ *
+ * Module-level because the attach path holds a UserPhotoStore and the sweep
+ * runs on a UserVectorStore — two handles onto the one user-content database
+ * this tab owns, where a photo id means the same thing to both. The native
+ * app keeps the same set on its single store actor: see `reservedPhotoIDs`
+ * in ns-marks-the-spot/UserVectors/UserVectorStore.swift.
+ */
+const reservedPhotoIds = new Set<string>();
+
+/** Taken before the row is written; ended when a write references it. */
+export function reservePhotoId(photoId: string): void {
+  reservedPhotoIds.add(photoId);
+}
+
+/** Given up when the write failed, or when a write has referenced the id. */
+export function releasePhotoId(photoId: string): void {
+  reservedPhotoIds.delete(photoId);
+}
+
+/** True while an attach still owes this row its descriptor. */
+export function isPhotoIdReserved(photoId: string): boolean {
+  return reservedPhotoIds.has(photoId);
+}
+
+/** Test seam: module-level set, cleared between cases. */
+export function resetPhotoReservationsForTests(): void {
+  reservedPhotoIds.clear();
+}
+
+/**
  * Photo store over the shared user-content database: metadata rows in
  * `photos` (indexed by owning layer), bytes out-of-line in `blobs`. No part
  * of this store has a network path — photos never leave this browser except
@@ -113,10 +148,13 @@ export class UserPhotoStore {
   }
 
   /**
-   * The per-commit sweep: rows for this layer whose ids are not referenced
-   * by any feature descriptor are deleted. Called from the layer write path
-   * so a feature deletion (whose descriptors vanish with it) cannot leak its
-   * photos past the next save.
+   * Rows for this layer whose ids are not in the given set are deleted.
+   *
+   * NOT the sweep the layer write path runs. That is
+   * UserVectorStore.sweepLayerPhotos, which derives the referenced set from
+   * the collection being written and exempts the attach reservations above.
+   * Nothing outside this store's own tests calls this variant, so a guard
+   * added here alone would not protect a single photo.
    */
   async sweepLayerPhotos(
     layerId: string,

@@ -196,6 +196,10 @@ export function useUserVectorLayers(
   const [records, setRecords] = useState<UserVectorLayerRecord[]>([]);
   const [geometries, setGeometries] = useState<Record<string, FeatureCollection>>({});
   const [uiState, setUiState] = useState<UserVectorUiState>(loadUiState);
+  // The same record as `uiState`, readable from a callback without capturing
+  // it. Storage is read once — the initializer above — and never again;
+  // persistUiState says why.
+  const uiStateRef = useRef<UserVectorUiState>(uiState);
   const [importing, setImporting] = useState(false);
   const [importingLabel, setImportingLabel] = useState<string | null>(null);
   const [storageError, setStorageError] = useState<string | null>(null);
@@ -231,15 +235,37 @@ export function useUserVectorLayers(
     return photoStorePromiseRef.current;
   }, []);
 
-  const persistUiState = useCallback((next: UserVectorUiState) => {
-    setUiState(next);
-    try {
-      localStorage.setItem(UI_STATE_KEY, JSON.stringify(next));
-    } catch {
-      // Quota or a blocked store: a failed convenience write must never
-      // surface as a failed import or throw out of an enable toggle.
-    }
-  }, []);
+  /**
+   * What this session is showing is the truth; localStorage only writes it
+   * down. Every change is computed from the record already held and never
+   * re-read from storage: a browser that refuses the write (quota) or
+   * refuses the read (Safari with "Block all cookies" and some in-app
+   * WebViews throw from any localStorage touch — App.tsx's
+   * isLicenceAccepted guards the same throw) would otherwise hand the NEXT
+   * change a stale or empty record, and every layer switched on since then
+   * would drop out of visibleLayers, off the map and out of its own row,
+   * with nothing said. The native app keeps the same answer the same way:
+   * UserVectorsViewModel.setVisible writes from the row it just changed.
+   *
+   * The mirror moves with the setter rather than in an effect because one
+   * import calls this once per layer inside a single tick, and those changes
+   * have to accumulate rather than overwrite each other.
+   */
+  const persistUiState = useCallback(
+    (update: (current: UserVectorUiState) => UserVectorUiState) => {
+      const next = update(uiStateRef.current);
+      uiStateRef.current = next;
+      setUiState(next);
+      try {
+        localStorage.setItem(UI_STATE_KEY, JSON.stringify(next));
+      } catch {
+        // Quota or a blocked store: a failed convenience write must never
+        // surface as a failed import or throw out of an enable toggle. The
+        // session keeps what the line above set either way.
+      }
+    },
+    [],
+  );
 
   const requestFit = useCallback((layerId: string) => {
     fitRevisionRef.current += 1;
@@ -470,7 +496,10 @@ export function useUserVectorLayers(
                 ...prev,
                 [record.id]: collection,
               }));
-              persistUiState({ ...loadUiState(), [record.id]: { enabled: true } });
+              persistUiState((current) => ({
+                ...current,
+                [record.id]: { enabled: true },
+              }));
               firstId ??= record.id;
             }
             if (pending.length > 1) {
@@ -528,16 +557,18 @@ export function useUserVectorLayers(
         return next;
       });
       setFitRequest((current) => (current?.layerId === id ? null : current));
-      const nextUi = { ...loadUiState() };
-      delete nextUi[id];
-      persistUiState(nextUi);
+      persistUiState((current) => {
+        const next = { ...current };
+        delete next[id];
+        return next;
+      });
     },
     [persistUiState, store],
   );
 
   const setEnabled = useCallback(
     (id: string, enabled: boolean) => {
-      persistUiState({ ...loadUiState(), [id]: { enabled } });
+      persistUiState((current) => ({ ...current, [id]: { enabled } }));
     },
     [persistUiState],
   );
@@ -689,7 +720,10 @@ export function useUserVectorLayers(
         ...geometriesSnapshotRef.current,
         [record.id]: empty,
       };
-      persistUiState({ ...loadUiState(), [record.id]: { enabled: true } });
+      persistUiState((current) => ({
+        ...current,
+        [record.id]: { enabled: true },
+      }));
       return record.id;
     },
     [persistUiState, store],
@@ -748,7 +782,10 @@ export function useUserVectorLayers(
         ...geometriesSnapshotRef.current,
         [record.id]: input.collection,
       };
-      persistUiState({ ...loadUiState(), [record.id]: { enabled: true } });
+      persistUiState((current) => ({
+        ...current,
+        [record.id]: { enabled: true },
+      }));
       return record;
     },
     [persistUiState, store],
@@ -801,7 +838,10 @@ export function useUserVectorLayers(
       };
       // A mark should be visible the moment it is saved, even if the layer
       // row was toggled off.
-      persistUiState({ ...loadUiState(), [layerId]: { enabled: true } });
+      persistUiState((current) => ({
+        ...current,
+        [layerId]: { enabled: true },
+      }));
       let persisted = true;
       try {
         // False for a layer another tab deleted: nothing was written, and
@@ -927,7 +967,10 @@ export function useUserVectorLayers(
         ...geometriesSnapshotRef.current,
         [finalRecord.id]: collection,
       };
-      persistUiState({ ...loadUiState(), [finalRecord.id]: { enabled: true } });
+      persistUiState((current) => ({
+        ...current,
+        [finalRecord.id]: { enabled: true },
+      }));
       requestFit(finalRecord.id);
       return { id: finalRecord.id, notes };
     },

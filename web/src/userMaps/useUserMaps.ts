@@ -242,6 +242,10 @@ export function useUserMaps(
   const previewUrlsRef = useRef<Record<string, string>>({});
   const [records, setRecords] = useState<UserMapRecord[]>([]);
   const [uiState, setUiState] = useState<UserMapUiState>(loadUiState);
+  // The same record as `uiState`, readable from a callback without capturing
+  // it. Storage is read once — the initializer above — and never again;
+  // persistUiState says why.
+  const uiStateRef = useRef<UserMapUiState>(uiState);
   const [previewUrls, setPreviewUrls] = useState<Record<string, string>>({});
   const [importing, setImporting] = useState(false);
   const [importingLabel, setImportingLabel] = useState<string | null>(null);
@@ -283,16 +287,37 @@ export function useUserMaps(
     return storeRef.current;
   }, []);
 
-  const persistUiState = useCallback((next: UserMapUiState) => {
-    setUiState(next);
-    try {
-      localStorage.setItem(UI_STATE_KEY, JSON.stringify(next));
-    } catch {
-      // Quota or a blocked store: the in-memory state above is already
-      // correct, and a failed convenience write must never surface as a
-      // failed import or removal.
-    }
-  }, []);
+  /**
+   * What this session is showing is the truth; localStorage only writes it
+   * down. Every change is computed from the record already held and never
+   * re-read from storage: a browser that refuses the write (quota) or
+   * refuses the read (Safari with "Block all cookies" and some in-app
+   * WebViews throw from any localStorage touch — App.tsx's
+   * isLicenceAccepted guards the same throw) would otherwise hand the NEXT
+   * change a stale or empty record, and every map switched on since then
+   * would drop out of visibleMaps, off the map and out of its own row, with
+   * nothing said. The native app keeps the same answer the same way:
+   * UserMapsViewModel.rememberDisplay writes the whole set from the rows.
+   *
+   * The mirror moves with the setter rather than in an effect because one
+   * import calls this once per file inside a single tick, and those changes
+   * have to accumulate rather than overwrite each other.
+   */
+  const persistUiState = useCallback(
+    (update: (current: UserMapUiState) => UserMapUiState) => {
+      const next = update(uiStateRef.current);
+      uiStateRef.current = next;
+      setUiState(next);
+      try {
+        localStorage.setItem(UI_STATE_KEY, JSON.stringify(next));
+      } catch {
+        // Quota or a blocked store: a failed convenience write must never
+        // surface as a failed import or removal. The session keeps what the
+        // line above set either way.
+      }
+    },
+    [],
+  );
 
   const registerPreviewUrl = useCallback((id: string, blob: Blob) => {
     const previous = previewUrlsRef.current[id];
@@ -511,10 +536,10 @@ export function useUserMaps(
             }
             setRecords((prev) => [...prev, record]);
             registerPreviewUrl(record.id, preview);
-            persistUiState({
-              ...loadUiState(),
+            persistUiState((current) => ({
+              ...current,
               [record.id]: { enabled: true, opacity: DEFAULT_OPACITY },
-            });
+            }));
             if (
               record.source === "geopdf" &&
               record.pdf?.registration.status === "embedded"
@@ -587,20 +612,23 @@ export function useUserMaps(
       setFitRequest((current) =>
         current?.mapId === id ? null : current,
       );
-      const nextUi = { ...loadUiState() };
-      delete nextUi[id];
-      persistUiState(nextUi);
+      persistUiState((current) => {
+        const next = { ...current };
+        delete next[id];
+        return next;
+      });
     },
     [persistUiState, store],
   );
 
   const setEnabled = useCallback(
     (id: string, enabled: boolean) => {
-      const current = loadUiState();
-      const existing = current[id];
-      persistUiState({
-        ...current,
-        [id]: { opacity: existing?.opacity ?? DEFAULT_OPACITY, enabled },
+      persistUiState((current) => {
+        const existing = current[id];
+        return {
+          ...current,
+          [id]: { opacity: existing?.opacity ?? DEFAULT_OPACITY, enabled },
+        };
       });
     },
     [persistUiState],
@@ -608,11 +636,12 @@ export function useUserMaps(
 
   const setOpacity = useCallback(
     (id: string, opacity: number) => {
-      const current = loadUiState();
-      const existing = current[id];
-      persistUiState({
-        ...current,
-        [id]: { enabled: existing?.enabled ?? true, opacity },
+      persistUiState((current) => {
+        const existing = current[id];
+        return {
+          ...current,
+          [id]: { enabled: existing?.enabled ?? true, opacity },
+        };
       });
     },
     [persistUiState],
