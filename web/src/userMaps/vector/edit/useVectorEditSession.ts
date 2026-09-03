@@ -22,6 +22,8 @@ export type FeatureDetails = { name?: string; description?: string };
 export type VectorEditSession = {
   editingId: string | null;
   editingLayer: VisibleUserVectorLayer | null;
+  /** Changes on every begin and end; see the field above. */
+  editGeneration: number;
   storageError: string | null;
   beginEdit: (id: string) => void;
   endEdit: () => void;
@@ -92,6 +94,12 @@ export function useVectorEditSession({
   persistDelay = PERSIST_DELAY_MS,
 }: Options): VectorEditSession {
   const [editingId, setEditingId] = useState<string | null>(null);
+  /**
+   * Counts sessions, so work that waits on something slow — a GPS fix — can
+   * tell the session it was started in from a later one, including a later
+   * one on the same layer.
+   */
+  const [editGeneration, setEditGeneration] = useState(0);
   const [draftRecord, setDraftRecord] = useState<UserVectorLayerRecord | null>(null);
   const [draftData, setDraftData] = useState<FeatureCollection | null>(null);
   const [storageError, setStorageError] = useState<string | null>(null);
@@ -208,6 +216,10 @@ export function useVectorEditSession({
     setStorageError(null);
     setDraftRecord(null);
     setDraftData(null);
+    // A new session, even for the same layer: work started before this one
+    // began belongs to the session it was started in, and a layer id alone
+    // cannot tell a reopened layer from the session that closed.
+    setEditGeneration((generation) => generation + 1);
     setEditingId(id);
   }, []);
 
@@ -238,6 +250,7 @@ export function useVectorEditSession({
     flush();
     undoConversionRef.current = null;
     setLastConversion(null);
+    setEditGeneration((generation) => generation + 1);
     setEditingId(null);
     setDraftRecord(null);
     setDraftData(null);
@@ -413,6 +426,7 @@ export function useVectorEditSession({
   return {
     editingId,
     editingLayer,
+    editGeneration,
     storageError,
     beginEdit,
     endEdit,

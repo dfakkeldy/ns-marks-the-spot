@@ -1534,6 +1534,7 @@ export function App() {
       // point land somewhere the reader did not aim it — nor revive a panel
       // they closed.
       const destinationId = vectorEdit.editingLayer?.record.id ?? null;
+      const destinationGeneration = vectorEdit.editGeneration;
       let resolved = fix;
       if (!resolved) {
         let oneShot: BrowserLocation;
@@ -1556,7 +1557,10 @@ export function App() {
       // Read again, after the wait: `vectorEdit` in this closure is the
       // session as it was at the tap.
       const session = vectorEditRef.current;
-      if ((session.editingLayer?.record.id ?? null) !== destinationId) {
+      if (
+        (session.editingLayer?.record.id ?? null) !== destinationId ||
+        session.editGeneration !== destinationGeneration
+      ) {
         return "The layer being edited changed while your position was being found. Nothing was saved.";
       }
       const feature = buildGpsMarkFeature(resolved);

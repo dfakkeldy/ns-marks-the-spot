@@ -1855,13 +1855,17 @@ export function MapCanvas({
   useEffect(() => {
     // Good news auto-dismisses; problems ("permission was not granted",
     // "signal lost") stay until the state changes.
+    // Good news is a whole sentence about a point or a track that landed:
+    // "Point saved to Field notes (±7.4 m).". A message that starts the same
+    // way and then says the write did not reach the device is a warning, and
+    // warnings stay until the state changes.
     const autoDismisses =
       locationMessage === LOCATION_SUCCESS_MESSAGE ||
-      (locationMessage?.startsWith("Point saved") ?? false) ||
-      (locationMessage?.startsWith("Track saved") ?? false) ||
-      // A point committed to an open edit session, whose write is debounced.
-      // The session-only warning is a different sentence and stays.
-      (locationMessage?.startsWith("Point added") ?? false);
+      (locationMessage !== null &&
+        /^(Point (saved|added) to |Track saved as ).*\(±[^)]*\)\.$/.test(
+          locationMessage,
+        )) ||
+      (locationMessage?.startsWith("Track saved") ?? false);
     if (!autoDismisses) {
       return;
     }
@@ -1996,6 +2000,17 @@ export function MapCanvas({
   // old one-shot fly-to used, so a follow session never leaks the user's
   // position into share URLs, print viewports, or evidence notes.
   const lastCenteredFixRef = useRef<LiveFix | null>(null);
+
+  // Pressing Follow again is a request to be taken back to the fix, and it
+  // must not depend on a new one arriving: the last fix has already been
+  // centred on, so the effect below would otherwise do nothing at all and
+  // the press would have no result to see or hear.
+  const followRecentre = () => {
+    lastCenteredFixRef.current = null;
+    setFollowOn(true);
+    setLocationMessage(LOCATION_SUCCESS_MESSAGE);
+  };
+
   useEffect(() => {
     if (!map || !followOn || !live.fix) {
       return;
@@ -2541,7 +2556,7 @@ export function MapCanvas({
             <button
               type="button"
               className="location-follow"
-              onClick={() => setFollowOn(true)}
+              onClick={followRecentre}
             >
               Follow
             </button>

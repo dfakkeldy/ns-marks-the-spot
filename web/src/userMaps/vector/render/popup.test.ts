@@ -192,13 +192,32 @@ describe("buildFeaturePopup", () => {
 
     // "2026" is a date to Date.parse and not an acquisition instant; a
     // moment that has not happened is not one either.
-    for (const when of ["2026", "2026-13-02T14:05:00.000Z", "9999-01-01T00:00:00.000Z"]) {
+    for (const when of [
+      "2026",
+      "2026-13-02T14:05:00.000Z",
+      "9999-01-01T00:00:00.000Z",
+      // Days the calendar does not have: engines roll these forward.
+      "2026-02-30T14:05:00.000Z",
+      "2025-02-29T14:05:00.000Z",
+      "2026-04-31T14:05:00.000Z",
+    ]) {
       const odd = buildFeaturePopup(
         feature({ "nsmts:capturedAt": when, "nsmts:accuracyM": 7 }),
         record(),
       );
       expect(odd.querySelector(".user-vector-popup-gps")).toBeNull();
     }
+
+    // A real instant written with an offset is still an instant, whatever
+    // its UTC day works out to be.
+    const offset = buildFeaturePopup(
+      feature({
+        "nsmts:capturedAt": "2026-08-28T01:05:00.000+03:00",
+        "nsmts:accuracyM": 7,
+      }),
+      record(),
+    );
+    expect(offset.querySelector(".user-vector-popup-gps")).not.toBeNull();
   });
 });
 

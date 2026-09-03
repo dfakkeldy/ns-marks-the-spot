@@ -863,6 +863,57 @@ describe("MapCanvas browser location", () => {
     });
   });
 
+  it("takes the reader back to the fix when Follow is pressed, with no new fix", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+    const [, dragStartHandler] =
+      mapMock.on.mock.calls.filter(([event]) => event === "dragstart").pop() ?? [];
+    act(() => dragStartHandler?.());
+    mapMock.panTo.mockClear();
+    mapMock.flyTo.mockClear();
+
+    // Standing still: no new fix will arrive to carry the press.
+    await user.click(screen.getByRole("button", { name: "Follow" }));
+
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91], {
+      animate: true,
+    });
+    expect(
+      screen.getByText("Your location is shown on the map."),
+    ).toBeInTheDocument();
+  });
+
   it("marks the current location with a fresh fix and reports the outcome", async () => {
     const user = userEvent.setup();
     const onMarkLocation = vi

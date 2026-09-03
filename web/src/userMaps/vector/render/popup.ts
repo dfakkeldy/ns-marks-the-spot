@@ -35,11 +35,28 @@ function isCaptureInstant(value: string | null): value is string {
   if (value === null) {
     return false;
   }
-  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})$/.test(value)) {
+  const shape =
+    /^(\d{4})-(\d{2})-(\d{2})T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:?\d{2})$/.exec(
+      value,
+    );
+  if (!shape) {
     return false;
   }
   const parsed = Date.parse(value);
-  return !Number.isNaN(parsed) && parsed <= Date.now();
+  if (Number.isNaN(parsed) || parsed > Date.now()) {
+    return false;
+  }
+  // "2026-02-30" parses: the engine rolls it into March. A day that never
+  // existed is not a moment a device fixed anything at, so the written date
+  // is checked against the calendar on its own — not against the instant,
+  // whose UTC day legitimately differs from the written one under an offset.
+  const [, year, month, day] = shape;
+  const calendar = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
+  return (
+    calendar.getUTCFullYear() === Number(year) &&
+    calendar.getUTCMonth() + 1 === Number(month) &&
+    calendar.getUTCDate() === Number(day)
+  );
 }
 
 function asText(value: unknown): string | null {
