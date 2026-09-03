@@ -1992,6 +1992,11 @@ export function MapCanvas({
   // a search that has produced nothing settles on .unavailable ("Your location
   // couldn't be found. Try again outdoors.").
   const lostWithoutAnyFix = live.status === "signal-lost" && live.fix === null;
+  // The terminal reason is a dependency of its own, for the reason lostReason
+  // is: the status alone does not say which of the three endings this was,
+  // and the sentence has to follow it.
+  const stoppedReason =
+    live.status === "position-unavailable" ? live.reason : null;
   useEffect(() => {
     if (!locationOn) {
       return;
@@ -2042,21 +2047,32 @@ export function MapCanvas({
       // way back is named, because the toggle is the retry. The latch is reset
       // for the same reason the denial branch resets it: every path that ends
       // a toggle-on leaves it as a fresh one would find it.
+      //
+      // The two endings are not the same account. One device said it could
+      // not place itself several times; the other said it once and then said
+      // nothing at all, and reporting that as several would be a count nobody
+      // made.
       setLocationOn(false);
       setFollowOn(false);
       hasCenteredRef.current = false;
       setLocationMessage(
-        "The device reported your location as unavailable several times, so " +
-          "the map stopped asking. Location may be switched off for this " +
-          "device, or there may be nothing here to place you by. Press Use " +
-          "my location to try again.",
+        (stoppedReason === "repeated"
+          ? "The device reported your location as unavailable several times, " +
+            "so the map stopped asking. "
+          : stoppedReason === "no-answer"
+            ? "The device reported your location as unavailable and then " +
+              "stopped answering, so the map stopped asking. "
+            : "Your location wasn't found, so after half a minute the map " +
+              "stopped looking. ") +
+          "Location may be switched off for this device, or there may be " +
+          "nothing here to place you by. Press Use my location to try again.",
       );
     } else if (live.status === "unavailable") {
       setLocationOn(false);
       setFollowOn(false);
       setLocationMessage("Location is not available in this browser.");
     }
-  }, [live.status, lostReason, lostWithoutAnyFix, locationOn]);
+  }, [live.status, lostReason, lostWithoutAnyFix, locationOn, stoppedReason]);
 
   // Dragging the map is how the user says "stop following me around".
   useEffect(() => {

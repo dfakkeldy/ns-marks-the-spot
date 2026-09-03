@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { UserVectorLayerRecord } from "../types";
@@ -233,7 +233,13 @@ describe("UserVectorRows", () => {
     expect(screen.getByRole("button", { name: "Edit Layer camps" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Remove Layer camps" })).toBeDisabled();
     expect(onEdit).not.toHaveBeenCalled();
-    finishRemoval?.();
+
+    // And the row does not stay disabled forever if the store answers without
+    // taking it off the map.
+    await act(async () => {
+      finishRemoval?.();
+    });
+    expect(screen.getByRole("button", { name: "Edit Layer camps" })).toBeEnabled();
   });
 
   it("tells the session about a removal even when another layer is under edit", async () => {

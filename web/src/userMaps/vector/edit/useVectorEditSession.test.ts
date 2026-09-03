@@ -550,6 +550,43 @@ describe("photos and point moves", () => {
     ]);
   });
 
+  // Moving a mark to a photo's coordinate is still a move: the capture time
+  // and the reported accuracy describe where the device was, not where the
+  // photo was taken, and a callout reading them off the new position would
+  // claim a fix that was never made there. The rule lives on commit, which is
+  // the one path every geometry write goes through, so it holds here as it
+  // does for a dragged point.
+  it("takes a mark's fix provenance off a point moved to a photo's location", () => {
+    const { options } = harness({
+      geometries: {
+        "layer-1": {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              id: "f1",
+              geometry: { type: "Point", coordinates: [-61, 46, 31.5] },
+              properties: {
+                "nsmts:capturedAt": "2026-09-03T00:00:00.000Z",
+                "nsmts:accuracyM": 5,
+                "nsmts:altitudeM": 31.5,
+                name: "Corner post",
+              },
+            },
+          ],
+        },
+      },
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+
+    act(() => result.current.moveFeaturePoint("f1", [-63, 45]));
+
+    const moved = result.current.editingLayer?.data.features[0];
+    expect(moved?.properties).toEqual({ name: "Corner post" });
+    expect(moved?.geometry).toEqual({ type: "Point", coordinates: [-63, 45] });
+  });
+
   it("a photo that finishes after another was removed does not bring the removed one back", () => {
     const { options } = harness();
     const { result } = renderHook(() => useVectorEditSession(options));

@@ -5493,6 +5493,7 @@ export function App() {
         photoManager={photoManager}
         onSetFeaturePhotos={vectorEdit.setFeaturePhotos}
         onAttachFeaturePhotos={vectorEdit.attachFeaturePhotos}
+        onPhotoCleanupFailed={vectorEdit.notePhotoCleanupFailure}
         onMoveFeaturePoint={vectorEdit.moveFeaturePoint}
         onOpenPhoto={setOpenPhoto}
         onDeleteFeature={(featureId) => {

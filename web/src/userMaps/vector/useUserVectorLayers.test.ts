@@ -839,6 +839,85 @@ describe("recorded layers", () => {
     const store = await UserVectorStore.open(factory);
     expect(await store.listVectorLayers()).toHaveLength(1);
   });
+
+  // The layer a refused save leaves on the map can still be edited, and those
+  // edits are the reader's most recent work. Rewriting the layer with the
+  // original walk would delete them; a second layer is the honest answer.
+  it("leaves an edited track alone and saves the retry as its own layer", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    const input = {
+      name: "Boundary walk",
+      collection: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "track-1",
+            geometry: {
+              type: "LineString",
+              coordinates: [
+                [-61, 46],
+                [-61, 46.001],
+              ],
+            },
+            properties: {},
+          },
+        ],
+      } as FeatureCollection,
+      rawGpx: new Blob(["<gpx/>"], { type: "application/gpx+xml" }),
+      startedAt: "2026-08-29T14:00:00.000Z",
+      endedAt: "2026-08-29T14:20:00.000Z",
+    };
+
+    let refusedId = "";
+    await act(async () => {
+      const save = vi
+        .spyOn(UserVectorStore.prototype, "saveVectorLayer")
+        .mockRejectedValue(new Error("quota"));
+      refusedId = (await result.current.createRecordedLayer(input)).record.id;
+      save.mockRestore();
+    });
+
+    // An edit to that session-only layer, applied the way an edit session
+    // applies one.
+    act(() => {
+      const edited = result.current.records.find(({ id }) => id === refusedId);
+      result.current.applyLayerEdit(
+        { ...edited!, revision: 1, modifiedAt: "2026-08-29T15:00:00.000Z" },
+        input.collection,
+      );
+    });
+
+    await act(async () => {
+      await result.current.createRecordedLayer({
+        ...input,
+        replaceLayerId: refusedId,
+      });
+    });
+
+    expect(result.current.records).toHaveLength(2);
+    expect(result.current.records[0].id).toBe(refusedId);
+    expect(result.current.records[0].revision).toBe(1);
+  });
+
+  // Taking the row off the map is what the reader asked for. Saying the layer
+  // is gone when the device still holds it is not, because it comes back.
+  it("says so when the device would not delete a stored layer", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    await act(() => result.current.importFiles([geojsonFile()]));
+    const id = result.current.records[0].id;
+
+    const refuse = vi
+      .spyOn(UserVectorStore.prototype, "deleteVectorLayer")
+      .mockRejectedValue(new Error("blocked"));
+    await act(() => result.current.removeLayer(id));
+    refuse.mockRestore();
+
+    expect(result.current.records).toHaveLength(0);
+    expect(result.current.storageError).toContain("wouldn't delete its copy");
+  });
 });
 
 describe("GPX export", () => {

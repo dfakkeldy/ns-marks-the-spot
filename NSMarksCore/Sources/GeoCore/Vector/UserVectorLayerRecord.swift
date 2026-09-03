@@ -27,8 +27,9 @@ public enum UserVectorOrigin: Hashable, Sendable {
     case imported(filename: String, importedAt: Date)
     case drawn(createdAt: Date)
     /// A track recorded on this device, and when the recording ran. The key
-    /// names match the web's `{ kind: "recorded", startedAt, endedAt }` so
-    /// the two surfaces' stored records stay mutually readable in shape.
+    /// names match the web's `{ kind: "recorded", startedAt, endedAt }`, and
+    /// the decoder below reads the web's dates as well as this app's, so an
+    /// origin written by either surface reads on the other.
     ///
     /// `interrupted` is set when the walk was saved from the copy its device
     /// kept while it ran, so it ends at the last position stored and may be
@@ -67,12 +68,18 @@ extension UserVectorOrigin: Codable {
 
     /// The web writes these dates as ISO-8601 strings
     /// (`web/src/userMaps/vector/types.ts`); this app writes and has always
-    /// written Foundation's own numeric form. Reading both is what makes the
-    /// two surfaces' records mutually readable in fact rather than only in
-    /// key names — a default decoder throws on the web's string before it ever
-    /// reaches the `interrupted` flag it was given to carry. The numeric form
-    /// is still what gets written, because every library.json already on a
-    /// device is in it and this is not the change that migrates them.
+    /// written Foundation's own numeric form. Reading both is what lets an
+    /// origin written by the web decode here at all — a default decoder
+    /// throws on the web's string before it ever reaches the `interrupted`
+    /// flag it was given to carry. The numeric form is still what gets
+    /// written, because every library.json already on a device is in it and
+    /// this is not the change that migrates them.
+    ///
+    /// This covers the ORIGIN alone. The enclosing `UserVectorLayerRecord`
+    /// still uses its synthesized Codable, whose `createdAt` and `modifiedAt`
+    /// are numeric-only, and its style key is `colorHex` where the web writes
+    /// `color` — so a whole record from the browser does not decode yet, and
+    /// nothing here should be read as saying it does.
     private static func decodeDate(
         _ container: KeyedDecodingContainer<CodingKeys>,
         _ key: CodingKeys

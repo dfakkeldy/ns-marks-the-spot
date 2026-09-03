@@ -19,6 +19,12 @@ type PhotoStripProps = {
   onAttachDescriptors: (
     descriptors: FeaturePhotoDescriptor[],
   ) => FeaturePhotoDescriptor[];
+  /**
+   * Says that a discarded photo's bytes are still on this device. The session
+   * says only that the photo is not on the map, which is what it watched
+   * happen; the delete is attempted here, so its failure is reported here.
+   */
+  onPhotoCleanupFailed: (photoId: string) => void;
   onMovePoint: (position: [number, number]) => void;
   onOpenPhoto: (descriptor: FeaturePhotoDescriptor) => void;
 };
@@ -42,6 +48,7 @@ export function PhotoStrip({
   manager,
   onDescriptors,
   onAttachDescriptors,
+  onPhotoCleanupFailed,
   onMovePoint,
   onOpenPhoto,
 }: PhotoStripProps) {
@@ -98,8 +105,14 @@ export function PhotoStrip({
       for (const descriptor of discarded) {
         // The store is not a place to keep a photo the user has no way to
         // reach. This runs even after the strip has unmounted with its
-        // feature — unmounting stops the renders, not the work in flight.
-        void manager.removePhoto(descriptor.id);
+        // feature — unmounting stops the renders, not the work in flight —
+        // and a delete the device refuses is said out loud, because there is
+        // no layer left for a later sweep to find this row through.
+        void manager.removePhoto(descriptor.id).then((removed) => {
+          if (!removed) {
+            onPhotoCleanupFailed(descriptor.id);
+          }
+        });
       }
       setFailures(outcomes.filter((outcome) => !outcome.ok));
       // No offer for a photo that was not attached: there is no point left
