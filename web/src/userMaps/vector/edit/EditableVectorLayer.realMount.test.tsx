@@ -1,4 +1,5 @@
 import { cleanup, render, waitFor } from "@testing-library/react";
+import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import L from "leaflet";
 import { MapContainer } from "react-leaflet";
@@ -705,8 +706,17 @@ describe("EditableVectorLayer vertex-handle classes", () => {
     document.body.replaceChildren();
   });
 
-  const HANDLE =
-    ".leaflet-marker-draggable.marker-icon:not(.marker-icon-middle)";
+  // Read off the stylesheet rather than restated, so this pins what SHIPS: a
+  // hardcoded copy would keep passing while the rule it stands for was
+  // widened back to a bare `.marker-icon`, which is the regression that
+  // would enlarge the vertices placed while drawing as well.
+  const HANDLE = (() => {
+    const rule = readFileSync("./src/styles.css", "utf8").match(
+      /@media \(pointer: coarse\)[\s\S]*?\n\s*(\.leaflet-marker-draggable[^{]*?)\s*\{/,
+    )?.[1];
+    if (!rule) throw new Error("no coarse-pointer vertex handle rule in styles.css");
+    return rule.trim();
+  })();
 
   it("marks a reshape handle draggable and keeps middle markers out", async () => {
     const { map } = mount(vi.fn(), { mode: "edit" });
