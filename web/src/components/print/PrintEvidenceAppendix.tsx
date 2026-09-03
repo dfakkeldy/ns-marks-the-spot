@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { roadsNamedByCivicAddress } from "../../services/parcelContext";
 import type { PrintSnapshot } from "../../services/printSnapshot";
 import type { PvscDwelling } from "../../services/pvscDwellings";
 import {
@@ -353,7 +354,19 @@ function ContextList({
 
 function Context({ snapshot }: { snapshot: PrintSnapshot }) {
   const state = snapshot.evidence.mappedContext;
+  const addresses = snapshot.evidence.civicAddresses;
   const unavailable = <p>Source unavailable at export time.</p>;
+  // The panel merges the addressed roads into one list. On paper they get
+  // their own section instead, so the NSTDB provenance block below the mapped
+  // list never credits a road name the address file supplied. Before this the
+  // printed sheet simply dropped a road the reader had just seen on screen.
+  const civicRoads =
+    addresses.status === "ready"
+      ? roadsNamedByCivicAddress(
+          state.status === "ready" ? state.value.roads : [],
+          addresses.value.addresses,
+        )
+      : [];
 
   return (
     <>
@@ -366,6 +379,27 @@ function Context({ snapshot }: { snapshot: PrintSnapshot }) {
           <ContextList features={state.value.roads} />
         ) : (
           unavailable
+        )}
+      </EvidenceSection>
+      <EvidenceSection
+        heading="Roads named by civic address"
+        source={printEvidenceAttribution("civic-addresses")}
+        snapshot={snapshot}
+      >
+        {addresses.status !== "ready" ? (
+          <p>
+            The civic address file has not answered, so a road named only by an
+            address on this parcel would not be listed.
+          </p>
+        ) : civicRoads.length > 0 ? (
+          <ContextList features={civicRoads} />
+        ) : state.status === "ready" ? (
+          <p>
+            No civic address on this parcel names a road the mapped road layers
+            did not already return.
+          </p>
+        ) : (
+          <p>No civic address on this parcel names a road.</p>
         )}
       </EvidenceSection>
       <EvidenceSection

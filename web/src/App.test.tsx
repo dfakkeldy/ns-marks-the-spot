@@ -5254,6 +5254,70 @@ describe("NS Marks The Spot Online", () => {
     expect(
       screen.getByText("Civic address lookup is unavailable right now."),
     ).toBeInTheDocument();
+    // A list missing what one source would have named looks exactly like a
+    // complete one, so the road list says the address file has not answered.
+    expect(
+      screen.getByText(
+        "The civic address file has not answered, so a road named only by an address on this parcel would not be listed.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  // The empty sentence may only name the sources that actually looked.
+  it("does not say the civic file found no road when it never answered", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelContext).mockResolvedValueOnce({ roads: [], water: [] });
+    vi.mocked(fetchCivicAddresses).mockRejectedValueOnce(new Error("offline"));
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(
+      await screen.findByText("No mapped road intersects or runs beside this parcel."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "The civic address file has not answered, so a road named only by an address on this parcel would not be listed.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        "No intersecting, adjacent, or civic-address road was found for this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  it("keeps the two-source empty sentence when both sources answered", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelContext).mockResolvedValueOnce({ roads: [], water: [] });
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [],
+      unreadableRows: 0,
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    expect(
+      await screen.findByText(
+        "No intersecting, adjacent, or civic-address road was found for this parcel.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/civic address file has not answered/u),
+    ).not.toBeInTheDocument();
   });
 
   it("keeps civic results visible when road and water lookup fails", async () => {

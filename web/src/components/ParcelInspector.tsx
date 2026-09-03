@@ -23,7 +23,6 @@ import {
   OPEN_GOVERNMENT_ATTRIBUTION,
   OPEN_GOVERNMENT_LICENCE_URL,
   civicAddressShortfall,
-  formatCivicRoadName,
   noReadableCivicAddresses,
   type CivicAddressReading,
 } from "../services/civicAddresses";
@@ -33,6 +32,7 @@ import {
 } from "../services/googleMaps";
 import {
   ADJACENT_ROAD_DISTANCE_METRES,
+  roadsNamedByCivicAddress,
   type MappedArea,
   type ParcelContext,
 } from "../services/parcelContext";
@@ -1076,34 +1076,34 @@ function MappedContextDetails({
     );
   }
 
-  const mappedRoadNames = new Set(
-    state.value.roads.map(({ name }) => name.toLocaleLowerCase()),
-  );
-  const civicRoads =
-    civicAddresses.status === "ready"
-      ? Array.from(
-          new Set(
-            civicAddresses.value.addresses
-              .map(({ properties }) => formatCivicRoadName(properties))
-              .filter((name): name is string => name !== null),
-          ),
-        )
-          .filter((name) => !mappedRoadNames.has(name.toLocaleLowerCase()))
-          .map((name) => ({
-            name,
-            kind: "Civic Address File",
-            relationship: "civic-address" as const,
-          }))
-      : [];
+  // Only the sources that actually answered may be named in the empty
+  // sentence. A civic lookup that is still loading, that failed, or that was
+  // never run for want of geometry has not looked and found nothing.
+  const addressesAnswered = civicAddresses.status === "ready";
+  const civicRoads = addressesAnswered
+    ? roadsNamedByCivicAddress(state.value.roads, civicAddresses.value.addresses)
+    : [];
   const roads = [...state.value.roads, ...civicRoads];
 
   return (
     <div className="mapped-context">
       <MappedFeatureList
         title="Roads at or beside parcel"
-        emptyMessage="No intersecting, adjacent, or civic-address road was found for this parcel."
+        emptyMessage={
+          addressesAnswered
+            ? "No intersecting, adjacent, or civic-address road was found for this parcel."
+            : "No mapped road intersects or runs beside this parcel."
+        }
         features={roads}
       />
+      {addressesAnswered ? null : (
+        // A list missing the roads one source would have named looks exactly
+        // like a complete one, so the shortfall is said under it.
+        <p className="road-access-caveat">
+          The civic address file has not answered, so a road named only by an
+          address on this parcel would not be listed.
+        </p>
+      )}
       <p className="road-access-caveat">
         Adjacency and civic addressing are useful map context, not proof of legal
         access or road frontage.

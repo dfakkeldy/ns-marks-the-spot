@@ -3,8 +3,10 @@ import {
   ADJACENT_ROAD_DISTANCE_METRES,
   fetchParcelContext,
   mappedAreaForPid,
+  roadsNamedByCivicAddress,
   type ParcelContext,
 } from "./parcelContext";
+import type { CivicAddressProperties } from "./civicAddresses";
 import type { NsprdFeatureCollection } from "./nsprd";
 
 const parcels: NsprdFeatureCollection = {
@@ -162,5 +164,57 @@ describe("parcel acreage and mapped context", () => {
     await expect(fetchParcelContext(parcels.features)).rejects.toThrow(
       "mapped feature request failed with status 503",
     );
+  });
+});
+
+describe("roads named by a civic address", () => {
+  const address = (
+    parts: Partial<CivicAddressProperties>,
+  ): { properties: CivicAddressProperties } => ({
+    properties: {
+      pntid: "1", civicnum: "12", civsuffix: null, unit_num: null,
+      add_loc: null, strprefix: null, strname: null, strsuffix: null,
+      strdir: null, comm: "Mabou", mun: "Inverness", county: "Inverness",
+      ...parts,
+    },
+  });
+
+  it("returns only the addressed roads the mapped layers did not already name", () => {
+    expect(
+      roadsNamedByCivicAddress(
+        [{ name: "Main St", kind: "Local", relationship: "intersects" }],
+        [address({ strname: "MAIN", strsuffix: "ST" })],
+      ),
+    ).toEqual([]);
+  });
+
+  it("names one road for several addresses on the same street", () => {
+    expect(
+      roadsNamedByCivicAddress(
+        [],
+        [
+          address({ strname: "Main", strsuffix: "St" }),
+          address({ pntid: "2", strname: "Main", strsuffix: "St" }),
+          address({ pntid: "3", strname: "Shore", strsuffix: "Rd" }),
+        ],
+      ),
+    ).toEqual([
+      { name: "Main St", kind: "Civic Address File", relationship: "civic-address" },
+      { name: "Shore Rd", kind: "Civic Address File", relationship: "civic-address" },
+    ]);
+  });
+
+  it("skips an address that names no road at all", () => {
+    expect(roadsNamedByCivicAddress([], [address({})])).toEqual([]);
+  });
+
+  // The print appendix takes this branch when the road layers failed: the
+  // address file still answered, and what it named still belongs on the page.
+  it("still names the addressed roads when no mapped road was returned", () => {
+    expect(
+      roadsNamedByCivicAddress([], [address({ strname: "Shore", strsuffix: "Rd" })]),
+    ).toEqual([
+      { name: "Shore Rd", kind: "Civic Address File", relationship: "civic-address" },
+    ]);
   });
 });

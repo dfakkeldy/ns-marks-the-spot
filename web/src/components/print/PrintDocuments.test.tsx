@@ -581,6 +581,109 @@ describe("print documents", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("Outside published river-study extents.")).toBeInTheDocument();
     expect(screen.getByText("Source unavailable at export time.")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "No civic address on this parcel names a road the mapped road layers did not already return.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  // A road the reader saw on screen as "Named by civic address" was absent
+  // from the printed sheet: the appendix rendered only the NSTDB roads.
+  it("prints the roads only a civic address names, credited to the address file", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            mappedContext: {
+              status: "ready",
+              value: {
+                roads: [
+                  { name: "Cabot Trail", kind: "Arterial", relationship: "intersects" },
+                ],
+                water: [],
+              },
+            },
+            civicAddresses: {
+              status: "ready",
+              value: {
+                addresses: [{
+                  pntid: "100",
+                  coordinates: [-61.15, 46.35],
+                  label: "12 Main St, Mabou",
+                  properties: {
+                    pntid: "100", civicnum: "12", civsuffix: null,
+                    unit_num: null, add_loc: null, strprefix: null,
+                    strname: "Main", strsuffix: "St", strdir: null,
+                    comm: "Mabou", mun: "Inverness", county: "Inverness",
+                  },
+                }],
+                unreadableRows: 0,
+              },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const section = screen
+      .getByRole("heading", { name: "Roads named by civic address" })
+      .closest("section");
+    expect(section).not.toBeNull();
+    const civic = within(section as HTMLElement);
+    expect(civic.getByText(/Main St/)).toBeInTheDocument();
+    expect(civic.getByText(/Named by civic address/)).toBeInTheDocument();
+    // Credited to the file that named it, not to the roads service.
+    expect(civic.getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
+    expect(civic.getByRole("link", { name: OPEN_GOVERNMENT_LICENCE_URL }))
+      .toHaveAttribute("href", OPEN_GOVERNMENT_LICENCE_URL);
+    expect(civic.queryByText(/Cabot Trail/)).not.toBeInTheDocument();
+    expect(screen.getByText(/Cabot Trail/)).toBeInTheDocument();
+  });
+
+  it("does not read a failed civic lookup as no addressed road", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            mappedContext: {
+              status: "ready",
+              value: { roads: [], water: [] },
+            },
+            civicAddresses: { status: "error", message: "offline" },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(
+      screen.getByText(
+        "The civic address file has not answered, so a road named only by an address on this parcel would not be listed.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/No civic address on this parcel names a road/),
+    ).not.toBeInTheDocument();
   });
 
   it("keeps mandatory NSPRD and evidence attribution when no optional layer rendered", () => {

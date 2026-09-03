@@ -1,4 +1,8 @@
 import type { NsprdFeatureCollection } from "./nsprd";
+import {
+  formatCivicRoadName,
+  type CivicAddressProperties,
+} from "./civicAddresses";
 import { SQUARE_METRES_PER_ACRE } from "./geodesy";
 const ROAD_SERVICE_URL =
   "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer";
@@ -301,4 +305,33 @@ export async function fetchParcelContext(
     ]),
     water: uniqueFeatures(waterResults.flat()),
   };
+}
+
+/**
+ * The roads only the Civic Address File names: the addressed roads the NSTDB
+ * layers did not already return.
+ *
+ * A road both sources know about is not repeated, because the same road under
+ * two kinds of evidence reads as two roads. Shared with the print appendix so
+ * a road named on screen is a road named on paper.
+ */
+export function roadsNamedByCivicAddress(
+  roads: readonly MappedFeature[],
+  addresses: readonly { readonly properties: CivicAddressProperties }[],
+): MappedFeature[] {
+  const seen = new Set(roads.map(({ name }) => name.toLocaleLowerCase()));
+  const named: MappedFeature[] = [];
+  for (const { properties } of addresses) {
+    const name = formatCivicRoadName(properties);
+    if (name === null || seen.has(name.toLocaleLowerCase())) {
+      continue;
+    }
+    seen.add(name.toLocaleLowerCase());
+    named.push({
+      name,
+      kind: "Civic Address File",
+      relationship: "civic-address",
+    });
+  }
+  return named;
 }
