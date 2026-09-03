@@ -75,11 +75,6 @@ export type CoastalFloodEvidence =
       message: string;
     };
 
-export type ParcelFloodHazardEvidence = {
-  river: PublishedRiverFloodEvidence;
-  coastal: CoastalFloodEvidence[];
-};
-
 type DecodedRaster = {
   rgba: Uint8ClampedArray;
   width: number;
@@ -164,6 +159,21 @@ function boundsIntersect(left: Bounds, right: Bounds): boolean {
   );
 }
 
+/**
+ * The river half, asked and answered on its own.
+ *
+ * There is deliberately no call that returns both halves. They are two
+ * services, and one hanging says nothing about the other: joined in a single
+ * promise, a coastal raster that never came back held an answered river
+ * result out of the panel and out of the printed page, where the capture's
+ * timeout sealed it as a source that had not answered.
+ *
+ * The native app still joins them in
+ * `FloodHazardFetcher.hazard(for:mappedAreaSquareMetres:clearance:)` and
+ * carries the same defect. Its doc comment states only the narrower rule that
+ * the three coastal scenarios report per scenario; it says nothing about
+ * river and coastal settling apart.
+ */
 export async function fetchPublishedRiverFloodEvidence(
   features: readonly ParcelFeature[],
   signal?: AbortSignal,
@@ -401,18 +411,6 @@ export async function fetchCoastalFloodEvidence(
       }
     }),
   );
-}
-
-export async function fetchParcelFloodHazardEvidence(
-  features: readonly ParcelFeature[],
-  mappedAreaSquareMetres: number | null,
-  signal?: AbortSignal,
-): Promise<ParcelFloodHazardEvidence> {
-  const [river, coastal] = await Promise.all([
-    fetchPublishedRiverFloodEvidence(features, signal),
-    fetchCoastalFloodEvidence(features, mappedAreaSquareMetres, signal),
-  ]);
-  return { river, coastal };
 }
 
 export { boundsForFeatures };

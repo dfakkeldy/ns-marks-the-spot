@@ -435,10 +435,11 @@ function Context({ snapshot }: { snapshot: PrintSnapshot }) {
 }
 
 function RiverResult({ snapshot }: { snapshot: PrintSnapshot }) {
-  const state = snapshot.evidence.floodHazard;
+  const state = snapshot.evidence.riverFlood;
   // A flood lookup that never settled and a river source that answered badly
   // are different reasons for the same blank, and the reader is owed the one
-  // that happened.
+  // that happened. The coastal source's silence is not one of those reasons:
+  // it has its own slot, and this half prints what the river source said.
   if (state.status !== "ready") {
     return (
       <>
@@ -447,7 +448,7 @@ function RiverResult({ snapshot }: { snapshot: PrintSnapshot }) {
       </>
     );
   }
-  if (state.value.river.status === "error") {
+  if (state.value.status === "error") {
     return (
       <p>
         Published river source unavailable at export time; no absence is
@@ -455,7 +456,7 @@ function RiverResult({ snapshot }: { snapshot: PrintSnapshot }) {
       </p>
     );
   }
-  const river = state.value.river;
+  const river = state.value;
   if (river.status === "outside-published-layer-extents") {
     return <p>Outside published river-study extents.</p>;
   }
@@ -482,7 +483,7 @@ function RiverResult({ snapshot }: { snapshot: PrintSnapshot }) {
 }
 
 function CoastalResult({ snapshot }: { snapshot: PrintSnapshot }) {
-  const state = snapshot.evidence.floodHazard;
+  const state = snapshot.evidence.coastalFlood;
   if (state.status !== "ready") {
     return (
       <>
@@ -491,12 +492,12 @@ function CoastalResult({ snapshot }: { snapshot: PrintSnapshot }) {
       </>
     );
   }
-  if (state.value.coastal.length === 0) {
+  if (state.value.length === 0) {
     return <p>No coastal scenario result was captured.</p>;
   }
   return (
     <ul>
-      {state.value.coastal.map((scenario) => {
+      {state.value.map((scenario) => {
         if (scenario.status === "error") {
           return (
             <li key={scenario.scenario}>
