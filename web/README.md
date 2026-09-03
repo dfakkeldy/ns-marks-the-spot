@@ -899,22 +899,24 @@ closed on an unrecognized winning-bid value or identifier mismatch.
 - Current official source: [September 14, 2026 Tax Sale by Tender](https://victoriacounty.com/property-tax-sale-notice/),
   dated August 13, 2026. Sealed bids must arrive by noon at the Municipal
   Administration Building in Baddeck.
-- The official table contains nine numbered rows. Rows 1 and 2 now print
-  `REMOVED` in every public field, including AAN and PID, so they remain two
-  opaque removed-row counts without parcel identities. The other seven rows
+- The official table contains nine numbered rows. Rows 1, 2, 8, and 9 now print
+  `REMOVED` in every public field, including AAN and PID, so they remain four
+  opaque removed-row counts without parcel identities. The other five rows
   publish exact AAN/PID pairs, descriptions, redeemability, and total owing.
+  Two land-only rows print TOTAL OWING as `$digits.cents + hst`; the advertised
+  dollar amount is stored and HST is not added.
 - The assessed-name column is discarded before normalized facts or the public
   snapshot are written. Land-registration values are validated for known
   `YES`/`NO` input but are not added to the public map schema. The normalized
   owner-free source-facts SHA-256 is
-  `a2f2808c2246a027ffe045f75efdeac2ccb24a55991f93015ecbb2fab89018d0`;
+  `812d8d6a38c568d8af7ba1ab27add614643ee57e57a526236751e44dfab85584`;
   the byte-for-byte public dataset SHA-256 is
-  `4ca1134889b18d1d029c380d39a631fee82571820e70b672947c7c3fd7935467`.
+  `b206e77975f4c7dec37dab71723a0f7e74d9e59597a72229e0db5593b563b32e`.
 - Because the municipality overwrites this HTML notice as properties are
   removed, the page was archived before ingestion. The raw replay bytes are
-  preserved at the [Wayback Machine](https://web.archive.org/web/20260819200343id_/https://victoriacounty.com/property-tax-sale-notice/)
+  preserved at the [Wayback Machine](https://web.archive.org/web/20260903202648id_/https://victoriacounty.com/property-tax-sale-notice/)
   with SHA-256
-  `df7b7fb25d8853863cdcd2923069e714283c30228fda4708e9e095632db3cfdc`.
+  `45158563b490976d3270e776dd618ef925c6df1d997e0de7235cda0bcca7da1f`.
 
 Run `npm run refresh:victoria-tax-sale` to reparse the official table. A partial
 removal, malformed or duplicate identifier, unfamiliar `YES`/`NO` state, row
@@ -928,24 +930,23 @@ archive capture fails closed.
   [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf)
   have SHA-256
   `4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56`;
-  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/copy-of-sept15.2026newspaper.website-draft-aug-25.26.pdf)
+  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept3.26.pdf)
   has SHA-256
-  `6bc015e648fdd559c26310b4d79c8cec7e50a97a0e3f506aca6b3f5822b76f3f`.
-- Schedule A contains 28 advertised rows and 28 exact PIDs. Twenty-six rows
-  covering 26 PIDs returned exact NSPRD geometry on August 15, 2026. PIDs
-  `41051889` (AAN `09417036`) and `41051897` (AAN `09417044`) returned valid
-  empty NSPRD collections. Both official parking-space rows remain in the
-  owner-free source snapshot and appear as non-interactive geometry exceptions;
-  no replacement PID or parcel is inferred.
-- Nine source rows print HST `Yes`, and two print redeemable `No`. Those inputs
+  `e0e518af2b05130e42e2d911f97767f4c1be83e9980f2defc10f732fc1965db4`.
+- Schedule A contains 19 advertised rows and 20 exact PIDs. All 19 rows
+  covering 20 PIDs are mapped. The sept3 revision no longer advertises the two
+  parking-space PIDs that previously returned empty NSPRD collections, so this
+  snapshot has no geometry exceptions.
+- Seven source rows print HST `Yes`, and one prints redeemable `No`. Those inputs
   are validated and counted but HST is not added to the public listing schema.
   The assessed-name column and owner-bearing PDF bytes are not committed. The
   byte-for-byte owner-free public dataset SHA-256 is
-  `fab79b24349baf4e953934c37b46fa4a529cf62b15f8bfb820ef6b30f339d119`.
+  `372678a81ac26cbe9bb9363615660bc73985ea73e3dc180bd0d87d72b99cc14f`.
 
 Run `npm run refresh:halifax-tax-sale` to reparse both dated official PDFs. The
-refresh fails closed on a changed document link, tender number, fixed-column
-layout, identifier, amount, flag, row/PID count, or geometry-exception pair.
+refresh fails closed on a changed document link, tender number, layout,
+identifier, amount, flag, row/PID count, or a geometry-exception pin that does
+not match a live Schedule A row.
 The live NSPRD test requires every mapped PID to resolve and every declared
 exception PID to remain empty, so either provincial change triggers review.
 
