@@ -343,3 +343,24 @@ Resume:
 cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
 tail -40 /tmp/ios-quick-wins-test.log
 ```
+
+## 2026-09-03 — PR J open (#308) with its round-1 fixes
+Done: four per-item commits plus a Codex round-1 fix commit and a comment correction on
+feature/ios-quick-wins. #308 was fully green before the round-1 fixes; CI is re-running on
+b4ae16425. Local, through the build slot on iPhone 17 / iOS 26.5: TileStoreTests 11 passed; the
+three UI suites 12 tests, 1 failure — testAcceptingTheLicenceTurnsTheLayerOnAndCreditsIt cannot
+determine the licence lock's hittability. That failure reproduces on origin/nightly on the same
+simulator, in isolation as well as in the suite, and passes in CI on both: pre-existing, and
+recorded for PR K's §6.6 target work rather than fixed here.
+Known local hazards confirmed again: the whole app-target bundle hangs after building (use focused
+-only-testing suites); a failing focused run hangs in teardown and holds the slot (kill xcodebuild);
+the gate's runningBuilds counts Codex's xcodebuildmcp processes; and a booted simulator can push
+pressure to 2 and refuse admission — shut it down and retry rather than bypassing.
+Next: PR K (§4 + §6 + §11.8 + Liquid Glass behind #available(iOS 26)) stacked on PR J; PR M (§10
+a11y) stacked on the round-4 branch, not nightly, because four of its anchors are in round 4; PR L
+(§5 perf, measured first); PR N (§12.2, §12.7, §12.4, §12.11).
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+gh pr checks 308
+```
