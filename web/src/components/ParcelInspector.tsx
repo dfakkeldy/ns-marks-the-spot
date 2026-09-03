@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import {
   eventLifecycleStatus,
   type TaxSaleEvent,
@@ -318,6 +318,7 @@ export function ParcelInspector({
   canPrintExport,
   evidenceReady,
   now,
+  dismissOnEscape,
   onClose,
 }: {
   pid: string;
@@ -342,6 +343,14 @@ export function ParcelInspector({
   canPrintExport: boolean;
   evidenceReady: boolean;
   now: number;
+  /**
+   * Whether Escape should close this panel. App keeps it false while a
+   * dialog, the mobile controls sheet, the print preview or a georeference
+   * session is open: the panel is the bottom layer under all of those, and
+   * the rule App states for the controls sheet applies here too — "so one
+   * keypress never closes two layers".
+   */
+  dismissOnEscape: boolean;
   onClose: () => void;
 }) {
   const listing = context?.listing;
@@ -353,22 +362,66 @@ export function ParcelInspector({
   const historical = lifecycleStatus === "historical";
   const needsResultVerification = lifecycleStatus === "verify-results";
 
+  // Escape has to work from wherever the reader is, not only once focus has
+  // been Tabbed into the panel: nothing focuses this panel when it opens, and
+  // it is normally reached by tapping a parcel on the map, so a handler on
+  // the <aside> would almost never fire. The listener goes on `document`, and
+  // App decides through `dismissOnEscape` whether this panel is the layer the
+  // reader is actually in.
+  //
+  // stopPropagation because MeasureTool holds a WINDOW keydown for Escape and
+  // window is the last hop after document. MapCanvas already records what
+  // sharing the key costs — "one Escape both clears the measurement and
+  // closes the panel". With this panel open, one Escape closes this panel and
+  // a measurement in progress survives to the next press. The georeferencer's
+  // window listener is unscoped on purpose ("closing this panel from anywhere
+  // is intended"), so App holds `dismissOnEscape` false for the whole of a
+  // georeference session rather than letting this listener outrank it.
+  //
+  // onClose is read through a ref for the reason useDialogChrome gives in
+  // App.tsx: "The dismiss handler lives in a ref so inline-arrow props don't
+  // re-run the mount effect".
+  const dismissRef = useRef(onClose);
+  dismissRef.current = onClose;
+  useEffect(() => {
+    if (!dismissOnEscape) {
+      return;
+    }
+    const handleKeyDown = (keyEvent: KeyboardEvent) => {
+      if (keyEvent.key !== "Escape") {
+        return;
+      }
+      keyEvent.stopPropagation();
+      dismissRef.current();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [dismissOnEscape]);
+
   return (
     <aside className="parcel-inspector" aria-label={`Parcel ${pid} details`}>
-      <button
-        className="inspector-close"
-        type="button"
-        onClick={onClose}
-        aria-label="Close parcel details"
-      >
-        ×
-      </button>
-      <h2>
-        {listing?.addressOrDescription ??
-          listing?.location ??
-          firstHistoricalContext?.record.civicDescription ??
-          `PID ${pid}`}
-      </h2>
+      {/* Heading and close button in one row that does not scroll. The button
+          used to be absolutely positioned inside this panel, which is its own
+          scrollport, so it was translated by the scroll offset and left the
+          screen with the first swipe of content — and on a phone, where the
+          panel is full-screen and the map chrome, zoom and location controls
+          are hidden behind it, that was the only way out. */}
+      <div className="inspector-header">
+        <h2>
+          {listing?.addressOrDescription ??
+            listing?.location ??
+            firstHistoricalContext?.record.civicDescription ??
+            `PID ${pid}`}
+        </h2>
+        <button
+          className="inspector-close"
+          type="button"
+          onClick={onClose}
+          aria-label="Close parcel details"
+        >
+          ×
+        </button>
+      </div>
       <p className={listing ? "notice-status" : "parcel-status"}>
         {listing
           ? historical

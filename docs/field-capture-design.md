@@ -556,6 +556,24 @@ never invented.
 - The web IndexedDB gets exactly one version bump for all of this work:
   DB_VERSION 2 → 3 in the photos PR, adding the `photos` metadata store (see
   subsystem C). Track recording needs no schema change.
+- A draggable vertex handle on a coarse pointer is a 44-unit canvas around a
+  22-unit disc: the canvas is the touch target, the disc is what is seen.
+  iOS draws it directly (`VectorVertexHandleImage.canvasSize` /
+  `.discDiameter`); web reaches it in `@media (pointer: coarse)` by
+  out-specifying Geoman's 14 px `.marker-icon`, scoped to Leaflet's
+  `.leaflet-marker-draggable` so that vertices placed WHILE DRAWING keep
+  Geoman's size and keep finishing the shape on tap. Web is the surface
+  catching up here, not iOS.
+- Known web-only gaps, not closed by that rule: Geoman's 10 px middle marker
+  stays the only touch route to INSERTING a vertex, removing one is bound to
+  `contextmenu` and has no touch gesture, and nothing on the web panel says
+  a handle can be dragged — where iOS says "Press and hold a corner handle to
+  drag it." and offers a non-drag corner mover for VoiceOver and Switch
+  Control.
+- "Hold Alt to place a vertex without snapping." is desktop-only wording.
+  Where the primary pointer is coarse the web shows "Turn off Snap while
+  drawing to place a vertex freely." instead, naming the control both
+  surfaces label "Snap while drawing"; iOS shows no Alt hint at all.
 
 ## Web subsystem A: GPS capture and tracks
 
