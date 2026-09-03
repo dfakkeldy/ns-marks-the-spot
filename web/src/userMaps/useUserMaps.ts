@@ -378,6 +378,17 @@ export function useUserMaps(
       // cheaper mistake: the map is still in this tab's memory and its row
       // reads the record either way.
       const next = { ...uiStateRef.current, ...incoming };
+      // Every shared entry comes from the other tab, so the merge can only
+      // differ from what arrived by carrying entries this tab has and it does
+      // not. When it does, the merge is written back: without it both tabs
+      // agree on screen while the store keeps only whichever wrote last, and
+      // the map the other tab switched on is gone after a reload. The
+      // write-back settles in one round, because the tab that receives it
+      // merges to the same record and has nothing left to add.
+      if (Object.keys(next).length !== Object.keys(incoming).length) {
+        persistUiState(() => next);
+        return;
+      }
       uiStateRef.current = next;
       setUiState(next);
     };
@@ -385,7 +396,7 @@ export function useUserMaps(
     return () => {
       window.removeEventListener("storage", onStorage);
     };
-  }, []);
+  }, [persistUiState]);
 
   const registerPreviewUrl = useCallback((id: string, blob: Blob) => {
     const previous = previewUrlsRef.current[id];

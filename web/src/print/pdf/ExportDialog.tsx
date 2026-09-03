@@ -247,6 +247,11 @@ export function ExportDialog(props: ExportDialogProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Export georeferenced PDF"
+        // Escape belongs to this dialog while it is open. Both this handler
+        // and the parcel panel's listen on the document, where
+        // stopPropagation does not reach a sibling listener, so without this
+        // one keypress cancelled the export AND closed the panel behind it.
+        data-owns-escape=""
       >
         <h2>Export georeferenced PDF</h2>
         <p className="field-help">

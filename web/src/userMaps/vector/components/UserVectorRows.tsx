@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { UserVectorLayerRecord } from "../types";
 import type { UserVectorLayersApi } from "../useUserVectorLayers";
 
@@ -58,7 +59,13 @@ function renderUserVectorControls({
   onNewLayer,
   onBulkPhotos,
   editingId = null,
-}: UserVectorRowsProps) {
+  removing,
+  onRemoving,
+}: UserVectorRowsProps & {
+  /** Ids whose delete has been asked for and has not answered yet. */
+  removing: ReadonlySet<string>;
+  onRemoving: (id: string) => void;
+}) {
   return (
     <>
       {api.storageError ? (
@@ -158,6 +165,11 @@ function renderUserVectorControls({
                   className="user-vector-edit"
                   aria-label={`Edit ${record.name}`}
                   aria-pressed={editingId === record.id}
+                  // The row outlives the delete: it goes when the store
+                  // answers, and until then Edit would open a session over a
+                  // layer that is on its way out, which then vanishes under
+                  // the reader with nothing said.
+                  disabled={removing.has(record.id)}
                   onClick={() => onEdit(record.id)}
                 >
                   {editingId === record.id ? "Editing" : "Edit"}
@@ -167,6 +179,7 @@ function renderUserVectorControls({
                 type="button"
                 className="user-map-remove"
                 aria-label={`Remove ${record.name}`}
+                disabled={removing.has(record.id)}
                 onClick={() => {
                   if (
                     window.confirm(
@@ -188,6 +201,7 @@ function renderUserVectorControls({
                     // (MapContainerView.swift); the web rail stays live, so
                     // the removal hands the layer to the session instead.
                     onAbandonLayer?.(record.id);
+                    onRemoving(record.id);
                     void api.removeLayer(record.id);
                   }
                 }}
@@ -201,16 +215,31 @@ function renderUserVectorControls({
   );
 }
 
+/**
+ * Which layers have been asked to go and are waiting on the store. Never
+ * pruned: a row whose delete answered is gone from `api.records` anyway, and
+ * an id belongs to one layer for the life of the tab.
+ */
+function useRemoving(): [ReadonlySet<string>, (id: string) => void] {
+  const [removing, setRemoving] = useState<ReadonlySet<string>>(new Set());
+  return [
+    removing,
+    (id) => setRemoving((current) => new Set(current).add(id)),
+  ];
+}
+
 export function UserVectorControls(props: UserVectorRowsProps) {
+  const [removing, onRemoving] = useRemoving();
   return (
     <div className="resource-layer-controls">
-      {renderUserVectorControls(props)}
+      {renderUserVectorControls({ ...props, removing, onRemoving })}
     </div>
   );
 }
 
 export function UserVectorRows(props: UserVectorRowsProps) {
   const { api } = props;
+  const [removing, onRemoving] = useRemoving();
   return (
     <details className="resource-layer-group user-vector-group" open>
       <summary>
@@ -221,7 +250,9 @@ export function UserVectorRows(props: UserVectorRowsProps) {
             : `${api.records.length} loaded`}
         </small>
       </summary>
-      <UserVectorControls {...props} />
+      <div className="resource-layer-controls">
+        {renderUserVectorControls({ ...props, removing, onRemoving })}
+      </div>
     </details>
   );
 }

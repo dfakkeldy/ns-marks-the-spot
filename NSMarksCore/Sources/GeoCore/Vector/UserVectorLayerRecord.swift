@@ -65,6 +65,39 @@ extension UserVectorOrigin: Codable {
         case interrupted
     }
 
+    /// The web writes these dates as ISO-8601 strings
+    /// (`web/src/userMaps/vector/types.ts`); this app writes and has always
+    /// written Foundation's own numeric form. Reading both is what makes the
+    /// two surfaces' records mutually readable in fact rather than only in
+    /// key names — a default decoder throws on the web's string before it ever
+    /// reaches the `interrupted` flag it was given to carry. The numeric form
+    /// is still what gets written, because every library.json already on a
+    /// device is in it and this is not the change that migrates them.
+    private static func decodeDate(
+        _ container: KeyedDecodingContainer<CodingKeys>,
+        _ key: CodingKeys
+    ) throws -> Date {
+        if let seconds = try? container.decode(Double.self, forKey: key) {
+            return Date(timeIntervalSinceReferenceDate: seconds)
+        }
+        let text = try container.decode(String.self, forKey: key)
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        if let date = formatter.date(from: text) {
+            return date
+        }
+        // The web writes milliseconds; a hand-edited or older file may not.
+        formatter.formatOptions = [.withInternetDateTime]
+        guard let date = formatter.date(from: text) else {
+            throw DecodingError.dataCorruptedError(
+                forKey: key,
+                in: container,
+                debugDescription: "\(text) is not an ISO-8601 instant."
+            )
+        }
+        return date
+    }
+
     private enum Kind: String, Codable {
         case imported, drawn, recorded
         /// The web's tag and key for this origin are `photo-import` /
@@ -80,14 +113,14 @@ extension UserVectorOrigin: Codable {
         case .imported:
             self = .imported(
                 filename: try container.decode(String.self, forKey: .filename),
-                importedAt: try container.decode(Date.self, forKey: .importedAt)
+                importedAt: try Self.decodeDate(container, .importedAt)
             )
         case .drawn:
-            self = .drawn(createdAt: try container.decode(Date.self, forKey: .createdAt))
+            self = .drawn(createdAt: try Self.decodeDate(container, .createdAt))
         case .recorded:
             self = .recorded(
-                startedAt: try container.decode(Date.self, forKey: .startedAt),
-                endedAt: try container.decode(Date.self, forKey: .endedAt),
+                startedAt: try Self.decodeDate(container, .startedAt),
+                endedAt: try Self.decodeDate(container, .endedAt),
                 // Absent on a walk this app recorded, and on every walk saved
                 // before the web kept a copy; absent means not interrupted.
                 interrupted: try container.decodeIfPresent(
@@ -96,7 +129,7 @@ extension UserVectorOrigin: Codable {
             )
         case .photos:
             self = .photos(
-                createdAt: try container.decode(Date.self, forKey: .importedAt),
+                createdAt: try Self.decodeDate(container, .importedAt),
                 count: try container.decode(Int.self, forKey: .count)
             )
         }

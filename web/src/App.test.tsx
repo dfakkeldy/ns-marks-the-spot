@@ -1017,6 +1017,40 @@ describe("NS Marks The Spot Online", () => {
     expect(document.title).toBe(initialTitle);
   });
 
+  // Both listeners are on the document, where stopPropagation does not reach
+  // a sibling: one keypress cancelled the export AND closed the panel behind
+  // it, leaving the reader looking at a map with neither.
+  it("lets the export dialog have Escape to itself while a parcel is open", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?pid=50334317&layers=nsprd");
+    vi.mocked(fetchParcels).mockResolvedValue({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+
+    render(<App />);
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+
+    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
+    await user.click(
+      screen.getByRole("button", { name: "Continue export frame" }),
+    );
+    // findBy: the export dialog is lazy-loaded.
+    await screen.findByRole("dialog", { name: "Export georeferenced PDF" });
+
+    await user.keyboard("{Escape}");
+
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("dialog", { name: "Export georeferenced PDF" }),
+      ).not.toBeInTheDocument(),
+    );
+    expect(inspector).toBeInTheDocument();
+  });
+
   it("labels a notice hidden by the active mode instead of claiming the PID is unlisted", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(

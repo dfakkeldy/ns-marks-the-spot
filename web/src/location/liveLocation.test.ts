@@ -192,6 +192,49 @@ describe("startLiveLocation", () => {
 
   // The walk has no other source of fixes: ending the watch would end the
   // track, which is a worse answer than a device that is still struggling.
+  // Nothing in the API promises a second callback, so a browser that says the
+  // position is unavailable once and then falls silent used to leave a pressed
+  // toggle over a search that would never end.
+  it("gives up when one pre-fix report is followed by silence", () => {
+    vi.useFakeTimers();
+    try {
+      const fake = fakeGeolocation();
+      const { snapshots, onChange } = collect();
+      startLiveLocation(onChange, fake.geolocation);
+
+      fake.pushError(2); // POSITION_UNAVAILABLE, once, then nothing
+      expect(snapshots.at(-1)?.status).toBe("signal-lost");
+
+      vi.advanceTimersByTime(30_000);
+
+      expect(snapshots.at(-1)).toEqual({
+        status: "position-unavailable",
+        fix: null,
+      });
+      expect(fake.clearWatch).toHaveBeenCalledWith(7);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("lets a position that arrives inside the deadline stand", () => {
+    vi.useFakeTimers();
+    try {
+      const fake = fakeGeolocation();
+      const { snapshots, onChange } = collect();
+      startLiveLocation(onChange, fake.geolocation);
+
+      fake.pushError(2);
+      fake.pushPosition({ latitude: 45.5 });
+      vi.advanceTimersByTime(60_000);
+
+      expect(snapshots.at(-1)?.status).toBe("active");
+      expect(fake.clearWatch).not.toHaveBeenCalled();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("never gives up while a track is recording", () => {
     const fake = fakeGeolocation();
     const { snapshots, onChange } = collect();
