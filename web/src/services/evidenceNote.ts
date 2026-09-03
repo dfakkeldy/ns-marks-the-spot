@@ -1,5 +1,9 @@
 import type { MapMode, MapPosition } from "./mapShareState";
 import {
+  civicAddressShortfall,
+  noReadableCivicAddresses,
+} from "./civicAddresses";
+import {
   PVSC_ASSESSMENT_DATASET_URL,
   PVSC_ASSESSMENT_SOURCE_DATE,
   PVSC_OPEN_DATA_ATTRIBUTION,
@@ -43,7 +47,13 @@ type DwellingEvidence =
   | { status: "blocked" };
 
 type CivicEvidence =
-  | { status: "ready"; points: Array<{ label: string; sourceUrl: string }> }
+  | {
+      status: "ready";
+      points: Array<{ label: string; sourceUrl: string }>;
+      // Rows the address file returned that the browser could not place. The
+      // note may report an absence only when this is zero.
+      unreadableRows: number;
+    }
   | { status: "error" }
   | { status: "geometry-unavailable" };
 
@@ -151,6 +161,31 @@ function dwellingFacts(dwelling: PvscDwelling): string {
     .join(" · ");
 }
 
+// The civic section may report an absence only when the browser read every row
+// the address file sent. A list built from a partly unreadable response is a
+// floor, not the file's answer, so the shortfall is printed under it.
+function civicLines(evidence: CivicEvidence): string[] {
+  if (evidence.status === "geometry-unavailable") {
+    return ["- Not evaluated — this PID's NSPRD geometry is unavailable."];
+  }
+  if (evidence.status === "error") {
+    return ["- Civic address source unavailable at export time."];
+  }
+  if (evidence.points.length === 0) {
+    return [
+      evidence.unreadableRows > 0
+        ? `- ${noReadableCivicAddresses(evidence.unreadableRows)}`
+        : "- No mapped civic address point returned inside the parcel.",
+    ];
+  }
+  return [
+    ...evidence.points.map(({ label, sourceUrl }) => `- [${label}](${sourceUrl})`),
+    ...(evidence.unreadableRows > 0
+      ? [`- ${civicAddressShortfall(evidence.unreadableRows)}`]
+      : []),
+  ];
+}
+
 function dwellingLines(evidence: DwellingEvidence): string[] {
   if (evidence.status === "error") {
     return ["PVSC residential dwelling source unavailable at export time."];
@@ -181,15 +216,7 @@ export function buildEvidenceNote(input: EvidenceNoteInput): EvidenceNote {
           `- [${name}](${sourceUrl}) — ${sourceDate}`,
       )
     : ["- No optional map layers enabled."];
-  const civic = input.civicAddresses.status === "geometry-unavailable"
-    ? ["- Not evaluated — this PID's NSPRD geometry is unavailable."]
-    : input.civicAddresses.status === "error"
-    ? ["- Civic address source unavailable at export time."]
-    : input.civicAddresses.points.length > 0
-      ? input.civicAddresses.points.map(
-          ({ label, sourceUrl }) => `- [${label}](${sourceUrl})`,
-        )
-      : ["- No mapped civic address point returned inside the parcel."];
+  const civic = civicLines(input.civicAddresses);
   const resources = input.resourceResults.flatMap(resultLines);
   const assessments = assessmentLines(input.assessmentEvidence);
   const dwellings = dwellingLines(input.dwellingEvidence);

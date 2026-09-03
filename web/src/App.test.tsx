@@ -478,7 +478,7 @@ vi.mock("./services/civicAddresses", async (importOriginal) => {
   const original = await importOriginal<typeof import("./services/civicAddresses")>();
   return {
     ...original,
-    fetchCivicAddresses: vi.fn().mockResolvedValue([]),
+    fetchCivicAddresses: vi.fn().mockResolvedValue({ addresses: [], unreadableRows: 0 }),
     searchCivicAddresses: vi.fn().mockResolvedValue([]),
   };
 });
@@ -743,7 +743,7 @@ describe("NS Marks The Spot Online", () => {
       features: [],
     });
     vi.mocked(fetchParcelContext).mockResolvedValue({ roads: [], water: [] });
-    vi.mocked(fetchCivicAddresses).mockResolvedValue([]);
+    vi.mocked(fetchCivicAddresses).mockResolvedValue({ addresses: [], unreadableRows: 0 });
     vi.mocked(searchCivicAddresses).mockResolvedValue([]);
     vi.mocked(fetchParcelResourceIntersections).mockResolvedValue({
       "mineral-occurrences": { status: "ready", intersections: [] },
@@ -3614,12 +3614,15 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50251750")],
     });
-    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [
       civicAddress(
         "27700002",
         "11064 Highway 19, Southwest Mabou, Inverness County",
       ),
-    ]);
+      ],
+      unreadableRows: 0,
+    });
     renderAppWithCategoriesOpen();
 
     await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
@@ -4458,9 +4461,12 @@ describe("NS Marks The Spot Online", () => {
         { name: "Mabou River", kind: "River or stream", relationship: "intersects" },
       ],
     });
-    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [
       civicAddress("address-road", "12 Main St, Mabou"),
-    ]);
+      ],
+      unreadableRows: 0,
+    });
     renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -4516,7 +4522,7 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
     });
-    let resolveAddresses!: (addresses: CivicAddress[]) => void;
+    let resolveAddresses!: (reading: { addresses: CivicAddress[]; unreadableRows: number }) => void;
     vi.mocked(fetchCivicAddresses).mockReturnValueOnce(
       new Promise((resolve) => {
         resolveAddresses = resolve;
@@ -4531,9 +4537,10 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText("Looking up mapped civic addresses…"),
     ).toBeInTheDocument();
     await act(async () => {
-      resolveAddresses([
-        civicAddress("100", "12 Main St, Mabou, Inverness County"),
-      ]);
+      resolveAddresses({
+        addresses: [civicAddress("100", "12 Main St, Mabou, Inverness County")],
+        unreadableRows: 0,
+      });
     });
 
     const inspector = await screen.findByRole("complementary", {
@@ -4592,6 +4599,70 @@ describe("NS Marks The Spot Online", () => {
       building.getByRole("link", { name: "Read the Province licence" }),
     ).toHaveAttribute("href", PROVINCE_LICENSE_URL);
   });
+
+  // A civic row the browser could not read is not a row that is not there.
+  // Reporting an absence off a partial read told a reader no address is
+  // mapped inside the parcel when the source had said no such thing.
+  it("says an address may be mapped when no returned civic row could be read", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [],
+      unreadableRows: 2,
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(
+      within(inspector).getByText(
+        "2 mapped points here could not be read. Whether an address is mapped inside this parcel is unknown.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).queryByText(
+        "No civic address point is mapped inside this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  it("marks a civic address list as incomplete when a row could not be read", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [civicAddress("100", "12 Main St, Mabou, Inverness County")],
+      unreadableRows: 1,
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+    expect(
+      within(inspector).getByText("12 Main St, Mabou, Inverness County"),
+    ).toBeInTheDocument();
+    expect(
+      within(inspector).getByText(
+        "One more mapped point here could not be read, so it is not listed.",
+      ),
+    ).toBeInTheDocument();
+  });
+
 
   it("shows explicit official-source resource intersections in the parcel sheet", async () => {
     const user = userEvent.setup();
@@ -4897,10 +4968,13 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
     });
-    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [
       civicAddress("100", "12 Main St, Mabou, Inverness County"),
       civicAddress("101", "Unit 2, 12 Main St, Mabou, Inverness County"),
-    ]);
+      ],
+      unreadableRows: 0,
+    });
     renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -4979,9 +5053,12 @@ describe("NS Marks The Spot Online", () => {
       features: [parcelFeature("50334317")],
     });
     vi.mocked(fetchParcelContext).mockRejectedValueOnce(new Error("offline"));
-    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce([
+    vi.mocked(fetchCivicAddresses).mockResolvedValueOnce({
+      addresses: [
       civicAddress("100", "12 Main St, Mabou, Inverness County"),
-    ]);
+      ],
+      unreadableRows: 0,
+    });
     renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -5015,9 +5092,12 @@ describe("NS Marks The Spot Online", () => {
           });
         });
       }
-      return Promise.resolve([
-        civicAddress("200", "8 Second St, Whycocomagh, Inverness County"),
-      ]);
+      return Promise.resolve({
+        addresses: [
+          civicAddress("200", "8 Second St, Whycocomagh, Inverness County"),
+        ],
+        unreadableRows: 0,
+      });
     });
     renderAppWithCategoriesOpen();
 

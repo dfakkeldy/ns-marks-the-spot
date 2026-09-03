@@ -135,7 +135,10 @@ function snapshot(overrides: Record<string, unknown> = {}) {
           }],
         }],
       },
-      civicAddresses: { status: "ready", value: [] },
+      civicAddresses: {
+        status: "ready",
+        value: { addresses: [], unreadableRows: 0 },
+      },
       mappedContext: { status: "ready", value: { roads: [], water: [] } },
       floodHazard: {
         status: "ready",

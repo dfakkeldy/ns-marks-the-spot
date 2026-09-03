@@ -1,4 +1,4 @@
-import type { CivicAddress } from "./civicAddresses";
+import type { CivicAddressReading } from "./civicAddresses";
 import type { ParcelBuildingCount } from "./buildings";
 import type { ParcelFloodHazardEvidence } from "./floodHazard";
 import {
@@ -57,7 +57,7 @@ export type PrintEvidence = {
   buildings: PrintLoadState<ParcelBuildingCount>;
   assessments: PrintLoadState<ParcelAssessmentResult>;
   dwellings: PrintLoadState<PvscDwellingAccount[]>;
-  civicAddresses: PrintLoadState<CivicAddress[]>;
+  civicAddresses: PrintLoadState<CivicAddressReading>;
   mappedContext: PrintLoadState<ParcelContext>;
   floodHazard: PrintLoadState<ParcelFloodHazardEvidence>;
   resources: PrintLoadState<ParcelResourceIntersections>;

@@ -50,13 +50,17 @@ export type CivicAddressProperties = {
   county: AddressComponent;
 };
 
+// The geometry is nullable because a row whose `the_geom` column is empty
+// comes back as `"geometry": null`. Typing that away made reading its
+// coordinate throw, so one unplaceable row failed the whole request instead of
+// being reported as the one row it is.
 type CivicPointFeature = GeoJSON.Feature<
-  GeoJSON.Point,
+  GeoJSON.Point | null,
   CivicAddressProperties
 >;
 
 type CivicPointCollection = GeoJSON.FeatureCollection<
-  GeoJSON.Point,
+  GeoJSON.Point | null,
   CivicAddressProperties
 >;
 
@@ -66,6 +70,47 @@ export type CivicAddress = {
   label: string;
   properties: CivicAddressProperties;
 };
+
+/**
+ * What a parcel's civic lookup read, and what it could not.
+ *
+ * The count is not decoration. The panel is allowed to say a parcel has no
+ * mapped civic address, and that sentence is only true when every row the file
+ * sent was read: a row with no `pntid`, or no usable coordinate, is one this
+ * build cannot place and cannot describe. Carrying the number is what lets the
+ * panel say "none I could read" instead of "none".
+ */
+export type CivicAddressReading = {
+  addresses: CivicAddress[];
+  unreadableRows: number;
+};
+
+/**
+ * Said under a list that does have addresses in it: the list is real, it is
+ * just not the whole of what the file holds here, and a reader counting
+ * addresses off it should be told the count is a floor.
+ *
+ * The native app's sentence, so the two surfaces say the same thing about the
+ * same rows (`ParcelLookupMessage.addressShortfall`).
+ */
+export function civicAddressShortfall(rows: number): string {
+  return rows === 1
+    ? "One more mapped point here could not be read, so it is not listed."
+    : `${rows} more mapped points here could not be read, so they are not listed.`;
+}
+
+/**
+ * Every row the file sent for this parcel was unreadable.
+ *
+ * Deliberately not "no civic address point is mapped inside this parcel": the
+ * file had rows for it. What this build has is nothing it could place
+ * (`ParcelLookupMessage.noReadableAddresses`).
+ */
+export function noReadableCivicAddresses(rows: number): string {
+  return rows === 1
+    ? "One mapped point here could not be read. Whether an address is mapped inside this parcel is unknown."
+    : `${rows} mapped points here could not be read. Whether an address is mapped inside this parcel is unknown.`;
+}
 
 export type CivicAddressBounds = {
   north: number;
@@ -343,7 +388,7 @@ function pointInPolygonPart(
 }
 
 function pointCoordinates(feature: CivicPointFeature): PointCoordinates | null {
-  const [longitude, latitude] = feature.geometry.coordinates;
+  const [longitude, latitude] = feature.geometry?.coordinates ?? [];
   return Number.isFinite(longitude) && Number.isFinite(latitude)
     ? [longitude, latitude]
     : null;
@@ -496,24 +541,32 @@ async function fetchCandidates(
 export async function fetchCivicAddresses(
   features: readonly ParcelFeature[],
   signal?: AbortSignal,
-): Promise<CivicAddress[]> {
+): Promise<CivicAddressReading> {
   const polygonParts = polygonPartsForFeatures(features);
   const bounds = polygonParts
     .map(boundsForPolygonPart)
     .filter((value): value is CivicAddressBounds => value !== null);
   if (bounds.length === 0) {
-    return [];
+    return { addresses: [], unreadableRows: 0 };
   }
 
   const candidates = (
     await Promise.all(bounds.map((partBounds) => fetchCandidates(partBounds, signal)))
   ).flat();
   const addresses = new Map<string, CivicAddress>();
+  // Counted apart from the rows dropped for falling outside the boundary or
+  // for repeating a pntid. Those two are answers about this parcel; this is a
+  // row the file sent that the browser could not read, and it has neither a
+  // coordinate to test against the boundary nor a pntid to deduplicate on.
+  let unreadableRows = 0;
 
   for (const feature of candidates) {
     const address = civicAddressForFeature(feature);
+    if (!address) {
+      unreadableRows += 1;
+      continue;
+    }
     if (
-      !address ||
       !polygonParts.some((part) =>
         pointInPolygonPart(address.coordinates, part),
       ) ||
@@ -525,5 +578,5 @@ export async function fetchCivicAddresses(
     addresses.set(address.pntid, address);
   }
 
-  return [...addresses.values()];
+  return { addresses: [...addresses.values()], unreadableRows };
 }

@@ -158,7 +158,10 @@ describe("print capture", () => {
   it("clones inputs so live state cannot mutate the capture", () => {
     const evidence: PrintEvidence = {
       ...pendingEvidence,
-      civicAddresses: { status: "ready", value: [] },
+      civicAddresses: {
+        status: "ready",
+        value: { addresses: [], unreadableRows: 0 },
+      },
     };
     const capture = startPrintCapture(base, evidence);
     evidence.civicAddresses = { status: "error", message: "changed later" };
@@ -188,7 +191,10 @@ describe("print capture", () => {
           }],
         }],
       },
-      civicAddresses: { status: "ready", value: [] },
+      civicAddresses: {
+        status: "ready",
+        value: { addresses: [], unreadableRows: 0 },
+      },
       mappedContext: { status: "ready", value: { roads: [], water: [] } },
       floodHazard: {
         status: "ready",
@@ -251,7 +257,10 @@ describe("print capture", () => {
         message:
           "Dwelling lookup was not run because assessment account evidence was unavailable.",
       },
-      civicAddresses: { status: "ready", value: [] },
+      civicAddresses: {
+        status: "ready",
+        value: { addresses: [], unreadableRows: 0 },
+      },
       mappedContext: { status: "ready", value: { roads: [], water: [] } },
       floodHazard: {
         status: "ready",

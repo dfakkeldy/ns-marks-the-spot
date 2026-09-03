@@ -130,6 +130,7 @@ import {
   fetchCivicAddresses,
   searchCivicAddresses,
   type CivicAddress,
+  type CivicAddressReading,
 } from "./services/civicAddresses";
 import {
   fetchParcelAtPoint,
@@ -325,7 +326,12 @@ function isCurrentEvidenceRequest(
 }
 
 const EMPTY_PARCEL_CONTEXT: ParcelContext = { roads: [], water: [] };
-const EMPTY_CIVIC_ADDRESSES: CivicAddress[] = [];
+// A lookup that has not answered carries no addresses and no shortfall: zero
+// unreadable rows here is the absence of a claim, not a claim of completeness.
+const EMPTY_CIVIC_ADDRESSES: CivicAddressReading = {
+  addresses: [],
+  unreadableRows: 0,
+};
 const EMPTY_RESOURCE_INTERSECTIONS: ParcelResourceIntersections = {
   "mineral-occurrences": { status: "ready", intersections: [] },
   "mineral-tenure": { status: "ready", intersections: [] },
@@ -3661,10 +3667,11 @@ export function App() {
       civicAddresses: civicAddresses.status === "ready"
         ? {
             status: "ready",
-            points: civicAddresses.value.map(({ label }) => ({
+            points: civicAddresses.value.addresses.map(({ label }) => ({
               label,
               sourceUrl: CIVIC_ADDRESS_DATASET_URL,
             })),
+            unreadableRows: civicAddresses.value.unreadableRows,
           }
         : civicAddresses.status === "geometry-unavailable"
           ? { status: "geometry-unavailable" }

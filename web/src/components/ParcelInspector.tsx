@@ -18,8 +18,10 @@ import {
   CIVIC_ADDRESS_DATASET_URL,
   OPEN_GOVERNMENT_ATTRIBUTION,
   OPEN_GOVERNMENT_LICENCE_URL,
+  civicAddressShortfall,
   formatCivicRoadName,
-  type CivicAddress,
+  noReadableCivicAddresses,
+  type CivicAddressReading,
 } from "../services/civicAddresses";
 import {
   googleMapsDirectionsUrl,
@@ -76,8 +78,8 @@ export type ParcelContextState =
   | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelContext };
 
 export type CivicAddressState =
-  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable"; value: CivicAddress[] }
-  | { request: SelectedEvidenceRequest; status: "ready"; value: CivicAddress[] };
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable"; value: CivicAddressReading }
+  | { request: SelectedEvidenceRequest; status: "ready"; value: CivicAddressReading };
 
 export type ParcelResourceState =
   /**
@@ -875,8 +877,13 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
 }
 
 function CivicAddressDetails({ state }: { state: CivicAddressState }) {
+  // A row the browser could not read is not a row that is not there. The list
+  // and the absence sentence both have to say so, or a partial read reads as
+  // proof that no address is mapped inside the parcel.
+  const addresses = state.status === "ready" ? state.value.addresses : [];
+  const unreadableRows = state.status === "ready" ? state.value.unreadableRows : 0;
   const heading =
-    state.status === "ready" && state.value.length === 1
+    state.status === "ready" && addresses.length === 1
       ? "Mapped civic address"
       : "Mapped civic addresses";
 
@@ -900,13 +907,15 @@ function CivicAddressDetails({ state }: { state: CivicAddressState }) {
         <p className="civic-address-status error" role="status">
           Civic address lookup is unavailable right now.
         </p>
-      ) : state.value.length === 0 ? (
+      ) : addresses.length === 0 ? (
         <p className="civic-address-status">
-          No civic address point is mapped inside this parcel.
+          {unreadableRows > 0
+            ? noReadableCivicAddresses(unreadableRows)
+            : "No civic address point is mapped inside this parcel."}
         </p>
       ) : (
         <ul>
-          {state.value.map(({ pntid, label, coordinates }) => {
+          {addresses.map(({ pntid, label, coordinates }) => {
             const plusCode = plusCodeForCoordinates(coordinates);
 
             return (
@@ -927,6 +936,11 @@ function CivicAddressDetails({ state }: { state: CivicAddressState }) {
           })}
         </ul>
       )}
+      {addresses.length > 0 && unreadableRows > 0 ? (
+        <p className="civic-address-status">
+          {civicAddressShortfall(unreadableRows)}
+        </p>
+      ) : null}
       <p className="civic-address-source">
         Source: {" "}
         <a href={CIVIC_ADDRESS_DATASET_URL} target="_blank" rel="noreferrer">
@@ -1032,7 +1046,7 @@ function MappedContextDetails({
     civicAddresses.status === "ready"
       ? Array.from(
           new Set(
-            civicAddresses.value
+            civicAddresses.value.addresses
               .map(({ properties }) => formatCivicRoadName(properties))
               .filter((name): name is string => name !== null),
           ),

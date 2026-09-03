@@ -2,6 +2,10 @@ import type { ReactNode } from "react";
 import type { PrintSnapshot } from "../../services/printSnapshot";
 import type { PvscDwelling } from "../../services/pvscDwellings";
 import {
+  civicAddressShortfall,
+  noReadableCivicAddresses,
+} from "../../services/civicAddresses";
+import {
   printEvidenceAttribution,
   type PrintEvidenceAttribution,
 } from "../../services/printEvidenceAttribution";
@@ -277,17 +281,30 @@ function Addresses({ snapshot }: { snapshot: PrintSnapshot }) {
   let result: ReactNode;
   if (state.status !== "ready") {
     result = <p>Source unavailable at export time.</p>;
-  } else if (state.value.length === 0) {
-    result = <p>No mapped record returned by the named source.</p>;
+  } else if (state.value.addresses.length === 0) {
+    // A printed absence outlives the session that produced it. It may only be
+    // written when every returned row was read.
+    result = (
+      <p>
+        {state.value.unreadableRows > 0
+          ? noReadableCivicAddresses(state.value.unreadableRows)
+          : "No mapped record returned by the named source."}
+      </p>
+    );
   } else {
     result = (
-      <ul>
-        {state.value.map((address) => (
-          <li key={address.pntid}>
-            {address.label} (PNTID {address.pntid})
-          </li>
-        ))}
-      </ul>
+      <>
+        <ul>
+          {state.value.addresses.map((address) => (
+            <li key={address.pntid}>
+              {address.label} (PNTID {address.pntid})
+            </li>
+          ))}
+        </ul>
+        {state.value.unreadableRows > 0 ? (
+          <p>{civicAddressShortfall(state.value.unreadableRows)}</p>
+        ) : null}
+      </>
     );
   }
 

@@ -5,9 +5,11 @@ import {
   CIVIC_ADDRESS_SEARCH_LIMIT,
   buildCivicAddressQueryUrl,
   buildCivicAddressSearchUrl,
+  civicAddressShortfall,
   fetchCivicAddresses,
   formatCivicAddress,
   formatCivicRoadName,
+  noReadableCivicAddresses,
   searchCivicAddresses,
   type CivicAddressProperties,
 } from "./civicAddresses";
@@ -39,7 +41,11 @@ const civicPoint = (
   overrides: Partial<CivicAddressProperties> = {},
 ) => ({
   type: "Feature" as const,
-  geometry: { type: "Point" as const, coordinates },
+  // Nullable, as Socrata sends it for a row whose the_geom column is empty.
+  geometry: { type: "Point" as const, coordinates } as {
+    type: "Point";
+    coordinates: [number, number];
+  } | null,
   properties: completeProperties({ pntid, ...overrides }),
 });
 
@@ -277,7 +283,7 @@ describe("Nova Scotia Civic Address File lookup", () => {
     );
     vi.stubGlobal("fetch", fetchMock);
 
-    const addresses = await fetchCivicAddresses(
+    const reading = await fetchCivicAddresses(
       [
         parcelFeature({
           type: "Polygon",
@@ -301,22 +307,25 @@ describe("Nova Scotia Civic Address File lookup", () => {
         new URL(String(input)).searchParams.get("$offset"),
       ),
     ).toEqual(["0", String(CIVIC_ADDRESS_PAGE_SIZE)]);
-    expect(addresses).toHaveLength(CIVIC_ADDRESS_PAGE_SIZE + 1);
-    expect(addresses.at(-1)?.pntid).toBe("last");
+    expect(reading.addresses).toHaveLength(CIVIC_ADDRESS_PAGE_SIZE + 1);
+    expect(reading.addresses.at(-1)?.pntid).toBe("last");
+    expect(reading.unreadableRows).toBe(0);
   });
 
-  it("keeps polygon points and rejects bounding-box false positives", async () => {
+  it("counts rows it cannot place instead of reporting them as no address", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValue(
         geoJsonResponse([
-          civicPoint("inside", [0.5, 0.5]),
-          civicPoint("bbox-only", [1.8, 1.8]),
+          civicPoint("readable", [0.5, 0.5]),
+          // A row with no pntid, and one whose geometry column was empty.
+          { ...civicPoint("", [0.5, 0.5]) },
+          { ...civicPoint("no-geometry", [0.5, 0.5]), geometry: null },
         ]),
       ),
     );
 
-    const addresses = await fetchCivicAddresses([
+    const reading = await fetchCivicAddresses([
       parcelFeature({
         type: "Polygon",
         coordinates: [
@@ -330,7 +339,54 @@ describe("Nova Scotia Civic Address File lookup", () => {
       }),
     ]);
 
-    expect(addresses.map(({ pntid }) => pntid)).toEqual(["inside"]);
+    // The rows the file sent that this build could not read are counted, not
+    // folded in with the ones that fell outside the boundary.
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["readable"]);
+    expect(reading.unreadableRows).toBe(2);
+  });
+
+  it("words the shortfall and the unknown for one row and for several", () => {
+    expect(civicAddressShortfall(1)).toBe(
+      "One more mapped point here could not be read, so it is not listed.",
+    );
+    expect(civicAddressShortfall(3)).toBe(
+      "3 more mapped points here could not be read, so they are not listed.",
+    );
+    // Never "no civic address point is mapped inside this parcel": the file
+    // had rows for it.
+    expect(noReadableCivicAddresses(1)).toBe(
+      "One mapped point here could not be read. Whether an address is mapped inside this parcel is unknown.",
+    );
+    expect(noReadableCivicAddresses(2)).toContain("2 mapped points here could not be read");
+    expect(noReadableCivicAddresses(2)).not.toContain("no civic address point");
+  });
+
+  it("keeps polygon points and rejects bounding-box false positives", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        geoJsonResponse([
+          civicPoint("inside", [0.5, 0.5]),
+          civicPoint("bbox-only", [1.8, 1.8]),
+        ]),
+      ),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [
+          [
+            [0, 0],
+            [2, 0],
+            [0, 2],
+            [0, 0],
+          ],
+        ],
+      }),
+    ]);
+
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["inside"]);
   });
 
   it("excludes points in holes while treating ring boundary points as inside", async () => {
@@ -346,7 +402,7 @@ describe("Nova Scotia Civic Address File lookup", () => {
       ),
     );
 
-    const addresses = await fetchCivicAddresses([
+    const reading = await fetchCivicAddresses([
       parcelFeature({
         type: "Polygon",
         coordinates: [
@@ -368,7 +424,7 @@ describe("Nova Scotia Civic Address File lookup", () => {
       }),
     ]);
 
-    expect(addresses.map(({ pntid }) => pntid)).toEqual([
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual([
       "parcel-interior",
       "outer-boundary",
       "hole-boundary",
@@ -387,7 +443,7 @@ describe("Nova Scotia Civic Address File lookup", () => {
     });
     vi.stubGlobal("fetch", fetchMock);
 
-    const addresses = await fetchCivicAddresses([
+    const reading = await fetchCivicAddresses([
       parcelFeature({
         type: "MultiPolygon",
         coordinates: [
@@ -414,7 +470,7 @@ describe("Nova Scotia Civic Address File lookup", () => {
     ]);
 
     expect(fetchMock).toHaveBeenCalledTimes(2);
-    expect(addresses.map(({ pntid }) => pntid)).toEqual(["first", "second"]);
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["first", "second"]);
   });
 
   it("formats all optional components without duplicate locality or placeholder text", () => {

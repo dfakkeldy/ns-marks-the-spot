@@ -15,7 +15,7 @@ describe("parcel evidence note", () => {
         name: "CBRM — July 21, 2026",
         sources: [{ label: "Official notice", sourceUrl: "https://example.com/notice" }],
       }],
-      civicAddresses: { status: "ready", points: [{ label: "16 Centre St, Reserve Mines", sourceUrl: "https://example.com/civic" }] },
+      civicAddresses: { status: "ready", points: [{ label: "16 Centre St, Reserve Mines", sourceUrl: "https://example.com/civic" }], unreadableRows: 0 },
       assessmentEvidence: {
         status: "ready",
         result: {
@@ -125,7 +125,7 @@ describe("parcel evidence note", () => {
           sourceUrl: "https://example.com/retained-notice",
         }],
       }],
-      civicAddresses: { status: "ready", points: [] },
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
       assessmentEvidence: {
         status: "ready",
         result: { matchMethod: "spatial", accounts: [] },
@@ -164,7 +164,7 @@ describe("parcel evidence note", () => {
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
       activeLayers: [],
       events: [],
-      civicAddresses: { status: "ready", points: [] },
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
       assessmentEvidence: {
         status: "ready",
         result: { matchMethod: "spatial", accounts: [] },
@@ -200,7 +200,7 @@ describe("parcel evidence note", () => {
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
       activeLayers: [],
       events: [],
-      civicAddresses: { status: "ready", points: [] },
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
       assessmentEvidence: {
         status: "ready",
         result: {
@@ -237,7 +237,7 @@ describe("parcel evidence note", () => {
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
       activeLayers: [],
       events: [],
-      civicAddresses: { status: "ready", points: [] },
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
       assessmentEvidence: { status: "error" },
       dwellingEvidence: { status: "blocked" },
       resourceResults: [],
@@ -259,7 +259,7 @@ describe("parcel evidence note", () => {
       position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
       activeLayers: [],
       events: [],
-      civicAddresses: { status: "ready", points: [] },
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
       assessmentEvidence: {
         status: "ready",
         result: { matchMethod: "spatial", accounts: [] },
@@ -297,6 +297,62 @@ describe("parcel evidence note", () => {
     );
     expect(note.markdown).not.toContain(
       "No mapped civic address point returned inside the parcel.",
+    );
+  });
+
+  it("does not report an absence when no returned civic row could be read", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 2 },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "2 mapped points here could not be read. Whether an address is mapped inside this parcel is unknown.",
+    );
+    expect(note.markdown).not.toContain(
+      "No mapped civic address point returned inside the parcel.",
+    );
+  });
+
+  it("marks a civic list as a floor when some rows could not be read", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: {
+        status: "ready",
+        points: [{ label: "16 Centre St, Reserve Mines", sourceUrl: "https://example.com/civic" }],
+        unreadableRows: 1,
+      },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "ready", accounts: [] },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain("[16 Centre St, Reserve Mines](https://example.com/civic)");
+    expect(note.markdown).toContain(
+      "One more mapped point here could not be read, so it is not listed.",
     );
   });
 });
