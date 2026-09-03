@@ -74,10 +74,7 @@ import type {
 } from "../services/nsprd";
 import { useLiveLocation } from "../location/useLiveLocation";
 import type { LiveFix } from "../location/liveLocation";
-import {
-  MARK_MAX_ACCURACY_M,
-  MARK_MAX_FIX_AGE_MS,
-} from "../location/captureSpec";
+import { isUsableMarkFix } from "../location/markFix";
 import { useTrackRecording } from "../location/useTrackRecording";
 import { SaveTrackDialog } from "../location/SaveTrackDialog";
 import { buildRecordedTrackFeature } from "../location/trackFeature";
@@ -146,6 +143,7 @@ import { UserVectorLayers } from "../userMaps/vector/components/UserVectorLayers
 import type { VectorEditBinding } from "../userMaps/vector/edit/EditableVectorLayer";
 import { ConversionPreviewLayer } from "../userMaps/vector/edit/ConversionPreviewLayer";
 import type { PopupPhotoUi } from "../userMaps/vector/render/popup";
+
 // Lazy like EditableVectorLayer: both exist only inside an edit session.
 const ParcelSnapTargetsLayer = lazy(() =>
   import("../userMaps/vector/edit/ParcelSnapTargetsLayer").then((module) => ({
@@ -168,6 +166,21 @@ import type {
 import { ExportFrameLayer } from "../print/pdf/ExportFrameLayer";
 import type { FrameState } from "../print/pdf/frameGeometry";
 import type { PdfTemplateId } from "../print/pdf/templates/types";
+
+/**
+ * The scale a locate brings a reader to when their view is further out than
+ * it: the web's long-standing 14, kept as a floor rather than a target.
+ */
+const LOCATE_MIN_ZOOM = 14;
+
+/** The system's own answer, read at the moment of the move. */
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -1842,9 +1855,16 @@ export function MapCanvas({
   useEffect(() => {
     // Good news auto-dismisses; problems ("permission was not granted",
     // "signal lost") stay until the state changes.
+    // Good news is a whole sentence about a point or a track that landed:
+    // "Point saved to Field notes (±7.4 m).". A message that starts the same
+    // way and then says the write did not reach the device is a warning, and
+    // warnings stay until the state changes.
     const autoDismisses =
       locationMessage === LOCATION_SUCCESS_MESSAGE ||
-      (locationMessage?.startsWith("Point saved") ?? false) ||
+      (locationMessage !== null &&
+        /^(Point (saved|added) to |Track saved as ).*\(±[^)]*\)\.$/.test(
+          locationMessage,
+        )) ||
       (locationMessage?.startsWith("Track saved") ?? false);
     if (!autoDismisses) {
       return;
@@ -1926,15 +1946,29 @@ export function MapCanvas({
 
   // Watch-status messages. Denial and a missing API are final for this
   // toggle-on, so the button resets; signal loss keeps the (dimmed) marker.
+  // The transient reason is a dependency of its own: a watch that goes from
+  // "still trying" to "cannot place you" stays `signal-lost` throughout, and
+  // the sentence has to follow the change the status does not show.
+  const lostReason = live.status === "signal-lost" ? live.reason : null;
   useEffect(() => {
     if (!locationOn) {
       return;
     }
-    if (live.status === "active" && !hadFirstFixRef.current) {
+    if (live.status === "active") {
+      // Every return to a fix, not only the first: a watch that timed out
+      // and then answered would otherwise leave "still trying" on screen
+      // over a map that is showing the reader where they are.
       hadFirstFixRef.current = true;
       setLocationMessage(LOCATION_SUCCESS_MESSAGE);
     } else if (live.status === "signal-lost") {
-      setLocationMessage("GPS signal lost — still trying.");
+      // Not "GPS": the browser answers from a satellite fix, a Wi-Fi lookup
+      // or an IP estimate and never says which. And a device still trying is
+      // not a device that cannot place itself.
+      setLocationMessage(
+        lostReason === "timeout"
+          ? "Your location is taking longer than expected — still trying."
+          : "Your location is unavailable right now — still trying.",
+      );
     } else if (live.status === "denied") {
       setLocationOn(false);
       setFollowOn(false);
@@ -1948,7 +1982,7 @@ export function MapCanvas({
       setFollowOn(false);
       setLocationMessage("Location is not available in this browser.");
     }
-  }, [live.status, locationOn]);
+  }, [live.status, lostReason, locationOn]);
 
   // Dragging the map is how the user says "stop following me around".
   useEffect(() => {
@@ -1966,6 +2000,17 @@ export function MapCanvas({
   // old one-shot fly-to used, so a follow session never leaks the user's
   // position into share URLs, print viewports, or evidence notes.
   const lastCenteredFixRef = useRef<LiveFix | null>(null);
+
+  // Pressing Follow again is a request to be taken back to the fix, and it
+  // must not depend on a new one arriving: the last fix has already been
+  // centred on, so the effect below would otherwise do nothing at all and
+  // the press would have no result to see or hear.
+  const followRecentre = () => {
+    lastCenteredFixRef.current = null;
+    setFollowOn(true);
+    setLocationMessage(LOCATION_SUCCESS_MESSAGE);
+  };
+
   useEffect(() => {
     if (!map || !followOn || !live.fix) {
       return;
@@ -1976,11 +2021,35 @@ export function MapCanvas({
     lastCenteredFixRef.current = live.fix;
     printableViewportGuard.current.suppressBrowserLocation = true;
     printableViewportGuard.current.lastSuppressed = null;
+    // Reduce Motion is a system setting about movement, and Leaflet's fly
+    // and pan animate in JavaScript, where the stylesheet's media rule
+    // cannot reach them. The map still goes to the fix; it just arrives.
+    const animate = !prefersReducedMotion();
+    const target: [number, number] = [live.fix.latitude, live.fix.longitude];
+    const onScreen = map.getBounds().contains(target);
+    const zoom = map.getZoom();
     if (!hasCenteredRef.current) {
       hasCenteredRef.current = true;
-      map.flyTo([live.fix.latitude, live.fix.longitude], 14);
+      // The reader's zoom is theirs. A parcel searched at 16, or imagery
+      // read at 18, is not something the locate button may throw away to
+      // reach a fixed 14: at that scale a 12 m accuracy circle is sub-pixel
+      // and the lot they were reading is gone. The fixed locate scale is
+      // for the case it was written for — a view further out than it.
+      if (onScreen && zoom >= LOCATE_MIN_ZOOM) {
+        map.panTo(target, { animate });
+      } else {
+        map.flyTo(target, Math.max(zoom, LOCATE_MIN_ZOOM), { animate });
+      }
+      return;
+    }
+    // Following: the zoom stays where the reader left it, and only a fix on
+    // screen is panned to. Leaflet declines to animate a pan longer than the
+    // viewport for good reason — the tiles between are never fetched — so a
+    // fix that has moved out of view is flown to instead.
+    if (onScreen) {
+      map.panTo(target, { animate });
     } else {
-      map.panTo([live.fix.latitude, live.fix.longitude]);
+      map.flyTo(target, zoom, { animate });
     }
   }, [followOn, live.fix, map]);
 
@@ -1991,12 +2060,12 @@ export function MapCanvas({
     setMarking(true);
     setLocationMessage("Saving a point at your location…");
     try {
-      // A fresh, tight watch fix saves instantly; anything stale or rough
-      // makes the handler re-request so a mark never lands on old data.
+      // A fresh, tight watch fix saves instantly; anything stale, rough,
+      // future-dated or off the globe makes the handler re-request, so a
+      // mark never lands on data the one-shot would have refused. One rule,
+      // shared with that path.
       const usable =
-        live.fix !== null &&
-        Date.now() - live.fix.timestampMs <= MARK_MAX_FIX_AGE_MS &&
-        live.fix.accuracyM <= MARK_MAX_ACCURACY_M
+        live.fix !== null && isUsableMarkFix(live.fix, Date.now())
           ? live.fix
           : null;
       const message = await onMarkLocation(usable);
@@ -2487,7 +2556,7 @@ export function MapCanvas({
             <button
               type="button"
               className="location-follow"
-              onClick={() => setFollowOn(true)}
+              onClick={followRecentre}
             >
               Follow
             </button>

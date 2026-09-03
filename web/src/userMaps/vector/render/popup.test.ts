@@ -103,7 +103,7 @@ describe("buildFeaturePopup", () => {
     expect(popup.textContent).toMatch(/recorded on this device/i);
   });
 
-  it("announces GPS capture with rounded accuracy when both reserved keys are present", () => {
+  it("announces the capture and its radius when both reserved keys are present", () => {
     const popup = buildFeaturePopup(
       feature({
         name: "Corner post",
@@ -112,17 +112,36 @@ describe("buildFeaturePopup", () => {
       }),
       record(),
     );
+    // Under ten metres the label keeps a decimal, and never rounds an
+    // uncertainty down: 7.4 m is not 7 m. The record here is an imported
+    // file, so the sentence claims no device of ours.
     expect(popup.textContent).toContain(
-      "Marked from GPS on this device (±7 m)",
+      "Marked from a device's location (±7.4 m)",
+    );
+    // Never "GPS": the Geolocation API answers from a satellite fix, a
+    // Wi-Fi lookup or an IP estimate and says which none of the time.
+    expect(popup.textContent).not.toContain("GPS");
+
+    // A layer made here may say so; an imported one, above, may not.
+    const drawnHere = buildFeaturePopup(
+      feature({
+        name: "Corner post",
+        "nsmts:capturedAt": "2026-08-28T14:05:00.000Z",
+        "nsmts:accuracyM": 7.4,
+      }),
+      record({ origin: { kind: "drawn", createdAt: "2026-07-30T00:00:00.000Z" } }),
+    );
+    expect(drawnHere.textContent).toContain(
+      "Marked from this device's location (±7.4 m)",
     );
   });
 
-  it("stays silent about GPS when either reserved key is missing or malformed", () => {
+  it("stays silent about the fix when either reserved key is missing or malformed", () => {
     const timeOnly = buildFeaturePopup(
       feature({ "nsmts:capturedAt": "2026-08-28T14:05:00.000Z" }),
       record(),
     );
-    expect(timeOnly.textContent).not.toContain("Marked from GPS");
+    expect(timeOnly.querySelector(".user-vector-popup-gps")).toBeNull();
 
     const stringAccuracy = buildFeaturePopup(
       feature({
@@ -131,7 +150,74 @@ describe("buildFeaturePopup", () => {
       }),
       record(),
     );
-    expect(stringAccuracy.textContent).not.toContain("Marked from GPS");
+    expect(stringAccuracy.querySelector(".user-vector-popup-gps")).toBeNull();
+
+    // An imported file may carry a negative radius or a capture time that
+    // names no moment. Neither is a claim this app will make on its behalf.
+    const negative = buildFeaturePopup(
+      feature({
+        "nsmts:capturedAt": "2026-08-28T14:05:00.000Z",
+        "nsmts:accuracyM": -1,
+      }),
+      record(),
+    );
+    expect(negative.querySelector(".user-vector-popup-gps")).toBeNull();
+
+    const notADate = buildFeaturePopup(
+      feature({ "nsmts:capturedAt": "unknown", "nsmts:accuracyM": 7 }),
+      record(),
+    );
+    expect(notADate.querySelector(".user-vector-popup-gps")).toBeNull();
+
+    // A mark is a Point. The same keys on a line came from somewhere else.
+    const line = buildFeaturePopup(
+      {
+        type: "Feature",
+        id: "line-1",
+        geometry: {
+          type: "LineString",
+          coordinates: [
+            [-61.47, 45.8],
+            [-61.46, 45.81],
+          ],
+        },
+        properties: {
+          "nsmts:capturedAt": "2026-08-28T14:05:00.000Z",
+          "nsmts:accuracyM": 7,
+        },
+      },
+      record(),
+    );
+    expect(line.querySelector(".user-vector-popup-gps")).toBeNull();
+
+    // "2026" is a date to Date.parse and not an acquisition instant; a
+    // moment that has not happened is not one either.
+    for (const when of [
+      "2026",
+      "2026-13-02T14:05:00.000Z",
+      "9999-01-01T00:00:00.000Z",
+      // Days the calendar does not have: engines roll these forward.
+      "2026-02-30T14:05:00.000Z",
+      "2025-02-29T14:05:00.000Z",
+      "2026-04-31T14:05:00.000Z",
+    ]) {
+      const odd = buildFeaturePopup(
+        feature({ "nsmts:capturedAt": when, "nsmts:accuracyM": 7 }),
+        record(),
+      );
+      expect(odd.querySelector(".user-vector-popup-gps")).toBeNull();
+    }
+
+    // A real instant written with an offset is still an instant, whatever
+    // its UTC day works out to be.
+    const offset = buildFeaturePopup(
+      feature({
+        "nsmts:capturedAt": "2026-08-28T01:05:00.000+03:00",
+        "nsmts:accuracyM": 7,
+      }),
+      record(),
+    );
+    expect(offset.querySelector(".user-vector-popup-gps")).not.toBeNull();
   });
 });
 

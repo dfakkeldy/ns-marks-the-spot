@@ -46,7 +46,7 @@ function api(overrides: Partial<UserVectorLayersApi> = {}): UserVectorLayersApi 
     createPhotoLayer: vi.fn(async () => ({ id: null, notes: [] })),
     applyLayerEdit: vi.fn(),
     geometries: {},
-    putVectorLayer: vi.fn(async () => {}),
+    putVectorLayer: vi.fn(async () => true),
     ...overrides,
   };
 }

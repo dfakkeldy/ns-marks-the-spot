@@ -1,6 +1,6 @@
 import { IDBFactory } from "fake-indexeddb";
 import { act, renderHook, waitFor } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { FeatureCollection } from "geojson";
 import { UserMapImportError } from "../errors";
 import { UserVectorStore } from "./store/userVectorStore";
@@ -487,10 +487,12 @@ describe("field-capture append", () => {
       const advanced = await result.current.appendFeatures(id, [
         markFeature("mark-1"),
       ]);
-      expect(advanced?.featureCount).toBe(1);
-      expect(advanced?.revision).toBe(1);
-      expect(advanced?.modifiedAt).toBeTruthy();
-      expect(advanced?.bbox).toEqual([-60.91, 46.12, -60.91, 46.12]);
+      expect(advanced?.record.featureCount).toBe(1);
+      expect(advanced?.record.revision).toBe(1);
+      expect(advanced?.record.modifiedAt).toBeTruthy();
+      expect(advanced?.record.bbox).toEqual([-60.91, 46.12, -60.91, 46.12]);
+      // It reached the device, so the caller may call it saved.
+      expect(advanced?.persisted).toBe(true);
     });
 
     const visible = result.current.visibleLayers.find(
@@ -519,6 +521,30 @@ describe("field-capture append", () => {
       "mark-2",
     ]);
     expect(layer?.record.revision).toBe(2);
+  });
+
+  it("says a point that could not be written is not saved", async () => {
+    const factory = new IDBFactory();
+    const { result } = renderHook(() => useUserVectorLayers(options(factory)));
+    let outcome: unknown = "sentinel";
+    await act(async () => {
+      const id = await result.current.ensureFieldNotesLayer();
+      // The device refuses the write: quota, private mode, a closed store.
+      // An existing layer takes the put path; the create path is for a
+      // drawing whose first save failed.
+      const putVectorLayer = vi
+        .spyOn(UserVectorStore.prototype, "putVectorLayer")
+        .mockRejectedValue(new Error("quota"));
+      outcome = await result.current.appendFeatures(id, [markFeature("mark-1")]);
+      putVectorLayer.mockRestore();
+    });
+    expect(outcome).toMatchObject({ persisted: false });
+    // The feature is still on the map for this session.
+    const layer = result.current.visibleLayers.find(
+      ({ record }) => record.name === "Field notes",
+    );
+    expect(layer?.data.features.map(({ id }) => id)).toEqual(["mark-1"]);
+    expect(result.current.storageError).toContain("until you close the tab");
   });
 
   it("returns null when appending to a layer that is gone", async () => {

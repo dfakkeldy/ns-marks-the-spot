@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { withoutMovedCaptureProvenance } from "./captureProvenance";
 import type { Feature, FeatureCollection } from "geojson";
 import { UserMapImportError } from "../../errors";
 import {
@@ -21,6 +22,8 @@ export type FeatureDetails = { name?: string; description?: string };
 export type VectorEditSession = {
   editingId: string | null;
   editingLayer: VisibleUserVectorLayer | null;
+  /** Changes on every begin and end; see the field above. */
+  editGeneration: number;
   storageError: string | null;
   beginEdit: (id: string) => void;
   endEdit: () => void;
@@ -64,7 +67,7 @@ type Options = {
   putVectorLayer: (
     record: UserVectorLayerRecord,
     collection: FeatureCollection,
-  ) => Promise<void>;
+  ) => Promise<boolean | void>;
   onLayerChanged: (
     record: UserVectorLayerRecord,
     collection: FeatureCollection,
@@ -91,6 +94,12 @@ export function useVectorEditSession({
   persistDelay = PERSIST_DELAY_MS,
 }: Options): VectorEditSession {
   const [editingId, setEditingId] = useState<string | null>(null);
+  /**
+   * Counts sessions, so work that waits on something slow — a GPS fix — can
+   * tell the session it was started in from a later one, including a later
+   * one on the same layer.
+   */
+  const [editGeneration, setEditGeneration] = useState(0);
   const [draftRecord, setDraftRecord] = useState<UserVectorLayerRecord | null>(null);
   const [draftData, setDraftData] = useState<FeatureCollection | null>(null);
   const [storageError, setStorageError] = useState<string | null>(null);
@@ -114,7 +123,17 @@ export function useVectorEditSession({
     }
     dirtyRef.current = null;
     try {
-      await putRef.current(pending.record, pending.collection);
+      const wrote = await putRef.current(pending.record, pending.collection);
+      if (wrote === false) {
+        // The layer is gone from the database — another tab deleted it — so
+        // the update deliberately wrote nothing. The edit stays on screen,
+        // and the panel says it will not outlive the tab.
+        setStorageError(
+          "This layer was deleted in another tab, so the edit can't be saved — " +
+            "it stays available until you close the tab.",
+        );
+        return;
+      }
     } catch (error) {
       // A failed write must never interrupt drawing: the edit stays on screen
       // and in memory, and the user is told persistence is the problem.
@@ -174,6 +193,10 @@ export function useVectorEditSession({
     ) => {
       undoConversionRef.current = null;
       setLastConversion(null);
+      // A point a hand has moved is no longer where its fix was: the capture
+      // time, the accuracy and the fix's altitude come off it here, on the
+      // one path every geometry write goes through.
+      nextCollection = withoutMovedCaptureProvenance(draftData, nextCollection);
       const summary = summarize(nextCollection);
       const advanced: UserVectorLayerRecord = {
         ...nextRecord,
@@ -186,13 +209,17 @@ export function useVectorEditSession({
       changedRef.current(advanced, nextCollection);
       schedulePersist(advanced, nextCollection);
     },
-    [schedulePersist],
+    [draftData, schedulePersist],
   );
 
   const beginEdit = useCallback((id: string) => {
     setStorageError(null);
     setDraftRecord(null);
     setDraftData(null);
+    // A new session, even for the same layer: work started before this one
+    // began belongs to the session it was started in, and a layer id alone
+    // cannot tell a reopened layer from the session that closed.
+    setEditGeneration((generation) => generation + 1);
     setEditingId(id);
   }, []);
 
@@ -223,6 +250,7 @@ export function useVectorEditSession({
     flush();
     undoConversionRef.current = null;
     setLastConversion(null);
+    setEditGeneration((generation) => generation + 1);
     setEditingId(null);
     setDraftRecord(null);
     setDraftData(null);
@@ -398,6 +426,7 @@ export function useVectorEditSession({
   return {
     editingId,
     editingLayer,
+    editGeneration,
     storageError,
     beginEdit,
     endEdit,

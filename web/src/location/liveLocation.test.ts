@@ -87,8 +87,18 @@ describe("startLiveLocation", () => {
     fake.pushError(3); // TIMEOUT
     const lost = snapshots.at(-1);
     expect(lost?.status).toBe("signal-lost");
+    // Which transient failure it was, kept for the sentence the reader gets.
+    expect(lost && "reason" in lost ? lost.reason : null).toBe("timeout");
     expect(lost?.fix?.latitude).toBe(45.5);
     expect(fake.clearWatch).not.toHaveBeenCalled();
+
+    // A position the device cannot determine is its own state, not a
+    // timeout: the message the reader gets differs.
+    fake.pushError(2); // POSITION_UNAVAILABLE
+    const unavailable = snapshots.at(-1);
+    expect(
+      unavailable && "reason" in unavailable ? unavailable.reason : null,
+    ).toBe("unavailable");
 
     fake.pushPosition({ latitude: 45.6 });
     expect(snapshots.at(-1)?.status).toBe("active");

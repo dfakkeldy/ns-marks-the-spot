@@ -94,17 +94,20 @@ export class UserVectorStore {
   async putVectorLayer(
     record: UserVectorLayerRecord,
     collection: FeatureCollection,
-  ): Promise<void> {
+  ): Promise<boolean> {
     const storedGeometry = await toStoredBlob(geometryBlob(collection));
     const tx = this.db.transaction([VECTORS, BLOBS], "readwrite");
     const vectors = tx.objectStore(VECTORS);
     const existing = vectors.get(record.id) as IDBRequest<
       UserVectorLayerRecord | undefined
     >;
+    let wrote = false;
     existing.onsuccess = () => {
       // Absent row = another tab deleted this layer. Skipping leaves the
-      // transaction with nothing more to do, so it commits as a no-op.
+      // transaction with nothing more to do, so it commits as a no-op — and
+      // the caller is told, because a no-op is not a save.
       if (existing.result !== undefined) {
+        wrote = true;
         vectors.put(record);
         tx.objectStore(BLOBS).put(storedGeometry, geometryKey(record.id));
       }
@@ -112,6 +115,7 @@ export class UserVectorStore {
     // No `onerror` on purpose: an unhandled request error aborts the
     // transaction and transactionDone surfaces the real DOMException.
     await transactionDone(tx);
+    return wrote;
   }
 
   async listVectorLayers(): Promise<UserVectorLayerRecord[]> {

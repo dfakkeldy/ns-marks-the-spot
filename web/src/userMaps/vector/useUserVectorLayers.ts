@@ -59,6 +59,16 @@ export type VectorImportOutcome =
   | { fileName: string; ok: false; message: string };
 
 /** One picked photo the bulk-placement dialog confirmed. */
+/**
+ * What became of an append: the advanced record, and whether it reached the
+ * device. A failed write keeps the features on the map for this session, so
+ * the caller must not report a mark as saved when it is only shown.
+ */
+export type AppendOutcome = {
+  record: UserVectorLayerRecord;
+  persisted: boolean;
+};
+
 export type BulkPhotoEntry = {
   file: File;
   gps: { lon: number; lat: number };
@@ -97,11 +107,15 @@ export type UserVectorLayersApi = {
   exportRawRecording: (id: string) => Promise<void>;
   /** Geometry by layer id — the edit session seeds its working copy from this. */
   geometries: Record<string, FeatureCollection>;
-  /** The store's guarded update, for the edit session's debounced writes. */
+  /**
+   * The store's guarded update, for the edit session's debounced writes.
+   * Resolves false when the layer is gone from the database — another tab
+   * deleted it — and nothing was written.
+   */
   putVectorLayer: (
     record: UserVectorLayerRecord,
     collection: FeatureCollection,
-  ) => Promise<void>;
+  ) => Promise<boolean>;
   /** Creates an empty layer to draw into; returns its id. */
   createDrawnLayer: () => Promise<string>;
   /** Finds or creates the drawn "Field notes" layer GPS marks land in. */
@@ -125,7 +139,7 @@ export type UserVectorLayersApi = {
   appendFeatures: (
     layerId: string,
     features: Feature[],
-  ) => Promise<UserVectorLayerRecord | null>;
+  ) => Promise<AppendOutcome | null>;
   /**
    * Bulk EXIF placement: one new "photos" layer, one Point per entry at its
    * geotag, photos processed and attached. Failures create the point
@@ -622,15 +636,19 @@ export function useUserVectorLayers(
   const putVectorLayer = useCallback(
     async (record: UserVectorLayerRecord, collection: FeatureCollection) => {
       const opened = await store();
+      let wrote = true;
       if (unsavedDrawnIdsRef.current.has(record.id)) {
         await opened.saveVectorLayer(record, collection);
         unsavedDrawnIdsRef.current.delete(record.id);
       } else {
-        await opened.putVectorLayer(record, collection);
+        // False when another tab deleted the layer: the update finds no row
+        // and deliberately writes nothing rather than resurrecting it.
+        wrote = await opened.putVectorLayer(record, collection);
       }
       // Fire-and-forget: a failed orphan sweep is a small leak, never a
       // failed save.
       void opened.sweepLayerPhotos(record.id, collection).catch(() => {});
+      return wrote;
     },
     [store],
   );
@@ -752,7 +770,7 @@ export function useUserVectorLayers(
     async (
       layerId: string,
       features: Feature[],
-    ): Promise<UserVectorLayerRecord | null> => {
+    ): Promise<AppendOutcome | null> => {
       const record = recordsSnapshotRef.current.find((r) => r.id === layerId);
       const data = geometriesSnapshotRef.current[layerId];
       if (!record || !data || features.length === 0) {
@@ -784,16 +802,21 @@ export function useUserVectorLayers(
       // A mark should be visible the moment it is saved, even if the layer
       // row was toggled off.
       persistUiState({ ...loadUiState(), [layerId]: { enabled: true } });
+      let persisted = true;
       try {
-        await putVectorLayer(advanced, collection);
+        // False for a layer another tab deleted: nothing was written, and
+        // the point lives only in this session.
+        persisted = await putVectorLayer(advanced, collection);
       } catch {
         // Same degrade contract as imports: a failed save never discards the
-        // feature — it stays on the map for this session.
+        // feature — it stays on the map for this session. The caller is told,
+        // so a point that will not survive the tab is not called saved.
+        persisted = false;
         setStorageError(
           "Couldn't save this point — it stays available until you close the tab.",
         );
       }
-      return advanced;
+      return { record: advanced, persisted };
     },
     [persistUiState, putVectorLayer],
   );

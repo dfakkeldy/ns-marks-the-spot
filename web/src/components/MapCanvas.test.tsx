@@ -41,11 +41,14 @@ const mapMock = vi.hoisted(() => ({
     getSouth: () => number;
     getEast: () => number;
     getNorth: () => number;
+    contains?: (point: [number, number]) => boolean;
   } => ({
     getWest: () => -62,
     getSouth: () => 45,
     getEast: () => -60,
     getNorth: () => 47,
+    // The province-wide default holds every fix these tests push.
+    contains: () => true,
   })),
   getZoom: vi.fn(() => 9),
   getContainer: vi.fn(() => document.body),
@@ -373,6 +376,7 @@ afterEach(() => {
     getSouth: () => 45,
     getEast: () => -60,
     getNorth: () => 47,
+    contains: () => true,
   });
   mapContainerProps.current = undefined;
   geoJsonProps.calls.length = 0;
@@ -574,11 +578,24 @@ describe("MapCanvas browser location", () => {
     await user.click(screen.getByRole("button", { name: "Use my location" }));
     const fix = liveFix();
     pushLiveSnapshot({ status: "active", fix });
-    pushLiveSnapshot({ status: "signal-lost", fix });
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "timeout" });
 
     expect(screen.getByTestId("location-position")).toBeInTheDocument();
+    // Never "GPS": the browser names no source. And a device still trying is
+    // told apart from one that cannot place itself.
     expect(
-      screen.getByText("GPS signal lost — still trying."),
+      screen.getByText("Your location is taking longer than expected — still trying."),
+    ).toBeInTheDocument();
+
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "unavailable" });
+    expect(
+      screen.getByText("Your location is unavailable right now — still trying."),
+    ).toBeInTheDocument();
+
+    // And a fix that comes back takes the failure down, first one or not.
+    pushLiveSnapshot({ status: "active", fix });
+    expect(
+      screen.getByText("Your location is shown on the map."),
     ).toBeInTheDocument();
   });
 
@@ -616,10 +633,14 @@ describe("MapCanvas browser location", () => {
 
     await user.click(screen.getByRole("button", { name: "Use my location" }));
     pushLiveFix();
-    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14);
+    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14, {
+      animate: true,
+    });
 
     pushLiveFix({ latitude: 46.13 });
-    expect(mapMock.panTo).toHaveBeenCalledWith([46.13, -60.91]);
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.13, -60.91], {
+      animate: true,
+    });
 
     const [, dragStartHandler] =
       mapMock.on.mock.calls.filter(([event]) => event === "dragstart").pop() ??
@@ -633,7 +654,264 @@ describe("MapCanvas browser location", () => {
 
     await user.click(screen.getByRole("button", { name: "Follow" }));
     pushLiveFix({ latitude: 46.15 });
-    expect(mapMock.panTo).toHaveBeenCalledWith([46.15, -60.91]);
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.15, -60.91], {
+      animate: true,
+    });
+  });
+
+  it("keeps a closer zoom when the first fix arrives, and only pans", async () => {
+    const user = userEvent.setup();
+    // The reader searched a parcel and is reading it at 16.
+    mapMock.getZoom.mockReturnValue(16);
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+
+    // The fix is brought into view without throwing the parcel away.
+    expect(mapMock.flyTo).not.toHaveBeenCalled();
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91], {
+      animate: true,
+    });
+  });
+
+  it("flies to a later fix that drifts out of view, at the zoom the reader has", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+    mapMock.flyTo.mockClear();
+    mapMock.panTo.mockClear();
+
+    // The browser corrects itself to somewhere off the screen.
+    mapMock.getZoom.mockReturnValue(12);
+    mapMock.getBounds.mockReturnValue({
+      getWest: () => -62,
+      getSouth: () => 45,
+      getEast: () => -60,
+      getNorth: () => 47,
+      contains: () => false,
+    });
+    pushLiveFix({ latitude: 43.85 });
+
+    // Flown to, not panned across — and the follow keeps the reader's zoom.
+    expect(mapMock.panTo).not.toHaveBeenCalled();
+    expect(mapMock.flyTo).toHaveBeenCalledWith([43.85, -60.91], 12, {
+      animate: true,
+    });
+  });
+
+  it("flies to a fix outside the view rather than panning across the province", async () => {
+    const user = userEvent.setup();
+    // Reading a parcel in Yarmouth with the device in Cape Breton: Leaflet
+    // will not fetch the tiles between, so a pan is the wrong move.
+    mapMock.getZoom.mockReturnValue(18);
+    mapMock.getBounds.mockReturnValue({
+      getWest: () => -66.2,
+      getSouth: () => 43.8,
+      getEast: () => -66.1,
+      getNorth: () => 43.9,
+      contains: () => false,
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+
+    // And the closer zoom is still the reader's.
+    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 18, {
+      animate: true,
+    });
+    expect(mapMock.panTo).not.toHaveBeenCalled();
+  });
+
+  it("arrives without animating when the reader asked for less motion", async () => {
+    const user = userEvent.setup();
+    // Leaflet animates in JavaScript, where the stylesheet's media rule
+    // cannot reach it, so the setting has to be read here.
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+
+    // Still brought to the fix — it just arrives.
+    expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14, {
+      animate: false,
+    });
+  });
+
+  it("takes the reader back to the fix when Follow is pressed, with no new fix", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix();
+    const [, dragStartHandler] =
+      mapMock.on.mock.calls.filter(([event]) => event === "dragstart").pop() ?? [];
+    act(() => dragStartHandler?.());
+    mapMock.panTo.mockClear();
+    mapMock.flyTo.mockClear();
+
+    // Standing still: no new fix will arrive to carry the press.
+    await user.click(screen.getByRole("button", { name: "Follow" }));
+
+    expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91], {
+      animate: true,
+    });
+    expect(
+      screen.getByText("Your location is shown on the map."),
+    ).toBeInTheDocument();
   });
 
   it("marks the current location with a fresh fix and reports the outcome", async () => {
@@ -1116,15 +1394,20 @@ describe("MapCanvas viewport reporting", () => {
     onViewportChange.mockClear();
     await user.click(screen.getByRole("button", { name: "Use my location" }));
     pushLiveFix();
+    // This view is already closer than the locate scale, so the fix is
+    // panned to rather than flown to; either way it is a location-driven
+    // move, which is what this test is about.
     await waitFor(
       () => {
-        expect(mapMock.flyTo).toHaveBeenCalledWith([46.12, -60.91], 14);
+        expect(mapMock.panTo).toHaveBeenCalledWith([46.12, -60.91], {
+          animate: true,
+        });
       },
       { timeout: ASYNC_LAYER_TIMEOUT_MS },
     );
 
     mapMock.getCenter.mockReturnValue({ lat: 46.12, lng: -60.91 });
-    mapMock.getZoom.mockReturnValue(14);
+    mapMock.getZoom.mockReturnValue(15);
     mapMock.getBounds.mockReturnValue({
       getWest: () => -60.96,
       getSouth: () => 46.07,
@@ -1147,7 +1430,7 @@ describe("MapCanvas viewport reporting", () => {
     expect(onPositionChange).toHaveBeenLastCalledWith({
       latitude: 46.12,
       longitude: -60.91,
-      zoom: 14,
+      zoom: 15,
     });
     expect(onViewportChange).not.toHaveBeenCalled();
 

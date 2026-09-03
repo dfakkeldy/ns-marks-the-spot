@@ -222,9 +222,18 @@ import { routeImportFiles } from "./userMaps/importRouting";
 import { useUserVectorLayers } from "./userMaps/vector/useUserVectorLayers";
 import { UserVectorControls } from "./userMaps/vector/components/UserVectorRows";
 import { useVectorEditSession } from "./userMaps/vector/edit/useVectorEditSession";
-import { getBrowserLocation } from "./services/browserLocation";
+import {
+  browserLocationFailure,
+  getBrowserLocation,
+  type BrowserLocation,
+} from "./services/browserLocation";
 import { buildGpsMarkFeature } from "./location/markFeature";
 import { FIELD_NOTES_LAYER_NAME } from "./location/captureSpec";
+import {
+  formatAccuracyM,
+  markFailureMessage,
+  oneShotMarkFix,
+} from "./location/markFix";
 import type { LiveFix } from "./location/liveLocation";
 import {
   VectorEditPanel,
@@ -1421,6 +1430,10 @@ export function App() {
     putVectorLayer: userVectorApi.putVectorLayer,
     onLayerChanged: userVectorApi.applyLayerEdit,
   });
+  // The session as it is now, for handlers that resume after an await.
+  const vectorEditRef = useRef(vectorEdit);
+  vectorEditRef.current = vectorEdit;
+
   const [drawMode, setDrawMode] = useState<EditMode | null>(null);
   const [selectedFeatureId, setSelectedFeatureId] = useState<string | null>(null);
   // Session-scoped on purpose (the field-capture contract): every edit
@@ -1516,37 +1529,66 @@ export function App() {
    */
   const markCurrentLocation = useCallback(
     async (fix: LiveFix | null): Promise<string | null> => {
+      // The layer this mark was aimed at, read at the tap. Finding a fix can
+      // take seconds, and Done, or opening another layer, must not have the
+      // point land somewhere the reader did not aim it — nor revive a panel
+      // they closed.
+      const destinationId = vectorEdit.editingLayer?.record.id ?? null;
+      const destinationGeneration = vectorEdit.editGeneration;
       let resolved = fix;
       if (!resolved) {
+        let oneShot: BrowserLocation;
         try {
-          const oneShot = await getBrowserLocation();
-          resolved = {
-            latitude: oneShot.latitude,
-            longitude: oneShot.longitude,
-            accuracyM: oneShot.accuracy,
-            altitudeM: null,
-            headingDeg: null,
-            speedMps: null,
-            timestampMs: Date.now(),
-          };
-        } catch {
-          return "Location permission was not granted. You can keep using the map.";
+          oneShot = await getBrowserLocation();
+        } catch (error) {
+          // Each of the browser's failures says something different, and
+          // only one of them is a refusal.
+          return markFailureMessage(browserLocationFailure(error));
         }
+        // The one-shot is held to the same rule as the watch fix that sent
+        // it here: a mark is saved only from a position fresh and tight
+        // enough, and a refusal says which half failed.
+        const outcome = oneShotMarkFix(oneShot, Date.now());
+        if (outcome.kind === "refused") {
+          return outcome.message;
+        }
+        resolved = outcome.fix;
+      }
+      // Read again, after the wait: `vectorEdit` in this closure is the
+      // session as it was at the tap.
+      const session = vectorEditRef.current;
+      if (
+        (session.editingLayer?.record.id ?? null) !== destinationId ||
+        session.editGeneration !== destinationGeneration
+      ) {
+        return "The layer being edited changed while your position was being found. Nothing was saved.";
       }
       const feature = buildGpsMarkFeature(resolved);
-      const accuracy = Math.round(resolved.accuracyM);
-      if (vectorEdit.editingLayer) {
-        vectorEdit.commitGeometry({
+      // Never rounded down: a ±0.4 m fix is not "±0 m", and a ±49.4 m one is
+      // not tighter than the device said.
+      const accuracy = formatAccuracyM(resolved.accuracyM);
+      if (session.editingLayer) {
+        session.commitGeometry({
           type: "FeatureCollection",
-          features: [...vectorEdit.editingLayer.data.features, feature],
+          features: [...session.editingLayer.data.features, feature],
         });
-        return `Point saved to ${vectorEdit.editingLayer.record.name} (±${accuracy} m).`;
+        // "Added", not "saved": the edit session writes on its own debounce,
+        // so the point is on the map and its write has not answered yet. The
+        // panel carries the storage error if that write fails.
+        return `Point added to ${session.editingLayer.record.name} (±${accuracy} m).`;
       }
       const layerId = await userVectorApi.ensureFieldNotesLayer();
       const appended = await userVectorApi.appendFeatures(layerId, [feature]);
-      return appended
+      // Silence here read as a mark that landed, and so did "saved" for a
+      // point the device refused to write: it is on the map, and gone with
+      // the tab. Each outcome says which it is.
+      if (!appended) {
+        return `The point couldn't be added to ${FIELD_NOTES_LAYER_NAME}. Try again.`;
+      }
+      return appended.persisted
         ? `Point saved to ${FIELD_NOTES_LAYER_NAME} (±${accuracy} m).`
-        : null;
+        : `Point added to ${FIELD_NOTES_LAYER_NAME} (±${accuracy} m), but it couldn't be ` +
+          `written to this device — it stays until you close the tab.`;
     },
     [userVectorApi, vectorEdit],
   );
