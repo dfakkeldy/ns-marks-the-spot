@@ -122,12 +122,15 @@
           <p>
             Photos you attach to features on the native app or the browser map are
             stored only on your device. On the native app, Camera and Photos library
-            access are used only when you attach a photo. Photos are re-encoded so
+            access are used when you attach a photo, and Photos library access is
+            also used to index geotagged photos for the on-device photo-library map.
+            Photos are re-encoded so
             EXIF (including GPS) is stripped from stored and exported bytes. A KMZ
             export can embed those re-encoded photo bytes; GeoJSON and KML exports
-            do not include photos. Photos leave the device only if you export or
-            share them yourself. If a photo includes a geotag, that location is
-            used only if you accept a one-time offer to move the point.
+            do not include photos. Attached photos and their locations leave this
+            device only when you export or share a layer yourself. If a photo includes
+            a geotag, that location is used only if you accept a one-time offer to
+            move the point.
           </p>
           <p>
             The native app can also show your photo library as a map layer. That
