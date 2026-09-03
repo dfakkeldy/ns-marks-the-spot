@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { requestDurableStorage } from "../../../services/durableStorage";
 import { UserMapImportError } from "../../errors";
 import { generateId } from "../../importUtils";
@@ -226,5 +226,13 @@ export function usePhotoManager(
     [store],
   );
 
-  return { attachPhotos, removePhoto, loadThumbUrl, loadFullBlob };
+  // One identity for the hook's life. All four members are already stable, but
+  // a fresh literal each render re-runs every consumer effect that lists the
+  // manager: the open lightbox would revoke its object URL and re-read the
+  // full-size blob — the largest the app holds — on unrelated App renders such
+  // as the 60-second clock tick.
+  return useMemo(
+    () => ({ attachPhotos, removePhoto, loadThumbUrl, loadFullBlob }),
+    [attachPhotos, removePhoto, loadThumbUrl, loadFullBlob],
+  );
 }

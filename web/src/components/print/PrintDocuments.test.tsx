@@ -20,6 +20,7 @@ import {
   type PrintLayerSource,
   type PrintSnapshot,
 } from "../../services/printSnapshot";
+import { ADJACENT_ROAD_DISTANCE_METRES } from "../../services/parcelContext";
 import { PrintFieldDocument } from "./PrintFieldDocument";
 import { PrintResearchDocument } from "./PrintResearchDocument";
 
@@ -661,6 +662,48 @@ describe("print documents", () => {
       .toHaveAttribute("href", OPEN_GOVERNMENT_LICENCE_URL);
     expect(civic.queryByText(/Cabot Trail/)).not.toBeInTheDocument();
     expect(screen.getByText(/Cabot Trail/)).toBeInTheDocument();
+  });
+
+  // The panel derives this label from the query distance. A printed sheet that
+  // spelled the distance out on its own could outlive the query it describes.
+  it("prints the adjacency distance the road query actually used", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            mappedContext: {
+              status: "ready",
+              value: {
+                roads: [
+                  { name: "Shore Road", kind: "Local", relationship: "adjacent" },
+                ],
+                water: [],
+              },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const section = screen
+      .getByRole("heading", { name: "Mapped roads" })
+      .closest("section");
+    expect(section).not.toBeNull();
+    expect(
+      within(section as HTMLElement).getByText(
+        `Shore Road (Local) — Adjacent within ${ADJACENT_ROAD_DISTANCE_METRES} m`,
+      ),
+    ).toBeInTheDocument();
   });
 
   it("does not read a partial civic answer as no addressed road", () => {

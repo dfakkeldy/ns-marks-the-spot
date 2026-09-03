@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
-import { roadsNamedByCivicAddress } from "../../services/parcelContext";
+import {
+  ADJACENT_ROAD_DISTANCE_METRES,
+  roadsNamedByCivicAddress,
+} from "../../services/parcelContext";
 import {
   printEvidenceMessage,
   type PrintSnapshot,
@@ -319,7 +322,9 @@ function Addresses({ snapshot }: { snapshot: PrintSnapshot }) {
 
 const relationshipLabel = {
   intersects: "Intersects parcel",
-  adjacent: "Adjacent within 20 m",
+  // The distance the road query actually asked for, so a printed sheet can
+  // never name a distance the lookup did not use.
+  adjacent: `Adjacent within ${ADJACENT_ROAD_DISTANCE_METRES} m`,
   "civic-address": "Named by civic address",
   "on-parcel": "On parcel",
   "within-1km": "Within 1 km",
