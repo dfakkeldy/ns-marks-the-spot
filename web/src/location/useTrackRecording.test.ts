@@ -299,6 +299,27 @@ describe("keeping the walk on this device", () => {
     expect(double.held()).toBeNull();
   });
 
+  // The one key belongs to whatever is recording now. Before this, a refusal
+  // that landed after the next walk started put "Delete it" on screen over a
+  // running recording, and pressing it deleted that walk's copy.
+  it("never offers to delete a copy once the next walk owns the device key", async () => {
+    const double = draftStoreDouble(stopped());
+    double.refuseClear("failed");
+    const { result } = renderHook(() => useTrackRecording(null, double.store));
+    await settled();
+
+    // Saved, then straight back out walking. Nothing runs between these two
+    // calls, so the device's refusal is still in flight when Record is pressed.
+    act(() => {
+      result.current.clearUnsaved();
+      result.current.start();
+    });
+    await settled();
+
+    expect(result.current.status).toBe("recording");
+    expect(result.current.clearError).toBeNull();
+  });
+
   it("writes nothing for a walk too short to save", async () => {
     vi.useFakeTimers();
     const double = draftStoreDouble();

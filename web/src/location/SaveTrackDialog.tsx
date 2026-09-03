@@ -12,6 +12,14 @@ export interface SaveTrackDialogProps {
    * user stopped: it ends at the last fix this device stored.
    */
   recovered?: boolean;
+  /**
+   * The name and tolerance a refused save was made with. A retry has to open
+   * on the user's own choices: it rewrites the layer that save already put on
+   * the map, so a generated default name would rename that track and the
+   * default tolerance would re-simplify it at a setting nobody chose.
+   */
+  initialName?: string;
+  initialToleranceM?: number;
   saving: boolean;
   onSave: (name: string, simplifyToleranceM: number) => void;
   onDiscard: () => void;
@@ -43,13 +51,20 @@ function formatRecordingTime(ms: number): string {
 export function SaveTrackDialog({
   result,
   recovered = false,
+  initialName,
+  initialToleranceM,
   saving,
   onSave,
   onDiscard,
 }: SaveTrackDialogProps) {
-  const [name, setName] = useState(() => defaultTrackName(result.startedAt));
+  // Read at mount, which is all that is needed: the dialog is unmounted
+  // between a refused save and the retry that reopens it. `??` and not `||`,
+  // so a tolerance the user deliberately set to Off comes back as Off.
+  const [name, setName] = useState(
+    () => initialName ?? defaultTrackName(result.startedAt),
+  );
   const [toleranceM, setToleranceM] = useState<number>(
-    FIELD_CAPTURE_SPEC.simplify.defaultToleranceM,
+    initialToleranceM ?? FIELD_CAPTURE_SPEC.simplify.defaultToleranceM,
   );
   const nameRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -85,10 +100,14 @@ export function SaveTrackDialog({
         data-owns-escape=""
       >
         <h2 id="save-track-title">Save track</h2>
+        {/* "Positions", never "GPS fixes": the Geolocation API names no
+            sensor, and the same call answers from a satellite fix, a Wi-Fi
+            lookup or an IP estimate — on a desktop browser, usually one of the
+            last two. popup.ts and the location messages hold the same line. */}
         <p className="save-track-stats">
           {formatDistance(result.distanceM)} ·{" "}
           {formatRecordingTime(result.recordingMs)} recorded ·{" "}
-          {result.rawFixCount.toLocaleString("en-CA")} GPS fixes
+          {result.rawFixCount.toLocaleString("en-CA")} positions
         </p>
         {recovered ? (
           <p className="save-track-note">
@@ -127,8 +146,8 @@ export function SaveTrackDialog({
               </small>
             </fieldset>
             <p className="save-track-note">
-              Raw GPS fixes are kept with this track. Location stays on this
-              device.
+              Every position this device reported is kept with this track.
+              Location stays on this device.
             </p>
           </>
         ) : (
@@ -144,7 +163,7 @@ export function SaveTrackDialog({
             onClick={() => {
               if (
                 window.confirm(
-                  "Discard this recording? The track and its GPS fixes will be lost.",
+                  "Discard this recording? The track and its positions will be lost.",
                 )
               ) {
                 onDiscard();

@@ -64,6 +64,7 @@ function panel(overrides: Partial<Parameters<typeof VectorEditPanel>[0]> = {}) {
       loadFullBlob: vi.fn(async () => null),
     },
     onSetFeaturePhotos: vi.fn(),
+    onAttachFeaturePhotos: vi.fn(() => []),
     onMoveFeaturePoint: vi.fn(),
     onOpenPhoto: vi.fn(),
     onDeleteFeature: vi.fn(),

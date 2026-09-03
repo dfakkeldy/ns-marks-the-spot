@@ -403,7 +403,20 @@ const RESEARCH_EVIDENCE_NAMES: Record<EvidenceKey, string> = {
 export function unansweredEvidenceNames(
   snapshot: Pick<PrintSnapshot, "evidence">,
 ): string[] {
+  // The coastal slot is the one that can be ready and still hold nothing: its
+  // three scenarios are three services, each with its own deadline, and a slot
+  // whose every scenario ran out of time answered no more than a slot that
+  // never settled. Counting it as answered would leave the front-page notice
+  // and the pre-print warning silent about a page made with no coastal
+  // evidence at all.
+  const coastal = snapshot.evidence.coastalFlood;
+  const coastalWentQuiet =
+    coastal.status === "ready" &&
+    coastal.value.length > 0 &&
+    coastal.value.every(({ status }) => status === "unanswered");
   return RESEARCH_KEYS.filter(
-    (key) => snapshot.evidence[key].status === "unanswered",
+    (key) =>
+      snapshot.evidence[key].status === "unanswered" ||
+      (key === "coastalFlood" && coastalWentQuiet),
   ).map((key) => RESEARCH_EVIDENCE_NAMES[key]);
 }

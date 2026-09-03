@@ -49,6 +49,11 @@ type VectorEditPanelProps = {
     featureId: string,
     descriptors: FeaturePhotoDescriptor[],
   ) => void;
+  onAttachFeaturePhotos: (
+    layerId: string,
+    featureId: string,
+    descriptors: FeaturePhotoDescriptor[],
+  ) => FeaturePhotoDescriptor[];
   onMoveFeaturePoint: (featureId: string, position: [number, number]) => void;
   onOpenPhoto: (descriptor: FeaturePhotoDescriptor) => void;
   onDeleteFeature: (featureId: string) => void;
@@ -119,6 +124,7 @@ export function VectorEditPanel({
   onPatchAttributes,
   photoManager,
   onSetFeaturePhotos,
+  onAttachFeaturePhotos,
   onMoveFeaturePoint,
   onOpenPhoto,
   onDeleteFeature,
@@ -350,6 +356,9 @@ export function VectorEditPanel({
             manager={photoManager}
             onDescriptors={(descriptors) =>
               onSetFeaturePhotos(String(selected.id), descriptors)
+            }
+            onAttachDescriptors={(descriptors) =>
+              onAttachFeaturePhotos(record.id, String(selected.id), descriptors)
             }
             onMovePoint={(position) =>
               onMoveFeaturePoint(String(selected.id), position)

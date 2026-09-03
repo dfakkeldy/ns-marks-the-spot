@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { NsprdFeatureCollection } from "./nsprd";
 import {
+  COASTAL_SCENARIO_TIMEOUT_MS,
   fetchCoastalFloodEvidence,
   fetchPublishedRiverFloodEvidence,
   summarizeRasterAlpha,
@@ -167,6 +168,48 @@ describe("coastal raster sampling", () => {
     expect(result[0].status === "intersects" && result[0].approximateAffectedSquareMetres)
       .toBeGreaterThan(0);
     expect(result[2]).not.toHaveProperty("probability");
+  });
+
+  // A request that never settled used to hang the whole join: two answered
+  // scenarios went unreported, and the print capture then sealed all three as
+  // a source that had not answered.
+  it("lets the scenarios that answered stand while the one that never replied says it ran out of time", async () => {
+    vi.useFakeTimers();
+    try {
+      vi.stubGlobal("fetch", vi.fn((input: string | URL, init?: RequestInit) => {
+        if (String(input).includes("2100")) {
+          // The service that never comes back. Only this scenario's own
+          // deadline ends it.
+          return new Promise<Response>((_resolve, reject) => {
+            init?.signal?.addEventListener("abort", () => {
+              reject(new DOMException("The operation was aborted.", "AbortError"));
+            });
+          });
+        }
+        return Promise.resolve(new Response("clear", { status: 200 }));
+      }));
+
+      const pending = fetchCoastalFloodEvidence(
+        parcelFeatures,
+        800,
+        undefined,
+        async () => ({ rgba: new Uint8ClampedArray(4 * 4 * 4), width: 4, height: 4 }),
+      );
+      await vi.advanceTimersByTimeAsync(COASTAL_SCENARIO_TIMEOUT_MS);
+      const result = await pending;
+
+      expect(result.map(({ scenario, status }) => ({ scenario, status }))).toEqual([
+        { scenario: "current", status: "no-intersection" },
+        { scenario: "2050", status: "no-intersection" },
+        { scenario: "2100", status: "unanswered" },
+      ]);
+      // Nothing was measured, so nothing about the ground is reported.
+      expect(result[2]).not.toHaveProperty("approximateAffectedPercent");
+      expect(result[2]).not.toHaveProperty("approximateAffectedSquareMetres");
+      expect(result[2]).not.toHaveProperty("sampledParcelPixels");
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   // A raster that landed no sample inside the outline measured nothing. The

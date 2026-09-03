@@ -1845,12 +1845,18 @@ export function MapCanvas({
   const live = useLiveLocation(locationOn && !isPrintMode, recorderArmed);
   const recording = useTrackRecording(live.fix);
   const [stopResult, setStopResult] = useState<StopResult | null>(null);
-  // The layer a refused save left on the map, held with the walk it carries.
-  // A retry is aimed at that layer; pairing it with the walk is what keeps a
-  // later, different recording from being written over it.
+  // The layer a refused save left on the map, held with the walk it carries
+  // and with the name and tolerance that save was made with. A retry is aimed
+  // at that layer; pairing it with the walk is what keeps a later, different
+  // recording from being written over it. The user's own two choices travel
+  // with it because the retry rewrites that layer: reopening on the generated
+  // default name would rename the track already on the map, and the default
+  // tolerance would re-simplify it at a setting nobody picked.
   const [refusedSave, setRefusedSave] = useState<{
     result: StopResult;
     layerId: string;
+    name: string;
+    toleranceM: number;
   } | null>(null);
   const [savingTrack, setSavingTrack] = useState(false);
   const [followOn, setFollowOn] = useState(false);
@@ -2153,6 +2159,14 @@ export function MapCanvas({
     unsavedTrack.interrupted &&
     stopResult === unsavedTrack.result;
 
+  // The refused save this dialog is a retry of, if it is a retry at all.
+  // Identity of the walk, not a flag: a different recording must never inherit
+  // another walk's layer, name or tolerance.
+  const retryOfRefusedSave =
+    refusedSave !== null && refusedSave.result === stopResult
+      ? refusedSave
+      : null;
+
   const startRecording = () => {
     setRecorderArmed(true);
     recording.start();
@@ -2192,8 +2206,7 @@ export function MapCanvas({
         interrupted: recoveredDraft,
         // Only ever this walk's own layer: a retry rewrites what the refused
         // save left on the map instead of adding a second copy of the track.
-        replaceLayerId:
-          refusedSave?.result === stopResult ? refusedSave.layerId : undefined,
+        replaceLayerId: retryOfRefusedSave?.layerId,
       });
       setLocationMessage(outcome.message);
       // A layer the device refused leaves the walk with no durable copy at
@@ -2203,7 +2216,14 @@ export function MapCanvas({
         recording.clearUnsaved();
         setRefusedSave(null);
       } else {
-        setRefusedSave({ result: stopResult, layerId: outcome.layerId });
+        setRefusedSave({
+          result: stopResult,
+          layerId: outcome.layerId,
+          // What the user typed and chose, so the retry opens on their track
+          // rather than on a freshly generated default.
+          name,
+          toleranceM: simplifyToleranceM,
+        });
       }
       setStopResult(null);
     } finally {
@@ -2756,6 +2776,8 @@ export function MapCanvas({
         <SaveTrackDialog
           result={stopResult}
           recovered={recoveredDraft}
+          initialName={retryOfRefusedSave?.name}
+          initialToleranceM={retryOfRefusedSave?.toleranceM}
           saving={savingTrack}
           onSave={(name, toleranceM) => void handleSaveTrack(name, toleranceM)}
           onDiscard={() => {

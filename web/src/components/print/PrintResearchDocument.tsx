@@ -416,14 +416,28 @@ function nestedReceipt(
   failed: readonly string[],
   captured: number,
   whenUnsettled: string,
+  silent: readonly string[] = [],
 ): string {
   if (!ready) return whenUnsettled;
-  if (failed.length === 0) return "captured";
-  // "Partially" has to mean part of it arrived. With every named source down,
-  // nothing was captured, and the receipt says so.
+  if (silent.length === 0) {
+    if (failed.length === 0) return "captured";
+    // "Partially" has to mean part of it arrived. With every named source
+    // down, nothing was captured, and the receipt says so.
+    return captured === 0
+      ? `unavailable; ${failed.join(", ")} all failed`
+      : `partially captured; ${failed.join(", ")} unavailable`;
+  }
+  // A source that failed and a source that never answered are two different
+  // receipts, and which one happened is what decides whether asking again is
+  // worth anything, so each gets its own clause. "Unavailable" over a source
+  // that simply went quiet reports a refusal that never happened.
+  const clauses = [
+    ...(failed.length > 0 ? [`${failed.join(", ")} unavailable`] : []),
+    `${silent.join(", ")} did not answer`,
+  ];
   return captured === 0
-    ? `unavailable; ${failed.join(", ")} all failed`
-    : `partially captured; ${failed.join(", ")} unavailable`;
+    ? `nothing captured; ${clauses.join("; ")}`
+    : `partially captured; ${clauses.join("; ")}`;
 }
 
 /**
@@ -453,9 +467,14 @@ export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
     river.status === "ready" && river.value.status === "error"
       ? "unavailable"
       : printEvidenceReceiptStatus(river);
+  // A scenario that never answered was not captured, and it did not fail
+  // either. Counted as captured it would put "captured" on the front page over
+  // a service that said nothing at all.
   const coastalCaptured =
     coastal.status === "ready"
-      ? coastal.value.filter(({ status }) => status !== "error").length
+      ? coastal.value.filter(
+          ({ status }) => status !== "error" && status !== "unanswered",
+        ).length
       : 0;
   const resourceCaptured =
     resources.status === "ready"
@@ -467,6 +486,12 @@ export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
     coastal.status === "ready"
       ? coastal.value
           .filter(({ status }) => status === "error")
+          .map(({ scenario }) => `Coastal ${scenario}`)
+      : [];
+  const coastalSilent =
+    coastal.status === "ready"
+      ? coastal.value
+          .filter(({ status }) => status === "unanswered")
           .map(({ scenario }) => `Coastal ${scenario}`)
       : [];
   const resourceFailures =
@@ -481,7 +506,7 @@ export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
     `Dwelling characteristics: ${dwellings.status === "ready" ? `${dwellings.value.length} account${dwellings.value.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(dwellings)}`,
     `Roads and water: ${printEvidenceReceiptStatus(snapshot.evidence.mappedContext)}`,
     `Published river mapping: ${riverReceipt}`,
-    `Coastal scenarios: ${nestedReceipt(coastal.status === "ready", coastalFailures, coastalCaptured, printEvidenceReceiptStatus(coastal))}`,
+    `Coastal scenarios: ${nestedReceipt(coastal.status === "ready", coastalFailures, coastalCaptured, printEvidenceReceiptStatus(coastal), coastalSilent)}`,
     `Resource evidence: ${nestedReceipt(resources.status === "ready", resourceFailures, resourceCaptured, printEvidenceReceiptStatus(resources))}`,
   ];
   return (

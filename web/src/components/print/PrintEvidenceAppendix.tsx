@@ -519,6 +519,15 @@ function CoastalResult({ snapshot }: { snapshot: PrintSnapshot }) {
             </li>
           );
         }
+        if (scenario.status === "unanswered") {
+          return (
+            <li key={scenario.scenario}>
+              {scenario.scenario}: the scenario service had not answered when
+              this page was made, so nothing was measured. Its silence is not
+              evidence that the scenario misses this parcel.
+            </li>
+          );
+        }
         if (scenario.status === "not-sampled") {
           return (
             <li key={scenario.scenario}>

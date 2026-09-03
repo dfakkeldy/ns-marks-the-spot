@@ -986,6 +986,65 @@ describe("print documents", () => {
     expect(screen.queryByText(/map pixels intersected this parcel/)).not.toBeInTheDocument();
   });
 
+  // A scenario that never came back was not captured, and it did not fail
+  // either. The receipt counted it as captured and the appendix had no
+  // sentence for it at all.
+  it("prints a coastal scenario that never answered apart from one that failed", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            riverFlood: { status: "ready", value: { status: "outside-published-layer-extents", aep: [] } },
+            coastalFlood: { status: "ready", value: [
+                  {
+                    scenario: "current",
+                    status: "no-intersection",
+                    stormAnnualExceedanceProbabilityPercent: 1,
+                    approximateAffectedPercent: 0,
+                    approximateAffectedSquareMetres: 0,
+                    sampledParcelPixels: 72,
+                  },
+                  {
+                    scenario: "2100",
+                    status: "unanswered",
+                    stormAnnualExceedanceProbabilityPercent: 1,
+                  },
+                ] },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(
+      screen.getByText(
+        /2100: the scenario service had not answered when this page was made/,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "No current map pixels intersected this parcel; this is not proof of no coastal hazard.",
+      ),
+    ).toBeInTheDocument();
+    const receipt = within(
+      screen.getByRole("region", { name: "Evidence receipt status" }),
+    );
+    expect(
+      receipt.getByText("Coastal scenarios: partially captured; Coastal 2100 did not answer"),
+    ).toBeInTheDocument();
+    expect(receipt.queryByText("Coastal scenarios: captured")).not.toBeInTheDocument();
+    expect(receipt.queryByText(/Coastal 2100 unavailable/u)).not.toBeInTheDocument();
+  });
+
   // "Unavailable" and "did not answer" are different receipts, and the page
   // used to give both the same one.
   it("tells a source that never answered apart from one that failed", () => {

@@ -94,22 +94,86 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
 
-function isNumber(value: unknown): boolean {
-  return Number.isFinite(value);
-}
+/**
+ * The furthest moment either side of the epoch a date can hold. Past it
+ * `new Date(ms).toISOString()` throws, and it throws where nothing catches
+ * it: the map's save handler builds the track's geometry from these
+ * timestamps, and its raw GPX right after, with no catch on either side. A
+ * draft carrying one takes the save down instead of being refused here.
+ */
+const MAX_TIMESTAMP_MS = 8.64e15;
 
-/** null is a real value here; undefined is not. */
+/**
+ * null is a real value here; undefined is not. Finiteness is all that can
+ * honestly be asked of the number itself: liveLocation has already turned a
+ * non-finite reading into null, and none of the three is measured by anything
+ * downstream — heading and speed reach nothing at all, and an altitude
+ * reaches only the raw GPX, as the device reported it.
+ */
 function isNullableNumber(value: unknown): boolean {
   return value === null || Number.isFinite(value);
+}
+
+/**
+ * Metres, milliseconds, and the radius of a fix: a finite measurement, never
+ * below zero. Deliberately not the filter's accuracy gate — `rawSegments`
+ * holds every fix the device sent, the ones the gate threw out included, and
+ * those are the recording's unprocessed evidence. On a raw fix zero is a
+ * device claiming certainty; trackFilter.ts reads a non-positive accuracy on
+ * a kept vertex as a broken fix and never emits one, so this is only the
+ * floor the two share.
+ */
+function isNonNegative(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0;
+}
+
+/** A tally of fixes: whole, and never below zero. */
+function isCount(value: unknown): value is number {
+  return typeof value === "number" && Number.isInteger(value) && value >= 0;
+}
+
+/**
+ * A position on Earth. Nothing else asks: the filter gates accuracy and
+ * speed and lets the coordinates through, and its smoothing only ever returns
+ * a point between two positions the browser reported. A pair off the globe
+ * therefore never came from a walk, and saving it would put a layer where no
+ * map can show it. NaN and Infinity fail the comparison rather than pass it.
+ */
+function isLatitude(value: unknown): boolean {
+  return typeof value === "number" && Math.abs(value) <= 90;
+}
+
+function isLongitude(value: unknown): boolean {
+  return typeof value === "number" && Math.abs(value) <= 180;
+}
+
+/** A moment a date can hold, which is what `toISOString` needs of it. */
+function isTimestamp(value: unknown): boolean {
+  return typeof value === "number" && Math.abs(value) <= MAX_TIMESTAMP_MS;
+}
+
+/**
+ * The exact string the recorder wrote. The round trip is the test because
+ * `Date.parse` on its own reads "March 1" and a good deal else, and the
+ * track's record would then carry a start time no clock ever produced — the
+ * default track name is built by reading that string back. Nothing here can
+ * throw: `Date.parse` answers NaN for a moment outside the range above.
+ */
+function isInstant(value: unknown): boolean {
+  if (typeof value !== "string") {
+    return false;
+  }
+  const ms = Date.parse(value);
+  return Number.isFinite(ms) && new Date(ms).toISOString() === value;
 }
 
 function isPoint(value: unknown): value is TrackPoint {
   return (
     isRecord(value) &&
-    isNumber(value.lat) &&
-    isNumber(value.lng) &&
-    isNumber(value.accuracyM) &&
-    isNumber(value.timestampMs) &&
+    isLatitude(value.lat) &&
+    isLongitude(value.lng) &&
+    isNonNegative(value.accuracyM) &&
+    isTimestamp(value.timestampMs) &&
     isNullableNumber(value.altitudeM)
   );
 }
@@ -117,10 +181,10 @@ function isPoint(value: unknown): value is TrackPoint {
 function isFix(value: unknown): value is LiveFix {
   return (
     isRecord(value) &&
-    isNumber(value.latitude) &&
-    isNumber(value.longitude) &&
-    isNumber(value.accuracyM) &&
-    isNumber(value.timestampMs) &&
+    isLatitude(value.latitude) &&
+    isLongitude(value.longitude) &&
+    isNonNegative(value.accuracyM) &&
+    isTimestamp(value.timestampMs) &&
     // Nullable, never absent: rawTrackGpx.ts tests `fix.altitudeM !== null`,
     // so an undefined would serialize the word "undefined" into the raw GPX
     // that is the recording's unprocessed evidence.
@@ -144,6 +208,15 @@ function isSegments<T>(
  * All-or-nothing: a draft that does not parse is not half a walk. Half a walk
  * would reach the save dialog, which measures and simplifies it during
  * render, and one bad vertex there takes the map down.
+ *
+ * Parsing asks for more than the right shape. Every field has to be something
+ * a recording could have produced, because nothing downstream asks again: the
+ * vertices become saved geometry, the counts become the record's account of
+ * the raw fixes beside them, and a timestamp past what a date can hold throws
+ * inside the save dialog rather than anywhere the failure could be reported.
+ * Whatever fails lands on `unreadable`, which already means the key is taken
+ * by something this build cannot read. No new state is needed for it: the
+ * reader does the same thing either way, which is to leave the key alone.
  */
 function parseDraft(value: unknown): { result: StopResult; stopped: boolean } | null {
   if (!isRecord(value) || value.version !== DRAFT_VERSION) {
@@ -158,21 +231,35 @@ function parseDraft(value: unknown): { result: StopResult; stopped: boolean } | 
   const draft = value.result;
   if (
     !isRecord(draft) ||
-    typeof draft.startedAt !== "string" ||
-    typeof draft.endedAt !== "string" ||
-    !isNumber(draft.rawFixCount) ||
-    !isNumber(draft.acceptedFixCount) ||
-    !isNumber(draft.distanceM) ||
-    !isNumber(draft.recordingMs) ||
+    !isInstant(draft.startedAt) ||
+    !isInstant(draft.endedAt) ||
+    !isCount(draft.rawFixCount) ||
+    !isCount(draft.acceptedFixCount) ||
+    !isNonNegative(draft.distanceM) ||
+    !isNonNegative(draft.recordingMs) ||
     !isSegments(draft.segments, isPoint) ||
     !isSegments(draft.rawSegments, isFix)
   ) {
     return null;
   }
-  return {
-    result: draft as unknown as StopResult,
-    stopped: value.stopped === true,
-  };
+  const result = draft as unknown as StopResult;
+  const total = (segments: readonly { length: number }[]): number =>
+    segments.reduce((count, segment) => count + segment.length, 0);
+  // What the recorder does as it records: it opens a segment in both arrays
+  // at once, tallies every fix in the same step that stores it, and only ever
+  // keeps a vertex it had already accepted. An empty segment is ordinary —
+  // resume opens one before a fix has landed in it — but counts that disagree
+  // with the arrays beside them describe a walk that did not happen, and they
+  // are read back to the user as this recording's own fix count.
+  if (
+    result.segments.length !== result.rawSegments.length ||
+    result.rawFixCount !== total(result.rawSegments) ||
+    result.acceptedFixCount > result.rawFixCount ||
+    total(result.segments) > result.acceptedFixCount
+  ) {
+    return null;
+  }
+  return { result, stopped: value.stopped === true };
 }
 
 export function createTrackDraftStore(
