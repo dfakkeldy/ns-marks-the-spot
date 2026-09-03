@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import {
   eventLifecycleStatus,
   type TaxSaleEvent,
@@ -36,7 +36,10 @@ import {
   type MappedArea,
   type ParcelContext,
 } from "../services/parcelContext";
-import type { ParcelFloodHazardEvidence } from "../services/floodHazard";
+import type {
+  CoastalFloodEvidence,
+  PublishedRiverFloodEvidence,
+} from "../services/floodHazard";
 import type { MapMode } from "../services/mapShareState";
 import type { ParcelResourceIntersections } from "../services/parcelResources";
 import {
@@ -102,9 +105,20 @@ export type ParcelResourceState =
   | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable"; value: ParcelResourceIntersections }
   | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelResourceIntersections };
 
-export type FloodHazardState =
+/**
+ * River and coastal are two services, and each settles on its own.
+ *
+ * Held as one state, a coastal request that never came back kept an answered
+ * river result off the panel and off the printed page, where the capture's
+ * timeout then reported the river source as one that had not answered.
+ */
+export type RiverFloodState =
   | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable" }
-  | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelFloodHazardEvidence };
+  | { request: SelectedEvidenceRequest; status: "ready"; value: PublishedRiverFloodEvidence };
+
+export type CoastalFloodState =
+  | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable" }
+  | { request: SelectedEvidenceRequest; status: "ready"; value: CoastalFloodEvidence[] };
 
 export type BuildingCountState =
   | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable" }
@@ -307,7 +321,8 @@ export function ParcelInspector({
   historicalContexts,
   pidInAnyIncludedNotice,
   resourceIntersections,
-  floodHazard,
+  riverFlood,
+  coastalFlood,
   taxSaleEnabled,
   mapMode,
   shareUrl,
@@ -318,6 +333,8 @@ export function ParcelInspector({
   canPrintExport,
   evidenceReady,
   now,
+  dismissOnEscape,
+  lookupMessage,
   onClose,
 }: {
   pid: string;
@@ -331,7 +348,8 @@ export function ParcelInspector({
   historicalContexts: HistoricalRecordContext[];
   pidInAnyIncludedNotice: boolean;
   resourceIntersections: ParcelResourceState;
-  floodHazard: FloodHazardState;
+  riverFlood: RiverFloodState;
+  coastalFlood: CoastalFloodState;
   taxSaleEnabled: boolean;
   mapMode: MapMode;
   shareUrl: string;
@@ -342,6 +360,22 @@ export function ParcelInspector({
   canPrintExport: boolean;
   evidenceReady: boolean;
   now: number;
+  /**
+   * Whether Escape should close this panel. App keeps it false while a
+   * dialog, the mobile controls sheet, the print preview or a georeference
+   * session is open: the panel is the bottom layer under all of those, and
+   * the rule App states for the controls sheet applies here too — "so one
+   * keypress never closes two layers".
+   */
+  dismissOnEscape: boolean;
+  /**
+   * The map's own status line, while this panel is open.
+   *
+   * A shared-boundary tap raises a caution that stands until the selection
+   * changes; overlaid on a phone it sat across the panel's pinned row. It is
+   * about this parcel, so it travels with it.
+   */
+  lookupMessage: string | null;
   onClose: () => void;
 }) {
   const listing = context?.listing;
@@ -353,22 +387,91 @@ export function ParcelInspector({
   const historical = lifecycleStatus === "historical";
   const needsResultVerification = lifecycleStatus === "verify-results";
 
+  // Escape has to work from wherever the reader is, not only once focus has
+  // been Tabbed into the panel: nothing focuses this panel when it opens, and
+  // it is normally reached by tapping a parcel on the map, so a handler on
+  // the <aside> would almost never fire. The listener goes on `document`, and
+  // App decides through `dismissOnEscape` whether this panel is the layer the
+  // reader is actually in.
+  //
+  // stopPropagation because MeasureTool holds a WINDOW keydown for Escape and
+  // window is the last hop after document. MapCanvas already records what
+  // sharing the key costs — "one Escape both clears the measurement and
+  // closes the panel". With this panel open, one Escape closes this panel and
+  // a measurement in progress survives to the next press. The georeferencer's
+  // window listener is unscoped on purpose ("closing this panel from anywhere
+  // is intended"), so App holds `dismissOnEscape` false for the whole of a
+  // georeference session rather than letting this listener outrank it.
+  //
+  // onClose is read through a ref for the reason useDialogChrome gives in
+  // App.tsx: "The dismiss handler lives in a ref so inline-arrow props don't
+  // re-run the mount effect".
+  const dismissRef = useRef(onClose);
+  dismissRef.current = onClose;
+  useEffect(() => {
+    if (!dismissOnEscape) {
+      return;
+    }
+    const handleKeyDown = (keyEvent: KeyboardEvent) => {
+      if (keyEvent.key !== "Escape") {
+        return;
+      }
+      // Only a control that owns Escape keeps it. A blanket exemption for
+      // every field took the panel's only dismissal away from the place
+      // focus actually is after a PID search — its own search box, which has
+      // no Escape behaviour of its own.
+      const target = keyEvent.target;
+      if (
+        target instanceof HTMLElement &&
+        (target instanceof HTMLTextAreaElement ||
+          target.isContentEditable ||
+          target.closest("[data-owns-escape]") !== null)
+      ) {
+        return;
+      }
+      // Silencing the event here is what keeps one keypress from closing two
+      // layers — a `window` listener runs after this one, so a surface that
+      // owns Escape above this panel must be excluded by `dismissOnEscape`
+      // rather than left to race it.
+      keyEvent.stopPropagation();
+      dismissRef.current();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [dismissOnEscape]);
+
   return (
     <aside className="parcel-inspector" aria-label={`Parcel ${pid} details`}>
-      <button
-        className="inspector-close"
-        type="button"
-        onClick={onClose}
-        aria-label="Close parcel details"
-      >
-        ×
-      </button>
-      <h2>
-        {listing?.addressOrDescription ??
-          listing?.location ??
-          firstHistoricalContext?.record.civicDescription ??
-          `PID ${pid}`}
-      </h2>
+      {/* Heading and close button in one row that does not scroll. The button
+          used to be absolutely positioned inside this panel, which is its own
+          scrollport, so it was translated by the scroll offset and left the
+          screen with the first swipe of content — and on a phone, where the
+          panel is full-screen and the map chrome, zoom and location controls
+          are hidden behind it, that was the only way out. */}
+      {lookupMessage ? (
+        // In the panel's own flow, under the pinned row. Overlaid on a phone
+        // it covered that row — where the close control and the address are —
+        // and it is a caution ABOUT this selection, so it belongs with it.
+        <p className="inspector-lookup-message" role="status">
+          {lookupMessage}
+        </p>
+      ) : null}
+      <div className="inspector-header">
+        <h2>
+          {listing?.addressOrDescription ??
+            listing?.location ??
+            firstHistoricalContext?.record.civicDescription ??
+            `PID ${pid}`}
+        </h2>
+        <button
+          className="inspector-close"
+          type="button"
+          onClick={onClose}
+          aria-label="Close parcel details"
+        >
+          ×
+        </button>
+      </div>
       <p className={listing ? "notice-status" : "parcel-status"}>
         {listing
           ? historical
@@ -507,7 +610,7 @@ export function ParcelInspector({
       ) : null}
       <CivicAddressDetails state={civicAddresses} />
       <MappedContextDetails state={mappedContext} civicAddresses={civicAddresses} />
-      <FloodHazardDetails state={floodHazard} />
+      <FloodHazardDetails river={riverFlood} coastal={coastalFlood} />
       <ParcelResourceDetails state={resourceIntersections} />
       {listing ? (
         <p className="sale-warning">
@@ -804,36 +907,49 @@ const COASTAL_HAZARD_MAP_URL = "https://nsgi.novascotia.ca/chm";
 const PUBLISHED_RIVER_FLOOD_URL =
   "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer";
 
-function FloodHazardDetails({ state }: { state: FloodHazardState }) {
-  if (state.status !== "ready") {
+/** What one flood source that has not answered says for itself. */
+function FloodSourceStatus({
+  state,
+  checking,
+  unavailable,
+}: {
+  state: { status: "idle" | "loading" | "error" | "geometry-unavailable" };
+  checking: string;
+  unavailable: string;
+}) {
+  if (state.status === "geometry-unavailable") {
     return (
-      <section className="flood-hazard-evidence" aria-label="Flood hazard evidence">
-        <h3>Flood hazard evidence</h3>
-        {state.status === "geometry-unavailable" ? (
-          <p className="mapped-context-status" role="status">
-            {GEOMETRY_UNAVAILABLE_MESSAGE}
-          </p>
-        ) : state.status === "error" ? (
-          <p className="mapped-context-status error" role="status">
-            Flood hazard mapping is unavailable right now; absence is not
-            inferred.
-          </p>
-        ) : (
-          <p className="mapped-context-status" role="status">
-            Checking published river and coastal hazard mapping…
-          </p>
-        )}
-      </section>
+      <p className="mapped-context-status" role="status">
+        {GEOMETRY_UNAVAILABLE_MESSAGE}
+      </p>
     );
   }
-
-  const { river, coastal } = state.value;
+  if (state.status === "error") {
+    return (
+      <p className="mapped-context-status error" role="status">
+        {unavailable}
+      </p>
+    );
+  }
   return (
-    <section className="flood-hazard-evidence" aria-label="Flood hazard evidence">
-      <h3>Flood hazard evidence</h3>
-      <div className="flood-hazard-group">
-        <h4>Published river mapping</h4>
-        {river.status === "published-intersection" ? (
+    <p className="mapped-context-status" role="status">
+      {checking}
+    </p>
+  );
+}
+
+function RiverFloodResult({ state }: { state: RiverFloodState }) {
+  if (state.status !== "ready") {
+    return (
+      <FloodSourceStatus
+        state={state}
+        checking="Checking published river flood mapping…"
+        unavailable="Published river flood mapping is unavailable right now; absence is not inferred."
+      />
+    );
+  }
+  const river = state.value;
+  return river.status === "published-intersection" ? (
           <ul>
             {river.aep.map(({ annualExceedanceProbabilityPercent, relationship, places }) => (
               <li key={`${annualExceedanceProbabilityPercent}:${relationship}`}>
@@ -852,16 +968,24 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
             Outside the geographic extents of the four published river-flood study
             layers. River flood probability is not assessed.
           </p>
-        ) : (
-          <p className="error">Published river source unavailable; no absence is inferred.</p>
-        )}
-      </div>
-      <div className="flood-hazard-group">
-        <h4>Coastal scenarios</h4>
-        {/* Compact status rows instead of three near-identical sentences;
-            the distinct states (error vs no-intersection vs intersection)
-            stay distinct, and the shared not-proof caveat renders once
-            below whenever any row needs it. */}
+  ) : (
+    <p className="error">Published river source unavailable; no absence is inferred.</p>
+  );
+}
+
+function CoastalFloodResult({ state }: { state: CoastalFloodState }) {
+  if (state.status !== "ready") {
+    return (
+      <FloodSourceStatus
+        state={state}
+        checking="Checking coastal hazard scenarios…"
+        unavailable="Coastal hazard scenarios are unavailable right now; absence is not inferred."
+      />
+    );
+  }
+  const coastal = state.value;
+  return (
+    <>
         <ul className="coastal-scenario-list">
           {coastal.map((result) => {
             const label = result.scenario === "current" ? "Current" : result.scenario;
@@ -872,6 +996,17 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
               return (
                 <li key={result.scenario}>
                   {label}: not evaluated — this parcel has no usable outline to sample against.
+                </li>
+              );
+            }
+            // A scenario that never replied is not a scenario that replied
+            // with nothing. Its own row is what keeps the other two rows, and
+            // the no-hit caveat below them, meaning a scenario that was read
+            // off the map.
+            if (result.status === "unanswered") {
+              return (
+                <li key={result.scenario}>
+                  {label}: the scenario service did not answer in time, so nothing was measured — no absence is inferred.
                 </li>
               );
             }
@@ -899,31 +1034,71 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
             );
           })}
         </ul>
-        {coastal.some(({ status }) => status === "no-intersection") ? (
-          <p className="mapped-area-note">
-            No intersecting pixels is not proof of no coastal hazard.
+      {coastal.some(({ status }) => status === "no-intersection") ? (
+        <p className="mapped-area-note">
+          No intersecting pixels is not proof of no coastal hazard.
+        </p>
+      ) : null}
+    </>
+  );
+}
+
+// Two services, two answers, two status lines. One section-level status
+// reported both halves as still checking until the slower one arrived, so an
+// answered river finding sat unread behind a coastal request that never came
+// back.
+function FloodHazardDetails({
+  river,
+  coastal,
+}: {
+  river: RiverFloodState;
+  coastal: CoastalFloodState;
+}) {
+  // The caveat, the source links and the coastal licence notices belong to a
+  // result. They printed only when the joined state was ready, and they still
+  // print only once a half has answered — otherwise a parcel whose flood
+  // sources were never asked would carry a page of conditions for data it does
+  // not have. A ready coastal half always satisfies this, so no coastal row is
+  // ever shown without its notices.
+  const answered = river.status === "ready" || coastal.status === "ready";
+  return (
+    <section className="flood-hazard-evidence" aria-label="Flood hazard evidence">
+      <h3>Flood hazard evidence</h3>
+      <div className="flood-hazard-group">
+        <h4>Published river mapping</h4>
+        <RiverFloodResult state={river} />
+      </div>
+      <div className="flood-hazard-group">
+        <h4>Coastal scenarios</h4>
+        {/* Compact status rows instead of three near-identical sentences;
+            the distinct states (error vs no-intersection vs intersection)
+            stay distinct, and the shared not-proof caveat renders once
+            below whenever any row needs it. */}
+        <CoastalFloodResult state={coastal} />
+      </div>
+      {answered ? (
+        <>
+          <p className="flood-hazard-caveat">
+            A 1% or 5% annual-exceedance probability describes the mapped flood event,
+            not a universal probability for the whole PID. Coastal 2050 and 2100 values
+            are sea-level scenarios, not additional probabilities. Raster area is an
+            approximate screen, not a survey, elevation certificate, or insurance finding.
           </p>
-        ) : null}
-      </div>
-      <p className="flood-hazard-caveat">
-        A 1% or 5% annual-exceedance probability describes the mapped flood event,
-        not a universal probability for the whole PID. Coastal 2050 and 2100 values
-        are sea-level scenarios, not additional probabilities. Raster area is an
-        approximate screen, not a survey, elevation certificate, or insurance finding.
-      </p>
-      <p className="flood-hazard-sources">
-        Sources: <a href={PUBLISHED_RIVER_FLOOD_URL} target="_blank" rel="noreferrer">published river layers</a>{" "}
-        and <a href={COASTAL_HAZARD_MAP_URL} target="_blank" rel="noreferrer">Nova Scotia Coastal Hazard Map</a>.{" "}
-        Coastal data <a href={COASTAL_HAZARD_LICENCE_URL} target="_blank" rel="noreferrer">licence and notices</a>.
-      </p>
-      {/* Conditions of using the coastal data, not a credit line, so they are
-          read from the catalogue the credit line, the printed page and the
-          exported strip read rather than typed out again here. */}
-      <div className="flood-hazard-licence-notice">
-        {COASTAL_HAZARD_NOTICES.map((notice) => (
-          <p key={notice}>{notice}</p>
-        ))}
-      </div>
+          <p className="flood-hazard-sources">
+            Sources: <a href={PUBLISHED_RIVER_FLOOD_URL} target="_blank" rel="noreferrer">published river layers</a>{" "}
+            and <a href={COASTAL_HAZARD_MAP_URL} target="_blank" rel="noreferrer">Nova Scotia Coastal Hazard Map</a>.{" "}
+            Coastal data <a href={COASTAL_HAZARD_LICENCE_URL} target="_blank" rel="noreferrer">licence and notices</a>.
+          </p>
+          {/* Conditions of using the coastal data, not a credit line, so they are
+              read from the catalogue the credit line, the printed page and the
+              exported strip read rather than typed out again here. */}
+          <div className="flood-hazard-licence-notice">
+            {COASTAL_HAZARD_NOTICES.map((notice) => (
+              <p key={notice}>{notice}</p>
+            ))}
+          </div>
+        </>
+      ) : null}
     </section>
   );
 }

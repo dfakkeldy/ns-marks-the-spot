@@ -34,6 +34,10 @@ export function useLiveLocation(
       setState,
       undefined,
       recording ? RECORDING_WATCH_OPTIONS : undefined,
+      // A recording watch never gives up on its own: the walk has no other
+      // source of fixes, and cutting it off would end the track rather than
+      // report a device that is struggling.
+      !recording,
     );
     return () => {
       handle.stop();

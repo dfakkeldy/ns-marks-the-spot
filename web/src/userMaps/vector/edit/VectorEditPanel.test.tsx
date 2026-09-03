@@ -59,11 +59,13 @@ function panel(overrides: Partial<Parameters<typeof VectorEditPanel>[0]> = {}) {
     onPatchAttributes: vi.fn(),
     photoManager: {
       attachPhotos: vi.fn(async () => []),
-      removePhoto: vi.fn(async () => {}),
+      removePhoto: vi.fn(async () => true),
       loadThumbUrl: vi.fn(async () => null),
       loadFullBlob: vi.fn(async () => null),
     },
     onSetFeaturePhotos: vi.fn(),
+    onAttachFeaturePhotos: vi.fn(() => []),
+    onPhotoCleanupFailed: vi.fn(),
     onMoveFeaturePoint: vi.fn(),
     onOpenPhoto: vi.fn(),
     onDeleteFeature: vi.fn(),
@@ -190,8 +192,14 @@ describe("VectorEditPanel snapping controls", () => {
     expect(
       screen.getByText("Traced boundaries are not a survey."),
     ).toBeInTheDocument();
+    // Both hints ship and styles.css shows exactly one, chosen by pointer
+    // type: "Hold Alt" is a keyboard modifier a phone cannot press, so a
+    // touch user is pointed at the master toggle above instead.
     expect(
       screen.getByText("Hold Alt to place a vertex without snapping."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Turn off Snap while drawing to place a vertex freely."),
     ).toBeInTheDocument();
   });
 

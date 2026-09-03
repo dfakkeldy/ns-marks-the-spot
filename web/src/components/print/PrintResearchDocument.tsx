@@ -405,24 +405,39 @@ export function UnansweredEvidenceNotice({
 /**
  * The receipt for a source that answered, but not for everything it was asked.
  *
- * The flood and resource lookups resolve ready with per-query states inside
+ * The coastal and resource lookups resolve ready with per-query states inside
  * them, so a slot can be "captured" while one of its sources was down. A
  * receipt that says captured over a failed query is the same collapse the
- * appendix was fixed for, one level up.
+ * appendix was fixed for, one level up. (The river slot holds one source and
+ * is read directly.)
  */
 function nestedReceipt(
   ready: boolean,
   failed: readonly string[],
   captured: number,
   whenUnsettled: string,
+  silent: readonly string[] = [],
 ): string {
   if (!ready) return whenUnsettled;
-  if (failed.length === 0) return "captured";
-  // "Partially" has to mean part of it arrived. With every named source down,
-  // nothing was captured, and the receipt says so.
+  if (silent.length === 0) {
+    if (failed.length === 0) return "captured";
+    // "Partially" has to mean part of it arrived. With every named source
+    // down, nothing was captured, and the receipt says so.
+    return captured === 0
+      ? `unavailable; ${failed.join(", ")} all failed`
+      : `partially captured; ${failed.join(", ")} unavailable`;
+  }
+  // A source that failed and a source that never answered are two different
+  // receipts, and which one happened is what decides whether asking again is
+  // worth anything, so each gets its own clause. "Unavailable" over a source
+  // that simply went quiet reports a refusal that never happened.
+  const clauses = [
+    ...(failed.length > 0 ? [`${failed.join(", ")} unavailable`] : []),
+    `${silent.join(", ")} did not answer`,
+  ];
   return captured === 0
-    ? `unavailable; ${failed.join(", ")} all failed`
-    : `partially captured; ${failed.join(", ")} unavailable`;
+    ? `nothing captured; ${clauses.join("; ")}`
+    : `partially captured; ${clauses.join("; ")}`;
 }
 
 /**
@@ -443,12 +458,23 @@ function civicReceipt(state: PrintSnapshot["evidence"]["civicAddresses"]): strin
 export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
   const assessment = snapshot.evidence.assessments;
   const dwellings = snapshot.evidence.dwellings;
-  const flood = snapshot.evidence.floodHazard;
+  const river = snapshot.evidence.riverFlood;
+  const coastal = snapshot.evidence.coastalFlood;
   const resources = snapshot.evidence.resources;
-  const floodCaptured =
-    flood.status === "ready"
-      ? (flood.value.river.status === "error" ? 0 : 1) +
-        flood.value.coastal.filter(({ status }) => status !== "error").length
+  // One source, so no roll-up: a ready slot holding an error is unavailable,
+  // and printEvidenceReceiptStatus on its own would call it captured.
+  const riverReceipt =
+    river.status === "ready" && river.value.status === "error"
+      ? "unavailable"
+      : printEvidenceReceiptStatus(river);
+  // A scenario that never answered was not captured, and it did not fail
+  // either. Counted as captured it would put "captured" on the front page over
+  // a service that said nothing at all.
+  const coastalCaptured =
+    coastal.status === "ready"
+      ? coastal.value.filter(
+          ({ status }) => status !== "error" && status !== "unanswered",
+        ).length
       : 0;
   const resourceCaptured =
     resources.status === "ready"
@@ -456,14 +482,17 @@ export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
           ({ id }) => resources.value[id]?.status !== "error",
         ).length
       : 0;
-  const floodFailures =
-    flood.status === "ready"
-      ? [
-          ...(flood.value.river.status === "error" ? ["Published river"] : []),
-          ...flood.value.coastal
-            .filter(({ status }) => status === "error")
-            .map(({ scenario }) => `Coastal ${scenario}`),
-        ]
+  const coastalFailures =
+    coastal.status === "ready"
+      ? coastal.value
+          .filter(({ status }) => status === "error")
+          .map(({ scenario }) => `Coastal ${scenario}`)
+      : [];
+  const coastalSilent =
+    coastal.status === "ready"
+      ? coastal.value
+          .filter(({ status }) => status === "unanswered")
+          .map(({ scenario }) => `Coastal ${scenario}`)
       : [];
   const resourceFailures =
     resources.status === "ready"
@@ -476,7 +505,8 @@ export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
     `Assessment: ${assessment.status === "ready" ? `${assessment.value.accounts.length} account${assessment.value.accounts.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(assessment)}`,
     `Dwelling characteristics: ${dwellings.status === "ready" ? `${dwellings.value.length} account${dwellings.value.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(dwellings)}`,
     `Roads and water: ${printEvidenceReceiptStatus(snapshot.evidence.mappedContext)}`,
-    `Flood evidence: ${nestedReceipt(flood.status === "ready", floodFailures, floodCaptured, printEvidenceReceiptStatus(flood))}`,
+    `Published river mapping: ${riverReceipt}`,
+    `Coastal scenarios: ${nestedReceipt(coastal.status === "ready", coastalFailures, coastalCaptured, printEvidenceReceiptStatus(coastal), coastalSilent)}`,
     `Resource evidence: ${nestedReceipt(resources.status === "ready", resourceFailures, resourceCaptured, printEvidenceReceiptStatus(resources))}`,
   ];
   return (

@@ -88,7 +88,8 @@ Web (`web/src/`):
 - Foreground track recording: start/pause/resume/stop, contract filter
   pipeline, Douglas-Peucker simplify on save, processed LineString /
   MultiLineString plus raw GPX as the layer original, origin `recorded`
-  ("Recorded on this device")
+  ("Recorded on this device", or "interrupted" when it was saved from the
+  device's copy of a walk in progress)
   ([trackRecorder.ts](../web/src/location/trackRecorder.ts),
   [useTrackRecording.ts](../web/src/location/useTrackRecording.ts),
   [SaveTrackDialog.tsx](../web/src/location/SaveTrackDialog.tsx),
@@ -196,8 +197,11 @@ Web (`web/src/`):
   [useVectorEditSession.ts](../web/src/userMaps/vector/edit/useVectorEditSession.ts)).
 - Orphan sweeps: photo removal deletes row+blobs; layer delete takes its
   photos; the session write path sweeps rows no `nsmts:photos` descriptor
-  references
-  ([photoStore.ts](../web/src/userMaps/vector/photos/photoStore.ts)).
+  references, except rows an in-flight attach has reserved — a row lands
+  before the feature that will reference it, and the reservation ends the
+  moment a write does
+  ([userVectorStore.ts](../web/src/userMaps/vector/store/userVectorStore.ts),
+  [photoStore.ts](../web/src/userMaps/vector/photos/photoStore.ts)).
 - KMZ export: `buildKmzBlob` writes `doc.kml` (DEFLATE) plus STORED
   `files/<photoId>.jpg` entries; descriptors whose blob cannot be read are
   dropped from the written document (honest missing count, never a dangling
@@ -282,7 +286,8 @@ iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 - Photo files under `photos/<layerID>/<photoID>.jpg` + `.thumb.jpg`;
   `UserVectorStore` `addPhoto` / `photoData` / `deletePhoto`; `delete(id:)`
   removes the layer's photo directory; `replaceGeometry` sweeps files no
-  descriptor references
+  descriptor references, holding `reservedPhotoIDs` for an attach still in
+  flight
   ([UserVectorStore.swift](../ns-marks-the-spot/UserVectors/UserVectorStore.swift)).
 - KMZ interchange: `ZipWriter` (`ZipArchive.archive`; `doc.kml` DEFLATE,
   `files/<id>.jpg` STORED); `VectorExport.kmz`; KML ExtendedData carries
@@ -388,7 +393,11 @@ the claim the data makes about itself.
   for bulk photo-placement layers.
 - `UserVectorOrigin` gains `{ kind: "recorded", startedAt, endedAt }` (ISO
   strings on web, Dates in Swift Codable with those key names). Provenance
-  string: "Recorded on this device".
+  string: "Recorded on this device". The web origin also carries an optional
+  `interrupted` for a walk saved from the copy the device kept while it ran,
+  which says so in its provenance. Swift carries the flag through decode and
+  re-encode and says the same thing, though it never sets one: this app keeps
+  no such copy yet.
 - Every recording saves as a new layer. The raw recording rides the existing
   original-file mechanism: a GPX 1.1 document containing every received fix
   (kept and dropped alike), one `<trkseg>` per recording segment, `<time>` and
@@ -552,6 +561,24 @@ never invented.
 - The web IndexedDB gets exactly one version bump for all of this work:
   DB_VERSION 2 → 3 in the photos PR, adding the `photos` metadata store (see
   subsystem C). Track recording needs no schema change.
+- A draggable vertex handle on a coarse pointer is a 44-unit canvas around a
+  22-unit disc: the canvas is the touch target, the disc is what is seen.
+  iOS draws it directly (`VectorVertexHandleImage.canvasSize` /
+  `.discDiameter`); web reaches it in `@media (pointer: coarse)` by
+  out-specifying Geoman's 14 px `.marker-icon`, scoped to Leaflet's
+  `.leaflet-marker-draggable` so that vertices placed WHILE DRAWING keep
+  Geoman's size and keep finishing the shape on tap. Web is the surface
+  catching up here, not iOS.
+- Known web-only gaps, not closed by that rule: Geoman's 10 px middle marker
+  stays the only touch route to INSERTING a vertex, removing one is bound to
+  `contextmenu` and has no touch gesture, and nothing on the web panel says
+  a handle can be dragged — where iOS says "Press and hold a corner handle to
+  drag it." and offers a non-drag corner mover for VoiceOver and Switch
+  Control.
+- "Hold Alt to place a vertex without snapping." is desktop-only wording.
+  Where the primary pointer is coarse the web shows "Turn off Snap while
+  drawing to place a vertex freely." instead, naming the control both
+  surfaces label "Snap while drawing"; iOS shows no Alt hint at all.
 
 ## Web subsystem A: GPS capture and tracks
 
@@ -559,13 +586,14 @@ New modules under `web/src/location/`:
 
 | File | Responsibility |
 | --- | --- |
-| `liveLocation.ts` | framework-free `watchPosition` wrapper; `LiveFix`; state union `off / acquiring / active / signal-lost / denied / unavailable`; injectable Geolocation for tests |
+| `liveLocation.ts` | framework-free `watchPosition` wrapper; `LiveFix`; state union `off / acquiring / active / signal-lost / denied / position-unavailable / unavailable`; a run of three pre-fix POSITION_UNAVAILABLE reports ends a non-recording watch in `position-unavailable`; injectable Geolocation for tests |
 | `useLiveLocation.ts` | React hook; one shared watch feeds the marker, follow mode, mark, and the recorder |
 | `markFix.ts` | one-shot held to the same 10 s / 50 m watch rule; four distinct browser-failure sentences; accuracy formatting |
 | `captureSpec.ts` | the contract constants, asserted against the fixture |
 | `trackFilter.ts` | pure per-fix pipeline: gate, outlier, smooth, spacing |
 | `trackRecorder.ts` | recorder state machine (idle/recording/paused), segments, raw-fix accumulation, live stats; injectable clock |
-| `useTrackRecording.ts` | wires fixes into the recorder, owns the wake lock, exposes start/pause/resume/stop |
+| `useTrackRecording.ts` | wires fixes into the recorder, owns the wake lock and the in-progress draft, holds Record until the device has said what it is already storing, exposes start/pause/resume/stop |
+| `trackDraftStore.ts` | the in-progress recording in the shared user-content database, one overwritten `blobs` key; written only while a walk runs, offered back after an interrupted session, deleted on save or discard |
 | `wakeLock.ts` | acquire/release with `visibilitychange` re-acquire; graceful hint when unsupported |
 | `simplifyTrack.ts` | metres-based Douglas-Peucker with parallel-times index selection |
 | `LocationControls.tsx` | map-corner cluster (locate/follow/mark/record, recording HUD, privacy line), replacing the bare button at MapCanvas.tsx ~2102 |
@@ -723,7 +751,9 @@ publishes).
 
 Orphan discipline: removing a photo deletes record, blobs, and descriptor in
 one flow. Each edit-session commit sweeps photo records for the layer that no
-descriptor references. Layer delete removes all the layer's photo records and
+descriptor references — other than rows an attach still owes a descriptor,
+which both surfaces reserve before writing them and release when a write
+references them (`reservedPhotoIDs` natively, `reservePhotoId` on the web). Layer delete removes all the layer's photo records and
 blobs. An export with an unreadable blob completes and reports "N photos
 couldn't be read and were left out".
 
@@ -932,7 +962,9 @@ user-initiated exports. Photo re-encoding strips EXIF GPS from every stored
 and exported image byte. The iOS App Store privacy label (zero collected data
 types) stays true.
 
-Evidence and provenance: recorded layers say "Recorded on this device"; photo
+Evidence and provenance: recorded layers say "Recorded on this device", and
+one saved from the device's copy of a walk in progress says it may be cut
+short; photo
 layers say "From your photos · N photos"; marked points show their accuracy
 (web names the device's location, not GPS; iOS callouts still say GPS);
 traced features carry `nsmts:traced` and the not-a-survey caveat
@@ -940,8 +972,10 @@ permanently, including through exports. Raw fixes are never silently promoted
 into the processed line; they are a separate artifact with its own export.
 Distinct states stay distinct everywhere: on web, permission denied vs
 timeout vs unsupported vs unavailable — timeout and unavailable are two
-live-region sentences, not one "GPS signal lost" line; on iOS, permission
-denied vs unavailable vs "GPS signal lost — still trying."; quota vs
+live-region sentences once a fix has been had, and a third before any has
+arrived ("hasn't been found yet", never "lost"), none of them a "GPS signal
+lost" line; on iOS, permission denied vs unavailable vs "GPS signal lost —
+still trying."; quota vs
 storage-failed vs unsupported-image; licence vs zoom vs dense vs error vs
 an honest empty.
 

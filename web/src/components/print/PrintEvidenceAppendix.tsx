@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
-import { roadsNamedByCivicAddress } from "../../services/parcelContext";
+import {
+  ADJACENT_ROAD_DISTANCE_METRES,
+  roadsNamedByCivicAddress,
+} from "../../services/parcelContext";
 import {
   printEvidenceMessage,
   type PrintSnapshot,
@@ -319,7 +322,9 @@ function Addresses({ snapshot }: { snapshot: PrintSnapshot }) {
 
 const relationshipLabel = {
   intersects: "Intersects parcel",
-  adjacent: "Adjacent within 20 m",
+  // The distance the road query actually asked for, so a printed sheet can
+  // never name a distance the lookup did not use.
+  adjacent: `Adjacent within ${ADJACENT_ROAD_DISTANCE_METRES} m`,
   "civic-address": "Named by civic address",
   "on-parcel": "On parcel",
   "within-1km": "Within 1 km",
@@ -435,10 +440,11 @@ function Context({ snapshot }: { snapshot: PrintSnapshot }) {
 }
 
 function RiverResult({ snapshot }: { snapshot: PrintSnapshot }) {
-  const state = snapshot.evidence.floodHazard;
+  const state = snapshot.evidence.riverFlood;
   // A flood lookup that never settled and a river source that answered badly
   // are different reasons for the same blank, and the reader is owed the one
-  // that happened.
+  // that happened. The coastal source's silence is not one of those reasons:
+  // it has its own slot, and this half prints what the river source said.
   if (state.status !== "ready") {
     return (
       <>
@@ -447,7 +453,7 @@ function RiverResult({ snapshot }: { snapshot: PrintSnapshot }) {
       </>
     );
   }
-  if (state.value.river.status === "error") {
+  if (state.value.status === "error") {
     return (
       <p>
         Published river source unavailable at export time; no absence is
@@ -455,7 +461,7 @@ function RiverResult({ snapshot }: { snapshot: PrintSnapshot }) {
       </p>
     );
   }
-  const river = state.value.river;
+  const river = state.value;
   if (river.status === "outside-published-layer-extents") {
     return <p>Outside published river-study extents.</p>;
   }
@@ -482,7 +488,7 @@ function RiverResult({ snapshot }: { snapshot: PrintSnapshot }) {
 }
 
 function CoastalResult({ snapshot }: { snapshot: PrintSnapshot }) {
-  const state = snapshot.evidence.floodHazard;
+  const state = snapshot.evidence.coastalFlood;
   if (state.status !== "ready") {
     return (
       <>
@@ -491,12 +497,12 @@ function CoastalResult({ snapshot }: { snapshot: PrintSnapshot }) {
       </>
     );
   }
-  if (state.value.coastal.length === 0) {
+  if (state.value.length === 0) {
     return <p>No coastal scenario result was captured.</p>;
   }
   return (
     <ul>
-      {state.value.coastal.map((scenario) => {
+      {state.value.map((scenario) => {
         if (scenario.status === "error") {
           return (
             <li key={scenario.scenario}>
@@ -510,6 +516,15 @@ function CoastalResult({ snapshot }: { snapshot: PrintSnapshot }) {
             <li key={scenario.scenario}>
               {scenario.scenario}: not evaluated — this parcel had no usable
               outline to sample against at export time.
+            </li>
+          );
+        }
+        if (scenario.status === "unanswered") {
+          return (
+            <li key={scenario.scenario}>
+              {scenario.scenario}: the scenario service had not answered when
+              this page was made, so nothing was measured. Its silence is not
+              evidence that the scenario misses this parcel.
             </li>
           );
         }

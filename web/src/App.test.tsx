@@ -28,7 +28,10 @@ import {
 import { fetchParcelAtPoint, fetchParcels, NSPRD_LAYER_URL } from "./services/nsprd";
 import { fetchParcelContext } from "./services/parcelContext";
 import { fetchParcelResourceIntersections } from "./services/parcelResources";
-import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
+import {
+  fetchCoastalFloodEvidence,
+  fetchPublishedRiverFloodEvidence,
+} from "./services/floodHazard";
 import { fetchParcelBuildingCount } from "./services/buildings";
 import { fetchParcelAssessments } from "./services/pvscAssessments";
 import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
@@ -502,14 +505,14 @@ vi.mock("./services/floodHazard", async (importOriginal) => {
   const original = await importOriginal<typeof import("./services/floodHazard")>();
   return {
     ...original,
-    fetchParcelFloodHazardEvidence: vi.fn().mockResolvedValue({
-      river: { status: "outside-published-layer-extents", aep: [] },
-      coastal: [
+    fetchPublishedRiverFloodEvidence: vi
+      .fn()
+      .mockResolvedValue({ status: "outside-published-layer-extents", aep: [] }),
+    fetchCoastalFloodEvidence: vi.fn().mockResolvedValue([
         { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2100", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
-      ],
-    }),
+      ]),
   };
 });
 
@@ -762,14 +765,15 @@ describe("NS Marks The Spot Online", () => {
       "mineral-tenure": { status: "ready", intersections: [] },
       "abandoned-mines": { status: "ready", intersections: [] },
     });
-    vi.mocked(fetchParcelFloodHazardEvidence).mockResolvedValue({
-      river: { status: "outside-published-layer-extents", aep: [] },
-      coastal: [
+    vi.mocked(fetchPublishedRiverFloodEvidence).mockResolvedValue({
+      status: "outside-published-layer-extents",
+      aep: [],
+    });
+    vi.mocked(fetchCoastalFloodEvidence).mockResolvedValue([
         { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
         { scenario: "2100", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 100 },
-      ],
-    });
+      ]);
     vi.mocked(fetchParcelBuildingCount).mockResolvedValue({
       count: 0,
       pointCount: 0,
@@ -1011,6 +1015,40 @@ describe("NS Marks The Spot Online", () => {
       screen.getByRole("button", { name: "Close parcel details" }),
     );
     expect(document.title).toBe(initialTitle);
+  });
+
+  // Both listeners are on the document, where stopPropagation does not reach
+  // a sibling: one keypress cancelled the export AND closed the panel behind
+  // it, leaving the reader looking at a map with neither.
+  it("lets the export dialog have Escape to itself while a parcel is open", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?pid=50334317&layers=nsprd");
+    vi.mocked(fetchParcels).mockResolvedValue({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+
+    render(<App />);
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50334317 details",
+    });
+
+    await user.click(screen.getByRole("button", { name: "Export map (PDF)" }));
+    await user.click(
+      screen.getByRole("button", { name: "Continue export frame" }),
+    );
+    // findBy: the export dialog is lazy-loaded.
+    await screen.findByRole("dialog", { name: "Export georeferenced PDF" });
+
+    await user.keyboard("{Escape}");
+
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("dialog", { name: "Export georeferenced PDF" }),
+      ).not.toBeInTheDocument(),
+    );
+    expect(inspector).toBeInTheDocument();
   });
 
   it("labels a notice hidden by the active mode instead of claiming the PID is unlisted", async () => {
@@ -2376,6 +2414,34 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
   });
 
+  it("still renders the map when the browser blocks storage outright", () => {
+    // Safari with "Block all cookies" throws from the property access itself,
+    // not from getItem — so a Storage.prototype spy would not reproduce this.
+    const descriptor = Object.getOwnPropertyDescriptor(window, "localStorage");
+    if (!descriptor) throw new Error("window.localStorage is not defined");
+    Object.defineProperty(window, "localStorage", {
+      configurable: true,
+      get() {
+        throw new DOMException("The operation is insecure.", "SecurityError");
+      },
+    });
+    window.history.replaceState(null, "", "/");
+
+    try {
+      render(<App />);
+
+      expect(screen.getByTestId("map-canvas")).toBeInTheDocument();
+      expect(screen.getByLabelText("Map setup")).toHaveValue(
+        "explore-nova-scotia",
+      );
+      expect(mapSetupStatus()).toHaveTextContent(
+        "Your custom-theme library could not be loaded. Explore Nova Scotia is being used for this session.",
+      );
+    } finally {
+      Object.defineProperty(window, "localStorage", descriptor);
+    }
+  });
+
   it("keeps corrupt custom-theme storage untouched and uses Explore for the session", () => {
     localStorage.setItem(CUSTOM_THEME_STORAGE_KEY, "not-json");
     window.history.replaceState(null, "", "/");
@@ -3719,14 +3785,15 @@ describe("NS Marks The Spot Online", () => {
 
     await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
 
-    expect(
-      await screen.findByText(
-        "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.",
-      ),
-    ).toBeInTheDocument();
-    await screen.findByRole("complementary", {
+    const notice = await screen.findByText(
+      "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.",
+    );
+    const inspector = await screen.findByRole("complementary", {
       name: "Parcel 50251750 details",
     });
+    // Inside the panel, not over it: on a phone the panel covers the map, so
+    // an overlaid caution sat across its own heading and close control.
+    expect(inspector).toContainElement(notice);
   });
 
   it("keeps writing the address bar when replaceState is rate-limited", async () => {
@@ -4907,20 +4974,18 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
     });
-    vi.mocked(fetchParcelFloodHazardEvidence).mockResolvedValueOnce({
-      river: {
-        status: "published-intersection",
-        aep: [
-          { annualExceedanceProbabilityPercent: 5, relationship: "area", places: ["Bedford / Sackville"] },
-          { annualExceedanceProbabilityPercent: 1, relationship: "boundary", places: ["Pictou"] },
-        ],
-      },
-      coastal: [
-        { scenario: "current", status: "intersects", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 12.5, approximateAffectedSquareMetres: 13_882, sampledParcelPixels: 320 },
-        { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 320 },
-        { scenario: "2100", status: "error", stormAnnualExceedanceProbabilityPercent: 1, message: "Unavailable" },
+    vi.mocked(fetchPublishedRiverFloodEvidence).mockResolvedValueOnce({
+      status: "published-intersection",
+      aep: [
+        { annualExceedanceProbabilityPercent: 5, relationship: "area", places: ["Bedford / Sackville"] },
+        { annualExceedanceProbabilityPercent: 1, relationship: "boundary", places: ["Pictou"] },
       ],
     });
+    vi.mocked(fetchCoastalFloodEvidence).mockResolvedValueOnce([
+      { scenario: "current", status: "intersects", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 12.5, approximateAffectedSquareMetres: 13_882, sampledParcelPixels: 320 },
+      { scenario: "2050", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 320 },
+      { scenario: "2100", status: "error", stormAnnualExceedanceProbabilityPercent: 1, message: "Unavailable" },
+    ]);
     renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -4960,14 +5025,11 @@ describe("NS Marks The Spot Online", () => {
       type: "FeatureCollection",
       features: [parcelFeature("50334317")],
     });
-    vi.mocked(fetchParcelFloodHazardEvidence).mockResolvedValueOnce({
-      river: { status: "outside-published-layer-extents", aep: [] },
-      coastal: [
-        { scenario: "current", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
-        { scenario: "2050", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
-        { scenario: "2100", status: "geometry-unavailable", stormAnnualExceedanceProbabilityPercent: 1 },
-      ],
-    });
+    vi.mocked(fetchCoastalFloodEvidence).mockResolvedValueOnce([
+      { scenario: "current", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
+      { scenario: "2050", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
+      { scenario: "2100", status: "geometry-unavailable", stormAnnualExceedanceProbabilityPercent: 1 },
+    ]);
     renderAppWithCategoriesOpen();
 
     await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
@@ -4990,6 +5052,44 @@ describe("NS Marks The Spot Online", () => {
       within(evidence).queryByText(
         "No intersecting pixels is not proof of no coastal hazard.",
       ),
+    ).not.toBeInTheDocument();
+  });
+
+  // Two scenarios answered and one never did. Reporting the pair as still
+  // being checked, or the silent one as a miss, both tell the reader
+  // something about this parcel that nobody measured.
+  it("shows the coastal scenarios that answered while the silent one says it never answered", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchCoastalFloodEvidence).mockResolvedValueOnce([
+      { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 320 },
+      { scenario: "2050", status: "intersects", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 8.5, approximateAffectedSquareMetres: 9_400, sampledParcelPixels: 320 },
+      { scenario: "2100", status: "unanswered", stormAnnualExceedanceProbabilityPercent: 1 },
+    ]);
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const evidence = await screen.findByRole("region", { name: "Flood hazard evidence" });
+    expect(within(evidence).getByText(/8.5% of mapped parcel area/)).toBeInTheDocument();
+    expect(
+      within(evidence).getByText(/Current: no mapped pixels intersected this parcel/),
+    ).toBeInTheDocument();
+    expect(
+      within(evidence).getByText(
+        /2100: the scenario service did not answer in time, so nothing was measured/,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(evidence).queryByText(/2100: no mapped pixels intersected/),
+    ).not.toBeInTheDocument();
+    expect(
+      within(evidence).queryByText("Checking coastal hazard scenarios…"),
     ).not.toBeInTheDocument();
   });
 

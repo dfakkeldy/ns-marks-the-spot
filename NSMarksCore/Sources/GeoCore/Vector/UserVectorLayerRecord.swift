@@ -27,9 +27,17 @@ public enum UserVectorOrigin: Hashable, Sendable {
     case imported(filename: String, importedAt: Date)
     case drawn(createdAt: Date)
     /// A track recorded on this device, and when the recording ran. The key
-    /// names match the web's `{ kind: "recorded", startedAt, endedAt }` so
-    /// the two surfaces' stored records stay mutually readable in shape.
-    case recorded(startedAt: Date, endedAt: Date)
+    /// names match the web's `{ kind: "recorded", startedAt, endedAt }`, and
+    /// the decoder below reads the web's dates as well as this app's, so an
+    /// origin written by either surface reads on the other.
+    ///
+    /// `interrupted` is set when the walk was saved from the copy its device
+    /// kept while it ran, so it ends at the last position stored and may be
+    /// cut short. This app does not keep such a copy yet, so it never sets
+    /// the flag — but it carries one it is given: dropping it would file a
+    /// walk that says it may be incomplete as a complete one, and re-encoding
+    /// would take the caveat off the record for good.
+    case recorded(startedAt: Date, endedAt: Date, interrupted: Bool = false)
     /// Points placed from the device photo library.
     case photos(createdAt: Date, count: Int)
 
@@ -38,7 +46,10 @@ public enum UserVectorOrigin: Hashable, Sendable {
         switch self {
         case .imported(let filename, _): return "From your file \(filename)"
         case .drawn: return "Drawn on this device"
-        case .recorded: return CaptureSpec.recordedProvenance
+        case .recorded(_, _, let interrupted):
+            return interrupted
+                ? "\(CaptureSpec.recordedProvenance) — interrupted, so it may be cut short"
+                : CaptureSpec.recordedProvenance
         case .photos(_, let count):
             // Historical: how the layer began, not how many photos it holds
             // now, which the features themselves say. "Your photos" is the
@@ -52,6 +63,46 @@ public enum UserVectorOrigin: Hashable, Sendable {
 extension UserVectorOrigin: Codable {
     private enum CodingKeys: String, CodingKey {
         case kind, filename, importedAt, createdAt, startedAt, endedAt, count
+        case interrupted
+    }
+
+    /// The web writes these dates as ISO-8601 strings
+    /// (`web/src/userMaps/vector/types.ts`); this app writes and has always
+    /// written Foundation's own numeric form. Reading both is what lets an
+    /// origin written by the web decode here at all — a default decoder
+    /// throws on the web's string before it ever reaches the `interrupted`
+    /// flag it was given to carry. The numeric form is still what gets
+    /// written, because every library.json already on a device is in it and
+    /// this is not the change that migrates them.
+    ///
+    /// This covers the ORIGIN alone. The enclosing `UserVectorLayerRecord`
+    /// still uses its synthesized Codable, whose `createdAt` and `modifiedAt`
+    /// are numeric-only, and its style key is `colorHex` where the web writes
+    /// `color` — so a whole record from the browser does not decode yet, and
+    /// nothing here should be read as saying it does.
+    private static func decodeDate(
+        _ container: KeyedDecodingContainer<CodingKeys>,
+        _ key: CodingKeys
+    ) throws -> Date {
+        if let seconds = try? container.decode(Double.self, forKey: key) {
+            return Date(timeIntervalSinceReferenceDate: seconds)
+        }
+        let text = try container.decode(String.self, forKey: key)
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        if let date = formatter.date(from: text) {
+            return date
+        }
+        // The web writes milliseconds; a hand-edited or older file may not.
+        formatter.formatOptions = [.withInternetDateTime]
+        guard let date = formatter.date(from: text) else {
+            throw DecodingError.dataCorruptedError(
+                forKey: key,
+                in: container,
+                debugDescription: "\(text) is not an ISO-8601 instant."
+            )
+        }
+        return date
     }
 
     private enum Kind: String, Codable {
@@ -69,18 +120,23 @@ extension UserVectorOrigin: Codable {
         case .imported:
             self = .imported(
                 filename: try container.decode(String.self, forKey: .filename),
-                importedAt: try container.decode(Date.self, forKey: .importedAt)
+                importedAt: try Self.decodeDate(container, .importedAt)
             )
         case .drawn:
-            self = .drawn(createdAt: try container.decode(Date.self, forKey: .createdAt))
+            self = .drawn(createdAt: try Self.decodeDate(container, .createdAt))
         case .recorded:
             self = .recorded(
-                startedAt: try container.decode(Date.self, forKey: .startedAt),
-                endedAt: try container.decode(Date.self, forKey: .endedAt)
+                startedAt: try Self.decodeDate(container, .startedAt),
+                endedAt: try Self.decodeDate(container, .endedAt),
+                // Absent on a walk this app recorded, and on every walk saved
+                // before the web kept a copy; absent means not interrupted.
+                interrupted: try container.decodeIfPresent(
+                    Bool.self, forKey: .interrupted
+                ) ?? false
             )
         case .photos:
             self = .photos(
-                createdAt: try container.decode(Date.self, forKey: .importedAt),
+                createdAt: try Self.decodeDate(container, .importedAt),
                 count: try container.decode(Int.self, forKey: .count)
             )
         }
@@ -96,10 +152,15 @@ extension UserVectorOrigin: Codable {
         case .drawn(let createdAt):
             try container.encode(Kind.drawn, forKey: .kind)
             try container.encode(createdAt, forKey: .createdAt)
-        case .recorded(let startedAt, let endedAt):
+        case .recorded(let startedAt, let endedAt, let interrupted):
             try container.encode(Kind.recorded, forKey: .kind)
             try container.encode(startedAt, forKey: .startedAt)
             try container.encode(endedAt, forKey: .endedAt)
+            // Only when true, so a walk this app recorded encodes the shape
+            // the web wrote before the flag existed.
+            if interrupted {
+                try container.encode(true, forKey: .interrupted)
+            }
         case .photos(let createdAt, let count):
             try container.encode(Kind.photos, forKey: .kind)
             try container.encode(createdAt, forKey: .importedAt)

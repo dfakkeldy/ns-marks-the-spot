@@ -20,6 +20,7 @@ import {
   type PrintLayerSource,
   type PrintSnapshot,
 } from "../../services/printSnapshot";
+import { ADJACENT_ROAD_DISTANCE_METRES } from "../../services/parcelContext";
 import { PrintFieldDocument } from "./PrintFieldDocument";
 import { PrintResearchDocument } from "./PrintResearchDocument";
 
@@ -145,10 +146,11 @@ function snapshot(overrides: Record<string, unknown> = {}) {
         value: { addresses: [], unreadableRows: 0 },
       },
       mappedContext: { status: "ready", value: { roads: [], water: [] } },
-      floodHazard: {
+      riverFlood: {
         status: "ready",
-        value: { river: { status: "within-published-layer-extent", aep: [] }, coastal: [] },
+        value: { status: "within-published-layer-extent", aep: [] },
       },
+      coastalFlood: { status: "ready", value: [] },
       resources: {
         status: "ready",
         value: {
@@ -560,10 +562,11 @@ describe("print documents", () => {
           evidence: {
             ...snapshot().evidence,
             buildings: { status: "ready", value: { count: 0, pointCount: 0, polygonCount: 0 } },
-            floodHazard: {
+            riverFlood: {
               status: "ready",
-              value: { river: { status: "outside-published-layer-extents", aep: [] }, coastal: [] },
+              value: { status: "outside-published-layer-extents", aep: [] },
             },
+            coastalFlood: { status: "ready", value: [] },
             assessments: {
               status: "error",
               message: "PVSC assessment source unavailable at export time.",
@@ -661,6 +664,48 @@ describe("print documents", () => {
     expect(screen.getByText(/Cabot Trail/)).toBeInTheDocument();
   });
 
+  // The panel derives this label from the query distance. A printed sheet that
+  // spelled the distance out on its own could outlive the query it describes.
+  it("prints the adjacency distance the road query actually used", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            mappedContext: {
+              status: "ready",
+              value: {
+                roads: [
+                  { name: "Shore Road", kind: "Local", relationship: "adjacent" },
+                ],
+                water: [],
+              },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const section = screen
+      .getByRole("heading", { name: "Mapped roads" })
+      .closest("section");
+    expect(section).not.toBeNull();
+    expect(
+      within(section as HTMLElement).getByText(
+        `Shore Road (Local) — Adjacent within ${ADJACENT_ROAD_DISTANCE_METRES} m`,
+      ),
+    ).toBeInTheDocument();
+  });
+
   it("does not read a partial civic answer as no addressed road", () => {
     render(
       <PrintResearchDocument
@@ -743,7 +788,8 @@ describe("print documents", () => {
       assessments: { status: "error", message: "offline" },
       civicAddresses: { status: "error", message: "offline" },
       mappedContext: { status: "error", message: "offline" },
-      floodHazard: { status: "error", message: "offline" },
+      riverFlood: { status: "error", message: "offline" },
+      coastalFlood: { status: "error", message: "offline" },
       resources: { status: "error", message: "offline" },
     };
 
@@ -862,19 +908,17 @@ describe("print documents", () => {
         snapshot={snapshot({
           evidence: {
             ...snapshot().evidence,
-            floodHazard: {
+            riverFlood: { status: "ready", value: river },
+            coastalFlood: {
               status: "ready",
-              value: {
-                river,
-                coastal: [{
-                  scenario: "2050",
-                  status: "no-intersection",
-                  stormAnnualExceedanceProbabilityPercent: 1,
-                  approximateAffectedPercent: 0,
-                  approximateAffectedSquareMetres: 0,
-                  sampledParcelPixels: 72,
-                }],
-              },
+              value: [{
+                scenario: "2050",
+                status: "no-intersection",
+                stormAnnualExceedanceProbabilityPercent: 1,
+                approximateAffectedPercent: 0,
+                approximateAffectedSquareMetres: 0,
+                sampledParcelPixels: 72,
+              }],
             },
           },
         })}
@@ -904,11 +948,8 @@ describe("print documents", () => {
         snapshot={snapshot({
           evidence: {
             ...snapshot().evidence,
-            floodHazard: {
-              status: "ready",
-              value: {
-                river: { status: "outside-published-layer-extents", aep: [] },
-                coastal: [
+            riverFlood: { status: "ready", value: { status: "outside-published-layer-extents", aep: [] } },
+            coastalFlood: { status: "ready", value: [
                   {
                     scenario: "2050",
                     status: "not-sampled",
@@ -920,9 +961,7 @@ describe("print documents", () => {
                     status: "geometry-unavailable",
                     stormAnnualExceedanceProbabilityPercent: 1,
                   },
-                ],
-              },
-            },
+                ] },
           },
         })}
         map={map}
@@ -945,6 +984,65 @@ describe("print documents", () => {
     ).toBeInTheDocument();
     expect(screen.queryByText(/parcel pixels sampled/)).not.toBeInTheDocument();
     expect(screen.queryByText(/map pixels intersected this parcel/)).not.toBeInTheDocument();
+  });
+
+  // A scenario that never came back was not captured, and it did not fail
+  // either. The receipt counted it as captured and the appendix had no
+  // sentence for it at all.
+  it("prints a coastal scenario that never answered apart from one that failed", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            riverFlood: { status: "ready", value: { status: "outside-published-layer-extents", aep: [] } },
+            coastalFlood: { status: "ready", value: [
+                  {
+                    scenario: "current",
+                    status: "no-intersection",
+                    stormAnnualExceedanceProbabilityPercent: 1,
+                    approximateAffectedPercent: 0,
+                    approximateAffectedSquareMetres: 0,
+                    sampledParcelPixels: 72,
+                  },
+                  {
+                    scenario: "2100",
+                    status: "unanswered",
+                    stormAnnualExceedanceProbabilityPercent: 1,
+                  },
+                ] },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(
+      screen.getByText(
+        /2100: the scenario service had not answered when this page was made/,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "No current map pixels intersected this parcel; this is not proof of no coastal hazard.",
+      ),
+    ).toBeInTheDocument();
+    const receipt = within(
+      screen.getByRole("region", { name: "Evidence receipt status" }),
+    );
+    expect(
+      receipt.getByText("Coastal scenarios: partially captured; Coastal 2100 did not answer"),
+    ).toBeInTheDocument();
+    expect(receipt.queryByText("Coastal scenarios: captured")).not.toBeInTheDocument();
+    expect(receipt.queryByText(/Coastal 2100 unavailable/u)).not.toBeInTheDocument();
   });
 
   // "Unavailable" and "did not answer" are different receipts, and the page
@@ -1029,7 +1127,11 @@ describe("print documents", () => {
         snapshot={snapshot({
           evidence: {
             ...snapshot().evidence,
-            floodHazard: {
+            riverFlood: {
+              status: "unanswered",
+              message: PRINT_SOURCE_UNANSWERED,
+            },
+            coastalFlood: {
               status: "unanswered",
               message: PRINT_SOURCE_UNANSWERED,
             },
@@ -1123,16 +1225,11 @@ describe("print documents", () => {
         snapshot={snapshot({
           evidence: {
             ...snapshot().evidence,
-            floodHazard: {
-              status: "ready",
-              value: {
-                river: { status: "error", aep: [], message: "offline" },
-                coastal: [
+            riverFlood: { status: "ready", value: { status: "error", aep: [], message: "offline" } },
+            coastalFlood: { status: "ready", value: [
                   { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 72 },
                   { scenario: "2100", status: "error", stormAnnualExceedanceProbabilityPercent: 1, message: "offline" },
-                ],
-              },
-            },
+                ] },
             resources: {
               status: "ready",
               value: {
@@ -1158,17 +1255,18 @@ describe("print documents", () => {
     const receipt = within(
       screen.getByRole("region", { name: "Evidence receipt status" }),
     );
+    // Two slots now, because one hanging raster must not seal an answered
+    // river result as a source that went silent.
+    expect(receipt.getByText("Published river mapping: unavailable")).toBeInTheDocument();
     expect(
-      receipt.getByText(
-        "Flood evidence: partially captured; Published river, Coastal 2100 unavailable",
-      ),
+      receipt.getByText("Coastal scenarios: partially captured; Coastal 2100 unavailable"),
     ).toBeInTheDocument();
     expect(
       receipt.getByText(
         "Resource evidence: partially captured; Mineral occurrences unavailable",
       ),
     ).toBeInTheDocument();
-    expect(receipt.queryByText("Flood evidence: captured")).not.toBeInTheDocument();
+    expect(receipt.queryByText("Coastal scenarios: captured")).not.toBeInTheDocument();
   });
 
   // A document printed without the appendix would otherwise carry no sign at

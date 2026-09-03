@@ -8,6 +8,7 @@ import {
 } from "../convert/pointsToPath";
 import {
   PHOTOS_PROPERTY,
+  readPhotoDescriptors,
   type FeaturePhotoDescriptor,
 } from "../photos/types";
 import { summarize } from "../summarize";
@@ -24,7 +25,27 @@ export type VectorEditSession = {
   editingLayer: VisibleUserVectorLayer | null;
   /** Changes on every begin and end; see the field above. */
   editGeneration: number;
+  /** The open session's own write failure, or null. The panel renders it. */
   storageError: string | null;
+  /**
+   * Write failures whose session has already closed — Done, or another layer
+   * opened — keyed by layer id, so two layers left unsaved are both reported
+   * rather than one replacing the other. The panel that would have shown them
+   * is gone, so the map carries them, and every message names its layer: by
+   * the time a debounced write answers, the reader may be looking at a
+   * different layer, or at none.
+   */
+  closedSessionErrors: Record<string, string>;
+  /** Takes one notice down. The edit is still unsaved either way. */
+  dismissClosedSessionError: (layerId: string) => void;
+  /**
+   * A layer this tab is removing, told to the session before the row goes.
+   * Unsaved work for it is dropped rather than written — Done's flush would
+   * start a write that reaches the store after the delete — and a write
+   * already on its way is not allowed to report this tab's own removal as
+   * another tab's deletion.
+   */
+  abandonLayer: (layerId: string) => void;
   beginEdit: (id: string) => void;
   endEdit: () => void;
   commitGeometry: (collection: FeatureCollection) => void;
@@ -41,6 +62,32 @@ export type VectorEditSession = {
     featureId: string,
     descriptors: FeaturePhotoDescriptor[],
   ) => void;
+  /**
+   * Adds freshly written photos to a feature, against the working copy as it
+   * stands when the attach finishes rather than the one the strip rendered
+   * when the file was picked. Returns the descriptors that had nowhere to
+   * land, so the caller can take their rows and blobs back out of the store.
+   */
+  attachFeaturePhotos: (
+    layerId: string,
+    featureId: string,
+    descriptors: FeaturePhotoDescriptor[],
+  ) => FeaturePhotoDescriptor[];
+  /**
+   * Photos discarded that way, and what the reader is told about each. The
+   * map renders them: a discard means the feature is gone, so the strip that
+   * would have shown the message went with it.
+   */
+  discardedPhotos: Array<{ id: string; message: string }>;
+  /** Takes one notice down once it has been read. */
+  dismissDiscardedPhoto: (photoId: string) => void;
+  /**
+   * Says that the discarded photo's bytes are still on the device. The notice
+   * above only claims the photo is not on the map, which the session watched
+   * happen; whether the copy went is the caller's to observe, and a promise
+   * that it did would be a removal nobody verified.
+   */
+  notePhotoCleanupFailure: (photoId: string) => void;
   /**
    * Moves a Point feature to an exact position — the "use photo's location"
    * offer. Geometry is otherwise Geoman-owned; this is the one deliberate
@@ -100,15 +147,94 @@ export function useVectorEditSession({
    * one on the same layer.
    */
   const [editGeneration, setEditGeneration] = useState(0);
+  /**
+   * The same count, readable from a callback that does not re-render with it.
+   * Advanced in the same statement as the state above, so a write started by
+   * `endEdit`'s flush already sees the new session number by the time it
+   * answers.
+   */
+  const generationRef = useRef(0);
   const [draftRecord, setDraftRecord] = useState<UserVectorLayerRecord | null>(null);
   const [draftData, setDraftData] = useState<FeatureCollection | null>(null);
+  /**
+   * The same working copy, readable from a callback that does not re-render
+   * with it — the arrangement `generationRef` uses above, for the same
+   * reason. Assigned in the same statement as the state, never mirrored by
+   * an effect, so it is current the moment a change is made rather than a
+   * render later. Attaching a photo is the one edit that starts in one
+   * render and finishes seconds afterwards, and by then the state a callback
+   * closed over can describe a photo the user has removed or a feature the
+   * user has deleted.
+   */
+  const draftRef = useRef<{
+    record: UserVectorLayerRecord;
+    collection: FeatureCollection;
+  } | null>(null);
   const [storageError, setStorageError] = useState<string | null>(null);
+  /**
+   * Layer id → why that layer's edit did not reach this device, for failures
+   * whose session has closed. Keyed rather than one slot: a disk that is full
+   * fails every layer's write, and one message overwriting another would
+   * leave the reader believing only the last layer was lost.
+   */
+  const [closedSessionErrors, setClosedSessionErrors] = useState<
+    Record<string, string>
+  >({});
+  /**
+   * The reader's only way out of a notice no retry can clear — a layer
+   * another tab deleted can never be written again. It hides the words, not
+   * the fact: the edit is still unsaved and still on the map.
+   */
+  const dismissClosedSessionError = useCallback((layerId: string) => {
+    setClosedSessionErrors((prev) => {
+      if (!(layerId in prev)) {
+        return prev;
+      }
+      const next = { ...prev };
+      delete next[layerId];
+      return next;
+    });
+  }, []);
+  /**
+   * Photos whose bytes reached the store but whose feature was no longer in
+   * the open session by the time they got there. The rows and blobs go back
+   * out, and this is how the reader learns it happened. Saying nothing would
+   * leave a photo the user watched being added and will never see again.
+   */
+  const [discardedPhotos, setDiscardedPhotos] = useState<
+    Array<{ id: string; message: string }>
+  >([]);
+  const dismissDiscardedPhoto = useCallback((photoId: string) => {
+    setDiscardedPhotos((prev) => prev.filter((photo) => photo.id !== photoId));
+  }, []);
+  const notePhotoCleanupFailure = useCallback((photoId: string) => {
+    setDiscardedPhotos((prev) =>
+      prev.map((photo) =>
+        photo.id === photoId
+          ? {
+              ...photo,
+              message: `${photo.message} The copy on this device couldn't be removed either.`,
+            }
+          : photo,
+      ),
+    );
+  }, []);
 
   const timerRef = useRef<number | null>(null);
   const dirtyRef = useRef<{
     record: UserVectorLayerRecord;
     collection: FeatureCollection;
+    /** The session this edit was made in; see `writeDirty`. */
+    generation: number;
   } | null>(null);
+  /**
+   * Layers this tab removed. The store answers a write for a missing row
+   * with false, which normally means another tab deleted the layer — but a
+   * write still in flight when Remove was pressed gets that same answer for
+   * a deletion this tab performed, and naming another tab there would be a
+   * lie. Never pruned: an id belongs to one layer for the life of the tab.
+   */
+  const removedHereRef = useRef(new Set<string>());
   const putRef = useRef(putVectorLayer);
   const changedRef = useRef(onLayerChanged);
   useEffect(() => {
@@ -122,32 +248,78 @@ export function useVectorEditSession({
       return;
     }
     dirtyRef.current = null;
+    const { id, name } = pending.record;
+    /**
+     * Where a failure can be read, decided when the write ANSWERS rather than
+     * when it was scheduled. A debounced write outlives the session that made
+     * it: Done starts one and unmounts the panel in the same handler, and a
+     * failure landing after another layer was opened would otherwise be read
+     * as that layer's. Same session → its own panel, in the same words as
+     * before. Session gone → the map, with the layer named.
+     */
+    const raise = (panelMessage: string, mapMessage: string) => {
+      if (pending.generation === generationRef.current) {
+        setStorageError(panelMessage);
+        return;
+      }
+      setClosedSessionErrors((prev) => ({ ...prev, [id]: mapMessage }));
+    };
     try {
       const wrote = await putRef.current(pending.record, pending.collection);
       if (wrote === false) {
+        // Except when this tab is the one that removed it: a write already on
+        // its way when Remove was pressed gets the same answer, and naming
+        // another tab there would be a lie. Only this branch is gated — a
+        // store that refuses the write still says so, whoever deleted what.
+        if (removedHereRef.current.has(id)) {
+          return;
+        }
         // The layer is gone from the database — another tab deleted it — so
         // the update deliberately wrote nothing. The edit stays on screen,
-        // and the panel says it will not outlive the tab.
-        setStorageError(
+        // and the reader is told it will not outlive the tab.
+        raise(
           "This layer was deleted in another tab, so the edit can't be saved — " +
             "it stays available until you close the tab.",
+          `Couldn't save your edit to ${name}: the layer was deleted in ` +
+            "another tab. The edit stays available until you close the tab.",
         );
         return;
       }
+      // A write that lands carries everything an earlier failed one did, so it
+      // takes that layer's standing notice down — that layer's alone.
+      setClosedSessionErrors((prev) => {
+        if (!(id in prev)) {
+          return prev;
+        }
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
     } catch (error) {
       // A failed write must never interrupt drawing: the edit stays on screen
       // and in memory, and the user is told persistence is the problem.
-      setStorageError(
-        error instanceof UserMapImportError
-          ? error.userMessage
-          : "Couldn't save this edit — it stays available until you close the tab.",
+      const refusal =
+        error instanceof UserMapImportError ? error.userMessage : null;
+      raise(
+        refusal ??
+          "Couldn't save this edit — it stays available until you close the tab.",
+        // The store's own refusals already end with what becomes of the edit
+        // ("Storage is full — this layer stays available until you close the
+        // tab."), so they are quoted whole rather than given a second tail.
+        refusal
+          ? `Couldn't save your edit to ${name}. ${refusal}`
+          : `Couldn't save your edit to ${name} — it stays available until ` +
+            "you close the tab.",
       );
     }
   }, []);
 
   const schedulePersist = useCallback(
     (record: UserVectorLayerRecord, collection: FeatureCollection) => {
-      dirtyRef.current = { record, collection };
+      // The session travels with the edit: a debounced write can answer after
+      // Done, or after another layer is opened, and its failure has to be told
+      // apart from whatever panel is on screen by then.
+      dirtyRef.current = { record, collection, generation: generationRef.current };
       if (timerRef.current !== null) {
         window.clearTimeout(timerRef.current);
       }
@@ -204,6 +376,7 @@ export function useVectorEditSession({
         revision: nextRecord.revision + 1,
         modifiedAt: new Date().toISOString(),
       };
+      draftRef.current = { record: advanced, collection: nextCollection };
       setDraftRecord(advanced);
       setDraftData(nextCollection);
       changedRef.current(advanced, nextCollection);
@@ -214,12 +387,14 @@ export function useVectorEditSession({
 
   const beginEdit = useCallback((id: string) => {
     setStorageError(null);
+    draftRef.current = null;
     setDraftRecord(null);
     setDraftData(null);
     // A new session, even for the same layer: work started before this one
     // began belongs to the session it was started in, and a layer id alone
     // cannot tell a reopened layer from the session that closed.
-    setEditGeneration((generation) => generation + 1);
+    generationRef.current += 1;
+    setEditGeneration(generationRef.current);
     setEditingId(id);
   }, []);
 
@@ -241,6 +416,7 @@ export function useVectorEditSession({
     const record = records.find((candidate) => candidate.id === editingId);
     const data = geometries[editingId];
     if (record && data) {
+      draftRef.current = { record, collection: data };
       setDraftRecord(record);
       setDraftData(data);
     }
@@ -250,11 +426,49 @@ export function useVectorEditSession({
     flush();
     undoConversionRef.current = null;
     setLastConversion(null);
-    setEditGeneration((generation) => generation + 1);
+    // Advanced here, synchronously, even though `flush()` above has already
+    // started the write: `writeDirty` reads this only after awaiting the
+    // store, so the write Done itself starts sees the session it left.
+    generationRef.current += 1;
+    setEditGeneration(generationRef.current);
+    draftRef.current = null;
     setEditingId(null);
     setDraftRecord(null);
     setDraftData(null);
   }, [flush]);
+
+  const abandonLayer = useCallback(
+    (layerId: string) => {
+      removedHereRef.current.add(layerId);
+      // Dropped rather than flushed: the user asked for the layer to be
+      // gone, and a write racing the delete comes back reading as a
+      // deletion this tab did not do.
+      if (dirtyRef.current?.record.id === layerId) {
+        if (timerRef.current !== null) {
+          window.clearTimeout(timerRef.current);
+          timerRef.current = null;
+        }
+        dirtyRef.current = null;
+      }
+      // A standing notice promises the edit stays available until the tab
+      // closes. Once the layer is removed, that is no longer true.
+      dismissClosedSessionError(layerId);
+      if (editingId !== layerId) {
+        return;
+      }
+      // The session over the removed layer closes the way Done closes it,
+      // minus the write.
+      undoConversionRef.current = null;
+      setLastConversion(null);
+      generationRef.current += 1;
+      setEditGeneration(generationRef.current);
+      draftRef.current = null;
+      setEditingId(null);
+      setDraftRecord(null);
+      setDraftData(null);
+    },
+    [dismissClosedSessionError, editingId],
+  );
 
   const commitGeometry = useCallback(
     (collection: FeatureCollection) => {
@@ -364,6 +578,70 @@ export function useVectorEditSession({
     [commit, draftData, draftRecord],
   );
 
+  /**
+   * Adds photos to a feature as their bytes finish landing. Processing takes
+   * seconds, and in that time the user can remove another photo, delete the
+   * feature or press Done — so the strip sends only what is new and this
+   * adds it to whatever the feature holds now. Writing back the whole list
+   * the strip rendered would bring a removed photo back with its blobs
+   * already deleted, or rebuild a feature the user deleted.
+   *
+   * The layer is checked as well as the feature: feature ids are unique
+   * within a layer and nowhere else, so a session that has moved on to
+   * another layer can hold a different feature under the same id.
+   */
+  const attachFeaturePhotos = useCallback(
+    (
+      layerId: string,
+      featureId: string,
+      descriptors: FeaturePhotoDescriptor[],
+    ): FeaturePhotoDescriptor[] => {
+      if (descriptors.length === 0) {
+        return [];
+      }
+      // The ref rather than the state above: this call arrives from a render
+      // that may be several edits old. See `draftRef`.
+      const draft = draftRef.current;
+      const target =
+        draft && draft.record.id === layerId
+          ? draft.collection.features.find(
+              (feature) => String(feature.id) === featureId,
+            )
+          : undefined;
+      if (!draft || !target) {
+        // Handed back rather than dropped: the caller deletes the rows and
+        // blobs, and the reader is told, because a photo that vanishes in
+        // silence looks to the user like a photo that was never taken.
+        setDiscardedPhotos((prev) => [
+          ...prev,
+          ...descriptors.map((descriptor) => ({
+            id: descriptor.id,
+            message:
+              `Couldn't attach ${descriptor.sourceName ?? "a photo"}: that ` +
+              "feature was no longer being edited when the photo finished " +
+              "processing. It is not on the map.",
+          })),
+        ]);
+        return descriptors;
+      }
+      const kept = [...readPhotoDescriptors(target.properties), ...descriptors];
+      const features: Feature[] = draft.collection.features.map((feature) =>
+        feature === target
+          ? {
+              ...feature,
+              properties: {
+                ...(feature.properties ?? {}),
+                [PHOTOS_PROPERTY]: kept.map((descriptor) => ({ ...descriptor })),
+              },
+            }
+          : feature,
+      );
+      commit(draft.record, { type: "FeatureCollection", features });
+      return [];
+    },
+    [commit],
+  );
+
   const moveFeaturePoint = useCallback(
     (featureId: string, position: [number, number]) => {
       if (!draftRecord || !draftData) {
@@ -428,6 +706,9 @@ export function useVectorEditSession({
     editingLayer,
     editGeneration,
     storageError,
+    closedSessionErrors,
+    dismissClosedSessionError,
+    abandonLayer,
     beginEdit,
     endEdit,
     commitGeometry,
@@ -436,6 +717,10 @@ export function useVectorEditSession({
     deleteFeature,
     renameLayer,
     setFeaturePhotos,
+    attachFeaturePhotos,
+    discardedPhotos,
+    dismissDiscardedPhoto,
+    notePhotoCleanupFailure,
     moveFeaturePoint,
     convertPoints,
     lastConversion,

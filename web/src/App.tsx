@@ -44,10 +44,11 @@ import {
   type AssessmentState,
   type BuildingCountState,
   type CivicAddressState,
+  type CoastalFloodState,
   type DwellingState,
-  type FloodHazardState,
   type ParcelContextState,
   type ParcelResourceState,
+  type RiverFloodState,
 } from "./components/ParcelInspector";
 // Print preview and PDF export ride behind React.lazy: qrcode plus the print
 // components on one, pdf-lib (~150 KB gzip, the largest dependency after the
@@ -149,7 +150,10 @@ import {
   type ParcelContext,
 } from "./services/parcelContext";
 import { buildEvidenceNote } from "./services/evidenceNote";
-import { fetchParcelFloodHazardEvidence } from "./services/floodHazard";
+import {
+  fetchCoastalFloodEvidence,
+  fetchPublishedRiverFloodEvidence,
+} from "./services/floodHazard";
 import {
   buildMapShareUrl,
   hasRecognizedMapShareState,
@@ -484,6 +488,29 @@ function isLicenceAccepted(): boolean {
     );
   } catch {
     return false;
+  }
+}
+
+/**
+ * The same guard as above, one step earlier.
+ *
+ * `loadCustomThemes` and `saveCustomThemes` catch whatever their `getItem` and
+ * `setItem` throw, but `window.localStorage` passed as an argument is
+ * evaluated at the CALL SITE, outside that try — and in the browsers named
+ * above the property access is itself what throws. Unguarded, the theme
+ * library's first read threw out of App's render on every load, so those
+ * readers met "The map stopped responding" and a Reload button that
+ * reproduced it.
+ *
+ * A store that cannot be reached is reported as a store that could not be
+ * read, never as an empty library: "you have saved nothing" and "your saved
+ * setups could not be read" are different sentences to the reader.
+ */
+function reachableLocalStorage(): Storage | null {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
   }
 }
 
@@ -1061,7 +1088,7 @@ function DataSourcesDialog({
 export function App() {
   const initialUrl = useRef(new URL(window.location.href)).current;
   const [initialCustomThemeLibrary] = useState(
-    () => loadCustomThemes(window.localStorage),
+    () => loadCustomThemes(reachableLocalStorage()),
   );
   const [initialCustomThemes] = useState<CustomMapThemeDefinition[]>(
     () => initialCustomThemeLibrary.themes.filter(
@@ -1242,6 +1269,11 @@ export function App() {
     initialShareState.pid,
   );
   const selectionGeneration = useRef(initialShareState.pid ? 1 : 0);
+  // Closing the parcel inspector unmounts it, and focus would otherwise fall
+  // to <body> — the next Tab would restart at the top of the document. The
+  // map region is the panel's own container, so it is where focus goes back
+  // to. A programmatic landing spot only, never a tab stop.
+  const mapRegionRef = useRef<HTMLElement | null>(null);
   // Name the tab after the open parcel: multi-tab research otherwise produces
   // indistinguishable tabs and identical history entries. The PID is already
   // in the share URL, so this discloses nothing new.
@@ -1304,7 +1336,13 @@ export function App() {
         ? { pid: initialShareState.pid, generation: selectionGeneration.current }
         : null,
     });
-  const [floodHazard, setFloodHazard] = useState<FloodHazardState>({
+  const [riverFlood, setRiverFlood] = useState<RiverFloodState>({
+    status: initialShareState.pid ? "loading" : "idle",
+    request: initialShareState.pid
+      ? { pid: initialShareState.pid, generation: selectionGeneration.current }
+      : null,
+  });
+  const [coastalFlood, setCoastalFlood] = useState<CoastalFloodState>({
     status: initialShareState.pid ? "loading" : "idle",
     request: initialShareState.pid
       ? { pid: initialShareState.pid, generation: selectionGeneration.current }
@@ -1531,6 +1569,24 @@ export function App() {
     setConvertShape(null);
     vectorEdit.endEdit();
   }, [vectorEdit]);
+  // Remove is not Done. Done flushes the debounce so the last edit lands;
+  // Remove asks for the layer to be gone, and flushing would start a write
+  // that reaches the store after the delete and report the user's own
+  // removal as another tab's. The panel state only needs re-arming when the
+  // layer going is the one under edit.
+  const abandonVectorLayer = useCallback(
+    (layerId: string) => {
+      if (vectorEdit.editingId === layerId) {
+        setDrawMode(null);
+        setSelectedFeatureId(null);
+        setSnapTargets(DEFAULT_SNAP_TARGETS);
+        setParcelSnapStatus({ status: "idle" });
+        setConvertShape(null);
+      }
+      vectorEdit.abandonLayer(layerId);
+    },
+    [vectorEdit],
+  );
 
   const requestParcelSnapLicence = useCallback(() => {
     setLicenceIntent({ kind: "snap" });
@@ -1629,8 +1685,10 @@ export function App() {
           features: [...session.editingLayer.data.features, feature],
         });
         // "Added", not "saved": the edit session writes on its own debounce,
-        // so the point is on the map and its write has not answered yet. The
-        // panel carries the storage error if that write fails.
+        // so the point is on the map and its write has not answered yet. If
+        // that write fails, the panel says so while this session is open, and
+        // the map's write-failure notice says so — naming the layer — if the
+        // write answers after it closed.
         return `Point added to ${session.editingLayer.record.name} (±${accuracy} m).`;
       }
       const layerId = await userVectorApi.ensureFieldNotesLayer();
@@ -1657,9 +1715,24 @@ export function App() {
       rawGpx: Blob;
       startedAt: string;
       endedAt: string;
-    }): Promise<string | null> => {
-      const record = await userVectorApi.createRecordedLayer(input);
-      return `Track saved as "${record.name}".`;
+      /** True only for a walk recovered from an interrupted session. */
+      interrupted: boolean;
+      /** Set when this is a retry of a save the device already refused. */
+      replaceLayerId?: string;
+    }): Promise<{ message: string; persisted: boolean; layerId: string }> => {
+      const { record, persisted } = await userVectorApi.createRecordedLayer(input);
+      // "Saved" only when it was: a track the device refused is on the map and
+      // nowhere else, and the map must not say otherwise.
+      return {
+        message: persisted
+          ? `Track saved as "${record.name}".`
+          : `Track "${record.name}" is on the map, but it couldn't be written ` +
+            `to this device — it stays until you close the tab.`,
+        persisted,
+        // The layer this walk is on, so a retry can be aimed at it instead of
+        // adding a second copy.
+        layerId: record.id,
+      };
     },
     [userVectorApi],
   );
@@ -2016,7 +2089,11 @@ export function App() {
         isCurrentEvidenceRequest(current.request, request)
           ? { status, request }
           : current);
-      setFloodHazard((current) =>
+      setRiverFlood((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status, request }
+          : current);
+      setCoastalFlood((current) =>
         isCurrentEvidenceRequest(current.request, request)
           ? { status, request }
           : current);
@@ -2410,28 +2487,40 @@ export function App() {
       { type: "FeatureCollection", features: selectedFeatures },
       selectedPid,
     );
-    fetchParcelFloodHazardEvidence(
+    // Asked apart, settled apart. Joined in one promise, a coastal raster that
+    // never came back kept an answered river result off the panel, and the
+    // print capture's fifteen-second timeout sealed it as a source that had
+    // not answered. The reverse held too: a hanging river query sank three
+    // answered coastal scenarios.
+    fetchPublishedRiverFloodEvidence(selectedFeatures, controller.signal)
+      .then((value) => setRiverFlood((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status: "ready", value, request }
+          : current,
+      ))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setRiverFlood((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "error", request }
+            : current,
+        );
+      });
+    fetchCoastalFloodEvidence(
       selectedFeatures,
       mappedArea?.squareMetres ?? null,
       controller.signal,
-    ).then((value) => setFloodHazard((current) =>
-      isCurrentEvidenceRequest(current.request, request)
-        ? { status: "ready", value, request }
-        : current,
-    ))
+    )
+      .then((value) => setCoastalFlood((current) =>
+        isCurrentEvidenceRequest(current.request, request)
+          ? { status: "ready", value, request }
+          : current,
+      ))
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
-        setFloodHazard((current) =>
+        setCoastalFlood((current) =>
           isCurrentEvidenceRequest(current.request, request)
-            ? { status: "ready", request, value: {
-            river: { status: "error", aep: [], message: "Flood evidence request failed." },
-            coastal: ["current", "2050", "2100"].map((scenario) => ({
-              scenario: scenario as "current" | "2050" | "2100",
-              status: "error" as const,
-              stormAnnualExceedanceProbabilityPercent: 1 as const,
-              message: "Flood evidence request failed.",
-            })),
-            } }
+            ? { status: "error", request }
             : current,
         );
       });
@@ -2901,7 +2990,8 @@ export function App() {
     setBuildingCount({ status: "loading", request });
     setAssessmentState({ status: "loading", request });
     setDwellingState({ status: "loading", request });
-    setFloodHazard({ status: "loading", request });
+    setRiverFlood({ status: "loading", request });
+    setCoastalFlood({ status: "loading", request });
     setCivicAddresses({ status: "loading", value: EMPTY_CIVIC_ADDRESSES, request });
     setResourceIntersections({
       status: "loading",
@@ -2923,7 +3013,8 @@ export function App() {
     setMappedContext({ status: "idle", value: EMPTY_PARCEL_CONTEXT, request: null });
     setBuildingCount({ status: "idle", request: null });
     setAssessmentState({ status: "idle", request: null });
-    setFloodHazard({ status: "idle", request: null });
+    setRiverFlood({ status: "idle", request: null });
+    setCoastalFlood({ status: "idle", request: null });
     setCivicAddresses({ status: "idle", value: EMPTY_CIVIC_ADDRESSES, request: null });
     setResourceIntersections({
       status: "idle",
@@ -3327,7 +3418,7 @@ export function App() {
     mapMode,
   }), [activeLayerIds, fletcherOpacity, mapMode, taxSaleEnabled]);
   const persistCustomThemes = useCallback((nextThemes: CustomMapThemeDefinition[]) => {
-    const result = saveCustomThemes(nextThemes, window.localStorage);
+    const result = saveCustomThemes(nextThemes, reachableLocalStorage());
     if (!result.ok) {
       setThemeLibraryNotice(result.message);
       return false;
@@ -3521,16 +3612,18 @@ export function App() {
     ),
     civicAddresses: printStateForRequest(civicAddresses, selectedEvidenceRequest),
     mappedContext: printStateForRequest(mappedContext, selectedEvidenceRequest),
-    floodHazard: printStateForRequest(floodHazard, selectedEvidenceRequest),
+    riverFlood: printStateForRequest(riverFlood, selectedEvidenceRequest),
+    coastalFlood: printStateForRequest(coastalFlood, selectedEvidenceRequest),
     resources: printStateForRequest(resourceIntersections, selectedEvidenceRequest),
   }), [
     assessmentState,
     buildingCount,
     civicAddresses,
+    coastalFlood,
     dwellingState,
-    floodHazard,
     mappedContext,
     resourceIntersections,
+    riverFlood,
     selectedEvidenceRequest,
     selectedMappedArea,
   ]);
@@ -4866,6 +4959,7 @@ export function App() {
                           vectorEdit.editingId === id
                             ? endVectorEdit()
                             : beginVectorEdit(id)}
+                        onAbandonLayer={abandonVectorLayer}
                         onNewLayer={() => void createAndEditVectorLayer()}
                         onBulkPhotos={() => setBulkPhotosOpen(true)}
                         editingId={vectorEdit.editingId}
@@ -4881,6 +4975,8 @@ export function App() {
         </aside>
 
         <section
+          ref={mapRegionRef}
+          tabIndex={-1}
           className={`map-region${selectedPid ? " has-inspector" : ""}`}
           aria-label="Map and parcel details"
         >
@@ -4985,13 +5081,64 @@ export function App() {
             onExportFrameContinue={(bounds, orientation) =>
               setExportSession({ stage: "dialog", bounds, orientation })}
           />
+          {/* While a parcel is open the message travels inside its panel,
+              which on a phone covers the map entirely: overlaid, it sat
+              across the panel's own pinned row. */}
           <p
             className="parcel-lookup-message"
             role="status"
             aria-live="polite"
           >
-            {parcelLookupMessage}
+            {selectedPid ? null : parcelLookupMessage}
           </p>
+          {/* A debounced write can answer after Done has closed the editor,
+              or while a different layer's panel is open — with no panel left
+              to be read in. Those failures are reported here, on the map,
+              which outlives every session, and each names its layer because
+              the reader may be looking at a different one, or at none. */}
+          {Object.keys(vectorEdit.closedSessionErrors).length > 0 ||
+          vectorEdit.discardedPhotos.length > 0 ? (
+            <div className="vector-edit-write-errors">
+              {Object.entries(vectorEdit.closedSessionErrors).map(
+                ([layerId, message]) => (
+                  <p
+                    key={layerId}
+                    className="vector-edit-write-error"
+                    role="alert"
+                  >
+                    <span>{message}</span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        vectorEdit.dismissClosedSessionError(layerId)}
+                    >
+                      Dismiss
+                    </button>
+                  </p>
+                ),
+              )}
+              {/* A photo whose feature was gone before its bytes landed is
+                  read here for the same reason: the strip that would have
+                  shown it went away with the feature, and on Done the whole
+                  panel goes. It shares this stack rather than opening a
+                  second one, which would sit on this one's corner. */}
+              {vectorEdit.discardedPhotos.map((photo) => (
+                <p
+                  key={photo.id}
+                  className="vector-edit-write-error"
+                  role="alert"
+                >
+                  <span>{photo.message}</span>
+                  <button
+                    type="button"
+                    onClick={() => vectorEdit.dismissDiscardedPhoto(photo.id)}
+                  >
+                    Dismiss
+                  </button>
+                </p>
+              ))}
+            </div>
+          ) : null}
           {selectedPid ? (
             <ParcelInspector
               key={selectedPid}
@@ -5006,7 +5153,8 @@ export function App() {
               mappedContext={mappedContext}
               civicAddresses={civicAddresses}
               resourceIntersections={resourceIntersections}
-              floodHazard={floodHazard}
+              riverFlood={riverFlood}
+              coastalFlood={coastalFlood}
               taxSaleEnabled={taxSaleEnabled}
               mapMode={mapMode}
               shareUrl={shareUrl}
@@ -5032,8 +5180,45 @@ export function App() {
                   dwellingState.status === "no-record-for-notice-aan" ||
                   dwellingState.status === "geometry-unavailable")
               }
+              lookupMessage={parcelLookupMessage}
+              dismissOnEscape={
+                // The panel is the bottom layer under all of these, and the
+                // rule the controls sheet already follows applies here: "so
+                // one keypress never closes two layers". printCapture is in
+                // the list because closing the panel clears it, which would
+                // tear the capture out from under an open print preview;
+                // editingMap is in it because the georeferencer's own Escape
+                // is deliberately unscoped. The photo viewer and the frame
+                // chooser are in it because Escape is their only exit and
+                // this panel silences the event to keep one keypress from
+                // closing two layers: without them, the viewer would be left
+                // with no way out and the panel behind it would close.
+                // The PDF export dialog and the bulk photo import are here
+                // for the same reason as the rest: both listen for Escape on
+                // the document, where stopPropagation does not reach a
+                // sibling listener, so one keypress cancelled the export and
+                // closed the panel behind it. The save-track dialog lives
+                // inside MapCanvas, which App cannot see, so it says the same
+                // thing with data-owns-escape on its own root.
+                !aboutOpen &&
+                !dataSourcesOpen &&
+                !licenceDialogOpen &&
+                !themeManagerOpen &&
+                !mobileControlsOpen &&
+                !editingMap &&
+                !openPhoto &&
+                !bulkPhotosOpen &&
+                !exportSession &&
+                !userMapsApi.frameChoosingMap &&
+                !printCapture
+              }
               now={currentTime}
               onClose={() => {
+                // Focus would otherwise fall to <body>. The map region is
+                // this panel's own container. preventScroll because it is
+                // already on screen, and scrolling it into view here would
+                // move the map under the reader.
+                mapRegionRef.current?.focus({ preventScroll: true });
                 setSelectedPid(null);
                 setSelectedEvidenceRequest(null);
                 setPrintCapture(null);
@@ -5055,7 +5240,8 @@ export function App() {
                   value: EMPTY_RESOURCE_INTERSECTIONS,
                   request: null,
                 });
-                setFloodHazard({ status: "idle", request: null });
+                setRiverFlood({ status: "idle", request: null });
+                setCoastalFlood({ status: "idle", request: null });
                 setShareMessage(null);
               }}
             />
@@ -5306,6 +5492,8 @@ export function App() {
         onPatchAttributes={vectorEdit.updateFeatureProperties}
         photoManager={photoManager}
         onSetFeaturePhotos={vectorEdit.setFeaturePhotos}
+        onAttachFeaturePhotos={vectorEdit.attachFeaturePhotos}
+        onPhotoCleanupFailed={vectorEdit.notePhotoCleanupFailure}
         onMoveFeaturePoint={vectorEdit.moveFeaturePoint}
         onOpenPhoto={setOpenPhoto}
         onDeleteFeature={(featureId) => {

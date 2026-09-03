@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { downloadFile } from "../../services/downloadFile";
 import type { PrintMapBounds } from "../../services/printSnapshot";
 import { buildScaleBar } from "./scaleBar";
 import { buildExportQrPng } from "./exportQr";
@@ -61,18 +62,23 @@ function slugify(title: string): string {
 }
 
 function defaultSaveFile(bytes: Uint8Array, filename: string): void {
+  // Through the app's one save-to-device primitive rather than a second copy
+  // of the sequence. This copy clicked a DETACHED anchor and revoked the
+  // object URL synchronously — the pair of Safari failures `downloadFile` was
+  // extracted to prevent, each of which yields a zero-byte or missing file
+  // with no error anywhere, here after a multi-second render.
+  //
+  // The adapter survives because the prop contract is `(bytes, filename)` and
+  // the primitive takes `(filename, blob)`.
+  //
   // `new Uint8Array(bytes)` (rather than `bytes` itself) guarantees a plain
   // `ArrayBuffer`-backed view, which is what `BlobPart` requires — `bytes`'s
   // type from pdf-lib is backed by `ArrayBufferLike`, which TS also allows
   // to be a `SharedArrayBuffer`.
-  const url = URL.createObjectURL(
+  downloadFile(
+    filename,
     new Blob([new Uint8Array(bytes)], { type: "application/pdf" }),
   );
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = filename;
-  anchor.click();
-  URL.revokeObjectURL(url);
 }
 
 function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob | null> {
@@ -241,6 +247,11 @@ export function ExportDialog(props: ExportDialogProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Export georeferenced PDF"
+        // Escape belongs to this dialog while it is open. Both this handler
+        // and the parcel panel's listen on the document, where
+        // stopPropagation does not reach a sibling listener, so without this
+        // one keypress cancelled the export AND closed the panel behind it.
+        data-owns-escape=""
       >
         <h2>Export georeferenced PDF</h2>
         <p className="field-help">

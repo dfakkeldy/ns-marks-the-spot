@@ -7,6 +7,19 @@ import type { StopResult } from "./trackRecorder";
 
 export interface SaveTrackDialogProps {
   result: StopResult;
+  /**
+   * True for a walk recovered from an interrupted session rather than one the
+   * user stopped: it ends at the last fix this device stored.
+   */
+  recovered?: boolean;
+  /**
+   * The name and tolerance a refused save was made with. A retry has to open
+   * on the user's own choices: it rewrites the layer that save already put on
+   * the map, so a generated default name would rename that track and the
+   * default tolerance would re-simplify it at a setting nobody chose.
+   */
+  initialName?: string;
+  initialToleranceM?: number;
   saving: boolean;
   onSave: (name: string, simplifyToleranceM: number) => void;
   onDiscard: () => void;
@@ -37,13 +50,21 @@ function formatRecordingTime(ms: number): string {
  */
 export function SaveTrackDialog({
   result,
+  recovered = false,
+  initialName,
+  initialToleranceM,
   saving,
   onSave,
   onDiscard,
 }: SaveTrackDialogProps) {
-  const [name, setName] = useState(() => defaultTrackName(result.startedAt));
+  // Read at mount, which is all that is needed: the dialog is unmounted
+  // between a refused save and the retry that reopens it. `??` and not `||`,
+  // so a tolerance the user deliberately set to Off comes back as Off.
+  const [name, setName] = useState(
+    () => initialName ?? defaultTrackName(result.startedAt),
+  );
   const [toleranceM, setToleranceM] = useState<number>(
-    FIELD_CAPTURE_SPEC.simplify.defaultToleranceM,
+    initialToleranceM ?? FIELD_CAPTURE_SPEC.simplify.defaultToleranceM,
   );
   const nameRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -73,13 +94,28 @@ export function SaveTrackDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="save-track-title"
+        // This dialog deliberately ignores Escape — a wrong tap must not throw
+        // away a walked track — and saying so here is what keeps the keypress
+        // from closing the parcel panel behind it instead.
+        data-owns-escape=""
       >
         <h2 id="save-track-title">Save track</h2>
+        {/* "Positions", never "GPS fixes": the Geolocation API names no
+            sensor, and the same call answers from a satellite fix, a Wi-Fi
+            lookup or an IP estimate — on a desktop browser, usually one of the
+            last two. popup.ts and the location messages hold the same line. */}
         <p className="save-track-stats">
           {formatDistance(result.distanceM)} ·{" "}
           {formatRecordingTime(result.recordingMs)} recorded ·{" "}
-          {result.rawFixCount.toLocaleString("en-CA")} GPS fixes
+          {result.rawFixCount.toLocaleString("en-CA")} positions
         </p>
+        {recovered ? (
+          <p className="save-track-note">
+            Recovered from an interrupted recording. It ends at the last
+            position this device stored, so the last part of the walk may be
+            missing.
+          </p>
+        ) : null}
         {saveable ? (
           <>
             <label className="save-track-field">
@@ -110,8 +146,8 @@ export function SaveTrackDialog({
               </small>
             </fieldset>
             <p className="save-track-note">
-              Raw GPS fixes are kept with this track. Location stays on this
-              device.
+              Every position this device reported is kept with this track.
+              Location stays on this device.
             </p>
           </>
         ) : (
@@ -127,7 +163,7 @@ export function SaveTrackDialog({
             onClick={() => {
               if (
                 window.confirm(
-                  "Discard this recording? The track and its GPS fixes will be lost.",
+                  "Discard this recording? The track and its positions will be lost.",
                 )
               ) {
                 onDiscard();

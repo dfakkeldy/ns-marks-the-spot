@@ -10,6 +10,21 @@ type PhotoStripProps = {
   layerId: string;
   manager: PhotoManagerApi;
   onDescriptors: (descriptors: FeaturePhotoDescriptor[]) => void;
+  /**
+   * Hands newly written photos to the session, which adds them to whatever
+   * the feature holds by then and returns the ones that had nowhere to land.
+   * Separate from `onDescriptors` because a whole list captured at render
+   * time is the wrong thing to write back seconds later.
+   */
+  onAttachDescriptors: (
+    descriptors: FeaturePhotoDescriptor[],
+  ) => FeaturePhotoDescriptor[];
+  /**
+   * Says that a discarded photo's bytes are still on this device. The session
+   * says only that the photo is not on the map, which is what it watched
+   * happen; the delete is attempted here, so its failure is reported here.
+   */
+  onPhotoCleanupFailed: (photoId: string) => void;
   onMovePoint: (position: [number, number]) => void;
   onOpenPhoto: (descriptor: FeaturePhotoDescriptor) => void;
 };
@@ -32,6 +47,8 @@ export function PhotoStrip({
   layerId,
   manager,
   onDescriptors,
+  onAttachDescriptors,
+  onPhotoCleanupFailed,
   onMovePoint,
   onOpenPhoto,
 }: PhotoStripProps) {
@@ -76,11 +93,31 @@ export function PhotoStrip({
         (outcome): outcome is Extract<PhotoAttachOutcome, { ok: true }> =>
           outcome.ok,
       );
-      if (added.length > 0) {
-        onDescriptors([...descriptors, ...added.map(({ descriptor }) => descriptor)]);
+      // Seconds have passed since the file was picked, and the list this
+      // render captured is not what the feature holds now: writing it back
+      // would return a photo removed meanwhile, whose blobs are already
+      // gone. The session adds against its own current copy and says what it
+      // could not place.
+      const discarded =
+        added.length > 0
+          ? onAttachDescriptors(added.map(({ descriptor }) => descriptor))
+          : [];
+      for (const descriptor of discarded) {
+        // The store is not a place to keep a photo the user has no way to
+        // reach. This runs even after the strip has unmounted with its
+        // feature — unmounting stops the renders, not the work in flight —
+        // and a delete the device refuses is said out loud, because there is
+        // no layer left for a later sweep to find this row through.
+        void manager.removePhoto(descriptor.id).then((removed) => {
+          if (!removed) {
+            onPhotoCleanupFailed(descriptor.id);
+          }
+        });
       }
       setFailures(outcomes.filter((outcome) => !outcome.ok));
-      if (pointPosition) {
+      // No offer for a photo that was not attached: there is no point left
+      // to move it to, and the session has already said what became of it.
+      if (pointPosition && discarded.length === 0) {
         const geotagged = added.filter(({ gps }) => gps !== null).at(-1);
         if (geotagged?.gps) {
           setOffer({

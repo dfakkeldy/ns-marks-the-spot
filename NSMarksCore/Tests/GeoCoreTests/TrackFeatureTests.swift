@@ -189,6 +189,84 @@ struct RecordedOriginTests {
         #expect(object["kind"] as? String == "recorded")
         #expect(object["startedAt"] != nil)
         #expect(object["endedAt"] != nil)
+        // A walk this app recorded writes the shape the web wrote before the
+        // flag existed: absent, not false.
+        #expect(object["interrupted"] == nil)
+    }
+
+    /// A walk the web saved from the copy its device kept while it ran says
+    /// so. Dropping the flag on the way in would file a walk that may be cut
+    /// short as a complete one, and re-encoding would take the caveat off the
+    /// record for good.
+    @Test func anInterruptedWalkKeepsItsCaveatThroughACodableRoundTrip() throws {
+        // The literal bytes the web writes: ISO-8601 instants, not the numeric
+        // form Foundation defaults to. A test that fed the numeric form and
+        // called it "from the web" would have proved nothing about reading a
+        // web record at all.
+        let fromTheWeb = Data(
+            """
+            {"kind":"recorded","startedAt":"2026-08-29T14:00:00.000Z",
+             "endedAt":"2026-08-29T14:20:00.000Z","interrupted":true}
+            """.utf8
+        )
+        let decoded = try JSONDecoder().decode(UserVectorOrigin.self, from: fromTheWeb)
+
+        let iso = ISO8601DateFormatter()
+        iso.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        #expect(
+            decoded
+                == .recorded(
+                    startedAt: try #require(iso.date(from: "2026-08-29T14:00:00.000Z")),
+                    endedAt: try #require(iso.date(from: "2026-08-29T14:20:00.000Z")),
+                    interrupted: true
+                )
+        )
+        #expect(decoded.provenanceText.contains("may be cut short"))
+
+        let object = try #require(
+            try JSONSerialization.jsonObject(
+                with: try JSONEncoder().encode(decoded)
+            ) as? [String: Any]
+        )
+        #expect(object["interrupted"] as? Bool == true)
+    }
+
+    /// Every date key, not only the recorded pair, and both forms of each.
+    /// This app has always written Foundation's numeric form, so every
+    /// library.json already on a device is in it; the web's ISO strings are
+    /// what a record arriving from the browser looks like.
+    @Test func everyOriginReadsBothTheWebsDatesAndThisAppsOwn() throws {
+        let iso = ISO8601DateFormatter()
+        iso.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let noon = try #require(iso.date(from: "2026-08-29T12:00:00.000Z"))
+
+        let fromTheWeb = Data(
+            """
+            {"kind":"drawn","createdAt":"2026-08-29T12:00:00.000Z"}
+            """.utf8
+        )
+        #expect(
+            try JSONDecoder().decode(UserVectorOrigin.self, from: fromTheWeb)
+                == .drawn(createdAt: noon)
+        )
+
+        // Without fractional seconds, which a hand-edited file may lack.
+        let terse = Data(
+            """
+            {"kind":"photo-import","importedAt":"2026-08-29T12:00:00Z","count":4}
+            """.utf8
+        )
+        #expect(
+            try JSONDecoder().decode(UserVectorOrigin.self, from: terse)
+                == .photos(createdAt: noon, count: 4)
+        )
+
+        // And this app's own form still reads, so no stored library breaks.
+        let ownRoundTrip = try JSONDecoder().decode(
+            UserVectorOrigin.self,
+            from: try JSONEncoder().encode(UserVectorOrigin.drawn(createdAt: noon))
+        )
+        #expect(ownRoundTrip == .drawn(createdAt: noon))
     }
 
     @Test func theProvenanceLineIsThePinnedString() {

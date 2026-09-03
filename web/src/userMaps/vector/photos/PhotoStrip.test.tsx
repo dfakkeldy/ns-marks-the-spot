@@ -7,7 +7,7 @@ import type { PhotoManagerApi } from "./usePhotoManager";
 function manager(overrides: Partial<PhotoManagerApi> = {}): PhotoManagerApi {
   return {
     attachPhotos: vi.fn(async () => []),
-    removePhoto: vi.fn(async () => {}),
+    removePhoto: vi.fn(async () => true),
     loadThumbUrl: vi.fn(async () => "blob:thumb"),
     loadFullBlob: vi.fn(async () => null),
     ...overrides,
@@ -32,6 +32,7 @@ describe("PhotoStrip", () => {
       ]),
     });
     const onDescriptors = vi.fn();
+    const onAttachDescriptors = vi.fn(() => []);
     const onMovePoint = vi.fn();
     render(
       <PhotoStrip
@@ -40,6 +41,8 @@ describe("PhotoStrip", () => {
         layerId="layer-1"
         manager={api}
         onDescriptors={onDescriptors}
+        onAttachDescriptors={onAttachDescriptors}
+        onPhotoCleanupFailed={vi.fn()}
         onMovePoint={onMovePoint}
         onOpenPhoto={vi.fn()}
       />,
@@ -50,10 +53,13 @@ describe("PhotoStrip", () => {
     fireEvent.change(input, { target: { files: [file] } });
 
     await waitFor(() =>
-      expect(onDescriptors).toHaveBeenCalledWith([
+      expect(onAttachDescriptors).toHaveBeenCalledWith([
         { id: "p1", sourceName: "IMG_1.jpg", width: 10, height: 10 },
       ]),
     );
+    // Only what is new: what the feature already held is the session's own
+    // business by the time this answers.
+    expect(onDescriptors).not.toHaveBeenCalled();
     expect(api.attachPhotos).toHaveBeenCalledWith("layer-1", 0, expect.anything());
     expect(
       await screen.findByText(/This photo is geotagged, .* from this point\./),
@@ -82,6 +88,8 @@ describe("PhotoStrip", () => {
         layerId="layer-1"
         manager={api}
         onDescriptors={vi.fn()}
+        onAttachDescriptors={vi.fn(() => [])}
+        onPhotoCleanupFailed={vi.fn()}
         onMovePoint={vi.fn()}
         onOpenPhoto={vi.fn()}
       />,
@@ -109,6 +117,8 @@ describe("PhotoStrip", () => {
         layerId="layer-1"
         manager={api}
         onDescriptors={onDescriptors}
+        onAttachDescriptors={vi.fn(() => [])}
+        onPhotoCleanupFailed={vi.fn()}
         onMovePoint={vi.fn()}
         onOpenPhoto={vi.fn()}
       />,
@@ -128,6 +138,8 @@ describe("PhotoStrip", () => {
         layerId="layer-1"
         manager={manager()}
         onDescriptors={vi.fn()}
+        onAttachDescriptors={vi.fn(() => [])}
+        onPhotoCleanupFailed={vi.fn()}
         onMovePoint={vi.fn()}
         onOpenPhoto={onOpenPhoto}
       />,
@@ -141,5 +153,88 @@ describe("PhotoStrip", () => {
       width: 10,
       height: 10,
     });
+  });
+
+  it("takes a photo the session could not place back out of the store", async () => {
+    const api = manager({
+      attachPhotos: vi.fn(async () => [
+        {
+          fileName: "IMG_2.jpg",
+          ok: true as const,
+          descriptor: { id: "p2", sourceName: "IMG_2.jpg", width: 10, height: 10 },
+          gps: { lon: -60.91, lat: 46.12 },
+        },
+      ]),
+    });
+    // The session's answer when the feature went away mid-attach.
+    const onAttachDescriptors = vi.fn(() => [
+      { id: "p2", sourceName: "IMG_2.jpg", width: 10, height: 10 },
+    ]);
+    const onDescriptors = vi.fn();
+    const onPhotoCleanupFailed = vi.fn();
+    render(
+      <PhotoStrip
+        descriptors={[{ id: "p1", width: 10, height: 10 }]}
+        pointPosition={[-60.9105, 46.1205]}
+        layerId="layer-1"
+        manager={api}
+        onDescriptors={onDescriptors}
+        onAttachDescriptors={onAttachDescriptors}
+        onPhotoCleanupFailed={onPhotoCleanupFailed}
+        onMovePoint={vi.fn()}
+        onOpenPhoto={vi.fn()}
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText("Add photos from files"), {
+      target: { files: [new File(["bytes"], "IMG_2.jpg", { type: "image/jpeg" })] },
+    });
+
+    await waitFor(() => expect(api.removePhoto).toHaveBeenCalledWith("p2"));
+    expect(onDescriptors).not.toHaveBeenCalled();
+    expect(onPhotoCleanupFailed).not.toHaveBeenCalled();
+
+    // Nothing was attached, so there is no point to offer to move.
+    expect(
+      screen.queryByRole("button", { name: "Move point to photo's location" }),
+    ).not.toBeInTheDocument();
+  });
+
+  // No layer lists this row, so no later sweep will find it: a delete the
+  // device refuses has to be said out loud rather than assumed.
+  it("says so when a discarded photo's copy could not be taken off the device", async () => {
+    const api = manager({
+      attachPhotos: vi.fn(async () => [
+        {
+          fileName: "IMG_3.jpg",
+          ok: true as const,
+          descriptor: { id: "p3", sourceName: "IMG_3.jpg", width: 10, height: 10 },
+          gps: null,
+        },
+      ]),
+      removePhoto: vi.fn(async () => false),
+    });
+    const onPhotoCleanupFailed = vi.fn();
+    render(
+      <PhotoStrip
+        descriptors={[]}
+        pointPosition={null}
+        layerId="layer-1"
+        manager={api}
+        onDescriptors={vi.fn()}
+        onAttachDescriptors={vi.fn(() => [
+          { id: "p3", sourceName: "IMG_3.jpg", width: 10, height: 10 },
+        ])}
+        onPhotoCleanupFailed={onPhotoCleanupFailed}
+        onMovePoint={vi.fn()}
+        onOpenPhoto={vi.fn()}
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText("Add photos from files"), {
+      target: { files: [new File(["bytes"], "IMG_3.jpg", { type: "image/jpeg" })] },
+    });
+
+    await waitFor(() => expect(onPhotoCleanupFailed).toHaveBeenCalledWith("p3"));
   });
 });

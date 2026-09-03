@@ -1,10 +1,14 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { requestDurableStorage } from "../../../services/durableStorage";
 import { UserMapImportError } from "../../errors";
 import { generateId } from "../../importUtils";
 import { readPhotoExif } from "./exif";
 import { processPhoto } from "./photoPipeline";
-import { UserPhotoStore } from "./photoStore";
+import {
+  releasePhotoId,
+  reservePhotoId,
+  UserPhotoStore,
+} from "./photoStore";
 import {
   MAX_PHOTOS_PER_FEATURE,
   MAX_PHOTOS_PER_LAYER,
@@ -31,7 +35,14 @@ export type PhotoManagerApi = {
     existingOnFeature: number,
     files: ArrayLike<File>,
   ) => Promise<PhotoAttachOutcome[]>;
-  removePhoto: (photoId: string) => Promise<void>;
+  /**
+   * Takes a photo out of this device's store. Answers whether the bytes
+   * actually went: for a photo still referenced by a layer the next sweep
+   * retries a failed delete, but a photo discarded because its feature was
+   * gone has no layer to sweep for it, and the caller has to be able to say
+   * so rather than promise a removal that did not happen.
+   */
+  removePhoto: (photoId: string) => Promise<boolean>;
   /** Object URL from the bounded cache; null when the blob is missing. */
   loadThumbUrl: (photoId: string) => Promise<string | null>;
   loadFullBlob: (photoId: string) => Promise<Blob | null>;
@@ -122,7 +133,18 @@ export function usePhotoManager(
             fullBytes: processed.full.size,
             thumbBytes: processed.thumb.size,
           };
-          await opened.savePhoto(record, processed.full, processed.thumb);
+          // Reserved before it is written: the row lands ahead of the
+          // feature that will reference it, and a debounced layer write of an
+          // older working copy meanwhile would sweep it as an orphan. The
+          // sweep lets the reservation go once a write references the id.
+          reservePhotoId(record.id);
+          try {
+            await opened.savePhoto(record, processed.full, processed.thumb);
+          } catch (error) {
+            // Nothing was stored, so nothing will ever reference it.
+            releasePhotoId(record.id);
+            throw error;
+          }
           requestDurableStorage();
           onFeature += 1;
           onLayer += 1;
@@ -159,11 +181,20 @@ export function usePhotoManager(
         URL.revokeObjectURL(cached);
         thumbUrlsRef.current.delete(photoId);
       }
+      // The reservation goes with the row. A layer write has usually ended it
+      // already, but a photo discarded because its feature was gone never
+      // reaches a write: left reserved, it would hold the sweep's exemption
+      // forever over a row nothing can ever reference.
+      releasePhotoId(photoId);
       try {
         await (await store()).deletePhoto(photoId);
+        return true;
       } catch {
-        // The descriptor removal is the user-visible truth; a failed blob
-        // delete is a small leak the next sweep retries.
+        // For a photo the layer still lists, the descriptor removal is the
+        // user-visible truth and the next sweep retries this. For a discarded
+        // attach there is no such sweep, so the answer goes back to the
+        // caller instead of being swallowed here.
+        return false;
       }
     },
     [store],
@@ -211,5 +242,13 @@ export function usePhotoManager(
     [store],
   );
 
-  return { attachPhotos, removePhoto, loadThumbUrl, loadFullBlob };
+  // One identity for the hook's life. All four members are already stable, but
+  // a fresh literal each render re-runs every consumer effect that lists the
+  // manager: the open lightbox would revoke its object URL and re-read the
+  // full-size blob — the largest the app holds — on unrelated App renders such
+  // as the 60-second clock tick.
+  return useMemo(
+    () => ({ attachPhotos, removePhoto, loadThumbUrl, loadFullBlob }),
+    [attachPhotos, removePhoto, loadThumbUrl, loadFullBlob],
+  );
 }

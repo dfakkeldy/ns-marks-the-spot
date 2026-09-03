@@ -71,7 +71,8 @@ const pendingEvidence: PrintEvidence = {
   dwellings: { status: "pending" },
   civicAddresses: { status: "pending" },
   mappedContext: { status: "pending" },
-  floodHazard: { status: "pending" },
+  riverFlood: { status: "pending" },
+  coastalFlood: { status: "pending" },
   resources: { status: "pending" },
 };
 
@@ -85,13 +86,11 @@ const readyEvidence: PrintEvidence = {
     value: { addresses: [], unreadableRows: 0 },
   },
   mappedContext: { status: "ready", value: { roads: [], water: [] } },
-  floodHazard: {
+  riverFlood: {
     status: "ready",
-    value: {
-      river: { status: "within-published-layer-extent", aep: [] },
-      coastal: [],
-    },
+    value: { status: "within-published-layer-extent", aep: [] },
   },
+  coastalFlood: { status: "ready", value: [] },
   resources: {
     status: "ready",
     value: {
@@ -213,7 +212,8 @@ describe("print capture", () => {
     const capture = startPrintCapture(base, {
       ...readyEvidence,
       buildings: { status: "pending" },
-      floodHazard: { status: "pending" },
+      riverFlood: { status: "pending" },
+  coastalFlood: { status: "pending" },
     });
     const snapshot = sealPrintSnapshot(capture, "research", {
       timedOut: true,
@@ -222,7 +222,8 @@ describe("print capture", () => {
 
     expect(unansweredEvidenceNames(snapshot)).toEqual([
       "Mapped buildings",
-      "Flood evidence",
+      "Published river mapping",
+      "Coastal scenarios",
     ]);
     expect(
       unansweredEvidenceNames(
@@ -302,13 +303,11 @@ describe("print capture", () => {
         value: { addresses: [], unreadableRows: 0 },
       },
       mappedContext: { status: "ready", value: { roads: [], water: [] } },
-      floodHazard: {
+      riverFlood: {
         status: "ready",
-        value: {
-          river: { status: "within-published-layer-extent", aep: [] },
-          coastal: [],
-        },
+        value: { status: "within-published-layer-extent", aep: [] },
       },
+      coastalFlood: { status: "ready", value: [] },
       resources: {
         status: "ready",
         value: {
@@ -347,13 +346,11 @@ describe("print capture", () => {
         }],
       }],
     });
-    expect(snapshot.evidence.floodHazard).toEqual({
+    expect(snapshot.evidence.riverFlood).toEqual({
       status: "ready",
-      value: {
-        river: { status: "within-published-layer-extent", aep: [] },
-        coastal: [],
-      },
+      value: { status: "within-published-layer-extent", aep: [] },
     });
+    expect(snapshot.evidence.coastalFlood).toEqual({ status: "ready", value: [] });
   });
 
   it("preserves an outside-coverage flood result and settled source errors", () => {
@@ -371,13 +368,11 @@ describe("print capture", () => {
         value: { addresses: [], unreadableRows: 0 },
       },
       mappedContext: { status: "ready", value: { roads: [], water: [] } },
-      floodHazard: {
+      riverFlood: {
         status: "ready",
-        value: {
-          river: { status: "outside-published-layer-extents", aep: [] },
-          coastal: [],
-        },
+        value: { status: "outside-published-layer-extents", aep: [] },
       },
+      coastalFlood: { status: "ready", value: [] },
       resources: {
         status: "ready",
         value: {
@@ -395,12 +390,9 @@ describe("print capture", () => {
     expect(sealPrintSnapshot(capture, "research", {
       timedOut: false,
       generatedAt: "2026-07-23T13:42:15.000Z",
-    }).evidence.floodHazard).toEqual({
+    }).evidence.riverFlood).toEqual({
       status: "ready",
-      value: {
-        river: { status: "outside-published-layer-extents", aep: [] },
-        coastal: [],
-      },
+      value: { status: "outside-published-layer-extents", aep: [] },
     });
   });
 });

@@ -90,6 +90,10 @@ export function BulkPhotoImportDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="bulk-photos-title"
+        // Nothing under this dialog may take Escape while it is open. It does
+        // not move focus into itself yet, so this only holds once focus is
+        // inside it; the panel behind it is held closed by App as well.
+        data-owns-escape=""
         onClick={(event) => event.stopPropagation()}
       >
         <h2 id="bulk-photos-title">Add photos to the map</h2>

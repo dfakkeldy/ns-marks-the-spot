@@ -287,3 +287,39 @@ cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follo
 git fetch origin && git checkout -b feature/web-correctness-mobile origin/nightly
 # PR I: review sections 8 and 10, plus the deferrals listed in PR G and PR H
 ```
+
+## 2026-09-03 — PR I round-1 fixes landed (web correctness/mobile, sections 8 and 10)
+Done: 14 commits on feature/web-quick-wins (stacked on feature/web-evidence-contract,
+PR H #304). Latest f223395a1 closes Codex round 1: a failed draft read is no longer an
+empty device, Record waits for that read, a refused track save is retried onto the same
+layer, this tab's own removal is not blamed on another tab, a `storage` listener merges
+cross-tab UI state, a pre-fix POSITION_UNAVAILABLE run ends a non-recording watch, a
+refused clear() is reported with a retry, the alert stack clears the home indicator, and
+Escape from a text field closes the inspector. Gates: npm test 1980, lint, build all
+clean; Escape-from-search verified in the running app; fresh-tab console clean.
+Codex round 2 launched (logs in scratchpad/codex/out-I-r2-*.md).
+Uncommitted and NOT part of PR I: the PR J iOS quick wins under ns-marks-the-spot*/
+(patch also saved at scratchpad/prj/ios-quick-wins.patch).
+Next: read Codex round 2, fix or defer, re-run gates, push and open PR I to nightly.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+cat /private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ns-marks-follow-ups-98d95e/77e085cc-8a4d-4472-812b-39b4fa75268b/scratchpad/codex/out-I-r2-correctness.md
+```
+
+## 2026-09-03 — PR I open (#305), web correctness/mobile
+Done: 17 commits on feature/web-quick-wins, stacked on feature/web-evidence-contract (PR H #304,
+all five checks green). Closes review §8, §10.1, §10.2, §10.5 and §13.3/13.7/13.11. Two Codex
+rounds (31 findings) fixed or deferred by name; round 3 running. Gates: npm test 2010, lint,
+build, swift test 675, all clean. CI on #305: Change classification, Core package tests and Web
+tests + build green; Native build + tests running.
+Next: read Codex round 3, fix or defer, push. Then PR J (iOS §13 quick wins) on a branch from
+origin/nightly — the patch is uncommitted in this worktree and saved at
+scratchpad/prj/ios-quick-wins.patch. PR M's six plans are already written and adversarially
+verified in scratchpad/plans-m/ and must branch from PR I's head, not nightly, because their
+anchors are in PR I's commits.
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+cat /private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ns-marks-follow-ups-98d95e/77e085cc-8a4d-4472-812b-39b4fa75268b/scratchpad/codex/out-I-r3-correctness.md
+```

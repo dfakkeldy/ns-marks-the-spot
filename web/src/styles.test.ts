@@ -89,7 +89,7 @@ describe("phone-focused layer categories", () => {
     )?.[1];
 
     expect(mobileStyles).toMatch(
-      /\.layer-rail\.mobile-open\s*\{[^}]*bottom:\s*80px/s,
+      /\.layer-rail\.mobile-open\s*\{[^}]*bottom:\s*calc\(80px \+ env\(safe-area-inset-bottom\)\)/s,
     );
     expect(Number(attributionZ)).toBeGreaterThan(Number(railZ));
   });
@@ -162,16 +162,15 @@ describe("mobile parcel inspector layout", () => {
     expect(mobileStart).toBeGreaterThanOrEqual(0);
     expect(mobileEnd).toBeGreaterThan(mobileStart);
     expect(inspectorDeclarations).toMatch(/top:\s*10px/);
-    expect(inspectorDeclarations).toMatch(/bottom:\s*42px/);
+    expect(inspectorDeclarations).toMatch(
+      /bottom:\s*calc\(42px \+ env\(safe-area-inset-bottom\)\)/,
+    );
     expect(inspectorDeclarations).toMatch(/overflow-y:\s*auto/);
   });
 
   it("keeps close controls usable when root text is enlarged", () => {
     const inspectorClose = styles.match(
       /\.inspector-close\s*\{([^}]*)\}/,
-    )?.[1];
-    const inspectorHeading = styles.match(
-      /\.parcel-inspector h2\s*\{([^}]*)\}/,
     )?.[1];
     const mobileStart = styles.indexOf("@media (max-width: 860px)");
     const mobileEnd = styles.indexOf("@media (max-width: 560px)", mobileStart);
@@ -183,11 +182,42 @@ describe("mobile parcel inspector layout", () => {
     expect(inspectorClose).toMatch(/width:\s*44px/);
     expect(inspectorClose).toMatch(/height:\s*44px/);
     expect(inspectorClose).toMatch(/font-size:\s*min\(1\.8rem, 32px\)/);
-    expect(inspectorHeading).toMatch(/padding-right:\s*52px/);
     expect(sheetClose).toMatch(/flex:\s*0 0 44px/);
     expect(sheetClose).toMatch(/width:\s*44px/);
     expect(sheetClose).toMatch(/height:\s*44px/);
     expect(sheetClose).toMatch(/font-size:\s*min\(1\.7rem, 32px\)/);
+  });
+
+  it("pins the inspector's close control above the panel's own scroll", () => {
+    const header = styles.match(/\.inspector-header\s*\{([^}]*)\}/)?.[1];
+    const inspectorClose = styles.match(
+      /\.inspector-close\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(header).toMatch(/position:\s*sticky/);
+    expect(header).toMatch(/top:\s*0/);
+    expect(header).toMatch(/margin:\s*0 -24px 16px/);
+    // An absolutely positioned child of a scrollport is translated by the
+    // scroll offset: that is how the close button used to leave the screen.
+    expect(inspectorClose).not.toMatch(/position:\s*absolute/);
+    expect(inspectorClose).toMatch(/flex:\s*0 0 44px/);
+  });
+
+  it("re-insets the pinned inspector header on the phone panel", () => {
+    const phoneStart = styles.indexOf("@media (max-width: 560px)");
+    const phoneEnd = styles.indexOf(
+      "@media (prefers-reduced-motion: reduce)",
+      phoneStart,
+    );
+    const phoneStyles = styles.slice(phoneStart, phoneEnd);
+    const header = phoneStyles.match(
+      /\.inspector-header\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(phoneStart).toBeGreaterThanOrEqual(0);
+    expect(phoneEnd).toBeGreaterThan(phoneStart);
+    expect(header).toMatch(/margin-inline:\s*-20px/);
+    expect(header).toMatch(/padding-left:\s*20px/);
   });
 
   it("wraps long event metadata inside the inspector", () => {
@@ -284,6 +314,82 @@ describe("map cartographic furniture", () => {
 
     expect(readoutDeclarations).toMatch(/bottom:\s*72px/);
     expect(displayScaleDeclarations).toMatch(/bottom:\s*50px/);
+  });
+});
+
+describe("standalone bottom safe area", () => {
+  const mobileStart = styles.indexOf("@media (max-width: 860px)");
+  const narrowStart = styles.indexOf("@media (max-width: 560px)", mobileStart);
+  const mobileStyles = styles.slice(mobileStart, narrowStart);
+  const narrowStyles = styles.slice(
+    narrowStart,
+    styles.indexOf("@media (prefers-reduced-motion: reduce)", narrowStart),
+  );
+
+  it("holds the licence strip and its buttons clear of the home indicator", () => {
+    // index.html opts into viewport-fit=cover and standalone mode, so on the
+    // Home Screen the page runs under the 34pt gesture zone. At this width
+    // the strip is the only place the Province attribution, the coastal and
+    // zoning notices and the Data & licences button render at all.
+    const attribution = mobileStyles.match(
+      /\.map-attribution\s*\{([^}]*)\}/,
+    )?.[1];
+
+    // max(2px, ...), not a bare env(): the base rule's padding shorthand
+    // gives this strip 2px top and bottom, and this block re-declares only
+    // the inline sides, so a bare env() would take the bottom to 0 on a
+    // phone with no inset.
+    expect(attribution).toMatch(
+      /padding-bottom:\s*max\(2px, env\(safe-area-inset-bottom\)\)/,
+    );
+    // Everything in this sheet is border-box, so the bounds grow with the
+    // padding or it eats the content box instead of sitting below it, and
+    // the 44px buttons get clipped rather than moved.
+    expect(attribution).toMatch(
+      /min-height:\s*calc\(32px \+ env\(safe-area-inset-bottom\)\)/,
+    );
+    expect(attribution).toMatch(
+      /max-height:\s*calc\(72px \+ env\(safe-area-inset-bottom\)\)/,
+    );
+  });
+
+  it("moves everything anchored to the bottom edge by the same inset", () => {
+    // Each of these clears either the strip or the indicator. The strip's
+    // floor and cap both grew by exactly env(safe-area-inset-bottom), so a
+    // bare pixel offset left behind lands back under one of them.
+    expect(mobileStyles).toMatch(
+      /\.leaflet-bottom\.leaflet-left\s*\{[^}]*bottom:\s*calc\(40px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
+    expect(mobileStyles).toMatch(
+      /\.measure-readout\s*\{[^}]*bottom:\s*calc\(16px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
+    expect(mobileStyles).toMatch(
+      /\.display-scale-readout\s*\{[^}]*bottom:\s*calc\(50px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
+    // From 561px to 860px the narrow override below never runs, so without
+    // this the inspector's Copy/Export/Print row keeps the base 18px and
+    // sits in an iPad's indicator zone in standalone.
+    expect(mobileStyles).toMatch(
+      /\.parcel-inspector\s*\{[^}]*bottom:\s*calc\(18px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
+    expect(narrowStyles).toMatch(
+      /\.parcel-inspector\s*\{[^}]*bottom:\s*calc\(42px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
+    // The write-failure alerts stack above the strip too: at 88px flat their
+    // bottom rows, Dismiss included, are painted under it on a phone with an
+    // indicator. Their phone rule lives with the rest of the vector-editing
+    // CSS further down the sheet, in its own 860px block, so this reads the
+    // whole file rather than the slice above.
+    expect(styles).toMatch(
+      /\.vector-edit-write-errors\s*\{[^}]*bottom:\s*calc\(88px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
+    // The vector editor keeps its own phone block further down the sheet. Its
+    // offset also has to clear the attribution strip (see the phone editing
+    // panel block below), so the inset rides on that clearance rather than on
+    // a bare 12px.
+    expect(styles).toMatch(
+      /\.vector-edit-panel\s*\{[^}]*env\(safe-area-inset-bottom\)/s,
+    );
   });
 });
 
@@ -645,5 +751,145 @@ describe("georeferencer overlay", () => {
     // The helper sentence is secondary text, like the locked-layers note.
     const helper = styles.match(/\.georeference-method small\s*\{([^}]*)\}/)?.[1];
     expect(helper).toMatch(/color:\s*var\(--muted\)/);
+  });
+});
+
+describe("Geoman vertex handles on a coarse pointer", () => {
+  // The `@media (pointer: coarse)` block, sliced at its own closing brace in
+  // column 0 — every nested rule in this stylesheet closes indented.
+  const coarse = styles.match(
+    /@media \(pointer: coarse\) \{\n([\s\S]*?)\n\}/,
+  )?.[1];
+  const HANDLE =
+    /\.leaflet-marker-draggable\.marker-icon:not\(\.marker-icon-middle\)\s*\{([^}]*)\}/;
+
+  it("gives a draggable vertex handle the 44px canvas the native handle uses", () => {
+    expect(coarse).toBeDefined();
+    const handle = coarse!.match(HANDLE)?.[1];
+    expect(handle).toBeDefined();
+    // Geoman ships `.marker-icon` at 14px !important, so this has to carry
+    // !important too AND out-specify one class, or it ties and loses.
+    expect(handle).toMatch(/width:\s*44px\s*!important/);
+    expect(handle).toMatch(/height:\s*44px\s*!important/);
+    // Leaflet anchors a divIcon by margin; half the size is what centres it.
+    expect(handle).toMatch(/margin:\s*-22px 0 0 -22px\s*!important/);
+    // 44 = 22 disc + 2 x 11 padding, and only under border-box.
+    expect(handle).toMatch(/box-sizing:\s*border-box/);
+    expect(handle).toMatch(/padding:\s*11px/);
+    // The canvas is the touch target; the disc below is what is seen.
+    expect(handle).toMatch(/background-color:\s*transparent/);
+    expect(handle).toMatch(/border:\s*0/);
+    // The rule must stay scoped to draggable handles: Geoman gives vertices
+    // placed while DRAWING the same `.marker-icon` at `draggable: false`,
+    // and a tap on one of those is what finishes the shape.
+    // Not a bare-name guard: the regression to keep out is any coarse-pointer
+    // rule that enlarges Geoman's handle class without excluding the vertices
+    // placed while DRAWING, which carry the same class at draggable: false.
+    const coarseRules = [
+      ...styles
+        .slice(styles.indexOf("@media (pointer: coarse)"))
+        .matchAll(/\n\s*([^\n{]*marker-icon[^\n{]*)\{/g),
+    ].map(([, selector]) => selector.trim());
+    expect(coarseRules.length).toBeGreaterThan(0);
+    for (const selector of coarseRules) {
+      expect(selector).toContain(".leaflet-marker-draggable");
+      expect(selector).toContain(":not(.marker-icon-middle)");
+    }
+  });
+
+  it("draws the seen disc at 22px, rim included", () => {
+    // The `*` rule at the top of this file does not reach pseudo-elements,
+    // so without its own border-box the 2px rim would make the disc 26px and
+    // push it off the vertex it marks — a coordinate error, in a map.
+    const disc = coarse!.match(
+      /\.leaflet-marker-draggable\.marker-icon:not\(\.marker-icon-middle\)::before\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(disc).toBeDefined();
+    expect(disc).toMatch(/box-sizing:\s*border-box/);
+    expect(disc).toMatch(/width:\s*22px/);
+    expect(disc).toMatch(/height:\s*22px/);
+  });
+
+  it("swaps the Alt hint for one a touch user can act on", () => {
+    // Both sentences are in the DOM and CSS picks, so the component never
+    // has to ask what kind of pointer is in front of it.
+    expect(styles).toMatch(
+      /\.vector-edit-snap-hint-coarse\s*\{\s*display:\s*none/,
+    );
+    expect(coarse).toMatch(/\.vector-edit-snap-hint-fine\s*\{\s*display:\s*none/);
+    expect(coarse).toMatch(
+      /\.vector-edit-snap-hint-coarse\s*\{\s*display:\s*block/,
+    );
+  });
+});
+
+
+describe("phone vector editing panel", () => {
+  // App.tsx renders <VectorEditPanel> outside `.app-shell`, as a sibling of
+  // it, so this card's `bottom` is measured against the initial containing
+  // block while the attribution strip's `bottom: 0` is measured against
+  // `.app-shell`. jsdom does no layout, so the declarations that reconcile
+  // those two frames are what gets asserted — the same reason the
+  // georeferencer tests below assert CSS text rather than geometry.
+  //
+  // Sliced from the card's own base rule, not from the first
+  // `@media (max-width: 860px)` in the sheet: there are three of those, and
+  // the first is the layer rail's.
+  // Anchored on the phone block's own comment: the sheet has several
+  // `@media (max-width: 860px)` blocks, and rules can be added between this
+  // one and the card's base rule.
+  const panelBase = styles.indexOf(
+    "/* On a phone the rail is a bottom sheet",
+  );
+  const phoneStart = styles.indexOf("@media (max-width: 860px)", panelBase);
+  // Comments stripped: a regex over the rule body would otherwise match the
+  // prose explaining the declaration rather than the declaration, and stay
+  // green if someone deleted the value it is meant to pin.
+  const phonePanel = styles
+    .slice(phoneStart)
+    .match(/\.vector-edit-panel\s*\{([^}]*)\}/s)?.[1]
+    .replace(/\/\*[\s\S]*?\*\//g, "");
+
+  it("lifts the card clear of the attribution strip", () => {
+    const railClearance =
+      styles
+        .slice(styles.indexOf("@media (max-width: 860px)"))
+        .match(
+          /\.layer-rail\.mobile-open\s*\{[^}]*bottom:\s*calc\((\d+)px/s,
+        )?.[1] ?? "";
+
+    expect(panelBase).toBeGreaterThan(-1);
+    expect(phoneStart).toBeGreaterThan(panelBase);
+    expect(railClearance).not.toBe("");
+    // Read off the sheet's rule rather than written out again, so the two can
+    // only drift together — and stated against `--app-viewport-height`, the
+    // height `.app-shell`, and so the strip's bottom edge, is set to. A bare
+    // pixel offset here is measured from a different edge than the strip it
+    // has to clear, which is how the card ended up underneath it.
+    expect(phonePanel).toMatch(
+      new RegExp(
+        `bottom:[^;]*var\\(--app-viewport-height[^;]*${railClearance}px`,
+      ),
+    );
+  });
+
+  it("is chrome, so a printed page never stamps it", () => {
+    // Rendered outside `.app-shell`, so the print block's shell rule cannot
+    // reach it — and a page box is narrower than 860px, so the phone rule
+    // above applies to paged media too.
+    const printStyles = styles.slice(styles.indexOf("@media print {"));
+    expect(printStyles).toMatch(
+      /\.vector-edit-panel\s*\{[^}]*display:\s*none\s*!important/s,
+    );
+  });
+
+  it("caps the card so Done editing cannot leave the viewport", () => {
+    // Bottom-anchored and uncapped, a card carrying a selected feature's
+    // fields, attributes and photos grew past the top of the initial
+    // containing block, where nothing scrolls, taking "Done editing" with it.
+    expect(phonePanel).toMatch(
+      /max-height:\s*calc\(\s*var\(--app-viewport-height,\s*100dvh\)\s*-\s*92px/,
+    );
+    expect(phonePanel).toMatch(/overflow-y:\s*auto/);
   });
 });

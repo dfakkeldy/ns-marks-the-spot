@@ -22,7 +22,10 @@ export const DB_VERSION = 3;
  * - `blobs` holds the heavy payloads out-of-line (`${id}:raster`,
  *   `${id}:preview`, `${id}:vector`, `${id}:vector-original`,
  *   `${photoId}:photo`, `${photoId}:photo-thumb`) so listing never
- *   deserializes megabytes of data.
+ *   deserializes megabytes of data, plus `recording:draft` — the single
+ *   in-progress track recording (location/trackDraftStore.ts), stored as a
+ *   plain record rather than a StoredBlob, overwritten in place and deleted
+ *   when that track is saved or discarded.
  *
  * Upgrade guards are additive (`if (!contains) create`) so any older version
  * reaches the current schema without touching existing rows.

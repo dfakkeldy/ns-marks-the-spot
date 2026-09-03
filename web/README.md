@@ -130,6 +130,17 @@ these three tags and the matching `indexHtml.test.ts` assertions together.
    and is not sent to an application server. If you mark a point or save a
    track, those geometries (and for a recording, the raw GPX original) are
    stored locally as user layers and leave only if you export or share them.
+   While a track is recording, the walk so far is also written to this
+   device's storage every few seconds, so a reloaded or discarded tab does not
+   lose it. That copy is offered back the next time the map is opened, and
+   goes on being offered until it is saved or discarded; a walk saved from it
+   is marked as ending at the last position the device stored. It is deleted
+   when the recording is saved to your layers or discarded, and if the device
+   refuses to delete it the map says so rather than reporting a discard that
+   did not happen. Recording waits until the device has answered what it is
+   already holding, so a new walk never writes over one you have not been
+   offered; a device this browser cannot read from says that, rather than
+   passing for an empty one.
 7. For a selected PID, the browser reuses the exact NSPRD Polygon or
    MultiPolygon geometry to look up mapped physical-address points from the
    Nova Scotia Civic Address File. Municipal notice locations remain notice

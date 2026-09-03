@@ -599,6 +599,187 @@ describe("MapCanvas browser location", () => {
     ).toBeInTheDocument();
   });
 
+  it("tells a pre-fix timeout from a pre-fix unavailable, and calls neither a loss", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    // Location Services off for the device, or a desktop with no positioning
+    // source: code 2 until the watch gives up, with nothing ever delivered.
+    pushLiveSnapshot({
+      status: "signal-lost",
+      fix: null,
+      reason: "unavailable",
+    });
+
+    // Nothing is drawn, so nothing may be said to have been lost — and the
+    // device did not fail to answer, it answered that it cannot place itself.
+    expect(screen.queryByTestId("location-position")).not.toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Your location is unavailable — the device cannot work out where it " +
+          "is. Still trying. Move outdoors, or check that location is " +
+          "switched on for this device.",
+      ),
+    ).toBeInTheDocument();
+
+    // A timeout with nothing delivered has had no answer at all, and says so.
+    // Neither code claims a signal that was never had.
+    pushLiveSnapshot({ status: "signal-lost", fix: null, reason: "timeout" });
+    expect(
+      screen.getByText(
+        "Your location hasn't been found yet — still looking. Move outdoors, " +
+          "or check that location is switched on for this device.",
+      ),
+    ).toBeInTheDocument();
+
+    // Once a fix has been had, a loss is a loss again.
+    const fix = liveFix();
+    pushLiveSnapshot({ status: "active", fix });
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "unavailable" });
+    expect(
+      screen.getByText("Your location is unavailable right now — still trying."),
+    ).toBeInTheDocument();
+  });
+
+  it("lifts the toggle and offers a retry when the watch gives up on an unavailable position", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    const toggle = screen.getByRole("button", { name: "Use my location" });
+    await user.click(toggle);
+    pushLiveSnapshot({
+      status: "position-unavailable",
+      fix: null,
+      reason: "repeated",
+    });
+
+    expect(
+      screen.getByText(
+        "The device reported your location as unavailable several times, so " +
+          "the map stopped asking. Location may be switched off for this " +
+          "device, or there may be nothing here to place you by. Press Use " +
+          "my location to try again.",
+      ),
+    ).toBeInTheDocument();
+    // A pressed toggle over a search that has stopped is the defect this
+    // closes.
+    expect(toggle).toHaveAttribute("aria-pressed", "false");
+    // And giving up is not a refusal: the reader was never asked.
+    expect(
+      screen.queryByText(
+        "Location permission was not granted. You can keep using the map.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
+  // One report and then silence is not several reports. The two endings get
+  // two sentences, because a count nobody made is a claim about the device.
+  it("does not say several times when the device said it once and went quiet", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveSnapshot({
+      status: "position-unavailable",
+      fix: null,
+      reason: "no-answer",
+    });
+
+    expect(
+      screen.getByText(
+        "The device reported your location as unavailable and then stopped " +
+          "answering, so the map stopped asking. Location may be switched " +
+          "off for this device, or there may be nothing here to place you " +
+          "by. Press Use my location to try again.",
+      ),
+    ).toBeInTheDocument();
+  });
+
   it("follows later fixes with panTo until the user drags, then resumes via the pill", async () => {
     const user = userEvent.setup();
     render(
@@ -975,9 +1156,17 @@ describe("MapCanvas browser location", () => {
           rawGpx: Blob;
           startedAt: string;
           endedAt: string;
-        }) => Promise<string | null>
+        }) => Promise<{
+          message: string | null;
+          persisted: boolean;
+          layerId: string;
+        }>
       >()
-      .mockResolvedValue('Track saved as "Boundary walk".');
+      .mockResolvedValue({
+        message: 'Track saved as "Boundary walk".',
+        persisted: true,
+        layerId: "track-layer-1",
+      });
     render(
       <MapCanvas
         parcels={{ type: "FeatureCollection", features: [] }}
@@ -1048,6 +1237,175 @@ describe("MapCanvas browser location", () => {
     expect(
       screen.getByRole("button", { name: "Record a track" }),
     ).toBeInTheDocument();
+  });
+
+  it("retries a refused track save onto the same layer instead of a second copy", async () => {
+    const user = userEvent.setup();
+    const onSaveTrack = vi
+      .fn<
+        (input: {
+          name: string;
+          collection: GeoJSON.FeatureCollection;
+          rawGpx: Blob;
+          startedAt: string;
+          endedAt: string;
+          interrupted: boolean;
+          replaceLayerId?: string;
+        }) => Promise<{
+          message: string | null;
+          persisted: boolean;
+          layerId: string;
+        }>
+      >()
+      .mockResolvedValueOnce({
+        message: "Track is on the map, but it couldn't be written.",
+        persisted: false,
+        layerId: "track-layer-1",
+      })
+      .mockResolvedValue({
+        message: 'Track saved as "Boundary walk".',
+        persisted: true,
+        layerId: "track-layer-1",
+      });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={onSaveTrack}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix({ accuracyM: 5 });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    const base = Date.now();
+    pushLiveFix({ accuracyM: 5, latitude: 46.12, timestampMs: base });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1201, timestampMs: base + 1_000 });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1202, timestampMs: base + 2_000 });
+
+    await user.click(screen.getByRole("button", { name: "Stop" }));
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+
+    // The device refused the write, so the walk is still offered back.
+    await user.click(
+      await screen.findByRole("button", { name: "Recover unsaved track" }),
+    );
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+
+    expect(onSaveTrack).toHaveBeenCalledTimes(2);
+    expect(onSaveTrack.mock.calls[0][0].replaceLayerId).toBeUndefined();
+    expect(onSaveTrack.mock.calls[1][0].replaceLayerId).toBe("track-layer-1");
+    expect(
+      await screen.findByText('Track saved as "Boundary walk".'),
+    ).toBeInTheDocument();
+  });
+
+  it("reopens a refused save with the name and simplification the user chose", async () => {
+    const user = userEvent.setup();
+    const onSaveTrack = vi
+      .fn<
+        (input: {
+          name: string;
+          collection: GeoJSON.FeatureCollection;
+          rawGpx: Blob;
+          startedAt: string;
+          endedAt: string;
+          interrupted: boolean;
+          replaceLayerId?: string;
+        }) => Promise<{
+          message: string | null;
+          persisted: boolean;
+          layerId: string;
+        }>
+      >()
+      .mockResolvedValueOnce({
+        message: "Track is on the map, but it couldn't be written.",
+        persisted: false,
+        layerId: "track-layer-1",
+      })
+      .mockResolvedValue({
+        message: 'Track saved as "North boundary".',
+        persisted: true,
+        layerId: "track-layer-1",
+      });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={onSaveTrack}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix({ accuracyM: 5 });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    const base = Date.now();
+    pushLiveFix({ accuracyM: 5, latitude: 46.12, timestampMs: base });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1201, timestampMs: base + 1_000 });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1202, timestampMs: base + 2_000 });
+
+    await user.click(screen.getByRole("button", { name: "Stop" }));
+    const nameField = screen.getByLabelText("Track name");
+    await user.clear(nameField);
+    await user.type(nameField, "North boundary");
+    await user.click(screen.getByRole("radio", { name: "5 m" }));
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+
+    // The device refused the write, so the walk is offered back. The retry
+    // rewrites the layer that save left on the map, so it has to open on the
+    // name and tolerance that layer was made with.
+    await user.click(
+      await screen.findByRole("button", { name: "Recover unsaved track" }),
+    );
+    expect(screen.getByLabelText("Track name")).toHaveValue("North boundary");
+    expect(screen.getByRole("radio", { name: "5 m" })).toBeChecked();
+
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+    expect(onSaveTrack.mock.calls[1][0].name).toBe("North boundary");
   });
 
   it("pauses into segments and discards a recording with confirmation", async () => {

@@ -1,4 +1,5 @@
 import { cleanup, render, waitFor } from "@testing-library/react";
+import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import L from "leaflet";
 import { MapContainer } from "react-leaflet";
@@ -687,5 +688,82 @@ describe("EditableVectorLayer point moves", () => {
     expect(
       published?.geometry.type === "Point" && published.geometry.coordinates,
     ).toEqual([-61.39, 45.81]);
+  });
+});
+
+/**
+ * Class-name pins for the coarse-pointer vertex-handle rule in styles.css.
+ * That rule is only as true as the classes Leaflet and the vendored
+ * @geoman-io/leaflet-geoman-free 2.20.0 put on the page, and jsdom applies no
+ * stylesheet — so this is the half a unit test can hold: which markers the
+ * selector reaches, and, load-bearing, which it must never reach.
+ */
+describe("EditableVectorLayer vertex-handle classes", () => {
+  afterEach(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    cleanup();
+    createdMaps.length = 0;
+    document.body.replaceChildren();
+  });
+
+  // Read off the stylesheet rather than restated, so this pins what SHIPS: a
+  // hardcoded copy would keep passing while the rule it stands for was
+  // widened back to a bare `.marker-icon`, which is the regression that
+  // would enlarge the vertices placed while drawing as well.
+  const HANDLE = (() => {
+    const rule = readFileSync("./src/styles.css", "utf8").match(
+      /@media \(pointer: coarse\)[\s\S]*?\n\s*(\.leaflet-marker-draggable[^{]*?)\s*\{/,
+    )?.[1];
+    if (!rule) throw new Error("no coarse-pointer vertex handle rule in styles.css");
+    return rule.trim();
+  })();
+
+  it("marks a reshape handle draggable and keeps middle markers out", async () => {
+    const { map } = mount(vi.fn(), { mode: "edit" });
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    await waitFor(() =>
+      expect(document.querySelectorAll(HANDLE).length).toBeGreaterThan(0),
+    );
+    // Middle markers carry the same two classes, so the `:not()` is what
+    // keeps them out rather than luck. They stay at Geoman's 10px on
+    // purpose: a middle marker is the only touch route to INSERTING a
+    // vertex, and one fattened to 44px would cover the handle it sits
+    // between.
+    const middles = document.querySelectorAll(".marker-icon-middle");
+    expect(middles.length).toBeGreaterThan(0);
+    for (const middle of middles) {
+      expect(middle.classList.contains("leaflet-marker-draggable")).toBe(true);
+      expect(middle.matches(HANDLE)).toBe(false);
+    }
+  });
+
+  it("leaves a vertex placed while DRAWING outside the rule", async () => {
+    // Why the selector is scoped by `leaflet-marker-draggable` and not by
+    // `.marker-icon` alone. Geoman builds draw-time vertices with
+    // `draggable: false`, and a tap on one of them is what finishes a Line
+    // or closes an Area — L.Marker does not bubble mouse events, so that tap
+    // never reaches the map click that would place the next vertex. At 44px
+    // every tap within 22px of an earlier vertex would end the shape
+    // instead of extending it, which is the main phone-drawing flow.
+    const { map } = mount(vi.fn(), { mode: "Polygon" });
+    await waitFor(() => expect(map.pm).toBeTruthy());
+    const draw = (map.pm as unknown as {
+      Draw: Record<string, { enabled: () => boolean }>;
+    }).Draw.Polygon;
+    await waitFor(() => expect(draw.enabled()).toBe(true));
+
+    map.fire("click", { latlng: L.latLng(45.8, -61.4) });
+    map.fire("click", { latlng: L.latLng(45.81, -61.39) });
+
+    // The draw cursor is a `.marker-icon` too, but it is `pointer-events:
+    // none` and nothing aims at it.
+    const placed = [...document.querySelectorAll(".marker-icon")].filter(
+      (el) => !el.classList.contains("cursor-marker"),
+    );
+    expect(placed.length).toBeGreaterThan(0);
+    for (const marker of placed) {
+      expect(marker.matches(HANDLE)).toBe(false);
+    }
   });
 });

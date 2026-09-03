@@ -228,8 +228,11 @@ type MapCanvasProps = {
   onMarkLocation?: (fix: LiveFix | null) => Promise<string | null>;
   /**
    * Saves a finished track recording as a new layer; resolves to a status
-   * message for the location live region (null for silence). The collection
-   * holds the processed track feature; rawGpx is every received fix.
+   * message for the location live region (null for silence) and whether the
+   * layer actually reached this device. The collection holds the processed
+   * track feature; rawGpx is every received fix. `persisted` is load-bearing:
+   * the unsaved recording is forgotten only when it is true, so a refused
+   * write never destroys the last copy of the walk.
    */
   onSaveTrack?: (input: {
     name: string;
@@ -237,7 +240,24 @@ type MapCanvasProps = {
     rawGpx: Blob;
     startedAt: string;
     endedAt: string;
-  }) => Promise<string | null>;
+    /**
+     * True only for a walk recovered from an interrupted session: it ends at
+     * the last fix this device stored rather than at a Stop, and the saved
+     * layer says so for the life of the record.
+     */
+    interrupted: boolean;
+    /**
+     * The layer a refused save of this same walk already left on the map.
+     * Set on a retry, so the walk is rewritten there instead of appearing a
+     * second time.
+     */
+    replaceLayerId?: string;
+  }) => Promise<{
+    message: string | null;
+    persisted: boolean;
+    /** The layer the walk is on, refused or not — what a retry aims at. */
+    layerId: string;
+  }>;
   onLayerStatusChange?: (
     id: MapLayerId,
     status: MapLayerStatus,
@@ -1825,13 +1845,25 @@ export function MapCanvas({
   const live = useLiveLocation(locationOn && !isPrintMode, recorderArmed);
   const recording = useTrackRecording(live.fix);
   const [stopResult, setStopResult] = useState<StopResult | null>(null);
+  // The layer a refused save left on the map, held with the walk it carries
+  // and with the name and tolerance that save was made with. A retry is aimed
+  // at that layer; pairing it with the walk is what keeps a later, different
+  // recording from being written over it. The user's own two choices travel
+  // with it because the retry rewrites that layer: reopening on the generated
+  // default name would rename the track already on the map, and the default
+  // tolerance would re-simplify it at a setting nobody picked.
+  const [refusedSave, setRefusedSave] = useState<{
+    result: StopResult;
+    layerId: string;
+    name: string;
+    toleranceM: number;
+  } | null>(null);
   const [savingTrack, setSavingTrack] = useState(false);
   const [followOn, setFollowOn] = useState(false);
   const [marking, setMarking] = useState(false);
   // Once per toggle-on: the success message and the fly-to happen on the
   // first fix only; later fixes just move the marker (and pan under follow).
   const hasCenteredRef = useRef(false);
-  const hadFirstFixRef = useRef(false);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
   const [modernMapRetry, setModernMapRetry] = useState(0);
   const [modernMapFailed, setModernMapFailed] = useState(false);
@@ -1935,7 +1967,6 @@ export function MapCanvas({
       setFollowOn(false);
       setLocationMessage(null);
       hasCenteredRef.current = false;
-      hadFirstFixRef.current = false;
       return;
     }
     setLocationOn(true);
@@ -1944,12 +1975,28 @@ export function MapCanvas({
     setLocationMessage("Finding your location…");
   };
 
-  // Watch-status messages. Denial and a missing API are final for this
-  // toggle-on, so the button resets; signal loss keeps the (dimmed) marker.
+  // Watch-status messages. Denial, a missing API, and a device that kept
+  // reporting no position are final for this toggle-on, so the button resets;
+  // signal loss keeps the (dimmed) marker.
   // The transient reason is a dependency of its own: a watch that goes from
   // "still trying" to "cannot place you" stays `signal-lost` throughout, and
   // the sentence has to follow the change the status does not show.
   const lostReason = live.status === "signal-lost" ? live.reason : null;
+  // A watch that has never delivered a position has not lost a signal; it has
+  // never had one. `fix === null` is the same test the marker is drawn by, so
+  // the sentence and the map agree: nothing found, so nothing drawn. It also
+  // moves with a watch restart (arming the recorder starts a new one), which a
+  // "have we ever had a fix" flag would not. The native map draws the same
+  // line: MapController.LocationMessage.signalLost ("GPS signal lost — still
+  // trying.") is reported only while an established fix is being followed, and
+  // a search that has produced nothing settles on .unavailable ("Your location
+  // couldn't be found. Try again outdoors.").
+  const lostWithoutAnyFix = live.status === "signal-lost" && live.fix === null;
+  // The terminal reason is a dependency of its own, for the reason lostReason
+  // is: the status alone does not say which of the three endings this was,
+  // and the sentence has to follow it.
+  const stoppedReason =
+    live.status === "position-unavailable" ? live.reason : null;
   useEffect(() => {
     if (!locationOn) {
       return;
@@ -1958,12 +2005,28 @@ export function MapCanvas({
       // Every return to a fix, not only the first: a watch that timed out
       // and then answered would otherwise leave "still trying" on screen
       // over a map that is showing the reader where they are.
-      hadFirstFixRef.current = true;
       setLocationMessage(LOCATION_SUCCESS_MESSAGE);
+    } else if (lostWithoutAnyFix) {
+      // Nothing has been found, so nothing is on the map and nothing was
+      // lost. Both watches are still running, so both sentences end in the
+      // present tense — but they part company on what has been heard back: one
+      // has had no answer yet, the other has been told the position could not
+      // be worked out. The cause is not guessed either — location switched off
+      // for the device, and a device under a roof, answer identically — so
+      // both are named and neither is claimed.
+      setLocationMessage(
+        lostReason === "timeout"
+          ? "Your location hasn't been found yet — still looking. Move " +
+              "outdoors, or check that location is switched on for this device."
+          : "Your location is unavailable — the device cannot work out where " +
+              "it is. Still trying. Move outdoors, or check that location is " +
+              "switched on for this device.",
+      );
     } else if (live.status === "signal-lost") {
-      // Not "GPS": the browser answers from a satellite fix, a Wi-Fi lookup
-      // or an IP estimate and never says which. And a device still trying is
-      // not a device that cannot place itself.
+      // A fix was had and stopped coming. Not "GPS": the browser answers from
+      // a satellite fix, a Wi-Fi lookup or an IP estimate and never says
+      // which. And a device still trying is not a device that cannot place
+      // itself.
       setLocationMessage(
         lostReason === "timeout"
           ? "Your location is taking longer than expected — still trying."
@@ -1973,16 +2036,43 @@ export function MapCanvas({
       setLocationOn(false);
       setFollowOn(false);
       hasCenteredRef.current = false;
-      hadFirstFixRef.current = false;
       setLocationMessage(
         "Location permission was not granted. You can keep using the map.",
+      );
+    } else if (live.status === "position-unavailable") {
+      // The watch is already cleared, so the toggle has to come back up: a
+      // pressed button over a search that has stopped is a lie the reader has
+      // no way to see through. Only what the device reported is said — no
+      // refusal, and no claim that this machine cannot locate itself — and the
+      // way back is named, because the toggle is the retry. The latch is reset
+      // for the same reason the denial branch resets it: every path that ends
+      // a toggle-on leaves it as a fresh one would find it.
+      //
+      // The two endings are not the same account. One device said it could
+      // not place itself several times; the other said it once and then said
+      // nothing at all, and reporting that as several would be a count nobody
+      // made.
+      setLocationOn(false);
+      setFollowOn(false);
+      hasCenteredRef.current = false;
+      setLocationMessage(
+        (stoppedReason === "repeated"
+          ? "The device reported your location as unavailable several times, " +
+            "so the map stopped asking. "
+          : stoppedReason === "no-answer"
+            ? "The device reported your location as unavailable and then " +
+              "stopped answering, so the map stopped asking. "
+            : "Your location wasn't found, so after half a minute the map " +
+              "stopped looking. ") +
+          "Location may be switched off for this device, or there may be " +
+          "nothing here to place you by. Press Use my location to try again.",
       );
     } else if (live.status === "unavailable") {
       setLocationOn(false);
       setFollowOn(false);
       setLocationMessage("Location is not available in this browser.");
     }
-  }, [live.status, lostReason, locationOn]);
+  }, [live.status, lostReason, lostWithoutAnyFix, locationOn, stoppedReason]);
 
   // Dragging the map is how the user says "stop following me around".
   useEffect(() => {
@@ -2075,6 +2165,24 @@ export function MapCanvas({
     }
   };
 
+  // A walk that has not been saved or discarded: this session's own Stop, or
+  // a recording this device stored before the tab went away.
+  const unsavedTrack = recording.unsaved;
+  // Only the second kind carries the truncation caveat, and only it is marked
+  // interrupted on the record it becomes.
+  const recoveredDraft =
+    unsavedTrack !== null &&
+    unsavedTrack.interrupted &&
+    stopResult === unsavedTrack.result;
+
+  // The refused save this dialog is a retry of, if it is a retry at all.
+  // Identity of the walk, not a flag: a different recording must never inherit
+  // another walk's layer, name or tolerance.
+  const retryOfRefusedSave =
+    refusedSave !== null && refusedSave.result === stopResult
+      ? refusedSave
+      : null;
+
   const startRecording = () => {
     setRecorderArmed(true);
     recording.start();
@@ -2095,21 +2203,44 @@ export function MapCanvas({
     const feature = buildRecordedTrackFeature(stopResult, name, simplifyToleranceM);
     if (!feature) {
       // The dialog disables Save in this state; this is the belt to its
-      // braces if the two ever disagree.
+      // braces if the two ever disagree. Nothing here can be saved, so the
+      // device's copy goes too rather than being offered back forever.
       setLocationMessage("Too little movement was recorded to save a track.");
+      recording.clearUnsaved();
+      setRefusedSave(null);
       setStopResult(null);
       return;
     }
     setSavingTrack(true);
     try {
-      const message = await onSaveTrack({
+      const outcome = await onSaveTrack({
         name,
         collection: { type: "FeatureCollection", features: [feature] },
         rawGpx: rawTrackGpxBlob(name, stopResult.rawSegments),
         startedAt: stopResult.startedAt,
         endedAt: stopResult.endedAt,
+        interrupted: recoveredDraft,
+        // Only ever this walk's own layer: a retry rewrites what the refused
+        // save left on the map instead of adding a second copy of the track.
+        replaceLayerId: retryOfRefusedSave?.layerId,
       });
-      setLocationMessage(message);
+      setLocationMessage(outcome.message);
+      // A layer the device refused leaves the walk with no durable copy at
+      // all, so it is kept and offered back instead of being forgotten on the
+      // strength of a message.
+      if (outcome.persisted) {
+        recording.clearUnsaved();
+        setRefusedSave(null);
+      } else {
+        setRefusedSave({
+          result: stopResult,
+          layerId: outcome.layerId,
+          // What the user typed and chose, so the retry opens on their track
+          // rather than on a freshly generated default.
+          name,
+          toleranceM: simplifyToleranceM,
+        });
+      }
       setStopResult(null);
     } finally {
       setSavingTrack(false);
@@ -2542,11 +2673,18 @@ export function MapCanvas({
               <MarkLocationIcon />
             </button>
           ) : null}
-          {onSaveTrack && recording.status === "idle" && !stopResult ? (
+          {onSaveTrack &&
+          recording.status === "idle" &&
+          !stopResult &&
+          !unsavedTrack ? (
             <button
               type="button"
               className="location-cluster-button"
               aria-label="Record a track"
+              // Held until this device has said what it is already holding: a
+              // walk it has not been asked about lives under the same key the
+              // first write of a new recording would take.
+              disabled={recording.restore === "pending"}
               onClick={startRecording}
             >
               <RecordTrackIcon />
@@ -2585,6 +2723,17 @@ export function MapCanvas({
           {recording.wakeLockSupported === false ? (
             <small>Keep your screen on — this browser can't hold it awake.</small>
           ) : null}
+          {recording.draftError === "quota" ? (
+            <small>
+              Storage is full — this recording isn't being kept as you go. A
+              reload would lose it.
+            </small>
+          ) : recording.draftError ? (
+            <small>
+              This browser isn't keeping this recording as you go. A reload
+              would lose it.
+            </small>
+          ) : null}
           <div className="location-hud-actions">
             {recording.status === "recording" ? (
               <button type="button" onClick={recording.pause}>
@@ -2601,12 +2750,57 @@ export function MapCanvas({
           </div>
         </div>
       ) : null}
+      {onSaveTrack && unsavedTrack && !stopResult && recording.status === "idle" ? (
+        <div className="location-hud" role="status">
+          <small>A track recording is waiting to be saved.</small>
+          <div className="location-hud-actions">
+            <button
+              type="button"
+              onClick={() => setStopResult(unsavedTrack.result)}
+            >
+              Recover unsaved track
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {onSaveTrack &&
+      recording.restore === "unreadable" &&
+      !unsavedTrack &&
+      !stopResult &&
+      recording.status === "idle" ? (
+        <div className="location-hud" role="status">
+          <small>
+            This browser couldn't read what's stored here, so a recording may
+            still be on this device. Starting a new one replaces it.
+          </small>
+        </div>
+      ) : null}
+      {recording.clearError ? (
+        <div className="location-hud" role="status">
+          <small>
+            This device still has a copy of that recording — it wouldn't be
+            deleted, so it may be offered again after a reload.
+          </small>
+          <div className="location-hud-actions">
+            <button type="button" onClick={recording.retryClear}>
+              Delete it
+            </button>
+          </div>
+        </div>
+      ) : null}
       {stopResult ? (
         <SaveTrackDialog
           result={stopResult}
+          recovered={recoveredDraft}
+          initialName={retryOfRefusedSave?.name}
+          initialToleranceM={retryOfRefusedSave?.toleranceM}
           saving={savingTrack}
           onSave={(name, toleranceM) => void handleSaveTrack(name, toleranceM)}
-          onDiscard={() => setStopResult(null)}
+          onDiscard={() => {
+            recording.clearUnsaved();
+            setRefusedSave(null);
+            setStopResult(null);
+          }}
         />
       ) : null}
       {showModernMap && modernMapFailed ? (

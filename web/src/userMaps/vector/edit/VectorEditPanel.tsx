@@ -49,6 +49,12 @@ type VectorEditPanelProps = {
     featureId: string,
     descriptors: FeaturePhotoDescriptor[],
   ) => void;
+  onAttachFeaturePhotos: (
+    layerId: string,
+    featureId: string,
+    descriptors: FeaturePhotoDescriptor[],
+  ) => FeaturePhotoDescriptor[];
+  onPhotoCleanupFailed: (photoId: string) => void;
   onMoveFeaturePoint: (featureId: string, position: [number, number]) => void;
   onOpenPhoto: (descriptor: FeaturePhotoDescriptor) => void;
   onDeleteFeature: (featureId: string) => void;
@@ -119,6 +125,8 @@ export function VectorEditPanel({
   onPatchAttributes,
   photoManager,
   onSetFeaturePhotos,
+  onAttachFeaturePhotos,
+  onPhotoCleanupFailed,
   onMoveFeaturePoint,
   onOpenPhoto,
   onDeleteFeature,
@@ -216,8 +224,17 @@ export function VectorEditPanel({
                 {parcelStatusText(parcelSnapStatus)}
               </small>
             ) : null}
-            <small className="vector-edit-snap-hint">
+            {/* Two sentences ship and CSS shows one, chosen by pointer type
+                — the same arrangement the georeference tabs use, so nothing
+                here has to re-derive what kind of pointer is in front of it.
+                Alt is a keyboard modifier a phone has no way to press; the
+                only unsnapped route a touch user has is the master toggle
+                above, which the second sentence names by its exact label. */}
+            <small className="vector-edit-snap-hint vector-edit-snap-hint-fine">
               Hold Alt to place a vertex without snapping.
+            </small>
+            <small className="vector-edit-snap-hint vector-edit-snap-hint-coarse">
+              Turn off Snap while drawing to place a vertex freely.
             </small>
           </>
         ) : null}
@@ -342,6 +359,10 @@ export function VectorEditPanel({
             onDescriptors={(descriptors) =>
               onSetFeaturePhotos(String(selected.id), descriptors)
             }
+            onAttachDescriptors={(descriptors) =>
+              onAttachFeaturePhotos(record.id, String(selected.id), descriptors)
+            }
+            onPhotoCleanupFailed={onPhotoCleanupFailed}
             onMovePoint={(position) =>
               onMoveFeaturePoint(String(selected.id), position)
             }
