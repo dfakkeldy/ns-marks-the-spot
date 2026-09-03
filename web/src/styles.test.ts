@@ -913,3 +913,50 @@ describe("page heading at every breakpoint", () => {
     expect(phoneStyles).toMatch(/\.layer-rail\s*\{[^}]*display:\s*none/);
   });
 });
+
+describe("phone map targets and the ladder above them", () => {
+  it("gives the phone's brand pill, layers trigger and zoom buttons the same 44px target", () => {
+    const mobileStart = styles.indexOf("@media (max-width: 860px)");
+    const mobileEnd = styles.indexOf("@media (max-width: 560px)", mobileStart);
+    const mobileStyles = styles.slice(mobileStart, mobileEnd);
+    const chrome = mobileStyles.match(
+      /\.mobile-map-brand,\s*\.mobile-controls-trigger\s*\{([^}]*)\}/,
+    )?.[1];
+    const zoom = mobileStyles.match(
+      /\.map-canvas \.leaflet-bar a\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(chrome).toMatch(/min-height:\s*44px/);
+    expect(zoom).toMatch(/width:\s*44px/);
+    expect(zoom).toMatch(/height:\s*44px/);
+    expect(zoom).toMatch(/line-height:\s*44px/);
+  });
+
+  it("keeps the map chrome and the location ladder clear of the enlarged zoom bar", () => {
+    const mobileStart = styles.indexOf("@media (max-width: 860px)");
+    const narrowStart = styles.indexOf("@media (max-width: 560px)", mobileStart);
+    const mobileStyles = styles.slice(mobileStart, narrowStart);
+    const narrowStyles = styles.slice(narrowStart);
+
+    expect(mobileStyles).toMatch(/\.mobile-map-chrome\s*\{[^}]*left:\s*72px/s);
+    expect(narrowStyles).toMatch(/\.mobile-map-chrome\s*\{\s*left:\s*68px/);
+    expect(mobileStyles).toMatch(
+      /\.location-button\s*\{\s*top:\s*max\(102px, calc\(env\(safe-area-inset-top\) \+ 64px\)\)/,
+    );
+    expect(mobileStyles).toMatch(
+      /\.location-cluster\s*\{\s*top:\s*max\(102px, calc\(env\(safe-area-inset-top\) \+ 64px\)\)/,
+    );
+    expect(mobileStyles).toMatch(
+      /\.location-hud\s*\{\s*top:\s*max\(154px, calc\(env\(safe-area-inset-top\) \+ 116px\)\)/,
+    );
+    expect(mobileStyles).toMatch(
+      /\.measure-control\s*\{\s*top:\s*max\(154px, calc\(env\(safe-area-inset-top\) \+ 116px\)\)/,
+    );
+    expect(mobileStyles).toMatch(
+      /\.modern-map-error\s*\{\s*top:\s*max\(154px, calc\(env\(safe-area-inset-top\) \+ 116px\)\)/,
+    );
+    expect(mobileStyles).toMatch(
+      /\.location-message\s*\{\s*top:\s*max\(262px, calc\(env\(safe-area-inset-top\) \+ 224px\)\)/,
+    );
+  });
+});

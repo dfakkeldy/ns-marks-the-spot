@@ -3465,12 +3465,16 @@ a {
     min-height: 0;
   }
 
+  /* Left of these pills is Leaflet's zoom bar, pinned 10px from this
+     region's top-left corner. With the 44px buttons set further down, and the
+     2px rim Leaflet adds on a touch container, it ends at most 58px in — so
+     72px is the same 14px of breathing room the pills have always had. */
   .mobile-map-chrome {
     position: absolute;
     z-index: 1000;
     top: max(12px, env(safe-area-inset-top));
     right: 12px;
-    left: 58px;
+    left: 72px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -3478,9 +3482,12 @@ a {
     pointer-events: none;
   }
 
+  /* 44px, the target every other control in this block already takes. These
+     two pills were the phone chrome's last 42px holdouts, and their height is
+     what the location ladder's inset offsets below are measured from. */
   .mobile-map-brand,
   .mobile-controls-trigger {
-    min-height: 42px;
+    min-height: 44px;
     color: var(--chart-ink);
     background: rgba(255, 255, 255, 0.92);
     border: 1px solid rgba(255, 255, 255, 0.76);
@@ -3534,27 +3541,48 @@ a {
     line-height: 0;
   }
 
+  /* Leaflet ships 26px zoom buttons and bumps them to 30px on touch, which
+     leaves them the one control on the phone map below the 44px target every
+     other control in this block takes. The selector matches Leaflet's own
+     two-class weight and wins on source order, the way this sheet's zoom
+     colour override already does, and .map-canvas keeps it off the
+     georeferencer's scan preview, which has a layout of its own. line-height
+     moves with the box because Leaflet centres the plus and minus glyphs
+     with it. */
+  .map-canvas .leaflet-bar a {
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+  }
+
   /* With viewport-fit=cover these fixed offsets sit relative to the notch,
      not the visible top — track the mobile chrome, which starts at
-     max(12px, env(safe-area-inset-top)), by carrying the same inset. */
+     max(12px, env(safe-area-inset-top)) and now stands 44px tall, by carrying
+     the same inset. The floors answer a second constraint: the zoom bar above
+     takes no safe-area inset at all, so with 44px buttons and the 2px rim
+     Leaflet adds on a touch container it ends at most 102px below the top of
+     this region, and a phone
+     reporting a small inset would otherwise drop this ladder onto it. Each
+     step is the step above plus the control it has to clear, so both branches
+     move by the same amount and the ladder never crosses itself. */
   .location-button {
-    top: max(74px, calc(env(safe-area-inset-top) + 62px));
+    top: max(102px, calc(env(safe-area-inset-top) + 64px));
   }
 
   .location-cluster {
-    top: max(74px, calc(env(safe-area-inset-top) + 62px));
+    top: max(102px, calc(env(safe-area-inset-top) + 64px));
   }
 
   .location-hud {
-    top: max(126px, calc(env(safe-area-inset-top) + 114px));
+    top: max(154px, calc(env(safe-area-inset-top) + 116px));
   }
 
   .location-message {
-    top: max(234px, calc(env(safe-area-inset-top) + 222px));
+    top: max(262px, calc(env(safe-area-inset-top) + 224px));
   }
 
   .measure-control {
-    top: max(126px, calc(env(safe-area-inset-top) + 114px));
+    top: max(154px, calc(env(safe-area-inset-top) + 116px));
   }
 
   /* Both readouts hang off the bottom edge, and both are caveats the reader
@@ -3572,8 +3600,10 @@ a {
     bottom: calc(50px + env(safe-area-inset-bottom));
   }
 
+  /* Shares the recording HUD's row, so it moves when that row moves rather
+     than splitting off and landing across the measure buttons. */
   .modern-map-error {
-    top: max(126px, calc(env(safe-area-inset-top) + 114px));
+    top: max(154px, calc(env(safe-area-inset-top) + 116px));
     right: 12px;
     left: 12px;
     justify-content: space-between;
@@ -3616,8 +3646,10 @@ a {
     padding-left: 16px;
   }
 
+  /* The tighter 10px gap this width has always taken beside the same 48px
+     zoom bar. At 54px the brand pill overlapped the zoom-out button. */
   .mobile-map-chrome {
-    left: 54px;
+    left: 68px;
   }
 
   .mobile-map-brand strong {
@@ -3668,7 +3700,11 @@ a {
   .parcel-lookup-message {
     top: 64px;
     right: 12px;
-    left: 12px;
+    /* Clear of Leaflet's zoom bar, which is now 44px wide plus its rim and
+       reaches 58px in. Full width from 12px would paint this opaque box over
+       the zoom-out button, and the box takes pointer events, so the control
+       under it would stop answering. */
+    left: 66px;
     max-width: none;
     max-height: 30dvh;
     overflow-y: auto;

@@ -814,6 +814,41 @@ describe("NS Marks The Spot Online", () => {
     vi.unstubAllEnvs();
   });
 
+  it("hands focus to the phone sheet when it opens and back to the trigger when it closes", async () => {
+    const user = userEvent.setup();
+    renderAppWithCategoriesOpen();
+
+    const trigger = screen.getByRole("button", { name: "Search & layers" });
+    await user.click(trigger);
+
+    const close = screen.getByRole("button", { name: "Close map controls" });
+    expect(close).toHaveFocus();
+
+    await user.click(close);
+
+    expect(trigger).toHaveFocus();
+  });
+
+  it("returns focus to the trigger on Escape only when focus was still inside the sheet", async () => {
+    const user = userEvent.setup();
+    renderAppWithCategoriesOpen();
+
+    const trigger = screen.getByRole("button", { name: "Search & layers" });
+    await user.click(trigger);
+    await user.keyboard("{Escape}");
+
+    expect(trigger).toHaveFocus();
+
+    await user.click(trigger);
+    const outside = screen.getByRole("button", { name: "Collapse header" });
+    act(() => outside.focus());
+    await user.keyboard("{Escape}");
+
+    expect(screen.getByRole("complementary", { name: "Map controls" }))
+      .not.toHaveClass("mobile-open");
+    expect(outside).toHaveFocus();
+  });
+
   it("keeps exactly one page heading, outside the parts a phone hides", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/");

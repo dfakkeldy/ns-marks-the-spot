@@ -1230,6 +1230,45 @@ export function App() {
   );
   const [aboutOpen, setAboutOpen] = useState(false);
   const [dataSourcesOpen, setDataSourcesOpen] = useState(false);
+  // The sheet is a disclosure, not a dialog: the trigger carries
+  // aria-controls and aria-expanded, the rail keeps its complementary role and
+  // its "Map controls" name at every width, nothing behind it is inerted, and
+  // the attribution strip is deliberately left reachable while it is open. So
+  // focus travels with the sheet and is never trapped inside it.
+  const mobileControlsRef = useRef<HTMLElement | null>(null);
+  const mobileControlsTriggerRef = useRef<HTMLButtonElement>(null);
+  const mobileSheetCloseRef = useRef<HTMLButtonElement>(null);
+  // Opening the sheet without moving focus leaves a keyboard reader behind it,
+  // with the next Tab restarting at the top of the document, and leaves a
+  // screen reader on the map the sheet now covers. The Close button is the
+  // first control inside and the way back out, so it is where focus lands; the
+  // sheet header is sticky, so landing there scrolls nothing.
+  useEffect(() => {
+    if (!mobileControlsOpen) return;
+    mobileSheetCloseRef.current?.focus();
+  }, [mobileControlsOpen]);
+  const closeMobileControls = useCallback(() => {
+    // Only reclaim focus that was still inside the sheet, and read that before
+    // the state change, because closing is what takes the sheet off screen. A
+    // close that came from elsewhere has already put focus where it belongs.
+    // Above the sheet's 860px breakpoint CSS alone stops rendering the rail as
+    // a sheet and hides the trigger again, and nothing here closes the sheet
+    // for a viewport change, so a window that grows past that breakpoint
+    // leaves the reader's focus exactly where it was.
+    const returnFocus =
+      mobileControlsRef.current?.contains(document.activeElement) ?? false;
+    setMobileControlsOpen(false);
+    if (returnFocus) mobileControlsTriggerRef.current?.focus();
+  }, []);
+  // Choosing a parcel from inside the sheet closes it too, and focus cannot
+  // go back to the trigger: the parcel is what the screen is now about. It
+  // goes where the parcel panel's own close hands it, the map region that
+  // contains the panel and the map both.
+  const handOffSheetFocus = useCallback(() => {
+    if (mobileControlsRef.current?.contains(document.activeElement)) {
+      mapRegionRef.current?.focus({ preventScroll: true });
+    }
+  }, []);
   // Escape closes the mobile controls sheet, matching the dialogs — but only
   // while no dialog sits above it, so one keypress never closes two layers.
   useEffect(() => {
@@ -1244,12 +1283,13 @@ export function App() {
     }
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setMobileControlsOpen(false);
+        closeMobileControls();
       }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [
+    closeMobileControls,
     mobileControlsOpen,
     aboutOpen,
     dataSourcesOpen,
@@ -3242,10 +3282,12 @@ export function App() {
 
   const submitPidSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    handOffSheetFocus();
     void runSearch(query);
   };
 
   const selectListedParcel = async (eventId: string, pid: string) => {
+    handOffSheetFocus();
     cancelAddressSearch();
     cancelPointLookup();
     setEventVisibility(eventId, true);
@@ -4118,6 +4160,7 @@ export function App() {
 
       <main className="map-layout">
         <aside
+          ref={mobileControlsRef}
           id="map-controls"
           className={`layer-rail mode-${mapMode}${mobileControlsOpen ? " mobile-open" : ""}`}
           aria-label="Map controls"
@@ -4125,8 +4168,9 @@ export function App() {
           <div className="mobile-sheet-header">
             <strong>Search &amp; layers</strong>
             <button
+              ref={mobileSheetCloseRef}
               type="button"
-              onClick={() => setMobileControlsOpen(false)}
+              onClick={closeMobileControls}
               aria-label="Close map controls"
             >
               <span aria-hidden="true">×</span>
@@ -5017,6 +5061,7 @@ export function App() {
               <strong>NS Marks</strong>
             </a>
             <button
+              ref={mobileControlsTriggerRef}
               className="mobile-controls-trigger"
               type="button"
               aria-controls="map-controls"
