@@ -257,7 +257,29 @@ function parseStoredThemeLibrary(value: unknown): CustomThemeLoadResult {
     : { status: "partial", themes, warning };
 }
 
-export function loadCustomThemes(storage: Storage): CustomThemeLoadResult {
+/**
+ * `storage` is nullable because the caller cannot always produce one: Safari
+ * with "Block all cookies", and some in-app WebViews, throw from the
+ * `window.localStorage` property access itself, so the handle has to be
+ * resolved behind a guard and arrives here as null.
+ *
+ * A store that could not be reached and a store whose read threw are the same
+ * fact to the reader — the library was not read — so both are `fatal`. Neither
+ * is reported as an empty library, which would read as never having saved
+ * anything. NSMarksCore's `CustomThemeStore.Library.Status` keeps the same
+ * distinction under the name `unreadable`.
+ */
+export function loadCustomThemes(
+  storage: Storage | null,
+): CustomThemeLoadResult {
+  if (storage === null) {
+    return {
+      status: "fatal",
+      themes: [],
+      warning: THEME_LIBRARY_LOAD_WARNING,
+    };
+  }
+
   let raw: string | null;
   try {
     raw = storage.getItem(CUSTOM_THEME_STORAGE_KEY);
@@ -285,7 +307,7 @@ export function loadCustomThemes(storage: Storage): CustomThemeLoadResult {
 
 export function saveCustomThemes(
   themes: readonly MapThemeDefinition[],
-  storage: Storage,
+  storage: Storage | null,
 ): ThemeSaveResult {
   try {
     assertCustomThemes(themes);
@@ -293,6 +315,13 @@ export function saveCustomThemes(
     if (error instanceof Error && error.message === "Built-in themes are not accepted by the custom-theme repository.") {
       return { ok: false, message: "Only custom themes can be saved in this browser." };
     }
+    return { ok: false, message: THEME_LIBRARY_SAVE_WARNING };
+  }
+
+  // After the validation above, so an invalid theme still gets its own, more
+  // specific message. A store that cannot be reached is a write that could not
+  // happen, which is what the save warning already says.
+  if (storage === null) {
     return { ok: false, message: THEME_LIBRARY_SAVE_WARNING };
   }
 

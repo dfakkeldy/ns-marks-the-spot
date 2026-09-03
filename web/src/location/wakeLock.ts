@@ -37,7 +37,18 @@ export function acquireScreenWakeLock(
       .request("screen")
       .then((acquired) => {
         if (released) {
-          void acquired.release();
+          void acquired.release().catch(() => {});
+          return;
+        }
+        // Only the sentinel this variable holds can be released later, so a
+        // second live one has to go now: a visibility event that lands before
+        // the previous request resolves leaves two in flight, and they need
+        // not resolve in the order they were made. Overwriting strands the
+        // other, and a lock nothing can reach holds the screen awake past the
+        // end of the session. A lock the browser already released on hide is
+        // not live, so returning to the tab still re-acquires.
+        if (sentinel && !sentinel.released) {
+          void acquired.release().catch(() => {});
           return;
         }
         sentinel = acquired;

@@ -487,6 +487,29 @@ function isLicenceAccepted(): boolean {
   }
 }
 
+/**
+ * The same guard as above, one step earlier.
+ *
+ * `loadCustomThemes` and `saveCustomThemes` catch whatever their `getItem` and
+ * `setItem` throw, but `window.localStorage` passed as an argument is
+ * evaluated at the CALL SITE, outside that try — and in the browsers named
+ * above the property access is itself what throws. Unguarded, the theme
+ * library's first read threw out of App's render on every load, so those
+ * readers met "The map stopped responding" and a Reload button that
+ * reproduced it.
+ *
+ * A store that cannot be reached is reported as a store that could not be
+ * read, never as an empty library: "you have saved nothing" and "your saved
+ * setups could not be read" are different sentences to the reader.
+ */
+function reachableLocalStorage(): Storage | null {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
 // Exported for its focused test: the identity contract below is what keeps
 // the evidence effects quiet through no-op merges, and only a test that holds
 // both references can pin it.
@@ -1061,7 +1084,7 @@ function DataSourcesDialog({
 export function App() {
   const initialUrl = useRef(new URL(window.location.href)).current;
   const [initialCustomThemeLibrary] = useState(
-    () => loadCustomThemes(window.localStorage),
+    () => loadCustomThemes(reachableLocalStorage()),
   );
   const [initialCustomThemes] = useState<CustomMapThemeDefinition[]>(
     () => initialCustomThemeLibrary.themes.filter(
@@ -3327,7 +3350,7 @@ export function App() {
     mapMode,
   }), [activeLayerIds, fletcherOpacity, mapMode, taxSaleEnabled]);
   const persistCustomThemes = useCallback((nextThemes: CustomMapThemeDefinition[]) => {
-    const result = saveCustomThemes(nextThemes, window.localStorage);
+    const result = saveCustomThemes(nextThemes, reachableLocalStorage());
     if (!result.ok) {
       setThemeLibraryNotice(result.message);
       return false;

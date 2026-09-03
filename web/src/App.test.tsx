@@ -2376,6 +2376,34 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Roads, trails & culverts")).toBeChecked();
   });
 
+  it("still renders the map when the browser blocks storage outright", () => {
+    // Safari with "Block all cookies" throws from the property access itself,
+    // not from getItem — so a Storage.prototype spy would not reproduce this.
+    const descriptor = Object.getOwnPropertyDescriptor(window, "localStorage");
+    if (!descriptor) throw new Error("window.localStorage is not defined");
+    Object.defineProperty(window, "localStorage", {
+      configurable: true,
+      get() {
+        throw new DOMException("The operation is insecure.", "SecurityError");
+      },
+    });
+    window.history.replaceState(null, "", "/");
+
+    try {
+      render(<App />);
+
+      expect(screen.getByTestId("map-canvas")).toBeInTheDocument();
+      expect(screen.getByLabelText("Map setup")).toHaveValue(
+        "explore-nova-scotia",
+      );
+      expect(mapSetupStatus()).toHaveTextContent(
+        "Your custom-theme library could not be loaded. Explore Nova Scotia is being used for this session.",
+      );
+    } finally {
+      Object.defineProperty(window, "localStorage", descriptor);
+    }
+  });
+
   it("keeps corrupt custom-theme storage untouched and uses Explore for the session", () => {
     localStorage.setItem(CUSTOM_THEME_STORAGE_KEY, "not-json");
     window.history.replaceState(null, "", "/");
