@@ -8,11 +8,12 @@ import {
 import type { LiveFix } from "./liveLocation";
 
 /**
- * A GPS mark is an ordinary user-layer Point whose provenance rides in the
+ * A mark is an ordinary user-layer Point whose provenance rides in the
  * reserved nsmts: properties — capture time and reported accuracy — so the
- * popup can say "Marked from GPS on this device (±N m)" and an export
- * carries the same honesty. The id is assigned here because raw-fix logs
- * and photo descriptors (later changes) key off feature ids.
+ * popup can say "Marked from this device's location (±N m)" and an export
+ * carries the same honesty. The browser never says which sensor answered, so
+ * neither does the wording. The id is assigned here because raw-fix logs and
+ * photo descriptors (later changes) key off feature ids.
  */
 export function buildGpsMarkFeature(fix: LiveFix): Feature<Point> {
   const coordinates: [number, number] | [number, number, number] =

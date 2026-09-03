@@ -549,6 +549,78 @@ describe("photos and point moves", () => {
       -60.9, 46.1, -60.9, 46.1,
     ]);
   });
+
+  it("a photo that finishes after another was removed does not bring the removed one back", () => {
+    const { options } = harness();
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+    act(() =>
+      result.current.setFeaturePhotos("f1", [{ id: "pA", width: 10, height: 10 }]),
+    );
+
+    // Captured while photo A was still on the feature, the way a strip mid-
+    // attach holds the callbacks from the render the file was picked in.
+    const midAttach = result.current.attachFeaturePhotos;
+    act(() => result.current.setFeaturePhotos("f1", []));
+
+    act(() => {
+      midAttach("layer-1", "f1", [{ id: "pB", width: 20, height: 20 }]);
+    });
+
+    expect(
+      result.current.editingLayer?.data.features[0].properties?.["nsmts:photos"],
+    ).toEqual([{ id: "pB", width: 20, height: 20 }]);
+  });
+
+  it("a photo whose feature is gone is handed back and said out loud rather than rebuilding the feature", () => {
+    const { options } = harness();
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+
+    const midAttach = result.current.attachFeaturePhotos;
+    act(() => result.current.deleteFeature("f1"));
+
+    let discarded: Array<{ id: string }> = [];
+    act(() => {
+      discarded = midAttach("layer-1", "f1", [
+        { id: "pB", sourceName: "IMG_9.jpg", width: 20, height: 20 },
+      ]);
+    });
+
+    // The feature stays deleted, and the photo comes back for the caller to
+    // take out of the store rather than living on as a dangling descriptor.
+    expect(result.current.editingLayer?.data.features).toHaveLength(0);
+    expect(discarded).toEqual([
+      { id: "pB", sourceName: "IMG_9.jpg", width: 20, height: 20 },
+    ]);
+    expect(result.current.discardedPhotos).toHaveLength(1);
+    expect(result.current.discardedPhotos[0].message).toContain("IMG_9.jpg");
+
+    act(() => result.current.dismissDiscardedPhoto("pB"));
+    expect(result.current.discardedPhotos).toEqual([]);
+  });
+
+  it("a photo is never added to another layer's feature of the same id", () => {
+    const { options } = harness({
+      records: [record(), record("layer-2")],
+      geometries: { "layer-1": collection(), "layer-2": collection() },
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+
+    const midAttach = result.current.attachFeaturePhotos;
+    act(() => result.current.endEdit());
+    act(() => result.current.beginEdit("layer-2"));
+
+    act(() => {
+      midAttach("layer-1", "f1", [{ id: "pB", width: 20, height: 20 }]);
+    });
+
+    expect(
+      result.current.editingLayer?.data.features[0].properties,
+    ).not.toHaveProperty("nsmts:photos");
+    expect(result.current.discardedPhotos).toHaveLength(1);
+  });
 });
 
 describe("a write that fails with no panel to show it", () => {

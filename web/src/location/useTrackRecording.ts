@@ -104,6 +104,11 @@ export function useTrackRecording(
   const draftErrorRef = useRef<TrackDraftFailure | null>(null);
   const draftTimerRef = useRef<number | null>(null);
   const startedRef = useRef(false);
+  // A delete is asked for one particular copy: the walk the user has just
+  // saved or discarded. Recording again takes over the one key on the device,
+  // so a refusal that arrives after that is no longer about a copy anyone may
+  // remove — offering to delete it then would delete the walk in progress.
+  const mayReportClearRef = useRef(false);
 
   // An interrupted recording is on the device, not in this tab: read it once
   // on load and offer it back. The answer also decides when Record may be
@@ -246,6 +251,9 @@ export function useTrackRecording(
     setWakeLockSupported(wakeLock.supported);
     draftErrorRef.current = null;
     setDraftError(null);
+    // This walk owns the key from here. A delete asked for the last walk must
+    // not come back as an offer aimed at this one.
+    mayReportClearRef.current = false;
     setClearError(null);
     setStatus("recording");
   }, [restore]);
@@ -285,18 +293,34 @@ export function useTrackRecording(
     return result;
   }, [cancelDraftWrite, releaseWakeLock, writeDraft]);
 
+  // Asks the device to forget the copy it holds, and reports a refusal only
+  // while that copy is still the one the reader was told about. A delete takes
+  // a moment to answer; if the next walk has started by then, the key belongs
+  // to that walk, and the "Delete it" the refusal would put on screen would
+  // take a recording in progress with it. What that costs is bounded and
+  // fail-open: the new walk writes over that copy as soon as it has two
+  // accepted positions in a segment, and until then the old copy sits there
+  // unreported — offered back after a reload as an unsaved recording, never
+  // silently deleted.
+  const askDeviceToForget = useCallback(() => {
+    mayReportClearRef.current = true;
+    void draftStore.clear().then((failure) => {
+      if (mayReportClearRef.current) {
+        setClearError(failure);
+      }
+    });
+  }, [draftStore]);
+
   // The offer goes as soon as the user saves or discards — leaving "waiting to
   // be saved" up after a successful save would be a lie. What survives is the
   // fact that the device still holds a copy, which is what will come back.
   const clearUnsaved = useCallback(() => {
     cancelDraftWrite();
     setUnsaved(null);
-    void draftStore.clear().then(setClearError);
-  }, [cancelDraftWrite, draftStore]);
+    askDeviceToForget();
+  }, [askDeviceToForget, cancelDraftWrite]);
 
-  const retryClear = useCallback(() => {
-    void draftStore.clear().then(setClearError);
-  }, [draftStore]);
+  const retryClear = askDeviceToForget;
 
   return {
     status,

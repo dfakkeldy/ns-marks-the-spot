@@ -68,6 +68,19 @@ export type CoastalFloodEvidence =
       status: "geometry-unavailable";
       stormAnnualExceedanceProbabilityPercent: 1;
     }
+  /**
+   * The scenario was asked and never came back, so its request was dropped.
+   * It carries no percent, no area and no pixel count: nothing about this
+   * parcel was measured, and a silence reported as a measurement would say the
+   * scenario had been read off the map and missed the lot. It is also kept
+   * apart from "error" — a service that failed gave an answer a reader can
+   * weigh, and a service that went quiet gave nothing at all.
+   */
+  | {
+      scenario: CoastalScenario;
+      status: "unanswered";
+      stormAnnualExceedanceProbabilityPercent: 1;
+    }
   | {
       scenario: CoastalScenario;
       status: "error";
@@ -339,6 +352,27 @@ async function decodeRasterImage(blob: Blob): Promise<DecodedRaster> {
   return { rgba, width: canvas.width, height: canvas.height };
 }
 
+/**
+ * How long one coastal scenario may stay silent before it is reported as
+ * silent.
+ *
+ * Deliberately shorter than the print capture's own fifteen seconds. The three
+ * scenarios are three separate services asked together, and a request that
+ * never settled used to hold the whole set: the panel went on saying every
+ * scenario was still being checked, and when the capture timed out the single
+ * coastal slot was sealed as a source that had not answered, throwing away the
+ * two scenarios that had already returned. Twelve leaves the page three
+ * seconds to seal with the answers that did arrive; there is no measured
+ * export time behind the number, only that margin.
+ *
+ * The cost is real and one-way: a live request that would have answered at
+ * fourteen seconds is dropped, and nothing re-asks it — the coastal effect
+ * runs on the selection, so the way back is to select the parcel again. A
+ * scenario dropped that way says it did not answer, which is what happened,
+ * and never that it found nothing.
+ */
+export const COASTAL_SCENARIO_TIMEOUT_MS = 12_000;
+
 export async function fetchCoastalFloodEvidence(
   features: readonly ParcelFeature[],
   mappedAreaSquareMetres: number | null,
@@ -363,6 +397,18 @@ export async function fetchCoastalFloodEvidence(
 
   return Promise.all(
     coastalScenarios.map(async ({ scenario, serviceUrl }): Promise<CoastalFloodEvidence> => {
+      // Every scenario is asked under its own deadline, so one service that
+      // never comes back cannot hold the two that did. The request is dropped
+      // rather than merely ignored, because a raster export nobody is waiting
+      // for should not keep a connection open for the rest of the selection.
+      const attempt = new AbortController();
+      const abandon = () => attempt.abort();
+      // A caller that has already given up is not made to wait out the
+      // deadline: an abort that has already fired never reaches a listener
+      // added after it.
+      if (signal?.aborted) abandon();
+      signal?.addEventListener("abort", abandon);
+      const deadline = setTimeout(abandon, COASTAL_SCENARIO_TIMEOUT_MS);
       try {
         const query = new URLSearchParams({
           f: "image",
@@ -373,7 +419,9 @@ export async function fetchCoastalFloodEvidence(
           format: "png32",
           transparent: "true",
         });
-        const response = await fetch(`${serviceUrl}/export?${query}`, { signal });
+        const response = await fetch(`${serviceUrl}/export?${query}`, {
+          signal: attempt.signal,
+        });
         if (!response.ok) {
           throw new Error(`Coastal flood request failed with status ${response.status}.`);
         }
@@ -401,13 +449,29 @@ export async function fetchCoastalFloodEvidence(
           sampledParcelPixels: summary.sampledParcelPixels,
         };
       } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") throw error;
+        if (error instanceof DOMException && error.name === "AbortError") {
+          // Two different aborts arrive here. The caller giving up is the
+          // effect tearing down, and it is rethrown as before so a stale
+          // answer never lands. The deadline firing is this scenario running
+          // out of time, which is an answer of its own: the other two settle
+          // on their own results, and this one says only that the province
+          // never replied.
+          if (signal?.aborted) throw error;
+          return {
+            scenario,
+            status: "unanswered",
+            stormAnnualExceedanceProbabilityPercent: 1,
+          };
+        }
         return {
           scenario,
           status: "error",
           stormAnnualExceedanceProbabilityPercent: 1,
           message: error instanceof Error ? error.message : "Coastal flood request failed.",
         };
+      } finally {
+        clearTimeout(deadline);
+        signal?.removeEventListener("abort", abandon);
       }
     }),
   );

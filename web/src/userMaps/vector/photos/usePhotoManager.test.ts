@@ -154,4 +154,27 @@ describe("usePhotoManager", () => {
     // full-size blob every time App re-renders.
     expect(result.current).toBe(first);
   });
+
+  it("removing a photo lets its attach reservation go with the row", async () => {
+    const { isPhotoIdReserved, reservePhotoId, resetPhotoReservationsForTests } =
+      await import("./photoStore");
+    resetPhotoReservationsForTests();
+    const factory = new IDBFactory();
+    const { result } = renderHook(() =>
+      usePhotoManager({
+        openStore: () => UserPhotoStore.open(factory),
+        process: fakeProcess(),
+      }),
+    );
+
+    // The state a discarded attach leaves behind: the row is written and
+    // still reserved, and no layer write will ever reference it.
+    reservePhotoId("orphan");
+    await act(async () => {
+      await result.current.removePhoto("orphan");
+    });
+
+    expect(isPhotoIdReserved("orphan")).toBe(false);
+    resetPhotoReservationsForTests();
+  });
 });

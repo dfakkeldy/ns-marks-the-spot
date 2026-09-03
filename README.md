@@ -71,15 +71,17 @@ open dataset, using an official notice AAN when available or a bounded
 point-in-parcel screen otherwise; multiple accounts remain separate and the UI
 does not treat assessment as current market value.
 
-On the live map, the locate control can show your GPS position, follow you as
-you move, and mark the current fix into a local Field notes layer with one tap.
+On the live map, the locate control can show the position this device reports,
+follow you as you move, and mark it into a local Field notes layer with one
+tap. The browser never says which sensor answered — a satellite fix, a Wi-Fi
+lookup or an IP estimate all arrive the same way — so neither does the map.
 The same cluster can record a foreground track (start, pause, resume, stop),
 simplify it on save, and keep the raw GPX as that layer's original file next
 to the processed LineString or MultiLineString. Saved recordings are local
 layers (origin recorded / "Recorded on this device"). Every user layer can
 download GPX (points and tracks; polygons are skipped). Recorded layers also
-offer Raw GPX — the original file of every GPS fix as received. Location
-stays on the device.
+offer Raw GPX — the original file of every position as this device reported
+it. Location stays on the device.
 
 - **Your maps** — load your own GeoTIFFs (georeferenced scans, orthophotos) and
   drape them over Nova Scotia with an opacity slider. Anything without usable

@@ -5096,7 +5096,8 @@ export function App() {
               to be read in. Those failures are reported here, on the map,
               which outlives every session, and each names its layer because
               the reader may be looking at a different one, or at none. */}
-          {Object.keys(vectorEdit.closedSessionErrors).length > 0 ? (
+          {Object.keys(vectorEdit.closedSessionErrors).length > 0 ||
+          vectorEdit.discardedPhotos.length > 0 ? (
             <div className="vector-edit-write-errors">
               {Object.entries(vectorEdit.closedSessionErrors).map(
                 ([layerId, message]) => (
@@ -5116,6 +5117,26 @@ export function App() {
                   </p>
                 ),
               )}
+              {/* A photo whose feature was gone before its bytes landed is
+                  read here for the same reason: the strip that would have
+                  shown it went away with the feature, and on Done the whole
+                  panel goes. It shares this stack rather than opening a
+                  second one, which would sit on this one's corner. */}
+              {vectorEdit.discardedPhotos.map((photo) => (
+                <p
+                  key={photo.id}
+                  className="vector-edit-write-error"
+                  role="alert"
+                >
+                  <span>{photo.message}</span>
+                  <button
+                    type="button"
+                    onClick={() => vectorEdit.dismissDiscardedPhoto(photo.id)}
+                  >
+                    Dismiss
+                  </button>
+                </p>
+              ))}
             </div>
           ) : null}
           {selectedPid ? (
@@ -5471,6 +5492,7 @@ export function App() {
         onPatchAttributes={vectorEdit.updateFeatureProperties}
         photoManager={photoManager}
         onSetFeaturePhotos={vectorEdit.setFeaturePhotos}
+        onAttachFeaturePhotos={vectorEdit.attachFeaturePhotos}
         onMoveFeaturePoint={vectorEdit.moveFeaturePoint}
         onOpenPhoto={setOpenPhoto}
         onDeleteFeature={(featureId) => {

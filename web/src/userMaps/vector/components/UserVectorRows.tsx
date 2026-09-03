@@ -152,7 +152,7 @@ function renderUserVectorControls({
                   <button
                     type="button"
                     aria-label={`Download the raw recording for ${record.name}`}
-                    title="Every GPS fix as received, before filtering — the evidence behind the drawn track."
+                    title="Every position as this device reported it, before filtering — the evidence behind the drawn track."
                     onClick={() => void api.exportRawRecording(record.id)}
                   >
                     Raw GPX

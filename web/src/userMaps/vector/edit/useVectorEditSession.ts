@@ -8,6 +8,7 @@ import {
 } from "../convert/pointsToPath";
 import {
   PHOTOS_PROPERTY,
+  readPhotoDescriptors,
   type FeaturePhotoDescriptor,
 } from "../photos/types";
 import { summarize } from "../summarize";
@@ -61,6 +62,25 @@ export type VectorEditSession = {
     featureId: string,
     descriptors: FeaturePhotoDescriptor[],
   ) => void;
+  /**
+   * Adds freshly written photos to a feature, against the working copy as it
+   * stands when the attach finishes rather than the one the strip rendered
+   * when the file was picked. Returns the descriptors that had nowhere to
+   * land, so the caller can take their rows and blobs back out of the store.
+   */
+  attachFeaturePhotos: (
+    layerId: string,
+    featureId: string,
+    descriptors: FeaturePhotoDescriptor[],
+  ) => FeaturePhotoDescriptor[];
+  /**
+   * Photos discarded that way, and what the reader is told about each. The
+   * map renders them: a discard means the feature is gone, so the strip that
+   * would have shown the message went with it.
+   */
+  discardedPhotos: Array<{ id: string; message: string }>;
+  /** Takes one notice down once it has been read. */
+  dismissDiscardedPhoto: (photoId: string) => void;
   /**
    * Moves a Point feature to an exact position — the "use photo's location"
    * offer. Geometry is otherwise Geoman-owned; this is the one deliberate
@@ -129,6 +149,20 @@ export function useVectorEditSession({
   const generationRef = useRef(0);
   const [draftRecord, setDraftRecord] = useState<UserVectorLayerRecord | null>(null);
   const [draftData, setDraftData] = useState<FeatureCollection | null>(null);
+  /**
+   * The same working copy, readable from a callback that does not re-render
+   * with it — the arrangement `generationRef` uses above, for the same
+   * reason. Assigned in the same statement as the state, never mirrored by
+   * an effect, so it is current the moment a change is made rather than a
+   * render later. Attaching a photo is the one edit that starts in one
+   * render and finishes seconds afterwards, and by then the state a callback
+   * closed over can describe a photo the user has removed or a feature the
+   * user has deleted.
+   */
+  const draftRef = useRef<{
+    record: UserVectorLayerRecord;
+    collection: FeatureCollection;
+  } | null>(null);
   const [storageError, setStorageError] = useState<string | null>(null);
   /**
    * Layer id → why that layer's edit did not reach this device, for failures
@@ -153,6 +187,18 @@ export function useVectorEditSession({
       delete next[layerId];
       return next;
     });
+  }, []);
+  /**
+   * Photos whose bytes reached the store but whose feature was no longer in
+   * the open session by the time they got there. The rows and blobs go back
+   * out, and this is how the reader learns it happened. Saying nothing would
+   * leave a photo the user watched being added and will never see again.
+   */
+  const [discardedPhotos, setDiscardedPhotos] = useState<
+    Array<{ id: string; message: string }>
+  >([]);
+  const dismissDiscardedPhoto = useCallback((photoId: string) => {
+    setDiscardedPhotos((prev) => prev.filter((photo) => photo.id !== photoId));
   }, []);
 
   const timerRef = useRef<number | null>(null);
@@ -311,6 +357,7 @@ export function useVectorEditSession({
         revision: nextRecord.revision + 1,
         modifiedAt: new Date().toISOString(),
       };
+      draftRef.current = { record: advanced, collection: nextCollection };
       setDraftRecord(advanced);
       setDraftData(nextCollection);
       changedRef.current(advanced, nextCollection);
@@ -321,6 +368,7 @@ export function useVectorEditSession({
 
   const beginEdit = useCallback((id: string) => {
     setStorageError(null);
+    draftRef.current = null;
     setDraftRecord(null);
     setDraftData(null);
     // A new session, even for the same layer: work started before this one
@@ -349,6 +397,7 @@ export function useVectorEditSession({
     const record = records.find((candidate) => candidate.id === editingId);
     const data = geometries[editingId];
     if (record && data) {
+      draftRef.current = { record, collection: data };
       setDraftRecord(record);
       setDraftData(data);
     }
@@ -363,6 +412,7 @@ export function useVectorEditSession({
     // store, so the write Done itself starts sees the session it left.
     generationRef.current += 1;
     setEditGeneration(generationRef.current);
+    draftRef.current = null;
     setEditingId(null);
     setDraftRecord(null);
     setDraftData(null);
@@ -393,6 +443,7 @@ export function useVectorEditSession({
       setLastConversion(null);
       generationRef.current += 1;
       setEditGeneration(generationRef.current);
+      draftRef.current = null;
       setEditingId(null);
       setDraftRecord(null);
       setDraftData(null);
@@ -508,6 +559,71 @@ export function useVectorEditSession({
     [commit, draftData, draftRecord],
   );
 
+  /**
+   * Adds photos to a feature as their bytes finish landing. Processing takes
+   * seconds, and in that time the user can remove another photo, delete the
+   * feature or press Done — so the strip sends only what is new and this
+   * adds it to whatever the feature holds now. Writing back the whole list
+   * the strip rendered would bring a removed photo back with its blobs
+   * already deleted, or rebuild a feature the user deleted.
+   *
+   * The layer is checked as well as the feature: feature ids are unique
+   * within a layer and nowhere else, so a session that has moved on to
+   * another layer can hold a different feature under the same id.
+   */
+  const attachFeaturePhotos = useCallback(
+    (
+      layerId: string,
+      featureId: string,
+      descriptors: FeaturePhotoDescriptor[],
+    ): FeaturePhotoDescriptor[] => {
+      if (descriptors.length === 0) {
+        return [];
+      }
+      // The ref rather than the state above: this call arrives from a render
+      // that may be several edits old. See `draftRef`.
+      const draft = draftRef.current;
+      const target =
+        draft && draft.record.id === layerId
+          ? draft.collection.features.find(
+              (feature) => String(feature.id) === featureId,
+            )
+          : undefined;
+      if (!draft || !target) {
+        // Handed back rather than dropped: the caller deletes the rows and
+        // blobs, and the reader is told, because a photo that vanishes in
+        // silence looks to the user like a photo that was never taken.
+        setDiscardedPhotos((prev) => [
+          ...prev,
+          ...descriptors.map((descriptor) => ({
+            id: descriptor.id,
+            message:
+              `Couldn't attach ${descriptor.sourceName ?? "a photo"}: that ` +
+              "feature was no longer being edited when the photo finished " +
+              "processing. It is not on the map, and the copy on this device " +
+              "is being removed.",
+          })),
+        ]);
+        return descriptors;
+      }
+      const kept = [...readPhotoDescriptors(target.properties), ...descriptors];
+      const features: Feature[] = draft.collection.features.map((feature) =>
+        feature === target
+          ? {
+              ...feature,
+              properties: {
+                ...(feature.properties ?? {}),
+                [PHOTOS_PROPERTY]: kept.map((descriptor) => ({ ...descriptor })),
+              },
+            }
+          : feature,
+      );
+      commit(draft.record, { type: "FeatureCollection", features });
+      return [];
+    },
+    [commit],
+  );
+
   const moveFeaturePoint = useCallback(
     (featureId: string, position: [number, number]) => {
       if (!draftRecord || !draftData) {
@@ -583,6 +699,9 @@ export function useVectorEditSession({
     deleteFeature,
     renameLayer,
     setFeaturePhotos,
+    attachFeaturePhotos,
+    discardedPhotos,
+    dismissDiscardedPhoto,
     moveFeaturePoint,
     convertPoints,
     lastConversion,

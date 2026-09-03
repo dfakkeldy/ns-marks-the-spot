@@ -5055,6 +5055,44 @@ describe("NS Marks The Spot Online", () => {
     ).not.toBeInTheDocument();
   });
 
+  // Two scenarios answered and one never did. Reporting the pair as still
+  // being checked, or the silent one as a miss, both tell the reader
+  // something about this parcel that nobody measured.
+  it("shows the coastal scenarios that answered while the silent one says it never answered", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchCoastalFloodEvidence).mockResolvedValueOnce([
+      { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 320 },
+      { scenario: "2050", status: "intersects", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 8.5, approximateAffectedSquareMetres: 9_400, sampledParcelPixels: 320 },
+      { scenario: "2100", status: "unanswered", stormAnnualExceedanceProbabilityPercent: 1 },
+    ]);
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const evidence = await screen.findByRole("region", { name: "Flood hazard evidence" });
+    expect(within(evidence).getByText(/8.5% of mapped parcel area/)).toBeInTheDocument();
+    expect(
+      within(evidence).getByText(/Current: no mapped pixels intersected this parcel/),
+    ).toBeInTheDocument();
+    expect(
+      within(evidence).getByText(
+        /2100: the scenario service did not answer in time, so nothing was measured/,
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(evidence).queryByText(/2100: no mapped pixels intersected/),
+    ).not.toBeInTheDocument();
+    expect(
+      within(evidence).queryByText("Checking coastal hazard scenarios…"),
+    ).not.toBeInTheDocument();
+  });
+
   // Section 4.1 asks for its notices on every reproduction, and a layer drawn
   // on the map is one. Excluding coastal from the OGL-NS test stopped the
   // wrong licence being claimed but left the right one unsaid.

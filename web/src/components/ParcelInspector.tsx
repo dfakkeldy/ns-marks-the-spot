@@ -999,6 +999,17 @@ function CoastalFloodResult({ state }: { state: CoastalFloodState }) {
                 </li>
               );
             }
+            // A scenario that never replied is not a scenario that replied
+            // with nothing. Its own row is what keeps the other two rows, and
+            // the no-hit caveat below them, meaning a scenario that was read
+            // off the map.
+            if (result.status === "unanswered") {
+              return (
+                <li key={result.scenario}>
+                  {label}: the scenario service did not answer in time, so nothing was measured — no absence is inferred.
+                </li>
+              );
+            }
             // Nothing measured is not nothing found. A parcel that took no
             // sample gets its own row so the no-hit sentence keeps meaning a
             // parcel that was sampled and came back dry.

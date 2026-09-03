@@ -4,6 +4,12 @@ import { BLOBS, openUserContentDatabase } from "../userMaps/store/database";
 import { createTrackDraftStore } from "./trackDraftStore";
 import type { StopResult } from "./trackRecorder";
 
+/**
+ * A walk in the shape the recorder writes it: one stored fix for every fix
+ * counted, and no more vertices than there were accepted fixes to make them
+ * from. A fixture that could not have come off a recording would prove
+ * nothing about what the store gives back.
+ */
 function draft(): StopResult {
   return {
     segments: [
@@ -22,6 +28,15 @@ function draft(): StopResult {
           headingDeg: null,
           speedMps: null,
           timestampMs: 0,
+        },
+        {
+          latitude: 46.001,
+          longitude: -61,
+          accuracyM: 5,
+          altitudeM: 12,
+          headingDeg: null,
+          speedMps: null,
+          timestampMs: 1_000,
         },
       ],
     ],
@@ -84,9 +99,84 @@ describe("the recording draft on this device", () => {
         version: 1,
         result: {
           ...draft(),
-          rawSegments: [[{ latitude: 46, longitude: -61, accuracyM: 5, timestampMs: 0 }]],
+          rawSegments: [
+            [
+              draft().rawSegments[0][0],
+              { latitude: 46, longitude: -61, accuracyM: 5, timestampMs: 1_000 },
+            ],
+          ],
         },
       },
+    ],
+    [
+      "a vertex off the globe",
+      {
+        version: 1,
+        result: {
+          ...draft(),
+          segments: [
+            [
+              { lat: 999, lng: 999, accuracyM: 5, altitudeM: null, timestampMs: 0 },
+              draft().segments[0][1],
+            ],
+          ],
+        },
+      },
+    ],
+    [
+      "a fix timestamped past what a date can hold",
+      {
+        version: 1,
+        result: {
+          ...draft(),
+          rawSegments: [
+            [
+              draft().rawSegments[0][0],
+              { ...draft().rawSegments[0][1], timestampMs: 9e15 },
+            ],
+          ],
+        },
+      },
+    ],
+    [
+      "an accuracy no device reported",
+      {
+        version: 1,
+        result: {
+          ...draft(),
+          rawSegments: [
+            [draft().rawSegments[0][0], { ...draft().rawSegments[0][1], accuracyM: -5 }],
+          ],
+        },
+      },
+    ],
+    [
+      "a start time no clock produced",
+      { version: 1, result: { ...draft(), startedAt: "just after lunch" } },
+    ],
+    [
+      "a recording of negative length",
+      { version: 1, result: { ...draft(), recordingMs: -1_000 } },
+    ],
+    [
+      "a count of GPS fixes that is not whole",
+      { version: 1, result: { ...draft(), rawFixCount: 2.5 } },
+    ],
+    [
+      "more GPS fixes claimed than the walk carries",
+      { version: 1, result: { ...draft(), rawFixCount: 900, acceptedFixCount: 900 } },
+    ],
+    [
+      "more positions kept than fixes were accepted",
+      { version: 1, result: { ...draft(), acceptedFixCount: 1 } },
+    ],
+    [
+      "more fixes accepted than the device ever sent",
+      { version: 1, result: { ...draft(), acceptedFixCount: 3 } },
+    ],
+    [
+      "a segment with no raw segment beside it",
+      { version: 1, result: { ...draft(), segments: [...draft().segments, []] } },
     ],
   ])("refuses %s, and does not call it an empty device", async (_label, stored) => {
     const factory = new IDBFactory();
@@ -102,6 +192,44 @@ describe("the recording draft on this device", () => {
     // Not "empty": the key is taken by something, and a new recording
     // overwriting it would destroy whatever that is.
     expect(await store.read()).toEqual({ status: "unreadable" });
+  });
+
+  // Resume opens a segment before a single fix has landed in it, and the
+  // periodic write can catch the walk exactly there. An empty segment is a
+  // real recording, and refusing it would throw away everything walked before
+  // it.
+  it("keeps a walk whose newest segment has no positions in it yet", async () => {
+    const store = createTrackDraftStore(new IDBFactory());
+    const resumed: StopResult = {
+      ...draft(),
+      segments: [...draft().segments, []],
+      rawSegments: [...draft().rawSegments, []],
+    };
+
+    expect(await store.save(resumed)).toBeNull();
+
+    expect(await store.read()).toEqual({
+      status: "ready",
+      result: resumed,
+      stopped: false,
+    });
+  });
+
+  // Record notes the moment from this device's clock, while the walk's last
+  // moment is a position's own timestamp from the location provider. They are
+  // not the same clock, so a walk that really happened can carry the two out
+  // of order, and putting them in order here would lose it.
+  it("keeps a walk whose last position is stamped before Record was pressed", async () => {
+    const store = createTrackDraftStore(new IDBFactory());
+    const skewed: StopResult = { ...draft(), endedAt: "2026-09-02T23:59:59.000Z" };
+
+    expect(await store.save(skewed)).toBeNull();
+
+    expect(await store.read()).toEqual({
+      status: "ready",
+      result: skewed,
+      stopped: false,
+    });
   });
 
   // A device that will not open may still be holding a walk. Calling that

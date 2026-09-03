@@ -174,6 +174,11 @@ export function usePhotoManager(
         URL.revokeObjectURL(cached);
         thumbUrlsRef.current.delete(photoId);
       }
+      // The reservation goes with the row. A layer write has usually ended it
+      // already, but a photo discarded because its feature was gone never
+      // reaches a write: left reserved, it would hold the sweep's exemption
+      // forever over a row nothing can ever reference.
+      releasePhotoId(photoId);
       try {
         await (await store()).deletePhoto(photoId);
       } catch {

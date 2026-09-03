@@ -1267,6 +1267,92 @@ describe("MapCanvas browser location", () => {
     ).toBeInTheDocument();
   });
 
+  it("reopens a refused save with the name and simplification the user chose", async () => {
+    const user = userEvent.setup();
+    const onSaveTrack = vi
+      .fn<
+        (input: {
+          name: string;
+          collection: GeoJSON.FeatureCollection;
+          rawGpx: Blob;
+          startedAt: string;
+          endedAt: string;
+          interrupted: boolean;
+          replaceLayerId?: string;
+        }) => Promise<{
+          message: string | null;
+          persisted: boolean;
+          layerId: string;
+        }>
+      >()
+      .mockResolvedValueOnce({
+        message: "Track is on the map, but it couldn't be written.",
+        persisted: false,
+        layerId: "track-layer-1",
+      })
+      .mockResolvedValue({
+        message: 'Track saved as "North boundary".',
+        persisted: true,
+        layerId: "track-layer-1",
+      });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={onSaveTrack}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix({ accuracyM: 5 });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    const base = Date.now();
+    pushLiveFix({ accuracyM: 5, latitude: 46.12, timestampMs: base });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1201, timestampMs: base + 1_000 });
+    pushLiveFix({ accuracyM: 5, latitude: 46.1202, timestampMs: base + 2_000 });
+
+    await user.click(screen.getByRole("button", { name: "Stop" }));
+    const nameField = screen.getByLabelText("Track name");
+    await user.clear(nameField);
+    await user.type(nameField, "North boundary");
+    await user.click(screen.getByRole("radio", { name: "5 m" }));
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+
+    // The device refused the write, so the walk is offered back. The retry
+    // rewrites the layer that save left on the map, so it has to open on the
+    // name and tolerance that layer was made with.
+    await user.click(
+      await screen.findByRole("button", { name: "Recover unsaved track" }),
+    );
+    expect(screen.getByLabelText("Track name")).toHaveValue("North boundary");
+    expect(screen.getByRole("radio", { name: "5 m" })).toBeChecked();
+
+    await user.click(screen.getByRole("button", { name: "Save track" }));
+    expect(onSaveTrack.mock.calls[1][0].name).toBe("North boundary");
+  });
+
   it("pauses into segments and discards a recording with confirmation", async () => {
     const user = userEvent.setup();
     const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
