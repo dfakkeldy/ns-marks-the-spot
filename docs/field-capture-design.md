@@ -196,8 +196,11 @@ Web (`web/src/`):
   [useVectorEditSession.ts](../web/src/userMaps/vector/edit/useVectorEditSession.ts)).
 - Orphan sweeps: photo removal deletes row+blobs; layer delete takes its
   photos; the session write path sweeps rows no `nsmts:photos` descriptor
-  references
-  ([photoStore.ts](../web/src/userMaps/vector/photos/photoStore.ts)).
+  references, except rows an in-flight attach has reserved — a row lands
+  before the feature that will reference it, and the reservation ends the
+  moment a write does
+  ([userVectorStore.ts](../web/src/userMaps/vector/store/userVectorStore.ts),
+  [photoStore.ts](../web/src/userMaps/vector/photos/photoStore.ts)).
 - KMZ export: `buildKmzBlob` writes `doc.kml` (DEFLATE) plus STORED
   `files/<photoId>.jpg` entries; descriptors whose blob cannot be read are
   dropped from the written document (honest missing count, never a dangling
@@ -282,7 +285,8 @@ iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 - Photo files under `photos/<layerID>/<photoID>.jpg` + `.thumb.jpg`;
   `UserVectorStore` `addPhoto` / `photoData` / `deletePhoto`; `delete(id:)`
   removes the layer's photo directory; `replaceGeometry` sweeps files no
-  descriptor references
+  descriptor references, holding `reservedPhotoIDs` for an attach still in
+  flight
   ([UserVectorStore.swift](../ns-marks-the-spot/UserVectors/UserVectorStore.swift)).
 - KMZ interchange: `ZipWriter` (`ZipArchive.archive`; `doc.kml` DEFLATE,
   `files/<id>.jpg` STORED); `VectorExport.kmz`; KML ExtendedData carries
@@ -723,7 +727,9 @@ publishes).
 
 Orphan discipline: removing a photo deletes record, blobs, and descriptor in
 one flow. Each edit-session commit sweeps photo records for the layer that no
-descriptor references. Layer delete removes all the layer's photo records and
+descriptor references — other than rows an attach still owes a descriptor,
+which both surfaces reserve before writing them and release when a write
+references them (`reservedPhotoIDs` natively, `reservePhotoId` on the web). Layer delete removes all the layer's photo records and
 blobs. An export with an unreadable blob completes and reports "N photos
 couldn't be read and were left out".
 
