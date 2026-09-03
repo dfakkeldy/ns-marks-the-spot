@@ -8,15 +8,29 @@ import Foundation
 /// unselectable (`inViewport == nil`).
 /// Mirrors `web/src/userMaps/vector/photos/bulkPlacement.ts`.
 public enum BulkPhotoPlacement {
+    /// Why a photo cannot be placed, when it cannot: told apart, because
+    /// "no location" is a claim about a photo that was read.
+    public enum Unplaceable: Sendable, Equatable {
+        /// Read, and carrying no location.
+        case untagged
+        /// Its bytes could not be loaded; whether it has a location is unknown.
+        case unreadable
+        /// Read, and refused for size or format, in the pipeline's words.
+        case refused(String)
+    }
+
     public struct Candidate: Sendable, Equatable {
         public var id: String
         public var gps: GeoPoint?
         public var capturedAt: String?
+        /// Set when `gps` is nil, to say why.
+        public var unplaceable: Unplaceable?
 
-        public init(id: String, gps: GeoPoint?, capturedAt: String?) {
+        public init(id: String, gps: GeoPoint?, capturedAt: String?, unplaceable: Unplaceable? = nil) {
             self.id = id
             self.gps = gps
             self.capturedAt = capturedAt
+            self.unplaceable = gps == nil ? (unplaceable ?? .untagged) : nil
         }
     }
 

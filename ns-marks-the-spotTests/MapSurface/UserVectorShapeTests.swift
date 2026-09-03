@@ -391,4 +391,63 @@ struct VectorSelectionHandleTests {
         )
         #expect(handles.handles().filter { $0.ring == 1 }.count == 3)
     }
+
+    /// Only a layer of single points with unique ids is diffed by id: a
+    /// `MultiPoint` expands to several annotations under one id, and two of
+    /// them under one key made the diff drop one.
+    @MainActor @Test func onlySinglePointsWithUniqueIDsAreDiffedByID() {
+        func drawing(_ features: [GeoJsonFeature]) -> UserVectorDrawing {
+            UserVectorDrawing(
+                record: UserVectorLayerRecord(
+                    id: "layer", name: "Sites", source: .photos,
+                    origin: .photos(createdAt: Date(timeIntervalSince1970: 0), count: features.count),
+                    createdAt: Date(timeIntervalSince1970: 0), colorHex: "#7c3aed",
+                    featureCount: features.count, bbox: nil
+                ),
+                parsed: ParsedVector(features: features, bbox: nil)
+            )
+        }
+        let a = GeoJsonPosition(lng: -61.47, lat: 45.80)
+        let b = GeoJsonPosition(lng: -61.40, lat: 45.90)
+        #expect(MapController.isIncrementallyUpdatable(drawing([
+            GeoJsonFeature(id: "one", geometry: .point(a), properties: [:]),
+            GeoJsonFeature(id: "two", geometry: .point(b), properties: [:]),
+        ])))
+        #expect(!MapController.isIncrementallyUpdatable(drawing([
+            GeoJsonFeature(id: "sites", geometry: .multiPoint([a, b]), properties: [:]),
+        ])))
+        #expect(!MapController.isIncrementallyUpdatable(drawing([
+            GeoJsonFeature(id: "one", geometry: .point(a), properties: [:]),
+            GeoJsonFeature(id: "one", geometry: .point(b), properties: [:]),
+        ])))
+        #expect(!MapController.isIncrementallyUpdatable(drawing([
+            GeoJsonFeature(id: nil, geometry: .point(a), properties: [:]),
+        ])))
+    }
+
+    /// Only points that carry photos cluster, and only within their layer: a
+    /// plain point drawn into a photo layer is not a photo.
+    @Test func onlyPhotoPointsCluster() {
+        let record = UserVectorLayerRecord(
+            id: "layer", name: "Photos", source: .photos,
+            origin: .photos(createdAt: Date(timeIntervalSince1970: 0), count: 2),
+            createdAt: Date(timeIntervalSince1970: 0), colorHex: "#7c3aed",
+            featureCount: 2, bbox: nil
+        )
+        let at = GeoJsonPosition(lng: -61.47, lat: 45.80)
+        let withPhoto = GeoJsonFeature(
+            id: "p", geometry: .point(at),
+            properties: [
+                CaptureSpec.photosKey: PhotoDescriptor.propertyValue(internalForm: [PhotoDescriptor(id: "one")])
+            ]
+        )
+        let plain = GeoJsonFeature(id: "q", geometry: .point(at), properties: [:])
+        let drawing = UserVectorDrawing(
+            record: record, parsed: ParsedVector(features: [withPhoto, plain], bbox: nil)
+        )
+        let annotations = drawing.annotations()
+        #expect(annotations.count == 2)
+        #expect(annotations[0].clusteringIdentifier == "nsmts-photos-layer")
+        #expect(annotations[1].clusteringIdentifier == nil)
+    }
 }

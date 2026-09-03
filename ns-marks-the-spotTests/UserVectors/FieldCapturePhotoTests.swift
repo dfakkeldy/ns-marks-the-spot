@@ -182,7 +182,7 @@ struct FieldCapturePhotoTests {
         )
         #expect(row.record.source == .photos)
         #expect(row.record.origin == .photos(createdAt: row.record.createdAt, count: 1))
-        #expect(row.record.provenanceText == "From your photos · 1 photo")
+        #expect(row.record.provenanceText == "Created from 1 of your photos")
         let feature = try #require(row.parsed?.features.first)
         #expect(feature.properties["name"] == .string("dock"))
         let descriptors = PhotoDescriptor.read(from: feature.properties)

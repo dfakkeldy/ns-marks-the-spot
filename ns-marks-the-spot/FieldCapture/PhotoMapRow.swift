@@ -4,8 +4,10 @@ import SwiftUI
 
 /// The catalogue-free My Maps row for the device photo library.
 ///
-/// Three distinct states: granted, limited, and denied. The subtitle never
-/// claims the photos leave the device.
+/// Distinct states, each with its own line: granted, limited (with the
+/// system's picker to change the selection), denied (with the way to
+/// Settings), and for the switch itself waiting for access, indexing, and on
+/// with a count. The subtitle never claims the photos leave the device.
 struct PhotoMapRow: View {
     @Bindable var viewModel: PhotoMapViewModel
     var onPicked: ([PhotosPickerItem]) -> Void
@@ -19,8 +21,11 @@ struct PhotoMapRow: View {
                     .fill(Color(uiColor: UIColor(featureHex: "#7c3aed")))
                     .frame(width: 10, height: 10)
 
+                // The switch shows the reader's intent, not the index's
+                // progress: it flips the moment it is tapped and stays there
+                // through the prompt and the read.
                 Toggle(isOn: Binding(
-                    get: { viewModel.isVisible },
+                    get: { viewModel.isOn },
                     set: { visible in
                         Task { await viewModel.setVisible(visible) }
                     }
@@ -34,33 +39,51 @@ struct PhotoMapRow: View {
                     }
                 }
                 .toggleStyle(.switch)
-                .disabled(viewModel.access == .denied)
+                .disabled(!viewModel.canShowOnMap && viewModel.access != .unknown)
                 .accessibilityIdentifier("photo-map-toggle")
             }
 
-            if viewModel.isIndexing {
-                Text("Indexing your photos…")
+            if let line = viewModel.indexLine {
+                Text(line)
                     .font(.caption2)
                     .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("photo-map-index-line")
+                    // The end of a read is said, not only shown: "no photos
+                    // with a location" arrived silently for a VoiceOver
+                    // reader who had just thrown the switch.
+                    .onChange(of: line) { _, line in
+                        if viewModel.state == .on || viewModel.state == .failed {
+                            AccessibilityNotification.Announcement(line).post()
+                        }
+                    }
             }
 
             if let status = viewModel.statusLine {
-                HStack(alignment: .top) {
+                HStack(alignment: .firstTextBaseline) {
                     Text(status)
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                     if viewModel.access == .limited {
-                        Button("Manage") { viewModel.openManageAccess() }
-                            .font(.caption2)
+                        // The system's own picker, in place: "Manage" used
+                        // to open Settings, which is not where the selection
+                        // is changed. The frame is the target; the caption
+                        // alone was well under 44 points.
+                        Button {
+                            Task { await viewModel.presentLimitedLibraryPicker() }
+                        } label: {
+                            Text("Manage")
+                                .font(.caption2)
+                                .frame(minWidth: 44, minHeight: 44)
+                                .contentShape(Rectangle())
+                        }
+                        .accessibilityLabel("Manage photo access")
                     }
                 }
-            }
-
-            if let note = viewModel.truncationNote, viewModel.isVisible {
-                Text(note)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
+                if viewModel.access == .denied {
+                    OpenSettingsButton()
+                }
             }
 
             PhotosPicker(
@@ -68,8 +91,10 @@ struct PhotoMapRow: View {
                 maxSelectionCount: PhotoDescriptor.maxPerLayer,
                 matching: .images
             ) {
-                Label("Place photos as points", systemImage: "photo.badge.plus")
+                Label("Add photos to map", systemImage: "photo.badge.plus")
                     .font(.caption)
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.bordered)
             .accessibilityIdentifier("place-photos")

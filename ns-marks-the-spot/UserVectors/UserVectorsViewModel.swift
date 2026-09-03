@@ -719,6 +719,62 @@ final class UserVectorsViewModel {
         return UserVectorCalloutItem(feature: feature, record: row.record)
     }
 
+    /// One card for a cluster that zooming cannot pull apart: several photos
+    /// taken from one standing spot, in one of the reader's own layers. All
+    /// the members' photos share the strip; opening only the first member
+    /// left the others unreachable. Clusters never span layers, so one layer
+    /// is where the card loads its bytes from.
+    func callout(clusterMemberIDs ids: [String]) -> UserVectorCalloutItem? {
+        var layerID: String?
+        var featureIDs: [String] = []
+        for id in ids {
+            guard let separator = id.firstIndex(of: "/") else { continue }
+            let layer = String(id[id.startIndex..<separator])
+            if layerID == nil { layerID = layer }
+            guard layer == layerID else { return nil }
+            featureIDs.append(String(id[id.index(after: separator)...]))
+        }
+        guard let layerID, let row = rows.first(where: { $0.id == layerID }),
+              let parsed = row.parsed
+        else { return nil }
+        let wanted = Set(featureIDs)
+        let features = parsed.features.filter { $0.id.map(wanted.contains) == true }
+        guard let first = features.first else { return nil }
+        if features.count == 1 {
+            return UserVectorCalloutItem(feature: first, record: row.record)
+        }
+        let photos = features.flatMap { PhotoDescriptor.read(from: $0.properties) }
+        // Dated by the photos themselves when there are photos: a stored
+        // point carries no `nsmts:capturedAt` of its own unless it was a GPS
+        // mark, and a card about six photos counts the six.
+        let detail =
+            photos.isEmpty
+            ? PhotoMapViewModel.clusterDateDetail(features)
+            : PhotoMapViewModel.clusterDateDetail(dates: photos.compactMap(\.capturedAt), of: photos.count)
+        // Counted as what they are: two points with four photos between
+        // them are four photos across two points, not "2 photos".
+        let title =
+            if photos.isEmpty {
+                "\(features.count) features here"
+            } else if photos.count == features.count {
+                "\(features.count) photos here"
+            } else {
+                "\(photos.count) photos across \(features.count) points"
+            }
+        return UserVectorCalloutItem(
+            id: "\(layerID)/cluster:\(featureIDs.sorted().joined(separator: ","))",
+            callout: VectorFeatureCallout(
+                title: title,
+                detail: detail,
+                provenance: row.record.provenanceText
+            ),
+            layerName: row.record.name,
+            layerID: layerID,
+            photos: photos,
+            memberFeatureIDs: featureIDs.sorted()
+        )
+    }
+
     private static func storageRefusal(_ message: String) -> UserMapImportRefusal {
         // Said as its own thing rather than as a read failure: the file was
         // fine and the device could not keep it, and "this file cannot be read"

@@ -15,6 +15,9 @@ struct UserVectorCalloutCard: View {
     /// means no photo row — a preview or test without a store.
     var photos: [PhotoDescriptor] = []
     var loadPhoto: ((_ photoID: String, _ thumb: Bool) async -> Data?)?
+    /// Download progress for a photo still on its way from iCloud, if the
+    /// loader knows it; nil for a photo that is local or not loading.
+    var loadProgress: ((_ photoID: String) -> Double?)?
     var onClose: () -> Void
 
     @State private var lightbox: CalloutLightboxPhoto?
@@ -48,8 +51,10 @@ struct UserVectorCalloutCard: View {
             // Thumbnails between the description and the provenance, as the
             // web's popup places them.
             if let loadPhoto, !photos.isEmpty {
+                // Lazy: a cluster card can hold hundreds of thumbnails, and
+                // an eager row started every download at once.
                 ScrollView(.horizontal) {
-                    HStack(spacing: 8) {
+                    LazyHStack(spacing: 8) {
                         ForEach(Array(photos.enumerated()), id: \.element.id) {
                             index, descriptor in
                             Button {
@@ -58,7 +63,7 @@ struct UserVectorCalloutCard: View {
                                     title: descriptor.sourceName ?? "Photo \(index + 1)"
                                 )
                             } label: {
-                                PhotoThumbView {
+                                PhotoThumbView(progress: loadProgress?(descriptor.id)) {
                                     await loadPhoto(descriptor.id, true)
                                 }
                             }
@@ -124,6 +129,9 @@ struct UserVectorCalloutItem: Identifiable, Equatable {
     /// card can load the bytes behind them.
     let layerID: String
     let photos: [PhotoDescriptor]
+    /// A cluster card's members, by feature id, so the card can be re-read
+    /// from the index without parsing its own identifier.
+    let memberFeatureIDs: [String]?
 
     init(feature: GeoJsonFeature, record: UserVectorLayerRecord) {
         id = "\(record.id)/\(feature.id ?? "feature")"
@@ -131,5 +139,19 @@ struct UserVectorCalloutItem: Identifiable, Equatable {
         layerName = record.name
         layerID = record.id
         photos = PhotoDescriptor.read(from: feature.properties)
+        memberFeatureIDs = nil
+    }
+
+    /// A card assembled from several features: a cluster's photos together.
+    init(
+        id: String, callout: VectorFeatureCallout, layerName: String, layerID: String,
+        photos: [PhotoDescriptor], memberFeatureIDs: [String]? = nil
+    ) {
+        self.id = id
+        self.callout = callout
+        self.layerName = layerName
+        self.layerID = layerID
+        self.photos = photos
+        self.memberFeatureIDs = memberFeatureIDs
     }
 }

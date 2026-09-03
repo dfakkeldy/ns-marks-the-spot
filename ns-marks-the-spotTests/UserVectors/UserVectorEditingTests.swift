@@ -670,11 +670,11 @@ struct UserVectorEditingTests {
         }
     }
 
-    /// A photo point carries its capture date under the same key as a GPS
-    /// mark, with no accuracy: moving it does not change when the photo was
-    /// taken, so the date stays.
-    @Test("Moving a photo point keeps its capture date")
-    func movingAPhotoPointKeepsItsCaptureDate() async throws {
+    /// A photo point's top-level capture time says when this position was
+    /// captured. Moved by hand, the position no longer is, so the key goes;
+    /// the photo's own date lives on its descriptor and is untouched.
+    @Test("Moving a photo point drops the position's capture time")
+    func movingAPhotoPointDropsThePositionsCaptureTime() async throws {
         try await withViewModel { viewModel in
             let row = try #require(await viewModel.newDrawingLayer())
             let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
@@ -689,11 +689,17 @@ struct UserVectorEditingTests {
 
             #expect(session.moveVertex(featureID: "photo-1", ring: 0, vertex: 0, latitude: 45.81, longitude: -61.48) == .moved)
             let moved = try #require(session.parsed?.features.last)
-            #expect(moved.properties[CaptureSpec.capturedAtKey]?.stringValue == "2026-09-02T10:00:00.000Z")
+            #expect(moved.properties[CaptureSpec.capturedAtKey] == nil)
 
-            session.moveFeature(featureID: "photo-1", latitudeDelta: 0.001, longitudeDelta: 0)
+            let again = GeoJsonFeature(
+                id: "photo-2",
+                geometry: .point(GeoJsonPosition(lng: -61.47, lat: 45.80)),
+                properties: [CaptureSpec.capturedAtKey: .string("2026-09-02T10:00:00.000Z")]
+            )
+            session.appendMark(again)
+            session.moveFeature(featureID: "photo-2", latitudeDelta: 0.001, longitudeDelta: 0)
             let carried = try #require(session.parsed?.features.last)
-            #expect(carried.properties[CaptureSpec.capturedAtKey]?.stringValue == "2026-09-02T10:00:00.000Z")
+            #expect(carried.properties[CaptureSpec.capturedAtKey] == nil)
         }
     }
 
@@ -1268,6 +1274,42 @@ struct UserVectorEditingTests {
             #expect(await session.showLayer())
             #expect(session.storageError == nil)
             #expect(!session.layerIsHidden)
+        }
+    }
+
+    // MARK: - Clusters in the reader's own photo layers
+
+    /// Two photos taken from one spot cluster for good; the card shows both
+    /// rather than the first alone.
+    @Test("A cluster in a photo layer opens as one card with every photo")
+    func aClusterInAPhotoLayerOpensAsOneCard() async throws {
+        try await withViewModel { viewModel in
+            let row = try #require(await viewModel.newDrawingLayer())
+            func photoPoint(_ id: String, photo: String, at: String) -> GeoJsonFeature {
+                GeoJsonFeature(
+                    id: id,
+                    geometry: .point(GeoJsonPosition(lng: -61.47, lat: 45.80)),
+                    properties: [
+                        CaptureSpec.photosKey: PhotoDescriptor.propertyValue(
+                            internalForm: [PhotoDescriptor(id: photo, capturedAt: at)]
+                        ),
+                        CaptureSpec.capturedAtKey: .string(at),
+                    ]
+                )
+            }
+            #expect(await viewModel.appendFeature(photoPoint("p1", photo: "one", at: "2026-09-02T10:00:00.000Z"), to: row.id))
+            #expect(await viewModel.appendFeature(photoPoint("p2", photo: "two", at: "2026-09-02T10:05:00.000Z"), to: row.id))
+
+            let card = try #require(
+                viewModel.callout(clusterMemberIDs: ["\(row.id)/p1", "\(row.id)/p2"])
+            )
+            #expect(card.photos.map(\.id) == ["one", "two"])
+            #expect(card.callout.title == "2 photos here")
+            #expect(card.layerID == row.id)
+            // One member is that member's own card.
+            #expect(viewModel.callout(clusterMemberIDs: ["\(row.id)/p1"])?.photos.map(\.id) == ["one"])
+            // Members from two layers are not one card.
+            #expect(viewModel.callout(clusterMemberIDs: ["\(row.id)/p1", "other/p2"]) == nil)
         }
     }
 

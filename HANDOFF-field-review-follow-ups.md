@@ -130,3 +130,25 @@ through `moveVertex` (GPS keys stripped), no-op moves ignored, whole-feature
 move button independent of the corner cap, ordinal handle labels, lone point
 gets one handle. PR E script drafted (`apply_prE.py`, unapplied).
 Next: C suites → rebase D → D suites; read A r3 / B r3 verdicts; open PRs.
+## 2026-09-02 09:37 — PR D applied (stacked on C), not yet built
+
+Done: `feature/ios-photo-map-states`: PhotoMapViewModel rewritten (State
+off/requestingAccess/indexing/on, intent counter, single-flight refresh,
+`snapshotGeneration`, incremental `PhotoKitIndexer.applyChanges`, awaited
+`imageData` with progress + cancellation, limited-library picker, cluster
+callout); PhotoMapIndex bucketed + most-recent cap + width/height; PhotoMapRow
+lines + Open Settings; MapController cluster inseparable → `.clusterSelected`,
+`.defaultHigh`, annotation-level diff for points-only layers; container wiring;
+Info.plist merged file with PHPhotoLibraryPreventAutomaticLimitedAccessAlert;
+purpose string; PhotoMapViewModelTests + PhotoMapIndexBucketTests (package).
+Next: build+test D (PhotoMapViewModelTests, UserVectorShapeTests, MapControllerTests)
+and `swift test --filter PhotoMapIndex` via the slot once Codex runs finish; Codex D.
+
+## 2026-09-02 10:05 — stack green after Codex round 3 (A, B) / round 2 (C); D green; final rounds launched
+
+Done: A 2c867c55b 53/53, B 5e74f7f10 80/80, C 22b6d4e2a 44/44, D bf378c5dc
+91/91 (all via the slot). Dispositions for every Codex claim so far are in
+`scratchpad/pr/pr{A,B,C}-body.md`. Final Codex rounds launched 10:05 (A r4,
+B r4, C r3, D r1; outputs `codex/out-*-r4-*`, `out-C-r3-*`, `out-D-r1-*`).
+Next: read verdicts, fix only Highs that hold, then `open-prs.sh A|B|C|D`
+(D's base is C's branch); then PR E from `apply_prE.py` on a branch from D.

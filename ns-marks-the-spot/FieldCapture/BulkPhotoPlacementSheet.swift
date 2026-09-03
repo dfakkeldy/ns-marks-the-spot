@@ -73,7 +73,14 @@ struct BulkPhotoPlacementSheet: View {
         switch row.inViewport {
         case true: return "In the current view"
         case false: return "Outside the current view"
-        case nil: return "No location — cannot place"
+        case nil:
+            // Said as what happened: a photo that could not be read may well
+            // have a location, and one refused for its size did.
+            switch row.candidate.unplaceable {
+            case .unreadable?: return "Couldn't be read — cannot place"
+            case .refused(let why)?: return "Refused — \(why)"
+            case .untagged?, nil: return "No location — cannot place"
+            }
         }
     }
 }

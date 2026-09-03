@@ -40,7 +40,11 @@ public enum UserVectorOrigin: Hashable, Sendable {
         case .drawn: return "Drawn on this device"
         case .recorded: return CaptureSpec.recordedProvenance
         case .photos(_, let count):
-            return "From your photos · \(count) photo\(count == 1 ? "" : "s")"
+            // Historical: how the layer began, not how many photos it holds
+            // now, which the features themselves say. "Your photos" is the
+            // library the count was drawn from, so it stays plural at one:
+            // "1 of your photo" is not a sentence.
+            return "Created from \(count) of your photos"
         }
     }
 }
