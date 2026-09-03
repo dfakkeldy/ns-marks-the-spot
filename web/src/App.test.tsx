@@ -5465,6 +5465,65 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.queryByText(notice)).not.toBeInTheDocument();
   });
 
+  // A caution belongs to its selection, and re-selecting the same PID with no
+  // ambiguity is a new selection.
+  it("clears the shared-boundary caution when the same parcel is selected again", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcelAtPoint)
+      .mockResolvedValueOnce({
+        type: "FeatureCollection",
+        features: [parcelFeature("50251750"), parcelFeature("50334317")],
+      })
+      .mockResolvedValueOnce({
+        type: "FeatureCollection",
+        features: [parcelFeature("50251750")],
+      });
+    renderAppWithCategoriesOpen();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+    const notice =
+      "PID 50251750 selected. 2 parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.";
+    expect(await screen.findByText(notice)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Tap map parcel" }));
+
+    expect(await screen.findByText("PID 50251750 selected.")).toBeInTheDocument();
+    expect(screen.queryByText(notice)).not.toBeInTheDocument();
+  });
+
+  // NSPRD can send "geometry": null for a PID it otherwise answers for.
+  it("does not throw on a parcel returned with no geometry at all", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: { PID: "50203256", "SHAPE.AREA": 728.4341 },
+          geometry: null,
+        },
+        {
+          type: "Feature",
+          properties: { PID: "50203256", "SHAPE.AREA": 728.4341 },
+          geometry: { type: "MultiPolygon", coordinates: null },
+        },
+      ] as unknown as ReturnType<typeof parcelFeature>[],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50203256");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50203256 details",
+    });
+    expect(
+      (await within(inspector).findAllByText(GEOMETRY_UNAVAILABLE_MESSAGE)).length,
+    ).toBeGreaterThan(0);
+  });
+
   it("keeps the two-source empty sentence when both sources answered", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");

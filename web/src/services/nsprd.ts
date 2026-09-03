@@ -181,7 +181,7 @@ export function hasQueryablePolygon(
   const rings =
     geometry?.type === "Polygon"
       ? [geometry.coordinates]
-      : geometry?.type === "MultiPolygon"
+      : geometry?.type === "MultiPolygon" && Array.isArray(geometry.coordinates)
         ? (geometry.coordinates as unknown[])
         : [];
   return rings.some(

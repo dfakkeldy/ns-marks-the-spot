@@ -143,6 +143,29 @@ struct VectorConvertTests {
         #expect(plain.feature.properties[CaptureSpec.tracedKey] == nil)
     }
 
+    /// An imported file's own "nsmts:traced" is not a parcel trace.
+    ///
+    /// The spec declares one value this key may take. Promoting any other one
+    /// wrote NSPRD provenance — and the Province's attribution — onto a path
+    /// nothing traced.
+    @Test func anImportedTracedValueIsNotInherited() throws {
+        for value: JSONValue in [
+            .string("manual"), .bool(false), .number(1), .null,
+        ] {
+            let parsed = layer([
+                point("a", 44.6, -63.5),
+                point("b", 44.7, -63.4, properties: [CaptureSpec.tracedKey: value]),
+            ])
+            let result = try #require(
+                VectorEdit.convertingPoints(in: parsed, shape: .line, keepSourcePoints: true)
+            )
+            #expect(
+                result.feature.properties[CaptureSpec.tracedKey] == nil,
+                "inherited from \(value)"
+            )
+        }
+    }
+
     @Test func selfIntersectionIsWarnedNotBlocked() throws {
         // A bowtie: the hourglass ordering crosses itself as an area.
         let bowtie = layer([

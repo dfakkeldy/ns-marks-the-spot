@@ -513,7 +513,9 @@ export function mergeFeatureCollections(
       }
       for (const inner of coords) visit(inner);
     };
-    visit((feature.geometry as { coordinates?: unknown }).coordinates);
+    // Optional: NSPRD can send "geometry": null, and the declared type says
+    // what a stored parcel may be assumed to carry, not what the wire sends.
+    visit((feature.geometry as { coordinates?: unknown } | null)?.coordinates);
     const head = positions.slice(0, 2).join(",");
     const tail = positions.slice(-2).join(",");
     return `${feature.properties.PID}:${positions.length}:${head}:${tail}`;
@@ -2311,17 +2313,28 @@ export function App() {
     const controller = new AbortController();
     setDwellingState({ status: "loading", request });
     fetchDwellingCharacteristics(aans, controller.signal)
-      .then((value) => setDwellingState((current) =>
-        isCurrentEvidenceRequest(current.request, request)
-          ? { status: "ready", value, request }
-          : current,
-      ))
+      .then((value) => {
+        if (controller.signal.aborted) return;
+        // Only a state still waiting for THIS request may be answered. The
+        // generation alone is not enough: a geometry-unavailable transition
+        // keeps it, so a late answer to a question the app stopped asking
+        // could put a notice-derived result back after the reader had turned
+        // tax-sale information off.
+        setDwellingState((current) =>
+          isCurrentEvidenceRequest(current.request, request) &&
+          current.status === "loading"
+            ? { status: "ready", value, request }
+            : current,
+        );
+      })
       .catch((error: unknown) => {
+        if (controller.signal.aborted) return;
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
         setDwellingState((current) =>
-          isCurrentEvidenceRequest(current.request, request)
+          isCurrentEvidenceRequest(current.request, request) &&
+          current.status === "loading"
             ? { status: "error", request }
             : current,
         );
@@ -2821,6 +2834,10 @@ export function App() {
 
   const selectParcel = (pid: string): SelectedEvidenceRequest => {
     setMobileControlsOpen(false);
+    // A caution belongs to the selection it was raised for, and re-selecting
+    // the same PID unambiguously is a new selection: without this the
+    // shared-boundary notice would stand over a tap that had no ambiguity.
+    setParcelLookupMessage(null);
     const request = { pid, generation: selectionGeneration.current + 1 };
     selectionGeneration.current = request.generation;
     setSelectedPid(pid);

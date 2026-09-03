@@ -41,7 +41,11 @@ extension VectorEdit {
             if positions.last != position {
                 positions.append(position)
             }
-            if feature.properties[CaptureSpec.tracedKey] != nil {
+            // The value the spec declares, not merely the key: an imported
+            // file can carry its own "nsmts:traced", and promoting that would
+            // write NSPRD provenance onto a path nothing traced.
+            if feature.properties[CaptureSpec.tracedKey]?.stringValue
+                == CaptureSpec.tracedParcelValue {
                 traced = true
             }
         }
