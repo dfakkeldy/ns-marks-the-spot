@@ -1657,8 +1657,10 @@ export function App() {
           features: [...session.editingLayer.data.features, feature],
         });
         // "Added", not "saved": the edit session writes on its own debounce,
-        // so the point is on the map and its write has not answered yet. The
-        // panel carries the storage error if that write fails.
+        // so the point is on the map and its write has not answered yet. If
+        // that write fails, the panel says so while this session is open, and
+        // the map's write-failure notice says so — naming the layer — if the
+        // write answers after it closed.
         return `Point added to ${session.editingLayer.record.name} (±${accuracy} m).`;
       }
       const layerId = await userVectorApi.ensureFieldNotesLayer();
@@ -5036,6 +5038,33 @@ export function App() {
           >
             {selectedPid ? null : parcelLookupMessage}
           </p>
+          {/* A debounced write can answer after Done has closed the editor,
+              or while a different layer's panel is open — with no panel left
+              to be read in. Those failures are reported here, on the map,
+              which outlives every session, and each names its layer because
+              the reader may be looking at a different one, or at none. */}
+          {Object.keys(vectorEdit.closedSessionErrors).length > 0 ? (
+            <div className="vector-edit-write-errors">
+              {Object.entries(vectorEdit.closedSessionErrors).map(
+                ([layerId, message]) => (
+                  <p
+                    key={layerId}
+                    className="vector-edit-write-error"
+                    role="alert"
+                  >
+                    <span>{message}</span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        vectorEdit.dismissClosedSessionError(layerId)}
+                    >
+                      Dismiss
+                    </button>
+                  </p>
+                ),
+              )}
+            </div>
+          ) : null}
           {selectedPid ? (
             <ParcelInspector
               key={selectedPid}

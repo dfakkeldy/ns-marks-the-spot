@@ -548,3 +548,141 @@ describe("photos and point moves", () => {
     ]);
   });
 });
+
+describe("a write that fails with no panel to show it", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  const twoLayers = () => ({
+    records: [record(), record("layer-2")],
+    geometries: { "layer-1": collection(), "layer-2": collection() },
+  });
+
+  it("names the layer in a failure the panel is no longer there to show", async () => {
+    const { options } = harness({
+      putVectorLayer: vi.fn(async () => {
+        throw new Error("boom");
+      }),
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+
+    act(() => result.current.beginEdit("layer-1"));
+    act(() => result.current.commitGeometry(collection()));
+    await act(async () => {
+      result.current.endEdit();
+    });
+
+    expect(result.current.editingLayer).toBeNull();
+    expect(result.current.storageError).toBeNull();
+    expect(Object.keys(result.current.closedSessionErrors)).toEqual(["layer-1"]);
+    expect(result.current.closedSessionErrors["layer-1"]).toContain("Layer layer-1");
+  });
+
+  it("keeps a write that fails after Done out of the next layer's panel", async () => {
+    let reject: ((error: unknown) => void) | undefined;
+    const { options } = harness({
+      ...twoLayers(),
+      putVectorLayer: vi.fn(
+        () =>
+          new Promise<void>((_, rejectWrite) => {
+            reject = rejectWrite;
+          }),
+      ),
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+
+    act(() => result.current.beginEdit("layer-1"));
+    act(() => result.current.commitGeometry(collection()));
+    act(() => result.current.endEdit());
+    act(() => result.current.beginEdit("layer-2"));
+    await act(async () => {
+      reject?.(new UserMapImportError("quota", "Storage is full."));
+    });
+
+    // The panel on screen belongs to layer-2, and this failure does not.
+    expect(result.current.storageError).toBeNull();
+    expect(result.current.closedSessionErrors["layer-1"]).toContain("Layer layer-1");
+  });
+
+  it("reports both layers when two edits are lost", async () => {
+    const { options } = harness({
+      ...twoLayers(),
+      putVectorLayer: vi.fn(async () => {
+        throw new Error("boom");
+      }),
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+
+    for (const layerId of ["layer-1", "layer-2"]) {
+      act(() => result.current.beginEdit(layerId));
+      act(() => result.current.commitGeometry(collection()));
+      await act(async () => {
+        result.current.endEdit();
+      });
+    }
+
+    // A full disk fails every layer's write, and the second must not erase
+    // the first.
+    expect(Object.keys(result.current.closedSessionErrors).sort()).toEqual([
+      "layer-1",
+      "layer-2",
+    ]);
+    expect(result.current.closedSessionErrors["layer-2"]).toContain("Layer layer-2");
+  });
+
+  it("clears a layer's notice when a later write for it lands", async () => {
+    let fail = true;
+    const { options } = harness({
+      putVectorLayer: vi.fn(async () => {
+        if (fail) throw new Error("boom");
+      }),
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+
+    act(() => result.current.beginEdit("layer-1"));
+    act(() => result.current.commitGeometry(collection()));
+    await act(async () => {
+      result.current.endEdit();
+    });
+    expect(result.current.closedSessionErrors["layer-1"]).toBeDefined();
+
+    fail = false;
+    act(() => result.current.beginEdit("layer-1"));
+    act(() => result.current.renameLayer("Field notes"));
+    await act(async () => {
+      vi.advanceTimersByTime(PERSIST_DELAY_MS);
+    });
+
+    // The edit reached the device after all, so the map stops saying it did
+    // not.
+    expect(result.current.closedSessionErrors).toEqual({});
+  });
+
+  it("keeps one layer's notice out of another layer's success", async () => {
+    const { options } = harness({
+      ...twoLayers(),
+      putVectorLayer: vi.fn(async (layer: UserVectorLayerRecord) => {
+        if (layer.id === "layer-1") throw new Error("boom");
+      }),
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+
+    act(() => result.current.beginEdit("layer-1"));
+    act(() => result.current.commitGeometry(collection()));
+    await act(async () => {
+      result.current.endEdit();
+    });
+    act(() => result.current.beginEdit("layer-2"));
+    act(() => result.current.commitGeometry(collection()));
+    await act(async () => {
+      vi.advanceTimersByTime(PERSIST_DELAY_MS);
+    });
+
+    expect(result.current.closedSessionErrors["layer-1"]).toBeDefined();
+  });
+});

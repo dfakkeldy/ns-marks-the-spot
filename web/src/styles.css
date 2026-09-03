@@ -5152,6 +5152,69 @@ a {
   font-weight: 600;
 }
 
+/* The one edit message that must outlive the panel that raised it: a
+   debounced write can answer after Done has closed the editor, or while a
+   different layer's panel is open, and the reader is still owed the news that
+   the edit is not on this device. One notice per layer, because a full disk
+   fails every layer's write and the second must not erase the first.
+
+   Placed ABOVE the measure readout at bottom: 104px, not on it — 152px clears
+   it even when its "double-click or Enter to finish" hint wraps to two lines.
+   Above the editing card's z-index 1000 as well: an alert behind an opaque
+   panel is an alert nobody reads, which is the reason .parcel-lookup-message
+   gives for its own z-index. It renders outside the Leaflet container, so
+   unlike .measure-control it needs no click-propagation guard. */
+.vector-edit-write-errors {
+  position: absolute;
+  z-index: 1100;
+  bottom: 152px;
+  left: 12px;
+  display: grid;
+  gap: 8px;
+  max-width: min(360px, calc(100% - 24px));
+}
+
+.vector-edit-write-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 10px;
+  color: #a33228;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.35;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
+}
+
+.vector-edit-write-error button {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 10px;
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 800;
+  background: var(--survey-blue);
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* On a phone the column below is shorter and differently ordered: the
+   coordinate readout is hidden, the measure readout drops to bottom: 16px,
+   and the display-scale readout keeps its 50px and becomes the top of the
+   stack. 88px clears it. Full width here, as .modern-map-error is. */
+@media (max-width: 860px) {
+  .vector-edit-write-errors {
+    bottom: 88px;
+    right: 12px;
+    max-width: none;
+  }
+}
+
 .user-map-status {
   display: block;
   color: var(--muted);

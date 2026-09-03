@@ -24,7 +24,19 @@ export type VectorEditSession = {
   editingLayer: VisibleUserVectorLayer | null;
   /** Changes on every begin and end; see the field above. */
   editGeneration: number;
+  /** The open session's own write failure, or null. The panel renders it. */
   storageError: string | null;
+  /**
+   * Write failures whose session has already closed — Done, or another layer
+   * opened — keyed by layer id, so two layers left unsaved are both reported
+   * rather than one replacing the other. The panel that would have shown them
+   * is gone, so the map carries them, and every message names its layer: by
+   * the time a debounced write answers, the reader may be looking at a
+   * different layer, or at none.
+   */
+  closedSessionErrors: Record<string, string>;
+  /** Takes one notice down. The edit is still unsaved either way. */
+  dismissClosedSessionError: (layerId: string) => void;
   beginEdit: (id: string) => void;
   endEdit: () => void;
   commitGeometry: (collection: FeatureCollection) => void;
@@ -100,14 +112,47 @@ export function useVectorEditSession({
    * one on the same layer.
    */
   const [editGeneration, setEditGeneration] = useState(0);
+  /**
+   * The same count, readable from a callback that does not re-render with it.
+   * Advanced in the same statement as the state above, so a write started by
+   * `endEdit`'s flush already sees the new session number by the time it
+   * answers.
+   */
+  const generationRef = useRef(0);
   const [draftRecord, setDraftRecord] = useState<UserVectorLayerRecord | null>(null);
   const [draftData, setDraftData] = useState<FeatureCollection | null>(null);
   const [storageError, setStorageError] = useState<string | null>(null);
+  /**
+   * Layer id → why that layer's edit did not reach this device, for failures
+   * whose session has closed. Keyed rather than one slot: a disk that is full
+   * fails every layer's write, and one message overwriting another would
+   * leave the reader believing only the last layer was lost.
+   */
+  const [closedSessionErrors, setClosedSessionErrors] = useState<
+    Record<string, string>
+  >({});
+  /**
+   * The reader's only way out of a notice no retry can clear — a layer
+   * another tab deleted can never be written again. It hides the words, not
+   * the fact: the edit is still unsaved and still on the map.
+   */
+  const dismissClosedSessionError = useCallback((layerId: string) => {
+    setClosedSessionErrors((prev) => {
+      if (!(layerId in prev)) {
+        return prev;
+      }
+      const next = { ...prev };
+      delete next[layerId];
+      return next;
+    });
+  }, []);
 
   const timerRef = useRef<number | null>(null);
   const dirtyRef = useRef<{
     record: UserVectorLayerRecord;
     collection: FeatureCollection;
+    /** The session this edit was made in; see `writeDirty`. */
+    generation: number;
   } | null>(null);
   const putRef = useRef(putVectorLayer);
   const changedRef = useRef(onLayerChanged);
@@ -122,32 +167,71 @@ export function useVectorEditSession({
       return;
     }
     dirtyRef.current = null;
+    const { id, name } = pending.record;
+    /**
+     * Where a failure can be read, decided when the write ANSWERS rather than
+     * when it was scheduled. A debounced write outlives the session that made
+     * it: Done starts one and unmounts the panel in the same handler, and a
+     * failure landing after another layer was opened would otherwise be read
+     * as that layer's. Same session → its own panel, in the same words as
+     * before. Session gone → the map, with the layer named.
+     */
+    const raise = (panelMessage: string, mapMessage: string) => {
+      if (pending.generation === generationRef.current) {
+        setStorageError(panelMessage);
+        return;
+      }
+      setClosedSessionErrors((prev) => ({ ...prev, [id]: mapMessage }));
+    };
     try {
       const wrote = await putRef.current(pending.record, pending.collection);
       if (wrote === false) {
         // The layer is gone from the database — another tab deleted it — so
         // the update deliberately wrote nothing. The edit stays on screen,
-        // and the panel says it will not outlive the tab.
-        setStorageError(
+        // and the reader is told it will not outlive the tab.
+        raise(
           "This layer was deleted in another tab, so the edit can't be saved — " +
             "it stays available until you close the tab.",
+          `Couldn't save your edit to ${name}: the layer was deleted in ` +
+            "another tab. The edit stays available until you close the tab.",
         );
         return;
       }
+      // A write that lands carries everything an earlier failed one did, so it
+      // takes that layer's standing notice down — that layer's alone.
+      setClosedSessionErrors((prev) => {
+        if (!(id in prev)) {
+          return prev;
+        }
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
     } catch (error) {
       // A failed write must never interrupt drawing: the edit stays on screen
       // and in memory, and the user is told persistence is the problem.
-      setStorageError(
-        error instanceof UserMapImportError
-          ? error.userMessage
-          : "Couldn't save this edit — it stays available until you close the tab.",
+      const refusal =
+        error instanceof UserMapImportError ? error.userMessage : null;
+      raise(
+        refusal ??
+          "Couldn't save this edit — it stays available until you close the tab.",
+        // The store's own refusals already end with what becomes of the edit
+        // ("Storage is full — this layer stays available until you close the
+        // tab."), so they are quoted whole rather than given a second tail.
+        refusal
+          ? `Couldn't save your edit to ${name}. ${refusal}`
+          : `Couldn't save your edit to ${name} — it stays available until ` +
+            "you close the tab.",
       );
     }
   }, []);
 
   const schedulePersist = useCallback(
     (record: UserVectorLayerRecord, collection: FeatureCollection) => {
-      dirtyRef.current = { record, collection };
+      // The session travels with the edit: a debounced write can answer after
+      // Done, or after another layer is opened, and its failure has to be told
+      // apart from whatever panel is on screen by then.
+      dirtyRef.current = { record, collection, generation: generationRef.current };
       if (timerRef.current !== null) {
         window.clearTimeout(timerRef.current);
       }
@@ -219,7 +303,8 @@ export function useVectorEditSession({
     // A new session, even for the same layer: work started before this one
     // began belongs to the session it was started in, and a layer id alone
     // cannot tell a reopened layer from the session that closed.
-    setEditGeneration((generation) => generation + 1);
+    generationRef.current += 1;
+    setEditGeneration(generationRef.current);
     setEditingId(id);
   }, []);
 
@@ -250,7 +335,11 @@ export function useVectorEditSession({
     flush();
     undoConversionRef.current = null;
     setLastConversion(null);
-    setEditGeneration((generation) => generation + 1);
+    // Advanced here, synchronously, even though `flush()` above has already
+    // started the write: `writeDirty` reads this only after awaiting the
+    // store, so the write Done itself starts sees the session it left.
+    generationRef.current += 1;
+    setEditGeneration(generationRef.current);
     setEditingId(null);
     setDraftRecord(null);
     setDraftData(null);
@@ -428,6 +517,8 @@ export function useVectorEditSession({
     editingLayer,
     editGeneration,
     storageError,
+    closedSessionErrors,
+    dismissClosedSessionError,
     beginEdit,
     endEdit,
     commitGeometry,
