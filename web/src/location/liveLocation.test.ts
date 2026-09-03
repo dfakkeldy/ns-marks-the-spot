@@ -104,6 +104,31 @@ describe("startLiveLocation", () => {
     expect(snapshots.at(-1)?.status).toBe("active");
   });
 
+  it("carries no fix when the watch fails before any position arrives", () => {
+    const fake = fakeGeolocation();
+    const { snapshots, onChange } = collect();
+    startLiveLocation(onChange, fake.geolocation);
+
+    // Location Services off for the device, or a desktop with no positioning
+    // source: code 2 with nothing ever delivered. There is no last fix to
+    // keep, because a watch that has never had a position has not lost one.
+    fake.pushError(2); // POSITION_UNAVAILABLE
+    const first = snapshots.at(-1);
+    expect(first?.status).toBe("signal-lost");
+    expect(first?.fix).toBeNull();
+    expect(first && "reason" in first ? first.reason : null).toBe(
+      "unavailable",
+    );
+    // Transient either way: the watch is left running so a fix can still
+    // arrive.
+    expect(fake.clearWatch).not.toHaveBeenCalled();
+
+    fake.pushError(3); // TIMEOUT
+    const second = snapshots.at(-1);
+    expect(second?.fix).toBeNull();
+    expect(second && "reason" in second ? second.reason : null).toBe("timeout");
+  });
+
   it("treats a denial as final: clears the watch and ignores later callbacks", () => {
     const fake = fakeGeolocation();
     const { snapshots, onChange } = collect();

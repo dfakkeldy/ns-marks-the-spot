@@ -23,7 +23,10 @@ export type LiveFix = {
  * Distinct states stay distinct: a denial, a missing API, and a lost signal
  * mean different things to the user and must never collapse into one
  * "location failed". `signal-lost` keeps the last fix so the marker can dim
- * in place instead of vanishing.
+ * in place instead of vanishing — and a null `fix` there is the state before
+ * any position has been delivered on this watch, which is not a signal that
+ * was lost. A consumer must say "not found yet" there and never promise the
+ * recovery of something that was never had.
  */
 export type LiveLocationSnapshot =
   | { status: "acquiring"; fix: null }

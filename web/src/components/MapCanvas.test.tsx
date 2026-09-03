@@ -599,6 +599,68 @@ describe("MapCanvas browser location", () => {
     ).toBeInTheDocument();
   });
 
+  it("says nothing was found yet, not lost, when the watch fails before any fix", async () => {
+    const user = userEvent.setup();
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    // Location Services off for the device, or a desktop with no positioning
+    // source: code 2 forever, with nothing ever delivered.
+    pushLiveSnapshot({
+      status: "signal-lost",
+      fix: null,
+      reason: "unavailable",
+    });
+
+    const notFoundYet =
+      "Your location hasn't been found yet — still looking. Move outdoors, " +
+      "or check that location is switched on for this device.";
+    // Nothing is drawn, so nothing may be said to have been lost.
+    expect(screen.queryByTestId("location-position")).not.toBeInTheDocument();
+    expect(screen.getByText(notFoundYet)).toBeInTheDocument();
+
+    // A timeout with nothing delivered is the same situation and the same
+    // sentence: neither code claims a signal that was never had.
+    pushLiveSnapshot({ status: "signal-lost", fix: null, reason: "timeout" });
+    expect(screen.getByText(notFoundYet)).toBeInTheDocument();
+
+    // Once a fix has been had, a loss is a loss again.
+    const fix = liveFix();
+    pushLiveSnapshot({ status: "active", fix });
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "unavailable" });
+    expect(
+      screen.getByText("Your location is unavailable right now — still trying."),
+    ).toBeInTheDocument();
+  });
+
   it("follows later fixes with panTo until the user drags, then resumes via the pill", async () => {
     const user = userEvent.setup();
     render(

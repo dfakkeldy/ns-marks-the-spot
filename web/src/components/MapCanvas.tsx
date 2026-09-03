@@ -1831,7 +1831,6 @@ export function MapCanvas({
   // Once per toggle-on: the success message and the fly-to happen on the
   // first fix only; later fixes just move the marker (and pan under follow).
   const hasCenteredRef = useRef(false);
-  const hadFirstFixRef = useRef(false);
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
   const [modernMapRetry, setModernMapRetry] = useState(0);
   const [modernMapFailed, setModernMapFailed] = useState(false);
@@ -1935,7 +1934,6 @@ export function MapCanvas({
       setFollowOn(false);
       setLocationMessage(null);
       hasCenteredRef.current = false;
-      hadFirstFixRef.current = false;
       return;
     }
     setLocationOn(true);
@@ -1950,6 +1948,16 @@ export function MapCanvas({
   // "still trying" to "cannot place you" stays `signal-lost` throughout, and
   // the sentence has to follow the change the status does not show.
   const lostReason = live.status === "signal-lost" ? live.reason : null;
+  // A watch that has never delivered a position has not lost a signal; it has
+  // never had one. `fix === null` is the same test the marker is drawn by, so
+  // the sentence and the map agree: nothing found, so nothing drawn. It also
+  // moves with a watch restart (arming the recorder starts a new one), which a
+  // "have we ever had a fix" flag would not. The native map draws the same
+  // line: MapController.LocationMessage.signalLost ("GPS signal lost — still
+  // trying.") is reported only while an established fix is being followed, and
+  // a search that has produced nothing settles on .unavailable ("Your location
+  // couldn't be found. Try again outdoors.").
+  const lostWithoutAnyFix = live.status === "signal-lost" && live.fix === null;
   useEffect(() => {
     if (!locationOn) {
       return;
@@ -1958,12 +1966,23 @@ export function MapCanvas({
       // Every return to a fix, not only the first: a watch that timed out
       // and then answered would otherwise leave "still trying" on screen
       // over a map that is showing the reader where they are.
-      hadFirstFixRef.current = true;
       setLocationMessage(LOCATION_SUCCESS_MESSAGE);
+    } else if (lostWithoutAnyFix) {
+      // Nothing has been found, so nothing is on the map and nothing was
+      // lost. Both transient codes read the same here: with no marker to look
+      // at, the reader's situation and the one thing they can do about it do
+      // not differ. The cause is not guessed either — location switched off
+      // for the device, and a device under a roof, answer identically — so
+      // both are named and neither is claimed.
+      setLocationMessage(
+        "Your location hasn't been found yet — still looking. Move outdoors, " +
+          "or check that location is switched on for this device.",
+      );
     } else if (live.status === "signal-lost") {
-      // Not "GPS": the browser answers from a satellite fix, a Wi-Fi lookup
-      // or an IP estimate and never says which. And a device still trying is
-      // not a device that cannot place itself.
+      // A fix was had and stopped coming. Not "GPS": the browser answers from
+      // a satellite fix, a Wi-Fi lookup or an IP estimate and never says
+      // which. And a device still trying is not a device that cannot place
+      // itself.
       setLocationMessage(
         lostReason === "timeout"
           ? "Your location is taking longer than expected — still trying."
@@ -1973,7 +1992,6 @@ export function MapCanvas({
       setLocationOn(false);
       setFollowOn(false);
       hasCenteredRef.current = false;
-      hadFirstFixRef.current = false;
       setLocationMessage(
         "Location permission was not granted. You can keep using the map.",
       );
@@ -1982,7 +2000,7 @@ export function MapCanvas({
       setFollowOn(false);
       setLocationMessage("Location is not available in this browser.");
     }
-  }, [live.status, lostReason, locationOn]);
+  }, [live.status, lostReason, lostWithoutAnyFix, locationOn]);
 
   // Dragging the map is how the user says "stop following me around".
   useEffect(() => {
