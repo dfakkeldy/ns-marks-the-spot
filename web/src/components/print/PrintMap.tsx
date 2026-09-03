@@ -159,7 +159,15 @@ export function PrintMap({
   }, [layerIds, onReadinessChange, statuses]);
 
   return (
-    <div className="print-map" aria-label={`Printable map for PID ${snapshot.pid}`}>
+    /* The same rule as the live map's wrapper: a name on a div with no role
+       is discarded, so this said nothing at all. It is a region here too,
+       which nests the map's own landmark inside this one — that is what the
+       page is, a printable map containing the map. */
+    <div
+      className="print-map"
+      role="region"
+      aria-label={`Printable map for PID ${snapshot.pid}`}
+    >
       <MapCanvas
         parcels={parcels}
         taxSalePids={new Set(snapshot.taxSalePids)}

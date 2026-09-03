@@ -814,6 +814,27 @@ describe("NS Marks The Spot Online", () => {
     vi.unstubAllEnvs();
   });
 
+  it("keeps exactly one page heading, outside the parts a phone hides", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+
+    render(<App />);
+
+    const headings = await screen.findAllByRole("heading", { level: 1 });
+    expect(headings).toHaveLength(1);
+    expect(headings[0]).toHaveTextContent(
+      "NS Marks The Spot — Nova Scotia parcel & tax-sale map",
+    );
+    // Below 860px the stylesheet hides `.app-header` and the closed
+    // `.layer-rail`, and display: none takes their headings out of the
+    // accessibility tree with them. While the rail's "Explore Nova Scotia"
+    // was the only h1, a phone reached the map with no page heading at all,
+    // so what this pins is where the heading sits rather than how it looks.
+    // styles.test.ts pins the two rules it has to stay clear of, because
+    // jsdom loads no stylesheet and cannot be asked which width it is at.
+    expect(headings[0].closest(".app-header, .layer-rail")).toBeNull();
+  });
+
   it("starts with Explore Nova Scotia and performs no tax-sale geometry request", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/");

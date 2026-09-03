@@ -5,6 +5,7 @@ import {
   USER_MAPS_PANE,
   USER_MAPS_PANE_Z_INDEX,
 } from "../../components/mapPanes";
+import { prefersReducedMotion } from "../../components/mapMotion";
 import { meshForRecord } from "../recordMesh";
 import type { LatLngPoint } from "../transform/projection";
 import { WarpedRasterLayer } from "../render/WarpedRasterLayer";
@@ -289,7 +290,11 @@ function UserMapFitController({
     if (!bounds.isValid()) {
       return;
     }
-    leafletMap.fitBounds(bounds, { padding: [48, 48], maxZoom: 16 });
+    leafletMap.fitBounds(bounds, {
+      padding: [48, 48],
+      maxZoom: 16,
+      animate: !prefersReducedMotion(),
+    });
     consumedRevision.current = request.revision;
   }, [leafletMap, maps, request]);
 

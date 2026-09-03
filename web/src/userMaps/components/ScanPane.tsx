@@ -11,6 +11,7 @@ import type { PixelSize } from "../transform/projection";
 import type { PendingPoint } from "../useGeoreferenceSession";
 import type { Gcp } from "../types";
 import { numberedIcon } from "./gcpIcon";
+import { prefersReducedMotion } from "../../components/mapMotion";
 import {
   clampToRaster,
   latLngFromPixel,
@@ -62,7 +63,9 @@ function ScanFocusController({ focus }: { focus: ScanFocusRequest | null }) {
     }
     // Zoom in only if the user is further out than 1 (roughly "pixels are
     // visible"); never zoom them back OUT of a closer inspection.
-    map.setView(latLngFromPixel(focus.pixel), Math.max(map.getZoom(), 1));
+    map.setView(latLngFromPixel(focus.pixel), Math.max(map.getZoom(), 1), {
+      animate: !prefersReducedMotion(),
+    });
   }, [focus, map]);
   return null;
 }

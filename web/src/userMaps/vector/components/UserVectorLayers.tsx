@@ -5,6 +5,7 @@ import {
   USER_VECTOR_PANE,
   USER_VECTOR_PANE_Z_INDEX,
 } from "../../../components/mapPanes";
+import { prefersReducedMotion } from "../../../components/mapMotion";
 import { textTooltip } from "../../../components/mapTooltip";
 import { buildFeaturePopup, type PopupPhotoUi } from "../render/popup";
 import { readPhotoDescriptors } from "../photos/types";
@@ -93,7 +94,11 @@ export function UserVectorLayers({
         [south, west],
         [north, east],
       ],
-      { padding: [48, 48], maxZoom: FIT_MAX_ZOOM },
+      {
+        padding: [48, 48],
+        maxZoom: FIT_MAX_ZOOM,
+        animate: !prefersReducedMotion(),
+      },
     );
   }, [fitRequest, layers, map]);
 

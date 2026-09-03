@@ -893,3 +893,23 @@ describe("phone vector editing panel", () => {
     expect(phonePanel).toMatch(/overflow-y:\s*auto/);
   });
 });
+
+describe("page heading at every breakpoint", () => {
+  it("hides the desktop header and the closed layer sheet on a phone, so the page heading cannot sit in either", () => {
+    // App renders its one h1 as a clipped child of `.app-shell` because of
+    // these two rules, and the DOM test can only pin where that heading sits.
+    // The sheet has several `@media (max-width: 860px)` blocks; the first is
+    // the layout one, which is where both of these live.
+    const phoneStart = styles.indexOf("@media (max-width: 860px)");
+    const narrowPhoneStart = styles.indexOf(
+      "@media (max-width: 560px)",
+      phoneStart,
+    );
+    const phoneStyles = styles.slice(phoneStart, narrowPhoneStart);
+
+    expect(phoneStart).toBeGreaterThanOrEqual(0);
+    expect(narrowPhoneStart).toBeGreaterThan(phoneStart);
+    expect(phoneStyles).toMatch(/\.app-header\s*\{[^}]*display:\s*none/);
+    expect(phoneStyles).toMatch(/\.layer-rail\s*\{[^}]*display:\s*none/);
+  });
+});

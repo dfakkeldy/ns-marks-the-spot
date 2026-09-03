@@ -194,7 +194,10 @@ a {
   box-shadow: 6px 0 24px rgba(18, 52, 59, 0.08);
 }
 
-.layer-rail > h1,
+/* `.layer-rail > h2` is the rail's own heading, not the headings inside it:
+   `.rail-section h2` and `.map-theme-picker h2` are h2s as well, and the child
+   combinator is what keeps this display type off them. */
+.layer-rail > h2,
 .parcel-inspector h2,
 .licence-dialog h2 {
   margin: 0;
@@ -202,7 +205,7 @@ a {
   line-height: 1.08;
 }
 
-.layer-rail > h1 {
+.layer-rail > h2 {
   margin-bottom: 20px;
   font-size: 2rem;
 }

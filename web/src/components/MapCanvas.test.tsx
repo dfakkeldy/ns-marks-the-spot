@@ -2285,6 +2285,151 @@ describe("MapCanvas parcel discovery", () => {
     expect(mapMock.fitBounds).toHaveBeenCalledTimes(2);
   });
 
+  it("takes the reader to a focused parcel without animating when they asked for less motion", () => {
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    const parcel = {
+      type: "Feature" as const,
+      properties: { PID: "50251750" },
+      geometry: {
+        type: "Polygon" as const,
+        coordinates: [
+          [
+            [-61.42, 46.05],
+            [-61.41, 46.05],
+            [-61.41, 46.06],
+            [-61.42, 46.06],
+            [-61.42, 46.05],
+          ],
+        ],
+      },
+    };
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [parcel] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid="50251750"
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        focusRequest={{ pid: "50251750", requestId: 1 }}
+      />,
+    );
+
+    // The same parcel, at the same padding and the same closest scale — it
+    // just arrives.
+    expect(mapMock.fitBounds).toHaveBeenCalledWith(expect.anything(), {
+      padding: [64, 64],
+      maxZoom: 16,
+      animate: false,
+    });
+  });
+
+  it("reads the motion setting again for each move, so changing it mid-session takes effect", () => {
+    let reduced = false;
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: reduced && query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    const parcel = {
+      type: "Feature" as const,
+      properties: { PID: "50251750" },
+      geometry: {
+        type: "Polygon" as const,
+        coordinates: [
+          [
+            [-61.42, 46.05],
+            [-61.41, 46.05],
+            [-61.41, 46.06],
+            [-61.42, 46.06],
+            [-61.42, 46.05],
+          ],
+        ],
+      },
+    };
+    const props = {
+      parcels: { type: "FeatureCollection" as const, features: [parcel] },
+      taxSalePids: new Set<string>(),
+      historicalTaxSalePids: new Set<string>(),
+      selectedPid: "50251750",
+      provinceLayers: {
+        "ns-aerial": false,
+        nsprd: false,
+        "crown-lands": false,
+        "flood-risk": false,
+        waterfalls: false,
+        "water-features": false,
+        roads: false,
+        buildings: false,
+        contours: false,
+
+        "place-names": false,
+
+        "main-roads": false,
+      },
+      resourceLayers: hiddenResourceLayers,
+      showModernMap: false,
+      showTaxSale: false,
+      showHistoricalTaxSales: false,
+      onSelectPid: vi.fn(),
+      onIdentifyParcel: vi.fn(),
+    };
+    const { rerender } = render(
+      <MapCanvas {...props} focusRequest={{ pid: "50251750", requestId: 1 }} />,
+    );
+
+    expect(mapMock.fitBounds).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ animate: true }),
+    );
+
+    // The reader turns Reduce Motion on with the map already open. The map
+    // outlives every one of these moves, so an answer captured at mount would
+    // still be sweeping them across the province.
+    reduced = true;
+    rerender(
+      <MapCanvas {...props} focusRequest={{ pid: "50251750", requestId: 2 }} />,
+    );
+
+    expect(mapMock.fitBounds).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ animate: false }),
+    );
+  });
+
   it("suspends parcel identify and selection while measuring", () => {
     vi.useFakeTimers();
     const onIdentifyParcel = vi.fn();
@@ -2512,6 +2657,17 @@ describe("MapCanvas cartographic furniture", () => {
       "data-position",
       "bottomleft",
     );
+  });
+
+  it("announces the map as a named region a screen reader can jump to", () => {
+    render(<MapCanvas {...furnitureProps} />);
+
+    // The wrapper carried this label long before it carried a role, and a
+    // name on a roleless div is thrown away: by role rather than by class is
+    // the only way to assert that the name actually reaches a reader.
+    expect(
+      screen.getByRole("region", { name: "Nova Scotia municipal parcel map" }),
+    ).toHaveClass("map-canvas");
   });
 
   it("shows an approximate representative fraction and updates it with the map", () => {

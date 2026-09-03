@@ -120,6 +120,7 @@ import {
   WELL_LOG_PANE_Z_INDEX,
 } from "./mapPanes";
 import { textTooltip } from "./mapTooltip";
+import { prefersReducedMotion } from "./mapMotion";
 import {
   fetchWellLogs,
   printWellLogMarkerStyle,
@@ -172,15 +173,6 @@ import type { PdfTemplateId } from "../print/pdf/templates/types";
  * it: the web's long-standing 14, kept as a floor rather than a target.
  */
 const LOCATE_MIN_ZOOM = 14;
-
-/** The system's own answer, read at the moment of the move. */
-function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== "undefined" &&
-    typeof window.matchMedia === "function" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
 
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
@@ -1137,7 +1129,7 @@ function LayerZoomController({
 
     if (waterfallsBecameVisible) {
       map.fitBounds(WATERFALL_DISCOVERY_BOUNDS, {
-        animate: true,
+        animate: !prefersReducedMotion(),
         padding: [48, 48],
         maxZoom: 8,
       });
@@ -1152,7 +1144,7 @@ function LayerZoomController({
 
     if (hydroPilotBecameVisible) {
       map.fitBounds(INVERNESS_HYDRO_PILOT_BOUNDS, {
-        animate: true,
+        animate: !prefersReducedMotion(),
         padding: [48, 48],
         maxZoom: 9,
       });
@@ -1168,7 +1160,7 @@ function LayerZoomController({
     );
 
     if (targetDetailZoom > 0 && map.getZoom() < targetDetailZoom) {
-      map.setZoom(targetDetailZoom, { animate: true });
+      map.setZoom(targetDetailZoom, { animate: !prefersReducedMotion() });
     }
   }, [hydroPilotLayers, map, provinceLayers]);
 
@@ -1206,7 +1198,11 @@ function ParcelFocusController({
     }
 
     handledRequestId.current = focusRequest.requestId;
-    map.fitBounds(bounds, { padding: [64, 64], maxZoom: 16 });
+    map.fitBounds(bounds, {
+      padding: [64, 64],
+      maxZoom: 16,
+      animate: !prefersReducedMotion(),
+    });
   }, [focusRequest, map, parcels]);
 
   return null;
@@ -1304,7 +1300,7 @@ function InitialHistoricalBoundsController({
 
     hasFittedHistoricalLayer.current = true;
     map.fitBounds(bounds, {
-      animate: true,
+      animate: !prefersReducedMotion(),
       padding: [48, 48],
       maxZoom: 11,
     });
@@ -2260,8 +2256,15 @@ export function MapCanvas({
           : "red";
 
   return (
+    /* The wrapper carried this label from the start, but a name on a div with
+       no role is discarded, so the map had no name in the accessibility tree
+       at all — the enclosing section is a named region, so what a reader
+       reached was "Map and parcel details", the whole area, and the map
+       inside it was an unnamed box. The role is what lets the name it was
+       already given be heard. */
     <div
       className={`map-canvas${georeference ? " map-canvas--georeferencing" : ""}`}
+      role="region"
       aria-label="Nova Scotia municipal parcel map"
     >
       <MapContainer

@@ -214,6 +214,8 @@ describe("GeoreferenceMapLayer", () => {
     // `Math.max(getZoom(), 15)` from a hardcoded 15 — at a fixture zoom of 12
     // the two are identical and the test's own name is unearned. Never zoom
     // the user back OUT of a closer inspection.
-    expect(stubMap.setView).toHaveBeenCalledWith([45.5, -60.8], 17);
+    expect(stubMap.setView).toHaveBeenCalledWith([45.5, -60.8], 17, {
+      animate: true,
+    });
   });
 });

@@ -4071,6 +4071,17 @@ export function App() {
         editingMap ? " georeferencing" : ""
       }`}
     >
+      {/* The page's one h1, and it can live in neither the header nor the
+          controls rail: below 860px the stylesheet hides both, and display:
+          none takes their headings out of the accessibility tree with them,
+          which left a phone with no page heading at all whenever the search
+          sheet was closed. It is clipped rather than drawn because the phone
+          layout has no room for a title and the desktop header already shows
+          the name, and `.visually-hidden` positions it out of flow, so it
+          claims none of the shell's three grid rows. */}
+      <h1 className="visually-hidden">
+        NS Marks The Spot — Nova Scotia parcel &amp; tax-sale map
+      </h1>
       <header className="app-header">
         <a className="app-brand" href="../" aria-label="NS Marks The Spot home">
           <img src={appIconUrl} alt="" />
@@ -4121,7 +4132,11 @@ export function App() {
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <h1>Explore Nova Scotia</h1>
+          {/* The page heading is the hidden h1 at the top of the shell. This
+              one names the controls rail, which is a part of the page, and
+              the rail's own child-combinator rule carries its former h1
+              typography over unchanged. */}
+          <h2>Explore Nova Scotia</h2>
           <form className="pid-search" onSubmit={submitPidSearch}>
             <label htmlFor="pid-query">Search by PID or civic address</label>
             <div className="search-row">
