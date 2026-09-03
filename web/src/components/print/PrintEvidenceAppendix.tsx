@@ -442,6 +442,23 @@ function CoastalResult({ snapshot }: { snapshot: PrintSnapshot }) {
             </li>
           );
         }
+        if (scenario.status === "geometry-unavailable") {
+          return (
+            <li key={scenario.scenario}>
+              {scenario.scenario}: not evaluated — this parcel had no usable
+              outline to sample against at export time.
+            </li>
+          );
+        }
+        if (scenario.status === "not-sampled") {
+          return (
+            <li key={scenario.scenario}>
+              {scenario.scenario}: this parcel is too small at the sampled
+              resolution to read off the scenario map, so nothing was measured.
+              No share of the parcel is reported.
+            </li>
+          );
+        }
         if (scenario.status === "no-intersection") {
           return (
             <li key={scenario.scenario}>

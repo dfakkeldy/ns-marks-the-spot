@@ -167,7 +167,7 @@ describe("print capture", () => {
     evidence.civicAddresses = { status: "error", message: "changed later" };
     expect(capture.evidence.civicAddresses).toEqual({
       status: "ready",
-      value: [],
+      value: { addresses: [], unreadableRows: 0 },
     });
   });
 
@@ -222,7 +222,10 @@ describe("print capture", () => {
       status: "ready",
       value: { count: 3, pointCount: 2, polygonCount: 1 },
     });
-    expect(snapshot.evidence.civicAddresses).toEqual({ status: "ready", value: [] });
+    expect(snapshot.evidence.civicAddresses).toEqual({
+      status: "ready",
+      value: { addresses: [], unreadableRows: 0 },
+    });
     expect(snapshot.evidence.dwellings).toEqual({
       status: "ready",
       value: [{

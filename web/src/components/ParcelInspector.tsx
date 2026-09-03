@@ -104,10 +104,22 @@ export type AssessmentState =
   | { request: SelectedEvidenceRequest | null; status: "idle" | "loading" | "error" | "geometry-unavailable" }
   | { request: SelectedEvidenceRequest; status: "ready"; value: ParcelAssessmentResult };
 
+/**
+ * "blocked", "no-account" and "geometry-unavailable" are three different
+ * reasons the dwelling dataset was never asked, and each is rendered with its
+ * own cause. Collapsing them told a reader the dataset had answered, or named
+ * a source outage that never happened.
+ */
 export type DwellingState =
   | {
       request: SelectedEvidenceRequest | null;
-      status: "idle" | "loading" | "error" | "blocked";
+      status:
+        | "idle"
+        | "loading"
+        | "error"
+        | "blocked"
+        | "no-account"
+        | "geometry-unavailable";
     }
   | {
       request: SelectedEvidenceRequest;
@@ -590,6 +602,17 @@ function DwellingDetails({ state }: { state: DwellingState }) {
           Dwelling records were not looked up because the PVSC assessment
           account lookup was unavailable.
         </p>
+      ) : state.status === "geometry-unavailable" ? (
+        <p className="assessment-status" role="status">
+          Not evaluated — this PID&apos;s NSPRD geometry is unavailable, so no
+          assessment account could be matched and the dwelling dataset was not
+          asked.
+        </p>
+      ) : state.status === "no-account" ? (
+        <p className="assessment-status" role="status">
+          No PVSC assessment account was matched to this parcel, so the dwelling
+          dataset could not be asked about it.
+        </p>
       ) : state.status === "error" ? (
         <p className="assessment-status error" role="status">
           PVSC dwelling data is unavailable. No absence is inferred.
@@ -828,6 +851,24 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
             if (result.status === "error") {
               return <li key={result.scenario}>{label}: source unavailable — no absence is inferred.</li>;
             }
+            if (result.status === "geometry-unavailable") {
+              return (
+                <li key={result.scenario}>
+                  {label}: not evaluated — this parcel has no usable outline to sample against.
+                </li>
+              );
+            }
+            // Nothing measured is not nothing found. A parcel that took no
+            // sample gets its own row so the no-hit sentence keeps meaning a
+            // parcel that was sampled and came back dry.
+            if (result.status === "not-sampled") {
+              return (
+                <li key={result.scenario}>
+                  {label}: this parcel is too small at the sampled resolution to read off the
+                  scenario map, so nothing was measured.
+                </li>
+              );
+            }
             if (result.status === "no-intersection") {
               return <li key={result.scenario}>{label}: no mapped pixels intersected this parcel.</li>;
             }
@@ -841,7 +882,7 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
             );
           })}
         </ul>
-        {coastal.some(({ status }) => status !== "intersects") ? (
+        {coastal.some(({ status }) => status === "no-intersection") ? (
           <p className="mapped-area-note">
             No intersecting pixels is not proof of no coastal hazard.
           </p>

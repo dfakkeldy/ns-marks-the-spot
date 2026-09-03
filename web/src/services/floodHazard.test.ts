@@ -168,4 +168,77 @@ describe("coastal raster sampling", () => {
       .toBeGreaterThan(0);
     expect(result[2]).not.toHaveProperty("probability");
   });
+
+  // A raster that landed no sample inside the outline measured nothing. The
+  // old code called that "no-intersection" with 0% affected, which reads as
+  // the scenario missing the lot.
+  it("does not call an unsampled parcel a scenario miss", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => new Response("clear", { status: 200 })));
+
+    const result = await fetchCoastalFloodEvidence(
+      parcelFeatures,
+      800,
+      undefined,
+      async () => ({ rgba: new Uint8ClampedArray(4 * 4 * 4), width: 4, height: 4 }),
+    );
+
+    // Two small far-apart parts: the only sampled centre falls in the gap
+    // between them, so no pixel centre lands inside the parcel at all.
+    const twoParts: NsprdFeatureCollection["features"] = [
+      {
+        ...parcelFeatures[0],
+        geometry: {
+          type: "Polygon",
+          coordinates: [[
+            [-63.7, 44.74],
+            [-63.699, 44.74],
+            [-63.699, 44.741],
+            [-63.7, 44.741],
+            [-63.7, 44.74],
+          ]],
+        },
+      },
+      {
+        ...parcelFeatures[0],
+        geometry: {
+          type: "Polygon",
+          coordinates: [[
+            [-63.6, 44.84],
+            [-63.599, 44.84],
+            [-63.599, 44.841],
+            [-63.6, 44.841],
+            [-63.6, 44.84],
+          ]],
+        },
+      },
+    ];
+    const unsampled = await fetchCoastalFloodEvidence(
+      twoParts,
+      800,
+      undefined,
+      async () => ({ rgba: new Uint8ClampedArray(4), width: 1, height: 1 }),
+    );
+
+    expect(result.every(({ status }) => status !== "not-sampled")).toBe(true);
+    expect(unsampled.map(({ status }) => status)).toEqual([
+      "not-sampled",
+      "not-sampled",
+      "not-sampled",
+    ]);
+    expect(unsampled[0]).not.toHaveProperty("approximateAffectedPercent");
+    expect(unsampled[0]).not.toHaveProperty("approximateAffectedSquareMetres");
+  });
+
+  it("reports a parcel with no usable outline as not evaluated, not as a miss", async () => {
+    const result = await fetchCoastalFloodEvidence([], 800, undefined, async () => {
+      throw new Error("no scenario should be requested without an outline");
+    });
+
+    expect(result.map(({ scenario, status }) => ({ scenario, status }))).toEqual([
+      { scenario: "current", status: "geometry-unavailable" },
+      { scenario: "2050", status: "geometry-unavailable" },
+      { scenario: "2100", status: "geometry-unavailable" },
+    ]);
+    expect(result[0]).not.toHaveProperty("approximateAffectedPercent");
+  });
 });

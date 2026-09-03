@@ -245,7 +245,7 @@ describe("parcel evidence note", () => {
 
     expect(note.markdown).toContain("PVSC assessment source unavailable at export time.");
     expect(note.markdown).toContain(
-      "Dwelling records were not looked up because no PVSC assessment account could be resolved.",
+      "Dwelling records were not looked up because the PVSC assessment account lookup was unavailable.",
     );
   });
 
@@ -353,6 +353,59 @@ describe("parcel evidence note", () => {
     expect(note.markdown).toContain("[16 Centre St, Reserve Mines](https://example.com/civic)");
     expect(note.markdown).toContain(
       "One more mapped point here could not be read, so it is not listed.",
+    );
+  });
+
+  // Three different reasons the dwelling dataset went unasked. Each names its
+  // own cause; none of them says the dataset answered.
+  it("says no account was matched rather than reporting an empty dwelling answer", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "ready", points: [], unreadableRows: 0 },
+      assessmentEvidence: {
+        status: "ready",
+        result: { matchMethod: "spatial", accounts: [] },
+      },
+      dwellingEvidence: { status: "no-account" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+    );
+    expect(note.markdown).not.toContain(
+      "No residential dwelling record was returned for the matched assessment accounts.",
+    );
+  });
+
+  it("does not blame a source outage when the parcel had no geometry to match an account with", () => {
+    const note = buildEvidenceNote({
+      generatedAt: new Date("2026-07-20T14:05:06.000Z"),
+      pid: "15234636",
+      taxSaleEnabled: true,
+      mode: "current",
+      shareUrl: "https://example.com/map/?pid=15234636",
+      position: { latitude: 46.18845, longitude: -60.02123, zoom: 15 },
+      activeLayers: [],
+      events: [],
+      civicAddresses: { status: "geometry-unavailable" },
+      assessmentEvidence: { status: "geometry-unavailable" },
+      dwellingEvidence: { status: "geometry-unavailable" },
+      resourceResults: [],
+    });
+
+    expect(note.markdown).toContain(
+      "Not evaluated — this PID's NSPRD geometry is unavailable, so no assessment account could be matched and the dwelling dataset was not asked.",
+    );
+    expect(note.markdown).not.toContain(
+      "Dwelling records were not looked up because the PVSC assessment account lookup was unavailable.",
     );
   });
 });

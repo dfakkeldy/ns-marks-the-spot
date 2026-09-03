@@ -44,7 +44,11 @@ type AssessmentEvidence =
 type DwellingEvidence =
   | { status: "ready"; accounts: PvscDwellingAccount[] }
   | { status: "error" }
-  | { status: "blocked" };
+  | { status: "blocked" }
+  // No account to ask with, and no NSPRD outline to match one: neither is the
+  // dwelling dataset answering, and neither is a source outage.
+  | { status: "no-account" }
+  | { status: "geometry-unavailable" };
 
 type CivicEvidence =
   | {
@@ -192,7 +196,17 @@ function dwellingLines(evidence: DwellingEvidence): string[] {
   }
   if (evidence.status === "blocked") {
     return [
-      "Dwelling records were not looked up because no PVSC assessment account could be resolved.",
+      "Dwelling records were not looked up because the PVSC assessment account lookup was unavailable.",
+    ];
+  }
+  if (evidence.status === "no-account") {
+    return [
+      "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+    ];
+  }
+  if (evidence.status === "geometry-unavailable") {
+    return [
+      "Not evaluated — this PID's NSPRD geometry is unavailable, so no assessment account could be matched and the dwelling dataset was not asked.",
     ];
   }
   if (evidence.accounts.length === 0) {

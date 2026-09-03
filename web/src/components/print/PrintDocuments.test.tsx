@@ -733,6 +733,57 @@ describe("print documents", () => {
       .toBeInTheDocument();
   });
 
+  // A printed document outlives the session. A parcel that took no sample
+  // must not print a 0% share as though the scenario had been read off it.
+  it("prints an unsampled coastal scenario as nothing measured", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            floodHazard: {
+              status: "ready",
+              value: {
+                river: { status: "outside-published-layer-extents", aep: [] },
+                coastal: [
+                  {
+                    scenario: "2050",
+                    status: "not-sampled",
+                    stormAnnualExceedanceProbabilityPercent: 1,
+                    sampledParcelPixels: 0,
+                  },
+                  {
+                    scenario: "2100",
+                    status: "geometry-unavailable",
+                    stormAnnualExceedanceProbabilityPercent: 1,
+                  },
+                ],
+              },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={[]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    expect(
+      screen.getByText(/2050: this parcel is too small at the sampled resolution/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/2100: not evaluated — this parcel had no usable outline/),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/parcel pixels sampled/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/map pixels intersected this parcel/)).not.toBeInTheDocument();
+  });
+
   it("prints monochrome legend samples and a north indicator", () => {
     render(
       <PrintFieldDocument

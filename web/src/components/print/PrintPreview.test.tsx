@@ -52,7 +52,6 @@ vi.mock("../../services/printQr", () => ({
 const mapPosition = { latitude: 46.35, longitude: -61.15, zoom: 15 };
 
 function capture(pending = false): PrintCapture {
-  const state = pending ? { status: "pending" as const } : { status: "ready" as const, value: [] };
   return {
     token: "capture-1",
     capturedAt: "2026-07-23T13:42:00.000Z",
@@ -86,7 +85,9 @@ function capture(pending = false): PrintCapture {
       buildings: pending ? { status: "pending" } : { status: "ready", value: { count: 0, pointCount: 0, polygonCount: 0 } },
       assessments: pending ? { status: "pending" } : { status: "ready", value: { matchMethod: "spatial", accounts: [] } },
       dwellings: pending ? { status: "pending" } : { status: "ready", value: [] },
-      civicAddresses: state,
+      civicAddresses: pending
+        ? { status: "pending" as const }
+        : { status: "ready" as const, value: { addresses: [], unreadableRows: 0 } },
       mappedContext: pending ? { status: "pending" } : { status: "ready", value: { roads: [], water: [] } },
       floodHazard: pending ? { status: "pending" } : { status: "ready", value: { river: { status: "within-published-layer-extent", aep: [] }, coastal: [] } },
       resources: pending ? { status: "pending" } : {

@@ -590,6 +590,20 @@ function printDwellingStateForRequest(
         "Dwelling lookup was not run because assessment account evidence was unavailable.",
     };
   }
+  if (state.status === "no-account") {
+    return {
+      status: "error",
+      message:
+        "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+    };
+  }
+  if (state.status === "geometry-unavailable") {
+    return {
+      status: "error",
+      message:
+        "Not evaluated — this PID's NSPRD geometry is unavailable, so no assessment account could be matched and the dwelling dataset was not asked.",
+    };
+  }
   if (state.status === "error") {
     return {
       status: "error",
@@ -2189,12 +2203,11 @@ export function App() {
 
   useEffect(() => {
     if (assessmentState.status !== "ready") {
+      // A failed assessment lookup and a missing outline are different
+      // reasons the dwelling dataset went unasked. "blocked" claims a source
+      // outage, which never happened on the geometry path.
       setDwellingState({
-        status:
-          assessmentState.status === "error" ||
-          assessmentState.status === "geometry-unavailable"
-            ? "blocked"
-            : assessmentState.status,
+        status: assessmentState.status === "error" ? "blocked" : assessmentState.status,
         request: assessmentState.request,
       });
       return;
@@ -2203,7 +2216,8 @@ export function App() {
     const request = assessmentState.request;
     const aans = assessmentState.value.accounts.map(({ aan }) => aan);
     if (aans.length === 0) {
-      setDwellingState({ status: "ready", value: [], request });
+      // No account is no question, not a dataset that answered no.
+      setDwellingState({ status: "no-account", request });
       return;
     }
 
@@ -3535,7 +3549,9 @@ export function App() {
         assessmentState.status !== "geometry-unavailable") ||
       (dwellingState.status !== "ready" &&
         dwellingState.status !== "error" &&
-        dwellingState.status !== "blocked")
+        dwellingState.status !== "blocked" &&
+        dwellingState.status !== "no-account" &&
+        dwellingState.status !== "geometry-unavailable")
     ) {
       return;
     }
@@ -3685,7 +3701,11 @@ export function App() {
         ? { status: "ready", accounts: dwellingState.value }
         : dwellingState.status === "blocked"
           ? { status: "blocked" }
-          : { status: "error" },
+          : dwellingState.status === "no-account"
+            ? { status: "no-account" }
+            : dwellingState.status === "geometry-unavailable"
+              ? { status: "geometry-unavailable" }
+              : { status: "error" },
       resourceResults: resourceLayerCatalog.map((layer) => {
         if (resourceIntersections.status !== "ready") {
           // Terminal but not evaluated: the note records the condition per
@@ -4795,7 +4815,9 @@ export function App() {
                   assessmentState.status === "geometry-unavailable") &&
                 (dwellingState.status === "ready" ||
                   dwellingState.status === "error" ||
-                  dwellingState.status === "blocked")
+                  dwellingState.status === "blocked" ||
+                  dwellingState.status === "no-account" ||
+                  dwellingState.status === "geometry-unavailable")
               }
               now={currentTime}
               onClose={() => {

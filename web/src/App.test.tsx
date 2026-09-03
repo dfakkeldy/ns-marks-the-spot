@@ -4306,6 +4306,45 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
   });
 
+  // With no account there is no question to put to the dwelling dataset. The
+  // old code answered as though the dataset had been asked and said no.
+  it("does not present an unasked dwelling dataset as an empty answer", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50319672")],
+    });
+    vi.mocked(fetchParcelAssessments).mockResolvedValueOnce({
+      matchMethod: "spatial",
+      accounts: [],
+    });
+    vi.mocked(fetchDwellingCharacteristics).mockClear();
+    renderAppWithCategoriesOpen();
+
+    await user.type(
+      screen.getByLabelText("Search by PID or civic address"),
+      "50319672",
+    );
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50319672 details",
+    });
+    const dwellingSection = await within(inspector).findByRole("region", {
+      name: "PVSC dwellings",
+    });
+    expect(
+      await within(dwellingSection).findByText(
+        "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(dwellingSection).queryByText(/No residential dwelling record was returned/),
+    ).not.toBeInTheDocument();
+    expect(vi.mocked(fetchDwellingCharacteristics)).not.toHaveBeenCalled();
+  });
+
   it("keeps multiple spatially matched assessment accounts separate", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
@@ -4758,6 +4797,48 @@ describe("NS Marks The Spot Online", () => {
     expect(within(evidence).getByText(/Reproduced and distributed with the permission/)).toBeInTheDocument();
     expect(within(evidence).getByText(/shall not be construed as constituting an endorsement/)).toBeInTheDocument();
     expect(within(evidence).queryByText(/parcel flood probability/i)).not.toBeInTheDocument();
+  });
+
+  // Nothing measured and nothing found are different answers. The old code
+  // reported an unsampled parcel as a scenario miss at 0%.
+  it("separates an unsampled coastal parcel from a scenario that missed it", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [parcelFeature("50334317")],
+    });
+    vi.mocked(fetchParcelFloodHazardEvidence).mockResolvedValueOnce({
+      river: { status: "outside-published-layer-extents", aep: [] },
+      coastal: [
+        { scenario: "current", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
+        { scenario: "2050", status: "not-sampled", stormAnnualExceedanceProbabilityPercent: 1, sampledParcelPixels: 0 },
+        { scenario: "2100", status: "geometry-unavailable", stormAnnualExceedanceProbabilityPercent: 1 },
+      ],
+    });
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50334317");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const evidence = await screen.findByRole("region", { name: "Flood hazard evidence" });
+    expect(
+      within(evidence).getAllByText(
+        /too small at the sampled resolution to read off the scenario map, so nothing was measured/,
+      ),
+    ).toHaveLength(2);
+    expect(
+      within(evidence).getByText(/2100: not evaluated — this parcel has no usable outline/),
+    ).toBeInTheDocument();
+    expect(
+      within(evidence).queryByText(/no mapped pixels intersected this parcel/),
+    ).not.toBeInTheDocument();
+    // The no-hit caveat belongs to a real no-hit row, and there is none here.
+    expect(
+      within(evidence).queryByText(
+        "No intersecting pixels is not proof of no coastal hazard.",
+      ),
+    ).not.toBeInTheDocument();
   });
 
   it("uses bounded mineral empty-result wording", async () => {
@@ -5320,11 +5401,16 @@ describe("NS Marks The Spot Online", () => {
       expect(within(dialog).getAllByText(PROVINCE_ATTRIBUTION).length)
         .toBeGreaterThan(0),
     );
+    // No assessment account was matched, so the dwelling dataset was never
+    // asked. Printing "0 accounts captured" claimed a capture that never ran.
     expect(
       await within(dialog).findByText(
-        "Dwelling characteristics: 0 accounts captured",
+        "No PVSC assessment account was matched to this parcel, so the dwelling dataset could not be asked about it.",
       ),
     ).toBeInTheDocument();
+    expect(
+      within(dialog).queryByText("Dwelling characteristics: 0 accounts captured"),
+    ).not.toBeInTheDocument();
     expect(within(dialog).queryByText("Your location is shown on the map.")).not.toBeInTheDocument();
     expect(within(dialog).queryByText("46.25,-61.25,13")).not.toBeInTheDocument();
 

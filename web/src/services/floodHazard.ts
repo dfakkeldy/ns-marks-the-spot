@@ -49,6 +49,25 @@ export type CoastalFloodEvidence =
       approximateAffectedSquareMetres: number | null;
       sampledParcelPixels: number;
     }
+  /**
+   * The scenario raster came back, but no pixel centre landed inside the
+   * parcel outline, so nothing was measured. It carries no percent and no
+   * area: reporting 0% would turn a failure to sample into a finding that the
+   * scenario misses the lot. iOS keeps the same state
+   * (`CoastalFloodEvidence.Summary.wasSampled`).
+   */
+  | {
+      scenario: CoastalScenario;
+      status: "not-sampled";
+      stormAnnualExceedanceProbabilityPercent: 1;
+      sampledParcelPixels: 0;
+    }
+  /** No usable outline to sample against, so no scenario was asked at all. */
+  | {
+      scenario: CoastalScenario;
+      status: "geometry-unavailable";
+      stormAnnualExceedanceProbabilityPercent: 1;
+    }
   | {
       scenario: CoastalScenario;
       status: "error";
@@ -318,13 +337,12 @@ export async function fetchCoastalFloodEvidence(
 ): Promise<CoastalFloodEvidence[]> {
   const bounds = boundsForFeatures(features);
   if (!bounds) {
+    // Nothing was asked of the province here. Answering "no-intersection"
+    // reported a screen that never ran as a scenario that misses the parcel.
     return coastalScenarios.map(({ scenario }) => ({
       scenario,
-      status: "no-intersection",
+      status: "geometry-unavailable",
       stormAnnualExceedanceProbabilityPercent: 1,
-      approximateAffectedPercent: 0,
-      approximateAffectedSquareMetres: mappedAreaSquareMetres === null ? null : 0,
-      sampledParcelPixels: 0,
     }));
   }
   const width = 384;
@@ -356,6 +374,14 @@ export async function fetchCoastalFloodEvidence(
           features,
           mappedAreaSquareMetres,
         });
+        if (summary.sampledParcelPixels === 0) {
+          return {
+            scenario,
+            status: "not-sampled",
+            stormAnnualExceedanceProbabilityPercent: 1,
+            sampledParcelPixels: 0,
+          };
+        }
         return {
           scenario,
           status: summary.floodedParcelPixels > 0 ? "intersects" : "no-intersection",
