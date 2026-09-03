@@ -5522,6 +5522,10 @@ describe("NS Marks The Spot Online", () => {
     expect(
       (await within(inspector).findAllByText(GEOMETRY_UNAVAILABLE_MESSAGE)).length,
     ).toBeGreaterThan(0);
+    // And nothing unusable reaches the map: L.geoJSON reads coordinates.length
+    // and would throw on either of these, taking the map down before the panel
+    // could say the geometry was unusable.
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("geometry count: 0");
   });
 
   it("keeps the two-source empty sentence when both sources answered", async () => {

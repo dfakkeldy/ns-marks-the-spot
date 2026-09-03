@@ -2178,6 +2178,24 @@ export function App() {
     return next;
   }, [parcels, selectedPid]);
 
+  /**
+   * The parcels with a polygon to draw, which is also the set that can be
+   * asked about.
+   *
+   * `parcels` keeps every feature NSPRD answered with, because the terminal
+   * geometry-unavailable decision below has to know the PID was answered for
+   * at all. What reaches Leaflet and the print map is this: `L.geoJSON` reads
+   * `coordinates.length` and throws on a null geometry, taking the map down
+   * before the panel could say the geometry was unusable.
+   */
+  const drawableParcels = useMemo(
+    () => ({
+      type: "FeatureCollection" as const,
+      features: parcels.features.filter(hasQueryablePolygon),
+    }),
+    [parcels],
+  );
+
   // NSPRD answered for the PID, but with nothing this build can query
   // against. Every evidence effect below bails on an empty feature list, so
   // without this the panel would sit on "Checking…" for a condition already
@@ -3624,7 +3642,7 @@ export function App() {
       eventIds: printEventIds,
       events: printEvents,
       selectedParcelGeometry,
-      mapParcels: parcels,
+      mapParcels: drawableParcels,
       taxSalePids: Array.from(effectiveTaxSalePids),
       historicalTaxSalePids: Array.from(effectiveHistoricalTaxSalePids),
       viewport: mapViewport,
@@ -4842,7 +4860,7 @@ export function App() {
             </button>
           </div>
           <MapCanvas
-            parcels={parcels}
+            parcels={drawableParcels}
             taxSalePids={effectiveTaxSalePids}
             historicalTaxSalePids={effectiveHistoricalTaxSalePids}
             selectedPid={selectedPid}

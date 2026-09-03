@@ -447,6 +447,50 @@ describe("Nova Scotia Civic Address File lookup", () => {
     expect(reading.unreadableRows).toBe(1);
   });
 
+  // Two identical rows the file really sent are two rows; the same row echoed
+  // by two overlapping part queries is one. A flat set across replies would
+  // swallow the first case, and summing would inflate the second.
+  it("counts a repeated unreadable row once per reply that carried it", async () => {
+    const unreadable = civicPoint("", [0.5, 0.5]);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => geoJsonResponse([unreadable, unreadable])),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "MultiPolygon",
+        coordinates: [
+          [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+          [[[0.1, 0.1], [2.1, 0.1], [0.1, 2.1], [0.1, 0.1]]],
+        ],
+      }),
+    ]);
+
+    expect(reading.unreadableRows).toBe(2);
+  });
+
+  // One malformed row is not a source outage, and it must not take the
+  // readable addresses in the same reply with it.
+  it("reads the rest of a reply that carries a malformed row", async () => {
+    const malformed = civicPoint("bad", [0.5, 0.5]);
+    (malformed.geometry as unknown as { coordinates: unknown }).coordinates = 5;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => geoJsonResponse([civicPoint("100", [0.5, 0.5]), malformed])),
+    );
+
+    const reading = await fetchCivicAddresses([
+      parcelFeature({
+        type: "Polygon",
+        coordinates: [[[0, 0], [2, 0], [0, 2], [0, 0]]],
+      }),
+    ]);
+
+    expect(reading.addresses.map(({ pntid }) => pntid)).toEqual(["100"]);
+    expect(reading.unreadableRows).toBe(1);
+  });
+
   it("does not report an empty answer for a parcel it cannot query inside", async () => {
     vi.stubGlobal("fetch", vi.fn());
 

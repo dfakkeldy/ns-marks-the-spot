@@ -388,8 +388,19 @@ function pointInPolygonPart(
 }
 
 function pointCoordinates(feature: CivicPointFeature): PointCoordinates | null {
-  const [longitude, latitude] = feature.geometry?.coordinates ?? [];
-  return Number.isFinite(longitude) && Number.isFinite(latitude)
+  // Read through `unknown`: the declared type says what a placed point may be
+  // assumed to carry, and nothing validates the wire against it. A row whose
+  // "coordinates" is a number destructured to a TypeError, which rejected the
+  // whole request — one unreadable row reported as a source outage, taking
+  // every readable address in the same reply with it.
+  const coordinates = (feature.geometry as { coordinates?: unknown } | null)
+    ?.coordinates;
+  if (!Array.isArray(coordinates)) return null;
+  const [longitude, latitude] = coordinates as unknown[];
+  return typeof longitude === "number" &&
+    typeof latitude === "number" &&
+    Number.isFinite(longitude) &&
+    Number.isFinite(latitude)
     ? [longitude, latitude]
     : null;
 }
@@ -397,6 +408,9 @@ function pointCoordinates(feature: CivicPointFeature): PointCoordinates | null {
 function civicAddressForFeature(
   feature: CivicPointFeature,
 ): CivicAddress | null {
+  if (typeof feature.properties !== "object" || feature.properties === null) {
+    return null;
+  }
   const pntid = cleanComponent(feature.properties.pntid);
   const coordinates = pointCoordinates(feature);
   if (!pntid || !coordinates) {
@@ -565,51 +579,61 @@ export async function fetchCivicAddresses(
     throw new CivicAddressGeometryError();
   }
 
-  const candidates = (
-    await Promise.all(bounds.map((partBounds) => fetchCandidates(partBounds, signal)))
-  ).flat();
+  const perPart = await Promise.all(
+    bounds.map((partBounds) => fetchCandidates(partBounds, signal)),
+  );
   const addresses = new Map<string, CivicAddress>();
-  // A parcel of several parts is asked once per part, and their boxes can
-  // overlap, so one source row can come back more than once. Readable rows
-  // deduplicate on pntid; an unreadable row has no identity to key on, so it
-  // is keyed on the row itself. Counting the same bad row twice would report
-  // two mapped points where the file sent one.
-  const countedUnreadable = new Set<string>();
   // Counted apart from the rows dropped for falling outside the boundary or
   // for repeating a pntid. Those two are answers about this parcel; this is a
   // row the file sent that the browser could not read, and it has no pntid to
   // deduplicate on — nor, in the worst case, a coordinate to place it by.
-  let unreadableRows = 0;
+  //
+  // A parcel of several parts is asked once per part, and their boxes can
+  // overlap, so the same source row can come back in more than one reply. The
+  // count is the largest number of times a row appeared in ANY ONE reply:
+  // two identical rows the file really sent count twice, while one row echoed
+  // by two overlapping queries counts once. Summing would inflate the
+  // shortfall; a flat set across replies would swallow a genuine duplicate.
+  const unreadableByRow = new Map<string, number>();
 
-  for (const feature of candidates) {
-    // Containment is tested before readability, on the coordinate alone. A row
-    // the browser can place outside the parcel is an answer about somewhere
-    // else in the bounding box, and counting it would report a shortfall here
-    // that the file never had. A row whose coordinate cannot be read is still
-    // counted: it came back for this parcel's box and there is no way to say
-    // it is not inside.
-    const coordinates = pointCoordinates(feature);
-    if (
-      coordinates &&
-      !polygonParts.some((part) => pointInPolygonPart(coordinates, part))
-    ) {
-      continue;
-    }
-    const address = civicAddressForFeature(feature);
-    if (!address) {
-      const key = JSON.stringify(feature);
-      if (!countedUnreadable.has(key)) {
-        countedUnreadable.add(key);
-        unreadableRows += 1;
+  for (const candidates of perPart) {
+    const inThisPart = new Map<string, number>();
+    for (const feature of candidates) {
+      // Containment is tested before readability, on the coordinate alone. A
+      // row the browser can place outside the parcel is an answer about
+      // somewhere else in the bounding box, and counting it would report a
+      // shortfall here that the file never had. A row whose coordinate cannot
+      // be read is still counted: it came back for this parcel's box and
+      // there is no way to say it is not inside.
+      const coordinates = pointCoordinates(feature);
+      if (
+        coordinates &&
+        !polygonParts.some((part) => pointInPolygonPart(coordinates, part))
+      ) {
+        continue;
       }
-      continue;
-    }
-    if (addresses.has(address.pntid)) {
-      continue;
-    }
+      const address = civicAddressForFeature(feature);
+      if (!address) {
+        const key = JSON.stringify(feature);
+        inThisPart.set(key, (inThisPart.get(key) ?? 0) + 1);
+        continue;
+      }
+      if (addresses.has(address.pntid)) {
+        continue;
+      }
 
-    addresses.set(address.pntid, address);
+      addresses.set(address.pntid, address);
+    }
+    for (const [key, count] of inThisPart) {
+      unreadableByRow.set(key, Math.max(unreadableByRow.get(key) ?? 0, count));
+    }
   }
 
-  return { addresses: [...addresses.values()], unreadableRows };
+  return {
+    addresses: [...addresses.values()],
+    unreadableRows: [...unreadableByRow.values()].reduce(
+      (total, count) => total + count,
+      0,
+    ),
+  };
 }
