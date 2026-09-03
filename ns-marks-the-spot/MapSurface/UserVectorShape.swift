@@ -10,6 +10,9 @@ import UIKit
 nonisolated struct UserVectorDrawing: Identifiable, Equatable, Sendable {
     var record: UserVectorLayerRecord
     var parsed: ParsedVector
+    /// The feature to draw with the just-committed halo, if any. Part of the
+    /// drawing so the map's own diff sees it come and go.
+    var highlightedFeatureID: String? = nil
 
     var id: String { record.id }
 
@@ -90,7 +93,10 @@ nonisolated struct UserVectorDrawing: Identifiable, Equatable, Sendable {
                     position: position,
                     feature: feature,
                     record: record,
-                    style: VectorStyle.style(for: feature, layerColorHex: record.colorHex)
+                    style: VectorStyle.style(for: feature, layerColorHex: record.colorHex),
+                    pointStyle: VectorStyle.pointStyle(for: feature, layerColorHex: record.colorHex),
+                    hasPhotos: !PhotoDescriptor.read(from: feature.properties).isEmpty,
+                    isHighlighted: feature.id != nil && feature.id == highlightedFeatureID
                 )
             }
         }
@@ -418,17 +424,31 @@ nonisolated final class UserVectorAnnotation: MKPointAnnotation, MapKitAnnotatio
     let mapAnnotationID: String
     let layerID: String
     let style: UserVectorStyle
+    /// How the marker is drawn: solid by default, the file's own look when
+    /// it gave one.
+    let pointStyle: VectorStyle.PointStyle
     let provenance: String
     /// Set for photo-map / bulk-photo points so MapKit clusters them.
     let clusteringIdentifier: String?
+    /// The point carries photos, and its marker says so.
+    let hasPhotos: Bool
+    /// Just committed: drawn with a halo for a moment.
+    let isHighlighted: Bool
 
     init(
         position: GeoJsonPosition,
         feature: GeoJsonFeature,
         record: UserVectorLayerRecord,
-        style: UserVectorStyle
+        style: UserVectorStyle,
+        pointStyle: VectorStyle.PointStyle? = nil,
+        hasPhotos: Bool = false,
+        isHighlighted: Bool = false
     ) {
         layerID = record.id
+        self.pointStyle = pointStyle
+            ?? VectorStyle.PointStyle(fillHex: style.fillHex, fillOpacity: 1, rimHex: "#ffffff")
+        self.hasPhotos = hasPhotos
+        self.isHighlighted = isHighlighted
         // Layer-qualified: two imported layers can both hold a feature the
         // parser called `feature-1`, and an id that collided would select the
         // wrong one.
@@ -449,27 +469,72 @@ nonisolated final class UserVectorAnnotation: MKPointAnnotation, MapKitAnnotatio
 /// A fixed size in points rather than a circle on the ground: an imported
 /// waypoint is a position, and a circle that grew with the zoom would read as a
 /// measured radius around it that the file never claimed.
+///
+/// Twenty points of solid colour in a white casing, on a 44-point canvas.
+/// The twelve-point ring at a quarter opacity this used to be took the
+/// polygon fill default, and over dark imagery a point vanished the instant
+/// it was deselected. The disc sits centred on the larger canvas so the halo
+/// and the photo badge never move it off its coordinate; the canvas is the
+/// touch target, at the guidelines' minimum.
 nonisolated enum UserVectorMarkerImage {
     private static let cache = MarkerImageCache()
 
-    static func image(for style: UserVectorStyle) -> UIImage {
-        let key = "\(style.fillHex)|\(style.fillOpacity)|\(style.strokeHex)|\(style.strokeOpacity)|\(style.weight)"
-        return cache.image(for: key) { render(style) }
+    static let discDiameter: CGFloat = 20
+    static let canvasSize: CGFloat = 44
+    static let haloDiameter: CGFloat = 34
+
+    static func image(
+        for style: VectorStyle.PointStyle, hasPhotos: Bool = false, isHighlighted: Bool = false
+    ) -> UIImage {
+        let key = "\(style.fillHex)|\(style.fillOpacity)|\(style.rimHex)|\(style.rimOpacity)|\(style.rimWidth)|\(hasPhotos)|\(isHighlighted)"
+        return cache.image(for: key) {
+            render(style, hasPhotos: hasPhotos, isHighlighted: isHighlighted)
+        }
     }
 
-    private static func render(_ style: UserVectorStyle) -> UIImage {
-        let radius: CGFloat = 6
-        let inset = CGFloat(style.weight)
-        let size = CGSize(width: (radius + inset) * 2, height: (radius + inset) * 2)
-        return UIGraphicsImageRenderer(size: size).image { _ in
-            let circle = UIBezierPath(
-                ovalIn: CGRect(x: inset, y: inset, width: radius * 2, height: radius * 2)
-            )
-            UIColor(featureHex: style.fillHex, alpha: style.fillOpacity).setFill()
-            circle.fill()
-            UIColor(featureHex: style.strokeHex, alpha: style.strokeOpacity).setStroke()
-            circle.lineWidth = inset
-            circle.stroke()
+    private static func render(
+        _ style: VectorStyle.PointStyle, hasPhotos: Bool, isHighlighted: Bool
+    ) -> UIImage {
+        let canvas = canvasSize
+        let colour = UIColor(featureHex: style.fillHex, alpha: style.fillOpacity)
+        let discRect = CGRect(
+            x: (canvas - discDiameter) / 2, y: (canvas - discDiameter) / 2,
+            width: discDiameter, height: discDiameter
+        )
+        return UIGraphicsImageRenderer(size: CGSize(width: canvas, height: canvas)).image { _ in
+            if isHighlighted {
+                // The just-committed halo: the layer's colour, translucent.
+                UIColor(featureHex: style.fillHex, alpha: 0.35).setFill()
+                UIBezierPath(
+                    ovalIn: CGRect(
+                        x: (canvas - haloDiameter) / 2, y: (canvas - haloDiameter) / 2,
+                        width: haloDiameter, height: haloDiameter
+                    )
+                ).fill()
+            }
+            // The whole disc is the fill; the rim is a ring stroked over its
+            // edge, its width and opacity the file's when the file gave them.
+            // Over, not instead: a transparent or translucent rim shows the
+            // fill beneath it rather than a hole down to the map.
+            let rim = CGFloat(style.rimWidth)
+            colour.setFill()
+            UIBezierPath(ovalIn: discRect).fill()
+            if rim > 0 {
+                let ring = UIBezierPath(ovalIn: discRect.insetBy(dx: rim / 2, dy: rim / 2))
+                ring.lineWidth = rim
+                UIColor(featureHex: style.rimHex, alpha: style.rimOpacity).setStroke()
+                ring.stroke()
+            }
+            if hasPhotos {
+                // A camera on a white badge at the disc's top right: a point
+                // that carries photos says so before it is tapped.
+                let badge = CGRect(x: discRect.maxX - 8, y: discRect.minY - 4, width: 12, height: 12)
+                UIColor.white.setFill()
+                UIBezierPath(ovalIn: badge).fill()
+                UIImage(systemName: "camera.fill")?
+                    .withTintColor(UIColor(featureHex: style.fillHex), renderingMode: .alwaysOriginal)
+                    .draw(in: badge.insetBy(dx: 2.5, dy: 3))
+            }
         }
     }
 }

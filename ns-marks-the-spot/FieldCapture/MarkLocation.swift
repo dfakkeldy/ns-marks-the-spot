@@ -14,7 +14,10 @@ import Observation
 @Observable
 final class MarkLocation: NSObject {
     enum Outcome: Equatable {
-        case marked(layerName: String, accuracyM: Double)
+        /// `layerShown`: the layer was switched off and the mark switched it
+        /// on. Said, because a success toast over a map with nothing new on
+        /// it read as a mark that was lost.
+        case marked(layerName: String, accuracyM: Double, layerShown: Bool = false)
         case denied
         /// Blocked by Screen Time or a management profile, not refused by
         /// the reader; there is no Settings page that lifts it.
@@ -29,6 +32,10 @@ final class MarkLocation: NSObject {
         /// CoreLocation failed for a reason that is not the sky: a network
         /// error, most often. Going outdoors would not repair it.
         case failed
+        /// An edit session began or ended while the fix was being found, so
+        /// the layer the reader aimed at is not the one that is open now.
+        /// Not saved anywhere rather than redirected.
+        case destinationChanged
         /// A fix was had and the layer refused it. Carries the store's own
         /// words: a full disk or an unreadable layer is not a GPS problem,
         /// and telling the reader to try again outdoors sends them to fix
@@ -37,8 +44,9 @@ final class MarkLocation: NSObject {
 
         var message: String {
             switch self {
-            case .marked(let layerName, let accuracyM):
-                return "Marked in \(layerName) (±\(Int(accuracyM.rounded())) m)"
+            case .marked(let layerName, let accuracyM, let layerShown):
+                let marked = "Point saved to \(layerName) (±\(MarkLocation.accuracyLabel(accuracyM)) m)."
+                return layerShown ? marked + " Layer switched on." : marked
             case .denied:
                 return "Location permission was not granted. You can keep using the map."
             case .restricted:
@@ -62,6 +70,9 @@ final class MarkLocation: NSObject {
                 return "Your location couldn't be found. Try again outdoors."
             case .failed:
                 return "Your location couldn't be determined. Try again in a moment."
+            case .destinationChanged:
+                return "The layer being edited changed while your position was being found. "
+                    + "The mark was not saved; mark again."
             case .storageFailed(let reason):
                 return reason
             }

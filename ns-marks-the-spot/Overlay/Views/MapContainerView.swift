@@ -27,10 +27,16 @@ struct MapContainerView: View {
     @State private var editSession: VectorEditSession?
     /// Which mark toast is up, so only its own timer takes it down.
     @State private var markOutcomeGeneration = 0
+    /// Counts Edit taps on layers still loading, so a load that returns
+    /// after a newer tap does not open a session over the newer one.
+    @State private var editLoadGeneration = 0
     @State private var parcelSnapTask: Task<Void, Never>?
     /// The recording HUD's measured height while it is up, so the notice
     /// stack sits below it rather than under it.
     @State private var hudHeight: CGFloat = 0
+    /// Counts parcel-snap refreshes, so a fetch overtaken by a later one
+    /// cannot write its answer, or its failure, over the current viewport's.
+    @State private var parcelSnapGeneration = 0
     @State private var vectorCallout: UserVectorCalloutItem?
     /// The GPS track recorder. Foreground-only; owns its own location
     /// manager so recording works without the map's location dot.
@@ -482,6 +488,8 @@ struct MapContainerView: View {
         .overlay(alignment: .bottom) {
             if let editSession {
                 VectorEditPanel(session: editSession) {
+                    // Done outranks any Edit tap still loading its layer.
+                    editLoadGeneration += 1
                     Task {
                         // Only closed once the last edit is on disk. A session
                         // dismissed over a failed write would take the only
@@ -742,11 +750,21 @@ struct MapContainerView: View {
             userVectors: userVectorsVM,
             onZoomToLayer: { controller.frame($0) },
             onEditLayer: { row in
-                beginEditing(row)
+                requestEdit(row)
             },
             onNewDrawingLayer: {
+                // An intent like any other Edit tap: a newer intent, or a
+                // session begun meanwhile, outranks the layer when it arrives.
+                editLoadGeneration += 1
+                let mine = editLoadGeneration
                 Task {
                     guard let row = await userVectorsVM.newDrawingLayer() else {
+                        return
+                    }
+                    guard mine == editLoadGeneration, editSession == nil else {
+                        // Overtaken: the empty layer it made is not left in
+                        // the list for the reader to wonder about.
+                        await userVectorsVM.delete(id: row.id)
                         return
                     }
                     beginEditing(row)
@@ -816,13 +834,37 @@ struct MapContainerView: View {
                 .disabled(isSelectingSaveArea)
 
                 Button {
-                    Task { await markMyLocation() }
+                    // Registered with the session on the tap itself, before
+                    // the task that finds the fix has run: a scene change
+                    // between the two would otherwise drain nothing and let
+                    // the mark run unowned while the app is away.
+                    let destination = editSession
+                    let operation = destination?.beginOperation()
+                    // And, session or not, the mark holds a background
+                    // assertion from the tap: a fix can take ten seconds, and
+                    // a Field-notes write put away with the app was lost.
+                    let application = UIApplication.shared
+                    final class TokenBox: @unchecked Sendable { var value = UIBackgroundTaskIdentifier.invalid }
+                    let box = TokenBox()
+                    box.value = application.beginBackgroundTask(withName: "mark-my-location") {
+                        application.endBackgroundTask(box.value)
+                        box.value = .invalid
+                    }
+                    Task {
+                        await markMyLocation(destination: destination, operation: operation)
+                        if box.value != .invalid {
+                            application.endBackgroundTask(box.value)
+                            box.value = .invalid
+                        }
+                    }
                 } label: {
                     MapControlIcon(systemName: "mappin.and.ellipse")
                 }
                 .accessibilityLabel("Mark My Location")
                 .accessibilityIdentifier("mark-my-location")
-                .disabled(isSelectingSaveArea || markLocation.isAcquiring)
+                // Off while Done is saving: the session takes no mark then,
+                // and "the layer changed" would not be what happened.
+                .disabled(isSelectingSaveArea || markLocation.isAcquiring || editSession?.isEnding == true)
 
                 Button {
                     controller.showsUserLocation = true
@@ -962,7 +1004,10 @@ struct MapContainerView: View {
                     )
                 }
                 .accessibilityLabel("Toggle Layers Menu")
-                .disabled(isSelectingSaveArea)
+                // Not while editing, as the measure buttons are not: the
+                // panel's first map tap closes it instead of drawing, and its
+                // Edit rows would end the session under the reader's feet.
+                .disabled(isSelectingSaveArea || editSession != nil)
             }
             .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
                 controlsHeight = height
@@ -1141,6 +1186,8 @@ struct MapContainerView: View {
                             // While editing, a tap belongs to the layer being
                             // edited: identifying a parcel under the shape the user
                             // is tracing would open a panel over their own work.
+                            // While the session is ending, it belongs to nobody.
+                            guard !editSession.isEnding else { break }
                             handleEditTap(
                                 session: editSession, latitude: latitude, longitude: longitude
                             )
@@ -1210,7 +1257,7 @@ struct MapContainerView: View {
     // solve in reasonable time, so the modifiers are grouped into wiring
     // functions of a size it can.
     var body: some View {
-        sceneWiring(editWiring(contentWiring(surfaceAndSheets)))
+        sceneWiring(editWiring(snapWiring(contentWiring(surfaceAndSheets))))
     }
 
     private func contentWiring(_ content: some View) -> some View {
@@ -1262,6 +1309,34 @@ struct MapContainerView: View {
             }
     }
 
+
+    /// The snapping observers, apart from the rest so the type checker can
+    /// take each chain in reasonable time.
+    private func snapWiring(_ content: some View) -> some View {
+        content
+            .onChange(of: editSession?.snapParcels) { _, armed in
+                // The one moment the licence sheet may be raised: the user
+                // just threw the parcel switch.
+                refreshParcelSnap(promptLicence: armed == true)
+            }
+            .onChange(of: editSession?.snapEnabled) { _, _ in
+                refreshParcelSnap()
+            }
+            // Both ways: withdrawing the licence must drop the parcel targets
+            // as surely as accepting it mounts them.
+            .onChange(of: overlayVM.hasAcceptedProvinceLicence) { _, _ in
+                refreshParcelSnap()
+            }
+            // The sheet closed without acceptance: the switch goes back to
+            // off, as the web's does, rather than reading On for a capability
+            // that is blocked.
+            .onChange(of: overlayVM.isShowingLicenceSheet) { _, showing in
+                if !showing, !overlayVM.hasAcceptedProvinceLicence, editSession?.snapParcels == true {
+                    editSession?.snapParcels = false
+                }
+            }
+    }
+
     private func editWiring(_ content: some View) -> some View {
         content
             // An import brings the map to what was imported, the way the
@@ -1271,17 +1346,6 @@ struct MapContainerView: View {
                 if let box = userVectorsVM.takePendingFit() {
                     controller.frame(box)
                 }
-            }
-            .onChange(of: editSession?.snapParcels) { _, armed in
-                // The one moment the licence sheet may be raised: the user
-                // just threw the parcel switch.
-                refreshParcelSnap(promptLicence: armed == true)
-            }
-            .onChange(of: editSession?.snapEnabled) { _, _ in
-                refreshParcelSnap()
-            }
-            .onChange(of: overlayVM.hasAcceptedProvinceLicence) { _, accepted in
-                if accepted { refreshParcelSnap() }
             }
             // The same journey for a raster that arrived already placed, or
             // whose PDF frame the reader has just changed.
@@ -1309,6 +1373,10 @@ struct MapContainerView: View {
             .onChange(of: editSession?.draft) { _, _ in
                 pushDraftPreview()
             }
+            // The just-committed halo coming on and, a moment later, off.
+            .onChange(of: editSession?.recentlyCommittedFeatureID) { _, _ in
+                pushUserVectors()
+            }
             // The connect-the-dots order, drawn while the convert section is
             // open so the stored order is seen before it is committed.
             .onChange(of: editSession?.isPreviewingConversion) { _, _ in
@@ -1333,6 +1401,9 @@ struct MapContainerView: View {
                 // nobody walked.
                 recorder.scenePhaseChanged(isActive: newPhase == .active)
                 if newPhase == .active {
+                    // The session takes work again only once the scene is
+                    // back, not when its suspension flush returns.
+                    editSession?.endSuspension()
                     refreshPhotoMapAfterReturning()
                     // A refusal notice may describe a cause changed in
                     // Settings while the app was away.
@@ -1348,16 +1419,21 @@ struct MapContainerView: View {
                     overlayVM.rememberSession()
                     // The debounce cannot outlive the app. A pending edit that was
                     // still waiting for its timer when the user switched away would
-                    // never be written at all.
+                    // never be written at all. A draft is finished only on the
+                    // way to the background: `.inactive` is Control Center or
+                    // an incoming call, and a line the reader was still drawing
+                    // must not be committed under them for that.
                     if let editSession {
-                        flushProtectedFromSuspension(editSession)
+                        flushProtectedFromSuspension(
+                            editSession, settlingDraft: newPhase == .background
+                        )
                     }
                 }
             }
             .onDisappear {
                 cancelBoundsSelection()
                 if let editSession {
-                    flushProtectedFromSuspension(editSession)
+                    flushProtectedFromSuspension(editSession, settlingDraft: true)
                 }
             }
     }
@@ -1408,7 +1484,39 @@ struct MapContainerView: View {
     /// the flush exists to prevent. The assertion keeps the process alive
     /// until the write lands (or the system calls time, which is minutes —
     /// this write is milliseconds).
-    private func flushProtectedFromSuspension(_ session: VectorEditSession) {
+    /// What the parcel-snap fetch came to, in words that keep an empty answer
+    /// apart from parcels that came back without a readable boundary: a
+    /// boundary the service did not supply, or one this app could not read,
+    /// is not "no parcels here".
+    static func parcelSnapNote(
+        shapes: Int, notSupplied: Int, unreadable: Int, unidentified: Int = 0
+    ) -> String? {
+        var parts: [String] = []
+        if unidentified > 0 {
+            parts.append("\(unidentified) parcel result\(unidentified == 1 ? "" : "s") could not be identified")
+        }
+        if notSupplied > 0 {
+            parts.append("\(notSupplied) parcel\(notSupplied == 1 ? "" : "s") returned without a boundary")
+        }
+        if unreadable > 0 {
+            parts.append("\(unreadable) parcel boundar\(unreadable == 1 ? "y" : "ies") could not be read")
+        }
+        if shapes == 0 {
+            if parts.isEmpty { return "0 parcels snappable in this view." }
+            return parts.joined(separator: "; ") + "; nothing here to snap to."
+        }
+        return parts.isEmpty ? nil : parts.joined(separator: "; ") + "."
+    }
+
+    private func flushProtectedFromSuspension(_ session: VectorEditSession, settlingDraft: Bool) {
+        // Closed now, synchronously: a task the last tap started has not run
+        // yet, and must find the gate shut when it does.
+        session.beginSuspension()
+        // A draft that is already a shape is committed before the flush when
+        // the app is being put away: the flush writes only what was
+        // committed, and a line placed and left unfinished was gone if iOS
+        // ended the process. A partial draft stays a draft; nobody can be
+        // asked.
         let application = UIApplication.shared
         final class TokenBox: @unchecked Sendable { var value = UIBackgroundTaskIdentifier.invalid }
         let box = TokenBox()
@@ -1417,7 +1525,11 @@ struct MapContainerView: View {
             box.value = .invalid
         }
         Task {
-            await session.flush()
+            // Everything Done would wait for — attachments, operations, the
+            // flush, a hidden layer switched on — under the one assertion, so
+            // a photo accepted a moment before the app was put away is not
+            // lost with the process.
+            await session.prepareForSuspension(settlingDraft: settlingDraft)
             if box.value != .invalid {
                 application.endBackgroundTask(box.value)
                 box.value = .invalid
@@ -1482,7 +1594,8 @@ struct MapContainerView: View {
     private func pushUserVectors() {
         var drawings = userVectorsVM.drawings
         if let session = editSession, let record = session.record, let parsed = session.parsed {
-            let live = UserVectorDrawing(record: record, parsed: parsed)
+            var live = UserVectorDrawing(record: record, parsed: parsed)
+            live.highlightedFeatureID = session.recentlyCommittedFeatureID
             if let index = drawings.firstIndex(where: { $0.id == record.id }) {
                 drawings[index] = live
             } else {
@@ -1537,8 +1650,10 @@ struct MapContainerView: View {
     /// Faint parcel rings currently armed for snapping. Not a stored layer,
     /// not hit-tested, cleared when parcels are disarmed.
     private func parcelSnapDrawing() -> UserVectorDrawing? {
+        // Not drawn without the licence, whatever the rings still hold: the
+        // faint boundaries are restricted data too.
         guard let session = editSession, session.snapEnabled, session.snapParcels,
-              !session.parcelSnapRings.isEmpty
+              overlayVM.hasAcceptedProvinceLicence, !session.parcelSnapRings.isEmpty
         else { return nil }
         let epoch = Date(timeIntervalSince1970: 0)
         let record = UserVectorLayerRecord(
@@ -1577,8 +1692,13 @@ struct MapContainerView: View {
         if session.snapOwnFeatures, let parsed = session.parsed {
             for feature in parsed.features
             where excludingFeatureID == nil || feature.id != excludingFeatureID {
-                if let geometry = feature.geometry {
-                    targets.append(.ownFeature(geometry))
+                // With the Point tool armed, the layer's own points are not
+                // targets: a new point snapped onto one was an invisible
+                // duplicate at the same coordinate.
+                if let geometry = feature.geometry,
+                   let target = VectorEditSession.snapTargetGeometry(geometry, tool: session.tool)
+                {
+                    targets.append(.ownFeature(target))
                 }
             }
             if let draft = session.draft, draft.vertices.count >= 1 {
@@ -1594,7 +1714,9 @@ struct MapContainerView: View {
                 )
             }
         }
-        if session.snapParcels {
+        // Checked at the tap as well as at the mount: targets fetched under a
+        // licence since withdrawn are not offered.
+        if session.snapParcels, overlayVM.hasAcceptedProvinceLicence {
             targets.append(contentsOf: session.parcelSnapTargets)
         }
         let metresPerPoint = controller.groundMetresPerPoint() ?? 1
@@ -1607,17 +1729,17 @@ struct MapContainerView: View {
     /// it again on every region settle would re-present a sheet the user
     /// swiped away to think about.
     private func refreshParcelSnap(promptLicence: Bool = false) {
+        // Whatever the early exit below, a fetch still in flight must not
+        // land afterwards: it was made under a licence or a setting that
+        // this refresh is here to withdraw.
+        parcelSnapTask?.cancel()
+        parcelSnapTask = nil
+        parcelSnapGeneration += 1
+        let generation = parcelSnapGeneration
         guard let session = editSession, session.snapEnabled, session.snapParcels else {
             editSession?.parcelSnapTargets = []
             editSession?.parcelSnapRings = []
             editSession?.parcelSnapNote = nil
-            pushUserVectors()
-            return
-        }
-        if controller.zoomLevel < CaptureSpec.Snap.minZoom {
-            session.parcelSnapTargets = []
-            session.parcelSnapRings = []
-            session.parcelSnapNote = "Zoom in to snap to parcels."
             pushUserVectors()
             return
         }
@@ -1631,20 +1753,35 @@ struct MapContainerView: View {
             pushUserVectors()
             return
         }
+        // The licence first, then the zoom: the reader asked for restricted
+        // data, and the answer to that is the gate, not "zoom in".
+        if controller.zoomLevel < CaptureSpec.Snap.minZoom {
+            session.parcelSnapTargets = []
+            session.parcelSnapRings = []
+            session.parcelSnapNote = "Zoom in to snap to parcels."
+            pushUserVectors()
+            return
+        }
         guard let bounds = controller.currentVisibleBounds() else { return }
         let box = GeoBoundingBox(
             south: bounds.minLatitude, west: bounds.minLongitude,
             north: bounds.maxLatitude, east: bounds.maxLongitude
         )
         session.parcelSnapNote = nil
-        parcelSnapTask?.cancel()
         parcelSnapTask = Task {
             let clearance = overlayVM.clearanceBox.clearance
             do {
                 let collection = try await ParcelFetcher().parcels(in: box, clearance: clearance)
-                guard !Task.isCancelled, let session = editSession else { return }
+                // Re-checked after the wait, not only before it: the licence
+                // can be withdrawn, and the toggles thrown, while the request
+                // is out; and a later refresh may have taken over.
+                guard parcelSnapStillWanted(session, generation: generation),
+                      overlayVM.hasAcceptedProvinceLicence
+                else { return }
                 var targets: [SnapEngine.Target] = []
                 var rings: [[[GeoJsonPosition]]] = []
+                var notSupplied = 0
+                var unreadable = 0
                 for feature in collection.identifiedFeatures {
                     switch feature.boundary {
                     case .shape(let parts):
@@ -1656,17 +1793,23 @@ struct MapContainerView: View {
                                 }
                             )
                         }
-                    case .notSupplied, .unreadable:
-                        continue
+                    case .notSupplied:
+                        notSupplied += 1
+                    case .unreadable:
+                        unreadable += 1
                     }
                 }
                 session.parcelSnapTargets = targets
                 session.parcelSnapRings = rings
-                session.parcelSnapNote =
-                    rings.isEmpty ? "0 parcels snappable in this view." : nil
+                session.parcelSnapNote = Self.parcelSnapNote(
+                    shapes: rings.count, notSupplied: notSupplied, unreadable: unreadable,
+                    unidentified: collection.unidentifiedFeatureCount
+                )
                 pushUserVectors()
             } catch ParcelLookupFailure.tooManyParcels(count: _) {
-                guard let session = editSession else { return }
+                // A failure is as stale as an answer: the dense viewport that
+                // threw this may be two pans behind the one on screen.
+                guard parcelSnapStillWanted(session, generation: generation) else { return }
                 session.parcelSnapTargets = []
                 session.parcelSnapRings = []
                 session.parcelSnapNote = "Too many parcels here, zoom in."
@@ -1674,19 +1817,35 @@ struct MapContainerView: View {
             } catch ParcelLookupFailure.cancelled {
                 return
             } catch ParcelLookupFailure.refused(.licenceNotAccepted) {
-                guard let session = editSession else { return }
+                guard parcelSnapStillWanted(session, generation: generation, requiringLicence: false)
+                else { return }
                 session.parcelSnapTargets = []
                 session.parcelSnapRings = []
                 session.parcelSnapNote = "Accept the Province licence to snap to parcels."
                 pushUserVectors()
             } catch {
-                guard let session = editSession else { return }
+                guard parcelSnapStillWanted(session, generation: generation) else { return }
                 session.parcelSnapTargets = []
                 session.parcelSnapRings = []
                 session.parcelSnapNote = "Parcel boundaries could not be loaded."
                 pushUserVectors()
             }
         }
+    }
+
+    /// Whether a parcel fetch's answer is still for the session and the
+    /// refresh that asked. A fetch cancelled or overtaken by a later refresh
+    /// must not write its rings, or its failure, over the current ones — a
+    /// licence withdrawn while it was out would otherwise be answered with
+    /// "too many parcels".
+    private func parcelSnapStillWanted(
+        _ session: VectorEditSession, generation: Int, requiringLicence: Bool = true
+    ) -> Bool {
+        // The licence too: withdrawn while a fetch was out, its failure must
+        // not be published as "too many parcels" over the blocked state.
+        !Task.isCancelled && generation == parcelSnapGeneration
+            && session === editSession && session.snapEnabled && session.snapParcels
+            && (!requiringLicence || overlayVM.hasAcceptedProvinceLicence)
     }
 
     private func refreshPhotoMap() {
@@ -1795,8 +1954,21 @@ struct MapContainerView: View {
     /// One-tap mark: the recorder's fix when fresh and tight (the contract's
     /// 10 s / 50 m rule), else one requested fix. Marks into the open edit
     /// session, else the "Field notes" layer.
-    private func markMyLocation() async {
+    /// `destination` and `operation` are decided at the tap, not after the
+    /// wait: a session begun or ended while the fix was being found must
+    /// not redirect the mark somewhere the reader did not aim it, and the
+    /// session owns the mark from the tap, so Done and a suspension wait
+    /// for it. A session already closing, or suspended, takes no mark.
+    private func markMyLocation(destination: VectorEditSession?, operation: UUID?) async {
+        // The attempt is counted first: a timer left by the last outcome
+        // must not take this attempt's answer down.
         beginMarkAttempt()
+        if destination != nil, operation == nil {
+            markLocation.report(.destinationChanged)
+            scheduleMarkOutcomeDismissal()
+            return
+        }
+        defer { if let operation { destination?.endOperation(operation) } }
         // The recorder's fix first, then the one behind the map's own blue
         // dot: a position already on screen is used before CoreLocation is
         // asked for another.
@@ -1810,12 +1982,51 @@ struct MapContainerView: View {
             return
         }
         let feature = MarkFeature.buildGpsMarkFeature(fix)
+        guard destination === editSession else {
+            markLocation.report(.destinationChanged)
+            scheduleMarkOutcomeDismissal()
+            return
+        }
         if let session = editSession, session.isEditing {
-            session.appendMark(feature)
+            // Refused once Done has begun: the session is closing, and the
+            // mark would race its final write.
+            guard session.appendMark(feature, holding: operation) else {
+                markLocation.report(.destinationChanged)
+                scheduleMarkOutcomeDismissal()
+                return
+            }
+            // The layer's name is read now, before any wait, so a session
+            // closing meanwhile cannot turn it into "this layer".
+            let layerName = session.record?.name ?? "this layer"
+            // Said only once the mark is on disk: the session's own write is
+            // debounced, and "Marked in" before it lands was a promise.
+            guard await session.flush() else {
+                markLocation.report(
+                    .storageFailed(
+                        session.storageError ?? MarkLocation.storageFallbackMessage
+                    )
+                )
+                scheduleMarkOutcomeDismissal()
+                return
+            }
+            // A mark asks to be seen; a layer switched off is switched on,
+            // and said to be only once the library has it.
+            let layerShown = session.layerIsHidden
+            if layerShown, await !session.showLayer() {
+                markLocation.report(
+                    .storageFailed(
+                        "The mark was saved, but the layer could not be switched on. "
+                            + "Turn it on from Layers."
+                    )
+                )
+                scheduleMarkOutcomeDismissal()
+                return
+            }
             markLocation.report(
                 .marked(
-                    layerName: session.record?.name ?? "this layer",
-                    accuracyM: fix.accuracyM
+                    layerName: layerName,
+                    accuracyM: fix.accuracyM,
+                    layerShown: layerShown
                 )
             )
         } else {
@@ -1834,8 +2045,36 @@ struct MapContainerView: View {
                 scheduleMarkOutcomeDismissal()
                 return
             }
+            // Read again after the write: the reader may have renamed the
+            // layer, switched it off, or deleted it while the append was in
+            // flight. A deleted layer took the mark with it, and Field notes
+            // switched off would be a success toast over a map with no new
+            // pin on it.
+            guard let current = userVectorsVM.rows.first(where: { $0.id == row.id }) else {
+                markLocation.report(
+                    .storageFailed(
+                        "\(row.record.name) was deleted while the mark was being saved, "
+                            + "so the mark was not kept."
+                    )
+                )
+                scheduleMarkOutcomeDismissal()
+                return
+            }
+            let layerShown = !current.isVisible
+            if layerShown, await !userVectorsVM.showLayer(id: row.id) {
+                markLocation.report(
+                    .storageFailed(
+                        "The mark was saved to \(current.record.name), but the layer could not "
+                            + "be switched on. Turn it on from Layers."
+                    )
+                )
+                scheduleMarkOutcomeDismissal()
+                return
+            }
             markLocation.report(
-                .marked(layerName: row.record.name, accuracyM: fix.accuracyM)
+                .marked(
+                    layerName: current.record.name, accuracyM: fix.accuracyM, layerShown: layerShown
+                )
             )
         }
         scheduleMarkOutcomeDismissal()
@@ -1966,17 +2205,30 @@ struct MapContainerView: View {
         )
     }
 
-    private func beginEditing(_ row: UserVectorsViewModel.Row) {
+    /// An Edit tap. Every intent advances the generation, so a layer that
+    /// finishes loading after a newer tap, or after Done, does not open.
+    private func requestEdit(_ row: UserVectorsViewModel.Row) {
+        editLoadGeneration += 1
+        let mine = editLoadGeneration
         // A layer whose geometry has not loaded yet is loaded first: a
         // session begun on an empty working copy would persist that
         // emptiness over the stored features on its first commit.
-        if row.parsed == nil {
-            Task {
-                guard let loaded = await userVectorsVM.loadedRow(id: row.id) else { return }
-                beginEditing(loaded)
-            }
+        guard row.parsed == nil else {
+            beginEditing(row)
             return
         }
+        Task {
+            guard let loaded = await userVectorsVM.loadedRow(id: row.id) else { return }
+            // A newer intent, or a session begun meanwhile, outranks this
+            // load: ending that session from here would drop its partial
+            // draft without the alert the panel gives.
+            guard mine == editLoadGeneration, editSession == nil else { return }
+            beginEditing(loaded)
+        }
+    }
+
+    private func beginEditing(_ row: UserVectorsViewModel.Row) {
+        guard row.parsed != nil || row.record.featureCount == 0 else { return }
         // Editing and measuring both claim the map's taps. Beginning an edit
         // ends the measurement rather than leaving a live readout no tap will
         // ever reach.
@@ -2040,8 +2292,11 @@ struct MapContainerView: View {
     ) {
         if case .drawing = session.tool {
             let hit = snapHit(at: latitude, longitude: longitude)
-            if hit != nil {
+            if let hit {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                // In words as well: the tick alone left a snap onto an
+                // existing point looking like a tap that did nothing.
+                session.noteSnap(hit)
             }
             session.handleTap(
                 latitude: hit?.point.lat ?? latitude,
@@ -2059,7 +2314,11 @@ struct MapContainerView: View {
         if session.tool == .erasing {
             // A tap on open ground erases nothing. Nearest-feature would put
             // the eraser on shapes the finger never covered.
-            if let id = hit?.id { session.erase(featureID: id) }
+            if let id = hit?.id {
+                session.erase(featureID: id)
+            } else {
+                session.noteEraseMiss()
+            }
             return
         }
         session.select(featureID: hit?.id)

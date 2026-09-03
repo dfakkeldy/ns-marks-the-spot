@@ -76,6 +76,47 @@ public enum VectorStyle {
         )
     }
 
+    /// How one of a user's points is drawn.
+    public struct PointStyle: Hashable, Sendable {
+        public var fillHex: String
+        public var fillOpacity: Double
+        public var rimHex: String
+        public var rimOpacity: Double
+        /// The rim's width in points, clamped as `stroke-width` is.
+        public var rimWidth: Double
+
+        public init(
+            fillHex: String, fillOpacity: Double, rimHex: String,
+            rimOpacity: Double = 1, rimWidth: Double = 2.5
+        ) {
+            self.fillHex = fillHex
+            self.fillOpacity = fillOpacity
+            self.rimHex = rimHex
+            self.rimOpacity = rimOpacity
+            self.rimWidth = rimWidth
+        }
+    }
+
+    /// Solid in the marker colour with a white rim, unless the feature's file
+    /// said otherwise.
+    ///
+    /// Points do not take the polygon defaults: a quarter-opacity fill is what
+    /// made a deselected point vanish over imagery. But an authored
+    /// `fill-opacity`, `stroke`, `stroke-opacity` or `stroke-width` is kept, so
+    /// an imported KML keeps the look its author gave its placemarks.
+    public static func pointStyle(
+        for feature: GeoJsonFeature, layerColorHex: String
+    ) -> PointStyle {
+        let properties = feature.properties
+        return PointStyle(
+            fillHex: color(properties["marker-color"]) ?? color(properties["fill"]) ?? layerColorHex,
+            fillOpacity: opacity(properties["fill-opacity"]) ?? 1,
+            rimHex: color(properties["stroke"]) ?? "#ffffff",
+            rimOpacity: opacity(properties["stroke-opacity"]) ?? 1,
+            rimWidth: width(properties["stroke-width"]).map { min($0, 6) } ?? 2.5
+        )
+    }
+
     /// A colour only if this file's vocabulary can actually draw it.
     ///
     /// Checked here rather than at the renderer, because the promise above is
@@ -191,7 +232,10 @@ public struct VectorFeatureCallout: Hashable, Sendable {
                 "Marked from GPS on this device (±\(Int(accuracy.rounded())) m)"
         }
         if feature.properties[CaptureSpec.tracedKey]?.stringValue == CaptureSpec.tracedParcelValue {
-            self.tracedCaveat = CaptureSpec.Snap.parcelCaveat
+            // The whole provenance, not only the caveat: a corner traced from
+            // NSPRD carries the Province's attribution and licence line
+            // wherever it is shown, as the export already gives it.
+            self.tracedCaveat = VectorExport.tracedProvenanceNote
         }
     }
 }

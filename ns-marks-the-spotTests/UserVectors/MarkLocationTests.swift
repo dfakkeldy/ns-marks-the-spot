@@ -64,6 +64,24 @@ struct MarkLocationTests {
         #expect(MarkLocation.accuracyLabel(12.2) == "13")
     }
 
+    /// The saved-mark toast, in the web's words, with a radius that never
+    /// reads smaller than it was.
+    @Test("A saved mark is said in the web's words")
+    func aSavedMarkIsSaidInTheWebsWords() {
+        #expect(
+            MarkLocation.Outcome.marked(layerName: "Field notes", accuracyM: 5.2, layerShown: false).message
+                == "Point saved to Field notes (±5.2 m)."
+        )
+        #expect(
+            MarkLocation.Outcome.marked(layerName: "Field notes", accuracyM: 24, layerShown: true).message
+                == "Point saved to Field notes (±24 m). Layer switched on."
+        )
+        #expect(
+            MarkLocation.Outcome.marked(layerName: "Walk", accuracyM: 0.04, layerShown: false).message
+                == "Point saved to Walk (±0.1 m)."
+        )
+    }
+
     /// The screenshot case: the recorder is not running, so its fix is nil,
     /// and the map is already drawing a dot from a fix of its own. That fix
     /// is used rather than a fresh request.

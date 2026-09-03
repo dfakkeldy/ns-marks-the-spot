@@ -351,6 +351,16 @@ final class UserVectorsViewModel {
         }
     }
 
+    /// Keeps a photo file safe from the orphan sweep until a feature write
+    /// references it, or the attachment gives it up.
+    func reservePhotoID(_ id: String) async {
+        await store.reservePhoto(id: id)
+    }
+
+    func releasePhotoID(_ id: String) async {
+        await store.releasePhoto(id: id)
+    }
+
     func deletePhotoFile(layerID: String, photoID: String) async {
         await store.deletePhoto(layerID: layerID, photoID: photoID)
     }
@@ -562,19 +572,60 @@ final class UserVectorsViewModel {
         }
     }
 
-    func rename(id: String, to name: String) async {
+    /// The awaited form of switching a layer on, for the paths that report
+    /// the switch as done: a mark or an edit into a hidden layer says the
+    /// layer was switched on, and must not say so before the library has it.
+    /// False when the library refused, with the reason in `lastRefusal`.
+    func showLayer(id: String) async -> Bool {
+        guard rows.contains(where: { $0.id == id }) else { return false }
+        visibilityWrites[id]?.cancel()
+        visibilityWrites[id] = nil
+        do {
+            _ = try await store.setVisible(true, id: id)
+            // Shown only once the library has it: a row switched on over a
+            // failed write would be hidden again at the next launch, and the
+            // panel's warning would already be gone.
+            guard let index = rows.firstIndex(where: { $0.id == id }) else {
+                // Deleted while the switch was being written: there is no
+                // layer to have been shown, whatever the library now says,
+                // and a success toast over it would be about nothing.
+                lastRefusal = Self.storageRefusal(
+                    "The layer was deleted while it was being switched on."
+                )
+                return false
+            }
+            rows[index].isVisible = true
+            return true
+        } catch UserVectorStore.StoreRefusal.noSuchLayer {
+            lastRefusal = Self.storageRefusal(
+                "The layer was deleted while it was being switched on."
+            )
+            return false
+        } catch {
+            lastRefusal = Self.storageRefusal(
+                "The layer could not be switched on. It is still in your list; turn it on from Layers."
+            )
+            return false
+        }
+    }
+
+    /// False when the library refused the name, with the reason in
+    /// `lastRefusal`; the session keeps its panel up on that.
+    @discardableResult
+    func rename(id: String, to name: String) async -> Bool {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, rows.contains(where: { $0.id == id }) else { return }
+        guard !trimmed.isEmpty, rows.contains(where: { $0.id == id }) else { return false }
         do {
             _ = try await store.rename(id: id, to: trimmed)
         } catch {
             lastRefusal = Self.storageRefusal(
                 "This name could not be saved to your device. Free some space and try again."
             )
-            return
+            return false
         }
-        guard let index = rows.firstIndex(where: { $0.id == id }) else { return }
+        guard let index = rows.firstIndex(where: { $0.id == id }) else { return false }
         rows[index].record.name = trimmed
+        return true
     }
 
     /// Replaces a layer's features with an edited set.

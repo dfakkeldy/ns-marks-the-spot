@@ -101,23 +101,24 @@ nonisolated struct FeatureMarker: Identifiable, Equatable, Sendable {
 /// mistake to see, not one to hide.
 nonisolated extension UIColor {
     convenience init(featureHex hex: String, alpha: Double = 1) {
-        let digits = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
-        guard digits.count == 6 || digits.count == 3,
-              let value = UInt32(
-                  digits.count == 3
-                      ? digits.flatMap { [$0, $0] }.map(String.init).joined()
-                      : digits,
-                  radix: 16
-              )
-        else {
+        // The same parser the style layer accepts colours with, so a value
+        // that passed there — `#rgb`, `#rrggbb` or `#rrggbbaa` — is drawn
+        // here rather than falling to the diagnostic magenta. An embedded
+        // alpha multiplies the caller's.
+        //
+        // The `#` is optional here and required there, and both are right:
+        // the style layer is reading a user's file, where a bare `166534`
+        // is as likely to be a lot number as a colour, while this draws
+        // values this app wrote — a layer's own `colorHex`, a catalogue
+        // entry — which have always been accepted either way.
+        let trimmed = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        let text = trimmed.hasPrefix("#") ? trimmed : "#" + trimmed
+        guard let parts = VectorStyle.components(ofHex: text) else {
             self.init(red: 1, green: 0, blue: 1, alpha: alpha)
             return
         }
         self.init(
-            red: CGFloat((value >> 16) & 0xFF) / 255,
-            green: CGFloat((value >> 8) & 0xFF) / 255,
-            blue: CGFloat(value & 0xFF) / 255,
-            alpha: alpha
+            red: parts.red, green: parts.green, blue: parts.blue, alpha: parts.alpha * alpha
         )
     }
 }

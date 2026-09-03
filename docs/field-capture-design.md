@@ -426,6 +426,7 @@ on.
 | `snapVertexPriority` | vertex-first | a vertex candidate within tolerance beats any edge candidate; otherwise the nearest edge projection wins |
 | `maxSnapParcels` | 600 | more parcels in view than this and snapping reports "too many parcels here, zoom in" and mounts nothing. Fail closed, never a silent subset |
 | `parcelCaveat` | `"Traced boundaries are not a survey."` | exact string, pinned; rendered wherever the parcel toggle is visible and in the provenance of `nsmts:traced` features |
+| Point-tool own-feature targets | points excluded | while the Point tool is armed, the layer's own point features are not snap targets: a new point snapped onto an existing one is an invisible duplicate at the same coordinate. Lines and areas stay targets. Applied on iOS (`VectorEditSession.snapTargetGeometry`); the web's Geoman options do not yet apply it (PR G) |
 
 Snap targets are the user's own features (default on) and NSPRD parcels
 (default off, licence-gated). Snap preferences are session-scoped, not

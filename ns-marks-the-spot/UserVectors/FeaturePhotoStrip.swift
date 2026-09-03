@@ -83,6 +83,13 @@ struct FeaturePhotoStrip: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
+        // A photo that could not be added is said, not only shown: the picker
+        // closed and focus is elsewhere.
+        .onChange(of: session.photoMessageGeneration) { _, _ in
+            let messages = session.photoMessages
+            guard !messages.isEmpty else { return }
+            AccessibilityNotification.Announcement(messages.joined(separator: " ")).post()
+        }
         .fullScreenCover(isPresented: $isShowingCamera) {
             CameraPicker { image in
                 isShowingCamera = false
@@ -92,10 +99,13 @@ struct FeaturePhotoStrip: View {
                 // The camera's capture moment is now, as a matter of fact —
                 // the pipeline strips whatever the camera wrote.
                 let capturedAt = CaptureTime.iso(Date())
-                Task {
-                    await session.attachPhotos([
-                        (data: data, sourceName: nil, capturedAt: capturedAt)
-                    ])
+                // Owned by the session, like a picked photo, and aimed at the
+                // feature the camera was opened for.
+                let target = feature.id
+                session.beginAttachment {
+                    await session.attachPhotos(
+                        [(data: data, sourceName: nil, capturedAt: capturedAt)], to: target
+                    )
                 }
             }
             .ignoresSafeArea()
@@ -111,16 +121,26 @@ struct FeaturePhotoStrip: View {
         .onChange(of: pickerItems) { _, items in
             guard !items.isEmpty else { return }
             pickerItems = []
-            Task {
+            // Owned by the session, so Done waits for it: a photo picked a
+            // moment before Done used to be loaded into a session that had
+            // already closed.
+            // Aimed at the feature the picker was opened for: the selection
+            // can move while the library loads, and the photos must not.
+            let target = feature.id
+            session.beginAttachment {
                 var loaded: [(data: Data, sourceName: String?, capturedAt: String?)] = []
+                var failed = 0
                 for item in items {
                     // The library bytes keep their EXIF until the pipeline
                     // strips it; capture time is read from them there.
                     guard let data = try? await item.loadTransferable(type: Data.self)
-                    else { continue }
+                    else {
+                        failed += 1
+                        continue
+                    }
                     loaded.append((data: data, sourceName: nil, capturedAt: nil))
                 }
-                await session.attachPhotos(loaded)
+                await session.attachPhotos(loaded, to: target, failedLoads: failed)
             }
         }
     }
@@ -141,11 +161,9 @@ struct FeaturePhotoStrip: View {
             .accessibilityLabel("Open photo \(index + 1) of \(count)")
 
             Button {
-                Task {
-                    await session.removePhoto(
-                        featureID: feature.id ?? "", photoID: descriptor.id
-                    )
-                }
+                // Registered with the session on the tap, before the first
+                // await, so a Done tap a moment later waits for the removal.
+                session.requestRemovePhoto(featureID: feature.id ?? "", photoID: descriptor.id)
             } label: {
                 Image(systemName: "xmark.circle.fill")
                     .font(.system(size: 16))

@@ -32,6 +32,50 @@ struct FieldCaptureSnapTests {
         }
     }
 
+    /// Parcels that came back without a readable boundary are not "no
+    /// parcels here": the note keeps the three apart.
+    @Test("The parcel-snap note keeps empty apart from unreadable and not supplied")
+    func theParcelSnapNoteKeepsStatesApart() {
+        #expect(MapContainerView.parcelSnapNote(shapes: 0, notSupplied: 0, unreadable: 0) == "0 parcels snappable in this view.")
+        #expect(MapContainerView.parcelSnapNote(shapes: 3, notSupplied: 0, unreadable: 0) == nil)
+        #expect(
+            MapContainerView.parcelSnapNote(shapes: 0, notSupplied: 1, unreadable: 0)
+                == "1 parcel returned without a boundary; nothing here to snap to."
+        )
+        #expect(
+            MapContainerView.parcelSnapNote(shapes: 0, notSupplied: 0, unreadable: 2)
+                == "2 parcel boundaries could not be read; nothing here to snap to."
+        )
+        #expect(
+            MapContainerView.parcelSnapNote(shapes: 2, notSupplied: 1, unreadable: 1)
+                == "1 parcel returned without a boundary; 1 parcel boundary could not be read."
+        )
+        // A result the service returned without a PID is not an empty answer.
+        #expect(
+            MapContainerView.parcelSnapNote(shapes: 0, notSupplied: 0, unreadable: 0, unidentified: 1)
+                == "1 parcel result could not be identified; nothing here to snap to."
+        )
+    }
+
+    /// A traced corner carries the Province's attribution on the card, not
+    /// only the caveat: the export already says it, and the screen must not
+    /// say less.
+    @Test("A traced feature's card carries the NSPRD attribution")
+    func aTracedFeatureCarriesItsAttribution() {
+        let feature = GeoJsonFeature(
+            id: "t", geometry: .point(GeoJsonPosition(lng: -63.5, lat: 44.6)),
+            properties: [CaptureSpec.tracedKey: .string(CaptureSpec.tracedParcelValue)]
+        )
+        let record = UserVectorLayerRecord(
+            id: "l", name: "Lot", source: .drawn, origin: .drawn(createdAt: Date()),
+            createdAt: Date(), colorHex: "#d55e00", featureCount: 1, bbox: nil
+        )
+        let caveat = VectorFeatureCallout(feature: feature, record: record).tracedCaveat ?? ""
+        #expect(caveat.contains(CaptureSpec.Snap.parcelCaveat))
+        #expect(caveat.contains("Province of Nova Scotia"))
+        #expect(caveat.contains("NSPRD"))
+    }
+
     private func withViewModel(
         _ body: (UserVectorsViewModel) async throws -> Void
     ) async throws {

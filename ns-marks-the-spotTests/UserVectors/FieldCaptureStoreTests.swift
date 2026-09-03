@@ -29,7 +29,18 @@ struct FieldCaptureStoreTests {
         try Data(#"{"version":1,"layers":[],"hiddenLayerIDs":["ghost"]}"#.utf8)
             .write(to: libraryURL)
 
-        _ = try await store.setVisible(true, id: "ghost")
+        // A mutation that needs no existing layer: switching visibility on a
+        // layer the library does not hold is refused now.
+        let record = UserVectorLayerRecord(
+            id: "new", name: "New", source: .drawn,
+            origin: .drawn(createdAt: Date(timeIntervalSince1970: 0)),
+            createdAt: Date(timeIntervalSince1970: 0), colorHex: "#0072b2",
+            featureCount: 0, bbox: nil
+        )
+        _ = try await store.add(record, geometry: ParsedVector(features: [], bbox: nil))
+        await #expect(throws: UserVectorStore.StoreRefusal.noSuchLayer("ghost")) {
+            _ = try await store.setVisible(true, id: "ghost")
+        }
 
         struct Stamp: Decodable { var version: Int }
         let written = try JSONDecoder().decode(
