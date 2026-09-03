@@ -90,6 +90,7 @@ import {
 import {
   COASTAL_HAZARD_ATTRIBUTION,
   COASTAL_HAZARD_LICENCE_URL,
+  COASTAL_HAZARD_NOTICES,
   allResourceLayerCatalog,
   churchLayerCatalog,
   environmentalHealthLayerCatalog,
@@ -1824,6 +1825,23 @@ export function App() {
     setHistoricalOutcome("all");
     setHistoricalParcelMessage(null);
   }, []);
+
+  /**
+   * Whether a coastal projection is on screen, which the OGL–NS test below
+   * deliberately excludes. Excluding them stopped the wrong licence being
+   * claimed but left the right one unsaid: section 4.1 of the unrestricted
+   * licence asks for its notices on every reproduction, and a layer drawn on
+   * the map is one.
+   */
+  const coastalLayerVisible = useMemo(
+    () =>
+      floodHazardLayerCatalog.some(
+        (layer) =>
+          layer.licenceUrl === COASTAL_HAZARD_LICENCE_URL &&
+          effectiveFloodHazardLayers[layer.id],
+      ),
+    [effectiveFloodHazardLayers],
+  );
 
   /** Any visible layer whose licence mandates the OGL–NS statement. */
   const oglLayerVisible = useMemo(
@@ -4915,6 +4933,11 @@ export function App() {
         {oglLayerVisible ? (
           <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>
         ) : null}
+        {coastalLayerVisible
+          ? COASTAL_HAZARD_NOTICES.map((notice) => (
+              <span key={notice}>{notice}</span>
+            ))
+          : null}
         {visibleZoningAttributions.map((attribution) => (
           <span key={attribution}>{attribution}</span>
         ))}

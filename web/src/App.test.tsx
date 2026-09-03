@@ -32,6 +32,7 @@ import { fetchParcelBuildingCount } from "./services/buildings";
 import { fetchParcelAssessments } from "./services/pvscAssessments";
 import { fetchDwellingCharacteristics } from "./services/pvscDwellings";
 import {
+  COASTAL_HAZARD_NOTICES,
   allResourceLayerCatalog,
   churchLayerCatalog,
   environmentalHealthLayerCatalog,
@@ -4892,8 +4893,12 @@ describe("NS Marks The Spot Online", () => {
         "No intersecting pixels is not proof of no coastal hazard.",
       ),
     ).toBeInTheDocument();
-    expect(within(evidence).getByText(/Reproduced and distributed with the permission/)).toBeInTheDocument();
-    expect(within(evidence).getByText(/shall not be construed as constituting an endorsement/)).toBeInTheDocument();
+    // All three, by exact text: the panel was the only surface carrying the
+    // full set, and a loose match here is what let the credit line drop two of
+    // them without failing anything.
+    for (const notice of COASTAL_HAZARD_NOTICES) {
+      expect(within(evidence).getByText(notice)).toBeInTheDocument();
+    }
     expect(within(evidence).queryByText(/parcel flood probability/i)).not.toBeInTheDocument();
   });
 
@@ -4936,6 +4941,33 @@ describe("NS Marks The Spot Online", () => {
       within(evidence).queryByText(
         "No intersecting pixels is not proof of no coastal hazard.",
       ),
+    ).not.toBeInTheDocument();
+  });
+
+  // Section 4.1 asks for its notices on every reproduction, and a layer drawn
+  // on the map is one. Excluding coastal from the OGL-NS test stopped the
+  // wrong licence being claimed but left the right one unsaid.
+  it("names the coastal licence's notices in the footer while a coastal layer is on", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    renderAppWithCategoriesOpen();
+
+    for (const notice of COASTAL_HAZARD_NOTICES) {
+      expect(
+        screen.queryByText(notice, { selector: "footer span" }),
+      ).not.toBeInTheDocument();
+    }
+
+    await user.click(screen.getByLabelText("Coastal flooding — current"));
+
+    for (const notice of COASTAL_HAZARD_NOTICES) {
+      expect(
+        screen.getByText(notice, { selector: "footer span" }),
+      ).toBeInTheDocument();
+    }
+    // And still no OGL-NS claim over data that licence does not cover.
+    expect(
+      screen.queryByText(OPEN_GOVERNMENT_ATTRIBUTION, { selector: "footer span" }),
     ).not.toBeInTheDocument();
   });
 

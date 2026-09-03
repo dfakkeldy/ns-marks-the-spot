@@ -949,14 +949,29 @@ const COASTAL_HAZARD_SOURCE_URL = "https://nsgi.novascotia.ca/chm";
 export const COASTAL_HAZARD_LICENCE_URL =
   "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf";
 /**
- * The Unrestricted Map Services licence's own required statement. NOT the
+ * The Unrestricted Map Services licence's own required statements. NOT the
  * OGL-NS sentence: the coastal layers are published under this licence, and
  * anything that infers their attribution from the restricted/open flag
  * asserts the wrong licence over them (layerParity.test.ts documents exactly
  * this trap).
+ *
+ * Three notices, not one. Section 3.1(a) of the licence makes both section
+ * 4.1's permission and section 6.1's no-warranty caveat conditions of every
+ * reproduction, and section 4.2 requires the endorsement disclaimer on a
+ * value-added product. Only the parcel panel carried all three; the credit
+ * line, the source dialog, the printed page and the exported strip carried
+ * the permission alone. The wording is the native app's
+ * (NSMarksCore CoastalFloodLicence), apostrophe included, so the same
+ * coastal finding reads the same in the browser and on the phone.
  */
-export const COASTAL_HAZARD_ATTRIBUTION =
-  "Reproduced and distributed with the permission of the Department of Service Nova Scotia.";
+export const COASTAL_HAZARD_NOTICES: readonly string[] = [
+  "Reproduced and distributed with the permission of the Department of Service Nova Scotia.",
+  "This product has been produced by KinNoKi Labs and includes data provided by the Department of Service Nova Scotia. The incorporation of that data shall not be construed as constituting an endorsement by the Department of Service Nova Scotia of this product.",
+  "Service Nova Scotia makes no representation and gives no warranty of any kind respecting the data's accuracy, usefulness, novelty, validity, scope, completeness, or currency.",
+];
+
+/** The three notices as one paragraph, where a source carries one credit line. */
+export const COASTAL_HAZARD_ATTRIBUTION = COASTAL_HAZARD_NOTICES.join(" ");
 
 export const floodHazardLayerCatalog: readonly FloodHazardLayerDescriptor[] = [
   {

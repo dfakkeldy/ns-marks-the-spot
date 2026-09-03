@@ -1,4 +1,5 @@
 import {
+  COASTAL_HAZARD_ATTRIBUTION,
   floodHazardLayerCatalog,
   provinceLayerCatalog,
   resourceLayerCatalog,
@@ -137,7 +138,11 @@ const EVIDENCE_SOURCES: Record<
     label: "Coastal flood evidence",
     sourceUrl: coastal.sourceUrl,
     sourceDate: coastal.sourceDate,
-    attribution: OPEN_GOVERNMENT_ATTRIBUTION,
+    // The coastal layers are open, but under the Unrestricted Map Services
+    // licence rather than OGL-NS. The OGL-NS sentence printed here sat right
+    // above a link to the unrestricted licence, so the page named one licence
+    // and quoted another over the same data.
+    attribution: COASTAL_HAZARD_ATTRIBUTION,
     licenceUrl: coastal.licenceUrl,
     authority: "The Nova Scotia Coastal Hazard Map supplies current, 2050, and 2100 sea-level scenarios with a 1% AEP storm surge.",
     limitation: "Raster overlap is an approximate screen, not a survey, elevation certificate, insurance finding, or parcel-wide probability.",

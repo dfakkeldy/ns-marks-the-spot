@@ -9,7 +9,11 @@ import {
   historicalOutcomeLabel,
   type HistoricalRecordContext,
 } from "../data/historicalTaxSales";
-import { resourceLayerCatalog } from "../layers/layerCatalog";
+import {
+  COASTAL_HAZARD_LICENCE_URL,
+  COASTAL_HAZARD_NOTICES,
+  resourceLayerCatalog,
+} from "../layers/layerCatalog";
 import {
   PROVINCE_ATTRIBUTION,
   PROVINCE_LICENSE_URL,
@@ -782,8 +786,6 @@ function AssessmentDetails({
 }
 
 const COASTAL_HAZARD_MAP_URL = "https://nsgi.novascotia.ca/chm";
-const COASTAL_HAZARD_LICENCE_URL =
-  "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf";
 const PUBLISHED_RIVER_FLOOD_URL =
   "https://fletcher.novascotia.ca/arcgis/rest/services/mrlu/flood_risk_areas/MapServer";
 
@@ -899,19 +901,13 @@ function FloodHazardDetails({ state }: { state: FloodHazardState }) {
         and <a href={COASTAL_HAZARD_MAP_URL} target="_blank" rel="noreferrer">Nova Scotia Coastal Hazard Map</a>.{" "}
         Coastal data <a href={COASTAL_HAZARD_LICENCE_URL} target="_blank" rel="noreferrer">licence and notices</a>.
       </p>
+      {/* Conditions of using the coastal data, not a credit line, so they are
+          read from the catalogue the credit line, the printed page and the
+          exported strip read rather than typed out again here. */}
       <div className="flood-hazard-licence-notice">
-        <p>Reproduced and distributed with the permission of the Department of Service Nova Scotia.</p>
-        <p>
-          This product has been produced by KinNoKi Labs and includes data provided
-          by the Department of Service Nova Scotia. The incorporation of that data
-          shall not be construed as constituting an endorsement by the Department
-          of Service Nova Scotia of this product.
-        </p>
-        <p>
-          Service Nova Scotia makes no representation and gives no warranty of any
-          kind respecting the data’s accuracy, usefulness, novelty, validity, scope,
-          completeness, or currency.
-        </p>
+        {COASTAL_HAZARD_NOTICES.map((notice) => (
+          <p key={notice}>{notice}</p>
+        ))}
       </div>
     </section>
   );

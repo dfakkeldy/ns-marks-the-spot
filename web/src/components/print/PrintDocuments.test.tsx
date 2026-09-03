@@ -4,6 +4,7 @@ import {
   OPEN_GOVERNMENT_ATTRIBUTION,
   OPEN_GOVERNMENT_LICENCE_URL,
 } from "../../services/civicAddresses";
+import { COASTAL_HAZARD_ATTRIBUTION } from "../../layers/layerCatalog";
 import { PVSC_OPEN_DATA_ATTRIBUTION } from "../../services/pvscAssessments";
 import { PVSC_DWELLING_DATASET_URL } from "../../services/pvscDwellings";
 import {
@@ -55,9 +56,9 @@ const actualFieldCatalogSources: PrintLayerSource[] = [
   ["inverness-hydro-potential", "Inverness micro-hydro screen", "Watersheds 2021 · NSHN retrieved July 21, 2026", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["old-growth-policy", "Old-growth policy areas", "Policy layer as of October 24, 2025 · updated October 27, 2025", OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_URL],
   ["published-river-flood-zones", "Published river flood zones", "NSGC 2006-era mapping · service checked July 22, 2026", PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL],
-  ["coastal-flood-current", "Coastal flooding — current", "Live Coastal Hazard Map · checked July 22, 2026", OPEN_GOVERNMENT_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
-  ["coastal-flood-2050", "Coastal flooding — 2050", "Live Coastal Hazard Map · checked July 22, 2026", OPEN_GOVERNMENT_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
-  ["coastal-flood-2100", "Coastal flooding — 2100", "Live Coastal Hazard Map · checked July 22, 2026", OPEN_GOVERNMENT_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
+  ["coastal-flood-current", "Coastal flooding — current", "Live Coastal Hazard Map · checked July 22, 2026", COASTAL_HAZARD_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
+  ["coastal-flood-2050", "Coastal flooding — 2050", "Live Coastal Hazard Map · checked July 22, 2026", COASTAL_HAZARD_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
+  ["coastal-flood-2100", "Coastal flooding — 2100", "Live Coastal Hazard Map · checked July 22, 2026", COASTAL_HAZARD_ATTRIBUTION, unrestrictedProvinceLicenceUrl],
 ].map(([id, name, sourceDate, attribution, licenceUrl]) => ({
   id: id as PrintLayerSource["id"],
   name,
@@ -627,6 +628,15 @@ describe("print documents", () => {
       .toHaveAttribute("href", expect.stringContaining("flood_risk_areas"));
     expect(screen.getByRole("link", { name: "Coastal flood evidence source" }))
       .toHaveAttribute("href", "https://nsgi.novascotia.ca/chm");
+    // The coastal data is open, but under the Unrestricted Map Services
+    // licence. The appendix printed the OGL-NS sentence directly above a link
+    // to the unrestricted PDF — one licence named, another quoted, over the
+    // same findings.
+    expect(screen.getAllByText(COASTAL_HAZARD_ATTRIBUTION).length)
+      .toBeGreaterThan(0);
+    expect(
+      screen.getAllByRole("link", { name: "Coastal flood evidence licence" })[0],
+    ).toHaveAttribute("href", expect.stringContaining("unrestrictedLicense.pdf"));
   });
 
   it("renders captured event facts, sources, limitations, mapped-area detail, and assessment match method", () => {
