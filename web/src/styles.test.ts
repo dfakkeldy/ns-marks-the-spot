@@ -827,7 +827,12 @@ describe("phone vector editing panel", () => {
   // Sliced from the card's own base rule, not from the first
   // `@media (max-width: 860px)` in the sheet: there are three of those, and
   // the first is the layer rail's.
-  const panelBase = styles.indexOf(".vector-edit-panel {");
+  // Anchored on the phone block's own comment: the sheet has several
+  // `@media (max-width: 860px)` blocks, and rules can be added between this
+  // one and the card's base rule.
+  const panelBase = styles.indexOf(
+    "/* On a phone the rail is a bottom sheet",
+  );
   const phoneStart = styles.indexOf("@media (max-width: 860px)", panelBase);
   // Comments stripped: a regex over the rule body would otherwise match the
   // prose explaining the declaration rather than the declaration, and stay
