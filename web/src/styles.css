@@ -3247,8 +3247,16 @@ a {
      72px cap when a layer's licence needs several notices. The inspector's
      scroll area is padded by that much wherever the strip overlays it, so
      its last row — Copy, Export, Print and the exact-state link — can always
-     be scrolled clear rather than sitting behind it. */
+     be scrolled clear rather than sitting behind it.
+
+     Between 561px and 860px the narrow override further down never runs, so
+     that same last row inherited the base rule's 18px and landed inside the
+     home indicator on an iPad in portrait standalone. Panel and cap now rise
+     by the same env(safe-area-inset-bottom), which fixes the overlap at 54px
+     here and 30px below 561px — well inside the 84px above, so that figure
+     stays as it is. */
   .parcel-inspector {
+    bottom: calc(18px + env(safe-area-inset-bottom));
     padding-bottom: 84px;
   }
 
@@ -3263,10 +3271,23 @@ a {
     /* min-height + scroll rather than the old fixed 32px: the strip is
        where the Province attribution actually renders, and a fixed height
        clipped it after one line. */
-    min-height: 32px;
-    max-height: 72px;
+    /* index.html opts into viewport-fit=cover and apple-mobile-web-app-capable,
+       so on the Home Screen the page runs under the home indicator and the
+       licence lines above — plus the 44px Data & licences and About buttons
+       below — sat in the system gesture zone. Keep bottom: 0 so the paper
+       still reaches the physical edge and the map does not show through
+       beside the indicator, and pad the contents clear of it instead. The
+       bounds carry the inset too, because every box in this sheet is
+       border-box and padding alone would eat the 32px content box rather
+       than sit below it. The padding floor is 2px because the base rule's
+       padding shorthand sets 2px top and bottom and this block re-declares
+       only the inline sides: a bare env() would take the bottom to 0 on a
+       phone with no inset. */
+    min-height: calc(32px + env(safe-area-inset-bottom));
+    max-height: calc(72px + env(safe-area-inset-bottom));
     overflow-y: auto;
     padding-inline: 12px;
+    padding-bottom: max(2px, env(safe-area-inset-bottom));
     background: rgba(251, 246, 234, 0.9);
     box-shadow: 0 -1px 10px rgba(18, 52, 59, 0.16);
     backdrop-filter: blur(14px);
@@ -3281,9 +3302,11 @@ a {
 
   /* The strip above overlays the map bottom on small screens; without this
      the Leaflet scale bar and the coordinate/scale readouts sat underneath
-     it, half-clipped. */
+     it, half-clipped. Its floor now carries env(safe-area-inset-bottom) on a
+     home-indicator phone, so this clearance carries the same inset or the
+     scale bar slides back under. */
   .leaflet-bottom.leaflet-left {
-    bottom: 40px;
+    bottom: calc(40px + env(safe-area-inset-bottom));
   }
 
   .map-layout {
@@ -3314,8 +3337,11 @@ a {
   .layer-rail.mobile-open {
     display: block;
     /* 8px inset + the attribution strip's 72px max-height: keep Geology
-       (and the rest of the sheet) from covering Data & licences. */
-    bottom: 80px;
+       (and the rest of the sheet) from covering Data & licences. That cap
+       now carries env(safe-area-inset-bottom), so this derived clearance
+       carries the same inset — the 8px gap is preserved — or the sheet
+       covers the button again on a home-indicator phone. */
+    bottom: calc(80px + env(safe-area-inset-bottom));
   }
 
   .map-theme-picker select,
@@ -3465,8 +3491,19 @@ a {
     top: max(126px, calc(env(safe-area-inset-top) + 114px));
   }
 
+  /* Both readouts hang off the bottom edge, and both are caveats the reader
+     is owed on screen: a measured length, and the approximate screen scale.
+     They take the same inset the strip above does, so a home-indicator phone
+     neither buries them further under it nor leaves them in the gesture
+     zone. The scale readout has no other phone rule — without this it would
+     keep the 50px it inherits from its base rule while the strip's floor
+     rose past it. */
   .measure-readout {
-    bottom: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+  }
+
+  .display-scale-readout {
+    bottom: calc(50px + env(safe-area-inset-bottom));
   }
 
   .modern-map-error {
@@ -3580,7 +3617,10 @@ a {
   .parcel-inspector {
     top: 10px;
     right: 10px;
-    bottom: 42px;
+    /* The same home-indicator inset the strip's cap takes: the panel and the
+       cap move together, so the 84px scroll padding below still clears the
+       30px the strip overlaps. */
+    bottom: calc(42px + env(safe-area-inset-bottom));
     width: calc(100% - 20px);
     padding: 20px;
     padding-bottom: 84px;
@@ -5652,7 +5692,9 @@ a {
 @media (max-width: 860px) {
   .vector-edit-panel {
     top: auto;
-    bottom: 12px;
+    /* The same home-indicator inset the rest of the phone chrome carries: at
+       a bare 12px this panel's controls sat in the system gesture zone. */
+    bottom: calc(12px + env(safe-area-inset-bottom));
     left: 12px;
     right: 12px;
     width: auto;

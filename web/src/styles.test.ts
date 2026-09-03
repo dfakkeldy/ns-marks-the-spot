@@ -89,7 +89,7 @@ describe("phone-focused layer categories", () => {
     )?.[1];
 
     expect(mobileStyles).toMatch(
-      /\.layer-rail\.mobile-open\s*\{[^}]*bottom:\s*80px/s,
+      /\.layer-rail\.mobile-open\s*\{[^}]*bottom:\s*calc\(80px \+ env\(safe-area-inset-bottom\)\)/s,
     );
     expect(Number(attributionZ)).toBeGreaterThan(Number(railZ));
   });
@@ -162,7 +162,9 @@ describe("mobile parcel inspector layout", () => {
     expect(mobileStart).toBeGreaterThanOrEqual(0);
     expect(mobileEnd).toBeGreaterThan(mobileStart);
     expect(inspectorDeclarations).toMatch(/top:\s*10px/);
-    expect(inspectorDeclarations).toMatch(/bottom:\s*42px/);
+    expect(inspectorDeclarations).toMatch(
+      /bottom:\s*calc\(42px \+ env\(safe-area-inset-bottom\)\)/,
+    );
     expect(inspectorDeclarations).toMatch(/overflow-y:\s*auto/);
   });
 
@@ -284,6 +286,71 @@ describe("map cartographic furniture", () => {
 
     expect(readoutDeclarations).toMatch(/bottom:\s*72px/);
     expect(displayScaleDeclarations).toMatch(/bottom:\s*50px/);
+  });
+});
+
+describe("standalone bottom safe area", () => {
+  const mobileStart = styles.indexOf("@media (max-width: 860px)");
+  const narrowStart = styles.indexOf("@media (max-width: 560px)", mobileStart);
+  const mobileStyles = styles.slice(mobileStart, narrowStart);
+  const narrowStyles = styles.slice(
+    narrowStart,
+    styles.indexOf("@media (prefers-reduced-motion: reduce)", narrowStart),
+  );
+
+  it("holds the licence strip and its buttons clear of the home indicator", () => {
+    // index.html opts into viewport-fit=cover and standalone mode, so on the
+    // Home Screen the page runs under the 34pt gesture zone. At this width
+    // the strip is the only place the Province attribution, the coastal and
+    // zoning notices and the Data & licences button render at all.
+    const attribution = mobileStyles.match(
+      /\.map-attribution\s*\{([^}]*)\}/,
+    )?.[1];
+
+    // max(2px, ...), not a bare env(): the base rule's padding shorthand
+    // gives this strip 2px top and bottom, and this block re-declares only
+    // the inline sides, so a bare env() would take the bottom to 0 on a
+    // phone with no inset.
+    expect(attribution).toMatch(
+      /padding-bottom:\s*max\(2px, env\(safe-area-inset-bottom\)\)/,
+    );
+    // Everything in this sheet is border-box, so the bounds grow with the
+    // padding or it eats the content box instead of sitting below it, and
+    // the 44px buttons get clipped rather than moved.
+    expect(attribution).toMatch(
+      /min-height:\s*calc\(32px \+ env\(safe-area-inset-bottom\)\)/,
+    );
+    expect(attribution).toMatch(
+      /max-height:\s*calc\(72px \+ env\(safe-area-inset-bottom\)\)/,
+    );
+  });
+
+  it("moves everything anchored to the bottom edge by the same inset", () => {
+    // Each of these clears either the strip or the indicator. The strip's
+    // floor and cap both grew by exactly env(safe-area-inset-bottom), so a
+    // bare pixel offset left behind lands back under one of them.
+    expect(mobileStyles).toMatch(
+      /\.leaflet-bottom\.leaflet-left\s*\{[^}]*bottom:\s*calc\(40px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
+    expect(mobileStyles).toMatch(
+      /\.measure-readout\s*\{[^}]*bottom:\s*calc\(16px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
+    expect(mobileStyles).toMatch(
+      /\.display-scale-readout\s*\{[^}]*bottom:\s*calc\(50px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
+    // From 561px to 860px the narrow override below never runs, so without
+    // this the inspector's Copy/Export/Print row keeps the base 18px and
+    // sits in an iPad's indicator zone in standalone.
+    expect(mobileStyles).toMatch(
+      /\.parcel-inspector\s*\{[^}]*bottom:\s*calc\(18px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
+    expect(narrowStyles).toMatch(
+      /\.parcel-inspector\s*\{[^}]*bottom:\s*calc\(42px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
+    // The vector editor keeps its own phone block further down the sheet.
+    expect(styles).toMatch(
+      /\.vector-edit-panel\s*\{[^}]*bottom:\s*calc\(12px \+ env\(safe-area-inset-bottom\)\)/s,
+    );
   });
 });
 
