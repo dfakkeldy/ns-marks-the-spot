@@ -987,7 +987,14 @@ export function useUserVectorLayers(
       setRecords((prev) =>
         prev.map((existing) => (existing.id === record.id ? record : existing)),
       );
-      setGeometries((prev) => ({ ...prev, [record.id]: collection }));
+      // A layer removed mid-edit is gone: the map above already ignores an id
+      // it no longer holds, and geometry must not be written back under one
+      // either. A collection keyed to a record that does not exist is a layer
+      // nothing can draw, export or remove. The session seeds its draft from
+      // this map, so a live edit always has its key here.
+      setGeometries((prev) =>
+        prev[record.id] ? { ...prev, [record.id]: collection } : prev,
+      );
     },
     [],
   );

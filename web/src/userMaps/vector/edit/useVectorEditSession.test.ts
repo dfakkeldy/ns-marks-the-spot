@@ -226,6 +226,23 @@ describe("useVectorEditSession", () => {
     expect(result.current.editingId).toBe("layer-1");
   });
 
+  // A guarded write that finds no row is the layer being gone, which is a
+  // different thing from the disk refusing it. Removing the layer under an
+  // open session used to be the ordinary way to reach this, and now the
+  // removal closes the session first — so this branch means what it says.
+  it("says an edit could not be saved when the layer's row is gone", async () => {
+    const { options } = harness({ putVectorLayer: vi.fn(async () => false) });
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+    act(() => result.current.commitGeometry(collection()));
+    await act(async () => {
+      vi.advanceTimersByTime(PERSIST_DELAY_MS);
+    });
+
+    expect(result.current.storageError).toMatch(/deleted in another tab/);
+    expect(result.current.editingId).toBe("layer-1");
+  });
+
   it("edits a feature's name and description", async () => {
     const { options, putVectorLayer } = harness();
     const { result } = renderHook(() => useVectorEditSession(options));
