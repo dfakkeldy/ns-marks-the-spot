@@ -2678,7 +2678,7 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText("27 advertised · 18 withdrawn · 27 active PIDs"),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("28 advertised · 26 mapped · 2 unavailable in NSPRD"),
+      screen.getByText("19 advertised · 0 withdrawn · 20 active PIDs"),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),

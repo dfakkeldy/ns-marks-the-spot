@@ -3,23 +3,23 @@
   "municipality": "Municipality of the County of Victoria",
   "source": "https://victoriacounty.com/property-tax-sale-notice/",
   "landingPage": "https://victoriacounty.com/residents/property-taxation-services/tax-sales/",
-  "retrievedDate": "2026-08-20",
+  "retrievedDate": "2026-09-03",
   "publishedOn": "2026-08-13",
-  "sourceFactsSha256": "a2f2808c2246a027ffe045f75efdeac2ccb24a55991f93015ecbb2fab89018d0",
+  "sourceFactsSha256": "812d8d6a38c568d8af7ba1ab27add614643ee57e57a526236751e44dfab85584",
   "sourceHashPolicy": "The overwrite-prone official HTML contains assessed-owner names. This receipt hashes normalized owner-free event and row facts; the external Wayback receipt preserves the full official page bytes before ingestion.",
   "archiveReceipt": {
-    "timestamp": "20260819200343",
-    "url": "https://web.archive.org/web/20260819200343id_/https://victoriacounty.com/property-tax-sale-notice/",
-    "sha256": "df7b7fb25d8853863cdcd2923069e714283c30228fda4708e9e095632db3cfdc"
+    "timestamp": "20260903202648",
+    "url": "https://web.archive.org/web/20260903202648id_/https://victoriacounty.com/property-tax-sale-notice/",
+    "sha256": "45158563b490976d3270e776dd618ef925c6df1d997e0de7235cda0bcca7da1f"
   },
   "ownerNamesExcluded": true,
   "eventDate": "2026-09-14",
   "bidDeadlineTime": "12:00",
   "venue": "Municipal Administration Building, 495 Chebucto Street, Baddeck, NS B0E 1B0",
   "sourceRowCount": 9,
-  "opaqueRemovedRowCount": 2,
-  "listingCount": 7,
-  "parcelIdentifierCount": 7,
+  "opaqueRemovedRowCount": 4,
+  "listingCount": 5,
+  "parcelIdentifierCount": 5,
   "listings": [
     {
       "item": 3,
@@ -29,7 +29,7 @@
       ],
       "description": "10608 No. 5 Hwy, Ross Ferry, Land/Dwelling, 22,500Sq. Feet +/-",
       "redeemable": true,
-      "totalOwingCents": 183106,
+      "totalOwingCents": 184935,
       "listingStatus": "advertised"
     },
     {
@@ -38,9 +38,9 @@
       "pids": [
         "85066322"
       ],
-      "description": "Big Harbour Rd., Port Bevis, Land Only 60 Acres +/-",
+      "description": "Big Harbour Rd., Port Bevis, Land Only 60 Acres +/- (HST Applicable)",
       "redeemable": true,
-      "totalOwingCents": 115839,
+      "totalOwingCents": 116751,
       "listingStatus": "advertised"
     },
     {
@@ -49,9 +49,9 @@
       "pids": [
         "85014165"
       ],
-      "description": "Hwy 105, Inlet Baddeck, Land Only, 20,700 Sq. Feet +/-",
+      "description": "Hwy 105, Inlet Baddeck, Land Only, 20,700 Sq. Feet +/- (HST Applicable)",
       "redeemable": true,
-      "totalOwingCents": 175107,
+      "totalOwingCents": 176636,
       "listingStatus": "advertised"
     },
     {
@@ -62,7 +62,7 @@
       ],
       "description": "4499 Washabuck Rd., Lower Washabuck, Land/Dwelling/Building, 4.1 Acres +/-",
       "redeemable": true,
-      "totalOwingCents": 423343,
+      "totalOwingCents": 428197,
       "listingStatus": "advertised"
     },
     {
@@ -73,29 +73,7 @@
       ],
       "description": "Meat Cove Rd., Bay St. Lawrence, Land/Building, 15,00 Sq. Feet +/-",
       "redeemable": true,
-      "totalOwingCents": 198314,
-      "listingStatus": "advertised"
-    },
-    {
-      "item": 8,
-      "aan": "02849836",
-      "pids": [
-        "85006526"
-      ],
-      "description": "208 Little Narrows Rd., Little Narrows, Land/Dwelling, 22,230 Sq. Feet +/-",
-      "redeemable": true,
-      "totalOwingCents": 172716,
-      "listingStatus": "advertised"
-    },
-    {
-      "item": 9,
-      "aan": "02852012",
-      "pids": [
-        "85061075"
-      ],
-      "description": "Aspy Bay, Sugarloaf, Land/Dwelling, 1.06 Acres +/-",
-      "redeemable": true,
-      "totalOwingCents": 373059,
+      "totalOwingCents": 200118,
       "listingStatus": "advertised"
     }
   ]

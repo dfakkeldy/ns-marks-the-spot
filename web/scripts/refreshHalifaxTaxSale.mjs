@@ -15,10 +15,9 @@ const MONTHS = [
   "January", "February", "March", "April", "May", "June", "July",
   "August", "September", "October", "November", "December",
 ];
-export const HALIFAX_GEOMETRY_EXCEPTIONS = [
-  { aan: "09417036", pid: "41051889", reason: "no-nsprd-geometry", checkedOn: "2026-08-15" },
-  { aan: "09417044", pid: "41051897", reason: "no-nsprd-geometry", checkedOn: "2026-08-15" },
-];
+// The sept3 Schedule A no longer advertises the two parking-space PIDs that
+// previously had empty NSPRD geometry. A non-empty pin must match a live row.
+export const HALIFAX_GEOMETRY_EXCEPTIONS = [];
 
 function decodeHtml(value) {
   return value
@@ -48,7 +47,7 @@ export function parseLandingPage(html) {
   const tenderUrls = uniqueMatchingUrls(html, /\/tender-doc-sept15\.26\.pdf$/iu);
   const scheduleUrls = uniqueMatchingUrls(
     html,
-    /\/(?:copy-of-)?sept15\.2026newspaper\.website-draft-aug-\d{1,2}\.26\.pdf$/iu,
+    /\/(?:copy-of-)?sept15\.2026newspaper\.website-draft-[a-z]{3,9}-?\d{1,2}\.26\.pdf$/iu,
   );
   if (tenderNumbers.length !== 1 || tenderUrls.length !== 1 || scheduleUrls.length !== 1) {
     throw new Error(`Expected one current Halifax tender number, instructions PDF, and Schedule A PDF; found ${tenderNumbers.length}, ${tenderUrls.length}, and ${scheduleUrls.length}.`);
@@ -91,9 +90,14 @@ export function parseScheduleText(source) {
   const listings = candidateLines.map((line, index) => {
     const item = index + 1;
     const aan = line.slice(0, 8);
-    const description = line.slice(130, 196).trim();
-    const ownerFreeTail = line.slice(196);
-    const pids = ownerFreeTail.match(/\b\d{8}\b/gu) ?? [];
+    // Official pdftotext keeps description at column 130; the PID column has
+    // sat at both 196 (aug-25 fixture) and ~189 (sept3 revision). Take every
+    // complete 8-digit token after the description start, not a fixed split.
+    const pidMatches = [...line.matchAll(/\b\d{8}\b/gu)].filter((match) => (match.index ?? 0) >= 130);
+    const firstPidIndex = pidMatches[0]?.index;
+    const description = firstPidIndex === undefined ? "" : line.slice(130, firstPidIndex).trim();
+    const ownerFreeTail = firstPidIndex === undefined ? "" : line.slice(firstPidIndex);
+    const pids = pidMatches.map((match) => match[0]);
     const amountText = ownerFreeTail.match(/\$[\d,]+\.\d{2}/u)?.[0];
     const flags = ownerFreeTail.match(/\b(?:Yes|No)\b/gu) ?? [];
     const openingBidCents = amountText ? parseMoneyCents(amountText) : null;
@@ -121,9 +125,9 @@ export function parseScheduleText(source) {
 }
 
 export function assertCurrentScheduleCounts(listings) {
-  if (listings.length !== 28) throw new Error(`Expected 28 Halifax Schedule A rows, found ${listings.length}.`);
+  if (listings.length !== 19) throw new Error(`Expected 19 Halifax Schedule A rows, found ${listings.length}.`);
   const pidCount = new Set(listings.flatMap(({ pids }) => pids)).size;
-  if (pidCount !== 28) throw new Error(`Expected 28 Halifax Schedule A PIDs, found ${pidCount}.`);
+  if (pidCount !== 20) throw new Error(`Expected 20 Halifax Schedule A PIDs, found ${pidCount}.`);
 }
 
 function sha256(contents) {
@@ -137,18 +141,18 @@ function halifaxDate(now = new Date()) {
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
 
-function reconcileGeometryExceptions(listings) {
-  for (const exception of HALIFAX_GEOMETRY_EXCEPTIONS) {
+function reconcileGeometryExceptions(listings, exceptions = HALIFAX_GEOMETRY_EXCEPTIONS) {
+  for (const exception of exceptions) {
     const listing = listings.find(({ aan }) => aan === exception.aan);
     if (!listing || listing.pids.length !== 1 || listing.pids[0] !== exception.pid) {
       throw new Error(`Could not reconcile Halifax geometry exception AAN ${exception.aan} and PID ${exception.pid}.`);
     }
   }
-  return HALIFAX_GEOMETRY_EXCEPTIONS;
+  return exceptions;
 }
 
-export function buildSnapshot(current, receipt, tenderBytes, scheduleBytes, now = new Date()) {
-  const geometryExceptions = reconcileGeometryExceptions(receipt.listings);
+export function buildSnapshot(current, receipt, tenderBytes, scheduleBytes, now = new Date(), exceptions = HALIFAX_GEOMETRY_EXCEPTIONS) {
+  const geometryExceptions = reconcileGeometryExceptions(receipt.listings, exceptions);
   const exceptionPids = new Set(geometryExceptions.map(({ pid }) => pid));
   const mappedListings = receipt.listings.filter(({ pids }) => pids.every((pid) => !exceptionPids.has(pid)));
   const tenderDocumentSha256 = sha256(tenderBytes);

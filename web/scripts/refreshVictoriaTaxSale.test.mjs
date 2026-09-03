@@ -25,6 +25,11 @@ const noticeHtml = `
       <td>10608 No. 5 Hwy, Ross Ferry, Land/Dwelling</td>
       <td>NO</td><td>NO</td><td>$1,831.06</td>
     </tr>
+    <tr>
+      <td>4</td><td>02266288</td><td>85066322</td><td>OWNER OMITTED</td>
+      <td>Big Harbour Rd., Port Bevis, Land Only 60 Acres +/- (HST Applicable)</td>
+      <td>YES</td><td>NO</td><td>$1,167.51 + hst</td>
+    </tr>
   </table>
   <p>Dated at Baddeck, N.S. August 13, 2026</p>`;
 
@@ -44,7 +49,7 @@ describe("Victoria County September 2026 tender refresh", () => {
       venue:
         "Municipal Administration Building, 495 Chebucto Street, Baddeck, NS B0E 1B0",
       publishedOn: "2026-08-13",
-      sourceRowCount: 3,
+      sourceRowCount: 4,
       opaqueRemovedRowCount: 1,
       listings: [
         {
@@ -65,6 +70,16 @@ describe("Victoria County September 2026 tender refresh", () => {
           redeemable: false,
           landRegistered: false,
           totalOwingCents: 183_106,
+          listingStatus: "advertised",
+        },
+        {
+          item: 4,
+          aan: "02266288",
+          pid: "85066322",
+          description: "Big Harbour Rd., Port Bevis, Land Only 60 Acres +/- (HST Applicable)",
+          redeemable: true,
+          landRegistered: false,
+          totalOwingCents: 116_751,
           listingStatus: "advertised",
         },
       ],
@@ -90,6 +105,10 @@ describe("Victoria County September 2026 tender refresh", () => {
     expect(() => parseVictoriaNotice(duplicate)).toThrow(
       /Duplicate Victoria PID 85057701/,
     );
+    const unknownMoneySuffix = noticeHtml.replace("$1,167.51 + hst", "$1,167.51 + gst");
+    expect(() => parseVictoriaNotice(unknownMoneySuffix)).toThrow(
+      /Could not parse all owner-free fields for Victoria row 4/,
+    );
   });
 
   it("requires an archived official-page receipt before changed facts can be written", async () => {
@@ -105,9 +124,9 @@ describe("Victoria County September 2026 tender refresh", () => {
       sha256: "5e55ee85b2c8f56f78b1162c4e4f25c07e3c6ef420a3bbee94ba3b0886c99895",
     });
     expect(snapshot.ownerNamesExcluded).toBe(true);
-    expect(snapshot.sourceRowCount).toBe(3);
+    expect(snapshot.sourceRowCount).toBe(4);
     expect(snapshot.opaqueRemovedRowCount).toBe(1);
-    expect(snapshot.listings).toHaveLength(2);
+    expect(snapshot.listings).toHaveLength(3);
     expect(snapshot.listings[0]).not.toHaveProperty("landRegistered");
     expect(JSON.stringify(snapshot)).not.toMatch(/OWNER OMITTED/);
   });

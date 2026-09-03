@@ -56,7 +56,8 @@ function parseDate(monthName, day, year) {
 }
 
 function parseMoneyCents(value) {
-  const match = value.match(/^\$([\d,]+)\.(\d{2})$/u);
+  // Official Victoria totals are `$digits.cents`, with ` + hst` on HST-applicable land.
+  const match = value.match(/^\$([\d,]+)\.(\d{2})(?:\s*\+\s*hst)?$/iu);
   return match
     ? Number(match[1].replaceAll(",", "")) * 100 + Number(match[2])
     : null;

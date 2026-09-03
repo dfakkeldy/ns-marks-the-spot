@@ -23,8 +23,8 @@
     },
     {
       "path": "halifaxTaxSale.snapshot.json",
-      "bytes": 9062,
-      "sha256": "fab79b24349baf4e953934c37b46fa4a529cf62b15f8bfb820ef6b30f339d119"
+      "bytes": 6394,
+      "sha256": "372678a81ac26cbe9bb9363615660bc73985ea73e3dc180bd0d87d72b99cc14f"
     },
     {
       "path": "historicalMatchExceptions.json",
@@ -63,8 +63,8 @@
     },
     {
       "path": "victoriaTaxSale.snapshot.json",
-      "bytes": 3165,
-      "sha256": "4ca1134889b18d1d029c380d39a631fee82571820e70b672947c7c3fd7935467"
+      "bytes": 2637,
+      "sha256": "b206e77975f4c7dec37dab71723a0f7e74d9e59597a72229e0db5593b563b32e"
     }
   ]
 }
