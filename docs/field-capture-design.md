@@ -306,18 +306,19 @@ iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 - Photo-library map layer: `PhotoMapIndex` (z15 buckets, 500-annotation
   cap keeping the most recent in a fixed order), PhotoKit enumeration
   persisted to `Caches/PhotoMapIndex/index.json` with the change token and
-  `indexedAccess`, incremental `fetchPersistentChanges(since:)` under
-  unchanged full access (limited always a full re-read), My Maps row
-  (`.myMaps` slot, LayerCatalog untouched), MapKit clustering, subtitle
-  "Your photos · never uploaded"
+  on-disk `accessScope` (in-memory `indexedAccess`), incremental
+  `fetchPersistentChanges(since:)` under unchanged full access (limited
+  always a full re-read), My Maps row (`.myMaps` slot, LayerCatalog
+  untouched), MapKit clustering, subtitle "Your photos · never uploaded"
   ([PhotoMapIndex.swift](../NSMarksCore/Sources/GeoCore/Vector/PhotoMapIndex.swift),
   [PhotoMapViewModel.swift](../ns-marks-the-spot/FieldCapture/PhotoMapViewModel.swift),
   [PhotoMapRow.swift](../ns-marks-the-spot/FieldCapture/PhotoMapRow.swift)).
 - Bulk EXIF placement: row button "Add photos to map" (`PhotosPicker`) →
   confirm sheet titled "Place photos" → `source: photos` layer, provenance
-  "From your photos · N photos"
+  "Created from N of your photos"
   ([BulkPhotoPlacement.swift](../NSMarksCore/Sources/GeoCore/Vector/BulkPhotoPlacement.swift),
-  [BulkPhotoPlacementSheet.swift](../ns-marks-the-spot/FieldCapture/BulkPhotoPlacementSheet.swift)).
+  [BulkPhotoPlacementSheet.swift](../ns-marks-the-spot/FieldCapture/BulkPhotoPlacementSheet.swift),
+  [UserVectorLayerRecord.swift](../NSMarksCore/Sources/GeoCore/Vector/UserVectorLayerRecord.swift)).
 - Missing on native: none for this field-capture plan.
 
 ## The field-capture contract
@@ -821,19 +822,20 @@ App N3, present:
   predicate, so the first grant is one full enumeration (`PHAsset.fetchAssets`
   reading `asset.location`). The snapshot is persisted to
   `Caches/PhotoMapIndex/index.json` with the `PHPersistentChangeToken` and
-  `indexedAccess`. Later refreshes apply `fetchPersistentChanges(since:)`
-  only under unchanged full access; limited access always re-reads the
-  whole selection (the change history there covers only the selected
-  photos). A downgrade clears the pins. Under limited access, every
+  on-disk `accessScope` (in-memory `indexedAccess`). Later refreshes apply
+  `fetchPersistentChanges(since:)` only under unchanged full access; limited
+  access always re-reads the whole selection (the change history there
+  covers only the selected photos). A downgrade clears the pins. Under limited access, every
   foreground return (and the prompt's first answer) treats the selection as
   possibly changed: pins come down at once and any in-flight read is
   discarded. Library reads are single-flight; an intent counter wins if
   the switch is turned off mid-read; authorization is re-read on every
-  return to the foreground. In memory the index buckets
-  by z15 web-Mercator tile; a viewport query unions intersecting buckets
+  return to the foreground. In memory the index buckets by z15 web-Mercator
+  tile; a viewport query unions intersecting buckets
   and, over `PhotoMapIndex.maxAnnotations` (500), keeps the most recent in
-  a fixed order. The row and the map say so ("Showing the 500 most recent
-  of …"); they do not advise zooming in. The photo drawing's record is
+  a fixed order. The row says "Showing the 500 most recent of N in view";
+  the map overlay says "Showing the 500 most recent of N photos here."
+  They do not advise zooming in. The photo drawing's record is
   stable across pans; viewport pins are diffed by id for single points with
   unique ids (`MapController.isIncrementallyUpdatable`); clusters are
   layer-qualified (`nsmts-photos-<layerID>`). Co-located members, or a
@@ -873,7 +875,7 @@ App N3, present:
 - Bulk placement: the row's "Add photos to map" `PhotosPicker` → classify →
   `BulkPhotoPlacementSheet` (navigation title "Place photos") creates a
   `source: photos` layer with provenance
-  "From your photos · N photos". `UserVectorLibrary.currentVersion` is 3.
+  "Created from N of your photos". `UserVectorLibrary.currentVersion` is 3.
 
 Tests in the tree for N1: TrackFilter/TrackSimplify/TrackGpx against
 scripted sequences, FieldCaptureParityTests against the fixture,
