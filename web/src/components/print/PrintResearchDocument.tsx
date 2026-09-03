@@ -14,6 +14,7 @@ import {
   requiredSelectedGeometryAttribution,
   type PrintEvidenceAttribution,
 } from "../../services/printEvidenceAttribution";
+import { resourceLayerCatalog } from "../../layers/layerCatalog";
 import { renderedPrintLayerSources } from "../../services/printRenderedLayers";
 import { PrintEvidenceAppendix } from "./PrintEvidenceAppendix";
 
@@ -401,16 +402,52 @@ export function UnansweredEvidenceNotice({
   );
 }
 
+/**
+ * The receipt for a source that answered, but not for everything it was asked.
+ *
+ * The flood and resource lookups resolve ready with per-query states inside
+ * them, so a slot can be "captured" while one of its sources was down. A
+ * receipt that says captured over a failed query is the same collapse the
+ * appendix was fixed for, one level up.
+ */
+function nestedReceipt(
+  ready: boolean,
+  failed: readonly string[],
+  whenUnsettled: string,
+): string {
+  if (!ready) return whenUnsettled;
+  return failed.length === 0
+    ? "captured"
+    : `partially captured; ${failed.join(", ")} unavailable`;
+}
+
 export function EvidenceStatusGrid({ snapshot }: { snapshot: PrintSnapshot }) {
   const assessment = snapshot.evidence.assessments;
   const dwellings = snapshot.evidence.dwellings;
+  const flood = snapshot.evidence.floodHazard;
+  const resources = snapshot.evidence.resources;
+  const floodFailures =
+    flood.status === "ready"
+      ? [
+          ...(flood.value.river.status === "error" ? ["Published river"] : []),
+          ...flood.value.coastal
+            .filter(({ status }) => status === "error")
+            .map(({ scenario }) => `Coastal ${scenario}`),
+        ]
+      : [];
+  const resourceFailures =
+    resources.status === "ready"
+      ? resourceLayerCatalog
+          .filter(({ id }) => resources.value[id]?.status === "error")
+          .map(({ name }) => name)
+      : [];
   const entries = [
     `Civic addresses: ${printEvidenceReceiptStatus(snapshot.evidence.civicAddresses)}`,
     `Assessment: ${assessment.status === "ready" ? `${assessment.value.accounts.length} account${assessment.value.accounts.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(assessment)}`,
     `Dwelling characteristics: ${dwellings.status === "ready" ? `${dwellings.value.length} account${dwellings.value.length === 1 ? "" : "s"} captured` : printEvidenceReceiptStatus(dwellings)}`,
     `Roads and water: ${printEvidenceReceiptStatus(snapshot.evidence.mappedContext)}`,
-    `Flood evidence: ${printEvidenceReceiptStatus(snapshot.evidence.floodHazard)}`,
-    `Resource evidence: ${printEvidenceReceiptStatus(snapshot.evidence.resources)}`,
+    `Flood evidence: ${nestedReceipt(flood.status === "ready", floodFailures, printEvidenceReceiptStatus(flood))}`,
+    `Resource evidence: ${nestedReceipt(resources.status === "ready", resourceFailures, printEvidenceReceiptStatus(resources))}`,
   ];
   return (
     <section className="print-evidence-status-grid" aria-label="Evidence receipt status">

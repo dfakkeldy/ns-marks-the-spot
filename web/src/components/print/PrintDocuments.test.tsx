@@ -1114,6 +1114,63 @@ describe("print documents", () => {
     expect(screen.queryByText(/had not answered/u)).not.toBeInTheDocument();
   });
 
+  // The flood and resource slots answer ready with per-query states inside
+  // them, so "captured" could sit on the front page over a source that was
+  // down — the appendix's own collapse, one level up.
+  it("says a slot was partially captured when one of its sources failed", () => {
+    render(
+      <PrintResearchDocument
+        snapshot={snapshot({
+          evidence: {
+            ...snapshot().evidence,
+            floodHazard: {
+              status: "ready",
+              value: {
+                river: { status: "error", aep: [], message: "offline" },
+                coastal: [
+                  { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 72 },
+                  { scenario: "2100", status: "error", stormAnnualExceedanceProbabilityPercent: 1, message: "offline" },
+                ],
+              },
+            },
+            resources: {
+              status: "ready",
+              value: {
+                "mineral-occurrences": { status: "error", intersections: [] },
+                "mineral-tenure": { status: "ready", intersections: [] },
+                "abandoned-mines": { status: "ready", intersections: [] },
+              },
+            },
+          },
+        })}
+        map={map}
+        includeAerial={false}
+        includeAppendix
+        scale={scale}
+        shareUrl={shareUrl}
+        qr={qr}
+        renderedLayerIds={["nsprd"]}
+        belowZoomLayerIds={[]}
+        failedLayerIds={[]}
+      />,
+    );
+
+    const receipt = within(
+      screen.getByRole("region", { name: "Evidence receipt status" }),
+    );
+    expect(
+      receipt.getByText(
+        "Flood evidence: partially captured; Published river, Coastal 2100 unavailable",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      receipt.getByText(
+        "Resource evidence: partially captured; Mineral occurrences unavailable",
+      ),
+    ).toBeInTheDocument();
+    expect(receipt.queryByText("Flood evidence: captured")).not.toBeInTheDocument();
+  });
+
   it("prints monochrome legend samples and a north indicator", () => {
     render(
       <PrintFieldDocument

@@ -137,6 +137,7 @@ import {
 import {
   fetchParcelAtPoint,
   fetchParcels,
+  hasQueryablePolygon,
   identifyParcelsAtPoint,
   normalizePid,
   NSPRD_LAYER_URL,
@@ -554,9 +555,10 @@ function printState<T>(
   }
   if (state.status === "geometry-unavailable") {
     // Unreachable while canPrintExport requires resolved geometry, but the
-    // honest message costs nothing if that gate ever loosens.
+    // honest state costs nothing if that gate ever loosens: nothing was asked
+    // of the source, so the receipt must not call it unavailable.
     return {
-      status: "error",
+      status: "not-asked",
       message: "Not evaluated — this PID's NSPRD geometry is unavailable.",
     };
   }
@@ -2150,11 +2152,15 @@ export function App() {
    * honest "did MY parcel change" test.
    */
   const selectedFeaturesRef = useRef<NsprdFeatureCollection["features"]>([]);
+  // Only the parts with a polygon to ask against. A feature NSPRD returns
+  // with an unusable geometry cannot be queried, drawn or measured, and every
+  // spatial lookup would answer emptily for it — a panel of clean negatives
+  // about a parcel nothing was asked about.
   const selectedParcelFeatures = useMemo(() => {
     const next = selectedPid
       ? parcels.features.filter(
           ({ properties }) => properties.PID === selectedPid,
-        )
+        ).filter(hasQueryablePolygon)
       : [];
     const previous = selectedFeaturesRef.current;
     if (
@@ -2166,6 +2172,26 @@ export function App() {
     selectedFeaturesRef.current = next;
     return next;
   }, [parcels, selectedPid]);
+
+  // NSPRD answered for the PID, but with nothing this build can query
+  // against. Every evidence effect below bails on an empty feature list, so
+  // without this the panel would sit on "Checking…" for a condition already
+  // known — and the sources that do answer without geometry would leave the
+  // rest reading as clean negatives.
+  useEffect(() => {
+    if (!selectedPid || !selectedEvidenceRequest) return;
+    if (selectedParcelFeatures.length > 0) return;
+    if (!parcels.features.some(({ properties }) => properties.PID === selectedPid)) {
+      return;
+    }
+    markGeometryEvidenceTerminal(selectedEvidenceRequest, "geometry-unavailable");
+  }, [
+    markGeometryEvidenceTerminal,
+    parcels,
+    selectedEvidenceRequest,
+    selectedParcelFeatures,
+    selectedPid,
+  ]);
 
   useEffect(() => {
     if (!selectedPid || !licenceAccepted || !selectedEvidenceRequest) {
@@ -2902,7 +2928,12 @@ export function App() {
       // included them would state a number nothing established.
       const meeting =
         pids.length > 1
-          ? `PID ${pid} selected. ${pids.length} parcels meet at that point; this is the first NSPRD listed, not a determination of which one it is.`
+          ? `PID ${pid} selected. ${pids.length} parcels meet at that point; this is the first ${
+              // "the first NSPRD listed" is only true when nothing ahead of it
+              // was dropped. With an unnamed boundary in the reply it may have
+              // been listed second, and the sentence has to say which first.
+              unidentifiedCount > 0 ? "NSPRD named" : "NSPRD listed"
+            }, not a determination of which one it is.`
           : `PID ${pid} selected.`;
       setParcelLookupMessage(
         unidentifiedCount === 0

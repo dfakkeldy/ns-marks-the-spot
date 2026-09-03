@@ -3544,6 +3544,14 @@ a {
     padding-inline: 10px;
   }
 
+  /* Clear of the inspector's close control, which opens over this message on
+     a phone. pointer-events keeps the button tappable; this keeps it visible,
+     which is what makes it a target a reader can find. */
+  .parcel-lookup-message {
+    right: 66px;
+    max-width: calc(100% - 130px);
+  }
+
   .parcel-inspector {
     top: 10px;
     right: 10px;

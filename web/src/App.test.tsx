@@ -4641,11 +4641,7 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(fetchParcels).mockResolvedValueOnce({
       type: "FeatureCollection",
       features: [
-        {
-          type: "Feature",
-          properties: { PID: "50203256", "SHAPE.AREA": 728.4341 },
-          geometry: { type: "Point", coordinates: [-61, 46] },
-        },
+        { ...parcelFeature("50203256"), properties: { PID: "50203256", "SHAPE.AREA": 728.4341 } },
       ],
     });
     vi.mocked(fetchParcelContext).mockRejectedValueOnce(new Error("offline"));
@@ -4660,6 +4656,50 @@ describe("NS Marks The Spot Online", () => {
         "Mapped road and water intersections are unavailable right now.",
       ),
     ).toBeInTheDocument();
+  });
+
+  // NSPRD can answer for a PID with a geometry nothing here can ask against.
+  // Every spatial lookup returned a clean empty answer for it, and a panel of
+  // those reads as a parcel with no buildings, no roads and no accounts —
+  // none of which was ever asked.
+  it("does not answer for a parcel whose geometry cannot be queried", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    vi.mocked(fetchParcels).mockResolvedValueOnce({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: { PID: "50203256", "SHAPE.AREA": 728.4341 },
+          geometry: { type: "Point", coordinates: [-61, 46] },
+        },
+      ],
+    });
+    vi.mocked(fetchParcelContext).mockClear();
+    vi.mocked(fetchCivicAddresses).mockClear();
+    renderAppWithCategoriesOpen();
+
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "50203256");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+
+    const inspector = await screen.findByRole("complementary", {
+      name: "Parcel 50203256 details",
+    });
+    expect(
+      (await within(inspector).findAllByText(GEOMETRY_UNAVAILABLE_MESSAGE)).length,
+    ).toBeGreaterThan(0);
+    expect(
+      within(inspector).queryByText(
+        "No intersecting, adjacent, or civic-address road was found for this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+    expect(
+      within(inspector).queryByText(
+        "No civic address point is mapped inside this parcel.",
+      ),
+    ).not.toBeInTheDocument();
+    expect(vi.mocked(fetchParcelContext)).not.toHaveBeenCalled();
+    expect(vi.mocked(fetchCivicAddresses)).not.toHaveBeenCalled();
   });
 
   it("shows an honest loading state and one mapped civic address with its own licence", async () => {

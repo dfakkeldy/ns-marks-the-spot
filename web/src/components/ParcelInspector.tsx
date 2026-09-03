@@ -1110,6 +1110,19 @@ function MappedContextDetails({
             features={civicRoads}
           />
         ) : null}
+        {addressesReadInFull ? null : (
+          <p className="road-access-caveat">
+            {civicAddressShortfallReason(civicAddresses)}
+          </p>
+        )}
+        {civicRoads.length > 0 ? (
+          // The caveat belongs to the roads shown, whichever source named
+          // them, so it cannot be left behind in the ready branch.
+          <p className="road-access-caveat">
+            Adjacency and civic addressing are useful map context, not proof of
+            legal access or road frontage.
+          </p>
+        ) : null}
       </div>
     );
   }

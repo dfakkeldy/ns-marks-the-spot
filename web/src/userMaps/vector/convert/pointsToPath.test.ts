@@ -156,3 +156,34 @@ describe("buildPathFromPoints", () => {
     ).toBeNull();
   });
 });
+
+describe("traced provenance on a converted path", () => {
+  // Only the value the spec declares. Promoting any other one would stamp
+  // NSPRD provenance, and the Province's attribution, on a path nothing
+  // traced.
+  it("does not inherit an imported file's own traced value", () => {
+    const result = buildPathFromPoints(
+      collection(
+        point(A, { "nsmts:traced": "manual" }),
+        point(B),
+        point(C),
+      ),
+      { shape: "line", keepSourcePoints: false },
+    );
+
+    expect(result!.feature.properties?.["nsmts:traced"]).toBeUndefined();
+  });
+
+  it("still inherits the value a parcel snap wrote", () => {
+    const result = buildPathFromPoints(
+      collection(
+        point(A, { "nsmts:traced": "nsprd-parcel" }),
+        point(B),
+        point(C),
+      ),
+      { shape: "line", keepSourcePoints: false },
+    );
+
+    expect(result!.feature.properties?.["nsmts:traced"]).toBe("nsprd-parcel");
+  });
+});

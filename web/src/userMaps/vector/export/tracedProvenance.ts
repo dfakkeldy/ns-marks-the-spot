@@ -2,6 +2,7 @@ import type { FeatureCollection } from "geojson";
 import {
   FIELD_CAPTURE_SPEC,
   NSMTS_TRACED,
+  NSMTS_TRACED_PARCEL,
 } from "../../../location/captureSpec";
 import { PROVINCE_ATTRIBUTION } from "../../../licensing/provinceLicense";
 
@@ -18,11 +19,14 @@ export const TRACED_PROVENANCE_NOTE =
   PROVINCE_ATTRIBUTION;
 
 export function hasTracedFeatures(collection: FeatureCollection): boolean {
+  // Only the value the spec declares. An imported file carrying its own
+  // "nsmts:traced" would otherwise put the NSPRD note and the Province's
+  // attribution on an export the Province had nothing to do with.
   return collection.features.some(
     (feature) =>
       feature.properties &&
       typeof feature.properties === "object" &&
-      (feature.properties as Record<string, unknown>)[NSMTS_TRACED] !==
-        undefined,
+      (feature.properties as Record<string, unknown>)[NSMTS_TRACED] ===
+        NSMTS_TRACED_PARCEL,
   );
 }

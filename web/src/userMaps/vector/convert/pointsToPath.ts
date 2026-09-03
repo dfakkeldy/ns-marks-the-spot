@@ -106,10 +106,14 @@ export function planPointsToPath(
     if (!previous || !samePosition(previous, position)) {
       positions.push(position);
     }
+    // The spec declares one value this key may take. Any other value is a
+    // property an imported file happened to carry, and promoting it would
+    // stamp NSPRD provenance — and the Province's attribution — on a path
+    // nothing traced.
     if (
       feature.properties &&
-      (feature.properties as Record<string, unknown>)[NSMTS_TRACED] !==
-        undefined
+      (feature.properties as Record<string, unknown>)[NSMTS_TRACED] ===
+        NSMTS_TRACED_PARCEL
     ) {
       traced = true;
     }

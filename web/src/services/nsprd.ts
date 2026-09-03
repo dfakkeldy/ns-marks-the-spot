@@ -110,6 +110,35 @@ export async function fetchParcelAtPoint(
 }
 
 /**
+ * Whether a returned parcel carries a polygon the evidence queries can use.
+ *
+ * NSPRD can answer for a PID with a geometry nothing here can ask against — a
+ * LineString, a collection, a ring with too few positions. Every spatial
+ * lookup then returns a clean empty answer, and a panel of them reads as a
+ * parcel with no buildings, no roads, no accounts and no resources, none of
+ * which was ever asked.
+ */
+export function hasQueryablePolygon(
+  feature: NsprdFeatureCollection["features"][number],
+): boolean {
+  const rings =
+    feature.geometry.type === "Polygon"
+      ? [feature.geometry.coordinates]
+      : feature.geometry.type === "MultiPolygon"
+        ? feature.geometry.coordinates
+        : [];
+  return rings.some(
+    ([outer]) =>
+      Array.isArray(outer) &&
+      outer.length >= 3 &&
+      outer.every(
+        ([longitude, latitude]) =>
+          Number.isFinite(longitude) && Number.isFinite(latitude),
+      ),
+  );
+}
+
+/**
  * What one point query answered with, split by what could be read from it.
  *
  * A reply holding nothing and a reply holding shapes with no usable PID are
