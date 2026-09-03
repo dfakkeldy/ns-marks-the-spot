@@ -5016,12 +5016,15 @@ export function App() {
             onExportFrameContinue={(bounds, orientation) =>
               setExportSession({ stage: "dialog", bounds, orientation })}
           />
+          {/* While a parcel is open the message travels inside its panel,
+              which on a phone covers the map entirely: overlaid, it sat
+              across the panel's own pinned row. */}
           <p
             className="parcel-lookup-message"
             role="status"
             aria-live="polite"
           >
-            {parcelLookupMessage}
+            {selectedPid ? null : parcelLookupMessage}
           </p>
           {selectedPid ? (
             <ParcelInspector
@@ -5063,6 +5066,7 @@ export function App() {
                   dwellingState.status === "no-record-for-notice-aan" ||
                   dwellingState.status === "geometry-unavailable")
               }
+              lookupMessage={parcelLookupMessage}
               dismissOnEscape={
                 // The panel is the bottom layer under all of these, and the
                 // rule the controls sheet already follows applies here: "so
@@ -5070,13 +5074,19 @@ export function App() {
                 // the list because closing the panel clears it, which would
                 // tear the capture out from under an open print preview;
                 // editingMap is in it because the georeferencer's own Escape
-                // is deliberately unscoped.
+                // is deliberately unscoped. The photo viewer and the frame
+                // chooser are in it because Escape is their only exit and
+                // this panel silences the event to keep one keypress from
+                // closing two layers: without them, the viewer would be left
+                // with no way out and the panel behind it would close.
                 !aboutOpen &&
                 !dataSourcesOpen &&
                 !licenceDialogOpen &&
                 !themeManagerOpen &&
                 !mobileControlsOpen &&
                 !editingMap &&
+                !openPhoto &&
+                !userMapsApi.frameChoosingMap &&
                 !printCapture
               }
               now={currentTime}
