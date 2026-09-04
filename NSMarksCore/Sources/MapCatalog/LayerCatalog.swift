@@ -81,7 +81,12 @@ public enum LayerCatalog {
     private static let openGovernmentLicence = URL(
         string: "https://novascotia.ca/opendata/licence.asp"
     )
-    private static let unrestrictedLicence = URL(
+    /// Public because the credit table has to be able to find it. Two licences
+    /// wear the one `provinceOpen` case, and this document is the only field
+    /// that separates the coastal projections from the Open Government layers —
+    /// the browser draws the same line against its own
+    /// `COASTAL_HAZARD_LICENCE_URL`.
+    public static let unrestrictedLicence = URL(
         string: "https://nsgiwa.novascotia.ca/documents/licenses/unrestricted/unrestrictedLicense.pdf"
     )
     private static let coastalHazardSource = URL(string: "https://nsgi.novascotia.ca/chm")

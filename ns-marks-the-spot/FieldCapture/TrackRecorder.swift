@@ -45,11 +45,26 @@ final class TrackRecorder: NSObject {
     /// Whether Location Services are on for the device. Injected for tests.
     @ObservationIgnored var servicesEnabled: () -> Bool = { CLLocationManager.locationServicesEnabled() }
 
-    static func refusal(for status: CLAuthorizationStatus, servicesEnabled: Bool) -> Refusal? {
+    /// Location Services off for the whole device refuses a granted app too,
+    /// so the switch is read here rather than only under a denial. A
+    /// restriction stays a restriction — the more specific truth, and the one
+    /// no Settings page lifts — and `.notDetermined` is nothing yet: the
+    /// prompt is still owed, and the system offers the switch along with it.
+    ///
+    /// `@autoclosure` so the switch is asked about only where the answer is
+    /// used. `CLLocationManager.locationServicesEnabled()` may block its
+    /// caller, this class is `@MainActor`, and the authorization delegate
+    /// fires at cold launch — an app at `.notDetermined` must not pay for a
+    /// value it discards.
+    static func refusal(
+        for status: CLAuthorizationStatus,
+        servicesEnabled: @autoclosure () -> Bool
+    ) -> Refusal? {
         switch status {
-        case .denied: servicesEnabled ? .denied : .servicesOff
         case .restricted: .restricted
-        default: nil
+        case .notDetermined: nil
+        case .denied: servicesEnabled() ? .denied : .servicesOff
+        default: servicesEnabled() ? nil : .servicesOff
         }
     }
 
@@ -59,6 +74,13 @@ final class TrackRecorder: NSObject {
 
     var status: TrackRecording.Status { recording.status }
     var isActive: Bool { recording.status != .idle }
+
+    /// Whether the recorder has anything to show. A refusal alone is not
+    /// enough: the authorization delegate fires at cold launch, so a device
+    /// with Location Services off would otherwise greet every reader with a
+    /// refusal card for a recording nobody started. `isWaitingForPermission`
+    /// is set by `start()`, which only a tap on Record reaches.
+    var isShowingRecorder: Bool { isActive || isWaitingForPermission }
 
     override init() {
         super.init()
@@ -84,11 +106,25 @@ final class TrackRecorder: NSObject {
         autoPauseMessage = nil
         let status = manager.authorizationStatus
         // Read now, not waited for: the delegate reports a status only when
-        // it changes, and a refusal already on file never changes again.
-        refusal = Self.refusal(
-            for: status, servicesEnabled: status == .denied ? servicesEnabled() : true
-        )
+        // it changes, and a refusal already on file never changes again. The
+        // device-wide switch is read the same way and for the same reason —
+        // nothing announces that it was already off — so a reader who granted
+        // this app and later turned Location Services off for the device is
+        // refused here instead of getting a clock, a red dot and a screen held
+        // awake for fixes that cannot arrive.
+        refusal = Self.refusal(for: status, servicesEnabled: servicesEnabled())
         if status == .notDetermined {
+            if !servicesEnabled() {
+                // Nothing to prompt for. iOS does not show this app's
+                // permission alert while the device switch is off — it shows
+                // its own, and this app's status stays `.notDetermined`, so
+                // the callback that follows is neither a refusal nor a grant.
+                // Asked and answered with silence is what the reader used to
+                // get; the switch is the true thing to say.
+                refusal = .servicesOff
+                isWaitingForPermission = true
+                return .servicesOff
+            }
             // Asked, and waited for: the recording begins when the answer
             // comes — the delegate starts it — not now, under a prompt, with
             // a clock running on fixes that cannot arrive yet.
@@ -232,9 +268,7 @@ extension TrackRecorder: @preconcurrency CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let status = manager.authorizationStatus
         apply(
-            refusal: Self.refusal(
-                for: status, servicesEnabled: status == .denied ? servicesEnabled() : true
-            ),
+            refusal: Self.refusal(for: status, servicesEnabled: servicesEnabled()),
             granted: status == .authorizedWhenInUse || status == .authorizedAlways
         )
     }
@@ -245,12 +279,12 @@ extension TrackRecorder: @preconcurrency CLLocationManagerDelegate {
         // failure is the refusal.
         guard (error as? CLError)?.code == .denied else { return }
         let status = manager.authorizationStatus
+        let servicesOn = servicesEnabled()
         // The status names the refusal when it can; a denied error under a
         // status that does not explain it is still a refusal, and Location
         // Services off for the device is told apart from this app's.
-        let classified = Self.refusal(
-            for: status, servicesEnabled: status == .denied ? servicesEnabled() : true
-        ) ?? (servicesEnabled() ? .denied : .servicesOff)
+        let classified = Self.refusal(for: status, servicesEnabled: servicesOn)
+            ?? (servicesOn ? .denied : .servicesOff)
         apply(refusal: classified, granted: false)
     }
 }

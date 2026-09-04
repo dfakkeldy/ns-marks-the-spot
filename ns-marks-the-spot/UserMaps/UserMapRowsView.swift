@@ -33,7 +33,11 @@ struct UserMapRowsView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.secondary)
 
-            if viewModel.rows.isEmpty {
+            if viewModel.rows.isEmpty, !viewModel.isLibrarySealed {
+                // Not over a library this build could not read: the reader's
+                // maps may all be in it, and inviting an import that the
+                // notice below refuses would be an empty list claiming to be
+                // the answer.
                 Text("Import a GeoTIFF, PDF, PNG or JPEG to draw it on the map.")
                     .font(.caption)
                     .foregroundStyle(.secondary)

@@ -43,8 +43,13 @@ struct TrackRecordingHUD: View {
                         Button("Pause") { recorder.pause() }
                             .buttonStyle(.bordered)
                     }
-                    Button("Stop", role: .destructive) { onStop() }
+                    // Stop is not destructive. It ends the recording and
+                    // opens the save sheet, where the walk is still there to
+                    // keep; the red belongs on Discard, which is the tap that
+                    // destroys it.
+                    Button("Stop") { onStop() }
                         .buttonStyle(.borderedProminent)
+                        .accessibilityHint("Ends the recording and opens the save screen.")
                 }
             }
 

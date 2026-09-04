@@ -42,6 +42,11 @@ final class MarkLocation: NSObject {
         /// the wrong thing.
         case storageFailed(String)
 
+        /// Whether this outcome means no mark was kept. Every case but one.
+        var isFailure: Bool {
+            if case .marked = self { false } else { true }
+        }
+
         var message: String {
             switch self {
             case .marked(let layerName, let accuracyM, let layerShown):

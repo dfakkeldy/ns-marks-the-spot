@@ -19,6 +19,7 @@ struct SaveTrackSheet: View {
 
     @State private var name: String
     @State private var toleranceM = CaptureSpec.Simplify.defaultToleranceM
+    @State private var isConfirmingDiscard = false
 
     init(
         result: TrackRecording.StopResult,
@@ -48,9 +49,35 @@ struct SaveTrackSheet: View {
 
     /// Nothing drawable survived the filter — the honest state, offered as
     /// its own screen rather than a save button that quietly writes nothing.
+    /// Derived from the ask rule rather than written twice, so the button that
+    /// keeps the walk and the question that protects it can never disagree
+    /// about whether there is a walk.
     private var isEmpty: Bool {
-        keptVertexCount == 0
+        !Self.discardAsksFirst(keptVertexCount: keptVertexCount)
     }
+
+    /// Whether Discard asks before it destroys a walk.
+    ///
+    /// A recording with nothing drawable in it is offered no Save button, so
+    /// Discard is this sheet's only exit and the question would have one
+    /// possible answer — an obstacle rather than a safeguard. The raw fixes go
+    /// with it; the sheet has no way to keep those either. So this is not a
+    /// claim that nothing is lost, only that nothing here can keep it.
+    ///
+    /// The browser's dialog asks either way. The difference is deliberate:
+    /// its empty state still offers a save.
+    static func discardAsksFirst(keptVertexCount: Int) -> Bool {
+        keptVertexCount > 0
+    }
+
+    /// What the discard confirmation asks. The browser's dialog asks the same
+    /// question about the same two things, so a walk started on one surface
+    /// and reviewed on the other is described as the same loss. It says
+    /// "fixes" where the web says "positions" because this sheet's own rows
+    /// count fixes.
+    static let discardTitle = "Discard this recording?"
+    static let discardMessage =
+        "The track and the fixes it recorded will be lost. This cannot be undone."
 
     var body: some View {
         NavigationStack {
@@ -121,7 +148,22 @@ struct SaveTrackSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Discard", role: .destructive) { onDiscard() }
+                    // The leading slot is where a sheet's way out lives and
+                    // this sheet has no other one, so Discard stays here. It
+                    // is not a cancel, though: it destroys the only copy of a
+                    // walk that cannot be walked again, so it asks first.
+                    Button("Discard", role: .destructive) {
+                        if Self.discardAsksFirst(keptVertexCount: keptVertexCount) {
+                            isConfirmingDiscard = true
+                        } else {
+                            onDiscard()
+                        }
+                    }
+                    .accessibilityHint(
+                        Self.discardAsksFirst(keptVertexCount: keptVertexCount)
+                            ? "Asks to confirm, then deletes this recording."
+                            : "Closes this screen. There is no usable track to keep."
+                    )
                 }
                 if !isEmpty {
                     ToolbarItem(placement: .confirmationAction) {
@@ -136,6 +178,15 @@ struct SaveTrackSheet: View {
                         }
                     }
                 }
+            }
+            // An alert, matching this app's other discard confirmation, so
+            // one destructive question does not arrive in two different
+            // shapes depending on which screen raised it.
+            .alert(Self.discardTitle, isPresented: $isConfirmingDiscard) {
+                Button("Keep the recording", role: .cancel) {}
+                Button("Discard", role: .destructive) { onDiscard() }
+            } message: {
+                Text(Self.discardMessage)
             }
         }
     }

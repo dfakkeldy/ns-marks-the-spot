@@ -27,6 +27,10 @@ struct MapContainerView: View {
     @State private var editSession: VectorEditSession?
     /// Which mark toast is up, so only its own timer takes it down.
     @State private var markOutcomeGeneration = 0
+    /// A failed mark from an attempt a later tap overtook. The newer tap owns
+    /// the message, but a mark that was not kept stays unkept whoever tapped
+    /// next, so it is carried here and said alongside the newer answer.
+    @State private var overtakenMarkFailure: String?
     /// Counts Edit taps on layers still loading, so a load that returns
     /// after a newer tap does not open a session over the newer one.
     @State private var editLoadGeneration = 0
@@ -63,6 +67,11 @@ struct MapContainerView: View {
     /// the screen actually has rather than at a number chosen for a shorter
     /// list. Ten sections do not fit any fixed height worth hard-coding.
     @State private var mapHeight: CGFloat = 0
+    /// And how wide, which is what decides whether the layers panel opens
+    /// beside the search column or on top of it. Measured rather than taken
+    /// from the device: an iPad sharing its screen is as narrow as a phone,
+    /// and a phone held sideways is wider than either.
+    @State private var mapWidth: CGFloat = 0
     /// How tall the right-hand controls are, so the column can be given
     /// exactly that height and no more. Zero until the first layout.
     @State private var controlsHeight: CGFloat = 0
@@ -283,10 +292,17 @@ struct MapContainerView: View {
             VStack {
                 HStack(alignment: .top, spacing: 12) {
                     if !isSelectingSaveArea {
-                        ParcelSearchBar(viewModel: overlayVM, availableHeight: mapHeight)
-                            .frame(maxWidth: 260, alignment: .leading)
-                            .padding(.leading, 12)
-                            .padding(.top, 16)
+                        ParcelSearchBar(
+                            viewModel: overlayVM,
+                            availableHeight: mapHeight,
+                            coveredByPanel: isLayersMenuExpanded
+                                && Self.layersPanelCoversSearch(
+                                    mapWidth: mapWidth, railWidth: controlsWidth
+                                )
+                        )
+                        .frame(maxWidth: Self.searchColumnWidth, alignment: .leading)
+                        .padding(.leading, Self.searchColumnLeading)
+                        .padding(.top, 16)
                     }
 
                     Spacer()
@@ -307,7 +323,12 @@ struct MapContainerView: View {
                 }
                 Spacer()
             }
-            .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { height in
+            // Both dimensions from the one reader. The height caps the panel
+            // and the search card; the width decides whether the panel that
+            // opens on the trailing edge lands on that card or beside it.
+            .onGeometryChange(for: CGSize.self) { $0.size } action: { size in
+                mapWidth = size.width
+                let height = size.height
                 mapHeight = height
             }
 
@@ -330,8 +351,8 @@ struct MapContainerView: View {
             // stack again.
             if isLayersMenuExpanded {
                 layersPanel
-                    .frame(maxWidth: 300)
-                    .frame(maxHeight: max(320, mapHeight - 132))
+                    .frame(maxWidth: Self.layersPanelWidth)
+                    .frame(maxHeight: Self.layersPanelHeight(mapHeight: mapHeight))
                     // Attached to the panel itself rather than to the frame
                     // that positions it, so the slide is the width of the
                     // panel and not the width of the screen.
@@ -339,11 +360,11 @@ struct MapContainerView: View {
                         insertion: .move(edge: .trailing).combined(with: .opacity),
                         removal: .move(edge: .trailing).combined(with: .opacity)
                     ))
-                    .padding(.top, 60)
+                    .padding(.top, Self.layersPanelTopInset)
                     // Clear of the rail at any text size: its icons are
                     // scaled metrics, so a fixed allowance would slide the
                     // panel under them at an accessibility size.
-                    .padding(.trailing, 24 + controlsWidth)
+                    .padding(.trailing, Self.layersPanelRailGap + controlsWidth)
                     .frame(
                         maxWidth: .infinity,
                         maxHeight: .infinity,
@@ -432,7 +453,7 @@ struct MapContainerView: View {
             .padding(.horizontal, 16)
             // Below the recording HUD while it is up, measured rather than
             // guessed: the HUD grows with Dynamic Type.
-            .padding(.top, recorder.isActive || recorder.refusal != nil ? 60 + hudHeight + 8 : 116)
+            .padding(.top, recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
             // The photo map's cap, on the map: the row that also says it is
@@ -455,7 +476,7 @@ struct MapContainerView: View {
                         .padding(.horizontal, 16)
                         // Under the recording HUD when there is one, as the
                         // notices it shares the slot with are.
-                        .padding(.top, recorder.isActive || recorder.refusal != nil ? 60 + hudHeight + 8 : 116)
+                        .padding(.top, recorder.isShowingRecorder ? 60 + hudHeight + 8 : 116)
 
                     Spacer()
                 }
@@ -466,7 +487,12 @@ struct MapContainerView: View {
             // The recording HUD, top-centre: the bottom belongs to the edit
             // panel and callout cards, and recording during an edit (marking
             // culverts along a walked line) is a supported combination.
-            if recorder.isActive || recorder.refusal != nil, printFrame == nil {
+            // Because the reader asked to record, not because the device
+            // switch is off. The authorization delegate fires at cold launch,
+            // so a refusal read there would otherwise open the map with a
+            // "Recording not started" card and displaced controls for someone
+            // who never touched Record.
+            if recorder.isShowingRecorder, printFrame == nil {
                 VStack {
                     TrackRecordingHUD(recorder: recorder) {
                         // Read before the stop, which is what the sheet's
@@ -941,6 +967,68 @@ struct MapContainerView: View {
         )
     }
 
+    /// The numbers the layers panel is placed by.
+    ///
+    /// Named because two questions have to be answered from the same ones: how
+    /// tall the panel may be, and whether it is standing on the card under the
+    /// search field. Answering the second from numbers that had drifted from
+    /// the first is how a panel comes to cover something it reports it does
+    /// not.
+    static let layersPanelWidth: CGFloat = 300
+    static let layersPanelRailGap: CGFloat = 24
+    static let layersPanelTopInset: CGFloat = 60
+    static let layersPanelBottomClearance: CGFloat = 72
+    static let searchColumnWidth: CGFloat = 260
+    static let searchColumnLeading: CGFloat = 12
+
+    /// The height to open at before the map has reported a size.
+    static let layersPanelUnmeasuredHeight: CGFloat = 320
+
+    /// The tallest the layers panel may be over a map this tall.
+    ///
+    /// The room between the inset it hangs from and the clearance it keeps at
+    /// the bottom is the answer. It used to be the larger of that room and
+    /// three hundred and twenty points, and a floor that outranks the screen
+    /// is not a floor: a phone held sideways gives this stack about three
+    /// hundred and seventy points, so the panel opened three hundred and
+    /// eighty tall and put its last sections, and the bottom of the region
+    /// that scrolls them, below the edge of the screen where no gesture
+    /// reached them.
+    ///
+    /// The floor is kept for the case it was doing real work in — the keyboard
+    /// raised, which takes the room down to almost nothing — but it is now
+    /// itself capped by what is above the panel, so it can never be taller
+    /// than the map.
+    static func layersPanelHeight(mapHeight: CGFloat) -> CGFloat {
+        guard mapHeight > 0 else { return layersPanelUnmeasuredHeight }
+        let room = mapHeight - layersPanelTopInset - layersPanelBottomClearance
+        let floor = min(layersPanelUnmeasuredHeight, mapHeight - layersPanelTopInset)
+        return max(floor, room)
+    }
+
+    /// Whether the open panel is standing on the card under the search field.
+    ///
+    /// The panel hangs from the trailing edge clear of the rail; the search
+    /// column starts at the leading edge, and its card — the addresses and the
+    /// sentence saying which kind of nothing was found — runs down the screen
+    /// from just below the field, which is where the panel is. So the question
+    /// is horizontal: do the two claim the same points across?
+    ///
+    /// The field itself is not part of this. It sits above where the panel
+    /// begins and stays reachable, which is why only the card is taken out of
+    /// the accessibility tree.
+    ///
+    /// Worked out from the width the map was actually given rather than from
+    /// the device, because an iPad sharing its screen is as narrow as a phone
+    /// and a phone held sideways is not.
+    static func layersPanelCoversSearch(mapWidth: CGFloat, railWidth: CGFloat) -> Bool {
+        // An unmeasured width is not a narrow one. Nothing is known to be
+        // covered until the map has reported a size.
+        guard mapWidth > 0 else { return false }
+        let panelLeadingEdge = mapWidth - layersPanelRailGap - railWidth - layersPanelWidth
+        return panelLeadingEdge < searchColumnLeading + searchColumnWidth
+    }
+
     /// The right-hand rail.
     private var controlColumn: some View {
         VStack(alignment: .trailing, spacing: 12) {
@@ -1216,6 +1304,16 @@ struct MapContainerView: View {
         // session over controls that are no longer there.
         .frame(height: controlsHeight > 0
             ? min(controlsHeight, max(88, mapHeight - 132 - shownSaveAreaHeight)) : nil)
+        // And no wider than those buttons. A scroll view takes the width it is
+        // offered, and in this row that is a share of whatever the search field
+        // leaves, split with the spacer beside it — so the rail can be laid out
+        // as a broad strip with its buttons floating in the middle of it. Every
+        // card along the bottom, and the layers panel, is held clear of the
+        // rail by the width measured above, which is the width of the buttons
+        // alone: when the strip is wider than that, a card drawn up to that
+        // edge lands on Layers, Save Area and More, and the rest of the strip
+        // takes the map's vertical drags beside them.
+        .fixedSize(horizontal: true, vertical: false)
     }
 
     /// The ground the frame covers as the map stands right now.
@@ -1262,6 +1360,15 @@ struct MapContainerView: View {
                         break
                     case .annotationSelected(let annotationID):
                         if annotationID.hasPrefix(MapController.parcelOverviewPrefix) {
+                            // Measuring, editing and choosing a save area own
+                            // the map's taps, as they do for the markers
+                            // below. This branch does more than open a card:
+                            // `selectOverviewMarker` claims the camera, takes
+                            // it to the parcel and rewrites the search field,
+                            // off the shape being drawn or the bounds being
+                            // dragged, and leaves its card under the panel for
+                            // the rest of the session.
+                            guard annotationTapOpensWhatItNames else { break }
                             // The parcel answers, so nothing else may still be
                             // answering: two cards about different ground,
                             // stacked, read as one card about one place.
@@ -1283,7 +1390,7 @@ struct MapContainerView: View {
                         if let item = userVectorsVM.feature(annotationID: annotationID)
                             ?? photoMapVM.callout(annotationID: annotationID)
                         {
-                            guard measure == nil, editSession?.isEditing != true else { break }
+                            guard annotationTapOpensWhatItNames else { break }
                             vectorCallout = item
                             featureVM.clearSelection()
                             overlayVM.clearParcelSelection()
@@ -1295,7 +1402,7 @@ struct MapContainerView: View {
                             // corner must not open a card over their work, and
                             // one selected mid-edit must not be waiting for them
                             // when they finish.
-                            guard measure == nil, editSession?.isEditing != true else { break }
+                            guard annotationTapOpensWhatItNames else { break }
                             selectFeature(found)
                             break
                         }
@@ -1353,7 +1460,7 @@ struct MapContainerView: View {
                         // reader's own photo layers. Clusters never span
                         // layers, so one of the two answers. Not over
                         // measuring or editing, as for any other annotation.
-                        guard measure == nil, editSession?.isEditing != true else { break }
+                        guard annotationTapOpensWhatItNames else { break }
                         if let item = photoMapVM.callout(clusterMemberIDs: ids)
                             ?? userVectorsVM.callout(clusterMemberIDs: ids)
                         {
@@ -2294,6 +2401,30 @@ struct MapContainerView: View {
         bulkPlacement = BulkPlacementDraft(rows: rows, names: names, payloads: payloads)
     }
 
+    private var annotationTapOpensWhatItNames: Bool {
+        Self.annotationTapOpensCard(
+            measuring: measure != nil,
+            editing: editSession?.isEditing == true,
+            selectingBounds: isSelectingSaveArea
+        )
+    }
+
+    /// Whether a tap on a map annotation opens what it names.
+    ///
+    /// Measuring, editing and choosing a save area each own the map's taps and
+    /// each give a tap its own meaning, so a card that opened underneath one of
+    /// them is read as an answer to something the reader never asked. Three of
+    /// the four annotation branches already refused during measuring and
+    /// editing; the tax-sale overview marker refused during neither, and it
+    /// does more than open a card — it claims the camera, takes it to the
+    /// parcel and rewrites the search field. Save-area selection is added to
+    /// all four for the same reason, rather than to one of them.
+    static func annotationTapOpensCard(
+        measuring: Bool, editing: Bool, selectingBounds: Bool
+    ) -> Bool {
+        !measuring && !editing && !selectingBounds
+    }
+
     private var reticleShouldArm: Bool {
         Self.reticleShouldArm(
             isEditing: editSession?.isEditing ?? false,
@@ -2436,11 +2567,12 @@ struct MapContainerView: View {
     /// for it. A session already closing, or suspended, takes no mark.
     private func markMyLocation(destination: VectorEditSession?, operation: UUID?) async {
         // The attempt is counted first: a timer left by the last outcome
-        // must not take this attempt's answer down.
-        beginMarkAttempt()
+        // must not take this attempt's answer down, and the number counted
+        // here is what later says whether this tap is still the one the
+        // reader is waiting on.
+        let attempt = beginMarkAttempt()
         if destination != nil, operation == nil {
-            markLocation.report(.destinationChanged)
-            scheduleMarkOutcomeDismissal()
+            finishMark(attempt, with: .destinationChanged)
             return
         }
         defer { if let operation { destination?.endOperation(operation) } }
@@ -2450,24 +2582,36 @@ struct MapContainerView: View {
         guard let fix = await markLocation.acquireFix(
             preferring: [recorder.lastFix, controller.userLocationFix()]
         ) else {
+            // Two questions, and both have to be asked. Whether this tap is
+            // still the newest is the first: a mark can be overtaken by a
+            // second tap, and the answer to a tap the reader has already
+            // replaced is not the answer to the one they are waiting on.
+            // Whether the outcome is empty is the second: the acquisition
+            // records its own outcome when it knows why it failed, and a
+            // refusal, a fix the rule turned down, or a network failure must
+            // not be written over with "couldn't be found".
+            guard markOutcomeGeneration == attempt else { return }
             if markLocation.outcome == nil {
-                markLocation.report(.unavailable)
+                finishMark(attempt, with: .unavailable)
+            } else {
+                // The acquisition already wrote this attempt's own diagnosis.
+                // It is a failure like the carried one, so the carried one is
+                // let go rather than left to attach itself to a later tap.
+                overtakenMarkFailure = nil
+                scheduleMarkOutcomeDismissal()
             }
-            scheduleMarkOutcomeDismissal()
             return
         }
         let feature = MarkFeature.buildGpsMarkFeature(fix)
         guard destination === editSession else {
-            markLocation.report(.destinationChanged)
-            scheduleMarkOutcomeDismissal()
+            finishMark(attempt, with: .destinationChanged)
             return
         }
         if let session = editSession, session.isEditing {
             // Refused once Done has begun: the session is closing, and the
             // mark would race its final write.
             guard session.appendMark(feature, holding: operation) else {
-                markLocation.report(.destinationChanged)
-                scheduleMarkOutcomeDismissal()
+                finishMark(attempt, with: .destinationChanged)
                 return
             }
             // The layer's name is read now, before any wait, so a session
@@ -2476,29 +2620,30 @@ struct MapContainerView: View {
             // Said only once the mark is on disk: the session's own write is
             // debounced, and "Marked in" before it lands was a promise.
             guard await session.flush() else {
-                markLocation.report(
-                    .storageFailed(
+                finishMark(
+                    attempt,
+                    with: .storageFailed(
                         session.storageError ?? MarkLocation.storageFallbackMessage
                     )
                 )
-                scheduleMarkOutcomeDismissal()
                 return
             }
             // A mark asks to be seen; a layer switched off is switched on,
             // and said to be only once the library has it.
             let layerShown = session.layerIsHidden
             if layerShown, await !session.showLayer() {
-                markLocation.report(
-                    .storageFailed(
+                finishMark(
+                    attempt,
+                    with: .storageFailed(
                         "The mark was saved, but the layer could not be switched on. "
                             + "Turn it on from Layers."
                     )
                 )
-                scheduleMarkOutcomeDismissal()
                 return
             }
-            markLocation.report(
-                .marked(
+            finishMark(
+                attempt,
+                with: .marked(
                     layerName: layerName,
                     accuracyM: fix.accuracyM,
                     layerShown: layerShown
@@ -2511,13 +2656,13 @@ struct MapContainerView: View {
                 // A fix was had; the layer refused it. Said in the store's
                 // words — a storage failure reported as a GPS failure sent
                 // the reader outdoors to fix a full disk.
-                markLocation.report(
-                    .storageFailed(
+                finishMark(
+                    attempt,
+                    with: .storageFailed(
                         userVectorsVM.lastRefusal?.userMessage
                             ?? MarkLocation.storageFallbackMessage
                     )
                 )
-                scheduleMarkOutcomeDismissal()
                 return
             }
             // Read again after the write: the reader may have renamed the
@@ -2526,33 +2671,33 @@ struct MapContainerView: View {
             // switched off would be a success toast over a map with no new
             // pin on it.
             guard let current = userVectorsVM.rows.first(where: { $0.id == row.id }) else {
-                markLocation.report(
-                    .storageFailed(
+                finishMark(
+                    attempt,
+                    with: .storageFailed(
                         "\(row.record.name) was deleted while the mark was being saved, "
                             + "so the mark was not kept."
                     )
                 )
-                scheduleMarkOutcomeDismissal()
                 return
             }
             let layerShown = !current.isVisible
             if layerShown, await !userVectorsVM.showLayer(id: row.id) {
-                markLocation.report(
-                    .storageFailed(
+                finishMark(
+                    attempt,
+                    with: .storageFailed(
                         "The mark was saved to \(current.record.name), but the layer could not "
                             + "be switched on. Turn it on from Layers."
                     )
                 )
-                scheduleMarkOutcomeDismissal()
                 return
             }
-            markLocation.report(
-                .marked(
+            finishMark(
+                attempt,
+                with: .marked(
                     layerName: current.record.name, accuracyM: fix.accuracyM, layerShown: layerShown
                 )
             )
         }
-        scheduleMarkOutcomeDismissal()
     }
 
     /// The mark outcomes that stay up until the reader takes them down: a
@@ -2566,10 +2711,79 @@ struct MapContainerView: View {
         }
     }
 
-    /// Called when an attempt begins: a timer set by the last outcome must
-    /// not take this attempt's down, however the two interleave.
-    private func beginMarkAttempt() {
+    /// Called when an attempt begins, and hands back that attempt's own
+    /// number. The number does two jobs: a timer set by the last outcome must
+    /// not take this attempt's down, however the two interleave, and an
+    /// attempt a later tap has overtaken must not answer for the one the
+    /// reader is now waiting on.
+    private func beginMarkAttempt() -> Int {
         markOutcomeGeneration += 1
+        return markOutcomeGeneration
+    }
+
+    /// What an attempt's answer becomes: said, carried, or dropped.
+    enum MarkReport: Equatable {
+        /// Say this, and forget whatever an earlier attempt left carried.
+        case say(MarkLocation.Outcome)
+        /// Say nothing now, and hand this failure to whichever attempt
+        /// answers next.
+        case carry(String)
+        /// Say nothing and carry nothing.
+        case silent
+    }
+
+    /// The rule, kept out of the view so it can be tested.
+    ///
+    /// Two taps can overlap for the whole of the first attempt, not merely its
+    /// write: when a usable cached fix is to hand, `acquireFix` returns before
+    /// `isAcquiring` is ever set, so the rail button is never disabled and a
+    /// second tap can begin at any moment. Only a CoreLocation request
+    /// disables it.
+    ///
+    /// Whichever tap began last owns the message: an older tap's answer left
+    /// on screen is read as the answer to the newer one — a saved point over a
+    /// mark that was never saved. But an overtaken FAILURE is not merely
+    /// stale. A mark that was not kept stays unkept whoever tapped next, so it
+    /// is carried and said alongside the newer answer rather than dropped,
+    /// which would be this finding's own symptom in the mirror direction.
+    ///
+    /// It is folded in only when the newer answer is a success. When the newer
+    /// answer is itself a failure it already tells the reader a mark was not
+    /// kept, and rewrapping it would take the Settings button off a refusal.
+    static func markReport(
+        attempt: Int,
+        newest: Int,
+        outcome: MarkLocation.Outcome,
+        carried: String?
+    ) -> MarkReport {
+        guard attempt == newest else {
+            return outcome.isFailure ? .carry(outcome.message) : .silent
+        }
+        guard let carried, case .marked = outcome else { return .say(outcome) }
+        return .say(
+            .storageFailed("\(outcome.message) An earlier tap was not saved: \(carried)")
+        )
+    }
+
+    /// The answer to one attempt, applied. The dismissal is scheduled only
+    /// when something was said, because scheduling counts a generation and
+    /// would leave the newest attempt unable to recognise itself.
+    private func finishMark(_ attempt: Int, with outcome: MarkLocation.Outcome) {
+        switch Self.markReport(
+            attempt: attempt,
+            newest: markOutcomeGeneration,
+            outcome: outcome,
+            carried: overtakenMarkFailure
+        ) {
+        case .say(let said):
+            overtakenMarkFailure = nil
+            markLocation.report(said)
+            scheduleMarkOutcomeDismissal()
+        case .carry(let message):
+            overtakenMarkFailure = message
+        case .silent:
+            break
+        }
     }
 
     private func scheduleMarkOutcomeDismissal() {

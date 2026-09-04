@@ -137,4 +137,62 @@ struct MarkLocationTests {
         #expect(!outcome.message.contains("outdoors"))
         #expect(MarkLocation.Outcome.unavailable.message.contains("outdoors"))
     }
+
+    /// Two taps can overlap for the whole of the first attempt, not merely its
+    /// write: with a usable cached fix to hand, `acquireFix` returns before
+    /// `isAcquiring` is ever set, so the rail button is never disabled.
+    @Test("A tap the reader has replaced does not answer for the one they are waiting on")
+    func anOvertakenAttemptDoesNotSpeakForTheNewestOne() {
+        let saved = MarkLocation.Outcome.marked(layerName: "Field notes", accuracyM: 5)
+        // The finding: an older tap's success standing over a newer tap that
+        // saved nothing.
+        #expect(
+            MapContainerView.markReport(
+                attempt: 1, newest: 2, outcome: saved, carried: nil
+            ) == .silent
+        )
+        // The newest tap always answers.
+        #expect(
+            MapContainerView.markReport(
+                attempt: 2, newest: 2, outcome: saved, carried: nil
+            ) == .say(saved)
+        )
+    }
+
+    /// The mirror of the finding, which a plain newest-wins gate would create:
+    /// a mark that was not kept stays unkept whoever tapped next.
+    @Test("An overtaken failure is carried, not dropped")
+    func anOvertakenFailureIsCarriedToWhoeverAnswersNext() {
+        let refused = MarkLocation.Outcome.storageFailed("There was no room to save it.")
+        #expect(
+            MapContainerView.markReport(
+                attempt: 1, newest: 2, outcome: refused, carried: nil
+            ) == .carry(refused.message)
+        )
+
+        let saved = MarkLocation.Outcome.marked(layerName: "Field notes", accuracyM: 5)
+        let folded = MapContainerView.markReport(
+            attempt: 2, newest: 2, outcome: saved, carried: refused.message
+        )
+        guard case .say(.storageFailed(let message)) = folded else {
+            Issue.record("the carried failure was dropped: \(folded)")
+            return
+        }
+        #expect(message.contains("Point saved to Field notes"))
+        #expect(message.contains("There was no room to save it."))
+    }
+
+    /// A newer failure already tells the reader a mark was not kept, and
+    /// rewrapping a refusal would take its Settings button away.
+    @Test("A refusal is not rewrapped around a carried failure")
+    func aNewerFailureIsSaidInItsOwnWords() {
+        #expect(
+            MapContainerView.markReport(
+                attempt: 2,
+                newest: 2,
+                outcome: .denied,
+                carried: "There was no room to save it."
+            ) == .say(.denied)
+        )
+    }
 }
