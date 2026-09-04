@@ -533,3 +533,31 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
 Read scratchpad/codex/out-L-r1-*.md, fold into feature/ios-performance, re-run /tmp/ios-run.sh, then ask the owner about §12.11.
 ```
+
+## 2026-09-04 — §12.4's UI landed; PR L's round 1 folded in
+
+Done:
+- #312 gained the `WalkToLineChip` and the `walkToLineReading` that feeds it —
+  distance, compass point in degrees *true*, the fix-accuracy caveat and the
+  parcel caveat. 896 tests in 85 suites, app target. §12.4 is now whole.
+- #313 rewritten after round 1: both wall-clock suites deleted,
+  `OverlayInstallOrderTests` asserts batch/loop equivalence **by object
+  identity** against a scene below/level/above the parcels, and
+  `VectorEditSessionPlanTests` covers the cache's real risk — a second layer
+  being handed the first one's plans. Numbers moved to the PR body with the
+  machine, the date and a reproduction snippet.
+- Worktree `ns-marks-l-perf` added for `feature/ios-performance`; L rebased
+  onto the new K tip and force-pushed.
+
+Next:
+- Codex round 2 running on both (`out-L-r2-*.md`, `out-N-r2-*.md`).
+- #310 is green and clean. #311/#312/#313 native builds in progress.
+- **§12.11 is a question, not work.** The review's own verifier note says
+  "Present as a product question to the owner (reopen decision 3), not as an
+  improvement to implement." Ask; do not touch `UIBackgroundModes`.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-l-perf.
+Read scratchpad/codex/out-{L,N}-r2-*.md, fold anything real into the two branches, then put §12.11 to the owner.
+```
