@@ -149,17 +149,29 @@ struct PlacementReticleTests {
     /// with its last sections below the edge of the screen.
     @Test func theLayersPanelNeverOpensTallerThanTheScreen() {
         // Landscape phone.
+        // `CGFloat(...)` on both sides on purpose: `#expect` compares a CGFloat
+        // against an inferred Double by identity, and reports two numbers that
+        // print the same as unequal.
         let sideways = MapContainerView.layersPanelHeight(mapHeight: 372)
         #expect(sideways <= 372 - MapContainerView.layersPanelTopInset)
-        #expect(sideways == 372 - 60 - 72)
+        #expect(sideways == CGFloat(372 - 60 - 72))
 
         // Portrait phone: the room is the answer and it is roomy.
-        #expect(MapContainerView.layersPanelHeight(mapHeight: 800) == 800 - 60 - 72)
+        #expect(
+            MapContainerView.layersPanelHeight(mapHeight: 800) == CGFloat(800 - 60 - 72)
+        )
 
-        // The keyboard raised takes the room down to almost nothing. The floor
-        // keeps the panel usable, and is itself capped by what is above it.
-        let cramped = MapContainerView.layersPanelHeight(mapHeight: 300)
-        #expect(cramped <= 300 - MapContainerView.layersPanelTopInset)
+        // Still room, even if not much of it: the room is the answer, because
+        // a floor that can outrank it spends the clearance that keeps the
+        // panel off the source strip and the cards.
+        #expect(
+            MapContainerView.layersPanelHeight(mapHeight: 300) == CGFloat(300 - 60 - 72)
+        )
+
+        // No room at all. The fallback applies and is itself capped by what is
+        // above the panel, so it still cannot run off the bottom.
+        let cramped = MapContainerView.layersPanelHeight(mapHeight: 120)
+        #expect(cramped <= 120 - MapContainerView.layersPanelTopInset)
         #expect(cramped > 0)
 
         // Nothing measured yet.

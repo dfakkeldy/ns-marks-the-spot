@@ -996,15 +996,19 @@ struct MapContainerView: View {
     /// that scrolls them, below the edge of the screen where no gesture
     /// reached them.
     ///
-    /// The floor is kept for the case it was doing real work in — the keyboard
-    /// raised, which takes the room down to almost nothing — but it is now
-    /// itself capped by what is above the panel, so it can never be taller
-    /// than the map.
+    /// The room is the answer whenever there is any. The old floor was kept
+    /// at first for the case it was doing real work in — a map so short that
+    /// the subtraction leaves nothing — but a floor that can outrank the room
+    /// is the same bug in a smaller costume: at three hundred and seventy-two
+    /// points it takes three hundred and twelve and spends the bottom
+    /// clearance that keeps the panel off the source strip and the cards. So
+    /// it applies only where there is no room at all, and even then it cannot
+    /// reach past the inset it hangs from.
     static func layersPanelHeight(mapHeight: CGFloat) -> CGFloat {
         guard mapHeight > 0 else { return layersPanelUnmeasuredHeight }
         let room = mapHeight - layersPanelTopInset - layersPanelBottomClearance
-        let floor = min(layersPanelUnmeasuredHeight, mapHeight - layersPanelTopInset)
-        return max(floor, room)
+        guard room <= 0 else { return room }
+        return min(layersPanelUnmeasuredHeight, max(0, mapHeight - layersPanelTopInset))
     }
 
     /// Whether the open panel is standing on the card under the search field.
