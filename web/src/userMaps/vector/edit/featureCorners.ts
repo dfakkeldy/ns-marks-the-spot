@@ -73,6 +73,12 @@ export type VertexEditOutcome =
     }
   /** The shape does not cross itself now and would after. Nothing was written. */
   | { status: "would-cross" }
+  /**
+   * There is already a corner at that spot. Nothing was written: a corner
+   * placed on top of its neighbour is a segment with no length, which draws
+   * as nothing and reads back as a shape with a vertex nobody can see.
+   */
+  | { status: "already-there" }
   /** No such corner, or geometry this control cannot address. */
   | { status: "unavailable" };
 
@@ -277,6 +283,36 @@ function crossingVerdict(
   return { refuse: !pathSelfIntersects(open(before), closed), checked: true };
 }
 
+/**
+ * Whether the change puts a corner on top of one it is next to.
+ *
+ * Counted rather than merely looked for: a shape can already contain a
+ * zero-length edge — imported that way, or drawn by two taps on one spot — and
+ * refusing every move on a shape like that would leave the reader unable to
+ * repair it with the one control that needs no drag.
+ */
+function newZeroLengthEdges(
+  before: Position[],
+  after: Position[],
+  closed: boolean,
+): boolean {
+  const count = (positions: Position[]): number => {
+    const ring =
+      closed && ringIsClosed(positions) ? positions.slice(0, -1) : positions;
+    let found = 0;
+    for (let index = 0; index < ring.length - 1; index += 1) {
+      if (samePosition(ring[index], ring[index + 1])) {
+        found += 1;
+      }
+    }
+    if (closed && ring.length >= 2 && samePosition(ring[ring.length - 1], ring[0])) {
+      found += 1;
+    }
+    return found;
+  };
+  return count(after) > count(before);
+}
+
 function rewrite(
   geometry: Geometry,
   corner: FeatureCorner,
@@ -297,6 +333,9 @@ function rewrite(
     return UNAVAILABLE;
   }
   const after = next(before);
+  if (newZeroLengthEdges(before, after, corner.owner.closed)) {
+    return { outcome: { status: "already-there" }, geometry: null };
+  }
   const verdict = crossingVerdict(before, after, corner.owner.closed);
   if (verdict.refuse) {
     return { outcome: { status: "would-cross" }, geometry: null };

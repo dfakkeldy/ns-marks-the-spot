@@ -175,6 +175,13 @@ export function EditableVectorLayer({
   // Geoman for ownership of the geometry mid-gesture.
   const seedRef = useRef(data);
   const groupRef = useRef<L.GeoJSON | null>(null);
+  /**
+   * How many Geoman drag gestures are in progress. A count rather than a flag
+   * because a shape drag and a vertex drag report through different event
+   * pairs and a stray end event would otherwise unlatch a gesture still
+   * running.
+   */
+  const gestureRef = useRef(0);
   // Set by the session effect: turns a draft feature with no live layer into
   // an adopted group child, with the session's pane/renderer/style.
   const materializeRef = useRef<((feature: Feature) => void) | null>(null);
@@ -417,7 +424,10 @@ export function EditableVectorLayer({
       // itself when a layer's geometry changes underneath it, with the
       // layer's own current options handed back so whatever mode is armed
       // survives the rebuild.
-      const draftGeometry = draft.geometry;
+      // Not mid-gesture: see `beginGesture` above. The end of the gesture
+      // publishes, which brings this effect back with the geometry the reader
+      // just made.
+      const draftGeometry = gestureRef.current > 0 ? null : draft.geometry;
       if (
         layer instanceof L.Polyline &&
         (draftGeometry?.type === "LineString" ||

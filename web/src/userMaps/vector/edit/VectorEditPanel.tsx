@@ -200,7 +200,12 @@ function CornerMover({
   // no geotagged photo to offer one.
   const insertable = corner.owner !== null;
 
-  const said = (outcome: VertexEditOutcome, what: string, refused: string) => {
+  const said = (
+    outcome: VertexEditOutcome,
+    what: string,
+    refused: string,
+    alreadyThere: string,
+  ) => {
     switch (outcome.status) {
       case "done":
         setNote(
@@ -211,6 +216,9 @@ function CornerMover({
         return;
       case "would-cross":
         setNote(refused);
+        return;
+      case "already-there":
+        setNote(alreadyThere);
         return;
       case "unavailable":
         setNote(
@@ -280,6 +288,7 @@ function CornerMover({
               onMove(corner.number, [centre[0], centre[1]]),
               `${cornerLabel(corner)} moved to the centre of the map.`,
               `${cornerLabel(corner)} has not moved: putting it there would make this shape cross itself.`,
+              `${cornerLabel(corner)} has not moved: the corner beside it is already there, and the two together would draw nothing.`,
             );
           }}
         >
@@ -296,6 +305,7 @@ function CornerMover({
               onInsert(corner.number, [centre[0], centre[1]]),
               `A corner was added here, after ${cornerLabel(corner).toLowerCase()}.`,
               `No corner was added: one here would make this shape cross itself.`,
+              `No corner was added: there is already one at this spot.`,
             );
           }}
         >

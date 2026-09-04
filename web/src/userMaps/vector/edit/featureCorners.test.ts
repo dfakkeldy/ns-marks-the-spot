@@ -244,6 +244,30 @@ describe("moveCorner", () => {
     expect(result.geometry).not.toBeNull();
   });
 
+  // A corner dropped on top of the one beside it draws a segment with no
+  // length: invisible on the map, and read back as a shape with a vertex
+  // nobody can see. Refused, and said, rather than reported as a move.
+  it("refuses a corner moved on top of the one beside it", () => {
+    const result = moveCorner(closedSquare, numbered(closedSquare, 2), [0, 0]);
+    expect(result.outcome).toEqual({ status: "already-there" });
+    expect(result.geometry).toBeNull();
+  });
+
+  it("still moves a corner on a shape that already had a doubled position", () => {
+    const doubled: Geometry = {
+      type: "LineString",
+      coordinates: [
+        [0, 0],
+        [0, 0],
+        [1, 1],
+      ],
+    };
+    // Repairing that shape is exactly what this control is for, so an existing
+    // zero-length edge must not freeze every corner on it.
+    const result = moveCorner(doubled, numbered(doubled, 3), [2, 2]);
+    expect(result.outcome).toEqual({ status: "done", crossingChecked: true });
+  });
+
   it("moves a Point, which has no path to cross", () => {
     const point: Geometry = { type: "Point", coordinates: [-63.5, 44.5] };
     const corners = featureCorners(point);
@@ -285,6 +309,16 @@ describe("insertAfterCorner", () => {
       [2, 0.5],
     );
     expect(result.outcome).toEqual({ status: "would-cross" });
+    expect(result.geometry).toBeNull();
+  });
+
+  it("refuses a corner added on top of the one it follows", () => {
+    const result = insertAfterCorner(
+      closedSquare,
+      numbered(closedSquare, 1),
+      [0, 0],
+    );
+    expect(result.outcome).toEqual({ status: "already-there" });
     expect(result.geometry).toBeNull();
   });
 

@@ -153,7 +153,10 @@ a {
 .header-action,
 .primary-action {
   display: inline-flex;
-  min-height: 42px;
+  /* 44, not 42. These two render the first thing a reader meets — the licence
+     dialog's Accept and Continue — and two pixels under the target is still
+     under it. */
+  min-height: 44px;
   align-items: center;
   justify-content: center;
   padding: 10px 18px;
@@ -3270,7 +3273,8 @@ a {
 }
 
 .secondary-action {
-  min-height: 42px;
+  /* Beside `.primary-action` in the same dialog row; see the note there. */
+  min-height: 44px;
   color: var(--chart-ink);
   font-weight: 700;
   background: var(--white);
@@ -3558,6 +3562,16 @@ a {
     width: 44px;
     height: 44px;
     line-height: 44px;
+  }
+
+  /* With viewport-fit=cover, Leaflet's own 10px offset is measured from the
+     physical top of the display, so on a phone with a notch or an island most
+     of the plus button's new 44px sits inside the status bar and cannot be
+     tapped at all. The inset moves the whole bar down by whatever the device
+     reserves, and the location ladder below is written against this rule's
+     resulting bottom edge. */
+  .map-canvas .leaflet-top.leaflet-left {
+    top: env(safe-area-inset-top);
   }
 
   /* With viewport-fit=cover these fixed offsets sit relative to the notch,
@@ -6828,6 +6842,25 @@ a {
   font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+/* On a coarse pointer these are the smallest operable things on the page: a
+   24px disclosure toggle in the middle of a parcel's evidence, and a 38px one
+   in the tax-sale list. They stay compact where a cursor can hit them exactly
+   and grow to the target size where a fingertip cannot — padding rather than a
+   height, so the text keeps its place in the line and only the box a finger
+   lands in changes. */
+@media (pointer: coarse) {
+  .evidence-caveat > summary,
+  .layer-provenance summary,
+  .assessment-account summary {
+    min-height: 44px;
+  }
+
+  .tax-sale-property-list summary,
+  .resource-layer-group summary {
+    min-height: 44px;
+  }
 }
 
 /* display: inline-flex removes the native disclosure marker; put one back so

@@ -120,8 +120,8 @@ import {
   WELL_LOG_PANE_Z_INDEX,
 } from "./mapPanes";
 import { textTooltip } from "./mapTooltip";
+import type { FixRejection } from "../location/trackFilter";
 import { prefersReducedMotion } from "./mapMotion";
-import { FIELD_CAPTURE_SPEC } from "../location/captureSpec";
 import {
   fetchWellLogs,
   printWellLogMarkerStyle,
@@ -380,6 +380,46 @@ const RECORDER_DRAFT_UNVERIFIED_NOTE =
 // colour, which is not a channel every reader has.
 const RECORDER_FIXES_TOO_ROUGH_NOTE =
   "Positions are too rough to add to the track right now.";
+/**
+ * One sentence per way the contract's filter turns a fix down. They are not
+ * interchangeable: a reader told their positions are too rough walks on and
+ * waits for the sky, which is the wrong thing to do about a device whose clock
+ * is running backwards or whose reported accuracy is not a number.
+ */
+/**
+ * How long a change has to hold before it is announced. A fix that lands on
+ * the accuracy gate flips between accepted and rejected once a second, and a
+ * live region reads every flip aloud — the flooding the clock was taken out of
+ * the live region to stop.
+ */
+const ANNOUNCEMENT_SETTLE_MS = 4_000;
+
+/** A value, but only once it has stopped changing. */
+function useSettled<T>(value: T, delayMs: number): T {
+  const [settled, setSettled] = useState(value);
+  useEffect(() => {
+    if (value === settled) {
+      return;
+    }
+    const timer = setTimeout(() => setSettled(value), delayMs);
+    return () => clearTimeout(timer);
+  }, [value, settled, delayMs]);
+  return settled;
+}
+
+const REJECTION_NOTES: Record<FixRejection | "none", string | null> = {
+  none: null,
+  "too-rough": RECORDER_FIXES_TOO_ROUGH_NOTE,
+  "accuracy-invalid":
+    "This device is reporting positions with no usable accuracy, so they are "
+    + "not being added to the track.",
+  "out-of-order":
+    "Positions are arriving out of order, so they are not being added to the "
+    + "track.",
+  "too-fast":
+    "The last position was too far from the one before it to have been walked, "
+    + "so it was not added to the track.",
+};
 const CSS_METRES_PER_PIXEL = 0.0254 / 96;
 const DISPLAY_SCALE_SAMPLE_WIDTH_CSS_PIXELS = 100;
 const DISPLAY_SCALE_EXPLANATION =
@@ -2302,14 +2342,22 @@ export function MapCanvas({
   // Quality dot thresholds match the accuracy gate: green is survey-walk
   // quality, amber still passes the 25 m gate, red means fixes are being
   // rejected (or the signal is gone) and the track is not growing.
+  // Red when the last fix was turned down for ANY of the filter's reasons,
+  // not only for a wide accuracy circle. A fix one kilometre away one second
+  // later is rejected on speed and reports 5 m accuracy; a fix with a broken
+  // accuracy or a timestamp out of order does the same. Green over a track
+  // that has stopped growing is the dot saying the opposite of what is
+  // happening.
   const fixQuality =
     live.status !== "active" || !live.fix
       ? "red"
-      : live.fix.accuracyM <= 10
-        ? "green"
-        : live.fix.accuracyM <= 25
-          ? "amber"
-          : "red";
+      : recording.status === "recording" && recording.stats.lastRejection !== null
+        ? "red"
+        : live.fix.accuracyM <= 10
+          ? "green"
+          : live.fix.accuracyM <= 25
+            ? "amber"
+            : "red";
 
   // Which refusal the device gave, in the words the HUD already shows.
   const recorderDraftNote =
@@ -2327,15 +2375,19 @@ export function MapCanvas({
   // them reads the clock over the top of everything else for the length of the
   // walk; they are read from the "Track recording" region instead, whenever the
   // reader goes and asks for them.
-  // The red dot's second meaning, as a sentence. The watch is healthy and
-  // delivering and the accuracy gate is throwing every fix away, so the track
-  // has stopped growing — and on screen that was a colour and nothing else,
-  // which a reader who cannot tell the dot's two states apart never received.
-  const fixesTooRough =
-    recording.status === "recording" &&
-    live.status === "active" &&
-    live.fix !== null &&
-    live.fix.accuracyM > FIELD_CAPTURE_SPEC.trackFilter.accuracyGateM;
+  // The red dot's other meaning, as a sentence. The watch is healthy and
+  // delivering and the filter is throwing the fixes away, so the track has
+  // stopped growing — and on screen that was a colour and nothing else, which
+  // a reader who cannot tell the dot's two states apart never received.
+  //
+  // Which sentence matters: what the reader should do about a fix too rough to
+  // use (walk on, wait for the sky) is not what they should do about a clock
+  // running backwards. The filter's four refusals stay four sentences.
+  const rejectionNote =
+    recording.status === "recording" && live.status === "active"
+      ? REJECTION_NOTES[recording.stats.lastRejection ?? "none"]
+      : null;
+  const settledRejectionNote = useSettled(rejectionNote, ANNOUNCEMENT_SETTLE_MS);
   const recorderAnnouncement =
     recording.status === "idle"
       ? ""
@@ -2346,7 +2398,10 @@ export function MapCanvas({
           recording.wakeLockSupported === false
             ? RECORDER_WAKE_LOCK_NOTE
             : null,
-          fixesTooRough ? RECORDER_FIXES_TOO_ROUGH_NOTE : null,
+          // Settled, not live: the visible line above changes with the fix,
+          // but a reader hearing it must not be read a new sentence every
+          // second while accuracy hovers on the gate.
+          settledRejectionNote,
           recorderDraftNote,
         ]
           .filter((part) => part !== null)
@@ -2846,7 +2901,7 @@ export function MapCanvas({
           {recording.wakeLockSupported === false ? (
             <small>{RECORDER_WAKE_LOCK_NOTE}</small>
           ) : null}
-          {fixesTooRough ? <small>{RECORDER_FIXES_TOO_ROUGH_NOTE}</small> : null}
+          {rejectionNote ? <small>{rejectionNote}</small> : null}
           {recorderDraftNote ? <small>{recorderDraftNote}</small> : null}
           <div className="location-hud-actions">
             {recording.status === "recording" ? (

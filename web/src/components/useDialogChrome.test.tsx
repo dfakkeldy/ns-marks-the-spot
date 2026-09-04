@@ -205,6 +205,29 @@ describe("useDialogChrome, on the paths the first round missed", () => {
     expect(closeUnder).not.toHaveBeenCalled();
   });
 
+  // A Leaflet popup is torn down with the layer it belongs to, and the HUD's
+  // Stop button is gone the moment the save dialog it opened appears — so
+  // there is nothing left to give focus back to, and `<body>` is nowhere.
+  it("hands focus to the map when the opener is gone by the time the dialog closes", async () => {
+    const region = document.createElement("section");
+    region.className = "map-region";
+    region.tabIndex = -1;
+    document.body.append(region);
+    const opener = document.createElement("button");
+    document.body.append(opener);
+    opener.focus();
+
+    const { unmount } = render(<Dialog onDismiss={vi.fn()} />, {
+      container: document.body.appendChild(document.createElement("div")),
+    });
+    // The button that opened it goes with the state change that opened it.
+    opener.remove();
+    unmount();
+
+    expect(document.activeElement).toBe(region);
+    region.remove();
+  });
+
   it("gives Escape back to the one that is left", async () => {
     const user = userEvent.setup();
     const closeUnder = vi.fn();

@@ -1542,6 +1542,46 @@ describe("MapCanvas browser location", () => {
     );
   });
 
+  // Accuracy is one of four ways a fix fails the contract's filter. A fix a
+  // kilometre away one second later is rejected on speed and reports 5 m
+  // accuracy: the dot stayed green over a track that had stopped growing.
+  it("goes red and says why when the filter turns a fix down for something other than accuracy", async () => {
+    const user = userEvent.setup();
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(<MapCanvas {...baseMapProps()} onSaveTrack={vi.fn()} />);
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    const base = Date.now();
+    pushLiveFix({ accuracyM: 5, timestampMs: base });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+    // A second good fix, taken by the filter while the walk is running.
+    pushLiveFix({ accuracyM: 5, latitude: 46.1201, timestampMs: base + 1_000 });
+
+    const hud = screen.getByRole("region", { name: "Track recording" });
+    expect(
+      hud.querySelector(".location-hud-quality-green"),
+    ).toBeInTheDocument();
+
+    // One second later, a degree of latitude away.
+    pushLiveFix({ accuracyM: 5, latitude: 47.12, timestampMs: base + 2_000 });
+
+    expect(hud).toHaveTextContent(
+      "The last position was too far from the one before it to have been walked",
+    );
+    // And not the sentence for the rule that did not fire.
+    expect(hud).not.toHaveTextContent("Positions are too rough");
+    expect(hud.querySelector(".location-hud-quality-red")).toBeInTheDocument();
+  });
+
   it("announces a walk starting, pausing and resuming without reading the numbers", async () => {
     const user = userEvent.setup();
     // jsdom has no Screen Wake Lock, and without this the recorder reports it

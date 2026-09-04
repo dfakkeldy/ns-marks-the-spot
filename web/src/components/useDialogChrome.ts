@@ -41,12 +41,33 @@ const FOCUSABLE = [
  * read through a ref so inline-arrow props do not re-run the mount effect,
  * which would bounce focus on every parent render.
  */
+/**
+ * The default: the named map region, which is the one focusable landmark on
+ * this page that outlives every dialog drawn over the map. A reader who came
+ * from a Leaflet popup lands back on the map rather than on `<body>`.
+ */
+function mapRegionFallback(): HTMLElement | null {
+  return document.querySelector<HTMLElement>(".map-region");
+}
+
 export function useDialogChrome<T extends HTMLElement = HTMLElement>(
   onDismiss: (() => void) | null,
+  /**
+   * Where focus goes when whatever opened the dialog is no longer there.
+   *
+   * A Leaflet popup is torn down with the layer it belongs to, and the HUD's
+   * Stop button is gone the moment the save dialog it opened appears — so the
+   * opener this hook captured is detached by the time it would be focused, and
+   * focus falls to `<body>`, which is nowhere. Read at cleanup so it can name
+   * something that outlives the dialog.
+   */
+  returnTo: () => HTMLElement | null = mapRegionFallback,
 ) {
   const dialogRef = useRef<T | null>(null);
   const dismissRef = useRef(onDismiss);
   dismissRef.current = onDismiss;
+  const returnToRef = useRef(returnTo);
+  returnToRef.current = returnTo;
   useEffect(() => {
     const opener =
       document.activeElement instanceof HTMLElement
@@ -106,10 +127,17 @@ export function useDialogChrome<T extends HTMLElement = HTMLElement>(
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      // Only if it is still there: a Leaflet popup that opened a photo is torn
-      // down with the popup, and focusing a detached node does nothing.
+      // The opener if it is still there; otherwise whatever the caller named
+      // as the thing that outlives it. Focusing a detached node does nothing
+      // at all, and leaving focus on `<body>` costs a keyboard or VoiceOver
+      // reader their place on the page.
       if (opener?.isConnected) {
         opener.focus();
+        return;
+      }
+      const fallback = returnToRef.current?.();
+      if (fallback?.isConnected) {
+        fallback.focus({ preventScroll: true });
       }
     };
   }, []);
