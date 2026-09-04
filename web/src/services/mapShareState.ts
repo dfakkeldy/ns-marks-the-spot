@@ -59,7 +59,7 @@ export const DEFAULT_MAP_POSITION: MapPosition = {
   zoom: 9,
 };
 
-const NOVA_SCOTIA_BOUNDS = {
+export const NOVA_SCOTIA_BOUNDS = {
   south: 43,
   west: -66.5,
   north: 47.5,

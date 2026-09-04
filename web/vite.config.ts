@@ -11,6 +11,9 @@ export default defineConfig({
   },
   build: {
     manifest: true,
+    rollupOptions: {
+      input: { app: "index.html", atlas: "atlas.html" },
+    },
   },
   test: {
     environment: "jsdom",

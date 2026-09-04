@@ -20,6 +20,29 @@ npm run dev
 
 Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
 
+## Atlas basemap study
+
+Open `/atlas.html` on the local Vite server to review the original day and
+night cartography over OpenFreeMap's OSM vector tiles. Day, Night, and standard
+OSM share a camera; Baddeck, Mabou, and Halifax are comparison bookmarks.
+The initial appearance follows the system setting. This is a separate visual
+prototype: the research map and its print/export flow keep their existing
+Leaflet basemap, and do not load the MapLibre renderer.
+
+Property-boundary preview retains the Province licence gate, official renderer,
+attribution, and close-detail visibility floor. Fletcher preview uses the same
+`VITE_FLETCHER_TILE_BASE_URL`, revision, sheet bounds, and imagery terms as the
+research map. WebGL raster sources additionally require the host to allow the
+preview origin through CORS. The current production tile host allows
+`https://kinnokilabs.com`, but rejected the localhost origin during this study;
+historical preview reports a source error there. It is not proof of missing
+imagery. With no tile host configured the historical control is disabled.
+
+Both HTML entry points are included in `npm run build`. The MapLibre 6 worker
+is bundled with Vite's `?worker&url` import so it also works under a hosting
+subpath. This prototype introduces no print/export contract or production
+basemap migration.
+
 ## Map setup, categories, and themes
 
 A first visit uses **Explore Nova Scotia**: the modern map is on, catalogue
