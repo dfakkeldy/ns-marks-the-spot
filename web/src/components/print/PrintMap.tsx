@@ -194,7 +194,13 @@ export function PrintMap({
         onSelectPid={() => undefined}
         onIdentifyParcel={() => undefined}
         initialPosition={snapshot.viewport.position}
-        onPositionChange={onResolvedPosition}
+        onPositionChange={(position) => {
+          // Null means the map is mid-move. The printed viewport is the
+          // settled one, which is the report that follows.
+          if (position) {
+            onResolvedPosition(position);
+          }
+        }}
         onLayerStatusChange={updateStatus}
         renderMode="print"
         fitBounds={bounds}

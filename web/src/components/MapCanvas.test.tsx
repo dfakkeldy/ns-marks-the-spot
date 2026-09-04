@@ -366,6 +366,35 @@ const hiddenResourceLayers = {
   "mineral-proximity-parcels": false,
 };
 
+/** The smallest complete prop set: a map with every layer off. */
+function baseMapProps() {
+  return {
+    parcels: { type: "FeatureCollection" as const, features: [] },
+    taxSalePids: new Set<string>(),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    provinceLayers: {
+      "ns-aerial": false,
+      nsprd: false,
+      "crown-lands": false,
+      "flood-risk": false,
+      waterfalls: false,
+      "water-features": false,
+      roads: false,
+      buildings: false,
+      contours: false,
+      "place-names": false,
+      "main-roads": false,
+    },
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showTaxSale: false,
+    showHistoricalTaxSales: false,
+    onSelectPid: vi.fn(),
+    onIdentifyParcel: vi.fn(),
+  };
+}
+
 afterEach(() => {
   vi.useRealTimers();
   vi.unstubAllGlobals();
@@ -1479,6 +1508,40 @@ describe("MapCanvas browser location", () => {
     expect(hud.closest('[role="status"], [aria-live]')).toBeNull();
   });
 
+  // The quality dot goes red for two different situations. This is the one
+  // nothing else covers: the watch is healthy and delivering, and every fix is
+  // being thrown out by the accuracy gate, so the track has stopped growing.
+  // On screen that was a colour and nothing else.
+  it("says in the HUD when fixes are too rough to be added, not only in colour", async () => {
+    const user = userEvent.setup();
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(<MapCanvas {...baseMapProps()} onSaveTrack={vi.fn()} />);
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix({ accuracyM: 5 });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    const hud = screen.getByRole("region", { name: "Track recording" });
+    expect(hud).not.toHaveTextContent(
+      "Positions are too rough to add to the track right now.",
+    );
+
+    // Past the 25 m gate: the watch is fine and every fix is being discarded.
+    pushLiveFix({ accuracyM: 40 });
+    expect(hud).toHaveTextContent(
+      "Positions are too rough to add to the track right now.",
+    );
+  });
+
   it("announces a walk starting, pausing and resuming without reading the numbers", async () => {
     const user = userEvent.setup();
     // jsdom has no Screen Wake Lock, and without this the recorder reports it
@@ -1908,6 +1971,35 @@ describe("MapCanvas viewport reporting", () => {
       position: { latitude: 46.35, longitude: -61.15, zoom: 15 },
       bounds: { north: 47, east: -60, south: 45, west: -62 },
     });
+  });
+
+  // A flight to a parcel takes about a second, and anything putting something
+  // AT the centre — the vector panel's corner mover — must not be handed the
+  // centre the flight is leaving.
+  it("says it has no centre from the moment the map starts moving", () => {
+    const onPositionChange = vi.fn();
+    render(
+      <MapCanvas {...baseMapProps()} onPositionChange={onPositionChange} />,
+    );
+
+    onPositionChange.mockClear();
+    const [, movestartHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "movestart")
+      .pop() ?? [];
+    expect(movestartHandler).toBeTypeOf("function");
+    act(() => movestartHandler?.());
+    expect(onPositionChange).toHaveBeenLastCalledWith(null);
+
+    const [, moveendHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "moveend")
+      .pop() ?? [];
+    act(() => moveendHandler?.());
+    expect(onPositionChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        latitude: expect.any(Number),
+        longitude: expect.any(Number),
+      }),
+    );
   });
 
   it("keeps location recentering out of printable viewport state", async () => {
@@ -2550,6 +2642,48 @@ describe("MapCanvas parcel discovery", () => {
       padding: [64, 64],
       maxZoom: 16,
       animate: false,
+    });
+  });
+
+  // Leaflet's own + and - buttons go through its animated zoom path, which no
+  // amount of care about the app's own flights reaches. These are Map
+  // constructor options with no setter, so they are read once — the cost of
+  // covering the built-in controls at all.
+  it("hands Leaflet its own animation switches from the motion setting", () => {
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    render(<MapCanvas {...baseMapProps()} />);
+    expect(mapContainerProps.current).toMatchObject({
+      zoomAnimation: false,
+      markerZoomAnimation: false,
+      fadeAnimation: false,
+    });
+  });
+
+  it("keeps Leaflet's animations when nobody asked for less motion", () => {
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: false,
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    render(<MapCanvas {...baseMapProps()} />);
+    expect(mapContainerProps.current).toMatchObject({
+      zoomAnimation: true,
+      markerZoomAnimation: true,
+      fadeAnimation: true,
     });
   });
 

@@ -1190,6 +1190,15 @@ export function App() {
       setPhoneCategoryLayout(query.matches);
       if (!query.matches) {
         setFocusedCategoryId(null);
+        // The sheet and its trigger are display:none above this width, so a
+        // sheet left open is an open dialog nobody can see or close, holding
+        // focus on a hidden button. Closing it here also means the opening
+        // effect runs again — and hands focus over again — if the reader
+        // comes back below the breakpoint.
+        if (mobileControlsRef.current?.contains(document.activeElement)) {
+          mapRegionRef.current?.focus({ preventScroll: true });
+        }
+        setMobileControlsOpen(false);
       }
     };
     update();
@@ -1259,9 +1268,17 @@ export function App() {
       return;
     }
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeMobileControls();
+      if (event.key !== "Escape") {
+        return;
       }
+      // Asked of the document rather than of this component's state: the
+      // sheet is App's, but the photo lightbox, the save-track dialog and the
+      // export dialog belong to the map, and App cannot name what it does not
+      // hold. A modal is open or it is not, and while one is, Escape is its.
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) {
+        return;
+      }
+      closeMobileControls();
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
@@ -1401,14 +1418,20 @@ export function App() {
    * render, re-subscribe, store, and render again without end.
    */
   const reportMapCentre = useCallback(
-    (position: { latitude: number; longitude: number }) => {
-      setMapCentre((current) =>
-        current &&
-        current[0] === position.longitude &&
-        current[1] === position.latitude
+    (position: { latitude: number; longitude: number } | null) => {
+      setMapCentre((current) => {
+        if (!position) {
+          // Moving. The centre is somewhere between where it was and where it
+          // is going, and a control that puts a corner AT the centre is
+          // better told there is no answer than given the wrong one.
+          return null;
+        }
+        return current &&
+          current[0] === position.longitude &&
+          current[1] === position.latitude
           ? current
-          : [position.longitude, position.latitude],
-      );
+          : [position.longitude, position.latitude];
+      });
     },
     [],
   );
@@ -3030,6 +3053,9 @@ export function App() {
   );
 
   const selectParcel = (pid: string): SelectedEvidenceRequest => {
+    // Before the state change, while the sheet is still in the DOM to be
+    // asked whether it holds focus.
+    handOffSheetFocus();
     setMobileControlsOpen(false);
     setGeometryOutcome(null);
     // A caution belongs to the selection it was raised for, and re-selecting
@@ -3284,12 +3310,15 @@ export function App() {
 
   const submitPidSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handOffSheetFocus();
+    // No hand-off here. Submitting is not the same as choosing a parcel: an
+    // eight-digit typo and an address both leave the sheet open, one to show
+    // the error and the other to show its results, and moving focus to the
+    // map behind an open sheet would strand the reader outside the thing they
+    // were reading. `selectParcel` is where the sheet actually closes.
     void runSearch(query);
   };
 
   const selectListedParcel = async (eventId: string, pid: string) => {
-    handOffSheetFocus();
     cancelAddressSearch();
     cancelPointLookup();
     setEventVisibility(eventId, true);

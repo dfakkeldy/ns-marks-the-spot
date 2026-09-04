@@ -32,6 +32,10 @@ const FOCUSABLE = [
  * the map behind a dialog. Keeping the pointer out as well wants those regions
  * moved out from behind the dialogs first, which is its own change.
  *
+ * Escape is answered by one dialog only: whichever of the open modals comes
+ * last in the document. Two can be open at once, each with its own document
+ * listener, and before this a single press closed both.
+ *
  * Pass `null` for a dialog Escape must not close — the save-track dialog holds
  * a walked track that no stray keypress may discard. The dismiss handler is
  * read through a ref so inline-arrow props do not re-run the mount effect,
@@ -60,6 +64,16 @@ export function useDialogChrome<T extends HTMLElement = HTMLElement>(
     }
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && dismissRef.current) {
+        // Only the topmost dialog answers. Two of these can be open at once —
+        // the phone's About button stays reachable beside a photo lightbox —
+        // and every one of them listens on the document, so without this one
+        // keypress closed the whole stack.
+        const dialogs = document.querySelectorAll<HTMLElement>(
+          '[role="dialog"][aria-modal="true"]',
+        );
+        if (dialog && dialogs.length > 1 && dialogs[dialogs.length - 1] !== dialog) {
+          return;
+        }
         event.preventDefault();
         dismissRef.current();
         return;
@@ -77,8 +91,14 @@ export function useDialogChrome<T extends HTMLElement = HTMLElement>(
       }
       const active = document.activeElement;
       const inside = active instanceof HTMLElement && dialog.contains(active);
-      const edge = event.shiftKey ? stops[0] : stops[stops.length - 1];
-      if (!inside || active === edge) {
+      // Where focus is in the ring, not merely whether it is in the dialog.
+      // A dialog that names itself the first stop with tabIndex={-1} holds
+      // focus on a container that is inside the dialog and is not one of its
+      // stops, so a check that only compared against the ends let the very
+      // first Shift+Tab walk backwards out of the modal.
+      const at = active instanceof HTMLElement ? stops.indexOf(active) : -1;
+      const edge = event.shiftKey ? 0 : stops.length - 1;
+      if (!inside || at === -1 || at === edge) {
         event.preventDefault();
         (event.shiftKey ? stops[stops.length - 1] : stops[0]).focus();
       }

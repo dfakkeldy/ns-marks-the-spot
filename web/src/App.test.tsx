@@ -849,6 +849,60 @@ describe("NS Marks The Spot Online", () => {
     expect(outside).toHaveFocus();
   });
 
+  // The sheet's own Escape listener and every dialog's are all on the
+  // document, so a dialog App does not hold — the photo lightbox, the
+  // save-track dialog, the export dialog, all of them the map's — used to
+  // take one press down two layers at once. The question is asked of the
+  // document instead of of App's state, because App cannot name what it does
+  // not hold.
+  it("stands the sheet's Escape down while any modal dialog is open", async () => {
+    const user = userEvent.setup();
+    renderAppWithCategoriesOpen();
+
+    const trigger = screen.getByRole("button", { name: "Search & layers" });
+    await user.click(trigger);
+    const rail = screen.getByRole("complementary", { name: "Map controls" });
+    expect(rail).toHaveClass("mobile-open");
+
+    // A dialog the map owns, standing in for the lightbox: App has no state
+    // for it, which is the whole point.
+    const modal = document.createElement("div");
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    document.body.append(modal);
+    try {
+      await user.keyboard("{Escape}");
+      expect(rail).toHaveClass("mobile-open");
+    } finally {
+      modal.remove();
+    }
+
+    await user.keyboard("{Escape}");
+    expect(rail).not.toHaveClass("mobile-open");
+  });
+
+  // Submitting is not choosing: an eight-digit typo and an address both leave
+  // the sheet open, one to show its error and the other its results, and
+  // handing focus to the map behind an open sheet strands the reader outside
+  // what they were reading.
+  it("keeps focus in the sheet when a search does not select a parcel", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    renderAppWithCategoriesOpen();
+
+    await user.click(screen.getByRole("button", { name: "Search & layers" }));
+    const field = screen.getByLabelText("Search by PID or civic address");
+    await user.click(field);
+    await user.type(field, "12{Enter}");
+
+    expect(
+      await screen.findByText("Enter an 8-digit Nova Scotia parcel ID."),
+    ).toBeInTheDocument();
+    const rail = screen.getByRole("complementary", { name: "Map controls" });
+    expect(rail).toHaveClass("mobile-open");
+    expect(rail.contains(document.activeElement)).toBe(true);
+  });
+
   // aria-modal is an announcement, not a barrier: before the shared chrome a
   // Tab out of the About dialog walked into the map behind it.
   it("keeps Tab inside a dialog instead of letting it reach the map", async () => {

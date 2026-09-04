@@ -210,7 +210,12 @@ type MapCanvasProps = {
   focusRequest?: ParcelFocusRequest | null;
   initialPosition?: MapPosition;
   preserveInitialPosition?: boolean;
-  onPositionChange?: (position: MapPosition) => void;
+  /**
+   * The map's centre on every moveend, and null from movestart until it
+   * settles: a caller that puts something AT the centre must not be handed
+   * the centre an animation started from.
+   */
+  onPositionChange?: (position: MapPosition | null) => void;
   onViewportChange?: (viewport: PrintMapViewport) => void;
   /**
    * Saves a point at the user's position; resolves to a status message for
@@ -371,7 +376,8 @@ const RECORDER_DRAFT_UNVERIFIED_NOTE =
 // The quality dot goes red for two different situations, and this is the one
 // the location message never covers: the watch is healthy and delivering, and
 // every fix is being thrown out by the accuracy gate, so the track has stopped
-// growing. On screen that is a red dot and nothing else — colour alone.
+// growing. Rendered in the HUD as well as announced — the dot alone said it in
+// colour, which is not a channel every reader has.
 const RECORDER_FIXES_TOO_ROUGH_NOTE =
   "Positions are too rough to add to the track right now.";
 const CSS_METRES_PER_PIXEL = 0.0254 / 96;
@@ -1092,13 +1098,19 @@ function MapPositionController({
       guard.lastSuppressed = null;
       onViewportChange?.(viewport);
     };
+    // A flight to a parcel takes about a second, and the centre does not
+    // reach its destination until moveend. Anything aiming at the centre is
+    // told there is no answer yet rather than given the one it is leaving.
+    const forgetPosition = () => onPositionChange?.(null);
     reportPosition();
     // moveend only: Leaflet's _moveEnd fires zoomend then moveend from the
     // same call, so a zoomend subscription made every zoom issue a doomed
     // duplicate request that the moveend run aborted milliseconds later.
     map.on("moveend", reportPosition);
+    map.on("movestart", forgetPosition);
     return () => {
       map.off("moveend", reportPosition);
+      map.off("movestart", forgetPosition);
     };
   }, [map, onPositionChange, onViewportChange, printableViewportGuard]);
 
@@ -1820,6 +1832,25 @@ export function MapCanvas({
   onExportFrameContinue,
 }: MapCanvasProps) {
   const isPrintMode = renderMode === "print";
+  /**
+   * Reduce Motion reaching Leaflet's own controls, not just the app's flights.
+   * Pressing + on the zoom bar goes through Leaflet's animated zoom path, and
+   * a reader who asked the system for less motion was still given a full
+   * animated zoom on every press.
+   *
+   * Read once, at construction: these are Map constructor options with no
+   * supported setter, so a reader who changes the system setting mid-session
+   * gets the new behaviour on the next load. That is the cost of reaching the
+   * built-in controls at all, and it is stated rather than hidden.
+   */
+  const [zoomMotion] = useState(() => {
+    const still = prefersReducedMotion();
+    return {
+      zoomAnimation: !still,
+      markerZoomAnimation: !still,
+      fadeAnimation: !still,
+    };
+  });
   const modernPrintError = useRef(false);
   const reportLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
@@ -2296,6 +2327,15 @@ export function MapCanvas({
   // them reads the clock over the top of everything else for the length of the
   // walk; they are read from the "Track recording" region instead, whenever the
   // reader goes and asks for them.
+  // The red dot's second meaning, as a sentence. The watch is healthy and
+  // delivering and the accuracy gate is throwing every fix away, so the track
+  // has stopped growing — and on screen that was a colour and nothing else,
+  // which a reader who cannot tell the dot's two states apart never received.
+  const fixesTooRough =
+    recording.status === "recording" &&
+    live.status === "active" &&
+    live.fix !== null &&
+    live.fix.accuracyM > FIELD_CAPTURE_SPEC.trackFilter.accuracyGateM;
   const recorderAnnouncement =
     recording.status === "idle"
       ? ""
@@ -2306,12 +2346,7 @@ export function MapCanvas({
           recording.wakeLockSupported === false
             ? RECORDER_WAKE_LOCK_NOTE
             : null,
-          recording.status === "recording" &&
-          live.status === "active" &&
-          live.fix !== null &&
-          live.fix.accuracyM > FIELD_CAPTURE_SPEC.trackFilter.accuracyGateM
-            ? RECORDER_FIXES_TOO_ROUGH_NOTE
-            : null,
+          fixesTooRough ? RECORDER_FIXES_TOO_ROUGH_NOTE : null,
           recorderDraftNote,
         ]
           .filter((part) => part !== null)
@@ -2342,6 +2377,7 @@ export function MapCanvas({
         boxZoom={!isPrintMode}
         keyboard={!isPrintMode}
         attributionControl={false}
+        {...zoomMotion}
         ref={setMap}
       >
         <MapSizeController />
@@ -2810,6 +2846,7 @@ export function MapCanvas({
           {recording.wakeLockSupported === false ? (
             <small>{RECORDER_WAKE_LOCK_NOTE}</small>
           ) : null}
+          {fixesTooRough ? <small>{RECORDER_FIXES_TOO_ROUGH_NOTE}</small> : null}
           {recorderDraftNote ? <small>{recorderDraftNote}</small> : null}
           <div className="location-hud-actions">
             {recording.status === "recording" ? (

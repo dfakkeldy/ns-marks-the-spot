@@ -128,6 +128,39 @@ function cornerLabel(corner: FeatureCorner): string {
     : `Corner ${corner.number}`;
 }
 
+const COMPASS = [
+  "north",
+  "north-east",
+  "east",
+  "south-east",
+  "south",
+  "south-west",
+  "west",
+  "north-west",
+] as const;
+
+/**
+ * Which way the corner lies from the map centre. Distance alone does not
+ * identify a corner — every corner of a square centred on the map is the same
+ * distance away — and the handles on screen carry no numbers, so without this
+ * neither a sighted reader nor a screen-reader user can tell which "Corner 2"
+ * means before moving it.
+ *
+ * A local flat-earth bearing: over the tens of metres this control works at,
+ * the difference from a great-circle bearing is far smaller than the eight
+ * names it is being rounded into.
+ */
+function bearingFrom(
+  centre: [number, number],
+  position: Position,
+): (typeof COMPASS)[number] {
+  const east =
+    (position[0] - centre[0]) * Math.cos((centre[1] * Math.PI) / 180);
+  const north = position[1] - centre[1];
+  const degrees = (Math.atan2(east, north) * 180) / Math.PI;
+  return COMPASS[Math.round(((degrees + 360) % 360) / 45) % 8];
+}
+
 /**
  * Reshaping without a drag: pick a corner by number, aim the map, press.
  *
@@ -226,9 +259,14 @@ function CornerMover({
         {corners.length === 1
           ? "1 corner."
           : `${corners.length.toLocaleString("en-CA")} corners.`}{" "}
-        {away === null
+        {away === null || !centre
           ? "The map has not settled yet."
-          : `${cornerLabel(corner)} is ${formatDistance(away)} from the centre of the map.`}
+          : away < 1
+            ? `${cornerLabel(corner)} is at the centre of the map.`
+            : `${cornerLabel(corner)} is ${formatDistance(away)} ${bearingFrom(
+                centre,
+                corner.position,
+              )} of the centre of the map.`}
       </small>
       <div className="vector-edit-corner-actions">
         <button

@@ -501,6 +501,35 @@ describe("VectorEditPanel's corner mover", () => {
     );
   });
 
+  // Distance alone does not identify a corner: every corner of a square
+  // centred on the map is the same distance away, and the handles on screen
+  // carry no numbers.
+  it("says which way the chosen corner lies, not only how far", async () => {
+    const user = userEvent.setup();
+    panel({
+      data: lineData,
+      selectedFeatureId: "line-1",
+      // South-east of the first corner at [-63.5, 44.5].
+      mapCentre: [-63.6, 44.6],
+    });
+    expect(screen.getByText(/south-east of the centre of the map/)).toBeInTheDocument();
+
+    await user.selectOptions(screen.getByLabelText("Corner"), "3");
+    // [-63.4, 44.6] is due east of [-63.6, 44.6].
+    expect(screen.getByText(/east of the centre of the map/)).toBeInTheDocument();
+  });
+
+  it("says a corner already at the centre is at the centre", () => {
+    panel({
+      data: lineData,
+      selectedFeatureId: "line-1",
+      mapCentre: [-63.5, 44.5],
+    });
+    expect(
+      screen.getByText(/Corner 1 is at the centre of the map/),
+    ).toBeInTheDocument();
+  });
+
   it("offers a Point the move but not the insert", () => {
     panel({ selectedFeatureId: "f1", mapCentre: [-63.45, 44.55] });
     expect(

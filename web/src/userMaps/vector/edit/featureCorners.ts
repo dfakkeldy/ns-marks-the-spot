@@ -32,7 +32,13 @@ export const CROSSING_CHECK_MAX_POSITIONS = 400;
 type CornerOwner = {
   /** Index path from `geometry.coordinates` down to the position array. */
   prefix: number[];
-  /** Whether the last position of that array repeats its first. */
+  /**
+   * Whether an edge runs from the last position back to the first. True for
+   * every ring of an area and false for every line — a property of what the
+   * geometry IS, not of how it was stored. An imported ring that does not
+   * repeat its first position still has that closing edge: Leaflet draws it,
+   * and a move that puts a crossing there is a crossing the reader will see.
+   */
   closed: boolean;
 };
 
@@ -99,19 +105,47 @@ function ringIsClosed(positions: Position[]): boolean {
   );
 }
 
-function cornersIn(
+type LooseCorner = Omit<FeatureCorner, "number" | "partCount">;
+
+/**
+ * A line's positions, every one of them its own corner. A line whose last
+ * position happens to equal its first is not a ring: Leaflet draws a polyline
+ * exactly as stored, the two coincident ends are separate vertices, and moving
+ * one must not drag the other.
+ */
+function lineCorners(
   positions: Position[],
   prefix: number[],
   part: number,
-): Omit<FeatureCorner, "number" | "partCount">[] {
-  const closed = ringIsClosed(positions);
+): LooseCorner[] {
+  return positions.map((position, index) => ({
+    position,
+    index,
+    owner: { prefix, closed: false },
+    mirrors: [],
+    part,
+  }));
+}
+
+/**
+ * One ring of an area. The stored repeat, when there is one, is the same
+ * corner written twice rather than a corner of its own, so it is listed once
+ * and moved by the mirror. Whether it is there decides only that; the ring's
+ * closing edge exists either way.
+ */
+function ringCorners(
+  positions: Position[],
+  prefix: number[],
+  part: number,
+): LooseCorner[] {
+  const repeatsFirst = ringIsClosed(positions);
   const last = positions.length - 1;
-  const listed = closed ? positions.slice(0, last) : positions;
+  const listed = repeatsFirst ? positions.slice(0, last) : positions;
   return listed.map((position, index) => ({
     position,
     index,
-    owner: { prefix, closed },
-    mirrors: closed && index === 0 ? [last] : [],
+    owner: { prefix, closed: true },
+    mirrors: repeatsFirst && index === 0 ? [last] : [],
     part,
   }));
 }
@@ -131,7 +165,7 @@ export function featureCorners(geometry: Geometry | null): FeatureCorner[] {
   if (!geometry) {
     return [];
   }
-  let flat: Omit<FeatureCorner, "number" | "partCount">[] = [];
+  let flat: LooseCorner[] = [];
   switch (geometry.type) {
     case "Point":
       flat = [
@@ -145,22 +179,22 @@ export function featureCorners(geometry: Geometry | null): FeatureCorner[] {
       ];
       break;
     case "LineString":
-      flat = cornersIn(geometry.coordinates, [], 1);
+      flat = lineCorners(geometry.coordinates, [], 1);
       break;
     case "MultiLineString":
       flat = geometry.coordinates.flatMap((line, index) =>
-        cornersIn(line, [index], index + 1),
+        lineCorners(line, [index], index + 1),
       );
       break;
     case "Polygon":
       flat = geometry.coordinates.flatMap((ring, index) =>
-        cornersIn(ring, [index], index + 1),
+        ringCorners(ring, [index], index + 1),
       );
       break;
     case "MultiPolygon":
       flat = geometry.coordinates.flatMap((polygon, outer) =>
         polygon.flatMap((ring, inner) =>
-          cornersIn(ring, [outer, inner], outer + 1),
+          ringCorners(ring, [outer, inner], outer + 1),
         ),
       );
       break;
@@ -220,6 +254,12 @@ function withPositions(
  * reports whether a path crosses, full stop — a GPS track that doubles back
  * crosses itself already, and a shape that returns true whatever the reader
  * does would make the mover useless on exactly the geometry hardest to drag.
+ *
+ * The question is asked of the corner's own ring or line and of nothing else.
+ * A hole dragged out through its outer ring, or one part of a multi-part shape
+ * pushed across another, is not tested here and is not refused. The panel
+ * therefore never tells the reader the shape is clear — it only ever says when
+ * it is refusing, which is a claim this test can support.
  */
 function crossingVerdict(
   before: Position[],

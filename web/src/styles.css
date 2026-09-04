@@ -2061,10 +2061,15 @@ a {
 }
 
 /* Save-track dialog: the one moment recording data can be lost, so it is
-   modal and Discard confirms. */
+   modal and Discard confirms. Shared by the bulk photo import.
+
+   Above the phone attribution strip's 1300, not below it. At 1200 the strip
+   painted over the backdrop, so About this map and Data & licences stayed
+   tappable beside a dialog that calls itself modal — and opening one of them
+   put a second modal on the screen. */
 .save-track-backdrop {
   position: fixed;
-  z-index: 1200;
+  z-index: 1400;
   inset: 0;
   display: grid;
   place-items: center;
@@ -5915,9 +5920,11 @@ a {
   object-fit: cover;
 }
 
+/* Above the phone attribution strip's 1300, for the reason given on
+   `.save-track-backdrop`. */
 .photo-lightbox-backdrop {
   position: fixed;
-  z-index: 1200;
+  z-index: 1400;
   inset: 0;
   display: grid;
   place-items: center;

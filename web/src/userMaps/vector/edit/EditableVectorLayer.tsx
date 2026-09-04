@@ -446,21 +446,32 @@ export function EditableVectorLayer({
               ),
             );
         if (!settled) {
+          const pm = (
+            layer as L.Layer & {
+              pm?: {
+                enable?: (options?: unknown) => void;
+                enabled?: () => boolean;
+                getOptions?: () => unknown;
+              };
+            }
+          ).pm;
+          // Read before the write: `enable()` is what builds the vertex and
+          // middle markers, so calling it on a layer that was not already
+          // editing would put handles on a shape whose only reason to have
+          // them is that the panel touched it. The session enables every
+          // seeded feature, so in practice this is true — but a layer
+          // materialized later is not, and re-enabling is for rebuilding
+          // handles that exist, not for granting them.
+          const wasEditing = pm?.enabled?.() ?? false;
           layer.setLatLngs(
             L.GeoJSON.coordsToLatLngs(
               draftGeometry.coordinates as never,
               depth,
             ),
           );
-          const pm = (
-            layer as L.Layer & {
-              pm?: {
-                enable?: (options?: unknown) => void;
-                getOptions?: () => unknown;
-              };
-            }
-          ).pm;
-          pm?.enable?.(pm.getOptions?.());
+          if (wasEditing) {
+            pm?.enable?.(pm.getOptions?.());
+          }
         }
       }
     });

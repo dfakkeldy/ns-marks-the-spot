@@ -20,6 +20,33 @@ function Dialog({
   );
 }
 
+/**
+ * The shape three of App's dialogs take: the dialog element itself is the
+ * first focus stop, named with tabIndex={-1} so the whole thing is read out
+ * before its controls are reached.
+ */
+function ContainerFocusDialog({
+  onDismiss,
+  label = "A dialog",
+}: {
+  onDismiss: (() => void) | null;
+  label?: string;
+}) {
+  const ref = useDialogChrome<HTMLDivElement>(onDismiss);
+  return (
+    <div
+      ref={ref}
+      role="dialog"
+      aria-modal="true"
+      aria-label={label}
+      tabIndex={-1}
+    >
+      <button type="button">{`${label} first`}</button>
+      <button type="button">{`${label} last`}</button>
+    </div>
+  );
+}
+
 function Page({
   open,
   onDismiss = vi.fn(),
@@ -120,5 +147,69 @@ describe("useDialogChrome", () => {
     expect(screen.getByRole("button", { name: "First" })).toHaveFocus();
 
     expect(() => rerender(<Transient open={false} />)).not.toThrow();
+  });
+});
+
+describe("useDialogChrome, on the paths the first round missed", () => {
+  // The container is inside the dialog but is not one of its stops, so a trap
+  // that only compared against the two ends let the very first Shift+Tab walk
+  // backwards into the page behind the modal.
+  it("keeps the first Shift+Tab inside a dialog that focuses its own container", async () => {
+    const user = userEvent.setup();
+    render(
+      <>
+        <button type="button">Behind the dialog</button>
+        <ContainerFocusDialog onDismiss={vi.fn()} />
+      </>,
+    );
+    expect(document.activeElement).toBe(
+      screen.getByRole("dialog", { name: "A dialog" }),
+    );
+
+    await user.tab({ shift: true });
+    expect(document.activeElement).toBe(
+      screen.getByRole("button", { name: "A dialog last" }),
+    );
+
+    await user.tab({ shift: true });
+    expect(document.activeElement).toBe(
+      screen.getByRole("button", { name: "A dialog first" }),
+    );
+  });
+
+  it("sends the first forward Tab from the container to the first stop", async () => {
+    const user = userEvent.setup();
+    render(<ContainerFocusDialog onDismiss={vi.fn()} />);
+    await user.tab();
+    expect(document.activeElement).toBe(
+      screen.getByRole("button", { name: "A dialog first" }),
+    );
+  });
+
+  // Two of these can be open at once — the phone's attribution strip keeps
+  // About this map reachable beside a photo lightbox — and each listens on the
+  // document, so one press used to close the whole stack.
+  it("gives Escape to the topmost dialog only", async () => {
+    const user = userEvent.setup();
+    const closeUnder = vi.fn();
+    const closeOver = vi.fn();
+    render(
+      <>
+        <ContainerFocusDialog onDismiss={closeUnder} label="Underneath" />
+        <ContainerFocusDialog onDismiss={closeOver} label="On top" />
+      </>,
+    );
+
+    await user.keyboard("{Escape}");
+    expect(closeOver).toHaveBeenCalledTimes(1);
+    expect(closeUnder).not.toHaveBeenCalled();
+  });
+
+  it("gives Escape back to the one that is left", async () => {
+    const user = userEvent.setup();
+    const closeUnder = vi.fn();
+    render(<ContainerFocusDialog onDismiss={closeUnder} label="Underneath" />);
+    await user.keyboard("{Escape}");
+    expect(closeUnder).toHaveBeenCalledTimes(1);
   });
 });

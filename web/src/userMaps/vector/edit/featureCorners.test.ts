@@ -70,7 +70,7 @@ describe("featureCorners", () => {
   // A ring that arrives unclosed has four real vertices, not three plus a
   // repeat. Assuming closure would hide the fourth from the list and then
   // teleport it whenever corner 1 moved.
-  it("treats a ring as closed only when its last position repeats its first", () => {
+  it("mirrors a ring's first corner only when the ring actually repeats it", () => {
     const corners = featureCorners(unclosedSquare);
     expect(corners).toHaveLength(4);
     expect(corners[3].position).toEqual([1, 0]);
@@ -178,6 +178,57 @@ describe("moveCorner", () => {
     };
     const result = moveCorner(bowtie, numbered(bowtie, 4), [0, 3]);
     expect(result.outcome).toEqual({ status: "done", crossingChecked: true });
+  });
+
+  // The stored repeat decides the mirror and nothing else. Leaflet draws the
+  // closing edge of an unclosed imported ring just the same, so a move that
+  // puts a crossing there is one the reader sees — and reporting it as
+  // checked-and-clear would be the control certifying what it never tested.
+  it("tests an unclosed ring's closing edge, which the map draws either way", () => {
+    const unclosedTriangle: Geometry = {
+      type: "Polygon",
+      coordinates: [
+        [
+          [0, 0],
+          [2, 0],
+          [0, 2],
+          [0, 3],
+        ],
+      ],
+    };
+    const result = moveCorner(
+      unclosedTriangle,
+      numbered(unclosedTriangle, 4),
+      [2, 2],
+    );
+    expect(result.outcome).toEqual({ status: "would-cross" });
+  });
+
+  // A polyline that ends where it started is two coincident vertices, not a
+  // ring: Leaflet draws it exactly as stored, and moving one end must leave
+  // the other where the reader put it.
+  it("does not mirror a line whose last position happens to equal its first", () => {
+    const loop: Geometry = {
+      type: "LineString",
+      coordinates: [
+        [0, 0],
+        [1, 0],
+        [1, 1],
+        [0, 0],
+      ],
+    };
+    const corners = featureCorners(loop);
+    expect(corners).toHaveLength(4);
+    expect(corners.every((corner) => corner.mirrors.length === 0)).toBe(true);
+    const result = moveCorner(loop, numbered(loop, 1), [-1, -1]);
+    expect(
+      (result.geometry as { coordinates: Position[] }).coordinates,
+    ).toEqual([
+      [-1, -1],
+      [1, 0],
+      [1, 1],
+      [0, 0],
+    ]);
   });
 
   it("says so when the shape has too many corners to check for crossings", () => {
