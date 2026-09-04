@@ -666,3 +666,41 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
 Read scratchpad/codex/out-P-r1-*.md, fold into #315, and watch CI on #314 and #315.
 ```
+
+## 2026-09-04 — #314 green; #315 round 1 folded in
+
+Done:
+- **#314 is fully green** (Build gate, Native, Core, Change classification).
+- #315 round 1, and it was the sharpest round yet. Both lenses opened with the
+  same finding: **Stop from the Lock Screen could lose the walk.** The map's
+  Stop shows the save sheet while the reader watches; a locked phone's cannot,
+  so the stopped walk waited in `@State` — and iOS terminates backgrounded
+  apps. `PendingTrackSaveStore` writes it before the recorder is cleared.
+  Also fixed: orphaned activities ended at launch ("Recording stopped", never
+  "finished"); intents that reached no recorder reporting success; unordered
+  activity updates (Pause then Resume could land backwards); a blocked
+  background session invisible on the Lock Screen; a refused walk losing its
+  Stop button; and 44-pt targets. 916 tests in 89 suites.
+
+Two traps worth remembering:
+- `INFOPLIST_KEY_NSExtensionPointIdentifier` does not generate the nested
+  `NSExtension` dictionary; without an explicit Info.plist the *whole app*
+  fails to install with "Invalid placeholder attributes".
+- **Anything that reaches ActivityKit from a test host blocks the main actor
+  long enough to starve the bundle.** It surfaced twice as an unrelated
+  deadlock-detector test timing out at sixty seconds: once from the default
+  `LiveActivityPresenter` in recorder tests, once from the launch-time orphan
+  sweep. Both are now skipped or injected.
+
+Owed, and NOT done:
+- **Device verification of #314 and #315.** Nothing about §12.11 has been on a
+  device or a Lock Screen.
+- An in-progress (not yet stopped) walk is still lost on termination. Only the
+  *stopped* one is durable now.
+- Thirteen of the fifteen §5 findings, listed in #313's body.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Watch CI on #315, run a round 2 on the revision, then hand both to the owner for a device walk.
+```
