@@ -80,7 +80,14 @@ final class AppContainer {
         // starve the rest of the bundle — a deadlock-detector test elsewhere
         // began timing out at sixty seconds, which is how this was found.
         if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil {
-            Task { await LiveActivityPresenter.endOrphans() }
+            // Named synchronously, ended afterwards. Enumerating inside the
+            // task would have swept up an activity the reader started in
+            // between — the new walk's Lock Screen torn away while it went on
+            // collecting fixes.
+            let orphans = LiveActivityPresenter.orphanIDs()
+            if !orphans.isEmpty {
+                Task { await LiveActivityPresenter.endOrphans(orphans) }
+            }
         }
         guard ProcessInfo.processInfo.arguments.contains("UITestMode") else {
             return AppContainer()

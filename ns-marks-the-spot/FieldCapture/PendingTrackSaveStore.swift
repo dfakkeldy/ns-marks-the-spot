@@ -43,13 +43,29 @@ final class PendingTrackSaveStore {
     /// A file that cannot be decoded is not a walk, and is removed rather than
     /// left to fail again at every launch. That loses nothing a reader could
     /// have had: an undecodable walk cannot be saved either.
-    func read() -> Pending? {
-        guard let data = try? Data(contentsOf: file) else { return nil }
+    /// What is waiting, or why nothing is.
+    ///
+    /// Three answers rather than one, because "there is no walk" and "there is
+    /// a walk this app could not read" are different facts and the second one
+    /// is a walk. Merging them would have told a reader whose file was
+    /// momentarily unreadable — a protected file at a locked screen, an I/O
+    /// error, a truncation — that their walk had never existed.
+    enum Reading {
+        case none
+        case pending(Pending)
+        /// The bytes are there and could not be turned into a walk. **Kept**:
+        /// deleting them is a discard the reader never asked for, and the file
+        /// may be readable later or recoverable by hand.
+        case unreadable
+    }
+
+    func read() -> Reading {
+        guard FileManager.default.fileExists(atPath: file.path) else { return .none }
+        guard let data = try? Data(contentsOf: file) else { return .unreadable }
         guard let pending = try? JSONDecoder().decode(Pending.self, from: data) else {
-            clear()
-            return nil
+            return .unreadable
         }
-        return pending
+        return .pending(pending)
     }
 
     /// Written before the recorder is cleared, so a termination between the
@@ -59,6 +75,16 @@ final class PendingTrackSaveStore {
         guard let data = try? JSONEncoder().encode(pending) else { return false }
         do {
             try data.write(to: file, options: .atomic)
+            // Out of backups, every time: an atomic write replaces the file,
+            // and a replaced file does not keep the flag. This holds raw
+            // fixes with their timestamps and accuracies, and both the HUD and
+            // the Info.plist tell the reader that stays on this device — a
+            // temporary recovery copy riding into an iCloud backup would make
+            // that untrue without anyone exporting anything.
+            var url = file
+            var values = URLResourceValues()
+            values.isExcludedFromBackup = true
+            try? url.setResourceValues(values)
             return true
         } catch {
             return false

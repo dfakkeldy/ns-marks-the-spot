@@ -180,7 +180,11 @@ protocol BackgroundActivity: AnyObject {
     /// nothing at all, which is the one thing this app's evidence rules do not
     /// permit: an empty answer is not evidence of absence, and a refused
     /// session is not a running one.
-    var onUnavailable: ((String) -> Void)? { get set }
+    /// Called with the reason the walk will not continue off screen, and with
+    /// **nil when it will** — a restriction that clears has to be able to
+    /// unsay itself, or the reader is warned for the rest of the walk about
+    /// something that stopped being true.
+    var onUnavailable: ((String?) -> Void)? { get set }
 }
 
 /// The real one. Idempotent on both edges: a session started twice would put a
@@ -191,7 +195,7 @@ final class LocationBackgroundActivity: BackgroundActivity {
     private var session: CLBackgroundActivitySession?
     private var watch: Task<Void, Never>?
 
-    var onUnavailable: ((String) -> Void)?
+    var onUnavailable: ((String?) -> Void)?
 
     var isRunning: Bool {
         get { session != nil }
@@ -220,8 +224,9 @@ final class LocationBackgroundActivity: BackgroundActivity {
             do {
                 for try await diagnostic in session.diagnostics {
                     guard !Task.isCancelled else { return }
-                    guard let reason = Self.reason(for: diagnostic) else { continue }
-                    self?.onUnavailable?(reason)
+                    // Reported whether or not there is a reason: nil is the
+                    // session saying the problem has gone.
+                    self?.onUnavailable?(Self.reason(for: diagnostic))
                 }
             } catch {
                 // The sequence failing is the session ending, which the

@@ -67,14 +67,19 @@ final class TrackActivityActions {
     static let shared = TrackActivityActions()
     private init() {}
 
-    private var pauseAction: (() -> Void)?
-    private var resumeAction: (() -> Void)?
-    private var stopAction: (() -> Void)?
+    private var pauseAction: (() -> Bool)?
+    private var resumeAction: (() -> Bool)?
+    private var stopAction: (() -> Bool)?
 
+    /// Each action reports whether the walk actually changed — not whether a
+    /// closure happened to be installed. Actions outlive the recording they
+    /// were installed for, so a stale button on a Lock Screen can reach a
+    /// recorder that is already idle, and answering "done" to that is the same
+    /// lie as answering it with nothing installed at all.
     func install(
-        pause: @escaping () -> Void,
-        resume: @escaping () -> Void,
-        stop: @escaping () -> Void
+        pause: @escaping () -> Bool,
+        resume: @escaping () -> Bool,
+        stop: @escaping () -> Bool
     ) {
         pauseAction = pause
         resumeAction = resume
@@ -100,10 +105,9 @@ final class TrackActivityActions {
         stopAction = nil
     }
 
-    private func run(_ action: (() -> Void)?) -> Bool {
+    private func run(_ action: (() -> Bool)?) -> Bool {
         guard let action else { return false }
-        action()
-        return true
+        return action()
     }
 
     /// What an intent throws when there is no recorder to reach.

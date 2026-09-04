@@ -155,6 +155,9 @@ final class TrackRecorder: NSObject {
         // read as one that is.
         background.onUnavailable = { [weak self] reason in
             guard let self, recordingIsRunning() else { return }
+            guard reason != backgroundNotice else { return }
+            // Nil is the session saying the problem has gone, and the reader
+            // is owed that as much as the warning.
             backgroundNotice = reason
             // Straight through to the Lock Screen, not on the ten-second
             // cadence: this is the sentence that changes what the reader
@@ -235,6 +238,11 @@ final class TrackRecorder: NSObject {
         reconcileScreen()
         continuesOffScreen(false)
         activityRunningSince = nil
+        // The warning was about a *running* walk continuing off screen. A
+        // paused one is not continuing anywhere, and saying both at once
+        // carries a blocked-running state into a state that is not running.
+        // Resume asks for a new session, and that session answers again.
+        backgroundNotice = nil
         pushActivity(now: now, force: true)
     }
 
@@ -250,11 +258,36 @@ final class TrackRecorder: NSObject {
         pushActivity(now: now, force: true)
     }
 
-    func stop(now: Date = Date()) -> TrackRecording.StopResult? {
+    /// Stops, in two parts, because the walk has to be somewhere safe before
+    /// the recorder lets go of it.
+    ///
+    /// `stop(now:keeping:)` takes the result out of the state machine, offers
+    /// it to `keeping`, and **only clears the recorder if `keeping` says the
+    /// walk is safe**. Stop is reachable from a Lock Screen, where the save
+    /// sheet cannot be shown, so between stopping and the reader seeing it the
+    /// walk lives in a file — and a device with no space left would otherwise
+    /// have had the recorder cleared, the activity ended, a success haptic
+    /// fired, and nothing anywhere to save.
+    ///
+    /// A refused keep leaves the recording exactly as it was: still stopped in
+    /// the state machine's terms, but still held here, so the caller can say so
+    /// and try again.
+    @discardableResult
+    func stop(
+        now: Date = Date(), keeping: (TrackRecording.StopResult) -> Bool = { _ in true }
+    ) -> TrackRecording.StopResult? {
         // Read before the state machine is replaced: the Lock Screen is told
         // what the walk came to, not what an empty recorder says.
         let closing = activityState(now: now, overridingRecording: false)
+        let stopped = recording
         let result = recording.stop(now: now)
+        if let result, !keeping(result) {
+            // Put it back. Nothing else has changed yet — no source, no
+            // screen, no session, no activity — so the walk is exactly where
+            // it was and the caller can report why it could not be kept.
+            recording = stopped
+            return nil
+        }
         // A fresh state machine, so the next recording starts empty: the
         // stopped one keeps its segments and counters in the StopResult, and
         // the web replaces its recorder on stop the same way.

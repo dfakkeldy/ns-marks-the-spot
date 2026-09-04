@@ -1703,10 +1703,21 @@ struct MapContainerView: View {
             // other copy gets lost.
             .onAppear {
                 guard saveTrack == nil, !recorder.isActive else { return }
-                guard let pending = pendingSaves.read() else { return }
-                saveTrack = SaveTrackPayload(
-                    result: pending.result, stoppedWhileRefused: pending.stoppedWhileRefused
-                )
+                switch pendingSaves.read() {
+                case .none:
+                    break
+                case .pending(let pending):
+                    saveTrack = SaveTrackPayload(
+                        result: pending.result, stoppedWhileRefused: pending.stoppedWhileRefused
+                    )
+                case .unreadable:
+                    // Kept, not deleted, and said out loud. A walk this app
+                    // cannot read is still the reader's walk, and a file that
+                    // is momentarily unreadable — protected at a locked
+                    // screen, an I/O error — may be readable next time.
+                    saveTrackError = "A stopped walk is on this device and could not "
+                        + "be read. It has been kept in case it can be read later."
+                }
             }
             // Where the Lock Screen's buttons land. They perform in this
             // process, so they call the same three things the HUD's own
@@ -1716,12 +1727,19 @@ struct MapContainerView: View {
                 TrackActivityActions.shared.install(
                     pause: {
                         recorder.pause()
-                        if recorder.status == .paused { MapHaptics.modeChanged() }
+                        guard recorder.status == .paused else { return false }
+                        MapHaptics.modeChanged()
+                        return true
                     },
                     resume: {
                         recorder.resume()
-                        if recorder.status == .recording { MapHaptics.modeChanged() }
+                        guard recorder.status == .recording else { return false }
+                        MapHaptics.modeChanged()
+                        return true
                     },
+                    // True only once the walk is in a file. A Lock Screen Stop
+                    // that could not set the walk aside must not report that
+                    // it stopped it.
                     stop: { stopRecording() }
                 )
             }
@@ -2205,26 +2223,40 @@ struct MapContainerView: View {
     /// screen, so it waits: the reader finds their walk still there, asking to
     /// be kept, the next time they open the app. Nothing is thrown away by a
     /// button pressed on a Lock Screen.
-    private func stopRecording() {
+    @discardableResult
+    private func stopRecording() -> Bool {
         // Read before the stop, which is what the sheet's empty-result
         // wording is about.
         let refused = recorder.stoppedWhileRefused
-        if let result = recorder.stop() {
-            // Written down first. This is reachable from the Lock Screen, and
-            // between here and the reader opening the app iOS may terminate
-            // the process — at which point the only copy of the walk would
-            // have been in a `@State` that no longer exists.
+        // The recorder only lets go of the walk once it is in a file. This is
+        // reachable from a Lock Screen, where the save sheet cannot be shown,
+        // so between stopping and the reader seeing it the file is the only
+        // copy — and a device with no space left would otherwise have cleared
+        // the recorder, ended the activity, buzzed a success, and left nothing
+        // anywhere to save.
+        let result = recorder.stop { walk in
             pendingSaves.write(
-                PendingTrackSaveStore.Pending(result: result, stoppedWhileRefused: refused)
+                PendingTrackSaveStore.Pending(result: walk, stoppedWhileRefused: refused)
             )
-            // The recorder changed mode, which is all this says. Whether the
-            // walk is worth keeping is the save sheet's question, and it opens
-            // with it.
-            MapHaptics.modeChanged()
-            saveTrack = SaveTrackPayload(result: result, stoppedWhileRefused: refused)
         }
+        guard let result else {
+            // Nothing was stopped, or the walk could not be written down. The
+            // second is the one worth saying: the recording is still running
+            // and still whole.
+            if recorder.isActive {
+                saveTrackError = "This walk could not be set aside to save. "
+                    + "Free some space on your device and stop again."
+            }
+            return false
+        }
+        // The recorder changed mode, which is all this says. Whether the
+        // walk is worth keeping is the save sheet's question, and it opens
+        // with it.
+        MapHaptics.modeChanged()
+        saveTrack = SaveTrackPayload(result: result, stoppedWhileRefused: refused)
         // The live trace is drawn from the recorder, which just went idle.
         pushUserVectors()
+        return true
     }
 
     /// The reading the chip shows, or nil when there is nothing to measure.

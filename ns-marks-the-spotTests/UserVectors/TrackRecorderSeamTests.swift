@@ -87,11 +87,11 @@ private final class SpyBackground: BackgroundActivity {
         }
     }
 
-    var onUnavailable: ((String) -> Void)?
+    var onUnavailable: ((String?) -> Void)?
 
-    /// What the real session's `diagnostics` sequence does when it reports a
-    /// reason the walk will not continue.
-    func reportUnavailable(_ reason: String) { onUnavailable?(reason) }
+    /// What the real session's `diagnostics` sequence does. Nil is the session
+    /// saying the problem has gone.
+    func reportUnavailable(_ reason: String?) { onUnavailable?(reason) }
 }
 
 /// The seam the design document has claimed since N1 and did not have.

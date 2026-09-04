@@ -80,16 +80,35 @@ final class LiveActivityPresenter: TrackActivityPresenter {
         enqueue(Handle(activity: activity)) { await $0.end(state) }
     }
 
-    /// Ends every activity this app left behind, saying the walk is over.
+    /// The activities that were already on the Lock Screen when this process
+    /// started, named now so a walk begun a moment later cannot be mistaken
+    /// for one.
+    ///
+    /// Read synchronously at launch and ended afterwards, because the ending
+    /// suspends: enumerating inside the async work would have swept up an
+    /// activity the reader had started in between and torn their new
+    /// recording's Lock Screen away while it went on collecting fixes.
+    static func orphanIDs() -> [String] {
+        Activity<TrackActivityAttributes>.activities.map(\.id)
+    }
+
+    /// Ends the activities this app left behind, saying the walk stopped.
     ///
     /// A process this app did not close leaves its Live Activity on the Lock
     /// Screen with the last thing it was told — "Recording a track", with a
     /// clock still counting — and a fresh launch has an idle recorder that
     /// knows nothing about it. The reader would be looking at a recording that
     /// does not exist, with buttons aimed at nothing.
-    static func endOrphans() async {
-        for activity in Activity<TrackActivityAttributes>.activities {
+    static func endOrphans(_ ids: [String], now: Date = Date()) async {
+        let wanted = Set(ids)
+        for activity in Activity<TrackActivityAttributes>.activities
+        where wanted.contains(activity.id) {
             var state = activity.content.state
+            // Bank the part of the clock that was still running, or a walk of
+            // forty minutes ends its life on the Lock Screen reading 0:00.
+            if let runningSince = state.runningSince {
+                state.elapsedSeconds += max(0, now.timeIntervalSince(runningSince))
+            }
             state.isRecording = false
             state.runningSince = nil
             state.endedByTermination = true

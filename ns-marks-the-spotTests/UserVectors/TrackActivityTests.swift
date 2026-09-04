@@ -57,7 +57,7 @@ private final class QuietScreen: ScreenWakeLock {
 @MainActor
 private final class QuietBackground: BackgroundActivity {
     var isRunning = false
-    var onUnavailable: ((String) -> Void)?
+    var onUnavailable: ((String?) -> Void)?
 }
 
 /// What the Lock Screen is told about a walk, and how often.
@@ -229,7 +229,7 @@ struct PendingTrackSaveTests {
     func aStoppedWalkSurvivesBeingWrittenDownAndReadBack() throws {
         let (store, root) = try self.store()
         defer { try? FileManager.default.removeItem(at: root) }
-        #expect(store.read() == nil)
+        if case .none = store.read() {} else { Issue.record("expected nothing yet") }
 
         let original = walk()
         #expect(store.write(.init(result: original, stoppedWhileRefused: true)))
@@ -237,7 +237,10 @@ struct PendingTrackSaveTests {
         // A different process would build a different store over the same
         // directory, which is what this is.
         let reopened = PendingTrackSaveStore(directory: root)
-        let pending = try #require(reopened.read())
+        guard case .pending(let pending) = reopened.read() else {
+            Issue.record("expected a pending walk")
+            return
+        }
         #expect(pending.stoppedWhileRefused)
         #expect(pending.result.segments.first?.count == 2)
         #expect(pending.result.segments.first?.first?.lat == 45.0)
@@ -255,28 +258,55 @@ struct PendingTrackSaveTests {
         let (store, root) = try self.store()
         defer { try? FileManager.default.removeItem(at: root) }
         store.write(.init(result: walk(), stoppedWhileRefused: false))
-        #expect(store.read() != nil)
-        #expect(store.read() != nil)
+        if case .pending = store.read() {} else { Issue.record("expected a pending walk") }
+        if case .pending = store.read() {} else { Issue.record("reading is not consuming") }
 
         store.clear()
-        #expect(store.read() == nil)
+        if case .none = store.read() {} else { Issue.record("expected nothing") }
     }
 
-    /// A file that is not a walk cannot be saved either, so it goes rather
-    /// than failing at every launch for ever.
-    @Test("Something that is not a walk is removed rather than kept failing")
-    func somethingThatIsNotAWalkIsRemovedRatherThanKeptFailing() throws {
+    /// "There is no walk" and "there is a walk this app could not read" are
+    /// different facts, and the second one is a walk. Merging them would tell
+    /// a reader whose file was momentarily unreadable that it had never
+    /// existed — and deleting it would be a discard they never asked for.
+    @Test("A file that cannot be read is not nothing, and is not thrown away")
+    func aFileThatCannotBeReadIsNotNothingAndIsNotThrownAway() throws {
         let (store, root) = try self.store()
         defer { try? FileManager.default.removeItem(at: root) }
-        try Data("not a walk".utf8)
-            .write(to: root.appendingPathComponent("pending-track-save.json"))
+        let file = root.appendingPathComponent("pending-track-save.json")
+        try Data("not a walk".utf8).write(to: file)
 
-        #expect(store.read() == nil)
-        #expect(
-            !FileManager.default.fileExists(
-                atPath: root.appendingPathComponent("pending-track-save.json").path
-            )
+        if case .unreadable = store.read() {} else { Issue.record("expected unreadable") }
+        #expect(FileManager.default.fileExists(atPath: file.path))
+    }
+
+    /// The one the second review round found: the recorder used to let go of
+    /// the walk and *then* try to write it down, ignoring the answer. On a
+    /// full device that cleared the recorder, ended the Live Activity, buzzed
+    /// a success and left the walk nowhere.
+    @Test("A walk that cannot be written down is not stopped")
+    func aWalkThatCannotBeWrittenDownIsNotStopped() {
+        let source = QuietSource()
+        let activity = SpyActivity()
+        let recorder = TrackRecorder(
+            source: source, screen: QuietScreen(),
+            background: QuietBackground(), activity: activity
         )
+        recorder.start(now: Date(timeIntervalSince1970: 1_000))
+        source.deliver(latitude: 45.0, longitude: -63.0, accuracyM: 5, at: 1_001)
+
+        let refused = recorder.stop(now: Date(timeIntervalSince1970: 1_100)) { _ in false }
+        #expect(refused == nil)
+        // Everything still where it was: the walk, the Lock Screen, the fix.
+        #expect(recorder.status == .recording)
+        #expect(recorder.lastFix != nil)
+        #expect(activity.ended.isEmpty)
+
+        // And a keep that works stops it properly.
+        let kept = recorder.stop(now: Date(timeIntervalSince1970: 1_200)) { _ in true }
+        #expect(kept != nil)
+        #expect(recorder.status == .idle)
+        #expect(activity.ended.count == 1)
     }
 }
 
@@ -291,12 +321,25 @@ struct TrackActivityActionsTests {
     @Test("An action with nothing installed reports that it did nothing")
     func anActionWithNothingInstalledReportsThatItDidNothing() {
         let actions = TrackActivityActions.shared
-        actions.install(pause: {}, resume: {}, stop: {})
+        actions.install(pause: { true }, resume: { true }, stop: { true })
         #expect(actions.pause())
 
         actions.uninstall()
         #expect(!actions.pause())
         #expect(!actions.resume())
         #expect(!actions.stop())
+    }
+
+    /// Actions outlive the recording they were installed for. A stale button
+    /// on a Lock Screen reaching an idle recorder must not be answered "done":
+    /// that is the same lie as answering with nothing installed at all.
+    @Test("An action that changed nothing says so, even though it was installed")
+    func anActionThatChangedNothingSaysSo() {
+        let actions = TrackActivityActions.shared
+        actions.install(pause: { false }, resume: { false }, stop: { false })
+        #expect(!actions.pause())
+        #expect(!actions.resume())
+        #expect(!actions.stop())
+        actions.uninstall()
     }
 }
