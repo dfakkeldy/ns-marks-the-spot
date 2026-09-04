@@ -322,6 +322,22 @@ export function EditableVectorLayer({
     group.on("pm:edit", publish);
     group.on("pm:dragend", publish);
     group.on("pm:markerdragend", publish);
+    // A gesture in progress owns the geometry. The reconciliation below resets
+    // a layer whose draft geometry differs from what is on screen, and during
+    // a drag the draft is the geometry BEFORE the drag: Geoman publishes only
+    // when the gesture ends. A commit that lands meanwhile — a photo finishing
+    // its processing carries the pre-drag geometry with it — would put the
+    // shape back and rebuild the handles under the finger holding one.
+    const beginGesture = () => {
+      gestureRef.current += 1;
+    };
+    const endGesture = () => {
+      gestureRef.current = Math.max(0, gestureRef.current - 1);
+    };
+    group.on("pm:markerdragstart", beginGesture);
+    group.on("pm:markerdragend", endGesture);
+    group.on("pm:dragstart", beginGesture);
+    group.on("pm:dragend", endGesture);
 
     // Geoman's own toolbar stays off: the app supplies its own controls so
     // they match the rest of the UI and keep 44px touch targets.
@@ -339,6 +355,11 @@ export function EditableVectorLayer({
       group.off("pm:edit", publish);
       group.off("pm:dragend", publish);
       group.off("pm:markerdragend", publish);
+      group.off("pm:markerdragstart", beginGesture);
+      group.off("pm:markerdragend", endGesture);
+      group.off("pm:dragstart", beginGesture);
+      group.off("pm:dragend", endGesture);
+      gestureRef.current = 0;
       tracker.detach();
       materializeRef.current = null;
       groupRef.current = null;

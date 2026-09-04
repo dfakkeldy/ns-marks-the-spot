@@ -83,23 +83,30 @@ export function useDialogChrome<T extends HTMLElement = HTMLElement>(
     } else {
       (first ?? dialog)?.focus();
     }
+    // Only the topmost dialog answers a key. Two of these can be open at once
+    // — the phone's About button stays reachable beside a photo lightbox — and
+    // every one of them listens on the document: without this, one Escape
+    // closed the whole stack, and one Tab had the covered dialog pulling focus
+    // into itself because from where it stood the focus was "outside".
+    const isTopmost = () => {
+      if (!dialog) {
+        return false;
+      }
+      const dialogs = document.querySelectorAll<HTMLElement>(
+        '[role="dialog"][aria-modal="true"]',
+      );
+      return dialogs.length <= 1 || dialogs[dialogs.length - 1] === dialog;
+    };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && dismissRef.current) {
-        // Only the topmost dialog answers. Two of these can be open at once —
-        // the phone's About button stays reachable beside a photo lightbox —
-        // and every one of them listens on the document, so without this one
-        // keypress closed the whole stack.
-        const dialogs = document.querySelectorAll<HTMLElement>(
-          '[role="dialog"][aria-modal="true"]',
-        );
-        if (dialog && dialogs.length > 1 && dialogs[dialogs.length - 1] !== dialog) {
+        if (!isTopmost()) {
           return;
         }
         event.preventDefault();
         dismissRef.current();
         return;
       }
-      if (event.key !== "Tab" || !dialog) {
+      if (event.key !== "Tab" || !dialog || !isTopmost()) {
         return;
       }
       // Read on each press, not captured: a dialog's controls appear and

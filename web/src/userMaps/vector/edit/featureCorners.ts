@@ -286,46 +286,75 @@ function crossingVerdict(
 /**
  * Whether the change puts a corner on top of one it is next to.
  *
- * Counted rather than merely looked for: a shape can already contain a
- * zero-length edge — imported that way, or drawn by two taps on one spot — and
- * refusing every move on a shape like that would leave the reader unable to
- * repair it with the one control that needs no drag.
+ * Asked of the two edges the change actually touched, not of the shape's total
+ * count of zero-length edges. A count says nothing when a duplicate simply
+ * MOVES: a line that starts with two corners on one spot, whose second corner
+ * is then dragged onto the third, has one such edge before and one after, and
+ * a count would report that as a move like any other while leaving the reader
+ * with the same invisible corner they were trying to repair.
+ *
+ * A shape that already had a doubled position can still be repaired, because
+ * only a pair that is newly coincident refuses.
  */
-function newZeroLengthEdges(
+function landsOnANeighbour(
   before: Position[],
   after: Position[],
+  index: number,
   closed: boolean,
+  grew: boolean,
 ): boolean {
-  const count = (positions: Position[]): number => {
-    const ring =
-      closed && ringIsClosed(positions) ? positions.slice(0, -1) : positions;
-    let found = 0;
-    for (let index = 0; index < ring.length - 1; index += 1) {
-      if (samePosition(ring[index], ring[index + 1])) {
-        found += 1;
-      }
+  const ring = (positions: Position[]) =>
+    closed && ringIsClosed(positions) ? positions.slice(0, -1) : positions;
+  const now = ring(after);
+  const then = ring(before);
+  const neighbour = (positions: Position[], at: number): number | null => {
+    if (at >= 0 && at < positions.length) {
+      return at;
     }
-    if (closed && ring.length >= 2 && samePosition(ring[ring.length - 1], ring[0])) {
-      found += 1;
+    if (!closed || positions.length === 0) {
+      return null;
     }
-    return found;
+    return ((at % positions.length) + positions.length) % positions.length;
   };
-  return count(after) > count(before);
+  for (const side of [-1, 1]) {
+    const at = neighbour(now, index + side);
+    if (at === null || at === index) {
+      continue;
+    }
+    if (!samePosition(now[index], now[at])) {
+      continue;
+    }
+    // Newly coincident? An insert grew the array, so every pair touching the
+    // new position is new by construction; a move is compared against the
+    // same two positions as they stood before.
+    if (grew) {
+      return true;
+    }
+    const wasAt = neighbour(then, index + side);
+    if (wasAt === null || !samePosition(then[index], then[wasAt])) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function rewrite(
   geometry: Geometry,
   corner: FeatureCorner,
   next: (positions: Position[]) => Position[],
+  /** Where the changed position ends up, and whether the array grew. */
+  landing: (index: number) => { index: number; grew: boolean },
 ): VertexEditResult {
   if (!corner.owner) {
-    // A Point: one position, no path to cross.
+    // A Point: one position, no path to cross and no neighbour to land on —
+    // only itself, and a Point asked to move where it already is has not moved.
+    const moved = next([corner.position])[0];
+    if (samePosition(moved, corner.position)) {
+      return { outcome: { status: "already-there" }, geometry: null };
+    }
     return {
       outcome: { status: "done", crossingChecked: true },
-      geometry: {
-        ...geometry,
-        coordinates: next([corner.position])[0],
-      } as Geometry,
+      geometry: { ...geometry, coordinates: moved } as Geometry,
     };
   }
   const before = positionsAt(geometry, corner.owner.prefix);
@@ -333,7 +362,16 @@ function rewrite(
     return UNAVAILABLE;
   }
   const after = next(before);
-  if (newZeroLengthEdges(before, after, corner.owner.closed)) {
+  const where = landing(corner.index);
+  if (
+    landsOnANeighbour(
+      before,
+      after,
+      where.index,
+      corner.owner.closed,
+      where.grew,
+    )
+  ) {
     return { outcome: { status: "already-there" }, geometry: null };
   }
   const verdict = crossingVerdict(before, after, corner.owner.closed);
@@ -355,14 +393,19 @@ export function moveCorner(
   if (!geometry) {
     return UNAVAILABLE;
   }
-  return rewrite(geometry, corner, (positions) => {
-    const next = positions.slice();
-    next[corner.index] = position;
-    for (const mirror of corner.mirrors) {
-      next[mirror] = position;
-    }
-    return next;
-  });
+  return rewrite(
+    geometry,
+    corner,
+    (positions) => {
+      const next = positions.slice();
+      next[corner.index] = position;
+      for (const mirror of corner.mirrors) {
+        next[mirror] = position;
+      }
+      return next;
+    },
+    (index) => ({ index, grew: false }),
+  );
 }
 
 /**
@@ -381,9 +424,14 @@ export function insertAfterCorner(
   if (!geometry || !corner.owner) {
     return UNAVAILABLE;
   }
-  return rewrite(geometry, corner, (positions) => {
-    const next = positions.slice();
-    next.splice(corner.index + 1, 0, position);
-    return next;
-  });
+  return rewrite(
+    geometry,
+    corner,
+    (positions) => {
+      const next = positions.slice();
+      next.splice(corner.index + 1, 0, position);
+      return next;
+    },
+    (index) => ({ index: index + 1, grew: true }),
+  );
 }

@@ -122,6 +122,7 @@ import {
 import { textTooltip } from "./mapTooltip";
 import type { FixRejection } from "../location/trackFilter";
 import { prefersReducedMotion } from "./mapMotion";
+import { useSettledWarning } from "./useSettledWarning";
 import {
   fetchWellLogs,
   printWellLogMarkerStyle,
@@ -393,19 +394,6 @@ const RECORDER_FIXES_TOO_ROUGH_NOTE =
  * the live region to stop.
  */
 const ANNOUNCEMENT_SETTLE_MS = 4_000;
-
-/** A value, but only once it has stopped changing. */
-function useSettled<T>(value: T, delayMs: number): T {
-  const [settled, setSettled] = useState(value);
-  useEffect(() => {
-    if (value === settled) {
-      return;
-    }
-    const timer = setTimeout(() => setSettled(value), delayMs);
-    return () => clearTimeout(timer);
-  }, [value, settled, delayMs]);
-  return settled;
-}
 
 const REJECTION_NOTES: Record<FixRejection | "none", string | null> = {
   none: null,
@@ -2387,7 +2375,10 @@ export function MapCanvas({
     recording.status === "recording" && live.status === "active"
       ? REJECTION_NOTES[recording.stats.lastRejection ?? "none"]
       : null;
-  const settledRejectionNote = useSettled(rejectionNote, ANNOUNCEMENT_SETTLE_MS);
+  const settledRejectionNote = useSettledWarning(
+    rejectionNote,
+    ANNOUNCEMENT_SETTLE_MS,
+  );
   const recorderAnnouncement =
     recording.status === "idle"
       ? ""

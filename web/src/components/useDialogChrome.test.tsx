@@ -228,6 +228,33 @@ describe("useDialogChrome, on the paths the first round missed", () => {
     region.remove();
   });
 
+  // Every open modal listens on the document, so from the covered dialog's
+  // point of view focus in the dialog above it is focus "outside" — and its
+  // own trap pulls it back in.
+  it("keeps Tab in the topmost dialog rather than the one under it", async () => {
+    const user = userEvent.setup();
+    render(
+      <>
+        <ContainerFocusDialog onDismiss={vi.fn()} label="Underneath" />
+        <ContainerFocusDialog onDismiss={vi.fn()} label="On top" />
+      </>,
+    );
+    const under = screen.getByRole("dialog", { name: "Underneath" });
+
+    await user.tab();
+    expect(document.activeElement).toBe(
+      screen.getByRole("button", { name: "On top first" }),
+    );
+    expect(under.contains(document.activeElement)).toBe(false);
+
+    await user.tab();
+    await user.tab();
+    expect(under.contains(document.activeElement)).toBe(false);
+
+    await user.tab({ shift: true });
+    expect(under.contains(document.activeElement)).toBe(false);
+  });
+
   it("gives Escape back to the one that is left", async () => {
     const user = userEvent.setup();
     const closeUnder = vi.fn();
