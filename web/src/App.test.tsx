@@ -2097,7 +2097,7 @@ describe("NS Marks The Spot Online", () => {
     openLayerCategory("Roads & Places");
     await userEvent.click(screen.getByLabelText("Roads, trails & culverts"));
     await userEvent.click(
-      screen.getByRole("button", { name: "Save current setup as…" }),
+      screen.getByRole("button", { name: "Save setup…" }),
     );
     await userEvent.type(
       screen.getByRole("textbox", { name: "Theme name" }),
@@ -2201,7 +2201,7 @@ describe("NS Marks The Spot Online", () => {
       await userEvent.click(screen.getByRole("button", { name: /^Roads & Places/ }));
 
       await userEvent.click(
-        screen.getByRole("button", { name: "Save current setup as…" }),
+        screen.getByRole("button", { name: "Save setup…" }),
       );
       await userEvent.type(
         screen.getByRole("textbox", { name: "Theme name" }),
@@ -2363,7 +2363,7 @@ describe("NS Marks The Spot Online", () => {
         .toEqual({ [privateMapId]: { enabled: true, opacity: 0.35 } });
 
       await userEvent.click(
-        screen.getByRole("button", { name: "Save current setup as…" }),
+        screen.getByRole("button", { name: "Save setup…" }),
       );
       await userEvent.type(
         screen.getByRole("textbox", { name: "Theme name" }),

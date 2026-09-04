@@ -142,29 +142,29 @@ a {
   justify-content: space-between;
   gap: 24px;
   padding: 8px 28px;
-  color: var(--white);
-  background: var(--chart-ink);
-  border-bottom: 1px solid rgba(var(--surface-rgb), 0.16);
+  color: var(--chart-ink);
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
 }
 
 .header-collapse {
   display: grid;
   flex: 0 0 auto;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   place-items: center;
   padding: 0;
-  color: var(--white);
+  color: var(--chart-ink);
   font-size: 1.35rem;
   line-height: 1;
-  background: rgba(var(--surface-rgb), 0.1);
-  border: 1px solid rgba(var(--surface-rgb), 0.36);
+  background: var(--fog);
+  border: 1px solid var(--line);
   border-radius: 6px;
   cursor: pointer;
 }
 
 .header-collapse:hover {
-  background: rgba(var(--surface-rgb), 0.18);
+  background: var(--tint-blue);
 }
 
 .app-shell.header-collapsed {
@@ -207,7 +207,7 @@ a {
 }
 
 .app-brand span {
-  color: #85b5ff;
+  color: var(--deep-water);
 }
 
 .offline-nav {
@@ -257,7 +257,7 @@ a {
   z-index: 600;
   min-width: 0;
   min-height: 0;
-  padding: 24px 24px 18px;
+  padding: 18px 24px;
   overflow-y: auto;
   background: var(--white);
   border-right: 1px solid var(--line);
@@ -276,8 +276,8 @@ a {
 }
 
 .layer-rail > h2 {
-  margin-bottom: 20px;
-  font-size: 2rem;
+  margin-bottom: 16px;
+  font-size: 1.45rem;
 }
 
 .pid-search label,
@@ -291,22 +291,43 @@ a {
 
 .search-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 8px;
 }
 
 .search-row .primary-action {
-  width: 100%;
+  width: 44px;
+  padding: 10px;
+}
+
+.search-row svg {
+  width: 20px;
+  height: 20px;
 }
 
 .search-row input {
   min-width: 0;
-  height: 42px;
+  height: 44px;
   padding: 0 12px;
   color: var(--chart-ink);
   background: var(--white);
-  border: 1px solid rgba(18, 52, 59, 0.35);
+  border: 1px solid var(--line);
   border-radius: 5px;
+}
+
+:is(.app-header, .layer-rail, .map-region) :is(button, a, input, select):focus-visible {
+  outline: 3px solid var(--survey-blue);
+  outline-offset: 3px;
+}
+
+.search-row input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.layer-category-heading:hover {
+  background: var(--fog);
+  border-radius: 6px;
 }
 
 .search-row input:focus {
@@ -359,7 +380,7 @@ a {
 
 .address-search-results button:hover,
 .address-search-results button:focus-visible {
-  background: #edf5ff;
+  background: var(--tint-blue);
 }
 
 .rail-section {
@@ -385,8 +406,8 @@ a {
 
 .map-theme-picker {
   display: grid;
-  gap: 8px;
-  margin: 18px -12px 0;
+  gap: 6px;
+  margin: 12px 0 0;
   padding: 12px;
   background: var(--tint-blue);
   border: 1px solid rgba(47, 128, 237, 0.28);
@@ -404,11 +425,11 @@ a {
 
 .map-theme-picker select {
   width: 100%;
-  min-height: 42px;
+  min-height: 44px;
   padding: 8px 10px;
   color: var(--chart-ink);
   background: var(--white);
-  border: 1px solid rgba(18, 52, 59, 0.35);
+  border: 1px solid var(--line);
   border-radius: 5px;
 }
 
@@ -433,9 +454,10 @@ a {
 
 .map-theme-picker button {
   justify-self: start;
+  min-height: 44px;
   padding: 6px 0;
   color: var(--survey-blue);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-decoration: underline;
   background: none;
@@ -787,7 +809,7 @@ a {
 }
 
 .layer-category {
-  border-top: 1px solid rgba(18, 52, 59, 0.14);
+  border-top: 1px solid var(--line);
 }
 
 .layer-category:first-of-type {
@@ -3394,7 +3416,7 @@ a {
 }
 
 .header-about {
-  color: var(--white);
+  color: var(--chart-ink);
 }
 
 @media (max-width: 860px) {
@@ -3531,7 +3553,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0 -24px 20px;
+    margin: 0 -24px 12px;
     padding: 14px 16px 12px 24px;
     background: rgba(var(--surface-rgb), 0.96);
     border-bottom: 1px solid var(--line);
@@ -3765,10 +3787,6 @@ a {
 
   .mobile-map-brand strong {
     display: none;
-  }
-
-  .search-row {
-    grid-template-columns: 1fr;
   }
 
   .segmented-control {
