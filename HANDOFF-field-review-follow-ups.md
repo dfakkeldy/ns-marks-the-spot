@@ -742,3 +742,37 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
 #315 is open with two known gaps in its body. Ask the owner: land it without Stop, do the AppContainer + identifier work, or hold.
 ```
+
+## 2026-09-04 — #315 narrowed: the Lock Screen pauses, the map stops
+
+The owner's call, after two rounds and eighteen findings on this PR: **land the
+Live Activity without Stop.**
+
+Done:
+- `StopTrackIntent`, the Stop button, `PendingTrackSaveStore`, the transactional
+  `stop(keeping:)` and the `Codable` conformances added to carry a walk to disk
+  are all gone. Every one of them existed to make Stop survivable from a locked
+  phone; none is needed by a readout with Pause and Resume.
+- The Lock Screen says "Open the app to stop and save".
+- Everything the rounds found that was NOT about Stop stays: serialized
+  presenter, honest `@unchecked Sendable` invariant, background notice on the
+  Lock Screen that can unsay itself, pause not carrying it, orphan ids named
+  synchronously with the clock banked, actions reporting what happened, 44-pt
+  targets.
+- Filed as its own task: **checkpoint an in-progress recording**, which is what
+  Stop-from-the-Lock-Screen and cold-launched intents both need.
+
+**A correction.** I earlier attributed a timing-out `LayerLoadProgressTests`
+deadlock detector to unit tests reaching ActivityKit, and said so in a commit
+message and a PR body. That was too confident: the test has a 60-second limit,
+fails intermittently on this machine after hours of building, passes in 0.034 s
+in isolation, and CI has passed the same bundle on every branch in this stack.
+Injecting the presenter and skipping the launch sweep under a test host are
+still right — a unit test must not reach a system service — but they were not
+the cause. The PR body now says so.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Watch CI on #315; a round 3 on the narrowed diff would be cheap and worth it.
+```
