@@ -1,10 +1,15 @@
 import GeoCore
 import SwiftUI
+import UIKit
 
-/// The recording heads-up card: elapsed time, distance, vertex count, a
-/// fix-quality dot, and the transport controls. Mirrors the web's HUD states:
-/// the dot is green at ≤ 10 m accuracy, amber at ≤ 25 m (the gate), and red
-/// when fixes are currently being rejected.
+/// The recording heads-up card: elapsed time, distance, vertex count, the
+/// state of the fixes, and the transport controls.
+///
+/// The dot keeps the web's colours — green at ≤ 10 m, amber for a looser fix
+/// that still passed the 25 m gate, red while nothing is being added — and the
+/// line under the stats says that state in words and in a shape. The web says
+/// it in colour alone; this card is read at arm's length on a woods road, and
+/// a hue is not a reading.
 struct TrackRecordingHUD: View {
     let recorder: TrackRecorder
     var onStop: () -> Void
@@ -36,15 +41,42 @@ struct TrackRecordingHUD: View {
                 } else {
                     if recorder.status == .paused {
                         // Off while refused: the refusal under it says why.
-                        Button("Resume") { recorder.resume() }
-                            .buttonStyle(.bordered)
-                            .disabled(recorder.refusal != nil)
+                        // A bordered button sizes its capsule around its
+                        // label, which is about thirty-four points; these three
+                        // are the controls a walker reaches for with wet or
+                        // gloved hands.
+                        Button("Resume") {
+                            recorder.resume()
+                            // Only for a transport button that took. The
+                            // recorder also pauses itself when the app leaves
+                            // the foreground or location is refused mid-walk,
+                            // and a buzz then would answer a phone in a pocket
+                            // for something nobody just asked for.
+                            if recorder.status == .recording {
+                                MapHaptics.modeChanged()
+                            }
+                        }
+                        .buttonStyle(.bordered)
+                        .frame(minHeight: 44)
+                        .disabled(recorder.refusal != nil)
                     } else {
-                        Button("Pause") { recorder.pause() }
-                            .buttonStyle(.bordered)
+                        Button("Pause") {
+                            recorder.pause()
+                            if recorder.status == .paused {
+                                MapHaptics.modeChanged()
+                            }
+                        }
+                        .buttonStyle(.bordered)
+                        .frame(minHeight: 44)
                     }
-                    Button("Stop", role: .destructive) { onStop() }
+                    // Stop is not destructive. It ends the recording and
+                    // opens the save sheet, where the walk is still there to
+                    // keep; the red belongs on Discard, which is the tap that
+                    // destroys it.
+                    Button("Stop") { onStop() }
                         .buttonStyle(.borderedProminent)
+                        .frame(minHeight: 44)
+                        .accessibilityHint("Ends the recording and opens the save screen.")
                 }
             }
 
@@ -58,6 +90,15 @@ struct TrackRecordingHUD: View {
                         statView("Points", "\(stats.keptVertexCount)")
                     }
                 }
+
+                // The dot's state, said. Red covers both a rejected position
+                // and one that has not arrived, because both leave the track
+                // where it was; this line is what tells the two apart. The dot
+                // stays hidden from VoiceOver so it is heard once, here.
+                Label(quality.summary, systemImage: Self.qualitySymbol(quality))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             if let message = recorder.autoPauseMessage {
@@ -83,8 +124,7 @@ struct TrackRecordingHUD: View {
                 .foregroundStyle(.secondary)
         }
         .padding(12)
-        .background(.regularMaterial)
-        .clipShape(.rect(cornerRadius: 16))
+        .mapChromeSurface(interactive: true, shadow: nil)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Track recording")
     }
@@ -103,23 +143,38 @@ struct TrackRecordingHUD: View {
         }
     }
 
-    /// Green ≤ 10 m, amber within the 25 m gate, red when the current fix is
-    /// being rejected (or none has arrived yet).
+    /// What the fixes are doing, as the recording sees them.
+    private var quality: TrackRecording.FixQuality { recorder.recording.fixQuality }
+
+    /// Green ≤ 10 m, amber for a looser fix that still passed the gate, red
+    /// while nothing is being added. The dot is a glance, not a reading: it
+    /// carries no accessibility text of its own because the line under the
+    /// stats says the same state, and saying it twice is worse than once.
     private var qualityDot: some View {
-        let color: Color
-        if recorder.status == .paused {
-            color = .gray
-        } else if recorder.recording.lastFixGated || recorder.lastFix == nil {
-            color = .red
-        } else if let accuracy = recorder.recording.lastAcceptedAccuracyM, accuracy <= 10 {
-            color = .green
-        } else {
-            color = .orange
-        }
+        let color: Color =
+            switch quality {
+            // Idle only reaches here in a preview: the HUD is not on screen
+            // without a recording. Grey either way — nothing is being taken.
+            case .idle, .paused: .gray
+            case .waiting, .rejected: .red
+            case .accepted(let accuracyM): accuracyM <= 10 ? .green : .orange
+            }
         return Circle()
             .fill(color)
             .frame(width: 10, height: 10)
             .accessibilityHidden(true)
+    }
+
+    /// A different shape for each state, so the badge beside the words is not
+    /// one more thing that only colour distinguishes.
+    private static func qualitySymbol(_ quality: TrackRecording.FixQuality) -> String {
+        switch quality {
+        case .idle: "circle"
+        case .paused: "pause.circle"
+        case .waiting: "hourglass"
+        case .rejected: "exclamationmark.triangle"
+        case .accepted: "location.fill"
+        }
     }
 
     private func statView(_ label: String, _ value: String) -> some View {

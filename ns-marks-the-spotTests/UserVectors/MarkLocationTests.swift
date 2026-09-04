@@ -137,4 +137,110 @@ struct MarkLocationTests {
         #expect(!outcome.message.contains("outdoors"))
         #expect(MarkLocation.Outcome.unavailable.message.contains("outdoors"))
     }
+
+    /// Two taps can overlap for the whole of the first attempt, not merely its
+    /// write: with a usable cached fix to hand, `acquireFix` returns before
+    /// `isAcquiring` is ever set, so the rail button is never disabled.
+    @Test("A tap the reader has replaced does not answer for the one they are waiting on")
+    func anOvertakenAttemptDoesNotSpeakForTheNewestOne() {
+        let saved = MarkLocation.Outcome.marked(layerName: "Field notes", accuracyM: 5)
+        // The finding: an older tap's success standing over a newer tap that
+        // saved nothing.
+        #expect(
+            MapContainerView.markReport(
+                attempt: 1, newest: 2, outcome: saved, carried: []
+            ) == .silent
+        )
+        // The newest tap always answers.
+        #expect(
+            MapContainerView.markReport(
+                attempt: 2, newest: 2, outcome: saved, carried: []
+            ) == .say(saved)
+        )
+    }
+
+    /// The mirror of the finding, which a plain newest-wins gate would create:
+    /// a mark that was not kept stays unkept whoever tapped next.
+    @Test("An overtaken failure is carried, not dropped")
+    func anOvertakenFailureIsCarriedToWhoeverAnswersNext() {
+        let refused = MarkLocation.Outcome.storageFailed("There was no room to save it.")
+        #expect(
+            MapContainerView.markReport(
+                attempt: 1, newest: 2, outcome: refused, carried: []
+            ) == .carry(refused.message)
+        )
+
+        let saved = MarkLocation.Outcome.marked(layerName: "Field notes", accuracyM: 5)
+        let folded = MapContainerView.markReport(
+            attempt: 2, newest: 2, outcome: saved, carried: [refused.message]
+        )
+        guard case .say(.storageFailed(let message)) = folded else {
+            Issue.record("the carried failure was dropped: \(folded)")
+            return
+        }
+        #expect(message.contains("Point saved to Field notes"))
+        #expect(message.contains("There was no room to save it."))
+    }
+
+    /// A mark that was written to a layer that stayed switched off is a kept
+    /// mark. Calling it a storage failure let the app produce the sentence
+    /// "An earlier tap was not saved: The mark was saved…" about itself, and
+    /// gave a successful newer tap an error buzz.
+    @Test("A layer that did not switch on is not a lost mark")
+    func aMarkWhoseLayerStayedOffIsStillAMark() {
+        let kept = MarkLocation.Outcome.markedLayerNotShown(
+            layerName: "Field notes", accuracyM: 5
+        )
+        #expect(!kept.isFailure)
+        #expect(kept.message.contains("Point saved to Field notes"))
+        #expect(kept.message.contains("could not be switched on"))
+        // It is not carried into a later tap's message, because nothing about
+        // it was lost.
+        #expect(
+            MapContainerView.markReport(
+                attempt: 1, newest: 2, outcome: kept, carried: []
+            ) == .silent
+        )
+        // And a genuine storage refusal still is.
+        #expect(
+            MapContainerView.markReport(
+                attempt: 1,
+                newest: 2,
+                outcome: .storageFailed("There was no room."),
+                carried: []
+            ) == .carry("There was no room.")
+        )
+    }
+
+    /// An unsaved mark from a tap that has been overtaken is still an unsaved
+    /// mark, and a newer failure does not stand in for an older one — two taps
+    /// that both failed are two marks that were not kept.
+    @Test("A newer failure does not stand in for an older one")
+    func everyOvertakenFailureIsStillSaid() {
+        guard case .say(.storageFailed(let message)) = MapContainerView.markReport(
+            attempt: 2,
+            newest: 2,
+            outcome: .storageFailed("The layer was deleted."),
+            carried: ["There was no room to save it."]
+        ) else {
+            Issue.record("the earlier failure was dropped behind a newer one")
+            return
+        }
+        #expect(message.contains("The layer was deleted."))
+        #expect(message.contains("There was no room to save it."))
+
+        // Three taps, two of them failed: both are counted and both are said.
+        guard case .say(.storageFailed(let both)) = MapContainerView.markReport(
+            attempt: 3,
+            newest: 3,
+            outcome: .marked(layerName: "Field notes", accuracyM: 5),
+            carried: ["There was no room.", "The layer was deleted."]
+        ) else {
+            Issue.record("two carried failures were not both said")
+            return
+        }
+        #expect(both.contains("2 earlier taps were not saved"))
+        #expect(both.contains("There was no room."))
+        #expect(both.contains("The layer was deleted."))
+    }
 }

@@ -116,6 +116,83 @@ struct PlacementReticleTests {
         )
     }
 
+    /// Measuring, editing and choosing a save area each give a tap on the map
+    /// its own meaning, so a card that opened underneath one of them is read
+    /// as an answer to something the reader never asked. The tax-sale overview
+    /// marker refused during none of them, and it does more than open a card:
+    /// it claims the camera and rewrites the search field.
+    @Test func anAnnotationTapStandsDownWhileSomethingElseOwnsTheMap() {
+        #expect(
+            MapContainerView.annotationTapOpensCard(
+                measuring: false, editing: false, selectingBounds: false
+            )
+        )
+        #expect(
+            !MapContainerView.annotationTapOpensCard(
+                measuring: true, editing: false, selectingBounds: false
+            )
+        )
+        #expect(
+            !MapContainerView.annotationTapOpensCard(
+                measuring: false, editing: true, selectingBounds: false
+            )
+        )
+        #expect(
+            !MapContainerView.annotationTapOpensCard(
+                measuring: false, editing: false, selectingBounds: true
+            )
+        )
+    }
+
+    /// A floor that outranks the screen is not a floor: a phone held sideways
+    /// gives this stack about 372 points, and the panel used to open 380 tall
+    /// with its last sections below the edge of the screen.
+    @Test func theLayersPanelNeverOpensTallerThanTheScreen() {
+        // Landscape phone.
+        // `CGFloat(...)` on both sides on purpose: `#expect` compares a CGFloat
+        // against an inferred Double by identity, and reports two numbers that
+        // print the same as unequal.
+        let sideways = MapContainerView.layersPanelHeight(mapHeight: 372)
+        #expect(sideways <= 372 - MapContainerView.layersPanelTopInset)
+        #expect(sideways == CGFloat(372 - 60 - 72))
+
+        // Portrait phone: the room is the answer and it is roomy.
+        #expect(
+            MapContainerView.layersPanelHeight(mapHeight: 800) == CGFloat(800 - 60 - 72)
+        )
+
+        // Still room, even if not much of it: the room is the answer, because
+        // a floor that can outrank it spends the clearance that keeps the
+        // panel off the source strip and the cards.
+        #expect(
+            MapContainerView.layersPanelHeight(mapHeight: 300) == CGFloat(300 - 60 - 72)
+        )
+
+        // No room at all. The fallback applies and is itself capped by what is
+        // above the panel, so it still cannot run off the bottom.
+        let cramped = MapContainerView.layersPanelHeight(mapHeight: 120)
+        #expect(cramped <= 120 - MapContainerView.layersPanelTopInset)
+        #expect(cramped > 0)
+
+        // Nothing measured yet.
+        #expect(
+            MapContainerView.layersPanelHeight(mapHeight: 0)
+                == MapContainerView.layersPanelUnmeasuredHeight
+        )
+    }
+
+    /// The panel is drawn over the search column rather than laid out beside
+    /// it, so on a narrow map VoiceOver went on offering the addresses and the
+    /// lookup message from behind a panel that had replaced them on screen.
+    @Test func theLayersPanelKnowsWhenItIsStandingOnTheSearchCard() {
+        // A phone: 393 - 24 - 60 - 300 is well left of 12 + 260.
+        #expect(MapContainerView.layersPanelCoversSearch(mapWidth: 393, railWidth: 60))
+        // An iPad: the two stand side by side and both are usable.
+        #expect(!MapContainerView.layersPanelCoversSearch(mapWidth: 1024, railWidth: 60))
+        // Nothing measured is not something covered.
+        #expect(!MapContainerView.layersPanelCoversSearch(mapWidth: 0, railWidth: 60))
+    }
+
     /// Step to a corner, then move a corner to the map centre without
     /// panning: nothing moves, because `pan(to:)` and `visibleCentre()` mean
     /// the same spot inside the layout margins.

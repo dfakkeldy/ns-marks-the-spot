@@ -31,8 +31,14 @@ struct FeaturePhotoStrip: View {
                     Button {
                         isShowingCamera = true
                     } label: {
+                        // The floor is on the LABEL, inside the bordered
+                        // background, because a system style sizes itself
+                        // around what it is given and this label was shrunk to
+                        // caption — so the style's own metric is a metric for
+                        // eleven-point text.
                         Label("Take photo", systemImage: "camera")
                             .font(.caption)
+                            .frame(minHeight: 44)
                     }
                     .buttonStyle(.bordered)
                 }
@@ -43,6 +49,7 @@ struct FeaturePhotoStrip: View {
                 ) {
                     Label("Add photos", systemImage: "photo.on.rectangle")
                         .font(.caption)
+                        .frame(minHeight: 44)
                 }
                 .buttonStyle(.bordered)
             }
@@ -181,6 +188,9 @@ struct FeaturePhotoStrip: View {
                 // await, so a Done tap a moment later waits for the removal.
                 session.requestRemovePhoto(featureID: feature.id ?? "", photoID: descriptor.id)
             } label: {
+                // Anchored to the corner, not centred in the target: the badge
+                // stays where it was while the box a finger lands in grows
+                // around it, so the picture underneath keeps most of itself.
                 Image(systemName: "xmark.circle.fill")
                     .font(.callout)
                     .foregroundStyle(.white, .black.opacity(0.6))
@@ -191,12 +201,15 @@ struct FeaturePhotoStrip: View {
                     // leave that tap a twelve-point strip down two edges. This
                     // is the largest square that still leaves the picture the
                     // greater part of itself.
-                    .frame(width: 32, height: 32)
+                    //
+                    // Anchored to the corner rather than centred, so the badge
+                    // stays where it is drawn and the target grows towards the
+                    // tile's edge rather than into the middle of the picture.
+                    .frame(width: 32, height: 32, alignment: .topTrailing)
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Remove photo \(index + 1)")
-            .padding(2)
         }
     }
 }

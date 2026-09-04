@@ -110,8 +110,24 @@ actor UserVectorStore {
         try fileManager.createDirectory(
             at: photosDirectory(for: layerID), withIntermediateDirectories: true
         )
-        try full.write(to: photoURL(layerID: layerID, photoID: photoID, thumb: false), options: .atomic)
-        try thumb.write(to: photoURL(layerID: layerID, photoID: photoID, thumb: true), options: .atomic)
+        do {
+            try full.write(
+                to: photoURL(layerID: layerID, photoID: photoID, thumb: false), options: .atomic
+            )
+            try thumb.write(
+                to: photoURL(layerID: layerID, photoID: photoID, thumb: true), options: .atomic
+            )
+        } catch {
+            // Nothing half-written survives a throw. A disk that fills between
+            // the two writes leaves a full-size JPEG no descriptor will ever
+            // name, and the only sweep that collects a stray file inside a
+            // claimed layer's directory runs from `replaceGeometry` — so those
+            // bytes would sit there until the reader happened to edit that
+            // layer, which may be never. The caller is told the photo did not
+            // land, and after this that is the whole truth.
+            deletePhoto(layerID: layerID, photoID: photoID)
+            throw error
+        }
     }
 
     func photoData(layerID: String, photoID: String, thumb: Bool) -> Data? {
@@ -155,6 +171,36 @@ actor UserVectorStore {
 
     func releasePhoto(id: String) {
         reservedPhotoIDs.remove(id)
+    }
+
+    /// Layers whose photo files are being written before the library holds a
+    /// record for them. `sweepOrphanedGeometry` removes a photo directory that
+    /// no record claims — which is right for a delete interrupted halfway, and
+    /// wrong for an import still in flight: a bulk placement writes up to 500
+    /// photos before its `add`, and any `delete` or `load` in that window would
+    /// otherwise take the directory out from underneath it and leave the
+    /// geometry pointing at bytes that are gone.
+    private var reservedLayerIDs: Set<String> = []
+
+    func reserveLayer(id: String) {
+        reservedLayerIDs.insert(id)
+    }
+
+    func releaseLayer(id: String) {
+        reservedLayerIDs.remove(id)
+    }
+
+    /// Gives up a reservation and takes the bytes with it.
+    ///
+    /// For an import that wrote its photos and then failed to write the layer.
+    /// Releasing alone would leave the files for the next `load()` to sweep,
+    /// and the reservation is what stopped a sweep taking them in the meantime
+    /// — so between the release and whenever a sweep next happens to run, they
+    /// are unreachable and uncollected. On a device that just refused a write
+    /// for lack of room, "we will tidy up eventually" is the wrong promise.
+    func abandonLayer(id: String) {
+        reservedLayerIDs.remove(id)
+        try? fileManager.removeItem(at: photosDirectory(for: id))
     }
 
     private func sweepOrphanedPhotos(layerID: String, keeping parsed: ParsedVector) {
@@ -445,7 +491,8 @@ actor UserVectorStore {
             includingPropertiesForKeys: nil
         ) {
             for layerDirectory in photoDirectories
-            where !keptGeometry.contains(layerDirectory.lastPathComponent) {
+            where !keptGeometry.contains(layerDirectory.lastPathComponent)
+                && !reservedLayerIDs.contains(layerDirectory.lastPathComponent) {
                 try? fileManager.removeItem(at: layerDirectory)
             }
         }

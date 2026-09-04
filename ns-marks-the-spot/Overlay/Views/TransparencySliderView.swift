@@ -139,15 +139,11 @@ struct TransparencySliderView: View {
         // Held from here on, so the sections the panel opened with stay open
         // while the reader changes what the map is.
         .onAppear { expandedCategories = openCategories.wrappedValue }
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
-                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 4)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(.white.opacity(0.15), lineWidth: 1)
-        )
+        // The same surface as every other panel over the map, so iOS 26 does
+        // not show one card in glass beside another in material. The hand-drawn
+        // stroke goes with it: glass draws its own edge, and a second one over
+        // the top reads as a sticker.
+        .mapChromeSurface(interactive: true, shadow: (0.15, 10, 4))
         .sheet(isPresented: Binding(
             get: { viewModel.isShowingLicenceSheet },
             set: { if !$0 { viewModel.dismissLicenceSheet() } }
@@ -455,11 +451,13 @@ private struct LayerProvenanceDisclosure: View {
                 line("Coverage", descriptor.coverage)
                 line("Zoom", "\(descriptor.minZoom)–\(descriptor.maxZoom)")
 
+                // The routes to what a source says about itself. Both were an
+                // eleven-point line with no target around them.
                 if let sourceURL = descriptor.sourceURL {
                     Link(destination: sourceURL) {
                         Text("Official source")
-                            .font(.caption2)
-                            .frame(minHeight: 44)
+                            .font(.footnote)
+                            .frame(minHeight: 44, alignment: .leading)
                             .contentShape(Rectangle())
                     }
                     .padding(.top, 2)
@@ -472,8 +470,8 @@ private struct LayerProvenanceDisclosure: View {
                 if let manualURL = descriptor.manualURL {
                     Link(destination: manualURL) {
                         Text("Accuracy definitions")
-                            .font(.caption2)
-                            .frame(minHeight: 44)
+                            .font(.footnote)
+                            .frame(minHeight: 44, alignment: .leading)
                             .contentShape(Rectangle())
                     }
                 }
@@ -561,14 +559,14 @@ private struct LayerRowView: View {
                                     viewModel.retryTiles(for: row.id)
                                 } label: {
                                     Text("Retry tiles")
-                                        .font(.caption2.weight(.medium))
-                                        .frame(minHeight: 44)
+                                        .font(.footnote.weight(.medium))
+                                        .frame(minHeight: 44, alignment: .leading)
                                         .contentShape(Rectangle())
                                 }
-                                .buttonStyle(.plain)
-                                .foregroundStyle(.blue)
-                                .accessibilityLabel("Retry \(row.name) tiles")
-                                .accessibilityIdentifier("retry-tiles-\(row.id)")
+                                    .buttonStyle(.plain)
+                                    .foregroundStyle(.blue)
+                                    .accessibilityLabel("Retry \(row.name) tiles")
+                                    .accessibilityIdentifier("retry-tiles-\(row.id)")
                             }
                         }
                     }
@@ -779,17 +777,20 @@ private struct WellAccuracyFilterControl: View {
                 HStack(spacing: 6) {
                     WellAccuracySwatch(accuracy: band.accuracy)
                     Text(band.label)
-                        .font(.caption2)
+                        .font(.footnote)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
+            // The same tier as the evidence surfaces: a sentence saying four
+            // of the five bands are not surveyed positions cannot be the
+            // faintest thing in the legend it belongs to.
             Text(
                 "Only surveyed wells are drawn as solid points. Hollow markers "
                 + "report that a well exists somewhere nearby, not where it is."
             )
-            .font(.caption2)
-            .foregroundStyle(.secondary)
+            .font(.footnote)
+            .foregroundStyle(.primary)
             .fixedSize(horizontal: false, vertical: true)
         }
     }

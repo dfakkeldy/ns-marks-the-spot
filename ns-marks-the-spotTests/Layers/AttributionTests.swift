@@ -1,6 +1,7 @@
 import Foundation
 import GeoCore
 import MapCatalog
+import NSDataServices
 import Testing
 @testable import ns_marks_the_spot
 
@@ -53,13 +54,56 @@ struct AttributionTests {
         #expect(licenseText.contains("This is version 1.0 of the Province of Nova Scotia Restricted Geographic Services License."))
     }
 
-    @Test func openLicensedProvincialLayersAreNotLabelledRestricted() {
-        let openLayers = LayerCatalog.all.filter { $0.licence == .provinceOpen }
+    /// The three coastal projections. They are `provinceOpen` like the layers
+    /// beside them and published under a different licence, and the licence
+    /// document is the only field that says so — which is how the browser tells
+    /// them apart too.
+    private var coastalLayers: [LayerDescriptor] {
+        LayerCatalog.all.filter {
+            $0.licence == .provinceOpen && $0.licenceURL == LayerCatalog.unrestrictedLicence
+        }
+    }
 
-        #expect(openLayers.isEmpty == false)
-        for layer in openLayers {
+    /// Everything else under `provinceOpen`, which is the Open Government
+    /// Licence and owes that licence's own statement.
+    private var openGovernmentLayers: [LayerDescriptor] {
+        LayerCatalog.all.filter {
+            $0.licence == .provinceOpen && $0.licenceURL != LayerCatalog.unrestrictedLicence
+        }
+    }
+
+    @Test func openLicensedProvincialLayersCarryTheStatementTheLicenceMandates() {
+        #expect(openGovernmentLayers.isEmpty == false)
+        for layer in openGovernmentLayers {
             let attribution = NativeLayerTraits.attribution(for: layer)
             #expect(attribution.licenseTitle == "Open Government Licence — Nova Scotia")
+            // The restricted licence's sentence under an open licence's title is
+            // a credit naming terms the data is not published under.
+            #expect(
+                attribution.disclaimer
+                    == "Contains information licensed under the Open Government Licence – Nova Scotia.",
+                "\(layer.id.rawValue) does not carry the Open Government statement"
+            )
+            #expect(layer.requiresProvinceClearance == false)
+        }
+    }
+
+    /// The coastal licence makes the permission, the endorsement disclaimer and
+    /// the no-warranty caveat conditions of reproducing the data, and a layer
+    /// drawn on the map is a reproduction.
+    @Test func theCoastalProjectionsCarryTheirOwnLicenceAndAllThreeNotices() {
+        #expect(coastalLayers.count == 3)
+        for layer in coastalLayers {
+            let attribution = NativeLayerTraits.attribution(for: layer)
+            #expect(attribution.licenseTitle == "Unrestricted Map Services Licence")
+            #expect(attribution.disclaimer == CoastalFloodLicence.attribution)
+            for notice in CoastalFloodLicence.notices {
+                #expect(
+                    attribution.disclaimer.contains(notice),
+                    "\(layer.id.rawValue) drops one of the three coastal notices"
+                )
+            }
+            #expect(attribution.licenseURL == LayerCatalog.unrestrictedLicence)
             #expect(layer.requiresProvinceClearance == false)
         }
     }

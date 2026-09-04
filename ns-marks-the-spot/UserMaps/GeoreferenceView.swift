@@ -48,8 +48,14 @@ struct GeoreferenceView: View {
     @State private var draftOpacity: Double = 0.7
     @State private var sort = GcpListPresentation.Sort(key: .index)
     @State private var showsPointsImporter = false
-    /// The trailing draft write — see `saveDraft`.
+    /// The last thing queued against the draft file, which whatever comes
+    /// next waits behind — see `saveDraft` and `discardDraft`.
     @State private var draftWrite: Task<Void, Never>?
+    /// Set once the library has taken the placement and the draft has been
+    /// removed. Nothing writes the draft again after that: the sheet is on
+    /// its way out, and a write that lands afterwards is a spare copy of work
+    /// already saved, offered back on the next opening as if it were newer.
+    @State private var draftDiscarded = false
     /// Which official layers are drawn under the scan. Off to start, like the
     /// browser: a sheet opened over imagery it was not meant to be compared
     /// against costs a wait for tiles and hides the base map's labels.
@@ -196,7 +202,7 @@ struct GeoreferenceView: View {
                                 couldNotSave = true
                                 return
                             }
-                            drafts.discard(identifier: identifier)
+                            discardDraft()
                             dismiss()
                         }
                     }
@@ -307,7 +313,13 @@ struct GeoreferenceView: View {
     /// so snapshots land in the order they were taken; an older snapshot
     /// landing last would persist a draft missing the newest point.
     private func saveDraft() {
-        guard !session.isDragging else { return }
+        // Not after the placement is saved. These calls come from `.onChange`
+        // observers, which run in a later main-actor turn than the mutation
+        // that scheduled them, so a point moved in the moments before Save can
+        // still be on its way here when the draft is removed — and a drag in
+        // progress queues nothing at all until it ends, which may be after the
+        // sheet has gone.
+        guard !draftDiscarded, !session.isDragging else { return }
         let snapshot = (
             controls: session.controlPoints,
             checks: session.checks,
@@ -324,6 +336,29 @@ struct GeoreferenceView: View {
                 checks: snapshot.checks,
                 checkLabels: snapshot.labels
             )
+        }
+    }
+
+    /// Removes the draft once the library has taken the placement.
+    ///
+    /// Three things, because one of them alone is not enough. The latch stops
+    /// any further write being queued — that is what closes the gap, since a
+    /// removal cannot outrun a write nobody has sent yet. The removal itself
+    /// stays synchronous, so it has happened by the time the sheet closes and
+    /// cannot be lost to a background or a force-quit. And a write already in
+    /// flight is followed by a second removal queued behind it, because that
+    /// one would otherwise put the points file back and the next opening of
+    /// this scan would offer to restore a placement the reader already saved.
+    ///
+    /// The banner's own Discard does not come through here: the session stays
+    /// open there, and the next placement must still be kept.
+    private func discardDraft() {
+        draftDiscarded = true
+        drafts.discard(identifier: identifier)
+        guard let outstanding = draftWrite else { return }
+        draftWrite = Task.detached(priority: .utility) { [drafts, identifier] in
+            _ = await outstanding.value
+            drafts.discard(identifier: identifier)
         }
     }
 

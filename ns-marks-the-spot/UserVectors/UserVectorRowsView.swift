@@ -27,7 +27,12 @@ struct UserVectorRowsView: View {
                 .fontWeight(.semibold)
                 .foregroundStyle(.secondary)
 
-            if viewModel.rows.isEmpty {
+            if viewModel.rows.isEmpty, !viewModel.isLibrarySealed {
+                // Not while a library this build could not read is sitting on
+                // the device. There is no telling whether it holds nothing or
+                // holds everything the reader has drawn, and an invitation to
+                // import — which the sealed paragraph below then refuses —
+                // would be an empty list answering a question it cannot.
                 Text("Draw your own, or import GeoJSON, KML, KMZ, GPX or a zipped shapefile.")
                     .font(.caption)
                     .foregroundStyle(.secondary)

@@ -584,21 +584,56 @@ final class UserVectorsViewModel {
     ) async -> Row? {
         let capped = Array(placements.prefix(PhotoDescriptor.maxPerLayer))
         guard !capped.isEmpty else { return nil }
+        // Minted here rather than with the record below, because the photo
+        // files are filed under the layer's id and they go down first — and
+        // reserved, so a delete or a load running while up to 500 photos are
+        // written cannot sweep the directory as an orphan.
+        let layerID = UUID().uuidString
+        await store.reserveLayer(id: layerID)
+        // The success path's release. The failure path above abandons instead,
+        // which releases and removes in one step.
+        defer { Task { await store.releaseLayer(id: layerID) } }
         var features: [GeoJsonFeature] = []
-        var stored: [(id: String, processed: PhotoPipeline.Processed)] = []
+        var unstored = 0
         for (index, placement) in capped.enumerated() {
             let photoID = UUID().uuidString
-            let descriptor = PhotoDescriptor(
-                id: photoID,
-                capturedAt: placement.capturedAt,
-                sourceName: placement.sourceName,
-                width: Double(placement.processed.width),
-                height: Double(placement.processed.height)
-            )
+            // The bytes before the descriptor that claims them, the way the
+            // edit session's attach path already does it. Written the other
+            // way round, a photo this device refused left its point claiming
+            // it anyway: the callout drew a placeholder for bytes that were
+            // never there, and a later KMZ export counted the same photo among
+            // the ones it could not read — both contradicting the notice that
+            // said the point had been kept without it.
+            var didStore = true
+            do {
+                writeGeneration += 1
+                try await store.addPhoto(
+                    layerID: layerID,
+                    photoID: photoID,
+                    full: placement.processed.fullJpeg,
+                    thumb: placement.processed.thumbJpeg
+                )
+            } catch {
+                didStore = false
+                unstored += 1
+            }
             var properties: [String: JSONValue] = [
-                CaptureSpec.createdAtKey: .string(CaptureTime.iso(now)),
-                CaptureSpec.photosKey: PhotoDescriptor.propertyValue(internalForm: [descriptor]),
+                CaptureSpec.createdAtKey: .string(CaptureTime.iso(now))
             ]
+            if didStore {
+                let descriptor = PhotoDescriptor(
+                    id: photoID,
+                    capturedAt: placement.capturedAt,
+                    sourceName: placement.sourceName,
+                    width: Double(placement.processed.width),
+                    height: Double(placement.processed.height)
+                )
+                properties[CaptureSpec.photosKey] =
+                    PhotoDescriptor.propertyValue(internalForm: [descriptor])
+            }
+            // The place, the moment and the file's name are the reader's own
+            // confirmed claims about where they stood, and they outlive bytes
+            // the device would not take.
             if let capturedAt = placement.capturedAt {
                 properties[CaptureSpec.capturedAtKey] = .string(capturedAt)
             }
@@ -616,11 +651,10 @@ final class UserVectorsViewModel {
                     properties: properties
                 )
             )
-            stored.append((photoID, placement.processed))
         }
         let parsed = VectorEdit.recomputed(features)
         let record = UserVectorLayerRecord(
-            id: UUID().uuidString,
+            id: layerID,
             name: name,
             source: .photos,
             origin: .photos(createdAt: now, count: parsed.featureCount),
@@ -637,23 +671,27 @@ final class UserVectorsViewModel {
                 "These points could not be saved to your device. Free some space and try again.",
                 after: error
             )
+            // Whatever photo files landed are under a layer id the library
+            // will never carry, and the reservation that protected them from
+            // the sweep is what would keep them out of reach if it simply
+            // ended. Taken now instead.
+            await store.abandonLayer(id: layerID)
             return nil
         }
-        for item in stored {
-            do {
-                writeGeneration += 1
-                try await store.addPhoto(
-                    layerID: record.id,
-                    photoID: item.id,
-                    full: item.processed.fullJpeg,
-                    thumb: item.processed.thumbJpeg
-                )
-            } catch {
-                reportExportShortfall(
-                    layerName: name,
-                    message: "A photo could not be stored on this device. The point was kept without it."
-                )
-            }
+        if unstored > 0 {
+            // Counted once rather than said once per photo: fifty copies of
+            // one sentence is a panel the reader stops reading. It is a count
+            // of photos that did not land and nothing more — `addPhoto` throws
+            // whatever the file system threw, and no room, a protected file
+            // while the device is locked and a permissions failure are not the
+            // same thing, so this does not name a cause it cannot establish.
+            reportExportShortfall(
+                layerName: name,
+                message: unstored == 1
+                    ? "1 photo couldn't be stored on this device. Its point was kept without it."
+                    : "\(unstored) photos couldn't be stored on this device. Their points were "
+                        + "kept without them."
+            )
         }
         let row = Row(record: record, isVisible: true, parsed: parsed)
         rows.append(row)
@@ -677,7 +715,44 @@ final class UserVectorsViewModel {
                   let latest = self?.rows.first(where: { $0.id == id })?.isVisible
             else { return }
             self?.writeGeneration += 1
-            _ = try? await store.setVisible(latest, id: id)
+            do {
+                _ = try await store.setVisible(latest, id: id)
+            } catch {
+                // A superseded write always runs to completion — cancellation
+                // is checked before the await and the store is not
+                // cancellation-aware — so only the write that is still this
+                // layer's current one is allowed to speak.
+                guard !Task.isCancelled else { return }
+                // A layer the library does not hold, for a row that never
+                // claimed to be on the device: an import the device would not
+                // take, whose notice already said it lives only in this
+                // session. Nothing there wants a warning about a switch. A
+                // STORED row answering the same way is a different thing —
+                // the library has gone missing underneath a layer that was in
+                // it — and that is said.
+                if case UserVectorStore.StoreRefusal.noSuchLayer = error,
+                   self?.rows.first(where: { $0.id == id })?.isStored == false {
+                    return
+                }
+                // Only the library's own refusals, because `refuse` writes the
+                // one shared slot that a mark and the editor read as the
+                // reason THEIR write failed. A sealed library is the same
+                // answer to all three; a full disk during a background
+                // visibility write is not, and would arrive at the reader as
+                // the reason a mark they just took was not kept.
+                guard let error = error as? UserVectorStore.StoreRefusal,
+                      error == .unreadable || Self.isFromALaterVersion(error)
+                else { return }
+                // The switch stays where the reader put it: the layer really
+                // is drawn or not drawn as they asked. What did not happen is
+                // the remembering, and a switch that quietly forgets itself by
+                // the next launch reads as the app moving it back on its own.
+                self?.refuse(
+                    "That layer's visibility could not be saved, so it may come back the other "
+                        + "way round next time you open the app.",
+                    after: error
+                )
+            }
         }
     }
 
@@ -782,10 +857,27 @@ final class UserVectorsViewModel {
     func delete(id: String) async {
         let sessionOnly = rows.first { $0.id == id }?.isStored == false
         writeGeneration += 1
-        guard let library = try? await store.delete(id: id) else {
+        let library: UserVectorLibrary
+        do {
+            library = try await store.delete(id: id)
+        } catch {
             // Nothing on disk to refuse it: a layer that is only in memory is
             // deleted by forgetting it.
-            if sessionOnly { rows.removeAll { $0.id == id } }
+            if sessionOnly {
+                rows.removeAll { $0.id == id }
+                return
+            }
+            // The layer is still on the device and still in the list, and the
+            // reader confirmed a destructive alert and watched the row stay
+            // put. Said in the library's words when the library is what
+            // refused: a document from a newer build is not a full disk, and
+            // telling that reader to free space would have them clearing
+            // photos over a file this build must not write to at any size.
+            refuse(
+                "This layer could not be removed from your device right now. It is still in "
+                    + "your list; try again.",
+                after: error
+            )
             return
         }
         let kept = Set(library.layers.map(\.id))
@@ -904,6 +996,11 @@ final class UserVectorsViewModel {
         lastRefusal = Self.storageRefusal(
             isLibrarySealed ? (sealedMessage ?? Self.unreadableLibraryMessage) : message
         )
+    }
+
+    /// A document written by a newer build, whatever version it names.
+    private static func isFromALaterVersion(_ refusal: UserVectorStore.StoreRefusal) -> Bool {
+        if case .fromALaterVersion = refusal { true } else { false }
     }
 
     private static func isLibraryRefusal(_ error: any Error) -> Bool {

@@ -1,6 +1,7 @@
 import CoreLocation
 import GeoCore
 import MapKit
+import UIKit
 import NSDataServices
 import Observation
 
@@ -41,6 +42,21 @@ enum MapEvent {
 /// mutate the desired state and apply it.
 @Observable
 final class MapController: NSObject {
+    /// Whether the reader has asked the system for less motion.
+    ///
+    /// SwiftUI hands its own views `\.accessibilityReduceMotion`, and the app's
+    /// chrome already honours it; MapKit is not a SwiftUI view and takes an
+    /// `animated:` flag instead, so every camera move this controller makes was
+    /// a full flight across the province whatever the setting said. Read fresh
+    /// rather than captured, so turning it on with the map open takes effect on
+    /// the next move.
+    nonisolated static var prefersLessMotion: Bool {
+        UIAccessibility.isReduceMotionEnabled
+    }
+
+    /// `animated:` for a move the reader did not ask to watch.
+    nonisolated static var animatesCamera: Bool { !prefersLessMotion }
+
     // MARK: - Applied surface state
     //
     // One observable stored property per field, not one property holding the
@@ -865,7 +881,7 @@ final class MapController: NSObject {
         mapView.setVisibleMapRect(
             rect,
             edgePadding: UIEdgeInsets(top: 64, left: 48, bottom: 64, right: 48),
-            animated: true
+            animated: Self.animatesCamera
         )
     }
 
@@ -879,7 +895,7 @@ final class MapController: NSObject {
     ///
     /// `animated` is false for the opening view, which has no previous position
     /// to travel from: the map would otherwise fly to its own first frame.
-    func center(on point: GeoPoint, zoom: Int, animated: Bool = true) {
+    func center(on point: GeoPoint, zoom: Int, animated: Bool = animatesCamera) {
         cameraTakenByAnotherFeature()
         guard let mapView, mapView.bounds.width > 0 else {
             // A link opened at launch arrives before the map has a width. Held
@@ -937,7 +953,7 @@ final class MapController: NSObject {
                     latitudeDelta: latitudeSpan, longitudeDelta: longitudeSpan
                 )
             ),
-            animated: true
+            animated: Self.animatesCamera
         )
     }
 
@@ -1650,7 +1666,7 @@ final class MapController: NSObject {
     }
 
     /// Pans to a point, keeping the zoom.
-    func pan(to point: GeoPoint, animated: Bool = true) {
+    func pan(to point: GeoPoint, animated: Bool = animatesCamera) {
         mapView?.setCenter(
             CLLocationCoordinate2D(latitude: point.lat, longitude: point.lng),
             animated: animated
@@ -2357,6 +2373,33 @@ extension MapController: MKMapViewDelegate {
             view.image = ParcelOverviewMarkerImage.image(
                 role: marker.role, isSelected: marker.isSelected
             )
+            view.isAccessibilityElement = true
+            // The PID and nothing else: the marker stands for a parcel named in
+            // a record, and the map has no address, owner or destination to
+            // offer for it.
+            view.accessibilityLabel = "Parcel \(marker.pid)"
+            view.accessibilityTraits = .button
+            // On screen the red and the purple are the only thing separating a
+            // current notice from a published past record, which is the whole
+            // point of drawing them differently; said here rather than left to
+            // a hue nobody can hear.
+            //
+            // What this cannot say: a parcel that is BOTH selected and in a
+            // current notice reads as "Selected" alone, because the role it
+            // carries is one value and selection takes it. The panel that
+            // opens names the notice, so the fact is not lost — but the marker
+            // does not carry it, and saying it did would be inventing a
+            // distinction from a value that cannot hold two.
+            let roleText: String? =
+                switch marker.role {
+                case .selected: "Selected"
+                case .selectedHistorical: "Selected; in a published past tax-sale record"
+                case .taxSale: "In a current tax-sale notice"
+                case .historicalTaxSale: "In a published past tax-sale record"
+                case .context: nil
+                }
+            view.accessibilityValue = roleText
+            view.accessibilityHint = "Opens this parcel's details."
             return view
         }
 
@@ -2402,6 +2445,7 @@ extension MapController: MKMapViewDelegate {
             view.image = VectorMoveHandleImage.image(colorHex: handle.colorHex)
             view.isAccessibilityElement = true
             view.accessibilityLabel = "Move entire feature"
+            view.accessibilityValue = nil
             view.accessibilityHint = "Press and hold, then drag. The editing panel can also move the whole feature to the map centre."
             return view
         }
@@ -2416,6 +2460,16 @@ extension MapController: MKMapViewDelegate {
             // being drawn would cover the ground the next tap has to land on.
             view.canShowCallout = false
             view.image = VectorDraftHandleImage.image(colorHex: handle.colorHex)
+            view.isAccessibilityElement = true
+            // Numbered, because the dots are identical: it says where the shape
+            // has been taken so far, and claims nothing about what is there.
+            //
+            // Value and hint written even though they are empty: MapKit hands
+            // back a view the last annotation used, and a field left alone
+            // keeps whatever that one put in it.
+            view.accessibilityLabel = "Placed corner \(handle.ordinal)"
+            view.accessibilityValue = nil
+            view.accessibilityHint = nil
             return view
         }
 
@@ -2455,9 +2509,16 @@ extension MapController: MKMapViewDelegate {
             view.image = UserVectorMarkerImage.image(
                 for: point.pointStyle, hasPhotos: point.hasPhotos, isHighlighted: point.isHighlighted
             )
-            // The badge is visual; VoiceOver hears the same fact.
+            // The badge is visual; VoiceOver hears the same fact. A plain
+            // MKAnnotationView is not an accessibility element by default, so
+            // a label alone left the reader's own marks out of the tree
+            // entirely — and every field is written on every dequeue, because
+            // a reused view carries whatever the last annotation put there.
+            view.isAccessibilityElement = true
             view.accessibilityLabel = point.title
             view.accessibilityValue = point.hasPhotos ? "Has photos" : nil
+            view.accessibilityHint = "Opens this point's details."
+            view.accessibilityTraits = .button
             view.clusteringIdentifier = point.clusteringIdentifier
             // Clustered points yield to the user's own drawn markers but not
             // to every other marker on the map: at `.defaultLow` a photo pin
@@ -2480,6 +2541,20 @@ extension MapController: MKMapViewDelegate {
             // one dot would have meant the shorter one could be read alone.
             view.canShowCallout = false
             view.image = FeatureMarkerImage.image(for: feature.style)
+            view.isAccessibilityElement = true
+            // The record's own words, which are all the map has: the title and
+            // subtitle the layer published. A record whose title is empty is
+            // named as a record and nothing more, rather than having one made
+            // up for it from its position or its layer. The marker's title is
+            // not optional, so an empty string is the only unnamed case there
+            // is — and it is the one that reaches a reader as a marker with no
+            // name at all.
+            view.accessibilityLabel = (feature.title?.isEmpty == false)
+                ? feature.title
+                : "Map record"
+            view.accessibilityTraits = .button
+            view.accessibilityValue = feature.subtitle
+            view.accessibilityHint = "Opens this record's details."
             return view
         }
 
@@ -2570,7 +2645,11 @@ extension MapController: MKMapViewDelegate {
                 // sale fit.
                 readerHasClaimedTheCamera = true
                 cameraTakenByAnotherFeature()
-                mapView.showAnnotations(members, animated: animatesLocate)
+                // Not `animatesLocate`: the container sets that from Reduce
+                // Motion before a locate tap, so a reader who never pressed
+                // Current Location got an animated cluster expansion however
+                // the system was set. This one reads the setting itself.
+                mapView.showAnnotations(members, animated: Self.animatesCamera)
             }
             mapView.deselectAnnotation(cluster, animated: false)
             return

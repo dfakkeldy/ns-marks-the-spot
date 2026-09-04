@@ -284,8 +284,8 @@ struct VectorEditPanel: View {
                         // travel with a traced corner wherever it is shown,
                         // and the panel replaces the callout while editing.
                         Text(VectorExport.tracedProvenanceNote)
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .font(.footnote)
+                            .foregroundStyle(.primary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     // Named because the two kinds of handle look different and
@@ -341,8 +341,10 @@ struct VectorEditPanel: View {
             }
         }
         .padding(12)
-        .background(.regularMaterial)
-        .clipShape(.rect(cornerRadius: 16))
+        // Interactive: this one is worked on rather than read, so on iOS 26
+        // the glass under it reacts to touch the way the system's own panels
+        // do.
+        .mapChromeSurface(interactive: true, shadow: nil)
         .allowsHitTesting(!session.isEnding)
         .onAppear {
             layerName = session.record?.name ?? ""
@@ -584,9 +586,13 @@ struct VectorEditPanel: View {
                     .font(.caption)
                 // Wherever the toggle is visible, as the contract pins it and
                 // the web shows it: not only once it is on.
+                // "Traced boundaries are not a survey" is the sentence that
+                // stops a snapped corner being read as a surveyed one. It
+                // cannot be the smallest and faintest thing beside the toggle
+                // that arms the snapping.
                 Text(CaptureSpec.Snap.parcelCaveat)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .font(.footnote)
+                    .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
                 if let note = session.parcelSnapNote {
                     Text(note)
@@ -669,12 +675,18 @@ struct VectorEditPanel: View {
                 Button {
                     guard let centre = mapCentre() else { return }
                     let target = snapCentre(centre, featureID)
+                    let outcome = session.moveVertex(
+                        featureID: featureID, ring: corner.ring, vertex: corner.vertex,
+                        latitude: target.position.lat, longitude: target.position.lng,
+                        parcelSnap: target.parcelSnap
+                    )
+                    // After the write, and only if it took: a light tap says a
+                    // coordinate landed, and a refused move landed nothing.
+                    if outcome != .refused {
+                        MapHaptics.placed()
+                    }
                     session.announce(
-                        session.moveVertex(
-                            featureID: featureID, ring: corner.ring, vertex: corner.vertex,
-                            latitude: target.position.lat, longitude: target.position.lng,
-                            parcelSnap: target.parcelSnap
-                        ),
+                        outcome,
                         of: corners.count > 1 ? "Corner \(index + 1)" : "The point",
                         snapNote: target.note
                     )

@@ -34,9 +34,15 @@ struct MapAttributionStrip: View {
                 }
             } label: {
                 HStack(spacing: 4) {
+                    // Two reductions were one too many. This line carries the
+                    // OpenStreetMap credit its tile policy requires and the
+                    // boundaries caveat, over a moving map: it is required
+                    // text and a limit on what the map may be taken to mean,
+                    // and it was the smallest and the faintest thing on the
+                    // screen at once.
                     Text(ActiveAttribution.summary(for: credits))
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .font(.footnote)
+                        .foregroundStyle(.primary)
                         // Two lines collapsed, not one: the line carries both
                         // the OpenStreetMap credit its tile policy requires
                         // and the boundaries caveat, and at one line it never
@@ -66,28 +72,33 @@ struct MapAttributionStrip: View {
                 ForEach(credits) { credit in
                     VStack(alignment: .leading, spacing: 2) {
                         Text(credit.copyright ?? credit.provider)
-                            .font(.caption2.weight(.semibold))
+                            .font(.footnote.weight(.semibold))
 
+                        // The licence's own words. A condition of drawing the
+                        // data is not a footnote to the source name above it.
                         Text(credit.disclaimer)
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .font(.footnote)
+                            .foregroundStyle(.primary)
                             .fixedSize(horizontal: false, vertical: true)
 
+                        // The route to a licence's own words is a required
+                        // path, not decorative text, and it was an
+                        // eleven-point line with no target around it.
                         if let title = credit.licenseTitle, let url = credit.licenseURL {
                             if url.isFileURL {
                                 Button {
                                     bundledLicence = PresentedBundledLicence(title: title, url: url)
                                 } label: {
                                     Text(title)
-                                        .font(.caption2)
-                                        .frame(minHeight: 44)
+                                        .font(.footnote)
+                                        .frame(minHeight: 44, alignment: .leading)
                                         .contentShape(Rectangle())
                                 }
                             } else {
                                 Link(destination: url) {
                                     Text(title)
-                                        .font(.caption2)
-                                        .frame(minHeight: 44)
+                                        .font(.footnote)
+                                        .frame(minHeight: 44, alignment: .leading)
                                         .contentShape(Rectangle())
                                 }
                             }
@@ -97,8 +108,8 @@ struct MapAttributionStrip: View {
 
                 Button(action: onOpenSources) {
                     Text("All sources")
-                        .font(.caption2)
-                        .frame(minHeight: 44)
+                        .font(.footnote)
+                        .frame(minHeight: 44, alignment: .leading)
                         .contentShape(Rectangle())
                 }
                 .accessibilityIdentifier("map-attribution-all-sources")
@@ -107,7 +118,10 @@ struct MapAttributionStrip: View {
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
         .frame(maxWidth: 320, alignment: .leading)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
+        // The strip carries required attribution over a moving map, so it is
+        // the last surface that should be legible on one generation of the OS
+        // and not the other.
+        .mapChromeSurface(cornerRadius: 8, shadow: nil)
         .sheet(item: $bundledLicence) { licence in
             BundledLicenceReaderView(title: licence.title, fileURL: licence.url)
         }

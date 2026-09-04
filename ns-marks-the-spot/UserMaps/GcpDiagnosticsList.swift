@@ -46,6 +46,11 @@ struct GcpDiagnosticsList: View {
                 Text(column.label).tag(GcpListPresentation.SortKey.residual)
             }
             .pickerStyle(.menu)
+            // A menu picker's tappable area is its current selection's text.
+            // The button beside it was given a floor; this is the other half
+            // of the same row.
+            .frame(minHeight: 44)
+            .contentShape(Rectangle())
             Spacer()
             Button {
                 sort.descending.toggle()

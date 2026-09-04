@@ -41,9 +41,27 @@ final class MarkLocation: NSObject {
         /// and telling the reader to try again outdoors sends them to fix
         /// the wrong thing.
         case storageFailed(String)
+        /// The mark was written and the layer it went to is switched off, and
+        /// switching it on failed. A kept mark, not a lost one: it was
+        /// `.storageFailed` before, which made "An earlier tap was not saved:
+        /// The mark was saved…" a sentence the app could produce about itself.
+        case markedLayerNotShown(layerName: String?, accuracyM: Double)
+
+        /// Whether NO mark was kept. Two cases mean one was.
+        var isFailure: Bool {
+            switch self {
+            case .marked, .markedLayerNotShown: false
+            default: true
+            }
+        }
 
         var message: String {
             switch self {
+            case .markedLayerNotShown(let layerName, let accuracyM):
+                let saved = layerName.map { "Point saved to \($0)" } ?? "Point saved"
+                return saved
+                    + " (±\(MarkLocation.accuracyLabel(accuracyM)) m), but the layer could not "
+                    + "be switched on. Turn it on from Layers."
             case .marked(let layerName, let accuracyM, let layerShown):
                 let marked = "Point saved to \(layerName) (±\(MarkLocation.accuracyLabel(accuracyM)) m)."
                 return layerShown ? marked + " Layer switched on." : marked

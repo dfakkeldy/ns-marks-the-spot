@@ -27,13 +27,18 @@ struct MapPositionReadout: View {
                 Button {
                     isShowingScaleCaveat = true
                 } label: {
+                    // Leading, not full width: this corner is measured for
+                    // the ornament inset below the map, and a greedy chip
+                    // would push the readout across it.
                     Text(screenScale)
                         .font(.caption2.monospacedDigit())
                         .foregroundStyle(.secondary)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
+                        .frame(minHeight: 44, alignment: .leading)
                         .background(.regularMaterial)
                         .clipShape(.rect(cornerRadius: 8))
+                        .contentShape(Rectangle())
                 }
                 .accessibilityLabel(screenScale)
                 .accessibilityHint("How accurate this is")

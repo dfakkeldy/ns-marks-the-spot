@@ -67,6 +67,35 @@ struct ActiveAttributionTests {
         #expect(summary.count < 120)
     }
 
+    /// The Province publishes these two layers under different licences with
+    /// the same name on them. A strip that named one licence over both would
+    /// tell a reader the coastal projections come with permissions they do not,
+    /// or hide the notices the coastal licence makes a condition of drawing
+    /// them at all.
+    @Test("Two provincial licences are two credits")
+    func twoProvincialLicencesAreTwoCredits() {
+        let coastal = LayerCatalog.all.first {
+            $0.licence == .provinceOpen && $0.licenceURL == LayerCatalog.unrestrictedLicence
+        }!
+        let openGovernment = LayerCatalog.all.first {
+            $0.licence == .provinceOpen && $0.licenceURL != LayerCatalog.unrestrictedLicence
+        }!
+        let credits = ActiveAttribution.credits(for: [coastal, openGovernment])
+
+        #expect(credits.count == 2)
+        #expect(credits.allSatisfy { $0.provider == "Province of Nova Scotia" })
+        #expect(credits[0].licenseTitle == "Unrestricted Map Services Licence")
+        #expect(
+            credits[0].disclaimer
+                .contains("permission of the Department of Service Nova Scotia")
+        )
+        #expect(credits[1].licenseTitle == "Open Government Licence — Nova Scotia")
+        #expect(
+            credits[1].disclaimer
+                .hasPrefix("Contains information licensed under the Open Government Licence")
+        )
+    }
+
     /// A restricted provincial layer and a Rumsey scan are two different
     /// promises about what the reader is looking at, and the strip has to make
     /// both.
