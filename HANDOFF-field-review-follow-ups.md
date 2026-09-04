@@ -629,3 +629,40 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
 Build feature/ios-live-activity, run the app-target suite, open the PR stacked on #314.
 ```
+
+## 2026-09-04 — §12.11 is two open PRs; the original seven are merged
+
+Merged: #310 (K), #311 (dark scheme), #312 (N), #313 (L). The four earlier
+clusters merged before them.
+
+Open:
+- [#314](https://github.com/dfakkeldy/ns-marks-the-spot/pull/314) — the walk
+  continues off screen. Round 1 folded in; 900 tests.
+- [#315](https://github.com/dfakkeldy/ns-marks-the-spot/pull/315) — the Live
+  Activity, stacked on #314. New `NSMarksLiveActivity` target added to the
+  pbxproj by hand; 904 tests. Round 1 running.
+
+Two things worth remembering from #315:
+- `INFOPLIST_KEY_NSExtensionPointIdentifier` does **not** generate the nested
+  `NSExtension` dictionary. Without an explicit Info.plist the *whole app*
+  fails to install with "Invalid placeholder attributes".
+- Every recorder test must inject a `TrackActivityPresenter`. The default is
+  the real one, so the tests were reaching ActivityKit and blocking the main
+  actor long enough to starve the bundle — an unrelated deadlock-detector test
+  began timing out at sixty seconds, which is how it surfaced.
+
+Owed, and NOT done:
+- **Device verification of both.** The simulator does not background
+  faithfully and does not present Live Activities as a device does. Nothing
+  about §12.11 is device-verified.
+- **Process termination loses an in-progress walk**, and background recording
+  makes that easier to reach. Recorded in the design document; its own work.
+- Thirteen of the fifteen §5 findings, listed in #313's body.
+- A pre-existing "Maximum update depth exceeded" at web map startup, bisected
+  to `88fac4a1a` and filed as its own task.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Read scratchpad/codex/out-P-r1-*.md, fold into #315, and watch CI on #314 and #315.
+```
