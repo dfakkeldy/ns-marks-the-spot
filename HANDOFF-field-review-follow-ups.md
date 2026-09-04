@@ -364,3 +364,25 @@ Resume:
 cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
 gh pr checks 308
 ```
+
+## 2026-09-03 — PR M complete (web accessibility), pushed
+
+Done: `feature/web-a11y` (6 commits on top of `feature/web-review-round4`)
+closes §10.3 dialog focus trap, §10.4 sheet focus, §10.6 HUD live region,
+§10.7 corner mover + photo Remove target, §10.8 landmarks, §10.9 reduced
+motion, §13.5 44px targets. Web gates green locally: 2075 passed / 1 skipped
+in 184 files, lint clean, build clean. Browser-verified at 375×812. Found a
+pre-existing "Maximum update depth exceeded" loop at startup — bisected to
+`88fac4a1a` on nightly, filed as its own task, NOT from this branch.
+PRs #307 (web round 4) and #308 (PR J, iOS) are both green and CLEAN.
+
+Next: fold in the Codex round-1 verdict for PR M, open the PR to `nightly`
+stacked on #307, then start PR K (iOS §4/§6/§11.8 + Liquid Glass behind
+`#available(iOS 26)`) — its 13 plans are already written and adversarially
+verified under `scratchpad/plans-k4/` and `scratchpad/plans-k6/`.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e, branch feature/web-a11y (pushed).
+Read scratchpad/codex/out-M-r1-correctness.md and out-M-r1-contract.md, fix or refute every claim with file:line evidence, then open PR M to nightly with the verdict table in the body.
+```
