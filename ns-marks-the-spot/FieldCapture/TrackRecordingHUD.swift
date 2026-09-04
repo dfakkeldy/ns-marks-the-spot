@@ -48,10 +48,10 @@ struct TrackRecordingHUD: View {
                         Button("Resume") {
                             recorder.resume()
                             // Only for a transport button that took. The
-                            // recorder also pauses itself when the app leaves
-                            // the foreground or location is refused mid-walk,
-                            // and a buzz then would answer a phone in a pocket
-                            // for something nobody just asked for.
+                            // recorder also pauses itself when location is
+                            // refused mid-walk, and a buzz then would answer a
+                            // phone in a pocket for something nobody just
+                            // asked for.
                             if recorder.status == .recording {
                                 MapHaptics.modeChanged()
                             }

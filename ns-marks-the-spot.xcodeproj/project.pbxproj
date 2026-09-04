@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CCDA000B000000000000000A /* NSMarksLiveActivity.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CCDA0002000000000000000A /* NSMarksLiveActivity.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CCA100012FBB70BC00918D5A /* GeoCore in Frameworks */ = {isa = PBXBuildFile; productRef = CCA100022FBB70BC00918D5A /* GeoCore */; };
 		CCA100032FBB70BC00918D5A /* MapCatalog in Frameworks */ = {isa = PBXBuildFile; productRef = CCA100042FBB70BC00918D5A /* MapCatalog */; };
 		CCA100052FBB70BC00918D5A /* NSDataServices in Frameworks */ = {isa = PBXBuildFile; productRef = CCA100062FBB70BC00918D5A /* NSDataServices */; };
@@ -32,7 +33,18 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXContainerItemProxy section */
+		CCDA000D000000000000000A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC5602FD2FBB70BB00918D5A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CCDA0001000000000000000A;
+			remoteInfo = NSMarksLiveActivity;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		CCDA0002000000000000000A /* NSMarksLiveActivity.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NSMarksLiveActivity.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC5603052FBB70BB00918D5A /* ns-marks-the-spot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ns-marks-the-spot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC5603122FBB70BC00918D5A /* ns-marks-the-spotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ns-marks-the-spotTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC56031C2FBB70BC00918D5A /* ns-marks-the-spotUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ns-marks-the-spotUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +64,16 @@
 		CC56031F2FBB70BC00918D5A /* ns-marks-the-spotUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "ns-marks-the-spotUITests";
+			sourceTree = "<group>";
+		};
+		CCDA0003000000000000000A /* NSMarksLiveActivity */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = NSMarksLiveActivity;
+			sourceTree = "<group>";
+		};
+		CCDA0012000000000000000A /* SharedActivity */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SharedActivity;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -84,6 +106,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CCDA0005000000000000000A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -91,6 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				CC5603072FBB70BB00918D5A /* ns-marks-the-spot */,
+				CCDA0012000000000000000A /* SharedActivity */,
+				CCDA0003000000000000000A /* NSMarksLiveActivity */,
 				CC5603152FBB70BC00918D5A /* ns-marks-the-spotTests */,
 				CC56031F2FBB70BC00918D5A /* ns-marks-the-spotUITests */,
 				CC5603062FBB70BB00918D5A /* Products */,
@@ -101,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				CC5603052FBB70BB00918D5A /* ns-marks-the-spot.app */,
+				CCDA0002000000000000000A /* NSMarksLiveActivity.appex */,
 				CC5603122FBB70BC00918D5A /* ns-marks-the-spotTests.xctest */,
 				CC56031C2FBB70BC00918D5A /* ns-marks-the-spotUITests.xctest */,
 			);
@@ -117,13 +149,16 @@
 				CC5603012FBB70BB00918D5A /* Sources */,
 				CC5603022FBB70BB00918D5A /* Frameworks */,
 				CC5603032FBB70BB00918D5A /* Resources */,
+				CCDA000A000000000000000A /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CCDA000C000000000000000A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				CC5603072FBB70BB00918D5A /* ns-marks-the-spot */,
+				CCDA0012000000000000000A /* SharedActivity */,
 			);
 			name = "ns-marks-the-spot";
 			packageProductDependencies = (
@@ -184,6 +219,29 @@
 			productReference = CC56031C2FBB70BC00918D5A /* ns-marks-the-spotUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		CCDA0001000000000000000A /* NSMarksLiveActivity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CCDA0007000000000000000A /* Build configuration list for PBXNativeTarget "NSMarksLiveActivity" */;
+			buildPhases = (
+				CCDA0004000000000000000A /* Sources */,
+				CCDA0005000000000000000A /* Frameworks */,
+				CCDA0006000000000000000A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CCDA0003000000000000000A /* NSMarksLiveActivity */,
+				CCDA0012000000000000000A /* SharedActivity */,
+			);
+			name = NSMarksLiveActivity;
+			packageProductDependencies = (
+			);
+			productName = NSMarksLiveActivity;
+			productReference = CCDA0002000000000000000A /* NSMarksLiveActivity.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -204,6 +262,9 @@
 					CC56031B2FBB70BC00918D5A = {
 						CreatedOnToolsVersion = 26.5;
 						TestTargetID = CC5603042FBB70BB00918D5A;
+					};
+					CCDA0001000000000000000A = {
+						CreatedOnToolsVersion = 26.5;
 					};
 				};
 			};
@@ -227,9 +288,24 @@
 				CC5603042FBB70BB00918D5A /* ns-marks-the-spot */,
 				CC5603112FBB70BC00918D5A /* ns-marks-the-spotTests */,
 				CC56031B2FBB70BC00918D5A /* ns-marks-the-spotUITests */,
+				CCDA0001000000000000000A /* NSMarksLiveActivity */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CCDA000A000000000000000A /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CCDA000B000000000000000A /* NSMarksLiveActivity.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXResourcesBuildPhase section */
 		CC5603032FBB70BB00918D5A /* Resources */ = {
@@ -247,6 +323,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		CC56031A2FBB70BC00918D5A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CCDA0006000000000000000A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -277,6 +360,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CCDA0004000000000000000A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -289,6 +379,11 @@
 			isa = PBXTargetDependency;
 			target = CC5603042FBB70BB00918D5A /* ns-marks-the-spot */;
 			targetProxy = CC56031D2FBB70BC00918D5A /* PBXContainerItemProxy */;
+		};
+		CCDA000C000000000000000A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CCDA0001000000000000000A /* NSMarksLiveActivity */;
+			targetProxy = CCDA000D000000000000000A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -430,6 +525,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Takes photos to attach to your own map features. Photos stay on this device.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Shows the locations stored with your photos by indexing them on this device, and attaches photos you choose to your own map features. Attached photos and their locations leave this device only when you export or share a layer yourself.";
 				INFOPLIST_KEY_FletcherTileBaseURL = "$(FLETCHER_TILE_BASE_URL)";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -468,6 +564,7 @@
 				INFOPLIST_KEY_NSCameraUsageDescription = "Takes photos to attach to your own map features. Photos stay on this device.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Shows the locations stored with your photos by indexing them on this device, and attaches photos you choose to your own map features. Attached photos and their locations leave this device only when you export or share a layer yourself.";
 				INFOPLIST_KEY_FletcherTileBaseURL = "$(FLETCHER_TILE_BASE_URL)";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -576,6 +673,66 @@
 			};
 			name = Release;
 		};
+		CCDA0008000000000000000A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8AXNA5B37R;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Track recording";
+				INFOPLIST_FILE = "Config/NSMarksLiveActivity-Info.plist";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danfakkeldy.nsmarksthespot.LiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CCDA0009000000000000000A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8AXNA5B37R;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Track recording";
+				INFOPLIST_FILE = "Config/NSMarksLiveActivity-Info.plist";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danfakkeldy.nsmarksthespot.LiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -611,6 +768,15 @@
 			buildConfigurations = (
 				CC56032D2FBB70BC00918D5A /* Debug */,
 				CC56032E2FBB70BC00918D5A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CCDA0007000000000000000A /* Build configuration list for PBXNativeTarget "NSMarksLiveActivity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CCDA0008000000000000000A /* Debug */,
+				CCDA0009000000000000000A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

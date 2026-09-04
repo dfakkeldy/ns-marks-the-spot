@@ -63,6 +63,19 @@ private final class SpyScreen: ScreenWakeLock {
 /// The walk's licence to continue off screen, counted rather than merely
 /// observed: a session started twice is a second promise behind one walk, and
 /// the real one is idempotent for that reason.
+/// A Lock Screen that is not one. Injected in every rig here, because the
+/// default is the real `LiveActivityPresenter` — and a unit test that reaches
+/// ActivityKit for real blocks the main actor long enough to starve every
+/// other main-actor test in the bundle. That is how this was found: an
+/// unrelated deadlock-detector test began timing out at sixty seconds.
+@MainActor
+private final class UnwatchedActivity: TrackActivityPresenter {
+    var isShowing = false
+    func start(_ state: TrackActivityAttributes.ContentState, startedAt: Date) { isShowing = true }
+    func update(_ state: TrackActivityAttributes.ContentState) {}
+    func end(_ state: TrackActivityAttributes.ContentState) { isShowing = false }
+}
+
 @MainActor
 private final class SpyBackground: BackgroundActivity {
     private(set) var starts = 0
@@ -90,7 +103,10 @@ struct TrackRecorderSeamTests {
         let screen = SpyScreen()
         let background = SpyBackground()
         return (
-            TrackRecorder(source: source, screen: screen, background: background),
+            TrackRecorder(
+                source: source, screen: screen, background: background,
+                activity: UnwatchedActivity()
+            ),
             source, screen, background
         )
     }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Which extension point this is. `INFOPLIST_KEY_NSExtensionPointIdentifier`
+	     does not produce the nested `NSExtension` dictionary that iOS needs,
+	     and an extension without it installs as "Invalid placeholder
+	     attributes" — which is the whole app failing to install, not just the
+	     widget. -->
+	<key>NSExtension</key>
+	<dict>
+		<key>NSExtensionPointIdentifier</key>
+		<string>com.apple.widgetkit-extension</string>
+	</dict>
+</dict>
+</plist>

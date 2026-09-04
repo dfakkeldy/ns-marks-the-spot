@@ -53,7 +53,9 @@ struct TrackRecorderRefusalTests {
     /// switch off would greet every reader with one.
     @Test func theRecorderShowsNothingUntilSomebodyAsksToRecord() {
         let source = SwitchedOffFixSource()
-        let recorder = TrackRecorder(source: source, screen: UnwatchedScreen())
+        let recorder = TrackRecorder(
+            source: source, screen: UnwatchedScreen(), activity: UnwatchedActivity()
+        )
         #expect(!recorder.isShowingRecorder)
 
         let refusal = recorder.start()
@@ -113,4 +115,15 @@ private final class SwitchedOffFixSource: LocationFixSource {
 @MainActor
 private final class UnwatchedScreen: ScreenWakeLock {
     var isHeldAwake = false
+}
+
+/// Not the real `LiveActivityPresenter`: a unit test must not reach
+/// ActivityKit, which blocks the main actor for long enough to starve the rest
+/// of the bundle.
+@MainActor
+private final class UnwatchedActivity: TrackActivityPresenter {
+    var isShowing = false
+    func start(_ state: TrackActivityAttributes.ContentState, startedAt: Date) { isShowing = true }
+    func update(_ state: TrackActivityAttributes.ContentState) {}
+    func end(_ state: TrackActivityAttributes.ContentState) { isShowing = false }
 }
