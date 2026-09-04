@@ -63,21 +63,46 @@ public enum WalkToLine {
     ) -> Reading? {
         var best: (point: GeoPoint, distance: Double, source: SnapEngine.Source, kind: SnapEngine.Kind)?
         let keep = {
-            (point: GeoPoint, distance: Double, source: SnapEngine.Source, kind: SnapEngine.Kind) in
-            // Strictly nearer, so a tie goes to whatever was found first — and
-            // vertices are walked first, which is the answer a reader standing
-            // exactly on a corner should get.
-            if best.map({ distance < $0.distance }) ?? true {
+            (point: GeoPoint, source: SnapEngine.Source, kind: SnapEngine.Kind) in
+            // One ruler for every candidate. A segment projection works in a
+            // local flat frame and a vertex is measured on the sphere, and
+            // choosing between the two by comparing those numbers decides with
+            // two different rulers — which this reading cannot afford, because
+            // it removed the parcel-scale bound the projection was written
+            // for. The projection says WHERE; the sphere says HOW FAR.
+            let distance = Geodesy.distanceMetres(from: fix, to: point)
+            guard let current = best else {
+                best = (point, distance, source, kind)
+                return
+            }
+            if distance < current.distance {
+                best = (point, distance, source, kind)
+                return
+            }
+            // A tie between a corner and a run of edge is a corner: it is the
+            // more specific thing to be standing next to, and it is the one
+            // that does not depend on which target the caller listed first.
+            // A tie between two corners from different sources is genuinely
+            // both — the point is on the parcel AND on the shape — and the
+            // caller's order decides which is named.
+            if distance == current.distance, kind == .vertex, current.kind == .edge {
                 best = (point, distance, source, kind)
             }
         }
         for target in targets {
             for vertex in target.vertices {
-                keep(vertex, Geodesy.distanceMetres(from: fix, to: vertex), target.source, .vertex)
+                keep(vertex, target.source, .vertex)
             }
             for segment in target.segments {
                 let hit = Geodesy.nearestPointOnSegment(point: fix, a: segment.0, b: segment.1)
-                keep(hit.point, hit.distanceMetres, target.source, .edge)
+                // A projection that lands on an end of the segment IS that
+                // corner. Saying "to the boundary run" when the nearest thing
+                // is a corner sends the reader to a line that is not the
+                // nearest thing — and a caller may hand over segments with no
+                // vertices listed, which is when this is the only thing
+                // keeping the answer honest.
+                let endpoint = hit.t <= 0.000_1 || hit.t >= 0.999_9
+                keep(hit.point, target.source, endpoint ? .vertex : .edge)
             }
         }
         guard let best else { return nil }
@@ -86,7 +111,10 @@ public enum WalkToLine {
             bearingDegrees: Geodesy.initialBearingDegrees(from: fix, to: best.point),
             source: best.source,
             kind: best.kind,
-            isWithinFixAccuracy: (accuracyMetres ?? 0) >= best.distance
+            // An unknown accuracy is not a tight one. "Nil means nought" made
+            // every unknown look tight at zero distance, which is exactly
+            // where a reader is most likely to act on it.
+            isWithinFixAccuracy: accuracyMetres.map { $0 >= 0 && $0 >= best.distance } ?? false
         )
     }
 }

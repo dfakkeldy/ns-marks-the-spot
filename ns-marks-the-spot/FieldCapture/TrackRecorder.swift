@@ -241,6 +241,14 @@ final class TrackRecorder: NSObject {
     }
 
     private func receive(_ location: CLLocation) {
+        // Only while a walk is running. `stopUpdatingLocation()` does not
+        // unsend what CoreLocation has already queued, and the receiver stays
+        // installed — so a straggler arriving after Stop used to put a fix
+        // back on a recorder that had just cleared it, and `lastFix` is what
+        // Mark reads to decide whether a cached position is fresh enough to
+        // save. A paused walk is the same case: the updates are off, and
+        // whatever arrives now belongs to no segment.
+        guard recording.status == .recording else { return }
         let fix = TrackFix(
             latitude: location.coordinate.latitude,
             longitude: location.coordinate.longitude,

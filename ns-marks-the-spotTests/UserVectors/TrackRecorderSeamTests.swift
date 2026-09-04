@@ -200,6 +200,50 @@ struct TrackRecorderSeamTests {
         #expect(!source.isUpdating)
     }
 
+    /// `stopUpdatingLocation()` does not unsend what CoreLocation has already
+    /// queued, and `lastFix` is what Mark reads to decide whether a cached
+    /// position is fresh enough to save.
+    @Test func aFixArrivingAfterStopIsNotTakenIn() {
+        let (recorder, source, _) = self.recorder()
+        recorder.start()
+        source.deliver(latitude: 45.0, longitude: -63.0, accuracyM: 5, at: 1_000)
+        _ = recorder.stop()
+        #expect(recorder.lastFix == nil)
+
+        source.deliver(latitude: 45.5, longitude: -63.5, accuracyM: 5, at: 1_001)
+        #expect(recorder.lastFix == nil)
+        #expect(recorder.status == .idle)
+    }
+
+    /// A paused walk is the same case: the updates are off, and whatever
+    /// arrives now belongs to no segment.
+    @Test func aFixArrivingWhilePausedBelongsToNoSegment() {
+        let (recorder, source, _) = self.recorder()
+        recorder.start()
+        source.deliver(latitude: 45.0, longitude: -63.0, accuracyM: 5, at: 1_000)
+        let during = recorder.lastFix
+        #expect(during != nil)
+
+        recorder.pause()
+        source.deliver(latitude: 45.5, longitude: -63.5, accuracyM: 5, at: 1_001)
+        #expect(recorder.lastFix?.latitude == during?.latitude)
+    }
+
+    /// A grant starts the clock THEN, not at the tap that was refused: a walk
+    /// that waited two minutes in Settings did not begin two minutes ago.
+    @Test func theClockStartsAtTheGrantNotAtTheTap() {
+        let (recorder, source, _) = self.recorder()
+        source.authorizationStatus = .notDetermined
+        recorder.start()
+        #expect(recorder.recording.status == .idle)
+
+        source.changeAuthorization(to: .authorizedWhenInUse)
+        #expect(recorder.recording.status == .recording)
+        // Started now, so what has elapsed is what has elapsed since the
+        // grant — not since a tap the app refused.
+        #expect(recorder.recording.stats(now: Date()).elapsedSeconds < 1)
+    }
+
     /// Stopping hands back the walk and the screen, and leaves a fresh machine
     /// so the next recording starts empty.
     @Test func stoppingReturnsTheWalkAndTheScreen() {

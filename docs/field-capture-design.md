@@ -832,8 +832,9 @@ here, zoom in" state, never as fewer parcels.
 
 App N1, present:
 
-- `FieldCapture/TrackRecorder.swift` (@Observable, own CLLocationManager
-  when-in-use, `isIdleTimerDisabled` while recording and restored on stop or
+- `FieldCapture/TrackRecorder.swift` (@Observable, an injected
+  `LocationFixSource` — `CoreLocationFixSource` in the app, when-in-use — and an
+  injected `ScreenWakeLock` held while recording and released on stop or
   scene-phase change, auto-pause on leaving foreground with "Recording paused
   while the app was in the background"), `TrackRecordingHUD.swift`,
   `SaveTrackSheet.swift`, `MarkLocation.swift`. Conversion UI in
@@ -961,9 +962,14 @@ PhotoMapIndex cap and buckets (`PhotoMapIndexTests`,
 `PhotoMapIndexBucketTests`), BulkPhotoPlacement classify,
 `FieldCaptureSnapTests`, `PhotoMapViewModelTests`, and the extra
 `UserVectorShapeTests` / `UserVectorEditingTests` cases that landed with
-#298. Remaining native field-capture tests for this
-plan: none. Run focused suites (the full bundle hangs on shared
-URLProtocol stubs); builds go through the xcode-build-slot wrapper.
+#298. Remaining native field-capture tests for this plan: `MarkLocation` and
+`PhotoMapViewModel` still construct their own `CLLocationManager` and
+`PHPhotoLibrary`, so the mark-outcome paths and the photo-library paths are
+covered only through their pure statics. The seam that `TrackRecorder` now
+takes would fit both, and until they take it those two are the untested
+device-dependent classes in this plan. Run focused suites (the full bundle
+hangs on shared URLProtocol stubs); builds go through the xcode-build-slot
+wrapper.
 
 ## Cross-cutting compliance
 

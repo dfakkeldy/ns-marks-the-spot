@@ -106,6 +106,73 @@ struct WalkToLineTests {
             WalkToLine.reading(from: onTheLine, accuracyMetres: nil, to: [boundary])
         )
         #expect(!unknown.isWithinFixAccuracy)
+
+        // And least of all where a reader is most likely to act on it: at zero
+        // distance, "nil means nought" made every unknown accuracy look tight.
+        let onTheCorner = try #require(
+            WalkToLine.reading(
+                from: GeoPoint(lat: 44.999, lng: -63.001),
+                accuracyMetres: nil,
+                to: [boundary]
+            )
+        )
+        #expect(onTheCorner.distanceMetres == 0)
+        #expect(!onTheCorner.isWithinFixAccuracy)
+    }
+
+    /// A projection landing on an end of a segment IS that corner. A caller
+    /// may hand over segments with no vertices listed, and then this is the
+    /// only thing keeping "to the boundary run" off a reading whose nearest
+    /// thing is a corner.
+    @Test("A projection onto a segment's end reads as a corner")
+    func aProjectionOntoASegmentsEndReadsAsACorner() throws {
+        let segmentsOnly = SnapEngine.Target(
+            source: .parcel,
+            vertices: [],
+            segments: [(GeoPoint(lat: 45, lng: -63), GeoPoint(lat: 45, lng: -62.99))]
+        )
+        // West of the segment's first end: the projection clamps to it.
+        let reading = try #require(
+            WalkToLine.reading(
+                from: GeoPoint(lat: 45, lng: -63.001),
+                accuracyMetres: 5,
+                to: [segmentsOnly]
+            )
+        )
+        #expect(reading.kind == .vertex)
+
+        // And the middle of the same segment is still a run of edge.
+        let middle = try #require(
+            WalkToLine.reading(
+                from: GeoPoint(lat: 45.0005, lng: -62.995),
+                accuracyMetres: 5,
+                to: [segmentsOnly]
+            )
+        )
+        #expect(middle.kind == .edge)
+    }
+
+    /// A tie decided by which target the caller listed first would let the
+    /// same standing spot report a parcel boundary or the reader's own shape
+    /// depending on an array's order.
+    @Test("A tie between a corner and an edge is a corner, whichever came first")
+    func aTieBetweenACornerAndAnEdgeIsACorner() throws {
+        let here = GeoPoint(lat: 45, lng: -63)
+        let edgeThrough = SnapEngine.Target(
+            source: .ownFeature,
+            vertices: [],
+            segments: [(GeoPoint(lat: 45, lng: -63.001), GeoPoint(lat: 45, lng: -62.999))]
+        )
+        let cornerHere = SnapEngine.Target(source: .parcel, vertices: [here], segments: [])
+
+        for order in [[edgeThrough, cornerHere], [cornerHere, edgeThrough]] {
+            let reading = try #require(
+                WalkToLine.reading(from: here, accuracyMetres: 5, to: order)
+            )
+            #expect(reading.distanceMetres == 0)
+            #expect(reading.kind == .vertex)
+            #expect(reading.source == .parcel)
+        }
     }
 
     /// Zero is a direction. Standing exactly on the corner has none.
