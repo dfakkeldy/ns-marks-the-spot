@@ -14,7 +14,13 @@ import SwiftUI
 /// the fix's own accuracy, which is called out whenever it is wider than the
 /// distance being reported. "Three metres to the boundary" from a fix known to
 /// twelve is a figure whose error bar swallows it whole, and a reader stepping
-/// to that line is trusting arithmetic the device cannot support.
+/// to that line is trusting arithmetic the device cannot support. A fix that
+/// never stated its accuracy gets its own sentence rather than the silence a
+/// good fix gets.
+///
+/// And the boundary is named, not merely described: "12 m to the boundary"
+/// beside a survey caveat reads as some authoritative line, when what it is is
+/// a distance to geometry traced from NSPRD.
 struct WalkToLineChip: View {
     var reading: WalkToLine.Reading
     /// Shown when the reading is against a parcel boundary: the standing
@@ -23,12 +29,27 @@ struct WalkToLineChip: View {
 
     private var distance: String { Geodesy.formatDistance(reading.distanceMetres) }
 
+    /// Named, not described. "12 m to the boundary" beside a survey caveat
+    /// reads as *some* authoritative boundary, and the only thing on screen
+    /// that says which one is a toggle in a panel that scrolls away. A traced
+    /// boundary is NSPRD's, and the number is worth no more than its source.
     private var whatItIs: String {
         switch (reading.source, reading.kind) {
-        case (.parcel, .vertex): "to the boundary corner"
-        case (.parcel, .edge): "to the boundary"
+        case (.parcel, .vertex): "to the NSPRD boundary corner"
+        case (.parcel, .edge): "to the NSPRD boundary"
         case (.ownFeature, .vertex): "to your corner"
         case (.ownFeature, .edge): "to your shape"
+        }
+    }
+
+    /// The caveat the fix's own accuracy earns, and nothing when it earns
+    /// none. Three answers, because "the device did not say" is not the same
+    /// as "the device said it is wide" and neither is silence.
+    private var accuracyCaveat: String? {
+        switch reading.accuracy {
+        case .tighterThanDistance: nil
+        case .widerThanDistance: "Your position is known less precisely than this distance."
+        case .unstated: "Your device did not say how precisely it knows your position."
         }
     }
 
@@ -63,8 +84,8 @@ struct WalkToLineChip: View {
             }
 
             // The one thing a distance readout can quietly get wrong.
-            if reading.isWithinFixAccuracy {
-                Text("Your position is known less precisely than this distance.")
+            if let accuracyCaveat {
+                Text(accuracyCaveat)
                     .font(.footnote)
                     .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)

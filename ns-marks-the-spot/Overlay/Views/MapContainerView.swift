@@ -449,6 +449,25 @@ struct MapContainerView: View {
                         .allowsHitTesting(false)
                         .accessibilityElement(children: .combine)
                 }
+
+                // How far to the line. In this stack rather than an overlay of
+                // its own, because both are cards of unstated height in the
+                // same slot: positioned independently they were laid over each
+                // other, and a caveat is exactly the thing that grows under
+                // Dynamic Type. Below the notices, which answer a tap the
+                // reader has just made — and it does not yield to them,
+                // because someone walking to a boundary needs it while an
+                // unrelated notice is up.
+                if let reading = walkToLineReading, printFrame == nil {
+                    WalkToLineChip(
+                        reading: reading,
+                        parcelCaveat: CaptureSpec.Snap.parcelCaveat
+                    )
+                    .frame(maxWidth: 420)
+                    // Clear of the rail, as the HUD and the cards are.
+                    .clearOfRail(controlsWidth)
+                    .allowsHitTesting(false)
+                }
             }
             .padding(.horizontal, 16)
             // Below the recording HUD while it is up, measured rather than
@@ -459,11 +478,12 @@ struct MapContainerView: View {
             // The photo map's cap, on the map: the row that also says it is
             // behind the closed layers panel while the pins are looked at.
             // It shares the top slot with the location and mark notices and
-            // yields to them: the answer to the tap just made comes first,
-            // and the cap is still there when it has gone.
+            // the walk-to-line reading, and yields to all of them: the answer
+            // to the tap just made comes first, as does a distance somebody is
+            // walking by, and the cap is still there when they have gone.
             if let note = photoMapVM.truncationNote, printFrame == nil,
                controller.locationMessage == nil, markLocation.outcome == nil,
-               !markLocation.isAcquiring
+               !markLocation.isAcquiring, walkToLineReading == nil
             {
                 VStack {
                     Text(note)
@@ -518,25 +538,6 @@ struct MapContainerView: View {
 
                     Spacer()
                 }
-            }
-
-            // How far to the line, under the recording HUD and above
-            // everything at the bottom: a reader walking to a boundary is
-            // looking at the map, not at a panel.
-            if let reading = walkToLineReading, printFrame == nil {
-                VStack {
-                    Spacer()
-                        .frame(height: recorder.isShowingRecorder ? 60 + hudHeight + 12 : 60)
-                    WalkToLineChip(
-                        reading: reading,
-                        parcelCaveat: CaptureSpec.Snap.parcelCaveat
-                    )
-                    .frame(maxWidth: 420)
-                    .padding(.horizontal, 16)
-                    .clearOfRail(controlsWidth)
-                    Spacer()
-                }
-                .allowsHitTesting(false)
             }
 
             // A card rather than a sheet, and not in `activeSheet`: the panel
@@ -2150,6 +2151,39 @@ struct MapContainerView: View {
         )
     }
 
+    /// Which of the two fixes to measure from: the freshest one still inside
+    /// the window, or none.
+    ///
+    /// Not `recorder.lastFix ?? map` — that is what this was, and it is wrong
+    /// in a way a reader cannot see. `pause()` stops the updates but keeps the
+    /// last fix; only `stop()` clears it. So a walk paused at the gate and
+    /// resumed half a mile down the boundary went on measuring from the gate,
+    /// outranking a MapKit fix taken seconds ago, with nothing on screen
+    /// saying which position the number was from.
+    ///
+    /// The window is the map's own: `MapController.locateMaxFixAge`, with the
+    /// same tolerance for a clock that runs ahead. A fix outside it is not
+    /// shown at all, because "12 m to the boundary" is a claim about where the
+    /// reader is standing now.
+    ///
+    /// Evaluated when the view is, which is honest but worth stating: a
+    /// reading can outlive its window until something re-renders. Fixes are
+    /// what usually do that, and their absence is itself reported — the map
+    /// raises `signalLost`, which re-renders this.
+    static func walkToLineFix(recorder: TrackFix?, map: TrackFix?, now: Date) -> TrackFix? {
+        func usable(_ fix: TrackFix?) -> TrackFix? {
+            guard let fix else { return nil }
+            let age = now.timeIntervalSince(fix.timestamp)
+            guard age <= MapController.locateMaxFixAge,
+                  age >= -MapController.locateClockTolerance
+            else { return nil }
+            return fix
+        }
+        return [usable(recorder), usable(map)]
+            .compactMap { $0 }
+            .max { $0.timestamp < $1.timestamp }
+    }
+
     /// The reading the chip shows, or nil when there is nothing to measure.
     ///
     /// Offered only where the geometry is already on screen and already
@@ -2159,12 +2193,17 @@ struct MapContainerView: View {
     /// showing.
     private var walkToLineReading: WalkToLine.Reading? {
         guard let session = editSession, session.isEditing else { return nil }
-        // The recorder's fix first, then the one behind the map's own blue
-        // dot — the same order Mark uses, and for the same reason.
-        guard let fix = recorder.lastFix ?? controller.userLocationFix() else { return nil }
+        guard let fix = Self.walkToLineFix(
+            recorder: recorder.lastFix, map: controller.lastUserFix, now: Date()
+        ) else { return nil }
 
         var targets: [SnapEngine.Target] = []
-        if session.snapParcels {
+        // The same gate the snap itself passes through, not merely the toggle.
+        // The rings are cached, and the licence going away is observed before
+        // the cleanup that clears them runs — so for one evaluation the
+        // restricted geometry is off the map and still in hand. A distance to
+        // it is a disclosure of it.
+        if session.snapParcels, overlayVM.hasAcceptedProvinceLicence {
             targets.append(contentsOf: session.parcelSnapTargets)
         }
         // The selected feature as it is, whatever tool is armed. The Point

@@ -94,21 +94,37 @@ struct WalkToLineTests {
         let tight = try #require(
             WalkToLine.reading(from: onTheLine, accuracyMetres: 1, to: [boundary])
         )
-        #expect(!tight.isWithinFixAccuracy)
+        #expect(tight.accuracy == .tighterThanDistance)
 
         let loose = try #require(
             WalkToLine.reading(from: onTheLine, accuracyMetres: 12, to: [boundary])
         )
-        #expect(loose.isWithinFixAccuracy)
+        #expect(loose.accuracy == .widerThanDistance)
+    }
 
-        // No accuracy at all is not a tight one.
-        let unknown = try #require(
-            WalkToLine.reading(from: onTheLine, accuracyMetres: nil, to: [boundary])
-        )
-        #expect(!unknown.isWithinFixAccuracy)
+    /// A fix that never said how well it knows itself is a third thing, and
+    /// the first version of this folded it in with the wide ones — which the
+    /// caller renders as no caveat at all, the shape of a *good* fix.
+    ///
+    /// CoreLocation reports a negative `horizontalAccuracy` for a position
+    /// whose accuracy it cannot state, and `TrackFix` says the same of
+    /// anything non-positive; `TrackRecorder` copies the value through
+    /// unchanged, so all of these reach here.
+    @Test("An accuracy the device did not state is neither tight nor wide")
+    func anAccuracyTheDeviceDidNotStateIsNeitherTightNorWide() throws {
+        let onTheLine = GeoPoint(lat: 45.0, lng: -63.00098)
+        for unusable: Double? in [nil, -1, 0, -0.5, .nan, .infinity] {
+            let reading = try #require(
+                WalkToLine.reading(from: onTheLine, accuracyMetres: unusable, to: [boundary])
+            )
+            #expect(
+                reading.accuracy == .unstated,
+                "accuracy \(String(describing: unusable)) must not be read as a radius"
+            )
+        }
 
-        // And least of all where a reader is most likely to act on it: at zero
-        // distance, "nil means nought" made every unknown accuracy look tight.
+        // And least of all where a reader is most likely to act on it: standing
+        // on the corner, where every arithmetic shortcut looks harmless.
         let onTheCorner = try #require(
             WalkToLine.reading(
                 from: GeoPoint(lat: 44.999, lng: -63.001),
@@ -117,7 +133,18 @@ struct WalkToLineTests {
             )
         )
         #expect(onTheCorner.distanceMetres == 0)
-        #expect(!onTheCorner.isWithinFixAccuracy)
+        #expect(onTheCorner.accuracy == .unstated)
+
+        // A stated radius at zero distance IS wider than the distance, which
+        // is the honest answer rather than a special case.
+        let statedOnTheCorner = try #require(
+            WalkToLine.reading(
+                from: GeoPoint(lat: 44.999, lng: -63.001),
+                accuracyMetres: 5,
+                to: [boundary]
+            )
+        )
+        #expect(statedOnTheCorner.accuracy == .widerThanDistance)
     }
 
     /// A projection landing on an end of a segment IS that corner. A caller

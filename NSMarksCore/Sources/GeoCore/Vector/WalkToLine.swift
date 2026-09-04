@@ -30,15 +30,46 @@ public enum WalkToLine {
         /// things.
         public var kind: SnapEngine.Kind
 
-        /// Whether the fix's own accuracy is wider than the distance being
-        /// reported.
+        /// How the fix's own accuracy stands against the distance reported.
         ///
         /// The one thing a distance readout can quietly get wrong: "3 m to the
         /// boundary" from a fix known to ±12 m is a number whose error bar
         /// swallows it whole, and a reader stepping to that line is trusting
-        /// arithmetic the device cannot support. The caller says so; this
-        /// says whether to.
-        public var isWithinFixAccuracy: Bool
+        /// arithmetic the device cannot support.
+        ///
+        /// Three states rather than a flag, because a flag has to fold two
+        /// unlike things together and it folded them the dangerous way: a fix
+        /// that never said how well it knows itself came out as "no caveat",
+        /// which is what a *good* fix looks like. An unstated accuracy is not
+        /// a tight one, and the reader has to be told which of the two they
+        /// are holding.
+        public var accuracy: AccuracyStanding
+    }
+
+    /// What the device said about how well it knows where the reader is.
+    public enum AccuracyStanding: Sendable, Equatable {
+        /// The reported radius is smaller than the distance: the number below
+        /// means what it says.
+        case tighterThanDistance
+        /// The reported radius is as wide as the distance or wider, so the
+        /// distance sits inside the fix's own error.
+        case widerThanDistance
+        /// No radius, or one that is not a radius — CoreLocation reports a
+        /// negative `horizontalAccuracy` for a position whose accuracy it
+        /// cannot state, and `TrackFix` says the same of anything non-positive.
+        /// Not the same as a wide fix, and emphatically not the same as a
+        /// tight one.
+        case unstated
+
+        /// Zero distance is a special case that resolves itself: every stated
+        /// radius is at least as wide as nought, so standing on the line is
+        /// always inside the fix's own error, which is true.
+        static func of(accuracyMetres: Double?, distanceMetres: Double) -> AccuracyStanding {
+            guard let accuracy = accuracyMetres, accuracy.isFinite, accuracy > 0 else {
+                return .unstated
+            }
+            return accuracy >= distanceMetres ? .widerThanDistance : .tighterThanDistance
+        }
     }
 
     /// The reading from `fix` to the nearest of `targets`, or nil when there
@@ -111,10 +142,9 @@ public enum WalkToLine {
             bearingDegrees: Geodesy.initialBearingDegrees(from: fix, to: best.point),
             source: best.source,
             kind: best.kind,
-            // An unknown accuracy is not a tight one. "Nil means nought" made
-            // every unknown look tight at zero distance, which is exactly
-            // where a reader is most likely to act on it.
-            isWithinFixAccuracy: accuracyMetres.map { $0 >= 0 && $0 >= best.distance } ?? false
+            accuracy: AccuracyStanding.of(
+                accuracyMetres: accuracyMetres, distanceMetres: best.distance
+            )
         )
     }
 }
