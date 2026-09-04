@@ -592,3 +592,40 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
 Watch CI on #312 and #313, then put §12.11 to the owner as a question.
 ```
+
+## 2026-09-04 — §12.11 answered, and it is two PRs
+
+Done:
+- **The owner reopened approved decision 3 in full**, with the Live Activity.
+  Recorded in the memory file `background-recording-decision.md`.
+- [#314](https://github.com/dfakkeldy/ns-marks-the-spot/pull/314) — the walk
+  continues off screen. `CLBackgroundActivitySession` +
+  `allowsBackgroundLocationUpdates` + `UIBackgroundModes = location`, all held
+  for exactly the length of a running recording. **When In Use only**; no new
+  prompt, no Always string, zero-collection label intact.
+- Round 1 on #314 found the defect that would have shipped:
+  `pausesLocationUpdatesAutomatically` defaults to **true**, and for a
+  when-in-use app CoreLocation's automatic pause ends location access until the
+  app is reopened — a forester standing still would have come back to a
+  recorder still counting and taking nothing in. Also: the session's
+  `diagnostics` were discarded (merging *blocked* into *running*), the reader
+  was never told before backgrounding, and a grant arriving from Settings lit
+  the idle timer for an app that was off screen. All fixed; 900 tests.
+- PR P (`feature/ios-live-activity`, not yet opened) has the widget extension:
+  a new Xcode target added by hand to the pbxproj, `SharedActivity/` compiled
+  into both targets, Pause/Resume/Stop `LiveActivityIntent`s that perform in
+  the app process, and a presenter behind the same kind of seam.
+
+Next:
+- Finish PR P's build (ActivityKit's `Activity` is a non-Sendable class whose
+  methods are `@concurrent`; the handle is boxed `@unchecked Sendable` in one
+  named place), test, open it, and run a Codex round.
+- **Not covered anywhere: process termination loses an in-progress walk**, and
+  background recording makes that easier to reach. Said in the design document;
+  its own piece of work.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Build feature/ios-live-activity, run the app-target suite, open the PR stacked on #314.
+```
