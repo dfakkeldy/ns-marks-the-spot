@@ -28,6 +28,47 @@ public enum Geodesy {
             * atan2(haversine.squareRoot(), (1 - haversine).squareRoot())
     }
 
+    /// Which way `to` lies from `from`, in degrees clockwise from true north.
+    ///
+    /// The INITIAL bearing of the great circle, which is what a reader
+    /// standing at `from` and turning to walk should be told. Over a great
+    /// circle the bearing changes along the way; at the tens or hundreds of
+    /// metres this is used for the difference is far below the degree it is
+    /// rounded to, but the honest name for what is returned is the one at the
+    /// start of the walk.
+    ///
+    /// True north, not magnetic. The map is drawn in true north and the
+    /// device's compass is not consulted, so a reader holding a magnetic
+    /// compass has to apply the local declination themselves — which is why
+    /// nothing built on this may present it as a compass heading.
+    ///
+    /// Two points in the same place have no bearing, and zero would be a
+    /// direction. Nil says so.
+    public static func initialBearingDegrees(from: GeoPoint, to: GeoPoint) -> Double? {
+        guard from.lat != to.lat || from.lng != to.lng else { return nil }
+        let fromLat = from.lat * degreesToRadians
+        let toLat = to.lat * degreesToRadians
+        let deltaLng = (to.lng - from.lng) * degreesToRadians
+        let y = sin(deltaLng) * cos(toLat)
+        let x =
+            cos(fromLat) * sin(toLat)
+            - sin(fromLat) * cos(toLat) * cos(deltaLng)
+        let degrees = atan2(y, x) / degreesToRadians
+        return (degrees + 360).truncatingRemainder(dividingBy: 360)
+    }
+
+    /// The eight-point compass name for a bearing, for readers who take a
+    /// direction faster in words than in degrees. Both are shown; this is not
+    /// a replacement for the number.
+    public static func compassPoint(forBearingDegrees bearing: Double) -> String {
+        let names = [
+            "north", "north-east", "east", "south-east",
+            "south", "south-west", "west", "north-west",
+        ]
+        let index = Int((bearing / 45).rounded()) % 8
+        return names[(index + 8) % 8]
+    }
+
     /// Total length of an open path. Fewer than two points measures zero.
     public static func pathDistanceMetres(_ points: [GeoPoint]) -> Double {
         guard points.count > 1 else { return 0 }
