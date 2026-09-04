@@ -70,6 +70,46 @@ function snapOptions(snappable: boolean): {
 const POINT_RADIUS = 6;
 
 /**
+ * Leaflet rounds every coordinate to six decimals on its way out of
+ * `toGeoJSON`, so a draft that has never been through a publish — an imported
+ * layer, at session start — differs from its own live layer in the seventh
+ * decimal and nowhere else. Rounding both sides is what stops that difference
+ * reading as an edit somebody made.
+ */
+function roundedCoordinates(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    return value.map(roundedCoordinates);
+  }
+  return typeof value === "number" ? Math.round(value * 1e6) / 1e6 : value;
+}
+
+/**
+ * Rings as Leaflet will hand them back. A Polygon's `toGeoJSON` always closes
+ * its rings, and an imported ring is not required to arrive closed — comparing
+ * an unclosed draft ring against a closed live one would report a difference
+ * on every commit and rebuild the handles each time for nothing.
+ */
+function closedRings(value: unknown, depth: number): unknown {
+  if (!Array.isArray(value)) {
+    return value;
+  }
+  if (depth > 0) {
+    return value.map((child) => closedRings(child, depth - 1));
+  }
+  const ring = value as number[][];
+  const last = ring[ring.length - 1];
+  if (
+    ring.length >= 2 &&
+    Array.isArray(ring[0]) &&
+    Array.isArray(last) &&
+    (ring[0][0] !== last[0] || ring[0][1] !== last[1])
+  ) {
+    return [...ring, ring[0]];
+  }
+  return ring;
+}
+
+/**
  * The app's one map is created at page load, long before this lazy chunk
  * evaluates — and Geoman attaches `pm` only through a Map init hook, which
  * touches maps created AFTER its module runs. Without this, every `map.pm`
@@ -349,10 +389,11 @@ export function EditableVectorLayer({
       if (draft.properties !== feature.properties) {
         feature.properties = { ...(draft.properties ?? {}) };
       }
-      // The one deliberate geometry exception: moveFeaturePoint ("use
-      // photo's location") repositions a Point in the draft, and the live
-      // circle marker must follow. Safe outside an active gesture — a
-      // point has no vertex handles mid-drag to fight with.
+      // The first deliberate geometry exception: moveFeaturePoint ("use
+      // photo's location", and the panel's corner mover on a Point)
+      // repositions a Point in the draft, and the live circle marker must
+      // follow. Safe outside an active gesture — a point has no vertex
+      // handles mid-drag to fight with.
       if (
         draft.geometry?.type === "Point" &&
         layer instanceof L.CircleMarker
@@ -364,6 +405,62 @@ export function EditableVectorLayer({
           if (feature.geometry?.type === "Point") {
             feature.geometry = { type: "Point", coordinates: [lng, lat] };
           }
+        }
+      }
+      // The second: the corner mover writes a line or area vertex into the
+      // draft, and collect() rebuilds the published collection from the live
+      // layers — so a corner the live layer never heard about would be
+      // published back out of existence by the next Geoman gesture, the same
+      // way panel-edited names were before this reconciliation existed. A
+      // press in the panel cannot arrive mid-drag, so there is no gesture to
+      // fight; the handles are then rebuilt the way Geoman rebuilds them for
+      // itself when a layer's geometry changes underneath it, with the
+      // layer's own current options handed back so whatever mode is armed
+      // survives the rebuild.
+      const draftGeometry = draft.geometry;
+      if (
+        layer instanceof L.Polyline &&
+        (draftGeometry?.type === "LineString" ||
+          draftGeometry?.type === "MultiLineString" ||
+          draftGeometry?.type === "Polygon" ||
+          draftGeometry?.type === "MultiPolygon")
+      ) {
+        const areal =
+          draftGeometry.type === "Polygon" ||
+          draftGeometry.type === "MultiPolygon";
+        const depth =
+          draftGeometry.type === "LineString"
+            ? 0
+            : draftGeometry.type === "MultiPolygon"
+              ? 2
+              : 1;
+        const live = (layer.toGeoJSON() as Feature).geometry;
+        const settled =
+          live.type === draftGeometry.type &&
+          JSON.stringify((live as { coordinates?: unknown }).coordinates) ===
+            JSON.stringify(
+              roundedCoordinates(
+                areal
+                  ? closedRings(draftGeometry.coordinates, depth)
+                  : draftGeometry.coordinates,
+              ),
+            );
+        if (!settled) {
+          layer.setLatLngs(
+            L.GeoJSON.coordsToLatLngs(
+              draftGeometry.coordinates as never,
+              depth,
+            ),
+          );
+          const pm = (
+            layer as L.Layer & {
+              pm?: {
+                enable?: (options?: unknown) => void;
+                getOptions?: () => unknown;
+              };
+            }
+          ).pm;
+          pm?.enable?.(pm.getOptions?.());
         }
       }
     });

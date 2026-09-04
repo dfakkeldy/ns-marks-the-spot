@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { withoutMovedCaptureProvenance } from "./captureProvenance";
-import type { Feature, FeatureCollection } from "geojson";
+import type { Feature, FeatureCollection, Position } from "geojson";
+import {
+  featureCorners,
+  insertAfterCorner,
+  moveCorner,
+  type FeatureCorner,
+  type VertexEditOutcome,
+} from "./featureCorners";
 import { UserMapImportError } from "../../errors";
 import {
   buildPathFromPoints,
@@ -94,6 +101,28 @@ export type VectorEditSession = {
    * exception, reconciled into the live layer by the edit bridge.
    */
   moveFeaturePoint: (featureId: string, position: [number, number]) => void;
+  /**
+   * The corners of a feature, numbered, for the panel's non-drag reshaping
+   * route. Empty for geometry this control cannot address; see
+   * `featureCorners`.
+   */
+  featureCorners: (featureId: string) => FeatureCorner[];
+  /**
+   * Moves one numbered corner to `position`, or says why it did not. Returns
+   * rather than reporting through state because the panel has to tell a move
+   * from a refusal in the same press that asked for it.
+   */
+  moveFeatureVertex: (
+    featureId: string,
+    cornerNumber: number,
+    position: Position,
+  ) => VertexEditOutcome;
+  /** Adds a corner immediately after the numbered one, same contract. */
+  insertFeatureVertex: (
+    featureId: string,
+    cornerNumber: number,
+    position: Position,
+  ) => VertexEditOutcome;
   /**
    * Converts the layer's points into a line or area per the field-capture
    * contract; returns the new feature's id, or null when there is too
@@ -676,6 +705,72 @@ export function useVectorEditSession({
     [commit, draftData, draftRecord],
   );
 
+  /**
+   * The corner list the panel renders and the corner list the writes below
+   * address are the same list, built here from the working copy: numbering
+   * them in one place and addressing them in another is how "Corner 3" comes
+   * to mean two different vertices.
+   */
+  const cornersOf = useCallback(
+    (featureId: string): FeatureCorner[] => {
+      const feature = draftData?.features.find(
+        (candidate) => String(candidate.id) === featureId,
+      );
+      return featureCorners(feature?.geometry ?? null);
+    },
+    [draftData],
+  );
+
+  const writeVertex = useCallback(
+    (
+      featureId: string,
+      cornerNumber: number,
+      position: Position,
+      edit: typeof moveCorner,
+    ): VertexEditOutcome => {
+      if (!draftRecord || !draftData) {
+        return { status: "unavailable" };
+      }
+      const feature = draftData.features.find(
+        (candidate) => String(candidate.id) === featureId,
+      );
+      const corner = featureCorners(feature?.geometry ?? null).find(
+        (candidate) => candidate.number === cornerNumber,
+      );
+      if (!feature || !corner) {
+        return { status: "unavailable" };
+      }
+      const result = edit(feature.geometry, corner, position);
+      if (!result.geometry) {
+        return result.outcome;
+      }
+      const geometry = result.geometry;
+      // Through `commit` like every other geometry write: the revision bump,
+      // the summary, the debounced persist, and the stripping of capture
+      // provenance from a position a hand has moved all belong to it.
+      commit(draftRecord, {
+        type: "FeatureCollection",
+        features: draftData.features.map((candidate) =>
+          candidate === feature ? { ...candidate, geometry } : candidate,
+        ),
+      });
+      return result.outcome;
+    },
+    [commit, draftData, draftRecord],
+  );
+
+  const moveFeatureVertex = useCallback(
+    (featureId: string, cornerNumber: number, position: Position) =>
+      writeVertex(featureId, cornerNumber, position, moveCorner),
+    [writeVertex],
+  );
+
+  const insertFeatureVertex = useCallback(
+    (featureId: string, cornerNumber: number, position: Position) =>
+      writeVertex(featureId, cornerNumber, position, insertAfterCorner),
+    [writeVertex],
+  );
+
   const convertPoints = useCallback(
     (input: { shape: ConvertShape; keepSourcePoints: boolean }): string | null => {
       if (!draftRecord || !draftData) {
@@ -738,6 +833,9 @@ export function useVectorEditSession({
     dismissDiscardedPhoto,
     notePhotoCleanupFailure,
     moveFeaturePoint,
+    featureCorners: cornersOf,
+    moveFeatureVertex,
+    insertFeatureVertex,
     convertPoints,
     lastConversion,
     undoConversion,

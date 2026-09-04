@@ -1387,6 +1387,31 @@ export function App() {
   const [taxSaleEnabled, setTaxSaleEnabled] = useState(
     initialTaxSaleEnabled,
   );
+  /**
+   * Where the map is aimed, [lon, lat], for the vector panel's corner mover.
+   * Separate from `mapViewport` on purpose: that one is suppressed while a
+   * printable-viewport request is in flight, which is right for printing and
+   * wrong for a control whose whole job is to say where a corner would land.
+   */
+  const [mapCentre, setMapCentre] = useState<[number, number] | null>(null);
+  /**
+   * Stable, and identity-stable in what it stores. `MapPositionController`
+   * re-subscribes whenever this callback's identity changes and reports the
+   * position as it does — so an inline arrow storing a fresh array would
+   * render, re-subscribe, store, and render again without end.
+   */
+  const reportMapCentre = useCallback(
+    (position: { latitude: number; longitude: number }) => {
+      setMapCentre((current) =>
+        current &&
+        current[0] === position.longitude &&
+        current[1] === position.latitude
+          ? current
+          : [position.longitude, position.latitude],
+      );
+    },
+    [],
+  );
   const [mapViewport, setMapViewport] = useState<PrintMapViewport>({
     position: initialShareState.position,
     bounds: {
@@ -5118,6 +5143,7 @@ export function App() {
             initialPosition={initialShareState.position}
             preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
+            onPositionChange={reportMapCentre}
             onMarkLocation={markCurrentLocation}
             onSaveTrack={saveRecordedTrack}
             onLayerStatusChange={setLayerStatus}
@@ -5544,6 +5570,10 @@ export function App() {
         onAttachFeaturePhotos={vectorEdit.attachFeaturePhotos}
         onPhotoCleanupFailed={vectorEdit.notePhotoCleanupFailure}
         onMoveFeaturePoint={vectorEdit.moveFeaturePoint}
+        onFeatureCorners={vectorEdit.featureCorners}
+        onMoveVertex={vectorEdit.moveFeatureVertex}
+        onInsertVertex={vectorEdit.insertFeatureVertex}
+        mapCentre={mapCentre}
         onOpenPhoto={setOpenPhoto}
         onDeleteFeature={(featureId) => {
           vectorEdit.deleteFeature(featureId);

@@ -718,6 +718,91 @@ describe("EditableVectorLayer vertex-handle classes", () => {
     return rule.trim();
   })();
 
+  // The corner mover writes a line or area vertex into the draft, and
+  // collect() rebuilds the published collection from the live layers — so
+  // without the reconciliation the next Geoman gesture would publish the
+  // moved corner back out of existence, and the panel would have reported a
+  // move the map quietly undid.
+  it("follows a corner the panel moved instead of publishing it away", async () => {
+    const { map, onGeometryChange, rerenderWith } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+
+    const moved: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "poly",
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-61.45, 45.75],
+                [-61.3, 45.7],
+                [-61.3, 45.9],
+                [-61.5, 45.9],
+                [-61.45, 45.75],
+              ],
+            ],
+          },
+          properties: { name: "Back lot", description: "NE corner" },
+        },
+      ],
+    };
+    rerenderWith(moved);
+
+    const live = findLayerByFeatureId(map, "poly") as L.Polygon;
+    await waitFor(() => {
+      const ring = (live.getLatLngs()[0] as L.LatLng[])[0];
+      expect(ring.lat).toBeCloseTo(45.75, 9);
+      expect(ring.lng).toBeCloseTo(-61.45, 9);
+    });
+
+    live.fire("pm:edit", { layer: live }, true);
+    await waitFor(() => expect(onGeometryChange).toHaveBeenCalled());
+    const collection = onGeometryChange.mock.calls.at(-1)![0] as FeatureCollection;
+    const published = collection.features.find((feature) => feature.id === "poly");
+    expect(
+      published?.geometry.type === "Polygon" && published.geometry.coordinates[0][0],
+    ).toEqual([-61.45, 45.75]);
+  });
+
+  // An imported ring is not required to arrive closed. Leaflet always hands
+  // one back closed, so an unclosed draft would read as changed on every
+  // commit and rebuild the layer's handles for nothing.
+  it("does not read an unclosed imported ring as an edit somebody made", async () => {
+    const unclosed: FeatureCollection = {
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          id: "poly",
+          geometry: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-61.5, 45.7],
+                [-61.3, 45.7],
+                [-61.3, 45.9],
+                [-61.5, 45.9],
+              ],
+            ],
+          },
+          properties: { name: "Back lot", description: "NE corner" },
+        },
+      ],
+    };
+    const { map, rerenderWith } = mount();
+    await waitFor(() => expect(map.pm).toBeTruthy());
+    const live = findLayerByFeatureId(map, "poly") as L.Polygon;
+    const setLatLngs = vi.spyOn(live, "setLatLngs");
+
+    rerenderWith(unclosed);
+    // Untouched, so Geoman's handles are never torn down and rebuilt
+    // underneath a reader who changed nothing.
+    expect(setLatLngs).not.toHaveBeenCalled();
+  });
+
   it("marks a reshape handle draggable and keeps middle markers out", async () => {
     const { map } = mount(vi.fn(), { mode: "edit" });
     await waitFor(() => expect(map.pm).toBeTruthy());

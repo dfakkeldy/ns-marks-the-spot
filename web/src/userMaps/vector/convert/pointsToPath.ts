@@ -62,7 +62,13 @@ function segmentsCross(
   return o1 !== o2 && o3 !== o4 && o1 !== 0 && o2 !== 0 && o3 !== 0 && o4 !== 0;
 }
 
-function pathSelfIntersects(path: Position[], closed: boolean): boolean {
+/**
+ * Whether a path crosses itself. Exported for the panel's corner mover, which
+ * needs the same answer this module's conversion warning needs and must not
+ * ask it a second, subtly different way. Positions are unclosed; `closed`
+ * adds the segment back to the first.
+ */
+export function pathSelfIntersects(path: Position[], closed: boolean): boolean {
   const segments: Array<[Position, Position]> = [];
   for (let index = 0; index < path.length - 1; index += 1) {
     segments.push([path[index], path[index + 1]]);

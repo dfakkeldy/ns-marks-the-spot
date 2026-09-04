@@ -5460,10 +5460,17 @@ a {
    and inserts-then-drags on movestart, so on touch it is the only way to add
    a vertex at all — removal is bound to `contextmenu`, which touch has no
    gesture for. Enlarging one would put it over the handle it sits between
-   and take back the drag this block exists to give. So inserting a vertex
-   stays a 10px touch target, and on a segment shorter than the handle an
-   enlarged handle can cover the midpoint outright; zooming in separates
-   them. Neither is fixed here. */
+   and take back the drag this block exists to give, and stacking order could
+   answer that much; what it cannot answer is that the session enables editing
+   on every feature of the layer under edit, for the session's whole life, not
+   only while Reshape is armed. A 44px middle marker is therefore a 44px
+   insert target at every segment midpoint of that layer, and a tap meant to
+   select a shape the reader had not selected would add a corner to it
+   instead. So inserting a vertex stays a 10px touch target, and on a segment
+   shorter than the handle an enlarged handle can cover the midpoint outright;
+   zooming in separates them. Neither is fixed here — but neither is now the
+   only route: the panel's corner mover moves and inserts corners by number,
+   with no drag and no pixel precision at all. */
 @media (pointer: coarse) {
   .leaflet-marker-draggable.marker-icon:not(.marker-icon-middle) {
     /* Stated, not inherited from this sheet's `*` rule: the disc geometry
@@ -5525,6 +5532,45 @@ a {
 
 .snap-indicator-vertex {
   border-radius: 2px;
+}
+
+/* The corner mover: the same frame as the snapping and convert fieldsets, so
+   a control that reshapes geometry without a drag reads as part of the panel
+   rather than an apology bolted to it. */
+.vector-edit-corners {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.vector-edit-corners legend {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* `.vector-edit-field input, textarea` carries this sheet's 44px minimum and
+   a select is neither, so the corner picker states its own. */
+.vector-edit-corners select,
+.vector-edit-corners input {
+  min-height: 44px;
+}
+
+.vector-edit-corner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.vector-edit-corner-actions button {
+  flex: 1 1 auto;
+  min-height: 44px;
 }
 
 .vector-edit-convert {
@@ -5750,8 +5796,15 @@ a {
   gap: 8px;
 }
 
+/* A column, not a badge on the corner of the picture. Remove used to sit on
+   top of the thumbnail, so the only way to give it a 44px target was to spend
+   that target on the picture underneath and make a third of the thumbnail
+   delete the photo instead of opening it. Stacked, the two targets never
+   overlap and both can be full size. */
 .vector-edit-photo-thumb {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .vector-edit-photo-thumb > button:first-child {
@@ -5774,19 +5827,16 @@ a {
 }
 
 .vector-edit-photo-remove {
-  position: absolute;
-  top: -6px;
-  right: -6px;
   display: grid;
-  width: 22px;
-  height: 22px;
+  width: 64px;
+  min-height: 44px;
   place-items: center;
   padding: 0;
   color: var(--chart-ink);
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   background: var(--white);
   border: 1px solid var(--line);
-  border-radius: 50%;
+  border-radius: 6px;
   cursor: pointer;
 }
 

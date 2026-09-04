@@ -763,6 +763,34 @@ describe("Geoman vertex handles on a coarse pointer", () => {
   const HANDLE =
     /\.leaflet-marker-draggable\.marker-icon:not\(\.marker-icon-middle\)\s*\{([^}]*)\}/;
 
+  // The remove control used to sit on the thumbnail's corner at 22px square,
+  // so giving it a 44px target would have spent that target on the picture
+  // underneath and made a third of the thumbnail delete the photo instead of
+  // opening it. Stacked, both can be full size.
+  it("gives Remove its own 44px target instead of taking one from the thumbnail", () => {
+    const remove = styles.match(
+      /\.vector-edit-photo-remove\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(remove).toBeDefined();
+    expect(remove).toMatch(/min-height:\s*44px/);
+    expect(remove).not.toMatch(/position:\s*absolute/);
+    const thumb = styles.match(/\.vector-edit-photo-thumb\s*\{([^}]*)\}/)?.[1];
+    expect(thumb).toMatch(/flex-direction:\s*column/);
+  });
+
+  // The corner mover is the non-drag route to a vertex, so its own controls
+  // cannot be the ones under the target size.
+  it("keeps the corner mover's picker and buttons at 44px", () => {
+    const picker = styles.match(
+      /\.vector-edit-corners select,\n\.vector-edit-corners input\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(picker).toMatch(/min-height:\s*44px/);
+    const actions = styles.match(
+      /\.vector-edit-corner-actions button\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(actions).toMatch(/min-height:\s*44px/);
+  });
+
   it("gives a draggable vertex handle the 44px canvas the native handle uses", () => {
     expect(coarse).toBeDefined();
     const handle = coarse!.match(HANDLE)?.[1];
