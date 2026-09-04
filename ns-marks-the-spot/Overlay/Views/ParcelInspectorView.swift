@@ -13,6 +13,14 @@ import SwiftUI
 /// because the whole point of the panel is that "nothing is mapped here" and
 /// "we could not ask" are different, and only one of them says anything about
 /// the property.
+///
+/// A sentence that limits what a figure may be taken to mean carries the same
+/// colour as the figure itself, at footnote rather than the smallest tier, so
+/// the number can never be the easier of the two to read through the material.
+/// Source, attribution and licence lines are footnote in the secondary colour:
+/// they have to be legible, but they are not what stops a conclusion. The
+/// smallest tier is left to the qualifiers that belong to one listed row, such
+/// as a dwelling's characteristics or a road's relationship to the outline.
 struct ParcelInspectorView: View {
     let inspection: ParcelInspection
     let onClose: () -> Void
@@ -94,7 +102,7 @@ struct ParcelInspectorView: View {
     private var provenance: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(sourceSubtitle)
-                .font(.caption)
+                .font(.footnote)
                 .foregroundStyle(inspection.taxSaleNotice == nil ? .secondary : .primary)
             if let marker = inspection.recordModeMarker {
                 Text(marker)
@@ -111,8 +119,8 @@ struct ParcelInspectorView: View {
                 // this: the number is the service's own, computed from mapped
                 // geometry, and mapped geometry is not a survey.
                 Text("Calculated from NSPRD geometry and approximate; not a survey.")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .font(.footnote)
+                    .foregroundStyle(.primary)
             }
 
             buildings
@@ -312,8 +320,8 @@ struct ParcelInspectorView: View {
             LabeledContent("Redemption field") { Text(record.redemptionLabel) }
             if let note = record.resultNote {
                 Text(note)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(.footnote)
+                    .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
             }
             LabeledContent("Parcel match") { Text(record.nsprdMatchMethod.label) }
@@ -379,9 +387,13 @@ struct ParcelInspectorView: View {
                 )
                 unreadableRowsNotice(result.unreadableRows)
             case .ready(let result):
+                // What the accounts are evidence of, which is not the same
+                // question as what they say. Raised with the rest: it is the
+                // sentence that stops a mapped account being read as this
+                // parcel's own.
                 Text(Self.matchSentence(for: result))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(.footnote)
+                    .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
 
                 // The AAN is the account's, and a notice that bundled several
@@ -405,8 +417,8 @@ struct ParcelInspectorView: View {
                         "An account marked as on the boundary sits on a line this parcel shares "
                             + "with its neighbour, so it falls inside both."
                     )
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .font(.footnote)
+                    .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
                 }
 
@@ -417,8 +429,8 @@ struct ParcelInspectorView: View {
                             + "December 1, \(Self.year(year - 1)). It is not today's sale price "
                             + "or an appraisal. Taxable assessment may differ."
                     )
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .font(.footnote)
+                    .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
                 }
 
@@ -431,7 +443,7 @@ struct ParcelInspectorView: View {
                         + "\(PVSCAssessmentQuery.sourceDate). "
                         + PVSCAssessmentQuery.attribution
                 )
-                .font(.caption2)
+                .font(.footnote)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             }
@@ -446,7 +458,7 @@ struct ParcelInspectorView: View {
     private var licenceLink: some View {
         Link(destination: PVSCAssessmentQuery.licenceURL) {
             Text("Open Data & Information Government Licence – PVSC & Participating Municipalities")
-                .font(.caption2)
+                .font(.footnote)
                 .fixedSize(horizontal: false, vertical: true)
         }
     }
@@ -464,8 +476,8 @@ struct ParcelInspectorView: View {
                     ? "1 row in the PVSC reply could not be read and is not listed."
                     : "\(count) rows in the PVSC reply could not be read and are not listed."
             )
-            .font(.caption2)
-            .foregroundStyle(.secondary)
+            .font(.footnote)
+            .foregroundStyle(.primary)
             .fixedSize(horizontal: false, vertical: true)
         }
     }
@@ -596,8 +608,8 @@ struct ParcelInspectorView: View {
                         + "across records, and records do not establish current condition, "
                         + "occupancy, or permits."
                 )
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+                .font(.footnote)
+                .foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true)
             }
 
@@ -607,7 +619,7 @@ struct ParcelInspectorView: View {
                         + "\(PVSCDwellingQuery.sourceDate). "
                         + PVSCAssessmentQuery.attribution
                 )
-                .font(.caption2)
+                .font(.footnote)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             }
@@ -692,8 +704,8 @@ struct ParcelInspectorView: View {
                     + "points are not proof of ownership, mailing address, access, "
                     + "occupancy, or legal parcel status."
             )
-            .font(.caption)
-            .foregroundStyle(.secondary)
+            .font(.footnote)
+            .foregroundStyle(.primary)
             .fixedSize(horizontal: false, vertical: true)
 
             switch inspection.civicAddresses {
@@ -724,13 +736,13 @@ struct ParcelInspectorView: View {
 
             Link(destination: CivicAddressQuery.datasetURL) {
                 Text("Source: Nova Scotia Civic Address File. \(CivicAddressQuery.attribution)")
-                    .font(.caption2)
+                    .font(.footnote)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
             Link(destination: CivicAddressQuery.licenceURL) {
                 Text("Open Government Licence – Nova Scotia")
-                    .font(.caption2)
+                    .font(.footnote)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
@@ -804,8 +816,11 @@ struct ParcelInspectorView: View {
                     // Said out loud rather than left as a greyed button: the
                     // note names every source it asked, so it waits until every
                     // source has answered.
+                    // Why a control is disabled, not a limit on a figure, so
+                    // it stays secondary — but out of the smallest tier, like
+                    // everything else that is a sentence rather than a label.
                     Text("Available once every source above has answered.")
-                        .font(.caption2)
+                        .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
             }
@@ -824,8 +839,8 @@ struct ParcelInspectorView: View {
                     "A commercial listing site, not a record source. Nothing shown there is "
                         + "evidence about this parcel."
                 )
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+                .font(.footnote)
+                .foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true)
             }
         }
@@ -855,8 +870,8 @@ struct ParcelInspectorView: View {
                 if let shortfall = ParcelLookupMessage
                     .roadListShortfall(addressesAnswered: addressesAnswered) {
                     Text(shortfall)
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .font(.footnote)
+                        .foregroundStyle(.primary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
 
@@ -864,8 +879,8 @@ struct ParcelInspectorView: View {
                     "Adjacency and civic addressing are useful map context, not proof "
                         + "of legal access or road frontage."
                 )
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+                .font(.footnote)
+                .foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true)
 
                 featureList(
@@ -911,8 +926,8 @@ struct ParcelInspectorView: View {
                         + "recoverability, value, mineral rights, access, permission to explore, "
                         + "or source completeness."
                 )
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+                .font(.footnote)
+                .foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true)
             }
         }
@@ -950,7 +965,7 @@ struct ParcelInspectorView: View {
 
             if let sourceURL = descriptor?.sourceURL {
                 Link("\(descriptor?.name ?? "Source") source", destination: sourceURL)
-                    .font(.caption2)
+                    .font(.footnote)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -1001,21 +1016,21 @@ struct ParcelInspectorView: View {
 
                 // The same sentence the note and the printed appendix carry.
                 Text(FloodEvidenceCaveat.measurement)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+                .font(.footnote)
+                .foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true)
 
                 if let river = LayerCatalog.descriptor(for: .publishedRiverFloodZones)?.sourceURL {
                     Link("Published river flood layers", destination: river)
-                        .font(.caption2)
+                        .font(.footnote)
                 }
                 if let coast = LayerCatalog.descriptor(for: .coastalFloodCurrent)?.sourceURL {
                     Link("Nova Scotia Coastal Hazard Map", destination: coast)
-                        .font(.caption2)
+                        .font(.footnote)
                 }
                 if let licence = LayerCatalog.descriptor(for: .coastalFloodCurrent)?.licenceURL {
                     Link("Coastal data licence and notices", destination: licence)
-                        .font(.caption2)
+                        .font(.footnote)
                 }
 
                 floodLicenceNotice
@@ -1034,8 +1049,8 @@ struct ParcelInspectorView: View {
                 Text(notice)
             }
         }
-        .font(.caption2)
-        .foregroundStyle(.secondary)
+        .font(.footnote)
+        .foregroundStyle(.primary)
         .fixedSize(horizontal: false, vertical: true)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -1172,13 +1187,13 @@ struct ParcelInspectorView: View {
             EmptyView()
         case .unavailable(let reason):
             Text("\(reason) No absence is inferred.")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+                .font(.footnote)
+                .foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true)
         case .ready(let count):
             Text(ParcelEvidenceWording.buildingCaveat(count))
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+                .font(.footnote)
+                .foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true)
         }
 
@@ -1213,23 +1228,29 @@ struct ParcelInspectorView: View {
             let credit = NativeLayerTraits.attribution(for: descriptor)
             Link(destination: service) {
                 Text(Self.buildingSourceSentence(descriptor.sourceDate))
-                    .font(.caption2)
+                    .font(.footnote)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
             if let title = credit.licenseTitle {
                 Text("\(credit.copyright ?? credit.provider) · \(title)")
-                    .font(.caption2)
+                    .font(.footnote)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
     }
 
+    /// The evidence-state sentences: a source that could not be reached, one
+    /// that returned nothing, one nobody asked. Every one of them says that a
+    /// failure is not an absence, which is the sentence a reader must not miss,
+    /// so they carry the label colour like the caveats do — and they all carry
+    /// it, because the same words appearing faint under one source and full
+    /// under another is the panel telling the reader they mean two things.
     private func status(_ text: String) -> some View {
         Text(text)
             .font(.footnote)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(.primary)
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity, alignment: .leading)
     }

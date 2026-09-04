@@ -30,7 +30,7 @@ struct FeatureCalloutCard: View {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(callout.layerName)
-                        .font(.caption2)
+                        .font(.footnote)
                         .foregroundStyle(.secondary)
                     Text(callout.title)
                         .font(.headline)
@@ -80,9 +80,12 @@ struct FeatureCalloutCard: View {
                     // is a screening rendering of somebody else's record, and the
                     // figures above are only safe to read with this sentence under
                     // them.
+                    // The same colour as the figures above it: a sentence
+                    // that limits what they mean cannot be the harder of the
+                    // two to read through the material.
                     Text(callout.caveat)
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .font(.footnote)
+                        .foregroundStyle(.primary)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(.top, 2)
 

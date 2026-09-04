@@ -96,14 +96,14 @@ struct UserVectorCalloutCard: View {
                     // present; see VectorFeatureCallout.
                     if let gpsProvenance = callout.gpsProvenance {
                         Label(gpsProvenance, systemImage: "location")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .font(.footnote)
+                            .foregroundStyle(.primary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     if let tracedCaveat = callout.tracedCaveat {
                         Text(tracedCaveat)
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .font(.footnote)
+                            .foregroundStyle(.primary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
 
@@ -111,9 +111,13 @@ struct UserVectorCalloutCard: View {
                     // material, and a panel that presented it in the same voice as a
                     // registry parcel would be inviting a conclusion the map cannot
                     // support.
+                    // It and the two lines above it carry the label colour for
+                    // the same reason: they are what stops a drawn shape being
+                    // read as a record, so they cannot be the faintest text on
+                    // the card.
                     Label("\(layerName) · \(callout.provenance)", systemImage: "person.crop.square")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .font(.footnote)
+                        .foregroundStyle(.primary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)

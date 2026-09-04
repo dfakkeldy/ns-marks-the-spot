@@ -36,12 +36,18 @@ struct TrackRecordingHUD: View {
                 } else {
                     if recorder.status == .paused {
                         // Off while refused: the refusal under it says why.
+                        // A bordered button sizes its capsule around its
+                        // label, which is about thirty-four points; these three
+                        // are the controls a walker reaches for with wet or
+                        // gloved hands.
                         Button("Resume") { recorder.resume() }
                             .buttonStyle(.bordered)
+                            .frame(minHeight: 44)
                             .disabled(recorder.refusal != nil)
                     } else {
                         Button("Pause") { recorder.pause() }
                             .buttonStyle(.bordered)
+                            .frame(minHeight: 44)
                     }
                     // Stop is not destructive. It ends the recording and
                     // opens the save sheet, where the walk is still there to
@@ -49,6 +55,7 @@ struct TrackRecordingHUD: View {
                     // destroys it.
                     Button("Stop") { onStop() }
                         .buttonStyle(.borderedProminent)
+                        .frame(minHeight: 44)
                         .accessibilityHint("Ends the recording and opens the save screen.")
                 }
             }

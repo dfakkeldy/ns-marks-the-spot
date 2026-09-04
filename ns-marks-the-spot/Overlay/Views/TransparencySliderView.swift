@@ -779,17 +779,20 @@ private struct WellAccuracyFilterControl: View {
                 HStack(spacing: 6) {
                     WellAccuracySwatch(accuracy: band.accuracy)
                     Text(band.label)
-                        .font(.caption2)
+                        .font(.footnote)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
+            // The same tier as the evidence surfaces: a sentence saying four
+            // of the five bands are not surveyed positions cannot be the
+            // faintest thing in the legend it belongs to.
             Text(
                 "Only surveyed wells are drawn as solid points. Hollow markers "
                 + "report that a well exists somewhere nearby, not where it is."
             )
-            .font(.caption2)
-            .foregroundStyle(.secondary)
+            .font(.footnote)
+            .foregroundStyle(.primary)
             .fixedSize(horizontal: false, vertical: true)
         }
     }

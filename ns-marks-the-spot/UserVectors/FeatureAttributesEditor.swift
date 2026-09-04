@@ -69,9 +69,12 @@ struct FeatureAttributesEditor: View {
                 TextField("Value", text: $newValue)
                     .textFieldStyle(.roundedBorder)
                     .font(.caption)
+                // Shrunk to caption, so the bordered style's own metric is a
+                // metric for eleven-point text.
                 Button("Add") { addAttribute() }
                     .font(.caption)
                     .buttonStyle(.bordered)
+                    .frame(minHeight: 44)
             }
 
             if let addError {

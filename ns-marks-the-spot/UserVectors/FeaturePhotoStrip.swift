@@ -31,8 +31,14 @@ struct FeaturePhotoStrip: View {
                     Button {
                         isShowingCamera = true
                     } label: {
+                        // The floor is on the LABEL, inside the bordered
+                        // background, because a system style sizes itself
+                        // around what it is given and this label was shrunk to
+                        // caption — so the style's own metric is a metric for
+                        // eleven-point text.
                         Label("Take photo", systemImage: "camera")
                             .font(.caption)
+                            .frame(minHeight: 44)
                     }
                     .buttonStyle(.bordered)
                 }
@@ -43,6 +49,7 @@ struct FeaturePhotoStrip: View {
                 ) {
                     Label("Add photos", systemImage: "photo.on.rectangle")
                         .font(.caption)
+                        .frame(minHeight: 44)
                 }
                 .buttonStyle(.bordered)
             }
