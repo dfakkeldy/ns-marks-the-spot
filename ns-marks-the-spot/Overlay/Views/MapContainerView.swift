@@ -45,9 +45,18 @@ struct MapContainerView: View {
     /// cannot write its answer, or its failure, over the current viewport's.
     @State private var parcelSnapGeneration = 0
     @State private var vectorCallout: UserVectorCalloutItem?
-    /// The GPS track recorder. Foreground-only; owns its own location
-    /// manager so recording works without the map's location dot.
-    @State private var recorder = TrackRecorder()
+    /// The GPS track recorder, owned by `AppContainer` for the life of the
+    /// process and lent here.
+    ///
+    /// It used to be `@State`, built by this view. A `LiveActivityIntent`
+    /// launches the app **without opening it**, so the Lock Screen's buttons
+    /// could reach a process whose map view had never appeared and therefore
+    /// had no recorder at all. A `let` rather than `@State` because ownership
+    /// is the container's; observation does not need the wrapper.
+    private let recorder: TrackRecorder
+    /// The walk that was on disk at launch, consumed once. See
+    /// `restoreCheckpointedWalk`.
+    private let restoredWalk: TrackCheckpointStore.Found
     /// One-tap mark-my-location, with its own one-shot fix request.
     @State private var markLocation = MarkLocation()
     /// A finished recording waiting in the save dialog. Identifiable so the
@@ -57,6 +66,11 @@ struct MapContainerView: View {
     /// Why the last save attempt failed, shown inside the sheet — which
     /// stays up on failure, holding the only copy of the walk.
     @State private var saveTrackError: String?
+    /// A checkpoint that was there at launch and could not be read as a walk.
+    /// Raised as an alert rather than a passing notice: it is the app saying
+    /// something may have been recorded and it cannot show it, which is not a
+    /// thing to let scroll past.
+    @State private var unreadableCheckpoint: String?
     /// The measurement in progress, or none. Not persisted anywhere: a measured
     /// distance is a question about the map, asked and answered.
     @State private var measure: MeasureSession?
@@ -153,10 +167,14 @@ struct MapContainerView: View {
         historicalViewModel: HistoricalTaxSaleViewModel = HistoricalTaxSaleViewModel(),
         navigationModel: NavigationModel,
         offlineAreasViewModel: OfflineAreasViewModel,
+        recorder: TrackRecorder,
+        restoredWalk: TrackCheckpointStore.Found = .none,
     ) {
         self.controller = controller
         self.navigationModel = navigationModel
         self.offlineVM = offlineAreasViewModel
+        self.recorder = recorder
+        self.restoredWalk = restoredWalk
         // Supplied rather than built here: it needs the licence store and the
         // clearance the tile path reads, and a second store built in a view
         // would be a second answer to the same question.
@@ -217,11 +235,15 @@ struct MapContainerView: View {
             .sheet(item: $saveTrack) { payload in
                 SaveTrackSheet(
                     result: payload.result, saveError: saveTrackError,
-                    stoppedWhileRefused: payload.stoppedWhileRefused
+                    stoppedWhileRefused: payload.stoppedWhileRefused,
+                    restoredNote: payload.restoredNote
                 ) {
                     name, toleranceM in
-                    saveRecordedTrack(payload.result, name: name, toleranceM: toleranceM)
+                    saveRecordedTrack(payload, name: name, toleranceM: toleranceM)
                 } onDiscard: {
+                    // The reader's answer, and one of the only two things that
+                    // may remove a checkpoint. Until this the walk is on disk.
+                    recorder.clearCheckpoint()
                     saveTrackError = nil
                     saveTrack = nil
                 }
@@ -229,6 +251,17 @@ struct MapContainerView: View {
                 // the only copy of the walk, and a sheet swiped away would
                 // throw it out without asking.
                 .interactiveDismissDisabled()
+            }
+            .alert(
+                TrackRestoreNotice.unreadableTitle,
+                isPresented: Binding(
+                    get: { unreadableCheckpoint != nil },
+                    set: { if !$0 { unreadableCheckpoint = nil } }
+                )
+            ) {
+                Button("OK", role: .cancel) { unreadableCheckpoint = nil }
+            } message: {
+                Text(unreadableCheckpoint ?? "")
             }
             .sheet(item: $bulkPlacement) { draft in
                 BulkPhotoPlacementSheet(
@@ -1645,6 +1678,10 @@ struct MapContainerView: View {
                 async let maps: Void = userMapsVM.load()
                 async let vectors: Void = userVectorsVM.load()
                 _ = await (maps, vectors)
+                // After the vector library, and not before: whether a restored
+                // walk has already been saved is a question only the library can
+                // answer.
+                restoreCheckpointedWalk()
             }
             // Spoken as well as drawn, which is what the web's polite live
             // region does. A reader using VoiceOver taps a button and needs to
@@ -1688,26 +1725,6 @@ struct MapContainerView: View {
             // The wait is said too: up to ten silent seconds after a tap read
             // as a button that did nothing.
             .onAppear { MapHaptics.warmUp() }
-            // Where the Lock Screen's buttons land. They perform in this
-            // process, so they call the same three things the HUD's own
-            // buttons call — one walk, two places to reach it, no second
-            // implementation of Stop to fall out of step with the first.
-            .onAppear {
-                TrackActivityActions.shared.install(
-                    pause: {
-                        recorder.pause()
-                        guard recorder.status == .paused else { return false }
-                        MapHaptics.modeChanged()
-                        return true
-                    },
-                    resume: {
-                        recorder.resume()
-                        guard recorder.status == .recording else { return false }
-                        MapHaptics.modeChanged()
-                        return true
-                    },
-                )
-            }
             .onChange(of: markLocation.isAcquiring) { _, acquiring in
                 guard acquiring else { return }
                 AccessibilityNotification.Announcement(MarkLocation.acquiringMessage).post()
@@ -1902,21 +1919,80 @@ struct MapContainerView: View {
             }
     }
 
+    /// Puts a checkpointed walk in front of the reader, once, at launch.
+    ///
+    /// Three answers, and the difference between them is the whole point of
+    /// having written the walk down at all.
+    ///
+    /// **A walk.** It goes into the same save sheet a walk stopped on this
+    /// screen goes into, carrying a note that says how it got here — still
+    /// recording when the app closed, or stopped and never saved. It is not
+    /// resumed: fixes did not arrive while the process was gone, and joining
+    /// what was recorded before to whatever is recorded next would draw a line
+    /// across ground nobody walked.
+    ///
+    /// **A walk already saved.** A process ended between the layer landing and
+    /// the checkpoint being cleared leaves the journal behind for a walk that
+    /// is already in the library. Offering it again would write the same walk
+    /// as a second layer; the library holding a layer under the walk's own id
+    /// is how that is known, and the checkpoint is simply cleared.
+    ///
+    /// **Something unreadable.** Said out loud, and the bytes kept. An empty or
+    /// damaged checkpoint means a walk may have existed, which is not the same
+    /// as knowing none did.
+    private func restoreCheckpointedWalk() {
+        switch restoredWalk {
+        case .none:
+            return
+        case .unreadable(let keptAt):
+            unreadableCheckpoint = TrackRestoreNotice.unreadableMessage(keptAt: keptAt)
+        case .walk(let restored):
+            guard !userVectorsVM.rows.contains(where: { $0.id == restored.id.uuidString }) else {
+                recorder.clearCheckpoint()
+                return
+            }
+            // Not over a walk in progress. A recorder started from a Lock
+            // Screen intent before this view ever appeared owns the checkpoint
+            // now, and the walk read at launch has already been set aside by
+            // the start that replaced it.
+            guard !recorder.isActive, saveTrack == nil else { return }
+            saveTrack = SaveTrackPayload(
+                id: restored.id,
+                result: restored.result,
+                // The refusal is not knowable from the journal — it records
+                // what the recorder was handed, not why it was handed nothing —
+                // so the sheet's empty-result wording falls back to the general
+                // one rather than claiming a refusal that may not have happened.
+                stoppedWhileRefused: false,
+                restoredNote: TrackRestoreNotice.text(for: restored)
+            )
+        }
+    }
+
     /// Saves the stopped recording as a layer. The sheet stays up until the
     /// write lands: the recording is the only copy of the walk, and
     /// dismissing before a failed save would throw it out while telling the
     /// user to try again.
     private func saveRecordedTrack(
-        _ result: TrackRecording.StopResult, name: String, toleranceM: Double
+        _ payload: SaveTrackPayload, name: String, toleranceM: Double
     ) {
         Task {
             guard let row = await userVectorsVM.addRecordedLayer(
-                result, name: name, simplifyToleranceM: toleranceM
+                payload.result,
+                // The walk's own id, so the layer written for it is the same
+                // layer however many times this runs.
+                id: payload.id.uuidString,
+                name: name,
+                simplifyToleranceM: toleranceM
             ) else {
                 saveTrackError = "This track could not be saved to your "
                     + "device. Free some space and save again, or discard it."
                 return
             }
+            // Only now. The checkpoint is the walk's only copy until the layer
+            // is on disk, and clearing it before the write landed is how the
+            // first attempt at this lost a walk to a failed save.
+            recorder.clearCheckpoint()
             saveTrackError = nil
             saveTrack = nil
             if let box = row.record.bbox {
@@ -2178,29 +2254,31 @@ struct MapContainerView: View {
             .max { $0.timestamp < $1.timestamp }
     }
 
-    /// Stopping the walk: from the HUD's own button, and from the Lock
-    /// Screen's, which performs in this process for exactly that reason.
+    /// Stopping the walk, from the HUD's own button — which is still the only
+    /// place a walk can be stopped from.
     ///
-    /// One function, because a walk stopped from a locked phone must end the
-    /// way a walk stopped from the map does — the recording closed, the trace
-    /// pushed, and the save sheet armed. The sheet cannot be shown on a locked
-    /// screen, so it waits: the reader finds their walk still there, asking to
-    /// be kept, the next time they open the app. Nothing is thrown away by a
-    /// button pressed on a Lock Screen.
+    /// The doc comment here used to describe a Lock Screen Stop performing in
+    /// this process. There is none: `SharedActivity/TrackActivityIntents.swift`
+    /// ships Pause and Resume only. What kept Stop off the Lock Screen was that
+    /// it produces a walk which has to survive a process iOS can end before the
+    /// save sheet can be shown, and that is what the checkpoint now does — the
+    /// walk is on disk from the moment it stops, and a sheet the reader never
+    /// saw is offered again at the next launch. Adding `StopTrackIntent` is its
+    /// own change.
     @discardableResult
     private func stopRecording() -> Bool {
-        // Read before the stop, which is what the sheet's empty-result
-        // wording is about.
-        let refused = recorder.stoppedWhileRefused
-        guard let result = recorder.stop() else { return false }
+        guard let stopped = recorder.stop() else { return false }
         // The recorder changed mode, which is all this says. Whether the
         // walk is worth keeping is the save sheet's question, and it opens
-        // with it — here, where the reader is looking at it. That is why
-        // there is no Stop on the Lock Screen: a walk stopped where the sheet
-        // cannot be shown would have to survive a process iOS may end, and
-        // this app does not yet checkpoint a recording in progress.
+        // with it — here, where the reader is looking at it. The walk itself is
+        // no longer waiting on that: it is on disk from the moment it stopped,
+        // and stays there until this sheet is answered.
         MapHaptics.modeChanged()
-        saveTrack = SaveTrackPayload(result: result, stoppedWhileRefused: refused)
+        saveTrack = SaveTrackPayload(
+            id: stopped.id,
+            result: stopped.result,
+            stoppedWhileRefused: stopped.stoppedWhileRefused
+        )
         // The live trace is drawn from the recorder, which just went idle.
         pushUserVectors()
         return true
@@ -3216,12 +3294,19 @@ struct MapContainerView: View {
     }
 }
 
-/// A finished recording on its way into the save dialog. Identifiable for
-/// `.sheet(item:)`.
+/// A finished recording on its way into the save dialog.
+///
+/// `id` is the walk's own identifier — the one on the first line of its
+/// journal — which does double duty here: it identifies the sheet for
+/// `.sheet(item:)`, and it is the id the saved layer is written under, so the
+/// same walk offered twice cannot become two layers.
 private struct SaveTrackPayload: Identifiable {
-    let id = UUID()
+    let id: UUID
     let result: TrackRecording.StopResult
     var stoppedWhileRefused = false
+    /// What happened to a walk that was read back off disk, or nil for one the
+    /// reader has just stopped.
+    var restoredNote: String?
 }
 
 /// Photos the user picked for bulk EXIF placement, waiting on the confirm

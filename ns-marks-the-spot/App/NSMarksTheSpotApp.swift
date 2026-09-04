@@ -18,7 +18,12 @@ struct NSMarksTheSpotApp: App {
                 taxSaleViewModel: container.taxSaleViewModel,
                 historicalViewModel: container.historicalTaxSaleViewModel,
                 navigationModel: container.navigationModel,
-                offlineAreasViewModel: container.offlineAreasViewModel
+                offlineAreasViewModel: container.offlineAreasViewModel,
+                // Both off the container, which read the checkpoint before any
+                // view existed and owns the recorder a Lock Screen button can
+                // reach without one.
+                recorder: container.trackRecorder,
+                restoredWalk: container.restoredWalk
             )
             // Lent down rather than passed through four views that have no use
             // for it. The georeferencer is the only screen that draws official

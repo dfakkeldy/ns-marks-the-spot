@@ -74,7 +74,8 @@ struct TrackActivityTests {
         return (
             TrackRecorder(
                 source: source, screen: QuietScreen(),
-                background: QuietBackground(), activity: activity
+                background: QuietBackground(), activity: activity,
+                checkpoint: temporaryCheckpointStore()
             ),
             source, activity
         )
@@ -164,7 +165,8 @@ struct TrackActivityTests {
         let background = QuietBackground()
         let activity = SpyActivity()
         let recorder = TrackRecorder(
-            source: source, screen: QuietScreen(), background: background, activity: activity
+            source: source, screen: QuietScreen(), background: background, activity: activity,
+            checkpoint: temporaryCheckpointStore()
         )
         recorder.start(now: Date(timeIntervalSince1970: 1_000))
         #expect(activity.started[0].backgroundNotice == nil)
