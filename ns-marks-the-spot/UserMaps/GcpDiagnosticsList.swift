@@ -55,6 +55,8 @@ struct GcpDiagnosticsList: View {
                     systemImage: sort.descending ? "arrow.down" : "arrow.up"
                 )
                 .font(.caption)
+                .frame(minHeight: 44)
+                .contentShape(Rectangle())
             }
         }
     }

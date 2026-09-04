@@ -141,11 +141,16 @@ struct InfoSheetView: View {
     /// cannot carry a screenshot or a PID, and it cannot be replied to.
     private var linksSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Link(
-                "Source on GitHub",
-                destination: URL(string: "https://github.com/dfakkeldy/ns-marks-the-spot")!
-            )
-            Link("Email the maker", destination: Self.feedbackMailURL)
+            Link(destination: URL(string: "https://github.com/dfakkeldy/ns-marks-the-spot")!) {
+                Text("Source on GitHub")
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+            }
+            Link(destination: Self.feedbackMailURL) {
+                Text("Email the maker")
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+            }
         }
         .font(.subheadline)
         .frame(maxWidth: .infinity, alignment: .leading)

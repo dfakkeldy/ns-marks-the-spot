@@ -186,8 +186,12 @@ struct ParcelInspectorView: View {
                     .foregroundStyle(.orange)
                     .fixedSize(horizontal: false, vertical: true)
 
-                Link("View direct official source", destination: event.sourceURL)
-                    .font(.footnote)
+                Link(destination: event.sourceURL) {
+                    Text("View direct official source")
+                        .font(.footnote)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
             }
             .font(.subheadline)
             .multilineTextAlignment(.leading)
@@ -330,11 +334,21 @@ struct ParcelInspectorView: View {
             // Both documents, separately named. The notice is what was
             // advertised and the result is what was published afterwards; a
             // reader checking one of them should not be handed the other.
-            Link("Official notice", destination: event.noticeURL)
-                .font(.footnote)
-            if let resultURL = event.resultURL {
-                Link("Published results", destination: resultURL)
+            // Stacked, and they are different documents. Full-size targets
+            // are part of not handing a reader the one they did not ask for.
+            Link(destination: event.noticeURL) {
+                Text("Official notice")
                     .font(.footnote)
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+            }
+            if let resultURL = event.resultURL {
+                Link(destination: resultURL) {
+                    Text("Published results")
+                        .font(.footnote)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
             }
         }
     }
@@ -770,6 +784,8 @@ struct ParcelInspectorView: View {
                 Button(action: onShareMapLink) {
                     Label("Share this map view", systemImage: "square.and.arrow.up")
                         .font(.footnote)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .accessibilityIdentifier("parcel-inspector-share-link")
             }
@@ -778,6 +794,8 @@ struct ParcelInspectorView: View {
                 Button(action: onExportNote) {
                     Label("Export evidence note", systemImage: "doc.text")
                         .font(.footnote)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .disabled(!canExportNote)
                 .accessibilityIdentifier("parcel-inspector-export-note")
@@ -796,6 +814,8 @@ struct ParcelInspectorView: View {
                 Link(destination: listing) {
                     Label("Open on ViewPoint", systemImage: "arrow.up.right.square")
                         .font(.footnote)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 // ViewPoint is a commercial listing site. Nothing there is a
                 // record source, and a page existing for a PID is not a

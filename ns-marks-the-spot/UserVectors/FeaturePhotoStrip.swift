@@ -69,10 +69,26 @@ struct FeaturePhotoStrip: View {
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                     Spacer()
-                    Button("Move point there") { session.acceptPhotoLocationOffer() }
-                        .font(.caption2)
-                    Button("Keep") { session.dismissPhotoLocationOffer() }
-                        .font(.caption2)
+                    // Two choices a mis-tap decides between, and one of them
+                    // moves a recorded point to where a photo says it was
+                    // taken. Full-size targets are part of not doing that by
+                    // accident.
+                    Button {
+                        session.acceptPhotoLocationOffer()
+                    } label: {
+                        Text("Move point there")
+                            .font(.caption2)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                    Button {
+                        session.dismissPhotoLocationOffer()
+                    } label: {
+                        Text("Keep")
+                            .font(.caption2)
+                            .frame(minWidth: 44, minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
 
@@ -168,6 +184,15 @@ struct FeaturePhotoStrip: View {
                 Image(systemName: "xmark.circle.fill")
                     .font(.callout)
                     .foregroundStyle(.white, .black.opacity(0.6))
+                    // Short of the 44 points a control is meant to have, and
+                    // deliberately so. The thumbnail under this badge is 56
+                    // points and opening the photo is the other thing a finger
+                    // comes to this corner to do; a full-size target here would
+                    // leave that tap a twelve-point strip down two edges. This
+                    // is the largest square that still leaves the picture the
+                    // greater part of itself.
+                    .frame(width: 32, height: 32)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Remove photo \(index + 1)")

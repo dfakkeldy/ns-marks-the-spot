@@ -386,3 +386,31 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e, branch feature/web-a11y (pushed).
 Read scratchpad/codex/out-M-r1-correctness.md and out-M-r1-contract.md, fix or refute every claim with file:line evidence, then open PR M to nightly with the verdict table in the body.
 ```
+
+## 2026-09-03 — PR M in adversarial round 3; PR K substantially built
+
+Done: PR M is [#309](https://github.com/dfakkeldy/ns-marks-the-spot/pull/309),
+rebased onto the merged #307/#308 and pushed; two Codex rounds folded in (7+7
+then 6+5 findings). Web gates green: 2098 passed, 1 skipped, 184 files. Round 3
+is running. PR K lives in a SEPARATE worktree,
+`.claude/worktrees/ns-marks-k-hig` on `feature/ios-hig`, branched from
+`feature/ios-quick-wins`; §4 (all five), §11.8 iOS licences, §6.4/6.9
+destructive semantics, §6.2 rail width and §6.10 layers panel are committed
+(687d6286c) and passed 873 tests in 82 suites. The evidence-caveat typography
+(§6.5) and touch targets (§6.6) are applied and building.
+
+Build-slot notes: Codex's own runs were launching `xcodebuildmcp` and holding
+the Apple slot — `scratchpad/codex/round.sh` now nulls that server. A focused
+`xcodebuild` run hangs after its summary line and keeps the slot; kill both the
+wrapper and the `xcodebuild` child. A changed NSMarksCore source can leave a
+stale `MapCatalog.swiftmodule` in DerivedData; delete it if a public symbol
+reads as private.
+
+Next: finish §6 (a11y + haptics, 23 edits) and Liquid Glass behind
+`#available(iOS 26)`, run the whole native bundle, then PR L and PR N.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig.
+Apply scratchpad/plans-k6/plan.af3ad887.9.json (§6.1/6.7/6.11 accessibility and haptics, 23 edits) with the corrections in verify.a9b10da2.13.json, then build through xcode-build-slot.sh.
+```

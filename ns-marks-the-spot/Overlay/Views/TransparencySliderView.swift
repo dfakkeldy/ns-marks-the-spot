@@ -277,6 +277,8 @@ struct TransparencySliderView: View {
                     Button(action: onNewDrawingLayer) {
                         Label("Draw", systemImage: "pencil.and.outline")
                             .font(.caption)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
                     }
                 }
 
@@ -287,6 +289,8 @@ struct TransparencySliderView: View {
                 } label: {
                     Label("Import", systemImage: "plus")
                         .font(.caption)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .accessibilityIdentifier("import-user-file")
             }
@@ -452,9 +456,13 @@ private struct LayerProvenanceDisclosure: View {
                 line("Zoom", "\(descriptor.minZoom)–\(descriptor.maxZoom)")
 
                 if let sourceURL = descriptor.sourceURL {
-                    Link("Official source", destination: sourceURL)
-                        .font(.caption2)
-                        .padding(.top, 2)
+                    Link(destination: sourceURL) {
+                        Text("Official source")
+                            .font(.caption2)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .padding(.top, 2)
                 }
                 // Beside the source link, as the web puts it. The download
                 // page hands over the database; this is where the source says
@@ -462,8 +470,12 @@ private struct LayerProvenanceDisclosure: View {
                 // needs before deciding whether a hollow well marker is a
                 // location or a report about an area.
                 if let manualURL = descriptor.manualURL {
-                    Link("Accuracy definitions", destination: manualURL)
-                        .font(.caption2)
+                    Link(destination: manualURL) {
+                        Text("Accuracy definitions")
+                            .font(.caption2)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -472,6 +484,8 @@ private struct LayerProvenanceDisclosure: View {
             Text("Source & scale")
                 .font(.caption2)
                 .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                .contentShape(Rectangle())
         }
         .tint(.secondary)
         .accessibilityHint("Source date, scale, coverage and zoom range for \(descriptor.name)")
@@ -543,12 +557,18 @@ private struct LayerRowView: View {
                             // nobody guesses, and the layer reads as broken
                             // when it was the moment that was.
                             if runtime.emphasis == .broken, row.hasOpacityControl {
-                                Button("Retry tiles") { viewModel.retryTiles(for: row.id) }
-                                    .font(.caption2.weight(.medium))
-                                    .buttonStyle(.plain)
-                                    .foregroundStyle(.blue)
-                                    .accessibilityLabel("Retry \(row.name) tiles")
-                                    .accessibilityIdentifier("retry-tiles-\(row.id)")
+                                Button {
+                                    viewModel.retryTiles(for: row.id)
+                                } label: {
+                                    Text("Retry tiles")
+                                        .font(.caption2.weight(.medium))
+                                        .frame(minHeight: 44)
+                                        .contentShape(Rectangle())
+                                }
+                                .buttonStyle(.plain)
+                                .foregroundStyle(.blue)
+                                .accessibilityLabel("Retry \(row.name) tiles")
+                                .accessibilityIdentifier("retry-tiles-\(row.id)")
                             }
                         }
                     }
