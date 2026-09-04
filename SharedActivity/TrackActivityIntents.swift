@@ -21,7 +21,9 @@ struct PauseTrackIntent: LiveActivityIntent {
     static let isDiscoverable = false
 
     func perform() async throws -> some IntentResult {
-        await TrackActivityActions.shared.pause()
+        guard await TrackActivityActions.shared.pause() else {
+            throw TrackActivityActions.Unreachable.noRecording
+        }
         return .result()
     }
 }
@@ -31,7 +33,9 @@ struct ResumeTrackIntent: LiveActivityIntent {
     static let isDiscoverable = false
 
     func perform() async throws -> some IntentResult {
-        await TrackActivityActions.shared.resume()
+        guard await TrackActivityActions.shared.resume() else {
+            throw TrackActivityActions.Unreachable.noRecording
+        }
         return .result()
     }
 }
@@ -45,7 +49,9 @@ struct StopTrackIntent: LiveActivityIntent {
     static let isDiscoverable = false
 
     func perform() async throws -> some IntentResult {
-        await TrackActivityActions.shared.stop()
+        guard await TrackActivityActions.shared.stop() else {
+            throw TrackActivityActions.Unreachable.noRecording
+        }
         return .result()
     }
 }
@@ -79,7 +85,38 @@ final class TrackActivityActions {
     // non-Sendable closure out of the main actor to be called somewhere else:
     // the intent awaits its way onto this actor and the walk is changed here,
     // which is where the recorder lives.
-    func pause() { pauseAction?() }
-    func resume() { resumeAction?() }
-    func stop() { stopAction?() }
+    //
+    // Each returns whether it reached a recorder. A button on a Lock Screen
+    // that does nothing and reports success is worse than one that fails: the
+    // reader walks on believing they paused.
+    @discardableResult func pause() -> Bool { run(pauseAction) }
+    @discardableResult func resume() -> Bool { run(resumeAction) }
+    @discardableResult func stop() -> Bool { run(stopAction) }
+
+    /// Lets a test put the registry back the way a fresh process finds it.
+    func uninstall() {
+        pauseAction = nil
+        resumeAction = nil
+        stopAction = nil
+    }
+
+    private func run(_ action: (() -> Void)?) -> Bool {
+        guard let action else { return false }
+        action()
+        return true
+    }
+
+    /// What an intent throws when there is no recorder to reach.
+    ///
+    /// The case it exists for: iOS terminated the app with a Live Activity
+    /// still on the Lock Screen, and a tap relaunches the process to perform
+    /// the intent. If the actions are not installed by then, the tap did
+    /// nothing — and the reader has to be told, not reassured.
+    enum Unreachable: Error, CustomLocalizedStringResourceConvertible {
+        case noRecording
+
+        var localizedStringResource: LocalizedStringResource {
+            "That recording is no longer running. Open NS Marks the Spot to see it."
+        }
+    }
 }

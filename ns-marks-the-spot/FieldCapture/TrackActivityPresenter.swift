@@ -26,23 +26,27 @@ protocol TrackActivityPresenter: AnyObject {
 @MainActor
 final class LiveActivityPresenter: TrackActivityPresenter {
     private var activity: Activity<TrackActivityAttributes>?
-
-    /// ActivityKit's `Activity` is a **non-Sendable class** whose `update` and
-    /// `end` are `@concurrent`, so a handle held on the main actor cannot be
-    /// handed to either — and no arrangement of actors fixes that, because the
-    /// handle has to outlive each call. There is no safe spelling of the API's
-    /// own shape; this box is the unsafety, in one place, named.
+    /// The tail of the queue. Every call chains onto it, so the Lock Screen is
+    /// told things in the order they happened.
     ///
-    /// What bounds it: the handle is only ever read and written here, on the
-    /// main actor, and the only other thing that touches it is ActivityKit,
-    /// which is the framework that handed it out and which documents these
-    /// methods as callable from anywhere.
+    /// Without this each call was its own unstructured task and ActivityKit's
+    /// `update` suspends: Pause immediately followed by Resume could finish in
+    /// either order, and finishing in the wrong one leaves "Recording paused"
+    /// on the Lock Screen over a recorder that is taking fixes in. A walk that
+    /// says it is paused when it is not is worse than no Lock Screen at all.
+    private var queue: Task<Void, Never>?
+
+    /// ActivityKit's `Activity` is a **non-Sendable class**, so it cannot be
+    /// captured by the `@Sendable` closure of the task that has to await its
+    /// async methods. This box is that unsafety, in one place, named — with the
+    /// calls inside it so the handle itself never crosses.
+    ///
+    /// What bounds it is `queue`: every operation on a given handle runs on one
+    /// chain, one at a time, in order. Nothing else touches it. Remove the
+    /// chain and this conformance becomes a lie.
     private nonisolated struct Handle: @unchecked Sendable {
         let activity: Activity<TrackActivityAttributes>
 
-        // The calls live in here so the handle itself never crosses: taking
-        // `activity` back out would send a non-Sendable value again, which is
-        // the very thing the box exists to stop.
         nonisolated func update(_ state: TrackActivityAttributes.ContentState) async {
             await activity.update(ActivityContent(state: state, staleDate: nil))
         }
@@ -67,14 +71,41 @@ final class LiveActivityPresenter: TrackActivityPresenter {
 
     func update(_ state: TrackActivityAttributes.ContentState) {
         guard let activity else { return }
-        let handle = Handle(activity: activity)
-        Task { await handle.update(state) }
+        enqueue(Handle(activity: activity)) { await $0.update(state) }
     }
 
     func end(_ state: TrackActivityAttributes.ContentState) {
         guard let activity else { return }
         self.activity = nil
-        let handle = Handle(activity: activity)
-        Task { await handle.end(state) }
+        enqueue(Handle(activity: activity)) { await $0.end(state) }
+    }
+
+    /// Ends every activity this app left behind, saying the walk is over.
+    ///
+    /// A process this app did not close leaves its Live Activity on the Lock
+    /// Screen with the last thing it was told — "Recording a track", with a
+    /// clock still counting — and a fresh launch has an idle recorder that
+    /// knows nothing about it. The reader would be looking at a recording that
+    /// does not exist, with buttons aimed at nothing.
+    static func endOrphans() async {
+        for activity in Activity<TrackActivityAttributes>.activities {
+            var state = activity.content.state
+            state.isRecording = false
+            state.runningSince = nil
+            state.endedByTermination = true
+            await activity.end(
+                ActivityContent(state: state, staleDate: nil), dismissalPolicy: .immediate
+            )
+        }
+    }
+
+    private func enqueue(
+        _ handle: Handle, _ work: @escaping @Sendable (Handle) async -> Void
+    ) {
+        let previous = queue
+        queue = Task {
+            await previous?.value
+            await work(handle)
+        }
     }
 }

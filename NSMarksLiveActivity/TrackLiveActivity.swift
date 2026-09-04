@@ -33,13 +33,23 @@ struct TrackLiveActivity: Widget {
                     )
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    if let refusal = context.state.refusalText {
-                        Text(refusal)
-                            .font(.caption)
-                            .foregroundStyle(.orange)
-                            .fixedSize(horizontal: false, vertical: true)
-                    } else {
-                        Controls(isRecording: context.state.isRecording)
+                    VStack(alignment: .leading, spacing: 6) {
+                        if let refusal = context.state.refusalText {
+                            Text(refusal)
+                                .font(.caption)
+                                .foregroundStyle(.orange)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        if let notice = context.state.backgroundNotice {
+                            Text(notice)
+                                .font(.caption)
+                                .foregroundStyle(.orange)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        Controls(
+                            isRecording: context.state.isRecording,
+                            isRefused: context.state.refusalText != nil
+                        )
                     }
                 }
             } compactLeading: {
@@ -110,6 +120,11 @@ private struct Stat: View {
 /// them buttons rather than a shortcut to the screen with the buttons on it.
 private struct Controls: View {
     var isRecording: Bool
+    /// A refused walk keeps Stop and loses Resume. Resuming into a refusal
+    /// would run a clock over fixes that cannot come; **stopping** is how the
+    /// reader keeps the part of the walk they did record, and hiding it behind
+    /// a refusal message is how they would lose it.
+    var isRefused: Bool
 
     var body: some View {
         HStack(spacing: 12) {
@@ -117,10 +132,12 @@ private struct Controls: View {
                 Button(intent: PauseTrackIntent()) {
                     Label("Pause", systemImage: "pause.fill")
                 }
-            } else {
+                .modifier(LockScreenTarget())
+            } else if !isRefused {
                 Button(intent: ResumeTrackIntent()) {
                     Label("Resume", systemImage: "play.fill")
                 }
+                .modifier(LockScreenTarget())
             }
             // Not destructive, and not red: Stop ends the recording and holds
             // the walk for the save screen. The red belongs on Discard, which
@@ -129,14 +146,34 @@ private struct Controls: View {
             Button(intent: StopTrackIntent()) {
                 Label("Stop", systemImage: "stop.fill")
             }
+            .modifier(LockScreenTarget())
         }
         .buttonStyle(.bordered)
         .font(.caption)
     }
 }
 
+/// Forty-four points, on the controls a walker reaches for with wet or gloved
+/// hands on a locked phone. `.bordered` sizes its capsule around a caption
+/// label, which is about thirty-four.
+private struct LockScreenTarget: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .frame(minWidth: 44, minHeight: 44)
+            .contentShape(Rectangle())
+    }
+}
+
 private struct LockScreenView: View {
     var state: TrackActivityAttributes.ContentState
+
+    /// "Stopped", never "finished": an activity this app did not close belongs
+    /// to a process iOS terminated, and nobody knows whether the walk it was
+    /// recording reached anywhere.
+    static func heading(_ state: TrackActivityAttributes.ContentState) -> String {
+        if state.endedByTermination { return "Recording stopped" }
+        return state.isRecording ? "Recording a track" : "Recording paused"
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -144,7 +181,7 @@ private struct LockScreenView: View {
                 Image(systemName: state.isRecording ? "record.circle" : "pause.circle")
                     .foregroundStyle(state.isRecording ? .red : .orange)
                     .accessibilityHidden(true)
-                Text(state.isRecording ? "Recording a track" : "Recording paused")
+                Text(Self.heading(state))
                     .font(.subheadline.weight(.semibold))
                 Spacer()
             }
@@ -163,9 +200,19 @@ private struct LockScreenView: View {
                     .font(.caption)
                     .foregroundStyle(.orange)
                     .fixedSize(horizontal: false, vertical: true)
-            } else {
-                Controls(isRecording: state.isRecording)
             }
+
+            // A separate sentence from the refusal above, because it is a
+            // separate fact: fixes are arriving now and will stop when the
+            // phone goes away.
+            if let notice = state.backgroundNotice {
+                Text(notice)
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            Controls(isRecording: state.isRecording, isRefused: state.refusalText != nil)
         }
         .accessibilityElement(children: .contain)
     }

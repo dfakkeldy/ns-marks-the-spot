@@ -31,9 +31,22 @@ nonisolated struct TrackActivityAttributes: ActivityAttributes {
         var distanceMetres: Double
         /// Whether fixes are being taken in right now.
         var isRecording: Bool
-        /// Why they are not, when they are not, in the words the HUD uses.
-        /// Nil when nothing is wrong.
+        /// Why they are not, when they are not. Nil when nothing is wrong.
         var refusalText: String?
+        /// Why the walk will not survive the phone going in a pocket, when the
+        /// system says it will not.
+        ///
+        /// Its own field, and not folded into `refusalText`: fixes arriving now
+        /// and fixes arriving in a pocket are different facts, and a Lock
+        /// Screen that says "Recording a track" over a session iOS has refused
+        /// merges *blocked* into *working* — which is the one thing this app's
+        /// evidence rules do not permit.
+        var backgroundNotice: String?
+        /// Set on an activity this app did not close: the process was
+        /// terminated with a walk running, and the Lock Screen was left saying
+        /// so. What it ends up saying instead is that the recording stopped —
+        /// never that it completed, because nobody knows whether it did.
+        var endedByTermination = false
     }
 
     /// Nothing. The walk has no name until it is saved, and inventing one for

@@ -156,6 +156,10 @@ final class TrackRecorder: NSObject {
         background.onUnavailable = { [weak self] reason in
             guard let self, recordingIsRunning() else { return }
             backgroundNotice = reason
+            // Straight through to the Lock Screen, not on the ten-second
+            // cadence: this is the sentence that changes what the reader
+            // should do with the phone in their hand.
+            pushActivity(now: Date(), force: true)
         }
     }
 
@@ -315,7 +319,8 @@ final class TrackRecorder: NSObject {
             elapsedSeconds: stats.elapsedSeconds,
             distanceMetres: stats.distanceM,
             isRecording: isRecording,
-            refusalText: refusal.map(Self.refusalText)
+            refusalText: refusal.map(Self.refusalText),
+            backgroundNotice: backgroundNotice
         )
     }
 

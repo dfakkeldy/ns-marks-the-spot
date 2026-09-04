@@ -154,6 +154,30 @@ struct TrackActivityTests {
         #expect(activity.updated.last?.isRecording == false)
     }
 
+    /// The one thing a Lock Screen must not do: say a walk is being recorded
+    /// while the system has refused to let it continue off screen. That merges
+    /// *blocked* into *working*, and the reader with the phone in their pocket
+    /// has no other way to find out.
+    @Test("A background session the system refused reaches the Lock Screen at once")
+    func aBackgroundSessionTheSystemRefusedReachesTheLockScreenAtOnce() throws {
+        let source = QuietSource()
+        let background = QuietBackground()
+        let activity = SpyActivity()
+        let recorder = TrackRecorder(
+            source: source, screen: QuietScreen(), background: background, activity: activity
+        )
+        recorder.start(now: Date(timeIntervalSince1970: 1_000))
+        #expect(activity.started[0].backgroundNotice == nil)
+
+        background.onUnavailable?("Recording may stop when this app is off screen.")
+
+        // Not on the ten-second cadence: this changes what the reader should
+        // do with the phone in their hand.
+        let pushed = try #require(activity.updated.last)
+        #expect(pushed.backgroundNotice == "Recording may stop when this app is off screen.")
+        #expect(pushed.isRecording)
+    }
+
     /// The Lock Screen's numbers are the HUD's numbers. Two screens, one walk.
     @Test("The Lock Screen rounds a distance the way the map does")
     func theLockScreenRoundsADistanceTheWayTheMapDoes() {
@@ -163,5 +187,116 @@ struct TrackActivityTests {
                 "the Lock Screen and the HUD must not disagree at \(metres) m"
             )
         }
+    }
+}
+
+/// A walk stopped where the save sheet cannot be shown.
+@Suite("A stopped walk waiting to be saved")
+@MainActor
+struct PendingTrackSaveTests {
+    private func store() throws -> (PendingTrackSaveStore, URL) {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        return (PendingTrackSaveStore(directory: root), root)
+    }
+
+    private func walk() -> TrackRecording.StopResult {
+        TrackRecording.StopResult(
+            startedAt: Date(timeIntervalSince1970: 1_000),
+            endedAt: Date(timeIntervalSince1970: 1_600),
+            segments: [[
+                TrackPoint(lat: 45.0, lng: -63.0, altitudeM: 12, accuracyM: 5,
+                           timestamp: Date(timeIntervalSince1970: 1_001)),
+                TrackPoint(lat: 45.001, lng: -63.0, altitudeM: nil, accuracyM: 6,
+                           timestamp: Date(timeIntervalSince1970: 1_060)),
+            ]],
+            rawSegments: [[
+                TrackFix(latitude: 45.0, longitude: -63.0, altitudeM: 12, accuracyM: 5,
+                         timestamp: Date(timeIntervalSince1970: 1_001)),
+            ]],
+            rawFixCount: 1,
+            acceptedFixCount: 2,
+            distanceM: 111.2,
+            recordingSeconds: 600
+        )
+    }
+
+    /// The exposure Stop-from-the-Lock-Screen created: the map's Stop opens
+    /// the sheet while the reader is looking at it, and a locked phone's Stop
+    /// cannot. Between the two, iOS may terminate the app.
+    @Test("A stopped walk survives being written down and read back")
+    func aStoppedWalkSurvivesBeingWrittenDownAndReadBack() throws {
+        let (store, root) = try self.store()
+        defer { try? FileManager.default.removeItem(at: root) }
+        #expect(store.read() == nil)
+
+        let original = walk()
+        #expect(store.write(.init(result: original, stoppedWhileRefused: true)))
+
+        // A different process would build a different store over the same
+        // directory, which is what this is.
+        let reopened = PendingTrackSaveStore(directory: root)
+        let pending = try #require(reopened.read())
+        #expect(pending.stoppedWhileRefused)
+        #expect(pending.result.segments.first?.count == 2)
+        #expect(pending.result.segments.first?.first?.lat == 45.0)
+        // Nothing zero-filled on the way through: a missing altitude is still
+        // missing, not nought at sea level.
+        #expect(pending.result.segments.first?.last?.altitudeM == nil)
+        #expect(pending.result.rawSegments.first?.count == 1)
+        #expect(pending.result.distanceM == 111.2)
+    }
+
+    /// Cleared by the reader saving it or saying to throw it away, and by
+    /// nothing else.
+    @Test("Only the reader's answer clears it")
+    func onlyTheReadersAnswerClearsIt() throws {
+        let (store, root) = try self.store()
+        defer { try? FileManager.default.removeItem(at: root) }
+        store.write(.init(result: walk(), stoppedWhileRefused: false))
+        #expect(store.read() != nil)
+        #expect(store.read() != nil)
+
+        store.clear()
+        #expect(store.read() == nil)
+    }
+
+    /// A file that is not a walk cannot be saved either, so it goes rather
+    /// than failing at every launch for ever.
+    @Test("Something that is not a walk is removed rather than kept failing")
+    func somethingThatIsNotAWalkIsRemovedRatherThanKeptFailing() throws {
+        let (store, root) = try self.store()
+        defer { try? FileManager.default.removeItem(at: root) }
+        try Data("not a walk".utf8)
+            .write(to: root.appendingPathComponent("pending-track-save.json"))
+
+        #expect(store.read() == nil)
+        #expect(
+            !FileManager.default.fileExists(
+                atPath: root.appendingPathComponent("pending-track-save.json").path
+            )
+        )
+    }
+}
+
+/// The buttons on a Lock Screen, when there is nothing behind them.
+@Suite("Lock Screen buttons with no recorder")
+@MainActor
+struct TrackActivityActionsTests {
+    /// iOS terminated the app with an activity still up; a tap relaunches the
+    /// process to perform the intent. If the actions are not installed by
+    /// then, the tap did nothing — and reporting success would leave the
+    /// reader walking on believing they had paused.
+    @Test("An action with nothing installed reports that it did nothing")
+    func anActionWithNothingInstalledReportsThatItDidNothing() {
+        let actions = TrackActivityActions.shared
+        actions.install(pause: {}, resume: {}, stop: {})
+        #expect(actions.pause())
+
+        actions.uninstall()
+        #expect(!actions.pause())
+        #expect(!actions.resume())
+        #expect(!actions.stop())
     }
 }

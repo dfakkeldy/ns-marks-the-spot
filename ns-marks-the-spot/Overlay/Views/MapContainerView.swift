@@ -54,6 +54,10 @@ struct MapContainerView: View {
     /// sheet can present it; the recording is the only copy of the walk, so
     /// the sheet cannot be swiped away.
     @State private var saveTrack: SaveTrackPayload?
+    /// Where a stopped walk waits when the sheet cannot be shown — see
+    /// `PendingTrackSaveStore`. Read at launch, so a walk stopped from the
+    /// Lock Screen is still there after iOS has terminated the app.
+    private let pendingSaves: PendingTrackSaveStore
     /// Why the last save attempt failed, shown inside the sheet — which
     /// stays up on failure, holding the only copy of the walk.
     @State private var saveTrackError: String?
@@ -153,8 +157,10 @@ struct MapContainerView: View {
         historicalViewModel: HistoricalTaxSaleViewModel = HistoricalTaxSaleViewModel(),
         navigationModel: NavigationModel,
         offlineAreasViewModel: OfflineAreasViewModel,
+        pendingTrackSaves: PendingTrackSaveStore = PendingTrackSaveStore.inApplicationSupport(),
     ) {
         self.controller = controller
+        self.pendingSaves = pendingTrackSaves
         self.navigationModel = navigationModel
         self.offlineVM = offlineAreasViewModel
         // Supplied rather than built here: it needs the licence store and the
@@ -224,6 +230,9 @@ struct MapContainerView: View {
                 } onDiscard: {
                     saveTrackError = nil
                     saveTrack = nil
+                    // Said out loud by the reader, which is the only thing
+                    // that throws a walk away.
+                    pendingSaves.clear()
                 }
                 // Save or Discard, said out loud: the stopped recording is
                 // the only copy of the walk, and a sheet swiped away would
@@ -1688,6 +1697,17 @@ struct MapContainerView: View {
             // The wait is said too: up to ten silent seconds after a tap read
             // as a button that did nothing.
             .onAppear { MapHaptics.warmUp() }
+            // A walk stopped from the Lock Screen, still waiting. Offered
+            // once, on the first appearance, and only when nothing is already
+            // open — a sheet replaced under the reader's hands is how the
+            // other copy gets lost.
+            .onAppear {
+                guard saveTrack == nil, !recorder.isActive else { return }
+                guard let pending = pendingSaves.read() else { return }
+                saveTrack = SaveTrackPayload(
+                    result: pending.result, stoppedWhileRefused: pending.stoppedWhileRefused
+                )
+            }
             // Where the Lock Screen's buttons land. They perform in this
             // process, so they call the same three things the HUD's own
             // buttons call — one walk, two places to reach it, no second
@@ -1916,6 +1936,7 @@ struct MapContainerView: View {
             }
             saveTrackError = nil
             saveTrack = nil
+            pendingSaves.clear()
             if let box = row.record.bbox {
                 controller.frame(box)
             }
@@ -2189,6 +2210,13 @@ struct MapContainerView: View {
         // wording is about.
         let refused = recorder.stoppedWhileRefused
         if let result = recorder.stop() {
+            // Written down first. This is reachable from the Lock Screen, and
+            // between here and the reader opening the app iOS may terminate
+            // the process — at which point the only copy of the walk would
+            // have been in a `@State` that no longer exists.
+            pendingSaves.write(
+                PendingTrackSaveStore.Pending(result: result, stoppedWhileRefused: refused)
+            )
             // The recorder changed mode, which is all this says. Whether the
             // walk is worth keeping is the save sheet's question, and it opens
             // with it.

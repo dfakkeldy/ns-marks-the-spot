@@ -13,7 +13,10 @@ public struct TrackRecording: Sendable {
         case idle, recording, paused
     }
 
-    public struct StopResult: Sendable {
+    /// `Codable` so a walk stopped from the Lock Screen survives the app
+    /// being terminated before the reader can save it — see the app's
+    /// `PendingTrackSaveStore`. Nothing here is derived; it is the walk.
+    public struct StopResult: Sendable, Codable {
         public var startedAt: Date
         public var endedAt: Date
         /// Filtered, smoothed vertices per recording segment.
@@ -24,6 +27,28 @@ public struct TrackRecording: Sendable {
         public var acceptedFixCount: Int
         public var distanceM: Double
         public var recordingSeconds: Double
+
+        /// Public because a walk is now written to disk and read back — and
+        /// because a test has to be able to make one without walking.
+        public init(
+            startedAt: Date,
+            endedAt: Date,
+            segments: [[TrackPoint]],
+            rawSegments: [[TrackFix]],
+            rawFixCount: Int,
+            acceptedFixCount: Int,
+            distanceM: Double,
+            recordingSeconds: Double
+        ) {
+            self.startedAt = startedAt
+            self.endedAt = endedAt
+            self.segments = segments
+            self.rawSegments = rawSegments
+            self.rawFixCount = rawFixCount
+            self.acceptedFixCount = acceptedFixCount
+            self.distanceM = distanceM
+            self.recordingSeconds = recordingSeconds
+        }
     }
 
     public struct Stats: Sendable {

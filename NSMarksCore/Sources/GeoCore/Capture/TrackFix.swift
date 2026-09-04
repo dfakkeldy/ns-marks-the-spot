@@ -5,7 +5,7 @@ import Foundation
 /// Its own type rather than `CLLocation` because everything downstream of it
 /// (the filter, the recorder, the raw GPX writer) is pure and mac-testable,
 /// and CoreLocation must not leak into GeoCore.
-public struct TrackFix: Hashable, Sendable {
+public struct TrackFix: Hashable, Sendable, Codable {
     public var latitude: Double
     public var longitude: Double
     /// Nil when the fix carried no altitude — never zero-filled.
