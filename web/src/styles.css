@@ -153,7 +153,10 @@ a {
 .header-action,
 .primary-action {
   display: inline-flex;
-  min-height: 42px;
+  /* 44, not 42. These two render the first thing a reader meets — the licence
+     dialog's Accept and Continue — and two pixels under the target is still
+     under it. */
+  min-height: 44px;
   align-items: center;
   justify-content: center;
   padding: 10px 18px;
@@ -194,7 +197,10 @@ a {
   box-shadow: 6px 0 24px rgba(18, 52, 59, 0.08);
 }
 
-.layer-rail > h1,
+/* `.layer-rail > h2` is the rail's own heading, not the headings inside it:
+   `.rail-section h2` and `.map-theme-picker h2` are h2s as well, and the child
+   combinator is what keeps this display type off them. */
+.layer-rail > h2,
 .parcel-inspector h2,
 .licence-dialog h2 {
   margin: 0;
@@ -202,7 +208,7 @@ a {
   line-height: 1.08;
 }
 
-.layer-rail > h1 {
+.layer-rail > h2 {
   margin-bottom: 20px;
   font-size: 2rem;
 }
@@ -2058,10 +2064,15 @@ a {
 }
 
 /* Save-track dialog: the one moment recording data can be lost, so it is
-   modal and Discard confirms. */
+   modal and Discard confirms. Shared by the bulk photo import.
+
+   Above the phone attribution strip's 1300, not below it. At 1200 the strip
+   painted over the backdrop, so About this map and Data & licences stayed
+   tappable beside a dialog that calls itself modal — and opening one of them
+   put a second modal on the screen. */
 .save-track-backdrop {
   position: fixed;
-  z-index: 1200;
+  z-index: 1400;
   inset: 0;
   display: grid;
   place-items: center;
@@ -3262,7 +3273,8 @@ a {
 }
 
 .secondary-action {
-  min-height: 42px;
+  /* Beside `.primary-action` in the same dialog row; see the note there. */
+  min-height: 44px;
   color: var(--chart-ink);
   font-weight: 700;
   background: var(--white);
@@ -3462,12 +3474,16 @@ a {
     min-height: 0;
   }
 
+  /* Left of these pills is Leaflet's zoom bar, pinned 10px from this
+     region's top-left corner. With the 44px buttons set further down, and the
+     2px rim Leaflet adds on a touch container, it ends at most 58px in — so
+     72px is the same 14px of breathing room the pills have always had. */
   .mobile-map-chrome {
     position: absolute;
     z-index: 1000;
     top: max(12px, env(safe-area-inset-top));
     right: 12px;
-    left: 58px;
+    left: 72px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -3475,9 +3491,12 @@ a {
     pointer-events: none;
   }
 
+  /* 44px, the target every other control in this block already takes. These
+     two pills were the phone chrome's last 42px holdouts, and their height is
+     what the location ladder's inset offsets below are measured from. */
   .mobile-map-brand,
   .mobile-controls-trigger {
-    min-height: 42px;
+    min-height: 44px;
     color: var(--chart-ink);
     background: rgba(255, 255, 255, 0.92);
     border: 1px solid rgba(255, 255, 255, 0.76);
@@ -3531,27 +3550,58 @@ a {
     line-height: 0;
   }
 
+  /* Leaflet ships 26px zoom buttons and bumps them to 30px on touch, which
+     leaves them the one control on the phone map below the 44px target every
+     other control in this block takes. The selector matches Leaflet's own
+     two-class weight and wins on source order, the way this sheet's zoom
+     colour override already does, and .map-canvas keeps it off the
+     georeferencer's scan preview, which has a layout of its own. line-height
+     moves with the box because Leaflet centres the plus and minus glyphs
+     with it. */
+  .map-canvas .leaflet-bar a {
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+  }
+
+  /* With viewport-fit=cover, Leaflet's own 10px offset is measured from the
+     physical top of the display, so on a phone with a notch or an island most
+     of the plus button's new 44px sits inside the status bar and cannot be
+     tapped at all. The inset moves the whole bar down by whatever the device
+     reserves, and the location ladder below is written against this rule's
+     resulting bottom edge. */
+  .map-canvas .leaflet-top.leaflet-left {
+    top: env(safe-area-inset-top);
+  }
+
   /* With viewport-fit=cover these fixed offsets sit relative to the notch,
      not the visible top — track the mobile chrome, which starts at
-     max(12px, env(safe-area-inset-top)), by carrying the same inset. */
+     max(12px, env(safe-area-inset-top)) and now stands 44px tall, by carrying
+     the same inset. The floors answer a second constraint: the zoom bar above
+     takes no safe-area inset at all, so with 44px buttons and the 2px rim
+     Leaflet adds on a touch container it ends at most 102px below the top of
+     this region, and a phone
+     reporting a small inset would otherwise drop this ladder onto it. Each
+     step is the step above plus the control it has to clear, so both branches
+     move by the same amount and the ladder never crosses itself. */
   .location-button {
-    top: max(74px, calc(env(safe-area-inset-top) + 62px));
+    top: max(102px, calc(env(safe-area-inset-top) + 64px));
   }
 
   .location-cluster {
-    top: max(74px, calc(env(safe-area-inset-top) + 62px));
+    top: max(102px, calc(env(safe-area-inset-top) + 64px));
   }
 
   .location-hud {
-    top: max(126px, calc(env(safe-area-inset-top) + 114px));
+    top: max(154px, calc(env(safe-area-inset-top) + 116px));
   }
 
   .location-message {
-    top: max(234px, calc(env(safe-area-inset-top) + 222px));
+    top: max(262px, calc(env(safe-area-inset-top) + 224px));
   }
 
   .measure-control {
-    top: max(126px, calc(env(safe-area-inset-top) + 114px));
+    top: max(154px, calc(env(safe-area-inset-top) + 116px));
   }
 
   /* Both readouts hang off the bottom edge, and both are caveats the reader
@@ -3569,8 +3619,10 @@ a {
     bottom: calc(50px + env(safe-area-inset-bottom));
   }
 
+  /* Shares the recording HUD's row, so it moves when that row moves rather
+     than splitting off and landing across the measure buttons. */
   .modern-map-error {
-    top: max(126px, calc(env(safe-area-inset-top) + 114px));
+    top: max(154px, calc(env(safe-area-inset-top) + 116px));
     right: 12px;
     left: 12px;
     justify-content: space-between;
@@ -3613,8 +3665,10 @@ a {
     padding-left: 16px;
   }
 
+  /* The tighter 10px gap this width has always taken beside the same 48px
+     zoom bar. At 54px the brand pill overlapped the zoom-out button. */
   .mobile-map-chrome {
-    left: 54px;
+    left: 68px;
   }
 
   .mobile-map-brand strong {
@@ -3665,7 +3719,11 @@ a {
   .parcel-lookup-message {
     top: 64px;
     right: 12px;
-    left: 12px;
+    /* Clear of Leaflet's zoom bar, which is now 44px wide plus its rim and
+       reaches 58px in. Full width from 12px would paint this opaque box over
+       the zoom-out button, and the box takes pointer events, so the control
+       under it would stop answering. */
+    left: 66px;
     max-width: none;
     max-height: 30dvh;
     overflow-y: auto;
@@ -5421,10 +5479,17 @@ a {
    and inserts-then-drags on movestart, so on touch it is the only way to add
    a vertex at all — removal is bound to `contextmenu`, which touch has no
    gesture for. Enlarging one would put it over the handle it sits between
-   and take back the drag this block exists to give. So inserting a vertex
-   stays a 10px touch target, and on a segment shorter than the handle an
-   enlarged handle can cover the midpoint outright; zooming in separates
-   them. Neither is fixed here. */
+   and take back the drag this block exists to give, and stacking order could
+   answer that much; what it cannot answer is that the session enables editing
+   on every feature of the layer under edit, for the session's whole life, not
+   only while Reshape is armed. A 44px middle marker is therefore a 44px
+   insert target at every segment midpoint of that layer, and a tap meant to
+   select a shape the reader had not selected would add a corner to it
+   instead. So inserting a vertex stays a 10px touch target, and on a segment
+   shorter than the handle an enlarged handle can cover the midpoint outright;
+   zooming in separates them. Neither is fixed here — but neither is now the
+   only route: the panel's corner mover moves and inserts corners by number,
+   with no drag and no pixel precision at all. */
 @media (pointer: coarse) {
   .leaflet-marker-draggable.marker-icon:not(.marker-icon-middle) {
     /* Stated, not inherited from this sheet's `*` rule: the disc geometry
@@ -5486,6 +5551,45 @@ a {
 
 .snap-indicator-vertex {
   border-radius: 2px;
+}
+
+/* The corner mover: the same frame as the snapping and convert fieldsets, so
+   a control that reshapes geometry without a drag reads as part of the panel
+   rather than an apology bolted to it. */
+.vector-edit-corners {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.vector-edit-corners legend {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* `.vector-edit-field input, textarea` carries this sheet's 44px minimum and
+   a select is neither, so the corner picker states its own. */
+.vector-edit-corners select,
+.vector-edit-corners input {
+  min-height: 44px;
+}
+
+.vector-edit-corner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.vector-edit-corner-actions button {
+  flex: 1 1 auto;
+  min-height: 44px;
 }
 
 .vector-edit-convert {
@@ -5711,8 +5815,15 @@ a {
   gap: 8px;
 }
 
+/* A column, not a badge on the corner of the picture. Remove used to sit on
+   top of the thumbnail, so the only way to give it a 44px target was to spend
+   that target on the picture underneath and make a third of the thumbnail
+   delete the photo instead of opening it. Stacked, the two targets never
+   overlap and both can be full size. */
 .vector-edit-photo-thumb {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .vector-edit-photo-thumb > button:first-child {
@@ -5735,19 +5846,16 @@ a {
 }
 
 .vector-edit-photo-remove {
-  position: absolute;
-  top: -6px;
-  right: -6px;
   display: grid;
-  width: 22px;
-  height: 22px;
+  width: 64px;
+  min-height: 44px;
   place-items: center;
   padding: 0;
   color: var(--chart-ink);
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   background: var(--white);
   border: 1px solid var(--line);
-  border-radius: 50%;
+  border-radius: 6px;
   cursor: pointer;
 }
 
@@ -5826,9 +5934,11 @@ a {
   object-fit: cover;
 }
 
+/* Above the phone attribution strip's 1300, for the reason given on
+   `.save-track-backdrop`. */
 .photo-lightbox-backdrop {
   position: fixed;
-  z-index: 1200;
+  z-index: 1400;
   inset: 0;
   display: grid;
   place-items: center;
@@ -6732,6 +6842,25 @@ a {
   font-size: 0.72rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+/* On a coarse pointer these are the smallest operable things on the page: a
+   24px disclosure toggle in the middle of a parcel's evidence, and a 38px one
+   in the tax-sale list. They stay compact where a cursor can hit them exactly
+   and grow to the target size where a fingertip cannot — padding rather than a
+   height, so the text keeps its place in the line and only the box a finger
+   lands in changes. */
+@media (pointer: coarse) {
+  .evidence-caveat > summary,
+  .layer-provenance summary,
+  .assessment-account summary {
+    min-height: 44px;
+  }
+
+  .tax-sale-property-list summary,
+  .resource-layer-group summary {
+    min-height: 44px;
+  }
 }
 
 /* display: inline-flex removes the native disclosure marker; put one back so

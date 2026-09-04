@@ -917,3 +917,114 @@ describe("a layer the user asked to remove", () => {
     expect(result.current.editingLayer?.record.id).toBe("layer-2");
   });
 });
+
+describe("the corner mover's writes", () => {
+  const square: FeatureCollection = {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        id: "f1",
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [0, 0],
+              [0, 1],
+              [1, 1],
+              [1, 0],
+              [0, 0],
+            ],
+          ],
+        },
+        properties: { name: "Paddock" },
+      },
+    ],
+  };
+
+  function open() {
+    const { options, onLayerChanged } = harness({
+      geometries: { "layer-1": square },
+    });
+    const { result } = renderHook(() => useVectorEditSession(options));
+    act(() => result.current.beginEdit("layer-1"));
+    return { result, onLayerChanged };
+  }
+
+  it("numbers a ring's corners for the panel the same way the write does", () => {
+    const { result } = open();
+    const corners = result.current.featureCorners("f1");
+    expect(corners.map((corner) => corner.number)).toEqual([1, 2, 3, 4]);
+    expect(corners[3].position).toEqual([1, 0]);
+  });
+
+  // Through `commit` like every other geometry write: the revision bump, the
+  // summary and the mirror out to the map all belong to it, and a second
+  // write path would be a second place for them to be forgotten.
+  it("writes a moved corner through the session's one commit path", () => {
+    const { result, onLayerChanged } = open();
+    let outcome;
+    act(() => {
+      outcome = result.current.moveFeatureVertex("f1", 1, [5, 5]);
+    });
+    expect(outcome).toEqual({ status: "done", crossingChecked: true });
+    const geometry = result.current.editingLayer?.data.features[0].geometry;
+    expect(geometry).toEqual({
+      type: "Polygon",
+      coordinates: [
+        [
+          [5, 5],
+          [0, 1],
+          [1, 1],
+          [1, 0],
+          [5, 5],
+        ],
+      ],
+    });
+    expect(result.current.editingLayer?.record.revision).toBe(1);
+    expect(onLayerChanged).toHaveBeenCalled();
+  });
+
+  it("leaves the geometry alone when the move would cross the shape", () => {
+    const { result } = open();
+    let outcome;
+    act(() => {
+      outcome = result.current.moveFeatureVertex("f1", 2, [2, 0.5]);
+    });
+    expect(outcome).toEqual({ status: "would-cross" });
+    expect(result.current.editingLayer?.data.features[0].geometry).toEqual(
+      square.features[0].geometry,
+    );
+    expect(result.current.editingLayer?.record.revision).toBe(0);
+  });
+
+  it("adds a corner after the numbered one and keeps the ring closed", () => {
+    const { result } = open();
+    act(() => {
+      result.current.insertFeatureVertex("f1", 4, [0.5, -1]);
+    });
+    expect(result.current.editingLayer?.data.features[0].geometry).toEqual({
+      type: "Polygon",
+      coordinates: [
+        [
+          [0, 0],
+          [0, 1],
+          [1, 1],
+          [1, 0],
+          [0.5, -1],
+          [0, 0],
+        ],
+      ],
+    });
+  });
+
+  it("says a corner nobody has is unavailable rather than writing nothing quietly", () => {
+    const { result } = open();
+    let outcome;
+    act(() => {
+      outcome = result.current.moveFeatureVertex("f1", 9, [5, 5]);
+    });
+    expect(outcome).toEqual({ status: "unavailable" });
+    expect(result.current.editingLayer?.record.revision).toBe(0);
+  });
+});

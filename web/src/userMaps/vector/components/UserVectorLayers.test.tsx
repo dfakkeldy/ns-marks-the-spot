@@ -83,6 +83,7 @@ function layer(id: string, properties: Record<string, unknown> = {}): VisibleUse
 describe("UserVectorLayers", () => {
   afterEach(() => {
     cleanup();
+    vi.unstubAllGlobals();
     captured.geoJsonProps.length = 0;
     captured.circleMarkers.length = 0;
     captured.map.fitBounds.mockClear();

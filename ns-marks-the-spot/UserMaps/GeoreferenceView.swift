@@ -791,8 +791,14 @@ struct GeoreferenceView: View {
                 }
                 .pickerStyle(.segmented)
 
-                Button("Undo") { session.undo() }
-                    .disabled(!session.canUndo)
+                Button {
+                    session.undo()
+                } label: {
+                    Text("Undo")
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
+                }
+                .disabled(!session.canUndo)
             }
 
             HStack {
@@ -805,6 +811,8 @@ struct GeoreferenceView: View {
                             systemImage: "list.bullet"
                         )
                         .font(.footnote)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
                     }
                     .accessibilityIdentifier("georeference-points")
                 }
@@ -814,12 +822,20 @@ struct GeoreferenceView: View {
                 } label: {
                     Label("Load points", systemImage: "square.and.arrow.down")
                         .font(.footnote)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
                 }
                 .accessibilityIdentifier("georeference-load-points")
 
                 if session.pending != nil {
-                    Button("Cancel this point") { session.cancelPending() }
-                        .font(.footnote)
+                    Button {
+                        session.cancelPending()
+                    } label: {
+                        Text("Cancel this point")
+                            .font(.footnote)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
                 }
 
                 Spacer()
@@ -854,6 +870,8 @@ struct GeoreferenceView: View {
                     } label: {
                         Label("Export", systemImage: "square.and.arrow.up")
                             .font(.footnote)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
                     }
                     .accessibilityIdentifier("georeference-export")
                 }
@@ -897,15 +915,27 @@ struct GeoreferenceView: View {
 
             Spacer()
 
-            Button("Restore") { restore(draft) }
-                .font(.footnote)
-                .accessibilityIdentifier("georeference-restore-draft")
+            // Side by side, and one of them throws away the unsaved points.
+            // Full-size targets are what keep the two apart under a thumb.
+            Button {
+                restore(draft)
+            } label: {
+                Text("Restore")
+                    .font(.footnote)
+                    .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(Rectangle())
+            }
+            .accessibilityIdentifier("georeference-restore-draft")
 
-            Button("Discard") {
+            Button {
                 drafts.discard(identifier: identifier)
                 restorable = nil
+            } label: {
+                Text("Discard")
+                    .font(.footnote)
+                    .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(Rectangle())
             }
-            .font(.footnote)
             .accessibilityIdentifier("georeference-discard-draft")
         }
         .padding(8)

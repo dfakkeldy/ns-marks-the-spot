@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { FeatureCollection } from "geojson";
 import type { UserVectorLayerRecord } from "../types";
+import { featureCorners, type VertexEditOutcome } from "./featureCorners";
 import { VectorEditPanel, type EditMode } from "./VectorEditPanel";
 
 const record: UserVectorLayerRecord = {
@@ -17,7 +18,7 @@ const record: UserVectorLayerRecord = {
   bbox: [-64, 44, -63, 45],
 };
 
-const data: FeatureCollection = {
+const baseData: FeatureCollection = {
   type: "FeatureCollection",
   features: [
     {
@@ -35,7 +36,27 @@ const data: FeatureCollection = {
   ],
 };
 
+const lineData: FeatureCollection = {
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      id: "line-1",
+      geometry: {
+        type: "LineString",
+        coordinates: [
+          [-63.5, 44.5],
+          [-63.4, 44.5],
+          [-63.4, 44.6],
+        ],
+      },
+      properties: { name: "Fence" },
+    },
+  ],
+};
+
 function panel(overrides: Partial<Parameters<typeof VectorEditPanel>[0]> = {}) {
+  const data = (overrides.data ?? baseData) as FeatureCollection;
   const props = {
     record,
     data,
@@ -67,6 +88,19 @@ function panel(overrides: Partial<Parameters<typeof VectorEditPanel>[0]> = {}) {
     onAttachFeaturePhotos: vi.fn(() => []),
     onPhotoCleanupFailed: vi.fn(),
     onMoveFeaturePoint: vi.fn(),
+    onFeatureCorners: vi.fn((featureId: string) =>
+      featureCorners(
+        data.features.find((feature) => String(feature.id) === featureId)
+          ?.geometry ?? null,
+      ),
+    ),
+    onMoveVertex: vi.fn(
+      (): VertexEditOutcome => ({ status: "done", crossingChecked: true }),
+    ),
+    onInsertVertex: vi.fn(
+      (): VertexEditOutcome => ({ status: "done", crossingChecked: true }),
+    ),
+    mapCentre: [-63.4, 44.4] as [number, number] | null,
     onOpenPhoto: vi.fn(),
     onDeleteFeature: vi.fn(),
     onDone: vi.fn(),
@@ -323,7 +357,7 @@ describe("VectorEditPanel points-to-path", () => {
     panel({
       data: {
         type: "FeatureCollection",
-        features: data.features.slice(0, 1),
+        features: baseData.features.slice(0, 1),
       },
     });
     expect(
@@ -379,5 +413,169 @@ describe("VectorEditPanel points-to-path", () => {
     expect(screen.getByText("Converted 3 points")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Undo" }));
     expect(props.onUndoConversion).toHaveBeenCalled();
+  });
+});
+
+describe("VectorEditPanel's corner mover", () => {
+  afterEach(() => {
+    cleanup();
+    vi.restoreAllMocks();
+  });
+
+  // The whole point of the control: a corner reaches a new position with no
+  // drag and no 10px target, because the map's own centre is the pointer.
+  it("moves the chosen corner to the map centre without asking for a drag", async () => {
+    const user = userEvent.setup();
+    const props = panel({
+      data: lineData,
+      selectedFeatureId: "line-1",
+      mapCentre: [-63.45, 44.55],
+    });
+
+    await user.selectOptions(
+      screen.getByLabelText("Corner"),
+      "2",
+    );
+    await user.click(screen.getByRole("button", { name: "Move corner here" }));
+
+    expect(props.onMoveVertex).toHaveBeenCalledWith("line-1", 2, [
+      -63.45, 44.55,
+    ]);
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "Corner 2 moved to the centre of the map.",
+    );
+  });
+
+  it("adds a corner after the chosen one", async () => {
+    const user = userEvent.setup();
+    const props = panel({
+      data: lineData,
+      selectedFeatureId: "line-1",
+      mapCentre: [-63.45, 44.55],
+    });
+
+    await user.click(screen.getByRole("button", { name: "Add a corner here" }));
+
+    expect(props.onInsertVertex).toHaveBeenCalledWith("line-1", 1, [
+      -63.45, 44.55,
+    ]);
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "A corner was added here, after corner 1.",
+    );
+  });
+
+  it("says the corner has not moved when the move would cross the shape", async () => {
+    const user = userEvent.setup();
+    panel({
+      data: lineData,
+      selectedFeatureId: "line-1",
+      mapCentre: [-63.45, 44.55],
+      onMoveVertex: vi.fn(
+        (): VertexEditOutcome => ({ status: "would-cross" }),
+      ),
+    });
+
+    await user.click(screen.getByRole("button", { name: "Move corner here" }));
+
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "Corner 1 has not moved: putting it there would make this shape cross itself.",
+    );
+  });
+
+  // A cap that goes unmentioned reads as "checked and fine".
+  it("repeats that a long shape was not checked for crossings", async () => {
+    const user = userEvent.setup();
+    panel({
+      data: lineData,
+      selectedFeatureId: "line-1",
+      mapCentre: [-63.45, 44.55],
+      onMoveVertex: vi.fn(
+        (): VertexEditOutcome => ({ status: "done", crossingChecked: false }),
+      ),
+    });
+
+    await user.click(screen.getByRole("button", { name: "Move corner here" }));
+
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "too many corners to check whether it now crosses itself",
+    );
+  });
+
+  // Distance alone does not identify a corner: every corner of a square
+  // centred on the map is the same distance away, and the handles on screen
+  // carry no numbers.
+  it("says which way the chosen corner lies, not only how far", async () => {
+    const user = userEvent.setup();
+    panel({
+      data: lineData,
+      selectedFeatureId: "line-1",
+      // South-east of the first corner at [-63.5, 44.5].
+      mapCentre: [-63.6, 44.6],
+    });
+    expect(screen.getByText(/south-east of the centre of the map/)).toBeInTheDocument();
+
+    await user.selectOptions(screen.getByLabelText("Corner"), "3");
+    // [-63.4, 44.6] is due east of [-63.6, 44.6].
+    expect(screen.getByText(/east of the centre of the map/)).toBeInTheDocument();
+  });
+
+  it("says a corner already at the centre is at the centre", () => {
+    panel({
+      data: lineData,
+      selectedFeatureId: "line-1",
+      mapCentre: [-63.5, 44.5],
+    });
+    expect(
+      screen.getByText(/Corner 1 is at the centre of the map/),
+    ).toBeInTheDocument();
+  });
+
+  it("offers a Point the move but not the insert", () => {
+    panel({ selectedFeatureId: "f1", mapCentre: [-63.45, 44.55] });
+    expect(
+      screen.getByRole("button", { name: "Move corner here" }),
+    ).toBeEnabled();
+    expect(
+      screen.getByRole("button", { name: "Add a corner here" }),
+    ).toBeDisabled();
+  });
+
+  // Nothing to point at yet, so nothing is offered — and the reason is said
+  // rather than left as two dead buttons.
+  it("waits for the map to settle before offering to place a corner", () => {
+    panel({
+      data: lineData,
+      selectedFeatureId: "line-1",
+      mapCentre: null,
+    });
+    expect(
+      screen.getByRole("button", { name: "Move corner here" }),
+    ).toBeDisabled();
+    expect(screen.getByText(/The map has not settled yet/)).toBeInTheDocument();
+  });
+
+  it("offers no corner mover for geometry the live layer could not follow", () => {
+    panel({
+      data: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "mp",
+            geometry: {
+              type: "MultiPoint",
+              coordinates: [
+                [-63.5, 44.5],
+                [-63.4, 44.6],
+              ],
+            },
+            properties: {},
+          },
+        ],
+      },
+      selectedFeatureId: "mp",
+      mapCentre: [-63.45, 44.55],
+    });
+    expect(screen.queryByLabelText("Corner")).toBeNull();
   });
 });

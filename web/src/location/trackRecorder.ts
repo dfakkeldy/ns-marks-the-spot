@@ -2,6 +2,7 @@ import { distanceMetres } from "../services/geodesy";
 import {
   applyFix,
   createTrackFilterState,
+  type FixRejection,
   type TrackFilterState,
   type TrackPoint,
 } from "./trackFilter";
@@ -40,6 +41,14 @@ export type RecorderStats = {
   elapsedMs: number;
   distanceM: number;
   keptVertexCount: number;
+  /**
+   * Why the last fix was turned down, when it was, and null when the last one
+   * was accepted. The HUD's quality dot is drawn from the reported accuracy,
+   * which is only one of four ways a fix fails the contract's filter: a broken
+   * accuracy, a timestamp out of order and an impossible speed all leave the
+   * track not growing while the dot stays green.
+   */
+  lastRejection: FixRejection | null;
 };
 
 export type TrackRecorder = {
@@ -70,6 +79,7 @@ export function createTrackRecorder(now: () => number = Date.now): TrackRecorder
   let keptCount = 0;
   let acceptedCount = 0;
   let rawCount = 0;
+  let lastRejection: FixRejection | null = null;
   let filter: TrackFilterState = createTrackFilterState();
   const segments: TrackPoint[][] = [];
   const rawSegments: LiveFix[][] = [];
@@ -194,6 +204,7 @@ export function createTrackRecorder(now: () => number = Date.now): TrackRecorder
       rawCount += 1;
       const result = applyFix(filter, fix);
       filter = result.next;
+      lastRejection = result.rejected;
       if (result.accepted) {
         acceptedCount += 1;
       }
@@ -214,6 +225,7 @@ export function createTrackRecorder(now: () => number = Date.now): TrackRecorder
         status === "recording" ? recordingMs + (now() - resumedAtMs) : recordingMs,
       distanceM,
       keptVertexCount: keptCount,
+      lastRejection,
     }),
     liveSegments: () =>
       segments.map((segment) => segment.map(({ lat, lng }): [number, number] => [lat, lng])),

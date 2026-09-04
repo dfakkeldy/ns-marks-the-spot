@@ -5,6 +5,7 @@ import {
   GEOREFERENCE_PANE,
   GEOREFERENCE_PANE_Z_INDEX,
 } from "../../components/mapPanes";
+import { prefersReducedMotion } from "../../components/mapMotion";
 import type { PendingPoint } from "../useGeoreferenceSession";
 import type { Gcp } from "../types";
 import { numberedIcon } from "./gcpIcon";
@@ -131,7 +132,9 @@ function MapFocusController({ focus }: { focus: MapFocusRequest | null }) {
     // requestId makes a repeat request a new object, so asking twice for the
     // same point still moves the map. Zoom in only; never pull the user back
     // out of a closer look.
-    map.setView([focus.lat, focus.lng], Math.max(map.getZoom(), 15));
+    map.setView([focus.lat, focus.lng], Math.max(map.getZoom(), 15), {
+      animate: !prefersReducedMotion(),
+    });
   }, [focus, map]);
   return null;
 }

@@ -326,6 +326,8 @@ type GeoPdfExportSession =
   | { stage: "framing"; frame: FrameState }
   | { stage: "dialog"; bounds: PrintMapBounds; orientation: PdfTemplateId };
 
+import { useDialogChrome } from "./components/useDialogChrome";
+
 function isCurrentEvidenceRequest(
   current: SelectedEvidenceRequest | null,
   expected: SelectedEvidenceRequest,
@@ -832,31 +834,6 @@ function printLayerSources(
  * inline-arrow props don't re-run the mount effect (which would bounce focus
  * on every parent render).
  */
-function useDialogChrome(onDismiss: () => void) {
-  const dialogRef = useRef<HTMLElement | null>(null);
-  const dismissRef = useRef(onDismiss);
-  dismissRef.current = onDismiss;
-  useEffect(() => {
-    const opener =
-      document.activeElement instanceof HTMLElement
-        ? document.activeElement
-        : null;
-    dialogRef.current?.focus();
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        dismissRef.current();
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      opener?.focus();
-    };
-  }, []);
-  return dialogRef;
-}
-
 function LicenceDialog({
   onAccept,
   onContinueWithout,
@@ -1213,6 +1190,15 @@ export function App() {
       setPhoneCategoryLayout(query.matches);
       if (!query.matches) {
         setFocusedCategoryId(null);
+        // The sheet and its trigger are display:none above this width, so a
+        // sheet left open is an open dialog nobody can see or close, holding
+        // focus on a hidden button. Closing it here also means the opening
+        // effect runs again — and hands focus over again — if the reader
+        // comes back below the breakpoint.
+        if (mobileControlsRef.current?.contains(document.activeElement)) {
+          mapRegionRef.current?.focus({ preventScroll: true });
+        }
+        setMobileControlsOpen(false);
       }
     };
     update();
@@ -1230,6 +1216,45 @@ export function App() {
   );
   const [aboutOpen, setAboutOpen] = useState(false);
   const [dataSourcesOpen, setDataSourcesOpen] = useState(false);
+  // The sheet is a disclosure, not a dialog: the trigger carries
+  // aria-controls and aria-expanded, the rail keeps its complementary role and
+  // its "Map controls" name at every width, nothing behind it is inerted, and
+  // the attribution strip is deliberately left reachable while it is open. So
+  // focus travels with the sheet and is never trapped inside it.
+  const mobileControlsRef = useRef<HTMLElement | null>(null);
+  const mobileControlsTriggerRef = useRef<HTMLButtonElement>(null);
+  const mobileSheetCloseRef = useRef<HTMLButtonElement>(null);
+  // Opening the sheet without moving focus leaves a keyboard reader behind it,
+  // with the next Tab restarting at the top of the document, and leaves a
+  // screen reader on the map the sheet now covers. The Close button is the
+  // first control inside and the way back out, so it is where focus lands; the
+  // sheet header is sticky, so landing there scrolls nothing.
+  useEffect(() => {
+    if (!mobileControlsOpen) return;
+    mobileSheetCloseRef.current?.focus();
+  }, [mobileControlsOpen]);
+  const closeMobileControls = useCallback(() => {
+    // Only reclaim focus that was still inside the sheet, and read that before
+    // the state change, because closing is what takes the sheet off screen. A
+    // close that came from elsewhere has already put focus where it belongs.
+    // Above the sheet's 860px breakpoint CSS alone stops rendering the rail as
+    // a sheet and hides the trigger again, and nothing here closes the sheet
+    // for a viewport change, so a window that grows past that breakpoint
+    // leaves the reader's focus exactly where it was.
+    const returnFocus =
+      mobileControlsRef.current?.contains(document.activeElement) ?? false;
+    setMobileControlsOpen(false);
+    if (returnFocus) mobileControlsTriggerRef.current?.focus();
+  }, []);
+  // Choosing a parcel from inside the sheet closes it too, and focus cannot
+  // go back to the trigger: the parcel is what the screen is now about. It
+  // goes where the parcel panel's own close hands it, the map region that
+  // contains the panel and the map both.
+  const handOffSheetFocus = useCallback(() => {
+    if (mobileControlsRef.current?.contains(document.activeElement)) {
+      mapRegionRef.current?.focus({ preventScroll: true });
+    }
+  }, []);
   // Escape closes the mobile controls sheet, matching the dialogs — but only
   // while no dialog sits above it, so one keypress never closes two layers.
   useEffect(() => {
@@ -1243,13 +1268,22 @@ export function App() {
       return;
     }
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMobileControlsOpen(false);
+      if (event.key !== "Escape") {
+        return;
       }
+      // Asked of the document rather than of this component's state: the
+      // sheet is App's, but the photo lightbox, the save-track dialog and the
+      // export dialog belong to the map, and App cannot name what it does not
+      // hold. A modal is open or it is not, and while one is, Escape is its.
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) {
+        return;
+      }
+      closeMobileControls();
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [
+    closeMobileControls,
     mobileControlsOpen,
     aboutOpen,
     dataSourcesOpen,
@@ -1369,6 +1403,37 @@ export function App() {
   const [mapMode, setMapMode] = useState<MapMode>(initialShareState.mode);
   const [taxSaleEnabled, setTaxSaleEnabled] = useState(
     initialTaxSaleEnabled,
+  );
+  /**
+   * Where the map is aimed, [lon, lat], for the vector panel's corner mover.
+   * Separate from `mapViewport` on purpose: that one is suppressed while a
+   * printable-viewport request is in flight, which is right for printing and
+   * wrong for a control whose whole job is to say where a corner would land.
+   */
+  const [mapCentre, setMapCentre] = useState<[number, number] | null>(null);
+  /**
+   * Stable, and identity-stable in what it stores. `MapPositionController`
+   * re-subscribes whenever this callback's identity changes and reports the
+   * position as it does — so an inline arrow storing a fresh array would
+   * render, re-subscribe, store, and render again without end.
+   */
+  const reportMapCentre = useCallback(
+    (position: { latitude: number; longitude: number } | null) => {
+      setMapCentre((current) => {
+        if (!position) {
+          // Moving. The centre is somewhere between where it was and where it
+          // is going, and a control that puts a corner AT the centre is
+          // better told there is no answer than given the wrong one.
+          return null;
+        }
+        return current &&
+          current[0] === position.longitude &&
+          current[1] === position.latitude
+          ? current
+          : [position.longitude, position.latitude];
+      });
+    },
+    [],
   );
   const [mapViewport, setMapViewport] = useState<PrintMapViewport>({
     position: initialShareState.position,
@@ -2988,6 +3053,9 @@ export function App() {
   );
 
   const selectParcel = (pid: string): SelectedEvidenceRequest => {
+    // Before the state change, while the sheet is still in the DOM to be
+    // asked whether it holds focus.
+    handOffSheetFocus();
     setMobileControlsOpen(false);
     setGeometryOutcome(null);
     // A caution belongs to the selection it was raised for, and re-selecting
@@ -3242,6 +3310,11 @@ export function App() {
 
   const submitPidSearch = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // No hand-off here. Submitting is not the same as choosing a parcel: an
+    // eight-digit typo and an address both leave the sheet open, one to show
+    // the error and the other to show its results, and moving focus to the
+    // map behind an open sheet would strand the reader outside the thing they
+    // were reading. `selectParcel` is where the sheet actually closes.
     void runSearch(query);
   };
 
@@ -4071,6 +4144,17 @@ export function App() {
         editingMap ? " georeferencing" : ""
       }`}
     >
+      {/* The page's one h1, and it can live in neither the header nor the
+          controls rail: below 860px the stylesheet hides both, and display:
+          none takes their headings out of the accessibility tree with them,
+          which left a phone with no page heading at all whenever the search
+          sheet was closed. It is clipped rather than drawn because the phone
+          layout has no room for a title and the desktop header already shows
+          the name, and `.visually-hidden` positions it out of flow, so it
+          claims none of the shell's three grid rows. */}
+      <h1 className="visually-hidden">
+        NS Marks The Spot — Nova Scotia parcel &amp; tax-sale map
+      </h1>
       <header className="app-header">
         <a className="app-brand" href="../" aria-label="NS Marks The Spot home">
           <img src={appIconUrl} alt="" />
@@ -4107,6 +4191,7 @@ export function App() {
 
       <main className="map-layout">
         <aside
+          ref={mobileControlsRef}
           id="map-controls"
           className={`layer-rail mode-${mapMode}${mobileControlsOpen ? " mobile-open" : ""}`}
           aria-label="Map controls"
@@ -4114,14 +4199,19 @@ export function App() {
           <div className="mobile-sheet-header">
             <strong>Search &amp; layers</strong>
             <button
+              ref={mobileSheetCloseRef}
               type="button"
-              onClick={() => setMobileControlsOpen(false)}
+              onClick={closeMobileControls}
               aria-label="Close map controls"
             >
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <h1>Explore Nova Scotia</h1>
+          {/* The page heading is the hidden h1 at the top of the shell. This
+              one names the controls rail, which is a part of the page, and
+              the rail's own child-combinator rule carries its former h1
+              typography over unchanged. */}
+          <h2>Explore Nova Scotia</h2>
           <form className="pid-search" onSubmit={submitPidSearch}>
             <label htmlFor="pid-query">Search by PID or civic address</label>
             <div className="search-row">
@@ -5002,6 +5092,7 @@ export function App() {
               <strong>NS Marks</strong>
             </a>
             <button
+              ref={mobileControlsTriggerRef}
               className="mobile-controls-trigger"
               type="button"
               aria-controls="map-controls"
@@ -5081,6 +5172,7 @@ export function App() {
             initialPosition={initialShareState.position}
             preserveInitialPosition={hasSharedPosition}
             onViewportChange={setMapViewport}
+            onPositionChange={reportMapCentre}
             onMarkLocation={markCurrentLocation}
             onSaveTrack={saveRecordedTrack}
             onLayerStatusChange={setLayerStatus}
@@ -5507,6 +5599,10 @@ export function App() {
         onAttachFeaturePhotos={vectorEdit.attachFeaturePhotos}
         onPhotoCleanupFailed={vectorEdit.notePhotoCleanupFailure}
         onMoveFeaturePoint={vectorEdit.moveFeaturePoint}
+        onFeatureCorners={vectorEdit.featureCorners}
+        onMoveVertex={vectorEdit.moveFeatureVertex}
+        onInsertVertex={vectorEdit.insertFeatureVertex}
+        mapCentre={mapCentre}
         onOpenPhoto={setOpenPhoto}
         onDeleteFeature={(featureId) => {
           vectorEdit.deleteFeature(featureId);

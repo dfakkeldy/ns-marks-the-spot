@@ -540,7 +540,7 @@ describe("UserMapLayers draft overlay", () => {
     ]);
     expect(stubMapApi.fitBounds).toHaveBeenLastCalledWith(
       expect.anything(),
-      { padding: [48, 48], maxZoom: 16 },
+      { padding: [48, 48], maxZoom: 16, animate: true },
     );
 
     rerender(

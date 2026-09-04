@@ -179,9 +179,15 @@ struct VectorEditPanel: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     Spacer()
-                    Button("Undo point") { session.undoLastVertex() }
-                        .font(.caption)
-                        .disabled(draft.vertices.isEmpty)
+                    Button {
+                        session.undoLastVertex()
+                    } label: {
+                        Text("Undo point")
+                            .font(.caption)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .disabled(draft.vertices.isEmpty)
                     // Prominent, and counting: the small caption this used to
                     // be was the only thing that committed a line or area, and
                     // readers tapped Done instead and lost the shape.
@@ -224,9 +230,15 @@ struct VectorEditPanel: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     Spacer()
-                    Button("Undo") { session.undoLastErase() }
-                        .font(.caption)
-                        .disabled(session.erasedCount == 0)
+                    Button {
+                        session.undoLastErase()
+                    } label: {
+                        Text("Undo")
+                            .font(.caption)
+                            .frame(minWidth: 44, minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .disabled(session.erasedCount == 0)
                 }
             }
 
@@ -309,10 +321,14 @@ struct VectorEditPanel: View {
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                     }
-                    Button("Delete this feature", role: .destructive) {
+                    Button(role: .destructive) {
                         isConfirmingDelete = true
+                    } label: {
+                        Text("Delete this feature")
+                            .font(.caption)
+                            .frame(minHeight: 44)
+                            .contentShape(Rectangle())
                     }
-                    .font(.caption)
                 }
                 .id(feature.id)
                 }
@@ -470,8 +486,14 @@ struct VectorEditPanel: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Spacer()
-                Button("Undo") { session.undoConversion() }
-                    .font(.caption)
+                Button {
+                    session.undoConversion()
+                } label: {
+                    Text("Undo")
+                        .font(.caption)
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
+                }
             }
         } else if let linePlan, linePlan.sourcePointCount >= 2 {
             DisclosureGroup(

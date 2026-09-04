@@ -763,6 +763,34 @@ describe("Geoman vertex handles on a coarse pointer", () => {
   const HANDLE =
     /\.leaflet-marker-draggable\.marker-icon:not\(\.marker-icon-middle\)\s*\{([^}]*)\}/;
 
+  // The remove control used to sit on the thumbnail's corner at 22px square,
+  // so giving it a 44px target would have spent that target on the picture
+  // underneath and made a third of the thumbnail delete the photo instead of
+  // opening it. Stacked, both can be full size.
+  it("gives Remove its own 44px target instead of taking one from the thumbnail", () => {
+    const remove = styles.match(
+      /\.vector-edit-photo-remove\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(remove).toBeDefined();
+    expect(remove).toMatch(/min-height:\s*44px/);
+    expect(remove).not.toMatch(/position:\s*absolute/);
+    const thumb = styles.match(/\.vector-edit-photo-thumb\s*\{([^}]*)\}/)?.[1];
+    expect(thumb).toMatch(/flex-direction:\s*column/);
+  });
+
+  // The corner mover is the non-drag route to a vertex, so its own controls
+  // cannot be the ones under the target size.
+  it("keeps the corner mover's picker and buttons at 44px", () => {
+    const picker = styles.match(
+      /\.vector-edit-corners select,\n\.vector-edit-corners input\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(picker).toMatch(/min-height:\s*44px/);
+    const actions = styles.match(
+      /\.vector-edit-corner-actions button\s*\{([^}]*)\}/,
+    )?.[1];
+    expect(actions).toMatch(/min-height:\s*44px/);
+  });
+
   it("gives a draggable vertex handle the 44px canvas the native handle uses", () => {
     expect(coarse).toBeDefined();
     const handle = coarse!.match(HANDLE)?.[1];
@@ -891,5 +919,72 @@ describe("phone vector editing panel", () => {
       /max-height:\s*calc\(\s*var\(--app-viewport-height,\s*100dvh\)\s*-\s*92px/,
     );
     expect(phonePanel).toMatch(/overflow-y:\s*auto/);
+  });
+});
+
+describe("page heading at every breakpoint", () => {
+  it("hides the desktop header and the closed layer sheet on a phone, so the page heading cannot sit in either", () => {
+    // App renders its one h1 as a clipped child of `.app-shell` because of
+    // these two rules, and the DOM test can only pin where that heading sits.
+    // The sheet has several `@media (max-width: 860px)` blocks; the first is
+    // the layout one, which is where both of these live.
+    const phoneStart = styles.indexOf("@media (max-width: 860px)");
+    const narrowPhoneStart = styles.indexOf(
+      "@media (max-width: 560px)",
+      phoneStart,
+    );
+    const phoneStyles = styles.slice(phoneStart, narrowPhoneStart);
+
+    expect(phoneStart).toBeGreaterThanOrEqual(0);
+    expect(narrowPhoneStart).toBeGreaterThan(phoneStart);
+    expect(phoneStyles).toMatch(/\.app-header\s*\{[^}]*display:\s*none/);
+    expect(phoneStyles).toMatch(/\.layer-rail\s*\{[^}]*display:\s*none/);
+  });
+});
+
+describe("phone map targets and the ladder above them", () => {
+  it("gives the phone's brand pill, layers trigger and zoom buttons the same 44px target", () => {
+    const mobileStart = styles.indexOf("@media (max-width: 860px)");
+    const mobileEnd = styles.indexOf("@media (max-width: 560px)", mobileStart);
+    const mobileStyles = styles.slice(mobileStart, mobileEnd);
+    const chrome = mobileStyles.match(
+      /\.mobile-map-brand,\s*\.mobile-controls-trigger\s*\{([^}]*)\}/,
+    )?.[1];
+    const zoom = mobileStyles.match(
+      /\.map-canvas \.leaflet-bar a\s*\{([^}]*)\}/,
+    )?.[1];
+
+    expect(chrome).toMatch(/min-height:\s*44px/);
+    expect(zoom).toMatch(/width:\s*44px/);
+    expect(zoom).toMatch(/height:\s*44px/);
+    expect(zoom).toMatch(/line-height:\s*44px/);
+  });
+
+  it("keeps the map chrome and the location ladder clear of the enlarged zoom bar", () => {
+    const mobileStart = styles.indexOf("@media (max-width: 860px)");
+    const narrowStart = styles.indexOf("@media (max-width: 560px)", mobileStart);
+    const mobileStyles = styles.slice(mobileStart, narrowStart);
+    const narrowStyles = styles.slice(narrowStart);
+
+    expect(mobileStyles).toMatch(/\.mobile-map-chrome\s*\{[^}]*left:\s*72px/s);
+    expect(narrowStyles).toMatch(/\.mobile-map-chrome\s*\{\s*left:\s*68px/);
+    expect(mobileStyles).toMatch(
+      /\.location-button\s*\{\s*top:\s*max\(102px, calc\(env\(safe-area-inset-top\) \+ 64px\)\)/,
+    );
+    expect(mobileStyles).toMatch(
+      /\.location-cluster\s*\{\s*top:\s*max\(102px, calc\(env\(safe-area-inset-top\) \+ 64px\)\)/,
+    );
+    expect(mobileStyles).toMatch(
+      /\.location-hud\s*\{\s*top:\s*max\(154px, calc\(env\(safe-area-inset-top\) \+ 116px\)\)/,
+    );
+    expect(mobileStyles).toMatch(
+      /\.measure-control\s*\{\s*top:\s*max\(154px, calc\(env\(safe-area-inset-top\) \+ 116px\)\)/,
+    );
+    expect(mobileStyles).toMatch(
+      /\.modern-map-error\s*\{\s*top:\s*max\(154px, calc\(env\(safe-area-inset-top\) \+ 116px\)\)/,
+    );
+    expect(mobileStyles).toMatch(
+      /\.location-message\s*\{\s*top:\s*max\(262px, calc\(env\(safe-area-inset-top\) \+ 224px\)\)/,
+    );
   });
 });

@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useDialogChrome } from "../../../components/useDialogChrome";
 import { readPhotoExif } from "./exif";
 import {
   classifyBulkPhotos,
@@ -38,6 +39,15 @@ export function BulkPhotoImportDialog({
   const [checked, setChecked] = useState<boolean[]>([]);
   const [notes, setNotes] = useState<string[]>([]);
   const [done, setDone] = useState(false);
+  // This one moved no focus and answered no Escape: a reader opened it and was
+  // left behind it. The shared chrome does both, and keeps Tab inside.
+  //
+  // Null while the layer is being made, so Escape does not close it. Closing
+  // does not stop the work — the photos keep being written and the layer still
+  // appears — so a dismissal there would look like a cancellation of something
+  // that went on happening, and the notes the write comes back with would be
+  // returned to a dialog that had gone.
+  const dialogRef = useDialogChrome<HTMLDivElement>(creating ? null : onClose);
 
   const pick = async (files: FileList | null) => {
     if (!files || files.length === 0) {
@@ -84,15 +94,20 @@ export function BulkPhotoImportDialog({
   const selectedCount = rows.filter((row, index) => checked[index] && row.gps).length;
 
   return (
-    <div className="save-track-backdrop" role="presentation" onClick={onClose}>
+    <div
+      className="save-track-backdrop"
+      role="presentation"
+      onClick={creating ? undefined : onClose}
+    >
       <div
+        ref={dialogRef}
         className="bulk-photos-dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="bulk-photos-title"
-        // Nothing under this dialog may take Escape while it is open. It does
-        // not move focus into itself yet, so this only holds once focus is
-        // inside it; the panel behind it is held closed by App as well.
+        // Nothing under this dialog may take Escape while it is open, and now
+        // that focus starts inside it this holds from the first keypress; the
+        // panel behind it is held closed by App as well.
         data-owns-escape=""
         onClick={(event) => event.stopPropagation()}
       >
@@ -165,8 +180,13 @@ export function BulkPhotoImportDialog({
             {note}
           </small>
         ))}
-        <button type="button" className="bulk-photos-close" onClick={onClose}>
-          {done ? "Done" : "Cancel"}
+        <button
+          type="button"
+          className="bulk-photos-close"
+          disabled={creating}
+          onClick={onClose}
+        >
+          {done ? "Done" : creating ? "Making the layer…" : "Cancel"}
         </button>
         <input
           ref={inputRef}

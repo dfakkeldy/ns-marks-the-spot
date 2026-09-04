@@ -137,8 +137,14 @@ struct UserVectorRowsView: View {
                         .fontWeight(.semibold)
                         .foregroundStyle(.secondary)
                     Spacer()
-                    Button("Dismiss") { viewModel.clearNotices() }
-                        .font(.caption)
+                    Button {
+                        viewModel.clearNotices()
+                    } label: {
+                        Text("Dismiss")
+                            .font(.caption)
+                            .frame(minWidth: 44, minHeight: 44)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
 

@@ -371,7 +371,9 @@ describe("ScanPane", () => {
     // 1 — all three agree whenever getZoom() <= 1.
     stubMap.getZoom.mockReturnValue(3);
     renderPane({ focus: { pixel: { x: 100, y: 50 }, requestId: 1 } });
-    expect(stubMap.setView).toHaveBeenCalledWith([-50, 100], 3);
+    expect(stubMap.setView).toHaveBeenCalledWith([-50, 100], 3, {
+      animate: true,
+    });
   });
 
   it("zooms IN to the floor when the user is further out than it", () => {
@@ -381,7 +383,9 @@ describe("ScanPane", () => {
     // — which defeats the entire documented purpose of ScanFocusController.
     stubMap.getZoom.mockReturnValue(-4);
     renderPane({ focus: { pixel: { x: 100, y: 50 }, requestId: 1 } });
-    expect(stubMap.setView).toHaveBeenCalledWith([-50, 100], 1);
+    expect(stubMap.setView).toHaveBeenCalledWith([-50, 100], 1, {
+      animate: true,
+    });
   });
 
   it("re-fires the recentre effect for every distinct focus request, even repeating the same pixel", () => {

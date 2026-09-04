@@ -1,7 +1,11 @@
 import { useState } from "react";
-import type { FeatureCollection } from "geojson";
+import type { FeatureCollection, Position } from "geojson";
 import { FIELD_CAPTURE_SPEC } from "../../../location/captureSpec";
-import { formatArea, formatDistance } from "../../../services/geodesy";
+import {
+  formatArea,
+  formatDistance,
+  pathDistanceMetres,
+} from "../../../services/geodesy";
 import type {
   ConversionPlan,
   ConvertShape,
@@ -16,7 +20,15 @@ import {
 import type { PhotoManagerApi } from "../photos/usePhotoManager";
 import type { VectorSnapTargets } from "./EditableVectorLayer";
 import type { ParcelSnapStatus } from "./ParcelSnapTargetsLayer";
+import type { FeatureCorner, VertexEditOutcome } from "./featureCorners";
 import type { FeatureDetails } from "./useVectorEditSession";
+
+/**
+ * Above this many corners the picker is a number field rather than a list: a
+ * 2,000-fix imported track would otherwise build a two-thousand-option select
+ * on every render of the panel.
+ */
+const CORNER_LIST_LIMIT = 200;
 
 /** Geoman shape names, kept out of the rest of the app's vocabulary. */
 export type DrawMode = "Marker" | "Line" | "Polygon";
@@ -56,6 +68,24 @@ type VectorEditPanelProps = {
   ) => FeaturePhotoDescriptor[];
   onPhotoCleanupFailed: (photoId: string) => void;
   onMoveFeaturePoint: (featureId: string, position: [number, number]) => void;
+  /** The selected feature's corners, numbered; see `featureCorners`. */
+  onFeatureCorners: (featureId: string) => FeatureCorner[];
+  onMoveVertex: (
+    featureId: string,
+    cornerNumber: number,
+    position: Position,
+  ) => VertexEditOutcome;
+  onInsertVertex: (
+    featureId: string,
+    cornerNumber: number,
+    position: Position,
+  ) => VertexEditOutcome;
+  /**
+   * Where the map is aimed, [lon, lat], or null before it has settled. The
+   * corner mover puts a corner here: panning the whole map is a gesture a
+   * keyboard has and a thumb can make, which a 10px vertex handle is not.
+   */
+  mapCentre: [number, number] | null;
   onOpenPhoto: (descriptor: FeaturePhotoDescriptor) => void;
   onDeleteFeature: (featureId: string) => void;
   onDone: () => void;
@@ -90,6 +120,205 @@ const TOOLS: Array<{ mode: EditMode; label: string; text: string }> = [
 
 function asText(value: unknown): string {
   return typeof value === "string" ? value : "";
+}
+
+function cornerLabel(corner: FeatureCorner): string {
+  return corner.partCount > 1
+    ? `Corner ${corner.number} (part ${corner.part})`
+    : `Corner ${corner.number}`;
+}
+
+const COMPASS = [
+  "north",
+  "north-east",
+  "east",
+  "south-east",
+  "south",
+  "south-west",
+  "west",
+  "north-west",
+] as const;
+
+/**
+ * Which way the corner lies from the map centre. Distance alone does not
+ * identify a corner — every corner of a square centred on the map is the same
+ * distance away — and the handles on screen carry no numbers, so without this
+ * neither a sighted reader nor a screen-reader user can tell which "Corner 2"
+ * means before moving it.
+ *
+ * A local flat-earth bearing: over the tens of metres this control works at,
+ * the difference from a great-circle bearing is far smaller than the eight
+ * names it is being rounded into.
+ */
+function bearingFrom(
+  centre: [number, number],
+  position: Position,
+): (typeof COMPASS)[number] {
+  const east =
+    (position[0] - centre[0]) * Math.cos((centre[1] * Math.PI) / 180);
+  const north = position[1] - centre[1];
+  const degrees = (Math.atan2(east, north) * 180) / Math.PI;
+  return COMPASS[Math.round(((degrees + 360) % 360) / 45) % 8];
+}
+
+/**
+ * Reshaping without a drag: pick a corner by number, aim the map, press.
+ *
+ * The map's centre is the pointing device. A vertex handle is 10px, which is
+ * under the target size on a phone and unreachable by keyboard; the map
+ * itself pans with arrow keys and with a thumb anywhere on the screen, so
+ * "where the map is aimed" is a position anyone can set precisely. Mounted
+ * with the feature id as its key, so switching features resets the choice
+ * rather than carrying corner 7 onto a triangle.
+ */
+function CornerMover({
+  corners,
+  centre,
+  onMove,
+  onInsert,
+}: {
+  corners: FeatureCorner[];
+  centre: [number, number] | null;
+  onMove: (cornerNumber: number, position: Position) => VertexEditOutcome;
+  onInsert: (cornerNumber: number, position: Position) => VertexEditOutcome;
+}) {
+  const [chosen, setChosen] = useState(1);
+  const [note, setNote] = useState<string | null>(null);
+  const corner =
+    corners.find((candidate) => candidate.number === chosen) ?? corners[0];
+  if (!corner) {
+    return null;
+  }
+  const away = centre
+    ? pathDistanceMetres([
+        { lat: centre[1], lng: centre[0] },
+        { lat: corner.position[1], lng: corner.position[0] },
+      ])
+    : null;
+  // A Point is one position with nothing to insert into; the mover still
+  // moves it, which is the only non-drag way to reposition a mark that has
+  // no geotagged photo to offer one.
+  const insertable = corner.owner !== null;
+
+  const said = (
+    outcome: VertexEditOutcome,
+    what: string,
+    refused: string,
+    alreadyThere: string,
+  ) => {
+    switch (outcome.status) {
+      case "done":
+        setNote(
+          outcome.crossingChecked
+            ? what
+            : `${what} This shape has too many corners to check whether it now crosses itself.`,
+        );
+        return;
+      case "would-cross":
+        setNote(refused);
+        return;
+      case "already-there":
+        setNote(alreadyThere);
+        return;
+      case "unavailable":
+        setNote(
+          "The map could not change that corner. Nothing has moved.",
+        );
+    }
+  };
+
+  return (
+    <fieldset className="vector-edit-corners">
+      <legend>Corners</legend>
+      <label className="vector-edit-field">
+        <span>Corner</span>
+        {corners.length <= CORNER_LIST_LIMIT ? (
+          <select
+            value={corner.number}
+            onChange={(event) => {
+              setChosen(Number(event.target.value));
+              setNote(null);
+            }}
+          >
+            {corners.map((candidate) => (
+              <option key={candidate.number} value={candidate.number}>
+                {cornerLabel(candidate)}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <input
+            type="number"
+            min={1}
+            max={corners.length}
+            step={1}
+            value={corner.number}
+            onChange={(event) => {
+              const next = Number(event.target.value);
+              if (Number.isFinite(next)) {
+                setChosen(Math.min(Math.max(Math.round(next), 1), corners.length));
+                setNote(null);
+              }
+            }}
+          />
+        )}
+      </label>
+      <small className="vector-edit-corner-where">
+        {corners.length === 1
+          ? "1 corner."
+          : `${corners.length.toLocaleString("en-CA")} corners.`}{" "}
+        {away === null || !centre
+          ? "The map has not settled yet."
+          : away < 1
+            ? `${cornerLabel(corner)} is at the centre of the map.`
+            : `${cornerLabel(corner)} is ${formatDistance(away)} ${bearingFrom(
+                centre,
+                corner.position,
+              )} of the centre of the map.`}
+      </small>
+      <div className="vector-edit-corner-actions">
+        <button
+          type="button"
+          disabled={centre === null}
+          onClick={() => {
+            if (!centre) {
+              return;
+            }
+            said(
+              onMove(corner.number, [centre[0], centre[1]]),
+              `${cornerLabel(corner)} moved to the centre of the map.`,
+              `${cornerLabel(corner)} has not moved: putting it there would make this shape cross itself.`,
+              `${cornerLabel(corner)} has not moved: the corner beside it is already there, and the two together would draw nothing.`,
+            );
+          }}
+        >
+          Move corner here
+        </button>
+        <button
+          type="button"
+          disabled={centre === null || !insertable}
+          onClick={() => {
+            if (!centre) {
+              return;
+            }
+            said(
+              onInsert(corner.number, [centre[0], centre[1]]),
+              `A corner was added here, after ${cornerLabel(corner).toLowerCase()}.`,
+              `No corner was added: one here would make this shape cross itself.`,
+              `No corner was added: there is already one at this spot.`,
+            );
+          }}
+        >
+          Add a corner here
+        </button>
+      </div>
+      {note ? (
+        <small role="status" className="vector-edit-corner-note">
+          {note}
+        </small>
+      ) : null}
+    </fieldset>
+  );
 }
 
 /**
@@ -128,6 +357,10 @@ export function VectorEditPanel({
   onAttachFeaturePhotos,
   onPhotoCleanupFailed,
   onMoveFeaturePoint,
+  onFeatureCorners,
+  onMoveVertex,
+  onInsertVertex,
+  mapCentre,
   onOpenPhoto,
   onDeleteFeature,
   onDone,
@@ -350,6 +583,17 @@ export function VectorEditPanel({
               }
             />
           </label>
+          <CornerMover
+            key={String(selected.id)}
+            corners={onFeatureCorners(String(selected.id))}
+            centre={mapCentre}
+            onMove={(cornerNumber, position) =>
+              onMoveVertex(String(selected.id), cornerNumber, position)
+            }
+            onInsert={(cornerNumber, position) =>
+              onInsertVertex(String(selected.id), cornerNumber, position)
+            }
+          />
           <AttributeEditor
             feature={selected}
             onPatch={(patch) => onPatchAttributes(String(selected.id), patch)}

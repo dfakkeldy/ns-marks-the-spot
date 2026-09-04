@@ -159,7 +159,15 @@ export function PrintMap({
   }, [layerIds, onReadinessChange, statuses]);
 
   return (
-    <div className="print-map" aria-label={`Printable map for PID ${snapshot.pid}`}>
+    /* The same rule as the live map's wrapper: a name on a div with no role
+       is discarded, so this said nothing at all. It is a region here too,
+       which nests the map's own landmark inside this one — that is what the
+       page is, a printable map containing the map. */
+    <div
+      className="print-map"
+      role="region"
+      aria-label={`Printable map for PID ${snapshot.pid}`}
+    >
       <MapCanvas
         parcels={parcels}
         taxSalePids={new Set(snapshot.taxSalePids)}
@@ -186,7 +194,13 @@ export function PrintMap({
         onSelectPid={() => undefined}
         onIdentifyParcel={() => undefined}
         initialPosition={snapshot.viewport.position}
-        onPositionChange={onResolvedPosition}
+        onPositionChange={(position) => {
+          // Null means the map is mid-move. The printed viewport is the
+          // settled one, which is the report that follows.
+          if (position) {
+            onResolvedPosition(position);
+          }
+        }}
         onLayerStatusChange={updateStatus}
         renderMode="print"
         fitBounds={bounds}

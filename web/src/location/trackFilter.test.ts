@@ -97,4 +97,47 @@ describe("applyFix", () => {
     );
     expect(step.kept).toBe(true);
   });
+
+  // Four ways a fix is turned down, and what the reader should do about each
+  // is different. A recorder that reports "too rough" for a clock running
+  // backwards sends someone outdoors over a fix that was already outdoors.
+  it("says which of its four rules turned a fix down", () => {
+    let state = createTrackFilterState();
+
+    expect(applyFix(state, fix({ accuracyM: 0 })).rejected).toBe(
+      "accuracy-invalid",
+    );
+    expect(applyFix(state, fix({ accuracyM: -1 })).rejected).toBe(
+      "accuracy-invalid",
+    );
+    expect(applyFix(state, fix({ accuracyM: 60 })).rejected).toBe("too-rough");
+
+    state = applyFix(state, fix({ timestampMs: 10_000, accuracyM: 5 })).next;
+    expect(
+      applyFix(state, fix({ timestampMs: 10_000, accuracyM: 5 })).rejected,
+    ).toBe("out-of-order");
+    expect(
+      applyFix(state, fix({ timestampMs: 9_000, accuracyM: 5 })).rejected,
+    ).toBe("out-of-order");
+    // A kilometre in a second is not a walk.
+    expect(
+      applyFix(
+        state,
+        fix({
+          latitude: 46 + 1_000 * LAT_METRE,
+          timestampMs: 11_000,
+          accuracyM: 5,
+        }),
+      ).rejected,
+    ).toBe("too-fast");
+  });
+
+  it("reports nothing rejected when the fix was taken", () => {
+    const taken = applyFix(
+      createTrackFilterState(),
+      fix({ timestampMs: 0, accuracyM: 5 }),
+    );
+    expect(taken.rejected).toBeNull();
+    expect(taken.accepted).not.toBeNull();
+  });
 });

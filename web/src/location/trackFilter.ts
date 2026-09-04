@@ -37,20 +37,42 @@ export function createTrackFilterState(): TrackFilterState {
   return { lastAcceptedRaw: null, smoothed: null, lastKept: null, lastAccepted: null };
 }
 
+/**
+ * Why a fix was turned down, when it was. Four different things, and the one
+ * the reader is shown decides what they do about it: walk on and wait for the
+ * sky to clear, or stop trusting the device's clock. Collapsing them into
+ * "too rough" would send someone outdoors over a fix that was already outdoors
+ * and simply arrived in the wrong order.
+ */
+export type FixRejection =
+  /** A non-positive accuracy: a broken fix, not a perfect one. */
+  | "accuracy-invalid"
+  /** Outside the contract's accuracy gate. */
+  | "too-rough"
+  /** Timestamped at or before the last accepted fix. */
+  | "out-of-order"
+  /** Further from the last accepted fix than the walk speed allows. */
+  | "too-fast";
+
 export type FixResult = {
   next: TrackFilterState;
   /** Non-null when the fix passed the gates (counts as accepted). */
   accepted: TrackPoint | null;
   /** True when the accepted point also became a vertex. */
   kept: boolean;
+  /** Why the fix was turned down. Null when it was accepted. */
+  rejected: FixRejection | null;
 };
 
 export function applyFix(state: TrackFilterState, fix: LiveFix): FixResult {
   const spec = FIELD_CAPTURE_SPEC.trackFilter;
 
   // Accuracy gate: a non-positive accuracy is a broken fix, not a perfect one.
-  if (!(fix.accuracyM > 0) || fix.accuracyM > spec.accuracyGateM) {
-    return { next: state, accepted: null, kept: false };
+  if (!(fix.accuracyM > 0)) {
+    return { next: state, accepted: null, kept: false, rejected: "accuracy-invalid" };
+  }
+  if (fix.accuracyM > spec.accuracyGateM) {
+    return { next: state, accepted: null, kept: false, rejected: "too-rough" };
   }
 
   // Teleport rejection against the last accepted RAW position: smoothing must
@@ -58,14 +80,14 @@ export function applyFix(state: TrackFilterState, fix: LiveFix): FixResult {
   if (state.lastAcceptedRaw) {
     const dtSeconds = (fix.timestampMs - state.lastAcceptedRaw.timestampMs) / 1_000;
     if (dtSeconds <= 0) {
-      return { next: state, accepted: null, kept: false };
+      return { next: state, accepted: null, kept: false, rejected: "out-of-order" };
     }
     const metres = distanceMetres(state.lastAcceptedRaw, {
       lat: fix.latitude,
       lng: fix.longitude,
     });
     if (metres / dtSeconds > spec.maxSpeedMps) {
-      return { next: state, accepted: null, kept: false };
+      return { next: state, accepted: null, kept: false, rejected: "too-fast" };
     }
   }
 
@@ -105,7 +127,7 @@ export function applyFix(state: TrackFilterState, fix: LiveFix): FixResult {
     spec.spacingAccuracyFactor * fix.accuracyM,
   );
   if (state.lastKept && distanceMetres(state.lastKept, smoothed) < spacingM) {
-    return { next, accepted, kept: false };
+    return { next, accepted, kept: false, rejected: null };
   }
-  return { next: { ...next, lastKept: smoothed }, accepted, kept: true };
+  return { next: { ...next, lastKept: smoothed }, accepted, kept: true, rejected: null };
 }

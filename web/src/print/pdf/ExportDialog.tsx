@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useDialogChrome } from "../../components/useDialogChrome";
 import { downloadFile } from "../../services/downloadFile";
 import type { PrintMapBounds } from "../../services/printSnapshot";
 import { buildScaleBar } from "./scaleBar";
@@ -127,17 +128,14 @@ export function ExportDialog(props: ExportDialogProps) {
     exportAbortRef.current?.abort();
     onClose();
   };
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        exportAbortRef.current?.abort();
-        onClose();
-      }
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [onClose]);
+  // Escape goes through the shared chrome, which also keeps Tab inside the
+  // dialog and hands focus back to whatever opened it — neither of which this
+  // one did. The abort stays here: cancelling the export is this dialog's
+  // business, not the chrome's.
+  const dialogRef = useDialogChrome<HTMLDivElement>(() => {
+    exportAbortRef.current?.abort();
+    onClose();
+  });
   // Belt-and-suspenders: if the dialog unmounts through some path other than
   // the Cancel button or Escape key, still abort any in-flight tile fetches.
   useEffect(() => () => exportAbortRef.current?.abort(), []);
@@ -243,6 +241,7 @@ export function ExportDialog(props: ExportDialogProps) {
   return (
     <div className="export-dialog-backdrop" role="presentation">
       <div
+        ref={dialogRef}
         className="export-dialog"
         role="dialog"
         aria-modal="true"

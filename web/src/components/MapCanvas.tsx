@@ -120,6 +120,9 @@ import {
   WELL_LOG_PANE_Z_INDEX,
 } from "./mapPanes";
 import { textTooltip } from "./mapTooltip";
+import type { FixRejection } from "../location/trackFilter";
+import { prefersReducedMotion } from "./mapMotion";
+import { useSettledWarning } from "./useSettledWarning";
 import {
   fetchWellLogs,
   printWellLogMarkerStyle,
@@ -173,15 +176,6 @@ import type { PdfTemplateId } from "../print/pdf/templates/types";
  */
 const LOCATE_MIN_ZOOM = 14;
 
-/** The system's own answer, read at the moment of the move. */
-function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== "undefined" &&
-    typeof window.matchMedia === "function" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
-
 type MapCanvasProps = {
   parcels: NsprdFeatureCollection;
   taxSalePids: Set<string>;
@@ -217,7 +211,12 @@ type MapCanvasProps = {
   focusRequest?: ParcelFocusRequest | null;
   initialPosition?: MapPosition;
   preserveInitialPosition?: boolean;
-  onPositionChange?: (position: MapPosition) => void;
+  /**
+   * The map's centre on every moveend, and null from movestart until it
+   * settles: a caller that puts something AT the centre must not be handed
+   * the centre an animation started from.
+   */
+  onPositionChange?: (position: MapPosition | null) => void;
   onViewportChange?: (viewport: PrintMapViewport) => void;
   /**
    * Saves a point at the user's position; resolves to a status message for
@@ -357,6 +356,58 @@ const EMPTY_USER_MAPS: VisibleUserMap[] = [];
 const EMPTY_USER_VECTOR_LAYERS: VisibleUserVectorLayer[] = [];
 const LOCATION_SUCCESS_MESSAGE = "Your location is shown on the map.";
 const LOCATION_SUCCESS_MESSAGE_DURATION_MS = 4_000;
+// The recorder's caveats are said in two places: under the numbers, where a
+// reader watching the screen sees them, and in the one-line announcement a
+// screen reader hears. They are written once here so the two cannot end up
+// saying different things about the same walk.
+const RECORDER_PAUSED_NOTE = "Paused — the gap will not be connected.";
+const RECORDER_WAKE_LOCK_NOTE =
+  "Keep your screen on — this browser can't hold it awake.";
+const RECORDER_QUOTA_NOTE =
+  "Storage is full — this recording isn't being kept as you go. A reload " +
+  "would lose it.";
+const RECORDER_DRAFT_REFUSED_NOTE =
+  "This browser isn't keeping this recording as you go. A reload would " +
+  "lose it.";
+// A write that ran past its deadline is still out there and may yet land, so
+// this says what was not confirmed rather than what was refused.
+const RECORDER_DRAFT_UNVERIFIED_NOTE =
+  "This browser hasn't confirmed the recording is being kept. A reload may " +
+  "lose it.";
+// The quality dot goes red for two different situations, and this is the one
+// the location message never covers: the watch is healthy and delivering, and
+// every fix is being thrown out by the accuracy gate, so the track has stopped
+// growing. Rendered in the HUD as well as announced — the dot alone said it in
+// colour, which is not a channel every reader has.
+const RECORDER_FIXES_TOO_ROUGH_NOTE =
+  "Positions are too rough to add to the track right now.";
+/**
+ * One sentence per way the contract's filter turns a fix down. They are not
+ * interchangeable: a reader told their positions are too rough walks on and
+ * waits for the sky, which is the wrong thing to do about a device whose clock
+ * is running backwards or whose reported accuracy is not a number.
+ */
+/**
+ * How long a change has to hold before it is announced. A fix that lands on
+ * the accuracy gate flips between accepted and rejected once a second, and a
+ * live region reads every flip aloud — the flooding the clock was taken out of
+ * the live region to stop.
+ */
+const ANNOUNCEMENT_SETTLE_MS = 4_000;
+
+const REJECTION_NOTES: Record<FixRejection | "none", string | null> = {
+  none: null,
+  "too-rough": RECORDER_FIXES_TOO_ROUGH_NOTE,
+  "accuracy-invalid":
+    "This device is reporting positions with no usable accuracy, so they are "
+    + "not being added to the track.",
+  "out-of-order":
+    "Positions are arriving out of order, so they are not being added to the "
+    + "track.",
+  "too-fast":
+    "The last position was too far from the one before it to have been walked, "
+    + "so it was not added to the track.",
+};
 const CSS_METRES_PER_PIXEL = 0.0254 / 96;
 const DISPLAY_SCALE_SAMPLE_WIDTH_CSS_PIXELS = 100;
 const DISPLAY_SCALE_EXPLANATION =
@@ -1075,13 +1126,19 @@ function MapPositionController({
       guard.lastSuppressed = null;
       onViewportChange?.(viewport);
     };
+    // A flight to a parcel takes about a second, and the centre does not
+    // reach its destination until moveend. Anything aiming at the centre is
+    // told there is no answer yet rather than given the one it is leaving.
+    const forgetPosition = () => onPositionChange?.(null);
     reportPosition();
     // moveend only: Leaflet's _moveEnd fires zoomend then moveend from the
     // same call, so a zoomend subscription made every zoom issue a doomed
     // duplicate request that the moveend run aborted milliseconds later.
     map.on("moveend", reportPosition);
+    map.on("movestart", forgetPosition);
     return () => {
       map.off("moveend", reportPosition);
+      map.off("movestart", forgetPosition);
     };
   }, [map, onPositionChange, onViewportChange, printableViewportGuard]);
 
@@ -1137,7 +1194,7 @@ function LayerZoomController({
 
     if (waterfallsBecameVisible) {
       map.fitBounds(WATERFALL_DISCOVERY_BOUNDS, {
-        animate: true,
+        animate: !prefersReducedMotion(),
         padding: [48, 48],
         maxZoom: 8,
       });
@@ -1152,7 +1209,7 @@ function LayerZoomController({
 
     if (hydroPilotBecameVisible) {
       map.fitBounds(INVERNESS_HYDRO_PILOT_BOUNDS, {
-        animate: true,
+        animate: !prefersReducedMotion(),
         padding: [48, 48],
         maxZoom: 9,
       });
@@ -1168,7 +1225,7 @@ function LayerZoomController({
     );
 
     if (targetDetailZoom > 0 && map.getZoom() < targetDetailZoom) {
-      map.setZoom(targetDetailZoom, { animate: true });
+      map.setZoom(targetDetailZoom, { animate: !prefersReducedMotion() });
     }
   }, [hydroPilotLayers, map, provinceLayers]);
 
@@ -1206,7 +1263,11 @@ function ParcelFocusController({
     }
 
     handledRequestId.current = focusRequest.requestId;
-    map.fitBounds(bounds, { padding: [64, 64], maxZoom: 16 });
+    map.fitBounds(bounds, {
+      padding: [64, 64],
+      maxZoom: 16,
+      animate: !prefersReducedMotion(),
+    });
   }, [focusRequest, map, parcels]);
 
   return null;
@@ -1304,7 +1365,7 @@ function InitialHistoricalBoundsController({
 
     hasFittedHistoricalLayer.current = true;
     map.fitBounds(bounds, {
-      animate: true,
+      animate: !prefersReducedMotion(),
       padding: [48, 48],
       maxZoom: 11,
     });
@@ -1799,6 +1860,25 @@ export function MapCanvas({
   onExportFrameContinue,
 }: MapCanvasProps) {
   const isPrintMode = renderMode === "print";
+  /**
+   * Reduce Motion reaching Leaflet's own controls, not just the app's flights.
+   * Pressing + on the zoom bar goes through Leaflet's animated zoom path, and
+   * a reader who asked the system for less motion was still given a full
+   * animated zoom on every press.
+   *
+   * Read once, at construction: these are Map constructor options with no
+   * supported setter, so a reader who changes the system setting mid-session
+   * gets the new behaviour on the next load. That is the cost of reaching the
+   * built-in controls at all, and it is stated rather than hidden.
+   */
+  const [zoomMotion] = useState(() => {
+    const still = prefersReducedMotion();
+    return {
+      zoomAnimation: !still,
+      markerZoomAnimation: !still,
+      fadeAnimation: !still,
+    };
+  });
   const modernPrintError = useRef(false);
   const reportLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
@@ -2250,18 +2330,84 @@ export function MapCanvas({
   // Quality dot thresholds match the accuracy gate: green is survey-walk
   // quality, amber still passes the 25 m gate, red means fixes are being
   // rejected (or the signal is gone) and the track is not growing.
+  // Red when the last fix was turned down for ANY of the filter's reasons,
+  // not only for a wide accuracy circle. A fix one kilometre away one second
+  // later is rejected on speed and reports 5 m accuracy; a fix with a broken
+  // accuracy or a timestamp out of order does the same. Green over a track
+  // that has stopped growing is the dot saying the opposite of what is
+  // happening.
   const fixQuality =
     live.status !== "active" || !live.fix
       ? "red"
-      : live.fix.accuracyM <= 10
-        ? "green"
-        : live.fix.accuracyM <= 25
-          ? "amber"
-          : "red";
+      : recording.status === "recording" && recording.stats.lastRejection !== null
+        ? "red"
+        : live.fix.accuracyM <= 10
+          ? "green"
+          : live.fix.accuracyM <= 25
+            ? "amber"
+            : "red";
+
+  // Which refusal the device gave, in the words the HUD already shows.
+  const recorderDraftNote =
+    recording.draftError === "quota"
+      ? RECORDER_QUOTA_NOTE
+      : recording.draftError === "unverified"
+        ? RECORDER_DRAFT_UNVERIFIED_NOTE
+        : recording.draftError
+          ? RECORDER_DRAFT_REFUSED_NOTE
+          : null;
+  // Everything a screen reader is told about the recorder, and it changes only
+  // when the recorder does: a walk starts, pauses, resumes, or stops being
+  // written to the device. The elapsed time, distance and point count are
+  // deliberately absent. They move every second, and a live region carrying
+  // them reads the clock over the top of everything else for the length of the
+  // walk; they are read from the "Track recording" region instead, whenever the
+  // reader goes and asks for them.
+  // The red dot's other meaning, as a sentence. The watch is healthy and
+  // delivering and the filter is throwing the fixes away, so the track has
+  // stopped growing — and on screen that was a colour and nothing else, which
+  // a reader who cannot tell the dot's two states apart never received.
+  //
+  // Which sentence matters: what the reader should do about a fix too rough to
+  // use (walk on, wait for the sky) is not what they should do about a clock
+  // running backwards. The filter's four refusals stay four sentences.
+  const rejectionNote =
+    recording.status === "recording" && live.status === "active"
+      ? REJECTION_NOTES[recording.stats.lastRejection ?? "none"]
+      : null;
+  const settledRejectionNote = useSettledWarning(
+    rejectionNote,
+    ANNOUNCEMENT_SETTLE_MS,
+  );
+  const recorderAnnouncement =
+    recording.status === "idle"
+      ? ""
+      : [
+          recording.status === "paused"
+            ? RECORDER_PAUSED_NOTE
+            : "Recording a track.",
+          recording.wakeLockSupported === false
+            ? RECORDER_WAKE_LOCK_NOTE
+            : null,
+          // Settled, not live: the visible line above changes with the fix,
+          // but a reader hearing it must not be read a new sentence every
+          // second while accuracy hovers on the gate.
+          settledRejectionNote,
+          recorderDraftNote,
+        ]
+          .filter((part) => part !== null)
+          .join(" ");
 
   return (
+    /* The wrapper carried this label from the start, but a name on a div with
+       no role is discarded, so the map had no name in the accessibility tree
+       at all — the enclosing section is a named region, so what a reader
+       reached was "Map and parcel details", the whole area, and the map
+       inside it was an unnamed box. The role is what lets the name it was
+       already given be heard. */
     <div
       className={`map-canvas${georeference ? " map-canvas--georeferencing" : ""}`}
+      role="region"
       aria-label="Nova Scotia municipal parcel map"
     >
       <MapContainer
@@ -2277,6 +2423,7 @@ export function MapCanvas({
         boxZoom={!isPrintMode}
         keyboard={!isPrintMode}
         attributionControl={false}
+        {...zoomMotion}
         ref={setMap}
       >
         <MapSizeController />
@@ -2704,43 +2851,49 @@ export function MapCanvas({
           </small>
         </div>
       ) : null}
+      {/* A named region, not a live region. These numbers change once a
+          second, and role="status" had a screen reader reading the clock, the
+          distance and the point count over the top of everything else for the
+          length of the walk. The reader now goes to "Track recording" and
+          reads them when they want them, and hears the recorder's state
+          changes from the announcement further down. The three notices below
+          this one keep their live regions: each is written once when
+          something happens and then sits still, which is what a live region
+          is for. */}
       {recording.status !== "idle" ? (
-        <div className="location-hud" role="status">
+        <div
+          className="location-hud"
+          role="region"
+          aria-label="Track recording"
+        >
           <div className="location-hud-stats">
             <span
               className={`location-hud-quality location-hud-quality-${fixQuality}`}
               aria-hidden="true"
             />
-            <span>{formatElapsed(recording.stats.elapsedMs)}</span>
-            <span>{formatDistance(recording.stats.distanceM)}</span>
+            {/* Read aloud on their own, "12:34" and "1.20 km" say nothing
+                about which is which. The labels are hidden because on screen
+                the column position already says it. */}
+            <span>
+              <span className="visually-hidden">Elapsed </span>
+              {formatElapsed(recording.stats.elapsedMs)}
+            </span>
+            <span>
+              <span className="visually-hidden">Distance </span>
+              {formatDistance(recording.stats.distanceM)}
+            </span>
             <span>
               {recording.stats.keptVertexCount.toLocaleString("en-CA")} pts
             </span>
           </div>
           {recording.status === "paused" ? (
-            <small>Paused — the gap will not be connected.</small>
+            <small>{RECORDER_PAUSED_NOTE}</small>
           ) : null}
           {recording.wakeLockSupported === false ? (
-            <small>Keep your screen on — this browser can't hold it awake.</small>
+            <small>{RECORDER_WAKE_LOCK_NOTE}</small>
           ) : null}
-          {recording.draftError === "quota" ? (
-            <small>
-              Storage is full — this recording isn't being kept as you go. A
-              reload would lose it.
-            </small>
-          ) : recording.draftError === "unverified" ? (
-            // The write is still out there and may yet land. "Would lose it"
-            // is a claim about a transaction nobody has watched finish.
-            <small>
-              This browser hasn't confirmed the recording is being kept. A
-              reload may lose it.
-            </small>
-          ) : recording.draftError ? (
-            <small>
-              This browser isn't keeping this recording as you go. A reload
-              would lose it.
-            </small>
-          ) : null}
+          {rejectionNote ? <small>{rejectionNote}</small> : null}
+          {recorderDraftNote ? <small>{recorderDraftNote}</small> : null}
           <div className="location-hud-actions">
             {recording.status === "recording" ? (
               <button type="button" onClick={recording.pause}>
@@ -2827,6 +2980,16 @@ export function MapCanvas({
           </button>
         </div>
       ) : null}
+      {/* Outside the HUD, and rendered whether or not a walk is running: a
+          live region has to be in the document before its text changes, or
+          the first change — the recording starting — is the one nobody hears.
+          Stopping empties it, and the save dialog that opens takes focus,
+          which is what says the walk has ended. It is kept apart from the
+          location message below because that one belongs to the watch and to
+          save outcomes, and it dismisses itself on its own schedule. */}
+      <p className="visually-hidden" role="status" aria-live="polite">
+        {recorderAnnouncement}
+      </p>
       <p className="location-message" role="status" aria-live="polite">
         {locationMessage}
       </p>

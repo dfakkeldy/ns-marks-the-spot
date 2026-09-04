@@ -149,6 +149,12 @@ private struct AttributeRow: View {
             } label: {
                 Image(systemName: "minus.circle")
                     .foregroundStyle(.secondary)
+                    // The row grows to hold a full-size target and the value
+                    // field gives up the width, which is the right way round:
+                    // the field is the part of this row that stretches, and
+                    // this is the control that deletes what was typed into it.
+                    .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Remove \(key)")

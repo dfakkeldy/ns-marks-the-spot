@@ -141,9 +141,15 @@ private struct MapThemeManagerRow: View {
                 TextField("Name", text: $name)
                     .accessibilityLabel("Rename \(theme.name)")
 
-                Button("Rename") { onRename(trimmedName) }
-                    .buttonStyle(.borderless)
-                    .font(.caption)
+                Button {
+                    onRename(trimmedName)
+                } label: {
+                    Text("Rename")
+                        .font(.caption)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.borderless)
                     // Compared trimmed, because that is what gets stored. A
                     // field reading " Field day " against a saved "Field day"
                     // is the same name with spaces on it, and offering Rename
@@ -152,9 +158,21 @@ private struct MapThemeManagerRow: View {
             }
 
             HStack(spacing: 12) {
-                Button("Update from current setup", action: onUpdate)
-                Button("Duplicate", action: onDuplicate)
-                Button("Delete", role: .destructive, action: onDelete)
+                Button(action: onUpdate) {
+                    Text("Update from current setup")
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
+                Button(action: onDuplicate) {
+                    Text("Duplicate")
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
+                Button(role: .destructive, action: onDelete) {
+                    Text("Delete")
+                        .frame(minWidth: 44, minHeight: 44)
+                        .contentShape(Rectangle())
+                }
                 Spacer(minLength: 0)
             }
             .font(.caption)

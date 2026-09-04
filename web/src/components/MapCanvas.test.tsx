@@ -366,9 +366,44 @@ const hiddenResourceLayers = {
   "mineral-proximity-parcels": false,
 };
 
+/** The smallest complete prop set: a map with every layer off. */
+function baseMapProps() {
+  return {
+    parcels: { type: "FeatureCollection" as const, features: [] },
+    taxSalePids: new Set<string>(),
+    historicalTaxSalePids: new Set<string>(),
+    selectedPid: null,
+    provinceLayers: {
+      "ns-aerial": false,
+      nsprd: false,
+      "crown-lands": false,
+      "flood-risk": false,
+      waterfalls: false,
+      "water-features": false,
+      roads: false,
+      buildings: false,
+      contours: false,
+      "place-names": false,
+      "main-roads": false,
+    },
+    resourceLayers: hiddenResourceLayers,
+    showModernMap: false,
+    showTaxSale: false,
+    showHistoricalTaxSales: false,
+    onSelectPid: vi.fn(),
+    onIdentifyParcel: vi.fn(),
+  };
+}
+
 afterEach(() => {
   vi.useRealTimers();
   vi.unstubAllGlobals();
+  // The recorder tests that need a wake lock define one on `navigator`, which
+  // jsdom does not have. Left behind it would change what the HUD says about
+  // keeping the screen on in every test after them.
+  if ("wakeLock" in navigator) {
+    Reflect.deleteProperty(navigator, "wakeLock");
+  }
   mapMock.getCenter.mockReturnValue({ lat: 46.35, lng: -61.15 });
   mapMock.getZoom.mockReturnValue(9);
   mapMock.getBounds.mockReturnValue({
@@ -1308,9 +1343,15 @@ describe("MapCanvas browser location", () => {
     await user.click(screen.getByRole("button", { name: "Stop" }));
     await user.click(screen.getByRole("button", { name: "Save track" }));
 
-    // The device refused the write, so the walk is still offered back.
+    // The device refused the write, so the walk is still offered back. That
+    // offer is written once and then sits still, so unlike the ticking HUD it
+    // keeps its live region and is spoken when it appears.
+    const offer = await screen.findByText(
+      "A track recording is waiting to be saved.",
+    );
+    expect(offer.closest('[role="status"]')).not.toBeNull();
     await user.click(
-      await screen.findByRole("button", { name: "Recover unsaved track" }),
+      screen.getByRole("button", { name: "Recover unsaved track" }),
     );
     await user.click(screen.getByRole("button", { name: "Save track" }));
 
@@ -1408,6 +1449,267 @@ describe("MapCanvas browser location", () => {
     expect(onSaveTrack.mock.calls[1][0].name).toBe("North boundary");
   });
 
+  it("reads the recording clock only when a screen reader asks, not once a second", async () => {
+    const user = userEvent.setup();
+    // jsdom has no Screen Wake Lock, and without this the recorder reports it
+    // as unsupported and its caveat joins the announcement — so the sentences
+    // under test would be the ones this browser produces rather than the ones
+    // a reader's does.
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    // The numbers are still there, still reachable, and now say which is
+    // which when they are read out of context.
+    const hud = screen.getByRole("region", { name: "Track recording" });
+    expect(hud).toHaveTextContent(/Elapsed \d+:\d\d/);
+    expect(hud).toHaveTextContent(/Distance \d/);
+
+    // And nothing about them is announced as they tick.
+    expect(hud).not.toHaveAttribute("aria-live");
+    expect(hud.closest('[role="status"], [aria-live]')).toBeNull();
+  });
+
+  // The quality dot goes red for two different situations. This is the one
+  // nothing else covers: the watch is healthy and delivering, and every fix is
+  // being thrown out by the accuracy gate, so the track has stopped growing.
+  // On screen that was a colour and nothing else.
+  it("says in the HUD when fixes are too rough to be added, not only in colour", async () => {
+    const user = userEvent.setup();
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(<MapCanvas {...baseMapProps()} onSaveTrack={vi.fn()} />);
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    pushLiveFix({ accuracyM: 5 });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    const hud = screen.getByRole("region", { name: "Track recording" });
+    expect(hud).not.toHaveTextContent(
+      "Positions are too rough to add to the track right now.",
+    );
+
+    // Past the 25 m gate: the watch is fine and every fix is being discarded.
+    pushLiveFix({ accuracyM: 40 });
+    expect(hud).toHaveTextContent(
+      "Positions are too rough to add to the track right now.",
+    );
+  });
+
+  // Accuracy is one of four ways a fix fails the contract's filter. A fix a
+  // kilometre away one second later is rejected on speed and reports 5 m
+  // accuracy: the dot stayed green over a track that had stopped growing.
+  it("goes red and says why when the filter turns a fix down for something other than accuracy", async () => {
+    const user = userEvent.setup();
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(<MapCanvas {...baseMapProps()} onSaveTrack={vi.fn()} />);
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    const base = Date.now();
+    pushLiveFix({ accuracyM: 5, timestampMs: base });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+    // A second good fix, taken by the filter while the walk is running.
+    pushLiveFix({ accuracyM: 5, latitude: 46.1201, timestampMs: base + 1_000 });
+
+    const hud = screen.getByRole("region", { name: "Track recording" });
+    expect(
+      hud.querySelector(".location-hud-quality-green"),
+    ).toBeInTheDocument();
+
+    // One second later, a degree of latitude away.
+    pushLiveFix({ accuracyM: 5, latitude: 47.12, timestampMs: base + 2_000 });
+
+    expect(hud).toHaveTextContent(
+      "The last position was too far from the one before it to have been walked",
+    );
+    // And not the sentence for the rule that did not fire.
+    expect(hud).not.toHaveTextContent("Positions are too rough");
+    expect(hud.querySelector(".location-hud-quality-red")).toBeInTheDocument();
+  });
+
+  it("announces a walk starting, pausing and resuming without reading the numbers", async () => {
+    const user = userEvent.setup();
+    // jsdom has no Screen Wake Lock, and without this the recorder reports it
+    // as unsupported and its caveat joins the announcement — so the sentences
+    // under test would be the ones this browser produces rather than the ones
+    // a reader's does.
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    expect(screen.queryByText("Recording a track.")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+    const announcement = screen.getByText("Recording a track.");
+    expect(announcement).toHaveAttribute("role", "status");
+    // No digits: the clock, the distance and the point count are the things
+    // that change every second, and none of them is in here.
+    expect(announcement.textContent).not.toMatch(/\d/);
+
+    await user.click(screen.getByRole("button", { name: "Pause" }));
+    expect(screen.queryByText("Recording a track.")).not.toBeInTheDocument();
+    // Once under the numbers where it is seen, once where it is heard.
+    expect(
+      screen.getAllByText("Paused — the gap will not be connected."),
+    ).toHaveLength(2);
+
+    await user.click(screen.getByRole("button", { name: "Resume" }));
+    expect(screen.getByText("Recording a track.")).toBeInTheDocument();
+  });
+
+  it("still announces a lost signal while a walk is being recorded", async () => {
+    const user = userEvent.setup();
+    // jsdom has no Screen Wake Lock, and without this the recorder reports it
+    // as unsupported and its caveat joins the announcement — so the sentences
+    // under test would be the ones this browser produces rather than the ones
+    // a reader's does.
+    Object.defineProperty(navigator, "wakeLock", {
+      configurable: true,
+      value: {
+        request: async () => ({
+          released: false,
+          release: async () => {},
+          addEventListener: () => {},
+        }),
+      },
+    });
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid={null}
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+          "place-names": false,
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        onSaveTrack={vi.fn()}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Use my location" }));
+    const fix = liveFix({ accuracyM: 5 });
+    pushLiveSnapshot({ status: "active", fix });
+    await user.click(screen.getByRole("button", { name: "Record a track" }));
+
+    pushLiveSnapshot({ status: "signal-lost", fix, reason: "unavailable" });
+
+    // The quality dot is the only place the HUD shows this, and it is hidden
+    // from a screen reader, so the sentence has to carry it.
+    expect(
+      screen.getByText("Your location is unavailable right now — still trying."),
+    ).toHaveAttribute("role", "status");
+    // Two regions, two facts: losing the signal does not overwrite the fact
+    // that a walk is still running.
+    expect(screen.getByText("Recording a track.")).toBeInTheDocument();
+  });
+
   it("pauses into segments and discards a recording with confirmation", async () => {
     const user = userEvent.setup();
     const confirmSpy = vi.spyOn(window, "confirm").mockReturnValue(true);
@@ -1446,9 +1748,11 @@ describe("MapCanvas browser location", () => {
     await user.click(screen.getByRole("button", { name: "Use my location" }));
     await user.click(screen.getByRole("button", { name: "Record a track" }));
     await user.click(screen.getByRole("button", { name: "Pause" }));
+    // Scoped to the HUD: the same sentence is also in the announcement a
+    // screen reader hears, which is the point of the split.
     expect(
-      screen.getByText("Paused — the gap will not be connected."),
-    ).toBeInTheDocument();
+      screen.getByRole("region", { name: "Track recording" }),
+    ).toHaveTextContent("Paused — the gap will not be connected.");
     await user.click(screen.getByRole("button", { name: "Resume" }));
     await user.click(screen.getByRole("button", { name: "Stop" }));
 
@@ -1707,6 +2011,35 @@ describe("MapCanvas viewport reporting", () => {
       position: { latitude: 46.35, longitude: -61.15, zoom: 15 },
       bounds: { north: 47, east: -60, south: 45, west: -62 },
     });
+  });
+
+  // A flight to a parcel takes about a second, and anything putting something
+  // AT the centre — the vector panel's corner mover — must not be handed the
+  // centre the flight is leaving.
+  it("says it has no centre from the moment the map starts moving", () => {
+    const onPositionChange = vi.fn();
+    render(
+      <MapCanvas {...baseMapProps()} onPositionChange={onPositionChange} />,
+    );
+
+    onPositionChange.mockClear();
+    const [, movestartHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "movestart")
+      .pop() ?? [];
+    expect(movestartHandler).toBeTypeOf("function");
+    act(() => movestartHandler?.());
+    expect(onPositionChange).toHaveBeenLastCalledWith(null);
+
+    const [, moveendHandler] = mapMock.on.mock.calls
+      .filter(([event]) => event === "moveend")
+      .pop() ?? [];
+    act(() => moveendHandler?.());
+    expect(onPositionChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        latitude: expect.any(Number),
+        longitude: expect.any(Number),
+      }),
+    );
   });
 
   it("keeps location recentering out of printable viewport state", async () => {
@@ -2285,6 +2618,193 @@ describe("MapCanvas parcel discovery", () => {
     expect(mapMock.fitBounds).toHaveBeenCalledTimes(2);
   });
 
+  it("takes the reader to a focused parcel without animating when they asked for less motion", () => {
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    const parcel = {
+      type: "Feature" as const,
+      properties: { PID: "50251750" },
+      geometry: {
+        type: "Polygon" as const,
+        coordinates: [
+          [
+            [-61.42, 46.05],
+            [-61.41, 46.05],
+            [-61.41, 46.06],
+            [-61.42, 46.06],
+            [-61.42, 46.05],
+          ],
+        ],
+      },
+    };
+    render(
+      <MapCanvas
+        parcels={{ type: "FeatureCollection", features: [parcel] }}
+        taxSalePids={new Set()}
+        historicalTaxSalePids={new Set()}
+        selectedPid="50251750"
+        provinceLayers={{
+          "ns-aerial": false,
+          nsprd: false,
+          "crown-lands": false,
+          "flood-risk": false,
+          waterfalls: false,
+          "water-features": false,
+          roads: false,
+          buildings: false,
+          contours: false,
+
+          "place-names": false,
+
+          "main-roads": false,
+        }}
+        resourceLayers={hiddenResourceLayers}
+        showModernMap={false}
+        showTaxSale={false}
+        showHistoricalTaxSales={false}
+        onSelectPid={vi.fn()}
+        onIdentifyParcel={vi.fn()}
+        focusRequest={{ pid: "50251750", requestId: 1 }}
+      />,
+    );
+
+    // The same parcel, at the same padding and the same closest scale — it
+    // just arrives.
+    expect(mapMock.fitBounds).toHaveBeenCalledWith(expect.anything(), {
+      padding: [64, 64],
+      maxZoom: 16,
+      animate: false,
+    });
+  });
+
+  // Leaflet's own + and - buttons go through its animated zoom path, which no
+  // amount of care about the app's own flights reaches. These are Map
+  // constructor options with no setter, so they are read once — the cost of
+  // covering the built-in controls at all.
+  it("hands Leaflet its own animation switches from the motion setting", () => {
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    render(<MapCanvas {...baseMapProps()} />);
+    expect(mapContainerProps.current).toMatchObject({
+      zoomAnimation: false,
+      markerZoomAnimation: false,
+      fadeAnimation: false,
+    });
+  });
+
+  it("keeps Leaflet's animations when nobody asked for less motion", () => {
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: false,
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    render(<MapCanvas {...baseMapProps()} />);
+    expect(mapContainerProps.current).toMatchObject({
+      zoomAnimation: true,
+      markerZoomAnimation: true,
+      fadeAnimation: true,
+    });
+  });
+
+  it("reads the motion setting again for each move, so changing it mid-session takes effect", () => {
+    let reduced = false;
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: reduced && query.includes("prefers-reduced-motion"),
+          media: query,
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        }) as unknown as MediaQueryList,
+    );
+    const parcel = {
+      type: "Feature" as const,
+      properties: { PID: "50251750" },
+      geometry: {
+        type: "Polygon" as const,
+        coordinates: [
+          [
+            [-61.42, 46.05],
+            [-61.41, 46.05],
+            [-61.41, 46.06],
+            [-61.42, 46.06],
+            [-61.42, 46.05],
+          ],
+        ],
+      },
+    };
+    const props = {
+      parcels: { type: "FeatureCollection" as const, features: [parcel] },
+      taxSalePids: new Set<string>(),
+      historicalTaxSalePids: new Set<string>(),
+      selectedPid: "50251750",
+      provinceLayers: {
+        "ns-aerial": false,
+        nsprd: false,
+        "crown-lands": false,
+        "flood-risk": false,
+        waterfalls: false,
+        "water-features": false,
+        roads: false,
+        buildings: false,
+        contours: false,
+
+        "place-names": false,
+
+        "main-roads": false,
+      },
+      resourceLayers: hiddenResourceLayers,
+      showModernMap: false,
+      showTaxSale: false,
+      showHistoricalTaxSales: false,
+      onSelectPid: vi.fn(),
+      onIdentifyParcel: vi.fn(),
+    };
+    const { rerender } = render(
+      <MapCanvas {...props} focusRequest={{ pid: "50251750", requestId: 1 }} />,
+    );
+
+    expect(mapMock.fitBounds).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ animate: true }),
+    );
+
+    // The reader turns Reduce Motion on with the map already open. The map
+    // outlives every one of these moves, so an answer captured at mount would
+    // still be sweeping them across the province.
+    reduced = true;
+    rerender(
+      <MapCanvas {...props} focusRequest={{ pid: "50251750", requestId: 2 }} />,
+    );
+
+    expect(mapMock.fitBounds).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ animate: false }),
+    );
+  });
+
   it("suspends parcel identify and selection while measuring", () => {
     vi.useFakeTimers();
     const onIdentifyParcel = vi.fn();
@@ -2512,6 +3032,17 @@ describe("MapCanvas cartographic furniture", () => {
       "data-position",
       "bottomleft",
     );
+  });
+
+  it("announces the map as a named region a screen reader can jump to", () => {
+    render(<MapCanvas {...furnitureProps} />);
+
+    // The wrapper carried this label long before it carried a role, and a
+    // name on a roleless div is thrown away: by role rather than by class is
+    // the only way to assert that the name actually reaches a reader.
+    expect(
+      screen.getByRole("region", { name: "Nova Scotia municipal parcel map" }),
+    ).toHaveClass("map-canvas");
   });
 
   it("shows an approximate representative fraction and updates it with the map", () => {

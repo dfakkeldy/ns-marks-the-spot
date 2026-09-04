@@ -364,3 +364,83 @@ Resume:
 cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
 gh pr checks 308
 ```
+
+## 2026-09-03 — PR M complete (web accessibility), pushed
+
+Done: `feature/web-a11y` (6 commits on top of `feature/web-review-round4`)
+closes §10.3 dialog focus trap, §10.4 sheet focus, §10.6 HUD live region,
+§10.7 corner mover + photo Remove target, §10.8 landmarks, §10.9 reduced
+motion, §13.5 44px targets. Web gates green locally: 2075 passed / 1 skipped
+in 184 files, lint clean, build clean. Browser-verified at 375×812. Found a
+pre-existing "Maximum update depth exceeded" loop at startup — bisected to
+`88fac4a1a` on nightly, filed as its own task, NOT from this branch.
+PRs #307 (web round 4) and #308 (PR J, iOS) are both green and CLEAN.
+
+Next: fold in the Codex round-1 verdict for PR M, open the PR to `nightly`
+stacked on #307, then start PR K (iOS §4/§6/§11.8 + Liquid Glass behind
+`#available(iOS 26)`) — its 13 plans are already written and adversarially
+verified under `scratchpad/plans-k4/` and `scratchpad/plans-k6/`.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e, branch feature/web-a11y (pushed).
+Read scratchpad/codex/out-M-r1-correctness.md and out-M-r1-contract.md, fix or refute every claim with file:line evidence, then open PR M to nightly with the verdict table in the body.
+```
+
+## 2026-09-03 — PR M in adversarial round 3; PR K substantially built
+
+Done: PR M is [#309](https://github.com/dfakkeldy/ns-marks-the-spot/pull/309),
+rebased onto the merged #307/#308 and pushed; two Codex rounds folded in (7+7
+then 6+5 findings). Web gates green: 2098 passed, 1 skipped, 184 files. Round 3
+is running. PR K lives in a SEPARATE worktree,
+`.claude/worktrees/ns-marks-k-hig` on `feature/ios-hig`, branched from
+`feature/ios-quick-wins`; §4 (all five), §11.8 iOS licences, §6.4/6.9
+destructive semantics, §6.2 rail width and §6.10 layers panel are committed
+(687d6286c) and passed 873 tests in 82 suites. The evidence-caveat typography
+(§6.5) and touch targets (§6.6) are applied and building.
+
+Build-slot notes: Codex's own runs were launching `xcodebuildmcp` and holding
+the Apple slot — `scratchpad/codex/round.sh` now nulls that server. A focused
+`xcodebuild` run hangs after its summary line and keeps the slot; kill both the
+wrapper and the `xcodebuild` child. A changed NSMarksCore source can leave a
+stale `MapCatalog.swiftmodule` in DerivedData; delete it if a public symbol
+reads as private.
+
+Next: finish §6 (a11y + haptics, 23 edits) and Liquid Glass behind
+`#available(iOS 26)`, run the whole native bundle, then PR L and PR N.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig.
+Apply scratchpad/plans-k6/plan.af3ad887.9.json (§6.1/6.7/6.11 accessibility and haptics, 23 edits) with the corrections in verify.a9b10da2.13.json, then build through xcode-build-slot.sh.
+```
+
+## 2026-09-03 — PR M through three adversarial rounds; PR K pushed
+
+Done: PR M [#309](https://github.com/dfakkeldy/ns-marks-the-spot/pull/309) has
+had three Codex rounds (7+7, 6+5, 4+4); every finding fixed or named. Round 3's
+shared first finding was real and serious — the Geoman gesture guard was inert
+because its listeners never landed. Web gates: 2102 passed, 1 skipped, 185
+files; lint and build clean. PR K is pushed as `feature/ios-hig` and its round 1
+is running; the app target's 875 tests in 82 suites pass.
+
+Known local-only native failure:
+`MapChromeUITests.testAcceptingTheLicenceTurnsTheLayerOnAndCreditsIt` cannot
+determine hittability of the licence lock. It fails identically on the parent
+branch on this simulator and passes in CI.
+
+Tooling learned tonight: `/tmp/ios-run.sh <log> <xcodebuild args…>` clears the
+hung wrapper and its child before asking for the build slot, which otherwise
+has to be killed by hand after every focused run. `#expect` compares a CGFloat
+against an inferred Double by identity — convert both sides.
+
+Next: fold PR K's Codex rounds in, open its PR to `nightly` stacked on the
+merged #308, then PR N (§12.2 test seams, §12.4 walk-the-line, §12.7 dark
+colour scheme, §12.11 background recording) and PR L (§5 performance, measured
+first).
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig (pushed).
+Read scratchpad/codex/out-K-r1-*.md, fix or refute each with file:line evidence, re-run through /tmp/ios-run.sh, then open the PR to nightly with the verdict table.
+```

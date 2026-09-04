@@ -50,6 +50,12 @@ struct MapAttributionStrip: View {
                             .foregroundStyle(.tertiary)
                     }
                 }
+                // The whole strip is the control, not only the words in it.
+                // Collapsed, this line is the way into every licence the map
+                // is relying on, and the gap beside the chevron used to
+                // swallow the tap that went for it.
+                .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .disabled(credits.isEmpty)
@@ -69,21 +75,33 @@ struct MapAttributionStrip: View {
 
                         if let title = credit.licenseTitle, let url = credit.licenseURL {
                             if url.isFileURL {
-                                Button(title) {
+                                Button {
                                     bundledLicence = PresentedBundledLicence(title: title, url: url)
+                                } label: {
+                                    Text(title)
+                                        .font(.caption2)
+                                        .frame(minHeight: 44)
+                                        .contentShape(Rectangle())
                                 }
-                                .font(.caption2)
                             } else {
-                                Link(title, destination: url)
-                                    .font(.caption2)
+                                Link(destination: url) {
+                                    Text(title)
+                                        .font(.caption2)
+                                        .frame(minHeight: 44)
+                                        .contentShape(Rectangle())
+                                }
                             }
                         }
                     }
                 }
 
-                Button("All sources", action: onOpenSources)
-                    .font(.caption2)
-                    .accessibilityIdentifier("map-attribution-all-sources")
+                Button(action: onOpenSources) {
+                    Text("All sources")
+                        .font(.caption2)
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
+                .accessibilityIdentifier("map-attribution-all-sources")
             }
         }
         .padding(.horizontal, 8)
