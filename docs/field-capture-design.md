@@ -120,12 +120,50 @@ than navigation features.
    **Web is still foreground-only** — a browser has no equivalent, and its tab
    hiding still stops the recording.
 
-   **Not covered: process termination.** An in-progress recording lives in
-   memory, so if iOS terminates the app the walk is lost, and background
-   recording makes that more likely to be reached than foreground-only
-   recording did. Checkpointing an active recording is its own piece of work
-   and is not in this change; Stop from the Lock Screen comes back when a walk
-   is durable by construction.
+   **Process termination, covered.** An in-progress recording used to live only
+   in memory, so iOS ending the app lost the walk with no message — and
+   continuing off screen is what made that easy to reach. A recording is now
+   written down as it grows: `TrackCheckpointStore` appends one JSON line per
+   event to `TrackCheckpoint/recording.jsonl` in Application Support (excluded
+   from backup, `completeUntilFirstUserAuthentication` so a pocketed phone
+   behind a lock screen can still write), and `GeoCore.TrackJournal` owns the
+   format and the replay.
+
+   **What is stored is the recorder's input, not its output**: the fixes as
+   they arrived and the instants the walk started, paused, resumed and stopped.
+   Replaying them through the same `TrackRecording` state machine rebuilds the
+   same segments, distance and counters, so no derived number is written down
+   or read back as though it had been recorded. Appending rather than
+   rewriting, because fixes arrive about once a second over walks of hours.
+
+   At launch `AppContainer.forLaunch` reads it once, before anything can record
+   over it, and the map puts what it found into the save sheet. Three states,
+   kept apart: a walk **still recording when the app closed** — closed at the
+   last event the journal saw, never at the time it was read, so a walk read
+   back hours later does not claim those hours; a walk **stopped and never
+   saved**; and a checkpoint **that could not be read**, which is said out loud
+   and whose bytes are moved aside rather than deleted. An empty or damaged
+   checkpoint is never reported as "no walk". A restored walk is not resumed:
+   no fixes arrived while the process was gone, and joining what was recorded
+   before to whatever comes next would draw a line across ground nobody walked.
+
+   The checkpoint is cleared by exactly two things: the walk saved to a layer,
+   or the reader discarding it. The walk carries one identifier from its
+   journal's first line through to the id of the layer written for it, so a
+   process ended between the layer landing and the checkpoint being cleared
+   offers the walk again and the library already holding that id answers it —
+   no second layer for one walk. A checkpoint that stops landing (a full disk)
+   is its own HUD notice beside the background one; a walk that is no longer
+   being written down must not read as one that is.
+
+   `TrackRecorder` and the checkpoint store are owned by `AppContainer` for the
+   life of the process, and `TrackActivityActions` is installed there rather
+   than from a view's `onAppear`: a `LiveActivityIntent` launches the app
+   **without opening it**, so a Lock Screen button could reach a process whose
+   map view never appeared.
+
+   **Stop is still not on the Lock Screen.** Adding `StopTrackIntent` is its
+   own change; what it was waiting on is here.
 4. Web ships first; iOS mirrors after. Data models stay compatible throughout.
 5. Snap targets are NSPRD parcel boundaries and the user's own features.
    Parcel snapping is licence-gated. Snapped coordinates may be stored and
@@ -925,12 +963,18 @@ App N1, present:
   runs, so leaving the app no longer pauses it, and an injected
   `TrackActivityPresenter` so unit tests never reach ActivityKit),
   `TrackRecordingHUD.swift`, `TrackActivityPresenter.swift`,
-  `SaveTrackSheet.swift`, `MarkLocation.swift`. Live Activity:
+  `SaveTrackSheet.swift`, `MarkLocation.swift`. Durability:
+  `TrackCheckpointStore.swift` appends the walk to disk as it grows and
+  `GeoCore.TrackJournal` replays it, `TrackRestoreNotice.swift` says which of
+  the three things happened to what was found, and `AppContainer` owns the
+  recorder, the store and the Lock Screen action registry for the life of the
+  process. Live Activity:
   `NSMarksLiveActivity` widget extension draws elapsed time
   (`Text(timerInterval:)`) and distance (`TrackActivityFormat`) on the Lock
   Screen and Dynamic Island — never coordinates. Pause and Resume are
   `LiveActivityIntent`s that perform in the app process; Stop is not on the
-  Lock Screen ("Open the app to stop and save") until checkpointing exists.
+  Lock Screen ("Open the app to stop and save") — the checkpointing it was
+  waiting on is present, adding `StopTrackIntent` is its own change.
   Distance cadence is at most one update every ten seconds; state changes and
   a refused background session are pushed immediately. Orphan activities are
   named synchronously at launch and ended "Recording stopped", never

@@ -14,6 +14,12 @@ struct SaveTrackSheet: View {
     /// Location was refused during the recording, so no fix could arrive:
     /// an empty result is that, not weak GPS.
     var stoppedWhileRefused = false
+    /// What happened to a walk that was read back off disk rather than stopped
+    /// here and now, or nil for one the reader just stopped.
+    ///
+    /// A restored walk arrives without the context of the tap that ended it, so
+    /// it has to carry that context itself. See `TrackRestoreNotice`.
+    var restoredNote: String?
     var onSave: (_ name: String, _ simplifyToleranceM: Double) -> Void
     var onDiscard: () -> Void
 
@@ -25,12 +31,14 @@ struct SaveTrackSheet: View {
         result: TrackRecording.StopResult,
         saveError: String? = nil,
         stoppedWhileRefused: Bool = false,
+        restoredNote: String? = nil,
         onSave: @escaping (_ name: String, _ simplifyToleranceM: Double) -> Void,
         onDiscard: @escaping () -> Void
     ) {
         self.result = result
         self.saveError = saveError
         self.stoppedWhileRefused = stoppedWhileRefused
+        self.restoredNote = restoredNote
         self.onSave = onSave
         self.onDiscard = onDiscard
         _name = State(initialValue: TrackFeature.defaultTrackName(startedAt: result.startedAt))
@@ -54,6 +62,27 @@ struct SaveTrackSheet: View {
     /// about whether there is a walk.
     private var isEmpty: Bool {
         !Self.discardAsksFirst(keptVertexCount: keptVertexCount)
+    }
+
+    /// Why there is nothing to keep, as far as this sheet can honestly say.
+    ///
+    /// Three answers, and the third exists because the second was being given
+    /// where it was not known to be true. A walk read back off disk carries the
+    /// fixes it took and no account of why it took none: the journal records
+    /// what the recorder was handed, not what stopped it being handed anything.
+    /// Naming weak GPS there would be promoting a guess to a cause, over a
+    /// recording that may have been refused location the whole way.
+    private var emptyText: String {
+        if stoppedWhileRefused {
+            return "No usable track was recorded. Location was refused during the "
+                + "recording, so no fixes could arrive. The recording can only be discarded."
+        }
+        if restoredNote != nil {
+            return "No usable track was recorded. This walk kept no positions, and why "
+                + "it kept none is not recorded. It can only be discarded."
+        }
+        return "No usable track was recorded. Every fix was filtered out — usually "
+            + "weak GPS. The recording can only be discarded."
     }
 
     /// Whether Discard asks before it destroys a walk.
@@ -90,18 +119,19 @@ struct SaveTrackSheet: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                 }
+                // Above everything, including a failed save: the reader is
+                // being shown a walk they did not stop here, and what happened
+                // to it decides whether the numbers below are the whole of it.
+                if let restoredNote {
+                    Section {
+                        Label(restoredNote, systemImage: "arrow.clockwise.circle")
+                            .font(.callout)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
                 if isEmpty {
                     Section {
-                        Text(
-                            stoppedWhileRefused
-                                ? "No usable track was recorded. Location was refused during "
-                                    + "the recording, so no fixes could arrive. The recording can "
-                                    + "only be discarded."
-                                : "No usable track was recorded. Every fix was filtered "
-                                    + "out — usually weak GPS. The recording can only "
-                                    + "be discarded."
-                        )
-                        .font(.callout)
+                        Text(emptyText).font(.callout)
                     }
                 } else {
                     Section("Name") {
@@ -144,7 +174,9 @@ struct SaveTrackSheet: View {
                     }
                 }
             }
-            .navigationTitle(isEmpty ? "Nothing to save" : "Save track")
+            .navigationTitle(
+                isEmpty ? "Nothing to save" : (restoredNote == nil ? "Save track" : "Unsaved walk")
+            )
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

@@ -97,6 +97,25 @@ final class TrackRecorder: NSObject {
     /// The Lock Screen. Same seam again.
     @ObservationIgnored private let activity: any TrackActivityPresenter
 
+    /// Where the walk is written down as it grows.
+    ///
+    /// Not a seam over the file system, unlike the four above: those stand in
+    /// front of system services a unit test must not reach, and a directory is
+    /// not one of those. A test hands this a temporary directory and then reads
+    /// the actual bytes, which is a stronger check than a spy that agrees with
+    /// whatever it was told.
+    @ObservationIgnored private let checkpoint: TrackCheckpointStore
+
+    /// The walk's identifier, minted when it starts and kept until it stops.
+    ///
+    /// It goes on the journal's first line and, when the walk is saved, becomes
+    /// the id of the layer written for it. That is what makes a save
+    /// idempotent: a process ended after the layer landed but before the
+    /// checkpoint was cleared offers the same walk again at the next launch, and
+    /// the library already holding a layer under this id is how the app knows
+    /// not to write a second one.
+    @ObservationIgnored private(set) var walkID: UUID?
+
     /// The instant the running clock counts from, so the Lock Screen's timer
     /// runs by itself and this app is not woken once a second to say what a
     /// clock already knows. Recomputed only when the walk starts or resumes;
@@ -129,6 +148,35 @@ final class TrackRecorder: NSObject {
     /// stop the moment the phone goes in a pocket.
     private(set) var backgroundNotice: String?
 
+    /// Why the walk is not being written down, when it is not.
+    ///
+    /// A third notice beside `refusal` and `backgroundNotice`, and a third
+    /// distinct fact: fixes are arriving, the phone may go in a pocket, and
+    /// the walk on screen is nevertheless the only copy there is. A HUD that
+    /// said "Recording" over a checkpoint that had stopped landing would be
+    /// promising durability the app no longer has.
+    private(set) var checkpointNotice: String?
+
+    static let checkpointFailureText =
+        "This walk is not being saved as it goes. If the app closes before you "
+            + "stop it, it will be lost. Free some space on your device."
+
+    /// Appends to the journal, and says so when it does not land.
+    private func writeDown(_ entry: TrackJournal.Entry) {
+        guard walkID != nil else { return }
+        if !checkpoint.append(entry) {
+            checkpointNotice = Self.checkpointFailureText
+        }
+    }
+
+    /// Throws away the checkpointed walk.
+    ///
+    /// The reader has saved it to a layer or said to discard it, and those are
+    /// the only two things that may remove one. Deliberately not called on
+    /// stop: a stopped walk nobody has answered for is still the only copy of
+    /// itself.
+    func clearCheckpoint() { checkpoint.clear() }
+
     var status: TrackRecording.Status { recording.status }
     var isActive: Bool { recording.status != .idle }
 
@@ -143,12 +191,14 @@ final class TrackRecorder: NSObject {
         source: any LocationFixSource = CoreLocationFixSource(),
         screen: any ScreenWakeLock = ApplicationScreenWakeLock(),
         background: any BackgroundActivity = LocationBackgroundActivity(),
-        activity: any TrackActivityPresenter = LiveActivityPresenter()
+        activity: any TrackActivityPresenter = LiveActivityPresenter(),
+        checkpoint: TrackCheckpointStore = TrackCheckpointStore.inApplicationSupport()
     ) {
         self.source = source
         self.screen = screen
         self.background = background
         self.activity = activity
+        self.checkpoint = checkpoint
         super.init()
         source.receiver = self
         // A session that says it is not providing background access must not
@@ -218,6 +268,12 @@ final class TrackRecorder: NSObject {
         }
         isWaitingForPermission = false
         recording.start(now: now)
+        // The journal opens before the first fix can arrive, so there is no
+        // window in which a walk is running and nothing is being written down.
+        let id = UUID()
+        walkID = id
+        checkpointNotice = checkpoint.begin(id: id, startedAt: now)
+            ? nil : Self.checkpointFailureText
         source.startUpdatingLocation()
         // The screen stays on while the walk is on screen — derived, never
         // asserted: a grant that arrives while the app is in Settings reaches
@@ -234,6 +290,7 @@ final class TrackRecorder: NSObject {
     func pause(now: Date = Date()) {
         guard recording.status == .recording else { return }
         recording.pause(now: now)
+        writeDown(.paused(at: now))
         source.stopUpdatingLocation()
         reconcileScreen()
         continuesOffScreen(false)
@@ -251,6 +308,7 @@ final class TrackRecorder: NSObject {
         // cannot come, which is the state the pause was there to end.
         guard recording.status == .paused, refusal == nil else { return }
         recording.resume(now: now)
+        writeDown(.resumed(at: now))
         source.startUpdatingLocation()
         reconcileScreen()
         continuesOffScreen(true)
@@ -258,26 +316,53 @@ final class TrackRecorder: NSObject {
         pushActivity(now: now, force: true)
     }
 
-    func stop(now: Date = Date()) -> TrackRecording.StopResult? {
+    /// What a stop produced: the walk, who it is, and the one thing the save
+    /// sheet needs to know about how it ended.
+    ///
+    /// One value rather than three reads, because a caller that read
+    /// `stoppedWhileRefused` after the stop got the answer for the *next*
+    /// recording, and a caller that has to remember to read the identifier
+    /// before the recorder forgets it is a caller that will one day not.
+    struct Stopped {
+        var id: UUID
+        var result: TrackRecording.StopResult
+        /// Location was refused during the recording, so no fix could arrive:
+        /// an empty result is that, and not weak GPS.
+        var stoppedWhileRefused: Bool
+    }
+
+    func stop(now: Date = Date()) -> Stopped? {
         // Read before the state machine is replaced: the Lock Screen is told
         // what the walk came to, not what an empty recorder says.
         let closing = activityState(now: now, overridingRecording: false)
+        let wasRefused = refusal != nil
+        let id = walkID
+        // Written down before the recorder is cleared. The stopped walk stays
+        // on disk from here until the reader saves it or throws it away: the
+        // save sheet cannot always be shown at the moment of the stop, and a
+        // walk waiting in memory for a sheet is a walk one termination from
+        // gone.
+        writeDown(.stopped(at: now))
+        checkpoint.close()
         let result = recording.stop(now: now)
         // A fresh state machine, so the next recording starts empty: the
         // stopped one keeps its segments and counters in the StopResult, and
         // the web replaces its recorder on stop the same way.
         recording = TrackRecording()
+        walkID = nil
         source.stopUpdatingLocation()
         reconcileScreen()
         continuesOffScreen(false)
         backgroundNotice = nil
+        checkpointNotice = nil
         activityRunningSince = nil
         lastActivityUpdate = nil
         // Taken down now rather than left to time out. A Live Activity for a
         // walk that has ended is a claim on the Lock Screen that it has not.
         activity.end(closing)
         lastFix = nil
-        return result
+        guard let id, let result else { return nil }
+        return Stopped(id: id, result: result, stoppedWhileRefused: wasRefused)
     }
 
     /// Called from the container's scene-phase handler.
@@ -444,7 +529,12 @@ final class TrackRecorder: NSObject {
             }
         }
         guard recording.status == .recording, newRefusal != nil, !wasRefused else { return }
-        recording.pause(now: Date())
+        let now = Date()
+        recording.pause(now: now)
+        // The same segment boundary the reader's own Pause writes. A refusal
+        // that closed a segment in memory and not on disk would replay as one
+        // unbroken walk across the gap where fixes stopped.
+        writeDown(.paused(at: now))
         source.stopUpdatingLocation()
         reconcileScreen()
         // And the licence to continue off screen. A refused walk that kept it
@@ -453,7 +543,7 @@ final class TrackRecorder: NSObject {
         // itself, that a recording is running that is not.
         continuesOffScreen(false)
         activityRunningSince = nil
-        pushActivity(now: Date(), force: true)
+        pushActivity(now: now, force: true)
     }
 
     private func receive(_ location: CLLocation) {
@@ -476,6 +566,11 @@ final class TrackRecorder: NSObject {
         )
         lastFix = fix
         recording.addFix(fix)
+        // Every fix, kept or filtered out alike, and synchronously: the journal
+        // holds what the recorder was handed, so that replaying it produces the
+        // same walk the filter produced here. Deferring the write is how a fix
+        // gets lost to the termination that arrives between the two.
+        writeDown(.fix(fix))
         pushActivity(now: location.timestamp, force: false)
     }
 }
@@ -493,10 +588,6 @@ extension TrackRecorder: LocationFixReceiver {
         refusal = nil
         isWaitingForPermission = false
     }
-
-    /// Whether a recording stopped without a fix because location was
-    /// refused during it, for the save sheet's empty-result wording.
-    var stoppedWhileRefused: Bool { refusal != nil }
 
     func locationSourceAuthorizationChanged(_ source: any LocationFixSource) {
         let status = source.authorizationStatus

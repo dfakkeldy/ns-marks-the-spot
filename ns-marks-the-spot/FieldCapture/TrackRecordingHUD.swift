@@ -137,6 +137,17 @@ struct TrackRecordingHUD: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
+            // Its own line, beside the one above and never merged into it.
+            // "The walk will stop if the phone goes in a pocket" and "the walk
+            // is no longer being written down" are two different losses with
+            // two different things to do about them.
+            if let notice = recorder.checkpointNotice {
+                Label(notice, systemImage: "externaldrive.badge.exclamationmark")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
             Text("Location stays on this device.")
                 .font(.caption2)
                 .foregroundStyle(.secondary)

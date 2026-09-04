@@ -54,7 +54,8 @@ struct TrackRecorderRefusalTests {
     @Test func theRecorderShowsNothingUntilSomebodyAsksToRecord() {
         let source = SwitchedOffFixSource()
         let recorder = TrackRecorder(
-            source: source, screen: UnwatchedScreen(), activity: UnwatchedActivity()
+            source: source, screen: UnwatchedScreen(), activity: UnwatchedActivity(),
+            checkpoint: temporaryCheckpointStore()
         )
         #expect(!recorder.isShowingRecorder)
 

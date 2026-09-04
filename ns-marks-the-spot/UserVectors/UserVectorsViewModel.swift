@@ -528,9 +528,16 @@ final class UserVectorsViewModel {
     /// geometry, the raw GPX as the layer's original file, origin
     /// `recorded`. Returns nil when nothing drawable survived the filter or
     /// the device would not keep the layer.
+    /// `id` is the walk's own identifier when the recording was checkpointed —
+    /// the same one on the journal's first line — so the layer written for a
+    /// walk is the same layer however many times the save is attempted. A
+    /// process ended after this landed but before the checkpoint was cleared
+    /// offers the walk again at the next launch, and the caller answers that by
+    /// looking for this id among the rows rather than writing a second copy.
     @discardableResult
     func addRecordedLayer(
         _ result: TrackRecording.StopResult,
+        id: String = UUID().uuidString,
         name: String,
         simplifyToleranceM: Double,
         now: Date = Date()
@@ -541,7 +548,7 @@ final class UserVectorsViewModel {
         let parsed = VectorEdit.recomputed([feature])
         let rawGpx = TrackGpx.rawGpx(name: name, rawSegments: result.rawSegments)
         let record = UserVectorLayerRecord(
-            id: UUID().uuidString,
+            id: id,
             name: name,
             source: .recorded,
             origin: .recorded(startedAt: result.startedAt, endedAt: result.endedAt),

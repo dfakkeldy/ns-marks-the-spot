@@ -14,6 +14,22 @@ final class AppContainer {
     let licenceStore: ProvinceLicenceStore
     let sessionStore: MapSessionStore
 
+    /// Where a walk in progress is written down.
+    ///
+    /// Owned here rather than by the map view because a checkpoint outlives
+    /// every view: it is written by a recorder taking fixes in a pocket and
+    /// read once, at launch, before anything can record over it. `lazy`, so a
+    /// unit test that builds a container to ask which layers install does not
+    /// make a directory in the test host to find out.
+    private(set) lazy var trackCheckpoint = checkpointStore ?? .inApplicationSupport()
+    private let checkpointStore: TrackCheckpointStore?
+
+    /// The walk that was waiting on disk at launch: one iOS ended under the
+    /// reader, one they stopped and never saved, a checkpoint this build could
+    /// not read, or nothing. Set by `forLaunch`, which is the only caller that
+    /// reads the disk.
+    private(set) var restoredWalk: TrackCheckpointStore.Found = .none
+
     /// What the map was showing when the app last went away, or `nil` on a
     /// first launch. Read once, here, so the opening layer set, the opening
     /// background and the opening position come from one answer rather than
@@ -56,6 +72,21 @@ final class AppContainer {
     )
     private(set) lazy var georeferenceReferences = GeoreferenceReferenceServices(container: self)
 
+    /// The track recorder, for the life of the process.
+    ///
+    /// It used to be `@State` in `MapContainerView`, and that is precisely the
+    /// bug: Apple launches this app to perform a `LiveActivityIntent`
+    /// **without opening it**, so no view's `onAppear` need ever run. A Pause
+    /// tapped on the Lock Screen of a terminated app reached a registry with
+    /// nothing installed in it, and the only honest thing left to do was fail.
+    /// Process-lifetime state belongs in the process-lifetime object.
+    ///
+    /// `lazy` for the same reason as the view models above, and one more: it
+    /// builds a `CLLocationManager`, and a unit test that constructs a
+    /// container to ask which layers install must not reach CoreLocation to
+    /// find out.
+    private(set) lazy var trackRecorder = TrackRecorder(checkpoint: trackCheckpoint)
+
     /// The container the app launches with.
     ///
     /// `UITestMode` on the command line builds one that remembers nothing: an
@@ -90,21 +121,66 @@ final class AppContainer {
             }
         }
         guard ProcessInfo.processInfo.arguments.contains("UITestMode") else {
-            return AppContainer()
+            let container = AppContainer()
+            // The walk, before a view exists to ask for it. Read here and not
+            // from the map's `.task` because a recorder reached from a
+            // cold-launched Lock Screen intent can be started before any view
+            // runs, and the first thing a new recording does is put the old
+            // journal aside.
+            container.restoredWalk = container.trackCheckpoint.read()
+            container.installTrackActivityActions()
+            return container
         }
-        return AppContainer(
+        // A UI test gets a checkpoint directory thrown away with the run, for
+        // the same reason it gets a licence and a session store that remember
+        // nothing: a test asserting on what is on screen must not be asserting
+        // on a walk the simulator was left holding — and an unsaved recording
+        // opens a sheet over everything else the test came to look at.
+        let container = AppContainer(
             licenceStorage: InMemoryProvinceLicenceStorage(),
             sessionStore: MapSessionStore(
                 defaults: UserDefaults(suiteName: "ui-test-\(UUID().uuidString)") ?? .standard
+            ),
+            checkpointStore: TrackCheckpointStore(
+                directory: FileManager.default.temporaryDirectory
+                    .appendingPathComponent("ui-test-\(UUID().uuidString)", isDirectory: true)
             )
+        )
+        container.installTrackActivityActions()
+        return container
+    }
+
+    /// Points the Lock Screen's buttons at this process's recorder.
+    ///
+    /// At launch rather than from a view's `onAppear`, which is the finding
+    /// this move exists to close: a `LiveActivityIntent` launches the app
+    /// **without opening it**, and an intent performed before any view appeared
+    /// found nothing installed. Whatever else is true of a launched process,
+    /// this ran.
+    private func installTrackActivityActions() {
+        TrackActivityActions.shared.install(
+            pause: { [trackRecorder] in
+                trackRecorder.pause()
+                guard trackRecorder.status == .paused else { return false }
+                MapHaptics.modeChanged()
+                return true
+            },
+            resume: { [trackRecorder] in
+                trackRecorder.resume()
+                guard trackRecorder.status == .recording else { return false }
+                MapHaptics.modeChanged()
+                return true
+            }
         )
     }
 
     init(
         licenceStorage: (any ProvinceLicenceStorage)? = nil,
-        sessionStore: MapSessionStore = MapSessionStore()
+        sessionStore: MapSessionStore = MapSessionStore(),
+        checkpointStore: TrackCheckpointStore? = nil
     ) {
         self.sessionStore = sessionStore
+        self.checkpointStore = checkpointStore
 
         // Warm the bundled catalogs off the main thread. Their statics
         // memoize on first touch, and the first touch used to be the scene

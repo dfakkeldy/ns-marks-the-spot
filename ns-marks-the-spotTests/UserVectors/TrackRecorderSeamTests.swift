@@ -105,7 +105,7 @@ struct TrackRecorderSeamTests {
         return (
             TrackRecorder(
                 source: source, screen: screen, background: background,
-                activity: UnwatchedActivity()
+                activity: UnwatchedActivity(), checkpoint: temporaryCheckpointStore()
             ),
             source, screen, background
         )
