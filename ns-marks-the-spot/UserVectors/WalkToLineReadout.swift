@@ -1,0 +1,115 @@
+import GeoCore
+import SwiftUI
+
+/// How far the reader is from a line, and which way.
+///
+/// The landowner walking a boundary and the researcher finding a listed lot's
+/// edge want the same two numbers, and nothing on the map computed the reader's
+/// distance to anything. This is the reading `WalkToLine` produces, said.
+///
+/// In the edit panel, above the part that scrolls, rather than as a card on the
+/// map. It was a card on the map first, and it could not be seen: the panel is
+/// bottom-anchored and grows upward past the notice slot, so the one moment
+/// this reading exists — a session open, a feature selected — is the moment
+/// something is drawn over that slot. The panel is where the reader is looking
+/// while they are editing, and it is the only place the reading is both visible
+/// and unable to collide with anything else.
+///
+/// What it does not say, and will not: it names no parcel, asserts no boundary
+/// and turns nothing into a position. The distance is from a device fix to
+/// geometry already on screen, and both of those carry caveats that travel with
+/// the number rather than being summarised away — the parcel caveat below, and
+/// the fix's own accuracy, which is called out whenever it is wider than the
+/// distance being reported. "Three metres to the boundary" from a fix known to
+/// twelve is a figure whose error bar swallows it whole, and a reader stepping
+/// to that line is trusting arithmetic the device cannot support. A fix that
+/// never stated its accuracy gets its own sentence rather than the silence a
+/// good fix gets.
+///
+/// And the boundary is named, not merely described: "12 m to the boundary"
+/// beside a survey caveat reads as some authoritative line, when what it is is
+/// a distance to geometry traced from NSPRD.
+struct WalkToLineReadout: View {
+    var reading: WalkToLine.Reading
+    /// Shown when the reading is against a parcel boundary: the standing
+    /// caveat, wherever a traced boundary is offered.
+    var parcelCaveat: String
+
+    private var distance: String { Geodesy.formatDistance(reading.distanceMetres) }
+
+    /// Named, not described. "12 m to the boundary" beside a survey caveat
+    /// reads as *some* authoritative boundary, and the only thing on screen
+    /// that says which one is a toggle in a panel that scrolls away. A traced
+    /// boundary is NSPRD's, and the number is worth no more than its source.
+    private var whatItIs: String {
+        switch (reading.source, reading.kind) {
+        case (.parcel, .vertex): "to the NSPRD boundary corner"
+        case (.parcel, .edge): "to the NSPRD boundary"
+        case (.ownFeature, .vertex): "to your corner"
+        case (.ownFeature, .edge): "to your shape"
+        }
+    }
+
+    /// The caveat the fix's own accuracy earns, and nothing when it earns
+    /// none. Three answers, because "the device did not say" is not the same
+    /// as "the device said it is wide" and neither is silence.
+    private var accuracyCaveat: String? {
+        switch reading.accuracy {
+        case .tighterThanDistance: nil
+        case .widerThanDistance: "Your position is known less precisely than this distance."
+        case .unstated: "Your device did not say how precisely it knows your position."
+        }
+    }
+
+    /// True north, and said so. The map is drawn in true north and the
+    /// device's compass is never consulted, so a reader holding a magnetic
+    /// compass has to apply the local declination themselves — which is why
+    /// this never says "heading" and never draws an arrow.
+    private var direction: String? {
+        guard let bearing = reading.bearingDegrees else { return nil }
+        return "\(Geodesy.compassPoint(forBearingDegrees: bearing)) · \(Int(bearing.rounded()))° true"
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 6) {
+                Image(systemName: "ruler")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
+                if reading.distanceMetres == 0 {
+                    Text("You are on it")
+                        .font(.footnote.weight(.semibold))
+                } else {
+                    Text("\(distance) \(whatItIs)")
+                        .font(.footnote.weight(.semibold))
+                    if let direction {
+                        Text(direction)
+                            .font(.footnote.monospacedDigit())
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+
+            // The one thing a distance readout can quietly get wrong.
+            if let accuracyCaveat {
+                Text(accuracyCaveat)
+                    .font(.footnote)
+                    .foregroundStyle(.primary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            if reading.source == .parcel {
+                Text(parcelCaveat)
+                    .font(.footnote)
+                    .foregroundStyle(.primary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        // One element, so a reader hears the distance, the direction and the
+        // caveats as one answer rather than swiping through four fragments.
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("walk-to-line")
+    }
+}

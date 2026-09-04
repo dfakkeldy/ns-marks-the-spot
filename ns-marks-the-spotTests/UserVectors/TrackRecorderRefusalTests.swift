@@ -52,8 +52,8 @@ struct TrackRecorderRefusalTests {
     /// authorization delegate fires at cold launch, and a device with the
     /// switch off would greet every reader with one.
     @Test func theRecorderShowsNothingUntilSomebodyAsksToRecord() {
-        let recorder = TrackRecorder()
-        recorder.servicesEnabled = { false }
+        let source = SwitchedOffFixSource()
+        let recorder = TrackRecorder(source: source, screen: UnwatchedScreen())
         #expect(!recorder.isShowingRecorder)
 
         let refusal = recorder.start()
@@ -95,4 +95,21 @@ struct TrackRecorderRefusalTests {
         #expect(off.contains("Location Services are off"))
         #expect(Set([denied, restricted, off]).count == 3)
     }
+}
+
+/// Location Services off for the device, this app granted. The one state that
+/// makes `start()` refuse without asking CoreLocation anything.
+@MainActor
+private final class SwitchedOffFixSource: LocationFixSource {
+    var authorizationStatus: CLAuthorizationStatus = .authorizedWhenInUse
+    var servicesEnabled = false
+    weak var receiver: (any LocationFixReceiver)?
+    func requestWhenInUseAuthorization() {}
+    func startUpdatingLocation() {}
+    func stopUpdatingLocation() {}
+}
+
+@MainActor
+private final class UnwatchedScreen: ScreenWakeLock {
+    var isHeldAwake = false
 }

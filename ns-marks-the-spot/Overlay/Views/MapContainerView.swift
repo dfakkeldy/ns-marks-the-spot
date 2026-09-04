@@ -600,6 +600,11 @@ struct MapContainerView: View {
                 let reticleGround = controller.reticleCoordinate
                 VectorEditPanel(
                     session: editSession,
+                    // Above the part of the panel that scrolls. Not a card on
+                    // the map: the panel is bottom-anchored and grows upward
+                    // past the top notice slot, so a card there is covered by
+                    // the very thing whose session the reading belongs to.
+                    walkToLine: printFrame == nil ? walkToLineReading : nil,
                     onDone: {
                         // Done outranks any Edit tap still loading its layer.
                         editLoadGeneration += 1
@@ -2128,6 +2133,77 @@ struct MapContainerView: View {
         return UserVectorDrawing(
             record: record,
             parsed: ParsedVector(features: features, bbox: nil)
+        )
+    }
+
+    /// Which of the two fixes to measure from: the freshest one still inside
+    /// the window, or none.
+    ///
+    /// Not `recorder.lastFix ?? map` — that is what this was, and it is wrong
+    /// in a way a reader cannot see. `pause()` stops the updates but keeps the
+    /// last fix; only `stop()` clears it. So a walk paused at the gate and
+    /// resumed half a mile down the boundary went on measuring from the gate,
+    /// outranking a MapKit fix taken seconds ago, with nothing on screen
+    /// saying which position the number was from.
+    ///
+    /// The window is the map's own: `MapController.locateMaxFixAge`, with the
+    /// same tolerance for a clock that runs ahead. A fix outside it is not
+    /// shown at all, because "12 m to the boundary" is a claim about where the
+    /// reader is standing now.
+    ///
+    /// Evaluated when the view is, which is honest but worth stating: a
+    /// reading can outlive its window until something re-renders. Fixes are
+    /// what usually do that, and their absence is itself reported — the map
+    /// raises `signalLost`, which re-renders this.
+    static func walkToLineFix(recorder: TrackFix?, map: TrackFix?, now: Date) -> TrackFix? {
+        func usable(_ fix: TrackFix?) -> TrackFix? {
+            guard let fix else { return nil }
+            let age = now.timeIntervalSince(fix.timestamp)
+            guard age <= MapController.locateMaxFixAge,
+                  age >= -MapController.locateClockTolerance
+            else { return nil }
+            return fix
+        }
+        return [usable(recorder), usable(map)]
+            .compactMap { $0 }
+            .max { $0.timestamp < $1.timestamp }
+    }
+
+    /// The reading the chip shows, or nil when there is nothing to measure.
+    ///
+    /// Offered only where the geometry is already on screen and already
+    /// licence-gated: a feature the reader has selected, or the parcel rings
+    /// the session fetched when parcel snapping was armed. Nothing is fetched
+    /// for this, and no boundary is asked for that the map was not already
+    /// showing.
+    private var walkToLineReading: WalkToLine.Reading? {
+        guard let session = editSession, session.isEditing else { return nil }
+        guard let fix = Self.walkToLineFix(
+            recorder: recorder.lastFix, map: controller.lastUserFix, now: Date()
+        ) else { return nil }
+
+        var targets: [SnapEngine.Target] = []
+        // The same gate the snap itself passes through, not merely the toggle.
+        // The rings are cached, and the licence going away is observed before
+        // the cleanup that clears them runs — so for one evaluation the
+        // restricted geometry is off the map and still in hand. A distance to
+        // it is a disclosure of it.
+        if session.snapParcels, overlayVM.hasAcceptedProvinceLicence {
+            targets.append(contentsOf: session.parcelSnapTargets)
+        }
+        // The selected feature as it is, whatever tool is armed. The Point
+        // tool's exclusion exists so a new point does not snap onto an
+        // existing one and become an invisible duplicate; measuring a distance
+        // to a point is a perfectly good question.
+        if let geometry = session.selectedFeature?.geometry {
+            targets.append(.ownFeature(geometry))
+        }
+        guard !targets.isEmpty else { return nil }
+
+        return WalkToLine.reading(
+            from: GeoPoint(lat: fix.latitude, lng: fix.longitude),
+            accuracyMetres: fix.accuracyM,
+            to: targets
         )
     }
 

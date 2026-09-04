@@ -1147,10 +1147,29 @@ final class MapController: NSObject {
     /// position already on screen instead of asking CoreLocation for a fresh
     /// one, which can take ten seconds and, with no location at all, fails
     /// while the dot is still showing.
+    ///
+    /// A reach into MapKit, deliberately: it answers "where is the dot right
+    /// now" for a caller that has just been asked to mark a position. Anything
+    /// that has to *notice* the dot moving reads `lastUserFix` instead — this
+    /// one is a plain method call and nothing observes it.
     func userLocationFix() -> TrackFix? {
         guard let location = mapView?.userLocation.location else { return nil }
         return TrackFix(location: location)
     }
+
+    /// The last user-location fix the map accepted, as an observed property.
+    ///
+    /// `userLocationFix()` reads `MKUserLocation` straight out of the map view,
+    /// which is not observable — a view built on it renders once and then keeps
+    /// its first answer while the dot walks away underneath. This is set from
+    /// the delegate, so a view that reads it is re-evaluated when the reader
+    /// moves.
+    ///
+    /// Only positions the delegate accepts land here, which is the same gate
+    /// the rest of this class uses. Freshness is deliberately NOT applied:
+    /// this says what the map last heard and when, and a caller decides how
+    /// old is too old for what it is about to say.
+    private(set) var lastUserFix: TrackFix?
 
     /// The location button.
     ///
@@ -2095,6 +2114,7 @@ extension MapController: MKMapViewDelegate {
         // An invalid position is not a fix: it neither restores the signal
         // nor promotes anything.
         guard Self.isPosition(location) else { return }
+        lastUserFix = TrackFix(location: location)
         let stillFollowing = followsOnceSettled
             || userTrackingState == .following || userTrackingState == .heading
         // Fresh on both sides of the clock, as the gate reads it: a fix an

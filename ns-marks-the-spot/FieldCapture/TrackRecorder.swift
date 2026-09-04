@@ -42,8 +42,9 @@ final class TrackRecorder: NSObject {
     var permissionDenied: Bool { refusal != nil }
     var permissionRestricted: Bool { refusal == .restricted }
 
-    /// Whether Location Services are on for the device. Injected for tests.
-    @ObservationIgnored var servicesEnabled: () -> Bool = { CLLocationManager.locationServicesEnabled() }
+    /// Whether Location Services are on for the device, read through the
+    /// source so a test can say no without a device that says no.
+    @ObservationIgnored var servicesEnabled: () -> Bool { { [source] in source.servicesEnabled } }
 
     /// Location Services off for the whole device refuses a granted app too,
     /// so the switch is read here rather than only under a denial. A
@@ -70,7 +71,16 @@ final class TrackRecorder: NSObject {
 
     private(set) var recording = TrackRecording()
 
-    @ObservationIgnored private let manager = CLLocationManager()
+    /// The device, behind a seam. See `LocationFixSource`: the design document
+    /// has claimed this was injected since N1, and until now it was a
+    /// `CLLocationManager` built in the initialiser — so segmentation, the
+    /// auto-pause, the idle timer and every refusal state were untestable, and
+    /// three of the six device bugs the field review found live in exactly
+    /// those.
+    @ObservationIgnored private let source: any LocationFixSource
+    /// The screen, behind the same kind of seam, so "the screen must not be
+    /// held awake for a session that cannot record" is a rule a test can check.
+    @ObservationIgnored private let screen: any ScreenWakeLock
 
     var status: TrackRecording.Status { recording.status }
     var isActive: Bool { recording.status != .idle }
@@ -82,13 +92,14 @@ final class TrackRecorder: NSObject {
     /// is set by `start()`, which only a tap on Record reaches.
     var isShowingRecorder: Bool { isActive || isWaitingForPermission }
 
-    override init() {
+    init(
+        source: any LocationFixSource = CoreLocationFixSource(),
+        screen: any ScreenWakeLock = ApplicationScreenWakeLock()
+    ) {
+        self.source = source
+        self.screen = screen
         super.init()
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        // Walking pace: fixes closer together than this are jitter the
-        // contract filter would drop anyway.
-        manager.distanceFilter = kCLDistanceFilterNone
+        source.receiver = self
     }
 
     /// True while a refused start waits for a grant: granted in Settings and
@@ -104,7 +115,7 @@ final class TrackRecorder: NSObject {
     func start(now: Date = Date()) -> Refusal? {
         guard recording.status == .idle else { return nil }
         autoPauseMessage = nil
-        let status = manager.authorizationStatus
+        let status = source.authorizationStatus
         // Read now, not waited for: the delegate reports a status only when
         // it changes, and a refusal already on file never changes again. The
         // device-wide switch is read the same way and for the same reason —
@@ -129,7 +140,7 @@ final class TrackRecorder: NSObject {
             // comes — the delegate starts it — not now, under a prompt, with
             // a clock running on fixes that cannot arrive yet.
             isWaitingForPermission = true
-            manager.requestWhenInUseAuthorization()
+            source.requestWhenInUseAuthorization()
             return nil
         }
         if let refusal {
@@ -138,19 +149,19 @@ final class TrackRecorder: NSObject {
         }
         isWaitingForPermission = false
         recording.start(now: now)
-        manager.startUpdatingLocation()
+        source.startUpdatingLocation()
         // The screen stays on for the walk. Restored on stop and on leaving
         // the foreground — the system owns the idle timer again the moment
         // this app is not actively recording.
-        UIApplication.shared.isIdleTimerDisabled = true
+        screen.isHeldAwake = true
         return nil
     }
 
     func pause(now: Date = Date()) {
         guard recording.status == .recording else { return }
         recording.pause(now: now)
-        manager.stopUpdatingLocation()
-        UIApplication.shared.isIdleTimerDisabled = false
+        source.stopUpdatingLocation()
+        screen.isHeldAwake = false
     }
 
     func resume(now: Date = Date()) {
@@ -159,8 +170,8 @@ final class TrackRecorder: NSObject {
         guard recording.status == .paused, refusal == nil else { return }
         autoPauseMessage = nil
         recording.resume(now: now)
-        manager.startUpdatingLocation()
-        UIApplication.shared.isIdleTimerDisabled = true
+        source.startUpdatingLocation()
+        screen.isHeldAwake = true
     }
 
     func stop(now: Date = Date()) -> TrackRecording.StopResult? {
@@ -169,8 +180,8 @@ final class TrackRecorder: NSObject {
         // stopped one keeps its segments and counters in the StopResult, and
         // the web replaces its recorder on stop the same way.
         recording = TrackRecording()
-        manager.stopUpdatingLocation()
-        UIApplication.shared.isIdleTimerDisabled = false
+        source.stopUpdatingLocation()
+        screen.isHeldAwake = false
         autoPauseMessage = nil
         lastFix = nil
         return result
@@ -225,11 +236,19 @@ final class TrackRecorder: NSObject {
         }
         guard recording.status == .recording, newRefusal != nil, !wasRefused else { return }
         recording.pause(now: Date())
-        manager.stopUpdatingLocation()
-        UIApplication.shared.isIdleTimerDisabled = false
+        source.stopUpdatingLocation()
+        screen.isHeldAwake = false
     }
 
     private func receive(_ location: CLLocation) {
+        // Only while a walk is running. `stopUpdatingLocation()` does not
+        // unsend what CoreLocation has already queued, and the receiver stays
+        // installed — so a straggler arriving after Stop used to put a fix
+        // back on a recorder that had just cleared it, and `lastFix` is what
+        // Mark reads to decide whether a cached position is fresh enough to
+        // save. A paused walk is the same case: the updates are off, and
+        // whatever arrives now belongs to no segment.
+        guard recording.status == .recording else { return }
         let fix = TrackFix(
             latitude: location.coordinate.latitude,
             longitude: location.coordinate.longitude,
@@ -244,15 +263,12 @@ final class TrackRecorder: NSObject {
     }
 }
 
-// `@preconcurrency`: CLLocationManagerDelegate requirements are nonisolated,
-// but the manager is created on the main run loop, so callbacks arrive on the
-// main thread and may satisfy the requirements from this main-actor class —
-// the same pattern MapController uses.
-extension TrackRecorder: @preconcurrency CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        for location in locations {
-            receive(location)
-        }
+// The device's side of the seam. Nothing here knows about CLLocationManager
+// any more: a test hands over the same three events in whatever order it wants
+// to describe, which is the order a real device does not offer.
+extension TrackRecorder: LocationFixReceiver {
+    func locationSource(_ source: any LocationFixSource, received location: CLLocation) {
+        receive(location)
     }
 
     /// The reader waved the refusal away: nothing is waiting any more.
@@ -265,20 +281,20 @@ extension TrackRecorder: @preconcurrency CLLocationManagerDelegate {
     /// refused during it, for the save sheet's empty-result wording.
     var stoppedWhileRefused: Bool { refusal != nil }
 
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        let status = manager.authorizationStatus
+    func locationSourceAuthorizationChanged(_ source: any LocationFixSource) {
+        let status = source.authorizationStatus
         apply(
             refusal: Self.refusal(for: status, servicesEnabled: servicesEnabled()),
             granted: status == .authorizedWhenInUse || status == .authorizedAlways
         )
     }
 
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+    func locationSource(_ source: any LocationFixSource, failedWith error: any Error) {
         // Transient failures (no signal in a building) are what the HUD's
         // red state is for; nothing to store. A refusal delivered as a
         // failure is the refusal.
         guard (error as? CLError)?.code == .denied else { return }
-        let status = manager.authorizationStatus
+        let status = source.authorizationStatus
         let servicesOn = servicesEnabled()
         // The status names the refusal when it can; a denied error under a
         // status that does not explain it is still a refusal, and Location
