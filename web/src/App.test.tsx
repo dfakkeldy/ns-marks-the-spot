@@ -5065,7 +5065,7 @@ describe("NS Marks The Spot Online", () => {
     vi.mocked(fetchCoastalFloodEvidence).mockResolvedValueOnce([
       { scenario: "current", status: "no-intersection", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 0, approximateAffectedSquareMetres: 0, sampledParcelPixels: 320 },
       { scenario: "2050", status: "intersects", stormAnnualExceedanceProbabilityPercent: 1, approximateAffectedPercent: 8.5, approximateAffectedSquareMetres: 9_400, sampledParcelPixels: 320 },
-      { scenario: "2100", status: "unanswered", stormAnnualExceedanceProbabilityPercent: 1 },
+      { scenario: "2100", status: "unanswered", stormAnnualExceedanceProbabilityPercent: 1, stage: "request" as const },
     ]);
     renderAppWithCategoriesOpen();
 

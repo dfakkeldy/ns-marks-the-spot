@@ -577,7 +577,12 @@ export function useUserVectorLayers(
                 requestDurableStorage();
               } catch (saveError) {
                 // Spec promise: a save failure never discards the import; the
-                // layer lives in memory for this session.
+                // layer lives in memory for this session — and this is the
+                // record of that, so its next write creates the row rather
+                // than taking the guarded update that finds none, and a
+                // removal does not promise a copy this device never held.
+                neverStoredIdsRef.current.add(record.id);
+                neverStoredOriginalsRef.current.set(record.id, file);
                 notes.push(
                   saveError instanceof UserMapImportError
                     ? saveError.userMessage
@@ -640,7 +645,11 @@ export function useUserVectorLayers(
       // A removed layer must not linger in the create-retry set. It also
       // says which kind of layer this is: an id in the set never reached the
       // store, so there is nothing on the device to refuse to delete.
-      const neverStored = unsavedDrawnIdsRef.current.delete(id);
+      const neverStored = neverStoredIdsRef.current.delete(id);
+      neverStoredOriginalsRef.current.delete(id);
+      // Not in the set is not proof of a row either — a layer imported in an
+      // earlier session and since removed by another tab has none — so the
+      // refusal below says the copy MAY come back rather than that it will.
       try {
         await (await store()).deleteVectorLayer(id);
       } catch {
@@ -653,7 +662,7 @@ export function useUserVectorLayers(
         if (!neverStored) {
           setStorageError(
             "Removed from this session, but this device wouldn't delete its " +
-              "copy — the layer will be back the next time the map is opened.",
+              "copy — the layer may be back the next time the map is opened.",
           );
         }
       }
@@ -760,24 +769,48 @@ export function useUserVectorLayers(
   );
 
   /**
-   * Drawn layers whose INITIAL save failed. The store's putVectorLayer is a
-   * guarded update on purpose — an absent row means another tab deleted the
-   * layer, and blindly upserting would resurrect it — but that guard also
-   * made a never-saved drawing silently no-op on every later edit: the
-   * drawing looked fine all session and vanished with the tab, with the
-   * "reports persistence trouble" promise in createDrawnLayer never coming
+   * Layers whose INITIAL save failed, whatever made them: an import, a
+   * drawing, a recording, a photo layer. This device has no row for any of
+   * them, and two things follow.
+   *
+   * The store's putVectorLayer is a guarded update on purpose — an absent row
+   * means another tab deleted the layer, and blindly upserting would
+   * resurrect it — but that guard also made a never-saved layer silently
+   * no-op on every later edit: it looked fine all session and vanished with
+   * the tab, with the "reports persistence trouble" promise never coming
    * true. Ids in this set take the CREATE path on their next write instead,
    * and leave the set only when that create succeeds.
+   *
+   * And a removal that fails for one of them has not left a copy behind,
+   * because there was never a copy: telling the reader the layer will be back
+   * would be a claim about a row that does not exist.
    */
-  const unsavedDrawnIdsRef = useRef(new Set<string>());
+  const neverStoredIdsRef = useRef(new Set<string>());
+
+  /**
+   * The original file a never-stored layer still owes the device. A recording
+   * carries its raw GPX — every position as reported, before filtering, which
+   * is the evidence behind the drawn track — and an import carries the file it
+   * came from. The create path below writes the row; without this it would
+   * write a recorded row whose Raw GPX button has nothing to offer, and a
+   * layer that says it came from a file that is not there.
+   */
+  const neverStoredOriginalsRef = useRef(new Map<string, Blob>());
 
   const putVectorLayer = useCallback(
     async (record: UserVectorLayerRecord, collection: FeatureCollection) => {
       const opened = await store();
       let wrote = true;
-      if (unsavedDrawnIdsRef.current.has(record.id)) {
-        await opened.saveVectorLayer(record, collection);
-        unsavedDrawnIdsRef.current.delete(record.id);
+      if (neverStoredIdsRef.current.has(record.id)) {
+        await opened.saveVectorLayer(
+          record,
+          collection,
+          neverStoredOriginalsRef.current.get(record.id),
+        );
+        neverStoredIdsRef.current.delete(record.id);
+        neverStoredOriginalsRef.current.delete(record.id);
+        // The refusal this write has just undone is still on the panel.
+        setStorageError(null);
       } else {
         // False when another tab deleted the layer: the update finds no row
         // and deliberately writes nothing rather than resurrecting it.
@@ -815,7 +848,7 @@ export function useUserVectorLayers(
         // An unsaved drawing still works for this session. Marking it here is
         // what makes the promise below true: the next edit write retries the
         // CREATE, and its failure reaches the edit session's storage error.
-        unsavedDrawnIdsRef.current.add(record.id);
+        neverStoredIdsRef.current.add(record.id);
       }
       setRecords((prev) => [...prev, record]);
       setGeometries((prev) => ({ ...prev, [record.id]: empty }));
@@ -920,7 +953,11 @@ export function useUserVectorLayers(
         // reported as another tab's deletion. Without this an edit to the
         // track silently wrote nothing all session, exactly as a never-saved
         // drawing used to.
-        unsavedDrawnIdsRef.current.add(record.id);
+        neverStoredIdsRef.current.add(record.id);
+        // The raw GPX goes with it: an edit to this layer takes the create
+        // path, and a recorded row without its original offers a Raw GPX
+        // button that answers with nothing.
+        neverStoredOriginalsRef.current.set(record.id, input.rawGpx);
         setStorageError(
           saveError instanceof UserMapImportError
             ? saveError.userMessage
@@ -930,7 +967,8 @@ export function useUserVectorLayers(
       // Left up, a refusal would keep telling the reader that a track now on
       // the device will not survive the tab.
       if (persisted) {
-        unsavedDrawnIdsRef.current.delete(record.id);
+        neverStoredIdsRef.current.delete(record.id);
+        neverStoredOriginalsRef.current.delete(record.id);
         // The panel is still carrying a refusal this write has just undone.
         if (refused) {
           setStorageError(null);
@@ -1125,6 +1163,7 @@ export function useUserVectorLayers(
         await (await store()).saveVectorLayer(finalRecord, collection);
         requestDurableStorage();
       } catch (saveError) {
+        neverStoredIdsRef.current.add(finalRecord.id);
         notes.push(
           saveError instanceof UserMapImportError
             ? saveError.userMessage

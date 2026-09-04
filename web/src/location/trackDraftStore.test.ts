@@ -283,7 +283,8 @@ describe("the recording draft on this device", () => {
       await vi.advanceTimersByTimeAsync(10_000);
 
       expect(await read).toEqual({ status: "unreadable" });
-      expect(await write).toBe("failed");
+      // Not "failed": nothing refused this write, and it may still land.
+      expect(await write).toBe("unverified");
     } finally {
       vi.useRealTimers();
     }
@@ -319,10 +320,28 @@ describe("the recording draft on this device", () => {
       await vi.advanceTimersByTimeAsync(10_000);
 
       expect(await read).toEqual({ status: "unreadable" });
-      expect(await write).toBe("failed");
+      expect(await write).toBe("unverified");
     } finally {
       vi.useRealTimers();
     }
+  });
+
+  // The deadline lets the queue move on, so a write that ran past it can
+  // still be waiting on the device when the delete behind it is asked for.
+  // Landing then would put a walk the reader saved or discarded back under a
+  // key they believe is empty.
+  it("drops a write the reader has already saved or discarded", async () => {
+    const factory = new IDBFactory();
+    const store = createTrackDraftStore(factory);
+    await store.save(draft());
+
+    // Asked for in this order, and the walk must be gone at the end of it.
+    const write = store.save({ ...draft(), distanceM: 111 });
+    const gone = store.clear();
+
+    expect(await write).toBeNull();
+    expect(await gone).toBeNull();
+    expect(await store.read()).toEqual({ status: "empty" });
   });
 
   // A walk the user has already saved must not come back as unsaved because

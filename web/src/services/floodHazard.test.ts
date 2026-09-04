@@ -203,6 +203,7 @@ describe("coastal raster sampling", () => {
         { scenario: "2050", status: "no-intersection" },
         { scenario: "2100", status: "unanswered" },
       ]);
+      expect(result[2]).toMatchObject({ stage: "request" });
       // Nothing was measured, so nothing about the ground is reported.
       expect(result[2]).not.toHaveProperty("approximateAffectedPercent");
       expect(result[2]).not.toHaveProperty("approximateAffectedSquareMetres");
@@ -239,11 +240,16 @@ describe("coastal raster sampling", () => {
       );
       await vi.advanceTimersByTimeAsync(COASTAL_SCENARIO_TIMEOUT_MS);
 
-      expect((await pending).map(({ status }) => status)).toEqual([
+      const settled = await pending;
+      expect(settled.map(({ status }) => status)).toEqual([
         "no-intersection",
         "no-intersection",
         "unanswered",
       ]);
+      // The province replied; this browser could not read the reply in time.
+      // Calling that a service that did not answer blames somebody else's
+      // system for what happened here.
+      expect(settled[2]).toMatchObject({ stage: "processing" });
     } finally {
       vi.useRealTimers();
     }
@@ -268,6 +274,27 @@ describe("coastal raster sampling", () => {
     }));
 
     expect(result[2].status).toBe("error");
+  });
+
+  // A selection that has moved on must not have an older geometry's
+  // measurement land on it, and the effect that tore down must not wait out
+  // the whole scenario deadline first.
+  it("gives up at once when the caller abandons it mid-decode", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() => Promise.resolve(new Response("clear", { status: 200 }))),
+    );
+    const controller = new AbortController();
+
+    const pending = fetchCoastalFloodEvidence(
+      parcelFeatures,
+      800,
+      controller.signal,
+      () => new Promise(() => {}),
+    );
+    controller.abort();
+
+    await expect(pending).rejects.toMatchObject({ name: "AbortError" });
   });
 
   it("does not call an unsampled parcel a scenario miss", async () => {

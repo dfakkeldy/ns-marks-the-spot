@@ -208,16 +208,32 @@ export function useVectorEditSession({
     setDiscardedPhotos((prev) => prev.filter((photo) => photo.id !== photoId));
   }, []);
   const notePhotoCleanupFailure = useCallback((photoId: string) => {
-    setDiscardedPhotos((prev) =>
-      prev.map((photo) =>
+    setDiscardedPhotos((prev) => {
+      // Added rather than only amended: the reader can dismiss the first
+      // notice while the delete is still running, and a failure that arrived
+      // after that used to have nothing left to attach itself to and said
+      // nothing at all.
+      const existing = prev.find((photo) => photo.id === photoId);
+      if (!existing) {
+        return [
+          ...prev,
+          {
+            id: photoId,
+            message:
+              "A photo that couldn't be attached is still on this device: it " +
+              "wouldn't be deleted.",
+          },
+        ];
+      }
+      return prev.map((photo) =>
         photo.id === photoId
           ? {
               ...photo,
               message: `${photo.message} The copy on this device couldn't be removed either.`,
             }
           : photo,
-      ),
-    );
+      );
+    });
   }, []);
 
   const timerRef = useRef<number | null>(null);

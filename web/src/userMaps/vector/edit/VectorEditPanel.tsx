@@ -142,13 +142,23 @@ export function VectorEditPanel({
   // Non-destructive by default: with no undo system beyond the one-shot
   // conversion revert, keeping the source points is the safer failure mode.
   const [keepSourcePoints, setKeepSourcePoints] = useState(true);
+  const [attachingPhotos, setAttachingPhotos] = useState(false);
 
   return (
     <section className="vector-edit-panel" aria-label={`Editing ${record.name}`}>
       <header className="vector-edit-header">
         <h2>Editing</h2>
-        <button type="button" className="vector-edit-done" onClick={onDone}>
-          Done editing
+        {/* Held while a photo is being processed. Done closes the session,
+            and an attach that finishes afterwards has no feature left to
+            land on: its bytes are deleted and the reader loses a photo they
+            watched being added. */}
+        <button
+          type="button"
+          className="vector-edit-done"
+          disabled={attachingPhotos}
+          onClick={onDone}
+        >
+          {attachingPhotos ? "Finishing a photo…" : "Done editing"}
         </button>
       </header>
 
@@ -363,6 +373,7 @@ export function VectorEditPanel({
               onAttachFeaturePhotos(record.id, String(selected.id), descriptors)
             }
             onPhotoCleanupFailed={onPhotoCleanupFailed}
+            onBusyChange={setAttachingPhotos}
             onMovePoint={(position) =>
               onMoveFeaturePoint(String(selected.id), position)
             }

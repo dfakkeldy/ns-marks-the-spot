@@ -2493,11 +2493,16 @@ export function App() {
     // not answered. The reverse held too: a hanging river query sank three
     // answered coastal scenarios.
     fetchPublishedRiverFloodEvidence(selectedFeatures, controller.signal)
-      .then((value) => setRiverFlood((current) =>
-        isCurrentEvidenceRequest(current.request, request)
-          ? { status: "ready", value, request }
-          : current,
-      ))
+      .then((value) => {
+        // Same reason as the coastal answer below: the abort is what says
+        // this was measured against an outline the map has moved on from.
+        if (controller.signal.aborted) return;
+        setRiverFlood((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "ready", value, request }
+            : current,
+        );
+      })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
         setRiverFlood((current) =>
@@ -2511,11 +2516,18 @@ export function App() {
       mappedArea?.squareMetres ?? null,
       controller.signal,
     )
-      .then((value) => setCoastalFlood((current) =>
-        isCurrentEvidenceRequest(current.request, request)
-          ? { status: "ready", value, request }
-          : current,
-      ))
+      .then((value) => {
+        // The generation moves with the selection, not with the geometry: a
+        // second polygon arriving for the same PID restarts this effect
+        // without changing it. The abort is what says this answer was
+        // measured against an outline the map has moved on from.
+        if (controller.signal.aborted) return;
+        setCoastalFlood((current) =>
+          isCurrentEvidenceRequest(current.request, request)
+            ? { status: "ready", value, request }
+            : current,
+        );
+      })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
         setCoastalFlood((current) =>

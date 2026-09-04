@@ -237,4 +237,30 @@ describe("PhotoStrip", () => {
 
     await waitFor(() => expect(onPhotoCleanupFailed).toHaveBeenCalledWith("p3"));
   });
+
+  // Taking the descriptor off the feature is half of what Remove promises.
+  // The other half is the copy on the device, and a refusal there was silent.
+  it("says so when a removed photo's copy is still on this device", async () => {
+    const api = manager({ removePhoto: vi.fn(async () => false) });
+    render(
+      <PhotoStrip
+        descriptors={[{ id: "p1", sourceName: "IMG_1.jpg", width: 10, height: 10 }]}
+        pointPosition={null}
+        layerId="layer-1"
+        manager={api}
+        onDescriptors={vi.fn()}
+        onAttachDescriptors={vi.fn(() => [])}
+        onPhotoCleanupFailed={vi.fn()}
+        onMovePoint={vi.fn()}
+        onOpenPhoto={vi.fn()}
+      />,
+    );
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+
+    fireEvent.click(screen.getByRole("button", { name: /Remove photo 1/ }));
+
+    expect(
+      await screen.findByText(/wouldn't delete its copy/),
+    ).toBeInTheDocument();
+  });
 });
