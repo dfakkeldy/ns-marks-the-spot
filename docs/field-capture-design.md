@@ -83,6 +83,40 @@ than navigation features.
    That same path now defers the start until the app returns, because standard
    location updates started while backgrounded do not start.
 
+   **The Lock Screen is the account of a walk that continues off screen.**
+   While a recording runs, a Live Activity (`NSMarksLiveActivity` widget
+   extension) shows elapsed time and distance on the Lock Screen and in the
+   Dynamic Island. Elapsed time counts through `Text(timerInterval:)`, so the
+   system renders the clock without waking this app; distance is formatted by
+   `TrackActivityFormat`, a deliberate copy of `Geodesy.formatDistance` so the
+   same walk cannot show two numbers. **No coordinates, ever** — a Live
+   Activity is drawn by a system process and is legible to whoever is holding
+   the phone, locked or not. Elapsed time and distance describe the recording;
+   a position would describe the person.
+
+   Pause and Resume are `LiveActivityIntent`s that perform in the app's own
+   process. **Stop is not on the Lock Screen.** It produces a walk that must
+   survive a process iOS can end at any moment, and this app does not
+   checkpoint a recording in progress; stopping stays where the save sheet
+   opens. The Lock Screen says "Open the app to stop and save". A refused walk
+   loses Resume and keeps the other controls; its copy is shorter than the
+   HUD's, because the HUD's "You can keep using the map" is meaningless where
+   there is no map. A background session the system refused
+   (`insufficientlyInUse`, `serviceSessionRequired`) is its own field and its
+   own sentence, pushed to the Lock Screen immediately rather than on the
+   distance cadence. Distance updates at most once every ten seconds while
+   recording; every change of *state* is pushed at once.
+
+   `TrackRecorder` talks to an injected `TrackActivityPresenter` so unit tests
+   never reach ActivityKit. Orphan Live Activities — ones this app did not
+   close because iOS terminated the process — are named synchronously at
+   launch and ended saying **"Recording stopped"**, never "finished".
+   `SharedActivity/` is compiled into both the app and the widget; the
+   extension links no package products.
+   `Config/NSMarksLiveActivity-Info.plist` carries the nested `NSExtension`
+   dictionary (`INFOPLIST_KEY_NSExtensionPointIdentifier` does not generate
+   it).
+
    **Web is still foreground-only** — a browser has no equivalent, and its tab
    hiding still stops the recording.
 
@@ -90,7 +124,8 @@ than navigation features.
    memory, so if iOS terminates the app the walk is lost, and background
    recording makes that more likely to be reached than foreground-only
    recording did. Checkpointing an active recording is its own piece of work
-   and is not in this change.
+   and is not in this change; Stop from the Lock Screen comes back when a walk
+   is durable by construction.
 4. Web ships first; iOS mirrors after. Data models stay compatible throughout.
 5. Snap targets are NSPRD parcel boundaries and the user's own features.
    Parcel snapping is licence-gated. Snapped coordinates may be stored and
@@ -283,7 +318,7 @@ iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
 
 - Drawing (point/line/area), import/export of the same formats, actor-guarded
   JSON persistence, location display, licence gating, print export.
-- Foreground track recording: `CaptureSpec` pinned by `FieldCaptureParityTests`
+- Track recording (core): `CaptureSpec` pinned by `FieldCaptureParityTests`
   against the shared fixture (kmz block copied verbatim from W9, never
   regenerated from Swift), `TrackFix`, `TrackFilter` plus stack-based
   Douglas-Peucker `TrackSimplify`, the pure `TrackRecording` state machine,
@@ -296,16 +331,20 @@ iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
   `currentVersion`
   ([UserVectorLayerRecord.swift](../NSMarksCore/Sources/GeoCore/Vector/UserVectorLayerRecord.swift),
   [UserVectorStore.swift](../ns-marks-the-spot/UserVectors/UserVectorStore.swift)).
-- App: `TrackRecorder` (injected `LocationFixSource`, `ScreenWakeLock` and
-  `BackgroundActivity`; idle-timer held only while the recording is on screen;
-  a `CLBackgroundActivitySession` held for as long as it runs), recording HUD,
-  `SaveTrackSheet` (simplify presets, live vertex counts), raw GPX as the
-  layer original labeled "Raw recording (GPX)", mark-my-location into the
-  open edit session else auto-created "Field notes", points→line/area
-  conversion in stored array order with keep-source default, one-shot undo,
-  dashed on-map preview, GPS callout "Marked from GPS on this device (±N m)"
-  only when both reserved keys are present
+- App: `TrackRecorder` (injected `LocationFixSource`, `ScreenWakeLock`,
+  `BackgroundActivity` and `TrackActivityPresenter`; idle-timer held only
+  while the recording is on screen; a `CLBackgroundActivitySession` held for
+  as long as it runs), recording HUD, Live Activity on the Lock Screen and
+  Dynamic Island (elapsed time and distance, never coordinates; Pause and
+  Resume; Stop stays in the app), `SaveTrackSheet` (simplify presets, live
+  vertex counts), raw GPX as the layer original labeled "Raw recording (GPX)",
+  mark-my-location into the open edit session else auto-created "Field notes",
+  points→line/area conversion in stored array order with keep-source default,
+  one-shot undo, dashed on-map preview, GPS callout "Marked from GPS on this
+  device (±N m)" only when both reserved keys are present
   ([FieldCapture/](../ns-marks-the-spot/FieldCapture/),
+  [SharedActivity/](../SharedActivity/),
+  [NSMarksLiveActivity/](../NSMarksLiveActivity/),
   [VectorConvert.swift](../NSMarksCore/Sources/GeoCore/Vector/VectorConvert.swift),
   [VectorEditSession.swift](../ns-marks-the-spot/UserVectors/VectorEditSession.swift),
   [VectorEditPanel.swift](../ns-marks-the-spot/UserVectors/VectorEditPanel.swift)).
@@ -881,15 +920,27 @@ App N1, present:
 - `FieldCapture/TrackRecorder.swift` (@Observable, an injected
   `LocationFixSource` — `CoreLocationFixSource` in the app, when-in-use — an
   injected `ScreenWakeLock` held only while the recording is on screen and
-  released on stop or scene-phase change, and an injected `BackgroundActivity`
+  released on stop or scene-phase change, an injected `BackgroundActivity`
   — `CLBackgroundActivitySession` in the app — held for as long as the recording
-  runs, so leaving the app no longer pauses it), `TrackRecordingHUD.swift`,
-  `SaveTrackSheet.swift`, `MarkLocation.swift`. Conversion UI in
-  `UserVectors/VectorEditPanel.swift` / `VectorEditSession.swift`
-  (keep-source default, one-shot undo); dashed preview in
-  `MapContainerView`. GPS callout "Marked from GPS on this device (±N m)"
-  only when both reserved keys are present. Mark-my-location destination
-  follows the contract (open session, else "Field notes").
+  runs, so leaving the app no longer pauses it, and an injected
+  `TrackActivityPresenter` so unit tests never reach ActivityKit),
+  `TrackRecordingHUD.swift`, `TrackActivityPresenter.swift`,
+  `SaveTrackSheet.swift`, `MarkLocation.swift`. Live Activity:
+  `NSMarksLiveActivity` widget extension draws elapsed time
+  (`Text(timerInterval:)`) and distance (`TrackActivityFormat`) on the Lock
+  Screen and Dynamic Island — never coordinates. Pause and Resume are
+  `LiveActivityIntent`s that perform in the app process; Stop is not on the
+  Lock Screen ("Open the app to stop and save") until checkpointing exists.
+  Distance cadence is at most one update every ten seconds; state changes and
+  a refused background session are pushed immediately. Orphan activities are
+  named synchronously at launch and ended "Recording stopped", never
+  "finished". `SharedActivity/` is compiled into both targets;
+  `Config/NSMarksLiveActivity-Info.plist` carries the nested `NSExtension`
+  dictionary. Conversion UI in `UserVectors/VectorEditPanel.swift` /
+  `VectorEditSession.swift` (keep-source default, one-shot undo); dashed
+  preview in `MapContainerView`. GPS callout "Marked from GPS on this device
+  (±N m)" only when both reserved keys are present. Mark-my-location
+  destination follows the contract (open session, else "Field notes").
 
 App N2, present:
 
@@ -985,15 +1036,21 @@ App N3, present:
 Tests in the tree for N1: TrackFilter/TrackSimplify/TrackGpx against
 scripted sequences, FieldCaptureParityTests against the fixture,
 convertingPoints, and `TrackRecorderSeamTests` against an injected
-`LocationFixSource`, `ScreenWakeLock` and `BackgroundActivity` — a refused start
-touching neither the clock, CoreLocation, the idle timer nor the background
-session; the device-wide switch refusing a granted app; a grant starting the
-recording that waited for it; a refusal mid-walk pausing and giving back both
-the screen and the session; a denied error classified rather than ignored and a
-transient one ignored rather than classified; fixes reaching the contract's
-filter and its refusals being reported; leaving the foreground giving the screen
-back while the walk carries on; and stop returning the walk, the screen and the
-session.
+`LocationFixSource`, `ScreenWakeLock`, `BackgroundActivity` and
+`TrackActivityPresenter` — a refused start touching neither the clock,
+CoreLocation, the idle timer nor the background session; the device-wide switch
+refusing a granted app; a grant starting the recording that waited for it; a
+refusal mid-walk pausing and giving back both the screen and the session; a
+denied error classified rather than ignored and a transient one ignored rather
+than classified; fixes reaching the contract's filter and its refusals being
+reported; leaving the foreground giving the screen back while the walk carries
+on; and stop returning the walk, the screen and the session.
+`TrackActivityTests` covers the Lock Screen contract against that same
+presenter seam: one activity started and ended with what the walk came to; the
+clock frozen on pause; fixes not each buying an update while a state change
+always does; Lock Screen rounding matching the map; and a refused background
+session reaching the Lock Screen at once. The launch-time orphan sweep is
+skipped under a test host so the suite never reaches ActivityKit.
 
 That paragraph claimed the injected fix source from N1 onward and it did not
 exist until 2026-09-03: both `TrackRecorder` and `MarkLocation` built a
@@ -1025,11 +1082,13 @@ wrapper.
 Privacy: nothing in this design adds a network path except the licence-gated
 NSPRD envelope query, which sends only a viewport rectangle to the same
 provincial endpoint the parcel identify already queries. Location never enters
-share URLs, print, or evidence notes on either surface. Photos and attributes
-live in IndexedDB or Application Support and leave only through explicit
-user-initiated exports. Photo re-encoding strips EXIF GPS from every stored
-and exported image byte. The iOS App Store privacy label (zero collected data
-types) stays true.
+share URLs, print, or evidence notes on either surface. The native Live
+Activity shows elapsed time and distance while a recording runs, never
+coordinates; anyone holding the locked phone can see that readout. Photos and
+attributes live in IndexedDB or Application Support and leave only through
+explicit user-initiated exports. Photo re-encoding strips EXIF GPS from every
+stored and exported image byte. The iOS App Store privacy label (zero collected
+data types) stays true.
 
 Evidence and provenance: recorded layers say "Recorded on this device", and
 one saved from the device's copy of a walk in progress says it may be cut

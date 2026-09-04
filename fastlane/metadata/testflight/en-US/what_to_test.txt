@@ -11,6 +11,7 @@ Please try:
 - Import one of your own maps, place it by hand over the modern map, and draw a layer. Both should survive a relaunch, and neither ever leaves your device.
 - Compare the OpenStreetMap, standard, satellite and hybrid base maps.
 - Start a track recording, put the phone in a pocket or lock the screen for a few minutes, then return. Confirm the track continued (no auto-pause message) and that the system blue location indicator behaved as expected while the recording was off screen.
+- With a recording running, check the Lock Screen and Dynamic Island: they should show elapsed time and distance, Pause and Resume should work, and there should be no Stop there — open the app to stop and save.
 
 Known scope for this build:
 - The 1885 historical overlay is not visible in this build; its tile hosting is still being wired up. Saved offline areas store historical-overlay tiles, so there is little to save yet.
