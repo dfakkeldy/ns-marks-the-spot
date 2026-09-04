@@ -504,3 +504,32 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
 git checkout feature/ios-field-seams, then apply scratchpad/codex/out-N-r1-*.md, rebuild with /tmp/ios-run.sh.
 ```
+
+## 2026-09-04 — all seven clusters have a PR
+
+| PR | What | State |
+|---|---|---|
+| #304 H, #305 I, #308 J, #309 M | evidence contract, device/watch/layer, iOS quick wins, web accessibility | merged |
+| [#310](https://github.com/dfakkeldy/ns-marks-the-spot/pull/310) K | iOS §4, §11.8, §6 + Liquid Glass | open, 2 rounds folded in, 877 tests |
+| [#311](https://github.com/dfakkeldy/ns-marks-the-spot/pull/311) | §12.7 dark colour scheme | open |
+| [#312](https://github.com/dfakkeldy/ns-marks-the-spot/pull/312) N | §12.2 seam + §12.4 measuring half | open, round 1 folded in, 890 + 688 tests |
+| [#313](https://github.com/dfakkeldy/ns-marks-the-spot/pull/313) L | §5.11 and §5.15, measured first | open, round 1 running, 879 tests |
+
+Owed, and NOT done:
+
+- **§12.11 background recording.** Needs the owner's go before the entitlement
+  is touched: it reopens approved decision 3, adds `UIBackgroundModes` and
+  changes the App Store privacy posture. The smallest form is
+  `CLBackgroundActivitySession` with the existing When-In-Use string and no
+  Live Activity.
+- **§12.4's UI.** Only the measuring half is in #312; no chip is drawn.
+- **Thirteen of the fifteen §5 findings**, listed in #313's body. Several want
+  Instruments on a device rather than a unit-level benchmark.
+- A pre-existing "Maximum update depth exceeded" at map startup, bisected to
+  `88fac4a1a` on nightly and filed as its own task.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
+Read scratchpad/codex/out-L-r1-*.md, fold into feature/ios-performance, re-run /tmp/ios-run.sh, then ask the owner about §12.11.
+```
