@@ -95,16 +95,16 @@ than navigation features.
    a position would describe the person.
 
    Pause and Resume are `LiveActivityIntent`s that perform in the app's own
-   process. **Stop is not on the Lock Screen.** It produces a walk that must
-   survive a process iOS can end at any moment, and this app does not
-   checkpoint a recording in progress; stopping stays where the save sheet
-   opens. The Lock Screen says "Open the app to stop and save". A refused walk
-   loses Resume and keeps the other controls; its copy is shorter than the
-   HUD's, because the HUD's "You can keep using the map" is meaningless where
-   there is no map. A background session the system refused
-   (`insufficientlyInUse`, `serviceSessionRequired`) is its own field and its
-   own sentence, pushed to the Lock Screen immediately rather than on the
-   distance cadence. Distance updates at most once every ten seconds while
+   process. **Stop is not on the Lock Screen.** Adding `StopTrackIntent` is
+   its own change; what it was waiting on — a checkpoint of the walk in
+   progress — is here (see Process termination, covered). Stopping stays
+   where the save sheet opens. The Lock Screen says "Open the app to stop
+   and save". A refused walk loses Resume and keeps the other controls; its
+   copy is shorter than the HUD's, because the HUD's "You can keep using the
+   map" is meaningless where there is no map. A background session the system
+   refused (`insufficientlyInUse`, `serviceSessionRequired`) is its own field
+   and its own sentence, pushed to the Lock Screen immediately rather than on
+   the distance cadence. Distance updates at most once every ten seconds while
    recording; every change of *state* is pushed at once.
 
    `TrackRecorder` talks to an injected `TrackActivityPresenter` so unit tests
@@ -519,8 +519,10 @@ the claim the data makes about itself.
   string: "Recorded on this device". The web origin also carries an optional
   `interrupted` for a walk saved from the copy the device kept while it ran,
   which says so in its provenance. Swift carries the flag through decode and
-  re-encode and says the same thing, though it never sets one: this app keeps
-  no such copy yet.
+  re-encode and says the same thing, though it still never sets one on a
+  saved layer. An in-progress iOS recording is now journaled as a checkpoint
+  and offered into the save sheet (see Process termination, covered); that
+  restore path is not the web `interrupted` origin flag.
 - Every recording saves as a new layer. The raw recording rides the existing
   original-file mechanism: a GPX 1.1 document containing every received fix
   (kept and dropped alike), one `<trkseg>` per recording segment, `<time>` and

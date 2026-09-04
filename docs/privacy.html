@@ -61,9 +61,14 @@
             that recording session is held. While a track is recording, the Lock
             Screen and Dynamic Island may show elapsed time and distance (never
             coordinates) and may offer Pause and Resume; Stop and save stay in the
-            app. Anyone holding the locked phone can see that readout. If you mark a
-            point or save a track recording, those geometries — and for a saved
-            recording, the raw GPX original — are stored locally as your user layers.
+            app. Anyone holding the locked phone can see that readout. While an iOS
+            recording is in progress, the app also writes a local checkpoint on the
+            device so that if iOS ends the app, the walk can be offered back at the
+            next launch. That checkpoint stays on the device, is not uploaded, and
+            is not a second tracking channel. It is cleared when you save the walk
+            to a layer or discard it. If you mark a point or save a track
+            recording, those geometries — and for a saved recording, the raw GPX
+            original — are stored locally as your user layers.
             They are not uploaded by NS Marks The Spot. They leave the device only if
             you export or share them yourself. The native app does not link location
             to your identity, sell it, or use it for tracking.
