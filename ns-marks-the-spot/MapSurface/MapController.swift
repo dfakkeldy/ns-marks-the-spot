@@ -398,9 +398,15 @@ final class MapController: NSObject {
 
         case .setParcelShapes(let shapes):
             mapView.removeOverlays(mapView.overlays.compactMap { $0 as? ParcelPolygon })
-            for polygon in shapes.flatMap({ ParcelPolygon.polygons(for: $0) }) {
-                mapView.installInDrawOrder(polygon)
-            }
+            // The batch path, which exists for exactly this and which the
+            // parcel route never used. The single-overlay one reads `overlays`
+            // — bridged to a fresh array on every access — and scans it per
+            // insert, parsing a `LayerID` and hitting the catalogue for every
+            // tile overlay it compares against. Parcels are rebuilt on every
+            // selection, every tap, every tax-sale toggle and every filter
+            // change, and with the tax-sale layers on that is hundreds of
+            // polygons against whatever else is drawn, on the main thread.
+            mapView.installInDrawOrder(shapes.flatMap { ParcelPolygon.polygons(for: $0) })
 
         case .setShowsUserLocation(let shows):
             // MapKit asks for permission itself when the dot goes on. Not in

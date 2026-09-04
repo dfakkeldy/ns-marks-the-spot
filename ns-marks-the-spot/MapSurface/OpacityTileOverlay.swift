@@ -21,6 +21,14 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
     static let debugShowTileGrid = false
 
     let configuration: TileLayerConfiguration
+    /// Where this overlay sits in the draw order, worked out once.
+    ///
+    /// It is a function of `configuration.id` and nothing else, and the id does
+    /// not change — but it was recomputed on every comparison of every insert,
+    /// each time parsing a `LayerID` out of a string and looking it up in the
+    /// catalogue. Installing a few hundred parcels against a screen of tile
+    /// overlays paid that on the main thread, per pair.
+    let cachedDrawOrder: Int
     @MainActor weak var renderer: MKTileOverlayRenderer?
     private let tileCache: TileCache?
     private let tileFetcher: TileFetcher?
@@ -39,6 +47,7 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
         progress: LayerLoadProgressBox? = nil
     ) {
         self.configuration = configuration
+        self.cachedDrawOrder = Self.drawOrder(for: configuration.id)
         self.tileCache = tileCache
         self.tileFetcher = tileFetcher
         self.tileStore = tileStore
@@ -46,6 +55,18 @@ nonisolated final class OpacityTileOverlay: MKTileOverlay, @unchecked Sendable {
         self.clearanceBox = clearanceBox
         self.progress = progress
         super.init(urlTemplate: nil)
+    }
+
+    /// An id that is not a catalogued layer has no stated position. The tile
+    /// pane's own number puts it with the rasters rather than above the vector
+    /// layers, which is where an unrecognised *tile* belongs.
+    private static func drawOrder(for id: String) -> Int {
+        guard let layer = LayerID(rawValue: id),
+              let z = OverlayZIndex.tileZIndex(for: layer)
+        else {
+            return OverlayZIndex.drawOrder(OverlayZIndex.leafletTilePane, in: .tile)
+        }
+        return OverlayZIndex.drawOrder(z, in: .tile)
     }
 
     /// Overrides the async translation of `loadTile(at:result:)`; MapKit's ObjC
