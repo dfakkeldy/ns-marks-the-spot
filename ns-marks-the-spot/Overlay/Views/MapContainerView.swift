@@ -1851,9 +1851,12 @@ struct MapContainerView: View {
                 }
             }
             .onChange(of: scenePhase) { _, newPhase in
-                // Recording is foreground-only: leaving the app pauses it and
-                // says so, rather than drawing a straight line across ground
-                // nobody walked.
+                // Recording is not foreground-only any more (decision 3,
+                // reopened 2026-09-04): the walk carries on. What this
+                // reconciles is the idle timer, which is still a foreground
+                // matter — and the start a grant given in Settings promised,
+                // which waits for the app to come back so its clock begins
+                // when the fixes do.
                 recorder.scenePhaseChanged(isActive: newPhase == .active)
                 if newPhase == .active {
                     // The session takes work again only once the scene is

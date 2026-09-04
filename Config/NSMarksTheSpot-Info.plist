@@ -7,5 +7,27 @@
 	     alert on every launch with limited access. -->
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
+
+	<!-- Track recording continues while the app is off screen. Approved
+	     decision 3 made this app foreground-only; the owner reopened that
+	     decision on 2026-09-04, because a forester walking a stand edge for
+	     forty minutes cannot keep a lit screen in hand and every pocketing
+	     of the phone split the track in two.
+
+	     `location` alone, and nothing else. The recorder holds a
+	     CLBackgroundActivitySession for exactly as long as a recording runs,
+	     which is what lets a **When In Use** grant keep receiving fixes off
+	     screen — so this app still never asks for Always authorization and
+	     carries no NSLocationAlwaysAndWhenInUseUsageDescription. The reader
+	     sees the system's own blue indicator in the status bar for as long
+	     as the session is held.
+
+	     Nothing about where fixes go changes: they are written to this
+	     device and leave it only when the reader exports or shares a layer.
+	     The zero-collection privacy label stands. -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 </dict>
 </plist>

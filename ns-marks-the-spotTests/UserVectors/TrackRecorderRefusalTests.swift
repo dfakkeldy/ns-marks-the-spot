@@ -103,6 +103,7 @@ struct TrackRecorderRefusalTests {
 private final class SwitchedOffFixSource: LocationFixSource {
     var authorizationStatus: CLAuthorizationStatus = .authorizedWhenInUse
     var servicesEnabled = false
+    var deliversInBackground = false
     weak var receiver: (any LocationFixReceiver)?
     func requestWhenInUseAuthorization() {}
     func startUpdatingLocation() {}
