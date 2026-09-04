@@ -190,6 +190,19 @@ actor UserVectorStore {
         reservedLayerIDs.remove(id)
     }
 
+    /// Gives up a reservation and takes the bytes with it.
+    ///
+    /// For an import that wrote its photos and then failed to write the layer.
+    /// Releasing alone would leave the files for the next `load()` to sweep,
+    /// and the reservation is what stopped a sweep taking them in the meantime
+    /// — so between the release and whenever a sweep next happens to run, they
+    /// are unreachable and uncollected. On a device that just refused a write
+    /// for lack of room, "we will tidy up eventually" is the wrong promise.
+    func abandonLayer(id: String) {
+        reservedLayerIDs.remove(id)
+        try? fileManager.removeItem(at: photosDirectory(for: id))
+    }
+
     private func sweepOrphanedPhotos(layerID: String, keeping parsed: ParsedVector) {
         guard let files = try? fileManager.contentsOfDirectory(
             at: photosDirectory(for: layerID), includingPropertiesForKeys: nil

@@ -2645,7 +2645,11 @@ extension MapController: MKMapViewDelegate {
                 // sale fit.
                 readerHasClaimedTheCamera = true
                 cameraTakenByAnotherFeature()
-                mapView.showAnnotations(members, animated: animatesLocate)
+                // Not `animatesLocate`: the container sets that from Reduce
+                // Motion before a locate tap, so a reader who never pressed
+                // Current Location got an animated cluster expansion however
+                // the system was set. This one reads the setting itself.
+                mapView.showAnnotations(members, animated: Self.animatesCamera)
             }
             mapView.deselectAnnotation(cluster, animated: false)
             return

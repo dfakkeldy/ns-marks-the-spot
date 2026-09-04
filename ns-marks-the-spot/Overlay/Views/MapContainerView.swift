@@ -27,10 +27,13 @@ struct MapContainerView: View {
     @State private var editSession: VectorEditSession?
     /// Which mark toast is up, so only its own timer takes it down.
     @State private var markOutcomeGeneration = 0
-    /// A failed mark from an attempt a later tap overtook. The newer tap owns
-    /// the message, but a mark that was not kept stays unkept whoever tapped
-    /// next, so it is carried here and said alongside the newer answer.
-    @State private var overtakenMarkFailure: String?
+    /// Failed marks from attempts a later tap overtook. The newer tap owns the
+    /// message, but a mark that was not kept stays unkept whoever tapped next,
+    /// so they are carried here and said alongside the newer answer.
+    ///
+    /// A list, not one: three taps can overlap, and two of them can fail. A
+    /// single slot reported one unsaved mark where there were two.
+    @State private var overtakenMarkFailures: [String] = []
     /// Counts Edit taps on layers still loading, so a load that returns
     /// after a newer tap does not open a session over the newer one.
     @State private var editLoadGeneration = 0
@@ -2625,7 +2628,7 @@ struct MapContainerView: View {
                 // The acquisition already wrote this attempt's own diagnosis.
                 // It is a failure like the carried one, so the carried one is
                 // let go rather than left to attach itself to a later tap.
-                overtakenMarkFailure = nil
+                overtakenMarkFailures = []
                 scheduleMarkOutcomeDismissal()
             }
             return
@@ -2662,7 +2665,9 @@ struct MapContainerView: View {
             if layerShown, await !session.showLayer() {
                 finishMark(
                     attempt,
-                    with: .markedLayerNotShown(layerName: nil, accuracyM: fix.accuracyM)
+                    with: .markedLayerNotShown(
+                        layerName: layerName, accuracyM: fix.accuracyM
+                    )
                 )
                 return
             }
@@ -2744,7 +2749,7 @@ struct MapContainerView: View {
         // A failure held over from a burst that has since answered belongs to
         // no attempt now, and the one starting here is not it.
         if markLocation.outcome != nil {
-            overtakenMarkFailure = nil
+            overtakenMarkFailures = []
         }
         markOutcomeGeneration += 1
         return markOutcomeGeneration
@@ -2783,15 +2788,19 @@ struct MapContainerView: View {
         attempt: Int,
         newest: Int,
         outcome: MarkLocation.Outcome,
-        carried: String?
+        carried: [String]
     ) -> MarkReport {
         guard attempt == newest else {
             return outcome.isFailure ? .carry(outcome.message) : .silent
         }
-        guard let carried, !outcome.isFailure else { return .say(outcome) }
-        return .say(
-            .storageFailed("\(outcome.message) An earlier tap was not saved: \(carried)")
-        )
+        guard !carried.isEmpty else { return .say(outcome) }
+        // Whether the newest tap saved or not: an unsaved mark from a tap
+        // that has been overtaken is still an unsaved mark, and a newer
+        // failure does not stand in for an older one.
+        let earlier = carried.count == 1
+            ? "An earlier tap was not saved: \(carried[0])"
+            : "\(carried.count) earlier taps were not saved: \(carried.joined(separator: " "))"
+        return .say(.storageFailed("\(outcome.message) \(earlier)"))
     }
 
     /// The answer to one attempt, applied. The dismissal is scheduled only
@@ -2802,10 +2811,10 @@ struct MapContainerView: View {
             attempt: attempt,
             newest: markOutcomeGeneration,
             outcome: outcome,
-            carried: overtakenMarkFailure
+            carried: overtakenMarkFailures
         ) {
         case .say(let said):
-            overtakenMarkFailure = nil
+            overtakenMarkFailures = []
             markLocation.report(said)
             scheduleMarkOutcomeDismissal()
         case .carry(let message):
@@ -2816,7 +2825,7 @@ struct MapContainerView: View {
             // reader's successful mark into a failure over an attempt they had
             // forgotten. Said now instead, named as the older one.
             if markLocation.outcome == nil {
-                overtakenMarkFailure = message
+                overtakenMarkFailures.append(message)
             } else {
                 markLocation.report(
                     .storageFailed("An earlier tap was not saved: \(message)")
@@ -3150,7 +3159,14 @@ private struct MapControlIcon: View {
             // The active fill stays under the surface either way: it is what
             // says the tool is armed, and glass is a treatment for the pane
             // rather than a replacement for what the pane is saying.
-            .background(isActive ? Color.blue : Color.primary.opacity(0.001))
+            //
+            // Shaped, not a rectangle. The pre-26 branch clips the whole
+            // result to a circle so a square fill never showed; `glassEffect`
+            // draws a shaped layer BEHIND the view and clips nothing, so on
+            // iOS 26 the blue would have sat square behind a round pane.
+            .background(
+                Circle().fill(isActive ? Color.blue : Color.primary.opacity(0.001))
+            )
             // Interactive, and round: these are the controls the reader
             // actually presses, and the shape is the shape.
             .mapChromeSurface(

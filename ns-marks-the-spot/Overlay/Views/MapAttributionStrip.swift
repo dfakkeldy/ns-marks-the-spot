@@ -81,21 +81,24 @@ struct MapAttributionStrip: View {
                             .foregroundStyle(.primary)
                             .fixedSize(horizontal: false, vertical: true)
 
+                        // The route to a licence's own words is a required
+                        // path, not decorative text, and it was an
+                        // eleven-point line with no target around it.
                         if let title = credit.licenseTitle, let url = credit.licenseURL {
                             if url.isFileURL {
                                 Button {
                                     bundledLicence = PresentedBundledLicence(title: title, url: url)
                                 } label: {
                                     Text(title)
-                                        .font(.caption2)
-                                        .frame(minHeight: 44)
+                                        .font(.footnote)
+                                        .frame(minHeight: 44, alignment: .leading)
                                         .contentShape(Rectangle())
                                 }
                             } else {
                                 Link(destination: url) {
                                     Text(title)
-                                        .font(.caption2)
-                                        .frame(minHeight: 44)
+                                        .font(.footnote)
+                                        .frame(minHeight: 44, alignment: .leading)
                                         .contentShape(Rectangle())
                                 }
                             }
@@ -105,8 +108,8 @@ struct MapAttributionStrip: View {
 
                 Button(action: onOpenSources) {
                     Text("All sources")
-                        .font(.caption2)
-                        .frame(minHeight: 44)
+                        .font(.footnote)
+                        .frame(minHeight: 44, alignment: .leading)
                         .contentShape(Rectangle())
                 }
                 .accessibilityIdentifier("map-attribution-all-sources")

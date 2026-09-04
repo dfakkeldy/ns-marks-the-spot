@@ -451,11 +451,13 @@ private struct LayerProvenanceDisclosure: View {
                 line("Coverage", descriptor.coverage)
                 line("Zoom", "\(descriptor.minZoom)–\(descriptor.maxZoom)")
 
+                // The routes to what a source says about itself. Both were an
+                // eleven-point line with no target around them.
                 if let sourceURL = descriptor.sourceURL {
                     Link(destination: sourceURL) {
                         Text("Official source")
-                            .font(.caption2)
-                            .frame(minHeight: 44)
+                            .font(.footnote)
+                            .frame(minHeight: 44, alignment: .leading)
                             .contentShape(Rectangle())
                     }
                     .padding(.top, 2)
@@ -468,8 +470,8 @@ private struct LayerProvenanceDisclosure: View {
                 if let manualURL = descriptor.manualURL {
                     Link(destination: manualURL) {
                         Text("Accuracy definitions")
-                            .font(.caption2)
-                            .frame(minHeight: 44)
+                            .font(.footnote)
+                            .frame(minHeight: 44, alignment: .leading)
                             .contentShape(Rectangle())
                     }
                 }
@@ -557,14 +559,14 @@ private struct LayerRowView: View {
                                     viewModel.retryTiles(for: row.id)
                                 } label: {
                                     Text("Retry tiles")
-                                        .font(.caption2.weight(.medium))
-                                        .frame(minHeight: 44)
+                                        .font(.footnote.weight(.medium))
+                                        .frame(minHeight: 44, alignment: .leading)
                                         .contentShape(Rectangle())
                                 }
-                                .buttonStyle(.plain)
-                                .foregroundStyle(.blue)
-                                .accessibilityLabel("Retry \(row.name) tiles")
-                                .accessibilityIdentifier("retry-tiles-\(row.id)")
+                                    .buttonStyle(.plain)
+                                    .foregroundStyle(.blue)
+                                    .accessibilityLabel("Retry \(row.name) tiles")
+                                    .accessibilityIdentifier("retry-tiles-\(row.id)")
                             }
                         }
                     }

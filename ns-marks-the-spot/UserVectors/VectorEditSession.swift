@@ -659,8 +659,17 @@ final class VectorEditSession {
         // and in the working copy, the write behind it is debounced, and
         // nothing here may promise the disk has it. A write that fails says so
         // in the panel's own words.
+        //
+        // Which tap depends on what happened. A finished line or area IS a
+        // mode change — the tool puts itself down and the shape is selected —
+        // but a point is finished the moment it is placed and the Point tool
+        // stays armed, so nothing changed but a coordinate landing.
         if confirming {
-            MapHaptics.modeChanged()
+            if shape == .point {
+                MapHaptics.placed()
+            } else {
+                MapHaptics.modeChanged()
+            }
         }
         // A line or an area is finished by a control away from the shape, and
         // read out it is otherwise a button that appeared to do nothing. A

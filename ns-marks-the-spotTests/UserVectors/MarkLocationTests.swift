@@ -148,13 +148,13 @@ struct MarkLocationTests {
         // saved nothing.
         #expect(
             MapContainerView.markReport(
-                attempt: 1, newest: 2, outcome: saved, carried: nil
+                attempt: 1, newest: 2, outcome: saved, carried: []
             ) == .silent
         )
         // The newest tap always answers.
         #expect(
             MapContainerView.markReport(
-                attempt: 2, newest: 2, outcome: saved, carried: nil
+                attempt: 2, newest: 2, outcome: saved, carried: []
             ) == .say(saved)
         )
     }
@@ -166,13 +166,13 @@ struct MarkLocationTests {
         let refused = MarkLocation.Outcome.storageFailed("There was no room to save it.")
         #expect(
             MapContainerView.markReport(
-                attempt: 1, newest: 2, outcome: refused, carried: nil
+                attempt: 1, newest: 2, outcome: refused, carried: []
             ) == .carry(refused.message)
         )
 
         let saved = MarkLocation.Outcome.marked(layerName: "Field notes", accuracyM: 5)
         let folded = MapContainerView.markReport(
-            attempt: 2, newest: 2, outcome: saved, carried: refused.message
+            attempt: 2, newest: 2, outcome: saved, carried: [refused.message]
         )
         guard case .say(.storageFailed(let message)) = folded else {
             Issue.record("the carried failure was dropped: \(folded)")
@@ -198,7 +198,7 @@ struct MarkLocationTests {
         // it was lost.
         #expect(
             MapContainerView.markReport(
-                attempt: 1, newest: 2, outcome: kept, carried: nil
+                attempt: 1, newest: 2, outcome: kept, carried: []
             ) == .silent
         )
         // And a genuine storage refusal still is.
@@ -207,22 +207,40 @@ struct MarkLocationTests {
                 attempt: 1,
                 newest: 2,
                 outcome: .storageFailed("There was no room."),
-                carried: nil
+                carried: []
             ) == .carry("There was no room.")
         )
     }
 
-    /// A newer failure already tells the reader a mark was not kept, and
-    /// rewrapping a refusal would take its Settings button away.
-    @Test("A refusal is not rewrapped around a carried failure")
-    func aNewerFailureIsSaidInItsOwnWords() {
-        #expect(
-            MapContainerView.markReport(
-                attempt: 2,
-                newest: 2,
-                outcome: .denied,
-                carried: "There was no room to save it."
-            ) == .say(.denied)
-        )
+    /// An unsaved mark from a tap that has been overtaken is still an unsaved
+    /// mark, and a newer failure does not stand in for an older one — two taps
+    /// that both failed are two marks that were not kept.
+    @Test("A newer failure does not stand in for an older one")
+    func everyOvertakenFailureIsStillSaid() {
+        guard case .say(.storageFailed(let message)) = MapContainerView.markReport(
+            attempt: 2,
+            newest: 2,
+            outcome: .storageFailed("The layer was deleted."),
+            carried: ["There was no room to save it."]
+        ) else {
+            Issue.record("the earlier failure was dropped behind a newer one")
+            return
+        }
+        #expect(message.contains("The layer was deleted."))
+        #expect(message.contains("There was no room to save it."))
+
+        // Three taps, two of them failed: both are counted and both are said.
+        guard case .say(.storageFailed(let both)) = MapContainerView.markReport(
+            attempt: 3,
+            newest: 3,
+            outcome: .marked(layerName: "Field notes", accuracyM: 5),
+            carried: ["There was no room.", "The layer was deleted."]
+        ) else {
+            Issue.record("two carried failures were not both said")
+            return
+        }
+        #expect(both.contains("2 earlier taps were not saved"))
+        #expect(both.contains("There was no room."))
+        #expect(both.contains("The layer was deleted."))
     }
 }

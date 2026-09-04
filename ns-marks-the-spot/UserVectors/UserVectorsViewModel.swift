@@ -590,6 +590,8 @@ final class UserVectorsViewModel {
         // written cannot sweep the directory as an orphan.
         let layerID = UUID().uuidString
         await store.reserveLayer(id: layerID)
+        // The success path's release. The failure path above abandons instead,
+        // which releases and removes in one step.
         defer { Task { await store.releaseLayer(id: layerID) } }
         var features: [GeoJsonFeature] = []
         var unstored = 0
@@ -670,9 +672,10 @@ final class UserVectorsViewModel {
                 after: error
             )
             // Whatever photo files landed are under a layer id the library
-            // will never carry. The reservation ends with this function, and
-            // the store sweeps a photo directory no record claims on the next
-            // load, where the other interrupted writes are collected too.
+            // will never carry, and the reservation that protected them from
+            // the sweep is what would keep them out of reach if it simply
+            // ended. Taken now instead.
+            await store.abandonLayer(id: layerID)
             return nil
         }
         if unstored > 0 {
