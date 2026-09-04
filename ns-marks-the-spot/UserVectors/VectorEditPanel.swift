@@ -341,8 +341,10 @@ struct VectorEditPanel: View {
             }
         }
         .padding(12)
-        .background(.regularMaterial)
-        .clipShape(.rect(cornerRadius: 16))
+        // Interactive: this one is worked on rather than read, so on iOS 26
+        // the glass under it reacts to touch the way the system's own panels
+        // do.
+        .mapChromeSurface(interactive: true, shadow: nil)
         .allowsHitTesting(!session.isEnding)
         .onAppear {
             layerName = session.record?.name ?? ""
@@ -669,12 +671,18 @@ struct VectorEditPanel: View {
                 Button {
                     guard let centre = mapCentre() else { return }
                     let target = snapCentre(centre, featureID)
+                    let outcome = session.moveVertex(
+                        featureID: featureID, ring: corner.ring, vertex: corner.vertex,
+                        latitude: target.position.lat, longitude: target.position.lng,
+                        parcelSnap: target.parcelSnap
+                    )
+                    // After the write, and only if it took: a light tap says a
+                    // coordinate landed, and a refused move landed nothing.
+                    if outcome != .refused {
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    }
                     session.announce(
-                        session.moveVertex(
-                            featureID: featureID, ring: corner.ring, vertex: corner.vertex,
-                            latitude: target.position.lat, longitude: target.position.lng,
-                            parcelSnap: target.parcelSnap
-                        ),
+                        outcome,
                         of: corners.count > 1 ? "Corner \(index + 1)" : "The point",
                         snapNote: target.note
                     )

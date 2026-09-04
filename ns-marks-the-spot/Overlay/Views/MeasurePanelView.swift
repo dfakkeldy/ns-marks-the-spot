@@ -65,8 +65,6 @@ struct MeasurePanelView: View {
             }
         }
         .padding(14)
-        .background(.regularMaterial)
-        .clipShape(.rect(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.15), radius: 6, x: 0, y: 3)
+        .mapChromeSurface()
     }
 }

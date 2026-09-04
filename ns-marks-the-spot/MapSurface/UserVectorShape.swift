@@ -228,10 +228,15 @@ nonisolated final class VectorDraftVertexAnnotation: MKPointAnnotation,
 {
     let mapAnnotationID: String
     let colorHex: String
+    /// Which corner this is, counting from one, so VoiceOver can tell
+    /// identical dots apart the way it already tells the selection's handles
+    /// apart.
+    let ordinal: Int
 
     init(index: Int, position: GeoJsonPosition, colorHex: String) {
         mapAnnotationID = "draft-vertex-\(index)"
         self.colorHex = colorHex
+        ordinal = index + 1
         super.init()
         coordinate = CLLocationCoordinate2D(latitude: position.lat, longitude: position.lng)
     }

@@ -2357,6 +2357,32 @@ extension MapController: MKMapViewDelegate {
             view.image = ParcelOverviewMarkerImage.image(
                 role: marker.role, isSelected: marker.isSelected
             )
+            view.isAccessibilityElement = true
+            // The PID and nothing else: the marker stands for a parcel named in
+            // a record, and the map has no address, owner or destination to
+            // offer for it.
+            view.accessibilityLabel = "Parcel \(marker.pid)"
+            // On screen the red and the purple are the only thing separating a
+            // current notice from a published past record, which is the whole
+            // point of drawing them differently; said here rather than left to
+            // a hue nobody can hear.
+            //
+            // What this cannot say: a parcel that is BOTH selected and in a
+            // current notice reads as "Selected" alone, because the role it
+            // carries is one value and selection takes it. The panel that
+            // opens names the notice, so the fact is not lost — but the marker
+            // does not carry it, and saying it did would be inventing a
+            // distinction from a value that cannot hold two.
+            let roleText: String? =
+                switch marker.role {
+                case .selected: "Selected"
+                case .selectedHistorical: "Selected; in a published past tax-sale record"
+                case .taxSale: "In a current tax-sale notice"
+                case .historicalTaxSale: "In a published past tax-sale record"
+                case .context: nil
+                }
+            view.accessibilityValue = roleText
+            view.accessibilityHint = "Opens this parcel's details."
             return view
         }
 
@@ -2416,6 +2442,10 @@ extension MapController: MKMapViewDelegate {
             // being drawn would cover the ground the next tap has to land on.
             view.canShowCallout = false
             view.image = VectorDraftHandleImage.image(colorHex: handle.colorHex)
+            view.isAccessibilityElement = true
+            // Numbered, because the dots are identical: it says where the shape
+            // has been taken so far, and claims nothing about what is there.
+            view.accessibilityLabel = "Placed corner \(handle.ordinal)"
             return view
         }
 
@@ -2480,6 +2510,19 @@ extension MapController: MKMapViewDelegate {
             // one dot would have meant the shorter one could be read alone.
             view.canShowCallout = false
             view.image = FeatureMarkerImage.image(for: feature.style)
+            view.isAccessibilityElement = true
+            // The record's own words, which are all the map has: the title and
+            // subtitle the layer published. A record whose title is empty is
+            // named as a record and nothing more, rather than having one made
+            // up for it from its position or its layer. The marker's title is
+            // not optional, so an empty string is the only unnamed case there
+            // is — and it is the one that reaches a reader as a marker with no
+            // name at all.
+            view.accessibilityLabel = (feature.title?.isEmpty == false)
+                ? feature.title
+                : "Map record"
+            view.accessibilityValue = feature.subtitle
+            view.accessibilityHint = "Opens this record's details."
             return view
         }
 

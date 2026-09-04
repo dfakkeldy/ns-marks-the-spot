@@ -134,8 +134,13 @@ public struct TrackRecording: Sendable {
         return result.kept
     }
 
-    /// Whether the last fix offered was rejected by the accuracy gate — the
-    /// HUD's red state.
+    /// Whether the last fix offered was turned away by the filter — the HUD's
+    /// red state.
+    ///
+    /// Not the accuracy gate alone: a fix that arrives before the last one it
+    /// is measured against, or implies a speed nobody walks, is refused too,
+    /// and the HUD must not tell the reader their position is too rough when
+    /// it was the clock or the jump that failed.
     public var lastFixGated: Bool {
         guard let lastRaw = rawSegments.last?.last else { return false }
         return lastRaw != filter.lastAcceptedRaw
@@ -163,5 +168,58 @@ public struct TrackRecording: Sendable {
     /// quality dot. Nil before the first accepted fix of the segment.
     public var lastAcceptedAccuracyM: Double? {
         filter.lastAccepted?.accuracyM
+    }
+
+    /// What the recording can honestly say about its fixes.
+    ///
+    /// Four states rather than a colour, kept apart because they mean
+    /// different things to someone walking a line: nothing has been offered
+    /// yet, the last position was turned away and the track did not grow, or
+    /// a position was taken at the radius the device reported for it. None of
+    /// them says anything about the receiver. The recording knows only what it
+    /// was handed and what it did with it, so it never claims a signal is
+    /// present, weak or lost.
+    public enum FixQuality: Equatable, Sendable {
+        /// Nothing has been started. Not the same as paused: a walk that never
+        /// began was not interrupted, and telling a reader it is paused is the
+        /// conflation this type exists to remove one case further down.
+        case idle
+        case paused
+        case waiting
+        case rejected
+        case accepted(accuracyM: Double)
+
+        /// The state in words, for the HUD to show beside the dot.
+        public var summary: String {
+            switch self {
+            case .idle: "Not recording."
+            case .paused: "Paused; no positions are being taken."
+            case .waiting: "Waiting for a position; nothing has been added yet."
+            case .rejected: "Last position rejected; the track is not growing."
+            case .accepted(let accuracyM):
+                // The same rounding rule as every other radius the app puts on
+                // screen, so the HUD cannot flatter a fix the callouts would
+                // report a metre wider.
+                "Last position accepted, ±\(VectorFeatureCallout.accuracyLabel(accuracyM)) m."
+            }
+        }
+    }
+
+    /// The current state of the fixes, for the HUD.
+    ///
+    /// Read per segment. Resume opens a fresh filter, so the accuracy from
+    /// before a gap says nothing about the ground being walked now, and the
+    /// HUD waits again rather than showing a number it no longer holds.
+    /// Idle, paused and recording are three answers, not two. A walk that
+    /// never began was not interrupted.
+    public var fixQuality: FixQuality {
+        switch status {
+        case .idle: return .idle
+        case .paused: return .paused
+        case .recording: break
+        }
+        if lastFixGated { return .rejected }
+        guard let accuracyM = lastAcceptedAccuracyM else { return .waiting }
+        return .accepted(accuracyM: accuracyM)
     }
 }

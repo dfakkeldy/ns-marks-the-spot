@@ -126,8 +126,7 @@ struct UserVectorCalloutCard: View {
             .scrollBounceBehavior(.basedOnSize)
         }
         .padding(12)
-        .background(.regularMaterial)
-        .clipShape(.rect(cornerRadius: 16))
+        .mapChromeSurface(shadow: nil)
         .fullScreenCover(item: $lightbox) { photo in
             PhotoLightboxView(
                 title: photo.title,

@@ -61,9 +61,7 @@ struct ParcelInspectorView: View {
                 .padding(.bottom, 16)
             }
         }
-        .background(.regularMaterial)
-        .clipShape(.rect(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.18), radius: 8, x: 0, y: 2)
+        .mapChromeSurface(shadow: (0.18, 8, 2))
         .accessibilityIdentifier("parcel-inspector")
         .advancingClock($now)
     }

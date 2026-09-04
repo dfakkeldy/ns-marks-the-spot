@@ -405,8 +405,7 @@ struct MapContainerView: View {
                     }
                     .padding(.horizontal, 14)
                     .padding(.vertical, 10)
-                    .background(.regularMaterial)
-                    .clipShape(.rect(cornerRadius: 8))
+                    .mapChromeSurface(cornerRadius: 8, shadow: nil)
                     // The message describes the map; it must not take taps
                     // from it. The one exception is the button a refusal
                     // carries.
@@ -431,8 +430,7 @@ struct MapContainerView: View {
                     }
                     .padding(.horizontal, 14)
                     .padding(.vertical, 10)
-                    .background(.regularMaterial)
-                    .clipShape(.rect(cornerRadius: 8))
+                    .mapChromeSurface(cornerRadius: 8, shadow: nil)
                     .allowsHitTesting(isRefusal)
                     .accessibilityElement(children: isRefusal ? .contain : .combine)
                 } else if markLocation.isAcquiring {
@@ -444,8 +442,7 @@ struct MapContainerView: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 14)
                         .padding(.vertical, 10)
-                        .background(.regularMaterial)
-                        .clipShape(.rect(cornerRadius: 8))
+                        .mapChromeSurface(cornerRadius: 8, shadow: nil)
                         .allowsHitTesting(false)
                         .accessibilityElement(children: .combine)
                 }
@@ -471,8 +468,7 @@ struct MapContainerView: View {
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 14)
                         .padding(.vertical, 10)
-                        .background(.regularMaterial)
-                        .clipShape(.rect(cornerRadius: 8))
+                        .mapChromeSurface(cornerRadius: 8, shadow: nil)
                         .padding(.horizontal, 16)
                         // Under the recording HUD when there is one, as the
                         // notices it shares the slot with are.
@@ -499,6 +495,10 @@ struct MapContainerView: View {
                         // empty-result wording is about.
                         let refused = recorder.stoppedWhileRefused
                         if let result = recorder.stop() {
+                            // The recorder changed mode, which is all this
+                            // says. Whether the walk is worth keeping is the
+                            // save sheet's question, and it opens with it.
+                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             saveTrack = SaveTrackPayload(result: result, stoppedWhileRefused: refused)
                         }
                         // The live trace is drawn from the recorder, which
@@ -623,14 +623,16 @@ struct MapContainerView: View {
                         controller.pan(to: GeoPoint(lat: position.lat, lng: position.lng), animated: false)
                     },
                     snapCentre: { centre, featureID in
-                        // The same resolution as a drag's release, tick
-                        // included; the snap is said with the move.
+                        // The same resolution as a drag's release. No tick
+                        // here, though: this only works out where the corner
+                        // WOULD go, and a move the session then refuses would
+                        // have confirmed a coordinate that never landed. The
+                        // panel taps once the write has taken.
                         guard let hit = snapHit(
                             at: centre.lat, longitude: centre.lng, excludingFeatureID: featureID
                         ) else {
                             return VectorEditPanel.CentreTarget(position: centre)
                         }
-                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
                         return VectorEditPanel.CentreTarget(
                             position: GeoJsonPosition(lng: hit.point.lng, lat: hit.point.lat),
                             parcelSnap: hit.source == .parcel,
@@ -898,8 +900,7 @@ struct MapContainerView: View {
                 .font(.subheadline)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
-                .background(.regularMaterial)
-                .clipShape(.rect(cornerRadius: 16))
+                .mapChromeSurface(shadow: nil)
 
             Button("Use Visible Map") {
                 saveVisibleMapArea()
@@ -1123,7 +1124,14 @@ struct MapContainerView: View {
                     // answer arrives later, through the recorder's own
                     // announcement.
                     if let refusal = recorder.start() {
+                        UINotificationFeedbackGenerator().notificationOccurred(.error)
                         AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
+                    } else if recorder.isActive {
+                        // Only once the recording has actually begun: a tap
+                        // that raised the system prompt has started nothing
+                        // yet, and its answer comes back below.
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        AccessibilityNotification.Announcement("Recording started").post()
                     }
                 } label: {
                     MapControlIcon(
@@ -1499,7 +1507,6 @@ struct MapContainerView: View {
                         if let editSession, editSession.isEditing, !editSession.isEnding,
                            case .drawing = editSession.tool
                         {
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                             handleEditTap(session: editSession, latitude: latitude, longitude: longitude)
                         }
                     case .mapTapped(let latitude, let longitude):
@@ -1653,8 +1660,10 @@ struct MapContainerView: View {
             .onChange(of: recorder.announcementGeneration) { _, _ in
                 switch recorder.announcement {
                 case .refused(let refusal)?:
+                    UINotificationFeedbackGenerator().notificationOccurred(.error)
                     AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
                 case .started?:
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     AccessibilityNotification.Announcement("Recording started").post()
                 case nil:
                     break
@@ -1662,6 +1671,18 @@ struct MapContainerView: View {
             }
             .onChange(of: markLocation.outcome) { _, outcome in
                 guard let outcome else { return }
+                // The one place the app knows how a mark ended: the outcome is
+                // reported after the write, so a success can be felt as one.
+                // Everything else is a mark that was not kept — a refusal, a
+                // fix the rule turned down, a layer that could not take it, a
+                // destination that changed — and none of those may reach a
+                // pocket feeling like a saved point. Which of them it was is
+                // the message's job, not the buzz's.
+                if case .marked = outcome {
+                    UINotificationFeedbackGenerator().notificationOccurred(.success)
+                } else {
+                    UINotificationFeedbackGenerator().notificationOccurred(.error)
+                }
                 AccessibilityNotification.Announcement(outcome.message).post()
             }
             // The wait is said too: up to ten silent seconds after a tap read
@@ -2522,11 +2543,11 @@ struct MapContainerView: View {
                 }
             }
         }
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         if let hit {
             session.noteSnap(hit)
         }
-        session.handleTap(
+        placeVertex(
+            in: session,
             latitude: hit?.point.lat ?? ground.lat,
             longitude: hit?.point.lng ?? ground.lng,
             parcelSnap: hit?.source == .parcel
@@ -2982,6 +3003,24 @@ struct MapContainerView: View {
         )
     }
 
+    /// Places a corner through the session, and ticks only if one landed.
+    ///
+    /// Every way of placing one comes through here — a tap, a press and hold,
+    /// the crosshair's button — so they cannot drift apart again. The vertex
+    /// count is what decides: a tap the session refused, such as a second
+    /// corner on top of the last one, added nothing to confirm, and the tap
+    /// that finishes a shape empties the draft and is answered by the commit's
+    /// own weightier tap rather than by two in a row.
+    private func placeVertex(
+        in session: VectorEditSession, latitude: Double, longitude: Double, parcelSnap: Bool
+    ) {
+        let placed = session.draft?.vertices.count ?? 0
+        session.handleTap(latitude: latitude, longitude: longitude, parcelSnap: parcelSnap)
+        if (session.draft?.vertices.count ?? 0) > placed {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        }
+    }
+
     /// A tap while editing: a vertex when a drawing tool is up, otherwise the
     /// feature under the finger.
     private func handleEditTap(
@@ -2990,12 +3029,12 @@ struct MapContainerView: View {
         if case .drawing = session.tool {
             let hit = snapHit(at: latitude, longitude: longitude)
             if let hit {
-                UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                // In words as well: the tick alone left a snap onto an
-                // existing point looking like a tap that did nothing.
+                // In words as well as the tick: a snap onto an existing point
+                // otherwise looked like a tap that did nothing.
                 session.noteSnap(hit)
             }
-            session.handleTap(
+            placeVertex(
+                in: session,
                 latitude: hit?.point.lat ?? latitude,
                 longitude: hit?.point.lng ?? longitude,
                 parcelSnap: hit?.source == .parcel

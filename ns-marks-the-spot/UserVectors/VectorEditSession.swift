@@ -1,6 +1,7 @@
 import Foundation
 import GeoCore
 import Observation
+import UIKit
 
 /// One open editing session on one of the user's layers.
 ///
@@ -395,7 +396,9 @@ final class VectorEditSession {
             return .cleared
         }
         if current.canFinish {
-            finishDrawing()
+            // Not a confirmation: this is the session tidying up a finishable
+            // draft on its way out, not a reader finishing a shape.
+            finishDrawing(confirming: false)
             return .finished
         }
         if droppingPartial {
@@ -612,7 +615,15 @@ final class VectorEditSession {
     }
 
     /// Commits the drawn shape, if it is one yet.
-    func finishDrawing() {
+    /// Finishes the shape being drawn.
+    ///
+    /// `confirming` is whether a reader just asked for this. Every way of
+    /// finishing arrives here — the panel's button, an area closed on its own
+    /// first corner, a point finished the moment it is placed — but so does
+    /// `settleDraft`, which runs when the app leaves the foreground or the
+    /// session ends. A buzz and a spoken sentence there would answer a phone
+    /// in a pocket for something nobody just did.
+    func finishDrawing(confirming: Bool = true) {
         guard let parsed, let geometry = draft?.geometry() else { return }
         var properties: [String: JSONValue] = [
             CaptureSpec.createdAtKey: .string(CaptureTime.iso(Date()))
@@ -622,6 +633,9 @@ final class VectorEditSession {
         }
         let edited = VectorEdit.adding(geometry, to: parsed, properties: properties)
         let shape = draft?.shape
+        // Read before the draft is let go, for the sentence below: the corners
+        // are what the reader placed, and after this line nothing holds them.
+        let placedCorners = draft?.vertices.count ?? 0
         draft = nil
         draftVertexSnaps = []
         // The Point tool stays armed: someone marking six culverts along a
@@ -641,6 +655,21 @@ final class VectorEditSession {
         selectedFeatureID = edited.features.last?.id
         commit(edited)
         markRecentlyCommitted(edited.features.last?.id)
+        // A tap rather than a success notification: the shape is on the map
+        // and in the working copy, the write behind it is debounced, and
+        // nothing here may promise the disk has it. A write that fails says so
+        // in the panel's own words.
+        if confirming {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        }
+        // A line or an area is finished by a control away from the shape, and
+        // read out it is otherwise a button that appeared to do nothing. A
+        // point keeps whatever the snap said instead: that is the more
+        // specific answer, and this would replace it a moment after it was
+        // made.
+        if confirming, let shape, shape != .point {
+            note("\(shape == .area ? "Area" : "Line") finished with \(placedCorners) corners.")
+        }
     }
 
     private func markRecentlyCommitted(_ id: String?) {
