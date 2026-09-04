@@ -466,3 +466,41 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig.
 Read scratchpad/codex/out-K-r2-*.md, fold in, re-run /tmp/ios-run.sh, then start §12.2's LocationFixSource seam.
 ```
+
+## 2026-09-04 — PR M merged; K, N and L in flight
+
+Done: **PR M merged** (#309). **PR K is
+[#310](https://github.com/dfakkeldy/ns-marks-the-spot/pull/310)** with two
+adversarial rounds folded in and rebased onto the new nightly — 877 tests in 82
+suites. **§12.7 is [#311](https://github.com/dfakkeldy/ns-marks-the-spot/pull/311)**.
+**PR N** is `feature/ios-field-seams` (pushed, not yet opened): §12.2's injected
+fix source with eleven tests that could not be written before, the corrected
+design-doc paragraph, and §12.4's measuring half. Its round 1 found six things,
+listed below, not yet applied.
+
+**PR L is started, measured first.** `feature/ios-performance` carries two
+measurement suites. §5.15 measured at **15.8 ms per body evaluation at 400
+marks** — the review estimated 1–3 ms — and the conversion plans are now cached
+on the commit counter. §5.11's install-cost measurement is running.
+
+Rebase note: the remote rebases these branches onto `nightly` by itself. When a
+push is rejected as behind, `git reset --hard origin/<branch>` then cherry-pick
+your own commits; check the tree afterwards, because the remote's automatic
+resolution took my 44pt photo badge over nightly's reasoned 32 and I put it back.
+
+Next, in order:
+1. Apply PR N's round 1 (six findings): nil accuracy reads as "within" at zero
+   distance; a segment endpoint is labelled `.edge`; vertex and edge distances
+   are measured with two different rulers; a queued fix after `stop()`
+   repopulates `lastFix`; cross-target ties are decided by array order; the
+   doc's earlier "App N1, present" paragraph and its "Remaining tests: none".
+2. Open PR N and PR L.
+3. §12.11 background recording — needs the owner's go: it reopens approved
+   decision 3 and adds a background-location entitlement.
+4. The other thirteen §5 items are named and unmeasured.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
+git checkout feature/ios-field-seams, then apply scratchpad/codex/out-N-r1-*.md, rebuild with /tmp/ios-run.sh.
+```
