@@ -561,3 +561,34 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-l-perf.
 Read scratchpad/codex/out-{L,N}-r2-*.md, fold anything real into the two branches, then put §12.11 to the owner.
 ```
+
+## 2026-09-04 — round 2 folded in, and a regression the tests could not see
+
+Done:
+- #312 round 2, both lenses: the walk-to-line reading now picks the **freshest
+  usable fix** rather than `recorder.lastFix ?? map` (a paused recording kept
+  its last fix for ever); `MapController.lastUserFix` is observed, because
+  `userLocationFix()` reaches into `MKUserLocation` and publishes nothing;
+  accuracy is **three-way**, so a `horizontalAccuracy` of −1 no longer looks
+  like a good fix; the parcel targets pass the licence gate, not just the
+  toggle; and the readout names NSPRD.
+- Then a regression of my own: putting the chip in the top notice stack fixed
+  the overlap and made it **invisible** — the edit panel is bottom-anchored and
+  its top edge is above that slot exactly when a reading exists. Found by
+  driving the simulator, not by a test. It is panel content now, pinned above
+  the scroll area. Verified live: 141 m → 110 m along a simulated walk.
+- #313 round 2: `planComputations` counts the passes, because every other
+  assertion in that suite passes with the cache deleted.
+- #311 is fully green.
+
+Next:
+- CI on #312/#313 after the last pushes.
+- **§12.11 is a product question, not work.** The review's own verifier note:
+  "Present as a product question to the owner (reopen decision 3), not as an
+  improvement to implement." Ask; do not touch `UIBackgroundModes`.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
+Watch CI on #312 and #313, then put §12.11 to the owner as a question.
+```
