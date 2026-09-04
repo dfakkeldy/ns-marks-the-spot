@@ -246,20 +246,44 @@ public enum ZipArchive {
     }
 
     /// One entry's bytes.
+    ///
+    /// Reads the entry's thirty-byte local header and nothing else. It used to
+    /// copy the whole archive to reach those thirty bytes, and it is called
+    /// once **per entry** — so a KMZ of N photos copied the archive N times,
+    /// and a zipped shapefile pays three of these per `.shp`.
+    ///
+    /// The ordinary saving is modest and off the main actor: measured at
+    /// 1.75-1.83 ms per 50 MB copy on an M1 Pro, so a realistic 25-photo field
+    /// KMZ saves about 150 ms of a multi-second import. What the copy actually
+    /// exposed is a tail with no bound worth the name. An entry that exists,
+    /// declares a size `acceptsAsset` allows, and then fails to inflate cost a
+    /// whole-archive copy and charged nothing: `KmzRelink` counts its budget
+    /// only over bytes that came out, and `linked` never advances, so neither
+    /// the 1 GB budget nor the 500-per-layer gate ever trips. The only
+    /// remaining bound is `maxEntries`, and ten thousand such entries fit
+    /// inside a 50 MB archive — tens of seconds of memcpy on a phone with the
+    /// import wedged and nothing on screen to explain it.
     public static func contents(
         of entry: Entry, in data: Data
     ) throws(UserMapImportRefusal) -> Data {
-        let bytes = [UInt8](data)
+        // `subdata(in:)` and `data[...]` index in the Data's OWN index space,
+        // so a slice whose `startIndex` is not zero would read from the wrong
+        // place — or trap, which a malformed archive must never do. No caller
+        // passes one; this is the line that keeps it that way, and it closes
+        // the same assumption the payload read below has always carried.
+        guard data.startIndex == 0 else { throw refusal(unreadable) }
         let header = entry.localHeaderOffset
-        guard header + 30 <= bytes.count, read32(bytes, header) == 0x0403_4b50 else {
-            throw refusal(unreadable)
-        }
+        // `header >= 0` because the array helpers answer a negative offset
+        // with their in-range check and then subscript anyway.
+        guard header >= 0, header + 30 <= data.count else { throw refusal(unreadable) }
+        let head = [UInt8](data[header..<(header + 30)])
+        guard read32(head, 0) == 0x0403_4b50 else { throw refusal(unreadable) }
         // The local header repeats the name and extra-field lengths, and its
         // extra field is routinely a different length from the central one, so
         // the data offset has to come from here.
-        let start = header + 30 + Int(read16(bytes, header + 26)) + Int(read16(bytes, header + 28))
+        let start = header + 30 + Int(read16(head, 26)) + Int(read16(head, 28))
         let end = start + entry.compressedSize
-        guard start <= end, end <= bytes.count else { throw refusal(unreadable) }
+        guard start <= end, end <= data.count else { throw refusal(unreadable) }
         let payload = data.subdata(in: start..<end)
 
         switch entry.method {

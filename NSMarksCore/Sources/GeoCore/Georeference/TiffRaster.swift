@@ -47,10 +47,36 @@ public enum TiffRaster {
         _ data: Data, layout: GeoTiffTags.RasterLayout, maxDimension: Int
     ) throws(UserMapImportRefusal) -> Bitmap {
         try check(layout)
-        let bytes = [UInt8](data)
+        // Read out of the `Data` the caller already holds, rather than
+        // `[UInt8](data)`.
+        //
+        // That line made a second full copy of the file while the original was
+        // still alive in `UserFileImport.read`, and the cap here is 500 MB —
+        // so a 300-400 MB COG added its own size again in transient bytes.
+        // `phys_footprint` is the counter jetsam kills on, and jetsam is not
+        // one of the distinct states this app is supposed to preserve: the
+        // process dies mid-import and the reader is told nothing. Measured at
+        // 201 MB of footprint on a 192 MB tiled file. What is left after this
+        // is a decode that either succeeds or reaches `decodeFailure`, which
+        // says so in the words the reader needs.
+        //
+        // Deliberately NOT `.mappedIfSafe`, which would drop the file out of
+        // footprint entirely: `UserFileImport` releases the security scope on
+        // return, and an evicted iCloud-Drive file faults as SIGBUS rather
+        // than as a refusal.
+        let bytes = data
         let width = Int(layout.pixelSize.width)
         let height = Int(layout.pixelSize.height)
         let samples = layout.samplesPerPixel
+        // `write`'s default branch reads three samples and the caller bounds
+        // the read at `at + samples`, so a layout claiming none would index
+        // past the pixel it was handed.
+        //
+        // Load-bearing, not belt-and-braces: `check` guards bitsPerSample,
+        // planarConfiguration, photometric, compression and predictor, and
+        // **not this** — and `bitsPerSample.allSatisfy` is vacuously true for
+        // the empty array such a layout carries, so nothing else stops it.
+        guard samples >= 1 else { throw corrupt }
 
         let step = max(1, Int((Double(max(width, height)) / Double(max(1, maxDimension))).rounded(.up)))
         let outWidth = (width + step - 1) / step
@@ -104,7 +130,7 @@ public enum TiffRaster {
                         guard at + samples <= block.count else { throw corrupt }
                         let destination = ((row / step) * outWidth + column / step) * 4
                         write(
-                            block[at..<(at + samples)], layout: layout,
+                            block, from: at, layout: layout,
                             into: &rgba, at: destination
                         )
                         column += step
@@ -124,12 +150,19 @@ public enum TiffRaster {
     }
 
     /// One pixel's samples, turned into RGBA.
+    /// Takes the block and an offset into it rather than a slice.
+    ///
+    /// It used to take an `ArraySlice` and open with `let values = Array(pixel)`
+    /// — one heap allocation **per sampled pixel**, and a full-size preview
+    /// samples up to 4096 x 4096 of them. Measured at about a second of
+    /// allocator time on one import, for four bytes read three lines later.
+    /// The block is already in hand at the call site; an offset into it costs
+    /// nothing and allocates nothing.
     private static func write(
-        _ pixel: ArraySlice<UInt8>, layout: GeoTiffTags.RasterLayout,
+        _ block: [UInt8], from at: Int, layout: GeoTiffTags.RasterLayout,
         into rgba: inout [UInt8], at destination: Int
     ) {
         guard destination + 4 <= rgba.count else { return }
-        let values = Array(pixel)
         let red: UInt8
         let green: UInt8
         let blue: UInt8
@@ -137,21 +170,21 @@ public enum TiffRaster {
         switch layout.samplesPerPixel {
         case 1:
             // Photometric 0 is WhiteIsZero: the sample is ink, not light.
-            let grey = layout.photometric == 0 ? 255 - values[0] : values[0]
+            let grey = layout.photometric == 0 ? 255 - block[at] : block[at]
             red = grey
             green = grey
             blue = grey
         case 2:
-            let grey = layout.photometric == 0 ? 255 - values[0] : values[0]
+            let grey = layout.photometric == 0 ? 255 - block[at] : block[at]
             red = grey
             green = grey
             blue = grey
-            alpha = values[1]
+            alpha = block[at + 1]
         default:
-            red = values[0]
-            green = values[1]
-            blue = values[2]
-            if layout.samplesPerPixel >= 4 { alpha = values[3] }
+            red = block[at]
+            green = block[at + 1]
+            blue = block[at + 2]
+            if layout.samplesPerPixel >= 4 { alpha = block[at + 3] }
         }
         rgba[destination] = red
         rgba[destination + 1] = green
@@ -208,14 +241,22 @@ public enum TiffRaster {
 
     // MARK: - One block's bytes
 
+    /// Takes the file as `Data`, so a block is one copy rather than two.
+    ///
+    /// `bytes.startIndex` is honoured rather than assumed: a `Data` sliced
+    /// from another indexes in its own space, and reading a block from the
+    /// wrong offset would hand back a plausible-looking picture of the wrong
+    /// part of the raster — the failure this decoder exists to avoid, and one
+    /// nothing downstream could detect.
     private static func block(
-        _ bytes: [UInt8], layout: GeoTiffTags.RasterLayout, index: Int, expecting size: Int
+        _ bytes: Data, layout: GeoTiffTags.RasterLayout, index: Int, expecting size: Int
     ) throws(UserMapImportRefusal) -> [UInt8] {
         let start = layout.offsets[index]
         let count = layout.byteCounts[index]
         guard start >= 0, count >= 0, start <= bytes.count, bytes.count - start >= count
         else { throw corrupt }
-        let raw = Array(bytes[start..<(start + count)])
+        let base = bytes.startIndex
+        let raw = [UInt8](bytes[(base + start)..<(base + start + count)])
 
         var block: [UInt8]
         switch layout.compression {
