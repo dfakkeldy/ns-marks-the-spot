@@ -175,6 +175,10 @@ final class VectorEditSession {
         // is still loading can be drawn on rather than silently swallowing the
         // first taps.
         parsed = row.parsed ?? ParsedVector(features: [], bbox: nil)
+        // The plans belong to the layer that was open, and this is a different
+        // one. `revision` counts commits and a new session does not make one,
+        // so the key alone would hand the next reader the last layer's plans.
+        cachedPlans = nil
     }
 
     /// Ends the session, writing anything still pending.
@@ -235,6 +239,7 @@ final class VectorEditSession {
         editingID = nil
         record = nil
         parsed = nil
+        cachedPlans = nil
         draft = nil
         selectedFeatureID = nil
         erased = []
@@ -705,14 +710,42 @@ final class VectorEditSession {
     /// safeguard against a surprising stored order.
     var isPreviewingConversion = false
 
-    var convertPlanLine: ConversionPlan? {
-        guard let parsed else { return nil }
-        return VectorEdit.conversionPlan(for: parsed, shape: .line)
-    }
+    /// Both plans, computed once per commit rather than twice per render.
+    ///
+    /// The panel reads both of these from its body, so they were recomputed on
+    /// every tap, every drag end and every keystroke in the layer-name field —
+    /// and a plan walks every mark, measures the path and runs a self-crossing
+    /// test that compares every segment against every other. The work grows
+    /// faster than the number of marks, and on a layer a day's marking could
+    /// produce it reached a substantial fraction of a display refresh, per
+    /// keystroke, on the main thread. The figures behind that sentence were
+    /// taken once by hand and are recorded in the pull request with the
+    /// machine and the date; nothing in the test suite asserts them, because a
+    /// wall clock on a shared machine asserts nothing.
+    ///
+    /// Keyed on `revision`, which already counts commits, because the plans
+    /// depend on nothing else: they are a function of the parsed geometry, and
+    /// the geometry only changes through `commit`. The two paths that change
+    /// the geometry *without* a commit — `begin` opening another layer and
+    /// `end` putting this one down — clear it themselves, and
+    /// `VectorEditSessionPlanTests` is what holds them to it.
+    @ObservationIgnored private var cachedPlans: (revision: Int, line: ConversionPlan?, area: ConversionPlan?)?
 
-    var convertPlanArea: ConversionPlan? {
-        guard let parsed else { return nil }
-        return VectorEdit.conversionPlan(for: parsed, shape: .area)
+    var convertPlanLine: ConversionPlan? { plans().line }
+    var convertPlanArea: ConversionPlan? { plans().area }
+
+    private func plans() -> (line: ConversionPlan?, area: ConversionPlan?) {
+        if let cachedPlans, cachedPlans.revision == revision {
+            return (cachedPlans.line, cachedPlans.area)
+        }
+        guard let parsed else {
+            cachedPlans = (revision, nil, nil)
+            return (nil, nil)
+        }
+        let line = VectorEdit.conversionPlan(for: parsed, shape: .line)
+        let area = VectorEdit.conversionPlan(for: parsed, shape: .area)
+        cachedPlans = (revision, line, area)
+        return (line, area)
     }
 
     /// Connects the layer's points into a line or area through the session's

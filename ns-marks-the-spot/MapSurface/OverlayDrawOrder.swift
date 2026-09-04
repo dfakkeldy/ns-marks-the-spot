@@ -80,17 +80,9 @@ extension MKMapView {
 }
 
 extension OpacityTileOverlay: WebDrawOrdered {
-    var webDrawOrder: Int {
-        // An id that is not a catalogued layer has no stated position. The
-        // tile pane's own number puts it with the rasters rather than above
-        // the vector layers, which is where an unrecognised *tile* belongs.
-        guard let layer = LayerID(rawValue: configuration.id),
-              let z = OverlayZIndex.tileZIndex(for: layer)
-        else {
-            return OverlayZIndex.drawOrder(OverlayZIndex.leafletTilePane, in: .tile)
-        }
-        return OverlayZIndex.drawOrder(z, in: .tile)
-    }
+    /// Worked out in `init`, because this is asked once per comparison of
+    /// every insert and the answer never changes. See `cachedDrawOrder`.
+    var webDrawOrder: Int { cachedDrawOrder }
 }
 
 extension ParcelPolygon: WebDrawOrdered {
