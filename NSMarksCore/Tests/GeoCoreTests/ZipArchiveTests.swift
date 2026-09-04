@@ -202,6 +202,63 @@ struct ZipArchiveTests {
         #expect(text.hasSuffix("</kml>\n"))
     }
 
+    /// The local header, which nothing in this suite reached before.
+    ///
+    /// Every other corruption test here refuses inside `entries(in:)` — the
+    /// central directory, the zip64 locator, a truncated file — so `contents`
+    /// was never asked about a header of its own. Both of its guards were
+    /// therefore unexercised at the moment they were rewritten to read thirty
+    /// bytes instead of copying the archive.
+    @Test func anEntryWhoseLocalHeaderIsNotOneIsRefused() throws {
+        let entries = try ZipArchive.entries(in: Self.kmz)
+        var damaged = Self.kmz
+        // The local signature of the first entry, one byte turned over. The
+        // central directory still describes it, so this reaches `contents`.
+        let signature = entries[0].localHeaderOffset
+        damaged[signature] = damaged[signature] ^ 0xFF
+
+        #expect(throws: UserMapImportRefusal.self) {
+            try ZipArchive.contents(of: entries[0], in: damaged)
+        }
+    }
+
+    /// A header offset that points past the end. The archive is intact; the
+    /// record that describes it is not, which is the shape a truncation leaves
+    /// when the central directory survives.
+    @Test func anEntryWhoseHeaderLiesPastTheEndIsRefused() throws {
+        let entries = try ZipArchive.entries(in: Self.kmz)
+        var beyond = entries[0]
+        beyond.localHeaderOffset = Self.kmz.count - 10
+
+        #expect(throws: UserMapImportRefusal.self) {
+            try ZipArchive.contents(of: beyond, in: Self.kmz)
+        }
+
+        // And behind the start, which the array helpers would have answered
+        // with a zero and then subscripted anyway.
+        var behind = entries[0]
+        behind.localHeaderOffset = -5
+        #expect(throws: UserMapImportRefusal.self) {
+            try ZipArchive.contents(of: behind, in: Self.kmz)
+        }
+    }
+
+    /// `contents` reads by absolute index, so an archive handed in as a slice
+    /// of something larger would read from the wrong place — or trap, which a
+    /// malformed archive must never be able to do. No caller passes one; this
+    /// is what keeps it that way.
+    @Test func anArchiveHandedInAsASliceIsRefusedRatherThanMisread() throws {
+        let entries = try ZipArchive.entries(in: Self.kmz)
+        var padded = Data(repeating: 0, count: 64)
+        padded.append(Self.kmz)
+        let slice = padded[64...]
+        #expect(slice.startIndex == 64)
+
+        #expect(throws: UserMapImportRefusal.self) {
+            try ZipArchive.contents(of: entries[0], in: slice)
+        }
+    }
+
     @Test func aKmzImportsAsIfItWereItsKml() throws {
         let parsed = try KmzParse.parse(Self.kmz)
         #expect(parsed.featureCount == 1)
