@@ -520,6 +520,25 @@ struct MapContainerView: View {
                 }
             }
 
+            // How far to the line, under the recording HUD and above
+            // everything at the bottom: a reader walking to a boundary is
+            // looking at the map, not at a panel.
+            if let reading = walkToLineReading, printFrame == nil {
+                VStack {
+                    Spacer()
+                        .frame(height: recorder.isShowingRecorder ? 60 + hudHeight + 12 : 60)
+                    WalkToLineChip(
+                        reading: reading,
+                        parcelCaveat: CaptureSpec.Snap.parcelCaveat
+                    )
+                    .frame(maxWidth: 420)
+                    .padding(.horizontal, 16)
+                    .clearOfRail(controlsWidth)
+                    Spacer()
+                }
+                .allowsHitTesting(false)
+            }
+
             // A card rather than a sheet, and not in `activeSheet`: the panel
             // describes an outline on the map, so the map has to stay visible
             // and draggable underneath it. Hidden during area selection, which
@@ -2128,6 +2147,39 @@ struct MapContainerView: View {
         return UserVectorDrawing(
             record: record,
             parsed: ParsedVector(features: features, bbox: nil)
+        )
+    }
+
+    /// The reading the chip shows, or nil when there is nothing to measure.
+    ///
+    /// Offered only where the geometry is already on screen and already
+    /// licence-gated: a feature the reader has selected, or the parcel rings
+    /// the session fetched when parcel snapping was armed. Nothing is fetched
+    /// for this, and no boundary is asked for that the map was not already
+    /// showing.
+    private var walkToLineReading: WalkToLine.Reading? {
+        guard let session = editSession, session.isEditing else { return nil }
+        // The recorder's fix first, then the one behind the map's own blue
+        // dot — the same order Mark uses, and for the same reason.
+        guard let fix = recorder.lastFix ?? controller.userLocationFix() else { return nil }
+
+        var targets: [SnapEngine.Target] = []
+        if session.snapParcels {
+            targets.append(contentsOf: session.parcelSnapTargets)
+        }
+        // The selected feature as it is, whatever tool is armed. The Point
+        // tool's exclusion exists so a new point does not snap onto an
+        // existing one and become an invisible duplicate; measuring a distance
+        // to a point is a perfectly good question.
+        if let geometry = session.selectedFeature?.geometry {
+            targets.append(.ownFeature(geometry))
+        }
+        guard !targets.isEmpty else { return nil }
+
+        return WalkToLine.reading(
+            from: GeoPoint(lat: fix.latitude, lng: fix.longitude),
+            accuracyMetres: fix.accuracyM,
+            to: targets
         )
     }
 
