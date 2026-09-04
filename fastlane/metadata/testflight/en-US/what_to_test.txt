@@ -12,6 +12,8 @@ Please try:
 - Compare the OpenStreetMap, standard, satellite and hybrid base maps.
 - Start a track recording, put the phone in a pocket or lock the screen for a few minutes, then return. Confirm the track continued (no auto-pause message) and that the system blue location indicator behaved as expected while the recording was off screen.
 - With a recording running, check the Lock Screen and Dynamic Island: they should show elapsed time and distance, Pause and Resume should work, and there should be no Stop there — open the app to stop and save.
+- Start a track recording, collect some points, then force-quit the app (or otherwise end it). Relaunch and confirm a restore notice, and that the walk is in the save sheet up to the last recorded point — not a gap filled to the time you reopened the app.
+- Optionally: stop a recording without saving, force-quit, relaunch, and confirm the "stopped and never saved" restore path.
 
 Known scope for this build:
 - The 1885 historical overlay is not visible in this build; its tile hosting is still being wired up. Saved offline areas store historical-overlay tiles, so there is little to save yet.
