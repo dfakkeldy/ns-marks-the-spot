@@ -444,3 +444,25 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig (pushed).
 Read scratchpad/codex/out-K-r1-*.md, fix or refute each with file:line evidence, re-run through /tmp/ios-run.sh, then open the PR to nightly with the verdict table.
 ```
+
+## 2026-09-03 — PR M green, PR K and the dark scheme opened
+
+Done: **PR M [#309](https://github.com/dfakkeldy/ns-marks-the-spot/pull/309) is
+fully green** on all four checks after three adversarial rounds. **PR K is
+[#310](https://github.com/dfakkeldy/ns-marks-the-spot/pull/310)** with round 1
+(4+7 findings) folded in and round 2 running; 876 tests in 82 suites pass.
+**§12.7 is [#311](https://github.com/dfakkeldy/ns-marks-the-spot/pull/311)**,
+the dark colour scheme, stacked on #309.
+
+Next: PR N's remaining three — §12.2 (injection seams for TrackRecorder,
+MarkLocation and PhotoMapViewModel, plus the doc paragraph that claims they
+already exist), §12.4 (walk-the-line distance and bearing chip), §12.11
+(background recording — flag to the owner: it reopens approved decision 3 and
+adds a background-location entitlement). Then PR L, §5 performance, measured
+first.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig.
+Read scratchpad/codex/out-K-r2-*.md, fold in, re-run /tmp/ios-run.sh, then start §12.2's LocationFixSource seam.
+```
