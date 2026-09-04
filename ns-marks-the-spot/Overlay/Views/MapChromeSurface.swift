@@ -16,10 +16,15 @@ import SwiftUI
 /// material, not less, so a sentence that has to survive a moving map behind
 /// it needed that raise more on iOS 26, not less.
 struct MapChromeSurface: ViewModifier {
-    /// The corner the card is cut to. The app uses 16 for panels and cards and
-    /// 8 for the small readouts, and the glass takes the same shape so the two
-    /// generations of the app look like the same app.
-    var cornerRadius: CGFloat = 16
+    /// What the surface is cut to. The app's cards are rounded rectangles and
+    /// its rail buttons are circles, and the glass takes the same shape so the
+    /// two generations of the app look like the same app.
+    enum Shape {
+        case roundedRectangle(cornerRadius: CGFloat)
+        case circle
+    }
+
+    var shape: Shape = .roundedRectangle(cornerRadius: 16)
 
     /// Whether this surface is one the reader acts on rather than reads.
     /// Interactive glass reacts to touch; a caption chip should not pretend to.
@@ -30,20 +35,29 @@ struct MapChromeSurface: ViewModifier {
     /// treatment and reads as a sticker rather than a pane.
     var shadow: (opacity: Double, radius: CGFloat, y: CGFloat)? = (0.15, 6, 3)
 
+    @ViewBuilder
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
-            content
-                .glassEffect(
-                    interactive
-                        ? .regular.interactive()
-                        : .regular,
-                    in: .rect(cornerRadius: cornerRadius)
-                )
+            let glass: Glass = interactive ? .regular.interactive() : .regular
+            switch shape {
+            case .roundedRectangle(let cornerRadius):
+                content.glassEffect(glass, in: .rect(cornerRadius: cornerRadius))
+            case .circle:
+                content.glassEffect(glass, in: .circle)
+            }
         } else {
-            content
-                .background(.regularMaterial)
-                .clipShape(.rect(cornerRadius: cornerRadius))
-                .modifier(MapChromeShadow(shadow: shadow))
+            switch shape {
+            case .roundedRectangle(let cornerRadius):
+                content
+                    .background(.regularMaterial)
+                    .clipShape(.rect(cornerRadius: cornerRadius))
+                    .modifier(MapChromeShadow(shadow: shadow))
+            case .circle:
+                content
+                    .background(.regularMaterial)
+                    .clipShape(.circle)
+                    .modifier(MapChromeShadow(shadow: shadow))
+            }
         }
     }
 }
@@ -73,12 +87,20 @@ extension View {
         interactive: Bool = false,
         shadow: (opacity: Double, radius: CGFloat, y: CGFloat)? = (0.15, 6, 3)
     ) -> some View {
+        mapChromeSurface(
+            shape: .roundedRectangle(cornerRadius: cornerRadius),
+            interactive: interactive,
+            shadow: shadow
+        )
+    }
+
+    func mapChromeSurface(
+        shape: MapChromeSurface.Shape,
+        interactive: Bool = false,
+        shadow: (opacity: Double, radius: CGFloat, y: CGFloat)? = (0.15, 6, 3)
+    ) -> some View {
         modifier(
-            MapChromeSurface(
-                cornerRadius: cornerRadius,
-                interactive: interactive,
-                shadow: shadow
-            )
+            MapChromeSurface(shape: shape, interactive: interactive, shadow: shadow)
         )
     }
 }

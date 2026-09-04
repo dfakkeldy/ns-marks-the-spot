@@ -139,15 +139,11 @@ struct TransparencySliderView: View {
         // Held from here on, so the sections the panel opened with stay open
         // while the reader changes what the map is.
         .onAppear { expandedCategories = openCategories.wrappedValue }
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(.ultraThinMaterial)
-                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 4)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(.white.opacity(0.15), lineWidth: 1)
-        )
+        // The same surface as every other panel over the map, so iOS 26 does
+        // not show one card in glass beside another in material. The hand-drawn
+        // stroke goes with it: glass draws its own edge, and a second one over
+        // the top reads as a sticker.
+        .mapChromeSurface(interactive: true, shadow: (0.15, 10, 4))
         .sheet(isPresented: Binding(
             get: { viewModel.isShowingLicenceSheet },
             set: { if !$0 { viewModel.dismissLicenceSheet() } }

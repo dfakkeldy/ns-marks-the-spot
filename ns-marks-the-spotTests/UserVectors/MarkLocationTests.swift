@@ -182,6 +182,36 @@ struct MarkLocationTests {
         #expect(message.contains("There was no room to save it."))
     }
 
+    /// A mark that was written to a layer that stayed switched off is a kept
+    /// mark. Calling it a storage failure let the app produce the sentence
+    /// "An earlier tap was not saved: The mark was saved…" about itself, and
+    /// gave a successful newer tap an error buzz.
+    @Test("A layer that did not switch on is not a lost mark")
+    func aMarkWhoseLayerStayedOffIsStillAMark() {
+        let kept = MarkLocation.Outcome.markedLayerNotShown(
+            layerName: "Field notes", accuracyM: 5
+        )
+        #expect(!kept.isFailure)
+        #expect(kept.message.contains("Point saved to Field notes"))
+        #expect(kept.message.contains("could not be switched on"))
+        // It is not carried into a later tap's message, because nothing about
+        // it was lost.
+        #expect(
+            MapContainerView.markReport(
+                attempt: 1, newest: 2, outcome: kept, carried: nil
+            ) == .silent
+        )
+        // And a genuine storage refusal still is.
+        #expect(
+            MapContainerView.markReport(
+                attempt: 1,
+                newest: 2,
+                outcome: .storageFailed("There was no room."),
+                carried: nil
+            ) == .carry("There was no room.")
+        )
+    }
+
     /// A newer failure already tells the reader a mark was not kept, and
     /// rewrapping a refusal would take its Settings button away.
     @Test("A refusal is not rewrapped around a carried failure")

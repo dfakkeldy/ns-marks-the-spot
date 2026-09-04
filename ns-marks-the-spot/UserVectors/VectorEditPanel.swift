@@ -284,8 +284,8 @@ struct VectorEditPanel: View {
                         // travel with a traced corner wherever it is shown,
                         // and the panel replaces the callout while editing.
                         Text(VectorExport.tracedProvenanceNote)
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .font(.footnote)
+                            .foregroundStyle(.primary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     // Named because the two kinds of handle look different and
@@ -586,9 +586,13 @@ struct VectorEditPanel: View {
                     .font(.caption)
                 // Wherever the toggle is visible, as the contract pins it and
                 // the web shows it: not only once it is on.
+                // "Traced boundaries are not a survey" is the sentence that
+                // stops a snapped corner being read as a surveyed one. It
+                // cannot be the smallest and faintest thing beside the toggle
+                // that arms the snapping.
                 Text(CaptureSpec.Snap.parcelCaveat)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .font(.footnote)
+                    .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
                 if let note = session.parcelSnapNote {
                     Text(note)
@@ -679,7 +683,7 @@ struct VectorEditPanel: View {
                     // After the write, and only if it took: a light tap says a
                     // coordinate landed, and a refused move landed nothing.
                     if outcome != .refused {
-                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        MapHaptics.placed()
                     }
                     session.announce(
                         outcome,

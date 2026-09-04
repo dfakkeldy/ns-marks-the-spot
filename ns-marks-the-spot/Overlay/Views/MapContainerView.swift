@@ -498,7 +498,7 @@ struct MapContainerView: View {
                             // The recorder changed mode, which is all this
                             // says. Whether the walk is worth keeping is the
                             // save sheet's question, and it opens with it.
-                            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            MapHaptics.modeChanged()
                             saveTrack = SaveTrackPayload(result: result, stoppedWhileRefused: refused)
                         }
                         // The live trace is drawn from the recorder, which
@@ -1128,13 +1128,13 @@ struct MapContainerView: View {
                     // answer arrives later, through the recorder's own
                     // announcement.
                     if let refusal = recorder.start() {
-                        UINotificationFeedbackGenerator().notificationOccurred(.error)
+                        MapHaptics.refused()
                         AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
                     } else if recorder.isActive {
                         // Only once the recording has actually begun: a tap
                         // that raised the system prompt has started nothing
                         // yet, and its answer comes back below.
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        MapHaptics.modeChanged()
                         AccessibilityNotification.Announcement("Recording started").post()
                     }
                 } label: {
@@ -1436,7 +1436,7 @@ struct MapContainerView: View {
                         // "Snapped to a parcel corner" over a handle that
                         // sprang back would be a lie.
                         if let hit, outcome != .refused {
-                            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            MapHaptics.placed()
                             // In words as well as the tick, as a drawing tap
                             // is: the caption names what was snapped to, and
                             // VoiceOver hears it.
@@ -1664,10 +1664,10 @@ struct MapContainerView: View {
             .onChange(of: recorder.announcementGeneration) { _, _ in
                 switch recorder.announcement {
                 case .refused(let refusal)?:
-                    UINotificationFeedbackGenerator().notificationOccurred(.error)
+                    MapHaptics.refused()
                     AccessibilityNotification.Announcement(TrackRecordingHUD.refusalText(refusal)).post()
                 case .started?:
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    MapHaptics.modeChanged()
                     AccessibilityNotification.Announcement("Recording started").post()
                 case nil:
                     break
@@ -1682,15 +1682,18 @@ struct MapContainerView: View {
                 // destination that changed — and none of those may reach a
                 // pocket feeling like a saved point. Which of them it was is
                 // the message's job, not the buzz's.
-                if case .marked = outcome {
-                    UINotificationFeedbackGenerator().notificationOccurred(.success)
+                // Both of the outcomes that kept a mark feel like one. The
+                // layer that did not switch on is a message, not a loss.
+                if !outcome.isFailure {
+                    MapHaptics.saved()
                 } else {
-                    UINotificationFeedbackGenerator().notificationOccurred(.error)
+                    MapHaptics.refused()
                 }
                 AccessibilityNotification.Announcement(outcome.message).post()
             }
             // The wait is said too: up to ten silent seconds after a tap read
             // as a button that did nothing.
+            .onAppear { MapHaptics.warmUp() }
             .onChange(of: markLocation.isAcquiring) { _, acquiring in
                 guard acquiring else { return }
                 AccessibilityNotification.Announcement(MarkLocation.acquiringMessage).post()
@@ -2659,10 +2662,7 @@ struct MapContainerView: View {
             if layerShown, await !session.showLayer() {
                 finishMark(
                     attempt,
-                    with: .storageFailed(
-                        "The mark was saved, but the layer could not be switched on. "
-                            + "Turn it on from Layers."
-                    )
+                    with: .markedLayerNotShown(layerName: nil, accuracyM: fix.accuracyM)
                 )
                 return
             }
@@ -2709,9 +2709,8 @@ struct MapContainerView: View {
             if layerShown, await !userVectorsVM.showLayer(id: row.id) {
                 finishMark(
                     attempt,
-                    with: .storageFailed(
-                        "The mark was saved to \(current.record.name), but the layer could not "
-                            + "be switched on. Turn it on from Layers."
+                    with: .markedLayerNotShown(
+                        layerName: current.record.name, accuracyM: fix.accuracyM
                     )
                 )
                 return
@@ -2742,6 +2741,11 @@ struct MapContainerView: View {
     /// attempt a later tap has overtaken must not answer for the one the
     /// reader is now waiting on.
     private func beginMarkAttempt() -> Int {
+        // A failure held over from a burst that has since answered belongs to
+        // no attempt now, and the one starting here is not it.
+        if markLocation.outcome != nil {
+            overtakenMarkFailure = nil
+        }
         markOutcomeGeneration += 1
         return markOutcomeGeneration
     }
@@ -2784,7 +2788,7 @@ struct MapContainerView: View {
         guard attempt == newest else {
             return outcome.isFailure ? .carry(outcome.message) : .silent
         }
-        guard let carried, case .marked = outcome else { return .say(outcome) }
+        guard let carried, !outcome.isFailure else { return .say(outcome) }
         return .say(
             .storageFailed("\(outcome.message) An earlier tap was not saved: \(carried)")
         )
@@ -2805,7 +2809,20 @@ struct MapContainerView: View {
             markLocation.report(said)
             scheduleMarkOutcomeDismissal()
         case .carry(let message):
-            overtakenMarkFailure = message
+            // Carried only while there is something to carry it to. If the tap
+            // that overtook this one has already answered, there is no message
+            // left to say it alongside, and holding it for whatever tap comes
+            // next — a minute later, about a different place — would turn that
+            // reader's successful mark into a failure over an attempt they had
+            // forgotten. Said now instead, named as the older one.
+            if markLocation.outcome == nil {
+                overtakenMarkFailure = message
+            } else {
+                markLocation.report(
+                    .storageFailed("An earlier tap was not saved: \(message)")
+                )
+                scheduleMarkOutcomeDismissal()
+            }
         case .silent:
             break
         }
@@ -3021,7 +3038,7 @@ struct MapContainerView: View {
         let placed = session.draft?.vertices.count ?? 0
         session.handleTap(latitude: latitude, longitude: longitude, parcelSnap: parcelSnap)
         if (session.draft?.vertices.count ?? 0) > placed {
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            MapHaptics.placed()
         }
     }
 
@@ -3130,10 +3147,17 @@ private struct MapControlIcon: View {
                 }
             }
             .frame(width: diameter, height: diameter)
+            // The active fill stays under the surface either way: it is what
+            // says the tool is armed, and glass is a treatment for the pane
+            // rather than a replacement for what the pane is saying.
             .background(isActive ? Color.blue : Color.primary.opacity(0.001))
-            .background(.regularMaterial)
-            .clipShape(Circle())
-            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+            // Interactive, and round: these are the controls the reader
+            // actually presses, and the shape is the shape.
+            .mapChromeSurface(
+                shape: .circle,
+                interactive: true,
+                shadow: (0.15, 4, 2)
+            )
     }
 }
 

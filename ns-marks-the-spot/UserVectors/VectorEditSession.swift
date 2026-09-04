@@ -660,7 +660,7 @@ final class VectorEditSession {
         // nothing here may promise the disk has it. A write that fails says so
         // in the panel's own words.
         if confirming {
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            MapHaptics.modeChanged()
         }
         // A line or an area is finished by a control away from the shape, and
         // read out it is otherwise a button that appeared to do nothing. A

@@ -53,7 +53,7 @@ struct TrackRecordingHUD: View {
                             // and a buzz then would answer a phone in a pocket
                             // for something nobody just asked for.
                             if recorder.status == .recording {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                MapHaptics.modeChanged()
                             }
                         }
                         .buttonStyle(.bordered)
@@ -63,7 +63,7 @@ struct TrackRecordingHUD: View {
                         Button("Pause") {
                             recorder.pause()
                             if recorder.status == .paused {
-                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                MapHaptics.modeChanged()
                             }
                         }
                         .buttonStyle(.bordered)

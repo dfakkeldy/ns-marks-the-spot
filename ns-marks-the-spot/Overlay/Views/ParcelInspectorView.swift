@@ -84,9 +84,12 @@ struct ParcelInspectorView: View {
             Spacer()
 
             Button(action: onClose) {
+                // The glyph stays its size; the box a finger lands in does not.
                 Image(systemName: "xmark.circle.fill")
                     .font(.title3)
                     .foregroundStyle(.secondary)
+                    .frame(minWidth: 44, minHeight: 44)
+                    .contentShape(Rectangle())
             }
             .accessibilityLabel("Close parcel details")
         }
