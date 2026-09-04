@@ -66,6 +66,29 @@ final class AppContainer {
     /// switch, and the same layer on a fresh install has a lock. That is how a
     /// test passing on a developer's simulator failed on a clean runner.
     static func forLaunch() -> AppContainer {
+        // Before anything else can draw or be tapped.
+        //
+        // A Live Activity outlives the process that made it. If iOS terminated
+        // this app with a walk running, the Lock Screen is still showing
+        // "Recording a track" with a clock counting, and its buttons will
+        // relaunch this process to perform an intent against a recorder that
+        // knows nothing about that walk. Ending those activities here is what
+        // stops the reader being shown a recording that does not exist.
+        //
+        // Not under a test host, which has no Lock Screen to reconcile and
+        // where reaching ActivityKit blocks the main actor long enough to
+        // starve the rest of the bundle — a deadlock-detector test elsewhere
+        // began timing out at sixty seconds, which is how this was found.
+        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil {
+            // Named synchronously, ended afterwards. Enumerating inside the
+            // task would have swept up an activity the reader started in
+            // between — the new walk's Lock Screen torn away while it went on
+            // collecting fixes.
+            let orphans = LiveActivityPresenter.orphanIDs()
+            if !orphans.isEmpty {
+                Task { await LiveActivityPresenter.endOrphans(orphans) }
+            }
+        }
         guard ProcessInfo.processInfo.arguments.contains("UITestMode") else {
             return AppContainer()
         }

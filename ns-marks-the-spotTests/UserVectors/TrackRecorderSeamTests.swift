@@ -63,6 +63,19 @@ private final class SpyScreen: ScreenWakeLock {
 /// The walk's licence to continue off screen, counted rather than merely
 /// observed: a session started twice is a second promise behind one walk, and
 /// the real one is idempotent for that reason.
+/// A Lock Screen that is not one. Injected in every rig here, because the
+/// default is the real `LiveActivityPresenter` — and a unit test that reaches
+/// ActivityKit for real blocks the main actor long enough to starve every
+/// other main-actor test in the bundle. That is how this was found: an
+/// unrelated deadlock-detector test began timing out at sixty seconds.
+@MainActor
+private final class UnwatchedActivity: TrackActivityPresenter {
+    var isShowing = false
+    func start(_ state: TrackActivityAttributes.ContentState, startedAt: Date) { isShowing = true }
+    func update(_ state: TrackActivityAttributes.ContentState) {}
+    func end(_ state: TrackActivityAttributes.ContentState) { isShowing = false }
+}
+
 @MainActor
 private final class SpyBackground: BackgroundActivity {
     private(set) var starts = 0
@@ -74,11 +87,11 @@ private final class SpyBackground: BackgroundActivity {
         }
     }
 
-    var onUnavailable: ((String) -> Void)?
+    var onUnavailable: ((String?) -> Void)?
 
-    /// What the real session's `diagnostics` sequence does when it reports a
-    /// reason the walk will not continue.
-    func reportUnavailable(_ reason: String) { onUnavailable?(reason) }
+    /// What the real session's `diagnostics` sequence does. Nil is the session
+    /// saying the problem has gone.
+    func reportUnavailable(_ reason: String?) { onUnavailable?(reason) }
 }
 
 /// The seam the design document has claimed since N1 and did not have.
@@ -90,7 +103,10 @@ struct TrackRecorderSeamTests {
         let screen = SpyScreen()
         let background = SpyBackground()
         return (
-            TrackRecorder(source: source, screen: screen, background: background),
+            TrackRecorder(
+                source: source, screen: screen, background: background,
+                activity: UnwatchedActivity()
+            ),
             source, screen, background
         )
     }

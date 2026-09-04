@@ -24,6 +24,7 @@ public struct TrackRecording: Sendable {
         public var acceptedFixCount: Int
         public var distanceM: Double
         public var recordingSeconds: Double
+
     }
 
     public struct Stats: Sendable {

@@ -493,21 +493,7 @@ struct MapContainerView: View {
             // who never touched Record.
             if recorder.isShowingRecorder, printFrame == nil {
                 VStack {
-                    TrackRecordingHUD(recorder: recorder) {
-                        // Read before the stop, which is what the sheet's
-                        // empty-result wording is about.
-                        let refused = recorder.stoppedWhileRefused
-                        if let result = recorder.stop() {
-                            // The recorder changed mode, which is all this
-                            // says. Whether the walk is worth keeping is the
-                            // save sheet's question, and it opens with it.
-                            MapHaptics.modeChanged()
-                            saveTrack = SaveTrackPayload(result: result, stoppedWhileRefused: refused)
-                        }
-                        // The live trace is drawn from the recorder, which
-                        // just went idle.
-                        pushUserVectors()
-                    }
+                    TrackRecordingHUD(recorder: recorder) { stopRecording() }
                     .frame(maxWidth: 420)
                     .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { hudHeight = $0 }
                     .padding(.horizontal, 16)
@@ -1702,6 +1688,26 @@ struct MapContainerView: View {
             // The wait is said too: up to ten silent seconds after a tap read
             // as a button that did nothing.
             .onAppear { MapHaptics.warmUp() }
+            // Where the Lock Screen's buttons land. They perform in this
+            // process, so they call the same three things the HUD's own
+            // buttons call — one walk, two places to reach it, no second
+            // implementation of Stop to fall out of step with the first.
+            .onAppear {
+                TrackActivityActions.shared.install(
+                    pause: {
+                        recorder.pause()
+                        guard recorder.status == .paused else { return false }
+                        MapHaptics.modeChanged()
+                        return true
+                    },
+                    resume: {
+                        recorder.resume()
+                        guard recorder.status == .recording else { return false }
+                        MapHaptics.modeChanged()
+                        return true
+                    },
+                )
+            }
             .onChange(of: markLocation.isAcquiring) { _, acquiring in
                 guard acquiring else { return }
                 AccessibilityNotification.Announcement(MarkLocation.acquiringMessage).post()
@@ -2170,6 +2176,34 @@ struct MapContainerView: View {
         return [usable(recorder), usable(map)]
             .compactMap { $0 }
             .max { $0.timestamp < $1.timestamp }
+    }
+
+    /// Stopping the walk: from the HUD's own button, and from the Lock
+    /// Screen's, which performs in this process for exactly that reason.
+    ///
+    /// One function, because a walk stopped from a locked phone must end the
+    /// way a walk stopped from the map does — the recording closed, the trace
+    /// pushed, and the save sheet armed. The sheet cannot be shown on a locked
+    /// screen, so it waits: the reader finds their walk still there, asking to
+    /// be kept, the next time they open the app. Nothing is thrown away by a
+    /// button pressed on a Lock Screen.
+    @discardableResult
+    private func stopRecording() -> Bool {
+        // Read before the stop, which is what the sheet's empty-result
+        // wording is about.
+        let refused = recorder.stoppedWhileRefused
+        guard let result = recorder.stop() else { return false }
+        // The recorder changed mode, which is all this says. Whether the
+        // walk is worth keeping is the save sheet's question, and it opens
+        // with it — here, where the reader is looking at it. That is why
+        // there is no Stop on the Lock Screen: a walk stopped where the sheet
+        // cannot be shown would have to survive a process iOS may end, and
+        // this app does not yet checkpoint a recording in progress.
+        MapHaptics.modeChanged()
+        saveTrack = SaveTrackPayload(result: result, stoppedWhileRefused: refused)
+        // The live trace is drawn from the recorder, which just went idle.
+        pushUserVectors()
+        return true
     }
 
     /// The reading the chip shows, or nil when there is nothing to measure.

@@ -94,6 +94,21 @@ final class TrackRecorder: NSObject {
     /// the recording runs. Same seam, same reason: what a recorder does with a
     /// system service is a rule, and a rule wants a test.
     @ObservationIgnored private let background: any BackgroundActivity
+    /// The Lock Screen. Same seam again.
+    @ObservationIgnored private let activity: any TrackActivityPresenter
+
+    /// The instant the running clock counts from, so the Lock Screen's timer
+    /// runs by itself and this app is not woken once a second to say what a
+    /// clock already knows. Recomputed only when the walk starts or resumes;
+    /// a fresh one on every update would drift the displayed time by the
+    /// rounding error of the elapsed seconds it was derived from.
+    @ObservationIgnored private var activityRunningSince: Date?
+    /// When the activity was last told anything. ActivityKit budgets updates
+    /// from a backgrounded app, and the clock needs none of them — so the
+    /// distance is pushed on a cadence rather than per fix, and every change
+    /// of *state* is pushed at once regardless.
+    @ObservationIgnored private var lastActivityUpdate: Date?
+    static let activityUpdateInterval: TimeInterval = 10
 
     /// Whether the app is on screen. Remembered, because the idle timer is
     /// derived from it and the derivation has to hold at every transition —
@@ -127,18 +142,27 @@ final class TrackRecorder: NSObject {
     init(
         source: any LocationFixSource = CoreLocationFixSource(),
         screen: any ScreenWakeLock = ApplicationScreenWakeLock(),
-        background: any BackgroundActivity = LocationBackgroundActivity()
+        background: any BackgroundActivity = LocationBackgroundActivity(),
+        activity: any TrackActivityPresenter = LiveActivityPresenter()
     ) {
         self.source = source
         self.screen = screen
         self.background = background
+        self.activity = activity
         super.init()
         source.receiver = self
         // A session that says it is not providing background access must not
         // read as one that is.
         background.onUnavailable = { [weak self] reason in
             guard let self, recordingIsRunning() else { return }
+            guard reason != backgroundNotice else { return }
+            // Nil is the session saying the problem has gone, and the reader
+            // is owed that as much as the warning.
             backgroundNotice = reason
+            // Straight through to the Lock Screen, not on the ten-second
+            // cadence: this is the sentence that changes what the reader
+            // should do with the phone in their hand.
+            pushActivity(now: Date(), force: true)
         }
     }
 
@@ -201,6 +225,9 @@ final class TrackRecorder: NSObject {
         reconcileScreen()
         // And the walk continues when it is not on screen.
         continuesOffScreen(true)
+        activityRunningSince = now
+        activity.start(activityState(now: now), startedAt: now)
+        lastActivityUpdate = now
         return nil
     }
 
@@ -210,6 +237,13 @@ final class TrackRecorder: NSObject {
         source.stopUpdatingLocation()
         reconcileScreen()
         continuesOffScreen(false)
+        activityRunningSince = nil
+        // The warning was about a *running* walk continuing off screen. A
+        // paused one is not continuing anywhere, and saying both at once
+        // carries a blocked-running state into a state that is not running.
+        // Resume asks for a new session, and that session answers again.
+        backgroundNotice = nil
+        pushActivity(now: now, force: true)
     }
 
     func resume(now: Date = Date()) {
@@ -220,9 +254,14 @@ final class TrackRecorder: NSObject {
         source.startUpdatingLocation()
         reconcileScreen()
         continuesOffScreen(true)
+        activityRunningSince = now.addingTimeInterval(-recording.stats(now: now).elapsedSeconds)
+        pushActivity(now: now, force: true)
     }
 
     func stop(now: Date = Date()) -> TrackRecording.StopResult? {
+        // Read before the state machine is replaced: the Lock Screen is told
+        // what the walk came to, not what an empty recorder says.
+        let closing = activityState(now: now, overridingRecording: false)
         let result = recording.stop(now: now)
         // A fresh state machine, so the next recording starts empty: the
         // stopped one keeps its segments and counters in the StopResult, and
@@ -232,6 +271,11 @@ final class TrackRecorder: NSObject {
         reconcileScreen()
         continuesOffScreen(false)
         backgroundNotice = nil
+        activityRunningSince = nil
+        lastActivityUpdate = nil
+        // Taken down now rather than left to time out. A Live Activity for a
+        // walk that has ended is a claim on the Lock Screen that it has not.
+        activity.end(closing)
         lastFix = nil
         return result
     }
@@ -265,6 +309,63 @@ final class TrackRecorder: NSObject {
     /// moment either half stops being true.
     private func reconcileScreen() {
         screen.isHeldAwake = isSceneActive && recording.status == .recording
+    }
+
+    /// What the Lock Screen is told, from what the recorder knows.
+    ///
+    /// `overridingRecording` is for the one caller that has to describe a walk
+    /// it is in the middle of ending: `stop` replaces the state machine, so the
+    /// closing state is read before that and has to say "not recording" while
+    /// the machine still says it is.
+    private func activityState(
+        now: Date, overridingRecording: Bool? = nil
+    ) -> TrackActivityAttributes.ContentState {
+        let stats = recording.stats(now: now)
+        let isRecording = overridingRecording ?? (recording.status == .recording)
+        return TrackActivityAttributes.ContentState(
+            runningSince: isRecording ? activityRunningSince : nil,
+            elapsedSeconds: stats.elapsedSeconds,
+            distanceMetres: stats.distanceM,
+            isRecording: isRecording,
+            refusalText: refusal.map(Self.refusalText),
+            backgroundNotice: backgroundNotice
+        )
+    }
+
+    /// The refusal, for the Lock Screen.
+    ///
+    /// Shorter than `TrackRecordingHUD.refusalText`, and deliberately: the
+    /// HUD's version ends "You can keep using the map", which is true where
+    /// there is a map and meaningless on a Lock Screen, and its Settings
+    /// version tells the reader to go somewhere they cannot go from here. Same
+    /// fact, said in the room it is being said in.
+    static func refusalText(_ refusal: Refusal) -> String {
+        switch refusal {
+        case .denied:
+            "Location permission was not granted."
+        case .restricted:
+            "Location is restricted on this device."
+        case .servicesOff:
+            "Location Services are off for this device."
+        }
+    }
+
+    /// Tells the Lock Screen, on a cadence rather than per fix.
+    ///
+    /// The clock counts by itself, so the only thing an update buys is the
+    /// distance — and ActivityKit budgets updates from a backgrounded app, so
+    /// spending one per fix would spend the budget on a number that changes by
+    /// a metre. Every change of *state* — paused, resumed, refused, stopped —
+    /// is pushed at once, because those are what a reader is waiting to see.
+    private func pushActivity(now: Date, force: Bool) {
+        guard activity.isShowing else { return }
+        if !force, let last = lastActivityUpdate,
+           now.timeIntervalSince(last) < Self.activityUpdateInterval
+        {
+            return
+        }
+        lastActivityUpdate = now
+        activity.update(activityState(now: now))
     }
 
     /// Whether the walk goes on while the app is not on screen. Two switches,
@@ -351,6 +452,8 @@ final class TrackRecorder: NSObject {
         // CoreLocation has stopped feeding — the reader would be told, by iOS
         // itself, that a recording is running that is not.
         continuesOffScreen(false)
+        activityRunningSince = nil
+        pushActivity(now: Date(), force: true)
     }
 
     private func receive(_ location: CLLocation) {
@@ -373,6 +476,7 @@ final class TrackRecorder: NSObject {
         )
         lastFix = fix
         recording.addFix(fix)
+        pushActivity(now: location.timestamp, force: false)
     }
 }
 
