@@ -592,3 +592,221 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
 Watch CI on #312 and #313, then put §12.11 to the owner as a question.
 ```
+
+## 2026-09-04 — §12.11 answered, and it is two PRs
+
+Done:
+- **The owner reopened approved decision 3 in full**, with the Live Activity.
+  Recorded in the memory file `background-recording-decision.md`.
+- [#314](https://github.com/dfakkeldy/ns-marks-the-spot/pull/314) — the walk
+  continues off screen. `CLBackgroundActivitySession` +
+  `allowsBackgroundLocationUpdates` + `UIBackgroundModes = location`, all held
+  for exactly the length of a running recording. **When In Use only**; no new
+  prompt, no Always string, zero-collection label intact.
+- Round 1 on #314 found the defect that would have shipped:
+  `pausesLocationUpdatesAutomatically` defaults to **true**, and for a
+  when-in-use app CoreLocation's automatic pause ends location access until the
+  app is reopened — a forester standing still would have come back to a
+  recorder still counting and taking nothing in. Also: the session's
+  `diagnostics` were discarded (merging *blocked* into *running*), the reader
+  was never told before backgrounding, and a grant arriving from Settings lit
+  the idle timer for an app that was off screen. All fixed; 900 tests.
+- PR P (`feature/ios-live-activity`, not yet opened) has the widget extension:
+  a new Xcode target added by hand to the pbxproj, `SharedActivity/` compiled
+  into both targets, Pause/Resume/Stop `LiveActivityIntent`s that perform in
+  the app process, and a presenter behind the same kind of seam.
+
+Next:
+- Finish PR P's build (ActivityKit's `Activity` is a non-Sendable class whose
+  methods are `@concurrent`; the handle is boxed `@unchecked Sendable` in one
+  named place), test, open it, and run a Codex round.
+- **Not covered anywhere: process termination loses an in-progress walk**, and
+  background recording makes that easier to reach. Said in the design document;
+  its own piece of work.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Build feature/ios-live-activity, run the app-target suite, open the PR stacked on #314.
+```
+
+## 2026-09-04 — §12.11 is two open PRs; the original seven are merged
+
+Merged: #310 (K), #311 (dark scheme), #312 (N), #313 (L). The four earlier
+clusters merged before them.
+
+Open:
+- [#314](https://github.com/dfakkeldy/ns-marks-the-spot/pull/314) — the walk
+  continues off screen. Round 1 folded in; 900 tests.
+- [#315](https://github.com/dfakkeldy/ns-marks-the-spot/pull/315) — the Live
+  Activity, stacked on #314. New `NSMarksLiveActivity` target added to the
+  pbxproj by hand; 904 tests. Round 1 running.
+
+Two things worth remembering from #315:
+- `INFOPLIST_KEY_NSExtensionPointIdentifier` does **not** generate the nested
+  `NSExtension` dictionary. Without an explicit Info.plist the *whole app*
+  fails to install with "Invalid placeholder attributes".
+- Every recorder test must inject a `TrackActivityPresenter`. The default is
+  the real one, so the tests were reaching ActivityKit and blocking the main
+  actor long enough to starve the bundle — an unrelated deadlock-detector test
+  began timing out at sixty seconds, which is how it surfaced.
+
+Owed, and NOT done:
+- **Device verification of both.** The simulator does not background
+  faithfully and does not present Live Activities as a device does. Nothing
+  about §12.11 is device-verified.
+- **Process termination loses an in-progress walk**, and background recording
+  makes that easier to reach. Recorded in the design document; its own work.
+- Thirteen of the fifteen §5 findings, listed in #313's body.
+- A pre-existing "Maximum update depth exceeded" at web map startup, bisected
+  to `88fac4a1a` and filed as its own task.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Read scratchpad/codex/out-P-r1-*.md, fold into #315, and watch CI on #314 and #315.
+```
+
+## 2026-09-04 — #314 green; #315 round 1 folded in
+
+Done:
+- **#314 is fully green** (Build gate, Native, Core, Change classification).
+- #315 round 1, and it was the sharpest round yet. Both lenses opened with the
+  same finding: **Stop from the Lock Screen could lose the walk.** The map's
+  Stop shows the save sheet while the reader watches; a locked phone's cannot,
+  so the stopped walk waited in `@State` — and iOS terminates backgrounded
+  apps. `PendingTrackSaveStore` writes it before the recorder is cleared.
+  Also fixed: orphaned activities ended at launch ("Recording stopped", never
+  "finished"); intents that reached no recorder reporting success; unordered
+  activity updates (Pause then Resume could land backwards); a blocked
+  background session invisible on the Lock Screen; a refused walk losing its
+  Stop button; and 44-pt targets. 916 tests in 89 suites.
+
+Two traps worth remembering:
+- `INFOPLIST_KEY_NSExtensionPointIdentifier` does not generate the nested
+  `NSExtension` dictionary; without an explicit Info.plist the *whole app*
+  fails to install with "Invalid placeholder attributes".
+- **Anything that reaches ActivityKit from a test host blocks the main actor
+  long enough to starve the bundle.** It surfaced twice as an unrelated
+  deadlock-detector test timing out at sixty seconds: once from the default
+  `LiveActivityPresenter` in recorder tests, once from the launch-time orphan
+  sweep. Both are now skipped or injected.
+
+Owed, and NOT done:
+- **Device verification of #314 and #315.** Nothing about §12.11 has been on a
+  device or a Lock Screen.
+- An in-progress (not yet stopped) walk is still lost on termination. Only the
+  *stopped* one is durable now.
+- Thirteen of the fifteen §5 findings, listed in #313's body.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Watch CI on #315, run a round 2 on the revision, then hand both to the owner for a device walk.
+```
+
+## 2026-09-04 — #314 merged; #315 round 2, and a false claim of mine corrected
+
+Done:
+- **#314 merged into nightly.** Background continuation is in.
+- #315 round 2. The critical finding was that **round 1's fix did not do what
+  its commit message said**: the write happened *after* `stop()` cleared the
+  recorder, and its failure was ignored — on a full disk the recorder was
+  cleared, the activity ended, a success haptic fired and the walk was
+  nowhere. Both lenses found it. Stopping is a transaction now:
+  `stop(now:keeping:)` puts the recording back untouched if the walk cannot be
+  set aside.
+- Six more fixed: a cleared restriction can unsay itself; pause no longer
+  carries the off-screen warning; orphan ids are named synchronously so a walk
+  started in between is not swept up; the running clock is banked before an
+  orphan is ended; an unreadable pending file is neither reported as "no walk"
+  nor deleted; the pending file is excluded from backups; and the Lock Screen's
+  actions report what happened rather than whether a closure existed.
+- 918 tests in 89 suites.
+
+**Two findings left open, deliberately, and they need a decision:**
+1. A cold-launched `LiveActivityIntent` has no recorder — Apple launches the
+   process *without opening the app*, so the view's `onAppear` never installs
+   the registry. Needs the recorder and the pending store moved into
+   `AppContainer`.
+2. A save that completes, then a termination before the pending file is
+   cleared, offers the same walk again and can duplicate the layer. Needs a
+   stable identifier reconciled against the library.
+
+Eighteen findings over two rounds on #315, nearly all tracing to Stop being
+reachable from a Lock Screen. #314 had none of this: it adds no artefact that
+can be lost.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+#315 is open with two known gaps in its body. Ask the owner: land it without Stop, do the AppContainer + identifier work, or hold.
+```
+
+## 2026-09-04 — #315 narrowed: the Lock Screen pauses, the map stops
+
+The owner's call, after two rounds and eighteen findings on this PR: **land the
+Live Activity without Stop.**
+
+Done:
+- `StopTrackIntent`, the Stop button, `PendingTrackSaveStore`, the transactional
+  `stop(keeping:)` and the `Codable` conformances added to carry a walk to disk
+  are all gone. Every one of them existed to make Stop survivable from a locked
+  phone; none is needed by a readout with Pause and Resume.
+- The Lock Screen says "Open the app to stop and save".
+- Everything the rounds found that was NOT about Stop stays: serialized
+  presenter, honest `@unchecked Sendable` invariant, background notice on the
+  Lock Screen that can unsay itself, pause not carrying it, orphan ids named
+  synchronously with the clock banked, actions reporting what happened, 44-pt
+  targets.
+- Filed as its own task: **checkpoint an in-progress recording**, which is what
+  Stop-from-the-Lock-Screen and cold-launched intents both need.
+
+**A correction.** I earlier attributed a timing-out `LayerLoadProgressTests`
+deadlock detector to unit tests reaching ActivityKit, and said so in a commit
+message and a PR body. That was too confident: the test has a 60-second limit,
+fails intermittently on this machine after hours of building, passes in 0.034 s
+in isolation, and CI has passed the same bundle on every branch in this stack.
+Injecting the presenter and skipping the launch sweep under a test host are
+still right — a unit test must not reach a system service — but they were not
+the cause. The PR body now says so.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+Watch CI on #315; a round 3 on the narrowed diff would be cheap and worth it.
+```
+
+## 2026-09-04 — #315 green; the whole field review is landed or filed
+
+- **#315 is fully green** (Build gate, Native, Core, Change classification) with
+  the narrowed scope: the Live Activity as a readout with Pause and Resume.
+  That also settles the local flake — CI ran the same bundle, including
+  `LayerLoadProgressTests`, and passed. It is this machine after many hours of
+  building, not the code.
+- Merged: #307–#314. Every cluster of the 2026-09-02 field review is landed
+  except what is listed below.
+- **The four entries above this one were stranded**: they were committed to
+  `feature/web-dark-scheme` after #311 had already merged, so `nightly` never
+  got them. Moved here, onto the open PR, which is where the remaining work is.
+  Lesson for next time: once a PR merges, its branch is not a place to keep
+  writing.
+
+Still owed, none of it started:
+- **A device walk.** Nothing about §12.11 has been on a real phone or a real
+  Lock Screen — not the fixes arriving in a pocket, not the indicator, not the
+  update budget, not the battery cost.
+- **Checkpointing an in-progress recording** (filed as its own task). It is what
+  Stop-from-the-Lock-Screen and cold-launched intents both need, and it fixes
+  something true today: a walk in progress is lost if iOS kills the app.
+- **Thirteen of the fifteen §5 findings**, listed by name in #313's body.
+- A pre-existing "Maximum update depth exceeded" at web map startup, bisected to
+  `88fac4a1a` and filed as its own task.
+- **PR #316** is a Cursor agent's docs audit over the same privacy wording #314
+  touched. Not mine; left open as its body asks.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+#315 is green and ready. Delete this file in the commit that closes the task.
+```
