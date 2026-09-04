@@ -1,0 +1,43 @@
+/** Original NS Marks atlas colours. Geography and labels retain source meaning. */
+export const atlasPalettes = {
+  day: {
+    land: '#f3efe3',
+    water: '#b5ced1',
+    waterLine: '#7babb5',
+    wood: '#d5dfca',
+    grass: '#e3e7d3',
+    farmland: '#ebe4ce',
+    residential: '#e9e4d8',
+    building: '#d3ccbd',
+    road: '#fffaf0',
+    roadEdge: '#c5baa4',
+    highway: '#e4c492',
+    path: '#8d927b',
+    ink: '#304746',
+    mutedInk: '#566863',
+    waterInk: '#365f6c',
+    halo: '#f3efe3',
+    boundary: '#9f9b8b',
+  },
+  night: {
+    land: '#223338',
+    water: '#101f2b',
+    waterLine: '#395864',
+    wood: '#293f3c',
+    grass: '#33443f',
+    farmland: '#3b413a',
+    residential: '#2c3b40',
+    building: '#465254',
+    road: '#66716d',
+    roadEdge: '#1c2a30',
+    highway: '#bda77f',
+    path: '#859487',
+    ink: '#e5e5d6',
+    mutedInk: '#b8c9bd',
+    waterInk: '#a0c4d4',
+    halo: '#223338',
+    boundary: '#75807b',
+  },
+} as const;
+
+export type AtlasMode = keyof typeof atlasPalettes;
