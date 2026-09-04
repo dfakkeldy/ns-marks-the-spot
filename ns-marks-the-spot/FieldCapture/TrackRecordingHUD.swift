@@ -101,12 +101,6 @@ struct TrackRecordingHUD: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
-            if let message = recorder.autoPauseMessage {
-                Label(message, systemImage: "pause.circle")
-                    .font(.caption)
-                    .foregroundStyle(.orange)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
             if let refusal = recorder.refusal {
                 Label(Self.refusalText(refusal), systemImage: "location.slash")
                     .font(.caption)

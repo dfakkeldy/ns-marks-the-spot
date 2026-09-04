@@ -44,8 +44,28 @@ than navigation features.
 2. Photos: iOS gets a full photo-library map layer via PhotoKit. Web gets
    picked-files plus EXIF placement. `exifr` is authorized as a new pinned web
    dependency; iOS stays zero-third-party-dependency.
-3. Track recording is foreground-only on both surfaces. Web holds a screen
-   wake lock; iOS disables the idle timer and auto-pauses on background.
+3. **Reopened and reversed on 2026-09-04.** Track recording was foreground-only
+   on both surfaces: web held a screen wake lock, iOS disabled the idle timer
+   and auto-paused on background with a visible message. The design weighed the
+   battery cost of continuing and never the usability cost of stopping — a
+   forester walking a stand edge for forty minutes cannot keep a lit screen in
+   hand, and every pocketing of the phone split the track in two.
+
+   **iOS now continues off screen.** `TrackRecorder` holds a
+   `CLBackgroundActivitySession` for exactly as long as a recording runs, and
+   `UIBackgroundModes` contains `location`. Deliberately *not*
+   `allowsBackgroundLocationUpdates` with Always authorization: the session
+   keeps fixes arriving for a **When In Use** grant, so the app raises no new
+   permission prompt, carries no `NSLocationAlwaysAndWhenInUseUsageDescription`,
+   and asks for nothing it did not ask for before. The system shows its own blue
+   indicator in the status bar while a session is held. Where fixes go is
+   unchanged, and the zero-collection privacy label stands.
+
+   The idle timer stays a foreground matter: held while a recording is on
+   screen, given straight back when it is not, so a pocketed phone sleeps
+   normally while its walk carries on. **Web is still foreground-only** — a
+   browser has no equivalent of this session, and its tab hiding still stops
+   the recording.
 4. Web ships first; iOS mirrors after. Data models stay compatible throughout.
 5. Snap targets are NSPRD parcel boundaries and the user's own features.
    Parcel snapping is licence-gated. Snapped coordinates may be stored and
@@ -251,8 +271,9 @@ iOS (`ns-marks-the-spot/`, `NSMarksCore/`):
   `currentVersion`
   ([UserVectorLayerRecord.swift](../NSMarksCore/Sources/GeoCore/Vector/UserVectorLayerRecord.swift),
   [UserVectorStore.swift](../ns-marks-the-spot/UserVectors/UserVectorStore.swift)).
-- App: `TrackRecorder` (foreground-only `CLLocationManager`, idle-timer,
-  auto-pause on background with a visible message), recording HUD,
+- App: `TrackRecorder` (injected `LocationFixSource`, `ScreenWakeLock` and
+  `BackgroundActivity`; idle-timer held only while the recording is on screen;
+  a `CLBackgroundActivitySession` held for as long as it runs), recording HUD,
   `SaveTrackSheet` (simplify presets, live vertex counts), raw GPX as the
   layer original labeled "Raw recording (GPX)", mark-my-location into the
   open edit session else auto-created "Field notes", points→line/area
@@ -833,10 +854,11 @@ here, zoom in" state, never as fewer parcels.
 App N1, present:
 
 - `FieldCapture/TrackRecorder.swift` (@Observable, an injected
-  `LocationFixSource` — `CoreLocationFixSource` in the app, when-in-use — and an
-  injected `ScreenWakeLock` held while recording and released on stop or
-  scene-phase change, auto-pause on leaving foreground with "Recording paused
-  while the app was in the background"), `TrackRecordingHUD.swift`,
+  `LocationFixSource` — `CoreLocationFixSource` in the app, when-in-use — an
+  injected `ScreenWakeLock` held only while the recording is on screen and
+  released on stop or scene-phase change, and an injected `BackgroundActivity`
+  — `CLBackgroundActivitySession` in the app — held for as long as the recording
+  runs, so leaving the app no longer pauses it), `TrackRecordingHUD.swift`,
   `SaveTrackSheet.swift`, `MarkLocation.swift`. Conversion UI in
   `UserVectors/VectorEditPanel.swift` / `VectorEditSession.swift`
   (keep-source default, one-shot undo); dashed preview in
@@ -938,13 +960,15 @@ App N3, present:
 Tests in the tree for N1: TrackFilter/TrackSimplify/TrackGpx against
 scripted sequences, FieldCaptureParityTests against the fixture,
 convertingPoints, and `TrackRecorderSeamTests` against an injected
-`LocationFixSource` and `ScreenWakeLock` — a refused start touching neither the
-clock, CoreLocation nor the idle timer; the device-wide switch refusing a
-granted app; a grant starting the recording that waited for it; a refusal
-mid-walk pausing and giving the screen back; a denied error classified rather
-than ignored and a transient one ignored rather than classified; fixes reaching
-the contract's filter and its refusals being reported; the foreground auto-pause;
-and stop returning the walk and the screen.
+`LocationFixSource`, `ScreenWakeLock` and `BackgroundActivity` — a refused start
+touching neither the clock, CoreLocation, the idle timer nor the background
+session; the device-wide switch refusing a granted app; a grant starting the
+recording that waited for it; a refusal mid-walk pausing and giving back both
+the screen and the session; a denied error classified rather than ignored and a
+transient one ignored rather than classified; fixes reaching the contract's
+filter and its refusals being reported; leaving the foreground giving the screen
+back while the walk carries on; and stop returning the walk, the screen and the
+session.
 
 That paragraph claimed the injected fix source from N1 onward and it did not
 exist until 2026-09-03: both `TrackRecorder` and `MarkLocation` built a

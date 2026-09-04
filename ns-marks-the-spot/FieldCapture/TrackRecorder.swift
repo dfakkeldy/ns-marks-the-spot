@@ -5,21 +5,30 @@ import Observation
 import UIKit
 
 /// The app-side shell around the pure `TrackRecording` state machine: it owns
-/// the CLLocationManager, keeps the screen awake while a recording runs, and
-/// pauses when the app leaves the foreground.
+/// the device seams, keeps the screen awake while a recording runs on screen,
+/// and keeps the walk running when it is not.
 ///
-/// Foreground-only by decision, not omission: `allowsBackgroundLocationUpdates`
-/// stays false, there is no background-location entitlement, and leaving the
-/// app auto-pauses with a message rather than silently dropping fixes — a gap
-/// the user can see is honest, a straight line across ground nobody walked is
-/// not. The web surface behaves the same way when its tab hides.
+/// **This app was foreground-only by approved decision 3, and is not any more.**
+/// The owner reopened that decision on 2026-09-04: a forester walking a stand
+/// edge for forty minutes cannot keep a lit screen in hand, and every pocketing
+/// of the phone split the track. Leaving the app used to pause with a message —
+/// honest about the gap, but the gap should not have been there.
+///
+/// What continues it is a `CLBackgroundActivitySession`, held for exactly as
+/// long as a recording is running. Not `allowsBackgroundLocationUpdates` with
+/// Always authorization: the session keeps fixes arriving for a **When In Use**
+/// grant, so the app raises no new prompt and asks for nothing it did not ask
+/// for before. The price is the blue indicator in the status bar while a
+/// session is held, which is the right price — it is the reader's own signal
+/// that the walk is still being recorded.
+///
+/// The screen is a separate question and still a foreground one: the idle timer
+/// is held while a recording is on screen and given straight back when it is
+/// not. The web surface still stops when its tab hides; a browser has no
+/// equivalent of this session.
 @MainActor
 @Observable
 final class TrackRecorder: NSObject {
-    /// Why the recording paused itself, when it did. Shown until the user
-    /// resumes or stops.
-    private(set) var autoPauseMessage: String?
-
     /// The most recent fix received while the manager runs, whatever its
     /// quality — the HUD's quality dot and Mark's freshness rule read it.
     private(set) var lastFix: TrackFix?
@@ -81,6 +90,10 @@ final class TrackRecorder: NSObject {
     /// The screen, behind the same kind of seam, so "the screen must not be
     /// held awake for a session that cannot record" is a rule a test can check.
     @ObservationIgnored private let screen: any ScreenWakeLock
+    /// The walk's licence to continue off screen, held for exactly as long as
+    /// the recording runs. Same seam, same reason: what a recorder does with a
+    /// system service is a rule, and a rule wants a test.
+    @ObservationIgnored private let background: any BackgroundActivity
 
     var status: TrackRecording.Status { recording.status }
     var isActive: Bool { recording.status != .idle }
@@ -94,10 +107,12 @@ final class TrackRecorder: NSObject {
 
     init(
         source: any LocationFixSource = CoreLocationFixSource(),
-        screen: any ScreenWakeLock = ApplicationScreenWakeLock()
+        screen: any ScreenWakeLock = ApplicationScreenWakeLock(),
+        background: any BackgroundActivity = LocationBackgroundActivity()
     ) {
         self.source = source
         self.screen = screen
+        self.background = background
         super.init()
         source.receiver = self
     }
@@ -114,7 +129,6 @@ final class TrackRecorder: NSObject {
     @discardableResult
     func start(now: Date = Date()) -> Refusal? {
         guard recording.status == .idle else { return nil }
-        autoPauseMessage = nil
         let status = source.authorizationStatus
         // Read now, not waited for: the delegate reports a status only when
         // it changes, and a refusal already on file never changes again. The
@@ -150,10 +164,12 @@ final class TrackRecorder: NSObject {
         isWaitingForPermission = false
         recording.start(now: now)
         source.startUpdatingLocation()
-        // The screen stays on for the walk. Restored on stop and on leaving
-        // the foreground — the system owns the idle timer again the moment
-        // this app is not actively recording.
+        // The screen stays on while the walk is on screen. Restored on stop
+        // and on leaving the foreground — the system owns the idle timer
+        // again the moment this app is not showing the recording.
         screen.isHeldAwake = true
+        // And the walk continues when it is not on screen.
+        continuesOffScreen(true)
         return nil
     }
 
@@ -162,16 +178,17 @@ final class TrackRecorder: NSObject {
         recording.pause(now: now)
         source.stopUpdatingLocation()
         screen.isHeldAwake = false
+        continuesOffScreen(false)
     }
 
     func resume(now: Date = Date()) {
         // Not while refused: resumed, the clock would run on fixes that
         // cannot come, which is the state the pause was there to end.
         guard recording.status == .paused, refusal == nil else { return }
-        autoPauseMessage = nil
         recording.resume(now: now)
         source.startUpdatingLocation()
         screen.isHeldAwake = true
+        continuesOffScreen(true)
     }
 
     func stop(now: Date = Date()) -> TrackRecording.StopResult? {
@@ -182,18 +199,42 @@ final class TrackRecorder: NSObject {
         recording = TrackRecording()
         source.stopUpdatingLocation()
         screen.isHeldAwake = false
-        autoPauseMessage = nil
+        continuesOffScreen(false)
         lastFix = nil
         return result
     }
 
-    /// Called from the container's scene-phase handler. Recording is
-    /// foreground-only, so anything but `.active` pauses — and says so, since
-    /// a silently paused recording reads as a recording.
+    /// Called from the container's scene-phase handler.
+    ///
+    /// This used to pause the recording and say so. Since decision 3 was
+    /// reopened it does not: the walk goes on, and the blue indicator in the
+    /// status bar is what says so — put there by the system, not by this app,
+    /// which is a stronger claim than any message of ours.
+    ///
+    /// What is still foreground-only is the screen. The idle timer is held
+    /// while a recording is being watched and handed straight back when the
+    /// app goes away, so a phone in a pocket sleeps normally while its walk
+    /// carries on.
     func scenePhaseChanged(isActive: Bool) {
-        guard !isActive, recording.status == .recording else { return }
-        pause()
-        autoPauseMessage = "Recording paused while the app was in the background"
+        screen.isHeldAwake = isActive && recording.status == .recording
+    }
+
+    /// Whether the walk goes on while the app is not on screen: two device
+    /// facts, one rule, so they are set in one place and can never disagree.
+    ///
+    /// The session keeps the app running to receive fixes and puts the
+    /// system's indicator in the status bar; `allowsBackgroundLocationUpdates`
+    /// is what `CLLocationManager` documents as making *this manager* deliver
+    /// while backgrounded. Held for exactly the length of a running recording
+    /// and for nothing else: an app that is not recording must not be an app
+    /// showing the indicator.
+    ///
+    /// Not device-verified. The simulator does not background faithfully, and
+    /// this is one of the things a walk with a real phone in a real pocket has
+    /// to confirm before anyone relies on it.
+    private func continuesOffScreen(_ on: Bool) {
+        source.deliversInBackground = on
+        background.isRunning = on
     }
 
     /// What the reader is owed a word about, counted so each is said once:
@@ -238,6 +279,11 @@ final class TrackRecorder: NSObject {
         recording.pause(now: Date())
         source.stopUpdatingLocation()
         screen.isHeldAwake = false
+        // And the licence to continue off screen. A refused walk that kept it
+        // would leave the system's blue indicator up over a recorder
+        // CoreLocation has stopped feeding — the reader would be told, by iOS
+        // itself, that a recording is running that is not.
+        continuesOffScreen(false)
     }
 
     private func receive(_ location: CLLocation) {

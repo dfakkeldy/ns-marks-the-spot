@@ -29,6 +29,21 @@ protocol LocationFixSource: AnyObject {
     /// Where fixes, authorization changes and failures are delivered.
     var receiver: (any LocationFixReceiver)? { get set }
 
+    /// Whether this source keeps delivering while the app is not on screen.
+    ///
+    /// A separate switch from `BackgroundActivity` and a separate fact:
+    /// `CLLocationManager` documents `allowsBackgroundLocationUpdates` as the
+    /// property that makes *this manager* deliver in the background, while the
+    /// session is what keeps the app running to receive it and puts the
+    /// indicator in the status bar. `TrackRecorder.continuesOffScreen(_:)` is
+    /// the one place both are set, because they are one rule.
+    ///
+    /// Permitted under **When In Use**: with `UIBackgroundModes` containing
+    /// `location`, a when-in-use app may set this and is shown to the reader
+    /// while it does. It is not, and must not become, a reason to ask for
+    /// Always.
+    var deliversInBackground: Bool { get set }
+
     func requestWhenInUseAuthorization()
     func startUpdatingLocation()
     func stopUpdatingLocation()
@@ -62,6 +77,11 @@ final class CoreLocationFixSource: NSObject, LocationFixSource {
         // Walking pace: fixes closer together than this are jitter the
         // contract filter would drop anyway.
         manager.distanceFilter = kCLDistanceFilterNone
+    }
+
+    var deliversInBackground: Bool {
+        get { manager.allowsBackgroundLocationUpdates }
+        set { manager.allowsBackgroundLocationUpdates = newValue }
     }
 
     func requestWhenInUseAuthorization() { manager.requestWhenInUseAuthorization() }
@@ -108,5 +128,49 @@ final class ApplicationScreenWakeLock: ScreenWakeLock {
     var isHeldAwake: Bool {
         get { UIApplication.shared.isIdleTimerDisabled }
         set { UIApplication.shared.isIdleTimerDisabled = newValue }
+    }
+}
+
+/// Whether the walk continues while the app is off screen, behind a seam for
+/// the same reason as the two above.
+///
+/// The app was foreground-only by **approved decision 3**, which the owner
+/// reopened on 2026-09-04. The reason it was reopened is the whole of why this
+/// exists: a forester walking a stand edge for forty minutes cannot keep a lit
+/// screen in hand, and every pocketing of the phone split the track into two.
+/// The design flagged the battery cost of continuing and never the usability
+/// cost of stopping.
+///
+/// `CLBackgroundActivitySession` rather than `allowsBackgroundLocationUpdates`,
+/// which is the smaller of the two privacy postures and deliberately so: it
+/// keeps fixes arriving for an app the reader granted **When In Use** only, so
+/// no Always prompt is ever raised and the app asks for nothing it did not ask
+/// for yesterday. What the reader gets in exchange is the blue indicator in the
+/// status bar for as long as a session is held — which is the honest signal
+/// that the walk is still being recorded, and the reason this is tied to the
+/// recording's own state rather than to the app's lifetime.
+@MainActor
+protocol BackgroundActivity: AnyObject {
+    var isRunning: Bool { get set }
+}
+
+/// The real one. Idempotent on both edges: a session started twice would put a
+/// second indicator's worth of promise behind one walk, and invalidating one
+/// that was never started is a message to a system service about nothing.
+@MainActor
+final class LocationBackgroundActivity: BackgroundActivity {
+    private var session: CLBackgroundActivitySession?
+
+    var isRunning: Bool {
+        get { session != nil }
+        set {
+            guard newValue != (session != nil) else { return }
+            if newValue {
+                session = CLBackgroundActivitySession()
+            } else {
+                session?.invalidate()
+                session = nil
+            }
+        }
     }
 }
