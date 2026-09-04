@@ -704,3 +704,41 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
 Watch CI on #315, run a round 2 on the revision, then hand both to the owner for a device walk.
 ```
+
+## 2026-09-04 — #314 merged; #315 round 2, and a false claim of mine corrected
+
+Done:
+- **#314 merged into nightly.** Background continuation is in.
+- #315 round 2. The critical finding was that **round 1's fix did not do what
+  its commit message said**: the write happened *after* `stop()` cleared the
+  recorder, and its failure was ignored — on a full disk the recorder was
+  cleared, the activity ended, a success haptic fired and the walk was
+  nowhere. Both lenses found it. Stopping is a transaction now:
+  `stop(now:keeping:)` puts the recording back untouched if the walk cannot be
+  set aside.
+- Six more fixed: a cleared restriction can unsay itself; pause no longer
+  carries the off-screen warning; orphan ids are named synchronously so a walk
+  started in between is not swept up; the running clock is banked before an
+  orphan is ended; an unreadable pending file is neither reported as "no walk"
+  nor deleted; the pending file is excluded from backups; and the Lock Screen's
+  actions report what happened rather than whether a closure existed.
+- 918 tests in 89 suites.
+
+**Two findings left open, deliberately, and they need a decision:**
+1. A cold-launched `LiveActivityIntent` has no recorder — Apple launches the
+   process *without opening the app*, so the view's `onAppear` never installs
+   the registry. Needs the recorder and the pending store moved into
+   `AppContainer`.
+2. A save that completes, then a termination before the pending file is
+   cleared, offers the same walk again and can duplicate the layer. Needs a
+   stable identifier reconciled against the library.
+
+Eighteen findings over two rounds on #315, nearly all tracing to Stop being
+reachable from a Lock Screen. #314 had none of this: it adds no artefact that
+can be lost.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-p-la.
+#315 is open with two known gaps in its body. Ask the owner: land it without Stop, do the AppContainer + identifier work, or hold.
+```
