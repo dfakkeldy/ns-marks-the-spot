@@ -4226,15 +4226,19 @@ export function App() {
                   setAddressSearchResults([]);
                   setSearchError(null);
                 }}
-                placeholder="PID or 11064 Highway 19, Mabou"
+                placeholder="PID or address"
+                aria-describedby="pid-search-help"
                 inputMode="search"
                 autoComplete="off"
               />
-              <button className="primary-action" type="submit">
-                Find parcel
+              <button className="primary-action" type="submit" aria-label="Find parcel" title="Find parcel">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                  <circle cx="10.5" cy="10.5" r="6.5" />
+                  <path d="m16 16 5 5" />
+                </svg>
               </button>
             </div>
-            <p className="field-help" role={searchError ? "alert" : undefined}>
+            <p id="pid-search-help" className="field-help" role={searchError ? "alert" : undefined}>
               {searchError ??
                 (searchingAddresses
                   ? "Searching mapped civic addresses…"

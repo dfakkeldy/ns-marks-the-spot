@@ -69,13 +69,13 @@ export function MapThemePicker({
       <p className="map-theme-description">
         {active?.description ?? "Map settings restored from a shared link."}
       </p>
-      <p aria-live="polite" role="status">
+      <p className={status === "exact" && !notice ? "sr-only" : undefined} aria-live="polite" role="status">
         {label}
         {notice ? ` ${notice}` : ""}
       </p>
       <div className="map-theme-actions">
         <button type="button" onClick={onSave}>
-          Save current setup as…
+          Save setup…
         </button>
         <button type="button" onClick={onManage}>
           Manage themes
