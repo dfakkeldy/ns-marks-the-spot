@@ -73,6 +73,12 @@ private final class SpyBackground: BackgroundActivity {
             if isRunning { starts += 1 } else { ends += 1 }
         }
     }
+
+    var onUnavailable: ((String) -> Void)?
+
+    /// What the real session's `diagnostics` sequence does when it reports a
+    /// reason the walk will not continue.
+    func reportUnavailable(_ reason: String) { onUnavailable?(reason) }
 }
 
 /// The seam the design document has claimed since N1 and did not have.
@@ -303,6 +309,61 @@ struct TrackRecorderSeamTests {
         #expect(!background.isRunning)
         #expect(!source.deliversInBackground)
         #expect(!screen.isHeldAwake)
+    }
+
+
+    /// A grant usually arrives from Settings, which means it arrives while the
+    /// app is not on screen. Starting standard location updates then does not
+    /// start them, so the recording would be a clock running over no fixes —
+    /// and `start()` would have lit the idle timer for a screen nobody is
+    /// looking at.
+    @Test func aGrantThatLandsOffScreenWaitsForTheAppToComeBack() {
+        let (recorder, source, screen, background) = self.recorder()
+        source.authorizationStatus = .notDetermined
+        #expect(recorder.start() == nil)
+        #expect(recorder.isWaitingForPermission)
+
+        recorder.scenePhaseChanged(isActive: false)
+        source.changeAuthorization(to: .authorizedWhenInUse)
+
+        // Nothing yet: no clock, no CoreLocation, no screen, no session.
+        #expect(recorder.status == .idle)
+        #expect(source.updateStarts == 0)
+        #expect(!screen.isHeldAwake)
+        #expect(!background.isRunning)
+
+        // And then the reader comes back.
+        recorder.scenePhaseChanged(isActive: true)
+        #expect(recorder.status == .recording)
+        #expect(source.updateStarts == 1)
+        #expect(screen.isHeldAwake)
+        #expect(background.isRunning)
+    }
+
+    /// The session is not a promise. When it reports that it cannot keep the
+    /// app in use, the reader is told — before the phone goes in a pocket,
+    /// which is the only moment the telling is worth anything.
+    @Test func aSessionThatCannotContinueSaysSoWhileTheWalkIsStillOnScreen() {
+        let (recorder, _, _, background) = self.recorder()
+        recorder.start()
+        #expect(recorder.backgroundNotice == nil)
+
+        background.reportUnavailable("Recording may stop when this app is off screen.")
+        #expect(recorder.backgroundNotice == "Recording may stop when this app is off screen.")
+
+        // And it is about this walk, so it goes when the walk does.
+        _ = recorder.stop()
+        #expect(recorder.backgroundNotice == nil)
+    }
+
+    /// A diagnostic arriving for a recording that is no longer running is not
+    /// news about anything.
+    @Test func aSessionDiagnosticAfterTheWalkIsIgnored() {
+        let (recorder, _, _, background) = self.recorder()
+        recorder.start()
+        _ = recorder.stop()
+        background.reportUnavailable("Recording will stop when this app is off screen.")
+        #expect(recorder.backgroundNotice == nil)
     }
 
     /// `stopUpdatingLocation()` does not unsend what CoreLocation has already

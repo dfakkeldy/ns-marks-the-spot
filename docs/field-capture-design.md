@@ -51,21 +51,46 @@ than navigation features.
    forester walking a stand edge for forty minutes cannot keep a lit screen in
    hand, and every pocketing of the phone split the track in two.
 
-   **iOS now continues off screen.** `TrackRecorder` holds a
-   `CLBackgroundActivitySession` for exactly as long as a recording runs, and
-   `UIBackgroundModes` contains `location`. Deliberately *not*
-   `allowsBackgroundLocationUpdates` with Always authorization: the session
-   keeps fixes arriving for a **When In Use** grant, so the app raises no new
-   permission prompt, carries no `NSLocationAlwaysAndWhenInUseUsageDescription`,
-   and asks for nothing it did not ask for before. The system shows its own blue
-   indicator in the status bar while a session is held. Where fixes go is
+   **iOS now continues off screen.** `UIBackgroundModes` contains `location`,
+   and for exactly as long as a recording runs `TrackRecorder` holds both a
+   `CLBackgroundActivitySession` and `allowsBackgroundLocationUpdates` on the
+   manager. Those are two documented mechanisms rather than two halves of one —
+   Apple describes each as sufficient on its own — and both are set
+   deliberately, because **none of this has been run on a device** and dropping
+   either would be dropping it on a guess. A walk with a real phone should
+   decide whether one can go.
+
+   **Still When In Use.** Neither mechanism requires Always authorization, so
+   the app raises no new permission prompt and carries no
+   `NSLocationAlwaysAndWhenInUseUsageDescription`. The system shows its own blue
+   indicator while the session is held, and the HUD says, *before* the phone
+   goes anywhere, that recording continues off screen. Where fixes go is
    unchanged, and the zero-collection privacy label stands.
 
-   The idle timer stays a foreground matter: held while a recording is on
-   screen, given straight back when it is not, so a pocketed phone sleeps
-   normally while its walk carries on. **Web is still foreground-only** — a
-   browser has no equivalent of this session, and its tab hiding still stops
-   the recording.
+   Two things the reopened decision made necessary.
+   `pausesLocationUpdatesAutomatically` is now **false**: it defaults to true,
+   and for a when-in-use app CoreLocation's automatic pause ends location
+   access until the app is opened again — so a forester standing still to write
+   a note would have returned to a recorder still counting and taking nothing
+   in. And the session's `diagnostics` are consumed rather than discarded: a
+   session reporting `insufficientlyInUse` or `serviceSessionRequired` is not a
+   session, and the HUD says so in its own sentence rather than letting
+   "blocked" read as "running".
+
+   The idle timer stays a foreground matter, and is now *derived* from
+   `isSceneActive && recording` rather than asserted at each transition — a
+   grant arriving from Settings while the app is off screen used to light it.
+   That same path now defers the start until the app returns, because standard
+   location updates started while backgrounded do not start.
+
+   **Web is still foreground-only** — a browser has no equivalent, and its tab
+   hiding still stops the recording.
+
+   **Not covered: process termination.** An in-progress recording lives in
+   memory, so if iOS terminates the app the walk is lost, and background
+   recording makes that more likely to be reached than foreground-only
+   recording did. Checkpointing an active recording is its own piece of work
+   and is not in this change.
 4. Web ships first; iOS mirrors after. Data models stay compatible throughout.
 5. Snap targets are NSPRD parcel boundaries and the user's own features.
    Parcel snapping is licence-gated. Snapped coordinates may be stored and

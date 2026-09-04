@@ -113,6 +113,30 @@ struct TrackRecordingHUD: View {
                 }
             }
 
+            // What the system will say only once it has already begun, said
+            // here before it does. Apple's guidance is that an app tells the
+            // reader that updates will continue *before* it goes into the
+            // background; the blue indicator appears after, and a locked
+            // screen may not show it at all. This app has a further reason:
+            // a reader who did not know their phone would keep recording in a
+            // pocket has not agreed to it.
+            if recorder.status == .recording {
+                Text("Recording continues when this app is off screen or the phone is locked.")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            // And when the system says it will not. A distinct sentence from
+            // the refusal above: fixes are arriving now, and will stop the
+            // moment the phone goes away.
+            if let notice = recorder.backgroundNotice {
+                Label(notice, systemImage: "iphone.slash")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
             Text("Location stays on this device.")
                 .font(.caption2)
                 .foregroundStyle(.secondary)
