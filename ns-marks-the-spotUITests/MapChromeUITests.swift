@@ -148,7 +148,7 @@ final class MapChromeUITests: XCTestCase {
     @MainActor
     func testAcceptingTheLicenceTurnsTheLayerOnAndCreditsIt() throws {
         let app = XCUIApplication.launchedForUITests()
-        let layers = app.buttons["Toggle Layers Menu"]
+        let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
         layers.tap()
 
@@ -236,7 +236,7 @@ final class MapChromeUITests: XCTestCase {
     @MainActor
     func testTheMapChromeStaysOnScreenWithTheLayersPanelOpen() throws {
         let app = XCUIApplication.launchedForUITests()
-        let layers = app.buttons["Toggle Layers Menu"]
+        let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
         layers.tap()
         XCTAssertTrue(
@@ -265,7 +265,7 @@ final class MapChromeUITests: XCTestCase {
     @MainActor
     func testTappingTheMapClosesTheLayersPanel() throws {
         let app = XCUIApplication.launchedForUITests()
-        let layers = app.buttons["Toggle Layers Menu"]
+        let layers = app.buttons["toggle-layers-menu"]
         XCTAssertTrue(layers.waitForHittable(timeout: timeout))
         layers.tap()
 
@@ -293,6 +293,34 @@ final class MapChromeUITests: XCTestCase {
         XCTAssertFalse(
             app.descendants(matching: .any)["parcel-inspector"].exists,
             "the tap that closed the panel also opened a parcel card"
+        )
+    }
+
+    /// Whether the panel's own chrome grows with the reader's text size.
+    ///
+    /// The close control was a glyph frozen at a fixed point size inside a
+    /// fixed 44 point frame, so at an accessibility size it stayed exactly the
+    /// size it is at the default one while the layer names beside it grew.
+    /// Measured on the frame the control reports: 44 points at this text size
+    /// is the frozen layout, whatever the setting says.
+    @MainActor
+    func testTheLayersCloseControlGrowsWithTheTextSize() throws {
+        let app = XCUIApplication.launchedForUITests(
+            textSize: "UICTContentSizeCategoryAccessibilityXXXL"
+        )
+        // The rail is taller than the screen at this text size, so the layers
+        // control is reached rather than tapped where it sits by default.
+        let rail = app.scrollViews["map-control-rail"]
+        XCTAssertTrue(rail.waitForExistence(timeout: timeout), "there is no control rail")
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(app.scroll(layers, into: rail), "the layers control cannot be reached")
+        layers.tap()
+
+        let close = app.buttons["Close layers menu"]
+        XCTAssertTrue(close.waitForHittable(timeout: timeout), "the layers panel did not open")
+        XCTAssertGreaterThan(
+            close.frame.height, 44,
+            "the close control is \(close.frame.height) points at an accessibility text size"
         )
     }
 }

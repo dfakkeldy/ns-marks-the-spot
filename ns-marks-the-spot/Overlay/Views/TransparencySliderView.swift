@@ -6,6 +6,12 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct TransparencySliderView: View {
+    /// A definite touch target that scales with the reader's text, not a
+    /// minimum. A minimum lets the enclosing row propose whatever width it has
+    /// left, so the target is only as certain as the layout around it; the
+    /// rail's MapControlIcon has always sized itself this way.
+    @ScaledMetric(relativeTo: .title3) private var controlTarget: CGFloat = 44
+
     let viewModel: OverlayViewModel
     /// The user's own maps. Optional because they are a separate concern from
     /// the catalogued layers, and a panel shown without them (a preview, a
@@ -72,10 +78,10 @@ struct TransparencySliderView: View {
                     }
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 20))
+                        .font(.title3)
                         .foregroundStyle(.secondary)
                         .symbolRenderingMode(.hierarchical)
-                        .frame(width: 44, height: 44)
+                        .frame(width: controlTarget, height: controlTarget)
                         .contentShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -480,18 +486,34 @@ private struct LayerProvenanceDisclosure: View {
 }
 
 private struct LayerRowView: View {
+    /// A definite touch target that scales with the reader's text, not a
+    /// minimum. A minimum lets the enclosing row propose whatever width it has
+    /// left, so the target is only as certain as the layout around it; the
+    /// rail's MapControlIcon has always sized itself this way.
+    @ScaledMetric(relativeTo: .title3) private var controlTarget: CGFloat = 44
+
     let row: LayerRow
     let viewModel: OverlayViewModel
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.dynamicTypeSize) private var typeSize
 
+    /// The row's icon and the chip behind it, scaled against the row's own
+    /// name. Frozen at 16 points in a 28 point chip, the icon stayed the size
+    /// it is at the default text size while the name beside it grew. Capped,
+    /// not frozen: past 44 points the icon column starts taking the width the
+    /// name needs, and the name is what says which source a row belongs to.
+    /// The glyph keeps its share of the chip either way.
+    @ScaledMetric(relativeTo: .subheadline) private var scaledIconChip: CGFloat = 28
+    private var iconChip: CGFloat { min(scaledIconChip, 44) }
+    private var iconGlyph: CGFloat { iconChip * 16 / 28 }
+
     var body: some View {
         VStack(spacing: 8) {
             HStack(spacing: 12) {
                 Image(systemName: LayerRowView.icon(for: row.descriptor.id))
-                    .font(.system(size: 16, weight: .medium))
+                    .font(.system(size: iconGlyph, weight: .medium))
                     .foregroundStyle(row.isVisible ? .blue : .secondary)
-                    .frame(width: 28, height: 28)
+                    .frame(width: iconChip, height: iconChip)
                     .background(row.isVisible ? Color.blue.opacity(0.15) : Color.primary.opacity(0.05))
                     .clipShape(RoundedRectangle(cornerRadius: 6))
 
@@ -548,9 +570,9 @@ private struct LayerRowView: View {
                         viewModel.toggleVisibility(row.id)
                     } label: {
                         Image(systemName: "lock.fill")
-                            .font(.system(size: 15, weight: .semibold))
+                            .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
-                            .frame(width: 44, height: 44)
+                            .frame(width: controlTarget, height: controlTarget)
                             .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)

@@ -9,6 +9,13 @@ import SwiftUI
 /// track or parcel could be tapped and say nothing at all, and an imported
 /// marker could speak without naming where it came from.
 struct UserVectorCalloutCard: View {
+    /// A control's touch target, scaled with the reader's text so the glyph
+    /// inside it never outgrows the box around it. A definite size rather than
+    /// a minimum, which is the pattern MapControlIcon already uses on the
+    /// rail: a minimum lets the enclosing row propose whatever width it has
+    /// left, so the target is only as certain as the layout around it.
+    @ScaledMetric(relativeTo: .title3) private var controlTarget: CGFloat = 44
+
     let callout: VectorFeatureCallout
     let layerName: String
     /// The feature's photo descriptors and the bytes behind them. Nil loader
@@ -23,6 +30,12 @@ struct UserVectorCalloutCard: View {
     @State private var lightbox: CalloutLightboxPhoto?
 
     var body: some View {
+        // The title and Close stay put; everything under them scrolls. At an
+        // accessibility text size a card with a description, a thumbnail, a
+        // GPS caveat and a provenance line is taller than a phone in
+        // landscape, and a card taller than the screen took its own Close
+        // control off the top of it — with the provenance, which is the point
+        // of the card, going first.
         VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline) {
                 Text(callout.title)
@@ -32,74 +45,81 @@ struct UserVectorCalloutCard: View {
                     onClose()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 18))
+                        .font(.title3)
                         .foregroundStyle(.secondary)
                         .symbolRenderingMode(.hierarchical)
-                        .frame(width: 44, height: 44)
+                        .frame(width: controlTarget, height: controlTarget)
                         .contentShape(Circle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Close")
             }
 
-            if let detail = callout.detail {
-                Text(detail)
-                    .font(.subheadline)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 6) {
+                    if let detail = callout.detail {
+                        Text(detail)
+                            .font(.subheadline)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
 
-            // Thumbnails between the description and the provenance, as the
-            // web's popup places them.
-            if let loadPhoto, !photos.isEmpty {
-                // Lazy: a cluster card can hold hundreds of thumbnails, and
-                // an eager row started every download at once.
-                ScrollView(.horizontal) {
-                    LazyHStack(spacing: 8) {
-                        ForEach(Array(photos.enumerated()), id: \.element.id) {
-                            index, descriptor in
-                            Button {
-                                lightbox = CalloutLightboxPhoto(
-                                    id: descriptor.id,
-                                    title: descriptor.sourceName ?? "Photo \(index + 1)"
-                                )
-                            } label: {
-                                PhotoThumbView(progress: loadProgress?(descriptor.id)) {
-                                    await loadPhoto(descriptor.id, true)
+                    // Thumbnails between the description and the provenance, as the
+                    // web's popup places them.
+                    if let loadPhoto, !photos.isEmpty {
+                        // Lazy: a cluster card can hold hundreds of thumbnails, and
+                        // an eager row started every download at once.
+                        ScrollView(.horizontal) {
+                            LazyHStack(spacing: 8) {
+                                ForEach(Array(photos.enumerated()), id: \.element.id) {
+                                    index, descriptor in
+                                    Button {
+                                        lightbox = CalloutLightboxPhoto(
+                                            id: descriptor.id,
+                                            title: descriptor.sourceName ?? "Photo \(index + 1)"
+                                        )
+                                    } label: {
+                                        PhotoThumbView(progress: loadProgress?(descriptor.id)) {
+                                            await loadPhoto(descriptor.id, true)
+                                        }
+                                    }
+                                    .buttonStyle(.plain)
+                                    .accessibilityLabel("Open photo \(index + 1) of \(photos.count)")
                                 }
                             }
-                            .buttonStyle(.plain)
-                            .accessibilityLabel("Open photo \(index + 1) of \(photos.count)")
                         }
+                        .scrollIndicators(.hidden)
                     }
+
+                    // The claim the data makes about itself — when it was captured
+                    // and how rough the fix was — so a ±40 m mark never reads as a
+                    // surveyed corner. Rendered only when both reserved keys are
+                    // present; see VectorFeatureCallout.
+                    if let gpsProvenance = callout.gpsProvenance {
+                        Label(gpsProvenance, systemImage: "location")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    if let tracedCaveat = callout.tracedCaveat {
+                        Text(tracedCaveat)
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+
+                    // The provenance is the point of the card. This is the user's own
+                    // material, and a panel that presented it in the same voice as a
+                    // registry parcel would be inviting a conclusion the map cannot
+                    // support.
+                    Label("\(layerName) · \(callout.provenance)", systemImage: "person.crop.square")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
-                .scrollIndicators(.hidden)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-
-            // The claim the data makes about itself — when it was captured
-            // and how rough the fix was — so a ±40 m mark never reads as a
-            // surveyed corner. Rendered only when both reserved keys are
-            // present; see VectorFeatureCallout.
-            if let gpsProvenance = callout.gpsProvenance {
-                Label(gpsProvenance, systemImage: "location")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            if let tracedCaveat = callout.tracedCaveat {
-                Text(tracedCaveat)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            // The provenance is the point of the card. This is the user's own
-            // material, and a panel that presented it in the same voice as a
-            // registry parcel would be inviting a conclusion the map cannot
-            // support.
-            Label("\(layerName) · \(callout.provenance)", systemImage: "person.crop.square")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
+            // Only as tall as it needs to be, up to what the caller leaves it.
+            .scrollBounceBehavior(.basedOnSize)
         }
         .padding(12)
         .background(.regularMaterial)

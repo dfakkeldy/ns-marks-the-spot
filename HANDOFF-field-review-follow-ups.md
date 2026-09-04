@@ -323,3 +323,44 @@ Resume:
 cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
 cat /private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-ns-marks-follow-ups-98d95e/77e085cc-8a4d-4472-812b-39b4fa75268b/scratchpad/codex/out-I-r3-correctness.md
 ```
+
+## 2026-09-03 — PR H and PR I merged; round 4 and PR J opened
+Done: #304 and #305 both merged into nightly (21:28 and 22:08 UTC) while round 4 was running, so
+the round-4 fixes missed #305's squash. They are re-applied on feature/web-review-round4 from the
+new nightly and open as #307 (Change classification green; Core package tests and Native build +
+tests skip on a web-only change). Gates: npm test 2029, lint, build clean. PR J's four iOS
+quick-win commits (13.9, 13.4, 13.2, 13.8, one per item) are on feature/ios-quick-wins from
+nightly; the app-target and UI test run is going through the build slot now (XBG_ALLOW_NOW=1,
+XBG_QUIT_CHROME=0, iPhone 17 24FBD923). User picks recorded: Liquid Glass YES behind
+#available(iOS 26); PR N is all four of §12.2, §12.7, §12.4 and §12.11.
+Plans already written and adversarially verified, in scratchpad/: plans-m (six §10 a11y, 84 of 87
+anchors still match), plans-k4 (six §4 iOS), plans-k6 (§11.8 licences plus six §6 HIG groups).
+Next: when the native run passes, open PR J to nightly; then PR K (§4 + §6 + §11.8 + Liquid
+Glass), PR L (§5 perf, measured first), PR M (§10 a11y — branch from nightly now that PR I is in),
+PR N (the four §12 items).
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+tail -40 /tmp/ios-quick-wins-test.log
+```
+
+## 2026-09-03 — PR J open (#308) with its round-1 fixes
+Done: four per-item commits plus a Codex round-1 fix commit and a comment correction on
+feature/ios-quick-wins. #308 was fully green before the round-1 fixes; CI is re-running on
+b4ae16425. Local, through the build slot on iPhone 17 / iOS 26.5: TileStoreTests 11 passed; the
+three UI suites 12 tests, 1 failure — testAcceptingTheLicenceTurnsTheLayerOnAndCreditsIt cannot
+determine the licence lock's hittability. That failure reproduces on origin/nightly on the same
+simulator, in isolation as well as in the suite, and passes in CI on both: pre-existing, and
+recorded for PR K's §6.6 target work rather than fixed here.
+Known local hazards confirmed again: the whole app-target bundle hangs after building (use focused
+-only-testing suites); a failing focused run hangs in teardown and holds the slot (kill xcodebuild);
+the gate's runningBuilds counts Codex's xcodebuildmcp processes; and a booted simulator can push
+pressure to 2 and refuse admission — shut it down and retry rather than bypassing.
+Next: PR K (§4 + §6 + §11.8 + Liquid Glass behind #available(iOS 26)) stacked on PR J; PR M (§10
+a11y) stacked on the round-4 branch, not nightly, because four of its anchors are in round 4; PR L
+(§5 perf, measured first); PR N (§12.2, §12.7, §12.4, §12.11).
+Resume:
+```
+cd /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-follow-ups-98d95e
+gh pr checks 308
+```

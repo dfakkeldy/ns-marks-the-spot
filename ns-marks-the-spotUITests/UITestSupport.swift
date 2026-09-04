@@ -19,9 +19,17 @@ extension XCUIElement {
 
 extension XCUIApplication {
     /// Launches with the app's own test container.
-    static func launchedForUITests() -> XCUIApplication {
+    ///
+    /// `textSize` is a `UIContentSizeCategory` raw value. Passing one starts
+    /// the app at that text size, which is the only way to ask a built layout
+    /// what it does under Dynamic Type; the default leaves the launch exactly
+    /// as it was, at the device's own setting.
+    static func launchedForUITests(textSize: String? = nil) -> XCUIApplication {
         let app = XCUIApplication()
         app.launchArguments.append("UITestMode")
+        if let textSize {
+            app.launchArguments += ["-UIPreferredContentSizeCategoryName", textSize]
+        }
         app.launch()
         return app
     }

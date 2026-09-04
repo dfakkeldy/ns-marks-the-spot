@@ -781,6 +781,11 @@ struct MapContainerView: View {
                     self.vectorCallout = nil
                 }
                 .frame(maxWidth: 420)
+                // Bounded like the layers panel, and for the same reason: at
+                // an accessibility text size this card is taller than a phone
+                // in landscape, and an unbounded one puts its own Close
+                // control above the top of the screen.
+                .frame(maxHeight: calloutMaxHeight)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
                 .clearOfRail(controlsWidth)
@@ -845,6 +850,7 @@ struct MapContainerView: View {
                     onClose: { featureVM.clearSelection() }
                 )
                 .frame(maxWidth: 420)
+                .frame(maxHeight: calloutMaxHeight)
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12 + attributionHeight)
                 .clearOfRail(controlsWidth)
@@ -1041,7 +1047,13 @@ struct MapContainerView: View {
                 .accessibilityLabel("Record a Track")
                 .accessibilityIdentifier("record-track")
                 // While a recording runs, the HUD owns pause and stop; the
-                // rail button just shows the mode is on.
+                // rail button just shows the mode is on — in the value as much
+                // as the fill. Dimmed is not a state, and a paused recorder is
+                // not recording, so the value says what the HUD says. It says
+                // the same for a start that was refused: the HUD is on screen
+                // reading "Recording not started" while the button, still
+                // enabled, would otherwise have nothing to say at all.
+                .accessibilityValue(recorderState)
                 .disabled(isSelectingSaveArea || recorder.isActive)
 
                 // Two buttons rather than one with a mode, as on the
@@ -1075,6 +1087,7 @@ struct MapContainerView: View {
                     MapControlIcon(systemName: "externaldrive")
                 }
                 .accessibilityLabel("Offline Maps")
+                .disabled(isSelectingSaveArea)
 
                 // One list at a time, as the web renders one panel at a
                 // time. Both on screen at once would let a reader pick a
@@ -1149,6 +1162,9 @@ struct MapContainerView: View {
                     )
                 }
                 .accessibilityLabel("Save Area")
+                // Dimmed by the mode it just started, which on its own reads
+                // as a broken control rather than an armed one.
+                .accessibilityValue(isSelectingSaveArea ? "Selecting an area" : "")
                 // Not over an edit: the selection and the crosshair both
                 // claim the map, as Layers and Measure already know.
                 .disabled(isSelectingSaveArea || editSession != nil)
@@ -1167,7 +1183,14 @@ struct MapContainerView: View {
                         isActive: isLayersMenuExpanded
                     )
                 }
-                .accessibilityLabel("Toggle Layers Menu")
+                .accessibilityLabel("Layers")
+                .accessibilityIdentifier("toggle-layers-menu")
+                // The control is named and the panel's state is the value.
+                // "Toggle Layers Menu" named the gesture and the menu rather
+                // than the thing, and open and closed sounded identical when
+                // the fill was the only state. Identified so a later change of
+                // wording does not move the tests' handle on it.
+                .accessibilityValue(isLayersMenuExpanded ? "Open" : "Closed")
                 // Not while editing, as the measure buttons are not: the
                 // panel's first map tap closes it instead of drawing, and its
                 // Edit rows would end the session under the reader's feet.
@@ -1477,6 +1500,25 @@ struct MapContainerView: View {
     // one expression: the single chain grew past what the type checker will
     // solve in reasonable time, so the modifiers are grouped into wiring
     // functions of a size it can.
+    /// How tall a bottom callout card may be. The floor keeps a very short
+    /// window from collapsing the card to nothing; the subtraction leaves the
+    /// map's own furniture — the attribution strip and the card's insets —
+    /// visible under it.
+    private var calloutMaxHeight: CGFloat { max(240, mapHeight - 132) }
+
+    /// What the recorder is doing, in the HUD's own words. One reading of the
+    /// whole state rather than one of `isActive`, so a refusal and a wait for
+    /// permission are not both silence.
+    private var recorderState: String {
+        if recorder.isActive {
+            return recorder.status == .paused ? "Recording paused" : "Recording"
+        }
+        if recorder.refusal != nil {
+            return "Recording not started"
+        }
+        return recorder.isWaitingForPermission ? "Waiting for location permission" : ""
+    }
+
     var body: some View {
         sceneWiring(editWiring(snapWiring(contentWiring(surfaceAndSheets))))
     }

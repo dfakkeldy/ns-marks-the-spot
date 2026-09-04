@@ -68,7 +68,7 @@ struct ParcelSearchBar: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.secondary)
 
                 // A default keyboard rather than a numeric one: the field takes
@@ -97,7 +97,7 @@ struct ParcelSearchBar: View {
                         viewModel.clearParcelSelection()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 15))
+                            .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
                     .accessibilityLabel("Clear parcel search")
