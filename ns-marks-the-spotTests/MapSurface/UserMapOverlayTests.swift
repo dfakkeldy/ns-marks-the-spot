@@ -102,4 +102,75 @@ struct UserMapOverlayTests {
         #expect(sumX / count / Double(image.width) < 0.5)
         #expect(sumY / count / Double(image.height) < 0.5)
     }
+
+    /// The one that decides whether a placed scan arrives with the tiles under
+    /// it or seconds after them.
+    ///
+    /// CoreGraphics' `.high` does a genuine area average, so its cost tracks
+    /// the minification ratio. The repo's own spike measured a 4096-px source
+    /// at `.high` as **509.6 ms per tile** against **2.8 ms** at `.low` — so
+    /// the rule is: average when the draw is not shrinking anything, and stop
+    /// paying for an average the zoom is about to throw away.
+    @Test func theDrapeStopsAreaAveragingOnceItIsShrinkingTheSheet() {
+        // Zoomed out: a 4096-px preview onto a 512-px stretch of screen.
+        #expect(
+            UserMapOverlayRenderer.interpolationQuality(
+                destinationLongEdgePixels: 512, sourceLongEdgePixels: 4096
+            ) == .low
+        )
+
+        // Zoomed in past 1:1, where `.high` costs nothing extra and is the
+        // difference between a legible scan and a blocky one.
+        #expect(
+            UserMapOverlayRenderer.interpolationQuality(
+                destinationLongEdgePixels: 8192, sourceLongEdgePixels: 4096
+            ) == .high
+        )
+
+        // Exactly 1:1 is not minifying.
+        #expect(
+            UserMapOverlayRenderer.interpolationQuality(
+                destinationLongEdgePixels: 4096, sourceLongEdgePixels: 4096
+            ) == .high
+        )
+    }
+
+    /// A retina tile is drawn at two or three device pixels per point, and the
+    /// ratio has to be taken in the pixels actually being drawn. Reading it in
+    /// points would judge a 3x phone to be minifying three times harder than
+    /// it is, and it would never reach the passthrough case at all — a scan
+    /// blurred on every device that has a retina screen, which is all of them.
+    @Test func aRetinaTileIsJudgedInThePixelsItIsDrawnIn() {
+        let pointsLongEdge = 2_048.0
+        let source = 4_096.0
+
+        // In points it looks like minification at 3x…
+        #expect(
+            UserMapOverlayRenderer.interpolationQuality(
+                destinationLongEdgePixels: pointsLongEdge, sourceLongEdgePixels: source
+            ) == .low
+        )
+        // …but the tile is 3x, so it is not.
+        #expect(
+            UserMapOverlayRenderer.interpolationQuality(
+                destinationLongEdgePixels: pointsLongEdge * 3, sourceLongEdgePixels: source
+            ) == .high
+        )
+    }
+
+    /// A placement with nothing to sample. The overlay's own rule is that an
+    /// overlay which exists and draws nothing is worse than none, so this
+    /// answers cheaply rather than refusing.
+    @Test func aSourceWithNoPixelsDoesNotAskForAnAverageOfThem() {
+        #expect(
+            UserMapOverlayRenderer.interpolationQuality(
+                destinationLongEdgePixels: 1_024, sourceLongEdgePixels: 0
+            ) == .low
+        )
+        #expect(
+            UserMapOverlayRenderer.interpolationQuality(
+                destinationLongEdgePixels: .infinity, sourceLongEdgePixels: 4_096
+            ) == .low
+        )
+    }
 }

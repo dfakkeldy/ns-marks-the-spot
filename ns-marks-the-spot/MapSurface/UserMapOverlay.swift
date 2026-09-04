@@ -184,6 +184,19 @@ nonisolated final class UserMapOverlayRenderer: MKOverlayRenderer {
         alpha = userMap.alpha
     }
 
+    /// Whether this draw is magnifying the preview or shrinking it.
+    ///
+    /// Separate from `draw` so the decision can be asserted without a map, a
+    /// tile or a simulator. A source of no width is a placement nothing can be
+    /// sampled from; `.low` is the answer that costs least on the way to
+    /// drawing nothing.
+    static func interpolationQuality(
+        destinationLongEdgePixels: Double, sourceLongEdgePixels: Double
+    ) -> CGInterpolationQuality {
+        guard sourceLongEdgePixels > 0, destinationLongEdgePixels.isFinite else { return .low }
+        return destinationLongEdgePixels >= sourceLongEdgePixels ? .high : .low
+    }
+
     private func triangles() -> [MeshTriangle] {
         triangleLock.lock()
         defer { triangleLock.unlock() }
@@ -224,7 +237,39 @@ nonisolated final class UserMapOverlayRenderer: MKOverlayRenderer {
         // solved in those pixels, so the preview is stretched back up to them.
         let width = CGFloat(userMap.pixelSize.width)
         let height = CGFloat(userMap.pixelSize.height)
-        context.interpolationQuality = .high
+
+        // `.high` only when the draw is not shrinking the sheet.
+        //
+        // CoreGraphics' `.high` and `.medium` do a genuine area average, so
+        // each output pixel costs roughly the number of source pixels it
+        // covers — the cost tracks the MINIFICATION RATIO, and a 4096-px
+        // preview squeezed onto a zoomed-out tile is minified hard. The repo's
+        // own spike measured this exact configuration (docs/spikes/
+        // ios-port-spike-3-tps-warp-cost.md): a 4096-px source at `.high` is
+        // **509.6 ms per tile**, at `.low` **2.8 ms**. `.medium` is no middle
+        // ground at 256.3 ms. That is a 182x spread on the path every placed
+        // scan takes, and it is why a sheet arrives seconds after the tiles
+        // under it.
+        //
+        // What this trades: `.low` samples bilinearly without the area
+        // average, so minified line work on a scan aliases where `.high` would
+        // have resolved it. The spike's answer to that is to warp from a
+        // scale-matched mip — which does the averaging once instead of per
+        // tile — and to use `.low` on top of it. That is a second change with
+        // its own measurement, not this one.
+        let sheet = rect(for: userMap.boundingMapRect)
+        context.interpolationQuality = Self.interpolationQuality(
+            // `zoomScale` is screen POINTS per map point; the tile bitmap is
+            // drawn at `contentScaleFactor`, which zoomScale does not carry.
+            // Without it a 3x phone reads as minifying three times harder than
+            // it is and never reaches the passthrough case at all.
+            destinationLongEdgePixels: Double(max(sheet.width, sheet.height))
+                * Double(zoomScale) * Double(contentScaleFactor),
+            // The preview's own pixels, not `pixelSize`: the preview is what
+            // is sampled, stretched up to the original's dimensions by the
+            // draw below, so `pixelSize` cancels out of the ratio.
+            sourceLongEdgePixels: Double(max(userMap.image.width, userMap.image.height))
+        )
 
         for triangle in triangles() {
             guard WarpMesh.intersects(triangle, rect: visible, overdraw: overdraw),
