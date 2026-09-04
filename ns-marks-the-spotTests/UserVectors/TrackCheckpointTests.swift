@@ -83,6 +83,20 @@ struct TrackCheckpointTests {
         )
     }
 
+    /// One fix of a walk along a line.
+    ///
+    /// Four seconds and about 5.6 metres apart, which is a person walking. The
+    /// numbers are not decoration: `CaptureSpec` rejects anything implying more
+    /// than 30 m/s as a teleport and suppresses movement below half the error
+    /// radius as noise, so a fixture that "walked" a degree a second would
+    /// record eight fixes and keep none of them — which is how the first
+    /// version of these tests asserted a distance of zero.
+    private func step(_ source: ScriptedSource, _ index: Int) {
+        source.deliver(
+            latitude: 45.0 + Double(index) * 0.00005, at: 1_000 + Double(index + 1) * 4
+        )
+    }
+
     /// Walks a line, and hands back what a second process would find on disk.
     private func afterTermination(_ store: TrackCheckpointStore) -> TrackCheckpointStore.Found {
         // A fresh store over the same directory is what a relaunch is: the
@@ -100,11 +114,11 @@ struct TrackCheckpointTests {
     func aWalkGrowsALineAtATime() throws {
         let (recorder, source, store) = rig()
         recorder.start(now: Date(timeIntervalSince1970: 1_000))
-        source.deliver(latitude: 45.0, at: 1_001)
+        step(source, 0)
         let afterOne = try #require(try? Data(contentsOf: store.file))
 
-        source.deliver(latitude: 45.0004, at: 1_002)
-        source.deliver(latitude: 45.0008, at: 1_003)
+        step(source, 1)
+        step(source, 2)
         let afterThree = try #require(try? Data(contentsOf: store.file))
 
         #expect(afterThree.count > afterOne.count)
@@ -121,9 +135,7 @@ struct TrackCheckpointTests {
     func aWalkEndedMidRecordingComesBack() throws {
         let (recorder, source, store) = rig()
         recorder.start(now: Date(timeIntervalSince1970: 1_000))
-        for step in 0..<8 {
-            source.deliver(latitude: 45.0 + Double(step) * 0.0004, at: 1_001 + Double(step))
-        }
+        for index in 0..<8 { step(source, index) }
         // No stop. The process simply stops existing.
 
         guard case .walk(let restored) = afterTermination(store) else {
@@ -132,10 +144,11 @@ struct TrackCheckpointTests {
         }
         #expect(restored.wasInterrupted)
         #expect(restored.result.rawFixCount == 8)
+        // Not merely present: the walk that comes back has ground under it.
         #expect(restored.result.distanceM > 0)
         // Closed at the last fix, not at the moment it was read back. A walk
         // read three hours later did not record for three hours.
-        #expect(restored.result.endedAt == Date(timeIntervalSince1970: 1_008))
+        #expect(restored.result.endedAt == Date(timeIntervalSince1970: 1_032))
     }
 
     /// The reader's own Stop, and then the app goes away before the save sheet
@@ -145,8 +158,8 @@ struct TrackCheckpointTests {
     func aWalkStoppedAndNeverSavedComesBack() throws {
         let (recorder, source, store) = rig()
         recorder.start(now: Date(timeIntervalSince1970: 1_000))
-        source.deliver(latitude: 45.0, at: 1_001)
-        source.deliver(latitude: 45.0004, at: 1_002)
+        step(source, 0)
+        step(source, 1)
         let stopped = try #require(recorder.stop(now: Date(timeIntervalSince1970: 1_010)))
 
         guard case .walk(let restored) = afterTermination(store) else {
@@ -167,8 +180,8 @@ struct TrackCheckpointTests {
     func pauseAndResumeComeBackAsASegmentBoundary() throws {
         let (recorder, source, store) = rig()
         recorder.start(now: Date(timeIntervalSince1970: 1_000))
-        source.deliver(latitude: 45.0, at: 1_001)
-        recorder.pause(now: Date(timeIntervalSince1970: 1_002))
+        step(source, 0)
+        recorder.pause(now: Date(timeIntervalSince1970: 1_010))
         recorder.resume(now: Date(timeIntervalSince1970: 1_500))
         source.deliver(latitude: 45.01, at: 1_501)
 
@@ -177,8 +190,10 @@ struct TrackCheckpointTests {
             return
         }
         #expect(restored.result.segments.count == 2)
-        // And none of the eight minutes it spent paused.
-        #expect(restored.result.recordingSeconds < 10)
+        // Ten seconds before the pause and one after the resume. The eight
+        // minutes in between are not in it — a walk that banked the time the
+        // reader was not recording would be a longer walk than they took.
+        #expect(abs(restored.result.recordingSeconds - 11) < 0.001)
     }
 
     // MARK: - Clearing
@@ -190,7 +205,7 @@ struct TrackCheckpointTests {
     func stoppingLeavesTheWalkOnDisk() throws {
         let (recorder, source, store) = rig()
         recorder.start(now: Date(timeIntervalSince1970: 1_000))
-        source.deliver(latitude: 45.0, at: 1_001)
+        step(source, 0)
         _ = recorder.stop(now: Date(timeIntervalSince1970: 1_010))
 
         #expect(FileManager.default.fileExists(atPath: store.file.path))
@@ -211,7 +226,7 @@ struct TrackCheckpointTests {
     func aWalkKeepsOneIdentifier() throws {
         let (recorder, source, store) = rig()
         recorder.start(now: Date(timeIntervalSince1970: 1_000))
-        source.deliver(latitude: 45.0, at: 1_001)
+        step(source, 0)
         let running = recorder.walkID
         let stopped = try #require(recorder.stop(now: Date(timeIntervalSince1970: 1_010)))
         #expect(running == stopped.id)
@@ -277,7 +292,7 @@ struct TrackCheckpointTests {
     func aNewWalkKeepsTheOldBytes() throws {
         let (recorder, source, store) = rig()
         recorder.start(now: Date(timeIntervalSince1970: 1_000))
-        source.deliver(latitude: 45.0, at: 1_001)
+        step(source, 0)
         _ = recorder.stop(now: Date(timeIntervalSince1970: 1_010))
         let firstWalk = try #require(try? Data(contentsOf: store.file))
 
@@ -298,7 +313,7 @@ struct TrackCheckpointTests {
     func theTwoWaysAWalkComesBackAreTwoSentences() throws {
         let (recorder, source, store) = rig()
         recorder.start(now: Date(timeIntervalSince1970: 1_000))
-        source.deliver(latitude: 45.0, at: 1_001)
+        step(source, 0)
         guard case .walk(let interrupted) = afterTermination(store) else {
             Issue.record("the walk was not found on disk")
             return
@@ -306,7 +321,7 @@ struct TrackCheckpointTests {
 
         let (second, secondSource, secondStore) = rig()
         second.start(now: Date(timeIntervalSince1970: 1_000))
-        secondSource.deliver(latitude: 45.0, at: 1_001)
+        step(secondSource, 0)
         _ = second.stop(now: Date(timeIntervalSince1970: 1_010))
         guard case .walk(let stopped) = afterTermination(secondStore) else {
             Issue.record("the stopped walk was not found on disk")
