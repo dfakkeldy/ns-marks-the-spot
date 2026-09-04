@@ -414,3 +414,33 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig.
 Apply scratchpad/plans-k6/plan.af3ad887.9.json (§6.1/6.7/6.11 accessibility and haptics, 23 edits) with the corrections in verify.a9b10da2.13.json, then build through xcode-build-slot.sh.
 ```
+
+## 2026-09-03 — PR M through three adversarial rounds; PR K pushed
+
+Done: PR M [#309](https://github.com/dfakkeldy/ns-marks-the-spot/pull/309) has
+had three Codex rounds (7+7, 6+5, 4+4); every finding fixed or named. Round 3's
+shared first finding was real and serious — the Geoman gesture guard was inert
+because its listeners never landed. Web gates: 2102 passed, 1 skipped, 185
+files; lint and build clean. PR K is pushed as `feature/ios-hig` and its round 1
+is running; the app target's 875 tests in 82 suites pass.
+
+Known local-only native failure:
+`MapChromeUITests.testAcceptingTheLicenceTurnsTheLayerOnAndCreditsIt` cannot
+determine hittability of the licence lock. It fails identically on the parent
+branch on this simulator and passes in CI.
+
+Tooling learned tonight: `/tmp/ios-run.sh <log> <xcodebuild args…>` clears the
+hung wrapper and its child before asking for the build slot, which otherwise
+has to be killed by hand after every focused run. `#expect` compares a CGFloat
+against an inferred Double by identity — convert both sides.
+
+Next: fold PR K's Codex rounds in, open its PR to `nightly` stacked on the
+merged #308, then PR N (§12.2 test seams, §12.4 walk-the-line, §12.7 dark
+colour scheme, §12.11 background recording) and PR L (§5 performance, measured
+first).
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig (pushed).
+Read scratchpad/codex/out-K-r1-*.md, fix or refute each with file:line evidence, re-run through /tmp/ios-run.sh, then open the PR to nightly with the verdict table.
+```
