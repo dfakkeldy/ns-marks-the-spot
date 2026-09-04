@@ -17,7 +17,18 @@
     <meta property="og:image" content="https://kinnokilabs.com/apps/nsmarksthespot/map/social-card.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://kinnokilabs.com/apps/nsmarksthespot/map/social-card.png" />
-    <meta name="theme-color" content="#12343b" />
+    <!-- One per scheme. A single value paints the browser chrome and the
+         iOS status bar the light ink colour over a dark page. -->
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#12343b"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#0d1f24"
+    />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="NS Marks" />

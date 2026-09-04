@@ -69,6 +69,17 @@ describe("web document metadata", () => {
     expect(manifest.scope).toBe("./");
   });
 
+  // A single theme-color paints the browser chrome and the iOS status bar the
+  // light ink colour over a dark page.
+  it("gives the browser chrome a colour for each scheme", () => {
+    expect(indexHtml).toMatch(
+      /<meta\s+name="theme-color"\s+media="\(prefers-color-scheme: light\)"\s+content="#12343b"/u,
+    );
+    expect(indexHtml).toMatch(
+      /<meta\s+name="theme-color"\s+media="\(prefers-color-scheme: dark\)"\s+content="#0d1f24"/u,
+    );
+  });
+
   it("names the native app for Safari and manifest tooling", () => {
     // Safari's Smart App Banner stays hidden until the app is publicly on
     // the App Store, so this stages the wiring without claiming availability.

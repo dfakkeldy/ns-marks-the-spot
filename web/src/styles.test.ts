@@ -767,6 +767,32 @@ describe("Geoman vertex handles on a coarse pointer", () => {
   // so giving it a 44px target would have spent that target on the picture
   // underneath and made a third of the thumbnail delete the photo instead of
   // opening it. Stacked, both can be full size.
+  // A field tool is read in the light it is used in, and a light chrome over
+  // an aerial basemap at dusk is the one moment a reader cannot dim. The
+  // native app takes the system's setting for free.
+  it("carries a dark palette, drawn from the same tokens as the light one", () => {
+    expect(styles).toMatch(/:root\s*\{[^}]*color-scheme:\s*light dark/u);
+    const dark = styles.match(
+      /@media \(prefers-color-scheme: dark\) \{\s*:root \{([^}]*)\}/u,
+    )?.[1];
+    expect(dark, "no dark token block").toBeDefined();
+
+    // Every token the light palette defines is redefined, or a colour drawn
+    // from it stays a light-palette colour on a dark ground.
+    const light = styles.match(/^:root \{([\s\S]*?)\n\}/mu)?.[1] ?? "";
+    const names = [...light.matchAll(/(--[a-z-]+):/gu)].map(([, name]) => name);
+    expect(names.length).toBeGreaterThan(8);
+    for (const name of names) {
+      expect(dark, `${name} keeps its light value on a dark ground`).toContain(
+        `${name}:`,
+      );
+    }
+    // The raised-card token is not white on a dark ground: it names the
+    // surface a card sits on, which is lighter than the page rather than
+    // brighter than everything.
+    expect(dark).not.toMatch(/--white:\s*#fff/iu);
+  });
+
   it("gives Remove its own 44px target instead of taking one from the thumbnail", () => {
     const remove = styles.match(
       /\.vector-edit-photo-remove\s*\{([^}]*)\}/,

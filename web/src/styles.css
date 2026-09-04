@@ -24,6 +24,73 @@
   --line: rgba(18, 52, 59, 0.18);
   --muted: rgba(18, 52, 59, 0.68);
   --shadow: 0 18px 50px rgba(18, 52, 59, 0.2);
+  /* The raised surface as channels, for the many places that draw it at a
+     tuned alpha — a rail at 0.98, a chip at 0.74. Those cannot use `--white`
+     without losing the alpha, and hard-coding the channels leaves a white card
+     under light text on a dark ground. */
+  --surface-rgb: 255, 255, 255;
+  --fog-rgb: 238, 247, 245;
+  --paper-rgb: 251, 246, 234;
+  /* The one tinted panel that is neither paper nor fog: the theme picker's
+     blue wash. */
+  --tint-blue: #f3f8ff;
+  /* Both, and in this order: the browser paints its own form controls,
+     scrollbars and focus rings from this, and without it a phone reading the
+     system as dark renders a select on a light card as dark-on-dark. */
+  color-scheme: light dark;
+}
+
+/* The same map at dusk.
+   ------------------------------------------------------------------
+   This is a field tool, and the light it is used in changes: a screen carrying
+   a light chrome over an aerial basemap at dusk is the one moment a reader
+   cannot dim. The iOS app takes the system's setting for free, so the browser
+   staying light-only was also a parity gap between the two surfaces.
+
+   Only the tokens are redefined. Every colour in this sheet is drawn from
+   them, so the layout, the type scale and the evidence treatments are the same
+   on both grounds — and so is the rule that a caveat is never fainter than the
+   figure it qualifies.
+
+   Measured against the dark ground (#0d1f24) and against the raised card
+   (--white, #1b3940), which is the worse of the two:
+
+     ink   #e8f1f0   14.8:1 on the ground,  10.7:1 on a card
+     blue  #8cc0ff    9.0:1 on the ground,   6.5:1 on a card
+     red   #f08b78    7.0:1 on the ground
+     green #a9c98a    9.2:1 on the ground,   6.7:1 on a card
+     peach #efbb87    9.8:1 on the ground
+
+   All well past AA at every size this sheet uses them, which matters more
+   here than in light: the tax-sale red and the layer-status green carry
+   meaning, and a dark ground is where a colour that was chosen for a white
+   one goes muddy. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #e8f1f0;
+    background: #0d1f24;
+    --chart-ink: #e8f1f0;
+    --deep-water: #9fd6e2;
+    --survey-blue: #8cc0ff;
+    --paper-peach: #efbb87;
+    --survey-red: #f08b78;
+    --lichen: #a9c98a;
+    --fog: #0d1f24;
+    /* The paper tint keeps its job — a warmer ground for the printed-record
+       surfaces — a shade above the page rather than below it. */
+    --paper: #152b31;
+    /* Not white. `--white` names the raised surface a card is drawn on, and
+       on a dark ground that surface is lighter than the page, not brighter
+       than everything. */
+    --white: #1b3940;
+    --line: rgba(232, 241, 240, 0.22);
+    --muted: rgba(232, 241, 240, 0.72);
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    --surface-rgb: 27, 57, 64;
+    --fog-rgb: 13, 31, 36;
+    --paper-rgb: 21, 43, 49;
+    --tint-blue: #16303c;
+  }
 }
 
 * {
@@ -77,7 +144,7 @@ a {
   padding: 8px 28px;
   color: var(--white);
   background: var(--chart-ink);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid rgba(var(--surface-rgb), 0.16);
 }
 
 .header-collapse {
@@ -90,14 +157,14 @@ a {
   color: var(--white);
   font-size: 1.35rem;
   line-height: 1;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.36);
+  background: rgba(var(--surface-rgb), 0.1);
+  border: 1px solid rgba(var(--surface-rgb), 0.36);
   border-radius: 6px;
   cursor: pointer;
 }
 
 .header-collapse:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(var(--surface-rgb), 0.18);
 }
 
 .app-shell.header-collapsed {
@@ -321,7 +388,7 @@ a {
   gap: 8px;
   margin: 18px -12px 0;
   padding: 12px;
-  background: #f3f8ff;
+  background: var(--tint-blue);
   border: 1px solid rgba(47, 128, 237, 0.28);
   border-radius: 8px;
 }
@@ -402,7 +469,7 @@ a {
   padding: 24px;
   overflow-y: auto;
   background: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(var(--surface-rgb), 0.55);
   border-radius: 8px;
   box-shadow: var(--shadow);
 }
@@ -654,7 +721,7 @@ a {
   margin: 4px 0 7px;
   padding: 6px 7px;
   color: var(--muted);
-  background: rgba(238, 247, 245, 0.75);
+  background: rgba(var(--fog-rgb), 0.75);
   border-left: 2px solid rgba(18, 52, 59, 0.22);
   border-radius: 0 4px 4px 0;
 }
@@ -998,7 +1065,7 @@ a {
   padding: 10px;
   color: var(--muted);
   font-size: 0.67rem;
-  background: rgba(255, 255, 255, 0.74);
+  background: rgba(var(--surface-rgb), 0.74);
   border: 1px solid rgba(8, 118, 155, 0.18);
   border-radius: 5px;
 }
@@ -1195,7 +1262,7 @@ a {
   padding: 10px;
   color: var(--muted);
   font-size: 0.67rem;
-  background: rgba(255, 255, 255, 0.74);
+  background: rgba(var(--surface-rgb), 0.74);
   border: 1px solid rgba(2, 132, 199, 0.18);
   border-radius: 5px;
 }
@@ -1831,6 +1898,9 @@ a {
   height: 100%;
 }
 
+/* The water behind a tile that has not arrived. Map content, not chrome: the
+   ground is the same ground in either scheme, and darkening it would put a
+   different Nova Scotia under the two. */
 .leaflet-container {
   background: #b7dce3;
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -1854,8 +1924,30 @@ a {
     drop-shadow(0 0 6px rgba(116, 97, 168, 0.95));
 }
 
+/* Leaflet ships its zoom buttons as white with dark glyphs, from its own
+   stylesheet. The glyph colour was already taken over here; on a dark ground
+   the background has to come too, or the one control the app did not draw
+   itself sits on the map as a white block beside a rail of dark circles. */
 .leaflet-control-zoom a {
   color: var(--chart-ink);
+  background-color: var(--white);
+}
+
+.leaflet-control-zoom a:hover,
+.leaflet-control-zoom a:focus {
+  background-color: var(--fog);
+}
+
+/* Leaflet draws the seam between + and − and the bar's edge in its own
+   greys, which disappear into a dark card. */
+.leaflet-bar,
+.leaflet-bar a {
+  border-color: var(--line);
+}
+
+.leaflet-control-zoom a.leaflet-disabled {
+  color: var(--muted);
+  background-color: var(--paper);
 }
 
 .location-button {
@@ -1919,7 +2011,7 @@ a {
   color: var(--chart-ink);
   font-family: "IBM Plex Mono", Menlo, monospace;
   font-size: 0.78rem;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(var(--surface-rgb), 0.94);
   border: 1px solid var(--line);
   border-radius: 4px;
   /* Non-interactive readout text renders inside MapContainer; without this,
@@ -1988,7 +2080,7 @@ a {
   color: var(--chart-ink);
   font-size: 0.68rem;
   line-height: 1.2;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(var(--surface-rgb), 0.94);
   border-radius: 4px;
   box-shadow: 0 1px 8px rgba(18, 52, 59, 0.18);
 }
@@ -2007,7 +2099,7 @@ a {
   padding: 8px 10px;
   color: var(--chart-ink);
   font-size: 0.78rem;
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(var(--surface-rgb), 0.96);
   border: 1px solid var(--line);
   border-radius: 6px;
   box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
@@ -2331,7 +2423,7 @@ a {
   color: var(--chart-ink);
   font-size: 0.72rem;
   line-height: 1.3;
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(var(--surface-rgb), 0.96);
   border: 1px solid var(--line);
   border-radius: 6px;
   box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
@@ -2359,7 +2451,7 @@ a {
   color: var(--chart-ink);
   font-size: 0.72rem;
   line-height: 1.3;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(var(--surface-rgb), 0.94);
   border-radius: 4px;
   box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
 }
@@ -2379,7 +2471,7 @@ a {
   font-family: "IBM Plex Mono", Menlo, monospace;
   font-size: 0.7rem;
   line-height: 1.3;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(var(--surface-rgb), 0.88);
   border: 1px solid var(--line);
   border-radius: 4px;
   cursor: copy;
@@ -2388,7 +2480,7 @@ a {
 .leaflet-control-scale-line {
   color: var(--chart-ink);
   font-family: "IBM Plex Mono", Menlo, monospace;
-  background: rgba(255, 255, 255, 0.76);
+  background: rgba(var(--surface-rgb), 0.76);
   border-color: rgba(18, 52, 59, 0.55);
 }
 
@@ -2403,7 +2495,7 @@ a {
   font-family: "IBM Plex Mono", Menlo, monospace;
   font-size: 0.68rem;
   line-height: 1.3;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(var(--surface-rgb), 0.88);
   border: 1px solid rgba(18, 52, 59, 0.35);
   border-radius: 3px;
   pointer-events: none;
@@ -2428,7 +2520,7 @@ a {
   color: var(--chart-ink);
   font-size: 0.74rem;
   line-height: 1.35;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(var(--surface-rgb), 0.95);
   border: 1px solid var(--line);
   border-radius: 4px;
   box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
@@ -2450,7 +2542,7 @@ a {
   max-height: calc(100% - 36px);
   padding: 24px;
   overflow-y: auto;
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(var(--surface-rgb), 0.98);
   border: 1px solid var(--line);
   border-radius: 7px;
   box-shadow: var(--shadow);
@@ -3223,7 +3315,7 @@ a {
   width: min(560px, 100%);
   padding: clamp(24px, 5vw, 42px);
   background: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(var(--surface-rgb), 0.55);
   border-radius: 8px;
   box-shadow: var(--shadow);
 }
@@ -3363,7 +3455,7 @@ a {
     overflow-y: auto;
     padding-inline: 12px;
     padding-bottom: max(2px, env(safe-area-inset-bottom));
-    background: rgba(251, 246, 234, 0.9);
+    background: rgba(var(--paper-rgb), 0.9);
     box-shadow: 0 -1px 10px rgba(18, 52, 59, 0.16);
     backdrop-filter: blur(14px);
   }
@@ -3402,8 +3494,8 @@ a {
     min-height: 0;
     padding-top: 0;
     overflow-y: auto;
-    background: rgba(255, 255, 255, 0.98);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: rgba(var(--surface-rgb), 0.98);
+    border: 1px solid rgba(var(--surface-rgb), 0.7);
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(18, 52, 59, 0.36);
     backdrop-filter: blur(18px);
@@ -3441,7 +3533,7 @@ a {
     justify-content: space-between;
     margin: 0 -24px 20px;
     padding: 14px 16px 12px 24px;
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(var(--surface-rgb), 0.96);
     border-bottom: 1px solid var(--line);
     backdrop-filter: blur(18px);
   }
@@ -3498,8 +3590,8 @@ a {
   .mobile-controls-trigger {
     min-height: 44px;
     color: var(--chart-ink);
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(255, 255, 255, 0.76);
+    background: rgba(var(--surface-rgb), 0.92);
+    border: 1px solid rgba(var(--surface-rgb), 0.76);
     border-radius: 999px;
     box-shadow: 0 4px 18px rgba(18, 52, 59, 0.24);
     backdrop-filter: blur(16px);
@@ -3775,6 +3867,10 @@ a {
   }
 }
 
+/* Literal white through the whole print surface, on screen as well as on
+   paper: a preview showing a dark page would be showing something the printer
+   will never produce. Every `.print-` rule below keeps its fixed inks for the
+   same reason. */
 .print-map {
   width: 100%;
   height: 100%;
@@ -4367,6 +4463,9 @@ a {
   background: linear-gradient(135deg, #fafafa 0%, #aaa 48%, #555 100%);
 }
 
+/* Literal, not the surface token: these symbols are printed, and paper is
+   white whichever scheme the reader's screen is in. Every colour in the print
+   legend is a fixed ink for the same reason. */
 .print-layer-symbol--nsprd {
   border: 1pt solid #777;
   background: #fff;
@@ -4951,7 +5050,7 @@ a {
   left: 8px;
   padding: 2px 6px;
   font-size: 12px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(var(--surface-rgb), 0.9);
   border-radius: 4px;
 }
 .export-frame-handle {
@@ -5005,7 +5104,7 @@ a {
   overflow-y: auto;
   padding: clamp(20px, 4vw, 28px);
   background: var(--white);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(var(--surface-rgb), 0.55);
   border-radius: 8px;
   box-shadow: var(--shadow);
   display: flex;
@@ -5176,7 +5275,7 @@ a {
   gap: 5px;
   padding: 10px;
   margin-bottom: 10px;
-  background: rgba(255, 255, 255, 0.74);
+  background: rgba(var(--surface-rgb), 0.74);
   border: 1px dashed rgba(47, 128, 237, 0.4);
   border-radius: 6px;
 }
@@ -5242,7 +5341,7 @@ a {
   font-size: 0.72rem;
   font-weight: 600;
   line-height: 1.35;
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(var(--surface-rgb), 0.96);
   border: 1px solid var(--line);
   border-radius: 6px;
   box-shadow: 0 3px 12px rgba(18, 52, 59, 0.18);
@@ -5518,7 +5617,7 @@ a {
     box-sizing: border-box;
     width: 22px;
     height: 22px;
-    background-color: #fff;
+    background-color: var(--white);
     border: 2px solid #3388ff;
     border-radius: 50%;
   }
@@ -5543,7 +5642,7 @@ a {
   width: 12px;
   height: 12px;
   margin: 3px;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(var(--surface-rgb), 0.85);
   border: 3px solid #b85c1e;
   border-radius: 50%;
   box-shadow: 0 0 4px rgba(18, 52, 59, 0.5);
@@ -6212,7 +6311,7 @@ a {
   max-height: 46vh;
   margin-bottom: 14px;
   overflow: hidden;
-  background: #fff;
+  background: var(--white);
   border: 1px solid rgb(10 20 22 / 18%);
   border-radius: 6px;
 }

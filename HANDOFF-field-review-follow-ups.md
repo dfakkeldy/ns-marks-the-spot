@@ -444,3 +444,151 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig (pushed).
 Read scratchpad/codex/out-K-r1-*.md, fix or refute each with file:line evidence, re-run through /tmp/ios-run.sh, then open the PR to nightly with the verdict table.
 ```
+
+## 2026-09-03 — PR M green, PR K and the dark scheme opened
+
+Done: **PR M [#309](https://github.com/dfakkeldy/ns-marks-the-spot/pull/309) is
+fully green** on all four checks after three adversarial rounds. **PR K is
+[#310](https://github.com/dfakkeldy/ns-marks-the-spot/pull/310)** with round 1
+(4+7 findings) folded in and round 2 running; 876 tests in 82 suites pass.
+**§12.7 is [#311](https://github.com/dfakkeldy/ns-marks-the-spot/pull/311)**,
+the dark colour scheme, stacked on #309.
+
+Next: PR N's remaining three — §12.2 (injection seams for TrackRecorder,
+MarkLocation and PhotoMapViewModel, plus the doc paragraph that claims they
+already exist), §12.4 (walk-the-line distance and bearing chip), §12.11
+(background recording — flag to the owner: it reopens approved decision 3 and
+adds a background-location entitlement). Then PR L, §5 performance, measured
+first.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig, branch feature/ios-hig.
+Read scratchpad/codex/out-K-r2-*.md, fold in, re-run /tmp/ios-run.sh, then start §12.2's LocationFixSource seam.
+```
+
+## 2026-09-04 — PR M merged; K, N and L in flight
+
+Done: **PR M merged** (#309). **PR K is
+[#310](https://github.com/dfakkeldy/ns-marks-the-spot/pull/310)** with two
+adversarial rounds folded in and rebased onto the new nightly — 877 tests in 82
+suites. **§12.7 is [#311](https://github.com/dfakkeldy/ns-marks-the-spot/pull/311)**.
+**PR N** is `feature/ios-field-seams` (pushed, not yet opened): §12.2's injected
+fix source with eleven tests that could not be written before, the corrected
+design-doc paragraph, and §12.4's measuring half. Its round 1 found six things,
+listed below, not yet applied.
+
+**PR L is started, measured first.** `feature/ios-performance` carries two
+measurement suites. §5.15 measured at **15.8 ms per body evaluation at 400
+marks** — the review estimated 1–3 ms — and the conversion plans are now cached
+on the commit counter. §5.11's install-cost measurement is running.
+
+Rebase note: the remote rebases these branches onto `nightly` by itself. When a
+push is rejected as behind, `git reset --hard origin/<branch>` then cherry-pick
+your own commits; check the tree afterwards, because the remote's automatic
+resolution took my 44pt photo badge over nightly's reasoned 32 and I put it back.
+
+Next, in order:
+1. Apply PR N's round 1 (six findings): nil accuracy reads as "within" at zero
+   distance; a segment endpoint is labelled `.edge`; vertex and edge distances
+   are measured with two different rulers; a queued fix after `stop()`
+   repopulates `lastFix`; cross-target ties are decided by array order; the
+   doc's earlier "App N1, present" paragraph and its "Remaining tests: none".
+2. Open PR N and PR L.
+3. §12.11 background recording — needs the owner's go: it reopens approved
+   decision 3 and adds a background-location entitlement.
+4. The other thirteen §5 items are named and unmeasured.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
+git checkout feature/ios-field-seams, then apply scratchpad/codex/out-N-r1-*.md, rebuild with /tmp/ios-run.sh.
+```
+
+## 2026-09-04 — all seven clusters have a PR
+
+| PR | What | State |
+|---|---|---|
+| #304 H, #305 I, #308 J, #309 M | evidence contract, device/watch/layer, iOS quick wins, web accessibility | merged |
+| [#310](https://github.com/dfakkeldy/ns-marks-the-spot/pull/310) K | iOS §4, §11.8, §6 + Liquid Glass | open, 2 rounds folded in, 877 tests |
+| [#311](https://github.com/dfakkeldy/ns-marks-the-spot/pull/311) | §12.7 dark colour scheme | open |
+| [#312](https://github.com/dfakkeldy/ns-marks-the-spot/pull/312) N | §12.2 seam + §12.4 measuring half | open, round 1 folded in, 890 + 688 tests |
+| [#313](https://github.com/dfakkeldy/ns-marks-the-spot/pull/313) L | §5.11 and §5.15, measured first | open, round 1 running, 879 tests |
+
+Owed, and NOT done:
+
+- **§12.11 background recording.** Needs the owner's go before the entitlement
+  is touched: it reopens approved decision 3, adds `UIBackgroundModes` and
+  changes the App Store privacy posture. The smallest form is
+  `CLBackgroundActivitySession` with the existing When-In-Use string and no
+  Live Activity.
+- **§12.4's UI.** Only the measuring half is in #312; no chip is drawn.
+- **Thirteen of the fifteen §5 findings**, listed in #313's body. Several want
+  Instruments on a device rather than a unit-level benchmark.
+- A pre-existing "Maximum update depth exceeded" at map startup, bisected to
+  `88fac4a1a` on nightly and filed as its own task.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
+Read scratchpad/codex/out-L-r1-*.md, fold into feature/ios-performance, re-run /tmp/ios-run.sh, then ask the owner about §12.11.
+```
+
+## 2026-09-04 — §12.4's UI landed; PR L's round 1 folded in
+
+Done:
+- #312 gained the `WalkToLineChip` and the `walkToLineReading` that feeds it —
+  distance, compass point in degrees *true*, the fix-accuracy caveat and the
+  parcel caveat. 896 tests in 85 suites, app target. §12.4 is now whole.
+- #313 rewritten after round 1: both wall-clock suites deleted,
+  `OverlayInstallOrderTests` asserts batch/loop equivalence **by object
+  identity** against a scene below/level/above the parcels, and
+  `VectorEditSessionPlanTests` covers the cache's real risk — a second layer
+  being handed the first one's plans. Numbers moved to the PR body with the
+  machine, the date and a reproduction snippet.
+- Worktree `ns-marks-l-perf` added for `feature/ios-performance`; L rebased
+  onto the new K tip and force-pushed.
+
+Next:
+- Codex round 2 running on both (`out-L-r2-*.md`, `out-N-r2-*.md`).
+- #310 is green and clean. #311/#312/#313 native builds in progress.
+- **§12.11 is a question, not work.** The review's own verifier note says
+  "Present as a product question to the owner (reopen decision 3), not as an
+  improvement to implement." Ask; do not touch `UIBackgroundModes`.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-l-perf.
+Read scratchpad/codex/out-{L,N}-r2-*.md, fold anything real into the two branches, then put §12.11 to the owner.
+```
+
+## 2026-09-04 — round 2 folded in, and a regression the tests could not see
+
+Done:
+- #312 round 2, both lenses: the walk-to-line reading now picks the **freshest
+  usable fix** rather than `recorder.lastFix ?? map` (a paused recording kept
+  its last fix for ever); `MapController.lastUserFix` is observed, because
+  `userLocationFix()` reaches into `MKUserLocation` and publishes nothing;
+  accuracy is **three-way**, so a `horizontalAccuracy` of −1 no longer looks
+  like a good fix; the parcel targets pass the licence gate, not just the
+  toggle; and the readout names NSPRD.
+- Then a regression of my own: putting the chip in the top notice stack fixed
+  the overlap and made it **invisible** — the edit panel is bottom-anchored and
+  its top edge is above that slot exactly when a reading exists. Found by
+  driving the simulator, not by a test. It is panel content now, pinned above
+  the scroll area. Verified live: 141 m → 110 m along a simulated walk.
+- #313 round 2: `planComputations` counts the passes, because every other
+  assertion in that suite passes with the cache deleted.
+- #311 is fully green.
+
+Next:
+- CI on #312/#313 after the last pushes.
+- **§12.11 is a product question, not work.** The review's own verifier note:
+  "Present as a product question to the owner (reopen decision 3), not as an
+  improvement to implement." Ask; do not touch `UIBackgroundModes`.
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ns-marks-k-hig.
+Watch CI on #312 and #313, then put §12.11 to the owner as a question.
+```
