@@ -7,6 +7,14 @@ import SwiftUI
 /// edge want the same two numbers, and nothing on the map computed the reader's
 /// distance to anything. This is the reading `WalkToLine` produces, said.
 ///
+/// In the edit panel, above the part that scrolls, rather than as a card on the
+/// map. It was a card on the map first, and it could not be seen: the panel is
+/// bottom-anchored and grows upward past the notice slot, so the one moment
+/// this reading exists — a session open, a feature selected — is the moment
+/// something is drawn over that slot. The panel is where the reader is looking
+/// while they are editing, and it is the only place the reading is both visible
+/// and unable to collide with anything else.
+///
 /// What it does not say, and will not: it names no parcel, asserts no boundary
 /// and turns nothing into a position. The distance is from a device fix to
 /// geometry already on screen, and both of those carry caveats that travel with
@@ -21,7 +29,7 @@ import SwiftUI
 /// And the boundary is named, not merely described: "12 m to the boundary"
 /// beside a survey caveat reads as some authoritative line, when what it is is
 /// a distance to geometry traced from NSPRD.
-struct WalkToLineChip: View {
+struct WalkToLineReadout: View {
     var reading: WalkToLine.Reading
     /// Shown when the reading is against a parcel boundary: the standing
     /// caveat, wherever a traced boundary is offered.
@@ -98,9 +106,7 @@ struct WalkToLineChip: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 8)
-        .mapChromeSurface(cornerRadius: 8, shadow: nil)
+        .frame(maxWidth: .infinity, alignment: .leading)
         // One element, so a reader hears the distance, the direction and the
         // caveats as one answer rather than swiping through four fragments.
         .accessibilityElement(children: .combine)

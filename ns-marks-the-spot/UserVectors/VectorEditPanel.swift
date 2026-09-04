@@ -9,6 +9,11 @@ import SwiftUI
 /// controls they are tracing it with.
 struct VectorEditPanel: View {
     @Bindable var session: VectorEditSession
+    /// How far the reader is from the geometry they are working on, when there
+    /// is a fix recent enough to say. Handed in rather than computed here: the
+    /// targets come from the session AND the map's own location, and only the
+    /// container holds both.
+    var walkToLine: WalkToLine.Reading?
     var onDone: () -> Void
     /// The coordinate under the middle of the map, for moving a corner
     /// without dragging it. Nil before the map has laid out.
@@ -159,6 +164,16 @@ struct VectorEditPanel: View {
                 .tint(session.tool == .erasing ? .red : .secondary)
                 .accessibilityLabel("Delete features")
                 .accessibilityAddTraits(session.tool == .erasing ? .isSelected : [])
+            }
+
+            // Under the tools and above everything that scrolls, so a reader
+            // walking to a line keeps the number in view while they work. The
+            // tools do not move when it appears.
+            if let walkToLine {
+                WalkToLineReadout(
+                    reading: walkToLine,
+                    parcelCaveat: CaptureSpec.Snap.parcelCaveat
+                )
             }
 
             if let snapNotice = session.snapNotice {

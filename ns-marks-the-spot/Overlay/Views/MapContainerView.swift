@@ -449,25 +449,6 @@ struct MapContainerView: View {
                         .allowsHitTesting(false)
                         .accessibilityElement(children: .combine)
                 }
-
-                // How far to the line. In this stack rather than an overlay of
-                // its own, because both are cards of unstated height in the
-                // same slot: positioned independently they were laid over each
-                // other, and a caveat is exactly the thing that grows under
-                // Dynamic Type. Below the notices, which answer a tap the
-                // reader has just made — and it does not yield to them,
-                // because someone walking to a boundary needs it while an
-                // unrelated notice is up.
-                if let reading = walkToLineReading, printFrame == nil {
-                    WalkToLineChip(
-                        reading: reading,
-                        parcelCaveat: CaptureSpec.Snap.parcelCaveat
-                    )
-                    .frame(maxWidth: 420)
-                    // Clear of the rail, as the HUD and the cards are.
-                    .clearOfRail(controlsWidth)
-                    .allowsHitTesting(false)
-                }
             }
             .padding(.horizontal, 16)
             // Below the recording HUD while it is up, measured rather than
@@ -478,12 +459,11 @@ struct MapContainerView: View {
             // The photo map's cap, on the map: the row that also says it is
             // behind the closed layers panel while the pins are looked at.
             // It shares the top slot with the location and mark notices and
-            // the walk-to-line reading, and yields to all of them: the answer
-            // to the tap just made comes first, as does a distance somebody is
-            // walking by, and the cap is still there when they have gone.
+            // yields to them: the answer to the tap just made comes first,
+            // and the cap is still there when it has gone.
             if let note = photoMapVM.truncationNote, printFrame == nil,
                controller.locationMessage == nil, markLocation.outcome == nil,
-               !markLocation.isAcquiring, walkToLineReading == nil
+               !markLocation.isAcquiring
             {
                 VStack {
                     Text(note)
@@ -620,6 +600,11 @@ struct MapContainerView: View {
                 let reticleGround = controller.reticleCoordinate
                 VectorEditPanel(
                     session: editSession,
+                    // Above the part of the panel that scrolls. Not a card on
+                    // the map: the panel is bottom-anchored and grows upward
+                    // past the top notice slot, so a card there is covered by
+                    // the very thing whose session the reading belongs to.
+                    walkToLine: printFrame == nil ? walkToLineReading : nil,
                     onDone: {
                         // Done outranks any Edit tap still loading its layer.
                         editLoadGeneration += 1
