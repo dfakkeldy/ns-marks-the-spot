@@ -41,3 +41,23 @@ Resume:
 Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-code-hig-audit-710af7
 Branch feature/ios-track-checkpoint. Check: gh pr checks 318 --repo dfakkeldy/ns-marks-the-spot
 ```
+
+## 2026-09-04 — CI green
+
+Done:
+- `6840fb69f` fixed the one CI failure: the checkpoint fixture moved 44 m/s,
+  which `CaptureSpec` rejects as a teleport, so `distanceM` was 0 under an
+  assertion that it would not be. Walking pace now (5.6 m / 4 s, 35.2 m total).
+- #318 all checks pass: Build gate + tests, Native build + tests (926 tests in
+  89 suites, plus 17 XCTest), Core package tests.
+
+Next:
+- Owner review and merge to nightly. Still unverified on a device: no real
+  jetsam kill mid-walk, and no Lock Screen seen on hardware (same gap as #314
+  and #315).
+
+Resume:
+```
+Worktree /Users/dfakkeldy/Developer/ns-marks-the-spot/.claude/worktrees/ios-code-hig-audit-710af7
+Branch feature/ios-track-checkpoint, PR #318 green and awaiting review.
+```
