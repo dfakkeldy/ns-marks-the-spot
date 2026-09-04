@@ -76,6 +76,44 @@ struct VectorEditSessionPlanTests {
         }
     }
 
+    /// The one assertion the rest of this suite cannot make.
+    ///
+    /// Both review lenses landed on it together: every other test here passes
+    /// with the cache deleted, because they are all about what a plan *says*.
+    /// §5.15 is a claim about how often it is worked out, so that is counted.
+    @Test("The plans are worked out once per commit, not once per read")
+    func thePlansAreWorkedOutOncePerCommitNotOncePerRead() async throws {
+        try await withViewModel { viewModel in
+            await viewModel.importFile(data: Self.marks(5, from: 44.6), filename: "a.geojson")
+            await viewModel.importFile(data: Self.marks(3, from: 45.6), filename: "b.geojson")
+            let first = try #require(viewModel.rows.first { $0.record.name.hasPrefix("a") })
+            let second = try #require(viewModel.rows.first { $0.record.name.hasPrefix("b") })
+
+            let session = VectorEditSession(viewModel: viewModel, persistDelay: .zero)
+            session.begin(first)
+            #expect(session.planComputations == 0)
+
+            // What one body evaluation asks for, three times over.
+            for _ in 0..<3 {
+                _ = session.convertPlanLine
+                _ = session.convertPlanArea
+            }
+            #expect(session.planComputations == 1)
+
+            // A commit is the one thing that has to make it work again.
+            session.startDrawing(.point)
+            session.handleTap(latitude: 44.61, longitude: -63.51)
+            _ = session.convertPlanLine
+            _ = session.convertPlanArea
+            #expect(session.planComputations == 2)
+
+            // And so is opening another layer, which makes no commit at all.
+            session.begin(second)
+            _ = session.convertPlanLine
+            #expect(session.planComputations == 3)
+        }
+    }
+
     @Test("A session that has ended offers no plan")
     func aSessionThatHasEndedOffersNoPlan() async throws {
         try await withViewModel { viewModel in

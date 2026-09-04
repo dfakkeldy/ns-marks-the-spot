@@ -731,6 +731,15 @@ final class VectorEditSession {
     /// `VectorEditSessionPlanTests` is what holds them to it.
     @ObservationIgnored private var cachedPlans: (revision: Int, line: ConversionPlan?, area: ConversionPlan?)?
 
+    /// How many times both plans have actually been worked out — one pass
+    /// makes both.
+    ///
+    /// Here because the cache is a claim about how often that happens, and a
+    /// claim about how often something happens has exactly one honest test.
+    /// Every other assertion about these plans is about their *value*, and
+    /// deleting the cache outright leaves all of them passing.
+    @ObservationIgnored private(set) var planComputations = 0
+
     var convertPlanLine: ConversionPlan? { plans().line }
     var convertPlanArea: ConversionPlan? { plans().area }
 
@@ -738,6 +747,7 @@ final class VectorEditSession {
         if let cachedPlans, cachedPlans.revision == revision {
             return (cachedPlans.line, cachedPlans.area)
         }
+        planComputations += 1
         guard let parsed else {
             cachedPlans = (revision, nil, nil)
             return (nil, nil)
