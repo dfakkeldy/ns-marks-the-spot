@@ -8,7 +8,7 @@ import Foundation
 /// Ported case-for-case from `web/src/location/trackFilter.ts`.
 
 /// A vertex the recorder keeps: smoothed position, the fix's own metadata.
-public struct TrackPoint: Hashable, Sendable, Codable {
+public struct TrackPoint: Hashable, Sendable {
     public var lat: Double
     public var lng: Double
     public var altitudeM: Double?

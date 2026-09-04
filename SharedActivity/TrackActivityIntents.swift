@@ -3,6 +3,15 @@ import Foundation
 
 /// The two buttons on the Lock Screen.
 ///
+/// **Pause and Resume, and deliberately not Stop.** Stop produces a walk that
+/// has to survive a process iOS can end at any moment, and this app has no
+/// checkpoint for a recording in progress — two review rounds found six ways
+/// the walk could be lost or offered twice, and the last two of those needed
+/// architecture rather than a patch. Pause and Resume change a state and
+/// produce nothing, so they can be reached from a locked phone safely today.
+/// Stopping stays where the save sheet can be shown, and comes back here when
+/// a walk is durable by construction.
+///
 /// `LiveActivityIntent`, not `AppIntent`, and the difference is the whole
 /// reason these exist: a `LiveActivityIntent` performs **in the app's own
 /// process**, so Pause stops the recording rather than launching the app to
@@ -40,22 +49,6 @@ struct ResumeTrackIntent: LiveActivityIntent {
     }
 }
 
-/// Stop, which on this app opens a save sheet. The Lock Screen cannot show
-/// that sheet, so what this does is end the recording and hold the result for
-/// the app to present when the reader next opens it — the walk is never
-/// thrown away by a button pressed on a locked phone.
-struct StopTrackIntent: LiveActivityIntent {
-    static let title: LocalizedStringResource = "Stop recording"
-    static let isDiscoverable = false
-
-    func perform() async throws -> some IntentResult {
-        guard await TrackActivityActions.shared.stop() else {
-            throw TrackActivityActions.Unreachable.noRecording
-        }
-        return .result()
-    }
-}
-
 /// Where the intents find the recorder.
 ///
 /// A registry of closures rather than a reference to `TrackRecorder`, because
@@ -69,21 +62,15 @@ final class TrackActivityActions {
 
     private var pauseAction: (() -> Bool)?
     private var resumeAction: (() -> Bool)?
-    private var stopAction: (() -> Bool)?
 
     /// Each action reports whether the walk actually changed — not whether a
     /// closure happened to be installed. Actions outlive the recording they
     /// were installed for, so a stale button on a Lock Screen can reach a
     /// recorder that is already idle, and answering "done" to that is the same
     /// lie as answering it with nothing installed at all.
-    func install(
-        pause: @escaping () -> Bool,
-        resume: @escaping () -> Bool,
-        stop: @escaping () -> Bool
-    ) {
+    func install(pause: @escaping () -> Bool, resume: @escaping () -> Bool) {
         pauseAction = pause
         resumeAction = resume
-        stopAction = stop
     }
 
     // Methods rather than the closures themselves, so nothing hands a
@@ -96,13 +83,11 @@ final class TrackActivityActions {
     // reader walks on believing they paused.
     @discardableResult func pause() -> Bool { run(pauseAction) }
     @discardableResult func resume() -> Bool { run(resumeAction) }
-    @discardableResult func stop() -> Bool { run(stopAction) }
 
     /// Lets a test put the registry back the way a fresh process finds it.
     func uninstall() {
         pauseAction = nil
         resumeAction = nil
-        stopAction = nil
     }
 
     private func run(_ action: (() -> Bool)?) -> Bool {

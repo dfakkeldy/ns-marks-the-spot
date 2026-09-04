@@ -116,14 +116,16 @@ private struct Stat: View {
     }
 }
 
-/// Pause and Stop, performed in the app's own process — which is what makes
+/// Pause and Resume, performed in the app's own process — which is what makes
 /// them buttons rather than a shortcut to the screen with the buttons on it.
+///
+/// Stop is not here. It produces a walk that must survive a process iOS can
+/// end at any moment, and that is not something this app can promise from a
+/// locked phone yet.
 private struct Controls: View {
     var isRecording: Bool
-    /// A refused walk keeps Stop and loses Resume. Resuming into a refusal
-    /// would run a clock over fixes that cannot come; **stopping** is how the
-    /// reader keeps the part of the walk they did record, and hiding it behind
-    /// a refusal message is how they would lose it.
+    /// A refused walk loses Resume: resuming into a refusal would run a clock
+    /// over fixes that cannot come.
     var isRefused: Bool
 
     var body: some View {
@@ -139,14 +141,11 @@ private struct Controls: View {
                 }
                 .modifier(LockScreenTarget())
             }
-            // Not destructive, and not red: Stop ends the recording and holds
-            // the walk for the save screen. The red belongs on Discard, which
-            // is the tap that throws it away — and which is not offered here,
-            // because a walk must not be destroyed from a locked phone.
-            Button(intent: StopTrackIntent()) {
-                Label("Stop", systemImage: "stop.fill")
-            }
-            .modifier(LockScreenTarget())
+            // No Stop, and the line below says why to the reader rather than
+            // leaving them looking for a button that is not there.
+            Text("Open the app to stop and save")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
         }
         .buttonStyle(.bordered)
         .font(.caption)
