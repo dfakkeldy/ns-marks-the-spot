@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NS Marks The Spot | Historical Nova Scotia map overlays for iPhone, iPad, and the web</title>
+    <title>NS Marks The Spot | Nova Scotia parcels, tax-sale notices, and Fletcher maps in your browser</title>
     <meta
       name="description"
-      content="NS Marks The Spot overlays georeferenced historical Nova Scotia maps on modern maps, with transparency controls, offline tiles, and points of interest — on iPhone, iPad, and in your browser."
+      content="NS Marks The Spot is a source-linked Nova Scotia map: search parcels by PID or civic address, read dated municipal tax-sale notices on live parcel geometry, and slide Hugh Fletcher's 1880s sheets over today's landscape — in your browser, with an iPhone companion in TestFlight."
     >
     <meta name="theme-color" content="#12343b">
     <meta property="og:title" content="NS Marks The Spot">
@@ -44,15 +44,6 @@
         <div class="hero-map" aria-hidden="true">
           <div class="modern-map"></div>
           <div class="historical-map"></div>
-          <div class="soundings">
-            <span style="--x: 12%; --y: 22%;">Fletcher Lake</span>
-            <span style="--x: 64%; --y: 19%;">1884</span>
-            <span style="--x: 70%; --y: 73%;">Waterfall</span>
-            <span style="--x: 24%; --y: 76%;">POI</span>
-          </div>
-          <div class="route-line"></div>
-          <div class="hero-pin hero-pin-one"></div>
-          <div class="hero-pin hero-pin-two"></div>
           <div class="split-handle"></div>
         </div>
 
@@ -66,10 +57,10 @@
             lakes, and landmarks line up under your thumb.
           </p>
           <div class="hero-actions" aria-label="Primary calls to action">
-            <a class="button button-primary" href="https://github.com/dfakkeldy/ns-marks-the-spot">
-              Explore the code
+            <a class="button button-primary" href="https://kinnokilabs.com/map">
+              Open the web map
             </a>
-            <a class="button button-secondary" href="#field-guide">See the map story</a>
+            <a class="button button-secondary" href="https://github.com/dfakkeldy/ns-marks-the-spot">Explore the code</a>
           </div>
         </div>
 
@@ -87,12 +78,21 @@
             aria-label="Adjust historical map overlay"
           >
         </form>
+
+        <p class="hero-credit">
+          Mabou, Inverness County — the same view on both sides of the handle.
+          Left: map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>.
+          Right: Hugh Fletcher’s Geological Survey of Canada sheet 16 (report for 1882–84),
+          <a href="https://www.davidrumsey.com/">David Rumsey Map Collection</a>, David Rumsey Map Center,
+          Stanford University Libraries, <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a>,
+          georeferenced, clipped, and tiled by this project.
+        </p>
       </section>
 
       <section class="proof-strip" aria-label="App highlights">
-        <p><strong>Fletcher maps</strong> georeferenced over modern MapKit terrain.</p>
-        <p><strong>Saved Fletcher areas</strong> prepare historical tiles for weak-signal field trips.</p>
-        <p><strong>POI layers</strong> mark waterfalls and other reference context.</p>
+        <p><strong>Fletcher sheets</strong> — 24 sheets georeferenced from David Rumsey scans, sliding over today’s map.</p>
+        <p><strong>Parcels &amp; notices</strong> — PID and civic-address search, with dated tax-sale notices on live parcel geometry.</p>
+        <p><strong>Saved Fletcher areas</strong> prepare historical tiles on iPhone for weak-signal field trips.</p>
       </section>
 
       <section id="field-guide" class="field-guide section">
@@ -121,8 +121,6 @@
                 <p>Fletcher overlay</p>
                 <div class="mini-slider"><span></span></div>
               </div>
-              <div class="poi-marker" style="--left: 68%; --top: 39%;"></div>
-              <div class="poi-marker marker-green" style="--left: 37%; --top: 64%;"></div>
             </div>
           </div>
         </div>
@@ -138,7 +136,7 @@
           <article class="feature-card">
             <span class="feature-mark">01</span>
             <h3>Georeferenced history</h3>
-            <p>Historical raster tiles sit exactly where they belong over the modern map.</p>
+            <p>Twenty-four Fletcher sheets, each georeferenced and clipped, sit over the modern map. The alignment is honest: a sheet can sit a few hundred metres off modern ground, and the layer says so.</p>
           </article>
           <article class="feature-card">
             <span class="feature-mark">02</span>
@@ -176,10 +174,11 @@
       <section id="open-source" class="open-source section">
         <div>
           <div class="section-kicker">Open-source cartography</div>
-          <h2>Built in SwiftUI and MapKit, with room for future map engines.</h2>
+          <h2>SwiftUI and MapKit on iPhone. React, Leaflet, and MapLibre in the browser.</h2>
           <p>
-            The app is MIT licensed and structured around a map-engine boundary, so
-            the interface can stay steady while the renderer evolves.
+            The code is MIT licensed and structured around a map-engine boundary, so
+            the interface can stay steady while the renderer evolves. Map imagery
+            keeps its own licences and attribution, layer by layer.
           </p>
         </div>
         <a class="button button-primary" href="https://github.com/dfakkeldy/ns-marks-the-spot">
