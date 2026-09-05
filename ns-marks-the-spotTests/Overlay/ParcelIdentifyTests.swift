@@ -332,7 +332,7 @@ struct ParcelIdentifyTests {
     }
 
     @Test(arguments: ["", "Ba", "12345678", "123-4567",
-        "https://example.com/map/?lat=45&lng=-61&zoom=12"])
+        "https://kinnokilabs.com/apps/nsmarksthespot/map/?position=46.1,-61.3,12"])
     func changingToNonAddressInputCancelsPendingSuggestions(_ text: String) async {
         let channel = #function + text
         let viewModel = Self.viewModel(channel, answering: [("tntn-er5g", Self.twoAddresses)])
