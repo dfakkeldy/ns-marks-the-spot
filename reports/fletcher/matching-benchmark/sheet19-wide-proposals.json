@@ -1,0 +1,1054 @@
+{
+  "input_sha256": "191597c85314fa1e09f9abc103b26120f392825b5ab6d82d4a707d51ff1874a5",
+  "source_sha256": "3143db91ad2b7afa48c52fbf1191348b5cdb50aa46af51d0865066e8e6645447",
+  "source_dimensions": [
+    10815,
+    7549
+  ],
+  "extract_sha256": {
+    "roads.geojson": "9fa0e32e52b87afd3e01da46c2eacc49b1f732849303ab10d2c4404d81f12ef4",
+    "rail.geojson": "c25e0bf59f9be83a18d81e6f1aa0241cf3aeb1c1bc8a29bc15ecab5590cf8df8",
+    "water-lines.geojson": "f2ba10507269881f299b4e65cbcbc2a61af13e51a3948bf50c0526324ba3a008",
+    "water-polygons.geojson": "f534ea0e1f3b978f6f244d061e491c07ecd9e91830b5600282092c8868fbcbed"
+  },
+  "forward_affine": [
+    [
+      5.153713251856106,
+      -0.11931294398225006
+    ],
+    [
+      -0.12074169730519566,
+      -4.905669138187403
+    ],
+    [
+      -6864435.0182834575,
+      5774018.149864453
+    ]
+  ],
+  "predictions": [
+    {
+      "id": "c23",
+      "baseline_pixel": [
+        3878.803539752755,
+        1689.309339878037
+      ],
+      "accepted": false,
+      "support": 2095,
+      "pixel": [
+        3916,
+        1756
+      ],
+      "score": 0.5905000567436218,
+      "gap": 0.004879474639892578,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "c02",
+      "baseline_pixel": [
+        4240.553480814007,
+        1272.111524126919
+      ],
+      "accepted": false,
+      "support": 951,
+      "pixel": [
+        4388,
+        1446
+      ],
+      "score": 0.5099279284477234,
+      "gap": 0.0019596219062805176,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "c03",
+      "baseline_pixel": [
+        4967.605826740166,
+        1420.0933380515278
+      ],
+      "accepted": false,
+      "support": 578,
+      "pixel": [
+        4982,
+        1426
+      ],
+      "score": 0.6856316328048706,
+      "gap": 0.019988179206848145,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "c04",
+      "baseline_pixel": [
+        4401.992066128364,
+        1935.811802963285
+      ],
+      "accepted": false,
+      "support": 782,
+      "pixel": [
+        4346,
+        1926
+      ],
+      "score": 0.6643250584602356,
+      "gap": 0.010921359062194824,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "c05",
+      "baseline_pixel": [
+        7587.728929897843,
+        2896.5587691680466
+      ],
+      "accepted": false,
+      "support": 899,
+      "pixel": [
+        7636,
+        2906
+      ],
+      "score": 0.3100889027118683,
+      "gap": 0.010905653238296509,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "c07",
+      "baseline_pixel": [
+        9121.088736537771,
+        3074.770876868948
+      ],
+      "accepted": false,
+      "support": 1134,
+      "pixel": [
+        8824,
+        2804
+      ],
+      "score": 0.6694529056549072,
+      "gap": 0.0017420649528503418,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "c08",
+      "baseline_pixel": [
+        4223.413559408268,
+        3880.3936230800587
+      ],
+      "accepted": false,
+      "support": 1020,
+      "pixel": [
+        4024,
+        3694
+      ],
+      "score": 0.6351215243339539,
+      "gap": 0.0065010786056518555,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "c10",
+      "baseline_pixel": [
+        6975.24499634566,
+        4265.361836937771
+      ],
+      "accepted": false,
+      "support": 867,
+      "pixel": [
+        7110,
+        4488
+      ],
+      "score": 0.8116068840026855,
+      "gap": 0.002232849597930908,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "c12",
+      "baseline_pixel": [
+        4431.959939141602,
+        4509.49298711378
+      ],
+      "accepted": false,
+      "support": 1040,
+      "pixel": [
+        4486,
+        4382
+      ],
+      "score": 0.6717734932899475,
+      "gap": 0.004903852939605713,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "c18",
+      "baseline_pixel": [
+        7602.913125037173,
+        5625.107832391737
+      ],
+      "accepted": false,
+      "support": 1247,
+      "pixel": [
+        7522,
+        5556
+      ],
+      "score": 0.8868337869644165,
+      "gap": 0.004812955856323242,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "c21",
+      "baseline_pixel": [
+        9265.767416950586,
+        6179.005115034648
+      ],
+      "accepted": false,
+      "support": 1244,
+      "pixel": [
+        8964,
+        6304
+      ],
+      "score": 0.8091481924057007,
+      "gap": 0.014509260654449463,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "n02",
+      "baseline_pixel": [
+        3979.70981839353,
+        5396.154783653229
+      ],
+      "accepted": false,
+      "support": 923,
+      "pixel": [
+        3976,
+        5176
+      ],
+      "score": 0.737396776676178,
+      "gap": 0.005622982978820801,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "n03",
+      "baseline_pixel": [
+        3831.405088494586,
+        5136.470875916605
+      ],
+      "accepted": false,
+      "support": 888,
+      "pixel": [
+        3990,
+        5188
+      ],
+      "score": 0.7218531966209412,
+      "gap": 0.005837142467498779,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "n05",
+      "baseline_pixel": [
+        3932.858498901914,
+        1742.8297971844593
+      ],
+      "accepted": false,
+      "support": 2102,
+      "pixel": [
+        3964,
+        1594
+      ],
+      "score": 0.5807417631149292,
+      "gap": 5.638599395751953e-05,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "g01",
+      "baseline_pixel": [
+        9349.214151817809,
+        2132.5511103733847
+      ],
+      "accepted": false,
+      "support": 894,
+      "pixel": [
+        9198,
+        2032
+      ],
+      "score": 0.714998185634613,
+      "gap": 0.009531736373901367,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "g04",
+      "baseline_pixel": [
+        8518.832073603659,
+        4965.191448196956
+      ],
+      "accepted": false,
+      "support": 532,
+      "pixel": [
+        8608,
+        4834
+      ],
+      "score": 0.8176214694976807,
+      "gap": 0.00830078125,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0001",
+      "baseline_pixel": [
+        3782.897348299517,
+        2625.96017081175
+      ],
+      "accepted": false,
+      "support": 1680,
+      "pixel": [
+        3840,
+        2442
+      ],
+      "score": 0.7030519247055054,
+      "gap": 0.012075185775756836,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0004",
+      "baseline_pixel": [
+        5237.202111084042,
+        5519.412080859204
+      ],
+      "accepted": false,
+      "support": 653,
+      "pixel": [
+        5120,
+        5294
+      ],
+      "score": 0.6658015251159668,
+      "gap": 0.005143702030181885,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0005",
+      "baseline_pixel": [
+        9472.21950765063,
+        5281.250650267841
+      ],
+      "accepted": false,
+      "support": 856,
+      "pixel": [
+        9468,
+        5572
+      ],
+      "score": 0.8968619704246521,
+      "gap": 0.00017338991165161133,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0011",
+      "baseline_pixel": [
+        4941.781502875544,
+        5769.939268290635
+      ],
+      "accepted": false,
+      "support": 744,
+      "pixel": [
+        4648,
+        6028
+      ],
+      "score": 0.6705811023712158,
+      "gap": 0.008035540580749512,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0017",
+      "baseline_pixel": [
+        7769.218619948874,
+        4558.393666822214
+      ],
+      "accepted": false,
+      "support": 891,
+      "pixel": [
+        7488,
+        4656
+      ],
+      "score": 0.8445408344268799,
+      "gap": 0.0019314885139465332,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0030",
+      "baseline_pixel": [
+        6737.450033014714,
+        3004.8187798182494
+      ],
+      "accepted": false,
+      "support": 1149,
+      "pixel": [
+        6632,
+        3266
+      ],
+      "score": 0.13215437531471252,
+      "gap": 0.005007445812225342,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0054",
+      "baseline_pixel": [
+        3577.771055938777,
+        3265.4817073723348
+      ],
+      "accepted": false,
+      "support": 1098,
+      "pixel": [
+        3722,
+        3210
+      ],
+      "score": 0.7194609045982361,
+      "gap": 0.01761305332183838,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0059",
+      "baseline_pixel": [
+        7335.299619724623,
+        2799.7735333683395
+      ],
+      "accepted": false,
+      "support": 627,
+      "pixel": [
+        7644,
+        2864
+      ],
+      "score": 0.27141159772872925,
+      "gap": 0.0071066319942474365,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0063",
+      "baseline_pixel": [
+        7444.907551917344,
+        4390.598263091012
+      ],
+      "accepted": false,
+      "support": 566,
+      "pixel": [
+        7214,
+        4708
+      ],
+      "score": 0.8569743633270264,
+      "gap": 0.005267620086669922,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0106",
+      "baseline_pixel": [
+        6195.245507769692,
+        6308.471246863821
+      ],
+      "accepted": false,
+      "support": 557,
+      "pixel": [
+        6512,
+        6554
+      ],
+      "score": 0.16125650703907013,
+      "gap": 0.001909211277961731,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0141",
+      "baseline_pixel": [
+        4949.539518954679,
+        2771.131444210646
+      ],
+      "accepted": false,
+      "support": 1045,
+      "pixel": [
+        4636,
+        3004
+      ],
+      "score": 0.5866261124610901,
+      "gap": 0.005016684532165527,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0169",
+      "baseline_pixel": [
+        8221.550141728556,
+        2142.303032403241
+      ],
+      "accepted": false,
+      "support": 869,
+      "pixel": [
+        8542,
+        2396
+      ],
+      "score": 0.6331538558006287,
+      "gap": 0.015083909034729004,
+      "reason": "search-boundary"
+    },
+    {
+      "id": "cand-0173",
+      "baseline_pixel": [
+        5583.257741690813,
+        5602.109458704615
+      ],
+      "accepted": false,
+      "support": 560,
+      "pixel": [
+        5264,
+        5336
+      ],
+      "score": 0.3729209005832672,
+      "gap": 0.01246902346611023,
+      "reason": "search-boundary"
+    },
+    {
+      "id": "cand-0179",
+      "baseline_pixel": [
+        8106.491982467549,
+        2772.5567810727243
+      ],
+      "accepted": false,
+      "support": 793,
+      "pixel": [
+        7808,
+        2614
+      ],
+      "score": 0.27151408791542053,
+      "gap": 0.011725038290023804,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0303",
+      "baseline_pixel": [
+        6077.964509073216,
+        2542.054243035342
+      ],
+      "accepted": false,
+      "support": 976,
+      "pixel": [
+        6390,
+        2270
+      ],
+      "score": 0.5750586986541748,
+      "gap": 0.004458069801330566,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-1041",
+      "baseline_pixel": [
+        5932.014499838775,
+        4396.503297254522
+      ],
+      "accepted": false,
+      "support": 698,
+      "pixel": [
+        6102,
+        4300
+      ],
+      "score": 0.12355734407901764,
+      "gap": 0.0032023414969444275,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-1179",
+      "baseline_pixel": [
+        6457.918045943421,
+        4103.542685504729
+      ],
+      "accepted": false,
+      "support": 1076,
+      "pixel": [
+        6456,
+        4096
+      ],
+      "score": 0.19777801632881165,
+      "gap": 0.00041925907135009766,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-1214",
+      "baseline_pixel": [
+        7529.931830381174,
+        4679.665753304112
+      ],
+      "accepted": false,
+      "support": 1434,
+      "pixel": [
+        7286,
+        4846
+      ],
+      "score": 0.8335521817207336,
+      "gap": 0.011830687522888184,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-1643",
+      "baseline_pixel": [
+        6888.607846773133,
+        1957.0915008980642
+      ],
+      "accepted": false,
+      "support": 928,
+      "pixel": [
+        6920,
+        2116
+      ],
+      "score": 0.627891480922699,
+      "gap": 0.003818511962890625,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-1872",
+      "baseline_pixel": [
+        8570.066310266246,
+        2150.426919357326
+      ],
+      "accepted": false,
+      "support": 1083,
+      "pixel": [
+        8750,
+        2410
+      ],
+      "score": 0.7350591421127319,
+      "gap": 0.010632097721099854,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-2018",
+      "baseline_pixel": [
+        6392.538651632141,
+        3695.625951250776
+      ],
+      "accepted": false,
+      "support": 1268,
+      "pixel": [
+        6468,
+        3998
+      ],
+      "score": 0.16369123756885529,
+      "gap": 0.003519311547279358,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0413",
+      "baseline_pixel": [
+        9120.62957982806,
+        3080.0469153446547
+      ],
+      "accepted": false,
+      "support": 1101,
+      "pixel": [
+        8856,
+        2770
+      ],
+      "score": 0.6728593111038208,
+      "gap": 0.001751720905303955,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-1344",
+      "baseline_pixel": [
+        4548.734270428345,
+        4610.156501072094
+      ],
+      "accepted": false,
+      "support": 1385,
+      "pixel": [
+        4482,
+        4408
+      ],
+      "score": 0.6923277378082275,
+      "gap": 0.01258707046508789,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-1394",
+      "baseline_pixel": [
+        8861.949068338909,
+        3096.064586659635
+      ],
+      "accepted": false,
+      "support": 912,
+      "pixel": [
+        8612,
+        3336
+      ],
+      "score": 0.6820587515830994,
+      "gap": 0.00503993034362793,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0286",
+      "baseline_pixel": [
+        4665.260878728448,
+        4645.1773530599885
+      ],
+      "accepted": false,
+      "support": 1050,
+      "pixel": [
+        4600,
+        4444
+      ],
+      "score": 0.6798024773597717,
+      "gap": 0.005584776401519775,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-2",
+      "baseline_pixel": [
+        6973.5690362206215,
+        5317.644230160001
+      ],
+      "accepted": false,
+      "support": 1364,
+      "pixel": [
+        7228,
+        5470
+      ],
+      "score": 0.8479570150375366,
+      "gap": 0.00429922342300415,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-3",
+      "baseline_pixel": [
+        6458.504144857831,
+        4105.0864066191725
+      ],
+      "accepted": false,
+      "support": 1074,
+      "pixel": [
+        6456,
+        4098
+      ],
+      "score": 0.19814664125442505,
+      "gap": 0.00042031705379486084,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-4",
+      "baseline_pixel": [
+        7487.018955801935,
+        4878.616420778374
+      ],
+      "accepted": false,
+      "support": 900,
+      "pixel": [
+        7556,
+        4754
+      ],
+      "score": 0.8369761109352112,
+      "gap": 0.0005438327789306641,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-5",
+      "baseline_pixel": [
+        6788.361285755596,
+        1962.4164701303073
+      ],
+      "accepted": false,
+      "support": 1044,
+      "pixel": [
+        6864,
+        2094
+      ],
+      "score": 0.6313443779945374,
+      "gap": 0.015239059925079346,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-6",
+      "baseline_pixel": [
+        6719.201145041828,
+        1780.0437564686945
+      ],
+      "accepted": false,
+      "support": 899,
+      "pixel": [
+        6830,
+        2024
+      ],
+      "score": 0.6052591800689697,
+      "gap": 0.006079554557800293,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-7",
+      "baseline_pixel": [
+        4210.554331009607,
+        4760.372730508488
+      ],
+      "accepted": false,
+      "support": 1529,
+      "pixel": [
+        3964,
+        4794
+      ],
+      "score": 0.6928825974464417,
+      "gap": 0.007464230060577393,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-9",
+      "baseline_pixel": [
+        4433.531669148071,
+        4500.048154102512
+      ],
+      "accepted": false,
+      "support": 1089,
+      "pixel": [
+        4486,
+        4394
+      ],
+      "score": 0.6633231043815613,
+      "gap": 0.0012184977531433105,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-11",
+      "baseline_pixel": [
+        4956.356304332765,
+        4955.74707203904
+      ],
+      "accepted": false,
+      "support": 656,
+      "pixel": [
+        4878,
+        4742
+      ],
+      "score": 0.6663157939910889,
+      "gap": 0.01220160722732544,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-12",
+      "baseline_pixel": [
+        4667.354078144358,
+        4648.227212709379
+      ],
+      "accepted": false,
+      "support": 1053,
+      "pixel": [
+        4602,
+        4446
+      ],
+      "score": 0.6784688234329224,
+      "gap": 0.0017961859703063965,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-13",
+      "baseline_pixel": [
+        6970.009619423704,
+        3820.4588090761717
+      ],
+      "accepted": false,
+      "support": 746,
+      "pixel": [
+        7288,
+        4140
+      ],
+      "score": 0.3470984995365143,
+      "gap": 0.03396880626678467,
+      "reason": "search-boundary"
+    },
+    {
+      "id": "gcp-14",
+      "baseline_pixel": [
+        6966.685645511041,
+        3915.9754991687005
+      ],
+      "accepted": false,
+      "support": 614,
+      "pixel": [
+        7282,
+        4236
+      ],
+      "score": 0.4916839599609375,
+      "gap": 0.03302493691444397,
+      "reason": "search-boundary"
+    },
+    {
+      "id": "gcp-15",
+      "baseline_pixel": [
+        6969.006700449138,
+        4153.5351239279335
+      ],
+      "accepted": false,
+      "support": 579,
+      "pixel": [
+        7044,
+        4458
+      ],
+      "score": 0.8065706491470337,
+      "gap": 0.00045239925384521484,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-17",
+      "baseline_pixel": [
+        6123.993662012277,
+        5613.902556139614
+      ],
+      "accepted": false,
+      "support": 590,
+      "pixel": [
+        5880,
+        5570
+      ],
+      "score": 0.1563330441713333,
+      "gap": 0.002858668565750122,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "gcp-18",
+      "baseline_pixel": [
+        5644.478244723241,
+        5602.193139507015
+      ],
+      "accepted": false,
+      "support": 604,
+      "pixel": [
+        5324,
+        5332
+      ],
+      "score": 0.274187833070755,
+      "gap": 0.0010395944118499756,
+      "reason": "search-boundary"
+    },
+    {
+      "id": "gcp-19",
+      "baseline_pixel": [
+        5868.578219058566,
+        5988.224503634519
+      ],
+      "accepted": false,
+      "support": 486,
+      "pixel": [
+        5942,
+        5684
+      ],
+      "score": 0.2348843514919281,
+      "gap": 0.011445745825767517,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0497",
+      "baseline_pixel": [
+        4040.03545491655,
+        5358.954914604588
+      ],
+      "accepted": false,
+      "support": 1117,
+      "pixel": [
+        3982,
+        5062
+      ],
+      "score": 0.7103043794631958,
+      "gap": 0.0037097930908203125,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0691",
+      "baseline_pixel": [
+        4042.3722394571364,
+        5497.420220627013
+      ],
+      "accepted": false,
+      "support": 879,
+      "pixel": [
+        3984,
+        5202
+      ],
+      "score": 0.769588053226471,
+      "gap": 0.02056896686553955,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0899",
+      "baseline_pixel": [
+        4007.68373228658,
+        1667.7113461744825
+      ],
+      "accepted": false,
+      "support": 1753,
+      "pixel": [
+        4010,
+        1632
+      ],
+      "score": 0.6196115612983704,
+      "gap": 0.011412858963012695,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0016",
+      "baseline_pixel": [
+        8241.93009167792,
+        4888.208758363746
+      ],
+      "accepted": false,
+      "support": 760,
+      "pixel": [
+        7984,
+        4712
+      ],
+      "score": 0.8027591109275818,
+      "gap": 0.010804295539855957,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0315",
+      "baseline_pixel": [
+        7641.243314020472,
+        4565.012666964652
+      ],
+      "accepted": false,
+      "support": 1321,
+      "pixel": [
+        7608,
+        4502
+      ],
+      "score": 0.8288184404373169,
+      "gap": 0.0074394941329956055,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-1554",
+      "baseline_pixel": [
+        8063.133569301949,
+        4832.642013321216
+      ],
+      "accepted": false,
+      "support": 813,
+      "pixel": [
+        7766,
+        4696
+      ],
+      "score": 0.7890850901603699,
+      "gap": 0.0022953152656555176,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-0026",
+      "baseline_pixel": [
+        4295.514566729322,
+        2001.4505250339137
+      ],
+      "accepted": false,
+      "support": 821,
+      "pixel": [
+        4222,
+        1990
+      ],
+      "score": 0.639592170715332,
+      "gap": 0.0014719367027282715,
+      "reason": "weak-or-ambiguous"
+    },
+    {
+      "id": "cand-2020",
+      "baseline_pixel": [
+        9241.36887773133,
+        1989.0116031325142
+      ],
+      "accepted": false,
+      "support": 844,
+      "pixel": [
+        9212,
+        2048
+      ],
+      "score": 0.7185376286506653,
+      "gap": 0.00011920928955078125,
+      "reason": "weak-or-ambiguous"
+    }
+  ]
+}

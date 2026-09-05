@@ -1,0 +1,446 @@
+{
+  "version": 1,
+  "config": {
+    "downsample": 2,
+    "template_radius": 160,
+    "search_radius": 80,
+    "ink_threshold": 105,
+    "distance_scale": 3,
+    "minimum_support": 80,
+    "minimum_score": 0.65,
+    "minimum_gap": 0.035,
+    "peak_exclusion_radius": 8,
+    "error_tolerance_metres": 100,
+    "required_precision": 0.95,
+    "required_coverage": 0.3,
+    "required_median_improvement": 0.2
+  },
+  "seeds": [
+    {
+      "id": "cand-0033",
+      "lon": -61.5055767,
+      "lat": 45.9100678,
+      "pixel": [
+        3417.2,
+        1515.1
+      ],
+      "role": "control"
+    },
+    {
+      "id": "c20",
+      "lon": -61.22063077,
+      "lat": 45.78192012,
+      "pixel": [
+        9678.0,
+        5549.0
+      ],
+      "role": "control"
+    },
+    {
+      "id": "n04",
+      "lon": -61.47860961,
+      "lat": 45.78356321,
+      "pixel": [
+        4177.0,
+        5698.0
+      ],
+      "role": "control"
+    },
+    {
+      "id": "cand-0010",
+      "lon": -61.3229272,
+      "lat": 45.9099403,
+      "pixel": [
+        7455.7,
+        1515.5
+      ],
+      "role": "control"
+    }
+  ],
+  "targets": [
+    {
+      "id": "c23",
+      "lon": -61.48652584,
+      "lat": 45.90581083,
+      "role": "control"
+    },
+    {
+      "id": "c02",
+      "lon": -61.46932554,
+      "lat": 45.9183328,
+      "role": "control"
+    },
+    {
+      "id": "c03",
+      "lon": -61.435826,
+      "lat": 45.91325368,
+      "role": "control"
+    },
+    {
+      "id": "c04",
+      "lon": -61.46257136,
+      "lat": 45.89786118,
+      "role": "control"
+    },
+    {
+      "id": "c05",
+      "lon": -61.31612466,
+      "lat": 45.86601069,
+      "role": "control"
+    },
+    {
+      "id": "c07",
+      "lon": -61.24532862,
+      "lat": 45.85939718,
+      "role": "control"
+    },
+    {
+      "id": "c08",
+      "lon": -61.47294811,
+      "lat": 45.83832426,
+      "role": "control"
+    },
+    {
+      "id": "c10",
+      "lon": -61.34596524,
+      "lat": 45.82444849,
+      "role": "control"
+    },
+    {
+      "id": "c12",
+      "lon": -61.46397547,
+      "lat": 45.81885065,
+      "role": "control"
+    },
+    {
+      "id": "c18",
+      "lon": -61.31838118,
+      "lat": 45.78220662,
+      "role": "control"
+    },
+    {
+      "id": "c21",
+      "lon": -61.24199747,
+      "lat": 45.76393792,
+      "role": "control"
+    },
+    {
+      "id": "n02",
+      "lon": -61.48587482,
+      "lat": 45.79195034,
+      "role": "control"
+    },
+    {
+      "id": "n03",
+      "lon": -61.49245916,
+      "lat": 45.80003999,
+      "role": "control"
+    },
+    {
+      "id": "n05",
+      "lon": -61.48408133,
+      "lat": 45.90412931,
+      "role": "control"
+    },
+    {
+      "id": "g01",
+      "lon": -61.23374522,
+      "lat": 45.88813635,
+      "role": "control"
+    },
+    {
+      "id": "g04",
+      "lon": -61.27526148,
+      "lat": 45.8017996,
+      "role": "control"
+    },
+    {
+      "id": "cand-0001",
+      "lon": -61.4919819,
+      "lat": 45.877153,
+      "role": "control"
+    },
+    {
+      "id": "cand-0004",
+      "lon": -61.4277909,
+      "lat": 45.787223,
+      "role": "control"
+    },
+    {
+      "id": "cand-0005",
+      "lon": -61.2314657,
+      "lat": 45.7913763,
+      "role": "control"
+    },
+    {
+      "id": "cand-0011",
+      "lon": -61.4417396,
+      "lat": 45.7797446,
+      "role": "control"
+    },
+    {
+      "id": "cand-0017",
+      "lon": -61.3095248,
+      "lat": 45.8148558,
+      "role": "control"
+    },
+    {
+      "id": "cand-0030",
+      "lon": -61.3556071,
+      "lat": 45.8633231,
+      "role": "control"
+    },
+    {
+      "id": "cand-0054",
+      "lon": -61.5021722,
+      "lat": 45.8576819,
+      "role": "control"
+    },
+    {
+      "id": "cand-0059",
+      "lon": -61.3277063,
+      "lat": 45.869169,
+      "role": "control"
+    },
+    {
+      "id": "cand-0063",
+      "lon": -61.3243573,
+      "lat": 45.8202516,
+      "role": "control"
+    },
+    {
+      "id": "cand-0106",
+      "lon": -61.3842926,
+      "lat": 45.7622536,
+      "role": "control"
+    },
+    {
+      "id": "cand-0141",
+      "lon": -61.4381278,
+      "lat": 45.8718283,
+      "role": "control"
+    },
+    {
+      "id": "cand-0169",
+      "lon": -61.2859628,
+      "lat": 45.8886785,
+      "role": "control"
+    },
+    {
+      "id": "cand-0173",
+      "lon": -61.4118594,
+      "lat": 45.784423,
+      "role": "control"
+    },
+    {
+      "id": "cand-0179",
+      "lon": -61.2919732,
+      "lat": 45.8694286,
+      "role": "control"
+    },
+    {
+      "id": "cand-0303",
+      "lon": -61.3856371,
+      "lat": 45.8780147,
+      "role": "control"
+    },
+    {
+      "id": "cand-1041",
+      "lon": -61.3944055,
+      "lat": 45.8212003,
+      "role": "control"
+    },
+    {
+      "id": "cand-1179",
+      "lon": -61.3697402,
+      "lat": 45.829804,
+      "role": "control"
+    },
+    {
+      "id": "cand-1214",
+      "lon": -61.3207345,
+      "lat": 45.8113096,
+      "role": "control"
+    },
+    {
+      "id": "cand-1643",
+      "lon": -61.3474726,
+      "lat": 45.8953537,
+      "role": "control"
+    },
+    {
+      "id": "cand-1872",
+      "lon": -61.2698365,
+      "lat": 45.8881693,
+      "role": "control"
+    },
+    {
+      "id": "cand-2018",
+      "lon": -61.3723246,
+      "lat": 45.8423771,
+      "role": "control"
+    },
+    {
+      "id": "cand-0413",
+      "lon": -61.2453556,
+      "lat": 45.8592356,
+      "role": "control"
+    },
+    {
+      "id": "cand-1344",
+      "lon": -61.4586784,
+      "lat": 45.8156717,
+      "role": "control"
+    },
+    {
+      "id": "cand-1394",
+      "lon": -61.257349,
+      "lat": 45.8589371,
+      "role": "control"
+    },
+    {
+      "id": "cand-0286",
+      "lon": -61.4533216,
+      "lat": 45.814509,
+      "role": "control"
+    },
+    {
+      "id": "gcp-2",
+      "lon": -61.34718418,
+      "lat": 45.79212535,
+      "role": "control"
+    },
+    {
+      "id": "gcp-3",
+      "lon": -61.36971474,
+      "lat": 45.82975616,
+      "role": "control"
+    },
+    {
+      "id": "gcp-4",
+      "lon": -61.32293701,
+      "lat": 45.80523022,
+      "role": "control"
+    },
+    {
+      "id": "gcp-5",
+      "lon": -61.35211945,
+      "lat": 45.89526516,
+      "role": "control"
+    },
+    {
+      "id": "gcp-6",
+      "lon": -61.35512352,
+      "lat": 45.9009099,
+      "role": "control"
+    },
+    {
+      "id": "gcp-7",
+      "lon": -61.47449791,
+      "lat": 45.81131037,
+      "role": "control"
+    },
+    {
+      "id": "gcp-9",
+      "lon": -61.46389246,
+      "lat": 45.81913955,
+      "role": "control"
+    },
+    {
+      "id": "gcp-11",
+      "lon": -61.44018173,
+      "lat": 45.80475156,
+      "role": "control"
+    },
+    {
+      "id": "gcp-12",
+      "lon": -61.453228,
+      "lat": 45.81441376,
+      "role": "control"
+    },
+    {
+      "id": "gcp-13",
+      "lon": -61.34572506,
+      "lat": 45.83811345,
+      "role": "control"
+    },
+    {
+      "id": "gcp-14",
+      "lon": -61.34598255,
+      "lat": 45.83518331,
+      "role": "control"
+    },
+    {
+      "id": "gcp-15",
+      "lon": -61.34613276,
+      "lat": 45.82788718,
+      "role": "control"
+    },
+    {
+      "id": "gcp-17",
+      "lon": -61.38683796,
+      "lat": 45.78365641,
+      "role": "control"
+    },
+    {
+      "id": "gcp-18",
+      "lon": -61.40902519,
+      "lat": 45.78437467,
+      "role": "control"
+    },
+    {
+      "id": "gcp-19",
+      "lon": -61.39906883,
+      "lat": 45.77234253,
+      "role": "control"
+    },
+    {
+      "id": "cand-0497",
+      "lon": -61.4830416,
+      "lat": 45.7930483,
+      "role": "check"
+    },
+    {
+      "id": "cand-0691",
+      "lon": -61.4830836,
+      "lat": 45.7887918,
+      "role": "check"
+    },
+    {
+      "id": "cand-0899",
+      "lon": -61.4805357,
+      "lat": 45.906377,
+      "role": "check"
+    },
+    {
+      "id": "cand-0016",
+      "lon": -61.2879976,
+      "lat": 45.8043715,
+      "role": "check"
+    },
+    {
+      "id": "cand-0315",
+      "lon": -61.3154568,
+      "lat": 45.8147481,
+      "role": "check"
+    },
+    {
+      "id": "cand-1554",
+      "lon": -61.296215,
+      "lat": 45.8062121,
+      "role": "check"
+    },
+    {
+      "id": "cand-0026",
+      "lon": -61.4675721,
+      "lat": 45.8959275,
+      "role": "check"
+    },
+    {
+      "id": "cand-2020",
+      "lon": -61.2385824,
+      "lat": 45.8926196,
+      "role": "check"
+    }
+  ]
+}
