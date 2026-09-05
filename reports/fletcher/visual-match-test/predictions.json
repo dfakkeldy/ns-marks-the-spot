@@ -1,0 +1,97 @@
+{
+  "sheet": "sheet-19",
+  "started_utc": "2026-09-05T19:12:27Z",
+  "frozen_utc": "2026-09-05T19:22:36.781181+00:00",
+  "method": "Agent visual interpretation of native scan and NSTDB topology; manual source pixel placement. No trained matcher or extraction masks used. Printed graticule supplies search area only.",
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "water_lines_sha256": "f2ba10507269881f299b4e65cbcbc2a61af13e51a3948bf50c0526324ba3a008",
+  "search_box_source_px": [
+    4500,
+    2400,
+    6100,
+    3400
+  ],
+  "prior_exposure": "The same agent previously inspected this sheet and some saved controls. Saved hand-correction files and warped imagery were not reopened for this test before this freeze; this is not a pristine blind evaluation.",
+  "context_check_limit": "These correspondences informed visual selection of T. They are held out from the one-point translation, not independent operator annotations or untouched selection holdouts.",
+  "pre_scoring_gate": {
+    "target_agreement_with_saved_warp_max_m": 100,
+    "each_context_agreement_with_saved_warp_max_m": 150,
+    "one_target_translation_each_context_residual_max_m": 150,
+    "scope": "Pass supports only this local candidate. It does not authorize replacing a sheet warp or establish surveyed accuracy."
+  },
+  "points": [
+    {
+      "id": "T",
+      "role": "target",
+      "pixel_xy": [
+        5338,
+        3069
+      ],
+      "lonlat": [
+        -61.4186559,
+        45.8618824
+      ],
+      "modern_objectids": [
+        196005,
+        196055,
+        196056
+      ],
+      "description": "North tributary joins the east-west stream immediately north of the old road."
+    },
+    {
+      "id": "C1",
+      "role": "context-check",
+      "pixel_xy": [
+        5353,
+        3038
+      ],
+      "lonlat": [
+        -61.4173143,
+        45.862898
+      ],
+      "modern_objectids": [
+        196056,
+        196057,
+        196058
+      ],
+      "description": "Same northern tributary divides just upstream of T."
+    },
+    {
+      "id": "C2",
+      "role": "context-check",
+      "pixel_xy": [
+        4862,
+        2843
+      ],
+      "lonlat": [
+        -61.4391506,
+        45.8693
+      ],
+      "modern_objectids": [
+        196055,
+        283953,
+        284084
+      ],
+      "description": "Western junction: northern stream beside the road joins the east-west stream."
+    },
+    {
+      "id": "C3",
+      "role": "context-check",
+      "pixel_xy": [
+        4915,
+        2683
+      ],
+      "lonlat": [
+        -61.4373415,
+        45.8740861
+      ],
+      "modern_objectids": [
+        196180,
+        283952,
+        283953
+      ],
+      "description": "Further north on the western stream, an eastern tributary joins beside the road."
+    }
+  ],
+  "unresolved": "Eastern tributaries beyond the chosen fork do not have a sufficiently clear one-to-one match; no eastern control proposed. Stroke weight alone was not used to classify water."
+}
