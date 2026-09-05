@@ -35,11 +35,20 @@ Municipal boundaries (`7bqh-hssn`) are administrative boundaries, not civic
 community or parcel boundaries.
 
 The woodland download is generalized with Socrata's
-`simplify_preserve_topology(the_geom, 2)` (tolerance in metres). This retains
-polygon topology while reducing an exceptionally dense dataset for basemap
-display. The receipt discloses the transformation. Water records with null
-source geometry retain their identifiers and rejection reasons in the receipt;
-the renderer cannot place them and does not guess their locations.
+`simplify_preserve_topology(the_geom, 0.000018)`. Socrata applies that
+tolerance in the dataset's own units, which are degrees, even though its
+documentation calls it metres; the earlier `2` collapsed 93% of woodland rings
+to triangles, which rendered as large background slivers across the forest
+fill. 0.000018 degrees is at most two metres on the ground anywhere in Nova
+Scotia. This retains polygon topology while reducing an exceptionally dense
+dataset (about 17 GB raw) for basemap display. Zooms 8 to 11 are served from
+two coarser display copies (half-pixel tolerance, one-pixel minimum ring at
+the top of each band) so low-zoom tiles stay small. Source polygons that fail
+OGC validity are repaired with GEOS MakeValid (structure method) before
+tiling, and the receipt records the repair count per source and the
+transformation for every band. Water records with null source geometry retain
+their identifiers and rejection reasons in the receipt; the renderer cannot
+place them and does not guess their locations.
 
 Provincial buildings were compared before migration: NSTDB uses polygons for
 buildings over 30 metres on one side and points for others. Keep OSM footprints
@@ -56,12 +65,22 @@ remain separate. Refreshes are explicit builds, not a newly scheduled task.
 
 Local acceptance on September 5, 2026: 907,030 downloaded source records;
 one water-line record quarantined because its published geometry is null.
-The archive is about 270 MB; five representative browser views fetched about
+The archive is about 298 MB; five representative browser views fetched about
 8 MB in byte ranges. Long Point's rendered labels include Chisholm-MacLean Rd,
 with generic Track/Driveway placeholders suppressed. Desktop, mobile, day/night,
 Halifax, rural inland, border and overview views were inspected. An actual
 in-app PDF download retained the road name, archive identity, release dates,
 licences and scale/access caveats. Missing-archive/retry behaviour was exercised.
+
+The same day's first archive (`ns-94fe4f0b…`) drew large triangular slivers
+of background across woodland at every zoom because its download used a
+Socrata tolerance of `2`, which that service applies in degrees: 157,638 of
+168,927 woodland rings were bare triangles. The rebuilt archive
+(`ns-7c383881…`) uses the degree tolerance above, repairs 142 woodland and 38
+coastal-water polygons that failed OGC validity, and records
+`judiqueWoodlandVerticesPerRing` (37.8, previously 4.8) in the receipt; the
+generator now fails closed if that figure drops below 8. Judique and Port
+Hawkesbury were re-inspected at zooms 9, 11, 14 and 16 with a clean console.
 
 The generated `.pmtiles` file is ignored by Git and remains in
 `web/public/atlas/provincial/` for local use and checksum verification. A fresh
@@ -75,6 +94,12 @@ The archive and matching `source.json` are published in the existing public
 
 - [Archive](https://tiles.kinnokilabs.com/provincial-atlas/ns-94fe4f0b0bbbf54e.pmtiles)
 - [Source receipt](https://tiles.kinnokilabs.com/provincial-atlas/source.json)
+
+The rebuilt archive `ns-7c383881956d105c.pmtiles` (297,895,825 bytes, SHA-256
+`7c383881956d105ce0d4c7d6854ae5e8aea2208c9a7a140a8e587adabc66a9af`) and its
+`source.json` still have to be uploaded to that prefix. Until they are, fresh
+checkouts and hosted CI fail the prebuild gate because the pinned object is
+missing, and the hourly site promotion would fail the same way.
 
 A complete public download matched SHA-256
 `94fe4f0b0bbbf54e0936d5139c45feff13383dc4cb89586e63466a95220f14f2`

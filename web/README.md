@@ -76,11 +76,17 @@ python3 tools/build_provincial_atlas.py --work-dir /tmp/ns-provincial-atlas
 Run that command from the repository root. It caches source releases outside
 the repository, rejects incomplete or changing downloads, preserves original
 names and identifiers, and installs a content-addressed archive only after
-checking the Long Point road in the generated tiles. Null source geometries
-are quarantined with identifiers and reasons in the receipt. Woodland uses
-topology-preserving two-metre simplification before tiling; all vector geometry
-is quantized for display (8192 units per tile, maximum native GL zoom 13).
-Closer zoom magnifies this data; it does not add surveying precision.
+checking the Long Point road and the Judique woodland ring detail in the
+generated tiles. Null source geometries are quarantined with identifiers and
+reasons in the receipt. Woodland is downloaded with a topology-preserving
+0.000018-degree simplification (Socrata applies the tolerance in degrees, so
+this is at most two metres on the ground) and served at zoom 12 and 13; zooms
+8 to 11 use two coarser display copies whose tolerance is half a pixel and
+whose smallest kept ring is one pixel at the top of each band. Source polygons
+that fail OGC validity are repaired with GEOS MakeValid and counted per source
+in the receipt. All vector geometry is quantized for display (8192 units per
+tile, maximum native GL zoom 13). Closer zoom magnifies this data; it does not
+add surveying precision.
 
 The public archive must be served with HTTP byte-range support. It is shared by
 the map, study and PDF renderer. A missing archive is a source error; the app

@@ -1,6 +1,13 @@
 import unittest
 
-from build_provincial_atlas import feature_layer, validate_row, validate_release, record_row
+from build_provincial_atlas import (WOODLAND_BANDS, WOODLAND_TOLERANCE_DEGREES, WOODLAND_TRANSFORM, ZOOMS, feature_layer,
+                                    generalize, record_row, repair_polygon, validate_release, validate_row,
+                                    woodland_geometry_expression)
+
+try:
+    from osgeo import ogr
+except ImportError:  # pragma: no cover - GDAL is only needed for the build itself
+    ogr = None
 
 
 class ProvincialAtlasTests(unittest.TestCase):
@@ -36,6 +43,41 @@ class ProvincialAtlasTests(unittest.TestCase):
         self.assertIsNone(record['geometry'])
         self.assertEqual(record['rejectionReason'], 'source-null-geometry')
         self.assertEqual(record['properties']['source_row_id'], 'row-sxpj~d3w6.hd9k')
+
+    def test_woodland_simplification_tolerance_is_in_degrees(self):
+        # Socrata applies the tolerance in the dataset's own units (degrees). A
+        # tolerance of 2 collapsed nearly every woodland ring to a triangle.
+        self.assertEqual(woodland_geometry_expression(), 'simplify_preserve_topology(the_geom, 0.000018)')
+        self.assertLess(WOODLAND_TOLERANCE_DEGREES * 111_320, 2.01)
+        self.assertIn('degree', WOODLAND_TRANSFORM)
+
+    @unittest.skipUnless(ogr, 'GDAL bindings not installed')
+    def test_invalid_source_polygon_is_repaired_without_losing_area(self):
+        bowtie = ogr.CreateGeometryFromWkt('POLYGON((0 0,2 2,2 0,0 2,0 0))')
+        geom, repaired = repair_polygon(bowtie)
+        self.assertTrue(repaired)
+        self.assertTrue(geom.IsValid())
+        self.assertEqual(geom.GetGeometryName(), 'MULTIPOLYGON')
+        self.assertAlmostEqual(geom.GetArea(), 2.0)
+        square = ogr.CreateGeometryFromWkt('POLYGON((0 0,0 1,1 1,1 0,0 0))')
+        geom, repaired = repair_polygon(square)
+        self.assertFalse(repaired)
+        self.assertTrue(geom.Equals(square))
+        collapsed = ogr.CreateGeometryFromWkt('POLYGON((0 0,1 0,2 0,0 0))')
+        self.assertEqual(repair_polygon(collapsed), (None, True))
+
+    def test_woodland_bands_cover_the_layer_zoom_range_once(self):
+        zooms = sorted(zoom for layer, (low, high) in ZOOMS.items() if layer.startswith('woodland') for zoom in range(low, high + 1))
+        self.assertEqual(zooms, list(range(8, 14)))
+        self.assertEqual(WOODLAND_BANDS[0][:3], ('woodland', 12, 13))
+
+    @unittest.skipUnless(ogr, 'GDAL bindings not installed')
+    def test_lower_zoom_band_drops_sub_pixel_rings_but_keeps_area(self):
+        with_hole = ogr.CreateGeometryFromWkt('POLYGON((0 0,0 10,10 10,10 0,0 0),(4 4,4 4.1,4.1 4.1,4.1 4,4 4))')
+        display = generalize(with_hole, 0.5, 1.0)
+        self.assertEqual(display.GetGeometryCount(), 1)
+        self.assertAlmostEqual(display.GetArea(), 100.0)
+        self.assertIsNone(generalize(ogr.CreateGeometryFromWkt('POLYGON((0 0,0 0.1,0.1 0.1,0.1 0,0 0))'), 0.5, 1.0))
 
 
 if __name__ == '__main__':
