@@ -2966,6 +2966,27 @@ describe("MapCanvas overview markers", () => {
     expect(onSelectPid).toHaveBeenCalledWith("50251750");
   });
 
+  it("retains parcel geometry while selection and presentation styles change", () => {
+    mapMock.getZoom.mockReturnValue(13);
+    const onSelectPid = vi.fn();
+    const { rerender } = render(<MapCanvas {...markerProps} onSelectPid={onSelectPid} />);
+    const overlay = screen.getByTestId("parcel-overlay");
+    const initialStyle = geoJsonProps.calls.at(-1)!.style as (feature: typeof listedParcel) => object;
+    rerender(<MapCanvas {...markerProps} selectedPid="50251750" onSelectPid={onSelectPid} />);
+    expect(screen.getByTestId("parcel-overlay")).toBe(overlay);
+    const selectedStyle = geoJsonProps.calls.at(-1)!.style as typeof initialStyle;
+    expect(selectedStyle(listedParcel)).not.toEqual(initialStyle(listedParcel));
+    rerender(<MapCanvas {...markerProps} selectedPid="50251750" showTaxSale={false} onSelectPid={onSelectPid} />);
+    expect(screen.getByTestId("parcel-overlay")).toBe(overlay);
+
+    // A genuinely different parcel set must still replace immutable GeoJSON data.
+    const otherParcel = { ...listedParcel, properties: { PID: "50334317" } };
+    rerender(<MapCanvas {...markerProps}
+      parcels={{ type: "FeatureCollection", features: [otherParcel] }}
+      taxSalePids={new Set(["50334317"])} onSelectPid={onSelectPid} />);
+    expect(screen.getByTestId("parcel-overlay")).not.toBe(overlay);
+  });
+
   it("hides markers at parcel-detail zooms where polygons are legible", () => {
     mapMock.getZoom.mockReturnValue(13);
 

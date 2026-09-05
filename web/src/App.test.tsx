@@ -6060,6 +6060,60 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("geometry count: 0");
   });
 
+  it.each([
+    { olderOutcome: "empty", newerPid: "22222222" },
+    { olderOutcome: "error", newerPid: "22222222" },
+    { olderOutcome: "empty", newerPid: "11111111" },
+    { olderOutcome: "error", newerPid: "11111111" },
+  ])("ignores an older $olderOutcome geometry response after selecting $newerPid", async ({ olderOutcome, newerPid }) => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    const older = deferred<Awaited<ReturnType<typeof fetchParcels>>>();
+    vi.mocked(fetchParcels).mockImplementationOnce(() => older.promise);
+    if (olderOutcome === "empty") {
+      vi.mocked(fetchParcels).mockRejectedValueOnce(new Error("offline"));
+    } else {
+      vi.mocked(fetchParcels).mockResolvedValueOnce({ type: "FeatureCollection", features: [] });
+    }
+    renderAppWithCategoriesOpen();
+    const input = screen.getByLabelText("Search by PID or civic address");
+    await user.type(input, "11111111");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    await user.clear(input);
+    await user.type(input, newerPid);
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    const expectedMessage = olderOutcome === "empty"
+      ? "The Province parcel search is unavailable right now."
+      : "No NSPRD parcel was found for that PID.";
+    expect(await screen.findByText(expectedMessage)).toBeInTheDocument();
+    await act(async () => {
+      if (olderOutcome === "empty") older.resolve({ type: "FeatureCollection", features: [] });
+      else older.reject(new Error("older request failed"));
+    });
+    expect(screen.getByText(expectedMessage)).toBeInTheDocument();
+    const exportButton = screen.getByRole("button", { name: "Export evidence note" });
+    await waitFor(() => expect(exportButton).toBeEnabled());
+    await user.click(exportButton);
+    expect(buildEvidenceNote).toHaveBeenLastCalledWith(expect.objectContaining({
+      pid: newerPid,
+      parcelGeometry: olderOutcome === "empty" ? "source-error" : "returned-empty",
+    }));
+  });
+
+  it("ignores a geometry failure after closing its parcel", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    const older = deferred<Awaited<ReturnType<typeof fetchParcels>>>();
+    vi.mocked(fetchParcels).mockImplementationOnce(() => older.promise);
+    renderAppWithCategoriesOpen();
+    await user.type(screen.getByLabelText("Search by PID or civic address"), "11111111");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    await user.click(screen.getByRole("button", { name: "Close parcel details" }));
+    await act(async () => older.reject(new Error("offline")));
+    expect(screen.queryByText("The Province parcel search is unavailable right now.")).not.toBeInTheDocument();
+    expect(screen.queryByRole("complementary", { name: "Parcel 11111111 details" })).not.toBeInTheDocument();
+  });
+
   it("rejects malformed PID searches", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");

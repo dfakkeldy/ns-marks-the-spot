@@ -358,7 +358,7 @@ describe("standalone bottom safe area", () => {
     // floor and cap both grew by exactly env(safe-area-inset-bottom), so a
     // bare pixel offset left behind lands back under one of them.
     expect(mobileStyles).toMatch(
-      /\.leaflet-bottom\.leaflet-left\s*\{[^}]*bottom:\s*calc\(40px \+ env\(safe-area-inset-bottom\)\)/s,
+      /\.leaflet-bottom\.leaflet-left\s*\{[^}]*bottom:\s*calc\(var\(--map-attribution-height, calc\(72px \+ env\(safe-area-inset-bottom\)\)\) \+ 8px\)/s,
     );
     expect(mobileStyles).toMatch(
       /\.measure-readout\s*\{[^}]*bottom:\s*calc\(16px \+ env\(safe-area-inset-bottom\)\)/s,
