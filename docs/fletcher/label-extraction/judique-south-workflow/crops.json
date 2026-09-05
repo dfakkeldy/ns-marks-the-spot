@@ -1,0 +1,130 @@
+{
+  "crops": [
+    {
+      "id": "S01",
+      "source_region_xywh": [
+        2700,
+        3500,
+        1100,
+        1250
+      ],
+      "image_filename": "S01.png",
+      "image_sha256": "5808e22c9f6768bb8c2663e0cd55635816fa931b72caccd3be56ed1adfb1747b",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/2700,3500,1100,1250/full/0/default.jpg",
+      "state": "reviewed",
+      "review": "Whole crop and all candidate excerpts visually inspected by coordinating Codex model; not an independent human completeness audit."
+    },
+    {
+      "id": "S02",
+      "source_region_xywh": [
+        3700,
+        3500,
+        1100,
+        1250
+      ],
+      "image_filename": "S02.png",
+      "image_sha256": "d50c27cb49b249917aae32bb97603d6d5e0f310c5e2d85ad7ae9acd6bd1794ce",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3700,3500,1100,1250/full/0/default.jpg",
+      "state": "reviewed",
+      "review": "Whole crop and all candidate excerpts visually inspected by coordinating Codex model; not an independent human completeness audit."
+    },
+    {
+      "id": "S03",
+      "source_region_xywh": [
+        4700,
+        3500,
+        1100,
+        1250
+      ],
+      "image_filename": "S03.png",
+      "image_sha256": "260adf9c8a31cf56e52d886a6516c7e6d62957965987d42aa289a544b3321585",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4700,3500,1100,1250/full/0/default.jpg",
+      "state": "reviewed",
+      "review": "Whole crop and all candidate excerpts visually inspected by coordinating Codex model; not an independent human completeness audit."
+    },
+    {
+      "id": "S04",
+      "source_region_xywh": [
+        2700,
+        4600,
+        1100,
+        1250
+      ],
+      "image_filename": "S04.png",
+      "image_sha256": "b01bcd4e564b32ee78f6d136ce2b90de15b31152d104a86f4ee5285d729d9421",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/2700,4600,1100,1250/full/0/default.jpg",
+      "state": "reviewed",
+      "review": "Whole crop and all candidate excerpts visually inspected by coordinating Codex model; not an independent human completeness audit."
+    },
+    {
+      "id": "S05",
+      "source_region_xywh": [
+        3700,
+        4600,
+        1100,
+        1250
+      ],
+      "image_filename": "S05.png",
+      "image_sha256": "6ab67b3e2338bf3f7a3630a7cedda926bf5f591f1756aab1240f40b1a0fed252",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3700,4600,1100,1250/full/0/default.jpg",
+      "state": "reviewed",
+      "review": "Whole crop and all candidate excerpts visually inspected by coordinating Codex model; not an independent human completeness audit."
+    },
+    {
+      "id": "S06",
+      "source_region_xywh": [
+        4700,
+        4600,
+        1100,
+        1250
+      ],
+      "image_filename": "S06.png",
+      "image_sha256": "8003f82b2b88599962ffbd2c14a9e13905ebfee43901f09ffed07626a9eb7e74",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4700,4600,1100,1250/full/0/default.jpg",
+      "state": "reviewed",
+      "review": "Whole crop and all candidate excerpts visually inspected by coordinating Codex model; not an independent human completeness audit."
+    }
+  ],
+  "edge_context": [
+    {
+      "id": "E01",
+      "source_region_xywh": [
+        5500,
+        3850,
+        780,
+        350
+      ],
+      "image_filename": "E01.png",
+      "image_sha256": "8f8397b964befce173b500ab52c4155e4cee0e2f4d52c7076ccbb476a9953a10",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5500,3850,780,350/full/0/default.jpg",
+      "state": "reviewed-for-label-completion-only"
+    },
+    {
+      "id": "E03",
+      "source_region_xywh": [
+        4510,
+        5530,
+        600,
+        720
+      ],
+      "image_filename": "E03.png",
+      "image_sha256": "0473dee231f7f53a8138a0cc63eea1d858de0019661787fb087301896da9059f",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4510,5530,600,720/full/0/default.jpg",
+      "state": "reviewed-for-label-completion-only"
+    },
+    {
+      "id": "E04",
+      "source_region_xywh": [
+        5000,
+        5720,
+        950,
+        470
+      ],
+      "image_filename": "E04.png",
+      "image_sha256": "8fdaa834265b7ce944f485945d0a60c096c11bcdc379d257fa638632e7f32dc4",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5000,5720,950,470/full/0/default.jpg",
+      "state": "reviewed-for-label-completion-only"
+    }
+  ],
+  "source_mosaic_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724"
+}
