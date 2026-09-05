@@ -1,0 +1,68 @@
+{
+  "posthoc": true,
+  "purpose": "Sensitivity of reference to one visually suspect existing control; does not change frozen predictions, thresholds, or failed primary result.",
+  "excluded_control": "cand-0141",
+  "control_count": 59,
+  "points": [
+    {
+      "id": "T",
+      "reference_without_cand_0141_lonlat": [
+        -61.412711211440865,
+        45.85854616438422
+      ],
+      "agreement_m": 591.2153576810846
+    },
+    {
+      "id": "C1",
+      "reference_without_cand_0141_lonlat": [
+        -61.41193907889949,
+        45.859585642628666
+      ],
+      "agreement_m": 555.7971535344969
+    },
+    {
+      "id": "C2",
+      "reference_without_cand_0141_lonlat": [
+        -61.43508014150492,
+        45.866500662310465
+      ],
+      "agreement_m": 442.9650973665401
+    },
+    {
+      "id": "C3",
+      "reference_without_cand_0141_lonlat": [
+        -61.43265507592514,
+        45.871853739214544
+      ],
+      "agreement_m": 439.60951642067215
+    }
+  ],
+  "source_frame_diagnostic": {
+    "old_to_native_affine": [
+      [
+        0.999953699887777,
+        2.1857258297051795e-05,
+        -2.6160895644753777
+      ],
+      [
+        2.0675305577331533e-05,
+        0.9999504172516608,
+        -3.7748067930693083
+      ]
+    ],
+    "matches": 340,
+    "inliers": 318,
+    "inlier_median_px": 1.4506362157251196,
+    "inlier_p95_px": 4.713638855627995,
+    "note": "Post-scoring image-to-image diagnostic, not geographic ground truth.",
+    "parameters": {
+      "image_scale": 0.3,
+      "SIFT_nfeatures": 10000,
+      "L2_ratio_max": 0.65,
+      "affine_method": "cv2.estimateAffine2D RANSAC",
+      "ransac_reprojection_threshold_full_source_px": 12,
+      "max_iterations": 10000,
+      "confidence": 0.999
+    }
+  }
+}

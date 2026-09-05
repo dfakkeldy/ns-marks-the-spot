@@ -7,6 +7,11 @@
 > valid for their recorded inputs, but must not be described as native-resolution
 > matching results. Sheet 16 has not been rerun on a native source.
 
+> **Reference limitation:** the saved Judique CSV mixes 45 earlier feature-led
+> controls with 15 hand-added controls. A [visual follow-up](../visual-match-test/README.md)
+> found a suspect earlier row and a locally sensitive reference fit. Agreement
+> with these rows must not be presented as independent human-verified accuracy.
+
 **This matcher is not suitable for unattended georeferencing.** Judique yielded
 no accepted proposals. The second corrected sheet yielded three useful local
 matches, but widening the search later introduced an accepted error of 1.04 km.

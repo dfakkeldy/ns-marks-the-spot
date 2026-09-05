@@ -6,6 +6,11 @@ matching. Faint tributaries disappear, while coordinate rules, railway and
 connected text sometimes survive. No production controls, warps, tiles or map
 configuration changed. No saved hand correction was replaced.
 
+A subsequent [visual stream-matching test](../visual-match-test/README.md) found
+a coherent four-junction pattern, but failed the saved-reference agreement gate
+and exposed a suspect earlier control in that reference. It did not use these
+extraction masks or establish an accepted new georeference.
+
 ## Important correction to the earlier experiment
 
 The whole-image IIIF JPEG used by the first matching benchmark has the declared
