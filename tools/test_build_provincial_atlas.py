@@ -1,8 +1,8 @@
 import unittest
 
-from build_provincial_atlas import (WOODLAND_BANDS, WOODLAND_TOLERANCE_DEGREES, WOODLAND_TRANSFORM, ZOOMS, feature_layer,
-                                    generalize, record_row, repair_polygon, validate_release, validate_row,
-                                    woodland_geometry_expression)
+from build_provincial_atlas import (WOODLAND_BANDS, WOODLAND_TOLERANCE_DEGREES, WOODLAND_TRANSFORM, ZOOMS,
+                                    degrees_per_pixel, feature_layer, generalize, record_row, repair_polygon,
+                                    validate_release, validate_row, woodland_geometry_expression)
 
 try:
     from osgeo import ogr
@@ -70,6 +70,14 @@ class ProvincialAtlasTests(unittest.TestCase):
         zooms = sorted(zoom for layer, (low, high) in ZOOMS.items() if layer.startswith('woodland') for zoom in range(low, high + 1))
         self.assertEqual(zooms, list(range(8, 14)))
         self.assertEqual(WOODLAND_BANDS[0][:3], ('woodland', 12, 13))
+
+    def test_coarse_bands_keep_visible_rings_shapely(self):
+        # A half-pixel tolerance with one-pixel rings produced shard-shaped
+        # clearings at zooms 8-11. Kept rings must be wide enough to hold shape.
+        for layer, _, top, tolerance, min_ring_area, _ in WOODLAND_BANDS[1:]:
+            pixel = degrees_per_pixel(top)
+            self.assertLessEqual(tolerance, 0.26 * pixel, layer)
+            self.assertGreaterEqual(min_ring_area ** 0.5, 2.4 * pixel, layer)
 
     @unittest.skipUnless(ogr, 'GDAL bindings not installed')
     def test_lower_zoom_band_drops_sub_pixel_rings_but_keeps_area(self):
