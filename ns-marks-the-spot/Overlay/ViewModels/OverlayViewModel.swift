@@ -541,7 +541,7 @@ final class OverlayViewModel {
     /// the moment it wrote the result into the field.
     private(set) var searchText = ""
 
-    /// The user typed. Write it, then use `submitSearch`.
+    /// Suggest addresses after typing pauses. PIDs and links still need submission.
     func editSearchText(_ text: String) {
         guard text != searchText else { return }
         searchText = text
@@ -556,6 +556,9 @@ final class OverlayViewModel {
         // lookup. Its hold on the extent dies with it — left standing, it
         // would swallow the focus of the next parcel the reader opens.
         isHoldingLinkPosition = false
+        if case .address(let query) = ParcelSearchInput.classify(text) {
+            searchCivicAddress(query, suggest: true)
+        }
     }
 
     func submitSearch() {
@@ -707,16 +710,26 @@ final class OverlayViewModel {
     /// Needs no Province licence — the file is open data — so this works even
     /// for a user who declined. Choosing a result then asks NSPRD, which is
     /// where the licence applies, and refuses in the usual words.
-    private func searchCivicAddress(_ typed: String) {
+    private func searchCivicAddress(_ typed: String, suggest: Bool = false) {
         addressResults = []
         parcelLookup?.cancel()
         cancelAddressLookup()
-        isSearchingAddresses = true
-        parcelMessage = ParcelLookupMessage.searchingAddresses
+        if !suggest {
+            isSearchingAddresses = true
+            parcelMessage = ParcelLookupMessage.searchingAddresses
+        }
         addressLookup = Task { [weak self, civicFetcher] in
+            if suggest {
+                do {
+                    try await Task.sleep(for: .milliseconds(300))
+                } catch { return }
+                guard !Task.isCancelled, self != nil else { return }
+                self?.isSearchingAddresses = true
+                self?.parcelMessage = ParcelLookupMessage.searchingAddresses
+            }
             let outcome: Result<[CivicAddressResponse.CivicAddress], CivicAddressFailure>
             do throws(CivicAddressFailure) {
-                outcome = .success(try await civicFetcher.search(typed))
+                outcome = .success(try await civicFetcher.search(typed, suggest: suggest))
             } catch {
                 outcome = .failure(error)
             }

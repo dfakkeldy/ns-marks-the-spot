@@ -19,8 +19,9 @@ struct MeasurePanelView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(session.mode == .distance ? "Distance" : "Area")
+                Text(session.mode == .distance ? "Total distance" : "Area")
                     .font(.headline)
+                    .fixedSize(horizontal: false, vertical: true)
                 Spacer()
                 Button("Done") { onClose() }
                     .accessibilityIdentifier("measure-done")
@@ -45,15 +46,17 @@ struct MeasurePanelView: View {
             // those capsules inside it, so the thing a finger has to land on
             // stayed thirty-four points however tall the row was.
             HStack(spacing: 8) {
-                Button("Undo") { onUndo() }
+                Button("Undo point") { onUndo() }
                     .buttonStyle(.bordered)
                     .frame(minHeight: 44)
                     .disabled(session.isEmpty)
+                    .accessibilityIdentifier("measure-undo")
 
                 Button("Finish") { onFinish() }
                     .buttonStyle(.bordered)
                     .frame(minHeight: 44)
                     .disabled(!session.canFinish || session.isFinished)
+                    .accessibilityIdentifier("measure-finish")
 
                 Spacer()
 

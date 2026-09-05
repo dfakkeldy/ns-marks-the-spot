@@ -90,25 +90,27 @@ public nonisolated final class CivicAddressFetcher: Sendable {
     /// the user meant — it is the same words with the file's own conventions
     /// applied, and anything it returns is still ranked against what was typed.
     public func search(
-        _ query: String
+        _ query: String,
+        suggest: Bool = false
     ) async throws(CivicAddressFailure) -> [CivicAddressResponse.CivicAddress] {
-        let typed = try await addresses(matching: query)
-        let ranked = CivicAddressResponse.ranked(typed, for: query)
+        let typed = try await addresses(matching: query, suggest: suggest)
+        let ranked = CivicAddressResponse.ranked(typed, for: query, suggest: suggest)
         if !ranked.isEmpty {
             return ranked
         }
 
         guard let official = CivicAddressQuery.officialSpelling(of: query) else { return [] }
-        let alternates = try await addresses(matching: official)
-        return CivicAddressResponse.ranked(alternates, for: query)
+        let alternates = try await addresses(matching: official, suggest: suggest)
+        return CivicAddressResponse.ranked(alternates, for: query, suggest: suggest)
     }
 
     private func addresses(
-        matching query: String
+        matching query: String,
+        suggest: Bool
     ) async throws(CivicAddressFailure) -> [CivicAddressResponse.CivicAddress] {
         let url: URL
         do {
-            url = try CivicAddressQuery.searchURL(query)
+            url = try CivicAddressQuery.searchURL(query, suggest: suggest)
         } catch {
             throw .refused(error)
         }
