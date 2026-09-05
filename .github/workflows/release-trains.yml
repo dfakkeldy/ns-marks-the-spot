@@ -17,6 +17,11 @@ on:
         options:
           - nightly
           - weekly
+      provision_live_activity:
+        description: Provision extension signing only using temporary write credentials
+        required: false
+        type: boolean
+        default: false
       signing_check:
         description: Inspect signing records only; do not build or upload
         required: false
@@ -39,7 +44,7 @@ env:
 
 jobs:
   resolve:
-    if: inputs.signing_check != true
+    if: inputs.signing_check != true && inputs.provision_live_activity != true
     name: Resolve train
     runs-on: ubuntu-latest
     outputs:
@@ -279,3 +284,29 @@ jobs:
           else
             echo "::warning::Signing repository write access could not be verified; see push dry-run error above."
           fi
+
+  provision-live-activity:
+    name: Provision Live Activity signing
+    if: github.event_name == 'workflow_dispatch' && inputs.provision_live_activity == true
+    runs-on: macos-26
+    concurrency:
+      group: provision-live-activity-signing
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Create and save extension profile
+        env:
+          APP_STORE_CONNECT_API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_PROVISIONING_SSH_KEY: ${{ secrets.MATCH_PROVISIONING_SSH_KEY }}
+        run: |
+          key_path="$RUNNER_TEMP/match_provisioning_key"
+          trap 'rm -f "$key_path"' EXIT
+          test -n "$MATCH_PROVISIONING_SSH_KEY"
+          printf '%s\n' "$MATCH_PROVISIONING_SSH_KEY" > "$key_path"
+          chmod 600 "$key_path"
+          export GIT_SSH_COMMAND="ssh -i $key_path -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+          bundle exec fastlane provision_live_activity

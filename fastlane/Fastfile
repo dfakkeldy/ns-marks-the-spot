@@ -296,6 +296,20 @@ platform :ios do
     UI.success("Local metadata checks passed.")
   end
 
+  desc "Provision the Live Activity App Store profile using temporary write credentials"
+  lane :provision_live_activity do
+    api_key = app_store_connect_api_key_for_release
+    identifier = "#{APP_IDENTIFIER}.LiveActivity"
+    unless Spaceship::ConnectAPI::BundleId.find(identifier)
+      Spaceship::ConnectAPI::BundleId.create(
+        name: "NS Marks Live Activity", platform: "IOS", identifier: identifier
+      )
+    end
+    setup_ci
+    match(type: "appstore", app_identifier: [identifier], readonly: false, api_key: api_key)
+    UI.success("Live Activity App Store profile saved to the encrypted signing repository.")
+  end
+
   desc "Inspect release bundle IDs and App Store profiles without changing signing assets"
   lane :signing_check do
     app_store_connect_api_key_for_release
