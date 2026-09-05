@@ -1696,17 +1696,11 @@ const OverviewMarker = memo(function OverviewMarker({
 
 function ParcelGeometryOverlay({
   collection,
-  selectedPid,
-  showTaxSale,
-  showHistoricalTaxSales,
   style,
   onSelectPid,
   renderMode,
 }: {
   collection: NsprdFeatureCollection;
-  selectedPid: string | null;
-  showTaxSale: boolean;
-  showHistoricalTaxSales: boolean;
   style: (
     feature?: GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>,
   ) => PathOptions;
@@ -1714,6 +1708,8 @@ function ParcelGeometryOverlay({
   renderMode: MapRenderMode;
 }) {
   const map = useMap();
+  const selectPidRef = useRef(onSelectPid);
+  useLayoutEffect(() => { selectPidRef.current = onSelectPid; }, [onSelectPid]);
   const [zoom, setZoom] = useState(() => map.getZoom());
   useMapEvents({ zoomend: () => setZoom(map.getZoom()) });
 
@@ -1727,12 +1723,12 @@ function ParcelGeometryOverlay({
       // GeoJSON never re-reads `data`, so an equal-length parcel-set change —
       // switching to a different single-parcel event, changing a filter that
       // swaps N parcels for N others — kept rendering the previous set's
-      // geometry. visibleParcels is the small selected/tax-sale subset, so
-      // the join stays cheap.
+      // geometry. Selection and tax-sale styling update through `style`;
+      // including them in the key would rebuild every path for a highlight.
       key={`${collection.features
         .map(({ properties }) => properties.PID)
         .sort()
-        .join(",")}:${selectedPid ?? "none"}:${showTaxSale}:${showHistoricalTaxSales}`}
+        .join(",")}:${renderMode}`}
       data={collection}
       pane={ESTABLISHED_PARCEL_PANE}
       style={style}
@@ -1749,7 +1745,7 @@ function ParcelGeometryOverlay({
                 // Controller free to fire a second, unrequested identify
                 // 250 ms after every parcel click. Same form as MeasureTool.
                 L.DomEvent.stopPropagation(event);
-                onSelectPid(pid);
+                selectPidRef.current(pid);
               });
               layer.bindTooltip(textTooltip(`PID ${pid}`), { sticky: true });
             }
@@ -2665,9 +2661,6 @@ export function MapCanvas({
         >
           <ParcelGeometryOverlay
             collection={visibleParcels}
-            selectedPid={selectedPid}
-            showTaxSale={showTaxSale}
-            showHistoricalTaxSales={showHistoricalTaxSales}
             style={parcelStyle}
             onSelectPid={guardedSelectPid}
             renderMode={renderMode}

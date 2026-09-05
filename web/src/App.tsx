@@ -1317,6 +1317,22 @@ export function App() {
   // map region is the panel's own container, so it is where focus goes back
   // to. A programmatic landing spot only, never a tab stop.
   const mapRegionRef = useRef<HTMLElement | null>(null);
+  const attributionRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const footer = attributionRef.current;
+    const shell = footer?.parentElement;
+    if (!footer || !shell) return;
+    const measure = () => shell.style.setProperty(
+      "--map-attribution-height", `${Math.ceil(footer.getBoundingClientRect().height)}px`,
+    );
+    measure();
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    observer?.observe(footer, { box: "border-box" });
+    return () => {
+      observer?.disconnect();
+      shell.style.removeProperty("--map-attribution-height");
+    };
+  }, []);
   // Name the tab after the open parcel: multi-tab research otherwise produces
   // indistinguishable tabs and identical history entries. The PID is already
   // in the share URL, so this discloses nothing new.
@@ -2128,7 +2144,7 @@ export function App() {
    * and "error" stay distinct — empty is not the same evidence as a fetch
    * that failed.
    */
-  const pendingGeometryFetchPidRef = useRef<string | null>(null);
+  const pendingGeometryFetchRef = useRef<SelectedEvidenceRequest | null>(null);
   const taxSaleEnabledRef = useRef(taxSaleEnabled);
   const mapModeRef = useRef(mapMode);
   useEffect(() => {
@@ -2212,7 +2228,8 @@ export function App() {
       // A search or listing click fetches this pid itself and owns the
       // terminal marking; a second identical request here raced it — and in
       // tests, consumed its mock.
-      pendingGeometryFetchPidRef.current === selectedPid ||
+      (pendingGeometryFetchRef.current?.pid === selectedPid
+        && pendingGeometryFetchRef.current.generation === selectionGeneration.current) ||
       parcels.features.some(({ properties }) => properties.PID === selectedPid)
     ) {
       return;
@@ -2222,6 +2239,7 @@ export function App() {
     const controller = new AbortController();
     fetchParcels([selectedPid], controller.signal)
       .then((collection) => {
+        if (controller.signal.aborted || request?.generation !== selectionGeneration.current) return;
         if (collection.features.length === 0) {
           setParcelLookupMessage(`No NSPRD parcel was found for PID ${selectedPid}.`);
           setGeometryOutcome("returned-empty");
@@ -2237,6 +2255,7 @@ export function App() {
         if (error instanceof DOMException && error.name === "AbortError") {
           return;
         }
+        if (controller.signal.aborted || request?.generation !== selectionGeneration.current) return;
         setParcelLookupMessage("The shared PID could not be loaded right now.");
         setGeometryOutcome("source-error");
         if (request) {
@@ -3114,6 +3133,7 @@ export function App() {
       return;
     }
     setMapMode(mode);
+    selectionGeneration.current += 1;
     setSelectedPid(null);
     setSelectedEvidenceRequest(null);
     setQuery("");
@@ -3320,9 +3340,10 @@ export function App() {
       return;
     }
 
-    pendingGeometryFetchPidRef.current = pid;
+    pendingGeometryFetchRef.current = request;
     try {
       const collection = await fetchParcels([pid]);
+      if (request.generation !== selectionGeneration.current) return;
       if (collection.features.length === 0) {
         setSearchError("No NSPRD parcel was found for that PID.");
         setGeometryOutcome("returned-empty");
@@ -3331,12 +3352,13 @@ export function App() {
       }
       setParcels((current) => mergeFeatureCollections(current, collection));
     } catch {
+      if (request.generation !== selectionGeneration.current) return;
       setSearchError("The Province parcel search is unavailable right now.");
       setGeometryOutcome("source-error");
       markGeometryEvidenceTerminal(request, "geometry-unavailable");
     } finally {
-      if (pendingGeometryFetchPidRef.current === pid) {
-        pendingGeometryFetchPidRef.current = null;
+      if (pendingGeometryFetchRef.current === request) {
+        pendingGeometryFetchRef.current = null;
       }
     }
   };
@@ -3394,9 +3416,10 @@ export function App() {
     }
 
     setParcelLookupMessage(`Loading parcel ${pid}…`);
-    pendingGeometryFetchPidRef.current = pid;
+    pendingGeometryFetchRef.current = request;
     try {
       const collection = await fetchParcels([pid]);
+      if (request.generation !== selectionGeneration.current) return;
       if (collection.features.length === 0) {
         setParcelLookupMessage(
           `PID ${pid} details opened, but its map geometry is unavailable.`,
@@ -3408,14 +3431,15 @@ export function App() {
       setParcels((current) => mergeFeatureCollections(current, collection));
       setParcelLookupMessage(`PID ${pid} selected.`);
     } catch {
+      if (request.generation !== selectionGeneration.current) return;
       setParcelLookupMessage(
         `PID ${pid} details opened, but the Province parcel service is unavailable.`,
       );
       setGeometryOutcome("source-error");
       markGeometryEvidenceTerminal(request, "geometry-unavailable");
     } finally {
-      if (pendingGeometryFetchPidRef.current === pid) {
-        pendingGeometryFetchPidRef.current = null;
+      if (pendingGeometryFetchRef.current === request) {
+        pendingGeometryFetchRef.current = null;
       }
     }
   };
@@ -5475,6 +5499,7 @@ export function App() {
                 // already on screen, and scrolling it into view here would
                 // move the map under the reader.
                 mapRegionRef.current?.focus({ preventScroll: true });
+                selectionGeneration.current += 1;
                 setSelectedPid(null);
                 setSelectedEvidenceRequest(null);
                 setPrintCapture(null);
@@ -5505,7 +5530,7 @@ export function App() {
         </section>
       </main>
 
-      <footer className="map-attribution">
+      <footer ref={attributionRef} className="map-attribution">
         <a
           className="feedback-link"
           href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20map%20feedback"
