@@ -20,28 +20,29 @@ npm run dev
 
 Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
 
-## Atlas basemap study
+## Atlas basemap
 
-Open `/atlas.html` on the local Vite server to review the original day and
-night cartography over OpenFreeMap's OSM vector tiles. Day, Night, and standard
-OSM share a camera; Baddeck, Mabou, and Halifax are comparison bookmarks.
-The initial appearance follows the system setting. This is a separate visual
-prototype: the research map and its print/export flow keep their existing
-Leaflet basemap, and do not load the MapLibre renderer.
+The research map uses original NS Marks Atlas cartography over OpenFreeMap's
+OSM vector tiles. **Background Maps → Basemap style** offers Day, Night,
+System appearance (the default), and standard OpenStreetMap. Explicit choices
+stay in this browser; shared links carry the resolved style. Leaflet still owns
+navigation, parcel selection, historical imagery, and every research overlay.
+A failed atlas source offers retry or a switch to OpenStreetMap.
 
-Property-boundary preview retains the Province licence gate, official renderer,
-attribution, and close-detail visibility floor. Fletcher preview uses the same
-`VITE_FLETCHER_TILE_BASE_URL`, revision, sheet bounds, and imagery terms as the
-research map. WebGL raster sources additionally require the host to allow the
-preview origin through CORS. The current production tile host allows
-`https://kinnokilabs.com`, but rejected the localhost origin during this study;
-historical preview reports a source error there. It is not proof of missing
-imagery. With no tile host configured the historical control is disabled.
+Browser print captures the selected style and applies the existing monochrome
+treatment. Generated PDF renders the captured atlas bounds locally with source
+credits; the basemap render is bounded to 2048 pixels per edge and its resampling
+is disclosed in the export receipt. Neither path silently substitutes OSM.
+
+`/atlas.html` remains a comparison study with Baddeck, Mabou, and Halifax
+bookmarks. Its WebGL historical preview requires tile-host CORS permission;
+the research map uses ordinary image overlays instead. Fletcher uses the same
+`VITE_FLETCHER_TILE_BASE_URL`, revision, accepted sheet bounds, and imagery terms
+on both surfaces. With no tile host configured the historical control is disabled.
+Property boundaries retain the Province licence gate and attribution.
 
 Both HTML entry points are included in `npm run build`. The MapLibre 6 worker
-is bundled with Vite's `?worker&url` import so it also works under a hosting
-subpath. This prototype introduces no print/export contract or production
-basemap migration.
+is bundled with Vite's `?worker&url` import for hosting beneath a subpath.
 
 ## Map setup, categories, and themes
 
@@ -1096,7 +1097,7 @@ date rather than leaving that date only in source data.
 
 ## Current boundary
 
-This slice includes the modern OpenStreetMap basemap, nine web-cleared
+This slice includes the day/night Atlas and OpenStreetMap basemaps, nine web-cleared
 Province layers, three default-off open geoscience/resource source overlays,
 one default-off open old-growth policy overlay, one default-off licence-gated
 derived mineral-proximity parcel row,

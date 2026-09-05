@@ -195,6 +195,7 @@ describe("map share state", () => {
       position,
       ["modern", "nsprd", "roads"],
     ))).toEqual({
+      basemapStyle: "osm",
       taxSaleEnabled: true,
       mode: "historical",
       pid: "01234567",

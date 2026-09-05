@@ -487,7 +487,7 @@ describe("print map derivation", () => {
       { latitude: 46.35, longitude: -61.15, zoom: 15 },
       ["nsprd", "roads"],
     )).toBe(
-      "https://example.com/map/?taxSale=on&mode=current&pid=01234567&event=inverness-2026-08-11&layers=nsprd%2Croads&position=46.35%2C-61.15%2C15",
+      "https://example.com/map/?basemap=osm&taxSale=on&mode=current&pid=01234567&event=inverness-2026-08-11&layers=nsprd%2Croads&position=46.35%2C-61.15%2C15",
     );
   });
 
@@ -505,4 +505,11 @@ describe("print map derivation", () => {
       ["nsprd"],
     )).toContain("layers=nsprd&");
   });
+});
+
+it("freezes the captured atlas mode before later application changes", () => {
+  const input: PrintCaptureBase = { ...base, basemapStyle: "night" };
+  const capture = startPrintCapture(input, pendingEvidence);
+  input.basemapStyle = "day";
+  expect(capture.basemapStyle).toBe("night");
 });

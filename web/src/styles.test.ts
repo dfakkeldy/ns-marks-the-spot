@@ -508,7 +508,7 @@ describe("print document paged media", () => {
     expect(fieldPage).toMatch(/display:\s*grid/);
     expect(styles).toMatch(/\.print-field-support\s*\{/);
     expect(styles).toMatch(
-      /\.print-field-support\s*\{[^}]*grid-template-columns:\s*minmax\(0, 7fr\) minmax\(0, 2fr\) minmax\(0, 3fr\)/s,
+      /\.print-field-support\s*\{[^}]*grid-template-columns:\s*minmax\(0, 5fr\) minmax\(0, 3fr\) minmax\(0, 4fr\)/s,
     );
     expect(styles).toMatch(/\.print-field-support \.print-active-layer-legend ul\s*\{[^}]*grid-template-columns:\s*repeat\(4, minmax\(0, 1fr\)\)/s);
     expect(styles).toMatch(
@@ -773,9 +773,11 @@ describe("Geoman vertex handles on a coarse pointer", () => {
   it("carries a dark palette, drawn from the same tokens as the light one", () => {
     expect(styles).toMatch(/:root\s*\{[^}]*color-scheme:\s*light dark/u);
     const dark = styles.match(
-      /@media \(prefers-color-scheme: dark\) \{\s*:root \{([^}]*)\}/u,
+      /@media \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-map-appearance="day"\]\) \{([^}]*)\}/u,
     )?.[1];
     expect(dark, "no dark token block").toBeDefined();
+    const explicitNight = styles.match(/:root\[data-map-appearance="night"\] \{([^}]*)\}/u)?.[1];
+    expect(explicitNight?.replace(/\s+/gu, " ")).toContain(dark?.trim().replace(/\s+/gu, " "));
 
     // Every token the light palette defines is redefined, or a colour drawn
     // from it stays a light-palette colour on a dark ground.

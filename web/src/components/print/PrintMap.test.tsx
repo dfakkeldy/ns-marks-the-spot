@@ -95,6 +95,15 @@ describe("PrintMap", () => {
     );
   });
 
+  it("keeps the position subscription stable when a layer status rerenders the map", () => {
+    const onResolvedPosition = vi.fn();
+    render(<PrintMap snapshot={snapshot} bounds={snapshot.viewport.bounds}
+      includeAerial={false} onReadinessChange={vi.fn()} onResolvedPosition={onResolvedPosition} />);
+    const positionCallback = mapCanvasProps.current?.onPositionChange;
+    act(() => (mapCanvasProps.current?.onLayerStatusChange as (id: string, status: MapLayerStatus) => void)("modern", { status: "ready" }));
+    expect(mapCanvasProps.current?.onPositionChange).toBe(positionCallback);
+  });
+
   it("aggregates only printed layer readiness and reports the resolved position", () => {
     const onReadinessChange = vi.fn();
     const onResolvedPosition = vi.fn();

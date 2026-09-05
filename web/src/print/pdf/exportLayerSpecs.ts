@@ -1,3 +1,4 @@
+import type { BasemapStyle } from "../../atlas/basemap";
 import {
   FLETCHER_LAYER_Z_INDEX,
   PROVINCE_LAYER_Z_INDEXES,
@@ -38,6 +39,7 @@ export type ExportUserMapInput = {
 };
 
 export type ExportLayerInputs = {
+  basemapStyle?: BasemapStyle;
   bounds: PrintMapBounds;
   showModernMap: boolean;
   fletcher: {
@@ -139,7 +141,9 @@ export function buildExportLayers(
   inputs: ExportLayerInputs,
 ): CompositorLayer[] {
   const layers: CompositorLayer[] = [];
-  if (inputs.showModernMap) {
+  if (inputs.showModernMap && inputs.basemapStyle && inputs.basemapStyle !== "osm") {
+    layers.push({ kind: "atlas", id: "modern", name: `Atlas ${inputs.basemapStyle} base map`, mode: inputs.basemapStyle });
+  } else if (inputs.showModernMap) {
     layers.push({
       kind: "tile",
       id: "modern",

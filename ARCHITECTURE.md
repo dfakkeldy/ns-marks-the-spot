@@ -102,8 +102,12 @@ nothing is persisted through SwiftData.
 
 The `web/` React + Vite app is a separate online-only delivery surface. It does
 not change the native app's offline contract or its `MapSurface` boundary.
-Leaflet renders OpenStreetMap tiles, GeoJSON parcel highlights, and the web
-catalog's Province MapServer layers in the browser.
+Leaflet owns navigation, GeoJSON parcel highlights, and the web catalog's
+image overlays. `atlas/AtlasBasemapLayer.tsx` draws the original day/night
+OpenFreeMap vector style beneath those overlays with a noninteractive MapLibre
+canvas synchronized to Leaflet's camera. OSM raster tiles remain selectable.
+Appearance follows the system by default; shared URLs and print captures carry
+the resolved style, while local storage keeps the user's appearance preference.
 
 `components/MeasureTool.tsx` renders the distance/area measure control inside
 the Leaflet map. Geometry math lives in `services/geodesy.ts` (haversine
@@ -143,10 +147,16 @@ and the call to `window.print()`.
 print mode. The map fits explicit bounds, disables interaction and location UI,
 tracks readiness for the requested layers, and reports the resolved printed
 position. OpenStreetMap and ArcGIS tiles remain ordinary browser-rendered image
-layers; the application does not read them into a canvas or generate PDF/PNG
-bytes. CSS applies monochrome tile treatment and app-owned parcel
-line/weight/hatch styles. The browser's Print / Save as PDF facility is the only
-document renderer.
+layers in this path. Atlas uses the captured style and a preserved drawing
+buffer. CSS applies monochrome treatment to both tiles and the atlas canvas,
+with app-owned parcel line/weight/hatch styles.
+
+The separate generated-PDF compositor (`print/pdf/`) renders atlas locally via
+`atlas/renderAtlasImage.ts`, crops the projected requested bounds to avoid
+fitBounds padding, and bounds its GPU canvas to 2048 pixels per edge. Its source
+receipt discloses resampling. Source errors remain failures and require the
+existing incomplete-export consent; the renderer never substitutes another
+basemap. Legacy snapshots without a basemap style continue to use OSM.
 
 The exact receipt is derived only after the print map resolves. It uses the
 existing map-share format with the captured PID, mode and event IDs, the

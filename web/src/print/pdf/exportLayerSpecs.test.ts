@@ -190,3 +190,9 @@ describe("buildExportLayers", () => {
     expect(userMapIndex).toBeLessThan(nsprdIndex);
   });
 });
+
+it("captures atlas mode and preserves the legacy OSM default", () => {
+  expect(buildExportLayers(inputs({ basemapStyle: "night" }))[0]).toMatchObject({ kind: "atlas", mode: "night", id: "modern" });
+  expect(buildExportLayers(inputs())[0]).toMatchObject({ kind: "tile", id: "modern" });
+  expect(buildExportLayers(inputs({ basemapStyle: "day", showModernMap: false })).some((layer) => layer.kind === "atlas")).toBe(false);
+});
