@@ -1,5 +1,5 @@
 {
-  "status": "completed-three-model-pilot; optional Opus 5 comparison set aside by user",
+  "status": "completed-four-model-pilot; optional Opus 5 comparison set aside by user",
   "metric_note": "Counts allow the explicitly documented manual splitting/regrouping of candidate text. They are not raw-record accuracy or end-to-end acceptance rates. Punctuation-only differences are reported separately.",
   "results": [
     {
@@ -39,6 +39,20 @@
       "provisional_excluded": 3,
       "references_requiring_regrouping": 3,
       "out_of_bounds_boxes": 0,
+      "automatic_import_allowed": false
+    },
+    {
+      "model_requested": "deepseek-v4-flash-vision-exp",
+      "candidate_records": 29,
+      "clear_reference_denominator": 24,
+      "exact_normalized_after_manual_regrouping": 23,
+      "punctuation_only_after_manual_regrouping": 1,
+      "wrong_wording": 0,
+      "incomplete": 0,
+      "provisional_excluded": 3,
+      "references_requiring_regrouping": 6,
+      "out_of_bounds_boxes": 0,
+      "records_with_observed_box_defects": 24,
       "automatic_import_allowed": false
     }
   ]

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+  "small_model": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+  "share": "disabled",
+  "snapshot": false,
+  "instructions": [],
+  "enabled_providers": [
+    "deepseek-cc-switch"
+  ],
+  "provider": {
+    "deepseek-cc-switch": {
+      "models": {
+        "deepseek-v4-flash-vision-exp": {
+          "name": "DeepSeek V4 Flash Vision Experimental",
+          "attachment": true,
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "limit": {
+            "context": 1000000,
+            "output": 16384
+          }
+        }
+      }
+    }
+  },
+  "permission": {
+    "*": "deny",
+    "external_directory": {
+      "*": "deny",
+      "/private/tmp/fletcher-deepseek-pilot-20260905/packet": "allow",
+      "/private/tmp/fletcher-deepseek-pilot-20260905/packet/*": "allow"
+    },
+    "read": {
+      "*": "deny",
+      "*.png": "allow"
+    },
+    "bash": {
+      "*": "deny",
+      "/Users/dfakkeldy/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 /private/tmp/fletcher-deepseek-pilot-20260905/packet/crop.py *": "allow"
+    }
+  },
+  "agent": {
+    "fletcher": {
+      "description": "Isolated historical map transcription",
+      "mode": "primary",
+      "prompt": "Transcribe only assigned historical-map images. No prior answers or geographic knowledge. Return source evidence and uncertainty.",
+      "permission": {
+        "*": "deny",
+        "external_directory": {
+          "*": "deny",
+          "/private/tmp/fletcher-deepseek-pilot-20260905/packet": "allow",
+          "/private/tmp/fletcher-deepseek-pilot-20260905/packet/*": "allow"
+        },
+        "read": {
+          "*": "deny",
+          "*.png": "allow"
+        },
+        "bash": {
+          "*": "deny",
+          "/Users/dfakkeldy/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 /private/tmp/fletcher-deepseek-pilot-20260905/packet/crop.py *": "allow"
+        }
+      }
+    }
+  }
+}

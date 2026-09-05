@@ -1115,6 +1115,435 @@
         }
       ],
       "box_review_note": "All emitted label excerpts visually inspected. Listed defects are actionable examples; unlisted boxes are not automatically approved. This list is not a measured box-accuracy rate."
+    },
+    "deepseek-v4-flash-vision-exp": {
+      "model_requested": "deepseek-v4-flash-vision-exp",
+      "reasoning_requested": "provider default; no variant override",
+      "reference_comparisons": [
+        {
+          "source_annotation_id": "F19-JUD-008",
+          "crop_id": "C01",
+          "candidate_ids": [
+            "C01-01"
+          ],
+          "proposed_text_for_comparison": "Stage\nStables",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-009",
+          "crop_id": "C01",
+          "candidate_ids": [
+            "C01-02"
+          ],
+          "proposed_text_for_comparison": "Shop",
+          "grouping": "merged",
+          "note": "Shop and P.O. were emitted as one candidate; Shop is manually isolated for text comparison.",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-010",
+          "crop_id": "C01",
+          "candidate_ids": [
+            "C01-02"
+          ],
+          "proposed_text_for_comparison": "P.O.",
+          "grouping": "merged",
+          "note": "Shop and P.O. were emitted as one candidate; P.O. is manually isolated for text comparison.",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-011",
+          "crop_id": "C01",
+          "candidate_ids": [
+            "C01-03"
+          ],
+          "proposed_text_for_comparison": "Shop",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-003",
+          "crop_id": "C02",
+          "candidate_ids": [
+            "C02-02"
+          ],
+          "proposed_text_for_comparison": "McEachern",
+          "grouping": "one-to-one",
+          "note": "ASCII Mc is equivalent to the reference superscript-c typography.",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-004",
+          "crop_id": "C02",
+          "candidate_ids": [
+            "C02-01"
+          ],
+          "proposed_text_for_comparison": "School",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-005",
+          "crop_id": "C02",
+          "candidate_ids": [
+            "C02-03"
+          ],
+          "proposed_text_for_comparison": "Forge",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-006",
+          "crop_id": "C02",
+          "candidate_ids": [
+            "C02-04"
+          ],
+          "proposed_text_for_comparison": "Sh. Mill",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-015",
+          "crop_id": "C03",
+          "candidate_ids": [
+            "C03-01"
+          ],
+          "proposed_text_for_comparison": "R.C. Church",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-016",
+          "crop_id": "C03",
+          "candidate_ids": [
+            "C03-02"
+          ],
+          "proposed_text_for_comparison": "Rev. Archd. Chisholm",
+          "grouping": "one-to-one",
+          "note": "Candidate preserves the abbreviated name, with a baseline d rather than the reference's elevated d; the reference reading is provisional.",
+          "text_result": "provisional-excluded"
+        },
+        {
+          "source_annotation_id": "F19-JUD-017",
+          "crop_id": "C03",
+          "candidate_ids": [
+            "C03-04"
+          ],
+          "proposed_text_for_comparison": "Barytes",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-018",
+          "crop_id": "C03",
+          "candidate_ids": [
+            "C03-03"
+          ],
+          "proposed_text_for_comparison": "Shop",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-019",
+          "crop_id": "C03",
+          "candidate_ids": [
+            "C03-05"
+          ],
+          "proposed_text_for_comparison": "School",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-020",
+          "crop_id": "C03",
+          "candidate_ids": [
+            "C03-06",
+            "C03-07"
+          ],
+          "proposed_text_for_comparison": "Rory\nChisholms\nBrook",
+          "grouping": "split-and-merged",
+          "note": "Rory Chisholms and Brook must be combined, while Brook is manually separated from Mill. The candidate omits the reference apostrophe.",
+          "text_result": "punctuation-only"
+        },
+        {
+          "source_annotation_id": "F19-JUD-021",
+          "crop_id": "C03",
+          "candidate_ids": [
+            "C03-07"
+          ],
+          "proposed_text_for_comparison": "Mill",
+          "grouping": "merged",
+          "note": "Mill and Brook were emitted as one candidate; Mill is manually isolated for text comparison.",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-048",
+          "crop_id": "C04",
+          "candidate_ids": [
+            "C04-02"
+          ],
+          "proposed_text_for_comparison": "P.O.",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-057",
+          "crop_id": "C04",
+          "candidate_ids": [
+            "C04-04"
+          ],
+          "proposed_text_for_comparison": "School",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-058",
+          "crop_id": "C04",
+          "candidate_ids": [
+            "C04-03"
+          ],
+          "proposed_text_for_comparison": "Church",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-059",
+          "crop_id": "C04",
+          "candidate_ids": [
+            "C04-05"
+          ],
+          "proposed_text_for_comparison": "River Denys Road",
+          "grouping": "one-to-one",
+          "note": "Output classification does not settle the reference's provisional named-place classification.",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-060",
+          "crop_id": "C04",
+          "candidate_ids": [
+            "C04-06"
+          ],
+          "proposed_text_for_comparison": "Forge",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-061",
+          "crop_id": "C04",
+          "candidate_ids": [
+            "C04-07"
+          ],
+          "proposed_text_for_comparison": "Gold Mine",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-062",
+          "crop_id": "C04",
+          "candidate_ids": [
+            "C04-08"
+          ],
+          "proposed_text_for_comparison": "Quartz Hills\nMill",
+          "grouping": "merged",
+          "note": "The candidate merges crowded nearby lettering and reads the middle word as Hills; the Quartz Mill / Falls reference separation is provisional.",
+          "text_result": "provisional-excluded"
+        },
+        {
+          "source_annotation_id": "F19-JUD-070",
+          "crop_id": "C04",
+          "candidate_ids": [
+            "C04-08"
+          ],
+          "proposed_text_for_comparison": "",
+          "grouping": "merged",
+          "note": "Falls was not separately transcribed; the candidate's Hills occurs inside the merged Quartz Hills / Mill reading. Reference separation remains provisional.",
+          "text_result": "provisional-excluded"
+        },
+        {
+          "source_annotation_id": "F19-JUD-037",
+          "crop_id": "C05",
+          "candidate_ids": [
+            "C05-02",
+            "C05-03"
+          ],
+          "proposed_text_for_comparison": "River\nInhabitants\nRoad",
+          "grouping": "split",
+          "note": "The three words were split between a River candidate and an Inhabitants / Road candidate.",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-038",
+          "crop_id": "C05",
+          "candidate_ids": [
+            "C05-04"
+          ],
+          "proposed_text_for_comparison": "Southwest\nMabou\nRiver",
+          "grouping": "one-to-one",
+          "note": "",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-039",
+          "crop_id": "C05",
+          "candidate_ids": [
+            "C05-01",
+            "C05-05"
+          ],
+          "proposed_text_for_comparison": "Southwest\nMabou\nRiver",
+          "grouping": "split",
+          "note": "The eastern river name was split between a Southwest candidate and a Mabou / River candidate.",
+          "text_result": "exact-normalized"
+        },
+        {
+          "source_annotation_id": "F19-JUD-032",
+          "crop_id": "C06",
+          "candidate_ids": [
+            "C06-01"
+          ],
+          "proposed_text_for_comparison": "Don. McEachern",
+          "grouping": "one-to-one",
+          "note": "ASCII Mc is equivalent to the reference superscript-c typography.",
+          "text_result": "exact-normalized"
+        }
+      ],
+      "observed_box_defects": [
+        {
+          "candidate_id": "C01-01",
+          "defect": "clipped",
+          "note": "Stage/Stables rectangle cuts the left end of the lower line."
+        },
+        {
+          "candidate_id": "C02-01",
+          "defect": "clipped",
+          "note": "School rectangle clips the final letter at the right edge."
+        },
+        {
+          "candidate_id": "C02-02",
+          "defect": "mislocated",
+          "note": "McEachern rectangle sits below the lettering and mostly encloses hatching and marks."
+        },
+        {
+          "candidate_id": "C02-03",
+          "defect": "clipped",
+          "note": "Forge descenders/baseline extend below the rectangle."
+        },
+        {
+          "candidate_id": "C03-01",
+          "defect": "clipped",
+          "note": "R.C. Church starts to the left of the proposed rectangle."
+        },
+        {
+          "candidate_id": "C03-02",
+          "defect": "clipped",
+          "note": "The clergyman-name box clips elevated lettering at its top edge."
+        },
+        {
+          "candidate_id": "C03-03",
+          "defect": "clipped",
+          "note": "Shop starts left of the proposed rectangle and extends below it."
+        },
+        {
+          "candidate_id": "C03-04",
+          "defect": "clipped",
+          "note": "The mineral-label box clips the tops of letters despite the correct proposed text."
+        },
+        {
+          "candidate_id": "C03-05",
+          "defect": "clipped",
+          "note": "School extends below the box."
+        },
+        {
+          "candidate_id": "C03-06",
+          "defect": "clipped",
+          "note": "Both Rory and Chisholms rectangles omit substantial lettering near their upper/right edges."
+        },
+        {
+          "candidate_id": "C03-07",
+          "defect": "clipped",
+          "note": "The merged Mill/Brook rectangle loses part of Mill at the right edge; grouping also needs correction."
+        },
+        {
+          "candidate_id": "C03-08",
+          "defect": "clipped",
+          "note": "River extends below the rectangle; it is edge-context text, outside the complete-reference score."
+        },
+        {
+          "candidate_id": "C04-01",
+          "defect": "mislocated",
+          "note": "Narrow vertical rectangle encloses road/rail lines and only part of Branch, missing the text at its right; outside the complete-reference score."
+        },
+        {
+          "candidate_id": "C04-02",
+          "defect": "clipped",
+          "note": "P.O. is cut at the top/left of the rectangle."
+        },
+        {
+          "candidate_id": "C04-03",
+          "defect": "clipped",
+          "note": "Church begins to the left of the rectangle."
+        },
+        {
+          "candidate_id": "C04-04",
+          "defect": "clipped",
+          "note": "School lies across the top border, with upper lettering excluded."
+        },
+        {
+          "candidate_id": "C04-05",
+          "defect": "clipped",
+          "note": "River Denys Road loses lettering at the top/right of the box."
+        },
+        {
+          "candidate_id": "C04-08",
+          "defect": "clipped",
+          "note": "Crowded Quartz/Mill/Falls-area lettering extends past the right side; the proposed Hills grouping remains unaccepted."
+        },
+        {
+          "candidate_id": "C05-01",
+          "defect": "clipped",
+          "note": "Southwest is clipped at both ends of the diagonal box."
+        },
+        {
+          "candidate_id": "C05-02",
+          "defect": "clipped",
+          "note": "River starts to the left of its rectangle."
+        },
+        {
+          "candidate_id": "C05-03",
+          "defect": "incomplete-coverage",
+          "note": "The first box contains only the start of Inhabitants; the Road box clips its lower lettering."
+        },
+        {
+          "candidate_id": "C05-04",
+          "defect": "incomplete-coverage",
+          "note": "The rectangle omits the beginning of Southwest, part of Mabou and the separate River lettering."
+        },
+        {
+          "candidate_id": "C05-05",
+          "defect": "incomplete-coverage",
+          "note": "The narrow rectangle clips Mabou and does not enclose the separate River word."
+        },
+        {
+          "candidate_id": "C06-01",
+          "defect": "clipped",
+          "note": "The personal-name rectangle cuts the lower portion of much of the lettering."
+        }
+      ],
+      "box_review_note": "All 29 candidate excerpts visually inspected. All boxes are within crop bounds, but 24 candidate records have observed clipping, mislocation or incomplete lettering coverage. This is not an automatic acceptance score. Raw rectangles are preserved."
     }
   }
 }
