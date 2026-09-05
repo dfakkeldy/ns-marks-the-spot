@@ -32,7 +32,7 @@ def parse_answer(text, case_id):
     ]:
         raise ValueError("Invalid case id or status")
     if not isinstance(answer.get("evidence"), str):
-        raise ValueError("Missing evidence")
+        raise TypeError("Missing evidence")
     xy = answer.get("historical_xy")
     if answer["status"] == "match":
         if (
@@ -72,7 +72,7 @@ def configuration(packet, python):
                         "name": "DeepSeek V4 Flash Vision Experimental",
                         "attachment": True,
                         "modalities": {"input": ["text", "image"], "output": ["text"]},
-                        "limit": {"context": 1000000, "output": 4096},
+                        "limit": {"context": 1000000, "output": 16384},
                     }
                 }
             }
@@ -203,24 +203,27 @@ def main():
         sessions = sorted({e["sessionID"] for e in events if "sessionID" in e})
         models = set()
         for sid in sessions:
-            exported = subprocess.run(
-                [args.opencode, "export", "--pure", sid],
-                cwd=packet,
-                env=env,
-                text=True,
-                capture_output=True,
-                timeout=60,
-            )
-            if exported.returncode == 0:
-                (attempt / "session-export.json").write_text(exported.stdout)
-                try:
-                    obj = json.loads(exported.stdout)
+            try:
+                with (attempt / "session-export.json").open("w") as export_file:
+                    exported = subprocess.run(
+                        [args.opencode, "export", "--pure", sid],
+                        cwd=packet,
+                        env=env,
+                        text=True,
+                        stdout=export_file,
+                        stderr=subprocess.PIPE,
+                        timeout=60,
+                        check=False,
+                    )
+                if exported.returncode == 0:
+                    obj = json.loads((attempt / "session-export.json").read_text())
                     for message in obj.get("messages", []):
                         inf = message.get("info", {})
                         if inf.get("role") == "assistant":
                             models.add((inf.get("providerID"), inf.get("modelID")))
-                except ValueError:
-                    pass
+            except (ValueError, subprocess.TimeoutExpired):
+                # Keep the primary answer even if auxiliary session export fails.
+                pass
         steps = [e["part"] for e in events if e.get("type") == "step_finish"]
         tokens = {
             key: sum(s.get("tokens", {}).get(key, 0) for s in steps)
@@ -269,7 +272,7 @@ def main():
             try:
                 cid, state = future.result()
                 print(f"{done}/{len(futures)} {cid}: {state}", flush=True)
-            except Exception as exc:
+            except (OSError, ValueError, subprocess.SubprocessError) as exc:
                 print(
                     f"{done}/{len(futures)} runner failure: {type(exc).__name__}",
                     flush=True,
