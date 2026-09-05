@@ -21,8 +21,8 @@ export const atlasPalettes = {
     wood: '#aa9d66',        // olive for NSTDB tree areas
     grass: '#d2c47f',       // scrub, grass and young reforestation
     farmland: '#e3b356',    // Devonian ochre for farmland, orchards and nurseries
-    residential: '#dc9169', // deeper salmon for OSM settlement areas
-    building: '#b7623a',
+    residential: '#d6845b', // deeper salmon for OSM settlement areas, a clear step from the ground
+    building: '#a4522b',
     road: '#fbf3dc',        // paper-white local road fill inside an ink casing
     roadEdge: '#4a3a22',
     highway: '#7d4223',     // main routes as a dark rust line with a paper edge

@@ -39,3 +39,19 @@ export function historicalSiteSvg(kind: HistoricalSiteKind, confidence: Historic
   const detail = symbol.detail ? `<path d="${symbol.detail}" transform="translate(10 10) scale(${recorded ? 1 : 0.72}) translate(-10 -10)" fill="none" stroke="${recorded ? p.halo : ink}" stroke-width="${symbol.detailWidth ?? 1.4}" stroke-linecap="round"/>` : '';
   return `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${symbol.label}, ${confidence} location">${ring}${shape}${detail}</svg>`;
 }
+
+/**
+ * Lettering specimens: printed wordings transcribed from Fletcher sheet 19
+ * (docs/fletcher/label-extraction). They demonstrate the map's serif only.
+ * `reading` describes how clearly the ink was read; it says nothing about
+ * position. Every specimen is unlocated: no geometry exists for any of them
+ * and none is a mapped feature.
+ */
+export type ReadingConfidence = 'clear' | 'tentative';
+export const historicalLetteringSpecimens: readonly { id: string; wording: string; kind: string; reading: ReadingConfidence; italic: boolean }[] = [
+  { id: 'F19-JUD-014', wording: 'Judique', kind: 'settlement', reading: 'clear', italic: false },
+  { id: 'F19-JUD-020', wording: 'Rory Chisholm\u2019s Brook', kind: 'watercourse', reading: 'clear', italic: true },
+  { id: 'F19-JUD-006', wording: 'Sh. Mill', kind: 'mill', reading: 'clear', italic: true },
+  { id: 'F19-JUD-016', wording: 'Rev. Arch\u1d48. Chisholm', kind: 'person-label', reading: 'tentative', italic: true },
+];
+export const LETTERING_PLACEMENT = 'unlocated' as const;

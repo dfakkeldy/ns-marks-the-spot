@@ -3,7 +3,7 @@ import { AtlasMap, type Camera, type View } from './AtlasMap';
 import { atlasPlaces } from './places';
 import { atlasPalettes } from './palette';
 import { buildReviewStyle, type ReviewMode } from './overlays';
-import { historicalSiteStates, historicalSiteSvg, historicalSiteSymbols } from './historicalSymbols';
+import { LETTERING_PLACEMENT, historicalLetteringSpecimens, historicalSiteStates, historicalSiteSvg, historicalSiteSymbols } from './historicalSymbols';
 import { fletcherSheets, fletcherSourceReceiptUrl, normalizeFletcherTileBaseUrl } from '../layers/fletcherLayer';
 import { PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL } from '../licensing/provinceLicense';
 import { RUMSEY_ATTRIBUTION, RUMSEY_COLLECTION_TERMS_URL, RUMSEY_LICENCE_URL } from '../licensing/rumseyLicense';
@@ -81,7 +81,17 @@ export function AtlasStudy() {
             <span role="cell" className="atlas-specimen-label">{state.label}</span>
           </div>)}
         </div>
-        <p className="atlas-note">{historicalSiteSymbols.map(symbol => symbol.label).join(', ')}. Unlocated design specimens for a later extraction from the sheets; nothing here is placed on the map.</p>
+        <p className="atlas-note">{historicalSiteSymbols.map(symbol => symbol.label).join(', ')}. Unlocated design specimens for a later extraction from the sheets; nothing here is placed on the map. Placement states describe where a site could be drawn; they are separate from how clearly its lettering was read.</p>
+      </section>}
+      {mode !== 'osm' && <section className="atlas-section" aria-labelledby="lettering-title">
+        <h2 id="lettering-title">Historical lettering · specimen</h2>
+        <ul className="atlas-lettering" aria-label="Transcribed lettering specimens">
+          {historicalLetteringSpecimens.map(specimen => <li key={specimen.id}>
+            <span className="atlas-lettering-text" lang="en" style={{ fontStyle: specimen.italic ? 'italic' : 'normal' }}>{specimen.wording}</span>
+            <span className="atlas-lettering-meta"><span className={`atlas-chip atlas-chip-${specimen.reading}`}>{specimen.reading} reading</span><span>{specimen.id} · {specimen.kind} · placement {LETTERING_PLACEMENT}</span></span>
+          </li>)}
+        </ul>
+        <p className="atlas-note">Printed wordings from the sheet 19 transcription, set in the map's serif as lettering examples only. A reading is about the ink; it never establishes a position. Every specimen has no geometry and is not a mapped feature.</p>
       </section>}
       <footer className="atlas-sidebar-footer">
         <p>Provincial-first Atlas. A mapped road or path does not establish access permission.</p>
