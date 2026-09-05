@@ -272,4 +272,10 @@ jobs:
           printf '%s\n' "$MATCH_GIT_SSH_KEY" > "$key_path"
           chmod 600 "$key_path"
           export GIT_SSH_COMMAND="ssh -i $key_path -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
-          git ls-remote git@github.com:dfakkeldy/echo-audiobooks-certificates.git HEAD
+          repository=git@github.com:dfakkeldy/echo-audiobooks-certificates.git
+          git clone --quiet --bare --depth=1 "$repository" "$RUNNER_TEMP/signing-access-check.git"
+          if git -C "$RUNNER_TEMP/signing-access-check.git" push --dry-run origin HEAD:refs/heads/signing-access-check-${{ github.run_id }}; then
+            echo "Signing repository write access: available (dry run only)"
+          else
+            echo "::warning::Signing repository write access could not be verified; see push dry-run error above."
+          fi
