@@ -2,7 +2,7 @@
 
 **Current progress: 93 printed annotations across three batches.** The [southward extension to Long Point](judique-south-review.md) adds 23 source-reviewed annotations using the assembly-line process. The [inland extension and source-symbol review](judique-inland-review.md) added 41 and reviewed eight original facility labels; four have supported printed-symbol associations and four remain unresolved. All additions are research transcriptions, not modern site coordinates. The original 29-annotation batch is documented below.
 
-The [six-crop model pilot](luna-pilot/README.md) compares blind Luna, Terra and Sol extraction against existing annotations. Its raw outputs remain comparison evidence only. The optional Claude comparison was set aside; the new Long Point batch uses Sol candidates with complete source-window review.
+The [six-crop model pilot](luna-pilot/README.md) compares blind Luna, Terra, Sol and DeepSeek V4 Flash Vision Experimental extraction against existing annotations. Its raw outputs remain comparison evidence only. The optional Claude comparison was set aside. The Long Point batch used Sol candidates with complete source-window review; the next candidate pass will use the tested DeepSeek vision variant, retaining the same review gates.
 
 Extracted September 5, 2026 from the original, unwarped 1884 Fletcher sheet 19. This is a research inventory for review, not a production map layer.
 

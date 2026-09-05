@@ -19,6 +19,7 @@ def box_valid(b,w,h):
 
 def norm(s):return ' '.join(s.replace('\\n',' ').replace('ᶜ','c').casefold().split())
 def letters(s):return re.sub(r'[^\w ]','',norm(s))
+total_candidates = 0
 for run in runs['runs']:
  model=run['model_requested'].replace('gpt-5.6-','');cs=[];anns={}
  for raw in run['raw_outputs']:
@@ -44,8 +45,14 @@ for run in runs['runs']:
   else:status='wrong-wording'
   assert status==q['text_result']
  for d in adj['models'][model]['observed_box_defects']:assert d['candidate_id'] in anns
+ total_candidates += len(anns)
  counts=Counter(q['text_result'] for q in rows);result=next(r for r in results if r['model_requested']==run['model_requested'])
  assert result['candidate_records']==len(anns)
+ assert result['references_requiring_regrouping'] == sum(q['grouping'] != 'one-to-one' for q in rows if q['text_result'] != 'provisional-excluded')
+ if 'records_with_observed_box_defects' in result:
+  assert result['records_with_observed_box_defects'] == len({d['candidate_id'] for d in adj['models'][model]['observed_box_defects']})
+ if 'worker_prompt' in run:
+  assert hashlib.sha256((out/run['worker_prompt']).read_bytes()).hexdigest() == run['worker_prompt_sha256']
  assert result['exact_normalized_after_manual_regrouping']==counts['exact-normalized']
  assert result['punctuation_only_after_manual_regrouping']==counts['punctuation-only']
  assert result['wrong_wording']==counts['wrong-wording'] and result['incomplete']==counts['incomplete']
@@ -62,4 +69,12 @@ not_run = runs['not_run'][0]
 assert not_run['model_requested'] == 'claude-opus-5'
 assert not_run['status'] == 'not-run-comparison-set-aside-by-user'
 assert not_run['candidate_records'] is None and not_run['score'] is None
-print('PASS: 90 raw candidate records, optional crop hashes, reference integrity, score arithmetic, untested model state and local links.')
+deepseek = load('deepseek-opencode-run.json')
+for filename, digest in deepseek['artifact_sha256'].items():
+ assert hashlib.sha256((out/filename).read_bytes()).hexdigest() == digest
+assert deepseek['model_recorded_in_assistant_messages'] == [{'provider_id':'deepseek-cc-switch','model_id':'deepseek-v4-flash-vision-exp'}]
+assert deepseek['successful_run']['tool_outcomes'] == {'bash:completed':58,'read:completed':58}
+assert deepseek['billed_cost'] is None
+deepseek_run = next(r for r in runs['runs'] if r['model_requested'] == deepseek['model_requested'])
+assert deepseek_run['token_usage'] == deepseek['successful_run']['tokens_reported_by_opencode']
+print(f'PASS: {total_candidates} raw candidate records, optional crop hashes, reference integrity, score arithmetic, OpenCode receipt hashes, untested model state and local links.')

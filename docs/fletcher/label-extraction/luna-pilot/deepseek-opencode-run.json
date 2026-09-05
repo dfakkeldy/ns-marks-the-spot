@@ -1,0 +1,90 @@
+{
+  "model_requested": "deepseek-v4-flash-vision-exp",
+  "provider_requested": "deepseek-cc-switch",
+  "model_recorded_in_assistant_messages": [
+    {
+      "provider_id": "deepseek-cc-switch",
+      "model_id": "deepseek-v4-flash-vision-exp"
+    }
+  ],
+  "opencode_version": "1.18.29",
+  "reasoning_requested": "provider default; no variant override",
+  "successful_run": {
+    "completed_steps": 43,
+    "tool_outcomes": {
+      "bash:completed": 58,
+      "read:completed": 58
+    },
+    "tokens_reported_by_opencode": {
+      "total": 999010,
+      "input": 12896,
+      "output": 11239,
+      "reasoning": 13723,
+      "cache_read": 961152,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "elapsed_seconds_between_first_and_last_event": 639.092,
+    "event_stream_sha256": "66427c0328699a8e2a9e1985ce0bb644b94371171e415fd878c37fbca426187f"
+  },
+  "billed_cost": null,
+  "cost_note": "OpenCode reports zero because the custom model has no configured price metadata. This is not evidence of zero billed cost. Token counters are recorded as emitted, including separate reasoning/cache fields; do not infer unique tokens by summing repeated contexts.",
+  "setup_attempts": [
+    {
+      "status": "excluded-from-quality-scoring: detail image reads denied by absolute-path permission rule",
+      "completed_steps": 4,
+      "tool_outcomes": {
+        "bash:completed": 4,
+        "read:error": 8
+      },
+      "tokens_reported_by_opencode": {
+        "total": 72752,
+        "input": 15442,
+        "output": 3445,
+        "reasoning": 12265,
+        "cache_read": 41600,
+        "cache_write": 0
+      },
+      "opencode_reported_cost": 0,
+      "elapsed_seconds_between_first_and_last_event": 141.186,
+      "event_stream_sha256": "9c8424129f871f8f8aa9ddfea6f0f1d097acb97d87aac4d41270e6943cde31ef"
+    },
+    {
+      "status": "excluded-from-quality-scoring: stopped after confirming relative-path matching was required",
+      "completed_steps": 3,
+      "tool_outcomes": {
+        "bash:completed": 4,
+        "read:error": 5
+      },
+      "tokens_reported_by_opencode": {
+        "total": 29922,
+        "input": 7474,
+        "output": 695,
+        "reasoning": 3449,
+        "cache_read": 18304,
+        "cache_write": 0
+      },
+      "opencode_reported_cost": 0,
+      "elapsed_seconds_between_first_and_last_event": 54.426,
+      "event_stream_sha256": "f45063ee6e428c4cd7cbefa3cc3d0d6ebbdb93196c37e7f9e3438e94d5167168"
+    }
+  ],
+  "isolation": "Fresh session outside the repository; exact six benchmark PNGs attached; PNG reads and the fixed local crop/rotation helper allowed; other tools denied. No reference or other model answers supplied. Global provider credentials used without modifying account configuration.",
+  "comparison_limits": [
+    "Provider-default reasoning differs from medium effort in the Codex runs.",
+    "Image attachment/tool adapters differ between OpenCode and Codex.",
+    "Two failed harness setup attempts preceded this fresh successful run; their outputs were not scored or supplied to it.",
+    "One non-random six-crop run is not a general model ranking or an end-to-end acceptance rate."
+  ],
+  "model_documentation": "https://api-docs.deepseek.com/guides/vision/",
+  "artifact_sha256": {
+    "deepseek-c01-c06.json": "54d886989548ab3377e527cb983b6452647676b209e2fa8c4ad62f4b66e7db0f",
+    "deepseek-opencode-prompt.txt": "f752c1c2f294369cdbe79573dc07c4cf4faebcc62daa1c8c44903af37754cc76",
+    "deepseek-opencode-config.json": "3192b177ef97da6adc2605313d9f5d3cdbde2ccc4d5ba30481a7a9d1ec64bd91",
+    "deepseek-crop-helper.py": "9cd900b4c6d27da8a5b3a9fd538bdbef32749cbbdc26c2141c4f43fb166a5620"
+  },
+  "local_only_artifact_sha256": {
+    "session-export.json": "5807d3edbb03a6c4ad32c852aa25561cc2ff4fa0c294652eb02898a26ba36358",
+    "final-response.txt": "d7f861cea63737d18532293d7750b810d129fa75c933c452abf9bcc52abee7d8"
+  }
+}
