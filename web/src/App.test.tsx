@@ -2009,6 +2009,7 @@ describe("NS Marks The Spot Online", () => {
   });
 
   it("applies the unrestricted subset and names blocked layers after refusal", async () => {
+    vi.stubEnv("VITE_FLETCHER_TILE_BASE_URL", "");
     window.history.replaceState(null, "", "/");
     render(<App />);
 
@@ -3239,7 +3240,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByLabelText("Water features")).not.toBeChecked();
     expect(screen.getByLabelText("Roads, trails & culverts")).not.toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
-      "modern map: on; tax-sale layer: off; Fletcher: off at 72% from no host; property boundaries: off; water: off; roads: off",
+      "modern map: on; tax-sale layer: off; Fletcher: off at 72% from https://tiles.kinnokilabs.com; property boundaries: off; water: off; roads: off",
     );
 
     const layerSection = openLayerCategory("Historical Maps");
@@ -3251,6 +3252,7 @@ describe("NS Marks The Spot Online", () => {
   });
 
   it("lists the Church county sheets as unavailable rows above Fletcher", () => {
+    vi.stubEnv("VITE_FLETCHER_TILE_BASE_URL", "");
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
 
     renderAppWithCategoriesOpen();

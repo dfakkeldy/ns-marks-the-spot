@@ -48,7 +48,8 @@ is disclosed in the export receipt. Neither path silently substitutes OSM.
 bookmarks. Its WebGL historical preview requires tile-host CORS permission;
 the research map uses ordinary image overlays instead. Fletcher uses the same
 `VITE_FLETCHER_TILE_BASE_URL`, revision, accepted sheet bounds, and imagery terms
-on both surfaces. With no tile host configured the historical control is disabled.
+on both surfaces. Builds default to `https://tiles.kinnokilabs.com`; an explicit
+empty override disables the historical control.
 Property boundaries retain the Province licence gate and attribution.
 
 Both HTML entry points are included in `npm run build`. The MapLibre 6 worker
@@ -349,9 +350,10 @@ The layers a reader is most likely to ask about:
   the immutable `fletcher-direct-rumsey-20260831.1` revision (twelve sheets
   cropped to their engraved neat line in this package; the other twelve were
   already cropped) and supports opacity, share links, print/evidence
-  attribution, and retryable error state. It fails closed with “Tile hosting
-  not configured” unless `VITE_FLETCHER_TILE_BASE_URL` names an authorized
-  HTTPS object host. No OldMapsOnline endpoint is used.
+  attribution, and retryable error state. It defaults to
+  `https://tiles.kinnokilabs.com`; `VITE_FLETCHER_TILE_BASE_URL` can override
+  that HTTPS object host or explicitly disable hosting with an empty value.
+  No OldMapsOnline endpoint is used.
 - The four A.F. Church Cape Breton county sheets (Inverness, Victoria,
   Richmond, Cape Breton; 1884–85, David Rumsey Map Collection) are catalogued
   as disabled rows: no tiles have been produced for them yet. See
@@ -1161,8 +1163,8 @@ from its own file picker (not the shared drop zone): files are classified
 in-view, out-of-view, or no-location, and confirmed photos become a
 photos-source layer of points.
 The Fletcher web integration and immutable, bounded per-sheet package are
-implemented, but the layer remains disabled in builds without
-`VITE_FLETCHER_TILE_BASE_URL`. The 24 direct-Rumsey source trees are kept
+implemented and default to `https://tiles.kinnokilabs.com`. An explicit empty
+`VITE_FLETCHER_TILE_BASE_URL` disables the layer. The 24 direct-Rumsey source trees are kept
 separate so overlapping XYZ keys are never resolved by last-write-wins copying.
 The public revision includes a source receipt; private object and duplicate-key
 receipts stay with the deployable package. Hosting, upload verification, and
