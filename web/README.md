@@ -32,8 +32,12 @@ the saved receipt and screenshots, not the current application's behavior.
 
 ## Atlas basemap
 
-The research map uses original NS Marks Atlas cartography over OpenFreeMap's
-OSM vector tiles. **Background Maps → Basemap style** offers Day, Night,
+The research map uses original NS Marks Atlas cartography over a pinned
+provincial vector-tile archive: NSRN roads (including tracks, rail and ferries),
+GeoNAMES labels, NSTDB hydrography and woodland, and municipal boundaries.
+OpenFreeMap's OSM tiles supplement ocean context, grass, farmland, settlement
+areas and building footprints. Atlas covers Nova Scotia; choose OpenStreetMap
+for worldwide detail. **Background Maps → Basemap style** offers Day, Night,
 System appearance (the default), and standard OpenStreetMap. Explicit choices
 stay in this browser; shared links carry the resolved style. Leaflet still owns
 navigation, parcel selection, historical imagery, and every research overlay.
@@ -53,6 +57,50 @@ Property boundaries retain the Province licence gate and attribution.
 
 Both HTML entry points are included in `npm run build`. The MapLibre 6 worker
 is bundled with Vite's `?worker&url` import for hosting beneath a subpath.
+
+### Provincial archive and refresh
+
+`public/atlas/provincial/source.json` records the archive hash, source releases,
+record counts, licences and rejected records. The code licence does not apply
+to these provincial datasets. `npm run check:provincial-atlas` verifies the
+archive against its receipt and runs before a production build.
+
+To refresh, use Python with current GDAL bindings with PMTiles support
+(verified with GDAL 3.13.3):
+
+```sh
+python3 tools/build_provincial_atlas.py --work-dir /tmp/ns-provincial-atlas
+```
+
+Run that command from the repository root. It caches source releases outside
+the repository, rejects incomplete or changing downloads, preserves original
+names and identifiers, and installs a content-addressed archive only after
+checking the Long Point road in the generated tiles. Null source geometries
+are quarantined with identifiers and reasons in the receipt. Woodland uses
+topology-preserving two-metre simplification before tiling; all vector geometry
+is quantized for display (8192 units per tile, maximum native GL zoom 13).
+Closer zoom magnifies this data; it does not add surveying precision.
+
+The public archive must be served with HTTP byte-range support. It is shared by
+the map, study and PDF renderer. A missing archive is a source error; the app
+does not silently restore outdated OSM road names. Dated downloads are not a
+promise that every feature was surveyed on that date. Refreshes and KinNoKi
+publication remain separate, explicit operations. See
+[`docs/PROVINCIAL_ATLAS.md`](../docs/PROVINCIAL_ATLAS.md).
+
+Production builds use `https://tiles.kinnokilabs.com/provincial-atlas/` on
+Cloudflare R2, configured in `.env.production`. Override
+`VITE_PROVINCIAL_ATLAS_BASE_URL` to use another public archive directory.
+The app still requests the receipt's immutable filename;
+it does not switch to an unpinned “latest” archive. The host must allow CORS
+and HTTP byte ranges. Prebuild verifies the local archive when present, or
+downloads the pinned R2 object for full checksum verification on fresh checkouts.
+Vite removes the duplicate archive from `dist` when using an
+external host. The generated archive is larger than typical static
+hosting per-file limits and GitHub's regular Git file limit; distribute it as
+a data artifact, not a source-code blob. Website publication remains separate
+from publishing the data archive. The prebuild gate verifies the full SHA-256
+and source inventory and fails if the hosted object is unavailable or corrupt.
 
 ## Map setup, categories, and themes
 

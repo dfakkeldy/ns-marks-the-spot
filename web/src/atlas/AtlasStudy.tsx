@@ -72,11 +72,11 @@ export function AtlasStudy() {
         {[['Water', p.water], ['Woodland', p.wood], ['Land', p.land], ['Main roads', p.highway]].map(([label, color]) => <span key={label}><i style={{ background: color }} />{label}</span>)}
       </section>}
       <footer className="atlas-sidebar-footer">
-        <p>Visual prototype · geography from OSM. A mapped road or path does not establish access permission.</p>
+        <p>Provincial-first Atlas. A mapped road or path does not establish access permission.</p>
         <a href={researchUrl} target="_blank" rel="noreferrer">Open this area in the research map ↗</a>
         <details><summary>Sources & scope</summary>
-          <p>Original NS Marks styles. OSM vector data via <a href="https://openfreemap.org/">OpenFreeMap</a> and <a href="https://openmaptiles.org/">OpenMapTiles</a>. Coverage and detail depend on OSM. No elevation shading is included in this study.</p>
-          <p>Preview only. The research map and its print/export flow use their existing basemap.</p>
+          <p>Provincial roads, names, hydrography, woodland and municipal boundaries, with supplemental OSM ocean, land use and building footprints via <a href="https://openfreemap.org/">OpenFreeMap</a> and <a href="https://openmaptiles.org/">OpenMapTiles</a>. Atlas covers Nova Scotia; select OpenStreetMap for worldwide detail.</p>
+          <p>The research map and PDF export use the same provincial archive and Atlas style.</p>
           {parcels && provinceAccepted && <p>{PROVINCE_ATTRIBUTION} <a href={PROVINCE_LICENSE_URL}>Licence</a>.</p>}
           {historical && <p>{RUMSEY_ATTRIBUTION}. <a href={RUMSEY_LICENCE_URL}>CC BY-NC-SA 3.0</a> · <a href={RUMSEY_COLLECTION_TERMS_URL}>Collection terms</a> · <a href={fletcherSourceReceiptUrl(historicalHost)!}>Source receipt</a>.</p>}
         </details>

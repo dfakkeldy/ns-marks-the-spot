@@ -6,7 +6,8 @@
   "scripts": {
     "predev": "npm run prepare:pdf-assets",
     "dev": "vite",
-    "prebuild": "npm run prepare:pdf-assets",
+    "prebuild": "npm run prepare:pdf-assets && npm run check:provincial-atlas",
+    "check:provincial-atlas": "node scripts/checkProvincialAtlas.mjs",
     "build": "tsc -b && vite build",
     "check:pdf-assets": "node scripts/checkPdfAssets.mjs",
     "check:shared-data": "node scripts/exportSharedData.mjs --verify",
@@ -25,7 +26,7 @@
     "refresh:tax-sales": "npm run refresh:inverness-tax-sale && npm run refresh:middleton-tax-sale && npm run refresh:victoria-tax-sale && npm run refresh:halifax-tax-sale && npm run refresh:cbrm-tax-sale-results && npm run refresh:pictou-tax-sale-results && npm run watch:tax-sales",
     "watch:tax-sales": "node scripts/watchTaxSaleSources.mjs",
     "test": "npm run test:scripts && vitest run",
-    "test:scripts": "node --test scripts/checkPdfAssets.test.mjs scripts/exportSharedData.test.mjs scripts/probeGeoPdfFrames.test.mjs",
+    "test:scripts": "node --test scripts/checkPdfAssets.test.mjs scripts/checkProvincialAtlas.test.mjs scripts/exportSharedData.test.mjs scripts/probeGeoPdfFrames.test.mjs",
     "test:watch": "vitest",
     "lint": "eslint .",
     "test:browser": "playwright test"
@@ -40,6 +41,7 @@
     "maplibre-gl": "6.7.0",
     "pdf-lib": "1.17.1",
     "pdfjs-dist": "6.1.200",
+    "pmtiles": "4.5.0",
     "proj4": "^2.20.9",
     "qrcode": "1.5.4",
     "react": "19.2.7",

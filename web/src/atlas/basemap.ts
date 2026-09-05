@@ -1,3 +1,5 @@
+import { provincialReceipt, provincialReceiptUrl, provincialSourceDates, provincialExportProvenance, PROVINCIAL_ATTRIBUTION, PROVINCIAL_LICENCE_URL } from './provincial';
+
 export type BasemapStyle = 'day' | 'night' | 'osm';
 export type BasemapPreference = BasemapStyle | 'system';
 
@@ -20,9 +22,9 @@ export function basemapSource(style: BasemapStyle) {
   } : {
     id: 'modern' as const,
     name: `NS Marks Atlas · ${style === 'night' ? 'Night' : 'Day'}`,
-    sourceUrl: 'https://openfreemap.org/',
-    sourceDate: 'Live OSM vector tiles · original NS Marks cartography',
-    attribution: 'NS Marks Atlas · OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors',
+    sourceUrl: provincialReceiptUrl(),
+    sourceDate: `Provincial snapshot built ${provincialReceipt.generatedAt.slice(0, 10)}. ${provincialSourceDates}. Supplemental OSM context is live.`,
+    attribution: `NS Marks Atlas · ${PROVINCIAL_ATTRIBUTION} (${PROVINCIAL_LICENCE_URL}) · Supplemental geography: OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors. ${provincialExportProvenance()}`,
     licenceUrl: 'https://www.openstreetmap.org/copyright',
   };
 }

@@ -1848,8 +1848,9 @@ describe("NS Marks The Spot Online", () => {
     // OSM, the Rumsey collection, and OGL-NS layers all get reviewable rows.
     expect(within(dialog).getByText("NS Marks Atlas · Day")).toBeInTheDocument();
     expect(
-      within(dialog).getByText("NS Marks Atlas · OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors"),
+      within(dialog).getByText(/NS Marks Atlas · Contains information licensed under the Open Government Licence/),
     ).toBeInTheDocument();
+    expect(within(dialog).getByText("Provincial-first Atlas sources")).toBeInTheDocument();
     expect(within(dialog).getAllByRole("link", { name: "Official source" })
       .length).toBeGreaterThan(10);
     expect(

@@ -223,6 +223,7 @@ const ExportDialog = lazy(() =>
 import { exportAttributionLines } from "./print/pdf/attributionLines";
 import { buildExportLayers } from "./print/pdf/exportLayerSpecs";
 import { basemapSource, type BasemapPreference, type BasemapStyle } from "./atlas/basemap";
+import { provincialReceipt, provincialReceiptUrl, PROVINCIAL_ATTRIBUTION, PROVINCIAL_LICENCE_URL } from "./atlas/provincial";
 import { useBasemapPreference } from "./atlas/useBasemapPreference";
 import { DEFAULT_FRAME_STATE, type FrameState } from "./print/pdf/frameGeometry";
 import type { PdfTemplateId } from "./print/pdf/templates/types";
@@ -919,6 +920,14 @@ function AboutDialog({ onClose }: { onClose: () => void }) {
           geometry, and read the mapped evidence for any property. It is the
           online companion to a native iPhone app in development.
         </p>
+        <h3>Nova Scotia’s public data, made useful</h3>
+        <p>
+          Atlas puts provincial roads, official place names, water features,
+          woodland and municipal boundaries together in one readable map.
+          It gives the public data we fund a practical home. OpenStreetMap
+          supplies supplemental ocean context, land use and building footprints.
+          Source dates and licences are available under Data &amp; licences.
+        </p>
         <h3>How it treats data</h3>
         <ul className="about-method">
           <li>
@@ -1016,6 +1025,25 @@ function DataSourcesDialog({
           the same receipts a printed export carries. Reviewing them changes
           nothing about what the map shows.
         </p>
+        <details>
+          <summary>Provincial-first Atlas sources</summary>
+          <p>{provincialReceipt.supplemental}</p>
+          <p>Coverage: Nova Scotia. Use the OpenStreetMap basemap for worldwide detail.
+            Release dates describe these downloads, not when every feature was surveyed.
+            Provincial buildings remain an optional overlay; smaller buildings in that source are points.
+            Woodland is generalized with a two-metre tolerance. Records with missing
+            source geometry are omitted and identified in the tile receipt.</p>
+          <ul>
+            {provincialReceipt.sources.map(source => (
+              <li key={source.id}>
+                <a href={source.url} target="_blank" rel="noreferrer">{source.name}</a>
+                {` — ${source.released.slice(0, 10)}; ${source.frequency === 'Annually' ? 'annual' : source.frequency?.toLowerCase()} releases`}
+              </li>
+            ))}
+          </ul>
+          <p>{PROVINCIAL_ATTRIBUTION}. <a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Open-data licence</a>
+            {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Generated tile receipt</a></p>
+        </details>
         <ul className="data-sources-list">
           {sources.map((source) => (
             <li key={source.id}>
@@ -4532,8 +4560,8 @@ export function App() {
                         <small>{basemapStyle === "osm" ? "OpenStreetMap" : `NS Marks Atlas · ${basemapStyle === "night" ? "Night" : "Day"}`}</small>
                         <LayerMetadata
                           sourceDate={basemapSource(basemapStyle).sourceDate}
-                          scale={basemapStyle === "osm" ? "Web map · native detail to zoom 19" : "Vector map · detail varies with OSM coverage"}
-                          coverage="Worldwide"
+                          scale={basemapStyle === "osm" ? "Web map · native detail to zoom 19" : "Provincial-first · NSTDB 1:10,000 detail; closer zoom magnifies the data. Roads and paths do not establish access permission."}
+                          coverage={basemapStyle === "osm" ? "Worldwide" : "Nova Scotia · supplemental OSM context"}
                           minZoom={7}
                           maxZoom={23}
                           checked={showModernMap}
@@ -5545,7 +5573,10 @@ export function App() {
           © OpenStreetMap contributors
         </a>
         {showModernMap && basemapStyle !== "osm" ? (
-          <span>NS Marks Atlas · <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer">© OpenMapTiles</a></span>
+          <span>NS Marks Atlas · Provincial-first · {PROVINCIAL_ATTRIBUTION}
+            {" · "}<a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Licence</a>
+            {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Tile sources</a>
+            {" · "}Supplemental <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer">© OpenMapTiles</a></span>
         ) : null}
         <a
           href="https://github.com/dfakkeldy/ns-marks-the-spot"

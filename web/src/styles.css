@@ -3471,6 +3471,11 @@ a {
   cursor: pointer;
 }
 
+.about-dialog {
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+}
+
 .about-dialog h3 {
   margin: 18px 0 6px;
   font-family: "Fraunces", Georgia, serif;

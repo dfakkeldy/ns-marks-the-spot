@@ -104,8 +104,13 @@ The `web/` React + Vite app is a separate online-only delivery surface. It does
 not change the native app's offline contract or its `MapSurface` boundary.
 Leaflet owns navigation, GeoJSON parcel highlights, and the web catalog's
 image overlays. `atlas/AtlasBasemapLayer.tsx` draws the original day/night
-OpenFreeMap vector style beneath those overlays with a noninteractive MapLibre
+provincial-first vector style beneath those overlays with a noninteractive MapLibre
 canvas synchronized to Leaflet's camera. OSM raster tiles remain selectable.
+The same content-addressed PMTiles archive supplies provincial NSRN roads,
+GeoNAMES labels, NSTDB water/woodland and municipal boundaries to the live map,
+study and PDF renderer. OSM supplies supplemental ocean, land-use and building
+context. `web/public/atlas/provincial/source.json` records release provenance and
+explicitly rejected records; the prebuild gate verifies the archive hash.
 Appearance follows the system by default; shared URLs and print captures carry
 the resolved style, while local storage keeps the user's appearance preference.
 
