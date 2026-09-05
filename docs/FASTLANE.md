@@ -2,10 +2,10 @@
 
 Status as of September 5, 2026.
 
-Live Activity signing was provisioned after
-[#330](https://github.com/dfakkeldy/ns-marks-the-spot/pull/330). Match now
-covers both the app and the Live Activity extension. TestFlight archive and
-upload after that merge is not recorded here.
+After [#330](https://github.com/dfakkeldy/ns-marks-the-spot/pull/330), Match
+covers both the app and the Live Activity extension. The Live Activity App
+Store profile was provisioned during that work, before the merge. TestFlight
+archive and upload after the merge is not recorded here.
 
 ## Local Setup
 
@@ -67,13 +67,14 @@ GitHub Actions release uploads require:
 - `MATCH_PASSWORD`
 - `MATCH_GIT_SSH_KEY`
 
-`signing_check` uses `APP_STORE_CONNECT_API_KEY_JSON` and probes the signing
-repository with `MATCH_GIT_SSH_KEY` (clone plus push dry-run; no write).
+The Release Trains `signing_check` job runs the inspect-only Fastlane lane with
+`APP_STORE_CONNECT_API_KEY_JSON` and separately probes the signing repository
+with `MATCH_GIT_SSH_KEY` (clone plus push dry-run; no write).
 
-`provision_live_activity` is an opt-in exception. It uses
-`MATCH_PROVISIONING_SSH_KEY` as a temporary write credential in addition to
-`APP_STORE_CONNECT_API_KEY_JSON` and `MATCH_PASSWORD`. That key is not used by
-normal trains.
+The Release Trains `provision_live_activity` job is an opt-in exception. It
+sets SSH from `MATCH_PROVISIONING_SSH_KEY` as a temporary write credential,
+then runs the Fastlane lane with `APP_STORE_CONNECT_API_KEY_JSON` and
+`MATCH_PASSWORD`. That SSH key is not used by normal trains.
 
 Local upload can use ignored `fastlane/api_key.json`. Do not commit local keys,
 review-contact secrets, generated reports, or credentials.
@@ -87,10 +88,10 @@ Store profiles for both bundle IDs:
 - `com.danfakkeldy.nsmarksthespot.LiveActivity` (extension target
   `NSMarksLiveActivity`)
 
-`apply_app_store_signing` maps target `ns-marks-the-spot` to the app bundle ID
-and target `NSMarksLiveActivity` to the Live Activity bundle ID, then assigns
-each its own App Store profile from Match. A missing Live Activity profile
-fails the signing step instead of archiving with the app profile only.
+In CI, `apply_app_store_signing` maps target `ns-marks-the-spot` to the app
+bundle ID and target `NSMarksLiveActivity` to the Live Activity bundle ID, then
+assigns each its own App Store profile from Match. A missing Live Activity
+profile fails the signing step instead of archiving with the app profile only.
 
 Normal `beta` and `release` lanes call Match with `readonly: true`. They do not
 register bundle IDs or create profiles.
@@ -114,8 +115,9 @@ release substitutes.
 
 ## Recent Proof
 
-An inspected release-train run uploaded, processed, and distributed TestFlight
-build `1.0 (4)` to internal testers. The relevant success lines were:
+An inspected pre-Live Activity release-train run uploaded, processed, and
+distributed TestFlight build `1.0 (4)` to internal testers. That is not proof
+of a dual-bundle archive after #330. The relevant success lines were:
 
 - "Successfully uploaded package to App Store Connect."
 - "Successfully finished processing the build 1.0 - 4 for IOS."
