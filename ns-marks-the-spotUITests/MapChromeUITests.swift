@@ -33,10 +33,13 @@ final class MapChromeUITests: XCTestCase {
 
         let prompt = "Tap the map to measure distance"
         XCTAssertEqual(readout.label, prompt, "the readout reports something before any point exists")
+        let endpoint = app.descendants(matching: .any)["measure-endpoint-label"]
+        XCTAssertFalse(endpoint.exists)
 
         // Left of the control rail and above the card, so both taps land on the
         // map rather than on the chrome over it.
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+        XCTAssertFalse(endpoint.exists, "one corner is not a measured distance")
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
 
         let measured = expectation(
@@ -77,6 +80,19 @@ final class MapChromeUITests: XCTestCase {
         )
 
         XCTAssertTrue(app.staticTexts["Total distance"].isHittable)
+        XCTAssertTrue(endpoint.waitForExistence(timeout: 5))
+        XCTAssertTrue(endpoint.label.contains("Total distance"))
+        XCTAssertTrue(endpoint.label.hasSuffix(readout.label), "the endpoint and card disagree")
+        let lastPoint = app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).screenPoint
+        XCTAssertTrue(endpoint.frame.contains(lastPoint), "the label is not attached to the last corner")
+        // The badge covers map pixels, but a tap there still places a point.
+        let beforeBadgeTap = readout.label
+        endpoint.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.25)).tap()
+        let extendedThroughBadge = expectation(
+            for: NSPredicate(format: "label != %@", beforeBadgeTap), evaluatedWith: readout
+        )
+        wait(for: [extendedThroughBadge], timeout: 5)
+        XCTAssertTrue(endpoint.label.hasSuffix(readout.label))
         // Keep at least two points after Undo: the old behavior left that
         // shape finished and silently discarded it on the next map tap.
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).tap()
@@ -98,6 +114,7 @@ final class MapChromeUITests: XCTestCase {
             readout.waitForNonExistence(timeout: 10),
             "the measuring card stayed up after Done"
         )
+        XCTAssertTrue(endpoint.waitForNonExistence(timeout: 5), "the endpoint label stayed up after Done")
     }
 
     /// The sheet is long, and the sources are at the bottom of it. What is

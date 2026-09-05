@@ -136,6 +136,9 @@ nonisolated struct VectorDraftPreview: Equatable, Sendable {
     var vertices: [GeoJsonPosition]
     var colorHex: String
 
+    /// Only measurements carry a readout. Ordinary drawing vertices remain dots.
+    var endpointLabel: String? = nil
+
     /// The line through the vertices so far, closed for an area once it is a
     /// shape rather than a corner.
     func overlay() -> VectorDraftPolyline? {
@@ -156,8 +159,24 @@ nonisolated struct VectorDraftPreview: Equatable, Sendable {
     /// have put down — including the single tap of a point, which has no line.
     func handles() -> [VectorDraftVertexAnnotation] {
         vertices.enumerated().map { index, position in
-            VectorDraftVertexAnnotation(index: index, position: position, colorHex: colorHex)
+            VectorDraftVertexAnnotation(
+                index: index, position: position, colorHex: colorHex,
+                endpointLabel: index == vertices.count - 1 ? endpointLabel : nil
+            )
         }
+    }
+}
+
+extension VectorDraftPreview {
+    init(measuring session: MeasureSession) {
+        self.init(
+            shape: session.mode == .distance ? .line : .area,
+            vertices: session.points.map { GeoJsonPosition(lng: $0.lng, lat: $0.lat) },
+            colorHex: "#d97706",
+            endpointLabel: session.canFinish
+                ? "\(session.mode == .distance ? "Total distance" : "Area")\n\(session.readout)"
+                : nil
+        )
     }
 }
 
@@ -232,11 +251,13 @@ nonisolated final class VectorDraftVertexAnnotation: MKPointAnnotation,
     /// identical dots apart the way it already tells the selection's handles
     /// apart.
     let ordinal: Int
+    let endpointLabel: String?
 
-    init(index: Int, position: GeoJsonPosition, colorHex: String) {
+    init(index: Int, position: GeoJsonPosition, colorHex: String, endpointLabel: String? = nil) {
         mapAnnotationID = "draft-vertex-\(index)"
         self.colorHex = colorHex
         ordinal = index + 1
+        self.endpointLabel = endpointLabel
         super.init()
         coordinate = CLLocationCoordinate2D(latitude: position.lat, longitude: position.lng)
     }

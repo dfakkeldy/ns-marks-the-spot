@@ -3127,13 +3127,7 @@ struct MapContainerView: View {
             controller.setVectorDraft(nil)
             return
         }
-        controller.setVectorDraft(
-            VectorDraftPreview(
-                shape: measure.mode == .distance ? .line : .area,
-                vertices: measure.points.map { GeoJsonPosition(lng: $0.lng, lat: $0.lat) },
-                colorHex: "#d97706"
-            )
-        )
+        controller.setVectorDraft(VectorDraftPreview(measuring: measure))
     }
 
     /// An Edit tap. Every intent advances the generation, so a layer that
