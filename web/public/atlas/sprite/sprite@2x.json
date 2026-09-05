@@ -1,0 +1,65 @@
+{
+  "paper-grain": {
+    "x": 0,
+    "y": 0,
+    "width": 512,
+    "height": 512,
+    "pixelRatio": 2
+  },
+  "paper-grain-night": {
+    "x": 0,
+    "y": 512,
+    "width": 512,
+    "height": 512,
+    "pixelRatio": 2
+  },
+  "shore-stipple": {
+    "x": 0,
+    "y": 1024,
+    "width": 64,
+    "height": 20,
+    "pixelRatio": 2
+  },
+  "ink-line": {
+    "x": 0,
+    "y": 1044,
+    "width": 192,
+    "height": 16,
+    "pixelRatio": 2
+  },
+  "ink-line-night": {
+    "x": 0,
+    "y": 1060,
+    "width": 192,
+    "height": 16,
+    "pixelRatio": 2
+  },
+  "ink-line-water": {
+    "x": 0,
+    "y": 1076,
+    "width": 192,
+    "height": 16,
+    "pixelRatio": 2
+  },
+  "ink-line-water-night": {
+    "x": 0,
+    "y": 1092,
+    "width": 192,
+    "height": 16,
+    "pixelRatio": 2
+  },
+  "ink-line-road": {
+    "x": 0,
+    "y": 1108,
+    "width": 192,
+    "height": 16,
+    "pixelRatio": 2
+  },
+  "ink-line-road-night": {
+    "x": 0,
+    "y": 1124,
+    "width": 192,
+    "height": 16,
+    "pixelRatio": 2
+  }
+}

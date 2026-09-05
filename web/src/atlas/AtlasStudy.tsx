@@ -3,6 +3,7 @@ import { AtlasMap, type Camera, type View } from './AtlasMap';
 import { atlasPlaces } from './places';
 import { atlasPalettes } from './palette';
 import { buildReviewStyle, type ReviewMode } from './overlays';
+import { historicalSiteStates, historicalSiteSvg, historicalSiteSymbols } from './historicalSymbols';
 import { fletcherSheets, fletcherSourceReceiptUrl, normalizeFletcherTileBaseUrl } from '../layers/fletcherLayer';
 import { PROVINCE_ATTRIBUTION, PROVINCE_LICENSE_URL } from '../licensing/provinceLicense';
 import { RUMSEY_ATTRIBUTION, RUMSEY_COLLECTION_TERMS_URL, RUMSEY_LICENCE_URL } from '../licensing/rumseyLicense';
@@ -30,11 +31,11 @@ export function AtlasStudy() {
     <aside className="atlas-sidebar" aria-label="Basemap review controls">
       <header className="atlas-brand">
         <img src="./app-icon-180.png" alt="" width="44" height="44" />
-        <div><strong>NS Marks The Spot</strong><span>Cartography study · 01</span></div>
+        <div><strong>NS Marks The Spot</strong><span>Cartography study · 02</span></div>
       </header>
       <section className="atlas-intro">
         <h1>A Nova Scotia atlas.</h1>
-        <p>A quieter map for the places, layers, and details you came to see.</p>
+        <p>Modern geography in the paper, olive, ochre and ink of Fletcher's 1884 Cape Breton sheets.</p>
       </section>
       <section className="atlas-section" aria-labelledby="appearance-title">
         <h2 id="appearance-title">Appearance</h2>
@@ -69,7 +70,18 @@ export function AtlasStudy() {
         </>}
       </section>
       {mode !== 'osm' && <section className="atlas-section atlas-key" aria-label="Map colour key">
-        {[['Water', p.water], ['Woodland', p.wood], ['Land', p.land], ['Main roads', p.highway]].map(([label, color]) => <span key={label}><i style={{ background: color }} />{label}</span>)}
+        {[['Water', p.water], ['Woodland', p.wood], ['Land', p.land], ['Farmland', p.farmland], ['Settlement', p.residential], ['Main roads', p.highway]].map(([label, color]) => <span key={label}><i style={{ background: color }} />{label}</span>)}
+      </section>}
+      {mode !== 'osm' && <section className="atlas-section" aria-labelledby="specimen-title">
+        <h2 id="specimen-title">Historical sites · specimen</h2>
+        <div className="atlas-specimen" role="table" aria-label="Historical site symbol specimens">
+          {historicalSiteStates.map(state => <div key={state.confidence} role="row" className="atlas-specimen-row">
+            {historicalSiteSymbols.map(symbol => <span key={symbol.kind} role="cell" className="atlas-specimen-cell" title={`${symbol.label} · ${state.label}`}
+              dangerouslySetInnerHTML={{ __html: historicalSiteSvg(symbol.kind, state.confidence, mode === 'night' ? 'night' : 'day') }} />)}
+            <span role="cell" className="atlas-specimen-label">{state.label}</span>
+          </div>)}
+        </div>
+        <p className="atlas-note">{historicalSiteSymbols.map(symbol => symbol.label).join(', ')}. Unlocated design specimens for a later extraction from the sheets; nothing here is placed on the map.</p>
       </section>}
       <footer className="atlas-sidebar-footer">
         <p>Provincial-first Atlas. A mapped road or path does not establish access permission.</p>

@@ -9,6 +9,8 @@
     "prebuild": "npm run prepare:pdf-assets && npm run check:provincial-atlas",
     "check:provincial-atlas": "node scripts/checkProvincialAtlas.mjs",
     "build": "tsc -b && vite build",
+    "build:atlas-glyphs": "node scripts/buildAtlasGlyphs.mjs",
+    "build:atlas-sprite": "node scripts/buildAtlasSprite.mjs",
     "check:pdf-assets": "node scripts/checkPdfAssets.mjs",
     "check:shared-data": "node scripts/exportSharedData.mjs --verify",
     "export:shared-data": "node scripts/exportSharedData.mjs",
