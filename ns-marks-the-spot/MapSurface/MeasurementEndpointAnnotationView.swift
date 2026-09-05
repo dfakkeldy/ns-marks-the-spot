@@ -65,7 +65,7 @@ final class MeasurementEndpointAnnotationView: MKAnnotationView {
         }
         badge.isHidden = false
         readout.font = UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
-        let textSize = readout.sizeThatFits(CGSize(width: 220, height: .greatestFiniteMagnitude))
+        let textSize = readout.sizeThatFits(CGSize(width: 220, height: CGFloat.greatestFiniteMagnitude))
         let width = max(dot.width, ceil(textSize.width) + 16)
         let badgeHeight = ceil(textSize.height) + 10
         let height = badgeHeight + 10 + dot.height
