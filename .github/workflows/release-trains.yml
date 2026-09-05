@@ -17,6 +17,11 @@ on:
         options:
           - nightly
           - weekly
+      signing_check:
+        description: Inspect signing records only; do not build or upload
+        required: false
+        type: boolean
+        default: false
       dry_run:
         description: Compile and test without uploading to TestFlight
         required: false
@@ -34,6 +39,7 @@ env:
 
 jobs:
   resolve:
+    if: inputs.signing_check != true
     name: Resolve train
     runs-on: ubuntu-latest
     outputs:
@@ -242,3 +248,28 @@ jobs:
           fi
 
           bundle exec fastlane beta channel:"$CHANNEL"
+
+  signing-check:
+    name: Inspect signing records
+    if: github.event_name == 'workflow_dispatch' && inputs.signing_check == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - name: Read Apple signing records
+        env:
+          APP_STORE_CONNECT_API_KEY_JSON: ${{ secrets.APP_STORE_CONNECT_API_KEY_JSON }}
+        run: bundle exec fastlane signing_check
+      - name: Check signing repository SSH access
+        env:
+          MATCH_GIT_SSH_KEY: ${{ secrets.MATCH_GIT_SSH_KEY }}
+        run: |
+          key_path="$RUNNER_TEMP/match_key"
+          trap 'rm -f "$key_path"' EXIT
+          printf '%s\n' "$MATCH_GIT_SSH_KEY" > "$key_path"
+          chmod 600 "$key_path"
+          export GIT_SSH_COMMAND="ssh -i $key_path -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+          git ls-remote git@github.com:dfakkeldy/echo-audiobooks-certificates.git HEAD

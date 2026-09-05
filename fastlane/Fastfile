@@ -296,6 +296,24 @@ platform :ios do
     UI.success("Local metadata checks passed.")
   end
 
+  desc "Inspect release bundle IDs and App Store profiles without changing signing assets"
+  lane :signing_check do
+    app_store_connect_api_key_for_release
+    identifiers = [APP_IDENTIFIER, "#{APP_IDENTIFIER}.LiveActivity"]
+    profiles = Spaceship::ConnectAPI::Profile.all(
+      filter: { profileType: "IOS_APP_STORE" }, includes: "bundleId"
+    )
+    identifiers.each do |identifier|
+      bundle = Spaceship::ConnectAPI::BundleId.find(identifier)
+      UI.message("Bundle #{identifier}: #{bundle ? 'registered' : 'missing'}")
+      matches = profiles.select { |profile| profile.bundle_id&.identifier == identifier }
+      UI.message("App Store profile count for #{identifier}: #{matches.length}")
+      matches.each do |profile|
+        UI.message("Profile #{profile.name}: #{profile.profile_state}, expires #{profile.expiration_date}")
+      end
+    end
+  end
+
   # ── Release lanes ─────────────────────────────────────────────────────────
 
   desc "Upload a nightly or weekly train build to TestFlight"
