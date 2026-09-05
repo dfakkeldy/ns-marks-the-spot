@@ -8,7 +8,7 @@ vi.mock('maplibre-gl', () => ({ Map: class {
   getCanvas() { return this.canvas; }
   fitBounds() { mocked.fit(); queueMicrotask(() => this.listeners.error?.({ error: { message: 'Tile source failed' } })); }
   remove() { mocked.remove(); }
-}, setWorkerUrl: vi.fn() }));
+}, setWorkerUrl: vi.fn(), addProtocol: vi.fn() }));
 vi.mock('maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url', () => ({ default: 'worker.js' }));
 import { atlasCropRect, atlasRenderSize, renderAtlasImage } from './renderAtlasImage';
 

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { Map, NavigationControl, ScaleControl, AttributionControl, type StyleSpecification } from 'maplibre-gl';
+import { NavigationControl, ScaleControl, AttributionControl, type StyleSpecification } from 'maplibre-gl';
+import { Map } from './mapLibreRuntime';
 import { NOVA_SCOTIA_BOUNDS } from '../services/mapShareState';
 
 export type Camera = { longitude: number; latitude: number; zoom: number };

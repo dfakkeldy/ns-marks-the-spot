@@ -106,6 +106,12 @@ test("phone categories keep touch controls and attribution reachable", async ({ 
   await back.click();
   await page.getByRole("button", { name: "Data & licences", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
+  await page.getByText("Provincial-first Atlas sources", { exact: true }).click();
+  const closeSources = page.getByRole("dialog").getByRole("button", { name: "Close", exact: true });
+  await closeSources.scrollIntoViewIfNeeded();
+  await expect(closeSources).toBeInViewport();
+  await closeSources.click();
+  await expect(page.getByRole("dialog")).toBeHidden();
 });
 
 for (const width of [390, 1024]) {

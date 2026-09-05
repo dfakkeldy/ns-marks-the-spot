@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "archive": "ns-94fe4f0b0bbbf54e.pmtiles",
+  "sha256": "94fe4f0b0bbbf54e0936d5139c45feff13383dc4cb89586e63466a95220f14f2",
+  "bytes": 270489158,
+  "generatedAt": "2026-09-05T15:37:58.177850+00:00",
+  "generator": "tools/build_provincial_atlas.py",
+  "gdalVersion": "GDAL 3.13.3 \"Iowa City\", released 2026/08/13",
+  "minzoom": 5,
+  "maxzoom": 13,
+  "extent": 8192,
+  "attribution": "Contains information licensed under the Open Government Licence – Nova Scotia",
+  "licenceUrl": "https://support.novascotia.ca/services/open-data-portal-licence",
+  "coverage": "Nova Scotia",
+  "layerCounts": {
+    "roads_local": 73078,
+    "roads_major": 14874,
+    "roads_access": 251507,
+    "names": 22918,
+    "water": 155676,
+    "waterways": 316545,
+    "woodland": 72382,
+    "boundaries": 49
+  },
+  "sources": [
+    {
+      "id": "484g-adjn",
+      "name": "Nova Scotia Road Network (NSRN)",
+      "url": "https://data.novascotia.ca/d/484g-adjn",
+      "metadataUrl": "https://data.novascotia.ca/api/views/484g-adjn.json",
+      "releaseTimestamp": 1788606995,
+      "released": "2026-09-05T11:16:35+00:00",
+      "frequency": "Monthly",
+      "featureCount": 339459,
+      "sha256": "5a67200cb366abd91a84e24cecfc742f79c8704bb0f2d1278f72b77952c86b26",
+      "licenceUrl": "https://support.novascotia.ca/services/open-data-portal-licence",
+      "fields": [
+        "source_row_id",
+        "roadsegid",
+        "segid",
+        "street",
+        "roadc_desc",
+        "feat_desc",
+        "rte_no",
+        "date_rev"
+      ]
+    },
+    {
+      "id": "xf3i-vxcb",
+      "name": "Nova Scotia GeoNAMES",
+      "url": "https://data.novascotia.ca/d/xf3i-vxcb",
+      "metadataUrl": "https://data.novascotia.ca/api/views/xf3i-vxcb.json",
+      "releaseTimestamp": 1785929910,
+      "released": "2026-08-05T11:38:30+00:00",
+      "frequency": "Quarterly",
+      "featureCount": 22918,
+      "sha256": "7850d10fbe400520a020e902eb1819ddce9b0556753de3cc889335182b14b60b",
+      "licenceUrl": "https://support.novascotia.ca/services/open-data-portal-licence",
+      "fields": [
+        "source_row_id",
+        "cgndb_key",
+        "geoname",
+        "status_ds",
+        "concise_ds"
+      ]
+    },
+    {
+      "id": "h8jb-hzrm",
+      "name": "Nova Scotia Topographic DataBase - Water Features (Poly Layer)",
+      "url": "https://data.novascotia.ca/d/h8jb-hzrm",
+      "metadataUrl": "https://data.novascotia.ca/api/views/h8jb-hzrm.json",
+      "releaseTimestamp": 1777979466,
+      "released": "2026-05-05T11:11:06+00:00",
+      "frequency": "Annually",
+      "featureCount": 155676,
+      "sha256": "2061e3428280aedc653d5af80c603964bce60cae8d58f6241888759099ed2fb6",
+      "licenceUrl": "https://support.novascotia.ca/services/open-data-portal-licence",
+      "fields": [
+        "source_row_id",
+        "feat_code",
+        "feat_desc"
+      ]
+    },
+    {
+      "id": "fpca-jrmt",
+      "name": "Nova Scotia Topographic DataBase - Water Features (Line Layer)",
+      "url": "https://data.novascotia.ca/d/fpca-jrmt",
+      "metadataUrl": "https://data.novascotia.ca/api/views/fpca-jrmt.json",
+      "releaseTimestamp": 1777979641,
+      "released": "2026-05-05T11:14:01+00:00",
+      "frequency": "Annually",
+      "featureCount": 316546,
+      "rejectedRecords": [
+        {
+          "sourceRowId": "row-sxpj~d3w6.hd9k",
+          "reason": "source-null-geometry"
+        }
+      ],
+      "sha256": "d2a0d12538985f5226af59e28ea6be0dbb86d566ab8c9bb1734c62fd2514106d",
+      "licenceUrl": "https://support.novascotia.ca/services/open-data-portal-licence",
+      "fields": [
+        "source_row_id",
+        "feat_code",
+        "feat_desc"
+      ]
+    },
+    {
+      "id": "xed8-vvg5",
+      "name": "Nova Scotia Topographic Database - Land Cover (Poly)",
+      "url": "https://data.novascotia.ca/d/xed8-vvg5",
+      "metadataUrl": "https://data.novascotia.ca/api/views/xed8-vvg5.json",
+      "releaseTimestamp": 1777996266,
+      "released": "2026-05-05T15:51:06+00:00",
+      "frequency": "Annually",
+      "featureCount": 72382,
+      "rejectedRecords": [],
+      "sha256": "180904e9c04cb9c66408fab859efdc3f1ec8bb19422c1fd81f4a6f5abb89300e",
+      "licenceUrl": "https://support.novascotia.ca/services/open-data-portal-licence",
+      "geometryTransform": "Topology-preserving simplification, 2 metre tolerance",
+      "fields": [
+        "source_row_id",
+        "feat_code",
+        "feat_desc"
+      ]
+    },
+    {
+      "id": "7bqh-hssn",
+      "name": "Municipality Boundaries",
+      "url": "https://data.novascotia.ca/d/7bqh-hssn",
+      "metadataUrl": "https://data.novascotia.ca/api/views/7bqh-hssn.json",
+      "releaseTimestamp": 1764936167,
+      "released": "2025-12-05T12:02:47+00:00",
+      "frequency": "Quarterly",
+      "featureCount": 49,
+      "sha256": "185315508100be22d73886ac2ea7c3638f552b0e8ad615b1341f735fe294cdbf",
+      "licenceUrl": "https://support.novascotia.ca/services/open-data-portal-licence",
+      "fields": [
+        "source_row_id",
+        "objectid",
+        "name",
+        "fullname",
+        "featdesc"
+      ]
+    }
+  ],
+  "validation": {
+    "longPointRoad": "Chisholm-MacLean Rd"
+  },
+  "supplemental": "OpenStreetMap via OpenFreeMap: ocean context, grass, farmland, settlement areas and building footprints."
+}
