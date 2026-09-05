@@ -488,7 +488,7 @@ function ArcGISMapLayer({
 
     // Draw contrast beneath the source cartography: its road names and
     // route shields must not be crossed by the added strokes.
-    const tileLayers = [layer.exportUnderlayOptions, layer.exportOptions]
+    const tileLayers = [layer.exportOverlayOptions, layer.exportOptions]
       .filter((options) => options !== undefined)
       .map(
         (options, index) =>

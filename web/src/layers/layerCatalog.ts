@@ -300,8 +300,8 @@ export type WebLayerDescriptor = {
   scale: string;
   coverage: string;
   exportOptions?: ArcGISExportOptions;
-  /** Contrast pass below the source image, preserving its labels and shields. */
-  exportUnderlayOptions?: ArcGISExportOptions;
+  /** Shared catalogue field; the web draws this contrast pass below source labels. */
+  exportOverlayOptions?: ArcGISExportOptions;
 };
 
 type ResourceLayerBase = {
@@ -652,7 +652,7 @@ export const nativeLayerCatalog: readonly WebLayerDescriptor[] = [
     scale: "NSTDB 1:10,000",
     coverage: "Nova Scotia",
     exportOptions: { transparent: true, dpi: 192 },
-    exportUnderlayOptions: {
+    exportOverlayOptions: {
       transparent: true,
       dpi: 192,
       dynamicLayers: ROAD_TRAIL_CONTRAST_DYNAMIC_LAYERS,
