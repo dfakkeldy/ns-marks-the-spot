@@ -157,6 +157,7 @@ let viewportDrift = vi.hoisted(() => 0);
 
 vi.mock("./components/MapCanvas", () => ({
   MapCanvas: ({
+    poker,
     parcels,
     taxSalePids,
     historicalTaxSalePids,
@@ -188,6 +189,7 @@ vi.mock("./components/MapCanvas", () => ({
     exportFrame,
     onExportFrameContinue,
   }: {
+    poker?: import("./components/PokerMapTools").PokerSession | null;
     parcels: { features: unknown[] };
     taxSalePids: Set<string>;
     historicalTaxSalePids: Set<string>;
@@ -292,6 +294,12 @@ vi.mock("./components/MapCanvas", () => ({
 
     return (
     <div data-testid="map-canvas">
+      {poker && <div data-testid="poker-session">
+        <span>{poker.address?.label ?? "No Poker address"}</span>
+        <span>Revision {poker.revision}</span>
+        <button onClick={poker.onNext}>Next address</button>
+        <button onClick={poker.onAerialChange}>Poker aerial</button>
+      </div>}
       Map PID count: {taxSalePids.size}; geometry count: {parcels.features.length};
       modern map: {showModernMap ? "on" : "off"}; tax-sale layer:{" "}
       {showTaxSale ? "on" : "off"}; Fletcher:{" "}
@@ -3855,6 +3863,33 @@ describe("NS Marks The Spot Online", () => {
     await act(async () => rejectOld(new Error("Network failed")));
     expect(screen.getByRole("option", { name: "12 Main St, Mabou" })).toBeInTheDocument();
     expect(screen.queryByText("Civic address search is unavailable right now.")).not.toBeInTheDocument();
+  });
+
+  it("keeps Poker searches focused on one outline and makes the next address ready", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    const result = civicAddress("27700002", "11064 Highway 19, Southwest Mabou");
+    vi.mocked(searchCivicAddresses).mockResolvedValue([result]);
+    vi.mocked(fetchParcelAtPoint).mockResolvedValue({ type: "FeatureCollection", features: [parcelFeature("50251750")] });
+    renderAppWithCategoriesOpen();
+    await user.selectOptions(screen.getByRole("combobox", { name: "Map setup" }), "poker");
+    const assessmentCalls = vi.mocked(fetchParcelAssessments).mock.calls.length;
+    const input = screen.getByLabelText("Search by PID or civic address") as HTMLInputElement;
+    await user.type(input, "11064 Highway 19 Mabou");
+    await user.click(screen.getByRole("button", { name: "Find parcel" }));
+    await user.click(await screen.findByRole("option", { name: result.label }));
+    await waitFor(() => expect(screen.getByTestId("poker-session")).toHaveTextContent(result.label));
+    expect(screen.queryByRole("complementary", { name: "Parcel 50251750 details" })).not.toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("property boundaries: off");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("selected PID: 50251750");
+    expect(fetchParcelAssessments).toHaveBeenCalledTimes(assessmentCalls);
+    await user.click(screen.getByRole("button", { name: "Poker aerial" }));
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("modern map: off");
+    await user.click(screen.getByRole("button", { name: "Next address" }));
+    expect(screen.getByTestId("poker-session")).toHaveTextContent("No Poker address");
+    expect(input).toHaveFocus();
+    expect(input.selectionStart).toBe(0);
+    expect(input.selectionEnd).toBe(result.label.length);
   });
 
   it("searches a civic address and opens its containing parcel", async () => {

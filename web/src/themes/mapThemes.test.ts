@@ -137,3 +137,10 @@ describe("built-in map themes", () => {
     ).toMatchFileSnapshot(MAP_PRESENTATION_FIXTURE_PATH);
   });
 });
+
+it("keeps Poker clear and outside the native presentation contract", () => {
+  expect(builtInMapThemes.find(({ id }) => id === "poker")).toMatchObject({
+    layerIds: ["modern"], taxSaleEnabled: false,
+  });
+  expect(buildMapPresentationFixture().builtInThemes.some(({ id }) => id === "poker")).toBe(false);
+});

@@ -718,3 +718,14 @@ export async function fetchCivicAddresses(
     ),
   };
 }
+
+/** Bounded viewport request. Never imply a capped reply is complete. */
+export async function fetchViewportCivicAddresses(bounds: CivicAddressBounds, signal?: AbortSignal) {
+  const rows = await fetchCivicPointCollection(buildCivicAddressQueryUrl(bounds, 501), signal);
+  const addresses = rows.slice(0, 500).map(civicAddressForFeature);
+  return {
+    addresses: addresses.filter((address): address is CivicAddress => address !== null),
+    truncated: rows.length > 500,
+    unreadableRows: addresses.filter((address) => address === null).length,
+  };
+}

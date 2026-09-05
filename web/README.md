@@ -53,10 +53,20 @@ collapsible categories: **Background Maps**, **Land & Property**,
 **Forestry & Ecology**, **Geology & Resources**, **Historical Maps**,
 **Tax Sale**, and **My Maps**.
 
-The five built-in map setups are **Explore Nova Scotia**,
-**Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**, and
-**Georeferencing**. Applying a setup replaces the catalogue-layer configuration
+The six built-in map setups are **Explore Nova Scotia**,
+**Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**,
+**Georeferencing**, and **Poker**. Applying a setup replaces the catalogue-layer configuration
 coherently; it does not remove or change imported maps or data.
+
+**Poker** is a web-only driveway-measuring workflow. Search a civic address,
+choose a result, then click the house and trace the driveway to your mail route.
+Use **Finish**, **Undo point**, or **Clear**, then **Next address** to clear the
+path and select the search text for replacement. Only the selected parcel is
+outlined by default. Aerial imagery and civic numbers have quick toggles.
+Civic numbers use official mapped points, which may not sit on a house. They
+load at zoom 16 or closer, with a disclosed 500-point viewport limit. Poker
+sessions and measurements are not saved, shared, or copied into custom themes.
+The native theme parity fixture excludes this web-only workflow.
 
 Custom themes are stored only in this browser's `localStorage`. They can save
 visible catalogue-layer IDs, supported opacity overrides, preferred categories,

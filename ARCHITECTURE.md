@@ -438,6 +438,14 @@ Scotia Open Government Licence and have their own attribution, pagination, and
 failure boundary, while road and water intersections come from restricted map
 services.
 
+The web-only Poker theme uses `components/PokerMapTools.tsx` for bounded civic
+number queries at zoom 16 and above, address-point focus, and quick aerial and
+next-address actions. Viewport replies are capped at 500 source
+rows with truncation and unreadable-row notices; movement cancels stale work.
+Only the selected outline is shown by default. Poker skips inspector evidence
+requests and reuses the existing manually clicked distance tool, resetting it
+for each address. A civic point is never promoted to a house location.
+
 The same civic service owns sidebar address discovery. It sends normalized user
 text through Socrata's full-text `$q` index, returns bounded labelled Civic
 Point candidates, and does not infer a PID from address text. The sidebar

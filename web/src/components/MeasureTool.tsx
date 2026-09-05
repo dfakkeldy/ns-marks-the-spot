@@ -44,7 +44,9 @@ const VERTEX_STYLE = {
 export function MeasureTool({
   mode,
   onModeChange,
+  driveway = false,
 }: {
+  driveway?: boolean;
   mode: MeasureMode;
   onModeChange: (mode: MeasureMode) => void;
 }) {
@@ -53,7 +55,7 @@ export function MeasureTool({
 
   return (
     <>
-      <div
+      {!driveway && <div
         className="measure-control"
         role="group"
         aria-label="Measure on the map"
@@ -104,7 +106,7 @@ export function MeasureTool({
             />
           </svg>
         </button>
-      </div>
+      </div>}
       {mode !== "off" ? (
         // key remounts capture state when switching distance ↔ area.
         <MeasureCapture key={mode} mode={mode} onExit={() => onModeChange("off")} />
@@ -211,6 +213,11 @@ function MeasureCapture({
           }
         }}
       >
+        <button type="button" disabled={finished || points.length < MIN_FINISH_POINTS[mode]} onClick={finish}>Finish</button>
+        <button type="button" disabled={isEmpty} onClick={() => {
+          setCursor(null);
+          setMeasurement({ points: [], finished: false });
+        }}>Clear</button>
         <button
           type="button"
           disabled={isEmpty}

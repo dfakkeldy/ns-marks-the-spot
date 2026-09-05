@@ -1,3 +1,4 @@
+import { PokerMapTools, type PokerSession } from "./PokerMapTools";
 import {
   lazy,
   memo,
@@ -181,6 +182,7 @@ import type { PdfTemplateId } from "../print/pdf/templates/types";
 const LOCATE_MIN_ZOOM = 14;
 
 type MapCanvasProps = {
+  poker?: PokerSession | null;
   parcels: NsprdFeatureCollection;
   taxSalePids: Set<string>;
   historicalTaxSalePids: Set<string>;
@@ -1819,6 +1821,7 @@ function LocationControlIcon() {
 }
 
 export function MapCanvas({
+  poker = null,
   parcels,
   taxSalePids,
   historicalTaxSalePids,
@@ -1956,7 +1959,7 @@ export function MapCanvas({
   const [modernMapRetry, setModernMapRetry] = useState(0);
   const [modernMapFailed, setModernMapFailed] = useState(false);
   const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
-  const measuring = measureMode !== "off";
+  const measuring = poker !== null || measureMode !== "off";
   const measuringRef = useRef(false);
   useLayoutEffect(() => {
     measuringRef.current = measuring;
@@ -2807,7 +2810,10 @@ export function MapCanvas({
               as a dead button. `measureMode` itself is left alone, so the
               user's tool choice survives the session. */}
           {georeference ? null : (
-            <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
+            <>
+              {poker && <PokerMapTools session={poker} />}
+              <MeasureTool key={poker ? `poker-${poker.revision}` : "standard"} driveway={poker !== null} mode={poker ? "distance" : measureMode} onModeChange={setMeasureMode} />
+            </>
           )}
         </>}
         <MapPositionController

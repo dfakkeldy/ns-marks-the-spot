@@ -1,0 +1,29 @@
+
+.poker-map-tools {
+  position: absolute;
+  z-index: 500;
+  right: 12px;
+  top: 12px;
+  width: min(340px, calc(100% - 150px));
+  max-height: 48%;
+  overflow: auto;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--white);
+  color: var(--survey-blue);
+  box-shadow: 0 1px 8px #12343b40;
+  font: 14px/1.35 system-ui, sans-serif;
+}
+.poker-map-tools p { margin: 6px 0; }
+.poker-map-tools small { display: block; margin-top: 7px; }
+.poker-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
+.poker-buttons button { min-height: 44px; padding: 6px 9px; border: 1px solid #688087; border-radius: 6px; background: white; color: #173a4a; cursor: pointer; }
+.poker-buttons button[aria-pressed="true"] { background: #173a4a; color: white; }
+.poker-civic-number { padding: 1px 3px; font-weight: 700; color: #173a4a; border: 0; box-shadow: 0 1px 3px #0006; pointer-events: none; }
+@media (max-width: 600px) {
+  .poker-map-tools { top: auto; bottom: calc(132px + env(safe-area-inset-bottom)); right: 8px; width: min(310px, calc(100% - 24px)); max-height: 32%; }
+  .leaflet-container:has(.poker-map-tools) .measure-readout {
+    bottom: calc(88px + env(safe-area-inset-bottom));
+    max-width: calc(100% - 24px);
+  }
+}
