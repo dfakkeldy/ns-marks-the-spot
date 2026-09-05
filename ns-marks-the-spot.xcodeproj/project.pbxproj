@@ -524,7 +524,7 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows where you are on the map, and saves a point or a track at your location only when you ask for one. Saved locations stay on this device unless you export or share a layer yourself.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Takes photos to attach to your own map features. Photos stay on this device.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Shows the locations stored with your photos by indexing them on this device, and attaches photos you choose to your own map features. Attached photos and their locations leave this device only when you export or share a layer yourself.";
-				INFOPLIST_KEY_FletcherTileBaseURL = "$(FLETCHER_TILE_BASE_URL)";
+				FLETCHER_TILE_BASE_URL = "https://tiles.kinnokilabs.com";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -563,7 +563,7 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Shows where you are on the map, and saves a point or a track at your location only when you ask for one. Saved locations stay on this device unless you export or share a layer yourself.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Takes photos to attach to your own map features. Photos stay on this device.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Shows the locations stored with your photos by indexing them on this device, and attaches photos you choose to your own map features. Attached photos and their locations leave this device only when you export or share a layer yourself.";
-				INFOPLIST_KEY_FletcherTileBaseURL = "$(FLETCHER_TILE_BASE_URL)";
+				FLETCHER_TILE_BASE_URL = "https://tiles.kinnokilabs.com";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
