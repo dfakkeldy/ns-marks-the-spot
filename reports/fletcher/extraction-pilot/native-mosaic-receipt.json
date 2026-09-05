@@ -1,0 +1,372 @@
+{
+  "rumsey_id": "RUMSEY~8~1~2644~290012",
+  "tile_size": 1536,
+  "dimensions": [
+    10815,
+    7549
+  ],
+  "image_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "method": "tools.fletcher.fetch.download_regions then Pillow paste at source rectangles; no resampling",
+  "parts": [
+    {
+      "rectangle": [
+        0,
+        0,
+        1536,
+        1536
+      ],
+      "sha256": "9422bc3c9423ff6c71cd651c46fc1020cc53b91e077b113833fa7bc3f42c888e"
+    },
+    {
+      "rectangle": [
+        0,
+        1536,
+        1536,
+        1536
+      ],
+      "sha256": "f923dbe43d9f82b35572b7f04b5db3c353ddd7e37f1a8e3243bf1946e6f8ba6a"
+    },
+    {
+      "rectangle": [
+        0,
+        3072,
+        1536,
+        1536
+      ],
+      "sha256": "b620243fe3120ff68814c8e45ee10e08a88671d64d1a7fd9e7bfc53c2b15c108"
+    },
+    {
+      "rectangle": [
+        0,
+        4608,
+        1536,
+        1536
+      ],
+      "sha256": "b97e935493b0dbefb374082f02cb629e356bf5ec6ccf7d70cfaee42fe0b35a1a"
+    },
+    {
+      "rectangle": [
+        0,
+        6144,
+        1536,
+        1405
+      ],
+      "sha256": "b66d9d4d844c63185ba4a7e5772598131f3eb9623d4ec737bbe811486c1ccf29"
+    },
+    {
+      "rectangle": [
+        1536,
+        0,
+        1536,
+        1536
+      ],
+      "sha256": "d9e0f269e0c99f1586cf668c52db6b6b5f613e414eef6b2257607a8811fa1f6a"
+    },
+    {
+      "rectangle": [
+        1536,
+        1536,
+        1536,
+        1536
+      ],
+      "sha256": "3d36e7d4f87795361bb3966180458d1b4dbf0d8b05b15ed9632b6c4cbf654f94"
+    },
+    {
+      "rectangle": [
+        1536,
+        3072,
+        1536,
+        1536
+      ],
+      "sha256": "6becf5a5d2989a3dd71a3185aff76ac54adbbb7c4fccfc80d7284843946e1e69"
+    },
+    {
+      "rectangle": [
+        1536,
+        4608,
+        1536,
+        1536
+      ],
+      "sha256": "40168db3f523b7f977b813fd72a9a18f49fbd8570c960a566bf416e8d753e531"
+    },
+    {
+      "rectangle": [
+        1536,
+        6144,
+        1536,
+        1405
+      ],
+      "sha256": "9d0da1a33bd008bd84ace8708ae0280b3e9a511cc94023ffc37440a52b677b42"
+    },
+    {
+      "rectangle": [
+        3072,
+        0,
+        1536,
+        1536
+      ],
+      "sha256": "5b238c9fdeeab697395b5046e0133b49a482a2700312a3d201e4f8621b71a377"
+    },
+    {
+      "rectangle": [
+        3072,
+        1536,
+        1536,
+        1536
+      ],
+      "sha256": "e70e619e973a0d2cb228ee281f33ed6952eb7d9ccd2719722e7a892dd159ba64"
+    },
+    {
+      "rectangle": [
+        3072,
+        3072,
+        1536,
+        1536
+      ],
+      "sha256": "a15a0fb2444448a792f0216239941fd5feb9e011b5a8975eafc10ca06d2f25a0"
+    },
+    {
+      "rectangle": [
+        3072,
+        4608,
+        1536,
+        1536
+      ],
+      "sha256": "01bd79de4d8d8f6d84a07236794aeffe4b657a34ae2109531758228657f9e6e3"
+    },
+    {
+      "rectangle": [
+        3072,
+        6144,
+        1536,
+        1405
+      ],
+      "sha256": "02e2c22092a5ea1abc2e993eb4f2a6316ac0125db9f6deeac00d7c48c900d851"
+    },
+    {
+      "rectangle": [
+        4608,
+        0,
+        1536,
+        1536
+      ],
+      "sha256": "fdc7ac2c7b9975519e30bbc3145a2da4b8b26d3636368f7e0d0c79adc40e9b58"
+    },
+    {
+      "rectangle": [
+        4608,
+        1536,
+        1536,
+        1536
+      ],
+      "sha256": "a3fdc7616aa3d16baaec85aeec231ef05bc2601fb90d6b3b6681e0a582015b09"
+    },
+    {
+      "rectangle": [
+        4608,
+        3072,
+        1536,
+        1536
+      ],
+      "sha256": "2420ecfd9f652dbc505767e5345d2af5b5ae6d41b110479ee924a5e29b9b806f"
+    },
+    {
+      "rectangle": [
+        4608,
+        4608,
+        1536,
+        1536
+      ],
+      "sha256": "c3c878347dbb1e5292954543f423509c440ea31838898b25651e21c2d8963bf5"
+    },
+    {
+      "rectangle": [
+        4608,
+        6144,
+        1536,
+        1405
+      ],
+      "sha256": "a5fd936ac03bcbb2bf568bfcc47f66c3675c76c3ff8cb30598a3f449ece4b2a2"
+    },
+    {
+      "rectangle": [
+        6144,
+        0,
+        1536,
+        1536
+      ],
+      "sha256": "d7d93705b132a1ae0bc5933483909e8f0560574e85abe9d9ebae6294e96cc5ac"
+    },
+    {
+      "rectangle": [
+        6144,
+        1536,
+        1536,
+        1536
+      ],
+      "sha256": "1e3a3db3b19a003d59bd92508eeaefb2641fab92e0d111136f48ed71ffc5d42e"
+    },
+    {
+      "rectangle": [
+        6144,
+        3072,
+        1536,
+        1536
+      ],
+      "sha256": "47f1b091d0f0db18f3e610d0aa8077020f5a1d3c3838524e076c5b767e8d3b90"
+    },
+    {
+      "rectangle": [
+        6144,
+        4608,
+        1536,
+        1536
+      ],
+      "sha256": "a52faffe1cd6fcacb7158d41183c3f2ffea31b94a74e47ec03e197daed8e456c"
+    },
+    {
+      "rectangle": [
+        6144,
+        6144,
+        1536,
+        1405
+      ],
+      "sha256": "8cf2222b98881771a1b61618fdb7af4675c8399118e2b7d2ca35f4ad5870f472"
+    },
+    {
+      "rectangle": [
+        7680,
+        0,
+        1536,
+        1536
+      ],
+      "sha256": "64f52ddce55b4f7178c1b558d58105a0651c0ac5d5b8580c5aa4ea0677350a00"
+    },
+    {
+      "rectangle": [
+        7680,
+        1536,
+        1536,
+        1536
+      ],
+      "sha256": "83b48de803aecf36a6d9187d33d8976bbed98e24d6526b3a2c82fad098242426"
+    },
+    {
+      "rectangle": [
+        7680,
+        3072,
+        1536,
+        1536
+      ],
+      "sha256": "614fd4a898f6a2d15b69789192ce0aa1a7dcdf69d222c19a4c0fe8536765468d"
+    },
+    {
+      "rectangle": [
+        7680,
+        4608,
+        1536,
+        1536
+      ],
+      "sha256": "b00174f4d2aba96ed2fef1aa50e632186a962214740d324ce94360ccc4879421"
+    },
+    {
+      "rectangle": [
+        7680,
+        6144,
+        1536,
+        1405
+      ],
+      "sha256": "08b70bc615e9b3f36f7c7adbfd9e0cb14752abb3f79494663c078435a2715d37"
+    },
+    {
+      "rectangle": [
+        9216,
+        0,
+        1536,
+        1536
+      ],
+      "sha256": "01ac12bd1ea4fb14e088d6c1e3f2d8c7b5ed8f30535578c7da3e7de8c465e81e"
+    },
+    {
+      "rectangle": [
+        9216,
+        1536,
+        1536,
+        1536
+      ],
+      "sha256": "a2e1da628ee4aa883c824c7a0c734cd121a4bc5aff74b497a3f867a4c5f97b6f"
+    },
+    {
+      "rectangle": [
+        9216,
+        3072,
+        1536,
+        1536
+      ],
+      "sha256": "560b41fa6e7055812faed34e73054cb111bf079039e56c1baf8ff4012467b0fb"
+    },
+    {
+      "rectangle": [
+        9216,
+        4608,
+        1536,
+        1536
+      ],
+      "sha256": "d7ca195ad97c01a4862b11a189dc9499e49c3e321b679698f1e098abe5b8a14d"
+    },
+    {
+      "rectangle": [
+        9216,
+        6144,
+        1536,
+        1405
+      ],
+      "sha256": "9d322965d843e41247730b19d14e2a66b2b59c4aad3bde928e82f5864df6cd74"
+    },
+    {
+      "rectangle": [
+        10752,
+        0,
+        63,
+        1536
+      ],
+      "sha256": "005f9d40b31037b9c1d9da65c6594cd96250e9161e1061a7a0882922412ba79a"
+    },
+    {
+      "rectangle": [
+        10752,
+        1536,
+        63,
+        1536
+      ],
+      "sha256": "e72f3b5dc79ee2421c40fc471db50860d4d527b1e21716d179cfecb6f2f0a3ec"
+    },
+    {
+      "rectangle": [
+        10752,
+        3072,
+        63,
+        1536
+      ],
+      "sha256": "b7b908d8615c6856823d17aa7e1ff54d817ffd1c0a5df77be933ea8996070341"
+    },
+    {
+      "rectangle": [
+        10752,
+        4608,
+        63,
+        1536
+      ],
+      "sha256": "6ccc2a3d647af11e9dba6f148bcf871a7066e668d1393efa76e1e515d186a593"
+    },
+    {
+      "rectangle": [
+        10752,
+        6144,
+        63,
+        1405
+      ],
+      "sha256": "8b24df0d1fd7e05703c6f0b7025ce503095c14eb4c1531f7199abb2ef41921c1"
+    }
+  ]
+}

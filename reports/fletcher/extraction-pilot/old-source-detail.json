@@ -1,0 +1,119 @@
+{
+  "source_sha256": "3143db91ad2b7afa48c52fbf1191348b5cdb50aa46af51d0865066e8e6645447",
+  "source_dimensions": [
+    10815,
+    7549
+  ],
+  "manifest_sha256": "6b14a9ba3eab4a13bc7af858243d42ff72033adf4f7880ea1147c72aabca8613",
+  "ratio_limit": 4.0,
+  "rows": [
+    {
+      "id": "C1",
+      "probe_sha256": "2f99bb01ba7f6d21333dccb676b5818d009d5ebacf22ecc29642d759a79e602f",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 10.550022384262085,
+      "native_laplacian_variance": 1180.7216051326693,
+      "native_to_candidate_ratio": 111.91650236628897,
+      "mean_absolute_difference": 12.0001171875
+    },
+    {
+      "id": "C2",
+      "probe_sha256": "7c8b2ec7dd0dc61ae6fd6bbf799f6ba85e52aacaf15dc75e8cbf40a1689c0c48",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 16.87351391134262,
+      "native_laplacian_variance": 1781.095687828064,
+      "native_to_candidate_ratio": 105.55570684247255,
+      "mean_absolute_difference": 18.96443115234375
+    },
+    {
+      "id": "C3",
+      "probe_sha256": "8f277348478be4a50a150faf1ac4ea38ec0360e39db9cfbfc73279bd8122e5e0",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 13.134919806575777,
+      "native_laplacian_variance": 1754.5807009521482,
+      "native_to_candidate_ratio": 133.58137901030403,
+      "mean_absolute_difference": 17.29529052734375
+    },
+    {
+      "id": "C4",
+      "probe_sha256": "f5e5865d9dafc51f00db59a631da2cbce872b94c404c1f62f3a10e3c469e0baa",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 12.646950492614506,
+      "native_laplacian_variance": 2121.306251487732,
+      "native_to_candidate_ratio": 167.73262872551928,
+      "mean_absolute_difference": 19.73402587890625
+    },
+    {
+      "id": "I1",
+      "probe_sha256": "ebcf630a765e62edbff13511a4006646c5eb54a81b5f80ace5b93a57d83abdb9",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 5.986604745650291,
+      "native_laplacian_variance": 787.497607190609,
+      "native_to_candidate_ratio": 131.54327714098446,
+      "mean_absolute_difference": 11.4962548828125
+    },
+    {
+      "id": "I2",
+      "probe_sha256": "1e7d9cdda277cfdce9d0207a4eece74e48af3c2b4902288cf6bcae32d5144060",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 5.396896754360198,
+      "native_laplacian_variance": 826.7363110344351,
+      "native_to_candidate_ratio": 153.1873498166345,
+      "mean_absolute_difference": 11.10494384765625
+    },
+    {
+      "id": "I3",
+      "probe_sha256": "25490378a8b9aa28dc8c2f198e05a27744054e5a97d604f990d18e5b368c9efc",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 3.085300229734182,
+      "native_laplacian_variance": 522.3832280212403,
+      "native_to_candidate_ratio": 169.31358024312817,
+      "mean_absolute_difference": 8.3763720703125
+    },
+    {
+      "id": "I4",
+      "probe_sha256": "af114c7f0a5c001c363f87b09fc41f00fb35b38942da0668b5eebe64c397f224",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 6.875265139937401,
+      "native_laplacian_variance": 691.7163876430452,
+      "native_to_candidate_ratio": 100.60941266467918,
+      "mean_absolute_difference": 10.98376708984375
+    },
+    {
+      "id": "H1",
+      "probe_sha256": "d96db16ebf9dd526aa54b45227a53e1f265ea0ff3a687c56f291e2935f10d407",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 20.11163601502776,
+      "native_laplacian_variance": 2448.0815691553057,
+      "native_to_candidate_ratio": 121.72463579422664,
+      "mean_absolute_difference": 24.4829052734375
+    },
+    {
+      "id": "H2",
+      "probe_sha256": "d743494fcf069ed5bc26b50d351f0958ae9bad4ae34f0e4ab0cce4e6d52615c6",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 12.784183914089203,
+      "native_laplacian_variance": 2036.3848721095978,
+      "native_to_candidate_ratio": 159.28939115662575,
+      "mean_absolute_difference": 18.55662353515625
+    },
+    {
+      "id": "H3",
+      "probe_sha256": "11604be64aa537825d6afc7f57d0ad129a6e100edcaf9f4bb414735d451cea59",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 15.359876744055748,
+      "native_laplacian_variance": 1997.3064675688743,
+      "native_to_candidate_ratio": 130.0340166038005,
+      "mean_absolute_difference": 15.66269287109375
+    },
+    {
+      "id": "H4",
+      "probe_sha256": "d6ae6d9b359f547f54bcb158fa7a3ac08871f63d368059ed9ef51f46757543b0",
+      "status": "detail-loss",
+      "candidate_laplacian_variance": 17.125971584296227,
+      "native_laplacian_variance": 1792.2737130775215,
+      "native_to_candidate_ratio": 104.65238157471654,
+      "mean_absolute_difference": 21.42537353515625
+    }
+  ]
+}

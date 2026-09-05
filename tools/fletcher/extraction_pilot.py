@@ -106,7 +106,7 @@ def point_support(mask, points, tolerance=3):
     distance = cv2.distanceTransform(1 - mask.astype(np.uint8), cv2.DIST_L2, 5)
     supported = []
     for x, y in points:
-        x, y = int(round(x)), int(round(y))
+        x, y = round(x), round(y)
         if not (0 <= x < mask.shape[1] and 0 <= y < mask.shape[0]):
             raise ValueError("annotation outside crop")
         supported.append(distance[y, x] <= tolerance)
@@ -151,7 +151,7 @@ def run(manifest_path, image_dir, output, split, annotations_path=None):
             "source_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
             "mask_sha256": hashlib.sha256(mask.tobytes()).hexdigest(),
             "candidate_fraction": float(mask.mean()),
-            "component_count": result["component_count"],
+            "component_count": int(cv2.connectedComponents(mask, 8)[0] - 1),
         }
         if name in annotations:
             for label, points in annotations[name]["points"].items():
