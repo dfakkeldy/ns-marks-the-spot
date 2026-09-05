@@ -1,0 +1,408 @@
+{
+  "case_count": 28,
+  "positive_count": 24,
+  "negative_count": 4,
+  "accepted_matches": 0,
+  "correct_positive_matches": 0,
+  "positive_correct_fraction": 0.0,
+  "accepted_precision": 0,
+  "positive_matches_outside_15px": 0,
+  "negative_false_matches": 0,
+  "negatives_explicitly_rejected": 0,
+  "uncertain": 0,
+  "execution_or_format_failures": 28,
+  "median_positive_match_error_px": null,
+  "max_positive_match_error_px": null,
+  "numerical_gate": {
+    "positive_correct_at_least_18": false,
+    "accepted_precision_at_least_95_percent": false,
+    "all_four_negatives_explicitly_rejected": false
+  },
+  "numerical_gate_passed": false,
+  "visual_identity_gate": "requires separate source-crosshair adjudication; not inferred from coordinate distance",
+  "points": [
+    {
+      "case_id": "K01",
+      "target_id": "V01",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        550,
+        254
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K02",
+      "target_id": "V02",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        570,
+        379
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K03",
+      "target_id": "V05",
+      "positive": false,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": null,
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K04",
+      "target_id": "O00",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        531,
+        245
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K05",
+      "target_id": "O11",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        519,
+        249
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K06",
+      "target_id": "O05",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        254,
+        501
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K07",
+      "target_id": "O08",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        429,
+        283
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K08",
+      "target_id": "O02",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        257,
+        322
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K09",
+      "target_id": "V08",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        492,
+        333
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K10",
+      "target_id": "O09",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        532,
+        514
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K11",
+      "target_id": "O01",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        277,
+        368
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K12",
+      "target_id": "O07",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        447,
+        513
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K13",
+      "target_id": "O06",
+      "positive": false,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": null,
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K14",
+      "target_id": "T",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        263,
+        250
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K15",
+      "target_id": "O03",
+      "positive": false,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": null,
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K16",
+      "target_id": "V03",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        512,
+        391
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K17",
+      "target_id": "V06",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        395,
+        492
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K18",
+      "target_id": "C1",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        433,
+        248
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K19",
+      "target_id": "V04",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        319,
+        278
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K20",
+      "target_id": "C3",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        362,
+        560
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K21",
+      "target_id": "O03",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        496,
+        334
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K22",
+      "target_id": "V07",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        499,
+        486
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K23",
+      "target_id": "O04",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        373,
+        484
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K24",
+      "target_id": "C3",
+      "positive": false,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": null,
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K25",
+      "target_id": "O10",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        454,
+        535
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K26",
+      "target_id": "C2",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        479,
+        432
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K27",
+      "target_id": "V05",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        425,
+        243
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    },
+    {
+      "case_id": "K28",
+      "target_id": "O06",
+      "positive": true,
+      "status": "execution_or_format_failure",
+      "predicted_local_xy": null,
+      "expected_local_xy": [
+        270,
+        240
+      ],
+      "source_error_px": null,
+      "correct_within_15px": false,
+      "evidence": null
+    }
+  ],
+  "format_normalization": false,
+  "normalized_response_count": 0,
+  "reference_sha256": "b238ae6c1ec918f7fbf12d2cb688e8310937ad1ba2d3cbf3b412d00a077fbc8d"
+}

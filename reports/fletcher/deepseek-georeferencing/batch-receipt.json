@@ -1,0 +1,255 @@
+{
+  "elapsed_s": 1486.1273279190063,
+  "workers": 4,
+  "case_count": 28,
+  "opencode_version": "1.18.29",
+  "reference_sha256": "b238ae6c1ec918f7fbf12d2cb688e8310937ad1ba2d3cbf3b412d00a077fbc8d",
+  "tokens_reported": {
+    "total": 1945331,
+    "input": 108217,
+    "output": 27095,
+    "reasoning": 428515,
+    "cache_read": 1381504,
+    "cache_write": 0
+  },
+  "billed_cost": null,
+  "model_step_finish_reasons": {
+    "K01": [
+      "tool-calls",
+      "tool-calls",
+      "length"
+    ],
+    "K02": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K03": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K04": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K05": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K06": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K07": [
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K08": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K09": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K10": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K11": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K12": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K13": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K14": [
+      "tool-calls",
+      "tool-calls",
+      "length"
+    ],
+    "K15": [
+      "tool-calls",
+      "tool-calls",
+      "length"
+    ],
+    "K16": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K17": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K18": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K19": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K20": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K21": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K22": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K23": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K24": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K25": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K26": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K27": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ],
+    "K28": [
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "tool-calls",
+      "stop"
+    ]
+  },
+  "crop_counts": {
+    "K01": 2,
+    "K02": 2,
+    "K03": 2,
+    "K04": 2,
+    "K05": 2,
+    "K06": 2,
+    "K07": 2,
+    "K08": 2,
+    "K09": 2,
+    "K10": 2,
+    "K11": 2,
+    "K12": 2,
+    "K13": 2,
+    "K14": 2,
+    "K15": 2,
+    "K16": 2,
+    "K17": 2,
+    "K18": 2,
+    "K19": 2,
+    "K20": 2,
+    "K21": 2,
+    "K22": 2,
+    "K23": 2,
+    "K24": 2,
+    "K25": 2,
+    "K26": 2,
+    "K27": 2,
+    "K28": 2
+  }
+}

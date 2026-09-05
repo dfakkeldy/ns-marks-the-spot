@@ -1,0 +1,1035 @@
+{
+  "seed": 20260905,
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "observations_sha256": "632f4b19fcbe64384232fc03693c4f51f646e51332c3d56e382e977ff0afda04",
+  "reference_hashes": {
+    "water-lines.geojson": "f2ba10507269881f299b4e65cbcbc2a61af13e51a3948bf50c0526324ba3a008",
+    "roads.geojson": "9fa0e32e52b87afd3e01da46c2eacc49b1f732849303ab10d2c4404d81f12ef4"
+  },
+  "cases": [
+    {
+      "case_id": "K01",
+      "positive": true,
+      "source_region_xywh": [
+        4361,
+        2976,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        3961,
+        2576,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "V01",
+      "target_id": "V01",
+      "target_pixel_xy": [
+        4911,
+        3230
+      ],
+      "target_lonlat": [
+        -61.4379035,
+        45.8557306
+      ],
+      "expected_local_xy": [
+        550,
+        254
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "2cdc6c3416b74565485d7c88013263ff0e9ab195d4eb239d37539100c977620c",
+        "historical.png": "95fa1f26488201b0020cf2804871bd82fd3d84c2e244201837830e90c149c617",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "707248805aa8b5424a2d7f0ee5f3ee722c6d55d1bb459550f74c6144dabac630",
+        "modern.png": "96ff30ab9bae09949ec4eeca09c11b0295a5952a71b1a0be557c1de669121a06"
+      }
+    },
+    {
+      "case_id": "K02",
+      "positive": true,
+      "source_region_xywh": [
+        4892,
+        2991,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        4492,
+        2591,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "V02",
+      "target_id": "V02",
+      "target_pixel_xy": [
+        5462,
+        3370
+      ],
+      "target_lonlat": [
+        -61.4131477,
+        45.8510448
+      ],
+      "expected_local_xy": [
+        570,
+        379
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "9be9ff0fa25e3d90cf4569294062fa9e9b7e7be5756aa57fed0350bfe1a4cb3b",
+        "historical.png": "c31f561e8731bb9dc91467215f8b94534f2b9fc41e4f702a3bab5e7925b3ca7c",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "7d451c98664804f58f9e6e6f262c2679470112907a1731df12d8a2413511190c",
+        "modern.png": "5a4d4c9441c227371e54db7d408591d8da2148a95f919e5b7cb7b5784dbf1fb1"
+      }
+    },
+    {
+      "case_id": "K03",
+      "positive": false,
+      "source_region_xywh": [
+        9071,
+        1763,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        8671,
+        1363,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O06",
+      "target_id": "V05",
+      "target_pixel_xy": [
+        6327,
+        4171
+      ],
+      "target_lonlat": [
+        -61.3730738,
+        45.8238778
+      ],
+      "expected_local_xy": null,
+      "packet_hashes": {
+        "historical-grid.png": "976fc07df72b3cd8bb276729669775c40c23c1040817e1c5c993a56c24bef7e3",
+        "historical.png": "f141d320e6b814308b79bae38a7c01bfb203c074a4e143aa45bebc3a24032ee6",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "b1293b2a070c377ce82cf41eff7093b44ab57d85e5ac38c08cfaf08aa461fa7a",
+        "modern.png": "f9ad312ff96fccdb2e317bb06508eb61dad05e2d282fd2359d81b0ec04a7ff79"
+      }
+    },
+    {
+      "case_id": "K04",
+      "positive": true,
+      "source_region_xywh": [
+        2756,
+        1344,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        2356,
+        944,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O00",
+      "target_id": "O00",
+      "target_pixel_xy": [
+        3287,
+        1589
+      ],
+      "target_lonlat": [
+        -61.510670027898875,
+        45.90556772228298
+      ],
+      "expected_local_xy": [
+        531,
+        245
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "e367e748f5253f04a9bd9d116bb8096b616b683c7195698396296d4112019e89",
+        "historical.png": "bff36c40f6e9f5a631d216c057eeb5f1cad6114a2e605c15ccc7bd3d01f708a1",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "dc2728dab31f4bc220db7c1415e87c2746596da955a3f44c1b4104d991809c80",
+        "modern.png": "3dcedc5eedac9344bd43c486ac16a4161b8df1941f1b9e054f4598cb5b349b90"
+      }
+    },
+    {
+      "case_id": "K05",
+      "positive": true,
+      "source_region_xywh": [
+        7472,
+        6168,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        7072,
+        5768,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O11",
+      "target_id": "O11",
+      "target_pixel_xy": [
+        7991,
+        6417
+      ],
+      "target_lonlat": [
+        -61.2984324,
+        45.7513367
+      ],
+      "expected_local_xy": [
+        519,
+        249
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "273bcd4f4a7f80f8f0622ef9d804170421e45bb5aa87dd00bbac6de5b1f5815d",
+        "historical.png": "5d9a90011ad5cbca47a3342e0f54161487ffebc14daf6acabd204be0b915081e",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "c4c3c497feb1722d5e18648b5b37a413232211ce5cb765d0428cf9abca1d7cbe",
+        "modern.png": "454d995e908fc787df35fb6eeed83cb847669e50feb2d7dc24d923a35054f853"
+      }
+    },
+    {
+      "case_id": "K06",
+      "positive": true,
+      "source_region_xywh": [
+        8676,
+        831,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        8276,
+        431,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O05",
+      "target_id": "O05",
+      "target_pixel_xy": [
+        8930,
+        1332
+      ],
+      "target_lonlat": [
+        -61.2546889,
+        45.9160407
+      ],
+      "expected_local_xy": [
+        254,
+        501
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "c5aea103a9dc296543ce3d1c8085b9445a64b7dbdf9c53c22d1d2edf06f388da",
+        "historical.png": "f882e029126f28f84bdbba63e258d3f3adc3b1a4128c0bfd2aeb0e3972ec3779",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "abe9b3935f4be9c9d9ce3f1a9d1f9291bd37758cb7a850098fc4c1385ab9e911",
+        "modern.png": "a538db367a05b905e3e5533c8cfa33213b91aeef5b98a94313e0a25475d87a79"
+      }
+    },
+    {
+      "case_id": "K07",
+      "positive": true,
+      "source_region_xywh": [
+        9022,
+        4235,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        8622,
+        3835,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O08",
+      "target_id": "O08",
+      "target_pixel_xy": [
+        9451,
+        4518
+      ],
+      "target_lonlat": [
+        -61.2324807,
+        45.8160689
+      ],
+      "expected_local_xy": [
+        429,
+        283
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "cca7ba4c00954081633d0decdd4f66f84c9cef54c3e7bf2cafee82fb04ec0fe6",
+        "historical.png": "6192c3292a25134bb102f6de99d4c9ed2bf8954e9bcf58076cba3cb112babd03",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "e3b63618ee8bf43a8e8ee996a5dae5dfeaf2f218ba5e08c471aba715aaa5303e",
+        "modern.png": "b2581877ce04eb714288099c113444461fb42d7a22b8b592dd5583564eba677d"
+      }
+    },
+    {
+      "case_id": "K08",
+      "positive": true,
+      "source_region_xywh": [
+        3213,
+        2878,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        2813,
+        2478,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O02",
+      "target_id": "O02",
+      "target_pixel_xy": [
+        3470,
+        3200
+      ],
+      "target_lonlat": [
+        -61.5019167,
+        45.8556662
+      ],
+      "expected_local_xy": [
+        257,
+        322
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "60f3357ce8684cecfe63e31667185dec8271905f5278b8f4f6844d10a643e563",
+        "historical.png": "a91689702a94c7e5a42c5b91aea612a04bd039ae65bee8a666fbf3d9eb99f807",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "24eadbc6f4d4a50b24cce7da30e2b6226c69376c80a4e4d61852a00a55e2600f",
+        "modern.png": "ef0f976f911ed9b063a871c0ea745dd84b61ed174581ab182fabff4264c95044"
+      }
+    },
+    {
+      "case_id": "K09",
+      "positive": true,
+      "source_region_xywh": [
+        5568,
+        2276,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        5168,
+        1876,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "V08",
+      "target_id": "V08",
+      "target_pixel_xy": [
+        6060,
+        2609
+      ],
+      "target_lonlat": [
+        -61.3862637,
+        45.8756847
+      ],
+      "expected_local_xy": [
+        492,
+        333
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "cd02f95788fab53556a9c5676ebe764d7efd4342df81c128c60772f32794aa3e",
+        "historical.png": "01d67c6124491c6e3b556e5e6b0be41a3b05a329b465f7e106854f0b111cb3d1",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "82f51d729c3ed870704e25675ea6c0431bad4e94c1b72790f0da8d1e215e8dec",
+        "modern.png": "93315bab0d4159fca3bd81d87146b6497269d8f1f8067bd4bd437d03d45cb3d7"
+      }
+    },
+    {
+      "case_id": "K10",
+      "positive": true,
+      "source_region_xywh": [
+        9071,
+        4975,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        8671,
+        4575,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O09",
+      "target_id": "O09",
+      "target_pixel_xy": [
+        9603,
+        5489
+      ],
+      "target_lonlat": [
+        -61.2262765,
+        45.785011
+      ],
+      "expected_local_xy": [
+        532,
+        514
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "5d24c55f1608ad20769a41ce1c3673a6c596e2042156cfde29453be2a478a5f9",
+        "historical.png": "99390445cfe1d0819d6987af826ebc37eaf6b46d573909148e85ba8a24d2d22a",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "513a141fab5afcddf2942f1717d364f24b51a9722ca0635cdcce4746c2f75307",
+        "modern.png": "3eb49c46dbcc3301421fe327768824ea03ada686726622b2f49f3a4c87672581"
+      }
+    },
+    {
+      "case_id": "K11",
+      "positive": true,
+      "source_region_xywh": [
+        3843,
+        862,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        3443,
+        462,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O01",
+      "target_id": "O01",
+      "target_pixel_xy": [
+        4120,
+        1230
+      ],
+      "target_lonlat": [
+        -61.472227,
+        45.9209605
+      ],
+      "expected_local_xy": [
+        277,
+        368
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "e51e88ed5591e1c95111a731a27a2200cfc5df776e6f7367102eb49573dff51e",
+        "historical.png": "3e5ae1e0f46de117af7523b23841301c93d68ca5042bc74dbf298bc2ff153ffa",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "4e599863e0ebe325ff65c72a1858a54d0db7dcc6aa5a3b867c16111219684f54",
+        "modern.png": "13945da92da2156c9693714808ffe7f9e994fddc20d52b7961dfa60ba9096aaa"
+      }
+    },
+    {
+      "case_id": "K12",
+      "positive": true,
+      "source_region_xywh": [
+        8834,
+        2333,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        8434,
+        1933,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O07",
+      "target_id": "O07",
+      "target_pixel_xy": [
+        9281,
+        2846
+      ],
+      "target_lonlat": [
+        -61.2383886,
+        45.8680907
+      ],
+      "expected_local_xy": [
+        447,
+        513
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "0051bce1b7d2f3c69265ba0575516d7662a6c15afa9c62fb52feac7fcd99f0ae",
+        "historical.png": "7089e052334b62ccba3762c7cb0c86d3c22edf1a84dbb2764e0a2f436438437f",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "99ee8ef43a04f32efdce32109d024f746808f9b9c2a71294caa8d116dd499957",
+        "modern.png": "fda816cb5485d5f728b63c14a02b942b40ab210b8eb9d2c8a18401d3f4de9009"
+      }
+    },
+    {
+      "case_id": "K13",
+      "positive": false,
+      "source_region_xywh": [
+        3786,
+        738,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        3386,
+        338,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O01",
+      "target_id": "O06",
+      "target_pixel_xy": [
+        9364,
+        2209
+      ],
+      "target_lonlat": [
+        -61.2337452,
+        45.8881364
+      ],
+      "expected_local_xy": null,
+      "packet_hashes": {
+        "historical-grid.png": "0ad6b9dfc69cb4213918101496b9a8f9ff1bb9edec67fd0594a0e173ff226b2c",
+        "historical.png": "4a6a6773023d6671a33cf31d10cb4d5005fdd0ef3565a6f43431bb5fab9455d9",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "d9817fd35ee9540b9807fd07c35ba53d1431f4957a5c79afa5680aeb1f8ea193",
+        "modern.png": "db8a56f4667b7c0e537622372bf3445a0dab07d5456fba86aa60ec2d4e4efbf5"
+      }
+    },
+    {
+      "case_id": "K14",
+      "positive": true,
+      "source_region_xywh": [
+        5075,
+        2819,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        4675,
+        2419,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "T",
+      "target_id": "T",
+      "target_pixel_xy": [
+        5338,
+        3069
+      ],
+      "target_lonlat": [
+        -61.4186559,
+        45.8618824
+      ],
+      "expected_local_xy": [
+        263,
+        250
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "8befcc03260910d2a90c2b38f83dea2436ff36244cf1b5f200d3579c1004e781",
+        "historical.png": "c1ee44235dde75a4c65bbcb76a3aa6387f503ccd2402f733eb7e21f6a2392c0d",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "b79648179738cbc643edbda6812875438c9d8d931435818ce021f16b985c9f35",
+        "modern.png": "2694686da329176a598745e711cbe2e35db89e8866a278588a44f4d53d116dd4"
+      }
+    },
+    {
+      "case_id": "K15",
+      "positive": false,
+      "source_region_xywh": [
+        5636,
+        2998,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        5236,
+        2598,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "V03",
+      "target_id": "O03",
+      "target_pixel_xy": [
+        4134,
+        5701
+      ],
+      "target_lonlat": [
+        -61.4763379,
+        45.7741145
+      ],
+      "expected_local_xy": null,
+      "packet_hashes": {
+        "historical-grid.png": "942138857b99597e157047cdddf019edd1ee025ef09dea00ea7d48b5c29b7aad",
+        "historical.png": "0b4a42c014dbc530bf37ac9a33606b4630b9991d310a00fce2d2f1010a451810",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "d8e4c6b5ec8ca157cc5cf04159fc87b62bc26711d1fec826fdf5e73885f25b26",
+        "modern.png": "41c20ccb191c6bb891b4475c34d63b17f2c992999ea09446df4f7715898a41f1"
+      }
+    },
+    {
+      "case_id": "K16",
+      "positive": true,
+      "source_region_xywh": [
+        5471,
+        3044,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        5071,
+        2644,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "V03",
+      "target_id": "V03",
+      "target_pixel_xy": [
+        5983,
+        3435
+      ],
+      "target_lonlat": [
+        -61.3891236,
+        45.8495754
+      ],
+      "expected_local_xy": [
+        512,
+        391
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "d0c469cba9798c8e62c8d3b4ae6826b563fcbc74d705280724bbca93be19f28d",
+        "historical.png": "5c80bb698133d3bbae985417d7268f0843c2364f5c411be75be2df6a48ecf798",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "c85bbb42b11e9b17ae1d7184ec8f1e7bd917893d1bdbfdb6a5d005a111e1344a",
+        "modern.png": "84a687370f282116103945b1cb26550299b6e95867bd58475dc2de6bc4e880c6"
+      }
+    },
+    {
+      "case_id": "K17",
+      "positive": true,
+      "source_region_xywh": [
+        4657,
+        3786,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        4257,
+        3386,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "V06",
+      "target_id": "V06",
+      "target_pixel_xy": [
+        5052,
+        4278
+      ],
+      "target_lonlat": [
+        -61.4318311,
+        45.8193476
+      ],
+      "expected_local_xy": [
+        395,
+        492
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "f14ba9ae179c362f6322ce2c941df82442ee1aa50183b9fe5ad02bbc0a0d81e5",
+        "historical.png": "9e82eee3364c623cb630575ca8abdf615b6f2fbd6e51b0fc0cf8ebd62a493876",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "1cd8f5af26507fe2138b0f37a8776811dd23f87ae1b93150fbfb54a4136808dd",
+        "modern.png": "f9cb215013e7008b8afba8a44e72bc40db2b85b6f20f20254b4209d34d6f15ac"
+      }
+    },
+    {
+      "case_id": "K18",
+      "positive": true,
+      "source_region_xywh": [
+        4920,
+        2790,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        4520,
+        2390,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "C1",
+      "target_id": "C1",
+      "target_pixel_xy": [
+        5353,
+        3038
+      ],
+      "target_lonlat": [
+        -61.4173143,
+        45.862898
+      ],
+      "expected_local_xy": [
+        433,
+        248
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "1767b751afd5c897bd916f6dbdff3c1c4372d49958565f323ceb7cea1406701e",
+        "historical.png": "d6a8aad88ef7b1f12624b6d12c0489a798b109c6ba36ced02f9d62a0126eb820",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "3881e842cc2a7c62cc8789af039031679cbb9d2368e068c84b03ad8d46cec79d",
+        "modern.png": "83ca0a53d5fe7173c48202094dee6a17993792fa468264097e37eb4ee74ed4e4"
+      }
+    },
+    {
+      "case_id": "K19",
+      "positive": true,
+      "source_region_xywh": [
+        6076,
+        3410,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        5676,
+        3010,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "V04",
+      "target_id": "V04",
+      "target_pixel_xy": [
+        6395,
+        3688
+      ],
+      "target_lonlat": [
+        -61.3697265,
+        45.841205
+      ],
+      "expected_local_xy": [
+        319,
+        278
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "df754583c1ea341e31e4124849a92fa38fcd5cc9b94bb94b999c82bf894eb6e6",
+        "historical.png": "6f63c3d41fb7e2ba3d33de2427e5f1910c5a9992a4cf9f76675f9604295d295c",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "8324cb9818c844ac94edc0485476551f014a583729fa684b0215bbbf640b0af5",
+        "modern.png": "712bd5f73f4fc46628968741dca11e7af691aff66d3a15b882e4671c49abb384"
+      }
+    },
+    {
+      "case_id": "K20",
+      "positive": true,
+      "source_region_xywh": [
+        4553,
+        2123,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        4153,
+        1723,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "C3",
+      "target_id": "C3",
+      "target_pixel_xy": [
+        4915,
+        2683
+      ],
+      "target_lonlat": [
+        -61.4373415,
+        45.8740861
+      ],
+      "expected_local_xy": [
+        362,
+        560
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "fb00c22dfb6ce08521874e82522da97ab9d7d0796dc0c5ca5aaae0c7b2174c16",
+        "historical.png": "0efe5f0f45cd5a0af86328fcbbc6154a8b279a0fc0d0bd8327450d41e6e57d1a",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "e56c9d2e332be86ec135d7bdde03e3582afa69447f006858cb75f65520c9e162",
+        "modern.png": "27c09bae8a5ff7a791ca3dc6fcac9e8f00a1af0cc35dd94085c577d6b0dfee31"
+      }
+    },
+    {
+      "case_id": "K21",
+      "positive": true,
+      "source_region_xywh": [
+        3638,
+        5367,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        3238,
+        4967,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O03",
+      "target_id": "O03",
+      "target_pixel_xy": [
+        4134,
+        5701
+      ],
+      "target_lonlat": [
+        -61.4763379,
+        45.7741145
+      ],
+      "expected_local_xy": [
+        496,
+        334
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "379e4e94c5cdfe14c290f01ca1dc9caba51afec1ad4a0abd00e2495c87adc612",
+        "historical.png": "2aef429bc52a6db1e707c9fc0855556830fe78a7286e959770461d0a77a34cbe",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "d271e7e30d0ac85b941726245db0f9770b7e833d8dc3a39b1c7e06d1dd6a3bae",
+        "modern.png": "41c20ccb191c6bb891b4475c34d63b17f2c992999ea09446df4f7715898a41f1"
+      }
+    },
+    {
+      "case_id": "K22",
+      "positive": true,
+      "source_region_xywh": [
+        4606,
+        3870,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        4206,
+        3470,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "V07",
+      "target_id": "V07",
+      "target_pixel_xy": [
+        5105,
+        4356
+      ],
+      "target_lonlat": [
+        -61.4285647,
+        45.8175827
+      ],
+      "expected_local_xy": [
+        499,
+        486
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "2eaa7ce296f7fe3e7c3a749aac16eb5669a6060bea5f23a6b3ff13e5eecde03b",
+        "historical.png": "9f7e381c9d9e235f022effb50885c83aa2f98a563fbd5e878e4fa0ef04c0c52e",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "ef5302f09ce2f17fdb246dccfdc1262bd4b951765c3edd846fa2ad1fdb484f17",
+        "modern.png": "622b1b6a87f3e4c35471987036fe87f258340933c16bacde4b1cc6d01fb0250d"
+      }
+    },
+    {
+      "case_id": "K23",
+      "positive": true,
+      "source_region_xywh": [
+        3924,
+        5736,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        3524,
+        5336,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O04",
+      "target_id": "O04",
+      "target_pixel_xy": [
+        4297,
+        6220
+      ],
+      "target_lonlat": [
+        -61.4693901,
+        45.7588166
+      ],
+      "expected_local_xy": [
+        373,
+        484
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "e2e36b38b0c916ca54c3b7668b8e0d26499d8bd42f43b7fd33f8d91879557dea",
+        "historical.png": "41ee73fc024cb32fe6e961a1c9c0613cb35ef78be4b633325de3d140cecfc725",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "bde979f2dcb96db3b4eba09e5936e881211f157b4404faba128f91530a26ee3a",
+        "modern.png": "568fbffd74f9c91718d6af9b7b4cb2e92a7a4ce2ab5b10c0562276355f6193d2"
+      }
+    },
+    {
+      "case_id": "K24",
+      "positive": false,
+      "source_region_xywh": [
+        6194,
+        5669,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        5794,
+        5269,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O10",
+      "target_id": "C3",
+      "target_pixel_xy": [
+        4915,
+        2683
+      ],
+      "target_lonlat": [
+        -61.4373415,
+        45.8740861
+      ],
+      "expected_local_xy": null,
+      "packet_hashes": {
+        "historical-grid.png": "ebc9eb70bf37a89e3d41e60c1c213e5a577ce9436feae432c53b0b896b3cb35b",
+        "historical.png": "8105002b3f332585d77d16b2fe832171d246d40d02f31096b7c848121dbb19ac",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "a2ab6448ee30a6793c242c4fb91b48f60e769a99e3614e21fa32eaf4d3bfacb4",
+        "modern.png": "27c09bae8a5ff7a791ca3dc6fcac9e8f00a1af0cc35dd94085c577d6b0dfee31"
+      }
+    },
+    {
+      "case_id": "K25",
+      "positive": true,
+      "source_region_xywh": [
+        6052,
+        5609,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        5652,
+        5209,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O10",
+      "target_id": "O10",
+      "target_pixel_xy": [
+        6506,
+        6144
+      ],
+      "target_lonlat": [
+        -61.3632546,
+        45.7609166
+      ],
+      "expected_local_xy": [
+        454,
+        535
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "971d4fd8d88e2eabf64ec2642316d0d52cfe9fc8dc5c7866762dce7520ce6d21",
+        "historical.png": "f4e3e6a92c9d1236d7dde9e0df671b31c6f6e0b516e0900206e3bd5efbfff8fc",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "8e369b99ef3d6ebced6f329b3288d4151317002ef282f108cbbce1df4d076c66",
+        "modern.png": "fadc53aa42ffde181ff52d4ff6cd58ea8324dadfe5ffe57c7ce194480c9b6129"
+      }
+    },
+    {
+      "case_id": "K26",
+      "positive": true,
+      "source_region_xywh": [
+        4383,
+        2411,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        3983,
+        2011,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "C2",
+      "target_id": "C2",
+      "target_pixel_xy": [
+        4862,
+        2843
+      ],
+      "target_lonlat": [
+        -61.4391506,
+        45.8693
+      ],
+      "expected_local_xy": [
+        479,
+        432
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "c72109240481bd64d279ed1f8755b69b3db40689034a5034a7cd8cd485ade04f",
+        "historical.png": "35cae91014eac77a0acae66268fdda6c60f38059f9a2f873c704161fc6b72195",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "5a2b1efc41710585e41537164e9d1a4ab51cabb0ab76595b67251de13b594c24",
+        "modern.png": "bd8d3bca41b9585d611936e33de3efd47845680e527a5c1d2a2ffa4fbe03f580"
+      }
+    },
+    {
+      "case_id": "K27",
+      "positive": true,
+      "source_region_xywh": [
+        5902,
+        3928,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        5502,
+        3528,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "V05",
+      "target_id": "V05",
+      "target_pixel_xy": [
+        6327,
+        4171
+      ],
+      "target_lonlat": [
+        -61.3730738,
+        45.8238778
+      ],
+      "expected_local_xy": [
+        425,
+        243
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "c972c8eb9ff447c11c0f563c568f2788208a6b4baaf6c6c4899b9a02c0b55766",
+        "historical.png": "697038ca9c87f9d30721a8a76b5aeaaa7e1921259fd09bdf6ce3281ddcb2dd26",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "b88ff57df053f0741ac77aa6b175a8d515fb66699ded752c0758d195a79cf393",
+        "modern.png": "f9ad312ff96fccdb2e317bb06508eb61dad05e2d282fd2359d81b0ec04a7ff79"
+      }
+    },
+    {
+      "case_id": "K28",
+      "positive": true,
+      "source_region_xywh": [
+        9094,
+        1969,
+        800,
+        800
+      ],
+      "context_region_xywh": [
+        8694,
+        1569,
+        1600,
+        1600
+      ],
+      "source_anchor_id": "O06",
+      "target_id": "O06",
+      "target_pixel_xy": [
+        9364,
+        2209
+      ],
+      "target_lonlat": [
+        -61.2337452,
+        45.8881364
+      ],
+      "expected_local_xy": [
+        270,
+        240
+      ],
+      "packet_hashes": {
+        "historical-grid.png": "6181d8584b0487472295227a9b04ff2c61bdca1201c01eb296df6765df89f92f",
+        "historical.png": "59a7a7123114503e4fe70ef2bcf0fd64ad168be16c723adf887e72af2fc5e9a7",
+        "crop.py": "e62c4af62d740dee75b254198b06f39835be216b5f961f109069567cbed4220f",
+        "context.png": "7ca953000a709759cc928224fdc30b28e8e67d516839f5935423b443e13d319d",
+        "modern.png": "db8a56f4667b7c0e537622372bf3445a0dab07d5456fba86aa60ec2d4e4efbf5"
+      }
+    }
+  ]
+}

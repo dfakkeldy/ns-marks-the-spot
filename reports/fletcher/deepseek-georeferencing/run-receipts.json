@@ -1,0 +1,1862 @@
+[
+  {
+    "case_id": "K01",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:40:45.995172+00:00",
+    "elapsed_s": 188.88300395011902,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c44bdc3ffehJiePF747LbuLB"
+    ],
+    "completed_steps": 3,
+    "tokens_reported": {
+      "total": 38651,
+      "input": 2676,
+      "output": 348,
+      "reasoning": 17835,
+      "cache_read": 17792,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "a8d5e1530b59542495ccc528a9c2a5cd790d67621d24ba7349710dc85b1bbf90",
+      "final.txt": "ec261cfcc4f4bb3cd1b870411d2a57de9de0c61120aadc39baf1f2250b0f91f5",
+      "prompt.txt": "e589d08890e52c48d3949d791ce4c5099c1f78f3ac54267d325e55038544855a",
+      "session-export.json": "402b7f27eb57d13d45ad44961ef037708fa1776b257fe5a1fe5888c5148cb3dc",
+      "events.jsonl": "62e1a5bcc16540f5d3b17a214eb2b86d5efc1f67ff1028fd73d4d5809d00712b"
+    }
+  },
+  {
+    "case_id": "K02",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:40:45.993340+00:00",
+    "elapsed_s": 313.6200201511383,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c44bdf4ffex8GuUjTNV0e7rn"
+    ],
+    "completed_steps": 8,
+    "tokens_reported": {
+      "total": 136879,
+      "input": 4891,
+      "output": 1484,
+      "reasoning": 26184,
+      "cache_read": 104320,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "d351cc94c82b6371fa369295dd93643b1217032674be65da461a09ebd238efd7",
+      "final.txt": "f982b5982f5e25c3b3999cffc796ca5ae5c311f3655c00543c5f375fb2cbebd7",
+      "prompt.txt": "47ab0ff88336d0fc2224f3f9be992ee87ae53f234f48e77b10560739b2f153cb",
+      "session-export.json": "8ae198e7ffe0847dec5714c796344eef678178babafaf3cc145e689066802e2f",
+      "events.jsonl": "a46dbbacad90f370d41cfe3eb8ca6d7686ff59490c469f0950b4754607a18496"
+    }
+  },
+  {
+    "case_id": "K03",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:40:45.990435+00:00",
+    "elapsed_s": 188.65135169029236,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c44bdf8ffeEanpRWjeSg8xSC"
+    ],
+    "completed_steps": 5,
+    "tokens_reported": {
+      "total": 60706,
+      "input": 2903,
+      "output": 826,
+      "reasoning": 16017,
+      "cache_read": 40960,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "75219e595d501a67e2e5cd1e2aba118256bb4f2e7577d1640c94b8727e178d13",
+      "final.txt": "8d4d441fe4cd1604b6f8b22590e0979ed4120316d160147fca1d2f0f82fb42da",
+      "prompt.txt": "798f171dcd41f78c6b29ab86f913018882bb2b8c225b686f9de4babc6fde2af9",
+      "session-export.json": "65923fb929e466144b77f9d6c7fb2ceba85385145182af41b1ca357690a616a0",
+      "events.jsonl": "abea1b402cc5bbea08bb3e17c74da9b7a5086d4b3cb0ce0e7f48b15b775a5726"
+    }
+  },
+  {
+    "case_id": "K04",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:40:45.990261+00:00",
+    "elapsed_s": 135.3987078666687,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c44bdf2ffeqF8fTEIzA2QnEy"
+    ],
+    "completed_steps": 6,
+    "tokens_reported": {
+      "total": 56861,
+      "input": 3176,
+      "output": 887,
+      "reasoning": 8382,
+      "cache_read": 44416,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "error"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "b89c9ebda5df93e4a89c9e4f0b0b16bafcb36b796236141e6234f5bdcf112c28",
+      "final.txt": "542772ee707e0071a220153d7b546ac31289843c5931172489d269d1cd96abef",
+      "prompt.txt": "dba48ba20bff73fc732e8832824f7b2f52afc4bd7940330ac4ecc078e0922d84",
+      "session-export.json": "63bc591a3f05e3861c53c78c2f28a602bffe1406069df331b17e75dbc1f69de3",
+      "events.jsonl": "79a8e6b074d852fc9fec6af68857e140240eac02ad493707a3a30e59ccb177e2"
+    }
+  },
+  {
+    "case_id": "K05",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:43:01.397911+00:00",
+    "elapsed_s": 207.36025285720825,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c42ae17ffe8NWr5W2e4glPBN"
+    ],
+    "completed_steps": 8,
+    "tokens_reported": {
+      "total": 119761,
+      "input": 4072,
+      "output": 1335,
+      "reasoning": 16946,
+      "cache_read": 97408,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "error"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "f1576f197ba54de65c0d8b450c112207d9a3d507cea82156348bd8d1eaf82347",
+      "final.txt": "19d45484580bfe08f29315726e4ae7ba6cfb61058fba5b4bc0061696789c8b2a",
+      "prompt.txt": "c78f6f835932bbe89fbee5aa3e1b4657cc2acab0a6c48a7d50739e690dd13d7b",
+      "session-export.json": "3c11005177fb13a3720dcc4c4ffb5311875abb871298d17b678bb5e037ab2f49",
+      "events.jsonl": "518136d2471436fe95dfca6d2a0a393007567c165f5226148835abe3e1e90684"
+    }
+  },
+  {
+    "case_id": "K06",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:43:54.653567+00:00",
+    "elapsed_s": 155.1133849620819,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c41de2cffeYzP6LHOXtWHPVT"
+    ],
+    "completed_steps": 5,
+    "tokens_reported": {
+      "total": 62608,
+      "input": 3703,
+      "output": 990,
+      "reasoning": 12475,
+      "cache_read": 45440,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "cdb056aa50fdfd058d93fb375fb8b3d14c42c6222b0c9752f5ec32b11b8492d4",
+      "final.txt": "70daa3841fcdf21eb08dd551b9571beb314f85507f24f3c9acb1a3c1e3eafad0",
+      "prompt.txt": "38b660a793f2a8d9469f6143e9033decbbafdc5388c13fc6365b2b19ed9d92c2",
+      "session-export.json": "7a739121e682dc83bcf0df0e3466f978a3a83d9b518ae9ea756934ff6b87d352",
+      "events.jsonl": "32c3b7f896d5d4d8c60bf89c72ae41d5e209a0db03941856b0ab9c7155b9698b"
+    }
+  },
+  {
+    "case_id": "K07",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:43:54.887789+00:00",
+    "elapsed_s": 126.9060571193695,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c41dd44ffeKduHqbkSgqpnki"
+    ],
+    "completed_steps": 3,
+    "tokens_reported": {
+      "total": 32374,
+      "input": 2664,
+      "output": 836,
+      "reasoning": 11978,
+      "cache_read": 16896,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "67ef70a0243c61d69da5dc6ff16857538fa2196e22d58d8ab2c96460b5fbc2be",
+      "final.txt": "e6c1e5b96de1e9ec606a0f89b0677d3db9fb34a019f0a9f2b5506b5cccbd64f2",
+      "prompt.txt": "34838a6a32dc5d2e75b8da1cb5b6b2c860cb8cc6fe1287104b8be8b6a76b308c",
+      "session-export.json": "2b9d52f41cb784374b6bbf0d0567e915932090f31b494bb353615ebd8116855a",
+      "events.jsonl": "cbd7a14b1b884a57c20015d9f90261ce9961c5d49e4681064b2f9fc383bce089"
+    }
+  },
+  {
+    "case_id": "K08",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:45:59.630179+00:00",
+    "elapsed_s": 185.03092193603516,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3ff5a1ffemQweK5oAiFepCb"
+    ],
+    "completed_steps": 4,
+    "tokens_reported": {
+      "total": 66793,
+      "input": 2812,
+      "output": 1409,
+      "reasoning": 16364,
+      "cache_read": 46208,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "32e6f43abbab397f11253f1f0f56c795acdfeaa5b5edc55f61abacead63b3fbc",
+      "final.txt": "bf8c591a543796238dd8e44319d5303ecaeacaf03c4e513163b5b5ff9aba7aed",
+      "prompt.txt": "878b1917cb500c8d46dd8d4f56e8708c8ab5da8be21e226b0f162122e92c947b",
+      "session-export.json": "e3d43f545f9003981b05d5aee411db1246eae11faa0b82ec4f3a99148da84bef",
+      "events.jsonl": "7ad7d7cde88c59e5b1eb7ceb8c17707331f73bd79991429a07dd802ef3122ae8"
+    }
+  },
+  {
+    "case_id": "K09",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:46:01.804192+00:00",
+    "elapsed_s": 165.5717589855194,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3fed8affencHQ73vuy68RXp"
+    ],
+    "completed_steps": 5,
+    "tokens_reported": {
+      "total": 50546,
+      "input": 3441,
+      "output": 904,
+      "reasoning": 11897,
+      "cache_read": 34304,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "88a8f3890396d6cba15cd919c1fa1aba498bf36e1882b74fb20679b2fc1dbe31",
+      "final.txt": "d433d74860c4be6f2f0a8e5b141fa051644df2a30ccb70dbc320d131b091f658",
+      "prompt.txt": "f22a62dd4e0e1707798595d4fa9293506795e4d94075f543fdffcf69e2651205",
+      "session-export.json": "4c4e3366d665e7fe3116b5872cf6770f572f2de09526b1ff9ff6d17b277d1a94",
+      "events.jsonl": "3eeb0c15d169ba767d2e42bc4384d8c43488fc35e86f20a76e0e76dda49cba22"
+    }
+  },
+  {
+    "case_id": "K10",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:46:28.770780+00:00",
+    "elapsed_s": 108.59803223609924,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3f8451ffePrR54Bnhe1SEGQ"
+    ],
+    "completed_steps": 4,
+    "tokens_reported": {
+      "total": 34616,
+      "input": 2972,
+      "output": 982,
+      "reasoning": 5574,
+      "cache_read": 25088,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "6c26cbdfa7a0b06203d34bd15d991a52f9f80cd48eb92bba90c73867cfe35368",
+      "final.txt": "3a0ed657b8f507e70043869dbdb2d22688ec6170503d28bbd2342f22f2cbc867",
+      "prompt.txt": "e5196bd9886f064d304b3ca02e445cb808e73329bf782627f28754de9fce3d1f",
+      "session-export.json": "25096eeb8a8ef8485607f2a7d741760ff170b3db05bc92d5046f631e3e91d894",
+      "events.jsonl": "7ce8b4487e4de8df6ba44c629f4c1d921167f75cc4692002933db2ae09cc16dd"
+    }
+  },
+  {
+    "case_id": "K11",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:46:29.781387+00:00",
+    "elapsed_s": 160.29477095603943,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3f8018ffe2738RMHkXcxnYm"
+    ],
+    "completed_steps": 5,
+    "tokens_reported": {
+      "total": 55042,
+      "input": 3007,
+      "output": 653,
+      "reasoning": 12726,
+      "cache_read": 38656,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "ab6478ac0e4deda9badf5f27d909fefdb432962477b7699cf5440da76d98f063",
+      "final.txt": "f84d2a83a609f5022d4453f8667e55e06767e9074c47f588f4aad3f89225c9ca",
+      "prompt.txt": "16ec78141b67c10ff1ce0cf043c493a7bd0e0cb8ed33b9615eb9319db41d8980",
+      "session-export.json": "d3fa06d86c18a2a05df60f0bdd8ce8adf564409c678ec3d5c8a5a9d8cf78771f",
+      "events.jsonl": "aaec02d0a4b326734687ca405dd3c1cd72522baadf2f72fd8e77034d4bd120dc"
+    }
+  },
+  {
+    "case_id": "K12",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:48:17.379257+00:00",
+    "elapsed_s": 171.61299872398376,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3ddbb3ffeuHHcJtAt7rBtAD"
+    ],
+    "completed_steps": 5,
+    "tokens_reported": {
+      "total": 66095,
+      "input": 2929,
+      "output": 886,
+      "reasoning": 16456,
+      "cache_read": 45824,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "error"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "6ee1692c68c1312beb0d1dd06824326f7ffff8e866fbf4a0b6a32e6ee6dae674",
+      "final.txt": "c53a21ff6ae78cd25e341352ebfb89fba5c95d451955f1f90786f98786ca3821",
+      "prompt.txt": "37786d1c734501ea6a8b5619401dd2398e88a4c1de7a66c0a4746ebef809c697",
+      "session-export.json": "258a6a98ce730c4ca80309c1a784fced8be9e2e14cff2e6a9edf687a376dfe7c",
+      "events.jsonl": "d67df29e82c37e7b15dd949d9e0aa8728ba8b5fc88c6c83edd32205f87e562f6"
+    }
+  },
+  {
+    "case_id": "K13",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:48:47.389657+00:00",
+    "elapsed_s": 214.9712359905243,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3d65b4ffetWK95HnhtyrLlU"
+    ],
+    "completed_steps": 8,
+    "tokens_reported": {
+      "total": 118506,
+      "input": 4230,
+      "output": 1252,
+      "reasoning": 17280,
+      "cache_read": 95744,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "eba0856050cb936c7b07505cfce9be9111432ffb0206bd95caede3fa89f1e93d",
+      "final.txt": "75e09c7af6e4bee2da0501541d445e3abc8caea60d2cebbab0215130dba9789d",
+      "prompt.txt": "ddbf0ca4a321887573b2f3696fe545742758c168521b3ac0c66669f6785bc00d",
+      "session-export.json": "8c2a12503fbafa22f938b6131543094437185f94c80f4ae1f3cf8577ccce0bbc",
+      "events.jsonl": "ec87cb066bd98322880a84810378dfc7969f31af4a6459f374be793e5cf998b2"
+    }
+  },
+  {
+    "case_id": "K14",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:49:04.671151+00:00",
+    "elapsed_s": 184.98208379745483,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3d2308ffeVAkjZEFuXqKRph"
+    ],
+    "completed_steps": 3,
+    "tokens_reported": {
+      "total": 43520,
+      "input": 2767,
+      "output": 356,
+      "reasoning": 19405,
+      "cache_read": 20992,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "74406037a9b77406910177ebf1cbb37cd86df3f09dd5964ab92904885f68a371",
+      "final.txt": "ceeb724f698bf4e878a96ee96b94e4e92349234902519d8d05a0bc1c82d4822b",
+      "prompt.txt": "183fba8d566d1c997baf500f2c3ea31eb586124eaa46376a4925f5046a2966b7",
+      "session-export.json": "79c1b40f16f66423ffb384731e1b73c72bfb72af91db3e0483d8b603bbd3da35",
+      "events.jsonl": "a83d5065cbc3814f12cbf29d1a008ebbc7835ef3b540ef9b0076d15c33f9a46b"
+    }
+  },
+  {
+    "case_id": "K15",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:49:10.085867+00:00",
+    "elapsed_s": 176.45990824699402,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3d0e30ffes3K9FWdjTimYqg"
+    ],
+    "completed_steps": 3,
+    "tokens_reported": {
+      "total": 40534,
+      "input": 2780,
+      "output": 351,
+      "reasoning": 18459,
+      "cache_read": 18944,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "d06adcd37969838eab93bd2098b38fe679abc9f7203da7621a5e7856a476ed51",
+      "final.txt": "2ed79b0afe25b2ac794e425d929478cb004f949b1af4512535b6ba3d2780bf9e",
+      "prompt.txt": "24adb6443fb3d98d9e28c5094168c24db468fed750278045c4ffb6adcb9dde98",
+      "session-export.json": "f91e944bf87197d9422ecd3ef93fd866ff1294c876b1ad571499bd64efca96b1",
+      "events.jsonl": "57fe3e4e57fa3e616495e3f86b239a21ef340c0877119046878bc0d3998225d1"
+    }
+  },
+  {
+    "case_id": "K16",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:51:09.002573+00:00",
+    "elapsed_s": 199.78922295570374,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3b3d77ffeaS575pQZd5bvso"
+    ],
+    "completed_steps": 5,
+    "tokens_reported": {
+      "total": 59410,
+      "input": 3022,
+      "output": 708,
+      "reasoning": 19072,
+      "cache_read": 36608,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "27afad6a9db601c1b8341d2cf8b2c7d3fe3cd5ccf0b8cb4321e5e6b6f697b442",
+      "final.txt": "6e0fb2a459c676c231b99bced403da758e0e89b4e0695d2e61cdde2904501a02",
+      "prompt.txt": "2d7d47812410abc4b4ab85598bbff5dda947b9a9d73cf7896ad9a2d31d47bb89",
+      "session-export.json": "c636678b9d3b77a0f6952f85e4a8d34b231a07a9d9be1acaef370f29976379cf",
+      "events.jsonl": "101b11a3dd31205b17a98b98f3c2b636cfcd26f8f2e626e3e05db3632ee4ac16"
+    }
+  },
+  {
+    "case_id": "K17",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:52:06.555862+00:00",
+    "elapsed_s": 202.19288206100464,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3a5cadffeXEsW1UMtZNwBib"
+    ],
+    "completed_steps": 8,
+    "tokens_reported": {
+      "total": 88347,
+      "input": 4059,
+      "output": 1516,
+      "reasoning": 8148,
+      "cache_read": 74624,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "error"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "0ee7c3bbce9f59b427605ce69ef1a57771b93916ac1714c8c422ac78684773bc",
+      "final.txt": "68eaf74ae1531249a0c6a07667b0e25d58e5cf61c61e8835c3370aed4fdbc0c0",
+      "prompt.txt": "77478e31d1305433c779aff4a739bc656516a1c0fe9f4fab29e6cb7a0e0fafe1",
+      "session-export.json": "5a324d51dae8d3f48f9061f98e939f60a51b6e9c50c14282ebd8c392e6c566b0",
+      "events.jsonl": "b1be921d434408f7678b8f4754183b907a757160f9cf7fe83a264c4cff98503d"
+    }
+  },
+  {
+    "case_id": "K18",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:52:09.668501+00:00",
+    "elapsed_s": 209.57499408721924,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3a5016ffeLZOpD4Ai1KF8aX"
+    ],
+    "completed_steps": 8,
+    "tokens_reported": {
+      "total": 87771,
+      "input": 4039,
+      "output": 1449,
+      "reasoning": 11627,
+      "cache_read": 70656,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "error"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "39134ad1d8b886d66c07fc1a0693a1759a5e1d590f286bbb1fcf0028822c72f4",
+      "final.txt": "6e9852181d631c3824793d0cf43131f5ddcff791a8029760993a3482e2cd255b",
+      "prompt.txt": "1eeab20ddcdbf40e978b72472667e44448b85bc3c7a0599eca3d196188e1f310",
+      "session-export.json": "7ef9d28ba2a480e81779fd94e4d13d8b6db6b00c4bcccb5840cf835ac0ed8b33",
+      "events.jsonl": "efae155e27f688f4521c9b751a17152bc00c37544d34370905120c8f81d642bb"
+    }
+  },
+  {
+    "case_id": "K19",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:52:22.375527+00:00",
+    "elapsed_s": 423.5773060321808,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3a1ef0ffeoSJfNsLnOwfY47"
+    ],
+    "completed_steps": 7,
+    "tokens_reported": {
+      "total": 163791,
+      "input": 5234,
+      "output": 1224,
+      "reasoning": 33941,
+      "cache_read": 123392,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "e6b459274cb164605708d493e63983cc343f213c70169cb59b41fc1913fa7cdd",
+      "final.txt": "c9128f23f9e181ea03fb653ac0c1b08ce8fea0b19776df90c84cb5e8cbfa3d00",
+      "prompt.txt": "c87598833bb9006b43d8bff8662feea46ed530f7353bee8fa16ff9b8afb77420",
+      "session-export.json": "3bcc2a8346a5697124277d532086e1ce89703ef0ea8f3bf336a04fa384aa524f",
+      "events.jsonl": "54bfffcc879128f2113a7f37c616416ddde90a22ef2cf75a002b3fce91627218"
+    }
+  },
+  {
+    "case_id": "K20",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:54:28.802195+00:00",
+    "elapsed_s": 173.2255301475525,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c38313fffexUsYW58pB7HMFw"
+    ],
+    "completed_steps": 6,
+    "tokens_reported": {
+      "total": 56318,
+      "input": 2855,
+      "output": 828,
+      "reasoning": 7835,
+      "cache_read": 44800,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "2fd3086ff637858194991d9c5e7fa7384754b46da990e149ae3165d671b1c209",
+      "final.txt": "3f3f0af965680c061b94cb7945e2935ddcf69b353821b4ffaf7e46ce3797dfcb",
+      "prompt.txt": "95a9d3df8cf4cefa7d5c6c8fc5c1d77a84b573d41d37a367a095867e6be1a3bf",
+      "session-export.json": "2b2661f3a65406fb16dc583cb810a99f0cc1b25d7423a0fd6b0656026c5f37e0",
+      "events.jsonl": "e38e3efed5f33f146ee10cfa190698fa53d9b41914a5c3e33561b8d39789610c"
+    }
+  },
+  {
+    "case_id": "K21",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:55:28.766590+00:00",
+    "elapsed_s": 253.56643319129944,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c37410fffeyW8RlHnv6W11e2"
+    ],
+    "completed_steps": 4,
+    "tokens_reported": {
+      "total": 68097,
+      "input": 3857,
+      "output": 997,
+      "reasoning": 22283,
+      "cache_read": 40960,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "a9496ec21d3c108697877c8928ccac13a74367e269feb7ddbb917ba65b36817d",
+      "final.txt": "e449741b9a909cf5101b2263cd5914c6f7e061b488f77e55728b061723a07dad",
+      "prompt.txt": "f82e43fcf9481de059ec22c27db0e6bb103c8551b279c218b8ba67a12786681a",
+      "session-export.json": "1b9f2e961762580dec7bb5e8308be8a99a38083915bd45dd390bd81e362b7ebe",
+      "events.jsonl": "d50cf40b052d4bea235b724e93d4fe7fbd0fb1a7ee1760896b36daa7268849d3"
+    }
+  },
+  {
+    "case_id": "K22",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:55:39.260694+00:00",
+    "elapsed_s": 224.31754803657532,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c371ab4ffeNdLeF9ynhb50jx"
+    ],
+    "completed_steps": 6,
+    "tokens_reported": {
+      "total": 62823,
+      "input": 3360,
+      "output": 881,
+      "reasoning": 16086,
+      "cache_read": 42496,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "error"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "c30006aa23ecd8c4c18579b98b5e01275c8982205938a9c6d37860d287e65b68",
+      "final.txt": "3dfe852113062b85d300015b7e7f4962582dc135010d878393a5338e6a34d1c5",
+      "prompt.txt": "e8f776446ca8f7bbd903b726117488322f2fd3239769aa45885bf27af30f97b0",
+      "session-export.json": "4f953013b564a5194ca404eea08dd76b22e830ee2b104dfda504f3a9703811dd",
+      "events.jsonl": "d44295db30a6fbdc87dc17977fc261bd7b787c7e208694cb595d1234af4e1511"
+    }
+  },
+  {
+    "case_id": "K23",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:57:22.037676+00:00",
+    "elapsed_s": 194.74990797042847,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c358c6cffeZ1f3f3krWEftyg"
+    ],
+    "completed_steps": 7,
+    "tokens_reported": {
+      "total": 80460,
+      "input": 3363,
+      "output": 927,
+      "reasoning": 12938,
+      "cache_read": 63232,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "error"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "444abb66ea34a55140cd1c337217f36a3eb6abad97c86403d71b948954a81796",
+      "final.txt": "7438bf399addc2a1599c4d1413deed7f0c0ce2fc4e0461ec8421532170130b0c",
+      "prompt.txt": "bed8d9009125ddcc9ed7be4ff4a672b754beb1c151473ba6f8d64876a3016ba4",
+      "session-export.json": "081cf19f7df11f60376a1ec0be95fbbe66326e83adb850ed666a3b2f2b9e2843",
+      "events.jsonl": "51123922a124c344f16b5fae91a911bf7c6a1a5b75405ec27b873b673648651b"
+    }
+  },
+  {
+    "case_id": "K24",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:59:23.588324+00:00",
+    "elapsed_s": 118.56071186065674,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c33b1a3ffep0bwxgxT5Qjz0F"
+    ],
+    "completed_steps": 4,
+    "tokens_reported": {
+      "total": 35951,
+      "input": 3109,
+      "output": 876,
+      "reasoning": 7006,
+      "cache_read": 24960,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "a38c804e535f89dc785dcd509b359d4674b7fb0c0e482944d1f7a8f02117c1ff",
+      "final.txt": "44a4603c6aa470dd1683f4ef54c5b009e37a949d3a5eae24502d715a2e2c885b",
+      "prompt.txt": "cdef25b434b1d2900cb20d22ce86b8e323e6bbd74aae3cd3640f84b63f982acc",
+      "session-export.json": "df319b5f19b1d6c708a9a034ce0a8a44540617f3a4b7ac62c71faa53f80a846a",
+      "events.jsonl": "0346ad414d862cb6981395cf0a9ee295e9efbf93199f3b3998384de5da1968f1"
+    }
+  },
+  {
+    "case_id": "K25",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:59:25.969873+00:00",
+    "elapsed_s": 129.1629240512848,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c33a85effez63BPwD7JwgPRy"
+    ],
+    "completed_steps": 4,
+    "tokens_reported": {
+      "total": 38989,
+      "input": 2989,
+      "output": 922,
+      "reasoning": 7430,
+      "cache_read": 27648,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "14053e5e5e5dd1ff632f84a2506ac5f377e89712ec5bda3e2efd4c3293f7d76d",
+      "final.txt": "9ba29592e6fa1ec1f631ea5320395e0c63e339527b13d17212c8bab2cf8f115b",
+      "prompt.txt": "803217d1cf3d37bddd1279cb60126d7e405d1f2b7a54df684e86a84e8030e90f",
+      "session-export.json": "c4f8caf39236bb0689719107b40cc32fa7b57a1139b9310c3e46605a55329e40",
+      "events.jsonl": "055fbc4abe742d0a03cc0bc603f58f042f0e12a4e6a13f4143404d1d31db319f"
+    }
+  },
+  {
+    "case_id": "K26",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T22:59:42.347055+00:00",
+    "elapsed_s": 205.16213178634644,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c33686dffelsz3Q7aWDX99NV"
+    ],
+    "completed_steps": 7,
+    "tokens_reported": {
+      "total": 71004,
+      "input": 3399,
+      "output": 926,
+      "reasoning": 8823,
+      "cache_read": 57856,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "error"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "6fc769e5e2ce58a741045fc5798e09077d86bf81d76a4abb0058c2ad21bb7895",
+      "final.txt": "f60dd4506fbfff22dab3391e7afc137b329ec637d7f9c2526545b01a44ee1d7c",
+      "prompt.txt": "5b9ca5f78af920957532d8665a5742148b844c17ad93ea0663cdbc2223170e8a",
+      "session-export.json": "dee1216a0a76cfcf6bbea725d24e7792805f974d654909ded86afc74d2def404",
+      "events.jsonl": "a1b22643c591d82e9c8c9e4efd2d6c12bae24e841ceb394533b0a9cf18ca86d6"
+    }
+  },
+  {
+    "case_id": "K27",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T23:00:36.797559+00:00",
+    "elapsed_s": 295.30924010276794,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c3293b6ffepnzuuCHI3FTbmo"
+    ],
+    "completed_steps": 5,
+    "tokens_reported": {
+      "total": 77777,
+      "input": 3579,
+      "output": 1276,
+      "reasoning": 26842,
+      "cache_read": 46080,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "093ef85d75ad14d38574ad19f109674dcb5c942025688582ba84c8d325b68404",
+      "final.txt": "e55fdb191598eadc855642d41c95861dfa4637a859c2fcacbe2b9aec3dd5c903",
+      "prompt.txt": "1d140e8a651a2a87b3dc2fc64dd8564d4e51a4149b25fb4bfd9cde0a34c26345",
+      "session-export.json": "5400db6401e6e29abd7c48acc4ad4ca40022771bcbe0b2ef7b1bab1c87576ace",
+      "events.jsonl": "a7f73ff66511dec3f513fc842aefec22e19dae18de639f3628918cd55668bac8"
+    }
+  },
+  {
+    "case_id": "K28",
+    "attempt": 1,
+    "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "models_recorded": [
+      [
+        "deepseek-cc-switch",
+        "deepseek-v4-flash-vision-exp"
+      ]
+    ],
+    "opencode_version": "1.18.29",
+    "started_utc": "2026-09-05T23:01:22.158682+00:00",
+    "elapsed_s": 223.41716480255127,
+    "exit_code": 0,
+    "timed_out": false,
+    "answer_valid": false,
+    "error": "Expecting value: line 1 column 1 (char 0)",
+    "session_ids": [
+      "ses_f8c31e28dffer13NSYUpsFM4Bd"
+    ],
+    "completed_steps": 5,
+    "tokens_reported": {
+      "total": 71101,
+      "input": 16329,
+      "output": 1066,
+      "reasoning": 18506,
+      "cache_read": 35200,
+      "cache_write": 0
+    },
+    "opencode_reported_cost": 0,
+    "billed_cost": null,
+    "cost_note": "Custom provider price metadata may be missing; displayed zero does not establish zero billed cost.",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "read",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "completed"
+      },
+      {
+        "tool": "bash",
+        "status": "error"
+      }
+    ],
+    "files_sha256": {
+      "stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "config.json": "861678f5f646953571d97895955f7b2774851d22b67177766a21b946e990f82e",
+      "final.txt": "1334e8510f63870faf4767d97fa1795120054466285b44ded435b16b6de4154e",
+      "prompt.txt": "5a96db4fdd7afb9c8aa8f683c46e5b238ee1cfb293c769908fe00b55e97a54d8",
+      "session-export.json": "f94941ff4a992fc40035c1bdc0f5ee5809460239be29f40a908df4188003d7dc",
+      "events.jsonl": "21f26e045a148951fc9cb49ffdfef6f165f76f648a6c3d4e56d130ee73830d65"
+    }
+  }
+]

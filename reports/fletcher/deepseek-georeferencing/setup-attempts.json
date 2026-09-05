@@ -1,0 +1,139 @@
+{
+  "note": "Three completed without a valid answer; four interrupted when setup problems were diagnosed. Only completed-step usage is available. No answer was fed to the scored workers.",
+  "cases": [
+    {
+      "case_id": "K01",
+      "completed_before_pause": true,
+      "interrupted_at_pause": false,
+      "valid_answer": false,
+      "completed_step_tokens": {
+        "total": 38220,
+        "input": 3299,
+        "output": 470,
+        "reasoning": 6419
+      },
+      "stop_reasons": [
+        "tool-calls",
+        "tool-calls",
+        "tool-calls",
+        "length"
+      ],
+      "events_sha256": "3e970f7b68344a9266a79cbcaa1a900d9fe62a6cbde642cc932fb193297711b9",
+      "local_directory": "/private/tmp/judique-deepseek-georef-20260905/runs/K01/attempt-1"
+    },
+    {
+      "case_id": "K02",
+      "completed_before_pause": true,
+      "interrupted_at_pause": false,
+      "valid_answer": false,
+      "completed_step_tokens": {
+        "total": 19752,
+        "input": 2695,
+        "output": 182,
+        "reasoning": 5995
+      },
+      "stop_reasons": [
+        "tool-calls",
+        "length"
+      ],
+      "events_sha256": "5a18a42e571ae0c3872b2cb54794ffc1b397482dc953adbc698755ab34adcef8",
+      "local_directory": "/private/tmp/judique-deepseek-georef-20260905/runs/K02/attempt-1"
+    },
+    {
+      "case_id": "K03",
+      "completed_before_pause": true,
+      "interrupted_at_pause": false,
+      "valid_answer": false,
+      "completed_step_tokens": {
+        "total": 50077,
+        "input": 6389,
+        "output": 495,
+        "reasoning": 7609
+      },
+      "stop_reasons": [
+        "tool-calls",
+        "tool-calls",
+        "tool-calls",
+        "tool-calls",
+        "length"
+      ],
+      "events_sha256": "7c82b53d0589ab8402ed2cb5860ce8046a24b1f69209f20818c47dec635201b6",
+      "local_directory": "/private/tmp/judique-deepseek-georef-20260905/runs/K03/attempt-1"
+    },
+    {
+      "case_id": "K04",
+      "completed_before_pause": false,
+      "interrupted_at_pause": true,
+      "valid_answer": false,
+      "completed_step_tokens": {
+        "total": 71163,
+        "input": 7579,
+        "output": 1188,
+        "reasoning": 5820
+      },
+      "stop_reasons": [
+        "tool-calls",
+        "tool-calls",
+        "tool-calls",
+        "tool-calls",
+        "tool-calls",
+        "tool-calls",
+        "tool-calls"
+      ],
+      "events_sha256": "e44edb9b6ebb31b97fa661149223799bed5cc22e0f04e3b912eb3f2aecf4096c",
+      "local_directory": "/private/tmp/judique-deepseek-georef-20260905/runs/K04/attempt-1"
+    },
+    {
+      "case_id": "K05",
+      "completed_before_pause": false,
+      "interrupted_at_pause": true,
+      "valid_answer": false,
+      "completed_step_tokens": {
+        "total": 18551,
+        "input": 2363,
+        "output": 193,
+        "reasoning": 3579
+      },
+      "stop_reasons": [
+        "tool-calls",
+        "tool-calls"
+      ],
+      "events_sha256": "cf1707ed077ac61e383677b8ba0187a69ae02a9191965ef7945da79b5bdb6829",
+      "local_directory": "/private/tmp/judique-deepseek-georef-20260905/runs/K05/attempt-1"
+    },
+    {
+      "case_id": "K06",
+      "completed_before_pause": false,
+      "interrupted_at_pause": true,
+      "valid_answer": false,
+      "completed_step_tokens": {
+        "total": 20607,
+        "input": 2853,
+        "output": 585,
+        "reasoning": 657
+      },
+      "stop_reasons": [
+        "tool-calls",
+        "tool-calls",
+        "tool-calls"
+      ],
+      "events_sha256": "b975ed798c090a06893a57c861e829421f697ca6c8f443fa9575e8bad75fb788",
+      "local_directory": "/private/tmp/judique-deepseek-georef-20260905/runs/K06/attempt-1"
+    },
+    {
+      "case_id": "K07",
+      "completed_before_pause": false,
+      "interrupted_at_pause": true,
+      "valid_answer": false,
+      "completed_step_tokens": {
+        "total": 0,
+        "input": 0,
+        "output": 0,
+        "reasoning": 0
+      },
+      "stop_reasons": [],
+      "events_sha256": "1591b70d400762661d3cc2f0203c37567f101dd565446a458814cc4062c753c7",
+      "local_directory": "/private/tmp/judique-deepseek-georef-20260905/runs/K07/attempt-1"
+    }
+  ]
+}
