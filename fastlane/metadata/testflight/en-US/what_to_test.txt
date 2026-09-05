@@ -16,7 +16,7 @@ Please try:
 - Optionally: stop a recording without saving, force-quit, relaunch, and confirm the "stopped and never saved" restore path.
 
 Known scope for this build:
-- The 1885 historical overlay is not visible in this build; its tile hosting is still being wired up. Saved offline areas store historical-overlay tiles, so there is little to save yet.
+- The 1885 historical overlay can load when the build uses the published default tile host. If the layer row is present, you can toggle it. An empty or explicit host override still disables hosting. Saved offline areas store historical-overlay tiles.
 - NS Aerial and the provincial reference layers are online services. Recently viewed tiles redraw offline until the cache makes room for newer ones.
 
 An empty search result or an empty layer is worth reporting, with the place and the time — but note that the app deliberately reports an empty answer as "nothing returned", never as proof that nothing exists.

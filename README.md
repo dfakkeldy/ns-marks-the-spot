@@ -41,9 +41,11 @@ Night, and System appearance (the default) or OpenStreetMap raster; atlas
 detail is in [web/README.md](web/README.md). Fletcher now has a host-neutral,
 default-off web control for the 24 independently accepted direct-Rumsey sheets,
 with bounded per-sheet requests, opacity, share, print, evidence, attribution,
-and failure handling. It remains fail-closed until
-`VITE_FLETCHER_TILE_BASE_URL` names an authorized immutable HTTPS object host;
-that integration state is not a production-deployment claim. Four A.F. Church Cape Breton
+and failure handling. Ordinary iOS and web builds default to
+`https://tiles.kinnokilabs.com` (revision `fletcher-direct-rumsey-20260831.1`);
+an empty `VITE_FLETCHER_TILE_BASE_URL` or `FLETCHER_TILE_BASE_URL` override
+disables hosting. Sheet bounds, attribution, and that revision are unchanged.
+Four A.F. Church Cape Breton
 county maps (Inverness, Victoria, Richmond, Cape Breton; 1884–85, David
 Rumsey Map Collection) are catalogued alongside it as disabled rows, with
 tiles still pending—see
