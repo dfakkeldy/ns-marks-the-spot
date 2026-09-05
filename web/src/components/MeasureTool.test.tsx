@@ -96,6 +96,26 @@ describe("MeasureTool controls", () => {
 });
 
 describe("distance measuring", () => {
+  it.each(["distance", "area"] as const)("undoes %s points after finishing and lets drawing resume", (mode) => {
+    render(<Harness initialMode={mode} />);
+    const undo = screen.getByRole("button", { name: "Undo point" });
+    expect(undo).toBeDisabled();
+    clickAt(45, -61);
+    clickAt(46, -61);
+    clickAt(46, -62);
+    fireEvent.keyDown(window, { key: "Enter" });
+    fireEvent.click(undo);
+    expect(screen.getAllByTestId("measure-vertex")).toHaveLength(2);
+    clickAt(47, -62);
+    expect(screen.getAllByTestId("measure-vertex")).toHaveLength(3);
+    fireEvent.click(undo);
+    fireEvent.click(undo);
+    fireEvent.click(undo);
+    expect(screen.queryAllByTestId("measure-vertex")).toHaveLength(0);
+    expect(screen.queryByTestId("measurement-label")).not.toBeInTheDocument();
+    expect(undo).toBeDisabled();
+  });
+
   it("keeps the total at the last placed point through finishing and clears it on restart", () => {
     render(<Harness initialMode="distance" />);
     clickAt(45, -61);

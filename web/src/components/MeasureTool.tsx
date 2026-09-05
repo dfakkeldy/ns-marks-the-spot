@@ -202,6 +202,29 @@ function MeasureCapture({
 
   return (
     <>
+      <div
+        className="measure-control measure-actions"
+        ref={(node) => {
+          if (node) {
+            L.DomEvent.disableClickPropagation(node);
+            L.DomEvent.disableScrollPropagation(node);
+          }
+        }}
+      >
+        <button
+          type="button"
+          disabled={isEmpty}
+          onClick={() => {
+            setCursor(null);
+            setMeasurement((current) => ({
+              points: current.points.slice(0, -1),
+              finished: false,
+            }));
+          }}
+        >
+          Undo point
+        </button>
+      </div>
       <Pane name={MEASURE_PANE} style={{ zIndex: MEASURE_PANE_Z_INDEX }}>
         {mode === "area" && preview.length >= 3 ? (
           <Polygon positions={preview} pathOptions={SHAPE_STYLE} interactive={false} />

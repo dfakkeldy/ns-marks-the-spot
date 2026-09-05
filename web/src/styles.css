@@ -2023,6 +2023,23 @@ a {
   background: var(--survey-blue);
 }
 
+.measure-control.measure-actions {
+  left: 66px;
+}
+
+.measure-actions button {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.measure-actions button:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
 .leaflet-tooltip.measure-endpoint-label {
   z-index: 300;
   padding: 8px 12px;
