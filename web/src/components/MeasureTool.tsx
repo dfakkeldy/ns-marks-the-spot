@@ -5,6 +5,7 @@ import {
   Pane,
   Polygon,
   Polyline,
+  Tooltip,
   useMap,
   useMapEvents,
 } from "react-leaflet";
@@ -237,7 +238,20 @@ function MeasureCapture({
                     }
                   : undefined
               }
-            />
+            >
+              {index === points.length - 1 && points.length >= MIN_FINISH_POINTS[mode] ? (
+                <Tooltip
+                  permanent
+                  direction="top"
+                  offset={[0, -12]}
+                  opacity={1}
+                  className="measure-endpoint-label"
+                >
+                  <span>{mode === "distance" ? "Total distance" : "Area"}</span>
+                  <strong>{readoutText(mode, points)}</strong>
+                </Tooltip>
+              ) : null}
+            </CircleMarker>
           );
         })}
       </Pane>

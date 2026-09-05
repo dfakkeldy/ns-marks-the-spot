@@ -19,9 +19,11 @@ const mapEvents = vi.hoisted(() => ({
 vi.mock("react-leaflet", () => ({
   CircleMarker: ({
     center,
+    children,
     eventHandlers,
     interactive,
   }: {
+    children?: React.ReactNode;
     center: { lat: number; lng: number };
     eventHandlers?: { click?: (event: unknown) => void };
     interactive?: boolean;
@@ -34,7 +36,7 @@ vi.mock("react-leaflet", () => ({
       onClick={(event) =>
         eventHandlers?.click?.({ originalEvent: event.nativeEvent })
       }
-    />
+    >{children}</button>
   ),
   Pane: ({ children }: PropsWithChildren<{ name: string; style?: CSSProperties }>) => (
     <div data-testid="measure-pane">{children}</div>
@@ -44,6 +46,9 @@ vi.mock("react-leaflet", () => ({
   ),
   Polyline: ({ positions }: { positions: Array<{ lat: number; lng: number }> }) => (
     <div data-testid="measure-line" data-count={positions.length} />
+  ),
+  Tooltip: ({ children }: PropsWithChildren) => (
+    <div data-testid="measurement-label">{children}</div>
   ),
   useMap: () => mapMock,
   useMapEvents: (handlers: typeof mapEvents.current) => {
@@ -91,6 +96,21 @@ describe("MeasureTool controls", () => {
 });
 
 describe("distance measuring", () => {
+  it("keeps the total at the last placed point through finishing and clears it on restart", () => {
+    render(<Harness initialMode="distance" />);
+    clickAt(45, -61);
+    expect(screen.queryByTestId("measurement-label")).not.toBeInTheDocument();
+    clickAt(46, -61);
+    expect(screen.getByTestId("measurement-label")).toHaveTextContent("Total distance111.19 km");
+    expect(screen.getByTestId("measurement-label").parentElement).toHaveAttribute("data-center", "46,-61");
+    act(() => mapEvents.current.mousemove?.({ latlng: { lat: 47, lng: -61 } }));
+    expect(screen.getByTestId("measurement-label")).toHaveTextContent("111.19 km");
+    fireEvent.keyDown(window, { key: "Enter" });
+    expect(screen.getByTestId("measurement-label")).toHaveTextContent("111.19 km");
+    clickAt(45, -62);
+    expect(screen.queryByTestId("measurement-label")).not.toBeInTheDocument();
+  });
+
   it("accumulates vertices and reads out the running total", () => {
     render(<Harness initialMode="distance" />);
     expect(screen.getByRole("status")).toHaveTextContent(

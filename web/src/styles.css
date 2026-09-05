@@ -2023,6 +2023,33 @@ a {
   background: var(--survey-blue);
 }
 
+.leaflet-tooltip.measure-endpoint-label {
+  z-index: 300;
+  padding: 8px 12px;
+  color: #172f36;
+  background: #fff;
+  border: 2px solid #d97706;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px #0004;
+  text-align: center;
+  pointer-events: none;
+}
+
+.measure-endpoint-label span {
+  display: block;
+  font-size: 12px;
+}
+
+.measure-endpoint-label strong {
+  display: block;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.leaflet-tooltip-top.measure-endpoint-label::before {
+  border-top-color: #d97706;
+}
+
 .measure-readout {
   position: absolute;
   z-index: 500;
