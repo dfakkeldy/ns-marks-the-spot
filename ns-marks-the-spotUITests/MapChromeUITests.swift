@@ -76,6 +76,22 @@ final class MapChromeUITests: XCTestCase {
             "the measured-not-surveyed caveat is not on screen beside the number"
         )
 
+        XCTAssertTrue(app.staticTexts["Total distance"].isHittable)
+        // Keep at least two points after Undo: the old behavior left that
+        // shape finished and silently discarded it on the next map tap.
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).tap()
+        let finish = app.buttons["measure-finish"]
+        let undo = app.buttons["measure-undo"]
+        XCTAssertTrue(finish.waitForHittable(timeout: 5))
+        finish.tap()
+        XCTAssertFalse(finish.isEnabled)
+        XCTAssertTrue(undo.waitForHittable(timeout: 5))
+        XCTAssertEqual(undo.label, "Undo point")
+        undo.tap()
+        XCTAssertTrue(finish.isEnabled, "Undo did not reopen the measurement")
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).tap()
+        XCTAssertNotEqual(readout.label, prompt, "the next tap discarded the remaining path")
+
         XCTAssertTrue(app.buttons["measure-done"].waitForHittable(timeout: 5))
         app.buttons["measure-done"].tap()
         XCTAssertTrue(
