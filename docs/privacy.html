@@ -98,24 +98,35 @@
           <h2>Map And Tile Requests</h2>
           <p>
             On the browser map, the default NS Marks Atlas (Day, Night, or System
-            appearance) loads OpenStreetMap vector tiles and fonts from
-            OpenFreeMap at https://tiles.openfreemap.org/ and draws them with
-            original NS Marks cartography. Attribution for that atlas
-            includes OpenFreeMap, OpenMapTiles, and OpenStreetMap contributors.
-            An explicit OpenStreetMap raster basemap remains available as a
-            choice and as a fallback. The native app uses Apple MapKit and Apple
-            basemaps; it does not load OpenFreeMap. Hugh Fletcher historical
-            overlay tiles and Nova Scotia provincial geographic services are also
-            displayed. Those map providers may receive standard network requests
-            for the tiles or layers you view. Searching by PID or civic address
-            sends the search text to the provincial services that answer it. If
-            you turn on parcel snapping while drawing, the native app sends only
-            a licence-gated viewport rectangle to the same provincial parcel
-            service the identify tool already queries. If you turn on the
-            optional live-conditions layers in the browser map, your browser also
-            requests camera imagery from 511 Nova Scotia and radar tiles from
-            Environment and Climate Change Canada's MSC GeoMet. NS Marks The Spot
-            does not operate its own tracking server.
+            appearance) draws original NS Marks cartography over a pinned
+            provincial vector-tile archive (PMTiles): Nova Scotia Road Network
+            roads, tracks, rail, and ferries; GeoNAMES labels; NSTDB hydrography
+            and woodland; and municipal boundaries. Production builds load that
+            archive from https://tiles.kinnokilabs.com/provincial-atlas/ with
+            public HTTP range requests and no app credentials. The archive is a
+            dated snapshot, not a claim of live physical conditions. Provincial
+            geography is licensed under the Open Government Licence – Nova
+            Scotia. OpenFreeMap still supplies only supplemental geography
+            (ocean context, non-tree land use, and building footprints) and
+            fonts, from https://tiles.openfreemap.org/ (planet tiles and fonts).
+            Credit for that supplemental context is OpenFreeMap · © OpenMapTiles
+            · © OpenStreetMap contributors; the Atlas is a hybrid, not wholly
+            provincial. An explicit OpenStreetMap raster basemap remains
+            available as a choice and as a fallback if the Atlas source fails.
+            The native app uses Apple MapKit and Apple basemaps; it does not
+            load OpenFreeMap or the provincial Atlas archive. Hugh Fletcher
+            historical overlay tiles and Nova Scotia provincial geographic
+            services are also displayed. Those map providers may receive
+            standard network requests for the tiles or layers you view.
+            Searching by PID or civic address sends the search text to the
+            provincial services that answer it. If you turn on parcel snapping
+            while drawing, the native app sends only a licence-gated viewport
+            rectangle to the same provincial parcel service the identify tool
+            already queries. If you turn on the optional live-conditions layers
+            in the browser map, your browser also requests camera imagery from
+            511 Nova Scotia and radar tiles from Environment and Climate Change
+            Canada's MSC GeoMet. NS Marks The Spot does not operate its own
+            tracking server.
           </p>
         </section>
 
