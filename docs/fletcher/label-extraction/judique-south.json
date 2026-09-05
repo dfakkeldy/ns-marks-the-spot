@@ -103,7 +103,13 @@
           5060,
           600,
           720
-        ]
+        ],
+        "resolved_by": {
+          "annotation_id": "F19-JUD-130",
+          "inventory": "judique-southeast.json",
+          "status": "resolved-in-later-batch",
+          "source_text": "CRAIGNISH"
+        }
       }
     ],
     "completeness_note": "All six source windows and all 29 candidate excerpts reviewed by coordinating Codex model, plus completed-label excerpts. No independent human completeness audit. Overlap fragments were deduplicated by source pixels; repeated names at separate positions remain separate.",

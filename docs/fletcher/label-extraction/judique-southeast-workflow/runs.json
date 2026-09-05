@@ -1,0 +1,151 @@
+{
+  "model_requested": "deepseek-v4-flash-vision-exp",
+  "provider_requested": "deepseek-cc-switch",
+  "opencode_version": "1.18.29",
+  "reasoning_requested": "Provider default; no variant override",
+  "automatic_import_allowed": false,
+  "isolation": "Fresh OpenCode sessions in isolated temporary packets. Only assigned PNGs, PNG reads and a fixed crop/rotation helper allowed. No prior inventories, other workers, georeferencing results or modern map evidence supplied. Existing global provider credentials were used without copying secrets or changing account configuration.",
+  "startup_note": "The simultaneous middle/east startups returned database is locked (exit 1); staggered fresh starts succeeded. No extraction output from the failed startups was used.",
+  "cost_note": "Custom-model OpenCode zero-cost counters have no configured price metadata and do not establish free usage. Actual billed cost is unavailable. Cumulative step counters include repeated cached contexts.",
+  "runs": [
+    {
+      "worker": "west",
+      "raw_output": "west-raw.json",
+      "sha256": "62a242f61cd92127d0a7979a9d5213279a62250abb7d439c4de5bc78e579e28a",
+      "model_requested": "deepseek-v4-flash-vision-exp",
+      "models_recorded": [
+        {
+          "provider": "deepseek-cc-switch",
+          "model": "deepseek-v4-flash-vision-exp"
+        }
+      ],
+      "session_id": "ses_f8c7f4f13ffe8IfMkM1u11OZJA",
+      "elapsed_seconds": 595.097,
+      "completed_steps": 30,
+      "tool_outcomes": {
+        "bash:completed": 24,
+        "read:completed": 23
+      },
+      "tokens_reported_by_opencode": {
+        "total": 565282,
+        "input": 11057,
+        "output": 5490,
+        "reasoning": 18559,
+        "cache_read": 530176,
+        "cache_write": 0
+      },
+      "opencode_reported_cost": 0,
+      "billed_cost": null,
+      "event_stream_sha256": "7d408cb8a9f2134db1c5ff145cfa8493139e257c35ab92db88a37cea512174f7",
+      "session_export_sha256": "634f946a8ef78257094f0b12353eefa5d31a85af4f3339da1bec77bb3ca42a3c",
+      "prompt_sha256": "3439683bbd0188544edcd7368e3ead77bc411ee6eb3f769c289fcb812ae72a0f",
+      "runtime_config_sha256": "c79321bbbf1ba05a86154be6beaeaf338ca3333e2b835510d8743b73399b8658",
+      "crop_helper_sha256": "172a89f6c60346f3870793f2024e3cf2b4c13c3d5a030be2ae8b9343b161eaad",
+      "reported_crop_ids": [
+        "I01",
+        "I04"
+      ],
+      "crop_ids": [
+        "I01",
+        "I04"
+      ],
+      "crop_id_aliases": {
+        "I01": "I01",
+        "I04": "I04"
+      }
+    },
+    {
+      "worker": "middle",
+      "raw_output": "middle-raw.json",
+      "sha256": "70af91bbd0099fa6b02f20510320667344471f4925dd37b0b0bd22f7c0fabf37",
+      "model_requested": "deepseek-v4-flash-vision-exp",
+      "models_recorded": [
+        {
+          "provider": "deepseek-cc-switch",
+          "model": "deepseek-v4-flash-vision-exp"
+        }
+      ],
+      "session_id": "ses_f8c7ee670ffeTMepbzm1n0DXg9",
+      "elapsed_seconds": 1605.476,
+      "completed_steps": 71,
+      "tool_outcomes": {
+        "bash:error": 1,
+        "bash:completed": 34,
+        "read:completed": 35
+      },
+      "tokens_reported_by_opencode": {
+        "total": 1602565,
+        "input": 14518,
+        "output": 8182,
+        "reasoning": 28633,
+        "cache_read": 1551232,
+        "cache_write": 0
+      },
+      "opencode_reported_cost": 0,
+      "billed_cost": null,
+      "event_stream_sha256": "00646835ab191b4b35f4affdccae86d81bc0e21f97a8fdd3375c1c022fa31980",
+      "session_export_sha256": "90a9ceb7acd986bc8f9f63c5f5e37174ced19b8c1c995fcd20f469859e48daf8",
+      "prompt_sha256": "c85f9ae8c7c605846675d44d6c43fc4bcbfdbf8067c3870473a1a3f5afc4d6fb",
+      "runtime_config_sha256": "dc9d8347b4867028b96ade8fe8183d29f249d83c1a635b0de4896eca6c6a2e32",
+      "crop_helper_sha256": "51583e5e4b7487117481bc3175764e65f84562ed5c78518ebca765d1aa1e26ae",
+      "reported_crop_ids": [
+        "I02",
+        "I05"
+      ],
+      "crop_ids": [
+        "I02",
+        "I05"
+      ],
+      "crop_id_aliases": {
+        "I02": "I02",
+        "I05": "I05"
+      }
+    },
+    {
+      "worker": "east",
+      "raw_output": "east-raw.json",
+      "sha256": "1d1278399b542056b65a1249a7d82915b307123969ec8d6e31cebd1fa91d117b",
+      "model_requested": "deepseek-v4-flash-vision-exp",
+      "models_recorded": [
+        {
+          "provider": "deepseek-cc-switch",
+          "model": "deepseek-v4-flash-vision-exp"
+        }
+      ],
+      "session_id": "ses_f8c7ea24cffeVEfSKjBI6BW7uF",
+      "elapsed_seconds": 1096.58,
+      "completed_steps": 37,
+      "tool_outcomes": {
+        "bash:completed": 58,
+        "read:completed": 60
+      },
+      "tokens_reported_by_opencode": {
+        "total": 1235037,
+        "input": 16686,
+        "output": 11325,
+        "reasoning": 36082,
+        "cache_read": 1170944,
+        "cache_write": 0
+      },
+      "opencode_reported_cost": 0,
+      "billed_cost": null,
+      "event_stream_sha256": "12bca4f3d8baf9240e6dadbb772a795555e0537d41e3b0aee174ca4e1a06a1b3",
+      "session_export_sha256": "69acf3c4a1c98c76437bb5f15574a594cebc25eed1342d373f705c8280b2cb39",
+      "prompt_sha256": "d7d0beae8bf87c0bc3176bcb2150491f9f68d79ca343b36d3bbc7a3b51a5c9ae",
+      "runtime_config_sha256": "1f73c99080b7a8e2b2b1f80336caf6d2e038dc9f075b667868b047e06c40b56d",
+      "crop_helper_sha256": "115219a173db2320c1e0289eeba3275b772d3e409086797ea5a18ee574c5db73",
+      "reported_crop_ids": [
+        "C01",
+        "C02"
+      ],
+      "crop_ids": [
+        "I03",
+        "I06"
+      ],
+      "crop_id_aliases": {
+        "C01": "I03",
+        "C02": "I06"
+      }
+    }
+  ]
+}

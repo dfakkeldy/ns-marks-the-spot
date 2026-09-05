@@ -1,0 +1,157 @@
+{
+  "crops": [
+    {
+      "id": "I01",
+      "source_region_xywh": [
+        5600,
+        3500,
+        1100,
+        1250
+      ],
+      "image_filename": "I01.png",
+      "image_sha256": "69a2091985a919103f90ddb745372395537d8b5fafd38f62f3c8ed773858ea50",
+      "state": "reviewed"
+    },
+    {
+      "id": "I02",
+      "source_region_xywh": [
+        6600,
+        3500,
+        1100,
+        1250
+      ],
+      "image_filename": "I02.png",
+      "image_sha256": "71054611229c489118a479abcea85db97c64b45de55657cfb84480187c97c32b",
+      "state": "reviewed"
+    },
+    {
+      "id": "I03",
+      "source_region_xywh": [
+        7600,
+        3500,
+        1100,
+        1250
+      ],
+      "image_filename": "I03.png",
+      "image_sha256": "4be76154c398f8fcf301791e2f24c740ccad7e149d0e5c59e2296585e4bdb14d",
+      "state": "reviewed"
+    },
+    {
+      "id": "I04",
+      "source_region_xywh": [
+        5600,
+        4600,
+        1100,
+        1250
+      ],
+      "image_filename": "I04.png",
+      "image_sha256": "e7a845f2289d46735ccdd27071f96e9893b0d2ecef61d2ba8af31f533d7fa697",
+      "state": "reviewed"
+    },
+    {
+      "id": "I05",
+      "source_region_xywh": [
+        6600,
+        4600,
+        1100,
+        1250
+      ],
+      "image_filename": "I05.png",
+      "image_sha256": "123ac75cdc6a0dd9100342a92c333cb565f0ec72a37656e655c926cdb84d59c8",
+      "state": "reviewed"
+    },
+    {
+      "id": "I06",
+      "source_region_xywh": [
+        7600,
+        4600,
+        1100,
+        1250
+      ],
+      "image_filename": "I06.png",
+      "image_sha256": "7822f9cb27f7fc5a54c663524e1658a16241f9375bf499e896eca61096237e66",
+      "state": "reviewed"
+    }
+  ],
+  "source_mosaic_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "edge_context": [
+    {
+      "id": "E01",
+      "source_region_xywh": [
+        8500,
+        4180,
+        500,
+        300
+      ],
+      "image_filename": "E01.png",
+      "image_sha256": "309bad871308f0d300e833eeb9145c5f532e58ee73be56cd36e2bc9a70f69c15",
+      "state": "edge-completion-only",
+      "note": "Completes intersecting lettering only; surrounding context is not fully inventoried."
+    },
+    {
+      "id": "E02",
+      "source_region_xywh": [
+        8550,
+        4580,
+        500,
+        280
+      ],
+      "image_filename": "E02.png",
+      "image_sha256": "8b7f4499245cb3b38773d36d475b1a6de08f4f62aeaebb7325dabb8077c40a8c",
+      "state": "edge-completion-only",
+      "note": "Completes intersecting lettering only; surrounding context is not fully inventoried."
+    },
+    {
+      "id": "E03",
+      "source_region_xywh": [
+        5050,
+        3450,
+        1750,
+        2400
+      ],
+      "image_filename": "E03.png",
+      "image_sha256": "f679dada367e40697df6625139c9f25dfe81602f2675841f74cc3dd98f179e01",
+      "state": "edge-completion-only",
+      "note": "Completes intersecting lettering only; surrounding context is not fully inventoried."
+    },
+    {
+      "id": "E04",
+      "source_region_xywh": [
+        7150,
+        5450,
+        450,
+        650
+      ],
+      "image_filename": "E04.png",
+      "image_sha256": "5800a446b628f7ba9aeabdb2fd6714f4a00884d68a09b2a35f0a327e37a087f2",
+      "state": "edge-completion-only",
+      "note": "Completes intersecting lettering only; surrounding context is not fully inventoried."
+    },
+    {
+      "id": "E05",
+      "source_region_xywh": [
+        7525,
+        5700,
+        525,
+        950
+      ],
+      "image_filename": "E05.png",
+      "image_sha256": "61a9bd9adad1504cc6bc4dd8c024bd1ed96436de85a9f43701fb3a12835b8f75",
+      "state": "edge-completion-only",
+      "note": "Completes intersecting lettering only; surrounding context is not fully inventoried."
+    },
+    {
+      "id": "E06",
+      "source_region_xywh": [
+        7100,
+        5780,
+        680,
+        820
+      ],
+      "image_filename": "E06.png",
+      "image_sha256": "375a4845973c6a6a1a125749d044f172a7aed3735954efffc431f18ce278e342",
+      "state": "edge-completion-only",
+      "note": "Completes PROPOSED RAILWAY TO WHYCOCOMAGH whose opening P intersects I05; surrounding labels not fully inventoried."
+    }
+  ]
+}
