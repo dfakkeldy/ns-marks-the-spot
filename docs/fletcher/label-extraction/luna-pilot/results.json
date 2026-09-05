@@ -1,5 +1,5 @@
 {
-  "status": "partial-pilot; requested Opus 5 comparison pending",
+  "status": "completed-three-model-pilot; optional Opus 5 comparison set aside by user",
   "metric_note": "Counts allow the explicitly documented manual splitting/regrouping of candidate text. They are not raw-record accuracy or end-to-end acceptance rates. Punctuation-only differences are reported separately.",
   "results": [
     {

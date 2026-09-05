@@ -1,10 +1,10 @@
 # Fletcher label-extraction model pilot
 
-**Partial result: Luna, Terra and Sol were tested; the requested Claude Opus 5 comparison is waiting for login.** No candidate has been imported into the accepted inventory. The inventory remains at 70 annotations.
+**Completed pilot: Luna, Terra and Sol were tested. The optional Claude comparison was set aside at the user’s request.** No candidate has been imported into the accepted inventory. The reference inventory contained 70 annotations at the time of this comparison; the separate [southward batch](../judique-south-review.md) extends it.
 
 The pilot tests a practical workflow: inexpensive first-pass extraction from native crops, followed by source review and a separate placement stage. These results do not support unattended extraction or accepting a model's self-reported confidence.
 
-## Results so far
+## Results
 
 Six crops contain 27 complete reference annotations. Three provisional readings/groupings are excluded from strict text scoring, leaving **24 clear references**. Edge fragments are recorded separately.
 
@@ -15,7 +15,7 @@ The counts below allow the explicitly documented **manual splitting and regroupi
 | gpt-5.6-luna | 17/24 | 1 | 4 / 2 | Valid bounds, but visual defects remain |
 | gpt-5.6-terra | 20/24 | 1 | 3 / 0 | Valid bounds, but visual defects remain |
 | gpt-5.6-sol | 21/24 | 1 | 1 / 1 | Valid bounds, but visual defects remain |
-| Claude Opus 5 | Not run | — | — | Awaiting login |
+| Claude Opus 5 | Not run | — | — | Comparison set aside |
 
 Luna, Terra and Sol emitted 31, 31 and 28 candidate records respectively. Different counts reflect split and merged labels as well as omissions; they are not counts of distinct sites. All 90 candidate records have syntactically valid boxes within their crop bounds. Visual inspection nevertheless found clipped text and wrong image regions.
 
@@ -36,7 +36,7 @@ Luna, Terra and Sol emitted 31, 31 and 28 candidate records respectively. Differ
 5. **Resolve exceptions and merge deliberately:** preserve raw candidates, corrections and the accepted wording separately; deduplicate overlapping source annotations without merging separate occurrences of a repeated name.
 6. **Place only accepted annotations:** associate source symbols and trace connected roads/water before evaluating modern candidates. Gazetteer points remain reference evidence rather than historical site pins.
 
-**Current decision:** keep cheap-model output as candidate evidence only. Scripts can handle packaging, validation and bookkeeping reliably. Hold the choice of the main extraction/review model until Opus 5 has been tested. This pilot does not establish that adding a cheaper first pass reduces total cost once correction is included.
+**Current decision:** keep cheap-model output as candidate evidence only. Scripts can handle packaging, validation and bookkeeping reliably. Use Sol for the next candidate batch, with full source review by the coordinating model. It had the best text result in this limited pilot; this is an operational choice, not a general model ranking. This pilot does not establish that adding a cheaper first pass reduces total cost once correction is included.
 
 ## Reproduce and audit
 
@@ -53,11 +53,11 @@ Local verification passed for all 90 candidate records and six image hashes. All
 
 The native source comes from the separate **Georeference Fletcher map sheet** task. This text-reading pilot does not modify that task's fixed geographic evaluation windows, observations or acceptance evidence. Do not use these labels to tune its evaluation and still describe it as independent.
 
-## Limits and pending Opus test
+## Limits and untested model
 
 The six crops were selected for representative difficulty from already inventoried areas, not randomly sampled or independently transcribed by a human. One run per configuration is insufficient to rank model families generally. Luna used three two-crop workers; Terra and Sol each used one six-crop worker, so packaging is a confounding factor. No current-model pricing or Codex allowance multiplier was used to infer actual cost. Token consumption, billed cost and active correction minutes were not measured.
 
-Claude Code is installed but reported no authenticated account; the separate browser session also required sign-in. Opus 5 was visible in the existing Claude desktop app, but desktop interaction was interrupted while that app was being used. The user was asked to run `claude auth login`; the six-image blind packet is prepared. **Opus has no score and no failed-quality result.** Pin the requested model as `claude-opus-5` and verify the run's reported model before scoring; do not silently fall back to another Claude version. See [Anthropic model IDs](https://platform.claude.com/docs/en/about-claude/models/model-ids-and-versions) and [Claude Code CLI reference](https://code.claude.com/docs/en/cli-reference).
+The requested Claude Opus 5 run did not produce candidates because a fresh CLI request failed authentication. The user reported a working existing CLI session and then chose to continue without Claude. No account changes were made. **Opus has no score and no failed-quality result.** The prepared blind packet remains outside Git; another model comparison is not a prerequisite for extraction.
 
 ## Attribution
 

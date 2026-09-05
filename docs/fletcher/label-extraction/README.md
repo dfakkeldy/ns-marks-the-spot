@@ -1,8 +1,8 @@
 # Judique: first Fletcher label inventory
 
-**Current progress: 70 printed annotations across two batches.** The [inland extension and source-symbol review](judique-inland-review.md) adds 41 annotations, uses the related georeferencing task's native regional-source mosaic, and reviews eight original facility labels. Four have a supported association with a printed symbol; four remain unresolved. These are source-image associations, not modern site coordinates. The first batch below retains its original source provenance.
+**Current progress: 93 printed annotations across three batches.** The [southward extension to Long Point](judique-south-review.md) adds 23 source-reviewed annotations using the assembly-line process. The [inland extension and source-symbol review](judique-inland-review.md) added 41 and reviewed eight original facility labels; four have supported printed-symbol associations and four remain unresolved. All additions are research transcriptions, not modern site coordinates. The original 29-annotation batch is documented below.
 
-The [six-crop model pilot](luna-pilot/README.md) compares blind Luna, Terra and Sol extraction against existing annotations. It records raw candidates, errors and source-box defects; none have been imported. The requested Claude Opus 5 comparison is pending account access.
+The [six-crop model pilot](luna-pilot/README.md) compares blind Luna, Terra and Sol extraction against existing annotations. Its raw outputs remain comparison evidence only. The optional Claude comparison was set aside; the new Long Point batch uses Sol candidates with complete source-window review.
 
 Extracted September 5, 2026 from the original, unwarped 1884 Fletcher sheet 19. This is a research inventory for review, not a production map layer.
 
@@ -23,7 +23,7 @@ The reviewed rectangle is **x=2700, y=1000, width=3100, height=2700** in the ori
 
 Pixel rectangles locate lettering only. The pilot JPEG is separately hash-bound; the prior whole-scan checksum is recorded as inherited lineage, not as a newly verified download. Scans and review images remain outside Git.
 
-Geological unit codes, dip numbers/arrows, circled geological symbols, red report/page references, graticule, marginalia and unlabelled building symbols were excluded from this pilot. The rest of the sheet has not been inventoried. No inference of absence follows from an exclusion or an unreviewed area.
+Geological unit codes, dip numbers/arrows, circled geological symbols, red report/page references, graticule, marginalia and unlabelled building symbols were excluded from this pilot. The later inland and southward batches are linked above; other parts of the sheet remain unreviewed. No inference of absence follows from an exclusion or an unreviewed area.
 
 ## Name matches
 

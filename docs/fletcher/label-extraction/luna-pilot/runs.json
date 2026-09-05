@@ -54,16 +54,18 @@
       "active_review_minutes": null
     }
   ],
-  "pending": {
-    "model_requested": "claude-opus-5",
-    "status": "blocked-awaiting-existing-account-login",
-    "observed_at": "2026-09-05",
-    "availability": "Opus 5 was visible in the signed-in Claude desktop model menu. No inference was run.",
-    "blocker": "Claude Code auth status reported loggedIn=false; browser required sign-in. Desktop interaction was interrupted twice while it was actively in use. User was asked to sign in to the CLI.",
-    "prepared_packet": "Six identical PNGs and an adapted worker prompt prepared outside Git in a separate folder; no reference answers included.",
-    "candidate_records": null,
-    "score": null
-  },
   "reference_sha256": "bc90ebae359fafc0fe4fc14378296f907812521b995304599b17bb9b9f864cdc",
-  "worker_prompt_sha256": "26a4f9a99e46e9b296171a596d662aa069227c3189c5cc59051beb32f16f07d3"
+  "worker_prompt_sha256": "26a4f9a99e46e9b296171a596d662aa069227c3189c5cc59051beb32f16f07d3",
+  "not_run": [
+    {
+      "model_requested": "claude-opus-5",
+      "status": "not-run-comparison-set-aside-by-user",
+      "observed_at": "2026-09-05",
+      "availability": "No successful inference or candidate output.",
+      "prepared_packet": "Six identical PNGs and an adapted worker prompt prepared outside Git in a separate folder; no reference answers included.",
+      "candidate_records": null,
+      "score": null,
+      "outcome": "Fresh CLI request failed authentication. User reported a working existing CLI session and subsequently requested continuing without Claude. No quality assessment was possible."
+    }
+  ]
 }

@@ -1,0 +1,811 @@
+{
+  "title": "Fletcher sheet 19 — Judique south to Long Point",
+  "extracted_at": "2026-09-05",
+  "status": "reviewable-transcription-pilot; not a production map layer",
+  "source": {
+    "author": "Hugh Fletcher / Geological Survey of Canada",
+    "publication_year": 1884,
+    "sheet": 19,
+    "rumsey_id": "RUMSEY~8~1~2644~290012",
+    "list_no": "3997.021",
+    "source_dimensions_px": [
+      10815,
+      7549
+    ],
+    "manifest_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+    "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+    "imagery_terms_url": "https://www.davidrumsey.com/about/copyright-and-permissions",
+    "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "rights_record": "../../../reports/fletcher/INVENTORY.md",
+    "native_mosaic_receipt": "sheet-19-native-source-2026-09-05.json",
+    "native_mosaic_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+    "core_review_region_xywh": [
+      2700,
+      3500,
+      3100,
+      2350
+    ],
+    "pixel_coordinates": "Original unwarped pixels; origin top-left, x right, y down. Label rectangles are lettering, not feature footprints."
+  },
+  "coverage": {
+    "review_windows_xywh": [
+      [
+        2700,
+        3500,
+        1100,
+        1250
+      ],
+      [
+        3700,
+        3500,
+        1100,
+        1250
+      ],
+      [
+        4700,
+        3500,
+        1100,
+        1250
+      ],
+      [
+        2700,
+        4600,
+        1100,
+        1250
+      ],
+      [
+        3700,
+        4600,
+        1100,
+        1250
+      ],
+      [
+        4700,
+        4600,
+        1100,
+        1250
+      ]
+    ],
+    "edge_context_windows_xywh": [
+      [
+        5500,
+        3850,
+        780,
+        350
+      ],
+      [
+        4510,
+        5530,
+        600,
+        720
+      ],
+      [
+        5000,
+        5720,
+        950,
+        470
+      ]
+    ],
+    "included": "Printed facilities, personal names, named places, roads, watercourse and elevation text in the core region; edge context finishes intersecting names.",
+    "excluded": [
+      "Unlabelled buildings and full geometry tracing",
+      "Geological unit codes, dip/strike numbers and arrows, hatching and red report references",
+      "Graticule and map marginalia",
+      "Other labels visible only in context windows; those windows were not completely inventoried",
+      "Rest of sheet 19 outside declared review windows"
+    ],
+    "deferred": [
+      {
+        "description": "Widely spaced large C / R / A lettering through the eastern portion of S06",
+        "reason": "Full multi-window wording and extent remain unresolved; not silently discarded as geological unit codes.",
+        "source_region_xywh": [
+          5100,
+          5060,
+          600,
+          720
+        ]
+      }
+    ],
+    "completeness_note": "All six source windows and all 29 candidate excerpts reviewed by coordinating Codex model, plus completed-label excerpts. No independent human completeness audit. Overlap fragments were deduplicated by source pixels; repeated names at separate positions remain separate.",
+    "workflow_record": "judique-south-workflow/README.md"
+  },
+  "interpretation_rules": [
+    "Original source text is separate from search typography and any modern name.",
+    "Repeated generic labels are separate annotations; counts are not proven counts of separate buildings.",
+    "Personal names are map annotations, not proven ownership, residence or parcel matches.",
+    "No historical site coordinate is derived from label position, a global warp, nearby roads or gazetteer representative points.",
+    "Source readings and name-identity evidence do not establish present-day existence, operation, access or exact location."
+  ],
+  "features": [
+    {
+      "id": "F19-JUD-071",
+      "source_text": "School",
+      "search_text": "School",
+      "kind": "school",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Northern school in the hatched area; separate printed occurrence from the school immediately southeast."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4968,
+          3752,
+          87,
+          37
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4893,
+        3677,
+        237,
+        187
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4893,3677,237,187/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-072",
+      "source_text": "School",
+      "search_text": "School",
+      "kind": "school",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "School on the eastern road in the orange fill."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5329,
+          3750,
+          90,
+          38
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5254,
+        3675,
+        240,
+        188
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5254,3675,240,188/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-073",
+      "source_text": "School",
+      "search_text": "School",
+      "kind": "school",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Separate school southeast of F19-JUD-071; no assertion about shared or distinct premises."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5045,
+          3808,
+          90,
+          40
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4970,
+        3733,
+        240,
+        190
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4970,3733,240,190/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-074",
+      "source_text": "Forge",
+      "search_text": "Forge",
+      "kind": "forge",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Forge by the north-south road in the striped coastal area."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3926,
+          3851,
+          87,
+          41
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3851,
+        3776,
+        237,
+        191
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3851,3776,237,191/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-075",
+      "source_text": "D. MᶜPherson",
+      "search_text": "D. McPherson",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Completed beyond the worker crop edge using E01; abbreviation retained."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5692,
+          3960,
+          203,
+          37
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5617,
+        3885,
+        353,
+        187
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5617,3885,353,187/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-076",
+      "source_text": "J. MᶜPherson",
+      "search_text": "J. McPherson",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Expanded the candidate box to include the final letters; separate from nearby D. MᶜPherson."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5495,
+          3995,
+          199,
+          39
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5420,
+        3920,
+        349,
+        189
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5420,3920,349,189/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-077",
+      "source_text": "Mill",
+      "search_text": "Mill",
+      "kind": "mill",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "One singular Mill label spans adjacent worker windows; deduplicated by source position."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4694,
+          4185,
+          69,
+          40
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4619,
+        4110,
+        219,
+        190
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4619,4110,219,190/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-078",
+      "source_text": "Mills",
+      "search_text": "Mills",
+      "kind": "mill",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Western plural Mills annotation; preserve the plural without inferring a count or type of structures."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4119,
+          4386,
+          85,
+          42
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4044,
+        4311,
+        235,
+        192
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4044,4311,235,192/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-079",
+      "source_text": "Mills",
+      "search_text": "Mills",
+      "kind": "mill",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Separate eastern plural Mills annotation, retained independently of F19-JUD-078."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4338,
+          4386,
+          85,
+          42
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4263,
+        4311,
+        235,
+        192
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4263,4311,235,192/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-080",
+      "source_text": "J Chisholm",
+      "search_text": "J Chisholm",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "J is not expanded. No period after the initial is confidently visible; overlapping partial J C is deduplicated."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3749,
+          4466,
+          163,
+          43
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3674,
+        4391,
+        313,
+        193
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3674,4391,313,193/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-081",
+      "source_text": "Chisholm Brook",
+      "search_text": "Chisholm Brook",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Continuous diagonal name completed across overlapping windows. Four whole/partial candidate records represent this one printed annotation; not merged with Rory Chisholm’s Brook."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4520,
+          4487,
+          300,
+          229
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4445,
+        4412,
+        450,
+        379
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4445,4412,450,379/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-082",
+      "source_text": "P.O.",
+      "search_text": "P.O.",
+      "kind": "post-office",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Abbreviated post-office label north of the inland Long Point lettering."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4067,
+          4537,
+          71,
+          37
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3992,
+        4462,
+        221,
+        187
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3992,4462,221,187/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-083",
+      "source_text": "Long Point",
+      "search_text": "Long Point",
+      "kind": "named-place",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Large lettering inland beside the coastal road; provisionally a place label. Separate from the coastal-point lettering F19-JUD-084. No settlement boundary inferred."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3890,
+          4690,
+          340,
+          78
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3815,
+        4615,
+        490,
+        228
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3815,4615,490,228/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-084",
+      "source_text": "Long Point",
+      "search_text": "Long Point",
+      "kind": "cape",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Separate occurrence west of the coastal point, retained independently of the inland place lettering. No modern shoreline anchor assigned."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3329,
+          4754,
+          320,
+          69
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3254,
+        4679,
+        470,
+        219
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3254,4679,470,219/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-085",
+      "source_text": "Forge",
+      "search_text": "Forge",
+      "kind": "forge",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Forge just south of the inland Long Point label."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3910,
+          4790,
+          99,
+          45
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3835,
+        4715,
+        249,
+        195
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3835,4715,249,195/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-086",
+      "source_text": "Farm Road",
+      "search_text": "Farm Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Curved historical road lettering. Candidate box expanded to retain the initial F; alignment not traced."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4455,
+          4960,
+          247,
+          127
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4380,
+        4885,
+        397,
+        277
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4380,4885,397,277/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-087",
+      "source_text": "School",
+      "search_text": "School",
+      "kind": "school",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "School on the road east of the coastal junction."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4242,
+          5131,
+          112,
+          50
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4167,
+        5056,
+        262,
+        200
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4167,5056,262,200/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-088",
+      "source_text": "A. MᶜDougall",
+      "search_text": "A. McDougall",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Rejected the candidate’s extra J.: the preceding stroke follows the road, while the printed name begins A. No identity or property match inferred."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5397,
+          5198,
+          214,
+          41
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5322,
+        5123,
+        364,
+        191
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5322,5123,364,191/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-089",
+      "source_text": "Shop",
+      "search_text": "Shop",
+      "kind": "shop",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Shop beside the coastal road. Tightened candidate box to the lettering, excluding the building mark above it."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4086,
+          5314,
+          77,
+          41
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4011,
+        5239,
+        227,
+        191
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4011,5239,227,191/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-090",
+      "source_text": "700 Fᵀ.",
+      "search_text": "700 FT.",
+      "kind": "elevation-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Added during whole-crop review; absent from worker output. Preserve the printed number and unit typography. This is not a verified modern elevation, surveyed summit, or site-height estimate."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4443,
+          5316,
+          140,
+          43
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4368,
+        5241,
+        290,
+        193
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4368,5241,290,193/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-091",
+      "source_text": "School",
+      "search_text": "School",
+      "kind": "school",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Separate eastern school south of the A. MᶜDougall annotation."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5551,
+          5345,
+          97,
+          47
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5476,
+        5270,
+        247,
+        197
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5476,5270,247,197/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-092",
+      "source_text": "General Line Road",
+      "search_text": "General Line Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Edge fragments completed from E03; a rotated enlargement resolves General Line. No modern road identity or alignment established."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4695,
+          5590,
+          165,
+          345
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4620,
+        5515,
+        315,
+        495
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4620,5515,315,495/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-093",
+      "source_text": "Wood Road",
+      "search_text": "Wood Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual source review of Sol candidates and whole windows",
+        "reviewed_at": "2026-09-05",
+        "note": "Completed from E04 beyond the southern crop edge; no modern route match asserted."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5395,
+          5778,
+          235,
+          118
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5320,
+        5703,
+        385,
+        268
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5320,5703,385,268/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    }
+  ]
+}

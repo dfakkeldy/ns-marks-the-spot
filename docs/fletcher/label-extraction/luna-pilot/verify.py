@@ -57,5 +57,9 @@ if args.crops:
 for doc in [out/'README.md',out.parent/'README.md']:
  for target in re.findall(r'\]\(([^)]+)\)',doc.read_text()):
   if not target.startswith(('https:','http:','#')):assert (doc.parent/target).exists(),target
-assert runs['pending']['model_requested']=='claude-opus-5' and runs['pending']['candidate_records'] is None and runs['pending']['score'] is None
-print('PASS: 90 raw candidate records, optional crop hashes, reference integrity, score arithmetic, pending model state and local links.')
+assert len(runs['not_run']) == 1
+not_run = runs['not_run'][0]
+assert not_run['model_requested'] == 'claude-opus-5'
+assert not_run['status'] == 'not-run-comparison-set-aside-by-user'
+assert not_run['candidate_records'] is None and not_run['score'] is None
+print('PASS: 90 raw candidate records, optional crop hashes, reference integrity, score arithmetic, untested model state and local links.')

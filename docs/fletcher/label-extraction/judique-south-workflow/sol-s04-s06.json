@@ -1,0 +1,136 @@
+{
+  "model_requested": "gpt-5.6-sol",
+  "crops": [
+    {
+      "crop_id": "S04",
+      "width": 1100,
+      "height": 1250,
+      "annotations": [
+        {
+          "local_id": "S04-01",
+          "source_text": "Long Point",
+          "kind": "geographic_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[636, 162, 307, 48]],
+          "note": ""
+        }
+      ],
+      "unresolved_regions": [],
+      "inspection_note": "Sparse crop; the single printed geographic label is clear."
+    },
+    {
+      "crop_id": "S05",
+      "width": 1100,
+      "height": 1250,
+      "annotations": [
+        {
+          "local_id": "S05-01",
+          "source_text": "Long Point",
+          "kind": "geographic_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[201, 97, 319, 58]],
+          "note": ""
+        },
+        {
+          "local_id": "S05-02",
+          "source_text": "Forge",
+          "kind": "forge",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[213, 191, 87, 42]],
+          "note": ""
+        },
+        {
+          "local_id": "S05-03",
+          "source_text": "n Brook",
+          "kind": "stream_name",
+          "reading_status": "partial",
+          "label_boxes_xywh": [[958, 0, 142, 164]],
+          "note": "Edge-clipped before the visible fragment; the initial visible letter is tentative, while 'Brook' is clear."
+        },
+        {
+          "local_id": "S05-04",
+          "source_text": "Farm Road",
+          "kind": "road_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[766, 365, 229, 113]],
+          "note": ""
+        },
+        {
+          "local_id": "S05-05",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[547, 536, 101, 39]],
+          "note": ""
+        },
+        {
+          "local_id": "S05-06",
+          "source_text": "Shop",
+          "kind": "shop",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[394, 686, 68, 62]],
+          "note": ""
+        },
+        {
+          "local_id": "S05-07",
+          "source_text": "line Road",
+          "kind": "road_name",
+          "reading_status": "partial",
+          "label_boxes_xywh": [[988, 1023, 112, 227]],
+          "note": "The road name continues beyond the right and bottom crop edges; only the visible words are transcribed."
+        }
+      ],
+      "unresolved_regions": [],
+      "inspection_note": "Small italic labels were checked in enlarged views. Red report references, geological codes, and structural numbers/arrows were excluded."
+    },
+    {
+      "crop_id": "S06",
+      "width": 1100,
+      "height": 1250,
+      "annotations": [
+        {
+          "local_id": "S06-01",
+          "source_text": "Brook",
+          "kind": "stream_name",
+          "reading_status": "partial",
+          "label_boxes_xywh": [[0, 7, 157, 148]],
+          "note": "The preceding part of the stream name is clipped at the left/top crop edge."
+        },
+        {
+          "local_id": "S06-02",
+          "source_text": "J. A. McDougall",
+          "kind": "personal_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[696, 591, 210, 55]],
+          "note": "The c in Mc is printed as a superscript."
+        },
+        {
+          "local_id": "S06-03",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[856, 750, 88, 39]],
+          "note": ""
+        },
+        {
+          "local_id": "S06-04",
+          "source_text": "al line Road",
+          "kind": "road_name",
+          "reading_status": "partial",
+          "label_boxes_xywh": [[0, 1009, 220, 241]],
+          "note": "Edge-clipped road label; the opening visible fragment 'al' is tentative, while 'line Road' is clear."
+        },
+        {
+          "local_id": "S06-05",
+          "source_text": "d Road",
+          "kind": "road_name",
+          "reading_status": "partial",
+          "label_boxes_xywh": [[723, 1173, 202, 77]],
+          "note": "The beginning and lower part of this separate road label are clipped by the bottom crop edge."
+        }
+      ],
+      "unresolved_regions": [],
+      "inspection_note": "The red report/page text, geological unit lettering, and dip/strike markings were excluded. Edge-clipped road and stream fragments were retained without completion."
+    }
+  ]
+}
