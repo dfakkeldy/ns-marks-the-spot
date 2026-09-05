@@ -4,32 +4,33 @@
  * Day is a Fletcher-inspired palette: the warm paper, olive, ochre, salmon and
  * near-black ink of Hugh Fletcher's 1884 Geological Survey sheets of Cape Breton
  * (David Rumsey Map Collection, David Rumsey Map Center, Stanford University
- * Libraries), sampled from the scans and lightened for screen reading. Fletcher's
+ * Libraries), sampled from the scans and adjusted for screen reading. Fletcher's
  * washes and hatching encoded geology; here the same family of colours is applied
  * to modern land cover and land use classes, so every fill keeps its provincial or
- * OSM source meaning. Nothing here redraws historical geology, and the hatching
- * is deliberately left out: calm fills, ink linework and paper-coloured halos
- * carry the character instead.
+ * OSM source meaning: salmon is the land ground, olive is tree cover, ochre is
+ * farmland, bare paper is water. Nothing here redraws historical geology, and the
+ * hatching is deliberately left out: calm fills, ink linework and paper-coloured
+ * halos carry the character instead.
  */
 export const atlasPalettes = {
   day: {
-    land: '#efe3c3',        // bare paper: the ground wherever no cover is mapped
-    water: '#bed0cc',       // cool wash; stays ~28 grey levels below paper in monochrome print
-    waterLine: '#4f7d88',   // brooks, ditches and the wetland tint
-    shore: '#a9bfba',       // inner shore band along coasts and lakes
-    wood: '#bfb48c',        // olive-khaki for NSTDB tree areas
-    grass: '#d3c98f',       // scrub, grass and young reforestation
-    farmland: '#e8cb8f',    // ochre wash: farmland, orchards and nurseries
-    residential: '#e8b898', // salmon wash: OSM settlement areas
-    building: '#c98d66',
-    road: '#fbf4de',        // paper-white local road fill inside an ink casing
-    roadEdge: '#5e4d33',
-    highway: '#d69c42',     // ochre main routes
-    path: '#6f5f43',
+    land: '#e5a878',        // Fletcher's salmon wash as the ground wherever no tree cover is mapped
+    water: '#f0e7cd',       // bare paper for water, as on the sheets, under an ink shore
+    waterLine: '#3f6f7c',   // brooks and ditches in teal ink
+    shore: '#d8ccae',       // inner band on the water side of shorelines
+    wood: '#aa9d66',        // olive for NSTDB tree areas
+    grass: '#d2c47f',       // scrub, grass and young reforestation
+    farmland: '#e3b356',    // Devonian ochre for farmland, orchards and nurseries
+    residential: '#dc9169', // deeper salmon for OSM settlement areas
+    building: '#b7623a',
+    road: '#fbf3dc',        // paper-white local road fill inside an ink casing
+    roadEdge: '#4a3a22',
+    highway: '#7d4223',     // main routes as a dark rust line with a paper edge
+    path: '#5e4a2c',
     ink: '#2a2418',
-    mutedInk: '#5a4c33',
+    mutedInk: '#503f28',
     waterInk: '#3b5760',
-    halo: '#efe3c3',        // burnished paper behind lettering, as on the sheets
+    halo: '#f3e9cf',        // burnished paper behind lettering, as on the sheets
     boundary: '#4d4a5c',    // cool slate so district lines never read as tracks
     accent: '#c1452b',      // Fletcher's vermilion; reserved for annotations, unused by the basemap
   },

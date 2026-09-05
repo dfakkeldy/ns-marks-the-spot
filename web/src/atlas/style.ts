@@ -107,7 +107,7 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
       filter: ['==', ['get', 'class'], 'ocean'], paint: { 'fill-color': p.water } },
     { id: 'wetlands', type: 'fill', ...water,
       filter: ['match', description, ['Swamp Area polygon', 'Cranberry Bog polygon'], true, false],
-      paint: { 'fill-color': p.waterLine, 'fill-opacity': 0.16 } },
+      paint: { 'fill-color': p.water, 'fill-opacity': 0.45 } },
     { id: 'water', type: 'fill', ...water, filter: surfaceWater, paint: { 'fill-color': p.water } },
     // The engraved shore: a pale band and stipple on the water side under a firm ink line,
     // drawn from NSTDB shoreline lines from z11 (offset plus half width stays inside the
@@ -144,20 +144,28 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
   // Source descriptions distinguish tunnels, surface roads and bridges.
   const bridge: ExpressionSpecification = ['==', ['slice', description, 0, 6], 'BRIDGE'];
   const tunnel: ExpressionSpecification = ['==', ['slice', description, 0, 6], 'TUNNEL'];
+  const casingColor: ExpressionSpecification = ['match', roadClass, majorRoads, p.halo, p.roadEdge];
+  const isMajor: ExpressionSpecification = ['match', roadClass, majorRoads, true, false];
   for (const level of ['tunnel', 'surface', 'bridge'] as const) {
     const filter: ExpressionSpecification = ['all', ordinaryRoad,
       level === 'bridge' ? bridge : level === 'tunnel' ? tunnel : ['all', ['!', bridge], ['!', tunnel]]];
+    const casingOpacity: ExpressionSpecification | number = level === 'tunnel' ? 0.3 : ['interpolate', ['linear'], ['zoom'],
+      10, ['match', roadClass, majorRoads, 0.9, secondaryRoads, 0.5, 0], 13, 0.9];
     layers.push(
-      { id: `${level}-road-edge`, type: 'line', ...roads, filter, ...(level === 'surface' ? { maxzoom: 14 } : {}),
+      // Local casings arrive with the village scale so regional views stay open; from there
+      // the ink casing of local and collector roads becomes a hand-inked stroke.
+      { id: `${level}-road-edge`, type: 'line', ...roads, filter: level === 'surface' ? ['all', filter, ['!', isMajor]] : filter,
+        ...(level === 'surface' ? { maxzoom: 14 } : {}),
         layout: { 'line-cap': level === 'bridge' ? 'butt' : 'round', 'line-join': 'round' },
-        paint: { 'line-color': p.roadEdge, 'line-width': roadWidth(true),
-          // Local casings arrive with the village scale so regional views stay open.
-          'line-opacity': level === 'tunnel' ? 0.3 : ['interpolate', ['linear'], ['zoom'],
-            10, ['match', roadClass, majorRoads, 0.9, secondaryRoads, 0.5, 0], 13, 0.9] } },
-      // From the village scale the casing becomes a hand-inked stroke of uneven weight.
-      ...(level === 'surface' ? [{ id: 'surface-road-edge-inked', type: 'line', ...roads, filter, minzoom: 14,
-        layout: { 'line-join': 'round' },
-        paint: { 'line-pattern': `ink-line-road${night}`, 'line-width': roadWidth(true), 'line-opacity': 0.9 } } satisfies LayerSpecification] : []),
+        paint: { 'line-color': casingColor, 'line-width': roadWidth(true), 'line-opacity': casingOpacity } },
+      ...(level === 'surface' ? [
+        { id: 'surface-road-edge-major', type: 'line', ...roads, filter: ['all', filter, isMajor],
+          layout: { 'line-cap': 'round', 'line-join': 'round' },
+          paint: { 'line-color': casingColor, 'line-width': roadWidth(true), 'line-opacity': 0.9 } } satisfies LayerSpecification,
+        { id: 'surface-road-edge-inked', type: 'line', ...roads, filter: ['all', filter, ['!', isMajor]], minzoom: 14,
+          layout: { 'line-join': 'round' },
+          paint: { 'line-pattern': `ink-line-road${night}`, 'line-width': roadWidth(true), 'line-opacity': 0.9 } } satisfies LayerSpecification,
+      ] : []),
       { id: `${level}-roads`, type: 'line', ...roads, filter,
         layout: { 'line-cap': 'round', 'line-join': 'round' },
         paint: { 'line-color': ['match', roadClass, majorRoads, p.highway, p.road], 'line-width': roadWidth(false),
