@@ -40,6 +40,40 @@ async function keyboardFocus(page: Page, control: Locator) {
   expect(outline.width).toBeGreaterThan(0);
 }
 
+for (const width of [390, 1440]) {
+  test(`road names and route shields stay above contrast strokes at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.addInitScript(() => {
+      localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
+    });
+    await page.route("**/BASE_NSTDB_10k_Roads_UT83/MapServer/export?**", (route) =>
+      route.fulfill({ contentType: "image/png", body: png }),
+    );
+    await page.goto("/?basemap=osm&taxSale=off&layers=roads&position=45.81355,-61.47775,16");
+    const roadLayers = page.locator(".map-layer-roads");
+    const checkOrder = async () => {
+      await expect(roadLayers).toHaveCount(2);
+      const passes = await roadLayers.evaluateAll((elements) => elements.map((element) => ({
+        contrast: new URL(element.querySelector("img")!.src).searchParams.has("dynamicLayers"),
+        zIndex: Number(getComputedStyle(element).zIndex),
+      })));
+      expect(passes.find(({ contrast }) => contrast)!.zIndex).toBeLessThan(
+        passes.find(({ contrast }) => !contrast)!.zIndex,
+      );
+    };
+    await checkOrder();
+    if (width < 860) await page.getByRole("button", { name: "Search & layers", exact: true }).click();
+    await page.getByRole("button", { name: /^Roads & Places/ }).click();
+    const toggle = page.getByRole("checkbox", { name: "Roads, trails & culverts", exact: true });
+    await toggle.press("Space");
+    await expect(toggle).not.toBeChecked();
+    await expect(roadLayers).toHaveCount(0);
+    await toggle.press("Space");
+    await expect(toggle).toBeChecked();
+    await checkOrder();
+  });
+}
+
 test("theme controls expose keyboard focus and open the manager", async ({ page }) => {
   await page.goto("/?basemap=osm");
   await expect(page).toHaveTitle(/NS Marks The Spot/);

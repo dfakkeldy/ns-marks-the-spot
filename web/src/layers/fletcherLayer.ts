@@ -37,7 +37,8 @@ export const fletcherSheets: readonly FletcherSheet[] = [
 ] as const;
 
 function environmentTileBaseUrl(): string {
-  return import.meta.env.VITE_FLETCHER_TILE_BASE_URL ?? "";
+  // An explicit empty override keeps tile hosting disabled for isolated builds.
+  return import.meta.env.VITE_FLETCHER_TILE_BASE_URL ?? "https://tiles.kinnokilabs.com";
 }
 
 export function normalizeFletcherTileBaseUrl(

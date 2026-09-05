@@ -76,6 +76,11 @@ its rendering role, source URL, attribution, cache key, zoom range, and offline
 policy. SwiftUI views consume catalog metadata through view models while MapKit
 rendering stays inside `MapSurface/`.
 
+Both iOS build configurations default `FLETCHER_TILE_BASE_URL` to
+`https://tiles.kinnokilabs.com`. The app Info.plist expands that setting into
+`FletcherTileBaseURL`; build overrides remain supported. Both surfaces pin
+`fletcher-direct-rumsey-20260831.1`.
+
 Viewed tiles are persisted through `TileStore`. Fletcher tiles can also be
 downloaded for rectangular saved areas through the controller's
 bounds-selection flow added for v1.0. NS Aerial and restricted Nova Scotia reference layers are
@@ -361,7 +366,8 @@ and roads on, and fits the first loaded view once to the visible tax-sale
 parcel geometries. Fletcher remains the final row in the layer list. The web
 layer uses 24 bounded per-sheet XYZ trees under an immutable revision,
 preserving overlap provenance without last-write-wins flattening. It is
-default-off and fails closed unless `VITE_FLETCHER_TILE_BASE_URL` names an
+default-off and uses `https://tiles.kinnokilabs.com` by default.
+`VITE_FLETCHER_TILE_BASE_URL` can disable it with an empty value or name an
 authorized HTTPS host; opacity, share state, print/evidence provenance, and
 retry status use the normal web-layer contracts. This does not change native
 URLs or native offline bundling. Geology & Resources is collapsed: its three

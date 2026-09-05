@@ -300,6 +300,7 @@ export type WebLayerDescriptor = {
   scale: string;
   coverage: string;
   exportOptions?: ArcGISExportOptions;
+  /** Shared catalogue field; the web draws this contrast pass below source labels. */
   exportOverlayOptions?: ArcGISExportOptions;
 };
 

@@ -332,11 +332,8 @@ final class AppContainer {
     /// has no renderer for is skipped rather than guessed at.
     ///
     /// `static` and not `private` so it can be exercised against a descriptor
-    /// the caller supplies. The branch that matters most — Fletcher with a host
-    /// configured — is unreachable in a checkout without
-    /// `FLETCHER_TILE_BASE_URL`, which is every checkout in CI. A test that
-    /// could only observe the ambient configuration would pass with that branch
-    /// deleted.
+    /// the caller supplies. Tests exercise both hosted and unhosted Fletcher
+    /// configurations independently of the build's default tile host.
     static func makeLayer(
         from descriptor: LayerDescriptor,
         fletcherBaseURL: URL?

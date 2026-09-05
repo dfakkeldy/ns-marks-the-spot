@@ -31,10 +31,9 @@ final class OfflineFlowUITests: XCTestCase {
 
         let storage = app.scrollRegion("offline-storage-list")
         let sample = app.buttons["Save Sample Baddeck Area"]
-        XCTAssertTrue(
-            sample.waitForExistence(timeout: timeout),
-            "the offline screen offers no area to save"
-        )
+        // Cached layer rows can push this button beyond the lazy List's
+        // realized cells. Scroll before requiring existence; waiting alone
+        // never brings an offscreen row into the accessibility hierarchy.
         XCTAssertTrue(app.scroll(sample, into: storage), "the sample area cannot be reached")
         sample.tap()
 
