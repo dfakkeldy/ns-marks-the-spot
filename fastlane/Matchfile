@@ -4,6 +4,6 @@ git_url("git@github.com:dfakkeldy/echo-audiobooks-certificates.git")
 storage_mode("git")
 
 type("appstore")
-app_identifier(["com.danfakkeldy.nsmarksthespot"])
+app_identifier(["com.danfakkeldy.nsmarksthespot", "com.danfakkeldy.nsmarksthespot.LiveActivity"])
 team_id("8AXNA5B37R")
 readonly(true)

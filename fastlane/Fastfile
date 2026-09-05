@@ -154,17 +154,23 @@ platform :ios do
 
     bundle_id = (options[:bundle_id] || APP_IDENTIFIER).to_s
     mapping = lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING] || {}
-    profile = mapping[bundle_id]
-    UI.user_error!("match did not return an App Store profile for #{bundle_id}") if profile.to_s.empty?
+    targets = {
+      SCHEME => bundle_id,
+      "NSMarksLiveActivity" => "#{bundle_id}.LiveActivity"
+    }
+    targets.each do |target, identifier|
+      profile = mapping[identifier]
+      UI.user_error!("match did not return an App Store profile for #{identifier}") if profile.to_s.empty?
 
-    update_code_signing_settings(
-      path: PROJECT_PATH,
-      use_automatic_signing: false,
-      targets: [SCHEME],
-      team_id: TEAM_ID,
-      code_sign_identity: "Apple Distribution",
-      profile_name: profile
-    )
+      update_code_signing_settings(
+        path: PROJECT_PATH,
+        use_automatic_signing: false,
+        targets: [target],
+        team_id: TEAM_ID,
+        code_sign_identity: "Apple Distribution",
+        profile_name: profile
+      )
+    end
   end
 
   # ── Lanes ─────────────────────────────────────────────────────────────────
