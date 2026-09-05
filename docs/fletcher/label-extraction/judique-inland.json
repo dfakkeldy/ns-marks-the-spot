@@ -1,0 +1,1461 @@
+{
+  "title": "Fletcher sheet 19 — inland extension from Judique toward River Denys Road",
+  "extracted_at": "2026-09-05",
+  "status": "reviewable-transcription-pilot; not a production map layer",
+  "source": {
+    "author": "Hugh Fletcher / Geological Survey of Canada",
+    "publication_year": 1884,
+    "sheet": 19,
+    "rumsey_id": "RUMSEY~8~1~2644~290012",
+    "list_no": "3997.021",
+    "source_dimensions_px": [
+      10815,
+      7549
+    ],
+    "manifest_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+    "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+    "imagery_terms_url": "https://www.davidrumsey.com/about/copyright-and-permissions",
+    "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "rights_record": "../../../reports/fletcher/INVENTORY.md",
+    "native_mosaic_receipt": "sheet-19-native-source-2026-09-05.json",
+    "native_mosaic_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+    "core_review_region_xywh": [
+      5600,
+      1000,
+      3100,
+      2700
+    ],
+    "pixel_coordinates": "Original unwarped pixels; origin top-left, x right, y down. Label rectangles are lettering, not feature footprints."
+  },
+  "coverage": {
+    "review_windows_xywh": [
+      [
+        5600,
+        1000,
+        1100,
+        1000
+      ],
+      [
+        6600,
+        1000,
+        1100,
+        1000
+      ],
+      [
+        7600,
+        1000,
+        1100,
+        1000
+      ],
+      [
+        5600,
+        1850,
+        1100,
+        1000
+      ],
+      [
+        6600,
+        1850,
+        1100,
+        1000
+      ],
+      [
+        7600,
+        1850,
+        1100,
+        1000
+      ],
+      [
+        5600,
+        2700,
+        1100,
+        1000
+      ],
+      [
+        6600,
+        2700,
+        1100,
+        1000
+      ],
+      [
+        7600,
+        2700,
+        1100,
+        1000
+      ]
+    ],
+    "edge_context_windows_xywh": [
+      [
+        8370,
+        2100,
+        750,
+        600
+      ],
+      [
+        7730,
+        3550,
+        1180,
+        400
+      ],
+      [
+        6400,
+        2600,
+        1770,
+        500
+      ]
+    ],
+    "included": "Readable facilities, names, historical roads, watercourses, falls, mineral and hydrology annotations noticed in the core region, with edge context to finish included labels.",
+    "excluded": [
+      "Unlabelled buildings and full geometry tracing",
+      "Geological unit codes, dips, hatching and red report references",
+      "Graticule and map marginalia",
+      "Rest of sheet 19 outside declared windows"
+    ],
+    "deferred": [
+      {
+        "description": "Widely spaced large H/I/L/L/S-like lettering across several windows",
+        "reason": "Full wording and extent are not resolved. Not silently classified as geological symbols."
+      },
+      {
+        "description": "Additional text visible only in the southern edge-context window, including personal-name fragments",
+        "reason": "Outside the core region and not included in this batch. Edge context is not a complete inventory."
+      }
+    ],
+    "completeness_note": "Nine windows visually reviewed; no independent completeness audit. Repeated names count annotations, not distinct real-world features. Core overlaps first pilot by 200 pixels; no duplicate label boxes found."
+  },
+  "interpretation_rules": [
+    "Original source text is separate from search typography and any modern name.",
+    "Repeated generic labels are separate annotations; counts are not proven counts of separate buildings.",
+    "Personal names are map annotations, not proven ownership, residence or parcel matches.",
+    "No historical site coordinate is derived from label position, a global warp, nearby roads or gazetteer representative points.",
+    "Source readings and name-identity evidence do not establish present-day existence, operation, access or exact location."
+  ],
+  "features": [
+    {
+      "id": "F19-JUD-030",
+      "source_text": "A. MᶜIsaac",
+      "search_text": "A. McIsaac",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Name beside several buildings on the northern road; no person or property identity inferred."
+      },
+      "source_label_boxes_xywh": [
+        [
+          6355,
+          1215,
+          195,
+          55
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6270,
+        1130,
+        365,
+        225
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6270,1130,365,225/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-031",
+      "source_text": "Barrens",
+      "search_text": "Barrens",
+      "kind": "landscape-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Spaced lettering beside a road. This is a landscape annotation, not an established road name or mapped land-cover boundary."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5900,
+          1350,
+          305,
+          640
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5815,
+        1265,
+        475,
+        810
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5815,1265,475,810/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-032",
+      "source_text": "Don. MᶜEachern",
+      "search_text": "Don. McEachern",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Abbreviated given name retained; beside a short side road."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7155,
+          1358,
+          265,
+          53
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7070,
+        1273,
+        435,
+        223
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7070,1273,435,223/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-033",
+      "source_text": "Squire MᶜDonald",
+      "search_text": "Squire McDonald",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Title and surname beside a cluster east of the road."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7425,
+          1850,
+          305,
+          57
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7340,
+        1765,
+        475,
+        227
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7340,1765,475,227/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-034",
+      "source_text": "Fall 30",
+      "search_text": "Fall 30",
+      "kind": "waterfall-annotation",
+      "transcription": {
+        "status": "tentative",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "No trailing unit mark confidently resolved. Preserve the numerals without supplying a unit or modern measured height."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8333,
+          1268,
+          117,
+          50
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8248,
+        1183,
+        287,
+        220
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8248,1183,287,220/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-035",
+      "source_text": "Falls",
+      "search_text": "Falls",
+      "kind": "waterfall-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Northern tributary, south of the Fall 30 annotation."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8435,
+          1361,
+          105,
+          53
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8350,
+        1276,
+        275,
+        223
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8350,1276,275,223/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-036",
+      "source_text": "Falls",
+      "search_text": "Falls",
+      "kind": "waterfall-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Stream east of Squire MᶜDonald; separate from the other Falls annotations."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7753,
+          1805,
+          115,
+          54
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7668,
+        1720,
+        285,
+        224
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7668,1720,285,224/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-037",
+      "source_text": "River Inhabitants Road",
+      "search_text": "River Inhabitants Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Three-part lettering follows the curved north-south road; not a river-name annotation."
+      },
+      "source_label_boxes_xywh": [
+        [
+          6228,
+          2361,
+          99,
+          85
+        ],
+        [
+          6377,
+          2435,
+          191,
+          108
+        ],
+        [
+          6575,
+          2577,
+          73,
+          103
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6143,
+        2276,
+        590,
+        489
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6143,2276,590,489/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-038",
+      "source_text": "Southwest Mabou River",
+      "search_text": "Southwest Mabou River",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Western instance of this river name. Separate annotation from F19-JUD-039; connection and modern identity need tracing."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5969,
+          2490,
+          256,
+          318
+        ],
+        [
+          6216,
+          2805,
+          109,
+          145
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5884,
+        2405,
+        526,
+        630
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5884,2405,526,630/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-039",
+      "source_text": "Southwest Mabou River",
+      "search_text": "Southwest Mabou River",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Eastern instance, partly along a vertical graticule. Do not infer two independent rivers from two printed names."
+      },
+      "source_label_boxes_xywh": [
+        [
+          6766,
+          1945,
+          203,
+          249
+        ],
+        [
+          6958,
+          2275,
+          87,
+          190
+        ],
+        [
+          7072,
+          2507,
+          66,
+          193
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6681,
+        1860,
+        542,
+        925
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6681,1860,542,925/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-040",
+      "source_text": "Brook runs\nunderground",
+      "search_text": "Brook runs underground",
+      "kind": "hydrology-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Printed observation beside a brook/road crossing; no present-day underground flow or site condition inferred."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7389,
+          2555,
+          252,
+          79
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7304,
+        2470,
+        422,
+        249
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7304,2470,422,249/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-041",
+      "source_text": "Falls",
+      "search_text": "Falls",
+      "kind": "waterfall-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Upper of three fall annotations on the north-south stream above Iron Ore."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8133,
+          1999,
+          101,
+          46
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8048,
+        1914,
+        271,
+        216
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8048,1914,271,216/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-042",
+      "source_text": "Fall",
+      "search_text": "Fall",
+      "kind": "waterfall-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Middle of the three north-south stream annotations."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8165,
+          2060,
+          92,
+          48
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8080,
+        1975,
+        262,
+        218
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8080,1975,262,218/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-043",
+      "source_text": "Falls",
+      "search_text": "Falls",
+      "kind": "waterfall-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Lower of the three north-south stream annotations."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8292,
+          2100,
+          106,
+          48
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8207,
+        2015,
+        276,
+        218
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8207,2015,276,218/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-044",
+      "source_text": "Fall",
+      "search_text": "Fall",
+      "kind": "waterfall-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "West of the Iron Ore annotation, near a geological hatch crossing."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7996,
+          2199,
+          89,
+          47
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7911,
+        2114,
+        259,
+        217
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7911,2114,259,217/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-045",
+      "source_text": "Iron Ore",
+      "search_text": "Iron Ore",
+      "kind": "mineral-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Mineral wording only; does not establish a mine, deposit extent, grade or current resource."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8255,
+          2205,
+          136,
+          56
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8170,
+        2120,
+        306,
+        226
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8170,2120,306,226/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-046",
+      "source_text": "Colin Chisholm's Mill",
+      "search_text": "Colin Chisholm's Mill",
+      "kind": "mill",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Label extends east of the core review region; context inspected through x=9120. No mill type or modern site established."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8429,
+          2187,
+          320,
+          56
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8344,
+        2102,
+        490,
+        226
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8344,2102,490,226/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-047",
+      "source_text": "Diogenes Brook",
+      "search_text": "Diogenes Brook",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Diagonal upstream lettering. Same printed name occurs farther east as F19-JUD-064; geometry continuity not yet traced."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7830,
+          2309,
+          279,
+          259
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7745,
+        2224,
+        449,
+        429
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7745,2224,449,429/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-048",
+      "source_text": "P.O.",
+      "search_text": "P.O.",
+      "kind": "post-office",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Post-office abbreviation north of the River Denys Road place lettering; nearby multiple building marks remain unresolved."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7655,
+          2746,
+          73,
+          44
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7570,
+        2661,
+        243,
+        214
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7570,2661,243,214/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-049",
+      "source_text": "Dennistown",
+      "search_text": "Dennistown",
+      "kind": "settlement",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Large place lettering below the road near a school. Modern name identity not yet investigated."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5840,
+          3245,
+          340,
+          74
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5755,
+        3160,
+        510,
+        244
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5755,3160,510,244/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-050",
+      "source_text": "School",
+      "search_text": "School",
+      "kind": "school",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "School above Dennistown lettering, close to a small stream crossing."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5931,
+          3185,
+          101,
+          46
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5846,
+        3100,
+        271,
+        216
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5846,3100,271,216/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-051",
+      "source_text": "Falls",
+      "search_text": "Falls",
+      "kind": "waterfall-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "On the western stream south of Dennistown; no height printed."
+      },
+      "source_label_boxes_xywh": [
+        [
+          6019,
+          3451,
+          97,
+          48
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5934,
+        3366,
+        267,
+        218
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5934,3366,267,218/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-052",
+      "source_text": "River Denys Road",
+      "search_text": "River Denys Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Another printed instance of the name in F19-JUD-022, west of the large place lettering. Not a second proven route."
+      },
+      "source_label_boxes_xywh": [
+        [
+          6445,
+          3002,
+          116,
+          65
+        ],
+        [
+          6589,
+          2975,
+          108,
+          50
+        ],
+        [
+          6700,
+          2948,
+          104,
+          56
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6360,
+        2863,
+        529,
+        289
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6360,2863,529,289/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-053",
+      "source_text": "Old River Denys Road",
+      "search_text": "Old River Denys Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Curved multipart name south of Dennistown; preserve Old separately from the nearby River Denys Road."
+      },
+      "source_label_boxes_xywh": [
+        [
+          5804,
+          3633,
+          209,
+          67
+        ],
+        [
+          6072,
+          3544,
+          123,
+          109
+        ],
+        [
+          6177,
+          3367,
+          91,
+          120
+        ]
+      ],
+      "source_context_crop_xywh": [
+        5719,
+        3282,
+        634,
+        503
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5719,3282,634,503/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-054",
+      "source_text": "Graham River",
+      "search_text": "Graham River",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Inland printed instance of F19-JUD-025; not a new river identity established by transcription."
+      },
+      "source_label_boxes_xywh": [
+        [
+          6341,
+          3445,
+          182,
+          220
+        ],
+        [
+          6517,
+          3285,
+          166,
+          136
+        ]
+      ],
+      "source_context_crop_xywh": [
+        6256,
+        3200,
+        512,
+        550
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6256,3200,512,550/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-055",
+      "source_text": "Old Road",
+      "search_text": "Old Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Generic historical route annotation on the upper branch near the river crossing."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7138,
+          2813,
+          75,
+          72
+        ],
+        [
+          7215,
+          2781,
+          102,
+          59
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7053,
+        2696,
+        349,
+        274
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7053,2696,349,274/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-056",
+      "source_text": "West Branch",
+      "search_text": "West Branch",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Branch descriptor beside the road and stream north of the church. Parent watercourse identity unresolved."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7537,
+          2643,
+          90,
+          240
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7452,
+        2558,
+        260,
+        410
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7452,2558,260,410/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-057",
+      "source_text": "School",
+      "search_text": "School",
+      "kind": "school",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "School west of the main north-south road, near Church."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7535,
+          2899,
+          101,
+          46
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7450,
+        2814,
+        271,
+        216
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7450,2814,271,216/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-058",
+      "source_text": "Church",
+      "search_text": "Church",
+      "kind": "church",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Church beside a cross-like map symbol at the road junction; denomination not printed here."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7631,
+          2872,
+          125,
+          49
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7546,
+        2787,
+        295,
+        219
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7546,2787,295,219/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-059",
+      "source_text": "River Denys Road",
+      "search_text": "River Denys Road",
+      "kind": "named-place",
+      "transcription": {
+        "status": "tentative",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Large upright place-style lettering, unlike the smaller italic road lettering. Classification as a named place is provisional; it does not establish a settlement boundary."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7458,
+          2937,
+          563,
+          86
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7373,
+        2852,
+        733,
+        256
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7373,2852,733,256/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-060",
+      "source_text": "Forge",
+      "search_text": "Forge",
+      "kind": "forge",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Forge on a short road spur east of the large place label."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8017,
+          2914,
+          102,
+          45
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7932,
+        2829,
+        272,
+        215
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7932,2829,272,215/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-061",
+      "source_text": "Gold Mine",
+      "search_text": "Gold Mine",
+      "kind": "mine-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Explicit historical mine label. No claim of operation, present resource, accessibility or exact modern site."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8307,
+          2836,
+          174,
+          51
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8222,
+        2751,
+        344,
+        221
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8222,2751,344,221/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-062",
+      "source_text": "Quartz\nMill",
+      "search_text": "Quartz Mill",
+      "kind": "mill",
+      "transcription": {
+        "status": "tentative",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Quartz and Mill are legible; nearby Falls lettering overlaps or adjoins the first line. Separation into two annotations is tentative."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8509,
+          2866,
+          116,
+          49
+        ],
+        [
+          8521,
+          2893,
+          88,
+          48
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8424,
+        2781,
+        286,
+        245
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8424,2781,286,245/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-063",
+      "source_text": "Doug. MᶜDonald",
+      "search_text": "Doug. McDonald",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Abbreviated personal name south of the River Denys Road place lettering; arrow nearby is not treated as a property boundary."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7275,
+          3465,
+          234,
+          50
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7190,
+        3380,
+        404,
+        220
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7190,3380,404,220/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-064",
+      "source_text": "Diogenes Brook",
+      "search_text": "Diogenes Brook",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Eastern multipart instance; completed in an edge-context window outside the core region. Separate from the upstream lettering F19-JUD-047."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8636,
+          2301,
+          187,
+          166
+        ],
+        [
+          8885,
+          2508,
+          136,
+          171
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8551,
+        2216,
+        555,
+        548
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8551,2216,555,548/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-065",
+      "source_text": "West Branch",
+      "search_text": "West Branch",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Southern West Branch annotation; parent name not supplied by this label."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7798,
+          3358,
+          157,
+          129
+        ],
+        [
+          7885,
+          3450,
+          108,
+          164
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7713,
+        3273,
+        365,
+        426
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7713,3273,365,426/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-066",
+      "source_text": "East Branch",
+      "search_text": "East Branch",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Southern East Branch annotation; relation to West Branch requires tracing."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8124,
+          3328,
+          109,
+          102
+        ],
+        [
+          8217,
+          3416,
+          157,
+          130
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8039,
+        3243,
+        420,
+        388
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8039,3243,420,388/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-067",
+      "source_text": "Victoria Road",
+      "search_text": "Victoria Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Vertical/diagonal multipart lettering next to a road distinct from the railway."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8358,
+          3393,
+          45,
+          145
+        ],
+        [
+          8419,
+          3247,
+          93,
+          98
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8273,
+        3162,
+        324,
+        461
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8273,3162,324,461/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-068",
+      "source_text": "MᶜLennan's Mill",
+      "search_text": "McLennan's Mill",
+      "kind": "mill",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Personal-name mill label near road and stream crossing. Not a proven association with any modern mill site."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8468,
+          3605,
+          247,
+          53
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8383,
+        3520,
+        417,
+        223
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8383,3520,417,223/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-069",
+      "source_text": "Fall 25",
+      "search_text": "Fall 25",
+      "kind": "waterfall-annotation",
+      "transcription": {
+        "status": "tentative",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Numerals read 25 after enlargement; no trailing unit mark confidently resolved. Preserve text without supplying a unit."
+      },
+      "source_label_boxes_xywh": [
+        [
+          7993,
+          3639,
+          132,
+          48
+        ]
+      ],
+      "source_context_crop_xywh": [
+        7908,
+        3554,
+        302,
+        218
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7908,3554,302,218/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-070",
+      "source_text": "Falls",
+      "search_text": "Falls",
+      "kind": "waterfall-annotation",
+      "transcription": {
+        "status": "tentative",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Small lettering beside Quartz/Mill. This separation is tentative and could be revised on human review."
+      },
+      "source_label_boxes_xywh": [
+        [
+          8575,
+          2860,
+          125,
+          50
+        ]
+      ],
+      "source_context_crop_xywh": [
+        8490,
+        2775,
+        295,
+        220
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8490,2775,295,220/full/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    }
+  ]
+}
