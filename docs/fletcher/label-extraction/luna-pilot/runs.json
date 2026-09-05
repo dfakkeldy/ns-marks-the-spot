@@ -1,0 +1,69 @@
+{
+  "runs": [
+    {
+      "model_requested": "gpt-5.6-luna",
+      "reasoning_requested": "medium",
+      "runner": "Codex collaboration subagents with no inherited conversation",
+      "packaging": "three workers, two crops each",
+      "raw_outputs": [
+        {
+          "filename": "luna-c01-c02.json",
+          "sha256": "cf8580561a885f42c7de8d4baa0a8cc47091c2a124bfe6d55f7a500e8d82048d"
+        },
+        {
+          "filename": "luna-c03-c04.json",
+          "sha256": "16c74589b76b5032ba6bd1f7dd056eee4fbecee47f176a73570a84fd19917bcc"
+        },
+        {
+          "filename": "luna-c05-c06.json",
+          "sha256": "424c50e5db54a2b421c0befaf8cb21c6bedba3385612b535c0a98c79d3fa06df"
+        }
+      ],
+      "token_usage": null,
+      "billed_cost": null,
+      "active_review_minutes": null
+    },
+    {
+      "model_requested": "gpt-5.6-terra",
+      "reasoning_requested": "medium",
+      "runner": "Codex collaboration subagents with no inherited conversation",
+      "packaging": "one worker, six crops",
+      "raw_outputs": [
+        {
+          "filename": "terra-c01-c06.json",
+          "sha256": "6100a08fa747e438dd53ee5b746fff4923d13f02d14a302a822554c4040bc039"
+        }
+      ],
+      "token_usage": null,
+      "billed_cost": null,
+      "active_review_minutes": null
+    },
+    {
+      "model_requested": "gpt-5.6-sol",
+      "reasoning_requested": "medium",
+      "runner": "Codex collaboration subagents with no inherited conversation",
+      "packaging": "one worker, six crops",
+      "raw_outputs": [
+        {
+          "filename": "sol-c01-c06.json",
+          "sha256": "5605a5017e546247a2ba5e1ece4ad2f93dafa7995e2994f82ad003b6e7457486"
+        }
+      ],
+      "token_usage": null,
+      "billed_cost": null,
+      "active_review_minutes": null
+    }
+  ],
+  "pending": {
+    "model_requested": "claude-opus-5",
+    "status": "blocked-awaiting-existing-account-login",
+    "observed_at": "2026-09-05",
+    "availability": "Opus 5 was visible in the signed-in Claude desktop model menu. No inference was run.",
+    "blocker": "Claude Code auth status reported loggedIn=false; browser required sign-in. Desktop interaction was interrupted twice while it was actively in use. User was asked to sign in to the CLI.",
+    "prepared_packet": "Six identical PNGs and an adapted worker prompt prepared outside Git in a separate folder; no reference answers included.",
+    "candidate_records": null,
+    "score": null
+  },
+  "reference_sha256": "bc90ebae359fafc0fe4fc14378296f907812521b995304599b17bb9b9f864cdc",
+  "worker_prompt_sha256": "26a4f9a99e46e9b296171a596d662aa069227c3189c5cc59051beb32f16f07d3"
+}

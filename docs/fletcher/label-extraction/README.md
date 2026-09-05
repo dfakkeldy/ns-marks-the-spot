@@ -2,6 +2,8 @@
 
 **Current progress: 70 printed annotations across two batches.** The [inland extension and source-symbol review](judique-inland-review.md) adds 41 annotations, uses the related georeferencing task's native regional-source mosaic, and reviews eight original facility labels. Four have a supported association with a printed symbol; four remain unresolved. These are source-image associations, not modern site coordinates. The first batch below retains its original source provenance.
 
+The [six-crop model pilot](luna-pilot/README.md) compares blind Luna, Terra and Sol extraction against existing annotations. It records raw candidates, errors and source-box defects; none have been imported. The requested Claude Opus 5 comparison is pending account access.
+
 Extracted September 5, 2026 from the original, unwarped 1884 Fletcher sheet 19. This is a research inventory for review, not a production map layer.
 
 **29 separate annotations:** 3 schools, 2 forges, 2 mills, 4 shops, a post office, stables, a church, 5 personal-name annotations, 2 settlement/place names, 2 named brooks/rivers, 2 road names, 2 points, a barytes annotation and a quarry annotation. These count printed annotations, not independently established buildings or sites.

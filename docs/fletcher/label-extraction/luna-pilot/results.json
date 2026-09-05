@@ -1,0 +1,45 @@
+{
+  "status": "partial-pilot; requested Opus 5 comparison pending",
+  "metric_note": "Counts allow the explicitly documented manual splitting/regrouping of candidate text. They are not raw-record accuracy or end-to-end acceptance rates. Punctuation-only differences are reported separately.",
+  "results": [
+    {
+      "model_requested": "gpt-5.6-luna",
+      "candidate_records": 31,
+      "clear_reference_denominator": 24,
+      "exact_normalized_after_manual_regrouping": 17,
+      "punctuation_only_after_manual_regrouping": 1,
+      "wrong_wording": 4,
+      "incomplete": 2,
+      "provisional_excluded": 3,
+      "references_requiring_regrouping": 3,
+      "out_of_bounds_boxes": 0,
+      "automatic_import_allowed": false
+    },
+    {
+      "model_requested": "gpt-5.6-terra",
+      "candidate_records": 31,
+      "clear_reference_denominator": 24,
+      "exact_normalized_after_manual_regrouping": 20,
+      "punctuation_only_after_manual_regrouping": 1,
+      "wrong_wording": 3,
+      "incomplete": 0,
+      "provisional_excluded": 3,
+      "references_requiring_regrouping": 7,
+      "out_of_bounds_boxes": 0,
+      "automatic_import_allowed": false
+    },
+    {
+      "model_requested": "gpt-5.6-sol",
+      "candidate_records": 28,
+      "clear_reference_denominator": 24,
+      "exact_normalized_after_manual_regrouping": 21,
+      "punctuation_only_after_manual_regrouping": 1,
+      "wrong_wording": 1,
+      "incomplete": 1,
+      "provisional_excluded": 3,
+      "references_requiring_regrouping": 3,
+      "out_of_bounds_boxes": 0,
+      "automatic_import_allowed": false
+    }
+  ]
+}

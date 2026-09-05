@@ -1,0 +1,293 @@
+{
+  "model_requested": "gpt-5.6-sol",
+  "crops": [
+    {
+      "crop_id": "C01",
+      "width": 1000,
+      "height": 470,
+      "annotations": [
+        {
+          "local_id": "C01-01",
+          "source_text": "Stage\nStables",
+          "kind": "facility",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[297, 127, 79, 29], [270, 149, 109, 29]],
+          "note": "Two-line facility label."
+        },
+        {
+          "local_id": "C01-02",
+          "source_text": "Shop",
+          "kind": "shop",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[403, 145, 66, 29]],
+          "note": ""
+        },
+        {
+          "local_id": "C01-03",
+          "source_text": "P.O.",
+          "kind": "post_office",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[408, 169, 52, 28]],
+          "note": ""
+        },
+        {
+          "local_id": "C01-04",
+          "source_text": "Shop",
+          "kind": "shop",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[796, 241, 57, 28]],
+          "note": "Separate occurrence at right."
+        }
+      ],
+      "unresolved_regions": [],
+      "inspection_note": "White overlay stripes cross the crop but the four included labels remain readable; red report lettering and structural measurements were excluded."
+    },
+    {
+      "crop_id": "C02",
+      "width": 850,
+      "height": 520,
+      "annotations": [
+        {
+          "local_id": "C02-01",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[218, 91, 93, 32]],
+          "note": ""
+        },
+        {
+          "local_id": "C02-02",
+          "source_text": "McEachern",
+          "kind": "personal_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[606, 12, 146, 33]],
+          "note": "Superscript c rendered inline."
+        },
+        {
+          "local_id": "C02-03",
+          "source_text": "Forge",
+          "kind": "forge",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[206, 290, 73, 34]],
+          "note": ""
+        },
+        {
+          "local_id": "C02-04",
+          "source_text": "Sh. Mill",
+          "kind": "mill",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[425, 282, 120, 35]],
+          "note": "Abbreviation retained as printed."
+        }
+      ],
+      "unresolved_regions": [],
+      "inspection_note": "All included labels are readable despite white overlay stripes; dip/strike measurements were excluded."
+    },
+    {
+      "crop_id": "C03",
+      "width": 1100,
+      "height": 600,
+      "annotations": [
+        {
+          "local_id": "C03-01",
+          "source_text": "R.C. Church",
+          "kind": "church",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[194, 143, 157, 32]],
+          "note": ""
+        },
+        {
+          "local_id": "C03-02",
+          "source_text": "Rev Archd Chisholm",
+          "kind": "personal_name",
+          "reading_status": "tentative",
+          "label_boxes_xywh": [[213, 188, 236, 35]],
+          "note": "The abbreviation appears to use a superscript d after Arch; punctuation is indistinct, so the superscript is rendered inline without added punctuation."
+        },
+        {
+          "local_id": "C03-03",
+          "source_text": "Shop",
+          "kind": "shop",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[118, 242, 66, 31]],
+          "note": ""
+        },
+        {
+          "local_id": "C03-04",
+          "source_text": "Rory Chisholms",
+          "kind": "personal_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[0, 370, 284, 61], [333, 347, 267, 113]],
+          "note": "Widely spaced curved multipart label; no apostrophe is visibly printed."
+        },
+        {
+          "local_id": "C03-05",
+          "source_text": "Harvies",
+          "kind": "settlement",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[769, 151, 98, 41]],
+          "note": ""
+        },
+        {
+          "local_id": "C03-06",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[637, 280, 84, 33]],
+          "note": ""
+        },
+        {
+          "local_id": "C03-07",
+          "source_text": "Mill\nBrook",
+          "kind": "geographic_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[837, 443, 68, 34], [752, 472, 108, 39]],
+          "note": "Two-part stream name arranged around the brook."
+        },
+        {
+          "local_id": "C03-08",
+          "source_text": "River",
+          "kind": "geographic_name",
+          "reading_status": "partial",
+          "label_boxes_xywh": [[976, 425, 124, 51]],
+          "note": "The readable generic word reaches the right crop edge; the fuller geographic name may continue outside the crop."
+        }
+      ],
+      "unresolved_regions": [],
+      "inspection_note": "White overlay stripes and red report lettering cross the map. Red report text and structural measurements were excluded; one personal-name abbreviation remains tentative."
+    },
+    {
+      "crop_id": "C04",
+      "width": 1370,
+      "height": 440,
+      "annotations": [
+        {
+          "local_id": "C04-01",
+          "source_text": "P.O.",
+          "kind": "post_office",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[320, 47, 51, 29]],
+          "note": ""
+        },
+        {
+          "local_id": "C04-02",
+          "source_text": "Branch",
+          "kind": "hydrology_text",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[230, 62, 48, 132]],
+          "note": "Printed vertically along the watercourse."
+        },
+        {
+          "local_id": "C04-03",
+          "source_text": "Church",
+          "kind": "church",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[291, 164, 82, 29]],
+          "note": ""
+        },
+        {
+          "local_id": "C04-04",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[230, 194, 79, 29]],
+          "note": ""
+        },
+        {
+          "local_id": "C04-05",
+          "source_text": "River Denys Road",
+          "kind": "road",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[98, 239, 562, 62]],
+          "note": ""
+        },
+        {
+          "local_id": "C04-06",
+          "source_text": "Forge",
+          "kind": "forge",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[678, 208, 65, 34]],
+          "note": ""
+        },
+        {
+          "local_id": "C04-07",
+          "source_text": "Gold Mine",
+          "kind": "mine",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[978, 143, 136, 31]],
+          "note": ""
+        },
+        {
+          "local_id": "C04-08",
+          "source_text": "Quartz falls\nMill",
+          "kind": "mill",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[1166, 160, 148, 33], [1188, 192, 60, 32]],
+          "note": "Two-line mill label; capitalization retained."
+        }
+      ],
+      "unresolved_regions": [
+        {
+          "box_xywh": [305, 0, 31, 29],
+          "note": "A small edge-clipped letter fragment, possibly ending in 'st', is visible but lacks enough context to establish the reading or annotation class."
+        }
+      ],
+      "inspection_note": "Red report text, structural measurements, and arrows were excluded. One tiny top-edge fragment remains unresolved."
+    },
+    {
+      "crop_id": "C05",
+      "width": 1330,
+      "height": 1030,
+      "annotations": [
+        {
+          "local_id": "C05-01",
+          "source_text": "Southwest Mabou River",
+          "kind": "geographic_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[895, 0, 228, 290], [1068, 348, 96, 158], [1173, 570, 82, 209]],
+          "note": "Multipart curved river label in the upper-right portion of the crop."
+        },
+        {
+          "local_id": "C05-02",
+          "source_text": "River Inhabitants",
+          "kind": "geographic_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[339, 438, 130, 71], [478, 488, 390, 99]],
+          "note": "Multipart curved river label."
+        },
+        {
+          "local_id": "C05-03",
+          "source_text": "Southwest Mabou River",
+          "kind": "geographic_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[74, 558, 239, 170], [245, 692, 150, 197], [354, 833, 145, 197]],
+          "note": "Separate repeated river label in the lower-left portion of the crop."
+        }
+      ],
+      "unresolved_regions": [
+        {
+          "box_xywh": [264, 0, 31, 27],
+          "note": "An isolated edge-clipped character is visible but cannot be read or classified reliably."
+        }
+      ],
+      "inspection_note": "The standalone word Road appears twice but was excluded because the crop provides no readable road name. Structural measurements and arrows were excluded; one top-edge character remains unresolved."
+    },
+    {
+      "crop_id": "C06",
+      "width": 640,
+      "height": 650,
+      "annotations": [
+        {
+          "local_id": "C06-01",
+          "source_text": "Don. McEachern",
+          "kind": "personal_name",
+          "reading_status": "clear",
+          "label_boxes_xywh": [[172, 216, 279, 37]],
+          "note": "Superscript c rendered inline."
+        }
+      ],
+      "unresolved_regions": [],
+      "inspection_note": "The personal name is readable; red report text and structural measurements were excluded."
+    }
+  ]
+}

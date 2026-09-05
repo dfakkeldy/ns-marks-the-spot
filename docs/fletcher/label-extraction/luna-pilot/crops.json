@@ -1,0 +1,94 @@
+{
+  "pilot_id": "fletcher-luna-label-pilot-20260905",
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "source_dimensions_px": [
+    10815,
+    7549
+  ],
+  "coordinate_system": "Unwarped source pixels, origin top-left, x right, y down. Crop-local output coordinates are translated by the crop origin.",
+  "crops": [
+    {
+      "id": "C01",
+      "source_region_xywh": [
+        3500,
+        1700,
+        1000,
+        470
+      ],
+      "description": "Small facilities beside coastal roads",
+      "image_sha256": "36ae0c21788557db101188dad8b6c5d2a764e38fce42b144cd0f08f07d6dec7b",
+      "image_filename": "C01.png",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3500,1700,1000,470/full/0/default.jpg"
+    },
+    {
+      "id": "C02",
+      "source_region_xywh": [
+        3800,
+        1250,
+        850,
+        520
+      ],
+      "description": "Labels over vertical stripes and diagonal hatching",
+      "image_sha256": "fb8ea3b4c077e550137070b06ac01fff6b72a0e373237f24c5dbb57b80bfc164",
+      "image_filename": "C02.png",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3800,1250,850,520/full/0/default.jpg"
+    },
+    {
+      "id": "C03",
+      "source_region_xywh": [
+        3500,
+        2340,
+        1100,
+        600
+      ],
+      "description": "Abbreviations, symbols and multipart stream lettering",
+      "image_sha256": "961451b63f4fdc8e1adb229933e3c60c75fd4672549701a283f5dc2105216926",
+      "image_filename": "C03.png",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3500,2340,1100,600/full/0/default.jpg"
+    },
+    {
+      "id": "C04",
+      "source_region_xywh": [
+        7350,
+        2710,
+        1370,
+        440
+      ],
+      "description": "Dense inland labels and crowded lettering",
+      "image_sha256": "6ab5a44b908aafdc468f378f49b5aa34d89899d67725add3334a78a4e3e6f9d1",
+      "image_filename": "C04.png",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7350,2710,1370,440/full/0/default.jpg"
+    },
+    {
+      "id": "C05",
+      "source_region_xywh": [
+        5900,
+        1940,
+        1330,
+        1030
+      ],
+      "description": "Large diagonal and multipart geographic names",
+      "image_sha256": "ea343c38fa934d74a8da8f38493af48647414d2f256011b662eb117cb7434985",
+      "image_filename": "C05.png",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5900,1940,1330,1030/full/0/default.jpg"
+    },
+    {
+      "id": "C06",
+      "source_region_xywh": [
+        7000,
+        1150,
+        640,
+        650
+      ],
+      "description": "Sparse text amid dense hatching and geological clutter",
+      "image_sha256": "1297cfa7247dddd66bd0ac2c45078e14735caf6b4238efce834ef24a8e0b1f6a",
+      "image_filename": "C06.png",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7000,1150,640,650/full/0/default.jpg"
+    }
+  ],
+  "source_receipt": "../sheet-19-native-source-2026-09-05.json",
+  "note": "PNG hashes bind crops made locally from the exact native mosaic; direct IIIF JPEG requests provide equivalent regions but not byte-identical PNGs.",
+  "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+  "imagery_terms_url": "https://www.davidrumsey.com/about/copyright-and-permissions",
+  "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/"
+}
