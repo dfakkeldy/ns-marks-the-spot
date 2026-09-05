@@ -41,9 +41,10 @@ documentation calls it metres; the earlier `2` collapsed 93% of woodland rings
 to triangles, which rendered as large background slivers across the forest
 fill. 0.000018 degrees is at most two metres on the ground anywhere in Nova
 Scotia. This retains polygon topology while reducing an exceptionally dense
-dataset (about 17 GB raw) for basemap display. Zooms 8 to 11 are served from
-two coarser display copies (half-pixel tolerance, one-pixel minimum ring at
-the top of each band) so low-zoom tiles stay small. Source polygons that fail
+dataset for basemap display. Zooms 8 to 11 are served from two coarser
+display copies (quarter-pixel tolerance, 2.5-pixel minimum ring width at the
+top of each band) so low-zoom tiles stay small without turning clearings into
+three-to-five vertex shards. Source polygons that fail
 OGC validity are repaired with GEOS MakeValid (structure method) before
 tiling, and the receipt records the repair count per source and the
 transformation for every band. Water records with null source geometry retain
@@ -81,6 +82,17 @@ coastal-water polygons that failed OGC validity, and records
 `judiqueWoodlandVerticesPerRing` (37.8, previously 4.8) in the receipt; the
 generator now fails closed if that figure drops below 8. Judique and Port
 Hawkesbury were re-inspected at zooms 9, 11, 14 and 16 with a clean console.
+
+The first rebuild's coarse bands (half-pixel tolerance, one-pixel minimum
+ring) rendered small clearings as three-to-five vertex shards at zooms 8 to
+11: in the Whycocomagh zoom-11 tiles 29% of rings two pixels or wider had
+five or fewer vertices. The bands now use a quarter-pixel tolerance and a
+2.5-pixel minimum ring width; the same measure is 3.7%, the receipt records
+it as `whycocomaghZoom11ShardRingShare`, and the generator fails closed above
+10%. Federal CanVec wooded areas were evaluated as an alternative source and
+rejected: the 1:250k layer dates from 1966-1992 and is visibly cruder than
+NSTDB, and the 1:50k layer (585,727 polygons, 1999-2001) is older and eight
+times heavier. NSTDB land cover, refreshed annually, remains the source.
 
 The generated `.pmtiles` file is ignored by Git and remains in
 `web/public/atlas/provincial/` for local use and checksum verification. A fresh

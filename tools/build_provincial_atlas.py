@@ -28,18 +28,24 @@ SOURCES = {
 MAXZOOM = 13
 # Woodland keeps its downloaded detail only where a screen can show it. Each
 # band is a separately generalized copy merged into the same 'woodland' tile
-# layer: the tolerance is half a pixel and the smallest kept ring is one pixel
-# at the top zoom of the band, so sub-pixel detail never inflates the tiles.
+# layer. The tolerance is a quarter of a pixel and the smallest kept ring is
+# two and a half pixels wide at the top zoom of the band: a half-pixel
+# tolerance with one-pixel rings turned small clearings into three-to-five
+# vertex shards at zooms 8 to 11 (2026-09-05), so rings are either dropped
+# outright or kept with enough vertices to hold their shape.
 WOODLAND_BANDS = (
     # (layer, minzoom, maxzoom, tolerance in degrees, minimum ring area in square degrees, transform)
     ('woodland', 12, MAXZOOM, None, None, None),
-    ('woodland_z10', 10, 11, 0.00022, 3.3e-7,
-     'Topology-preserving simplification, 0.00022 degree tolerance (about 25 metres, half a pixel at zoom 11); '
-     'rings smaller than 0.00000033 square degrees (about one zoom-11 pixel) dropped'),
-    ('woodland_z8', 8, 9, 0.0009, 5.3e-6,
-     'Topology-preserving simplification, 0.0009 degree tolerance (about 100 metres, half a pixel at zoom 9); '
-     'rings smaller than 0.0000053 square degrees (about one zoom-9 pixel) dropped'),
+    ('woodland_z10', 10, 11, 0.00012, 2.1e-6,
+     'Topology-preserving simplification, 0.00012 degree tolerance (about 13 metres, a quarter pixel at zoom 11); '
+     'rings smaller than 0.0000021 square degrees (about 2.5 zoom-11 pixels wide) dropped'),
+    ('woodland_z8', 8, 9, 0.00048, 3.3e-5,
+     'Topology-preserving simplification, 0.00048 degree tolerance (about 53 metres, a quarter pixel at zoom 9); '
+     'rings smaller than 0.000033 square degrees (about 2.5 zoom-9 pixels wide) dropped'),
 )
+# Degrees of latitude per screen pixel at 45.8 N for a 256-pixel tile at zoom z.
+def degrees_per_pixel(zoom):
+    return 360 / (256 * 2 ** zoom) * 0.697
 ZOOMS = {'roads_major': (5, MAXZOOM), 'roads_local': (10, MAXZOOM), 'roads_access': (12, MAXZOOM),
          'names': (5, MAXZOOM), 'water': (7, MAXZOOM), 'waterways': (11, MAXZOOM), 'boundaries': (6, MAXZOOM),
          **{layer: (low, high) for layer, low, high, *_ in WOODLAND_BANDS}}
@@ -408,6 +414,28 @@ def package(work, output, downloaded, counts):
     if vertices_per_ring < 8:
         raise ValueError(f'Generated woodland rings near Judique average {vertices_per_ring} vertices; ring detail was lost')
     tiles = None
+    # The coarse bands once rendered clearings as three-to-five vertex shards at
+    # regional zooms. Rings wide enough to see (two pixels or more at zoom 11)
+    # must keep their shape; genuinely rectangular fields keep the share above zero.
+    tiles = gdal.OpenEx(str(archive), gdal.OF_VECTOR, open_options=['ZOOM_LEVEL=11', 'CLIP=NO'])
+    woodland = tiles.GetLayerByName('woodland')
+    west, south, _ = transform.TransformPoint(-61.6, 45.8)
+    east, north, _ = transform.TransformPoint(-61.0, 46.2)
+    woodland.SetSpatialFilterRect(west, south, east, north)
+    pixels_per_metre = 256 / (40075016.686 / 2 ** 11)
+    visible = shards = 0
+    for feature in woodland:
+        if feature.GetField('feat_desc') != 'TREE AREA polygon':
+            continue
+        for ring in rings_of(feature.GetGeometryRef()):
+            envelope = ring.GetEnvelope()
+            if max(envelope[1] - envelope[0], envelope[3] - envelope[2]) * pixels_per_metre >= 2:
+                visible += 1
+                shards += ring.GetPointCount() - 1 <= 5
+    shard_share = round(shards / visible, 3) if visible else 0
+    if not visible or shard_share > 0.1:
+        raise ValueError(f'Generated zoom-11 woodland near Whycocomagh has {shards}/{visible} shard rings; generalization is too coarse')
+    tiles = None
     digest = sha256(archive)
     output.mkdir(parents=True, exist_ok=True)
     filename = f'ns-{digest[:16]}.pmtiles'
@@ -424,7 +452,8 @@ def package(work, output, downloaded, counts):
                                           for layer, low, high, _, _, transform in WOODLAND_BANDS]},
                'sources': [r for _, r in downloaded.values()],
                'validation': {'longPointRoad': 'Chisholm-MacLean Rd',
-                              'judiqueWoodlandVerticesPerRing': vertices_per_ring},
+                              'judiqueWoodlandVerticesPerRing': vertices_per_ring,
+                              'whycocomaghZoom11ShardRingShare': shard_share},
                'supplemental': 'OpenStreetMap via OpenFreeMap: ocean context, grass, farmland, settlement areas and building footprints.'}
     pending = output / 'source.pending.json'
     pending.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + '\n')

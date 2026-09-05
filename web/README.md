@@ -102,8 +102,9 @@ generated tiles. Null source geometries are quarantined with identifiers and
 reasons in the receipt. Woodland is downloaded with a topology-preserving
 0.000018-degree simplification (Socrata applies the tolerance in degrees, so
 this is at most two metres on the ground) and served at zoom 12 and 13; zooms
-8 to 11 use two coarser display copies whose tolerance is half a pixel and
-whose smallest kept ring is one pixel at the top of each band. Source polygons
+8 to 11 use two coarser display copies whose tolerance is a quarter of a pixel
+and whose smallest kept ring is two and a half pixels wide at the top of each
+band, so clearings are either dropped or keep their shape. Source polygons
 that fail OGC validity are repaired with GEOS MakeValid and counted per source
 in the receipt. All vector geometry is quantized for display (8192 units per
 tile, maximum native GL zoom 13). Closer zoom magnifies this data; it does not
