@@ -42,9 +42,10 @@ for worldwide detail.
 The Day theme is Fletcher-inspired: the warm paper, olive, ochre, salmon and
 ink of Hugh Fletcher's 1884 Geological Survey sheets of Cape Breton (David
 Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries),
-applied to modern provincial and OSM classes. Olive is NSTDB tree cover, ochre
-is farmland and main routes, salmon is OSM settlement area; nothing depicts
-geology and the sheets' hatching is deliberately omitted. `src/atlas/palette.ts`
+applied to modern provincial and OSM classes. Salmon is the land ground
+wherever no tree cover is mapped, olive is NSTDB tree cover, ochre is farmland,
+bare paper is water under an ink shore, and main routes are a dark rust line;
+nothing depicts geology and the sheets' hatching is deliberately omitted. `src/atlas/palette.ts`
 holds the tokens and `src/atlas/style.ts` the cartography. Labels are set in
 Atlas Serif (names, italic for water; derived from Libre Baskerville) and Atlas
 Sans (road names; derived from Noto Sans) from self-hosted glyph ranges in
