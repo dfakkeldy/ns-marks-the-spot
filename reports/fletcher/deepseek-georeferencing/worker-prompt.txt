@@ -1,0 +1,15 @@
+Find the historical counterpart of the feature marked by a RED RING in the modern reference image. Work only from the assigned images. Match water-network topology, branch directions and nearby road/coast relationships; do not assume that a superficially similar fork is the same feature. The two maps can differ in shape, distortion, and which minor features are drawn. Some packets deliberately have no counterpart.
+
+Images attached in order:
+1. historical.png: native 800x800 historical detail; no target marker.
+2. historical-grid.png: identical pixels with cyan grid and x/y coordinates every 100 pixels. Coordinates increase right/down from (0,0) at the upper left of THIS 800x800 image.
+3. context.png: wider 1600x1600 historical region resized to 800x800. Its centre equals the detail's centre. It is only context, not the output coordinate frame.
+4. modern.png: modern water (blue), roads (grey), and the target red ring. North is up. The ring identifies a junction, outlet or coastal tip; place your historical coordinate on the actual feature, not its name.
+
+Find a candidate using the wider branch pattern, then locate the exact junction/tip using the native detail/grid. Do not return the centre merely because it is convenient. Do not infer latitude/longitude. If the feature is absent or the pattern contradicts a match, use no_match. If evidence is insufficient, use uncertain. Only return match if you can identify the same feature. The feature must be inside historical.png to count as a match.
+
+Optional closer looks: use the provided crop helper described below at most TWO times, then read the PNG it returns. Coordinates must be converted back to historical.png's ORIGINAL 800x800 frame, never the enlarged image's frame. If tools fail, continue from the attached images; do not seek other access.
+
+Return only this JSON object as the final answer, without Markdown:
+{"case_id":"CASE_ID","status":"match|uncertain|no_match","historical_xy":[123,456],"evidence":"Brief description of corresponding branches and landmarks, and any contradictory evidence."}
+Use historical_xy:null for uncertain/no_match. Coordinates must be finite numbers in [0,800). Give an honest abstention when needed; no minimum number of matches is required.
