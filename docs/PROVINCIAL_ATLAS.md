@@ -104,8 +104,34 @@ is absent. Failed downloads and mismatched checksums stop the build.
 The rebuilt archive and matching `source.json` are published in the existing
 public `ns-marks-fletcher-tiles` bucket under `provincial-atlas/`:
 
-- [Archive](https://tiles.kinnokilabs.com/provincial-atlas/ns-7c383881956d105c.pmtiles)
+- [Current archive](https://tiles.kinnokilabs.com/provincial-atlas/ns-728ab9c9b5d20199.pmtiles)
 - [Source receipt](https://tiles.kinnokilabs.com/provincial-atlas/source.json)
+
+Hosting acceptance for PR #350's `ns-728ab9c9b5d20199.pmtiles` on
+September 5, 2026: a complete public download matched 296,877,206 bytes and
+SHA-256 `728ab9c9b5d20199ea6bdbf13815cab4d4168271dcc6454c037aeea142e3826e`.
+HEAD returned 200, `Content-Length: 296877206`, and `Accept-Ranges: bytes`.
+An actual range GET for bytes 0–7 with origin `https://kinnokilabs.com`
+returned 206 and `Content-Range: bytes 0-7/296877206`, with matching CORS
+and exactly `PMTiles` followed by version byte 3. The archive is served as
+`application/octet-stream` without content encoding. The 6,881-byte public
+`source.json` matched the PR branch's committed receipt byte for byte.
+
+The upload reused the existing AWS CLI environment's Python/botocore on
+Bazzite and the Fletcher publisher's R2 credentials. Its resumable nine-part
+upload verified each part's checksum and retained a completion checkpoint.
+Only the new archive and `provincial-atlas/source.json` were written; the
+receipt requests cache revalidation. The `ns-7c383881956d105c.pmtiles` and
+`ns-94fe4f0b0bbbf54e.pmtiles` archives retained their public ETags, byte counts,
+and Last-Modified values. No other objects or bucket configuration changed.
+
+A fresh clone of PR #350, with no local `.pmtiles`, passed `npm ci` and
+`npm run check:provincial-atlas`, printing
+`Verified provincial Atlas: ns-728ab9c9b5d20199.pmtiles, 6 sources`.
+The failed jobs in [CI run 33996626164](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/33996626164)
+were rerun after publication; all checks, including `Web tests + build` and
+`Build gate + tests`, passed.
+This hosting acceptance does not establish KinNoKi deployment acceptance.
 
 Hosting acceptance for `ns-7c383881956d105c.pmtiles` on September 5, 2026:
 a complete public download matched 297,895,825 bytes and SHA-256
