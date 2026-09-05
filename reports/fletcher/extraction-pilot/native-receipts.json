@@ -1,0 +1,110 @@
+[
+  {
+    "id": "C1",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3080,1530,640,640/full/0/default.jpg",
+    "sha256": "2f99bb01ba7f6d21333dccb676b5818d009d5ebacf22ecc29642d759a79e602f",
+    "dimensions": [
+      640,
+      640
+    ]
+  },
+  {
+    "id": "C2",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3330,2730,640,640/full/0/default.jpg",
+    "sha256": "7c8b2ec7dd0dc61ae6fd6bbf799f6ba85e52aacaf15dc75e8cbf40a1689c0c48",
+    "dimensions": [
+      640,
+      640
+    ]
+  },
+  {
+    "id": "C3",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3730,4530,640,640/full/0/default.jpg",
+    "sha256": "8f277348478be4a50a150faf1ac4ea38ec0360e39db9cfbfc73279bd8122e5e0",
+    "dimensions": [
+      640,
+      640
+    ]
+  },
+  {
+    "id": "C4",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4180,5780,640,640/full/0/default.jpg",
+    "sha256": "f5e5865d9dafc51f00db59a631da2cbce872b94c404c1f62f3a10e3c469e0baa",
+    "dimensions": [
+      640,
+      640
+    ]
+  },
+  {
+    "id": "I1",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6280,3280,640,640/full/0/default.jpg",
+    "sha256": "ebcf630a765e62edbff13511a4006646c5eb54a81b5f80ace5b93a57d83abdb9",
+    "dimensions": [
+      640,
+      640
+    ]
+  },
+  {
+    "id": "I2",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5830,4130,640,640/full/0/default.jpg",
+    "sha256": "1e7d9cdda277cfdce9d0207a4eece74e48af3c2b4902288cf6bcae32d5144060",
+    "dimensions": [
+      640,
+      640
+    ]
+  },
+  {
+    "id": "I3",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6130,4980,640,640/full/0/default.jpg",
+    "sha256": "25490378a8b9aa28dc8c2f198e05a27744054e5a97d604f990d18e5b368c9efc",
+    "dimensions": [
+      640,
+      640
+    ]
+  },
+  {
+    "id": "I4",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6180,5780,640,640/full/0/default.jpg",
+    "sha256": "af114c7f0a5c001c363f87b09fc41f00fb35b38942da0668b5eebe64c397f224",
+    "dimensions": [
+      640,
+      640
+    ]
+  },
+  {
+    "id": "H1",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4330,2680,640,640/full/0/default.jpg",
+    "sha256": "d96db16ebf9dd526aa54b45227a53e1f265ea0ff3a687c56f291e2935f10d407",
+    "dimensions": [
+      640,
+      640
+    ]
+  },
+  {
+    "id": "H2",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4880,3480,640,640/full/0/default.jpg",
+    "sha256": "d743494fcf069ed5bc26b50d351f0958ae9bad4ae34f0e4ab0cce4e6d52615c6",
+    "dimensions": [
+      640,
+      640
+    ]
+  },
+  {
+    "id": "H3",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7830,4880,640,640/full/0/default.jpg",
+    "sha256": "11604be64aa537825d6afc7f57d0ad129a6e100edcaf9f4bb414735d451cea59",
+    "dimensions": [
+      640,
+      640
+    ]
+  },
+  {
+    "id": "H4",
+    "url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8480,2580,640,640/full/0/default.jpg",
+    "sha256": "d6ae6d9b359f547f54bcb158fa7a3ac08871f63d368059ed9ef51f46757543b0",
+    "dimensions": [
+      640,
+      640
+    ]
+  }
+]
