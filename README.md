@@ -36,7 +36,9 @@ no provincial zoning layer, so an area with no polygon is an area with no data
 rather than an area with no zoning. A collapsed, default-off live-conditions
 family offers optional Highway cameras (511 Nova Scotia) and Weather radar
 (ECCC GeoMet); source and licence detail are in
-[web/README.md](web/README.md). Fletcher now has a host-neutral,
+[web/README.md](web/README.md). Background Maps offers NS Marks Atlas Day,
+Night, and System appearance (the default) or OpenStreetMap raster; atlas
+detail is in [web/README.md](web/README.md). Fletcher now has a host-neutral,
 default-off web control for the 24 independently accepted direct-Rumsey sheets,
 with bounded per-sheet requests, opacity, share, print, evidence, attribution,
 and failure handling. It remains fail-closed until
