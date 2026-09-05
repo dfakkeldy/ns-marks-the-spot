@@ -89,22 +89,44 @@ is absent. Failed downloads and mismatched checksums stop the build.
 
 ## R2 hosting acceptance — September 5, 2026
 
-The archive and matching `source.json` are published in the existing public
-`ns-marks-fletcher-tiles` bucket under `provincial-atlas/`:
+The rebuilt archive and matching `source.json` are published in the existing
+public `ns-marks-fletcher-tiles` bucket under `provincial-atlas/`:
 
-- [Archive](https://tiles.kinnokilabs.com/provincial-atlas/ns-94fe4f0b0bbbf54e.pmtiles)
+- [Archive](https://tiles.kinnokilabs.com/provincial-atlas/ns-7c383881956d105c.pmtiles)
 - [Source receipt](https://tiles.kinnokilabs.com/provincial-atlas/source.json)
 
-The rebuilt archive `ns-7c383881956d105c.pmtiles` (297,895,825 bytes, SHA-256
-`7c383881956d105ce0d4c7d6854ae5e8aea2208c9a7a140a8e587adabc66a9af`) and its
-`source.json` still have to be uploaded to that prefix. Until they are, fresh
-checkouts and hosted CI fail the prebuild gate because the pinned object is
-missing, and the hourly site promotion would fail the same way.
+Hosting acceptance for `ns-7c383881956d105c.pmtiles` on September 5, 2026:
+a complete public download matched 297,895,825 bytes and SHA-256
+`7c383881956d105ce0d4c7d6854ae5e8aea2208c9a7a140a8e587adabc66a9af`.
+HEAD returned 200, `Content-Length: 297895825` and `Accept-Ranges: bytes`.
+An actual range GET with origin `https://kinnokilabs.ca` returned 206,
+128 bytes and `Content-Range: bytes 0-127/297895825`, with matching CORS
+and a `PMTiles` header followed by version byte 3. The archive is served as
+`application/octet-stream` without content encoding. The 6,820-byte public
+`source.json` matched the PR branch's committed receipt byte for byte.
 
-A complete public download matched SHA-256
+The upload used the existing AWS CLI environment's Python/botocore on Bazzite
+with the Fletcher publisher's R2 credentials, exercising object read and write
+access on `ns-marks-fletcher-tiles`. The nine-part upload retained a resume
+checkpoint and verified each part's checksum. Only the new archive and
+`provincial-atlas/source.json` were written; the receipt now requests cache
+revalidation. No bucket configuration changed. The previous archive remains
+available with its original ETag and byte count, and Fletcher objects were
+untouched.
+
+A fresh clone of PR #346, with no local `.pmtiles`, passed `npm ci` and
+`npm run check:provincial-atlas`, printing
+`Verified provincial Atlas: ns-7c383881956d105c.pmtiles, 6 sources`.
+The failed jobs in [CI run 33988766150](https://github.com/dfakkeldy/ns-marks-the-spot/actions/runs/33988766150)
+were rerun after publication; `Web tests + build` and `Build gate + tests`
+passed. Publishing these two data objects does not update KinNoKi's pinned generated
+copy or establish website deployment acceptance.
+
+Earlier the same day, a complete public download of
+`ns-94fe4f0b0bbbf54e.pmtiles` matched SHA-256
 `94fe4f0b0bbbf54e0936d5139c45feff13383dc4cb89586e63466a95220f14f2`
-and 270,489,158 bytes. The public receipt matched the local receipt byte for
-byte. An actual range GET with origin `https://kinnokilabs.ca` returned 206,
+and 270,489,158 bytes. The public receipt then matched the local receipt byte
+for byte. An actual range GET with origin `https://kinnokilabs.ca` returned 206,
 127 bytes, and `Content-Range: bytes 0-126/270489158` with matching CORS.
 
 The bucket's read-only CORS rule retains the existing `.com` and localhost
@@ -116,4 +138,5 @@ ETag, Content-Range and Accept-Ranges alongside the previous headers.
 build passed, contains the R2 URL, and omits the duplicate `.pmtiles` file
 from `dist`; the source receipt stays with the website. Its local browser
 preview loaded the R2-backed map to Ready and displayed Chisholm-MacLean Rd.
-No hosted CI run, PR, KinNoKi pin update or website deployment was performed.
+That initial acceptance did not include hosted CI, a PR, a KinNoKi pin update
+or website deployment.
