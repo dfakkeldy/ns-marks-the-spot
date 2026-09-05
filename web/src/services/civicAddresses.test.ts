@@ -8,6 +8,7 @@ import {
   CivicAddressGeometryError,
   civicAddressShortfall,
   fetchCivicAddresses,
+  fetchViewportCivicAddresses,
   formatCivicAddress,
   formatCivicRoadName,
   noReadableCivicAddresses,
@@ -789,5 +790,32 @@ describe("Nova Scotia Civic Address File lookup", () => {
         }),
       ]),
     ).rejects.toThrow("Civic Points request failed with status 503");
+  });
+});
+
+describe("viewport civic numbers", () => {
+  it("bounds the query and discloses a capped reply", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(geoJsonResponse(
+      Array.from({ length: 501 }, (_, index) => civicPoint(String(index), [-61.4, 46.05])),
+    ));
+    vi.stubGlobal("fetch", fetchMock);
+    const signal = new AbortController().signal;
+    const result = await fetchViewportCivicAddresses({ north: 46.1, south: 46, west: -61.5, east: -61.3 }, signal);
+    expect(result.addresses).toHaveLength(500);
+    expect(result.truncated).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const url = new URL(fetchMock.mock.calls[0][0]);
+    expect(url.searchParams.get("$limit")).toBe("501");
+    expect(url.searchParams.get("$where")).toBe("within_box(the_geom,46.1,-61.5,46,-61.3)");
+  });
+  it("distinguishes unreadable rows, empty replies and errors", async () => {
+    const invalid = civicPoint("missing", [-61.4, 46.05]);
+    invalid.geometry = null;
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValueOnce(geoJsonResponse([invalid]))
+      .mockResolvedValueOnce(geoJsonResponse([])).mockRejectedValueOnce(new Error("offline")));
+    const bounds = { north: 46.1, south: 46, west: -61.5, east: -61.3 };
+    expect(await fetchViewportCivicAddresses(bounds)).toEqual({ addresses: [], truncated: false, unreadableRows: 1 });
+    expect(await fetchViewportCivicAddresses(bounds)).toEqual({ addresses: [], truncated: false, unreadableRows: 0 });
+    await expect(fetchViewportCivicAddresses(bounds)).rejects.toThrow("offline");
   });
 });

@@ -291,6 +291,7 @@ type LicenceIntent =
   | { kind: "search"; query: string }
   /** The edit panel's parcel-snap toggle asked before acceptance. */
   | { kind: "snap" }
+  | { kind: "poker-aerial" }
   /** "Data & licences" review — never a licence-state or layer-state change. */
   | { kind: "review" }
   | null;
@@ -1148,6 +1149,11 @@ export function App() {
       ? initialThemeMatch?.id ?? null
       : "explore-nova-scotia",
   );
+  const pokerMode = selectedThemeId === "poker";
+  const [pokerAddress, setPokerAddress] = useState<CivicAddress | null>(null);
+  const [pokerRevision, setPokerRevision] = useState(0);
+  const pokerSearchRef = useRef<HTMLInputElement>(null);
+  const pokerNextFocus = useRef(false);
   const [themeResult, setThemeResult] = useState<ResolvedTheme | null>(null);
   const [customThemes, setCustomThemes] = useState<CustomMapThemeDefinition[]>(
     initialCustomThemes,
@@ -1229,7 +1235,11 @@ export function App() {
   // sheet header is sticky, so landing there scrolls nothing.
   useEffect(() => {
     if (!mobileControlsOpen) return;
-    mobileSheetCloseRef.current?.focus();
+    if (pokerNextFocus.current) {
+      pokerSearchRef.current?.focus();
+      pokerSearchRef.current?.select();
+      pokerNextFocus.current = false;
+    } else mobileSheetCloseRef.current?.focus();
   }, [mobileControlsOpen]);
   const closeMobileControls = useCallback(() => {
     // Only reclaim focus that was still inside the sheet, and read that before
@@ -1318,11 +1328,13 @@ export function App() {
       document.title = previousTitle;
     };
   }, [selectedPid]);
-  const [selectedEvidenceRequest, setSelectedEvidenceRequest] = useState<
+  const [storedEvidenceRequest, setSelectedEvidenceRequest] = useState<
     SelectedEvidenceRequest | null
   >(() => initialShareState.pid
     ? { pid: initialShareState.pid, generation: selectionGeneration.current }
     : null);
+  // Retain the request for a return to research; Poker does not fetch inspector evidence.
+  const selectedEvidenceRequest = pokerMode ? null : storedEvidenceRequest;
   const [parcelFocusRequest, setParcelFocusRequest] =
     useState<ParcelFocusRequest | null>(null);
   const [parcelLookupMessage, setParcelLookupMessage] = useState<string | null>(
@@ -2841,13 +2853,24 @@ export function App() {
       return;
     }
 
+    if (themeId === "poker" || selectedThemeId === "poker") {
+      addressSearchController.current?.abort();
+      pointLookupController.current?.abort();
+      if (addressSearchTimer.current !== null) clearTimeout(addressSearchTimer.current);
+      setAddressSearchResults([]);
+      setSearchingAddresses(false);
+      setParcelLookupMessage(null);
+      setSelectedPid(null);
+      setPokerAddress(null);
+      setPokerRevision((value) => value + 1);
+    }
     setSelectedThemeId(themeId);
     applyResolvedTheme(resolveTheme(theme, {
       licenceAccepted,
       availableLayerIds: availableThemeLayerIds,
       restrictedLayerIds: restrictedThemeLayerIds,
     }));
-  }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted, mapThemes]);
+  }, [applyResolvedTheme, availableThemeLayerIds, licenceAccepted, mapThemes, selectedThemeId]);
 
   const reviewProvinceLicence = useCallback(() => {
     setLicenceIntent({ kind: "review" });
@@ -2889,6 +2912,9 @@ export function App() {
       // The search that opened this dialog runs now, with the gate bypassed:
       // `licenceAccepted` in this closure is still the pre-accept value.
       void runSearch(licenceIntent.query, { licenceJustAccepted: true });
+    } else if (licenceIntent?.kind === "poker-aerial") {
+      setProvinceLayers((current) => ({ ...current, "ns-aerial": true }));
+      setShowModernMap(false);
     } else if (licenceIntent?.kind === "layer") {
       setProvinceLayers(intendedInitialProvinceLayers);
     } else if (licenceIntent?.kind === "snap") {
@@ -3328,10 +3354,17 @@ export function App() {
 
   const chooseAddress = (address: CivicAddress) => {
     setQuery(address.label);
+    if (pokerMode) {
+      setSelectedPid(null);
+      setPokerAddress(address);
+      setPokerRevision((value) => value + 1);
+      handOffSheetFocus();
+      setMobileControlsOpen(false);
+    }
     void identifyParcelAtPoint(
       address.coordinates[1],
       address.coordinates[0],
-      { addressLabel: address.label, focusOnSelect: true },
+      { addressLabel: address.label, focusOnSelect: !pokerMode },
     );
   };
 
@@ -4237,7 +4270,7 @@ export function App() {
               one names the controls rail, which is a part of the page, and
               the rail's own child-combinator rule carries its former h1
               typography over unchanged. */}
-          <h2>Explore Nova Scotia</h2>
+          <h2>{pokerMode ? "Poker" : "Explore Nova Scotia"}</h2>
           <form className="pid-search" onSubmit={submitPidSearch}
             onBlur={(event) => {
               if (!event.currentTarget.contains(event.relatedTarget)) {
@@ -4249,6 +4282,7 @@ export function App() {
             <label htmlFor="pid-query">Search by PID or civic address</label>
             <div className="search-row">
               <input
+                ref={pokerSearchRef}
                 id="pid-query"
                 type="search"
                 value={query}
@@ -5192,6 +5226,34 @@ export function App() {
             </button>
           </div>
           <MapCanvas
+            poker={pokerMode ? {
+              address: pokerAddress,
+              revision: pokerRevision,
+              aerial: provinceLayers["ns-aerial"],
+              message: parcelLookupMessage,
+              onAerialChange: () => {
+                if (!licenceAccepted) {
+                  setLicenceIntent({ kind: "poker-aerial" });
+                  setLicenceDialogOpen(true);
+                  return;
+                }
+                setProvinceLayerVisibility("ns-aerial", !provinceLayers["ns-aerial"]);
+                setShowModernMap(provinceLayers["ns-aerial"]);
+              },
+              onNext: () => {
+                cancelAddressSearch();
+                cancelPointLookup();
+                setAddressSearchResults([]);
+                setSearchError(null);
+                setSelectedPid(null);
+                setPokerAddress(null);
+                setPokerRevision((value) => value + 1);
+                pokerNextFocus.current = true;
+                setMobileControlsOpen(true);
+                pokerSearchRef.current?.focus();
+                pokerSearchRef.current?.select();
+              },
+            } : null}
             basemapStyle={basemapStyle}
             onUseOsmBasemap={() => setBasemapPreference("osm")}
             parcels={drawableParcels}
@@ -5333,7 +5395,7 @@ export function App() {
               ))}
             </div>
           ) : null}
-          {selectedPid ? (
+          {selectedPid && !pokerMode ? (
             <ParcelInspector
               key={selectedPid}
               pid={selectedPid}
@@ -5477,7 +5539,7 @@ export function App() {
             them live: zoning's OGL–Halifax/EDPC lines, the OGL–NS sentence
             for open layers beyond forestry, and Rumsey's CC BY-NC-SA line
             for the Fletcher sheets. */}
-        {oglLayerVisible ? (
+        {oglLayerVisible || pokerMode ? (
           <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>
         ) : null}
         {coastalLayerVisible

@@ -17,7 +17,8 @@ export type BuiltInMapThemeId =
   | "tax-sale-research"
   | "forestry-field-access"
   | "historical-maps"
-  | "georeferencing";
+  | "georeferencing"
+  | "poker";
 
 export interface MapThemeState {
   readonly layerIds: readonly ShareLayerId[];
@@ -113,6 +114,17 @@ export const builtInMapThemes = [
     taxSaleEnabled: false,
     mapMode: "current",
   },
+  {
+    id: "poker",
+    kind: "built-in",
+    name: "Poker",
+    description: "Civic addresses and driveway distances for your mail route.",
+    layerIds: ["modern"],
+    opacityOverrides: {},
+    preferredCategoryIds: ["background-maps", "roads-places"],
+    taxSaleEnabled: false,
+    mapMode: "current",
+  },
 ] as const satisfies readonly MapThemeDefinition[];
 
 /**
@@ -136,7 +148,8 @@ export function buildMapPresentationFixture(): MapPresentationFixture {
             (layerId) => !nativeExcludedLayerIds.has(layerId),
           ),
     })),
-    builtInThemes: builtInMapThemes.map((theme) => ({
+    // Poker is a web workflow; native has no driveway session controls.
+    builtInThemes: builtInMapThemes.filter((theme) => theme.id !== "poker").map((theme) => ({
       id: theme.id,
       name: theme.name,
       description: theme.description,

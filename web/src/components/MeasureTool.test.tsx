@@ -286,3 +286,20 @@ describe("area measuring", () => {
     expect(firstVertex).toHaveAttribute("data-interactive", "true");
   });
 });
+
+it("supports a driveway session with touch finish, clear and a fresh next address", () => {
+  const { rerender } = render(<MeasureTool key="first" driveway mode="distance" onModeChange={vi.fn()} />);
+  expect(screen.queryByRole("button", { name: "Measure area" })).not.toBeInTheDocument();
+  clickAt(46, -61);
+  clickAt(46.001, -61);
+  fireEvent.click(screen.getByRole("button", { name: "Finish" }));
+  expect(screen.getByRole("button", { name: "Finish" })).toBeDisabled();
+  expect(screen.getByTestId("measurement-label")).toHaveTextContent("Total distance");
+  fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+  expect(screen.queryByTestId("measure-line")).not.toBeInTheDocument();
+  clickAt(46, -61);
+  clickAt(46.001, -61);
+  rerender(<MeasureTool key="second" driveway mode="distance" onModeChange={vi.fn()} />);
+  expect(screen.queryByTestId("measure-line")).not.toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Undo point" })).toBeDisabled();
+});
