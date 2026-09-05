@@ -1839,9 +1839,9 @@ describe("NS Marks The Spot Online", () => {
 
     // The inventory covers licences the Province dialog never mentioned:
     // OSM, the Rumsey collection, and OGL-NS layers all get reviewable rows.
-    expect(within(dialog).getByText("Modern map")).toBeInTheDocument();
+    expect(within(dialog).getByText("NS Marks Atlas · Day")).toBeInTheDocument();
     expect(
-      within(dialog).getByText("© OpenStreetMap contributors"),
+      within(dialog).getByText("NS Marks Atlas · OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors"),
     ).toBeInTheDocument();
     expect(within(dialog).getAllByRole("link", { name: "Official source" })
       .length).toBeGreaterThan(10);

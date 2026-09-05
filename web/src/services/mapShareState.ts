@@ -1,3 +1,4 @@
+import type { BasemapStyle } from "../atlas/basemap";
 import { taxSaleEvents } from "../data/taxSaleCatalog";
 import { historicalTaxSaleEvents } from "../data/historicalTaxSales";
 import {
@@ -45,6 +46,7 @@ export type MapPosition = {
 };
 
 export type MapShareState = {
+  basemapStyle?: BasemapStyle;
   taxSaleEnabled: boolean;
   mode: MapMode;
   pid: string | null;
@@ -111,6 +113,7 @@ function parsePosition(value: string | null): MapPosition {
 
 export function parseMapShareState(value: string): MapShareState {
   const url = new URL(value, "https://example.invalid");
+  const basemap = url.searchParams.get("basemap");
   const explicitTaxSale = url.searchParams.get("taxSale");
   const taxSaleEnabled = explicitTaxSale === "on"
     ? true
@@ -128,6 +131,8 @@ export function parseMapShareState(value: string): MapShareState {
     .filter(isShareLayerId);
 
   return {
+    ...(basemap === "day" || basemap === "night" || basemap === "osm"
+      ? { basemapStyle: basemap } : {}),
     taxSaleEnabled,
     mode,
     pid: normalizePid(url.searchParams.get("pid") ?? ""),
@@ -162,6 +167,7 @@ export function buildMapShareUrl(
   const url = new URL(baseUrl);
   url.search = "";
   url.hash = "";
+  if (state.basemapStyle) url.searchParams.set("basemap", state.basemapStyle);
   url.searchParams.set("taxSale", state.taxSaleEnabled ? "on" : "off");
   url.searchParams.set("mode", state.mode);
   if (state.pid) {

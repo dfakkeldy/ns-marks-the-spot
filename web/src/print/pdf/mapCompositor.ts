@@ -1,3 +1,4 @@
+import type { AtlasMode } from "../../atlas/palette";
 import { buildSrcMesh, drawWarpedImage } from "../../userMaps/render/mesh";
 import type { LatLngPoint } from "../../userMaps/transform/projection";
 import type { PixelRect } from "../../userMaps/types";
@@ -65,7 +66,12 @@ export type CompositorVectorRing = {
   lineWidthPx: number;
 };
 
+export type CompositorAtlasLayer = {
+  kind: "atlas"; id: string; name: string; mode: AtlasMode;
+};
+
 export type CompositorLayer =
+  | CompositorAtlasLayer
   | CompositorTileLayer
   | CompositorImageLayer
   | CompositorWarpedLayer
@@ -349,7 +355,13 @@ export async function composeMapImage(
       currentLayer: layer.name,
     });
     try {
-      if (layer.kind === "tile") {
+      if (layer.kind === "atlas") {
+        const { renderAtlasImage } = await import("../../atlas/renderAtlasImage");
+        const result = await renderAtlasImage(bounds, size, layer.mode, options.signal);
+        ctx.drawImage(result.canvas, 0, 0, size.widthPx, size.heightPx);
+        result.canvas.width = 0;
+        statuses.push({ id: layer.id, name: layer.name, status: "rendered", detail: result.detail });
+      } else if (layer.kind === "tile") {
         statuses.push(await renderTileLayer(
           ctx, space, bounds, layer, fetchImage, options.signal,
         ));

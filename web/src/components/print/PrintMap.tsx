@@ -131,6 +131,11 @@ export function PrintMap({
     });
   }, []);
 
+  const reportPosition = useCallback((position: MapPosition | null) => {
+    // Only the settled position belongs in the printed receipt.
+    if (position) onResolvedPosition(position);
+  }, [onResolvedPosition]);
+
   useEffect(() => {
     const values = layerIds.map((id) => statuses[id]);
     const renderedLayerIds = layerIds.filter((id) => statuses[id]?.status === "ready");
@@ -169,6 +174,7 @@ export function PrintMap({
       aria-label={`Printable map for PID ${snapshot.pid}`}
     >
       <MapCanvas
+        basemapStyle={snapshot.basemapStyle ?? "osm"}
         parcels={parcels}
         taxSalePids={new Set(snapshot.taxSalePids)}
         historicalTaxSalePids={new Set(snapshot.historicalTaxSalePids)}
@@ -194,13 +200,7 @@ export function PrintMap({
         onSelectPid={() => undefined}
         onIdentifyParcel={() => undefined}
         initialPosition={snapshot.viewport.position}
-        onPositionChange={(position) => {
-          // Null means the map is mid-move. The printed viewport is the
-          // settled one, which is the report that follows.
-          if (position) {
-            onResolvedPosition(position);
-          }
-        }}
+        onPositionChange={reportPosition}
         onLayerStatusChange={updateStatus}
         renderMode="print"
         fitBounds={bounds}

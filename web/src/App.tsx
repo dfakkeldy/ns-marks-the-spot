@@ -222,6 +222,8 @@ const ExportDialog = lazy(() =>
 );
 import { exportAttributionLines } from "./print/pdf/attributionLines";
 import { buildExportLayers } from "./print/pdf/exportLayerSpecs";
+import { basemapSource, type BasemapPreference, type BasemapStyle } from "./atlas/basemap";
+import { useBasemapPreference } from "./atlas/useBasemapPreference";
 import { DEFAULT_FRAME_STATE, type FrameState } from "./print/pdf/frameGeometry";
 import type { PdfTemplateId } from "./print/pdf/templates/types";
 import { useUserMaps } from "./userMaps/useUserMaps";
@@ -716,16 +718,10 @@ function printEventForHistorical(
 
 function printLayerSources(
   fletcherTileBaseUrl: string | null,
+  basemapStyle: BasemapStyle = "osm",
 ): Map<ShareLayerId, PrintLayerSource> {
   const sources = new Map<ShareLayerId, PrintLayerSource>();
-  sources.set("modern", {
-    id: "modern",
-    name: "Modern map",
-    sourceUrl: "https://www.openstreetmap.org/copyright",
-    sourceDate: "Live OpenStreetMap tiles",
-    attribution: "© OpenStreetMap contributors",
-    licenceUrl: "https://www.openstreetmap.org/copyright",
-  });
+  sources.set("modern", basemapSource(basemapStyle));
   sources.set("fletcher", {
     id: "fletcher",
     name: fletcherLayerCatalog.name,
@@ -1078,6 +1074,8 @@ export function App() {
   const initialShareState = useRef(
     parseMapShareState(initialUrl.toString()),
   ).current;
+  const { preference: basemapPreference, setPreference: setBasemapPreference, style: basemapStyle } =
+    useBasemapPreference(initialShareState.basemapStyle);
   const hasRecognizedShareState = hasRecognizedMapShareState(initialUrl.href);
   const hasSharedLayers = initialUrl.searchParams.has("layers");
   const hasSharedEvents = initialUrl.searchParams.has("event");
@@ -1117,8 +1115,8 @@ export function App() {
     }
   }, []);
   const sourceInventory = useMemo(
-    () => [...printLayerSources(fletcherTileConfiguration.baseUrl).values()],
-    [fletcherTileConfiguration.baseUrl],
+    () => [...printLayerSources(fletcherTileConfiguration.baseUrl, basemapStyle).values()],
+    [fletcherTileConfiguration.baseUrl, basemapStyle],
   );
   const availableThemeLayerIds = useMemo(() => {
     const ids = new Set<ShareLayerId>([
@@ -3713,12 +3711,12 @@ export function App() {
     selectedMappedArea,
   ]);
   const captureLayerSources = useMemo(() => {
-    const sources = printLayerSources(fletcherTileConfiguration.baseUrl);
+    const sources = printLayerSources(fletcherTileConfiguration.baseUrl, basemapStyle);
     return captureLayerIds.flatMap((id) => {
       const source = sources.get(id);
       return source ? [source] : [];
     });
-  }, [captureLayerIds, fletcherTileConfiguration.baseUrl]);
+  }, [captureLayerIds, fletcherTileConfiguration.baseUrl, basemapStyle]);
   /**
    * The layer ids `buildExportLayers` actually carries into the PDF. Kept as
    * an explicit mirror of that function's own filters rather than inferred
@@ -3776,6 +3774,7 @@ export function App() {
   ]);
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
+      basemapStyle,
       taxSaleEnabled,
       mode: mapMode,
       pid: selectedPid,
@@ -3791,6 +3790,7 @@ export function App() {
     }),
     [
       activeLayerIds,
+      basemapStyle,
       mapMode,
       mapViewport.position,
       selectedEventIds,
@@ -3852,6 +3852,7 @@ export function App() {
 
     printCaptureSequence.current += 1;
     setPrintCapture(startPrintCapture({
+      basemapStyle,
       token: `print-${printCaptureSequence.current}`,
       capturedAt: new Date().toISOString(),
       pid: selectedPid,
@@ -3944,11 +3945,7 @@ export function App() {
     }
     const activeLayers = [
       ...(showModernMap
-        ? [{
-            name: "Modern map",
-            sourceUrl: "https://www.openstreetmap.org/copyright",
-            sourceDate: "Live OpenStreetMap tiles",
-          }]
+        ? [basemapSource(basemapStyle)]
         : []),
       ...(fletcherVisible
         ? [{
@@ -4386,6 +4383,7 @@ export function App() {
                   }}
                 >
                   {layerCategoryByLayerId.modern === category.id ? (
+                    <div className="layer-control">
                     <label className="layer-row">
                       <input
                         type="checkbox"
@@ -4397,10 +4395,10 @@ export function App() {
                       <span className="switch" aria-hidden="true" />
                       <span>
                         <strong>Modern map</strong>
-                        <small>OpenStreetMap</small>
+                        <small>{basemapStyle === "osm" ? "OpenStreetMap" : `NS Marks Atlas · ${basemapStyle === "night" ? "Night" : "Day"}`}</small>
                         <LayerMetadata
-                          sourceDate="Live tiles · checked July 20, 2026"
-                          scale="Web map · native detail to zoom 19"
+                          sourceDate={basemapSource(basemapStyle).sourceDate}
+                          scale={basemapStyle === "osm" ? "Web map · native detail to zoom 19" : "Vector map · detail varies with OSM coverage"}
                           coverage="Worldwide"
                           minZoom={7}
                           maxZoom={23}
@@ -4409,6 +4407,16 @@ export function App() {
                         />
                       </span>
                     </label>
+                    <label className="basemap-style-control">
+                      Basemap style
+                      <select aria-label="Basemap style" value={basemapPreference} onChange={(event) => setBasemapPreference(event.target.value as BasemapPreference)}>
+                        <option value="system">Atlas · System appearance</option>
+                        <option value="day">Atlas · Day</option>
+                        <option value="night">Atlas · Night</option>
+                        <option value="osm">OpenStreetMap</option>
+                      </select>
+                    </label>
+                    </div>
                   ) : null}
 
                   {provinceCategoryLayers.map((layer) => (
@@ -5108,6 +5116,8 @@ export function App() {
             </button>
           </div>
           <MapCanvas
+            basemapStyle={basemapStyle}
+            onUseOsmBasemap={() => setBasemapPreference("osm")}
             parcels={drawableParcels}
             taxSalePids={effectiveTaxSalePids}
             historicalTaxSalePids={effectiveHistoricalTaxSalePids}
@@ -5371,6 +5381,9 @@ export function App() {
         >
           © OpenStreetMap contributors
         </a>
+        {showModernMap && basemapStyle !== "osm" ? (
+          <span>NS Marks Atlas · <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer">© OpenMapTiles</a></span>
+        ) : null}
         <a
           href="https://github.com/dfakkeldy/ns-marks-the-spot"
           target="_blank"
@@ -5462,6 +5475,7 @@ export function App() {
         orientation={exportSession.orientation}
         bounds={exportSession.bounds}
         layers={buildExportLayers({
+          basemapStyle,
           bounds: exportSession.bounds,
           showModernMap,
           fletcher: {

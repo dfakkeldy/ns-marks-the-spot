@@ -66,7 +66,7 @@
    meaning, and a dark ground is where a colour that was chosen for a white
    one goes muddy. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-map-appearance="day"]) {
     color: #e8f1f0;
     background: #0d1f24;
     --chart-ink: #e8f1f0;
@@ -92,6 +92,35 @@
     --tint-blue: #16303c;
   }
 }
+
+:root[data-map-appearance="night"] {
+    color: #e8f1f0;
+    background: #0d1f24;
+    --chart-ink: #e8f1f0;
+    --deep-water: #9fd6e2;
+    --survey-blue: #8cc0ff;
+    --paper-peach: #efbb87;
+    --survey-red: #f08b78;
+    --lichen: #a9c98a;
+    --fog: #0d1f24;
+    /* The paper tint keeps its job — a warmer ground for the printed-record
+       surfaces — a shade above the page rather than below it. */
+    --paper: #152b31;
+    /* Not white. `--white` names the raised surface a card is drawn on, and
+       on a dark ground that surface is lighter than the page, not brighter
+       than everything. */
+    --white: #1b3940;
+    --line: rgba(232, 241, 240, 0.22);
+    --muted: rgba(232, 241, 240, 0.72);
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    --surface-rgb: 27, 57, 64;
+    --fog-rgb: 13, 31, 36;
+    --paper-rgb: 21, 43, 49;
+    --tint-blue: #16303c;
+  color-scheme: dark;
+}
+
+:root[data-map-appearance="day"] { color-scheme: light; }
 
 * {
   box-sizing: border-box;
@@ -3897,7 +3926,8 @@ a {
   border: 1px solid #222;
 }
 
-.print-map .leaflet-tile {
+.print-map .leaflet-tile,
+.print-map .atlas-basemap canvas {
   filter: grayscale(1) contrast(1.18);
 }
 
@@ -3947,8 +3977,8 @@ a {
   align-content: start;
   gap: 12px;
   padding: 24px;
-  color: #fff;
-  background: var(--deep-water);
+  color: var(--chart-ink);
+  background: var(--white);
 }
 
 .print-preview-controls h2 {
@@ -4077,6 +4107,8 @@ a {
 }
 
 .print-document {
+  --survey-blue: #1e66cc;
+  color-scheme: light;
   color: #000;
   background: #fff;
   font-size: 9pt;
@@ -4342,7 +4374,7 @@ a {
 
 .print-field-support {
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 2fr) minmax(0, 3fr);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 3fr) minmax(0, 4fr);
   gap: 3mm;
   min-height: 0;
   padding-top: 2mm;
@@ -6998,4 +7030,36 @@ a {
 
 .evidence-caveat[open] > summary {
   color: var(--chart-ink);
+}
+
+
+/* GL supplies the base only; Leaflet panes continue to own all overlays. */
+.leaflet-container > .atlas-basemap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transform-origin: 0 0;
+}
+.atlas-basemap canvas { display: block; }
+.basemap-style-control {
+  display: grid;
+  gap: 6px;
+  padding: 0 12px 12px 46px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.basemap-style-control select {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--white);
+  color: var(--chart-ink);
+  font: inherit;
+  font-size: 12px;
 }

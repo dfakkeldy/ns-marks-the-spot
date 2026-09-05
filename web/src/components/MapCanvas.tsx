@@ -28,6 +28,8 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import { ArcGISExportTileLayer } from "../layers/arcGISExport";
+import type { BasemapStyle } from "../atlas/basemap";
+
 import {
   hydroPilotLayerCatalog,
   environmentalHealthLayerCatalog,
@@ -147,6 +149,8 @@ import type { VectorEditBinding } from "../userMaps/vector/edit/EditableVectorLa
 import { ConversionPreviewLayer } from "../userMaps/vector/edit/ConversionPreviewLayer";
 import type { PopupPhotoUi } from "../userMaps/vector/render/popup";
 
+const AtlasBasemapLayer = lazy(() => import("../atlas/AtlasBasemapLayer"));
+
 // Lazy like EditableVectorLayer: both exist only inside an edit session.
 const ParcelSnapTargetsLayer = lazy(() =>
   import("../userMaps/vector/edit/ParcelSnapTargetsLayer").then((module) => ({
@@ -204,6 +208,8 @@ type MapCanvasProps = {
   userVectorPhotoUi?: PopupPhotoUi | null;
   georeference?: GeoreferenceBinding | null;
   showModernMap: boolean;
+  basemapStyle?: BasemapStyle;
+  onUseOsmBasemap?: () => void;
   showTaxSale: boolean;
   showHistoricalTaxSales: boolean;
   onSelectPid: (pid: string) => void;
@@ -1839,6 +1845,8 @@ export function MapCanvas({
   userVectorPhotoUi = null,
   georeference = null,
   showModernMap,
+  basemapStyle = "osm",
+  onUseOsmBasemap,
   showTaxSale,
   showHistoricalTaxSales,
   onSelectPid,
@@ -2478,7 +2486,19 @@ export function MapCanvas({
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode ? <ApproximateScaleReadout /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
-        {showModernMap ? (
+        {showModernMap && basemapStyle !== "osm" ? (
+          <Suspense fallback={null}>
+            <AtlasBasemapLayer
+              key={`atlas-${basemapStyle}-${modernMapRetry}`}
+              mode={basemapStyle}
+              print={isPrintMode}
+              onStatus={(status) => {
+                if (!isPrintMode) setModernMapFailed(status.status === "error");
+                reportModernStatus(status);
+              }}
+            />
+          </Suspense>
+        ) : showModernMap ? (
           <TileLayer
             key={`modern-${modernMapRetry}`}
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -2969,6 +2989,9 @@ export function MapCanvas({
       {showModernMap && modernMapFailed ? (
         <div className="modern-map-error" role="status">
           <span>Modern map did not load.</span>
+          {basemapStyle !== "osm" && onUseOsmBasemap ? (
+            <button type="button" onClick={onUseOsmBasemap}>Use OpenStreetMap</button>
+          ) : null}
           <button
             type="button"
             onClick={() => {

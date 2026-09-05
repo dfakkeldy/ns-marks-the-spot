@@ -1,3 +1,4 @@
+import type { BasemapStyle } from "../atlas/basemap";
 import type { CivicAddressReading } from "./civicAddresses";
 import type { ParcelBuildingCount } from "./buildings";
 import type {
@@ -100,6 +101,7 @@ export type PrintEvidence = {
 };
 
 export type PrintCaptureBase = {
+  basemapStyle?: BasemapStyle;
   token: string;
   capturedAt: string;
   pid: string;
@@ -260,6 +262,7 @@ export function buildPrintMapShareUrl(
   renderedLayerIds: readonly ShareLayerId[],
 ): string {
   return buildMapShareUrl(baseUrl, {
+    basemapStyle: snapshot.basemapStyle ?? "osm",
     taxSaleEnabled: snapshot.taxSaleEnabled,
     mode: snapshot.mode,
     pid: snapshot.pid,

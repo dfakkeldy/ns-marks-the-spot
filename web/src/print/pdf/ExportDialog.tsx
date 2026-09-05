@@ -166,7 +166,8 @@ export function ExportDialog(props: ExportDialogProps) {
       legend: legendOn
         ? props.layers.map(({ name }) => ({ name, swatchColor: null }))
         : null,
-      attributionLines: props.attributionLines,
+      attributionLines: [...props.attributionLines, ...result.statuses.flatMap((status) =>
+        status.status === "rendered" && status.detail ? [`${status.name}: ${status.detail}`] : [])],
       qrPngBytes: await buildExportQrPng(props.shareUrl),
       scaleBar: buildScaleBar(
         props.bounds, template.mapFrame, template.scaleBar.maxWidth,
