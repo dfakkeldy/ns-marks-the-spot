@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { UserMapImportError } from "../../errors";
-import { parseGpx } from "./gpxSource";
+import { parseXmlVector } from "./xmlVectorSource";
 
 function expectCode(fn: () => unknown, code: string): void {
   let caught: unknown;
@@ -19,7 +19,7 @@ describe("parseGpx", () => {
 <gpx version="1.1" xmlns="http://www.topografix.com/GPX/1/1">
   <wpt lat="45.81" lon="-61.4"><name>Gate</name><desc>Locked</desc></wpt>
 </gpx>`;
-    const parsed = parseGpx(gpx);
+    const parsed = parseXmlVector(gpx);
     expect(parsed.featureCount).toBe(1);
     const feature = parsed.collection.features[0];
     expect(feature.geometry).toMatchObject({ type: "Point" });
@@ -35,7 +35,7 @@ describe("parseGpx", () => {
     <trkpt lat="45.83" lon="-61.38"/>
   </trkseg></trk>
 </gpx>`;
-    const parsed = parseGpx(gpx);
+    const parsed = parseXmlVector(gpx);
     expect(parsed.featureCount).toBe(1);
     const geometry = parsed.collection.features[0].geometry;
     expect(["LineString", "MultiLineString"]).toContain(geometry.type);
@@ -50,17 +50,17 @@ describe("parseGpx", () => {
     <trkpt lat="45.81" lon="-61.40"/><trkpt lat="45.82" lon="-61.39"/>
   </trkseg></trk>
 </gpx>`;
-    expect(parseGpx(gpx).featureCount).toBe(2);
+    expect(parseXmlVector(gpx).featureCount).toBe(2);
   });
 
   it("refuses malformed XML as corrupt-file", () => {
-    expectCode(() => parseGpx("<gpx><wpt></gpx>"), "corrupt-file");
+    expectCode(() => parseXmlVector("<gpx><wpt></gpx>"), "corrupt-file");
   });
 
   it("refuses a GPX with no waypoints or tracks as empty-file", () => {
     expectCode(
       () =>
-        parseGpx(
+        parseXmlVector(
           '<?xml version="1.0"?><gpx version="1.1" xmlns="http://www.topografix.com/GPX/1/1"></gpx>',
         ),
       "empty-file",

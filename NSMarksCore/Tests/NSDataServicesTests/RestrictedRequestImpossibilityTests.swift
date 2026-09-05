@@ -212,37 +212,11 @@ struct RestrictedRequestImpossibilityTests {
         #expect(defaults.object(forKey: key) == nil, "declining wrote a value")
     }
 
-    /// The only files permitted to mention `URLSession`.
-    private static let networkDoors: Set<String> = [
-        "TileRequest.swift",
-        "HTTPTransport.swift",
-    ]
+    private static let networkDoors: Set<String> = ["HTTPTransport.swift"]
 
-    // MARK: - The type lock
-
-    /// Every file in the package that can reach the network is named here.
-    ///
-    /// The `TileRequest` lock only works if the ways out are countable. A call
-    /// site added innocently elsewhere — taking a plain `URL` — would leave the
-    /// lock guarding a door with a hole beside it, and no other test would
-    /// notice.
-    ///
-    /// There are two doors, and they are not equivalent:
-    ///
-    /// - `TileRequest.swift` accepts only a `TileRequest`, which cannot be
-    ///   constructed without a clearance. The lock is in the type.
-    /// - `HTTPTransport.swift` accepts a `URLRequest`, so the lock cannot be in
-    ///   the type. It is in the callers, and `everyServiceAddressedFromTheCatalogAsksForClearance`
-    ///   below is what keeps that true as services are added.
-    ///
-    /// Not every fetcher needs a clearance: the Civic Address File is published
-    /// under the Open Government Licence, which requires attribution and no
-    /// acceptance. Gating open data would be its own kind of wrong.
-    ///
-    /// Adding a third name to this list means adding a way to reach a
-    /// restricted service, so it should be a deliberate edit with its own
-    /// answer to "what stops this being called without clearance?".
-    @Test("Reaching the network is confined to two named files")
+    /// Package services use the shared transport; restricted-service callers
+    /// must obtain clearance before constructing their requests.
+    @Test("Package networking is confined to HTTPTransport")
     func urlSessionIsConfinedToTheFetcher() throws {
         let sources = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent()  // NSDataServicesTests

@@ -142,21 +142,6 @@ public enum UserMapImport {
         return best
     }
 
-    /// What the retained preview's dimensions should be. Never smaller than a
-    /// pixel each way, and never larger than the source: a preview bigger than
-    /// its own raster is fabricated detail.
-    public static func previewSize(for size: PixelSize) -> PixelSize {
-        let longestEdge = max(size.width, size.height)
-        guard longestEdge.isFinite, longestEdge > 0,
-              size.width.isFinite, size.height.isFinite
-        else { return PixelSize(width: 1, height: 1) }
-        let scale = min(1, Double(previewMaxDimension) / longestEdge)
-        return PixelSize(
-            width: max(1, (size.width * scale).rounded()),
-            height: max(1, (size.height * scale).rounded())
-        )
-    }
-
     /// Whether a failed decode of this image is a too-large or a corrupt file.
     public static func decodeFailure(ofImageSized size: PixelSize) -> UserMapImportRefusal {
         guard size.width.isFinite, size.height.isFinite,

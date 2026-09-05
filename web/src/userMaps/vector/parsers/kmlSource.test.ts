@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { UserMapImportError } from "../../errors";
-import { parseKml } from "./kmlSource";
+import { parseXmlVector } from "./xmlVectorSource";
 
 function expectCode(fn: () => unknown, code: string): void {
   let caught: unknown;
@@ -26,7 +26,7 @@ const PLACEMARK_KML = `<?xml version="1.0" encoding="UTF-8"?>
 
 describe("parseKml", () => {
   it("parses a placemark with its name and description", () => {
-    const parsed = parseKml(PLACEMARK_KML);
+    const parsed = parseXmlVector(PLACEMARK_KML);
     expect(parsed.featureCount).toBe(1);
     const feature = parsed.collection.features[0];
     expect(feature.geometry).toMatchObject({ type: "Point" });
@@ -48,7 +48,7 @@ describe("parseKml", () => {
     </Placemark>
   </Document>
 </kml>`;
-    const props = parseKml(styled).collection.features[0].properties ?? {};
+    const props = parseXmlVector(styled).collection.features[0].properties ?? {};
     // togeojson emits the simplestyle vocabulary styleForFeature already reads,
     // so authored KML colours survive with no extra plumbing.
     expect(props.stroke).toBe("#ff0000");
@@ -68,7 +68,7 @@ describe("parseKml", () => {
   <description><![CDATA[<b>Bold</b> <img src="x" onerror="boom()">]]></description>
   <Point><coordinates>-63,45</coordinates></Point>
 </Placemark></Document></kml>`;
-    const description = parseKml(html).collection.features[0].properties?.description;
+    const description = parseXmlVector(html).collection.features[0].properties?.description;
     expect(typeof description).toBe("string");
     expect(description).toContain("<b>Bold</b>");
     expect(description).toContain("onerror");
@@ -80,7 +80,7 @@ describe("parseKml", () => {
   <name>Pin</name><description>Just text</description>
   <Point><coordinates>-63,45</coordinates></Point>
 </Placemark></Document></kml>`;
-    expect(parseKml(plain).collection.features[0].properties?.description).toBe(
+    expect(parseXmlVector(plain).collection.features[0].properties?.description).toBe(
       "Just text",
     );
   });
@@ -91,7 +91,7 @@ describe("parseKml", () => {
   <Placemark><name>A</name><Point><coordinates>-63,45</coordinates></Point></Placemark>
   <Placemark><name>B</name><LineString><coordinates>-63,45 -62,45.5</coordinates></LineString></Placemark>
 </Document></kml>`;
-    const parsed = parseKml(mixed);
+    const parsed = parseXmlVector(mixed);
     expect(parsed.featureCount).toBe(2);
     expect(parsed.collection.features.map((f) => f.geometry.type)).toEqual([
       "Point",
@@ -101,13 +101,13 @@ describe("parseKml", () => {
   });
 
   it("refuses malformed XML as corrupt-file", () => {
-    expectCode(() => parseKml("<kml><Placemark></kml>"), "corrupt-file");
+    expectCode(() => parseXmlVector("<kml><Placemark></kml>"), "corrupt-file");
   });
 
   it("refuses a KML with no placemarks as empty-file", () => {
     expectCode(
       () =>
-        parseKml(
+        parseXmlVector(
           '<?xml version="1.0"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>Empty</name></Document></kml>',
         ),
       "empty-file",
@@ -117,7 +117,7 @@ describe("parseKml", () => {
   it("refuses coordinates outside longitude/latitude range", () => {
     expectCode(
       () =>
-        parseKml(
+        parseXmlVector(
           '<?xml version="1.0"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document><Placemark>' +
             "<Point><coordinates>500000,4980000</coordinates></Point></Placemark></Document></kml>",
         ),

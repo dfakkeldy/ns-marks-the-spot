@@ -325,7 +325,7 @@ function CornerMover({
  * The editing surface: draw tools, the layer's name, and the selected
  * feature's details. Geoman's own toolbar is never shown — these buttons
  * drive the same modes while matching the app's controls and keeping the
- * 44px touch targets `styles.test.ts` asserts.
+ * 44px touch targets.
  *
  * Feature text is rendered into form fields, whose `value` is text by
  * definition, so an imported description carrying HTML stays inert here for

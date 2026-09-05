@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseGpx } from "../userMaps/vector/parsers/gpxSource";
+import { parseXmlVector } from "../userMaps/vector/parsers/xmlVectorSource";
 import { rawTrackGpxString } from "./rawTrackGpx";
 import type { LiveFix } from "./liveLocation";
 
@@ -39,7 +39,7 @@ describe("rawTrackGpxString", () => {
       [fix(46.1, 0), fix(46.2, 1_000)],
       [fix(46.3, 2_000), fix(46.4, 3_000)],
     ]);
-    const parsed = parseGpx(gpx);
+    const parsed = parseXmlVector(gpx);
     expect(parsed.featureCount).toBe(1);
     const geometry = parsed.collection.features[0].geometry;
     // Two trksegs come back as one MultiLineString track.

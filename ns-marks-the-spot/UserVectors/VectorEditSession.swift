@@ -1054,10 +1054,6 @@ final class VectorEditSession {
         photoLocationOffer = PhotoLocationOffer(featureID: featureID, position: position, distanceM: 0)
     }
 
-    func clearPhotoMessages() {
-        photoMessages = []
-    }
-
     /// The bytes behind one of the edited layer's photos, for the strip and
     /// the lightbox.
     func photoData(photoID: String, thumb: Bool) async -> Data? {

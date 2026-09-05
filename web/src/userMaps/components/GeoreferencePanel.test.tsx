@@ -298,10 +298,8 @@ describe("GeoreferencePanel", () => {
     // control point could ever be completed. jsdom does no layout, so this
     // asserts the two structural facts that make the CSS possible: the
     // overlay is not a scrim-and-card pair, and the narrow Map tab's floating
-    // bar is a SIBLING of the panel (Task 12 hides the panel outright there,
-    // and a child would be hidden with it). The declarations themselves are
-    // pinned by styles.test.ts in Task 12; neither half substitutes for the
-    // other.
+    // bar is a sibling of the panel: a child would be hidden with it.
+    // e2e/layout.spec.ts checks the rendered Map-tab interaction.
     const { container } = renderPanel(fakeSession());
     const overlay = container.querySelector(".georeference-overlay");
     const bar = overlay?.querySelector(":scope > .georeference-map-bar");

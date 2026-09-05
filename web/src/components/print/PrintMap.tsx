@@ -5,15 +5,8 @@ import {
   hydroPilotLayerCatalog,
   provinceLayerCatalog,
   allResourceLayerCatalog,
-  type EnvironmentalHealthLayerId,
   zoningLayerCatalog,
   wellLogLayerCatalog,
-  type FloodHazardLayerId,
-  type HydroPilotLayerId,
-  type ProvinceLayerId,
-  type ResourceLayerId,
-  type ZoningLayerId,
-  type WellLogLayerId,
 } from "../../layers/layerCatalog";
 import type { MapPosition, ShareLayerId } from "../../services/mapShareState";
 import {
@@ -56,37 +49,6 @@ function visibilityFor<Id extends ShareLayerId>(
   return Object.fromEntries(
     layers.map(({ id }) => [id, layerIds.includes(id)]),
   ) as Record<Id, boolean>;
-}
-
-function provinceVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<ProvinceLayerId>(provinceLayerCatalog, layerIds);
-}
-
-function resourceVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<ResourceLayerId>(allResourceLayerCatalog, layerIds);
-}
-
-function hydroVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<HydroPilotLayerId>(hydroPilotLayerCatalog, layerIds);
-}
-
-function floodVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<FloodHazardLayerId>(floodHazardLayerCatalog, layerIds);
-}
-
-function environmentalHealthVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<EnvironmentalHealthLayerId>(
-    environmentalHealthLayerCatalog,
-    layerIds,
-  );
-}
-
-function zoningVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<ZoningLayerId>(zoningLayerCatalog, layerIds);
-}
-
-function wellLogVisibilityFor(layerIds: readonly ShareLayerId[]) {
-  return visibilityFor<WellLogLayerId>(wellLogLayerCatalog, layerIds);
 }
 
 export function PrintMap({
@@ -179,13 +141,13 @@ export function PrintMap({
         taxSalePids={new Set(snapshot.taxSalePids)}
         historicalTaxSalePids={new Set(snapshot.historicalTaxSalePids)}
         selectedPid={snapshot.pid}
-        provinceLayers={provinceVisibilityFor(layerIds)}
-        resourceLayers={resourceVisibilityFor(layerIds)}
-        hydroPilotLayers={hydroVisibilityFor(layerIds)}
-        floodHazardLayers={floodVisibilityFor(layerIds)}
-        environmentalHealthLayers={environmentalHealthVisibilityFor(layerIds)}
-        zoningLayers={zoningVisibilityFor(layerIds)}
-        wellLogLayers={wellLogVisibilityFor(layerIds)}
+        provinceLayers={visibilityFor(provinceLayerCatalog, layerIds)}
+        resourceLayers={visibilityFor(allResourceLayerCatalog, layerIds)}
+        hydroPilotLayers={visibilityFor(hydroPilotLayerCatalog, layerIds)}
+        floodHazardLayers={visibilityFor(floodHazardLayerCatalog, layerIds)}
+        environmentalHealthLayers={visibilityFor(environmentalHealthLayerCatalog, layerIds)}
+        zoningLayers={visibilityFor(zoningLayerCatalog, layerIds)}
+        wellLogLayers={visibilityFor(wellLogLayerCatalog, layerIds)}
         wellLogAccuracyFilter={snapshot.wellLogAccuracyFilter}
         fletcherVisible={
           Boolean(fletcherTileBaseUrl) && layerIds.includes("fletcher")

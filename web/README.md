@@ -19,6 +19,16 @@ npm run dev
 ```
 
 Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
+Run `npx playwright install chromium` once, then `npm run test:browser` for
+rendered keyboard focus, phone controls, georeferencing and print-layout checks.
+The browser suite starts Vite on `127.0.0.1:4173`, substitutes local tile imagery,
+and uses the real components. Its print fixture is synthetic and is not a
+property-evidence or live-source acceptance test. CI runs it separately from
+Vitest; failure screenshots and traces are saved in `web/test-results/`.
+
+Archived GeoPDF browser evidence has its own documentation check:
+`python3 tools/validate_browser_evidence.py` from the repository root. It checks
+the saved receipt and screenshots, not the current application's behavior.
 
 ## Atlas basemap
 

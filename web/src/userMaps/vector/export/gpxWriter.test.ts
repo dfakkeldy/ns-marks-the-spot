@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Feature, FeatureCollection } from "geojson";
-import { parseGpx } from "../parsers/gpxSource";
+import { parseXmlVector } from "../parsers/xmlVectorSource";
 import { gpxDocumentString } from "./gpxWriter";
 
 function collection(...features: Feature[]): FeatureCollection {
@@ -152,7 +152,7 @@ describe("gpxDocumentString", () => {
 
   it("round-trips through the app's GPX parser with geometry and times intact", () => {
     const gpx = gpxDocumentString("Field data", collection(MARK, TRACK));
-    const parsed = parseGpx(gpx);
+    const parsed = parseXmlVector(gpx);
     expect(parsed.featureCount).toBe(2);
 
     const point = parsed.collection.features.find(

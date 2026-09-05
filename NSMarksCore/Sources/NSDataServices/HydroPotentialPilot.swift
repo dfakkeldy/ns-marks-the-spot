@@ -104,56 +104,6 @@ public enum HydroPotentialPilot {
         }
     }
 
-    /// The measurements a terrain screen is computed from.
-    public struct TerrainInputs: Sendable, Hashable {
-        public let upstreamAreaKm2: Double
-        public let dropThresholdMetres: Double
-        public let downstreamRouteLengthKm: Double
-
-        public init(
-            upstreamAreaKm2: Double,
-            dropThresholdMetres: Double,
-            downstreamRouteLengthKm: Double
-        ) {
-            self.upstreamAreaKm2 = upstreamAreaKm2
-            self.dropThresholdMetres = dropThresholdMetres
-            self.downstreamRouteLengthKm = downstreamRouteLengthKm
-        }
-    }
-
-    public struct TerrainMetrics: Sendable, Hashable {
-        public let averageFallMetresPerKm: Double
-        public let screeningValue: Double
-    }
-
-    /// A measurement that cannot produce a screen.
-    ///
-    /// A zero or negative area, drop, or route length is not a reach with no
-    /// potential — it is a measurement the screen cannot be computed from, and
-    /// the two must not be shown as the same thing.
-    public enum TerrainFailure: Error, Equatable, Sendable {
-        case measurementsMustBePositive
-    }
-
-    /// The web's `calculateHydroTerrainMetrics`.
-    public static func terrainMetrics(
-        for inputs: TerrainInputs
-    ) throws(TerrainFailure) -> TerrainMetrics {
-        guard inputs.upstreamAreaKm2 > 0,
-              inputs.dropThresholdMetres > 0,
-              inputs.downstreamRouteLengthKm > 0,
-              inputs.upstreamAreaKm2.isFinite,
-              inputs.dropThresholdMetres.isFinite,
-              inputs.downstreamRouteLengthKm.isFinite
-        else { throw .measurementsMustBePositive }
-
-        let averageFall = inputs.dropThresholdMetres / inputs.downstreamRouteLengthKm
-        return TerrainMetrics(
-            averageFallMetresPerKm: averageFall,
-            screeningValue: log1p(inputs.upstreamAreaKm2) * averageFall
-        )
-    }
-
     /// One screened reach.
     ///
     /// The optional measurements are optional in the source and stay optional
