@@ -2477,6 +2477,16 @@ extension MapController: MKMapViewDelegate {
         }
 
         if let handle = annotation as? VectorDraftVertexAnnotation {
+            if handle.endpointLabel != nil {
+                let identifier = "MeasurementEndpoint"
+                let view =
+                    mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                    as? MeasurementEndpointAnnotationView
+                    ?? MeasurementEndpointAnnotationView(annotation: handle, reuseIdentifier: identifier)
+                view.configure(with: handle)
+                return view
+            }
+
             let identifier = "VectorDraftHandle"
             let view =
                 mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
