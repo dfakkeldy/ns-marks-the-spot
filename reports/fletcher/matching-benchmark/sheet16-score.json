@@ -1,0 +1,302 @@
+{
+  "status": "does-not-meet-trial-gate",
+  "input_sha256": "530925f9a90a2df6ddb78e435b013acc67a865f22e89b62f0cb46ee531435247",
+  "proposal_sha256": "13b197d86b1b488525a743efe0b337e966f79329c82647370ffc0054f7fb500b",
+  "target_count": 34,
+  "accepted_count": 3,
+  "coverage": 0.08823529411764706,
+  "precision_within_100m": 1.0,
+  "accepted_median_improvement": 0.747901648961087,
+  "baseline_all": {
+    "n": 34,
+    "median_m": 137.10047397892924,
+    "rms_m": 186.20079472882225,
+    "max_m": 376.3614042663616
+  },
+  "baseline_accepted": {
+    "n": 3,
+    "median_m": 139.82814105913792,
+    "rms_m": 137.55419594088463,
+    "max_m": 168.74489449327578
+  },
+  "proposals_accepted": {
+    "n": 3,
+    "median_m": 35.250443789845185,
+    "rms_m": 40.89087789195501,
+    "max_m": 51.287567986158095
+  },
+  "rows": [
+    {
+      "id": "cand-0168",
+      "role": "control",
+      "accepted": true,
+      "reason": "candidate",
+      "baseline_error_m": 93.47043389879434,
+      "proposal_error_m": 33.81099328633368
+    },
+    {
+      "id": "cand-0418",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 98.99045898259423,
+      "proposal_error_m": 368.671275313078
+    },
+    {
+      "id": "cand-1018",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 256.91335201815076,
+      "proposal_error_m": 29.51813057647479
+    },
+    {
+      "id": "cand-0458",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 90.48132383852005,
+      "proposal_error_m": 377.0987722926107
+    },
+    {
+      "id": "cand-0179",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 165.59215597777268,
+      "proposal_error_m": 109.03680864618899
+    },
+    {
+      "id": "gcp-1",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 269.9218088284529,
+      "proposal_error_m": 316.5127031313871
+    },
+    {
+      "id": "gcp-3",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 70.28932558065623,
+      "proposal_error_m": 98.52697509044708
+    },
+    {
+      "id": "gcp-4",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 112.4818350967329,
+      "proposal_error_m": 121.36330599237597
+    },
+    {
+      "id": "gcp-5",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 83.74164229763488,
+      "proposal_error_m": 19.508067919862256
+    },
+    {
+      "id": "gcp-6",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 105.07854257191096,
+      "proposal_error_m": 426.0643705952469
+    },
+    {
+      "id": "gcp-7",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 208.83873291938204,
+      "proposal_error_m": 116.931222539349
+    },
+    {
+      "id": "gcp-8",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 137.9674088077452,
+      "proposal_error_m": 188.0547585115499
+    },
+    {
+      "id": "gcp-9",
+      "role": "control",
+      "accepted": true,
+      "reason": "candidate",
+      "baseline_error_m": 168.74489449327578,
+      "proposal_error_m": 51.287567986158095
+    },
+    {
+      "id": "gcp-10",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 93.61198301520463,
+      "proposal_error_m": 119.69276490080973
+    },
+    {
+      "id": "gcp-12",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 226.21271924565295,
+      "proposal_error_m": 58.23166015685734
+    },
+    {
+      "id": "gcp-15",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 180.72453135667672,
+      "proposal_error_m": 521.5613509304275
+    },
+    {
+      "id": "gcp-16",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 91.81746842896176,
+      "proposal_error_m": 3.560560289881082
+    },
+    {
+      "id": "gcp-17",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 84.06558372315992,
+      "proposal_error_m": 290.32212517699094
+    },
+    {
+      "id": "gcp-18",
+      "role": "control",
+      "accepted": true,
+      "reason": "candidate",
+      "baseline_error_m": 139.82814105913792,
+      "proposal_error_m": 35.250443789845185
+    },
+    {
+      "id": "gcp-19",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 73.20073671372407,
+      "proposal_error_m": 258.3972439463175
+    },
+    {
+      "id": "gcp-21",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 72.83986575533129,
+      "proposal_error_m": 71.37150282536561
+    },
+    {
+      "id": "gcp-23",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 115.3718874496385,
+      "proposal_error_m": 376.36703139042567
+    },
+    {
+      "id": "gcp-24",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 205.07115694871027,
+      "proposal_error_m": 40.33463467360764
+    },
+    {
+      "id": "gcp-25",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 133.1643156853867,
+      "proposal_error_m": 18.39993391462656
+    },
+    {
+      "id": "gcp-26",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 273.30089500968995,
+      "proposal_error_m": 25.31235432180359
+    },
+    {
+      "id": "gcp-27",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 158.17541511375057,
+      "proposal_error_m": 55.248248073996166
+    },
+    {
+      "id": "gcp-28",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 113.63495810726606,
+      "proposal_error_m": 282.50970019254265
+    },
+    {
+      "id": "gcp-29",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 131.29401689714436,
+      "proposal_error_m": 30.96238035722292
+    },
+    {
+      "id": "gcp-30",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 225.63750730512982,
+      "proposal_error_m": 142.93577727709697
+    },
+    {
+      "id": "gcp-32",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 262.77013144687606,
+      "proposal_error_m": 650.8374146620736
+    },
+    {
+      "id": "gcp-33",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 136.23353915011333,
+      "proposal_error_m": 101.4708823861905
+    },
+    {
+      "id": "gcp-34",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 310.1613692436799,
+      "proposal_error_m": 188.87125796189179
+    },
+    {
+      "id": "gcp-35",
+      "role": "control",
+      "accepted": false,
+      "reason": "search-boundary",
+      "baseline_error_m": 376.01777146044566,
+      "proposal_error_m": 634.5498157001933
+    },
+    {
+      "id": "gcp-36",
+      "role": "control",
+      "accepted": false,
+      "reason": "weak-or-ambiguous",
+      "baseline_error_m": 376.3614042663616,
+      "proposal_error_m": 524.7094978118979
+    }
+  ]
+}
