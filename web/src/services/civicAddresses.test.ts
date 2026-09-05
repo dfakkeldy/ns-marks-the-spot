@@ -122,6 +122,28 @@ describe("Nova Scotia Civic Address File lookup", () => {
     expect(url.searchParams.has("$where")).toBe(false);
   });
 
+  it("suggests a final partial word without accepting unrelated earlier words", async () => {
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(geoJsonResponse([
+      civicPoint("100", [-61.4, 46.0]),
+      civicPoint("101", [-61.4, 46.0], { strname: "Other" }),
+    ])));
+    vi.stubGlobal("fetch", fetchMock);
+    const results = await searchCivicAddresses("12 Main Mab", undefined, { suggest: true });
+    expect(results.map(({ pntid }) => pntid)).toEqual(["100"]);
+    const url = new URL(fetchMock.mock.calls[0][0]);
+    expect(url.searchParams.get("$q")).toBe("Main");
+    expect(url.searchParams.get("$where")).toContain("civicnum=12");
+    expect(url.searchParams.get("$where")).toContain("starts_with(upper(comm),'MAB')");
+    expect(url.searchParams.get("$limit")).toBe("12");
+    expect(await searchCivicAddresses("12 Main Mab")).toEqual([]);
+  });
+
+  it("does not interpolate punctuation into suggestion predicates", () => {
+    const url = new URL(buildCivicAddressSearchUrl("Main x');--", 12, { suggest: true }));
+    expect(url.searchParams.get("$q")).toBe("Main x');--");
+    expect(url.searchParams.has("$where")).toBe(false);
+  });
+
   it("returns unique formatted civic-address search results", async () => {
     vi.stubGlobal(
       "fetch",

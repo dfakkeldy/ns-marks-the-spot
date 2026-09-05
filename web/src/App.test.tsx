@@ -759,7 +759,7 @@ describe("NS Marks The Spot Online", () => {
     });
     vi.mocked(fetchParcelContext).mockResolvedValue({ roads: [], water: [] });
     vi.mocked(fetchCivicAddresses).mockResolvedValue({ addresses: [], unreadableRows: 0 });
-    vi.mocked(searchCivicAddresses).mockResolvedValue([]);
+    vi.mocked(searchCivicAddresses).mockReset().mockResolvedValue([]);
     vi.mocked(fetchParcelResourceIntersections).mockResolvedValue({
       "mineral-occurrences": { status: "ready", intersections: [] },
       "mineral-tenure": { status: "ready", intersections: [] },
@@ -3768,6 +3768,95 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
+  it("suggests civic addresses while typing and selects with the keyboard", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    const first = civicAddress("100", "12 Main St, Mabou");
+    const second = civicAddress("101", "14 Main St, Mabou");
+    second.coordinates = [-61.414138, 46.059488];
+    vi.mocked(searchCivicAddresses).mockResolvedValue([first, second]);
+    vi.mocked(fetchParcelAtPoint).mockResolvedValueOnce({
+      type: "FeatureCollection", features: [parcelFeature("50251750")],
+    });
+    renderAppWithCategoriesOpen();
+    const input = screen.getByLabelText("Search by PID or civic address");
+    await user.type(input, "Main");
+    const option = await screen.findByRole("option", { name: second.label });
+    expect(input).toHaveAttribute("aria-expanded", "true");
+    expect(input).toHaveFocus();
+    await user.keyboard("{ArrowDown}{ArrowDown}");
+    expect(input).toHaveAttribute("aria-activedescendant", option.id);
+    expect(option).toHaveAttribute("aria-selected", "true");
+    await user.keyboard("{Enter}");
+    expect(await screen.findByRole("complementary", {
+      name: "Parcel 50251750 details",
+    })).toBeInTheDocument();
+    expect(fetchParcelAtPoint).toHaveBeenCalledWith(46.059488, -61.414138, expect.any(AbortSignal));
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+  });
+
+  it("debounces suggestions and cancels them on Escape, blur, clear and unmount", async () => {
+    vi.useFakeTimers();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    vi.mocked(searchCivicAddresses).mockResolvedValue([civicAddress("100", "12 Main St, Mabou")]);
+    const { unmount } = renderAppWithCategoriesOpen();
+    const input = screen.getByLabelText("Search by PID or civic address");
+    fireEvent.change(input, { target: { value: "Mai" } });
+    await act(() => vi.advanceTimersByTimeAsync(200));
+    fireEvent.change(input, { target: { value: "Main" } });
+    await act(() => vi.advanceTimersByTimeAsync(200));
+    expect(searchCivicAddresses).not.toHaveBeenCalled();
+    await act(() => vi.advanceTimersByTimeAsync(150));
+    expect(screen.getByRole("option", { name: "12 Main St, Mabou" })).toBeInTheDocument();
+    fireEvent.keyDown(input, { key: "Escape" });
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+    for (const action of ["Escape", "blur", "clear", "unmount"]) {
+      fireEvent.change(input, { target: { value: "Mabou" } });
+      if (action === "Escape") fireEvent.keyDown(input, { key: "Escape" });
+      if (action === "blur") fireEvent.blur(input, { relatedTarget: document.body });
+      if (action === "clear") fireEvent.change(input, { target: { value: "" } });
+      if (action === "unmount") unmount();
+      await act(() => vi.advanceTimersByTimeAsync(400));
+    }
+    expect(searchCivicAddresses).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps suggestions behind the licence gate and leaves short text and PIDs for submission", async () => {
+    vi.useFakeTimers();
+    const { unmount } = renderAppWithCategoriesOpen();
+    fireEvent.change(screen.getByLabelText("Search by PID or civic address"), { target: { value: "Mabou" } });
+    await act(() => vi.advanceTimersByTimeAsync(400));
+    expect(searchCivicAddresses).not.toHaveBeenCalled();
+    expect(screen.queryByRole("dialog", { name: "Province data licence" })).not.toBeInTheDocument();
+    unmount();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    renderAppWithCategoriesOpen();
+    for (const value of ["Ma", "502", "50251750"]) {
+      fireEvent.change(screen.getByLabelText("Search by PID or civic address"), { target: { value } });
+      await act(() => vi.advanceTimersByTimeAsync(400));
+    }
+    expect(searchCivicAddresses).not.toHaveBeenCalled();
+    expect(screen.queryByRole("complementary", { name: /Parcel .* details/ })).not.toBeInTheDocument();
+  });
+
+  it("ignores a stale suggestion failure after newer results arrive", async () => {
+    vi.useFakeTimers();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    let rejectOld!: (reason: Error) => void;
+    vi.mocked(searchCivicAddresses)
+      .mockImplementationOnce(() => new Promise((_, reject) => { rejectOld = reject; }))
+      .mockResolvedValueOnce([civicAddress("100", "12 Main St, Mabou")]);
+    renderAppWithCategoriesOpen();
+    const input = screen.getByLabelText("Search by PID or civic address");
+    fireEvent.change(input, { target: { value: "Main" } });
+    await act(() => vi.advanceTimersByTimeAsync(350));
+    fireEvent.change(input, { target: { value: "Main Mabou" } });
+    await act(() => vi.advanceTimersByTimeAsync(350));
+    await act(async () => rejectOld(new Error("Network failed")));
+    expect(screen.getByRole("option", { name: "12 Main St, Mabou" })).toBeInTheDocument();
+    expect(screen.queryByText("Civic address search is unavailable right now.")).not.toBeInTheDocument();
+  });
+
   it("searches a civic address and opens its containing parcel", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
@@ -3789,7 +3878,7 @@ describe("NS Marks The Spot Online", () => {
     );
     await user.click(screen.getByRole("button", { name: "Find parcel" }));
 
-    const addressResult = await screen.findByRole("button", {
+    const addressResult = await screen.findByRole("option", {
       name: "11064 Highway 19, Southwest Mabou, Inverness County",
     });
     await user.click(addressResult);

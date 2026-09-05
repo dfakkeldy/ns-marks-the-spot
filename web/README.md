@@ -734,8 +734,16 @@ client-side containment across polygon parts and holes. Boundary points count
 as inside; hole interiors do not.
 
 The same service searches civic addresses through Socrata's full-text `$q`
-index and returns at most 12 mapped-point candidates. It folds harmless
-punctuation when checking relevance, rejects broad suffix matches, and retries a
+index and returns at most 12 mapped-point candidates. After Province licence
+acceptance, typing three or more characters requests suggestions after a 300 ms
+pause. Suggestions also match the final alphabetic word as a prefix, so `Mab`
+can find `Mabou`; completed words and civic numbers still constrain the query.
+Arrow keys highlight a candidate, Enter chooses it, and tapping selects it.
+Escape, leaving the search, clearing it, or editing again cancels pending
+suggestions. Typing a PID never selects a parcel automatically; submit its full
+eight digits. Submitted address searches retain their whole-word matching.
+The service folds harmless punctuation when checking relevance, rejects broad
+suffix matches, and retries a
 compact possessive initialism with official periods when needed (`dr's` can find
 `D.R.'s`). The same one-shot fallback treats `hwy 19` and `route 19` as
 `Highway 19`. Choosing a result uses the point's published coordinate in an

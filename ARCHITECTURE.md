@@ -430,7 +430,16 @@ services.
 
 The same civic service owns sidebar address discovery. It sends normalized user
 text through Socrata's full-text `$q` index, returns bounded labelled Civic
-Point candidates, and does not infer a PID from address text. Punctuation-folded
+Point candidates, and does not infer a PID from address text. The sidebar
+requests suggestions after a 300 ms typing pause once three characters are
+present and the Province licence is accepted. Suggestion queries match a final
+alphabetic word using word-prefix predicates over address fields, with completed
+terms in `$q` and an exact leading civic-number filter. Local relevance checks
+allow only that final term to be partial. Explicit submissions retain the
+whole-word path; typing a numeric PID does not select it. The accessible
+combobox keeps input focus during arrow-key navigation and requires Enter or a
+tap to select. Its timer and request are cancelled on editing, dismissal,
+selection, blur out of the search, and unmount. Punctuation-folded
 local relevance checks reject broad full-text false positives. When a compact
 possessive initialism omits its periods, such as `dr's` for `D.R.'s`, the service
 retries that official spelling only after the first response has no relevant

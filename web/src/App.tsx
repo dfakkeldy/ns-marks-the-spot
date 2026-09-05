@@ -1299,6 +1299,7 @@ export function App() {
     CivicAddress[]
   >([]);
   const [searchingAddresses, setSearchingAddresses] = useState(false);
+  const [activeAddressIndex, setActiveAddressIndex] = useState(-1);
   const [selectedPid, setSelectedPid] = useState<string | null>(
     initialShareState.pid,
   );
@@ -2054,6 +2055,7 @@ export function App() {
   const [exportSession, setExportSession] =
     useState<GeoPdfExportSession | null>(null);
   const addressSearchController = useRef<AbortController | null>(null);
+  const addressSearchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointLookupController = useRef<AbortController | null>(null);
   const historicalLoadAttempted = useRef(false);
   /** Timestamp of the last address-bar write; see the throttle below. */
@@ -2061,6 +2063,7 @@ export function App() {
 
   useEffect(
     () => () => {
+      if (addressSearchTimer.current !== null) clearTimeout(addressSearchTimer.current);
       addressSearchController.current?.abort();
       pointLookupController.current?.abort();
     },
@@ -3105,6 +3108,11 @@ export function App() {
   };
 
   const cancelAddressSearch = () => {
+    if (addressSearchTimer.current !== null) {
+      clearTimeout(addressSearchTimer.current);
+      addressSearchTimer.current = null;
+    }
+    setActiveAddressIndex(-1);
     addressSearchController.current?.abort();
     addressSearchController.current = null;
     setSearchingAddresses(false);
@@ -3220,7 +3228,7 @@ export function App() {
 
   const runSearch = async (
     rawQuery: string,
-    { licenceJustAccepted = false }: { licenceJustAccepted?: boolean } = {},
+    { licenceJustAccepted = false, suggest = false }: { licenceJustAccepted?: boolean; suggest?: boolean } = {},
   ) => {
     if (!licenceAccepted && !licenceJustAccepted) {
       // Search reads NSPRD and the civic address file — licensed Province
@@ -3256,6 +3264,7 @@ export function App() {
         const results = await searchCivicAddresses(
           normalizedQuery,
           controller.signal,
+          ...(suggest ? [{ suggest: true }] : []),
         );
         if (controller.signal.aborted) {
           return;
@@ -3266,7 +3275,7 @@ export function App() {
         }
         setAddressSearchResults(results);
       } catch (error: unknown) {
-        if (error instanceof DOMException && error.name === "AbortError") {
+        if (controller.signal.aborted || (error instanceof DOMException && error.name === "AbortError")) {
           return;
         }
         setSearchError("Civic address search is unavailable right now.");
@@ -3306,6 +3315,26 @@ export function App() {
         pendingGeometryFetchPidRef.current = null;
       }
     }
+  };
+
+  const scheduleAddressSuggestions = (value: string) => {
+    const normalized = value.trim().replace(/\s+/gu, " ");
+    // Typing never opens the licence dialog or selects a PID. Both still
+    // require an explicit submission; address candidates require a choice.
+    if (!licenceAccepted || normalized.length < 3 || /^[\d\s-]+$/u.test(value)) return;
+    addressSearchTimer.current = setTimeout(() => {
+      addressSearchTimer.current = null;
+      void runSearch(value, { suggest: true });
+    }, 300);
+  };
+
+  const chooseAddress = (address: CivicAddress) => {
+    setQuery(address.label);
+    void identifyParcelAtPoint(
+      address.coordinates[1],
+      address.coordinates[0],
+      { addressLabel: address.label, focusOnSelect: true },
+    );
   };
 
   const submitPidSearch = (event: FormEvent<HTMLFormElement>) => {
@@ -4212,7 +4241,14 @@ export function App() {
               the rail's own child-combinator rule carries its former h1
               typography over unchanged. */}
           <h2>Explore Nova Scotia</h2>
-          <form className="pid-search" onSubmit={submitPidSearch}>
+          <form className="pid-search" onSubmit={submitPidSearch}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) {
+                cancelAddressSearch();
+                setAddressSearchResults([]);
+              }
+            }}
+          >
             <label htmlFor="pid-query">Search by PID or civic address</label>
             <div className="search-row">
               <input
@@ -4225,6 +4261,41 @@ export function App() {
                   setQuery(event.target.value);
                   setAddressSearchResults([]);
                   setSearchError(null);
+                  if (!(event.nativeEvent as InputEvent).isComposing) {
+                    scheduleAddressSuggestions(event.target.value);
+                  }
+                }}
+                onCompositionStart={cancelAddressSearch}
+                onCompositionEnd={(event) => {
+                  cancelAddressSearch();
+                  scheduleAddressSuggestions(event.currentTarget.value);
+                }}
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded={addressSearchResults.length > 0}
+                aria-controls={addressSearchResults.length > 0 ? "address-search-results" : undefined}
+                aria-activedescendant={activeAddressIndex >= 0 ? `address-option-${activeAddressIndex}` : undefined}
+                onKeyDown={(event) => {
+                  if (event.nativeEvent.isComposing) return;
+                  if (event.key === "Escape") {
+                    if (addressSearchResults.length || searchingAddresses || addressSearchTimer.current !== null) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      cancelAddressSearch();
+                      setAddressSearchResults([]);
+                      setSearchError(null);
+                    }
+                  } else if (addressSearchResults.length && (event.key === "ArrowDown" || event.key === "ArrowUp")) {
+                    event.preventDefault();
+                    const next = event.key === "ArrowDown"
+                      ? (activeAddressIndex + 1) % addressSearchResults.length
+                      : (activeAddressIndex <= 0 ? addressSearchResults.length : activeAddressIndex) - 1;
+                    setActiveAddressIndex(next);
+                    document.getElementById(`address-option-${next}`)?.scrollIntoView?.({ block: "nearest" });
+                  } else if (event.key === "Enter" && activeAddressIndex >= 0) {
+                    event.preventDefault();
+                    chooseAddress(addressSearchResults[activeAddressIndex]);
+                  }
                 }}
                 placeholder="PID or address"
                 aria-describedby="pid-search-help"
@@ -4244,23 +4315,28 @@ export function App() {
                   ? "Searching mapped civic addresses…"
                   : "Enter an 8-digit PID or a Nova Scotia civic address.")}
             </p>
+            <span className="sr-only" role="status">
+              {addressSearchResults.length > 0
+                ? `${addressSearchResults.length} civic address matches. Use up and down arrows, then Enter to choose.`
+                : searchingAddresses ? "Searching mapped civic addresses…" : ""}
+            </span>
             {addressSearchResults.length > 0 ? (
               <ul
+                id="address-search-results"
+                role="listbox"
                 className="address-search-results"
                 aria-label="Civic address results"
               >
-                {addressSearchResults.map((address) => (
-                  <li key={address.pntid}>
+                {addressSearchResults.map((address, index) => (
+                  <li key={address.pntid} role="presentation">
                     <button
+                      id={`address-option-${index}`}
+                      role="option"
+                      aria-selected={activeAddressIndex === index}
+                      tabIndex={-1}
                       type="button"
-                      onClick={() => {
-                        setQuery(address.label);
-                        void identifyParcelAtPoint(
-                          address.coordinates[1],
-                          address.coordinates[0],
-                          { addressLabel: address.label, focusOnSelect: true },
-                        );
-                      }}
+                      onMouseDown={(event) => event.preventDefault()}
+                      onClick={() => chooseAddress(address)}
                     >
                       {address.label}
                     </button>

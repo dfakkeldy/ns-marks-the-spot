@@ -138,6 +138,7 @@ export function buildCivicAddressQueryUrl(
 export function buildCivicAddressSearchUrl(
   query: string,
   limit = CIVIC_ADDRESS_SEARCH_LIMIT,
+  { suggest = false }: { suggest?: boolean } = {},
 ): string {
   const normalizedQuery = normalizeSearchQuery(query);
   if (normalizedQuery.length < 3) {
@@ -165,7 +166,29 @@ export function buildCivicAddressSearchUrl(
     );
   }
 
+  const prefix = suggest ? suggestionPrefix(fullTextQuery) : null;
+  if (prefix) {
+    const completedTerms = fullTextQuery.slice(0, -prefix.length).trim();
+    if (completedTerms) {
+      parameters.set("$q", officialSearchFallback(completedTerms) ?? completedTerms);
+    } else {
+      parameters.delete("$q");
+    }
+    // Only alphabetic input enters these predicates. Numbers stay exact,
+    // and punctuation continues through the existing full-text path.
+    const term = prefix.toUpperCase();
+    const prefixWhere = ["strprefix", "strname", "strsuffix", "strdir", "comm", "mun", "county"]
+      .map((field) => `(starts_with(upper(${field}),'${term}') OR upper(${field}) like '% ${term}%')`)
+      .join(" OR ");
+    const civicWhere = parameters.get("$where");
+    parameters.set("$where", `${civicWhere ? `${civicWhere} AND ` : ""}(${prefixWhere})`);
+  }
+
   return `${CIVIC_ADDRESS_GEOJSON_URL}?${parameters.toString()}`;
+}
+
+function suggestionPrefix(query: string): string | null {
+  return normalizeSearchQuery(query).match(/(?:^|\s)([a-z]+)$/iu)?.[1] ?? null;
 }
 
 function normalizeSearchQuery(query: string): string {
@@ -487,13 +510,17 @@ function addressMatchKey(value: string): string {
     .trim();
 }
 
-function addressMatchScore(address: CivicAddress, query: string): number {
+function addressMatchScore(address: CivicAddress, query: string, suggest: boolean): number {
   const queryKey = addressMatchKey(query);
   const queryTerms = queryKey.split(" ").filter(Boolean);
   const labelTerms = new Set(addressMatchKey(address.label).split(" "));
+  const prefix = suggest ? suggestionPrefix(query) : null;
   if (
     queryTerms.length === 0 ||
-    !queryTerms.every((term) => labelTerms.has(term))
+    !queryTerms.every((term, index) =>
+      labelTerms.has(term) ||
+      (prefix && index === queryTerms.length - 1 && [...labelTerms].some((labelTerm) => labelTerm.startsWith(term))),
+    )
   ) {
     return 0;
   }
@@ -513,6 +540,7 @@ function addressMatchScore(address: CivicAddress, query: string): number {
 function rankedCivicAddresses(
   features: readonly CivicPointFeature[],
   query: string,
+  suggest = false,
 ): CivicAddress[] {
   const addresses = new Map<string, CivicAddress>();
 
@@ -524,7 +552,7 @@ function rankedCivicAddresses(
   }
 
   const ranked = [...addresses.values()]
-    .map((address) => ({ address, score: addressMatchScore(address, query) }))
+    .map((address) => ({ address, score: addressMatchScore(address, query, suggest) }))
     .filter(({ score }) => score > 0)
     .sort(
       (left, right) =>
@@ -561,12 +589,13 @@ async function fetchCivicPointCollection(
 export async function searchCivicAddresses(
   query: string,
   signal?: AbortSignal,
+  { suggest = false }: { suggest?: boolean } = {},
 ): Promise<CivicAddress[]> {
   const initialFeatures = await fetchCivicPointCollection(
-    buildCivicAddressSearchUrl(query),
+    buildCivicAddressSearchUrl(query, CIVIC_ADDRESS_SEARCH_LIMIT, { suggest }),
     signal,
   );
-  const initialResults = rankedCivicAddresses(initialFeatures, query);
+  const initialResults = rankedCivicAddresses(initialFeatures, query, suggest);
   if (initialResults.length > 0) {
     return initialResults;
   }
@@ -577,10 +606,10 @@ export async function searchCivicAddresses(
   }
 
   const fallbackFeatures = await fetchCivicPointCollection(
-    buildCivicAddressSearchUrl(fallbackQuery),
+    buildCivicAddressSearchUrl(fallbackQuery, CIVIC_ADDRESS_SEARCH_LIMIT, { suggest }),
     signal,
   );
-  return rankedCivicAddresses(fallbackFeatures, query);
+  return rankedCivicAddresses(fallbackFeatures, query, suggest);
 }
 
 async function fetchCandidates(
