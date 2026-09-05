@@ -379,7 +379,8 @@ a {
 }
 
 .address-search-results button:hover,
-.address-search-results button:focus-visible {
+.address-search-results button:focus-visible,
+.address-search-results button[aria-selected="true"] {
   background: var(--tint-blue);
 }
 
