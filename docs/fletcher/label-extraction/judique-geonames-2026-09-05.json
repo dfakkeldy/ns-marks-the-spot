@@ -1,0 +1,227 @@
+{
+  "source": "Canadian Geographical Names Database / Natural Resources Canada; records supplied by naming authorities",
+  "retrieved_at": "2026-09-05",
+  "query_url": "https://geogratis.gc.ca/services/geoname/en/geonames?bbox=-61.55%2C45.83%2C-61.36%2C45.94&province=12&num=100",
+  "response_sha256": "028bade87e37921dd8ebd5244020971e7e9cb4e70dc2ddc5d174cc2b1ebfe98d",
+  "response_count": 88,
+  "selection_note": "Eight verbatim field projections from the returned records, selected as name matches or a specifically rejected alternative. Query bbox intersects feature extents and can return representative points outside it.",
+  "coordinate_note": "These are source representative points, not historical building locations. The source accuracy and bbox are not uncertainty radii or historical feature footprints.",
+  "records": [
+    {
+      "id": "CACSS",
+      "name": "Ben Noah",
+      "category": "H",
+      "status": "previouslyOfficial",
+      "feature_id": "d03608c49c6146de8befc72a3321f893",
+      "concise_code": "UNP",
+      "generic_code": "108",
+      "location": "Inverness",
+      "province_code": "12",
+      "representative_point": {
+        "type": "Point",
+        "coordinates": [
+          -61.4326,
+          45.900074
+        ]
+      },
+      "reported_coordinate_accuracy_m": 100,
+      "source_bbox": [
+        -61.4526,
+        45.880074,
+        -61.4126,
+        45.920074
+      ],
+      "decision_date": "1975-12-22",
+      "source_url": "https://geogratis.gc.ca/services/geoname/en/geonames/CACSS"
+    },
+    {
+      "id": "CAFWR",
+      "name": "Campbell Point",
+      "category": "O",
+      "status": "official",
+      "feature_id": "ed420bebaf5111d892e2080020a0f4c9",
+      "concise_code": "CAPE",
+      "generic_code": "1604",
+      "location": "Inverness",
+      "province_code": "12",
+      "representative_point": {
+        "type": "Point",
+        "coordinates": [
+          -61.501593,
+          45.849485
+        ]
+      },
+      "reported_coordinate_accuracy_m": 100,
+      "source_bbox": [
+        -61.5079722,
+        45.8432814,
+        -61.4948715,
+        45.8575664
+      ],
+      "decision_date": "1954-03-04",
+      "source_url": "https://geogratis.gc.ca/services/geoname/en/geonames/CAFWR"
+    },
+    {
+      "id": "CBGJQ",
+      "name": "Rory Brook",
+      "category": "O",
+      "status": "official",
+      "feature_id": "b7b20482afe811d892e2080020a0f4c9",
+      "concise_code": "RIV",
+      "generic_code": "601",
+      "location": "Inverness",
+      "province_code": "12",
+      "representative_point": {
+        "type": "Point",
+        "coordinates": [
+          -61.501775,
+          45.870297
+        ]
+      },
+      "reported_coordinate_accuracy_m": 100,
+      "source_bbox": [
+        -61.5074301,
+        45.8611412,
+        -61.4146328,
+        45.8803047
+      ],
+      "decision_date": "1951-05-03",
+      "source_url": "https://geogratis.gc.ca/services/geoname/en/geonames/CBGJQ"
+    },
+    {
+      "id": "CAOBS",
+      "name": "Graham River",
+      "category": "O",
+      "status": "official",
+      "feature_id": "acb696bdaf6311d892e2080020a0f4c9",
+      "concise_code": "RIV",
+      "generic_code": "600",
+      "location": "Inverness",
+      "province_code": "12",
+      "representative_point": {
+        "type": "Point",
+        "coordinates": [
+          -61.50369,
+          45.864799
+        ]
+      },
+      "reported_coordinate_accuracy_m": 100,
+      "source_bbox": [
+        -61.509936,
+        45.832094,
+        -61.3584908,
+        45.87099
+      ],
+      "decision_date": "1951-05-03",
+      "source_url": "https://geogratis.gc.ca/services/geoname/en/geonames/CAOBS"
+    },
+    {
+      "id": "CAAAW",
+      "name": "Chisholm Brook",
+      "category": "O",
+      "status": "official",
+      "feature_id": "25948314af4a11d892e2080020a0f4c9",
+      "concise_code": "RIV",
+      "generic_code": "601",
+      "location": "Inverness",
+      "province_code": "12",
+      "representative_point": {
+        "type": "Point",
+        "coordinates": [
+          -61.493139,
+          45.813663
+        ]
+      },
+      "reported_coordinate_accuracy_m": 100,
+      "source_bbox": [
+        -61.4989605,
+        45.798489,
+        -61.4129825,
+        45.8346086
+      ],
+      "decision_date": "1951-05-03",
+      "source_url": "https://geogratis.gc.ca/services/geoname/en/geonames/CAAAW"
+    },
+    {
+      "id": "CAWOP",
+      "name": "Mackay Point",
+      "category": "H",
+      "status": "previouslyOfficial",
+      "feature_id": "94126357afd411d892e2080020a0f4c9",
+      "concise_code": "CAPE",
+      "generic_code": "1604",
+      "location": null,
+      "province_code": "12",
+      "representative_point": {
+        "type": "Point",
+        "coordinates": [
+          -61.510947,
+          45.906816
+        ]
+      },
+      "reported_coordinate_accuracy_m": 100,
+      "source_bbox": [
+        -61.5192706,
+        45.8993201,
+        -61.5032616,
+        45.9151598
+      ],
+      "decision_date": "1976-03-04",
+      "source_url": "https://geogratis.gc.ca/services/geoname/en/geonames/CAWOP"
+    },
+    {
+      "id": "CAYJN",
+      "name": "McKays Point",
+      "category": "O",
+      "status": "official",
+      "feature_id": "94126357afd411d892e2080020a0f4c9",
+      "concise_code": "CAPE",
+      "generic_code": "1604",
+      "location": "Inverness",
+      "province_code": "12",
+      "representative_point": {
+        "type": "Point",
+        "coordinates": [
+          -61.510947,
+          45.906816
+        ]
+      },
+      "reported_coordinate_accuracy_m": 100,
+      "source_bbox": [
+        -61.5192706,
+        45.8993201,
+        -61.5032616,
+        45.9151598
+      ],
+      "decision_date": "1976-03-04",
+      "source_url": "https://geogratis.gc.ca/services/geoname/en/geonames/CAYJN"
+    },
+    {
+      "id": "CASLB",
+      "name": "Judique",
+      "category": "O",
+      "status": "official",
+      "feature_id": "089eeb5caf7011d892e2080020a0f4c9",
+      "concise_code": "UNP",
+      "generic_code": "121",
+      "location": "Inverness",
+      "province_code": "12",
+      "representative_point": {
+        "type": "Point",
+        "coordinates": [
+          -61.490604,
+          45.876363
+        ]
+      },
+      "reported_coordinate_accuracy_m": 100,
+      "source_bbox": [
+        -61.510604,
+        45.856363,
+        -61.470604,
+        45.896363
+      ],
+      "decision_date": "2007-06-26",
+      "source_url": "https://geogratis.gc.ca/services/geoname/en/geonames/CASLB"
+    }
+  ]
+}
