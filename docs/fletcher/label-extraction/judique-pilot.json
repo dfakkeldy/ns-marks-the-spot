@@ -1,0 +1,1098 @@
+{
+  "title": "Fletcher sheet 19 — Judique village label extraction, pilot 1",
+  "extracted_at": "2026-09-05",
+  "status": "reviewable-transcription-pilot; not a production map layer",
+  "source": {
+    "author": "Hugh Fletcher / Geological Survey of Canada",
+    "publication_year": 1884,
+    "sheet": 19,
+    "rumsey_id": "RUMSEY~8~1~2644~290012",
+    "list_no": "3997.021",
+    "source_dimensions_px": [
+      10815,
+      7549
+    ],
+    "manifest_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+    "source_image_sha256_from_existing_observation": "965ae592a1aa4276425a43d54b737669f7662f34c179e4861cb6d9284374f319",
+    "checksum_note": "Existing whole-scan checksum is a lineage reference from tools/fletcher/observations/sheet-19.json; it was not independently recomputed in this extraction. The downloaded pilot JPEG has its own checksum below.",
+    "pilot_region_xywh": [
+      2700,
+      1000,
+      3100,
+      2700
+    ],
+    "pilot_image_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/2700,1000,3100,2700/3100,2700/0/default.jpg",
+    "pilot_image_sha256": "88269e31442368ef13a0556a867741341b0092d3daa8d88fe03870ec37bc7118",
+    "pixel_coordinates": "Original unwarped scan pixels, origin top-left, x rightward and y downward; xywh rectangles enclose lettering, not feature footprints.",
+    "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+    "imagery_terms_url": "https://www.davidrumsey.com/about/copyright-and-permissions",
+    "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+    "rights_record": "../../../reports/fletcher/INVENTORY.md"
+  },
+  "coverage": {
+    "status": "first visual pass over all nine overlapping review windows; second-pass rectangle inspection completed separately",
+    "review_windows_xywh": [
+      [
+        2700,
+        1000,
+        1100,
+        1000
+      ],
+      [
+        3700,
+        1000,
+        1100,
+        1000
+      ],
+      [
+        4700,
+        1000,
+        1100,
+        1000
+      ],
+      [
+        2700,
+        1850,
+        1100,
+        1000
+      ],
+      [
+        3700,
+        1850,
+        1100,
+        1000
+      ],
+      [
+        4700,
+        1850,
+        1100,
+        1000
+      ],
+      [
+        2700,
+        2700,
+        1100,
+        1000
+      ],
+      [
+        3700,
+        2700,
+        1100,
+        1000
+      ],
+      [
+        4700,
+        2700,
+        1100,
+        1000
+      ]
+    ],
+    "included": "Readable named places, named roads and streams, labelled facilities, personal-name annotations, mineral and quarry text within this fixed Judique village region.",
+    "excluded": [
+      "Rest of sheet 19 and all other sheets",
+      "Unlabelled building symbols and road/water geometry tracing",
+      "Geological unit codes and coloured regions",
+      "Bedding/dip values, arrows and circled geological symbols",
+      "Red report/page references, graticule and map marginalia"
+    ],
+    "completeness_note": "All noticed in-scope labels in this region are inventoried; this is not an independently audited guarantee of completeness. No statement of absence is made for omitted categories or unreviewed areas."
+  },
+  "interpretation_rules": [
+    "Original source text is separate from search typography and any modern name.",
+    "Repeated generic labels are separate annotations; counts are not proven counts of separate buildings.",
+    "Personal names are map annotations, not proven ownership, residence or parcel matches.",
+    "No historical site coordinate is derived from label position, a global warp, nearby roads or gazetteer representative points.",
+    "Source readings and name-identity evidence do not establish present-day existence, operation, access or exact location."
+  ],
+  "gazetteer_snapshot": "judique-geonames-2026-09-05.json",
+  "features": [
+    {
+      "id": "F19-JUD-001",
+      "source_text": "Mackay Point",
+      "search_text": "Mackay Point",
+      "kind": "cape",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Named coastal point west of the settlement."
+      },
+      "source_label_boxes_xywh": [
+        [
+          2885,
+          1550,
+          360,
+          70
+        ]
+      ],
+      "source_context_crop_xywh": [
+        2785,
+        1450,
+        560,
+        270
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/2785,1450,560,270/560,270/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": [
+        {
+          "record_ids": [
+            "CAWOP",
+            "CAYJN"
+          ],
+          "status": "supported-name-identity",
+          "basis": "Fletcher spelling matches the previously official Mackay Point record. That record and official McKays Point share the exact same feature ID; coastal context agrees.",
+          "remaining_work": "Choose a modern point/shoreline label anchor after inspecting source geometry; gazetteer representative point is not a survey."
+        }
+      ]
+    },
+    {
+      "id": "F19-JUD-002",
+      "source_text": "John Gillis",
+      "search_text": "John Gillis",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Personal name beside buildings on the point; no ownership or resident identity inferred."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3250,
+          1483,
+          150,
+          37
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3150,
+        1383,
+        350,
+        237
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3150,1383,350,237/350,237/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-003",
+      "source_text": "MᶜEachern",
+      "search_text": "McEachern",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Surname beside buildings along the northern east-west road; superscript c retained."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4390,
+          1253,
+          205,
+          47
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4290,
+        1153,
+        405,
+        247
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4290,1153,405,247/405,247/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-004",
+      "source_text": "School",
+      "search_text": "School",
+      "kind": "school",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Northern school, south of the road near a stream crossing."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4010,
+          1332,
+          125,
+          40
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3910,
+        1232,
+        325,
+        240
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3910,1232,325,240/325,240/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-005",
+      "source_text": "Forge",
+      "search_text": "Forge",
+      "kind": "forge",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Northern forge near the road and stream, west of Sh. Mill."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3990,
+          1535,
+          95,
+          43
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3890,
+        1435,
+        295,
+        243
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3890,1435,295,243/295,243/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-006",
+      "source_text": "Sh. Mill",
+      "search_text": "Sh. Mill",
+      "kind": "mill",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Mill abbreviation is preserved. The expansion and exact building association are not established."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4215,
+          1527,
+          140,
+          47
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4115,
+        1427,
+        340,
+        247
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4115,1427,340,247/340,247/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-007",
+      "source_text": "School",
+      "search_text": "School",
+      "kind": "school",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Eastern school near an angled road junction, northwest of Ben Noah lettering."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4600,
+          1790,
+          145,
+          46
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4500,
+        1690,
+        345,
+        246
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4500,1690,345,246/345,246/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-008",
+      "source_text": "Stage\nStables",
+      "search_text": "Stage Stables",
+      "kind": "stables",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Two-line label beside the coastal road near Shop and P.O.; site footprint unresolved."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3765,
+          1827,
+          113,
+          50
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3665,
+        1727,
+        313,
+        250
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3665,1727,313,250/313,250/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-009",
+      "source_text": "Shop",
+      "search_text": "Shop",
+      "kind": "shop",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Shop label immediately above P.O.; these are separate annotations, not two proven buildings."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3895,
+          1840,
+          88,
+          34
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3795,
+        1740,
+        288,
+        234
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3795,1740,288,234/288,234/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-010",
+      "source_text": "P.O.",
+      "search_text": "P.O.",
+      "kind": "post-office",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Abbreviated post-office label below Shop; shared/separate premises not established."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3895,
+          1869,
+          80,
+          34
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3795,
+        1769,
+        280,
+        234
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3795,1769,280,234/280,234/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-011",
+      "source_text": "Shop",
+      "search_text": "Shop",
+      "kind": "shop",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Shop at the inland road junction east of the coastal stables and post office."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4285,
+          1936,
+          89,
+          40
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4185,
+        1836,
+        289,
+        240
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4185,1836,289,240/289,240/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-012",
+      "source_text": "Ben Noah",
+      "search_text": "Ben Noah",
+      "kind": "named-place",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Large inland place label. The gazetteer describes the matching historical name as a locality, not a mountain."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4900,
+          1925,
+          360,
+          83
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4800,
+        1825,
+        560,
+        283
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4800,1825,560,283/560,283/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": [
+        {
+          "record_ids": [
+            "CACSS"
+          ],
+          "status": "supported-historical-name-record",
+          "basis": "Exact historical label and matching inland locality. Current gazetteer retains Ben Noah as previouslyOfficial; no currently official replacement established.",
+          "remaining_work": "Review historical settlement extent. Do not display as a currently official name or a mountain."
+        }
+      ]
+    },
+    {
+      "id": "F19-JUD-013",
+      "source_text": "Forge",
+      "search_text": "Forge",
+      "kind": "forge",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Coastal forge north of the Judique lettering and R.C. Church."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3640,
+          2205,
+          100,
+          46
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3540,
+        2105,
+        300,
+        246
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3540,2105,300,246/300,246/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-014",
+      "source_text": "Judique",
+      "search_text": "Judique",
+      "kind": "settlement",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Settlement label spanning the coastal-road district; lettering position is not a settlement boundary."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3810,
+          2236,
+          282,
+          75
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3710,
+        2136,
+        482,
+        275
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3710,2136,482,275/482,275/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": [
+        {
+          "record_ids": [
+            "CASLB"
+          ],
+          "status": "supported-name-identity",
+          "basis": "Exact settlement name and matching coastal village setting. Historical label spans an area north of the church rather than a precise point.",
+          "remaining_work": "Use settlement-level placement; do not treat the official representative point as the historical village extent."
+        }
+      ]
+    },
+    {
+      "id": "F19-JUD-015",
+      "source_text": "R.C. Church",
+      "search_text": "R.C. Church",
+      "kind": "church",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Church label beside the coastal road and stream. Church-site continuity has not been established."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3690,
+          2470,
+          170,
+          49
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3590,
+        2370,
+        370,
+        249
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3590,2370,370,249/370,249/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-016",
+      "source_text": "Rev. Archᵈ. Chisholm",
+      "search_text": "Rev. Archd. Chisholm",
+      "kind": "person-label",
+      "transcription": {
+        "status": "tentative",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Abbreviated given name is tentative; elevated d retained. Do not silently expand it or identify a parcel."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3720,
+          2530,
+          286,
+          45
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3620,
+        2430,
+        486,
+        245
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3620,2430,486,245/486,245/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-017",
+      "source_text": "Barytes",
+      "search_text": "Barytes",
+      "kind": "mineral-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Mineral annotation near dark mapped marks. Does not establish a mine, extraction history, grade or current deposit."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4263,
+          2482,
+          139,
+          48
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4163,
+        2382,
+        339,
+        248
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4163,2382,339,248/339,248/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-018",
+      "source_text": "Shop",
+      "search_text": "Shop",
+      "kind": "shop",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Shop south of the church, west of the main coastal road."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3610,
+          2570,
+          88,
+          49
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3510,
+        2470,
+        288,
+        249
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3510,2470,288,249/288,249/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-019",
+      "source_text": "School",
+      "search_text": "School",
+      "kind": "school",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "School along the diagonal road south of the church district."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4125,
+          2604,
+          114,
+          46
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4025,
+        2504,
+        314,
+        246
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4025,2504,314,246/314,246/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-020",
+      "source_text": "Rory Chisholm's Brook",
+      "search_text": "Rory Chisholm's Brook",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Name is printed in three separated parts along the brook north of Graham River."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3505,
+          2705,
+          159,
+          63
+        ],
+        [
+          3813,
+          2687,
+          330,
+          128
+        ],
+        [
+          4250,
+          2808,
+          139,
+          54
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3405,
+        2587,
+        1084,
+        375
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3405,2587,1084,375/1084,375/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": [
+        {
+          "record_ids": [
+            "CBGJQ"
+          ],
+          "status": "candidate",
+          "basis": "Rory Brook is north of Graham River in the same Judique coastal district, consistent with the historical sequence; shortened-name equivalence is not established by a shared ID.",
+          "remaining_work": "Trace the watercourse and check historical naming evidence before accepting the identity."
+        },
+        {
+          "record_ids": [
+            "CAAAW"
+          ],
+          "status": "rejected-alternative",
+          "basis": "Chisholm Brook is a separate official brook farther south (representative latitude 45.813663), beyond Graham River and Campbell Point; surname similarity alone is insufficient.",
+          "remaining_work": "Retain this rejection so later automated matching does not select it merely by surname."
+        }
+      ]
+    },
+    {
+      "id": "F19-JUD-021",
+      "source_text": "Mill",
+      "search_text": "Mill",
+      "kind": "mill",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Mill beside the brook and the diagonal road. Mill type and exact modern site remain unresolved."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4333,
+          2783,
+          83,
+          39
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4233,
+        2683,
+        283,
+        239
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4233,2683,283,239/283,239/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-022",
+      "source_text": "River Denys Road",
+      "search_text": "River Denys Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Historical road name printed along a curved road. No current road segment equivalence asserted."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4460,
+          2754,
+          245,
+          97
+        ],
+        [
+          4755,
+          2780,
+          96,
+          48
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4360,
+        2654,
+        591,
+        297
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4360,2654,591,297/591,297/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-023",
+      "source_text": "Rory Chisholm",
+      "search_text": "Rory Chisholm",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Separate personal-name annotation at an inland road junction; not merged with the brook name."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4947,
+          2786,
+          229,
+          48
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4847,
+        2686,
+        429,
+        248
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4847,2686,429,248/429,248/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-024",
+      "source_text": "Shop",
+      "search_text": "Shop",
+      "kind": "shop",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Shop beside the coastal road just north of Graham River."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3717,
+          2992,
+          80,
+          44
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3617,
+        2892,
+        280,
+        244
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3617,2892,280,244/280,244/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-025",
+      "source_text": "Graham River",
+      "search_text": "Graham River",
+      "kind": "watercourse",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "River name printed in two parts south of the brook and north of Campbell Point."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3880,
+          3005,
+          226,
+          53
+        ],
+        [
+          4228,
+          3035,
+          138,
+          55
+        ]
+      ],
+      "source_context_crop_xywh": [
+        3780,
+        2905,
+        686,
+        285
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3780,2905,686,285/686,285/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": [
+        {
+          "record_ids": [
+            "CAOBS"
+          ],
+          "status": "supported-name-identity",
+          "basis": "Exact river name and matching position south of the historical brook and north of Campbell Point; present-day map shows the same broad coastal sequence.",
+          "remaining_work": "Match the full modern watercourse before placing curved historical lettering; do not convert its representative point into a mill site."
+        }
+      ]
+    },
+    {
+      "id": "F19-JUD-026",
+      "source_text": "Quarries of grey\nand red sandstone",
+      "search_text": "Quarries of grey and red sandstone",
+      "kind": "quarry-annotation",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Two-line quarry annotation. Extent, number of workings and present condition are not established."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4695,
+          3040,
+          300,
+          81
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4595,
+        2940,
+        500,
+        281
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4595,2940,500,281/500,281/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-027",
+      "source_text": "Old Judique Road",
+      "search_text": "Old Judique Road",
+      "kind": "road-name",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Three-part name follows a road crossing the Graham River area. Historical alignment is not yet traced."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4457,
+          3180,
+          89,
+          87
+        ],
+        [
+          4670,
+          3201,
+          125,
+          55
+        ],
+        [
+          4937,
+          3161,
+          91,
+          49
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4357,
+        3061,
+        771,
+        306
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4357,3061,771,306/771,306/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": [],
+      "modern_searches": [
+        {
+          "source_query": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/8/query?where=UPPER%28STREET%29+LIKE+%27%25JUDIQUE%25%27&outFields=OBJECTID%2CSTREET%2CFEAT_DESC%2CROADC_DESC&returnGeometry=true&outSR=4326&f=json",
+          "retrieved_at": "2026-09-05",
+          "response_sha256": "d9577b35d571b4015d0ea41a3160429deed5bad21243f0437ea68006f97cbd39",
+          "response_count": 106,
+          "exceeded_transfer_limit": false,
+          "status": "returned-records-no-exact-name-match",
+          "returned_street_names": [
+            "Chestico Trail-Little Judique-Inverness",
+            "Judique Flyer Trail-Judique North-Inverness",
+            "Judique Flyer Trail-Judique South-Inverness",
+            "Judique Flyer Trail-Judique-Inverness",
+            "Judique Flyer Trail-Little Judique-Inverness",
+            "Judique Flyer Trail-Long Point-Inverness"
+          ],
+          "interpretation": "Returned names are trails. This query does not establish that the historical road has vanished or that no differently named modern segment corresponds to it."
+        }
+      ]
+    },
+    {
+      "id": "F19-JUD-028",
+      "source_text": "Allan MᶜDonald",
+      "search_text": "Allan McDonald",
+      "kind": "person-label",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Personal name near the southern road/stream crossing; superscript c retained."
+      },
+      "source_label_boxes_xywh": [
+        [
+          4920,
+          3373,
+          243,
+          47
+        ]
+      ],
+      "source_context_crop_xywh": [
+        4820,
+        3273,
+        443,
+        247
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4820,3273,443,247/443,247/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": []
+    },
+    {
+      "id": "F19-JUD-029",
+      "source_text": "Campbell Point",
+      "search_text": "Campbell Point",
+      "kind": "cape",
+      "transcription": {
+        "status": "clear",
+        "reviewer": "Codex visual reading",
+        "reviewed_at": "2026-09-05",
+        "note": "Named coastal point south of Graham River."
+      },
+      "source_label_boxes_xywh": [
+        [
+          3050,
+          3310,
+          395,
+          76
+        ]
+      ],
+      "source_context_crop_xywh": [
+        2950,
+        3210,
+        595,
+        276
+      ],
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/2950,3210,595,276/595,276/0/default.jpg",
+      "historical_site_geometry": null,
+      "placement_status": "unlocated",
+      "gazetteer_matches": [
+        {
+          "record_ids": [
+            "CAFWR"
+          ],
+          "status": "supported-name-identity",
+          "basis": "Exact cape name and matching coastal sequence south of Graham River.",
+          "remaining_work": "Review current shoreline geometry before choosing a label anchor; no historical coastline precision asserted."
+        }
+      ]
+    }
+  ]
+}
