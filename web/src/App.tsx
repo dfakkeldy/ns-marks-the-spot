@@ -1031,8 +1031,9 @@ function DataSourcesDialog({
           <p>Coverage: Nova Scotia. Use the OpenStreetMap basemap for worldwide detail.
             Release dates describe these downloads, not when every feature was surveyed.
             Provincial buildings remain an optional overlay; smaller buildings in that source are points.
-            Woodland is generalized with a two-metre tolerance. Records with missing
-            source geometry are omitted and identified in the tile receipt.</p>
+            Woodland is generalized to at most two metres, and more coarsely below zoom 12.
+            Source polygons with invalid rings are repaired and counted in the tile receipt.
+            Records with missing source geometry are omitted and identified there too.</p>
           <ul>
             {provincialReceipt.sources.map(source => (
               <li key={source.id}>

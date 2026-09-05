@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "archive": "ns-94fe4f0b0bbbf54e.pmtiles",
-  "sha256": "94fe4f0b0bbbf54e0936d5139c45feff13383dc4cb89586e63466a95220f14f2",
-  "bytes": 270489158,
-  "generatedAt": "2026-09-05T15:37:58.177850+00:00",
+  "archive": "ns-7c383881956d105c.pmtiles",
+  "sha256": "7c383881956d105ce0d4c7d6854ae5e8aea2208c9a7a140a8e587adabc66a9af",
+  "bytes": 297895825,
+  "generatedAt": "2026-09-05T19:52:44.710266+00:00",
   "generator": "tools/build_provincial_atlas.py",
   "gdalVersion": "GDAL 3.13.3 \"Iowa City\", released 2026/08/13",
   "minzoom": 5,
@@ -21,6 +21,31 @@
     "waterways": 316545,
     "woodland": 72382,
     "boundaries": 49
+  },
+  "zoomBands": {
+    "woodland": [
+      {
+        "layer": "woodland",
+        "minzoom": 12,
+        "maxzoom": 13,
+        "features": 72382,
+        "geometryTransform": "Topology-preserving simplification, 0.000018 degree tolerance (at most 2 metres on the ground in Nova Scotia)"
+      },
+      {
+        "layer": "woodland_z10",
+        "minzoom": 10,
+        "maxzoom": 11,
+        "features": 37752,
+        "geometryTransform": "Topology-preserving simplification, 0.00022 degree tolerance (about 25 metres, half a pixel at zoom 11); rings smaller than 0.00000033 square degrees (about one zoom-11 pixel) dropped"
+      },
+      {
+        "layer": "woodland_z8",
+        "minzoom": 8,
+        "maxzoom": 9,
+        "features": 10602,
+        "geometryTransform": "Topology-preserving simplification, 0.0009 degree tolerance (about 100 metres, half a pixel at zoom 9); rings smaller than 0.0000053 square degrees (about one zoom-9 pixel) dropped"
+      }
+    ]
   },
   "sources": [
     {
@@ -79,7 +104,10 @@
         "source_row_id",
         "feat_code",
         "feat_desc"
-      ]
+      ],
+      "geometryRepair": "GEOS MakeValid (structure method) for source polygons that fail OGC validity",
+      "repairedGeometries": 38,
+      "rejectedRecords": []
     },
     {
       "id": "fpca-jrmt",
@@ -114,14 +142,16 @@
       "frequency": "Annually",
       "featureCount": 72382,
       "rejectedRecords": [],
-      "sha256": "180904e9c04cb9c66408fab859efdc3f1ec8bb19422c1fd81f4a6f5abb89300e",
+      "sha256": "bb6712345ee06f4e541788e086d0239be705ae105d307afd40ca73f58796635e",
       "licenceUrl": "https://support.novascotia.ca/services/open-data-portal-licence",
-      "geometryTransform": "Topology-preserving simplification, 2 metre tolerance",
+      "geometryTransform": "Topology-preserving simplification, 0.000018 degree tolerance (at most 2 metres on the ground in Nova Scotia)",
       "fields": [
         "source_row_id",
         "feat_code",
         "feat_desc"
-      ]
+      ],
+      "geometryRepair": "GEOS MakeValid (structure method) for source polygons that fail OGC validity",
+      "repairedGeometries": 142
     },
     {
       "id": "7bqh-hssn",
@@ -140,11 +170,15 @@
         "name",
         "fullname",
         "featdesc"
-      ]
+      ],
+      "geometryRepair": "GEOS MakeValid (structure method) for source polygons that fail OGC validity",
+      "repairedGeometries": 0,
+      "rejectedRecords": []
     }
   ],
   "validation": {
-    "longPointRoad": "Chisholm-MacLean Rd"
+    "longPointRoad": "Chisholm-MacLean Rd",
+    "judiqueWoodlandVerticesPerRing": 37.8
   },
   "supplemental": "OpenStreetMap via OpenFreeMap: ocean context, grass, farmland, settlement areas and building footprints."
 }

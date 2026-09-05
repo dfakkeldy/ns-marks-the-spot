@@ -25,11 +25,37 @@ SOURCES = {
     'woodland': ('xed8-vvg5', 'feat_code,feat_desc'),
     'boundaries': ('7bqh-hssn', 'objectid,name,fullname,featdesc'),
 }
-MINZOOMS = {'roads_major': 5, 'roads_local': 10, 'roads_access': 12,
-            'names': 5, 'water': 7, 'waterways': 11, 'woodland': 8, 'boundaries': 6}
 MAXZOOM = 13
+# Woodland keeps its downloaded detail only where a screen can show it. Each
+# band is a separately generalized copy merged into the same 'woodland' tile
+# layer: the tolerance is half a pixel and the smallest kept ring is one pixel
+# at the top zoom of the band, so sub-pixel detail never inflates the tiles.
+WOODLAND_BANDS = (
+    # (layer, minzoom, maxzoom, tolerance in degrees, minimum ring area in square degrees, transform)
+    ('woodland', 12, MAXZOOM, None, None, None),
+    ('woodland_z10', 10, 11, 0.00022, 3.3e-7,
+     'Topology-preserving simplification, 0.00022 degree tolerance (about 25 metres, half a pixel at zoom 11); '
+     'rings smaller than 0.00000033 square degrees (about one zoom-11 pixel) dropped'),
+    ('woodland_z8', 8, 9, 0.0009, 5.3e-6,
+     'Topology-preserving simplification, 0.0009 degree tolerance (about 100 metres, half a pixel at zoom 9); '
+     'rings smaller than 0.0000053 square degrees (about one zoom-9 pixel) dropped'),
+)
+ZOOMS = {'roads_major': (5, MAXZOOM), 'roads_local': (10, MAXZOOM), 'roads_access': (12, MAXZOOM),
+         'names': (5, MAXZOOM), 'water': (7, MAXZOOM), 'waterways': (11, MAXZOOM), 'boundaries': (6, MAXZOOM),
+         **{layer: (low, high) for layer, low, high, *_ in WOODLAND_BANDS}}
 LICENCE = 'https://support.novascotia.ca/services/open-data-portal-licence'
 ATTRIBUTION = 'Contains information licensed under the Open Government Licence – Nova Scotia'
+# Socrata applies the simplify_preserve_topology tolerance in the geometry's own
+# units, which are degrees for this WGS84 dataset, even though the SoQL
+# documentation calls it metres. A tolerance of 2 collapsed 93% of woodland
+# rings to triangles (verified 2026-09-05). 0.000018 degrees is 2.0 m
+# north-south and about 1.4 m east-west across Nova Scotia, so no vertex moves
+# more than two metres on the ground.
+WOODLAND_TOLERANCE_DEGREES = 0.000018
+WOODLAND_TRANSFORM = ('Topology-preserving simplification, 0.000018 degree tolerance '
+                      '(at most 2 metres on the ground in Nova Scotia)')
+POLYGON_SOURCES = ('water', 'woodland', 'boundaries')
+GEOMETRY_REPAIR = 'GEOS MakeValid (structure method) for source polygons that fail OGC validity'
 
 
 def fetch(url):
@@ -46,6 +72,80 @@ def fetch(url):
 def query(source_id, **params):
     return fetch('https://data.novascotia.ca/resource/' + source_id + '.json?' +
                  urllib.parse.urlencode({'$' + k: v for k, v in params.items()}))
+
+
+def woodland_geometry_expression():
+    return f'simplify_preserve_topology(the_geom, {WOODLAND_TOLERANCE_DEGREES:.6f})'
+
+
+def polygonal_parts(geom):
+    from osgeo import ogr
+    kind = ogr.GT_Flatten(geom.GetGeometryType())
+    if kind == ogr.wkbPolygon:
+        return [] if geom.IsEmpty() else [geom]
+    if kind in (ogr.wkbMultiPolygon, ogr.wkbGeometryCollection):
+        return [part for i in range(geom.GetGeometryCount()) for part in polygonal_parts(geom.GetGeometryRef(i))]
+    return []
+
+
+def repair_polygon(geom):
+    """Return (geometry, repaired) with the source polygon made OGC-valid.
+
+    GEOS clipping silently drops an invalid polygon from every tile it crosses and
+    the browser triangulator draws slivers across ring crossings, so repair the
+    ring structure before tiling instead of guessing at it later. The structure
+    method keeps the covered area and never turns a polygon into lines or points;
+    a polygon with no area left comes back as None so the caller can quarantine
+    it in the receipt.
+    """
+    from osgeo import gdal, ogr
+    with gdal.quiet_errors():
+        if geom.IsValid():
+            return geom, False
+    fixed = geom.MakeValid(['METHOD=STRUCTURE', 'KEEP_COLLAPSED=NO'])
+    parts = polygonal_parts(fixed) if fixed is not None else []
+    if not parts:
+        return None, True
+    if len(parts) == 1 and ogr.GT_Flatten(fixed.GetGeometryType()) == ogr.wkbPolygon:
+        return fixed, True
+    result = ogr.Geometry(ogr.wkbMultiPolygon)
+    for part in parts:
+        result.AddGeometry(part)
+    return result, True
+
+
+def generalize(geom, tolerance, min_ring_area):
+    """Return a display copy for a lower zoom band, or None if nothing visible remains."""
+    from osgeo import ogr
+    parts = []
+    for polygon in polygonal_parts(geom):
+        outer = polygon.GetGeometryRef(0)
+        if outer.GetArea() < min_ring_area:
+            continue
+        kept = ogr.Geometry(ogr.wkbPolygon)
+        kept.AddGeometry(outer)
+        for i in range(1, polygon.GetGeometryCount()):
+            ring = polygon.GetGeometryRef(i)
+            if ring.GetArea() >= min_ring_area:
+                kept.AddGeometry(ring)
+        parts.append(kept)
+    if not parts:
+        return None
+    if len(parts) == 1:
+        result = parts[0]
+    else:
+        result = ogr.Geometry(ogr.wkbMultiPolygon)
+        for part in parts:
+            result.AddGeometry(part)
+    result = result.SimplifyPreserveTopology(tolerance)
+    return None if result is None or result.IsEmpty() else result
+
+
+def rings_of(geom):
+    from osgeo import ogr
+    if ogr.GT_Flatten(geom.GetGeometryType()) == ogr.wkbPolygon:
+        return [geom.GetGeometryRef(i) for i in range(geom.GetGeometryCount())]
+    return [ring for i in range(geom.GetGeometryCount()) for ring in rings_of(geom.GetGeometryRef(i))]
 
 
 def validate_release(before, after, expected, actual):
@@ -107,8 +207,8 @@ def download(source, work):
         raise ValueError(f'{source}: open-government licence must be reviewed')
     stamp = meta['rowsUpdatedAt']
     expected = int(query(source_id, select='count(*)')[0]['count'])
-    geometry_expression = 'simplify_preserve_topology(the_geom, 2) as the_geom' if source == 'woodland' else 'the_geom'
-    suffix = '-topology2m' if source == 'woodland' else ''
+    geometry_expression = f'{woodland_geometry_expression()} as the_geom' if source == 'woodland' else 'the_geom'
+    suffix = f'-topology{WOODLAND_TOLERANCE_DEGREES:.6f}deg' if source == 'woodland' else ''
     path = work / f'{source}-{stamp}{suffix}.geojsonl'
     receipt_path = path.with_suffix('.receipt.json')
     if path.exists() and receipt_path.exists():
@@ -166,7 +266,7 @@ def download(source, work):
                'released': datetime.datetime.fromtimestamp(stamp, datetime.timezone.utc).isoformat(),
                'frequency': meta.get('metadata', {}).get('custom_fields', {}).get('Detailed Metadata', {}).get('Frequency'),
                'featureCount': count, 'rejectedRecords': rejected, 'sha256': sha256(path), 'licenceUrl': LICENCE,
-               'geometryTransform': 'Topology-preserving simplification, 2 metre tolerance' if source == 'woodland' else 'None before tiling',
+               'geometryTransform': WOODLAND_TRANSFORM if source == 'woodland' else 'None before tiling',
                'fields': ['source_row_id', *fields.split(',')]}
     receipt_path.write_text(json.dumps(receipt, indent=2) + '\n')
     return path, receipt
@@ -187,7 +287,19 @@ def build(work, output):
     srs.ImportFromEPSG(4326)
     srs.SetAxisMappingStrategy(osr.OAMS_TRADITIONAL_GIS_ORDER)
     layers, counts = {}, {}
-    for source, (path, _) in downloaded.items():
+    repairs = {source: 0 for source in SOURCES}
+    collapsed = {source: [] for source in SOURCES}
+
+    def prepared_layer(source, name):
+        if name not in layers:
+            layer = database.CreateLayer(name, srs, ogr.wkbUnknown)
+            for field in ['source_row_id', *SOURCES[source][1].split(',')]:
+                layer.CreateField(ogr.FieldDefn(field, ogr.OFTString))
+            layers[name] = layer
+            counts[name] = 0
+        return layers[name]
+
+    for source, (path, receipt) in downloaded.items():
         print(f'Preparing {source}', flush=True)
         database.StartTransaction()
         with path.open() as stream:
@@ -197,27 +309,41 @@ def build(work, output):
                     continue
                 properties = feature['properties']
                 name = feature_layer(source, properties)
-                if name not in layers:
-                    layer = database.CreateLayer(name, srs, ogr.wkbUnknown)
-                    for field in ['source_row_id', *SOURCES[source][1].split(',')]:
-                        layer.CreateField(ogr.FieldDefn(field, ogr.OFTString))
-                    layers[name] = layer
-                    counts[name] = 0
                 geom = ogr.CreateGeometryFromJson(json.dumps(feature['geometry']))
                 geom.FlattenTo2D()
+                if source in POLYGON_SOURCES:
+                    geom, repaired = repair_polygon(geom)
+                    repairs[source] += repaired
+                    if geom is None:
+                        collapsed[source].append({'sourceRowId': properties['source_row_id'],
+                                                  'reason': 'geometry-collapsed-on-repair'})
+                        continue
                 if geom.IsEmpty():
                     raise ValueError(f'{source}: empty geometry')
                 envelope = geom.GetEnvelope()
                 if not (-68 < envelope[0] <= envelope[1] < -57 and 42 < envelope[2] <= envelope[3] < 49):
                     raise ValueError(f'{source}: geometry outside expected geographic extent: {envelope}')
-                record = ogr.Feature(layers[name].GetLayerDefn())
-                record.SetGeometry(geom)
-                for key, value in properties.items():
-                    if value is not None:
-                        record.SetField(key, value)
-                layers[name].CreateFeature(record)
-                counts[name] += 1
+                targets = [(name, geom)]
+                if source == 'woodland':
+                    targets += [(band, generalize(geom, tolerance, min_ring_area))
+                                for band, _, _, tolerance, min_ring_area, _ in WOODLAND_BANDS if tolerance]
+                for target, target_geom in targets:
+                    layer = prepared_layer(source, target)
+                    if target_geom is None:
+                        continue
+                    record = ogr.Feature(layer.GetLayerDefn())
+                    record.SetGeometry(target_geom)
+                    for key, value in properties.items():
+                        if value is not None:
+                            record.SetField(key, value)
+                    layer.CreateFeature(record)
+                    counts[target] += 1
         database.CommitTransaction()
+        if source in POLYGON_SOURCES:
+            receipt['geometryRepair'] = GEOMETRY_REPAIR
+            receipt['repairedGeometries'] = repairs[source]
+            receipt['rejectedRecords'] = receipt.get('rejectedRecords', []) + collapsed[source]
+            print(f'{source}: repaired {repairs[source]} invalid polygons, quarantined {len(collapsed[source])}', flush=True)
     layer = None
     layers.clear()
     database = None
@@ -240,8 +366,8 @@ def package(work, output, downloaded, counts):
     archive = work / 'provincial.pmtiles'
     if archive.exists():
         archive.unlink()
-    config = {name: {'target_name': 'roads' if name.startswith('roads_') else name,
-                     'minzoom': zoom, 'maxzoom': MAXZOOM} for name, zoom in MINZOOMS.items()}
+    config = {name: {'target_name': name.split('_')[0], 'minzoom': low, 'maxzoom': high}
+              for name, (low, high) in ZOOMS.items()}
     # Use the same GDAL runtime as preparation rather than an unrelated binary
     # earlier on PATH (older PMTiles drivers can crash on this conversion).
     print('Generating provincial vector tiles', flush=True)
@@ -264,6 +390,24 @@ def package(work, output, downloaded, counts):
     if not any(f.GetField('street') == 'Chisholm-MacLean Rd' for f in roads):
         raise ValueError('Generated tiles lost Chisholm-MacLean Rd in Long Point')
     tiles = None
+    # A mis-scaled simplification tolerance once collapsed woodland rings to
+    # triangles; the archive must keep real ring detail at the native maximum
+    # zoom. Measured near Judique, where the defect was reported.
+    tiles = gdal.OpenEx(str(archive), gdal.OF_VECTOR, open_options=[f'ZOOM_LEVEL={MAXZOOM}'])
+    woodland = tiles.GetLayerByName('woodland')
+    west, south, _ = transform.TransformPoint(-61.52, 45.86)
+    east, north, _ = transform.TransformPoint(-61.46, 45.90)
+    woodland.SetSpatialFilterRect(west, south, east, north)
+    rings = points = 0
+    for feature in woodland:
+        if feature.GetField('feat_desc') == 'TREE AREA polygon':
+            for ring in rings_of(feature.GetGeometryRef()):
+                rings += 1
+                points += ring.GetPointCount()
+    vertices_per_ring = round(points / rings, 1) if rings else 0
+    if vertices_per_ring < 8:
+        raise ValueError(f'Generated woodland rings near Judique average {vertices_per_ring} vertices; ring detail was lost')
+    tiles = None
     digest = sha256(archive)
     output.mkdir(parents=True, exist_ok=True)
     filename = f'ns-{digest[:16]}.pmtiles'
@@ -273,9 +417,14 @@ def package(work, output, downloaded, counts):
                'generator': 'tools/build_provincial_atlas.py', 'gdalVersion': gdal.VersionInfo('--version'),
                'minzoom': 5, 'maxzoom': MAXZOOM, 'extent': 8192,
                'attribution': ATTRIBUTION, 'licenceUrl': LICENCE,
-               'coverage': 'Nova Scotia', 'layerCounts': counts,
+               'coverage': 'Nova Scotia',
+               'layerCounts': {name: count for name, count in counts.items() if name in SOURCES or name.startswith('roads_')},
+               'zoomBands': {'woodland': [{'layer': layer, 'minzoom': low, 'maxzoom': high, 'features': counts.get(layer, 0),
+                                           'geometryTransform': transform or downloaded['woodland'][1]['geometryTransform']}
+                                          for layer, low, high, _, _, transform in WOODLAND_BANDS]},
                'sources': [r for _, r in downloaded.values()],
-               'validation': {'longPointRoad': 'Chisholm-MacLean Rd'},
+               'validation': {'longPointRoad': 'Chisholm-MacLean Rd',
+                              'judiqueWoodlandVerticesPerRing': vertices_per_ring},
                'supplemental': 'OpenStreetMap via OpenFreeMap: ocean context, grass, farmland, settlement areas and building footprints.'}
     pending = output / 'source.pending.json'
     pending.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + '\n')
