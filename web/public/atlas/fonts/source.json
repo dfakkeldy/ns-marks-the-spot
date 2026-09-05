@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 2,
+  "generator": "scripts/buildAtlasGlyphs.mjs",
+  "method": "Each glyph outline is read from the pinned TrueType file, rasterized at 24 px with node-canvas and converted to a signed distance field (3 px buffer, radius 8, cutoff 0.25) following fontnik / sdf-glyph-foundry conventions; top is measured from the hhea ascender.",
+  "rangeSize": 256,
+  "rangesPerStack": 256,
+  "fonts": [
+    {
+      "stack": "Atlas Serif Regular",
+      "derivedFrom": "Libre Baskerville Regular 2.005",
+      "family": "Libre Baskerville",
+      "style": "Regular",
+      "version": "2.005",
+      "source": {
+        "url": "https://raw.githubusercontent.com/impallari/Libre-Baskerville/9852edf75ece3af500a5ec61245f94788c3d4633/fonts/ttf/LibreBaskerville-Regular.ttf"
+      },
+      "sha256": "df9fddf43dbd7de435c316b86a52b3d6b3ad2f6fb2ed3f6fd8bdc1835f30eec1",
+      "unitsPerEm": 1000,
+      "ascender": 970,
+      "glyphCount": 789,
+      "licence": {
+        "name": "SIL Open Font License 1.1",
+        "file": "OFL-Libre-Baskerville.txt",
+        "reservedFontName": "Libre Baskerville"
+      }
+    },
+    {
+      "stack": "Atlas Serif Italic",
+      "derivedFrom": "Libre Baskerville Italic 2.005",
+      "family": "Libre Baskerville",
+      "style": "Italic",
+      "version": "2.005",
+      "source": {
+        "url": "https://raw.githubusercontent.com/impallari/Libre-Baskerville/9852edf75ece3af500a5ec61245f94788c3d4633/fonts/ttf/LibreBaskerville-Italic.ttf"
+      },
+      "sha256": "82d05fab9a1c07f4eb4bc891fb0043a74fba1bed27ea919f61d94dbc5b54a4f6",
+      "unitsPerEm": 1000,
+      "ascender": 970,
+      "glyphCount": 789,
+      "licence": {
+        "name": "SIL Open Font License 1.1",
+        "file": "OFL-Libre-Baskerville.txt",
+        "reservedFontName": "Libre Baskerville"
+      }
+    },
+    {
+      "stack": "Atlas Sans Regular",
+      "derivedFrom": "Noto Sans Regular 2.015",
+      "family": "Noto Sans",
+      "style": "Regular",
+      "version": "2.015",
+      "source": {
+        "archive": "https://github.com/notofonts/latin-greek-cyrillic/releases/download/NotoSans-v2.015/NotoSans-v2.015.zip",
+        "archiveSha256": "0c34df072a3fa7efbb7cbf34950e1f971a4447cffe365d3a359e2d4089b958f5",
+        "member": "NotoSans/unhinted/ttf/NotoSans-Regular.ttf"
+      },
+      "sha256": "f3961a9cde016d41a4879aecda1474d3a36d6bf54fa0e4643de029cc2248b0e8",
+      "unitsPerEm": 1000,
+      "ascender": 1069,
+      "glyphCount": 2875,
+      "licence": {
+        "name": "SIL Open Font License 1.1",
+        "file": "OFL-Noto-Sans.txt",
+        "reservedFontName": null,
+        "trademark": "Noto is a trademark of Google LLC"
+      }
+    }
+  ]
+}
