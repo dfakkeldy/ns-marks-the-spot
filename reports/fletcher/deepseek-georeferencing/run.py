@@ -97,7 +97,11 @@ def main():
     ap.add_argument("--python", required=True)
     ap.add_argument("--opencode", default="opencode")
     ap.add_argument("--workers", type=int, default=4)
-    ap.add_argument("--retry-failed", action="store_true")
+    ap.add_argument(
+        "--retry-failed",
+        action="store_true",
+        help="Retry only a failed transport/process, never a completed format or budget failure",
+    )
     args = ap.parse_args()
     if not 1 <= args.workers <= 4:
         ap.error("--workers must be 1..4")
@@ -122,8 +126,23 @@ def main():
             receipts = [json.loads(p.read_text()) for p in previous]
             if any(r.get("answer_valid") for r in receipts):
                 return cid, "already complete"
+            # Completed model outputs (including prose-wrapped JSON or an
+            # exhausted reasoning budget) are experimental outcomes, not retries.
+            if any(
+                r.get("exit_code") == 0
+                and not r.get("timed_out")
+                and r.get("completed_steps", 0) > 0
+                for r in receipts
+            ):
+                return cid, "completed model outcome retained"
             if not args.retry_failed or len(previous) >= 2:
                 return cid, "failed attempt retained"
+        # A transport retry gets the same original images and a fresh crop budget.
+        # Do not expose close-ups chosen during the failed attempt to the new session.
+        if previous:
+            (packet / ".crop-count").unlink(missing_ok=True)
+            for generated in packet.glob("*-zoom-*.png"):
+                generated.unlink()
         attempt = out / f"attempt-{len(previous) + 1}"
         attempt.mkdir()
         config = configuration(packet, args.python)

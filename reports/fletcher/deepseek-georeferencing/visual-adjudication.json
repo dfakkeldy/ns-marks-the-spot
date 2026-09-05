@@ -1,0 +1,154 @@
+{
+  "reviewer": "Codex coordinator; source crosshairs visually inspected, not an independent human/survey audit",
+  "coordinate_edits": false,
+  "correct_feature_among_numerical_passes": [
+    "K02",
+    "K12",
+    "K16",
+    "K26"
+  ],
+  "wrong_feature_among_numerical_passes": [],
+  "overall_acceptance": false,
+  "points": [
+    {
+      "case_id": "K01",
+      "verdict": "unscorable",
+      "note": "No coordinate answer: final generation exhausted its reasoning/output limit."
+    },
+    {
+      "case_id": "K02",
+      "verdict": "correct",
+      "note": "Returned coordinate lies at the reviewed southern tributary junction; 8.6 source pixels away."
+    },
+    {
+      "case_id": "K03",
+      "verdict": "false_match",
+      "note": "Wrong-region negative accepted. The explanation incorrectly assumes the historical target is at the crop centre, despite the prompt warning."
+    },
+    {
+      "case_id": "K04",
+      "verdict": "displaced_or_wrong_tip",
+      "note": "Names Mackay Point, but places the crosshair west of the reviewed southern tip, in the water beside the point."
+    },
+    {
+      "case_id": "K05",
+      "verdict": "displaced_coordinate",
+      "note": "Describes the intended River Inhabitants tributary, but the returned crosshair is downstream on the main river rather than at the reviewed junction."
+    },
+    {
+      "case_id": "K06",
+      "verdict": "borderline_displacement",
+      "note": "Identifies the upper Falls junction; returned pin is 16.1 pixels upstream, narrowly outside the frozen 15-pixel tolerance."
+    },
+    {
+      "case_id": "K07",
+      "verdict": "unsupported_match",
+      "note": "Crosshair falls away from the reviewed junction. The explanation acknowledges an east/west branch contradiction and dismisses it as rotation."
+    },
+    {
+      "case_id": "K08",
+      "verdict": "displaced_coordinate",
+      "note": "Finds the Campbell Point outlet area but places the pin southeast of the reviewed mouth; 26.4 pixels away."
+    },
+    {
+      "case_id": "K09",
+      "verdict": "wrong_branch",
+      "note": "Names Southwest Mabou River but picks a different downstream tributary; 97.6 pixels from the reviewed junction."
+    },
+    {
+      "case_id": "K10",
+      "verdict": "wrong_feature",
+      "note": "Crosshair is near the Falls/road marking west of Big Brook, far from the reviewed main-stream junction; 187.7 pixels away."
+    },
+    {
+      "case_id": "K11",
+      "verdict": "wrong_feature",
+      "note": "Chooses the road/stream crossing east of the intended tributary confluence. The difficult northwest case remains wrong; 93.1 pixels away."
+    },
+    {
+      "case_id": "K12",
+      "verdict": "correct",
+      "note": "Returned point identifies the reviewed River Denys / Plaster Brook confluence, 5.8 pixels from the reference."
+    },
+    {
+      "case_id": "K13",
+      "verdict": "false_match",
+      "note": "Wrong-region negative accepted. The main Plaster Brook fork is not in this historical window; the model chooses a different stream bend near the School."
+    },
+    {
+      "case_id": "K14",
+      "verdict": "unscorable",
+      "note": "No valid coordinate/abstention JSON in the final output; retained as execution/format failure."
+    },
+    {
+      "case_id": "K15",
+      "verdict": "unscorable",
+      "note": "No valid answer for this mismatched pair; this does not count as an explicit negative rejection."
+    },
+    {
+      "case_id": "K16",
+      "verdict": "correct",
+      "note": "Returned point identifies the reviewed confluence above the Falls, 6.3 pixels from the reference."
+    },
+    {
+      "case_id": "K17",
+      "verdict": "displaced_coordinate",
+      "note": "Returned crosshair falls in hatching northeast of the reviewed junction, 50 pixels away, despite describing a fork."
+    },
+    {
+      "case_id": "K18",
+      "verdict": "wrong_feature",
+      "note": "Returned crosshair lies by the 40-degree geological symbol well south of the reviewed tributary fork; 157.2 pixels away."
+    },
+    {
+      "case_id": "K19",
+      "verdict": "wrong_feature",
+      "note": "Returned crosshair is by the geological S symbol/road southeast of the reviewed Graham River junction, 159.2 pixels away."
+    },
+    {
+      "case_id": "K20",
+      "verdict": "wrong_feature",
+      "note": "Returned crosshair is southwest of the intended north-road stream fork, on/near hatching and the road corridor; 93.5 pixels away."
+    },
+    {
+      "case_id": "K21",
+      "verdict": "displaced_coordinate",
+      "note": "Finds the intended coastal outlet vicinity, but crosshair lies northeast of the reviewed mouth; 36.7 pixels away."
+    },
+    {
+      "case_id": "K22",
+      "verdict": "wrong_feature",
+      "note": "Chooses an upstream/central part of the brook network instead of the reviewed southern junction. The explanation again assumes the target should be at the crop centre."
+    },
+    {
+      "case_id": "K23",
+      "verdict": "displaced_coordinate",
+      "note": "Identifies the AB coastal outlet vicinity but pins southeast of the reviewed mouth; 28.3 pixels away."
+    },
+    {
+      "case_id": "K24",
+      "verdict": "false_match",
+      "note": "Accepts a wrong-region packet. Rough Brook in the historical window is not the modern C3 junction; the asserted locality match has no support."
+    },
+    {
+      "case_id": "K25",
+      "verdict": "wrong_feature",
+      "note": "Picks a bend upstream on Rough Brook instead of the reviewed tributary confluence; 96.2 pixels away."
+    },
+    {
+      "case_id": "K26",
+      "verdict": "correct",
+      "note": "Identifies the reviewed confluence south of River Denys Road; pin is slightly southwest, 14.2 pixels away and within the frozen tolerance."
+    },
+    {
+      "case_id": "K27",
+      "verdict": "wrong_feature",
+      "note": "Describes the north tributary context but places the crosshair near the AB 3 geological marking south of the reviewed water junction; 59.0 pixels away."
+    },
+    {
+      "case_id": "K28",
+      "verdict": "wrong_branch",
+      "note": "Names Mc Phail Brook but picks a point well upstream/east of the reviewed fork; 154.0 pixels away."
+    }
+  ]
+}

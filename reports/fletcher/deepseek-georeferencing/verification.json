@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-05",
+  "trial_unit_tests": {
+    "passed": 4
+  },
+  "existing_fletcher_tests": {
+    "passed": 257,
+    "log_sha256": "9b92e1f6fcdc200b093e0d505889277987eea79ba76e05d17e729965c7252865"
+  },
+  "ruff": "passed; frozen crop.py excluded to preserve packet hash",
+  "git_diff_check": "passed",
+  "archived_raw_text_sha256": "all 28 verified against original run receipts",
+  "strict_and_normalized_score_replay": "byte-identical from archived raw text and receipts; no API calls",
+  "original_run_artifact_sha256": "all receipt-listed files verified locally",
+  "input_packet_sha256": "all 112 images and 28 helper copies verified locally",
+  "packet_rebuild": "reference manifest byte-identical with all packet hashes",
+  "model_receipts": "28/28 match requested deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+  "max_successful_zoom_calls_per_case": 2,
+  "visual_audit": "all 25 returned crosshairs inspected; four numerical passes identify intended features",
+  "production_changes": false,
+  "hosted_ci": "separate PR checks; not inferred from local verification"
+}

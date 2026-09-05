@@ -1,0 +1,392 @@
+[
+  {
+    "case_id": "K01",
+    "answer_valid": false,
+    "answer": null
+  },
+  {
+    "case_id": "K02",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K02",
+      "status": "match",
+      "historical_xy": [
+        575,
+        372
+      ],
+      "evidence": "The main river runs NW-SE through the red report points (left ~105,290; middle ~445,360; right cluster ~700,400), matching the modern east-west main river. The red-ring junction in modern is a confluence where a southward tributary leaves the main river (long branch reaching bottom), with a second southward branch further east. In the historical, the corresponding southward tributary leaves the main river at ~575,375 and runs far south, with an eastern second southward branch (~640->665,620), matching the branch order of the modern ring. The middle red ellipse at ~445,360 is an alternative central report-marked point, but the ring's southward-tributary topology best matches the 575,375 junction."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K03",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K03",
+      "status": "match",
+      "historical_xy": [
+        398,
+        365
+      ],
+      "evidence": "Modern red ring marks a 3-way confluence where a north/northeast tributary joins an east-west river, at the map center. Because the historical detail is centred on the same target, the matching feature is the only confluence near detail centre (~400,400): the meandering G1/McPhail branch stream at ~(398,365), where a small feeder joins before the stream continues southwest. Minor-feature rendering differs (historical feeder is a short NW stub vs a fuller modern NNE tributary; the historical stream is drawn more meandering/NE-SW while modern is straighter), but the junction topology and central placement both match."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K04",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K04",
+      "status": "match",
+      "historical_xy": [
+        480,
+        218
+      ],
+      "evidence": "Red-ringed feature is a coastal tip where two water branches converge and a road leads out to it. Historical counterpart is Mackay Point: the point of land jutting west into the sea on the coastline, with the John Gillis residence (small square building at ~505,200) and survey roads nearby. The westernmost tip of this cape lies around x=480,y=218. Contradiction/limitation: the historical land-parcel survey omits the minor stream confluence drawn in the modern layer, so only the point/road/residence topology, not the two-channel splice, is visible."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K05",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K05",
+      "status": "match",
+      "historical_xy": [
+        535,
+        285
+      ],
+      "evidence": "Red-ring target is a three-arm junction on a meandering N-S river where an ENE tributary joins (upstream N / downstream S / ENE arm). The historical Indian River has the same structure at the 'Falls' confluence: the labeled Falls stream (falls tick, ~715,170) descends SW and joins the Indian River's main stem near x\u2248510-540, y\u2248270-295, just above the horizontal road line. Branch directions and nearby road relationship match; no contradictory evidence found."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K06",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K06",
+      "status": "match",
+      "historical_xy": [
+        238,
+        503
+      ],
+      "evidence": "Modern red ring is a 3-way water junction: main east\u2013west river meets a steep south (down) branch plus a gentle SE continuation. In the historical detail the main river runs west\u2192east through the upper 'Falls', where a southward tributary diverges, descending through the lower 'Falls' and onward to the '31 Ft.' fall \u2014 the same topology (west main line + steep south branch + gentle east continuation). Junction placed just under the upper 'Falls' at ~(238,503), with railway hatch marks running along the valley consistent with the modern grey road. Branch directions and falls sequence support the match."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K07",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K07",
+      "status": "match",
+      "historical_xy": [
+        348,
+        321
+      ],
+      "evidence": "Target is a 3-way stream confluence. In the historical detail this corresponds to the confluence at 'Widow M'Leod' where the main north-south stream is joined from the upper-right (NE, toward the 55-degree dip marker) by a tributary, forming a central junction matching the modern ring. Main stream throughflow (N-S historical / NE-S at ring) aligns. Minor caveat: the joining tributary reads from the upper-right in the historical frame vs the ring's left/W side-tributary, likely from survey-sheet rotation, but the labeled central confluence is the clear counterpart."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K08",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K08",
+      "status": "match",
+      "historical_xy": [
+        268,
+        346
+      ],
+      "evidence": "Red ring in modern is a coastal stream outlet (sea west, a stream from a small pond NE meets the coast, stream continues S), just SE of a hook/spit harbor. Historical matches this as the river-mouth notch/bay on the west coast at detail ~(275,347): bay opening west with a stream flowing SE inland and an N-S lot boundary nearby, in the same coastal sector near Graham River/Shop. Coastline (spit/harbor then coast heading S) is consistent; the pond NE of the ring is not drawn, and distortion alters branch detail, but the outlet-with-inland-stream topology matches."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K09",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K09",
+      "status": "match",
+      "historical_xy": [
+        545,
+        415
+      ],
+      "evidence": "Red ring marks a confluence on a river flowing SE; historical 'Southwest Mahou River' (lot AB 3, orange parcel) has a matching junction where a thin tributary joins the main stem just below the 'Mahou' label near the hatched bench-marks, then continues SE. Branch directions (NW upstream + tributary, SE outflow) and parcel landmarks corroborate. Minor tributaries differ in number between maps; exact junction placement is approximate."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K10",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K10",
+      "status": "match",
+      "historical_xy": [
+        350,
+        468
+      ],
+      "evidence": "Modern red ring marks a confluence where a western tributary joins the main N-S stream, near converging roads. Historical counterpart is the Big Brook junction: a west tributary joins the main brook stem just above the 'Big Brook' label, adjacent to the '40\u00b0'/'Falls 15' marks and the 'P.O.' settlement, with roads converging nearby. Placed on the actual junction rather than the name. Minor distortion between maps makes the exact centroid approximate but topology matches."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K11",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K11",
+      "status": "match",
+      "historical_xy": [
+        370,
+        372
+      ],
+      "evidence": "Historical stream confluence just north of the 'School' where a tributary from the north joins an east-west stream at the diagonal road crossing; matches the modern red-ring junction which shows tributaries entering from N/NW and splitting to SW and E. Branches and local road relationship correspond; maps differ in distortion/which minor features are drawn."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K12",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K12",
+      "status": "match",
+      "historical_xy": [
+        450,
+        508
+      ],
+      "evidence": "Y-junction confluence in historical detail where a stream from the upper-right/N and a west-flowing stream (gentle meanders) meet and continue south \u2014 matching the red-ring confluence in the modern reference near the River Denys / Cross Roads area. The combined south-flowing tail and the W branch with wiggles align topologically. No contradictory fork patterns observed; modest uncertainty from slight N-vs-NE branch orientation due to map distortion."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K13",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K13",
+      "status": "match",
+      "historical_xy": [
+        368,
+        456
+      ],
+      "evidence": "Modern red ring marks a 3-way stream confluence near crop centre where a north branch and a northeast branch merge and continue south/southwest. In the historical detail the corresponding stream descends from the top edge just left of centre, passes the two building dots near (375,422), bends near (368,456) and continues southwest toward the 'School' label, co-located with the ring. Contradictory/uncertain: the northeast arm is faint and partly obscured by a thin road line and striped hatching, so the exact fork point is approximate."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K14",
+    "answer_valid": false,
+    "answer": null
+  },
+  {
+    "case_id": "K15",
+    "answer_valid": false,
+    "answer": null
+  },
+  {
+    "case_id": "K16",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K16",
+      "status": "match",
+      "historical_xy": [
+        510,
+        385
+      ],
+      "evidence": "Three-arm Y-confluence: main river arriving from the west meets a northern (Dennistown) stream and continues as the 'Falls' branch toward the southeast (Graham's River drainage); situated north of the east-west 'Old River' line, matching the modern ring's W + N arms with a south/southeast outlet. The fork sits just NW of the 'Falls' label at ~(510,385). Contradictory note: the two maps are not pixel-aligned (the ring's nominal centre region is empty on the historical sheet), so the match rests on branch topology and the Falls/landmark relationship rather than raw position."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K17",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K17",
+      "status": "match",
+      "historical_xy": [
+        425,
+        452
+      ],
+      "evidence": "Modern red ring at ~(397,398) is an inland water confluence with a west incoming stream splitting into NE, S and SE branches. The historical detail's main east-flowing stream (passing Mill -> 43\u00b0 -> 16\u00b0 -> 26\u00b0) reaches a fork near the 20\u00b0 label (~430,448) where a NW tributary (16\u00b0) joins and it splits toward a south (78\u00b0) branch and onward to the coastline on the right, matching the ring's branch directions and landward position. Minor residual uncertainty in exact branch placement due to map distortion between the two sources."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K18",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K18",
+      "status": "match",
+      "historical_xy": [
+        425,
+        405
+      ],
+      "evidence": "Modern red ring ~(397,398) marks the junction of a northward-descending stream with the main east-west river, just north of the main bank. Historical detail shows the matching meandering tributary that descends from the north, loops, and hooks into the east-west main river under the 'Report for 1879-80, Page 104 F.' text near the center. Orientation and branch pattern (single north tributary meeting the west-to-east main river) correspond. Minor uncertainty remains on the exact fork pixel; the feature clearly lies at the stream meander/junction near center."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K19",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K19",
+      "status": "match",
+      "historical_xy": [
+        408,
+        410
+      ],
+      "evidence": "Modern red ring sits at a Y-confluence (north descending river + west branch, continuing east/southeast) at study centre. Historical detail at the same centre shows the 'S' river meander (~385,420) fed from the north off the Graham River system, with a west branch from Denys Road joining in, and the combined flow continuing NE/E toward the double-dash road and the two small dot-diamonds at ~(445,445). This matches the same N-fed confluence and its E/W branch pattern. Rounded coordinate placed on the water junction just NE of the 'S' letter."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K20",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K20",
+      "status": "match",
+      "historical_xy": [
+        300,
+        630
+      ],
+      "evidence": "North-south stream from the top descends to a fork where it meets the Denys Road crossing (road passes just west, matching the road immediately west of the modern ring), with the Rory Chisholm settlement extending eastward along the road, corresponding to the modern target's eastward river branch. The stream's descent path and road-adjacent branch topology are consistent between the maps."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K21",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K21",
+      "status": "match",
+      "historical_xy": [
+        514,
+        302
+      ],
+      "evidence": "Modern red ring marks a junction on the main N-S creek where an eastern branch enters a braided/marsh wetland (grey road runs parallel to the east). In the historical detail, a meandering marsh stream with spring dots flows westward out of the cross-hatch marsh and meets the near-coastal channel at about (514,302), forming the same eastward-branching confluence. This is the only coastal junction in the detail with that fork geometry. Minor coastal-shape distortion and differing scale between the maps prevent an exact pixel correspondence, but branch direction and marsh/road relationship match."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K22",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K22",
+      "status": "match",
+      "historical_xy": [
+        400,
+        403
+      ],
+      "evidence": "Modern red ring sits on a 3-way water confluence at ~(400,397): a main stream enters from the NW and continues south through the junction, with an eastern (ESE) tributary joining there. Historical central brook network shows the same topology at ~(400,403): a wavy NW arm descends from upper-left to a confluence, an east arm runs toward the '20\u00b0' area, and a south arm continues down \u2014 the same N-S through-flow with an eastern tributary. Location coincides with the detail's targeted centre as expected. Minor deviation: the southern tributary's approach angle differs (modern SSW vs historical SSE), attributable to bog distortion; branch connectivity matches."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K23",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K23",
+      "status": "match",
+      "historical_xy": [
+        388,
+        508
+      ],
+      "evidence": "Modern red ring marks a mid-coast creek outlet on the west-facing shoreline where a blue stream branches east and a grey road runs parallel just east of it, crossing the creek. The historical counterpart is the red-labelled 'AB.' coastal inlet: a winding creek (black line) flows in from the NE into the AB. channel, which connects west via the orange channel to the sea (cream water area); the road/coastline line runs parallel and crosses the channel just inland of the mouth. Coordinate placed at the seaward mouth of the AB. outlet at approx (388, 508). Minor contradictory note: exact branch curvature/direction and the creek-vs-coast angle differ slightly between maps due to distortion, but the road-crosses-creek-at-coast relationship and mid-coast position support the match."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K24",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K24",
+      "status": "match",
+      "historical_xy": [
+        398,
+        402
+      ],
+      "evidence": "Modern red ring marks a stream confluence at map centre where a north-flowing branch meets an eastward branch. The historical detail's central feature is Rough Brook, a bold watercourse flowing NW\u2192SE through the centre with a tributary branch diverging near the middle; the 'Don McIsaac' label (west) and 'Report for 1879-80 / Page 13 F' text confirm the same locality. The fork/bend on Rough Brook slightly left of centre matches the target junction. No contradictory fork pattern; central branch directions align."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K25",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K25",
+      "status": "match",
+      "historical_xy": [
+        420,
+        445
+      ],
+      "evidence": "Modern red ring is a 3-way water fork (stream from NW splitting into E and SW branches, with a road cluster to the east). Rough Brook in the historical detail runs NW\u2013SE through the frame center and shows a fork/elbow at ~[420,445] where a branch splits, with nearby roads to the upper right. The junction location and neighboring road relationship align; no contradictory branch geometry observed."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K26",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K26",
+      "status": "match",
+      "historical_xy": [
+        470,
+        443
+      ],
+      "evidence": "North-south stream descends near the '15\u00b0' annotation, crosses 'River Denys Road' (~470,400), and joins the east-west meandering river at the confluence (~470,443), with 'Rory Chisholm' to the east. This matches the modern red-ring confluence where the north stream crosses a grey road then meets the east-west water line (ring sits on the water V-confluence, not the higher road crossing). Topology of vertical tributary + horizontal river, road-over-crossing, and eastern settlement all agree; no contradictory evidence."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K27",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K27",
+      "status": "match",
+      "historical_xy": [
+        399,
+        296
+      ],
+      "evidence": "Modern red ring sits at a river confluence on the main E-W river (y~390) where a tributary draining the braided pond/marsh system from the north joins, just north of the E-W road. Historical counterpart is the main E-W river through the 'AB 3' oval: a tributary descending from the north (draining the pond/45-degree area) joins it at the east end of the AB 3 zone, near the small hatched working and east of the railroad bar toward the 'Mc Phersons' river label. Branch topology (north tributary into E-W main) and nearby road/railroad relationship match. No strongly contradictory evidence, though exact modern/historical scaling is approximate."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  },
+  {
+    "case_id": "K28",
+    "answer_valid": true,
+    "answer": {
+      "case_id": "K28",
+      "status": "match",
+      "historical_xy": [
+        395,
+        150
+      ],
+      "evidence": "Modern red ring marks a 3-way confluence where a NW headwater stem and a NE branch ('East Branch') join into a single SW-flowing stream, matching the historical Mc Phail Brook. In the historical detail, the East Branch (labeled 'ch'/Branch near the red G1. marker) merges with the descending stem at ~(395,150), then the brook continues south toward River Denys, mirroring the modern stream's SW continuation. No contradictory fork elsewhere in the detail shares this two-upstream-branch junction pattern."
+    },
+    "attempt": 1,
+    "format_normalized": true
+  }
+]

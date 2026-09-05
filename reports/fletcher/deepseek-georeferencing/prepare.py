@@ -113,19 +113,7 @@ for index, entry in enumerate(entries, 1):
         fill="#222222",
     )
     modern.save(packet / "modern.png")
-    helper = """from pathlib import Path
-import sys
-from PIL import Image
-root=Path(__file__).resolve().parent
-name=sys.argv[1]
-assert name in ['historical','context','modern']
-x,y,w,h=map(int,sys.argv[2:6])
-assert 0<=x<800 and 0<=y<800 and w>0 and h>0 and x+w<=800 and y+h<=800
-im=Image.open(root/(name+'.png')).crop((x,y,x+w,y+h)).resize((w*2,h*2))
-out=root/f'{name}-zoom-{x}-{y}-{w}-{h}.png'
-im.save(out)
-print(out)
-"""
+    helper = Path(__file__).with_name("crop.py").read_text()
     (packet / "crop.py").write_text(helper)
     manifest.append(
         {

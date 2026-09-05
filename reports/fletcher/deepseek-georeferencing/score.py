@@ -2,6 +2,7 @@
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import math
 import statistics
@@ -84,9 +85,19 @@ def main():
     )
     ap.add_argument("--runs", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument(
+        "--normalize-format",
+        action="store_true",
+        help="Diagnostic only: extract exactly one valid answer object from surrounding prose",
+    )
     args = ap.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
     ref = json.loads(args.reference.read_text())
+    spec = importlib.util.spec_from_file_location(
+        "trial_runner", Path(__file__).with_name("run.py")
+    )
+    runner = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(runner)
     responses = []
     receipts = []
     for case in ref["cases"]:
@@ -100,10 +111,40 @@ def main():
                     answer_valid=True,
                     answer=json.loads((path.parent / "answer.json").read_text()),
                     attempt=receipt["attempt"],
+                    format_normalized=False,
                 )
                 break
+            if (
+                args.normalize_format
+                and receipt["exit_code"] == 0
+                and not receipt["timed_out"]
+            ):
+                text = (path.parent / "final.txt").read_text()
+                candidates = []
+                for index, char in enumerate(text):
+                    if char != "{":
+                        continue
+                    try:
+                        obj, _ = json.JSONDecoder().raw_decode(text[index:])
+                        candidates.append(
+                            runner.parse_answer(json.dumps(obj), case["case_id"])
+                        )
+                    except (ValueError, TypeError, AttributeError):
+                        continue
+                if len(candidates) == 1:
+                    row.update(
+                        answer_valid=True,
+                        answer=candidates[0],
+                        attempt=receipt["attempt"],
+                        format_normalized=True,
+                    )
+                    break
         responses.append(row)
     result = score(ref, responses)
+    result["format_normalization"] = args.normalize_format
+    result["normalized_response_count"] = sum(
+        r.get("format_normalized", False) for r in responses
+    )
     result["reference_sha256"] = hashlib.sha256(args.reference.read_bytes()).hexdigest()
     for name, data in [
         ("responses.json", responses),
