@@ -1,5 +1,12 @@
 # Judique-first corrected-sheet matching results
 
+> **Source-quality correction (2026-09-05):** this experiment used a nominally
+> full-sized JPEG with visibly degraded detail. A [native-region follow-up](../extraction-pilot/README.md)
+> corrects acquisition and reruns Judique unchanged: one accepted point out of
+> 64, with error worsening from 81.8 to 88.8 m. The frozen results below remain
+> valid for their recorded inputs, but must not be described as native-resolution
+> matching results. Sheet 16 has not been rerun on a native source.
+
 **This matcher is not suitable for unattended georeferencing.** Judique yielded
 no accepted proposals. The second corrected sheet yielded three useful local
 matches, but widening the search later introduced an accepted error of 1.04 km.
