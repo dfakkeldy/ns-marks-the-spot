@@ -145,12 +145,4 @@ struct PhotoPipelineTests {
         #expect(PhotoPipeline.isoFromExif("not a date", offset: nil) == nil)
     }
 
-    @Test func targetDimensionsMatchTheWebMath() {
-        let scaled = PhotoPipeline.targetDimensions(width: 4_000, height: 3_000, longEdgePx: 2_048)
-        #expect(scaled.width == 2_048)
-        #expect(scaled.height == 1_536)
-        let tiny = PhotoPipeline.targetDimensions(width: 100, height: 50, longEdgePx: 2_048)
-        #expect(tiny.width == 100)
-        #expect(tiny.height == 50)
-    }
 }

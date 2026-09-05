@@ -2328,10 +2328,6 @@ final class OverlayViewModel {
             """
     }
 
-    func dismissLicenceSweepFailure() {
-        licenceSweepFailure = nil
-    }
-
     /// The installed layers a revocation has to sweep.
     ///
     /// Read off the catalog's own restricted set rather than a list written out
@@ -2411,22 +2407,6 @@ final class OverlayViewModel {
     static func basemapLayerID(for type: MapBaseType) -> LayerID? {
         NativeLayerTraits.basemapCapable.first {
             LayerCatalog.descriptor(for: $0)?.name == type.rawValue
-        }
-    }
-
-    func offlineStatus(for layerId: String) -> String {
-        guard let layerID = LayerID(rawValue: layerId),
-              let descriptor = LayerCatalog.descriptor(for: layerID) else {
-            return "Online"
-        }
-
-        switch NativeLayerTraits.offlinePolicy(for: descriptor) {
-        case .savedAreaDownloadable:
-            return "Downloadable"
-        case .viewedCacheOnly:
-            return "Cached when viewed"
-        case .onlineOnly:
-            return "Online"
         }
     }
 

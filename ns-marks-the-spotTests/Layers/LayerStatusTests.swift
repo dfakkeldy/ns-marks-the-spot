@@ -7,24 +7,6 @@ import Testing
 
 @MainActor
 struct LayerStatusTests {
-    @Test func fletcherReturnsDownloadable() {
-        let viewModel = OverlayViewModel.forTesting(installing: [])
-
-        #expect(viewModel.offlineStatus(for: LayerID.fletcher.rawValue) == "Downloadable")
-    }
-
-    @Test func nsAerialReturnsCachedWhenViewed() {
-        let viewModel = OverlayViewModel.forTesting(installing: [])
-
-        #expect(viewModel.offlineStatus(for: LayerID.nsAerial.rawValue) == "Cached when viewed")
-    }
-
-    @Test func unknownLayerReturnsOnline() {
-        let viewModel = OverlayViewModel.forTesting(installing: [])
-
-        #expect(viewModel.offlineStatus(for: "unknown") == "Online")
-    }
-
     @Test func selectingNSAerialBasemapTurnsLayerVisible() {
         let viewModel = OverlayViewModel.forTesting(installing: [.nsAerial])
 

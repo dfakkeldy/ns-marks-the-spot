@@ -4969,6 +4969,19 @@ a {
   overflow-wrap: anywhere;
 }
 
+/* Flow notices through columns so a long licence paragraph does not make
+   every short attribution in the same grid row equally tall. */
+.print-research-summary .print-required-attribution {
+  display: block;
+  columns: 2;
+  column-gap: 4mm;
+}
+
+.print-research-summary .print-required-attribution h2,
+.print-research-summary .print-attribution-links {
+  column-span: all;
+}
+
 .print-research-summary .print-attribution-links {
   display: block;
   line-height: 1.15;

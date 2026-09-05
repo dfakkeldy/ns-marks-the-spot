@@ -948,8 +948,7 @@ describe("NS Marks The Spot Online", () => {
     // accessibility tree with them. While the rail's "Explore Nova Scotia"
     // was the only h1, a phone reached the map with no page heading at all,
     // so what this pins is where the heading sits rather than how it looks.
-    // styles.test.ts pins the two rules it has to stay clear of, because
-    // jsdom loads no stylesheet and cannot be asked which width it is at.
+    // jsdom does not apply the stylesheet; this checks placement only.
     expect(headings[0].closest(".app-header, .layer-rail")).toBeNull();
   });
 
@@ -6491,10 +6490,8 @@ describe("georeferencer", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent(
       "georeferencing: scan-1",
     );
-    // Spec: the georeferencer hides the layer rail so the panel can take the
-    // left ~45% and the app map keep the right ~55%. styles.test.ts pins the
-    // RULE; this pins the class actually being on the element, because a rule
-    // with nothing to match is invisible to every test in this repo.
+    // Georeferencing layout rules need this class on the shell.
+    // Rendered panel and map access are checked in e2e/layout.spec.ts.
     expect(document.querySelector(".app-shell.georeferencing")).not.toBeNull();
     // Still 1, not 2: the map under edit is drawn by the georeferencer's own
     // draft, so the saved-map layer must not also draw it — that would be two

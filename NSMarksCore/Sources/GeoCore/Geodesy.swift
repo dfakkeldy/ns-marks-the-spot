@@ -142,8 +142,7 @@ extension Geodesy {
 
 extension Geodesy {
     /// Equirectangular metres about `reference`. Parcel-edge lengths make the
-    /// planar error micrometres — six-plus orders below any snap radius —
-    /// matching `web/src/services/geodesy.ts` `localMetricProjection`.
+    /// planar error micrometres — six-plus orders below any snap radius.
     public struct LocalMetricFrame: Sendable {
         public let reference: GeoPoint
         let metresPerLatDegree: Double

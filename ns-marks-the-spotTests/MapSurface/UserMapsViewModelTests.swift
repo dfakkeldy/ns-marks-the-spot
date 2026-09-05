@@ -630,6 +630,22 @@ struct DamagedLibraryTests {
 
 @Suite("What a file's orientation tag is allowed to do")
 struct UserMapOrientationTests {
+    @Test("Imported previews preserve small images and cap large images", arguments: [
+        (640, 480, 640, 480),
+        (8192, 1024, 4096, 512),
+    ])
+    func previewDimensionsFollowTheActualDecoder(
+        width: Int, height: Int, previewWidth: Int, previewHeight: Int
+    ) throws {
+        let imported = try UserMapImporter.import(
+            data: try image(width: width, height: height, type: .png),
+            id: "preview-size", name: "Sheet"
+        )
+        #expect(imported.record.pixelSize == PixelSize(width: Double(width), height: Double(height)))
+        #expect(imported.preview.width == previewWidth)
+        #expect(imported.preview.height == previewHeight)
+    }
+
     @Test("The mark reads back in the corner it was painted in")
     func theMeasurementFindsTheMarkWhereItWasPut() throws {
         // The check on the check. Every assertion below is a claim about where

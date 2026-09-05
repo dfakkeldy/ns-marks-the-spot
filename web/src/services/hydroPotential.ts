@@ -9,17 +9,6 @@ export type HydroPotentialClass =
   | "kw-30-50"
   | "over-50kw";
 
-export type HydroTerrainInputs = {
-  upstreamAreaKm2: number;
-  dropThresholdMetres: number;
-  downstreamRouteLengthKm: number;
-};
-
-export type HydroTerrainMetrics = {
-  averageFallMetresPerKm: number;
-  screeningValue: number;
-};
-
 const POTENTIAL_COLOURS: Record<HydroPotentialClass, string> = {
   "not-qualified": "#94a3b8",
   "below-1kw": "#cbd5e1",
@@ -29,28 +18,6 @@ const POTENTIAL_COLOURS: Record<HydroPotentialClass, string> = {
   "kw-30-50": "#dc2626",
   "over-50kw": "#64748b",
 };
-
-export function calculateHydroTerrainMetrics({
-  upstreamAreaKm2,
-  dropThresholdMetres,
-  downstreamRouteLengthKm,
-}: HydroTerrainInputs): HydroTerrainMetrics {
-  if (
-    upstreamAreaKm2 <= 0 ||
-    dropThresholdMetres <= 0 ||
-    downstreamRouteLengthKm <= 0
-  ) {
-    throw new Error("Hydro terrain measurements must be positive.");
-  }
-
-  const averageFallMetresPerKm =
-    dropThresholdMetres / downstreamRouteLengthKm;
-
-  return {
-    averageFallMetresPerKm,
-    screeningValue: Math.log1p(upstreamAreaKm2) * averageFallMetresPerKm,
-  };
-}
 
 export function hydroLineStyle({
   upstreamAreaKm2,

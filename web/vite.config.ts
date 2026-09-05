@@ -19,6 +19,7 @@ export default defineConfig({
     environment: "jsdom",
     exclude: [
       ...configDefaults.exclude,
+      "e2e/**",
       "scripts/checkPdfAssets.test.mjs",
       "scripts/exportSharedData.test.mjs",
       "scripts/probeGeoPdfFrames.test.mjs",

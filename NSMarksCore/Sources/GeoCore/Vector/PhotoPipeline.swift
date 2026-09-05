@@ -49,17 +49,6 @@ public enum PhotoPipeline {
         public var height: Int
     }
 
-    /// Never upscales; rounds to whole pixels; preserves aspect.
-    public static func targetDimensions(
-        width: Int, height: Int, longEdgePx: Int
-    ) -> (width: Int, height: Int) {
-        let scale = min(1, Double(longEdgePx) / Double(max(width, height)))
-        return (
-            width: max(1, Int((Double(width) * scale).rounded())),
-            height: max(1, Int((Double(height) * scale).rounded()))
-        )
-    }
-
     public static func process(_ data: Data) throws(Refusal) -> Processed {
         guard data.count <= PhotoDescriptor.maxFileBytes else { throw .tooLarge }
         guard let full = orientedImage(data, longEdgePx: fullLongEdgePx),

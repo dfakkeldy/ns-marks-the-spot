@@ -58,6 +58,9 @@ jobs:
               ;;
           esac
 
+      - name: Validate archived browser evidence
+        run: python3 tools/validate_browser_evidence.py
+
       - name: Test change classifier
         run: python3 -m unittest discover -s .github/scripts/tests -v
 
@@ -154,6 +157,12 @@ jobs:
 
       - name: Test web app
         run: npm test
+
+      - name: Install browser test runtime
+        run: npx playwright install --with-deps chromium
+
+      - name: Test rendered web behavior
+        run: npm run test:browser
 
       - name: Lint web app
         run: npm run lint

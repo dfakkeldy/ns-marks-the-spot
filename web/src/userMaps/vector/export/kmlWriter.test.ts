@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Feature, FeatureCollection } from "geojson";
-import { parseKml } from "../parsers/kmlSource";
+import { parseXmlVector } from "../parsers/xmlVectorSource";
 import { kmlDocumentString } from "./kmlWriter";
 
 function collection(features: FeatureCollection["features"]): FeatureCollection {
@@ -108,7 +108,7 @@ describe("kmlDocumentString", () => {
         properties: { name: "Track" },
       },
     ]);
-    const reparsed = parseKml(kmlDocumentString(LAYER_NAME, original));
+    const reparsed = parseXmlVector(kmlDocumentString(LAYER_NAME, original));
     expect(reparsed.featureCount).toBe(2);
     expect(reparsed.collection.features[0].properties?.name).toBe("Pin");
     expect(reparsed.collection.features[0].properties?.description).toBe("A & B <c>");

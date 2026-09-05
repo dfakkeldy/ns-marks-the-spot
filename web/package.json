@@ -27,7 +27,8 @@
     "test": "npm run test:scripts && vitest run",
     "test:scripts": "node --test scripts/checkPdfAssets.test.mjs scripts/exportSharedData.test.mjs scripts/probeGeoPdfFrames.test.mjs",
     "test:watch": "vitest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:browser": "playwright test"
   },
   "dependencies": {
     "@geoman-io/leaflet-geoman-free": "2.20.0",
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@eslint/js": "9.39.2",
+    "@playwright/test": "1.63.0",
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.2",
     "@testing-library/user-event": "14.6.1",

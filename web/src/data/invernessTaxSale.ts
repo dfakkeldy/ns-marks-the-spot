@@ -40,10 +40,6 @@ export const taxSalePids = taxSaleListings
   .filter(({ listingStatus }) => listingStatus === "advertised")
   .flatMap(({ pids }) => pids);
 
-export function listingForPid(pid: string): TaxSaleListing | undefined {
-  return taxSaleListings.find(({ pids }) => pids.includes(pid));
-}
-
 export const invernessTaxSaleEvent: TaxSaleEvent = {
   id: "inverness-county-2026-08-11",
   municipalityId: "inverness-county",

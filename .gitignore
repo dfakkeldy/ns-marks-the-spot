@@ -104,3 +104,7 @@ reports/church/*-heat.png
 
 # SwiftPM build products for the local NSMarksCore package
 NSMarksCore/.build/
+
+# Browser test evidence
+web/test-results/
+web/playwright-report/

@@ -1,7 +1,6 @@
 import { kml } from "@tmcw/togeojson";
 import type { Feature } from "geojson";
 import { normalizeCollection, type ParsedVector } from "./geojsonSource";
-import { parseXmlDocument } from "./xmlDocument";
 
 /**
  * KML → GeoJSON via togeojson, which emits the simplestyle vocabulary
@@ -12,8 +11,7 @@ import { parseXmlDocument } from "./xmlDocument";
  * them. Storing it verbatim is safe because the ONLY path from a feature
  * property to the DOM is `render/popup.ts`, which assigns via `textContent`.
  */
-export function parseKml(text: string): ParsedVector {
-  const document = parseXmlDocument(text);
+export function parseKml(document: Document): ParsedVector {
   const collection = kml(document);
   const features = ((collection.features ?? []) as Feature[]).map((feature) => ({
     ...feature,
