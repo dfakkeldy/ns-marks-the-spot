@@ -10,6 +10,13 @@ failure against that interpolated reference does not, by itself, establish
 which location is correct. This run supports neither unattended matching nor a
 claim that the visual approach is impossible.
 
+## Subsequent user review
+
+The user subsequently accepted the four proposed junctions visually and asked
+to continue. The [Judique draft report](../visual-expansion/README.md) records
+that expansion, including preserved hand controls, additional checks, an initial
+failure and a corrected draft. The results below remain the original test record.
+
 ## Proposed correspondence
 
 The target T is the northern tributary joining the east-west stream immediately

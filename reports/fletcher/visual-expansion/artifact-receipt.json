@@ -1,0 +1,79 @@
+{
+  "generated_utc": "2026-09-05T21:12:15.985656+00:00",
+  "status": "draft; no production or browser edits",
+  "observations_sha256": "632f4b19fcbe64384232fc03693c4f51f646e51332c3d56e382e977ff0afda04",
+  "source": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-extraction-pilot/native-sheet19/sheet19.png",
+    "sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+    "native_dimensions": [
+      10815,
+      7549
+    ],
+    "iiif": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/",
+    "attribution": "David Rumsey Map Collection / David Rumsey Map Center, Stanford University Libraries",
+    "license": "CC BY-NC-SA 3.0; separately recorded project permissions in existing receipts"
+  },
+  "modern_references": "../matching-benchmark/reference-receipts.json",
+  "artifacts": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/judique-expansion/sheet/judique-sheet19-draft.tif",
+      "bytes": 73290906,
+      "sha256": "6a6a3c6432fe8f46c6366dd5acb253721557dba7f5e46a939651e2db8559c4cf"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/judique-expansion/sheet/judique-sheet19-draft.png",
+      "bytes": 59843319,
+      "sha256": "27224c842be38f3941819268bd29ad27abbeadd3aff38bf9881e0399285a99a5"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/judique-expansion/sheet/judique-sheet19-draft.csv",
+      "bytes": 2498,
+      "sha256": "506b0ba5e97a159791aaaaec86170260d761fe4861ab58d8e82b7f1b7b7a6ada"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/judique-expansion/sheet/judique-overview.png",
+      "bytes": 5145999,
+      "sha256": "9a0adb207bd2e69a2be9f077962ea2a48647795efa729ff63d6409d9a97cf0dd"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/judique-expansion/sheet/judique-checks-1-4.png",
+      "bytes": 901778,
+      "sha256": "ea4140f7b6dab93e69176abba4b63b56cf04757b40ee63160ca280d3c388718f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/judique-expansion/sheet/judique-checks-5-8.png",
+      "bytes": 913523,
+      "sha256": "22941ff7f2fe7dab2007b1addd776762eee8f65db3ab9dede976b46e6a518bda"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/judique-expansion/sheet/preview-hull.geojson",
+      "bytes": 31880,
+      "sha256": "a35ed048d7640d8c3e7ec9a4d35f1a54211274b4dc4eeb0b407ad7279fe309c9"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/judique-expansion/sheet/raster-info.json",
+      "bytes": 11697,
+      "sha256": "15259b88f98ed69b339d5f9bcfac605e44c5939d3d885f9d7ebe063722cadab2"
+    }
+  ],
+  "verification": {
+    "gdal_version": "3.9.0",
+    "all_three_frozen_score_stages_reproduced_within_m": 0.001,
+    "final_geotiff_and_png_reproduced_byte_identically": true,
+    "transparent_alpha_and_dimensions_checked": true,
+    "visually_inspected": [
+      "final overview",
+      "all eight check overlays",
+      "source crosshairs"
+    ],
+    "web": {
+      "controls": 39,
+      "checks": 8,
+      "preserved_hand_controls": 15,
+      "csv_roundtrip": "byte-identical",
+      "maximum_web_gdal_difference_projected_m": 5.963374150388733e-09
+    },
+    "live_browser_import": false,
+    "interpretation": "One control corrected after examining a failed check. Checks withheld from fitting, not untouched validation."
+  }
+}
