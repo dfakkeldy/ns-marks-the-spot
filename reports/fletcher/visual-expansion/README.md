@@ -159,3 +159,33 @@ Stanford University Libraries](https://www.davidrumsey.com/), native IIIF item
 for separately recorded permissions. Modern reference: Nova Scotia NSTDB 1:10,000
 water line and road extracts, with URLs and SHA256s in
 [reference-receipts.json](../matching-benchmark/reference-receipts.json).
+
+## Subsequent browser verification — 2026-09-05
+
+A separate local Chromium profile exercised the actual NSMtS UI with the native
+Judique PNG and draft CSV. Import retained the **10815 × 7549** coordinate frame,
+loaded **39 controls**, and excluded **eight checks** from the TPS fit. The UI
+reported **69 m RMS, worst 94 m** at the checks (the earlier report uses median).
+After Done and reload, all 39 controls and the TPS method persisted. The stored
+native scan's SHA256 remained identical to the source receipt.
+
+This check found and repaired two import defects: the 135 MiB scan exceeded
+Chromium's single serialized IndexedDB value limit, and the GeoTIFF preview
+ignored alpha, making transparent hull corners black. Raster storage now splits
+large values into 64 MiB entries, and GeoTIFF previews retain declared alpha.
+The clipped GeoTIFF was imported separately, reloaded, and inspected on desktop
+1600 × 1050 and phone 390 × 844 views. Its stored SHA256 still matches the
+artifact receipt; the decoded preview has alpha 0 at the outside corner and
+255 at its centre. No page errors occurred in the final GeoTIFF run.
+
+Check points remain editing-session data: reopening the CSV restores them after
+reload. The native PNG plus CSV path renders the full scan, including extrapolated
+areas outside the controls; use the already clipped GeoTIFF for the supported-area
+preview. The browser checks establish import, persistence and rendering behaviour,
+not fresh geographic validation, browser-wide compatibility or production
+publication. Geographic check observations and scores are unchanged.
+
+Local screenshot evidence is in
+`/Users/dfakkeldy/Downloads/judique-browser-verification/`, including
+`import-desktop.png`, `points-mobile.png`, `clipped-geotiff-reload.png` and
+`clipped-geotiff-mobile.png`. The user's existing browser records were untouched.
