@@ -12,6 +12,11 @@ def read(path):
 
 def main():
     data = read(ROOT/'pilot.json')
+    refs = {r['name']: r for r in data['modern_references']}
+    assert {'highways', 'bridges'} <= refs.keys(), 'Road context must include the separate highway and bridge layers'
+    for aid in ['F19-JUD-004', 'F19-JUD-005', 'F19-JUD-008', 'F19-JUD-015']:
+        coastal_case = next(c for c in data['cases'] if c['annotation_id'] == aid)
+        assert set(coastal_case['modern_context_object_ids']['highways']) & set(refs['highways']['highway19_object_ids']), f'Highway 19 must be drawn in {aid}'
     expected = {f'F19-JUD-{n:03}' for n in [4,5,8,15,21,61,77,78,79,94,103,117]}
     assert {c['annotation_id'] for c in data['cases']} == expected
     assert len(data['cases']) == 12

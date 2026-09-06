@@ -32,6 +32,147 @@
       "bbox": "-61.62,45.74,-61.20,46.12",
       "count": 1036,
       "sha256": "f534ea0e1f3b978f6f244d061e491c07ecd9e91830b5600282092c8868fbcbed"
+    },
+    {
+      "name": "highways",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/7/query",
+      "bbox": "-61.62,45.74,-61.20,46.12",
+      "count": 156,
+      "sha256": "5747648eca529c07dc4d1047b3fbf345c53ce25833a162bea5c99ed9551ca5d3",
+      "retrieved_at": "2026-09-06T14:53:07.704421+00:00",
+      "query": {
+        "geometry": "-61.62,45.74,-61.20,46.12",
+        "geometryType": "esriGeometryEnvelope",
+        "inSR": 4326,
+        "spatialRel": "esriSpatialRelIntersects"
+      },
+      "outSR": 4326,
+      "outFields": "OBJECTID,RTE_NO,STREET,FEAT_DESC,ROADSEGID,DATE_ACT,DATE_REV",
+      "highway19_object_ids": [
+        1033,
+        2363,
+        3688,
+        3690,
+        3913,
+        3915,
+        4339,
+        4341,
+        4499,
+        5007,
+        6484,
+        6946,
+        7388,
+        7625,
+        9605,
+        12984,
+        13550,
+        13717,
+        13927,
+        13969,
+        38491,
+        38493,
+        39197,
+        39207,
+        39447,
+        42983,
+        43679,
+        43681,
+        43954,
+        45435,
+        48715,
+        49069,
+        52693,
+        52701,
+        53508,
+        54748,
+        55143,
+        56920,
+        57166,
+        58698,
+        59558,
+        59637,
+        61037,
+        141646,
+        141647,
+        141649,
+        142238,
+        142239,
+        142384,
+        142385,
+        147274,
+        155334,
+        155335,
+        155337,
+        155338,
+        155339,
+        155897,
+        155899,
+        155901,
+        155902,
+        155906,
+        155924,
+        155925,
+        156139,
+        156140,
+        156143,
+        156150,
+        156151,
+        156153,
+        156154,
+        156158,
+        156236,
+        156237,
+        156239,
+        156240,
+        156243,
+        156244,
+        259867,
+        259868,
+        277457,
+        277458,
+        277459,
+        277460,
+        284013,
+        284014,
+        292765,
+        292767,
+        294997,
+        294998,
+        295471,
+        314027,
+        314028,
+        333216,
+        333217,
+        333218
+      ]
+    },
+    {
+      "name": "bridges",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/5/query",
+      "bbox": "-61.62,45.74,-61.20,46.12",
+      "count": 139,
+      "sha256": "7d0f9953c674a2f620da4bdcadc80b8cff766ec6eb6ae9c84d4c21f49bb905d6",
+      "retrieved_at": "2026-09-06T14:53:08.273266+00:00",
+      "query": {
+        "geometry": "-61.62,45.74,-61.20,46.12",
+        "geometryType": "esriGeometryEnvelope",
+        "inSR": 4326,
+        "spatialRel": "esriSpatialRelIntersects"
+      },
+      "outSR": 4326,
+      "outFields": "OBJECTID,RTE_NO,STREET,FEAT_DESC,ROADSEGID,DATE_ACT,DATE_REV",
+      "highway19_object_ids": [
+        3689,
+        3914,
+        4340,
+        38492,
+        43680,
+        141648,
+        155900,
+        156152,
+        156241,
+        156245
+      ]
     }
   ],
   "modern_crs": "EPSG:4326, longitude then latitude; acquisition requested outSR=4326. Display EPSG:3857.",
@@ -57,7 +198,7 @@
         "locality_status": "supported-corridor",
         "search_half_width_ground_m": 300,
         "evidence": "The school symbol lies south of a road junction, immediately east of a watercourse. The nearby western tributary junction and the downstream sequence of two eastern tributaries identify the corridor in the modern water network.",
-        "contradictions": "The through-road is now farther south; the frozen raster clips the northern context. The modern road junction is not an unchanged school-site anchor.",
+        "contradictions": "Highway 19 supplies the previously omitted north-south through-road context. The earlier statement that the through-road is now farther south was based on an incomplete road layer and is withdrawn. The northern draft is clipped; differences in the junction cannot alone prove realignment or locate the school.",
         "next": "Check a dated school record or historical aerial image for the building site within this corridor."
       },
       "historical_site_geometry": null,
@@ -230,7 +371,17 @@
           147276,
           147550
         ],
-        "rail": []
+        "rail": [],
+        "highways": [
+          38491,
+          38493,
+          43954,
+          147274
+        ],
+        "bridges": [
+          37392,
+          38492
+        ]
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [],
@@ -254,8 +405,8 @@
       "review": {
         "locality_status": "supported-corridor",
         "search_half_width_ground_m": 300,
-        "evidence": "The forge mark lies east of the old road, between two eastern tributaries entering the north-south watercourse above the coastal inlet. That tributary order and inlet relationship remain recognizable in NSTDB.",
-        "contradictions": "The old north-south road segment is absent from the modern road reference, and the modern mapped inlet extends farther inland. Neither road snapping nor present shoreline snapping is justified.",
+        "evidence": "The forge mark lies east of the old road, between two eastern tributaries entering the north-south watercourse above the coastal inlet. That tributary order and inlet relationship remain recognizable in NSTDB. Highway 19 now appears along the corresponding north-south road corridor.",
+        "contradictions": "The earlier claim that the road segment was absent is withdrawn: the separate Highways layer was missing. Highway 19 is present in the corrected reference. Inlet detail differs; exact forge placement still needs site-specific evidence.",
         "next": "Seek an old aerial or forge-specific record; use the two tributaries to constrain the search."
       },
       "historical_site_geometry": null,
@@ -483,7 +634,21 @@
           148463,
           293893
         ],
-        "rail": []
+        "rail": [],
+        "highways": [
+          38491,
+          38493,
+          43954,
+          156237
+        ],
+        "bridges": [
+          35519,
+          35586,
+          35593,
+          36962,
+          38492,
+          51362
+        ]
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [],
@@ -507,8 +672,8 @@
       "review": {
         "locality_status": "supported-corridor",
         "search_half_width_ground_m": 300,
-        "evidence": "The stables mark lies on the east side of the elongated inlet, west of the coastal road and between two eastern tributaries. The inlet, southern tributary mouth and offshore island sequence corroborate the locality.",
-        "contradictions": "Shoreline detail and road shape differ. The map does not establish a surviving stable building or its footprint.",
+        "evidence": "The stables mark lies on the east side of the elongated inlet, west of the coastal road and between two eastern tributaries. The inlet, southern tributary mouth and offshore island sequence corroborate the locality. Highway 19, now included and labelled, is the essential through-road reference along this shore.",
+        "contradictions": "The initial vector comparison omitted Highway 19. With the highway restored, the through-road corridor is recognizable; local curve and shoreline differences do not by themselves establish a change or identify a stable footprint.",
         "next": "Compare the road corridor with a dated aerial or stage-route record; keep Shop and P.O. associations separate."
       },
       "historical_site_geometry": null,
@@ -758,7 +923,22 @@
           137141,
           156238
         ],
-        "rail": []
+        "rail": [],
+        "highways": [
+          43954,
+          156236,
+          156237,
+          156239
+        ],
+        "bridges": [
+          35519,
+          35586,
+          35593,
+          35687,
+          36962,
+          38309,
+          51362
+        ]
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [],
@@ -782,8 +962,8 @@
       "review": {
         "locality_status": "supported-corridor",
         "search_half_width_ground_m": 350,
-        "evidence": "The church symbol lies south of a small coastal brook and north of Rory Chisholm's Brook. The two brooks, coastline and southern inlet constrain the district. The parish's own history provides a candidate institutional identity, St. Andrew's.",
-        "contradictions": "Modern through-road alignment is farther west. The parish history reports two wooden churches before the present stone church, but does not establish identical footprints. Do not substitute the current church address for this symbol.",
+        "evidence": "The church symbol lies south of a small coastal brook and north of Rory Chisholm's Brook. The two brooks, coastline and southern inlet constrain the district. The parish's own history provides a candidate institutional identity, St. Andrew's. Restored Highway 19 follows the same broad north-south corridor beside the church search area.",
+        "contradictions": "The previous claim that the modern through-road lies farther west is withdrawn: Highway 19 was omitted from the reference. The parish history reports two wooden churches before the present stone church but does not establish identical footprints.",
         "next": "Find a site plan, dated photograph or parish account explicitly locating the earlier church.",
         "external_sources": [
           {
@@ -1012,7 +1192,23 @@
           136814,
           333835
         ],
-        "rail": []
+        "rail": [],
+        "highways": [
+          4339,
+          4341,
+          6484,
+          45435,
+          56920,
+          61037,
+          156236
+        ],
+        "bridges": [
+          4340,
+          35612,
+          38274,
+          52305,
+          59402
+        ]
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [],
@@ -1210,7 +1406,9 @@
           333836,
           333837
         ],
-        "rail": []
+        "rail": [],
+        "highways": [],
+        "bridges": []
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [],
@@ -1377,7 +1575,9 @@
           194747,
           321256
         ],
-        "rail": []
+        "rail": [],
+        "highways": [],
+        "bridges": []
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [],
@@ -1650,7 +1850,24 @@
           313158,
           314029
         ],
-        "rail": []
+        "rail": [],
+        "highways": [
+          6946,
+          42983,
+          43679,
+          43681,
+          142238,
+          292765,
+          292767,
+          314027,
+          314028
+        ],
+        "bridges": [
+          35600,
+          35689,
+          43680,
+          194744
+        ]
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [],
@@ -1872,7 +2089,16 @@
           194747,
           292766
         ],
-        "rail": []
+        "rail": [],
+        "highways": [
+          43681,
+          292765,
+          292767,
+          314028
+        ],
+        "bridges": [
+          194744
+        ]
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [],
@@ -2003,7 +2229,11 @@
           137470,
           137471
         ],
-        "rail": []
+        "rail": [],
+        "highways": [
+          148289
+        ],
+        "bridges": []
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [
@@ -2110,9 +2340,15 @@
       "review": {
         "locality_status": "supported-corridor",
         "search_half_width_ground_m": 400,
-        "evidence": "A distinct oval mine mark is west of the curving road and Glendale Brook. The brook's western tributaries and its downstream meeting with the eastern stream corroborate the corridor.",
+        "evidence": "A distinct oval mine mark is west of the curving road and Glendale Brook. The brook's western tributaries and its downstream meeting with the eastern stream corroborate the corridor. Local review (September 6, 2026): the user explicitly identified annotation 094 as the gold-mine candidate that looks right.",
         "contradictions": "The lettering centre is well east of the reviewed mine mark. The modern road curve differs locally. The nearby GPS-sourced opening supports further investigation but does not independently establish the historical identity.",
-        "next": "Find a dated mining account or plan linking the Glendale Brook shaft to the Fletcher annotation."
+        "next": "Find a dated mining account or plan linking the Glendale Brook shaft to the Fletcher annotation.",
+        "local_review": {
+          "reviewed_at": "2026-09-06",
+          "source_role": "user visual review of the pilot comparison",
+          "assessment": "The displayed gold-mine candidate looks right; the reviewer explicitly identified annotation 094.",
+          "scope": "Visual corroboration of the candidate locality; no opening coordinates or building footprint supplied."
+        }
       },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
@@ -2222,7 +2458,11 @@
           312724,
           313636
         ],
-        "rail": []
+        "rail": [],
+        "highways": [],
+        "bridges": [
+          146771
+        ]
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [
@@ -2509,7 +2749,18 @@
           143977,
           146772
         ],
-        "rail": []
+        "rail": [],
+        "highways": [
+          2071,
+          39562,
+          39564,
+          44144
+        ],
+        "bridges": [
+          39563,
+          51591,
+          51592
+        ]
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [
@@ -2563,7 +2814,7 @@
         "locality_status": "supported-corridor",
         "search_half_width_ground_m": 350,
         "evidence": "The Red Bridge annotation is associated with the road crossing of the main river, west of the railway crossing. The river's northeast-to-southwest reach and upstream branch junction constrain the crossing corridor.",
-        "contradictions": "The label centre is east of the crossing. Road and railway relationships have changed, so the modern nearest road crossing cannot be treated as the named bridge without corroboration.",
+        "contradictions": "The label centre is east of the printed crossing. The corrected reference includes the separate highway and bridge layers. Present crossings still need a dated bridge or road record before one can be identified as Red Bridge; the earlier assertion of changed road/rail relationships is not established by the incomplete comparison.",
         "next": "Check dated bridge or road plans to establish the former crossing and the name Red Bridge."
       },
       "historical_site_geometry": null,
@@ -2764,7 +3015,21 @@
           143977,
           157312
         ],
-        "rail": []
+        "rail": [],
+        "highways": [
+          2071,
+          11983,
+          39562,
+          39564,
+          44144,
+          52041,
+          153270
+        ],
+        "bridges": [
+          3637,
+          39563,
+          60573
+        ]
       },
       "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
       "external_records": [],
