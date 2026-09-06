@@ -24,6 +24,33 @@ def main():
     annotations = {a['id']:a for name in ['judique-pilot','judique-inland','judique-south','judique-southeast'] for a in read(inventories/(name+'.json'))['features']}
     assert len(annotations) == 133
     assert all(a['historical_site_geometry'] is None for a in annotations.values())
+    mapped = read(ROOT/'mapped-annotations.geojson')
+    assert mapped['alignment_status'] == 'draft-supported-area'
+    assert mapped['publication_status'] == 'research-preview-only'
+    assert {f['id'] for f in mapped['features']} == expected
+    assert len(mapped['features']) == 12
+    assert sum(f['geometry']['type'] == 'Point' for f in mapped['features']) == 8
+    assert sum(f['geometry']['type'] == 'Polygon' for f in mapped['features']) == 4
+    source_reviews = {r['annotation_id']:r for r in read(ROOT/'source-review.json')['associations']}
+    for f in mapped['features']:
+        case = next(c for c in data['cases'] if c['annotation_id'] == f['id'])
+        assert f['geometry'] == case['map_derived_placement']['geometry']
+        assert f['properties']['placement_status'] == 'map-derived-approximate'
+        assert f['properties']['source_text'] == annotations[f['id']]['source_text']
+        assert f['properties']['source_sha256'] == data['source_sha256']
+        assert f['properties']['observations_sha256'] == data['observations_sha256']
+        assert f['properties']['source_review_sha256'] == hashlib.sha256((ROOT/'source-review.json').read_bytes()).hexdigest()
+        if f['geometry']['type'] == 'Point':
+            assert f['properties']['source_geometry_native']['coordinates'] == source_reviews[f['id']]['source_anchor_xy']
+            assert all(abs(a-b) < 1e-8 for a,b in zip(f['geometry']['coordinates'], case['search_centre_lonlat']))
+        else:
+            ring = f['geometry']['coordinates'][0]
+            assert len(ring) > 5 and ring[0] == ring[-1]
+            assert ring != case['search_geometry']['coordinates'][0]
+    queue = read(ROOT/'mapping-queue.json')
+    assert queue['remaining'] == len(queue['annotations']) == 121
+    assert {a['annotation_id'] for a in queue['annotations']} == set(annotations) - expected
+    assert all(a['status'] == 'needs-source-review' for a in queue['annotations'])
     assert sum(c['source_review']['source_anchor_xy'] is not None for c in data['cases']) == 8
     raw_checked = raw_unavailable = 0
     for c in data['cases']:
