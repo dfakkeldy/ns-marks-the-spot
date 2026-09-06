@@ -23,16 +23,17 @@ OpenCode's custom-provider zero cost is not evidence of free use.
 
 **No sheet is finalized yet.** All 145 first-pass crops have finished. After seven
 serialization repairs that required no model calls, 131 responses pass structural
-validation, containing **1,156 candidate records**; 14 responses still need repair
-or source inspection. Candidate files deliberately retain duplicates,
+validation, containing **1,156 candidate records**; 14 original responses remain
+structurally unresolved, with their source crops reviewed separately. Candidate files deliberately retain duplicates,
 tentative readings and unreliable model-estimated lettering boxes. Their
-geometry is null. **121 source-reviewed annotations** are saved separately in
+geometry is null. **185 source-reviewed annotations** are saved separately in
 `sheet-22-reviewed.json`, with corrected boxes and explicit edge-review notes.
-The original ten IDs are preserved. The first two rows and the first two crops
-of row three have been visually inspected (16 of 35 sheet 22 crops). The row-three
-crops still have large county lettering to assemble across later crops. School-name
-typography, the final letter of Shops, and geological structure scope holdbacks
-remain explicit. Twenty of the 121 records are printed spot-height labels;
+The original ten IDs are preserved. The first three rows have been visually
+inspected (21 of 35 sheet 22 crops). Large ANTIGONISH lettering is assembled,
+and tentative Shops has been corrected to Shop after separating an adjacent
+building symbol. School-name typography, an obscured H in the large river title,
+and geological structure scope holdbacks remain explicit.
+Twenty-nine of the 185 records are printed spot-height labels;
 they do not establish modern elevations or a vertical datum.
 The first source checks found compass text incorrectly included, a clipped
 "Rock dries" misread as "Rocky", and substantially displaced model boxes.
@@ -52,10 +53,16 @@ second-row C02–C07 first-pass candidates. Lower-row text visible in these cont
 windows still needs the normal whole-crop review.
 The western third-row review completes Colin Chisholm's Brook and Tate's Road,
 corrects Winter Road, and separates the three Little Tracadie occurrences.
-Four smaller DeepSeek packets now cover the incomplete R03C05 attempt; all four
-returned structurally valid answers and await source inspection. They do not
-replace or certify the retained original response. See
-`third-row-west-review-evidence.json` for receipts and current limitations.
+Four smaller DeepSeek packets cover the incomplete R03C05 attempt; all four and
+the whole original crop have now been source-inspected. They do not replace or
+certify the retained original response. Four further narrow context passes
+support Kiln, J. McVicar, Crandall Road, and the lower river-title review. RIVER
+INHABITANTS remains tentative where its H overlaps geological lettering.
+See `third-row-west-review-evidence.json` for the earlier receipts and
+`third-row-completion-review-evidence.json` for the later adjudication and
+dispositions of all 124 original row-three candidate identities, including five
+visible in the incomplete R03C05 response. Lower-row labels incidentally visible
+in detail windows still await the normal coverage review.
 
 ## Continuing the queue
 
@@ -133,11 +140,12 @@ not every unchanged check. Pause that continuation when all four sheets finish.
    `clear` classification and a successful subprocess do not establish source
    accuracy or completeness.
 
-Use `F22-HAW-122` onward for additional sheet 22 reviewed annotations. Do not
-renumber existing IDs. Next inspect R03C03 eastward and reconcile overlap with the
-reviewed rows. Assemble the large county lettering and resolve the tentative
-Shops final letter. For R03C05, inspect the four completed C05-NW/NE/SW/SE detail
-answers under `review-20260906-03`; do not rerun those successful packets.
+Use `F22-HAW-186` onward for additional sheet 22 reviewed annotations. Do not
+renumber existing IDs. Next inspect R04C01 eastward and reconcile overlap with the
+reviewed rows. The C05-NW/NE/SW/SE detail answers under `review-20260906-03` have
+been source-reviewed; do not rerun them. Narrow lower-edge contexts under
+`review-20260906-04` can be reused during row-four review. The river-title H
+remains partly obscured; do not manufacture a clearer reading from model guesses.
 Reuse the existing RAILWAY, INHABITANTS and HORTON-EDGE detail packets under
 `review-20260906-02` for lower-edge context; do not rerun them. Prefer smaller
 windows over another broad STRAIT model pass. The survey and regional strait

@@ -2481,25 +2481,26 @@
     },
     {
       "id": "F22-HAW-102",
-      "source_text": "Shops",
+      "source_text": "Shop",
       "kind": "shop",
-      "reading_status": "tentative",
+      "reading_status": "clear",
       "crop_id": "F22-R03C01",
       "raw_candidate_ids": [
-        "F22-R03C01-15"
+        "F22-R03C01-15",
+        "F22-DETAIL-SHOP-CHURCH-01"
       ],
       "source_label_boxes_xywh": [
         [
-          1910,
+          1907,
           3867,
-          69,
-          39
+          61,
+          38
         ]
       ],
       "review_status": "source-reviewed",
       "geometry": null,
       "placement_status": "deferred",
-      "review_note": "Terminal s is crowded against a building symbol; retain tentative Shops pending a further lettering check."
+      "review_note": "Corrected tentative Shops after narrow native context and nearest-neighbour inspection: the mark after p is a separate filled building symbol, not a terminal s. The original first-pass reading remains in the raw candidate."
     },
     {
       "id": "F22-HAW-103",
@@ -2941,6 +2942,1665 @@
       "geometry": null,
       "placement_status": "deferred",
       "review_note": "Reject model Winter Brook; source road lettering reads Road."
+    },
+    {
+      "id": "F22-HAW-122",
+      "source_text": "ANTIGONISH",
+      "kind": "administrative-region-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C01-08",
+        "F22-R03C01-09",
+        "F22-R03C01-10",
+        "F22-R03C01-11",
+        "F22-R03C02-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1706,
+          3927,
+          96,
+          106
+        ],
+        [
+          2106,
+          3927,
+          100,
+          109
+        ],
+        [
+          2390,
+          3930,
+          89,
+          110
+        ],
+        [
+          2727,
+          3936,
+          44,
+          107
+        ],
+        [
+          2969,
+          3937,
+          89,
+          110
+        ],
+        [
+          3396,
+          3947,
+          102,
+          110
+        ],
+        [
+          3784,
+          3954,
+          87,
+          109
+        ],
+        [
+          4135,
+          3958,
+          44,
+          100
+        ],
+        [
+          4422,
+          3956,
+          89,
+          110
+        ],
+        [
+          4745,
+          3959,
+          89,
+          106
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Large hatched administrative name assembled letter by letter across C01–C03; no independent IRON mineral label."
+    },
+    {
+      "id": "F22-HAW-123",
+      "source_text": "Mc Donald Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-02",
+        "F22-R03C03-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4138,
+          3459,
+          294,
+          91
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "ASCII c represents printed superscript."
+    },
+    {
+      "id": "F22-HAW-124",
+      "source_text": "G. Strachan",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4382,
+          3757,
+          170,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-125",
+      "source_text": "543 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4538,
+          3805,
+          123,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-126",
+      "source_text": "Ghost\nBeach",
+      "kind": "beach",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-08",
+        "F22-R03C03-09"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4972,
+          3548,
+          130,
+          36
+        ],
+        [
+          4986,
+          3600,
+          136,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-127",
+      "source_text": "Long Pond",
+      "kind": "waterbody",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-10",
+        "F22-R03C03-11",
+        "F22-R03C04-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5123,
+          3482,
+          67,
+          112
+        ],
+        [
+          5186,
+          3600,
+          68,
+          93
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-128",
+      "source_text": "Archie\nPond",
+      "kind": "waterbody",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-13",
+        "F22-R03C03-14"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4843,
+          3883,
+          117,
+          116
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-129",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-15"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4846,
+          4058,
+          69,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-130",
+      "source_text": "220 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-16"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4820,
+          4152,
+          134,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-131",
+      "source_text": "Auld Cove",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-17",
+        "F22-R03C04-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5019,
+          4177,
+          186,
+          44
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-132",
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-19"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4933,
+          4271,
+          74,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-133",
+      "source_text": "Cable",
+      "kind": "cable-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-20"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5220,
+          4298,
+          77,
+          31
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate printed cable occurrence from the upper and eastern Cable labels."
+    },
+    {
+      "id": "F22-HAW-134",
+      "source_text": "STA.",
+      "kind": "station-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-21"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4466,
+          4394,
+          75,
+          38
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-135",
+      "source_text": "Cape Porcupine",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-23"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4190,
+          4499,
+          421,
+          58
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-136",
+      "source_text": "Falls",
+      "kind": "falls",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-03",
+        "F22-DETAIL-HORTON-EDGE-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5881,
+          3513,
+          94,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-137",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-05",
+        "F22-DETAIL-HORTON-EDGE-10"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5422,
+          3774,
+          81,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-138",
+      "source_text": "Hastings",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5577,
+          4028,
+          255,
+          51
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-139",
+      "source_text": "Mc Millan Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-08",
+        "F22-R03C03-18"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5148,
+          4134,
+          308,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "ASCII c represents printed superscript."
+    },
+    {
+      "id": "F22-HAW-140",
+      "source_text": "Cable",
+      "kind": "cable-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [],
+      "source_label_boxes_xywh": [
+        [
+          5329,
+          4089,
+          109,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Upper separate cable occurrence; displaced first-pass boxes do not support a unique correspondence for all three printed Cable occurrences."
+    },
+    {
+      "id": "F22-HAW-141",
+      "source_text": "Cable",
+      "kind": "cable-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [],
+      "source_label_boxes_xywh": [
+        [
+          5323,
+          4319,
+          76,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Eastern separate cable occurrence."
+    },
+    {
+      "id": "F22-HAW-142",
+      "source_text": "Mc Keen Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-11"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5444,
+          4225,
+          259,
+          46
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "ASCII c represents printed superscript."
+    },
+    {
+      "id": "F22-HAW-143",
+      "source_text": "C. Porcupine",
+      "kind": "point-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-12"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5460,
+          4350,
+          231,
+          49
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "C. Porcupine and Plaster Cove are separate annotations; abbreviation not expanded."
+    },
+    {
+      "id": "F22-HAW-144",
+      "source_text": "Plaster Cove",
+      "kind": "cove",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-12"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5690,
+          4254,
+          141,
+          158
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Reject model plaster force; separate from C. Porcupine."
+    },
+    {
+      "id": "F22-HAW-145",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-13"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6152,
+          4381,
+          88,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-146",
+      "source_text": "Quarry",
+      "kind": "quarry",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-14",
+        "F22-DETAIL-HORTON-EDGE-09"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5853,
+          3717,
+          118,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-147",
+      "source_text": "Victoria Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-15",
+        "F22-DETAIL-HORTON-EDGE-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6040,
+          3622,
+          125,
+          93
+        ],
+        [
+          6202,
+          3503,
+          62,
+          91
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate printed occurrence from F22-HAW-019."
+    },
+    {
+      "id": "F22-HAW-148",
+      "source_text": "400 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-18"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6248,
+          4094,
+          133,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-149",
+      "source_text": "Keaton Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-19"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5771,
+          4581,
+          228,
+          46
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-150",
+      "source_text": "Old Cable",
+      "kind": "cable-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-20"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5627,
+          4521,
+          127,
+          38
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-151",
+      "source_text": "350 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-21"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5670,
+          4654,
+          119,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Bottom lettering completed using native lower-edge excerpt."
+    },
+    {
+      "id": "F22-HAW-152",
+      "source_text": "460 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C04",
+      "raw_candidate_ids": [
+        "F22-R03C04-22"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5339,
+          4526,
+          114,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-153",
+      "source_text": "A.G. Fraser",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C05",
+      "raw_candidate_ids": [
+        "F22-DETAIL-C05-NW-04",
+        "F22-DETAIL-HORTON-EDGE-08",
+        "F22-R03C05-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6647,
+          3546,
+          179,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-154",
+      "source_text": "Barren",
+      "kind": "landscape-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C05",
+      "raw_candidate_ids": [
+        "F22-DETAIL-C05-NW-06",
+        "F22-DETAIL-C05-SW-01",
+        "F22-R03C05-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6653,
+          3867,
+          207,
+          46
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed singular Barren; do not normalize to nearby Barrens."
+    },
+    {
+      "id": "F22-HAW-155",
+      "source_text": "North Branch",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C05",
+      "raw_candidate_ids": [
+        "F22-DETAIL-C05-NE-02",
+        "F22-DETAIL-C05-NE-03",
+        "F22-R03C05-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7252,
+          3596,
+          106,
+          116
+        ],
+        [
+          7425,
+          3834,
+          133,
+          163
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-156",
+      "source_text": "South Branch",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C05",
+      "raw_candidate_ids": [
+        "F22-DETAIL-C05-SE-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7287,
+          4117,
+          119,
+          49
+        ],
+        [
+          7441,
+          4099,
+          145,
+          81
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-157",
+      "source_text": "Emery Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C05",
+      "raw_candidate_ids": [
+        "F22-DETAIL-C05-SW-02",
+        "F22-DETAIL-C05-SW-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6592,
+          4166,
+          77,
+          134
+        ],
+        [
+          6677,
+          4482,
+          52,
+          132
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-158",
+      "source_text": "250 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C05",
+      "raw_candidate_ids": [
+        "F22-DETAIL-C05-SW-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6516,
+          4556,
+          138,
+          38
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-159",
+      "source_text": "Peter's Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C05",
+      "raw_candidate_ids": [
+        "F22-DETAIL-C05-SE-02",
+        "F22-R03C06-16"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7473,
+          4563,
+          110,
+          79
+        ],
+        [
+          7621,
+          4485,
+          79,
+          86
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed possessive; complete road word checked across C06 overlap."
+    },
+    {
+      "id": "F22-HAW-160",
+      "source_text": "Crandall Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C05",
+      "raw_candidate_ids": [
+        "F22-DETAIL-C05-SW-06",
+        "F22-DETAIL-C05-SE-04",
+        "F22-DETAIL-C05-ROAD-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6807,
+          4650,
+          183,
+          148
+        ],
+        [
+          6995,
+          4566,
+          89,
+          101
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Lower-edge full name completed in new native C05-ROAD context. Separate occurrence from F22-HAW-027."
+    },
+    {
+      "id": "F22-HAW-161",
+      "source_text": "Hector McDonald",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7849,
+          3517,
+          241,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "ASCII c represents printed superscript."
+    },
+    {
+      "id": "F22-HAW-162",
+      "source_text": "Water flows\nN.E. and S.E.",
+      "kind": "hydrology-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-05",
+        "F22-DETAIL-RAILWAY-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8177,
+          3763,
+          189,
+          36
+        ],
+        [
+          8164,
+          3799,
+          181,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Literal historical descriptive annotation; not a claim about present-day flow."
+    },
+    {
+      "id": "F22-HAW-163",
+      "source_text": "J. McQuarrie",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-06",
+        "F22-DETAIL-C05-NE-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7603,
+          3829,
+          185,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Complete surname checked in native C06; ASCII c represents printed superscript."
+    },
+    {
+      "id": "F22-HAW-164",
+      "source_text": "Mc Intyre\nLake",
+      "kind": "waterbody",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-07",
+        "F22-DETAIL-RAILWAY-08"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8292,
+          3945,
+          218,
+          45
+        ],
+        [
+          8354,
+          3990,
+          130,
+          38
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "ASCII c represents printed superscript."
+    },
+    {
+      "id": "F22-HAW-165",
+      "source_text": "Duff's Mills",
+      "kind": "mill",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-08",
+        "F22-DETAIL-RAILWAY-09"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8163,
+          4097,
+          159,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-166",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-11",
+        "F22-DETAIL-RAILWAY-10"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7983,
+          4247,
+          89,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-167",
+      "source_text": "Beaver\nDam\nLake",
+      "kind": "waterbody",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-12",
+        "F22-DETAIL-RAILWAY-11"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8217,
+          4360,
+          128,
+          42
+        ],
+        [
+          8247,
+          4406,
+          88,
+          35
+        ],
+        [
+          8258,
+          4444,
+          93,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate southern lake name from F22-HAW-086."
+    },
+    {
+      "id": "F22-HAW-168",
+      "source_text": "Little River",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-13"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7723,
+          4105,
+          159,
+          187
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-169",
+      "source_text": "PROPOSED RAILWAY TO LOUISBURG",
+      "kind": "proposed-railway-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-10",
+        "F22-R03C06-14",
+        "F22-R03C07-11",
+        "F22-R03C07-12",
+        "F22-DETAIL-RAILWAY-13",
+        "F22-DETAIL-INHABITANTS-09"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8423,
+          4390,
+          189,
+          134
+        ],
+        [
+          8663,
+          4243,
+          135,
+          144
+        ],
+        [
+          8839,
+          4199,
+          58,
+          46
+        ],
+        [
+          8944,
+          4136,
+          199,
+          90
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Full four-word route annotation spans C06/C07; source remains proposed, with no inference of construction."
+    },
+    {
+      "id": "F22-HAW-170",
+      "source_text": "COUNTY LINE",
+      "kind": "administrative-boundary-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-09",
+        "F22-R03C07-09",
+        "F22-R03C07-10",
+        "F22-DETAIL-INHABITANTS-08",
+        "F22-DETAIL-RAILWAY-12"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8630,
+          3830,
+          265,
+          213
+        ],
+        [
+          8986,
+          3626,
+          169,
+          143
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "One generic boundary annotation, not a county name or modern boundary assertion."
+    },
+    {
+      "id": "F22-HAW-171",
+      "source_text": "J. McVicar",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-18",
+        "F22-DETAIL-C06-BOTTOM-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7795,
+          4553,
+          143,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Reject first-pass McVean; native lower context reads McVicar."
+    },
+    {
+      "id": "F22-HAW-172",
+      "source_text": "Kiln",
+      "kind": "kiln",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-17",
+        "F22-DETAIL-C06-BOTTOM-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7697,
+          4650,
+          72,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Complete lettering checked in new lower context; reject model Kin fragment."
+    },
+    {
+      "id": "F22-HAW-173",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-R03C07-05",
+        "F22-DETAIL-INHABITANTS-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9255,
+          3585,
+          84,
+          29
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-174",
+      "source_text": "Church",
+      "kind": "church",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-R03C07-06",
+        "F22-DETAIL-INHABITANTS-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9347,
+          3606,
+          88,
+          24
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-175",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-R03C07-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9435,
+          3587,
+          73,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-176",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-R03C07-08",
+        "F22-DETAIL-INHABITANTS-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9454,
+          3532,
+          89,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-177",
+      "source_text": "90 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-DETAIL-INHABITANTS-17"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9614,
+          3655,
+          101,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Missed in original first pass; visible next to eastern neatline."
+    },
+    {
+      "id": "F22-HAW-178",
+      "source_text": "80 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-R03C07-13",
+        "F22-DETAIL-INHABITANTS-16"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9294,
+          4024,
+          107,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-179",
+      "source_text": "Cemetery",
+      "kind": "cemetery",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-R03C07-14",
+        "F22-DETAIL-INHABITANTS-11"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9275,
+          4162,
+          131,
+          44
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-180",
+      "source_text": "Grant Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-R03C07-15",
+        "F22-DETAIL-INHABITANTS-12"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9320,
+          4230,
+          218,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-181",
+      "source_text": "Rapids",
+      "kind": "rapids",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-R03C07-16",
+        "F22-DETAIL-INHABITANTS-10"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9670,
+          4135,
+          100,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed word extends beyond neatline but remains inside native scan."
+    },
+    {
+      "id": "F22-HAW-182",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-R03C07-17",
+        "F22-DETAIL-INHABITANTS-14"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9061,
+          4478,
+          94,
+          31
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-183",
+      "source_text": "Long Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-R03C07-18",
+        "F22-DETAIL-INHABITANTS-13"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9321,
+          4516,
+          184,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-184",
+      "source_text": "70 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-R03C07-19",
+        "F22-DETAIL-INHABITANTS-18"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9625,
+          4530,
+          90,
+          38
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-185",
+      "source_text": "RIVER INHABITANTS",
+      "kind": "river",
+      "reading_status": "tentative",
+      "crop_id": "F22-R03C07",
+      "raw_candidate_ids": [
+        "F22-DETAIL-C07-RIVER-01",
+        "F22-DETAIL-C07-RIVER-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9380,
+          4342,
+          59,
+          58
+        ],
+        [
+          9415,
+          4389,
+          49,
+          54
+        ],
+        [
+          9437,
+          4418,
+          62,
+          57
+        ],
+        [
+          9474,
+          4455,
+          60,
+          59
+        ],
+        [
+          9503,
+          4503,
+          57,
+          60
+        ],
+        [
+          9304,
+          4871,
+          54,
+          46
+        ],
+        [
+          9342,
+          4905,
+          59,
+          55
+        ],
+        [
+          9403,
+          4959,
+          44,
+          45
+        ],
+        [
+          9410,
+          5026,
+          57,
+          63
+        ],
+        [
+          9401,
+          5109,
+          57,
+          57
+        ],
+        [
+          9393,
+          5189,
+          57,
+          52
+        ],
+        [
+          9436,
+          5234,
+          61,
+          58
+        ],
+        [
+          9496,
+          5260,
+          60,
+          57
+        ],
+        [
+          9551,
+          5294,
+          58,
+          62
+        ],
+        [
+          9536,
+          5365,
+          58,
+          63
+        ],
+        [
+          9507,
+          5438,
+          60,
+          61
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Large river title assembled across rows 3–4; H is partly obscured by a red geological code and remains tentative. Distinct from the bridge alternative-name annotation F22-HAW-095."
     }
   ],
   "crop_reviews": [
@@ -3016,13 +4676,38 @@
     },
     {
       "crop_id": "F22-R03C01",
-      "status": "source-reviewed-multipart-pending",
-      "notes": "Whole crop and southern native context inspected. Little Tracadie river, harbour and settlement are distinct printed labels. Colin Chisholm's Brook and Tate's Road completed below the crop, with possessives checked in rotated excerpts. Harbour Bouché completed in eastern context; school overlaps C02. Top 60 FT duplicates F22-HAW-052. Large county lettering remains pending across later crops; terminal s in Shops is tentative."
+      "status": "source-reviewed",
+      "notes": "Whole crop and southern native context inspected. Little Tracadie river, harbour and settlement are distinct printed labels. Colin Chisholm's Brook and Tate's Road completed below the crop, with possessives checked in rotated excerpts. Harbour Bouché completed in eastern context; school overlaps C02. Top 60 FT duplicates F22-HAW-052. Large county lettering remains pending across later crops; terminal s in Shops is tentative. Subsequent native-letter review assembles ANTIGONISH as F22-HAW-122 and resolves F22-HAW-102 to Shop; earlier pending items are closed."
     },
     {
       "crop_id": "F22-R03C02",
-      "status": "source-reviewed-multipart-pending",
-      "notes": "Whole crop inspected. Top heights duplicate F22-HAW-062 and 063; Harbour Bouché and school link to F22-HAW-097 and 116. Correct Winter Brook to Winter Road. Central 350 FT was missed by first pass. Raw IRON is not supported as a mineral label; large county lettering awaits assembly across later crops."
+      "status": "source-reviewed",
+      "notes": "Whole crop inspected. Top heights duplicate F22-HAW-062 and 063; Harbour Bouché and school link to F22-HAW-097 and 116. Correct Winter Brook to Winter Road. Central 350 FT was missed by first pass. Raw IRON is not supported as a mineral label; large county lettering awaits assembly across later crops. County lettering now completed as ANTIGONISH, F22-HAW-122."
+    },
+    {
+      "crop_id": "F22-R03C03",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. County lettering completed across C01–C03. Top 250 FT, D. McDonald, northern Mill and strait letters are existing overlaps. Long Pond and Mc Millan Point completed across C04. Upper Dyke overlaps prior scope holdback; separate lower Dyke retained. Archie Pond, Ghost Beach, Auld Cove and Cape Porcupine are distinct names."
+    },
+    {
+      "crop_id": "F22-R03C04",
+      "status": "source-reviewed",
+      "notes": "Whole crop and lettering excerpts inspected. Horton Lake/Brook, Mill, Long Pond, Auld Cove and Big Brook Road overlaps reconciled. Three distinct Cable occurrences retained; displaced first-pass boxes cannot uniquely attribute both C04 model candidates. C. Porcupine and Plaster Cove split correctly. Bottom height completed from native source."
+    },
+    {
+      "crop_id": "F22-R03C05",
+      "status": "source-reviewed",
+      "notes": "Whole native crop plus all four C05-NW/NE/SW/SE detail packets inspected. Original truncated JSON remains unchanged. Reject clipped Dorchester Bridge guess; it is the existing Dortons Bridge overlap. North Branch, South Branch and Emery Brook are multipart stream labels. Lower Crandall Road completed in new native context, and J. McQuarrie across C06. Note 2 and red report numbers excluded."
+    },
+    {
+      "crop_id": "F22-R03C06",
+      "status": "source-reviewed",
+      "notes": "Whole crop inspected. Upper survey, proposed railway and Black Brook fragments link to IDs 092, 091 and 090. Separate southern Beaver Dam Lake retained. Proposed railway to Louisburg and COUNTY LINE completed across C07. Kiln and J. McVicar corrected/completed in narrow lower context. Fault overlay retained separately; Note 1 and geological codes excluded."
+    },
+    {
+      "crop_id": "F22-R03C07",
+      "status": "source-reviewed-with-reading-uncertainty",
+      "notes": "Whole crop inspected. Ferguson, Fall and bridge-name overlap link to IDs 094, 093 and 095. Separate facilities around the bridge retained. Proposed route, county line and lower river title assembled with native context. RIVER INHABITANTS has a partly obscured H and remains tentative; it is separate from the bridge-name record. Rapids outside neatline remains within native scan."
     }
   ],
   "model_audit": {
@@ -3072,6 +4757,38 @@
       ],
       "source_text": "FAULT",
       "reason": "Geological structure lettering continuing from the northern row; reconcile continuous fault labels during sheet-wide scope review."
+    },
+    {
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-07"
+      ],
+      "source_text": "Dyke",
+      "reason": "Upper occurrence is an overlap of the existing F22-R02C03 Dyke holdback; do not count twice."
+    },
+    {
+      "crop_id": "F22-R03C03",
+      "raw_candidate_ids": [
+        "F22-R03C03-22"
+      ],
+      "source_text": "Dyke",
+      "source_label_boxes_xywh": [
+        [
+          4260,
+          4435,
+          87,
+          31
+        ]
+      ],
+      "reason": "Distinct lower geological intrusion label; retain pending consistent sheet-wide treatment."
+    },
+    {
+      "crop_id": "F22-R03C06",
+      "raw_candidate_ids": [
+        "F22-R03C06-15"
+      ],
+      "source_text": "FAULT",
+      "reason": "Geological structure lettering continues across crops; retain for sheet-wide overlay reconciliation."
     }
   ],
   "unresolved_readings": [
@@ -3080,25 +4797,11 @@
       "issue": "McInnesHill capitalization/word division remains tentative; native rotated excerpt retained locally."
     },
     {
-      "id": "F22-HAW-102",
-      "issue": "Shops terminal s crowded by a building symbol; tentative reading."
-    },
-    {
-      "crop_ids": [
-        "F22-R03C01",
-        "F22-R03C02"
-      ],
-      "raw_candidate_ids": [
-        "F22-R03C01-08",
-        "F22-R03C01-09",
-        "F22-R03C01-10",
-        "F22-R03C01-11",
-        "F22-R03C02-07"
-      ],
-      "issue": "Large hatched county lettering spans multiple crops. Visible letters are not standalone facility or mineral labels. Assemble complete administrative names from later native crops before finalization."
+      "id": "F22-HAW-185",
+      "issue": "H in the large RIVER INHABITANTS title partly obscured by red geological unit lettering and island outline; tentative."
     }
   ],
-  "next_annotation_id": "F22-HAW-122",
+  "next_annotation_id": "F22-HAW-186",
   "supplementary_source_windows": [
     {
       "crop_id": "F22-CAPE-JACK-EDGE",
@@ -3193,6 +4896,80 @@
         230
       ],
       "purpose": "Complete Brook and Road, station abbreviation and 400 FT at the lower crop edge."
+    },
+    {
+      "crop_id": "F22-DETAIL-SHOP-CHURCH",
+      "source_xywh": [
+        1860,
+        3810,
+        350,
+        400
+      ],
+      "sha256": "d6de6f2494e81d69ccf53099babe9be9b0e4a6720904d13476d865c2871462d0",
+      "purpose": "New narrow native source contexts for third-row edge omissions and an uncertain shop reading; no preceding model answers supplied."
+    },
+    {
+      "crop_id": "F22-DETAIL-C06-BOTTOM",
+      "source_xywh": [
+        7570,
+        4430,
+        600,
+        650
+      ],
+      "sha256": "5476302bd9f8634d633d4e086a05274facc19d46030dc3ab641718aee2c7f6dd",
+      "purpose": "New narrow native source contexts for third-row edge omissions and an uncertain shop reading; no preceding model answers supplied."
+    },
+    {
+      "crop_id": "F22-DETAIL-C05-ROAD",
+      "source_xywh": [
+        6700,
+        4470,
+        750,
+        650
+      ],
+      "sha256": "b82165f3bc11ece3e5d85551929d1744014618cb2d5db0108d3b5d5e73e6c6f6",
+      "purpose": "New narrow native source contexts for third-row edge omissions and an uncertain shop reading; no preceding model answers supplied."
+    },
+    {
+      "crop_id": "F22-DETAIL-C07-RIVER",
+      "source_xywh": [
+        9300,
+        4250,
+        600,
+        1800
+      ],
+      "sha256": "2926c8a9f25f4c5d7b64138e2756bf8c28f543cc34d28054ae62ff68c100c8cc",
+      "purpose": "New narrow native source contexts for third-row edge omissions and an uncertain shop reading; no preceding model answers supplied."
+    },
+    {
+      "crop_id": "F22-RIVER-MIDDLE-CONTEXT",
+      "source_xywh": [
+        9060,
+        4740,
+        600,
+        800
+      ],
+      "purpose": "Complete river title beyond narrow eastern crop; inspect all letters at native resolution."
+    },
+    {
+      "crop_id": "F22-RIVER-H-CONTEXT",
+      "source_xywh": [
+        9350,
+        4935,
+        170,
+        145
+      ],
+      "purpose": "Inspect partly obscured H; retain tentative status."
+    },
+    {
+      "crop_id": "F22-SHOP-SYMBOL-CONTEXT",
+      "source_xywh": [
+        1895,
+        3858,
+        95,
+        52
+      ],
+      "purpose": "Distinguish final p from adjacent filled building symbol; nearest-neighbour enlargement is display only."
     }
   ]
 }
