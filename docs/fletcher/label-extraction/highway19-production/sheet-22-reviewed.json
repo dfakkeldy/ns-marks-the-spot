@@ -8,7 +8,7 @@
   "source_manifest": "sheet-22-manifest.json",
   "sheet_finalized": false,
   "status": "partial-source-reviewed-transcription",
-  "review_method": "Coordinator whole-crop inspection plus original-pixel lettering-box checks; three independent DeepSeek close-ups and rotated source excerpts support adjudication. Geological structure words remain separate scope holdbacks. No geographic placement.",
+  "review_method": "Coordinator whole-crop inspection and original-pixel lettering-box checks, supported by independent DeepSeek context passes. Model output is adjudicated against source pixels. Geological structure words remain separate scope holdbacks. No geographic placement.",
   "annotations": [
     {
       "id": "F22-HAW-001",
@@ -1173,6 +1173,1175 @@
       "review_status": "source-reviewed",
       "geometry": null,
       "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-053",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C02",
+      "raw_candidate_ids": [
+        "F22-R02C02-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2955,
+          2699,
+          70,
+          29
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-054",
+      "source_text": "Havre\nBouché",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C02",
+      "raw_candidate_ids": [
+        "F22-R02C02-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          3026,
+          2775,
+          179,
+          38
+        ],
+        [
+          3042,
+          2842,
+          198,
+          42
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-055",
+      "source_text": "Lobster Factory",
+      "kind": "factory",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C02",
+      "raw_candidate_ids": [
+        "F22-R02C02-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          3026,
+          2813,
+          211,
+          31
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-056",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C02",
+      "raw_candidate_ids": [
+        "F22-R02C02-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2916,
+          2862,
+          85,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-057",
+      "source_text": "Hotel",
+      "kind": "hotel",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C02",
+      "raw_candidate_ids": [
+        "F22-R02C02-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2912,
+          2994,
+          80,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-058",
+      "source_text": "Lt F. white\n36 ft.",
+      "kind": "light",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C02",
+      "raw_candidate_ids": [
+        "F22-R02C02-09"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          3074,
+          2929,
+          145,
+          55
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Literal printed light annotation; abbreviations and units are not expanded."
+    },
+    {
+      "id": "F22-HAW-059",
+      "source_text": "North Canso",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C02",
+      "raw_candidate_ids": [
+        "F22-R02C02-10"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          3620,
+          2836,
+          412,
+          65
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-060",
+      "source_text": "350 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C02",
+      "raw_candidate_ids": [
+        "F22-R02C02-11"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          3740,
+          2927,
+          172,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-061",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C02",
+      "raw_candidate_ids": [
+        "F22-R02C02-12",
+        "F22-R02C03-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          3903,
+          3160,
+          92,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-062",
+      "source_text": "350 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C02",
+      "raw_candidate_ids": [
+        "F22-R02C02-13"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2983,
+          3283,
+          137,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-063",
+      "source_text": "40 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C02",
+      "raw_candidate_ids": [
+        "F22-R02C02-14"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          3332,
+          3278,
+          105,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-064",
+      "source_text": "Lt. F. 110 ft. vis: 18 m.",
+      "kind": "light",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C03",
+      "raw_candidate_ids": [
+        "F22-R02C03-03",
+        "F22-R02C02-15"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          3910,
+          2633,
+          295,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Completed using overlap; reject model H0 reading. Printed distance abbreviation remains uninterpreted."
+    },
+    {
+      "id": "F22-HAW-065",
+      "source_text": "190 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C03",
+      "raw_candidate_ids": [
+        "F22-R02C03-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4591,
+          2286,
+          126,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-066",
+      "source_text": "Heffernan\nPond",
+      "kind": "waterbody",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C03",
+      "raw_candidate_ids": [
+        "F22-R02C03-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4316,
+          2447,
+          218,
+          45
+        ],
+        [
+          4448,
+          2490,
+          114,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-067",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C03",
+      "raw_candidate_ids": [
+        "F22-R02C03-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4922,
+          2711,
+          95,
+          33
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-068",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C03",
+      "raw_candidate_ids": [
+        "F22-R02C03-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4941,
+          3094,
+          91,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-069",
+      "source_text": "250 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C03",
+      "raw_candidate_ids": [
+        "F22-R02C03-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4241,
+          3296,
+          112,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-070",
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C03",
+      "raw_candidate_ids": [
+        "F22-R02C03-10",
+        "F22-R02C04-16"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5220,
+          3432,
+          77,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-071",
+      "source_text": "Brown's Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C04",
+      "raw_candidate_ids": [
+        "F22-R02C04-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5844,
+          2399,
+          112,
+          179
+        ],
+        [
+          5935,
+          2582,
+          105,
+          131
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-072",
+      "source_text": "L. Murray",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C04",
+      "raw_candidate_ids": [
+        "F22-R02C04-09",
+        "F22-R02C05-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6215,
+          2422,
+          177,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-073",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C04",
+      "raw_candidate_ids": [
+        "F22-R02C04-08"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6042,
+          2532,
+          92,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Model joined School to Road incorrectly; Road belongs to existing General Line Road, F22-HAW-014."
+    },
+    {
+      "id": "F22-HAW-074",
+      "source_text": "Widow Mc Askill",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C04",
+      "raw_candidate_ids": [
+        "F22-R02C04-10"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5618,
+          2805,
+          267,
+          45
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "ASCII c represents the printed superscript c; printed separation before Askill retained."
+    },
+    {
+      "id": "F22-HAW-075",
+      "source_text": "570 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C04",
+      "raw_candidate_ids": [
+        "F22-R02C04-11"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5388,
+          2792,
+          143,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-076",
+      "source_text": "Horton Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C04",
+      "raw_candidate_ids": [
+        "F22-R02C04-12"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5533,
+          2840,
+          64,
+          143
+        ],
+        [
+          5565,
+          2994,
+          64,
+          132
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-077",
+      "source_text": "Brown's Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C04",
+      "raw_candidate_ids": [
+        "F22-R02C04-13",
+        "F22-R02C05-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6177,
+          3034,
+          183,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-078",
+      "source_text": "Horton\nLake",
+      "kind": "waterbody",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C04",
+      "raw_candidate_ids": [
+        "F22-R02C04-14",
+        "F22-DETAIL-HORTON-EDGE-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5836,
+          3196,
+          207,
+          91
+        ],
+        [
+          5885,
+          3261,
+          128,
+          56
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-079",
+      "source_text": "Horton Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C04",
+      "raw_candidate_ids": [
+        "F22-R02C04-15",
+        "F22-DETAIL-HORTON-EDGE-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5358,
+          3406,
+          186,
+          41
+        ],
+        [
+          5622,
+          3428,
+          137,
+          74
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate printed occurrence from the western vertical Horton Brook; lower edge completed in HORTON-EDGE native context."
+    },
+    {
+      "id": "F22-HAW-080",
+      "source_text": "Barrens",
+      "kind": "landscape-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C05",
+      "raw_candidate_ids": [
+        "F22-R02C05-03",
+        "F22-R02C04-17"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6384,
+          2791,
+          243,
+          48
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-081",
+      "source_text": "Sugar Camp Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C05",
+      "raw_candidate_ids": [
+        "F22-R02C05-04",
+        "F22-R02C05-05",
+        "F22-R02C06-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7324,
+          2645,
+          201,
+          142
+        ],
+        [
+          7520,
+          2742,
+          117,
+          42
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-082",
+      "source_text": "McQuarrie",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C05",
+      "raw_candidate_ids": [
+        "F22-R02C05-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6720,
+          3145,
+          165,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "ASCII c represents the printed superscript c."
+    },
+    {
+      "id": "F22-HAW-083",
+      "source_text": "Dortons Bridge",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C05",
+      "raw_candidate_ids": [
+        "F22-R02C05-08"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6562,
+          3242,
+          482,
+          66
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-084",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C05",
+      "raw_candidate_ids": [
+        "F22-R02C05-09"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7264,
+          3082,
+          86,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-085",
+      "source_text": "Big Brook Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C05",
+      "raw_candidate_ids": [
+        "F22-R02C05-10",
+        "F22-DETAIL-HORTON-EDGE-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6428,
+          3432,
+          62,
+          44
+        ],
+        [
+          6496,
+          3363,
+          91,
+          73
+        ],
+        [
+          6588,
+          3306,
+          80,
+          61
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Bottom word checked against overlapping native HORTON-EDGE context."
+    },
+    {
+      "id": "F22-HAW-086",
+      "source_text": "Beaver Dam Lake",
+      "kind": "waterbody",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C06",
+      "raw_candidate_ids": [
+        "F22-R02C06-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7706,
+          2563,
+          280,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-087",
+      "source_text": "J. Dowling",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C06",
+      "raw_candidate_ids": [
+        "F22-R02C06-04",
+        "F22-DETAIL-RAILWAY-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8419,
+          2838,
+          167,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-088",
+      "source_text": "Northwest Arm",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C06",
+      "raw_candidate_ids": [
+        "F22-R02C06-05",
+        "F22-DETAIL-RAILWAY-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8167,
+          2939,
+          244,
+          104
+        ],
+        [
+          8452,
+          3045,
+          112,
+          47
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate eastern printed occurrence; do not merge with F22-HAW-013."
+    },
+    {
+      "id": "F22-HAW-089",
+      "source_text": "New Bridge",
+      "kind": "bridge-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C07",
+      "raw_candidate_ids": [
+        "F22-R02C07-04",
+        "F22-R02C06-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8731,
+          2611,
+          181,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-090",
+      "source_text": "Black Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C06",
+      "raw_candidate_ids": [
+        "F22-R02C06-06",
+        "F22-R02C06-07",
+        "F22-DETAIL-RAILWAY-06",
+        "F22-R02C07-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8500,
+          3373,
+          70,
+          151
+        ],
+        [
+          8664,
+          3252,
+          145,
+          52
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Black completed in native RAILWAY context; reject first-pass Jack guess."
+    },
+    {
+      "id": "F22-HAW-091",
+      "source_text": "PROPOSED RAILWAY TO WHYCOCOMAGH AND BROAD COVE",
+      "kind": "proposed-railway-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C06",
+      "raw_candidate_ids": [
+        "F22-R02C06-08",
+        "F22-R02C06-11",
+        "F22-DETAIL-RAILWAY-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8115,
+          2378,
+          154,
+          172
+        ],
+        [
+          8013,
+          2615,
+          86,
+          181
+        ],
+        [
+          7980,
+          2880,
+          51,
+          61
+        ],
+        [
+          8026,
+          2994,
+          209,
+          227
+        ],
+        [
+          8217,
+          3251,
+          45,
+          83
+        ],
+        [
+          8218,
+          3369,
+          65,
+          132
+        ],
+        [
+          8266,
+          3527,
+          46,
+          90
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Multipart source annotation continued in RAILWAY context; named destination spelling is transcribed, not normalized."
+    },
+    {
+      "id": "F22-HAW-092",
+      "source_text": "Surveyed by W.H. Tremaine, C.E., in 1875",
+      "kind": "survey-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C06",
+      "raw_candidate_ids": [
+        "F22-R02C06-09",
+        "F22-DETAIL-RAILWAY-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7920,
+          2995,
+          167,
+          193
+        ],
+        [
+          8094,
+          3185,
+          75,
+          79
+        ],
+        [
+          8129,
+          3257,
+          60,
+          206
+        ],
+        [
+          8146,
+          3459,
+          53,
+          92
+        ],
+        [
+          8181,
+          3550,
+          45,
+          48
+        ],
+        [
+          8150,
+          3600,
+          72,
+          102
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Native context reads 1875; reject detail model 1879-80, which appears in a separate red report reference."
+    },
+    {
+      "id": "F22-HAW-093",
+      "source_text": "Fall",
+      "kind": "falls",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C07",
+      "raw_candidate_ids": [
+        "F22-R02C07-07",
+        "F22-DETAIL-INHABITANTS-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9387,
+          3400,
+          81,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-094",
+      "source_text": "Ferguson",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C07",
+      "raw_candidate_ids": [
+        "F22-R02C07-08",
+        "F22-DETAIL-INHABITANTS-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9536,
+          3315,
+          159,
+          100
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Only Ferguson is printed at this occurrence; do not append Brook or infer a station from proximity."
+    },
+    {
+      "id": "F22-HAW-095",
+      "source_text": "River Inhabitants\nor Mc Leods Bridge",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C07",
+      "raw_candidate_ids": [
+        "F22-R02C07-09",
+        "F22-DETAIL-INHABITANTS-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9093,
+          3450,
+          556,
+          53
+        ],
+        [
+          9013,
+          3490,
+          625,
+          69
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Complete two-line alternative-name annotation in INHABITANTS context. ASCII c represents printed superscript; spelling retained."
+    },
+    {
+      "id": "F22-HAW-096",
+      "source_text": "STRAIT OF CANSO",
+      "kind": "strait",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C03",
+      "raw_candidate_ids": [],
+      "source_label_boxes_xywh": [
+        [
+          4195,
+          2470,
+          84,
+          62
+        ],
+        [
+          4395,
+          2715,
+          83,
+          65
+        ],
+        [
+          4570,
+          2965,
+          83,
+          68
+        ],
+        [
+          4720,
+          3208,
+          80,
+          61
+        ],
+        [
+          4872,
+          3443,
+          65,
+          70
+        ],
+        [
+          4995,
+          3674,
+          95,
+          75
+        ],
+        [
+          5375,
+          4173,
+          86,
+          76
+        ],
+        [
+          5600,
+          4298,
+          84,
+          82
+        ],
+        [
+          6020,
+          4775,
+          88,
+          66
+        ],
+        [
+          6122,
+          5070,
+          92,
+          67
+        ],
+        [
+          6187,
+          5390,
+          98,
+          84
+        ],
+        [
+          6294,
+          5740,
+          103,
+          74
+        ],
+        [
+          6480,
+          6012,
+          108,
+          84
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Widely spaced regional name assembled from original native pixels across rows 2–5. Each box encloses one letter in reading order; these are not feature coordinates."
     }
   ],
   "crop_reviews": [
@@ -1215,6 +2384,36 @@
       "crop_id": "F22-R02C01",
       "status": "source-reviewed",
       "notes": "Whole native crop and eastern light context checked. Jack Shoal links to existing F22-HAW-010. Heights with printed FT retained separately from dip numbers. The eastern School box is completed using edge context."
+    },
+    {
+      "crop_id": "F22-R02C02",
+      "status": "source-reviewed",
+      "notes": "Whole crop inspected. Western church, school and red-light duplicates link to F22-HAW-045, 046 and 047. White-light annotation, lobster factory and Havre Bouché are separate. Eastern light completed in C03 as F22-HAW-064. Compass apparatus, geological codes and report references excluded."
+    },
+    {
+      "crop_id": "F22-R02C03",
+      "status": "source-reviewed",
+      "notes": "Whole crop inspected. Western school links to F22-HAW-061; top D. McDonald fragment links to F22-HAW-009. Strait lettering assembled across rows 2–5 as F22-HAW-096; raw 91 is not accepted. Dyke retained in scope_holdbacks. Mill completed and deduplicated with C04."
+    },
+    {
+      "crop_id": "F22-R02C04",
+      "status": "source-reviewed",
+      "notes": "Whole crop inspected despite invalid first-pass box schema. Top General Line Road, Northwest Arm, Ice grooves, 685 FT and Lamey Brook link to existing IDs 014, 013, 016, 017 and 018. School is separate from Road. Brown's Brook and Brown's Mill retain the printed possessive. Southern Horton Brook is a distinct printed occurrence, completed using HORTON-EDGE context. Barrens completed in C05."
+    },
+    {
+      "crop_id": "F22-R02C05",
+      "status": "source-reviewed",
+      "notes": "Whole crop inspected. Top Road fragment belongs to Crandall Road, F22-HAW-027. Western Lamey Brook, L. Murray and Brown's Mill fragments are overlap duplicates. Sugar Camp Brook is one multipart annotation; Big Brook Road checked in lower context. Geological codes and reports excluded."
+    },
+    {
+      "crop_id": "F22-R02C06",
+      "status": "source-reviewed",
+      "notes": "Whole crop inspected despite invalid first-pass box schema. Sugar Camp Brook overlaps C05; New Bridge completed in C07. Native RAILWAY context resolves Black Brook and the proposed railway destination/survey text. Survey date is 1875, not the model's imported red report dates. Geological fault lettering retained separately."
+    },
+    {
+      "crop_id": "F22-R02C07",
+      "status": "source-reviewed",
+      "notes": "Whole crop inspected. New Bridge and Black Brook overlaps reconciled. River Inhabitants or Mc Leods Bridge is one two-line alternative-name label completed below the crop. Ferguson retained without an invented stream suffix or station classification. Raw unit codes/dip marks and unsupported Creek excluded."
     }
   ],
   "model_audit": {
@@ -1240,6 +2439,30 @@
       ],
       "source_text": "FAULT",
       "reason": "Two geological structure overlay occurrences; retained, not geographic placement candidates."
+    },
+    {
+      "crop_id": "F22-R02C03",
+      "raw_candidate_ids": [
+        "F22-R02C03-09"
+      ],
+      "source_text": "Dyke",
+      "source_label_boxes_xywh": [
+        [
+          4539,
+          3343,
+          78,
+          41
+        ]
+      ],
+      "reason": "Geological intrusion annotation retained pending consistent sheet-wide treatment with structural fault lettering; not silently discarded."
+    },
+    {
+      "crop_id": "F22-R02C06",
+      "raw_candidate_ids": [
+        "F22-R02C06-10"
+      ],
+      "source_text": "FAULT",
+      "reason": "Geological structure lettering continuing from the northern row; reconcile continuous fault labels during sheet-wide scope review."
     }
   ],
   "unresolved_readings": [
@@ -1248,7 +2471,7 @@
       "issue": "McInnesHill capitalization/word division remains tentative; native rotated excerpt retained locally."
     }
   ],
-  "next_annotation_id": "F22-HAW-053",
+  "next_annotation_id": "F22-HAW-097",
   "supplementary_source_windows": [
     {
       "crop_id": "F22-CAPE-JACK-EDGE",
@@ -1259,6 +2482,60 @@
         500
       ],
       "purpose": "Complete the clipped eastern light annotation; this context is not a full review of C02."
+    },
+    {
+      "crop_id": "F22-DETAIL-RAILWAY",
+      "source_xywh": [
+        7950,
+        2770,
+        1100,
+        1850
+      ],
+      "sha256": "6acf66cf9c8f94d2c4227bc73041f3ac5aa50b8d1867e8157eb52f867028d06c",
+      "purpose": "New native context windows to resolve row-two edge lettering and multipart names. No earlier model readings supplied."
+    },
+    {
+      "crop_id": "F22-DETAIL-INHABITANTS",
+      "source_xywh": [
+        8600,
+        3160,
+        1170,
+        1400
+      ],
+      "sha256": "22d18f9bd2182175e831fca0dfa22b0882182b77d5ae4a49d99e5eb3cec8dd21",
+      "purpose": "New native context windows to resolve row-two edge lettering and multipart names. No earlier model readings supplied."
+    },
+    {
+      "crop_id": "F22-DETAIL-HORTON-EDGE",
+      "source_xywh": [
+        5300,
+        3150,
+        1550,
+        850
+      ],
+      "sha256": "91f0b0b8ee1dced51a6bfc2d3beb8b1dfa4395190c2d0a562a701bc7b84774f7",
+      "purpose": "New native context windows to resolve row-two edge lettering and multipart names. No earlier model readings supplied."
+    },
+    {
+      "crop_id": "F22-DETAIL-STRAIT",
+      "source_xywh": [
+        4200,
+        2420,
+        2150,
+        3400
+      ],
+      "sha256": "d8239ffc26fc357088c0f9acf2e925df2929c59e14de74701e4493418148fe6d",
+      "purpose": "New native context windows to resolve row-two edge lettering and multipart names. No earlier model readings supplied."
+    },
+    {
+      "crop_id": "F22-STRAIT-SOUTH-CONTEXT",
+      "source_xywh": [
+        5750,
+        4420,
+        1350,
+        2510
+      ],
+      "purpose": "Complete the large CANSO lettering from native source pixels. A reduced overview was used for orientation, followed by individual native letter-box checks."
     }
   ]
 }

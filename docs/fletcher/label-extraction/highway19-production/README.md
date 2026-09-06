@@ -26,12 +26,12 @@ serialization repairs that required no model calls, 131 responses pass structura
 validation, containing **1,156 candidate records**; 14 responses still need repair
 or source inspection. Candidate files deliberately retain duplicates,
 tentative readings and unreliable model-estimated lettering boxes. Their
-geometry is null. **52 source-reviewed annotations** are saved separately in
+geometry is null. **96 source-reviewed annotations** are saved separately in
 `sheet-22-reviewed.json`, with corrected boxes and explicit edge-review notes.
-The original ten IDs are preserved. The whole northern row and the first western
-crop of the second row have been visually reviewed (8 of 35 sheet 22 crops), with
+The original ten IDs are preserved. The first two rows have been visually
+reviewed (14 of 35 sheet 22 crops), with
 one tentative school-name typography reading and geological fault-label scope
-holdbacks still explicit. Seven of the 52 records are printed spot-height labels;
+holdbacks still explicit. Thirteen of the 96 records are printed spot-height labels;
 they do not establish modern elevations or a vertical datum.
 The first source checks found compass text incorrectly included, a clipped
 "Rock dries" misread as "Rocky", and substantially displaced model boxes.
@@ -40,6 +40,15 @@ independent DeepSeek detail passes and rotated native excerpts helped correct
 McMaster's Mill, Askilton, the school name, and General Line Road. The coordinator
 rejected the model's incorrect grouping of General with Arm or Ice grooves.
 See `north-row-review-evidence.json` for detail-crop provenance and adjudication.
+Four further DeepSeek context passes supported the second-row review. Source
+checks resolved Black Brook, the complete railway destination, and the survey
+date **1875**, rejecting the model's imported 1879–80 report date. The broad
+Strait context returned structurally valid JSON with many unsupported readings;
+it is not accepted evidence. All thirteen letters of **STRAIT OF CANSO** were
+instead checked directly in native source excerpts across rows 2–5. See
+`second-row-review-evidence.json` for receipts and dispositions of all 75
+second-row C02–C07 first-pass candidates. Lower-row text visible in these context
+windows still needs the normal whole-crop review.
 
 ## Continuing the queue
 
@@ -117,9 +126,13 @@ not every unchanged check. Pause that continuation when all four sheets finish.
    `clear` classification and a successful subprocess do not establish source
    accuracy or completeness.
 
-Use `F22-HAW-053` onward for additional sheet 22 reviewed annotations. Do not
-renumber existing IDs. Next inspect R02C02 eastward, reconcile overlap with the
-reviewed row, and recover the truncated R03C05 output from new source close-ups.
+Use `F22-HAW-097` onward for additional sheet 22 reviewed annotations. Do not
+renumber existing IDs. Next inspect R03C01 eastward, reconcile overlap with the
+reviewed rows, and recover the truncated R03C05 output from new source close-ups.
+Reuse the existing RAILWAY, INHABITANTS and HORTON-EDGE detail packets under
+`review-20260906-02` for lower-edge context; do not rerun them. Prefer smaller
+windows over another broad STRAIT model pass. The survey and regional strait
+annotations are already complete; their lower-row pieces are duplicates.
 The first-pass queue has stopped normally; do not restart successful packets.
 Keep private residence observations out of public data.
 Publish incremental reviewed work to this task's PR against `nightly`; do not
