@@ -1,0 +1,57 @@
+{
+  "id": "L19S",
+  "sheet": "19",
+  "area": "Join extension into existing Judique hull",
+  "pixel_xy": [
+    [
+      4027,
+      1240
+    ],
+    [
+      4026,
+      1250
+    ],
+    [
+      4037,
+      1275
+    ],
+    [
+      4036,
+      1290
+    ],
+    [
+      4032,
+      1300
+    ],
+    [
+      4005,
+      1325
+    ],
+    [
+      3975,
+      1350
+    ],
+    [
+      3964,
+      1375
+    ],
+    [
+      3960,
+      1400
+    ],
+    [
+      3964,
+      1450
+    ],
+    [
+      3964,
+      1500
+    ],
+    [
+      3963,
+      1547
+    ]
+  ],
+  "identity": "Continuation of the same paired road across the main river and intersecting east-west road, then south along the east side of the main river, past the existing Q05 tributary.",
+  "selection_note": "Traced after first three line results were seen, to connect the narrow seam extension into the previous supported mask. Fit unchanged; frozen before this additional line was scored."
+}
