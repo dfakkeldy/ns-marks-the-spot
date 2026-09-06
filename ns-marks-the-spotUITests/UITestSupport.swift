@@ -13,7 +13,6 @@ extension XCTestCase {
         return condition()
     }
 
-    @MainActor
     func attachUIFailure() {
         guard let testRun, testRun.totalFailureCount > 0 else { return }
         let app = XCUIApplication()

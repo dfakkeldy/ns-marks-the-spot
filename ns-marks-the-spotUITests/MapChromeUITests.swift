@@ -14,7 +14,6 @@ final class MapChromeUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    @MainActor
     override func tearDown() {
         attachUIFailure()
         super.tearDown()

@@ -20,7 +20,6 @@ final class ControlReachabilityUITests: XCTestCase {
         continueAfterFailure = false
     }
 
-    @MainActor
     override func tearDown() {
         attachUIFailure()
         XCUIDevice.shared.orientation = .portrait
