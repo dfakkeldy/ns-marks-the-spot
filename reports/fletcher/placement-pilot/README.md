@@ -15,10 +15,10 @@ This moves the selected annotations from transcription into geographic research.
 | 004 School | Supported mark | Road/stream corridor recognized with Highway 19 restored; exact school-site/junction linkage unresolved. |
 | 005 Forge | Supported mark | Two eastern tributaries, coastal inlet and restored Highway 19 constrain the locality; the road is present. |
 | 008 Stage Stables | Supported mark | Inlet, tributary mouths and island sequence constrain the coastal corridor; building footprint unresolved. |
-| 015 R.C. Church | Supported mark | Locality constrained between two brooks. St. Andrew's is an institutional candidate; earlier church footprint unresolved. |
+| 015 R.C. Church | Supported mark | Locality constrained between two brooks. A 1968 history supports rebuilding St. Andrew's on its predecessor's site; exact footprint unresolved. |
 | 021 Mill, Rory Chisholm's Brook | Unresolved group | Brook bend sequence and diagonal road crossing constrain the locality; no individual mill mark selected. |
 | 077 Mill (A) | Unresolved pond/mark group | Northeastern stream corridor recognized; label does not identify a precise dam or building. |
-| 078 Mills (B) | Unresolved group | Western crossing and road bend recognized; plural mills not collapsed into one building. |
+| 078 Mills (B) | Unresolved group | Western crossing and road bend recognized; 1892 district account names Alex. and Donald Chisholm's mills, without assigning either to B. |
 | 079 Mills (C) | Unresolved group | Eastern crossing/building cluster recognized; individual facilities unresolved. |
 | 061 Gold Mine | Supported overprinted mark | Candidate Melford district record cluster: MODB F14-015 and AMO MAU-1-001. |
 | 094 Gold Mine | Supported oval mark | Candidate Cameron's Mountain/Glendale Brook cluster: MODB F14-017 and AMO GBG-1-001; user visually corroborated the displayed locality on September 6. |
@@ -29,7 +29,7 @@ The strongest new independent leads are the mine records. [AMO](https://novascot
 
 For Plumbago Mine, no MODB graphite point was returned in the bounded 2.5 km search. The MacColls Brook occurrence F14-018 and D.J. Beaton opening cluster lie roughly 4.76 km from the initial guide and are not adopted merely because of the commodity/name. The nearby GLM-1-001 pit is the better lead. [Search receipts and limitations](mining-search.json) retain this distinction. Noninteractive Gesner report pages returned empty shells; no historical narrative was inferred from them.
 
-The [parish-maintained history](https://standrewsparishjudique.weebly.com/) describes two wooden churches before today's sandstone church. It does not establish an identical footprint. A present church address therefore does not replace annotation 015's historical location.
+The [1968 history by Janette MacDonald](https://epe.lac-bac.gc.ca/100/205/301/ic/cdc/celtic/judrel.htm?nodisclaimer=1) explicitly places the stone church where its predecessor stood. This supports site continuity for annotation 015, while exact foundations remain unresolved. The wooden church's completion date is disputed (1879 in MacDonald; 1860 in the Participaper). [Historical-record findings](historical-records.md) retain this conflict and the new Long Point mill-name lead.
 
 ## What the pictures and coordinates mean
 

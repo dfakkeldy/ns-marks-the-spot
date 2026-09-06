@@ -2,13 +2,13 @@
   "artifacts": [
     {
       "path": "pilot.json",
-      "sha256": "bffb2c651b9634a377b183ca897cd26bdbd11cc4b4210032b7bb869bcf41ef95",
-      "bytes": 87727
+      "sha256": "c14f183f07db6f66da50598c1174abcb2e87f15740458b6de920dd8ca2a5b166",
+      "bytes": 90887
     },
     {
       "path": "review.html",
-      "sha256": "9d127aff637339334ed5f392fd8c313fff3ced7d9a48ff9a30b57bfb30fe332c",
-      "bytes": 26173
+      "sha256": "16a1f5349946cf4602a099955712b3262d87ab7f225437c598238983ffaef76e",
+      "bytes": 28210
     },
     {
       "path": "images/F19-JUD-004-native.jpg",
