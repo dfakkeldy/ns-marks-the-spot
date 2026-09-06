@@ -205,3 +205,11 @@ describe("map share state", () => {
     });
   });
 });
+
+describe("basemap style in shared links", () => {
+  it("carries the Fletcher style and drops unknown styles", () => {
+    expect(parseMapShareState("https://example.test/?basemap=fletcher").basemapStyle).toBe("fletcher");
+    expect(parseMapShareState("https://example.test/?basemap=night").basemapStyle).toBe("night");
+    expect(parseMapShareState("https://example.test/?basemap=sepia").basemapStyle).toBeUndefined();
+  });
+});

@@ -24,10 +24,11 @@ export function AtlasStudy() {
   const style = useMemo(() => buildReviewStyle(mode, { parcels, provinceAccepted, historical, opacity: 1 }, historicalHost),
     [mode, parcels, provinceAccepted, historical, historicalHost]);
   const historyInView = !view || fletcherSheets.some(({ bounds: [[south, west], [north, east]] }) => view.west < east && view.east > west && view.south < north && view.north > south);
-  const p = atlasPalettes[mode === 'night' ? 'night' : 'day'];
+  const atlasMode = mode === 'osm' ? 'day' : mode;
+  const p = atlasPalettes[atlasMode];
   const researchUrl = view ? `./?position=${view.latitude.toFixed(6)},${view.longitude.toFixed(6)},${Math.min(19, Math.round(view.zoom + 1))}&layers=modern&taxSale=off` : './';
 
-  return <main className="atlas-study" data-mode={mode === 'night' ? 'night' : 'day'}>
+  return <main className="atlas-study" data-mode={mode === 'night' ? 'night' : 'day'} data-basemap={mode}>
     <aside className="atlas-sidebar" aria-label="Basemap review controls">
       <header className="atlas-brand">
         <img src="./app-icon-180.png" alt="" width="44" height="44" />
@@ -35,13 +36,13 @@ export function AtlasStudy() {
       </header>
       <section className="atlas-intro">
         <h1>A Nova Scotia atlas.</h1>
-        <p>Modern geography in the paper, olive, ochre and ink of Fletcher's 1884 Cape Breton sheets.</p>
+        <p>Three Atlas styles for modern geography: Day, Night, and Fletcher in the colours and lettering of the 1884 Cape Breton sheets.</p>
       </section>
       <section className="atlas-section" aria-labelledby="appearance-title">
         <h2 id="appearance-title">Appearance</h2>
         <div className="atlas-modes" role="group" aria-label="Basemap appearance">
-          {(['day', 'night', 'osm'] as const).map(value => <button key={value} type="button" aria-pressed={mode === value} onClick={() => setMode(value)}>
-            {value === 'day' ? 'Day' : value === 'night' ? 'Night' : 'OSM'}
+          {(['day', 'night', 'fletcher', 'osm'] as const).map(value => <button key={value} type="button" aria-pressed={mode === value} onClick={() => setMode(value)}>
+            {value === 'day' ? 'Day' : value === 'night' ? 'Night' : value === 'fletcher' ? 'Fletcher' : 'OSM'}
           </button>)}
         </div>
         <p className="atlas-note">Switch styles at the same position and scale.</p>
@@ -72,18 +73,18 @@ export function AtlasStudy() {
       {mode !== 'osm' && <section className="atlas-section atlas-key" aria-label="Map colour key">
         {[['Water', p.water], ['Woodland', p.wood], ['Land', p.land], ['Farmland', p.farmland], ['Settlement', p.residential], ['Main roads', p.highway]].map(([label, color]) => <span key={label}><i style={{ background: color }} />{label}</span>)}
       </section>}
-      {mode !== 'osm' && <section className="atlas-section" aria-labelledby="specimen-title">
+      {mode === 'fletcher' && <section className="atlas-section" aria-labelledby="specimen-title">
         <h2 id="specimen-title">Historical sites · specimen</h2>
         <div className="atlas-specimen" role="table" aria-label="Historical site symbol specimens">
           {historicalSiteStates.map(state => <div key={state.confidence} role="row" className="atlas-specimen-row">
             {historicalSiteSymbols.map(symbol => <span key={symbol.kind} role="cell" className="atlas-specimen-cell" title={`${symbol.label} · ${state.label}`}
-              dangerouslySetInnerHTML={{ __html: historicalSiteSvg(symbol.kind, state.confidence, mode === 'night' ? 'night' : 'day') }} />)}
+              dangerouslySetInnerHTML={{ __html: historicalSiteSvg(symbol.kind, state.confidence, atlasMode) }} />)}
             <span role="cell" className="atlas-specimen-label">{state.label}</span>
           </div>)}
         </div>
         <p className="atlas-note">{historicalSiteSymbols.map(symbol => symbol.label).join(', ')}. Unlocated design specimens for a later extraction from the sheets; nothing here is placed on the map. Placement states describe where a site could be drawn; they are separate from how clearly its lettering was read.</p>
       </section>}
-      {mode !== 'osm' && <section className="atlas-section" aria-labelledby="lettering-title">
+      {mode === 'fletcher' && <section className="atlas-section" aria-labelledby="lettering-title">
         <h2 id="lettering-title">Historical lettering · specimen</h2>
         <ul className="atlas-lettering" aria-label="Transcribed lettering specimens">
           {historicalLetteringSpecimens.map(specimen => <li key={specimen.id}>
@@ -106,7 +107,7 @@ export function AtlasStudy() {
     </aside>
     <section className="atlas-stage" aria-label="Map preview">
       <AtlasMap key={retry} style={style} camera={camera} onView={setView} onStatus={setStatus} historicalOpacity={opacity} />
-      <div className="atlas-map-title"><span>NS / ATLAS</span><strong>{mode === 'night' ? 'After dusk' : mode === 'day' ? 'Daylight' : 'Standard OSM'}</strong></div>
+      <div className="atlas-map-title"><span>NS / ATLAS</span><strong>{mode === 'night' ? 'After dusk' : mode === 'day' ? 'Daylight' : mode === 'fletcher' ? 'Fletcher' : 'Standard OSM'}</strong></div>
       <div className="atlas-status" role="status" data-ready={status === 'Ready'}>
         <span>{status === 'Ready' ? 'Map loaded' : status}</span>
         {status !== 'Ready' && status !== 'Loading map…' && <button type="button" onClick={() => { if (view) setCamera(view); setStatus('Loading map…'); setRetry(value => value + 1); }}>Retry</button>}

@@ -24,8 +24,8 @@ function advance(stack: string, character: string) {
   varint(); message(index + varint(), false);
   return glyphs.get(character.codePointAt(0)!);
 }
-const evaluate = (layerId: string, properties: Record<string, unknown>, zoom = 13) => {
-  const layer = buildAtlasStyle('day').layers.find(layer => layer.id === layerId)!;
+const evaluate = (layerId: string, properties: Record<string, unknown>, zoom = 13, mode: 'day' | 'fletcher' = 'day') => {
+  const layer = buildAtlasStyle(mode).layers.find(layer => layer.id === layerId)!;
   const expression = createExpression('filter' in layer ? layer.filter : null, 'filter');
   expect(expression.result).toBe('success');
   return expression.result === 'success' ? expression.value.evaluate({ zoom }, { type: 2, properties }) : undefined;
@@ -33,7 +33,7 @@ const evaluate = (layerId: string, properties: Record<string, unknown>, zoom = 1
 
 // A valid style is essential: an invalid expression can blank the whole map.
 describe('atlas cartography', () => {
-  it.each(['day', 'night'] as const)('renders a schema-valid %s style', (mode) => {
+  it.each(['day', 'night', 'fletcher'] as const)('renders a schema-valid %s style', (mode) => {
     expect(validateStyleMin(buildAtlasStyle(mode))).toEqual([]);
   });
   it('uses provincial road names and does not draw competing OSM road labels', () => {
@@ -64,17 +64,17 @@ describe('atlas cartography', () => {
     expect(named('Track')).toBe(false);
     expect(named('Chisholm-MacLean Rd')).toBe(true);
   });
-  it('draws shore treatments from NSTDB shoreline lines on the water side, never from water polygon edges', () => {
-    const style = buildAtlasStyle('day');
+  it('draws Fletcher shore treatments from NSTDB shoreline lines on the water side, never from water polygon edges', () => {
+    const style = buildAtlasStyle('fletcher');
     expect(style.layers.filter(layer => layer.type === 'line' && 'source-layer' in layer && layer['source-layer'] === 'water')).toEqual([]);
     for (const id of ['shore-band', 'shore-stipple', 'shoreline', 'shoreline-inked']) {
       const layer = style.layers.find(layer => layer.id === id)!;
       expect('source-layer' in layer && layer['source-layer']).toBe('waterways');
       expect(layer.minzoom).toBeGreaterThanOrEqual(11);
-      expect(evaluate(id, { feat_desc: 'Coast - Water to the right line' })).toBe(true);
-      expect(evaluate(id, { feat_desc: 'Lake - Water to the right line' })).toBe(true);
-      expect(evaluate(id, { feat_desc: 'River - Single Line' })).toBe(false);
-      expect(evaluate(id, { feat_desc: 'Wharf - Single Line' })).toBe(false);
+      expect(evaluate(id, { feat_desc: 'Coast - Water to the right line' }, 13, 'fletcher')).toBe(true);
+      expect(evaluate(id, { feat_desc: 'Lake - Water to the right line' }, 13, 'fletcher')).toBe(true);
+      expect(evaluate(id, { feat_desc: 'River - Single Line' }, 13, 'fletcher')).toBe(false);
+      expect(evaluate(id, { feat_desc: 'Wharf - Single Line' }, 13, 'fletcher')).toBe(false);
     }
     const band = style.layers.find(layer => layer.id === 'shore-band') as { paint: { 'line-offset': unknown } };
     const offset = createExpression(band.paint['line-offset'] as never, 'layers[0].paint.line-offset');
@@ -102,7 +102,7 @@ describe('fletcher-inspired texture and lettering', () => {
     expect(atlasGlyphUrl('https://example.org/map/index.html')).toBe('https://example.org/map/atlas/fonts/{fontstack}/{range}.pbf');
     expect(atlasSpriteUrl('https://example.org/map/index.html')).toBe('https://example.org/map/atlas/sprite/sprite');
   });
-  it.each(['day', 'night'] as const)('ships every glyph range and sprite image the %s style names', (mode) => {
+  it.each(['day', 'night', 'fletcher'] as const)('ships every glyph range and sprite image the %s style names', (mode) => {
     const style = buildAtlasStyle(mode);
     const receipt = JSON.parse(readFileSync(`${publicDir}atlas/fonts/source.json`, 'utf8')) as { fonts: { stack: string }[] };
     const stacks = new Set<string>();
@@ -121,12 +121,11 @@ describe('fletcher-inspired texture and lettering', () => {
     }
     const sprite = JSON.parse(readFileSync(`${publicDir}atlas/sprite/sprite.json`, 'utf8')) as Record<string, unknown>;
     const retina = JSON.parse(readFileSync(`${publicDir}atlas/sprite/sprite@2x.json`, 'utf8')) as Record<string, unknown>;
-    expect(images.size).toBeGreaterThan(0);
     for (const image of images) { expect(sprite).toHaveProperty(image); expect(retina).toHaveProperty(image); }
     expect(existsSync(`${publicDir}atlas/sprite/sprite.png`)).toBe(true);
   });
-  it('uses paper grain as the only area texture and draws it beneath every label', () => {
-    const style = buildAtlasStyle('day');
+  it('uses paper grain as the only Fletcher area texture and draws it beneath every label', () => {
+    const style = buildAtlasStyle('fletcher');
     const textured = style.layers.filter(layer => layer.type === 'fill' && 'paint' in layer && layer.paint && 'fill-pattern' in layer.paint);
     expect(textured.map(layer => layer.id)).toEqual(['paper-grain']);
     const ids = style.layers.map(layer => layer.id);
@@ -142,12 +141,27 @@ describe('fletcher-inspired texture and lettering', () => {
     expect(advance('Atlas Serif Italic', 'J')).toBe(13);
     expect(advance('Atlas Serif Regular', 'J')).toBe(9);
     expect(advance('Atlas Sans Regular', 'H')).toBe(18);
+    expect(advance('Atlas Sans Regular', 'm')).toBe(22);
+    expect(advance('Atlas Sans Bold', 'm')).toBe(23);
   });
-  it('sets names in the serif and road names in the utility sans', () => {
-    const style = buildAtlasStyle('day');
+  it('sets Fletcher names in the serif and road names in the utility sans', () => {
+    const style = buildAtlasStyle('fletcher');
     const font = (id: string) => (style.layers.find(layer => layer.id === id) as { layout: { 'text-font': string[] } }).layout['text-font'];
     expect(font('town-names')).toEqual(['Atlas Serif Regular']);
     expect(font('water-names')).toEqual(['Atlas Serif Italic']);
     expect(font('road-names')).toEqual(['Atlas Sans Regular']);
+  });
+  it.each(['day', 'night'] as const)('keeps the modern %s style clean: sans lettering, no textures, no engraved shore', (mode) => {
+    const style = buildAtlasStyle(mode);
+    const font = (id: string) => (style.layers.find(layer => layer.id === id) as { layout: { 'text-font': string[] } }).layout['text-font'];
+    expect(font('town-names')).toEqual(['Atlas Sans Bold']);
+    expect(font('village-names')).toEqual(['Atlas Sans Regular']);
+    expect(font('water-names')).toEqual(['Atlas Sans Regular']);
+    const patterned = style.layers.filter(layer => 'paint' in layer && layer.paint && ('fill-pattern' in layer.paint || 'line-pattern' in layer.paint));
+    expect(patterned).toEqual([]);
+    for (const id of ['shore-band', 'shore-stipple', 'shoreline', 'shoreline-inked', 'surface-road-edge-inked', 'paper-grain']) {
+      expect(style.layers.find(layer => layer.id === id)).toBeUndefined();
+    }
+    expect(style.layers.find(layer => layer.id === 'surface-road-edge')?.maxzoom).toBeUndefined();
   });
 });

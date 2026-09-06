@@ -8,14 +8,16 @@ import { provincialTileUrl, PROVINCIAL_ATTRIBUTION } from './provincial';
  * scripts/buildAtlasGlyphs.mjs into public/atlas/fonts (see its source.json
  * for the pinned fonts and licences). Atlas Serif derives from Libre
  * Baskerville, a text-size transitional serif close to the Scotch-roman
- * lettering engraved on Fletcher's sheets; Atlas Sans derives from Noto Sans,
- * the utility face for small road names along curves. The stacks carry project
- * names because converted glyphs may not use the fonts' Reserved Font Names.
+ * lettering engraved on Fletcher's sheets, and sets every name in the Fletcher
+ * style; Atlas Sans derives from Noto Sans and sets the modern Day and Night
+ * styles and road names everywhere. The stacks carry project names because
+ * converted glyphs may not use the fonts' Reserved Font Names.
  */
 export const atlasFonts = {
   serif: 'Atlas Serif Regular',
   serifItalic: 'Atlas Serif Italic',
   sans: 'Atlas Sans Regular',
+  sansBold: 'Atlas Sans Bold',
 } as const;
 
 /** Glyph ranges are served with the app, including beneath KinNoKi's hosting path. */
@@ -80,7 +82,13 @@ const towardWater = (distance: number): ExpressionSpecification => ['match', des
 /** Provincial source fields remain intact; expressions only choose cartography. */
 export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
   const p = atlasPalettes[mode];
-  const night = mode === 'night' ? '-night' : '';
+  // Fletcher carries the engraved treatment: serif lettering, paper grain, shore
+  // stipple and hand-inked strokes. Day and Night stay clean and sans-serif.
+  const engraved = mode === 'fletcher';
+  const night = '';
+  const face = engraved
+    ? { names: atlasFonts.serif, towns: atlasFonts.serif, water: atlasFonts.serifItalic, tracking: 1, capitals: 0.32 }
+    : { names: atlasFonts.sans, towns: atlasFonts.sansBold, water: atlasFonts.sans, tracking: 0.35, capitals: 0.12 };
   const province = { source: 'province' };
   const osm = { source: 'geography' };
   const roads = { ...province, 'source-layer': 'roads' };
@@ -107,8 +115,9 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
       filter: ['==', ['get', 'class'], 'ocean'], paint: { 'fill-color': p.water } },
     { id: 'wetlands', type: 'fill', ...water,
       filter: ['match', description, ['Swamp Area polygon', 'Cranberry Bog polygon'], true, false],
-      paint: { 'fill-color': p.water, 'fill-opacity': 0.45 } },
+      paint: engraved ? { 'fill-color': p.water, 'fill-opacity': 0.45 } : { 'fill-color': p.waterLine, 'fill-opacity': 0.22 } },
     { id: 'water', type: 'fill', ...water, filter: surfaceWater, paint: { 'fill-color': p.water } },
+    ...(engraved ? [
     // The engraved shore: a pale band and stipple on the water side under a firm ink line,
     // drawn from NSTDB shoreline lines from z11 (offset plus half width stays inside the
     // 8 px overzoom buffer so bands never break at tile edges).
@@ -127,15 +136,16 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
     { id: 'shoreline-inked', type: 'line', ...province, 'source-layer': 'waterways', minzoom: 12, filter: shoreFilter,
       layout: { 'line-join': 'round' },
       paint: { 'line-pattern': `ink-line${night}`, 'line-width': ['interpolate', ['linear'], ['zoom'], 12, 1.6, 16, 2.6], 'line-opacity': 0.8 } },
-    { id: 'waterways', type: 'line', ...province, 'source-layer': 'waterways', minzoom: 11, maxzoom: 14,
+    ] satisfies LayerSpecification[] : []),
+    { id: 'waterways', type: 'line', ...province, 'source-layer': 'waterways', minzoom: 11, ...(engraved ? { maxzoom: 14 } : {}),
       filter: ['match', description, streams, true, false],
       layout: { 'line-cap': 'round', 'line-join': 'round' },
-      paint: { 'line-color': p.waterLine, 'line-width': ['interpolate', ['linear'], ['zoom'], 11, 0.5, 14, 1.1],
+      paint: { 'line-color': p.waterLine, 'line-width': ['interpolate', ['linear'], ['zoom'], 11, 0.5, 14, 1.1, 17, 2.2],
         'line-opacity': ['interpolate', ['linear'], ['zoom'], 11, 0.6, 13, 0.9] } },
-    { id: 'waterways-inked', type: 'line', ...province, 'source-layer': 'waterways', minzoom: 14,
+    ...(engraved ? [{ id: 'waterways-inked', type: 'line', ...province, 'source-layer': 'waterways', minzoom: 14,
       filter: ['match', description, streams, true, false],
       layout: { 'line-join': 'round' },
-      paint: { 'line-pattern': `ink-line-water${night}`, 'line-width': ['interpolate', ['linear'], ['zoom'], 14, 1.6, 17, 3], 'line-opacity': 0.9 } },
+      paint: { 'line-pattern': `ink-line-water${night}`, 'line-width': ['interpolate', ['linear'], ['zoom'], 14, 1.6, 17, 3], 'line-opacity': 0.9 } } satisfies LayerSpecification] : []),
     { id: 'buildings', type: 'fill', ...osm, 'source-layer': 'building', minzoom: 13,
       paint: { 'fill-color': p.building, 'fill-opacity': ['interpolate', ['linear'], ['zoom'], 13, 0, 14, 0.75] } },
     { id: 'boundaries', type: 'line', ...province, 'source-layer': 'boundaries',
@@ -144,21 +154,22 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
   // Source descriptions distinguish tunnels, surface roads and bridges.
   const bridge: ExpressionSpecification = ['==', ['slice', description, 0, 6], 'BRIDGE'];
   const tunnel: ExpressionSpecification = ['==', ['slice', description, 0, 6], 'TUNNEL'];
-  const casingColor: ExpressionSpecification = ['match', roadClass, majorRoads, p.halo, p.roadEdge];
+  const casingColor: ExpressionSpecification | string = engraved ? ['match', roadClass, majorRoads, p.halo, p.roadEdge] : p.roadEdge;
   const isMajor: ExpressionSpecification = ['match', roadClass, majorRoads, true, false];
   for (const level of ['tunnel', 'surface', 'bridge'] as const) {
     const filter: ExpressionSpecification = ['all', ordinaryRoad,
       level === 'bridge' ? bridge : level === 'tunnel' ? tunnel : ['all', ['!', bridge], ['!', tunnel]]];
     const casingOpacity: ExpressionSpecification | number = level === 'tunnel' ? 0.3 : ['interpolate', ['linear'], ['zoom'],
       10, ['match', roadClass, majorRoads, 0.9, secondaryRoads, 0.5, 0], 13, 0.9];
+    const split = engraved && level === 'surface';
     layers.push(
-      // Local casings arrive with the village scale so regional views stay open; from there
-      // the ink casing of local and collector roads becomes a hand-inked stroke.
-      { id: `${level}-road-edge`, type: 'line', ...roads, filter: level === 'surface' ? ['all', filter, ['!', isMajor]] : filter,
-        ...(level === 'surface' ? { maxzoom: 14 } : {}),
+      // Local casings arrive with the village scale so regional views stay open; in Fletcher
+      // the ink casing of local and collector roads then becomes a hand-inked stroke.
+      { id: `${level}-road-edge`, type: 'line', ...roads, filter: split ? ['all', filter, ['!', isMajor]] : filter,
+        ...(split ? { maxzoom: 14 } : {}),
         layout: { 'line-cap': level === 'bridge' ? 'butt' : 'round', 'line-join': 'round' },
         paint: { 'line-color': casingColor, 'line-width': roadWidth(true), 'line-opacity': casingOpacity } },
-      ...(level === 'surface' ? [
+      ...(split ? [
         { id: 'surface-road-edge-major', type: 'line', ...roads, filter: ['all', filter, isMajor],
           layout: { 'line-cap': 'round', 'line-join': 'round' },
           paint: { 'line-color': casingColor, 'line-width': roadWidth(true), 'line-opacity': 0.9 } } satisfies LayerSpecification,
@@ -189,8 +200,8 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
       filter: ['==', roadClass, 'Ferry Connector'],
       paint: { 'line-color': p.waterInk, 'line-width': 1.2, 'line-dasharray': [1, 3] } },
     // Paper grain sits over every fill and line but beneath the lettering, so text stays crisp.
-    { id: 'paper-grain', type: 'fill', source: 'paper',
-      paint: { 'fill-pattern': `paper-grain${night}` } },
+    ...(engraved ? [{ id: 'paper-grain', type: 'fill', source: 'paper',
+      paint: { 'fill-pattern': `paper-grain${night}` } } satisfies LayerSpecification] : []),
   );
   const roadNames = (id: string, classes: readonly string[]): LayerSpecification => ({ id, type: 'symbol', ...roads, minzoom: 13,
     filter: ['all', ['!', abandoned], ['match', roadClass, [...classes], true, false],
@@ -215,23 +226,23 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
       'text-variable-anchor': [...sideAnchors], 'text-radial-offset': 0.2, 'text-justify': 'auto' },
     paint: { 'text-color': color, 'text-halo-color': p.halo, 'text-halo-width': halo } });
   layers.push(
-    pointNames('terrain-names', ['Mountain', 'Cape', 'Island', 'Falls', 'Valley', 'Cliff'], 12.5, atlasFonts.serif,
-      ['interpolate', ['linear'], ['zoom'], 13, 10.5, 16, 12], 0.08, p.mutedInk, 4, 1.8),
-    pointNames('water-names', ['Lake', 'River', 'Bay', 'Channel', 'Sea feature'], 10.5, atlasFonts.serifItalic,
-      ['interpolate', ['linear'], ['zoom'], 11, 11.5, 15, 13.5], 0.1, p.waterInk, 3, 1.8),
-    pointNames('village-names', ['Village', 'Unincorporated area'], 9.5, atlasFonts.serif,
-      ['interpolate', ['linear'], ['zoom'], 10, 11.5, 14, 14], 0.06, p.ink, 2, 2),
+    pointNames('terrain-names', ['Mountain', 'Cape', 'Island', 'Falls', 'Valley', 'Cliff'], 12.5, face.names,
+      ['interpolate', ['linear'], ['zoom'], 13, 10.5, 16, 12], 0.08 * face.tracking, p.mutedInk, 4, 1.8),
+    pointNames('water-names', ['Lake', 'River', 'Bay', 'Channel', 'Sea feature'], 10.5, face.water,
+      ['interpolate', ['linear'], ['zoom'], 11, 11.5, 15, 13.5], 0.1 * face.tracking, p.waterInk, 3, 1.8),
+    pointNames('village-names', ['Village', 'Unincorporated area'], 9.5, face.names,
+      ['interpolate', ['linear'], ['zoom'], 10, 11.5, 14, 14], 0.06 * face.tracking, p.ink, 2, 2),
     roadNames('major-road-names', majorRoads),
     // Counties and other major municipal areas in the spaced capitals of the sheets.
     { id: 'administrative-names', type: 'symbol', ...names, minzoom: 6, maxzoom: 10,
       filter: officialNames(['Other municipal/district area - major agglomeration']),
-      layout: { 'text-field': ['get', 'geoname'], 'text-font': [atlasFonts.serif], 'text-size': ['interpolate', ['linear'], ['zoom'], 6, 10.5, 9, 12.5],
-        'text-transform': 'uppercase', 'text-letter-spacing': 0.32, 'text-max-width': 12, 'text-padding': 8, 'symbol-sort-key': 1 },
+      layout: { 'text-field': ['get', 'geoname'], 'text-font': [face.names], 'text-size': ['interpolate', ['linear'], ['zoom'], 6, 10.5, 9, 12.5],
+        'text-transform': 'uppercase', 'text-letter-spacing': face.capitals, 'text-max-width': 12, 'text-padding': 8, 'symbol-sort-key': 1 },
       paint: { 'text-color': p.mutedInk, 'text-halo-color': p.halo, 'text-halo-width': 2, 'text-opacity': 0.85 } },
     { id: 'town-names', type: 'symbol', ...names, minzoom: 6,
       filter: officialNames(['City', 'Town']),
-      layout: { 'text-field': ['get', 'geoname'], 'text-font': [atlasFonts.serif], 'text-size': ['interpolate', ['linear'], ['zoom'], 6, 12.5, 10, 15.5, 14, 19],
-        'text-letter-spacing': 0.1, 'text-max-width': 8, 'text-padding': 6, 'symbol-sort-key': 0 },
+      layout: { 'text-field': ['get', 'geoname'], 'text-font': [face.towns], 'text-size': ['interpolate', ['linear'], ['zoom'], 6, 12.5, 10, 15.5, 14, 19],
+        'text-letter-spacing': 0.1 * face.tracking, 'text-max-width': 8, 'text-padding': 6, 'symbol-sort-key': 0 },
       paint: { 'text-color': p.ink, 'text-halo-color': p.halo, 'text-halo-width': 2.2 } },
   );
   return { version: 8, name: `NS Marks Atlas / ${mode} / provincial-first`,

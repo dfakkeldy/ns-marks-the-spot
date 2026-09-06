@@ -4558,7 +4558,7 @@ export function App() {
                       <span className="switch" aria-hidden="true" />
                       <span>
                         <strong>Modern map</strong>
-                        <small>{basemapStyle === "osm" ? "OpenStreetMap" : `NS Marks Atlas · ${basemapStyle === "night" ? "Night" : "Day"}`}</small>
+                        <small>{basemapStyle === "osm" ? "OpenStreetMap" : basemapSource(basemapStyle).name}</small>
                         <LayerMetadata
                           sourceDate={basemapSource(basemapStyle).sourceDate}
                           scale={basemapStyle === "osm" ? "Web map · native detail to zoom 19" : "Provincial-first · NSTDB 1:10,000 detail; closer zoom magnifies the data. Roads and paths do not establish access permission."}
@@ -4576,6 +4576,7 @@ export function App() {
                         <option value="system">Atlas · System appearance</option>
                         <option value="day">Atlas · Day</option>
                         <option value="night">Atlas · Night</option>
+                        <option value="fletcher">Atlas · Fletcher</option>
                         <option value="osm">OpenStreetMap</option>
                       </select>
                     </label>

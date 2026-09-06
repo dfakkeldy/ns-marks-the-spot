@@ -1,4 +1,4 @@
-import type { BasemapStyle } from "../atlas/basemap";
+import { isBasemapStyle, type BasemapStyle } from "../atlas/basemap";
 import { taxSaleEvents } from "../data/taxSaleCatalog";
 import { historicalTaxSaleEvents } from "../data/historicalTaxSales";
 import {
@@ -131,8 +131,7 @@ export function parseMapShareState(value: string): MapShareState {
     .filter(isShareLayerId);
 
   return {
-    ...(basemap === "day" || basemap === "night" || basemap === "osm"
-      ? { basemapStyle: basemap } : {}),
+    ...(isBasemapStyle(basemap) ? { basemapStyle: basemap } : {}),
     taxSaleEnabled,
     mode,
     pid: normalizePid(url.searchParams.get("pid") ?? ""),

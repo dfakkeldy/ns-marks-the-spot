@@ -108,8 +108,10 @@ nothing is persisted through SwiftData.
 The `web/` React + Vite app is a separate online-only delivery surface. It does
 not change the native app's offline contract or its `MapSurface` boundary.
 Leaflet owns navigation, GeoJSON parcel highlights, and the web catalog's
-image overlays. `atlas/AtlasBasemapLayer.tsx` draws the Fletcher-inspired day
-theme and its night counterpart (`atlas/palette.ts`, `atlas/style.ts`) over the
+image overlays. `atlas/AtlasBasemapLayer.tsx` draws the modern Day and Night
+themes and the explicitly chosen Fletcher style (`atlas/palette.ts`,
+`atlas/style.ts`; Fletcher is modern geography in the colours and lettering of
+the 1884 sheets, not a historical map) over the
 provincial-first vector sources beneath those overlays with a noninteractive
 MapLibre canvas synchronized to Leaflet's camera. Map lettering comes from
 self-hosted SDF glyph ranges (`web/public/atlas/fonts`, with `source.json` as

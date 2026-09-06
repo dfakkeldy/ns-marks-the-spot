@@ -22,3 +22,11 @@ it('honours a shared style ahead of stored preference and survives blocked stora
   act(() => result.current.setPreference('day'));
   expect(result.current.style).toBe('day');
 });
+it('treats the Fletcher style as a light appearance and keeps it as an explicit choice', () => {
+  vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true, addEventListener() {}, removeEventListener() {} })));
+  const { result } = renderHook(() => useBasemapPreference('fletcher'));
+  expect(result.current.style).toBe('fletcher');
+  expect(document.documentElement.dataset.mapAppearance).toBe('day');
+  act(() => result.current.setPreference('system'));
+  expect(result.current.style).toBe('night');
+});
