@@ -26,12 +26,13 @@ serialization repairs that required no model calls, 131 responses pass structura
 validation, containing **1,156 candidate records**; 14 responses still need repair
 or source inspection. Candidate files deliberately retain duplicates,
 tentative readings and unreliable model-estimated lettering boxes. Their
-geometry is null. **96 source-reviewed annotations** are saved separately in
+geometry is null. **121 source-reviewed annotations** are saved separately in
 `sheet-22-reviewed.json`, with corrected boxes and explicit edge-review notes.
-The original ten IDs are preserved. The first two rows have been visually
-reviewed (14 of 35 sheet 22 crops), with
-one tentative school-name typography reading and geological fault-label scope
-holdbacks still explicit. Thirteen of the 96 records are printed spot-height labels;
+The original ten IDs are preserved. The first two rows and the first two crops
+of row three have been visually inspected (16 of 35 sheet 22 crops). The row-three
+crops still have large county lettering to assemble across later crops. School-name
+typography, the final letter of Shops, and geological structure scope holdbacks
+remain explicit. Twenty of the 121 records are printed spot-height labels;
 they do not establish modern elevations or a vertical datum.
 The first source checks found compass text incorrectly included, a clipped
 "Rock dries" misread as "Rocky", and substantially displaced model boxes.
@@ -49,6 +50,12 @@ instead checked directly in native source excerpts across rows 2–5. See
 `second-row-review-evidence.json` for receipts and dispositions of all 75
 second-row C02–C07 first-pass candidates. Lower-row text visible in these context
 windows still needs the normal whole-crop review.
+The western third-row review completes Colin Chisholm's Brook and Tate's Road,
+corrects Winter Road, and separates the three Little Tracadie occurrences.
+Four smaller DeepSeek packets now cover the incomplete R03C05 attempt; all four
+returned structurally valid answers and await source inspection. They do not
+replace or certify the retained original response. See
+`third-row-west-review-evidence.json` for receipts and current limitations.
 
 ## Continuing the queue
 
@@ -126,9 +133,11 @@ not every unchanged check. Pause that continuation when all four sheets finish.
    `clear` classification and a successful subprocess do not establish source
    accuracy or completeness.
 
-Use `F22-HAW-097` onward for additional sheet 22 reviewed annotations. Do not
-renumber existing IDs. Next inspect R03C01 eastward, reconcile overlap with the
-reviewed rows, and recover the truncated R03C05 output from new source close-ups.
+Use `F22-HAW-122` onward for additional sheet 22 reviewed annotations. Do not
+renumber existing IDs. Next inspect R03C03 eastward and reconcile overlap with the
+reviewed rows. Assemble the large county lettering and resolve the tentative
+Shops final letter. For R03C05, inspect the four completed C05-NW/NE/SW/SE detail
+answers under `review-20260906-03`; do not rerun those successful packets.
 Reuse the existing RAILWAY, INHABITANTS and HORTON-EDGE detail packets under
 `review-20260906-02` for lower-edge context; do not rerun them. Prefer smaller
 windows over another broad STRAIT model pass. The survey and regional strait

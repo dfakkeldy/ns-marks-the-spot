@@ -1,0 +1,295 @@
+{
+  "sheet": 22,
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "purpose": "Native review of R03C01/C02 and preparation of smaller recovery contexts for incomplete R03C05. Source review and pending model output are kept separate.",
+  "reviewed_source_windows": [
+    {
+      "crop_id": "F22-HARBOUR-BOUCHE-EDGE",
+      "source_xywh": [
+        2550,
+        3450,
+        750,
+        240
+      ],
+      "purpose": "Complete Harbour Bouché across C01/C02."
+    },
+    {
+      "crop_id": "F22-COLIN-TATES-EDGE",
+      "source_xywh": [
+        1900,
+        4250,
+        450,
+        510
+      ],
+      "purpose": "Read names beside brook and road, including rotated possessive excerpts."
+    },
+    {
+      "crop_id": "F22-GILBERT-STATION-EDGE",
+      "source_xywh": [
+        1840,
+        4630,
+        730,
+        230
+      ],
+      "purpose": "Complete Brook and Road, station abbreviation and 400 FT at the lower crop edge."
+    }
+  ],
+  "new_reviewed_ids": [
+    "F22-HAW-097",
+    "F22-HAW-098",
+    "F22-HAW-099",
+    "F22-HAW-100",
+    "F22-HAW-101",
+    "F22-HAW-102",
+    "F22-HAW-103",
+    "F22-HAW-104",
+    "F22-HAW-105",
+    "F22-HAW-106",
+    "F22-HAW-107",
+    "F22-HAW-108",
+    "F22-HAW-109",
+    "F22-HAW-110",
+    "F22-HAW-111",
+    "F22-HAW-112",
+    "F22-HAW-113",
+    "F22-HAW-114",
+    "F22-HAW-115",
+    "F22-HAW-116",
+    "F22-HAW-117",
+    "F22-HAW-118",
+    "F22-HAW-119",
+    "F22-HAW-120",
+    "F22-HAW-121"
+  ],
+  "detail_manifest": {
+    "sheet": 22,
+    "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+    "source_dimensions_px": [
+      10790,
+      7687
+    ],
+    "purpose": "Four smaller overlapping native crops cover R03C05 after the retained original attempt ended in incomplete JSON. New detail passes, not a rerun of a successful packet.",
+    "crops": [
+      {
+        "crop_id": "F22-DETAIL-C05-NW",
+        "source_xywh": [
+          6300,
+          3280,
+          800,
+          800
+        ],
+        "sha256": "878be9f2a84f8e908ff8dccdc46d2f4ba7e90a4adbdef5e01f7c804486e7c571"
+      },
+      {
+        "crop_id": "F22-DETAIL-C05-NE",
+        "source_xywh": [
+          6900,
+          3280,
+          800,
+          800
+        ],
+        "sha256": "4fe6dedc80fd12e763b21675a8f6b4f61994a95a59b50a19f5902c0b043bf1d7"
+      },
+      {
+        "crop_id": "F22-DETAIL-C05-SW",
+        "source_xywh": [
+          6300,
+          3880,
+          800,
+          800
+        ],
+        "sha256": "eee150579f41523d79b427a103d7681a8d6515963a113eaa629f5ebc67f2975f"
+      },
+      {
+        "crop_id": "F22-DETAIL-C05-SE",
+        "source_xywh": [
+          6900,
+          3880,
+          800,
+          800
+        ],
+        "sha256": "dcef477bea1bdaed8df7120b3ba92af2d31b12651e90264917babf9cb96d1d2c"
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "crop_id": "F22-DETAIL-C05-NW",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "878be9f2a84f8e908ff8dccdc46d2f4ba7e90a4adbdef5e01f7c804486e7c571",
+      "prompt_sha256": "ad33612d9f7f54e96fb4ddbc6fb54e41a736e27e192205ee8da7ec834a92fd0b",
+      "started_unix": 1788725464.125555,
+      "elapsed_s": 40.27,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f87a741b1ffeLRUHTqH42Ve1AC"
+      ],
+      "tokens_reported": [
+        {
+          "total": 5615,
+          "input": 948,
+          "output": 434,
+          "reasoning": 2953,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "fcdaea965f0e599a3e3a9d8fb95b808c679d69e66415b5adc32463c6cac4b8e2"
+    },
+    {
+      "crop_id": "F22-DETAIL-C05-NE",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "4fe6dedc80fd12e763b21675a8f6b4f61994a95a59b50a19f5902c0b043bf1d7",
+      "prompt_sha256": "eae5a80c4375648a2595905f3c81c43c82a5452860f1bf66b2f6dedcd71b5ffb",
+      "started_unix": 1788725464.125437,
+      "elapsed_s": 15.1,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f87a770caffeBkSGMx188T8COy"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3681,
+          "input": 948,
+          "output": 356,
+          "reasoning": 1097,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "a56025cfbb4c46b34e8edfe3eea32a01f5dad2760f4968ce135393a437d32cf0"
+    },
+    {
+      "crop_id": "F22-DETAIL-C05-SW",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "eee150579f41523d79b427a103d7681a8d6515963a113eaa629f5ebc67f2975f",
+      "prompt_sha256": "d90085dee231f4ddea9f7218d843cc6a9f49fe6aa33f7bac8a99abd11c98505c",
+      "started_unix": 1788725464.1255019,
+      "elapsed_s": 49.2,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f87a7515effe1TownwcDPA0eMg"
+      ],
+      "tokens_reported": [
+        {
+          "total": 7306,
+          "input": 948,
+          "output": 752,
+          "reasoning": 4326,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "5206812cca845131cfebe3c57788d99fa5a40ebdac71346a7be281398c1d8295"
+    },
+    {
+      "crop_id": "F22-DETAIL-C05-SE",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "dcef477bea1bdaed8df7120b3ba92af2d31b12651e90264917babf9cb96d1d2c",
+      "prompt_sha256": "8495b57dab03c31d3afad114f6d3de70b3dcf1eefef43c978027a8202e0178f1",
+      "started_unix": 1788725464.125372,
+      "elapsed_s": 36.35,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f87a760f5ffeiBOzXmbXfoKSGK"
+      ],
+      "tokens_reported": [
+        {
+          "total": 6122,
+          "input": 948,
+          "output": 349,
+          "reasoning": 3545,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "18fca1fe71772468639da32573cf9db514308cd495ec68af5e3a1ff160081023"
+    }
+  ],
+  "detail_review_status": "extracted-unreviewed; all four new C05 detail answers need source-image checking. Original R03C05 incomplete JSON remains retained unchanged.",
+  "adjudication": [
+    {
+      "issue": "Winter Brook",
+      "decision": "Correct to printed Winter Road.",
+      "ids": [
+        "F22-HAW-121"
+      ]
+    },
+    {
+      "issue": "Colin / Chisholm's / Tate's",
+      "decision": "Two separate multipart annotations: Colin Chisholm's Brook and Tate's Road. Southern context completes both feature nouns.",
+      "ids": [
+        "F22-HAW-107",
+        "F22-HAW-108"
+      ]
+    },
+    {
+      "issue": "Expanded church label",
+      "decision": "Retain printed Episc. Church; do not expand to Episcopal.",
+      "ids": [
+        "F22-HAW-104"
+      ]
+    },
+    {
+      "issue": "Partial county lettering / IRON",
+      "decision": "No mineral record accepted. Keep explicit multipart review pending until complete hatched administrative labels are assembled."
+    }
+  ],
+  "coverage_note": "16 of 35 whole sheet-22 crops inspected; two have pending cross-crop county lettering. Supplementary edge windows do not claim whole lower-row coverage. Shops has a tentative final letter."
+}

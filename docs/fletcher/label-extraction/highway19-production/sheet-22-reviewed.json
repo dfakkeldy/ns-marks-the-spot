@@ -2342,6 +2342,605 @@
       "geometry": null,
       "placement_status": "deferred",
       "review_note": "Widely spaced regional name assembled from original native pixels across rows 2–5. Each box encloses one letter in reading order; these are not feature coordinates."
+    },
+    {
+      "id": "F22-HAW-097",
+      "source_text": "Harbour Bouché",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-02",
+        "F22-R03C02-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2598,
+          3520,
+          403,
+          49
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Complete lettering checked in original cross-crop context; retain Harbour, not model Have/Havre."
+    },
+    {
+      "id": "F22-HAW-098",
+      "source_text": "90 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2070,
+          3632,
+          103,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-099",
+      "source_text": "50 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2305,
+          3581,
+          105,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-100",
+      "source_text": "Little Tracadie River",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-05",
+        "F22-R03C01-06",
+        "F22-R03C01-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1989,
+          3705,
+          64,
+          123
+        ],
+        [
+          2044,
+          3926,
+          99,
+          210
+        ],
+        [
+          2171,
+          4243,
+          99,
+          115
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Three spaced words form one river annotation. Separate from the harbour and settlement names."
+    },
+    {
+      "id": "F22-HAW-101",
+      "source_text": "Little\nTracadie\nHarbour",
+      "kind": "harbour",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-12",
+        "F22-R03C01-13",
+        "F22-R03C01-14"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1669,
+          3879,
+          153,
+          47
+        ],
+        [
+          1563,
+          4013,
+          242,
+          51
+        ],
+        [
+          1586,
+          4098,
+          235,
+          54
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-102",
+      "source_text": "Shops",
+      "kind": "shop",
+      "reading_status": "tentative",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-15"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1910,
+          3867,
+          69,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Terminal s is crowded against a building symbol; retain tentative Shops pending a further lettering check."
+    },
+    {
+      "id": "F22-HAW-103",
+      "source_text": "60 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-16"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1961,
+          3989,
+          88,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-104",
+      "source_text": "Episc.\nChurch",
+      "kind": "church",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-17"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1816,
+          4010,
+          132,
+          49
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed abbreviation retained; model Episcopal expansion rejected."
+    },
+    {
+      "id": "F22-HAW-105",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-18"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1892,
+          4096,
+          52,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-106",
+      "source_text": "Little Tracadie",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-19"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1889,
+          4126,
+          354,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-107",
+      "source_text": "Colin Chisholm's Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-20",
+        "F22-R03C01-21"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1942,
+          4280,
+          64,
+          106
+        ],
+        [
+          2048,
+          4427,
+          182,
+          187
+        ],
+        [
+          2256,
+          4710,
+          146,
+          111
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Colin has one l. Multipart stream name completed in southern native context; apostrophe checked in rotated source."
+    },
+    {
+      "id": "F22-HAW-108",
+      "source_text": "Tate's Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [],
+      "source_label_boxes_xywh": [
+        [
+          2202,
+          4481,
+          92,
+          117
+        ],
+        [
+          2380,
+          4684,
+          76,
+          112
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Missed as a complete road label by first pass. Lower Road word and possessive checked in native context."
+    },
+    {
+      "id": "F22-HAW-109",
+      "source_text": "G. Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-23"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2347,
+          4344,
+          99,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed abbreviation retained without expansion."
+    },
+    {
+      "id": "F22-HAW-110",
+      "source_text": "50 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [],
+      "source_label_boxes_xywh": [
+        [
+          1818,
+          4294,
+          97,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Missed by first pass; literal printed height."
+    },
+    {
+      "id": "F22-HAW-111",
+      "source_text": "45 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [],
+      "source_label_boxes_xywh": [
+        [
+          1652,
+          4377,
+          98,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Missed by first pass; literal printed height."
+    },
+    {
+      "id": "F22-HAW-112",
+      "source_text": "J. Stuart",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-24"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2541,
+          4457,
+          128,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-113",
+      "source_text": "Gilbert Benoit",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-25"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1869,
+          4640,
+          207,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-114",
+      "source_text": "STA",
+      "kind": "station-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-26"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2136,
+          4658,
+          60,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Bottom-clipped abbreviation completed in southern source context; not expanded."
+    },
+    {
+      "id": "F22-HAW-115",
+      "source_text": "400 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-27"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2417,
+          4642,
+          124,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-116",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C01",
+      "raw_candidate_ids": [
+        "F22-R03C01-28",
+        "F22-R03C02-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2771,
+          3850,
+          84,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-117",
+      "source_text": "D. McDonald",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C02",
+      "raw_candidate_ids": [
+        "F22-R03C02-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          3880,
+          3606,
+          180,
+          33
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate printed occurrence from F22-HAW-009; ASCII c represents printed superscript."
+    },
+    {
+      "id": "F22-HAW-118",
+      "source_text": "STA.",
+      "kind": "station-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C02",
+      "raw_candidate_ids": [
+        "F22-R03C02-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2976,
+          3841,
+          67,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed station abbreviation retained without expansion."
+    },
+    {
+      "id": "F22-HAW-119",
+      "source_text": "350 FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C02",
+      "raw_candidate_ids": [],
+      "source_label_boxes_xywh": [
+        [
+          3292,
+          3952,
+          125,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Central height missed by first pass; distinct from top-edge duplicate of F22-HAW-062."
+    },
+    {
+      "id": "F22-HAW-120",
+      "source_text": "Havre Bouché Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C02",
+      "raw_candidate_ids": [
+        "F22-R03C02-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          3444,
+          3686,
+          91,
+          121
+        ],
+        [
+          3535,
+          3812,
+          151,
+          142
+        ],
+        [
+          3673,
+          3954,
+          126,
+          115
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Correct Havre and retain printed accent; multipart stream annotation."
+    },
+    {
+      "id": "F22-HAW-121",
+      "source_text": "Winter Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "crop_id": "F22-R03C02",
+      "raw_candidate_ids": [
+        "F22-R03C02-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          3335,
+          4353,
+          89,
+          107
+        ],
+        [
+          3424,
+          4468,
+          61,
+          103
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Reject model Winter Brook; source road lettering reads Road."
     }
   ],
   "crop_reviews": [
@@ -2414,6 +3013,16 @@
       "crop_id": "F22-R02C07",
       "status": "source-reviewed",
       "notes": "Whole crop inspected. New Bridge and Black Brook overlaps reconciled. River Inhabitants or Mc Leods Bridge is one two-line alternative-name label completed below the crop. Ferguson retained without an invented stream suffix or station classification. Raw unit codes/dip marks and unsupported Creek excluded."
+    },
+    {
+      "crop_id": "F22-R03C01",
+      "status": "source-reviewed-multipart-pending",
+      "notes": "Whole crop and southern native context inspected. Little Tracadie river, harbour and settlement are distinct printed labels. Colin Chisholm's Brook and Tate's Road completed below the crop, with possessives checked in rotated excerpts. Harbour Bouché completed in eastern context; school overlaps C02. Top 60 FT duplicates F22-HAW-052. Large county lettering remains pending across later crops; terminal s in Shops is tentative."
+    },
+    {
+      "crop_id": "F22-R03C02",
+      "status": "source-reviewed-multipart-pending",
+      "notes": "Whole crop inspected. Top heights duplicate F22-HAW-062 and 063; Harbour Bouché and school link to F22-HAW-097 and 116. Correct Winter Brook to Winter Road. Central 350 FT was missed by first pass. Raw IRON is not supported as a mineral label; large county lettering awaits assembly across later crops."
     }
   ],
   "model_audit": {
@@ -2469,9 +3078,27 @@
     {
       "id": "F22-HAW-026",
       "issue": "McInnesHill capitalization/word division remains tentative; native rotated excerpt retained locally."
+    },
+    {
+      "id": "F22-HAW-102",
+      "issue": "Shops terminal s crowded by a building symbol; tentative reading."
+    },
+    {
+      "crop_ids": [
+        "F22-R03C01",
+        "F22-R03C02"
+      ],
+      "raw_candidate_ids": [
+        "F22-R03C01-08",
+        "F22-R03C01-09",
+        "F22-R03C01-10",
+        "F22-R03C01-11",
+        "F22-R03C02-07"
+      ],
+      "issue": "Large hatched county lettering spans multiple crops. Visible letters are not standalone facility or mineral labels. Assemble complete administrative names from later native crops before finalization."
     }
   ],
-  "next_annotation_id": "F22-HAW-097",
+  "next_annotation_id": "F22-HAW-122",
   "supplementary_source_windows": [
     {
       "crop_id": "F22-CAPE-JACK-EDGE",
@@ -2536,6 +3163,36 @@
         2510
       ],
       "purpose": "Complete the large CANSO lettering from native source pixels. A reduced overview was used for orientation, followed by individual native letter-box checks."
+    },
+    {
+      "crop_id": "F22-HARBOUR-BOUCHE-EDGE",
+      "source_xywh": [
+        2550,
+        3450,
+        750,
+        240
+      ],
+      "purpose": "Complete Harbour Bouché across C01/C02."
+    },
+    {
+      "crop_id": "F22-COLIN-TATES-EDGE",
+      "source_xywh": [
+        1900,
+        4250,
+        450,
+        510
+      ],
+      "purpose": "Read names beside brook and road, including rotated possessive excerpts."
+    },
+    {
+      "crop_id": "F22-GILBERT-STATION-EDGE",
+      "source_xywh": [
+        1840,
+        4630,
+        730,
+        230
+      ],
+      "purpose": "Complete Brook and Road, station abbreviation and 400 FT at the lower crop edge."
     }
   ]
 }
