@@ -140,8 +140,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -61.49137305156885,
-          45.877322225740016
+          -61.4906198,
+          45.8787475
         ]
       },
       "properties": {
@@ -149,12 +149,12 @@
         "annotation_id": "F19-JUD-015",
         "sheet_id": "19",
         "source_text": "R.C. Church",
-        "placement_status": "map-derived-approximate",
+        "placement_status": "locally-reviewed-approximate",
         "alignment_status": "draft-supported-area",
         "publication_status": "research-preview-only",
         "alignment_evidence": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/judique-boundary/README.md",
-        "description": "Approximate position derived from the original Fletcher symbol or bounded group. Group areas bound ambiguous printed marks, not mill grounds. Judique alignment is a supported-area draft; full-sheet checks failed. Not a surveyed site.",
-        "geometry_basis": "reviewed-printed-symbol",
+        "description": "Approximate church location corrected east of Highway 19 using local review and the identified modern church reference. The original Fletcher symbol and rejected warp prediction remain in the evidence. Exact historical footprint unresolved.",
+        "geometry_basis": "local-review-with-modern-church-reference",
         "source_geometry_native": {
           "type": "Point",
           "coordinates": [
@@ -169,12 +169,69 @@
         "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
         "observations_sha256": "632f4b19fcbe64384232fc03693c4f51f646e51332c3d56e382e977ff0afda04",
         "source_review_sha256": "7d6b4958f3a15e26830092cf2d34e7c8988c18b873037ec3d58315eab45e357f",
-        "transform": "GDAL TPS, frozen 39 controls, native xy to EPSG:3857 then longitude/latitude",
+        "transform": "Local church placement correction; original frozen TPS prediction retained in map_derived_geometry.",
         "review_url": "review.html#F19-JUD-015",
         "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/",
         "attribution": "David Rumsey Map Collection / David Rumsey Map Center, Stanford University Libraries",
         "license": "CC BY-NC-SA 3.0",
-        "rights_record": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/INVENTORY.md"
+        "rights_record": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/INVENTORY.md",
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.49137305156885,
+            45.877322225740016
+          ]
+        },
+        "placement_correction": {
+          "reviewed_at": "2026-09-06",
+          "status": "locally-reviewed-approximate",
+          "reason": "User identifies the church as east of Highway 19; the frozen map-derived point is on the wrong side. Use the mapped modern church as an approximate preview location, supported by the recorded historical site-continuity account.",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -61.4906198,
+              45.8787475
+            ]
+          },
+          "modern_reference": {
+            "provider": "OpenStreetMap",
+            "type": "node",
+            "id": 1325630467,
+            "version": 2,
+            "timestamp": "2019-10-24T20:40:42Z",
+            "name": "St Andrew's Catholic Parish Church",
+            "geometry_lonlat": [
+              -61.4906198,
+              45.8787475
+            ],
+            "url": "https://www.openstreetmap.org/node/1325630467",
+            "version_url": "https://www.openstreetmap.org/api/0.6/node/1325630467/2.json",
+            "retrieved_at": "2026-09-06",
+            "raw_response_sha256": "94013cf5584f56708bed956ec1185f8c90133d2053e214e76c139d0bf8ada865",
+            "attribution": "© OpenStreetMap contributors",
+            "license": "ODbL 1.0",
+            "rights_url": "https://www.openstreetmap.org/copyright"
+          },
+          "highway_side_check": {
+            "provider": "Province of Nova Scotia NSTDB",
+            "layer": "highways",
+            "object_id": 156236,
+            "route_number": 19,
+            "segment_lonlat": [
+              [
+                -61.49115754203206,
+                45.87871005089895
+              ],
+              [
+                -61.49115806672944,
+                45.87888106978337
+              ]
+            ],
+            "side": "east",
+            "meaning": "Longitude comparison at the church latitude against the recorded Route 19 segment; does not establish a surveyed setback."
+          },
+          "historical_footprint_status": "unresolved"
+        }
       }
     },
     {
