@@ -1,0 +1,1268 @@
+{
+  "sheet": 22,
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "purpose": "Complete third-row source review, reconcile all original row-three candidate identities, and resolve prior county/shop questions. All geometry remains null.",
+  "detail_manifest": {
+    "sheet": 22,
+    "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+    "source_dimensions_px": [
+      10790,
+      7687
+    ],
+    "purpose": "New narrow native source contexts for third-row edge omissions and an uncertain shop reading; no preceding model answers supplied.",
+    "crops": [
+      {
+        "crop_id": "F22-DETAIL-SHOP-CHURCH",
+        "source_xywh": [
+          1860,
+          3810,
+          350,
+          400
+        ],
+        "sha256": "d6de6f2494e81d69ccf53099babe9be9b0e4a6720904d13476d865c2871462d0"
+      },
+      {
+        "crop_id": "F22-DETAIL-C06-BOTTOM",
+        "source_xywh": [
+          7570,
+          4430,
+          600,
+          650
+        ],
+        "sha256": "5476302bd9f8634d633d4e086a05274facc19d46030dc3ab641718aee2c7f6dd"
+      },
+      {
+        "crop_id": "F22-DETAIL-C05-ROAD",
+        "source_xywh": [
+          6700,
+          4470,
+          750,
+          650
+        ],
+        "sha256": "b82165f3bc11ece3e5d85551929d1744014618cb2d5db0108d3b5d5e73e6c6f6"
+      },
+      {
+        "crop_id": "F22-DETAIL-C07-RIVER",
+        "source_xywh": [
+          9300,
+          4250,
+          600,
+          1800
+        ],
+        "sha256": "2926c8a9f25f4c5d7b64138e2756bf8c28f543cc34d28054ae62ff68c100c8cc"
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "crop_id": "F22-DETAIL-SHOP-CHURCH",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "d6de6f2494e81d69ccf53099babe9be9b0e4a6720904d13476d865c2871462d0",
+      "prompt_sha256": "fe78040539fb43b14470a71bdb30d809b32bebede676b17052f807eb95976269",
+      "started_unix": 1788728264.485093,
+      "elapsed_s": 17.32,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f877cb5d2ffedB4XVSxg9EN1XP"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3766,
+          "input": 714,
+          "output": 585,
+          "reasoning": 1187,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "b180a0789e93aa3902d51fc82a25f106e124241718765aecb2ffd2c8c10b754e"
+    },
+    {
+      "crop_id": "F22-DETAIL-C06-BOTTOM",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "5476302bd9f8634d633d4e086a05274facc19d46030dc3ab641718aee2c7f6dd",
+      "prompt_sha256": "899b654fe6ae8a96a65c3ad9dc99722c6c9a4361b994c87a820748d3e11b1ba4",
+      "started_unix": 1788728264.4851599,
+      "elapsed_s": 21.08,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f877ca614ffeZFmBxSX2HdW0jj"
+      ],
+      "tokens_reported": [
+        {
+          "total": 3789,
+          "input": 863,
+          "output": 291,
+          "reasoning": 1355,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "f6d82bc4d7854924048d291877def0f0b4c840ac948a2c5fc05dc19f5168cea2"
+    },
+    {
+      "crop_id": "F22-DETAIL-C05-ROAD",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "b82165f3bc11ece3e5d85551929d1744014618cb2d5db0108d3b5d5e73e6c6f6",
+      "prompt_sha256": "adef910b7104dbc74d2e1d9042af112aa65d5c2f10aaf35b29974835cbba2269",
+      "started_unix": 1788728264.485334,
+      "elapsed_s": 34.74,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f877c9674ffe0I7hmXUZMxCp6S"
+      ],
+      "tokens_reported": [
+        {
+          "total": 5079,
+          "input": 911,
+          "output": 381,
+          "reasoning": 2507,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "393d19d17b1c78b7cb19efab41a395f78d65487d873ef65a9114816d06c22cab"
+    },
+    {
+      "crop_id": "F22-DETAIL-C07-RIVER",
+      "model_requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+      "opencode_version": "1.18.29",
+      "source_crop_sha256": "2926c8a9f25f4c5d7b64138e2756bf8c28f543cc34d28054ae62ff68c100c8cc",
+      "prompt_sha256": "d37f516ec665261e1d54410b8338af496f5553fa626368fb8a1e416f0e74e27d",
+      "started_unix": 1788728264.486971,
+      "elapsed_s": 131.94,
+      "exit_code": 0,
+      "timed_out": false,
+      "validation_error": null,
+      "finish_reasons": [
+        "stop"
+      ],
+      "reasoning_effort_requested": "low",
+      "max_output_tokens": 32768,
+      "previous_attempt_retained": false,
+      "status": "extracted-unreviewed",
+      "session_ids": [
+        "ses_f877c86eeffenDKoD1uJdH7n4S"
+      ],
+      "tokens_reported": [
+        {
+          "total": 16585,
+          "input": 938,
+          "output": 1160,
+          "reasoning": 13207,
+          "cache": {
+            "write": 0,
+            "read": 1280
+          }
+        }
+      ],
+      "billed_cost": null,
+      "cost_note": "Custom provider displayed cost is not a billing receipt.",
+      "event_sha256": "2fb4fc66662e6f88d9640be1f6b6a73e0b14ac889799b2b6f071608fc3faaaf4"
+    }
+  ],
+  "reused_detail_evidence": [
+    "third-row-west-review-evidence.json",
+    "second-row-review-evidence.json"
+  ],
+  "first_pass_candidate_dispositions": [
+    {
+      "raw_candidate_id": "F22-R03C01-01",
+      "model_text": "60 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-052"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-02",
+      "model_text": "Harbour Bou",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-097"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-03",
+      "model_text": "90 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-098"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-04",
+      "model_text": "50 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-099"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-05",
+      "model_text": "Little",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-100"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-06",
+      "model_text": "Tracadie",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-100"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-07",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-100"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-08",
+      "model_text": "A",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-122"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-09",
+      "model_text": "N",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-122"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-10",
+      "model_text": "T",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-122"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-11",
+      "model_text": "I",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-122"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-12",
+      "model_text": "Little",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-101"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-13",
+      "model_text": "Tracadie",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-101"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-14",
+      "model_text": "Harbour",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-101"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-15",
+      "model_text": "Shops",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-102"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-16",
+      "model_text": "60 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-103"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-17",
+      "model_text": "Episcopal Church",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-104"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-18",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-105"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-19",
+      "model_text": "LittleTracadie",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-106"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-20",
+      "model_text": "Collin River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-107"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-21",
+      "model_text": "Chisholm's",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-107"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-22",
+      "model_text": "Tracadie River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-108"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-23",
+      "model_text": "G. Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-109"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-24",
+      "model_text": "J. Stuart",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-112"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-25",
+      "model_text": "Gilbert Benoit",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-113"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-26",
+      "model_text": "STA",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-114"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-27",
+      "model_text": "400 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-115"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C01-28",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-116"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C02-01",
+      "model_text": "have Bouché",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-097"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C02-02",
+      "model_text": "Have Bouché Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-120"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C02-03",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-116"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C02-04",
+      "model_text": "STA",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-118"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C02-05",
+      "model_text": "D.McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-117"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C02-06",
+      "model_text": "Winter Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-121"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C02-07",
+      "model_text": "IRON",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-122"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C02-08",
+      "model_text": "40 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-063"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C02-09",
+      "model_text": "350 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-062"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-01",
+      "model_text": "250 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-069"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-02",
+      "model_text": "Mc Donald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-123"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-03",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-123"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-04",
+      "model_text": "D. McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-117"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-05",
+      "model_text": "G. Strachan",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-124"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-06",
+      "model_text": "543 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-125"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-07",
+      "model_text": "Dyke",
+      "disposition": "scope-holdback",
+      "reason": "Upper Dyke overlap; see scope_holdbacks."
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-08",
+      "model_text": "Ghost",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-09",
+      "model_text": "Beach",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-10",
+      "model_text": "Long",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-127"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-11",
+      "model_text": "Pond",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-127"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-12",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-070"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-13",
+      "model_text": "Archie",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-128"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-14",
+      "model_text": "Pond",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-128"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-15",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-129"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-16",
+      "model_text": "220 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-130"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-17",
+      "model_text": "Auld Cove",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-131"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-18",
+      "model_text": "Mc Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-139"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-19",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-132"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-20",
+      "model_text": "Cable",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-133"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-21",
+      "model_text": "STA.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-134"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-22",
+      "model_text": "Dyke",
+      "disposition": "scope-holdback",
+      "reason": "Distinct lower Dyke; see scope_holdbacks."
+    },
+    {
+      "raw_candidate_id": "F22-R03C03-23",
+      "model_text": "Cape Porcupine",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-135"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-01",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-070"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-02",
+      "model_text": "Horton Brook",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-079"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-03",
+      "model_text": "Falls",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-136"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-04",
+      "model_text": "Long Pond",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-127"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-05",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-137"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-06",
+      "model_text": "Hastings",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-138"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-07",
+      "model_text": "d Cove",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-131"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-08",
+      "model_text": "Mc Millan Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-139"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-09",
+      "model_text": "Cable",
+      "disposition": "reconciled-to-printed-group",
+      "reviewed_ids": [
+        "F22-HAW-133",
+        "F22-HAW-140",
+        "F22-HAW-141"
+      ],
+      "reason": "Two displaced model boxes for three printed Cable occurrences; no asserted one-to-one match."
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-10",
+      "model_text": "Cable",
+      "disposition": "reconciled-to-printed-group",
+      "reviewed_ids": [
+        "F22-HAW-133",
+        "F22-HAW-140",
+        "F22-HAW-141"
+      ],
+      "reason": "Two displaced model boxes for three printed Cable occurrences; no asserted one-to-one match."
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-11",
+      "model_text": "Mc Keen Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-142"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-12",
+      "model_text": "C. Porcupine plaster force.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-143",
+        "F22-HAW-144"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-13",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-145"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-14",
+      "model_text": "Quarry",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-146"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-15",
+      "model_text": "Victoria Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-147"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-16",
+      "model_text": "Big",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-085"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-17",
+      "model_text": "Lake",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-078"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-18",
+      "model_text": "400 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-148"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-19",
+      "model_text": "Keaton Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-149"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-20",
+      "model_text": "Old Cable",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-150"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-21",
+      "model_text": "350 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-151"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C04-22",
+      "model_text": "460 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-152"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C05-01",
+      "model_text": "DORCHESTER BRIDGE",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-083"
+      ],
+      "original_response_status": "incomplete JSON retained unchanged; source-reviewed independently"
+    },
+    {
+      "raw_candidate_id": "F22-R03C05-02",
+      "model_text": "Big Brook Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-085"
+      ],
+      "original_response_status": "incomplete JSON retained unchanged; source-reviewed independently"
+    },
+    {
+      "raw_candidate_id": "F22-R03C05-03",
+      "model_text": "AG.Fraser",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-153"
+      ],
+      "original_response_status": "incomplete JSON retained unchanged; source-reviewed independently"
+    },
+    {
+      "raw_candidate_id": "F22-R03C05-04",
+      "model_text": "Barren",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-154"
+      ],
+      "original_response_status": "incomplete JSON retained unchanged; source-reviewed independently"
+    },
+    {
+      "raw_candidate_id": "F22-R03C05-05",
+      "model_text": "North Branch",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-155"
+      ],
+      "original_response_status": "incomplete JSON retained unchanged; source-reviewed independently"
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-01",
+      "model_text": "Hector McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-161"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-02",
+      "model_text": "Termain, C.E., in 1875",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-092"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-03",
+      "model_text": "BROAD COVE",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-091"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-04",
+      "model_text": "Black",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-090"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-05",
+      "model_text": "Water flows NE and SE",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-162"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-06",
+      "model_text": "J. McQuarrie",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-163"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-07",
+      "model_text": "Mc Intyre Lake",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-164"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-08",
+      "model_text": "Duff's Mills",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-165"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-09",
+      "model_text": "COUNTY",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-170"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-10",
+      "model_text": "TO",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-169"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-11",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-166"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-12",
+      "model_text": "Beaver Dam Lake",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-167"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-13",
+      "model_text": "Little River",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-168"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-14",
+      "model_text": "PROPOSED RAILWAY",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-169"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-15",
+      "model_text": "FAULT",
+      "disposition": "scope-holdback",
+      "reason": "FAULT; see scope_holdbacks."
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-16",
+      "model_text": "...ters Road",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-159"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-17",
+      "model_text": "Kin",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-172"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C06-18",
+      "model_text": "J. McVean",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-171"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-01",
+      "model_text": "Ferguson",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-094"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-02",
+      "model_text": "Fall",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-093"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-03",
+      "model_text": "River Inhabitants",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-095"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-04",
+      "model_text": "or Mc Leods Bridge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-095"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-05",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-173"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-06",
+      "model_text": "Church",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-174"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-07",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-175"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-08",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-176"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-09",
+      "model_text": "LINE",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-170"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-10",
+      "model_text": "OUNTY",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-170"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-11",
+      "model_text": "RAILWAY",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-169"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-12",
+      "model_text": "TO LOUISBURG",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-169"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-13",
+      "model_text": "80 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-178"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-14",
+      "model_text": "Cemetery",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-179"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-15",
+      "model_text": "Grant Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-180"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-16",
+      "model_text": "Rapids",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-181"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-17",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-182"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-18",
+      "model_text": "Long Point",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-183"
+      ]
+    },
+    {
+      "raw_candidate_id": "F22-R03C07-19",
+      "model_text": "70 FT",
+      "disposition": "reconciled-to-reviewed",
+      "reviewed_ids": [
+        "F22-HAW-184"
+      ]
+    }
+  ],
+  "adjudication": [
+    {
+      "issue": "Shops or Shop",
+      "decision": "Correct F22-HAW-102 to Shop. Native nearest-neighbour inspection separates a filled building symbol after the final p. Preserve original model reading and stable ID.",
+      "ids": [
+        "F22-HAW-102"
+      ]
+    },
+    {
+      "issue": "County lettering / IRON",
+      "decision": "Complete ANTIGONISH letter by letter across C01–C03; do not accept an IRON mineral label.",
+      "ids": [
+        "F22-HAW-122"
+      ]
+    },
+    {
+      "issue": "C. Porcupine plaster force",
+      "decision": "Separate C. Porcupine and Plaster Cove using native lettering.",
+      "ids": [
+        "F22-HAW-143",
+        "F22-HAW-144"
+      ]
+    },
+    {
+      "issue": "Truncated R03C05",
+      "decision": "All four smaller detail images and the whole original crop inspected. Reconcile overlap and add source records independently; do not rewrite the failed raw attempt as a success. Red Note 2 and report page numbers are excluded.",
+      "ids": [
+        "F22-HAW-153",
+        "F22-HAW-154",
+        "F22-HAW-155",
+        "F22-HAW-156",
+        "F22-HAW-157",
+        "F22-HAW-158",
+        "F22-HAW-159",
+        "F22-HAW-160"
+      ]
+    },
+    {
+      "issue": "Kin / McVean",
+      "decision": "Complete Kiln and correct J. McVicar in native lower context, supported by independent detail.",
+      "ids": [
+        "F22-HAW-171",
+        "F22-HAW-172"
+      ]
+    },
+    {
+      "issue": "Large river title",
+      "decision": "Assemble RIVER INHABITANTS across rows 3–4. The H overlaps geological lettering and remains tentative. Do not conflate this river title with the bridge alternative name.",
+      "ids": [
+        "F22-HAW-185"
+      ]
+    },
+    {
+      "issue": "Detail outputs outside current review",
+      "decision": "Other labels in the lower C05-ROAD and C07-RIVER windows remain unreviewed. In particular, the river model Bartlett's Ferry reading is not accepted: the wider source shows different lettering. Model agreement/valid JSON is not source acceptance."
+    }
+  ],
+  "review_coverage_note": "21 of 35 whole sheet-22 crops inspected: all first three rows. County fragments resolved; Shop corrected. School typography and the obscured river-title H remain explicit uncertainties, with geological overlay scope holdbacks retained."
+}

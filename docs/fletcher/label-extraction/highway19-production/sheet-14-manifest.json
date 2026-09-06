@@ -1,0 +1,376 @@
+{
+  "sheet": 14,
+  "source_sha256": "907ebc260018055cfc9da780a88f127db13834c0f7e831be7bf395c600a6854c",
+  "source_dimensions_px": [
+    10852,
+    7622
+  ],
+  "rumsey_id": "RUMSEY~8~1~2639~290007",
+  "manifest_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2639~290007/manifest",
+  "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+  "imagery_terms_url": "https://www.davidrumsey.com/about/copyright-and-permissions",
+  "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+  "coverage_rect_xywh": [
+    1400,
+    900,
+    8400,
+    5660
+  ],
+  "coverage_basis": "Native IIIF mosaic overview; padded full map interior including north and south edge lettering",
+  "coverage_note": "Padded map interior rectangle; marginal legends and graticule excluded from transcription. Coverage is packet coverage, not reviewed completeness.",
+  "coordinate_system": "Original unwarped full scan pixels, x right / y down; no geographic placement",
+  "crop_size": 1400,
+  "overlap_px": 200,
+  "crops": [
+    {
+      "crop_id": "F14-R01C01",
+      "source_xywh": [
+        1400,
+        900,
+        1400,
+        1400
+      ],
+      "sha256": "4ae507d134c9a538428f539ce4501f009965bf2ed45c5a0eec4bbd12bd16181f"
+    },
+    {
+      "crop_id": "F14-R01C02",
+      "source_xywh": [
+        2600,
+        900,
+        1400,
+        1400
+      ],
+      "sha256": "fc882d2be250205d8232c4a1423bdc1faf909f67cdc80cb53e063cecee1d6105"
+    },
+    {
+      "crop_id": "F14-R01C03",
+      "source_xywh": [
+        3800,
+        900,
+        1400,
+        1400
+      ],
+      "sha256": "11bd709eea24ca92ab4347cb1919cc86383bee30e6cbf7c4d219456d4489a550"
+    },
+    {
+      "crop_id": "F14-R01C04",
+      "source_xywh": [
+        5000,
+        900,
+        1400,
+        1400
+      ],
+      "sha256": "1f6c452e2504b8fe5f2960cca7c6c146a1714806beda71104d6be4f81c09aecd"
+    },
+    {
+      "crop_id": "F14-R01C05",
+      "source_xywh": [
+        6200,
+        900,
+        1400,
+        1400
+      ],
+      "sha256": "bbb1da4fc4fd32b44ca42d5796569c8ab2d9da523718779881d8f14bd917d6a7"
+    },
+    {
+      "crop_id": "F14-R01C06",
+      "source_xywh": [
+        7400,
+        900,
+        1400,
+        1400
+      ],
+      "sha256": "f618fc2dbf51e5c503d3c5d8117a470913321cb7e7b2f4b4401c46a2c803d550"
+    },
+    {
+      "crop_id": "F14-R01C07",
+      "source_xywh": [
+        8600,
+        900,
+        1200,
+        1400
+      ],
+      "sha256": "a348341a41db8821e1260d9424cf22e8993429ac48dbb695b9efbfc9c13f69a9"
+    },
+    {
+      "crop_id": "F14-R02C01",
+      "source_xywh": [
+        1400,
+        2100,
+        1400,
+        1400
+      ],
+      "sha256": "0bd208bb05da531bcf57bbb3c152216525ea836d67c977be47ab7000a4f40e0b"
+    },
+    {
+      "crop_id": "F14-R02C02",
+      "source_xywh": [
+        2600,
+        2100,
+        1400,
+        1400
+      ],
+      "sha256": "fead966de99b8c33dc7ec78ad2ab12d25c647edad89ab1c351b3bf2d0879f940"
+    },
+    {
+      "crop_id": "F14-R02C03",
+      "source_xywh": [
+        3800,
+        2100,
+        1400,
+        1400
+      ],
+      "sha256": "831a1c408a0c1a1128458953c6725ccb57038fda4bb7aae9cb69f316ea143ae5"
+    },
+    {
+      "crop_id": "F14-R02C04",
+      "source_xywh": [
+        5000,
+        2100,
+        1400,
+        1400
+      ],
+      "sha256": "c56488b9ac1f244b9095af18e10cdc0ed91fe78ecf618138b73bb6aea1875f13"
+    },
+    {
+      "crop_id": "F14-R02C05",
+      "source_xywh": [
+        6200,
+        2100,
+        1400,
+        1400
+      ],
+      "sha256": "6f95190ac63717000aaaa2f463da42d1cf9d420457e531056fe6de2355f7ce9a"
+    },
+    {
+      "crop_id": "F14-R02C06",
+      "source_xywh": [
+        7400,
+        2100,
+        1400,
+        1400
+      ],
+      "sha256": "cf193539416e149936c04085de6dfd42e1e2d4ef6261d9880790ff9fcb90b81b"
+    },
+    {
+      "crop_id": "F14-R02C07",
+      "source_xywh": [
+        8600,
+        2100,
+        1200,
+        1400
+      ],
+      "sha256": "cac3943cafc419eb4fffd290d19ffc54d939d5cdd45ea1d5c31a0f8dedc26337"
+    },
+    {
+      "crop_id": "F14-R03C01",
+      "source_xywh": [
+        1400,
+        3300,
+        1400,
+        1400
+      ],
+      "sha256": "32bb32e5c4d9f502508c5283f6919ca5cdd29a7bf56893b7a6fe73f4b60aef44"
+    },
+    {
+      "crop_id": "F14-R03C02",
+      "source_xywh": [
+        2600,
+        3300,
+        1400,
+        1400
+      ],
+      "sha256": "a5120a68168f193b075f3265e8883adabb10fbc0bc362a66fe01a807626ec0c0"
+    },
+    {
+      "crop_id": "F14-R03C03",
+      "source_xywh": [
+        3800,
+        3300,
+        1400,
+        1400
+      ],
+      "sha256": "f23bd69b2519d76e47427a1355022df88b753c58e90b9c3046f5ebd1a5c60062"
+    },
+    {
+      "crop_id": "F14-R03C04",
+      "source_xywh": [
+        5000,
+        3300,
+        1400,
+        1400
+      ],
+      "sha256": "618dedb82b9d631c80762d311e62478deb7b4ef83868bd2003d52953a8deb7c5"
+    },
+    {
+      "crop_id": "F14-R03C05",
+      "source_xywh": [
+        6200,
+        3300,
+        1400,
+        1400
+      ],
+      "sha256": "c869cf78283698159fa6b4b8812d1870ef4242eb410ebbd22f516a8cdc0eadc5"
+    },
+    {
+      "crop_id": "F14-R03C06",
+      "source_xywh": [
+        7400,
+        3300,
+        1400,
+        1400
+      ],
+      "sha256": "22c535b43946c10cf0a070ea5a7ff27156e57217ac466ba3215d7f0317745b8b"
+    },
+    {
+      "crop_id": "F14-R03C07",
+      "source_xywh": [
+        8600,
+        3300,
+        1200,
+        1400
+      ],
+      "sha256": "ffc2de8e648fbb9beb0d6c6f98703ebef551456b154b217e357bede01bcc8b08"
+    },
+    {
+      "crop_id": "F14-R04C01",
+      "source_xywh": [
+        1400,
+        4500,
+        1400,
+        1400
+      ],
+      "sha256": "b66f9c1a277d78225379c83401816ece5df6757a4cc83733a245a85261b5b9e6"
+    },
+    {
+      "crop_id": "F14-R04C02",
+      "source_xywh": [
+        2600,
+        4500,
+        1400,
+        1400
+      ],
+      "sha256": "793c2467ad7fe4ed5e82e30a24efb13116826e3e76e453567f41af6556f64a56"
+    },
+    {
+      "crop_id": "F14-R04C03",
+      "source_xywh": [
+        3800,
+        4500,
+        1400,
+        1400
+      ],
+      "sha256": "2132b371155e41f9e5867c280fda12e13f2f6f963b4682eb16654bb40093420f"
+    },
+    {
+      "crop_id": "F14-R04C04",
+      "source_xywh": [
+        5000,
+        4500,
+        1400,
+        1400
+      ],
+      "sha256": "5b0cae27ba3eb27dbe4b9ea01f9383c461b0dd0f8103cfd025d4d9a63f90ee66"
+    },
+    {
+      "crop_id": "F14-R04C05",
+      "source_xywh": [
+        6200,
+        4500,
+        1400,
+        1400
+      ],
+      "sha256": "30c3f492e71e98704c37101fb45a7846321851259bf72e6e4d39efdd2c4efaea"
+    },
+    {
+      "crop_id": "F14-R04C06",
+      "source_xywh": [
+        7400,
+        4500,
+        1400,
+        1400
+      ],
+      "sha256": "5cfb2ace98e9033517e086ea169c11a52c0ff577f1fd1fbf768ec62dbc7813b8"
+    },
+    {
+      "crop_id": "F14-R04C07",
+      "source_xywh": [
+        8600,
+        4500,
+        1200,
+        1400
+      ],
+      "sha256": "9a5741d30e573bcbceb6b04b9d62b551c0012be1229bbd364e6018dbcc23fde3"
+    },
+    {
+      "crop_id": "F14-R05C01",
+      "source_xywh": [
+        1400,
+        5700,
+        1400,
+        860
+      ],
+      "sha256": "ebab58eab09d3ea27e214dafc9e635dae493723816cb59a1442801960a9c6c95"
+    },
+    {
+      "crop_id": "F14-R05C02",
+      "source_xywh": [
+        2600,
+        5700,
+        1400,
+        860
+      ],
+      "sha256": "478e9faf17e4beea5017ea80fa918af8f0bd7cc5a068f95dccfd9e466ac8f6de"
+    },
+    {
+      "crop_id": "F14-R05C03",
+      "source_xywh": [
+        3800,
+        5700,
+        1400,
+        860
+      ],
+      "sha256": "de8b1ef9e1de05811cb61bac1b841b0e4778d67643d8345a5f7dcd0477309e1d"
+    },
+    {
+      "crop_id": "F14-R05C04",
+      "source_xywh": [
+        5000,
+        5700,
+        1400,
+        860
+      ],
+      "sha256": "d95ea2027349a41faff275066faaa1ea26973d1f884a76a5071f74ef7de8e1c9"
+    },
+    {
+      "crop_id": "F14-R05C05",
+      "source_xywh": [
+        6200,
+        5700,
+        1400,
+        860
+      ],
+      "sha256": "c69363964b42f42bb390b24ac17e764d5e5488289b139991822f42f7a781f32b"
+    },
+    {
+      "crop_id": "F14-R05C06",
+      "source_xywh": [
+        7400,
+        5700,
+        1400,
+        860
+      ],
+      "sha256": "bab609824f7850b4ef0abe57a4dccaa133e3a38704aab208ca4c61c09ebebc58"
+    },
+    {
+      "crop_id": "F14-R05C07",
+      "source_xywh": [
+        8600,
+        5700,
+        1200,
+        860
+      ],
+      "sha256": "f411ab189b7424a62114dac42938af4a2f57e29e1a2b9726ad989f17d6bcc14a"
+    }
+  ]
+}

@@ -1,0 +1,426 @@
+{
+  "sheet": 16,
+  "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+  "source_dimensions_px": [
+    10822,
+    7531
+  ],
+  "rumsey_id": "RUMSEY~8~1~2641~290009",
+  "manifest_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+  "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+  "imagery_terms_url": "https://www.davidrumsey.com/about/copyright-and-permissions",
+  "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+  "coverage_rect_xywh": [
+    1200,
+    880,
+    8600,
+    5630
+  ],
+  "coverage_basis": "Native overview; includes coastal labels extending outside the western neatline near Port Hood Island",
+  "coverage_note": "Padded map interior rectangle; marginal legends and graticule excluded from transcription. Coverage is packet coverage, not reviewed completeness.",
+  "coordinate_system": "Original unwarped full scan pixels, x right / y down; no geographic placement",
+  "crop_size": 1400,
+  "overlap_px": 200,
+  "crops": [
+    {
+      "crop_id": "F16-R01C01",
+      "source_xywh": [
+        1200,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "a2d957bf92c94045f1b1d20182d8d353dee5b3d4999c18859aeedf1047c53619"
+    },
+    {
+      "crop_id": "F16-R01C02",
+      "source_xywh": [
+        2400,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "08df42cd043714dd8f11c58c909fe69c51cc975052f40a690c455033d6a76d57"
+    },
+    {
+      "crop_id": "F16-R01C03",
+      "source_xywh": [
+        3600,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "2ec4f512757ac246c365a330037a8f03d4617a57f5878212ff4f48ad08c92b83"
+    },
+    {
+      "crop_id": "F16-R01C04",
+      "source_xywh": [
+        4800,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "b6074ff969d4bcb88d0f358cad526a22369f37197c7fcdb02e404dfc13770232"
+    },
+    {
+      "crop_id": "F16-R01C05",
+      "source_xywh": [
+        6000,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "3365d26869aa0692962969015cdfae58f98b3ccc297bd8297df1fd261e8ab2ed"
+    },
+    {
+      "crop_id": "F16-R01C06",
+      "source_xywh": [
+        7200,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "9a4ba1c8a4062775c62e7cc3aef0fd2a20edaaf3877abcfd1895632e93318fa2"
+    },
+    {
+      "crop_id": "F16-R01C07",
+      "source_xywh": [
+        8400,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "31e81709938aacb9f5b1209f3817b534a7e8d123cfeb020f7d67f54f5b370917"
+    },
+    {
+      "crop_id": "F16-R01C08",
+      "source_xywh": [
+        9600,
+        880,
+        200,
+        1400
+      ],
+      "sha256": "553df41cd4cbf456edd1783b77b70c1ad2170223b98a546472460c56cecdcf1d"
+    },
+    {
+      "crop_id": "F16-R02C01",
+      "source_xywh": [
+        1200,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "21bd76669db8554094c6477d14624d30e0d0211539c80442335745cf2c0a504b"
+    },
+    {
+      "crop_id": "F16-R02C02",
+      "source_xywh": [
+        2400,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "1c393be46675f3c919e079f561568b5e46214429df01b403f89d5a07c530dd80"
+    },
+    {
+      "crop_id": "F16-R02C03",
+      "source_xywh": [
+        3600,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "1141704b89b07f9d558679e25037e9e88157a51a3db6b312ae20ab0dbf4ebee8"
+    },
+    {
+      "crop_id": "F16-R02C04",
+      "source_xywh": [
+        4800,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "9dff0c625306fd18feca4632d70616062bae42a1e796875579939de4ec29628f"
+    },
+    {
+      "crop_id": "F16-R02C05",
+      "source_xywh": [
+        6000,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "a5691a321da1cc872a4762b8b959685b793f7eb1529701673951e2661fce7227"
+    },
+    {
+      "crop_id": "F16-R02C06",
+      "source_xywh": [
+        7200,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "5facc4cddbd1c4761d50b3b04d9db89b7e5e19e07ae7a109b8d47e0d5be41f35"
+    },
+    {
+      "crop_id": "F16-R02C07",
+      "source_xywh": [
+        8400,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "6974b375b368cd49f5783fd50b061377631d0063e55747c52bb7752579060f00"
+    },
+    {
+      "crop_id": "F16-R02C08",
+      "source_xywh": [
+        9600,
+        2080,
+        200,
+        1400
+      ],
+      "sha256": "71a9819ba47785ff727bdc1c4e55db18c2b8578013ee3d224e2e70e7165be47d"
+    },
+    {
+      "crop_id": "F16-R03C01",
+      "source_xywh": [
+        1200,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "3d9e663df2e05c1ed023744a72935a60e0ad1fc2de5749515c5ee1536b3d80b5"
+    },
+    {
+      "crop_id": "F16-R03C02",
+      "source_xywh": [
+        2400,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "5a3ffb50c7036f76cba834ede2538ee6c856289c9f017cbd392900f9cbb730d4"
+    },
+    {
+      "crop_id": "F16-R03C03",
+      "source_xywh": [
+        3600,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "6f221955346fa531016a44ee2f0e680a7a67cea77542ef254deaf46109998896"
+    },
+    {
+      "crop_id": "F16-R03C04",
+      "source_xywh": [
+        4800,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "cc9cb53e2bc4c2da32b8745d4827c86a40f19dc11bb4be4f0f68165b62e19064"
+    },
+    {
+      "crop_id": "F16-R03C05",
+      "source_xywh": [
+        6000,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "4fbe8abd3aea20bd7c2654bd01d6ca98d862c942a489de20b6a5f6266dfe53d7"
+    },
+    {
+      "crop_id": "F16-R03C06",
+      "source_xywh": [
+        7200,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "c0de90734e190f68fdf60f9a19ee49886b5623c19f4bfea0f11994c4a69b5b7b"
+    },
+    {
+      "crop_id": "F16-R03C07",
+      "source_xywh": [
+        8400,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "b05e1897c47dd721b7c4330d7c4d364b53929abe234f57be2f0518e5bb9c2c02"
+    },
+    {
+      "crop_id": "F16-R03C08",
+      "source_xywh": [
+        9600,
+        3280,
+        200,
+        1400
+      ],
+      "sha256": "1dc2c20ec2fb585a4dbf2292c848baab92dcae245fd710393b43a2b05da3ac38"
+    },
+    {
+      "crop_id": "F16-R04C01",
+      "source_xywh": [
+        1200,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "a76178c887d9620b6c804cb876577a8678bd7c36ec204f76ff4ad4885ffd3058"
+    },
+    {
+      "crop_id": "F16-R04C02",
+      "source_xywh": [
+        2400,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "38c2504c5836853da71184e73bd5daafc29a7c3e7f3f6107820c1e56c8238bdd"
+    },
+    {
+      "crop_id": "F16-R04C03",
+      "source_xywh": [
+        3600,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "fc0120f514b9ab4c95aa57d8f1a4f96e07a9dc095bfadd37421dbc2103fde26b"
+    },
+    {
+      "crop_id": "F16-R04C04",
+      "source_xywh": [
+        4800,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "4c2c82e95534b59590f42ae93fcb921ea694dd2c6fc1aec38c001c4c1ecd621f"
+    },
+    {
+      "crop_id": "F16-R04C05",
+      "source_xywh": [
+        6000,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "f1f9bbe2670d1221da9b39e07cb3bb34a0f143f65afb518a64dbbb97fb77edf3"
+    },
+    {
+      "crop_id": "F16-R04C06",
+      "source_xywh": [
+        7200,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "d77f8f1ff134c19a26f4f9f1c07aa5ce1ec2f1e297284890173de0ca1fb30a84"
+    },
+    {
+      "crop_id": "F16-R04C07",
+      "source_xywh": [
+        8400,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "e072832d84e7587c3aa5147e688ecb3e7b6e8699e4b27e512e9aa2eb194fa326"
+    },
+    {
+      "crop_id": "F16-R04C08",
+      "source_xywh": [
+        9600,
+        4480,
+        200,
+        1400
+      ],
+      "sha256": "83789d3e72537c67e960793acad69cc792b99072c0f4a05cecef7189eb71d098"
+    },
+    {
+      "crop_id": "F16-R05C01",
+      "source_xywh": [
+        1200,
+        5680,
+        1400,
+        830
+      ],
+      "sha256": "79c5e2fd5a6124a19578e8ce9afa5ec52c6bbaad350c727e2e401803b755f534"
+    },
+    {
+      "crop_id": "F16-R05C02",
+      "source_xywh": [
+        2400,
+        5680,
+        1400,
+        830
+      ],
+      "sha256": "a286fae81148e5953f6084b8b170b1b0882ee5f2b8644db5444b641e534bc15d"
+    },
+    {
+      "crop_id": "F16-R05C03",
+      "source_xywh": [
+        3600,
+        5680,
+        1400,
+        830
+      ],
+      "sha256": "b66a5e28b882a1b45c6d20cb0958b16366d6a17026f35c2babe00ee6c46f2993"
+    },
+    {
+      "crop_id": "F16-R05C04",
+      "source_xywh": [
+        4800,
+        5680,
+        1400,
+        830
+      ],
+      "sha256": "a05b62b4ba5dbbb24b5eedc3efa9c215864577f4349a33520cdc18533549eab4"
+    },
+    {
+      "crop_id": "F16-R05C05",
+      "source_xywh": [
+        6000,
+        5680,
+        1400,
+        830
+      ],
+      "sha256": "5a290dd3ebc80c725ff0edc41d84639dfdf8057a1166eeda7ab3b416c82cdc69"
+    },
+    {
+      "crop_id": "F16-R05C06",
+      "source_xywh": [
+        7200,
+        5680,
+        1400,
+        830
+      ],
+      "sha256": "5865fb3f48a94651acc7f0cbf7d8a26369380e9944bcded4d25e6bf8f3eedfd2"
+    },
+    {
+      "crop_id": "F16-R05C07",
+      "source_xywh": [
+        8400,
+        5680,
+        1400,
+        830
+      ],
+      "sha256": "3c68dcd87f463f4d2eedc8593a424ad433acbbef18bf23e0ff05caf2f9ebd8ee"
+    },
+    {
+      "crop_id": "F16-R05C08",
+      "source_xywh": [
+        9600,
+        5680,
+        200,
+        830
+      ],
+      "sha256": "173db18b07256d1e3630c1a98581d70f55c85843b29eed425b8bd69d8012ced6"
+    }
+  ]
+}
