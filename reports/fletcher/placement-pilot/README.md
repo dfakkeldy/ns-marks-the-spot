@@ -21,7 +21,7 @@ This moves the selected annotations from transcription into geographic research.
 | 078 Mills (B) | Unresolved group | Western crossing and road bend recognized; plural mills not collapsed into one building. |
 | 079 Mills (C) | Unresolved group | Eastern crossing/building cluster recognized; individual facilities unresolved. |
 | 061 Gold Mine | Supported overprinted mark | Candidate Melford district record cluster: MODB F14-015 and AMO MAU-1-001. |
-| 094 Gold Mine | Supported oval mark | Candidate Cameron's Mountain/Glendale Brook cluster: MODB F14-017 and AMO GBG-1-001. |
+| 094 Gold Mine | Supported oval mark | Candidate Cameron's Mountain/Glendale Brook cluster: MODB F14-017 and AMO GBG-1-001; user visually corroborated the displayed locality on September 6. |
 | 103 Plumbago Mine | Supported isolated mark | Candidate AMO graphite pit GLM-1-001; a different graphite complex farther north is not adopted. |
 | 117 Red Bridge | Supported printed road/river crossing | River reach and crossing corridor recognized; historical bridge identity has not been linked to a present crossing. |
 

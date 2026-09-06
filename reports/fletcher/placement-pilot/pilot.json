@@ -2340,9 +2340,15 @@
       "review": {
         "locality_status": "supported-corridor",
         "search_half_width_ground_m": 400,
-        "evidence": "A distinct oval mine mark is west of the curving road and Glendale Brook. The brook's western tributaries and its downstream meeting with the eastern stream corroborate the corridor.",
+        "evidence": "A distinct oval mine mark is west of the curving road and Glendale Brook. The brook's western tributaries and its downstream meeting with the eastern stream corroborate the corridor. Local review (September 6, 2026): the user explicitly identified annotation 094 as the gold-mine candidate that looks right.",
         "contradictions": "The lettering centre is well east of the reviewed mine mark. The modern road curve differs locally. The nearby GPS-sourced opening supports further investigation but does not independently establish the historical identity.",
-        "next": "Find a dated mining account or plan linking the Glendale Brook shaft to the Fletcher annotation."
+        "next": "Find a dated mining account or plan linking the Glendale Brook shaft to the Fletcher annotation.",
+        "local_review": {
+          "reviewed_at": "2026-09-06",
+          "source_role": "user visual review of the pilot comparison",
+          "assessment": "The displayed gold-mine candidate looks right; the reviewer explicitly identified annotation 094.",
+          "scope": "Visual corroboration of the candidate locality; no opening coordinates or building footprint supplied."
+        }
       },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
