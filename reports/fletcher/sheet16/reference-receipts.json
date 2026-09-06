@@ -30,5 +30,13 @@
     "count": 543,
     "sha256": "22829b454797975070cbeccba9e8c9c4ea3ec3c7ad91c10a5529b24b3657ab0a",
     "retrieved_utc": "2026-09-06T14:57:16.050565+00:00"
+  },
+  {
+    "name": "highways",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/7/query",
+    "bbox": "-61.66,45.90,-61.17,46.12",
+    "count": 95,
+    "sha256": "f604f900f147f857b31ce3ba25f2f5b0759d5345906e7b3cf03e819880eeadc0",
+    "retrieved_utc": "2026-09-06T15:17:40.809014+00:00"
   }
 ]
