@@ -1,0 +1,2774 @@
+{
+  "title": "Fletcher sheet 19 placement pilot",
+  "reviewed_at": "2026-09-06",
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "observations_sha256": "632f4b19fcbe64384232fc03693c4f51f646e51332c3d56e382e977ff0afda04",
+  "raster_sha256": "6a6a3c6432fe8f46c6366dd5acb253721557dba7f5e46a939651e2db8559c4cf",
+  "modern_references": [
+    {
+      "name": "roads",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/8/query",
+      "bbox": "-61.62,45.74,-61.20,46.12",
+      "count": 4706,
+      "sha256": "9fa0e32e52b87afd3e01da46c2eacc49b1f732849303ab10d2c4404d81f12ef4"
+    },
+    {
+      "name": "rail",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/6/query",
+      "bbox": "-61.62,45.74,-61.20,46.12",
+      "count": 37,
+      "sha256": "c25e0bf59f9be83a18d81e6f1aa0241cf3aeb1c1bc8a29bc15ecab5590cf8df8"
+    },
+    {
+      "name": "water-lines",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+      "bbox": "-61.62,45.74,-61.20,46.12",
+      "count": 3790,
+      "sha256": "f2ba10507269881f299b4e65cbcbc2a61af13e51a3948bf50c0526324ba3a008"
+    },
+    {
+      "name": "water-polygons",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/8/query",
+      "bbox": "-61.62,45.74,-61.20,46.12",
+      "count": 1036,
+      "sha256": "f534ea0e1f3b978f6f244d061e491c07ecd9e91830b5600282092c8868fbcbed"
+    }
+  ],
+  "modern_crs": "EPSG:4326, longitude then latitude; acquisition requested outSR=4326. Display EPSG:3857.",
+  "transform": "Frozen GDAL TPS, 39 controls; all 8 check rows excluded. No fitting or control edits in this pilot.",
+  "precision_note": "Existing diagnostic checks: 20–94 ground m, median 68 m. They are not per-site accuracy or confidence limits. Search widths are reviewer-selected operational windows.",
+  "cases": [
+    {
+      "annotation_id": "F19-JUD-004",
+      "source_text": "School",
+      "source_review": {
+        "annotation_id": "F19-JUD-004",
+        "status": "supported-source-association",
+        "source_anchor_xy": [
+          4022,
+          1338
+        ],
+        "candidate_symbol_regions_xywh": [],
+        "note": "The single compact black building mark immediately above-left of School, below the road.",
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "supported-corridor",
+        "search_half_width_ground_m": 300,
+        "evidence": "The school symbol lies south of a road junction, immediately east of a watercourse. The nearby western tributary junction and the downstream sequence of two eastern tributaries identify the corridor in the modern water network.",
+        "contradictions": "The through-road is now farther south; the frozen raster clips the northern context. The modern road junction is not an unchanged school-site anchor.",
+        "next": "Check a dated school record or historical aerial image for the building site within this corridor."
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.476727036041105,
+        45.91708769805466
+      ],
+      "search_centre_source_xy": [
+        4022,
+        1338
+      ],
+      "search_centre_origin": "reviewed-printed-symbol",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.48060076221388,
+              45.91439268676082
+            ],
+            [
+              -61.47285330986831,
+              45.91439268676082
+            ],
+            [
+              -61.47285330986831,
+              45.91978257846564
+            ],
+            [
+              -61.48060076221388,
+              45.91978257846564
+            ],
+            [
+              -61.48060076221388,
+              45.91439268676082
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3697,1113,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          3697,
+          1113,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6845357.94928917,
+        5765272.40634485,
+        -6841757.94928917,
+        5768872.40634485
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [
+          2,
+          44,
+          13766,
+          27845,
+          55709,
+          59331,
+          83718,
+          140301
+        ],
+        "water-lines": [
+          62022,
+          62023,
+          62024,
+          62650,
+          62651,
+          62652,
+          62655,
+          62656,
+          160810,
+          168464,
+          168465,
+          195829,
+          195830,
+          195831,
+          195933,
+          195935,
+          195936,
+          195938,
+          196008,
+          196190,
+          209854,
+          212058,
+          275409,
+          275411,
+          275412,
+          275413,
+          275414,
+          275415,
+          275416,
+          275417,
+          275418,
+          275419,
+          287047,
+          287050,
+          287051,
+          287052,
+          287175,
+          287304,
+          307165,
+          307166,
+          307167
+        ],
+        "roads": [
+          1867,
+          3591,
+          5745,
+          9665,
+          23583,
+          36216,
+          36964,
+          37389,
+          37390,
+          37391,
+          37618,
+          38300,
+          49283,
+          58572,
+          58951,
+          58952,
+          61387,
+          86093,
+          86710,
+          86719,
+          86721,
+          87080,
+          87086,
+          116864,
+          116869,
+          116870,
+          116871,
+          116934,
+          117267,
+          117269,
+          117632,
+          117709,
+          117710,
+          117715,
+          133436,
+          133437,
+          133438,
+          133439,
+          133449,
+          134105,
+          134106,
+          134109,
+          134111,
+          134112,
+          134113,
+          137137,
+          137139,
+          137141,
+          137142,
+          147276,
+          147550
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    },
+    {
+      "annotation_id": "F19-JUD-005",
+      "source_text": "Forge",
+      "source_review": {
+        "annotation_id": "F19-JUD-005",
+        "status": "supported-source-association",
+        "source_anchor_xy": [
+          3986,
+          1567
+        ],
+        "candidate_symbol_regions_xywh": [],
+        "note": "The isolated building mark directly left of Forge, south of the stream; other buildings lie north of that stream.",
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "supported-corridor",
+        "search_half_width_ground_m": 300,
+        "evidence": "The forge mark lies east of the old road, between two eastern tributaries entering the north-south watercourse above the coastal inlet. That tributary order and inlet relationship remain recognizable in NSTDB.",
+        "contradictions": "The old north-south road segment is absent from the modern road reference, and the modern mapped inlet extends farther inland. Neither road snapping nor present shoreline snapping is justified.",
+        "next": "Seek an old aerial or forge-specific record; use the two tributaries to constrain the search."
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.478507367325214,
+        45.90934492297033
+      ],
+      "search_centre_source_xy": [
+        3986,
+        1567
+      ],
+      "search_centre_origin": "reviewed-printed-symbol",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.48238055309332,
+              45.906649911694196
+            ],
+            [
+              -61.4746341815571,
+              45.906649911694196
+            ],
+            [
+              -61.4746341815571,
+              45.91203980339902
+            ],
+            [
+              -61.48238055309332,
+              45.91203980339902
+            ],
+            [
+              -61.48238055309332,
+              45.906649911694196
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3661,1342,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          3661,
+          1342,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6845556.13486116,
+        5764033.56288354,
+        -6841956.13486116,
+        5767633.56288354
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [
+          2,
+          44,
+          2388,
+          13506,
+          13766,
+          19799,
+          27845,
+          32766,
+          35651,
+          49687,
+          52358,
+          55709,
+          59331,
+          64628,
+          67302,
+          76968,
+          83718,
+          99824,
+          103486,
+          104810,
+          109076,
+          135345,
+          143750
+        ],
+        "water-lines": [
+          5947,
+          10213,
+          13310,
+          13311,
+          13332,
+          13333,
+          22629,
+          26143,
+          26144,
+          26145,
+          26146,
+          26147,
+          61954,
+          61955,
+          62022,
+          62023,
+          62024,
+          62641,
+          62642,
+          62643,
+          62644,
+          62650,
+          62651,
+          62652,
+          116477,
+          116478,
+          160810,
+          163503,
+          163504,
+          166762,
+          166763,
+          168464,
+          168465,
+          168466,
+          195829,
+          195831,
+          195921,
+          195938,
+          196008,
+          196187,
+          196190,
+          196194,
+          209687,
+          209854,
+          211765,
+          211903,
+          211904,
+          212058,
+          275413,
+          275414,
+          275415,
+          275416,
+          275417,
+          275418,
+          275419,
+          287047,
+          287175,
+          287303,
+          287304,
+          307165,
+          307166,
+          307167
+        ],
+        "roads": [
+          1867,
+          3591,
+          5745,
+          9665,
+          22753,
+          35518,
+          35653,
+          35657,
+          35676,
+          35695,
+          36216,
+          36961,
+          36963,
+          36964,
+          36965,
+          37344,
+          37345,
+          38289,
+          38293,
+          38300,
+          44833,
+          49283,
+          51332,
+          51363,
+          52306,
+          58572,
+          58950,
+          58951,
+          58952,
+          86094,
+          86707,
+          86710,
+          86719,
+          86721,
+          87080,
+          87085,
+          87086,
+          111909,
+          116864,
+          116869,
+          116870,
+          116871,
+          117265,
+          117269,
+          117639,
+          117709,
+          117710,
+          117715,
+          118237,
+          133347,
+          133348,
+          133349,
+          133350,
+          133351,
+          133437,
+          133438,
+          133439,
+          133444,
+          133604,
+          133605,
+          133606,
+          134109,
+          134111,
+          134112,
+          137139,
+          137141,
+          137142,
+          147276,
+          148463,
+          293893
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    },
+    {
+      "annotation_id": "F19-JUD-008",
+      "source_text": "Stage\nStables",
+      "source_review": {
+        "annotation_id": "F19-JUD-008",
+        "status": "supported-source-association",
+        "source_anchor_xy": [
+          3873,
+          1854
+        ],
+        "candidate_symbol_regions_xywh": [],
+        "note": "The isolated building mark immediately right of Stage Stables, west of the main road. This is a symbol association, not a footprint.",
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "supported-corridor",
+        "search_half_width_ground_m": 300,
+        "evidence": "The stables mark lies on the east side of the elongated inlet, west of the coastal road and between two eastern tributaries. The inlet, southern tributary mouth and offshore island sequence corroborate the locality.",
+        "contradictions": "Shoreline detail and road shape differ. The map does not establish a surviving stable building or its footprint.",
+        "next": "Compare the road corridor with a dated aerial or stage-route record; keep Shop and P.O. associations separate."
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.48375651919939,
+        45.89950748847478
+      ],
+      "search_centre_source_xy": [
+        3873,
+        1854
+      ],
+      "search_centre_origin": "reviewed-printed-symbol",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.48762901868612,
+              45.89681247722112
+            ],
+            [
+              -61.479884019712664,
+              45.89681247722112
+            ],
+            [
+              -61.479884019712664,
+              45.90220236892595
+            ],
+            [
+              -61.48762901868612,
+              45.90220236892595
+            ],
+            [
+              -61.48762901868612,
+              45.89681247722112
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3548,1629,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          3548,
+          1629,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6846140.46777489,
+        5762459.82330394,
+        -6842540.46777489,
+        5766059.82330394
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [
+          2,
+          44,
+          2388,
+          5085,
+          13506,
+          13766,
+          19799,
+          22150,
+          24442,
+          27845,
+          32766,
+          35651,
+          37737,
+          46302,
+          46684,
+          49235,
+          49687,
+          52358,
+          53250,
+          55709,
+          59331,
+          60794,
+          64628,
+          67302,
+          76968,
+          83718,
+          87888,
+          99824,
+          103486,
+          104810,
+          109076,
+          122939,
+          135345,
+          136737,
+          143750,
+          145175
+        ],
+        "water-lines": [
+          5946,
+          5947,
+          10042,
+          10213,
+          13310,
+          13311,
+          13312,
+          13331,
+          13332,
+          13333,
+          13334,
+          22629,
+          22630,
+          22631,
+          26143,
+          26144,
+          26145,
+          26146,
+          26147,
+          61952,
+          61953,
+          61954,
+          61955,
+          61956,
+          61957,
+          62022,
+          62023,
+          62024,
+          62573,
+          62574,
+          62575,
+          62637,
+          62638,
+          62639,
+          62640,
+          62641,
+          62642,
+          62643,
+          62644,
+          62650,
+          62651,
+          62652,
+          116477,
+          116478,
+          136605,
+          136607,
+          160810,
+          163503,
+          163504,
+          166762,
+          166763,
+          168464,
+          168465,
+          168466,
+          195829,
+          195921,
+          195938,
+          196008,
+          196187,
+          196188,
+          196189,
+          196194,
+          211765,
+          211903,
+          211904,
+          212058,
+          275419,
+          286779,
+          287047,
+          287175,
+          287303,
+          287304,
+          307165,
+          311477
+        ],
+        "roads": [
+          1867,
+          5745,
+          15176,
+          15177,
+          35518,
+          35635,
+          35642,
+          35653,
+          35657,
+          35676,
+          35686,
+          35695,
+          36216,
+          36228,
+          36362,
+          36961,
+          36963,
+          36964,
+          36965,
+          37344,
+          37345,
+          38289,
+          38293,
+          38300,
+          38310,
+          44833,
+          49283,
+          51332,
+          51363,
+          52306,
+          57371,
+          59376,
+          59393,
+          86094,
+          86707,
+          86721,
+          87080,
+          89361,
+          111909,
+          111965,
+          116864,
+          116870,
+          116871,
+          117715,
+          117830,
+          117892,
+          133347,
+          133348,
+          133349,
+          133350,
+          133351,
+          133444,
+          133604,
+          133605,
+          133608,
+          134009,
+          134011,
+          134012,
+          134015,
+          134016,
+          134017,
+          134018,
+          134019,
+          134020,
+          134021,
+          137141,
+          156238
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    },
+    {
+      "annotation_id": "F19-JUD-015",
+      "source_text": "R.C. Church",
+      "source_review": {
+        "annotation_id": "F19-JUD-015",
+        "status": "supported-source-association",
+        "source_anchor_xy": [
+          3701,
+          2537
+        ],
+        "candidate_symbol_regions_xywh": [],
+        "note": "Distinct cross-like church symbol below the R.C. Church lettering beside the stream and coastal road.",
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "supported-corridor",
+        "search_half_width_ground_m": 350,
+        "evidence": "The church symbol lies south of a small coastal brook and north of Rory Chisholm's Brook. The two brooks, coastline and southern inlet constrain the district. The parish's own history provides a candidate institutional identity, St. Andrew's.",
+        "contradictions": "Modern through-road alignment is farther west. The parish history reports two wooden churches before the present stone church, but does not establish identical footprints. Do not substitute the current church address for this symbol.",
+        "next": "Find a site plan, dated photograph or parish account explicitly locating the earlier church.",
+        "external_sources": [
+          {
+            "url": "https://standrewsparishjudique.weebly.com/",
+            "accessed": "2026-09-06",
+            "source_role": "parish-maintained historical account",
+            "finding": "Two wooden churches preceded the present sandstone church; page does not establish continuity of footprint."
+          }
+        ]
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.49137305156885,
+        45.877322225740016
+      ],
+      "search_centre_source_xy": [
+        3701,
+        2537
+      ],
+      "search_centre_origin": "reviewed-printed-symbol",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.49588916352393,
+              45.87417803329608
+            ],
+            [
+              -61.486856939613794,
+              45.87417803329608
+            ],
+            [
+              -61.486856939613794,
+              45.88046624028511
+            ],
+            [
+              -61.49588916352393,
+              45.88046624028511
+            ],
+            [
+              -61.49588916352393,
+              45.87417803329608
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3376,2312,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          3376,
+          2312,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6846988.33627987,
+        5758911.76804679,
+        -6843388.33627987,
+        5762511.76804679
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [
+          2,
+          44,
+          2388,
+          6315,
+          6751,
+          22919,
+          28913,
+          37737,
+          47904,
+          52332,
+          81711,
+          81876,
+          99368,
+          104274,
+          115730,
+          121117,
+          125180,
+          132521,
+          138049,
+          139254,
+          144032,
+          146574,
+          148303
+        ],
+        "water-lines": [
+          10213,
+          10214,
+          10215,
+          13331,
+          13332,
+          61958,
+          62013,
+          62014,
+          62015,
+          62017,
+          62018,
+          62019,
+          62020,
+          62021,
+          62876,
+          62877,
+          62878,
+          62879,
+          62880,
+          62881,
+          62882,
+          62958,
+          62959,
+          62960,
+          62961,
+          62962,
+          62963,
+          62964,
+          62965,
+          62966,
+          62967,
+          63254,
+          63255,
+          63272,
+          63273,
+          196041,
+          196130,
+          196131,
+          196132,
+          196133,
+          196134,
+          196135,
+          196136,
+          196182,
+          212052,
+          212053,
+          212054,
+          212055,
+          283947,
+          283948,
+          283949,
+          283950,
+          283951,
+          284615,
+          284616,
+          286217,
+          286775,
+          286778,
+          312018
+        ],
+        "roads": [
+          5,
+          799,
+          2153,
+          2567,
+          9070,
+          29556,
+          35520,
+          35529,
+          35611,
+          35614,
+          35627,
+          35642,
+          35650,
+          38275,
+          40507,
+          44840,
+          45315,
+          46071,
+          48790,
+          50421,
+          52304,
+          53001,
+          58128,
+          59403,
+          84043,
+          84051,
+          89365,
+          89367,
+          89368,
+          89841,
+          111964,
+          115834,
+          117891,
+          118233,
+          118235,
+          118300,
+          118301,
+          134020,
+          134021,
+          134022,
+          134023,
+          134024,
+          134025,
+          134026,
+          134027,
+          134405,
+          134408,
+          134409,
+          134412,
+          134415,
+          135098,
+          135099,
+          135100,
+          135101,
+          135102,
+          135103,
+          135500,
+          135501,
+          135502,
+          135506,
+          136544,
+          136545,
+          136812,
+          136813,
+          136814,
+          333835
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    },
+    {
+      "annotation_id": "F19-JUD-021",
+      "source_text": "Mill",
+      "source_review": {
+        "annotation_id": "F19-JUD-021",
+        "status": "unresolved",
+        "source_anchor_xy": null,
+        "candidate_symbol_regions_xywh": [
+          [
+            4430,
+            2790,
+            25,
+            26
+          ]
+        ],
+        "note": "Multiple printed marks between the road and brook. The worker junction proposal is not an individual mill mark and is not adopted.",
+        "historical_site_geometry": null,
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "supported-corridor",
+        "search_half_width_ground_m": 350,
+        "evidence": "The printed mill group lies by Rory Chisholm's Brook at the diagonal road crossing, with the large southward bend downstream and Graham River farther south. The modern brook's bend sequence and road approach corroborate this locality.",
+        "contradictions": "Multiple small marks prevent selecting one mill building. The modern road follows a different approach north of the brook. This is separate from the southern Chisholm Brook mill group.",
+        "next": "Resolve the mill group using a plan, aerial or site-specific historical evidence before selecting an individual feature."
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.458103902723416,
+        45.870016210685144
+      ],
+      "search_centre_source_xy": [
+        4442.5,
+        2803.0
+      ],
+      "search_centre_origin": "unresolved-source-group-centre",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.46261942101446,
+              45.86687201826391
+            ],
+            [
+              -61.453588384432365,
+              45.86687201826391
+            ],
+            [
+              -61.453588384432365,
+              45.87316022525294
+            ],
+            [
+              -61.46261942101446,
+              45.87316022525294
+            ],
+            [
+              -61.46261942101446,
+              45.86687201826391
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4117,2578,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          4117,
+          2578,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6843284.83157127,
+        5757743.63827607,
+        -6839684.83157127,
+        5761343.63827607
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [
+          2,
+          16049,
+          27736,
+          29299,
+          51497,
+          78053,
+          93797,
+          119611,
+          138233,
+          140067,
+          150340
+        ],
+        "water-lines": [
+          63256,
+          63257,
+          63258,
+          63259,
+          63260,
+          63261,
+          63262,
+          63263,
+          63264,
+          63265,
+          158716,
+          183445,
+          195781,
+          195889,
+          195890,
+          195941,
+          195942,
+          195943,
+          196132,
+          196179,
+          211622,
+          211623,
+          211624,
+          211625,
+          212056,
+          262817,
+          262818,
+          262821,
+          262949,
+          283954,
+          284084,
+          284085,
+          284086,
+          284087,
+          284614,
+          284616,
+          286218,
+          286238,
+          286777,
+          286778,
+          307164
+        ],
+        "roads": [
+          8135,
+          14046,
+          29556,
+          29557,
+          48786,
+          48787,
+          48790,
+          52863,
+          55205,
+          55206,
+          84046,
+          84054,
+          84130,
+          84131,
+          89671,
+          89672,
+          89673,
+          89674,
+          89675,
+          89679,
+          89680,
+          90005,
+          90006,
+          111966,
+          115832,
+          117832,
+          117896,
+          117897,
+          118295,
+          118296,
+          118298,
+          133346,
+          134410,
+          134411,
+          134413,
+          134414,
+          148590,
+          148594,
+          333833,
+          333834,
+          333835,
+          333836,
+          333837
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    },
+    {
+      "annotation_id": "F19-JUD-077",
+      "source_text": "Mill",
+      "source_review": {
+        "annotation_id": "F19-JUD-077",
+        "status": "unresolved",
+        "source_anchor_xy": null,
+        "candidate_symbol_regions_xywh": [
+          [
+            4760,
+            4170,
+            80,
+            80
+          ]
+        ],
+        "note": "The singular Mill label points toward a brook bend, but the reviewed native pixels do not separate a facility mark from the stream line. A marks this ambiguous bend only.",
+        "historical_site_geometry": null,
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "supported-corridor",
+        "search_half_width_ground_m": 350,
+        "evidence": "The label is near the southern end of a north-south lane beside the northeast-southwest stream corridor, northeast of the other two mill groups. The upstream bend, small northern tributary and western road approach distinguish the locality in NSTDB.",
+        "contradictions": "The label alone is not a building or dam point. This corridor is in the Chisholm Brook area; the pilot does not assign the main-channel name to every branch.",
+        "next": "Resolve any printed facility mark, then check historical or local evidence for a mill or dam at this corridor."
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.44396217532464,
+        45.821157643802096
+      ],
+      "search_centre_source_xy": [
+        4800.0,
+        4210.0
+      ],
+      "search_centre_origin": "unresolved-source-group-centre",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.4484737294136,
+              45.81801345153249
+            ],
+            [
+              -61.43945062123567,
+              45.81801345153249
+            ],
+            [
+              -61.43945062123567,
+              45.82430165852151
+            ],
+            [
+              -61.4484737294136,
+              45.82430165852151
+            ],
+            [
+              -61.4484737294136,
+              45.81801345153249
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4475,3985,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          4475,
+          3985,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6841710.5816783,
+        5749935.77951185,
+        -6838110.5816783,
+        5753535.77951185
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [
+          38439,
+          101708,
+          103606,
+          122590
+        ],
+        "water-lines": [
+          195584,
+          195585,
+          195586,
+          195587,
+          195588,
+          195589,
+          195780,
+          196183,
+          253990,
+          253991,
+          253992,
+          253993,
+          253994,
+          253995,
+          253996,
+          254241,
+          261127,
+          286105,
+          286235,
+          286465,
+          286466,
+          286467,
+          286613,
+          307163
+        ],
+        "roads": [
+          10746,
+          12790,
+          37737,
+          44345,
+          52285,
+          80167,
+          80169,
+          80170,
+          95469,
+          95471,
+          95477,
+          95479,
+          95481,
+          95482,
+          95636,
+          95641,
+          95642,
+          95643,
+          95644,
+          95920,
+          95923,
+          109611,
+          109612,
+          109661,
+          109662,
+          109665,
+          109910,
+          109915,
+          109977,
+          109979,
+          128533,
+          148555,
+          152886,
+          194746,
+          194747,
+          321256
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    },
+    {
+      "annotation_id": "F19-JUD-078",
+      "source_text": "Mills",
+      "source_review": {
+        "annotation_id": "F19-JUD-078",
+        "status": "unresolved",
+        "source_anchor_xy": null,
+        "candidate_symbol_regions_xywh": [
+          [
+            4065,
+            4375,
+            190,
+            105
+          ]
+        ],
+        "note": "Plural Mills lies among several building-like dots and branching lines. Region B bounds the candidate cluster; no unique printed mill symbol is supported.",
+        "historical_site_geometry": null,
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "supported-corridor",
+        "search_half_width_ground_m": 300,
+        "evidence": "The western Mills label sits at the road-and-stream crossing near a pronounced road bend, west of the eastern Mills cluster. The stream branch order and separate eastern crossing corroborate this part of the catchment.",
+        "contradictions": "Plural lettering and several nearby building marks do not identify a single facility or exact dam. Road and stream linework differ locally.",
+        "next": "Use site-specific evidence to distinguish the buildings and any millrace from the road crossing."
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.47324042641826,
+        45.81354498715086
+      ],
+      "search_centre_source_xy": [
+        4160.0,
+        4427.5
+      ],
+      "search_centre_origin": "unresolved-source-group-centre",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.477106944145355,
+              45.81084997609325
+            ],
+            [
+              -61.46937390869116,
+              45.81084997609325
+            ],
+            [
+              -61.46937390869116,
+              45.816239867798096
+            ],
+            [
+              -61.477106944145355,
+              45.816239867798096
+            ],
+            [
+              -61.477106944145355,
+              45.81084997609325
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3835,4202,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          3835,
+          4202,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6844969.82168136,
+        5748719.85363441,
+        -6841369.82168136,
+        5752319.85363441
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [
+          2,
+          44,
+          105718,
+          117909,
+          130276
+        ],
+        "water-lines": [
+          62811,
+          62812,
+          63269,
+          63270,
+          63271,
+          148638,
+          148639,
+          148640,
+          195520,
+          195588,
+          195592,
+          195593,
+          195594,
+          195595,
+          195596,
+          195597,
+          195598,
+          195599,
+          195600,
+          195601,
+          195602,
+          195603,
+          195604,
+          195646,
+          195647,
+          195650,
+          195724,
+          195779,
+          195997,
+          196125,
+          196126,
+          196183,
+          211763,
+          211764,
+          211906,
+          211907,
+          211909,
+          211911,
+          253992,
+          253995,
+          253996,
+          253997,
+          254120,
+          254121,
+          254122,
+          254123,
+          254124,
+          254125,
+          254126,
+          286465,
+          286466,
+          286467,
+          286609,
+          307163
+        ],
+        "roads": [
+          1048,
+          17310,
+          35508,
+          35528,
+          35553,
+          35621,
+          35644,
+          35690,
+          44979,
+          45837,
+          49697,
+          51360,
+          51369,
+          51895,
+          53367,
+          56906,
+          57374,
+          80165,
+          80168,
+          95470,
+          95474,
+          95477,
+          95480,
+          95639,
+          95643,
+          95921,
+          95924,
+          95928,
+          96226,
+          96227,
+          109611,
+          109612,
+          109658,
+          109662,
+          109664,
+          109666,
+          109909,
+          109911,
+          109912,
+          109913,
+          109914,
+          109915,
+          109918,
+          109919,
+          109922,
+          109974,
+          109979,
+          110215,
+          110216,
+          110568,
+          110569,
+          117574,
+          126981,
+          126982,
+          128537,
+          128538,
+          128539,
+          128540,
+          128541,
+          128542,
+          128543,
+          128544,
+          128545,
+          128546,
+          128547,
+          128548,
+          128549,
+          128550,
+          128551,
+          128929,
+          128930,
+          128931,
+          128932,
+          128933,
+          128934,
+          128936,
+          128937,
+          128940,
+          128941,
+          128942,
+          128943,
+          142000,
+          142001,
+          144919,
+          145152,
+          145153,
+          145154,
+          145155,
+          148549,
+          148550,
+          148551,
+          148552,
+          148553,
+          150247,
+          150800,
+          150802,
+          152639,
+          152640,
+          152900,
+          153267,
+          153268,
+          194742,
+          194743,
+          194745,
+          194746,
+          194747,
+          205861,
+          205862,
+          292766,
+          313158,
+          314029
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    },
+    {
+      "annotation_id": "F19-JUD-079",
+      "source_text": "Mills",
+      "source_review": {
+        "annotation_id": "F19-JUD-079",
+        "status": "unresolved",
+        "source_anchor_xy": null,
+        "candidate_symbol_regions_xywh": [
+          [
+            4365,
+            4340,
+            90,
+            100
+          ]
+        ],
+        "note": "Plural Mills lies beside a dense group of four building-like dots near a junction. Region C bounds that cluster; the source does not identify one dot as the anchor.",
+        "historical_site_geometry": null,
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "supported-corridor",
+        "search_half_width_ground_m": 300,
+        "evidence": "The eastern Mills label is beside a north-south road crossing and building cluster, between the western Mills crossing and the northeastern Mill locality. The two stream corridors and road approaches are recognizable in modern NSTDB.",
+        "contradictions": "Several buildings, a pale enclosed area and branching linework make the precise facility association unresolved. A modern crossing is not proof of the historical mill footprint.",
+        "next": "Identify the historical building group and inspect a dated aerial or mill plan for the crossing and waterworks."
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.46193091953659,
+        45.81511543031469
+      ],
+      "search_centre_source_xy": [
+        4410.0,
+        4390.0
+      ],
+      "search_centre_origin": "unresolved-source-group-centre",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.465797546300315,
+              45.81242041925349
+            ],
+            [
+              -61.45806429277287,
+              45.81242041925349
+            ],
+            [
+              -61.45806429277287,
+              45.81781031095834
+            ],
+            [
+              -61.465797546300315,
+              45.81781031095834
+            ],
+            [
+              -61.465797546300315,
+              45.81242041925349
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4085,4165,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          4085,
+          4165,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6843710.85313417,
+        5748970.67788305,
+        -6840110.85313417,
+        5752570.67788305
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [
+          2,
+          44,
+          105718
+        ],
+        "water-lines": [
+          62811,
+          62812,
+          195585,
+          195588,
+          195589,
+          195595,
+          195603,
+          195604,
+          195646,
+          195647,
+          195650,
+          195651,
+          195724,
+          195779,
+          196183,
+          211763,
+          211764,
+          211906,
+          211907,
+          211908,
+          211909,
+          211911,
+          253990,
+          253992,
+          253995,
+          253996,
+          253997,
+          254121,
+          254122,
+          254123,
+          254124,
+          254125,
+          254126,
+          286465,
+          286466,
+          286467,
+          286609,
+          307163
+        ],
+        "roads": [
+          1048,
+          17310,
+          37737,
+          51369,
+          51895,
+          53367,
+          56906,
+          80165,
+          80167,
+          80169,
+          80170,
+          95470,
+          95474,
+          95477,
+          95479,
+          95480,
+          95482,
+          95643,
+          95644,
+          95920,
+          95923,
+          95928,
+          96226,
+          96227,
+          109611,
+          109612,
+          109658,
+          109661,
+          109662,
+          109666,
+          109909,
+          109910,
+          109911,
+          109912,
+          109913,
+          109915,
+          109920,
+          109974,
+          109977,
+          109979,
+          110216,
+          128537,
+          128538,
+          128539,
+          128540,
+          128541,
+          128542,
+          128543,
+          128544,
+          128545,
+          128549,
+          128550,
+          128551,
+          128929,
+          128936,
+          128940,
+          128941,
+          128942,
+          128943,
+          144919,
+          145154,
+          148549,
+          148550,
+          148551,
+          148552,
+          148553,
+          148555,
+          150247,
+          150800,
+          150802,
+          153267,
+          153268,
+          194742,
+          194743,
+          194745,
+          194746,
+          194747,
+          292766
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    },
+    {
+      "annotation_id": "F19-JUD-061",
+      "source_text": "Gold Mine",
+      "source_review": {
+        "annotation_id": "F19-JUD-061",
+        "status": "supported-source-association",
+        "source_anchor_xy": [
+          8379,
+          2878
+        ],
+        "candidate_symbol_regions_xywh": [],
+        "note": "Coordinator native 4x review identifies the compact dark oval beneath Gold at the brook/road, despite geological overprinting. Its centre is approximate printed-symbol placement, not a surveyed mine entrance. The worker alternative regions omitted this mark.",
+        "historical_site_geometry": null,
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "candidate-corridor",
+        "search_half_width_ground_m": 500,
+        "evidence": "The Gold Mine annotation is north of the east-west road, near a tributary crossing, west of the Quartzite Mill annotation and main valley. The modern east-west road and tributary arrangement narrow the district.",
+        "contradictions": "Geological linework overlaps the mine annotation. A place-name or nearby mineral occurrence cannot establish an opening at the printed symbol.",
+        "next": "Find a dated mine description or plan that links the printed mark to the Melford occurrence and shaft candidates."
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.28058949576034,
+        45.86830763808595
+      ],
+      "search_centre_source_xy": [
+        8379,
+        2878
+      ],
+      "search_centre_origin": "reviewed-printed-symbol",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.28704003789016,
+              45.863815880192774
+            ],
+            [
+              -61.274138953630526,
+              45.863815880192774
+            ],
+            [
+              -61.274138953630526,
+              45.87279903303456
+            ],
+            [
+              -61.28704003789016,
+              45.87279903303456
+            ],
+            [
+              -61.28704003789016,
+              45.863815880192774
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8054,2653,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          8054,
+          2653,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6823524.01817967,
+        5757470.48353308,
+        -6819924.01817967,
+        5761070.48353308
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [],
+        "water-lines": [
+          195517,
+          195860,
+          196262,
+          196743,
+          196915,
+          198248,
+          198250,
+          198253,
+          198254,
+          262770
+        ],
+        "roads": [
+          17777,
+          19414,
+          51559,
+          51562,
+          52326,
+          60345,
+          81545,
+          82507,
+          82508,
+          82509,
+          82510,
+          82511,
+          82512,
+          82513,
+          82514,
+          114106,
+          114107,
+          115110,
+          132406,
+          132408,
+          132413,
+          137470,
+          137471
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [
+        {
+          "dataset": "MODB",
+          "record_id": "F14-015",
+          "geo_id": 1584,
+          "name": "Melford Au Occurrence",
+          "geometry_lonlat": [
+            -61.28070335717088,
+            45.86907344922463
+          ],
+          "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+          "stored_geographic_attribute_lonlat": [
+            -61.280706,
+            45.869064
+          ],
+          "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+          "record_extract_date": "2015_02FEB_26_1200",
+          "record_version": 11,
+          "source_xy_method": null,
+          "source_quality_code": null,
+          "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+          "interpretation": "Strong nearby occurrence candidate, but its representative points do not identify the historical printed mine symbol.",
+          "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query?objectIds=1584&outFields=geo_id%2COcc_num%2CName%2CStatus%2CComm_prim%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversion&returnGeometry=true&outSR=4326&f=pjson",
+          "report_url": "https://gesner.novascotia.ca/modb/queryView/singlereport.aspx?Occ_number=F14-015",
+          "raw_response_sha256": "aafe45b906e8a4ed64de668245e2c8c185cbbf3e9479496fec4ac16a01cdd91e",
+          "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-061-modb-2500m.json",
+          "link_status": "candidate-only"
+        },
+        {
+          "dataset": "MODB",
+          "record_id": "F14-015",
+          "geo_id": 1583,
+          "name": "Melford Au Occurrence",
+          "geometry_lonlat": [
+            -61.28101917784668,
+            45.86718806086433
+          ],
+          "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+          "stored_geographic_attribute_lonlat": [
+            -61.281022,
+            45.867179
+          ],
+          "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+          "record_extract_date": "2015_02FEB_26_1200",
+          "record_version": 11,
+          "source_xy_method": null,
+          "source_quality_code": null,
+          "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+          "interpretation": "Strong nearby occurrence candidate, but its representative points do not identify the historical printed mine symbol.",
+          "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query?objectIds=1583&outFields=geo_id%2COcc_num%2CName%2CStatus%2CComm_prim%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversion&returnGeometry=true&outSR=4326&f=pjson",
+          "report_url": "https://gesner.novascotia.ca/modb/queryView/singlereport.aspx?Occ_number=F14-015",
+          "raw_response_sha256": "aafe45b906e8a4ed64de668245e2c8c185cbbf3e9479496fec4ac16a01cdd91e",
+          "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-061-modb-2500m.json",
+          "link_status": "candidate-only"
+        },
+        {
+          "dataset": "AMO",
+          "record_id": "MAU-1-001",
+          "geo_id": 3449,
+          "name": "Unnamed gold shaft",
+          "geometry_lonlat": [
+            -61.28100352445216,
+            45.86727783314943
+          ],
+          "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+          "stored_geographic_attribute_lonlat": [
+            -61.28100625550934,
+            45.86726831463596
+          ],
+          "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+          "record_extract_date": "2020_04APR_09_1110",
+          "record_version": 8,
+          "source_xy_method": "N.A",
+          "source_quality_code": null,
+          "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+          "interpretation": "Nearby individual-opening candidate; the source mark and local setting support investigation, but a dated description or plan is still needed to establish historical identity.",
+          "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0/query?objectIds=3449&outFields=geo_id%2CShaftID%2CS_Location%2COpening_ty%2CCommodity%2Cxy_sources%2Cquality%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversn&returnGeometry=true&outSR=4326&f=pjson",
+          "report_url": "https://gesner.novascotia.ca/amosearch/singlereport.aspx?ShaftID=MAU-1-001",
+          "raw_response_sha256": "291423ca943cdfb43497864b50ecafdb01a4d7315c672ae0880a37ca573050b8",
+          "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-061-amo-2500m.json",
+          "link_status": "candidate-only"
+        }
+      ],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    },
+    {
+      "annotation_id": "F19-JUD-094",
+      "source_text": "Gold Mine",
+      "source_review": {
+        "annotation_id": "F19-JUD-094",
+        "status": "supported-source-association",
+        "source_anchor_xy": [
+          6955,
+          3930
+        ],
+        "candidate_symbol_regions_xywh": [],
+        "note": "Coordinator native 4x review confirms the oval mine mark west of the road, immediately before Gold Mine. Initial worker crosshair was about 20 native pixels north; corrected before use.",
+        "historical_site_geometry": null,
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "supported-corridor",
+        "search_half_width_ground_m": 400,
+        "evidence": "A distinct oval mine mark is west of the curving road and Glendale Brook. The brook's western tributaries and its downstream meeting with the eastern stream corroborate the corridor.",
+        "contradictions": "The lettering centre is well east of the reviewed mine mark. The modern road curve differs locally. The nearby GPS-sourced opening supports further investigation but does not independently establish the historical identity.",
+        "next": "Find a dated mining account or plan linking the Glendale Brook shaft to the Fletcher annotation."
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.34550164303901,
+        45.83392266904104
+      ],
+      "search_centre_source_xy": [
+        6955,
+        3930
+      ],
+      "search_centre_origin": "reviewed-printed-symbol",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.35065888738997,
+              45.83032929190154
+            ],
+            [
+              -61.34034439868805,
+              45.83032929190154
+            ],
+            [
+              -61.34034439868805,
+              45.837515814174765
+            ],
+            [
+              -61.35065888738997,
+              45.837515814174765
+            ],
+            [
+              -61.35065888738997,
+              45.83032929190154
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6630,3705,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          6630,
+          3705,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6830750.00536103,
+        5751975.03677624,
+        -6827150.00536103,
+        5755575.03677624
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [
+          41283,
+          44730,
+          46576,
+          59876,
+          70958,
+          77075,
+          89880,
+          105336
+        ],
+        "water-lines": [
+          197092,
+          197402,
+          197405,
+          197563,
+          197564,
+          222450,
+          262425,
+          262426,
+          262427,
+          262428,
+          263046,
+          286319,
+          286320,
+          286321,
+          286322,
+          286462
+        ],
+        "roads": [
+          22756,
+          51863,
+          87345,
+          111998,
+          118051,
+          118053,
+          118438,
+          118439,
+          146769,
+          146770,
+          146772,
+          148557,
+          312724,
+          313636
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [
+        {
+          "dataset": "MODB",
+          "record_id": "F14-017",
+          "geo_id": 1587,
+          "name": "Camerons Mountain Au, As, Pb, Cu Occurrence",
+          "geometry_lonlat": [
+            -61.3423999139698,
+            45.834612631174444
+          ],
+          "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+          "stored_geographic_attribute_lonlat": [
+            -61.342403,
+            45.834603
+          ],
+          "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+          "record_extract_date": "2015_02FEB_26_1200",
+          "record_version": 11,
+          "source_xy_method": null,
+          "source_quality_code": null,
+          "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+          "interpretation": "Strong nearby prospect candidate. The three features are representative points for one occurrence, not three mines.",
+          "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query?objectIds=1587&outFields=geo_id%2COcc_num%2CName%2CStatus%2CComm_prim%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversion&returnGeometry=true&outSR=4326&f=pjson",
+          "report_url": "https://gesner.novascotia.ca/modb/queryView/singlereport.aspx?Occ_number=F14-017",
+          "raw_response_sha256": "eb7b3f3ee3e0c981d84b51e49debd973aa2226fa0dff437fb0871888eb3bafe6",
+          "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-094-modb-2500m.json",
+          "link_status": "candidate-only"
+        },
+        {
+          "dataset": "MODB",
+          "record_id": "F14-017",
+          "geo_id": 1588,
+          "name": "Camerons Mountain Au, As, Pb, Cu Occurrence",
+          "geometry_lonlat": [
+            -61.34115026741737,
+            45.83333439148123
+          ],
+          "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+          "stored_geographic_attribute_lonlat": [
+            -61.341153,
+            45.833325
+          ],
+          "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+          "record_extract_date": "2015_02FEB_26_1200",
+          "record_version": 11,
+          "source_xy_method": null,
+          "source_quality_code": null,
+          "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+          "interpretation": "Strong nearby prospect candidate. The three features are representative points for one occurrence, not three mines.",
+          "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query?objectIds=1588&outFields=geo_id%2COcc_num%2CName%2CStatus%2CComm_prim%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversion&returnGeometry=true&outSR=4326&f=pjson",
+          "report_url": "https://gesner.novascotia.ca/modb/queryView/singlereport.aspx?Occ_number=F14-017",
+          "raw_response_sha256": "eb7b3f3ee3e0c981d84b51e49debd973aa2226fa0dff437fb0871888eb3bafe6",
+          "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-094-modb-2500m.json",
+          "link_status": "candidate-only"
+        },
+        {
+          "dataset": "MODB",
+          "record_id": "F14-017",
+          "geo_id": 1586,
+          "name": "Camerons Mountain Au, As, Pb, Cu Occurrence",
+          "geometry_lonlat": [
+            -61.34316949169658,
+            45.83471380264702
+          ],
+          "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+          "stored_geographic_attribute_lonlat": [
+            -61.343172,
+            45.834704
+          ],
+          "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+          "record_extract_date": "2015_02FEB_26_1200",
+          "record_version": 11,
+          "source_xy_method": null,
+          "source_quality_code": null,
+          "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+          "interpretation": "Strong nearby prospect candidate. The three features are representative points for one occurrence, not three mines.",
+          "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query?objectIds=1586&outFields=geo_id%2COcc_num%2CName%2CStatus%2CComm_prim%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversion&returnGeometry=true&outSR=4326&f=pjson",
+          "report_url": "https://gesner.novascotia.ca/modb/queryView/singlereport.aspx?Occ_number=F14-017",
+          "raw_response_sha256": "eb7b3f3ee3e0c981d84b51e49debd973aa2226fa0dff437fb0871888eb3bafe6",
+          "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-094-modb-2500m.json",
+          "link_status": "candidate-only"
+        },
+        {
+          "dataset": "AMO",
+          "record_id": "GBG-1-001",
+          "geo_id": 1432,
+          "name": "Unnamed gold shaft",
+          "geometry_lonlat": [
+            -61.34492092542142,
+            45.834271155621295
+          ],
+          "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+          "stored_geographic_attribute_lonlat": [
+            -61.344923635189616,
+            45.83426164379757
+          ],
+          "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+          "record_extract_date": "2020_04APR_09_1110",
+          "record_version": 8,
+          "source_xy_method": "GPS ",
+          "source_quality_code": 10,
+          "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+          "interpretation": "Nearby individual-opening candidate; the source mark and local setting support investigation, but a dated description or plan is still needed to establish historical identity.",
+          "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0/query?objectIds=1432&outFields=geo_id%2CShaftID%2CS_Location%2COpening_ty%2CCommodity%2Cxy_sources%2Cquality%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversn&returnGeometry=true&outSR=4326&f=pjson",
+          "report_url": "https://gesner.novascotia.ca/amosearch/singlereport.aspx?ShaftID=GBG-1-001",
+          "raw_response_sha256": "819b8ad7acd95ce3c2f4c3c340994eefeee9458b65ab217f2fb786e6f33ef252",
+          "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-094-amo-2500m.json",
+          "link_status": "candidate-only"
+        }
+      ],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    },
+    {
+      "annotation_id": "F19-JUD-103",
+      "source_text": "Plumbago Mine",
+      "source_review": {
+        "annotation_id": "F19-JUD-103",
+        "status": "supported-source-association",
+        "source_anchor_xy": [
+          6917,
+          4665
+        ],
+        "candidate_symbol_regions_xywh": [],
+        "note": "Coordinator native 4x review identifies the isolated filled mark immediately under Mine and above C. The separate southeastern building cluster proposed by the worker is not adopted as the annotation anchor.",
+        "historical_site_geometry": null,
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "candidate-corridor",
+        "search_half_width_ground_m": 500,
+        "evidence": "The Plumbago Mine mark lies west of the main valley and railway, south of McPherson's Brook and north of another eastern-flowing tributary. The two tributaries and eastern valley constrain a search district.",
+        "contradictions": "No persistent access path or precise mine opening can be identified from the modern road/water reference alone.",
+        "next": "Find the original graphite-pit description or prospect plan to establish whether GLM-1-001 is the historical Plumbago Mine."
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.34651058172306,
+        45.80917397527904
+      ],
+      "search_centre_source_xy": [
+        6917,
+        4665
+      ],
+      "search_centre_origin": "reviewed-printed-symbol",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.35295427221188,
+              45.80468221776025
+            ],
+            [
+              -61.34006689123424,
+              45.80468221776025
+            ],
+            [
+              -61.34006689123424,
+              45.81366537060199
+            ],
+            [
+              -61.35295427221188,
+              45.81366537060199
+            ],
+            [
+              -61.35295427221188,
+              45.80468221776025
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6592,4440,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          6592,
+          4440,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6830862.31990158,
+        5748021.77215337,
+        -6827262.31990158,
+        5751621.77215337
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [
+          1940,
+          43936,
+          72135,
+          77197,
+          108077,
+          108080,
+          112569,
+          132157
+        ],
+        "water-lines": [
+          63366,
+          63367,
+          63368,
+          63369,
+          63370,
+          63371,
+          63372,
+          63373,
+          63374,
+          63375,
+          63376,
+          161055,
+          161056,
+          168296,
+          168439,
+          196917,
+          196918,
+          197090,
+          197424,
+          197425,
+          197566,
+          197567,
+          197576,
+          197578,
+          197719,
+          198031,
+          222450,
+          262428,
+          273924,
+          273925,
+          273926
+        ],
+        "roads": [
+          2340,
+          9826,
+          29302,
+          29303,
+          29304,
+          39122,
+          51590,
+          51593,
+          51594,
+          55907,
+          57908,
+          59410,
+          59453,
+          61504,
+          61505,
+          61506,
+          86965,
+          87344,
+          87345,
+          111998,
+          112055,
+          117667,
+          117675,
+          117742,
+          118049,
+          118440,
+          118441,
+          118442,
+          130023,
+          130024,
+          130026,
+          130029,
+          130031,
+          130032,
+          130033,
+          130034,
+          130969,
+          143976,
+          143977,
+          146772
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [
+        {
+          "dataset": "AMO",
+          "record_id": "GLM-1-001",
+          "geo_id": 1452,
+          "name": "Unnamed graphite pit",
+          "geometry_lonlat": [
+            -61.346221805863955,
+            45.809916019102175
+          ],
+          "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+          "stored_geographic_attribute_lonlat": [
+            -61.346224515869565,
+            45.80990651158686
+          ],
+          "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+          "record_extract_date": "2020_04APR_09_1110",
+          "record_version": 8,
+          "source_xy_method": "N.A",
+          "source_quality_code": null,
+          "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+          "interpretation": "Nearby individual-opening candidate; the source mark and local setting support investigation, but a dated description or plan is still needed to establish historical identity.",
+          "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0/query?objectIds=1452&outFields=geo_id%2CShaftID%2CS_Location%2COpening_ty%2CCommodity%2Cxy_sources%2Cquality%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversn&returnGeometry=true&outSR=4326&f=pjson",
+          "report_url": "https://gesner.novascotia.ca/amosearch/singlereport.aspx?ShaftID=GLM-1-001",
+          "raw_response_sha256": "ed3858b352ecf1f20b415cf504a09c138032a824e15d479374db7bda97f18696",
+          "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-103-amo-2500m.json",
+          "link_status": "candidate-only"
+        }
+      ],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    },
+    {
+      "annotation_id": "F19-JUD-117",
+      "source_text": "Red Bridge",
+      "source_review": {
+        "annotation_id": "F19-JUD-117",
+        "status": "supported-source-association",
+        "source_anchor_xy": [
+          7219,
+          4888
+        ],
+        "candidate_symbol_regions_xywh": [],
+        "note": "Coordinator native 4x review selects the road-centre/river crossing west of the railway and label. This locates the printed crossing, not a proven modern bridge. Worker crosshair was refined within the width of the printed linework.",
+        "historical_site_geometry": null,
+        "reviewer": "Codex coordinator, 2026-09-06",
+        "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+      },
+      "review": {
+        "locality_status": "supported-corridor",
+        "search_half_width_ground_m": 350,
+        "evidence": "The Red Bridge annotation is associated with the road crossing of the main river, west of the railway crossing. The river's northeast-to-southwest reach and upstream branch junction constrain the crossing corridor.",
+        "contradictions": "The label centre is east of the crossing. Road and railway relationships have changed, so the modern nearest road crossing cannot be treated as the named bridge without corroboration.",
+        "next": "Check dated bridge or road plans to establish the former crossing and the name Red Bridge."
+      },
+      "historical_site_geometry": null,
+      "placement_status": "candidate-area-only",
+      "search_centre_lonlat": [
+        -61.332261217837484,
+        45.80292313353646
+      ],
+      "search_centre_source_xy": [
+        7219,
+        4888
+      ],
+      "search_centre_origin": "reviewed-printed-symbol",
+      "search_geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.3367712950692,
+              45.79977894132334
+            ],
+            [
+              -61.327751140605784,
+              45.79977894132334
+            ],
+            [
+              -61.327751140605784,
+              45.80606714831234
+            ],
+            [
+              -61.3367712950692,
+              45.80606714831234
+            ],
+            [
+              -61.3367712950692,
+              45.79977894132334
+            ]
+          ]
+        ]
+      },
+      "search_geometry_meaning": "Operational research window; not a site boundary, confidence interval, or verified coverage guarantee. Centre is frozen-TPS prediction, not an independent match.",
+      "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6894,4663,650,450/650,450/0/default.jpg",
+      "source_crop": {
+        "native_xywh": [
+          6894,
+          4663,
+          650,
+          450
+        ],
+        "display_size": [
+          650,
+          450
+        ],
+        "rotation_degrees": 0
+      },
+      "pair_extent_epsg3857": [
+        -6829276.08796971,
+        5747023.56373966,
+        -6825676.08796971,
+        5750623.56373966
+      ],
+      "pair_panel_size": [
+        800,
+        800
+      ],
+      "modern_context_object_ids": {
+        "water-polygons": [
+          1940,
+          31687,
+          43936,
+          72135,
+          77197,
+          108077,
+          108080,
+          112569,
+          132157
+        ],
+        "water-lines": [
+          63366,
+          63367,
+          63368,
+          63369,
+          63370,
+          63371,
+          63372,
+          63373,
+          63374,
+          63375,
+          63376,
+          161054,
+          161055,
+          161056,
+          161057,
+          168294,
+          168295,
+          168296,
+          168439,
+          168440,
+          168441,
+          195338,
+          195342,
+          195343,
+          195344,
+          196255,
+          196917,
+          196918,
+          197424,
+          197425,
+          197565,
+          197566,
+          197567,
+          197576,
+          197578,
+          197579,
+          197580,
+          197918,
+          198031,
+          198141,
+          198377,
+          198378,
+          262424,
+          262428,
+          263047,
+          269365,
+          269366,
+          269367,
+          273924,
+          273925,
+          276069,
+          276070,
+          276071,
+          286058,
+          286186,
+          286187,
+          292133,
+          304876,
+          309630
+        ],
+        "roads": [
+          2340,
+          3636,
+          3638,
+          3932,
+          4125,
+          9826,
+          29302,
+          29303,
+          29304,
+          39122,
+          51577,
+          51590,
+          54873,
+          55385,
+          55907,
+          57908,
+          59410,
+          59453,
+          60572,
+          60574,
+          61504,
+          61505,
+          61506,
+          86369,
+          86370,
+          86372,
+          86380,
+          86965,
+          87324,
+          87333,
+          87344,
+          112055,
+          117669,
+          117675,
+          117677,
+          117742,
+          117744,
+          117747,
+          117749,
+          118049,
+          118104,
+          118105,
+          118107,
+          118440,
+          118441,
+          118442,
+          130026,
+          130027,
+          130028,
+          130029,
+          130032,
+          130033,
+          130034,
+          130035,
+          130969,
+          137339,
+          143975,
+          143976,
+          143977,
+          157312
+        ],
+        "rail": []
+      },
+      "context_id_meaning": "Features drawn in the comparison extent, not individual accepted correspondences.",
+      "external_records": [],
+      "reviewer": "Codex coordinator; visual native-symbol and geographic-context review, 2026-09-06"
+    }
+  ]
+}

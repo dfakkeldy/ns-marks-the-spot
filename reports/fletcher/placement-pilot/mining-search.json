@@ -1,0 +1,123 @@
+{
+  "retrieved": "2026-09-06",
+  "source_products": {
+    "modb": {
+      "name": "Nova Scotia Mineral Occurrence Database (DP ME 002, version 12, June 2024)",
+      "product_url": "https://novascotia.ca/natr/meb/download/dp002.asp",
+      "metadata_url": "https://novascotia.ca/natr/meb/download/dp002md.asp",
+      "service_url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0",
+      "meaning": "Mineral-occurrence representative point(s). One occurrence number can have multiple point features; these are not automatically separate mines or openings.",
+      "accuracy": "The official metadata gives no numeric record accuracy and warns of errors from original collection/GPS and digitizing."
+    },
+    "amo": {
+      "name": "Nova Scotia Abandoned Mine Openings Database (DP ME 010, version 9, 2024)",
+      "product_url": "https://novascotia.ca/natr/meb/download/dp010.asp",
+      "metadata_url": "https://novascotia.ca/natr/meb/download/dp010md.asp",
+      "service_url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0",
+      "meaning": "An individual published abandoned opening point, not a whole mine footprint.",
+      "accuracy": "Product-level metadata says most Crown-land openings should be within +/-5 m and private-land openings may be up to +/-50 m. This is not a guarantee for a particular record."
+    }
+  },
+  "method": "ArcGIS FeatureServer query using a 2500 metre geodesic distance from each supplied guide point, input spatial reference 4326, output spatial reference 4326; selected related-table queries for MODB evidence.",
+  "initial_label_centre_guides": {
+    "F19-JUD-061": [
+      -61.279866,
+      45.868806
+    ],
+    "F19-JUD-094": [
+      -61.341425,
+      45.834163
+    ],
+    "F19-JUD-103": [
+      -61.347935,
+      45.809534
+    ]
+  },
+  "contradictions": [
+    {
+      "dataset": "MODB",
+      "record_id": "F14-018",
+      "name": "MacColls Brook (River Denys Rd) Graphite Occurrence",
+      "utm20_nad83_en_m": [
+        630053,
+        5078657
+      ],
+      "lonlat_epsg4326": [
+        -61.324968,
+        45.8492
+      ],
+      "guide_distance_m": 4756,
+      "direct_url": "https://gesner.novascotia.ca/modb/queryView/singlereport.aspx?Occ_number=F14-018",
+      "interpretation": "Outside the bounded 2.5 km search and much farther from the supplied guide. It is associated spatially with a separate D.J. Beaton opening cluster near Glendale and is not adopted for F19-JUD-103."
+    },
+    {
+      "dataset": "AMO",
+      "record_ids": [
+        "GLG-1-001",
+        "GLG-1-002",
+        "GLG-1-003",
+        "GLG-1-004"
+      ],
+      "description": "D.J. Beaton graphite adit/decline/shaft cluster near approximately -61.324 longitude, 45.846 to 45.848 latitude.",
+      "interpretation": "Nearby to MODB F14-018 but materially separated from the F19-JUD-103 guide; retained as an alternative historical mining complex, not a match."
+    }
+  ],
+  "empty_result": "No MODB graphite representative point occurred within 2.5 km of the guide. GLM-1-001 is the strongest nearby official opening record.",
+  "limitations": "The saved JSON responses are authoritative service returns. Direct Gesner report pages were also attempted and are linked in mining-records.json, but their noninteractive HTML returned an empty report shell; no unsupported narrative was taken from those pages.",
+  "raw_receipts": [
+    {
+      "path": "modb-layer-metadata.json",
+      "sha256": "60520bfc5285868d994fc7fca7d8b151b49b0c9d3299e38a0979cb42d89c2052"
+    },
+    {
+      "path": "amo-layer-metadata.json",
+      "sha256": "a1f2dfff48a78c45d911845c42da6ff2b1816633e01a28a00561ed2f828fb30b"
+    },
+    {
+      "path": "F19-JUD-061-modb-2500m.json",
+      "sha256": "aafe45b906e8a4ed64de668245e2c8c185cbbf3e9479496fec4ac16a01cdd91e"
+    },
+    {
+      "path": "F19-JUD-061-amo-2500m.json",
+      "sha256": "291423ca943cdfb43497864b50ecafdb01a4d7315c672ae0880a37ca573050b8"
+    },
+    {
+      "path": "F19-JUD-094-modb-2500m.json",
+      "sha256": "eb7b3f3ee3e0c981d84b51e49debd973aa2226fa0dff437fb0871888eb3bafe6"
+    },
+    {
+      "path": "F19-JUD-094-amo-2500m.json",
+      "sha256": "819b8ad7acd95ce3c2f4c3c340994eefeee9458b65ab217f2fb786e6f33ef252"
+    },
+    {
+      "path": "F19-JUD-103-modb-2500m.json",
+      "sha256": "03c244bba743f4996c32c18ee8d53cef7b549ee1f7b51d5cf947999127ede6f6"
+    },
+    {
+      "path": "F19-JUD-103-amo-2500m.json",
+      "sha256": "ed3858b352ecf1f20b415cf504a09c138032a824e15d479374db7bda97f18696"
+    },
+    {
+      "path": "modb-related-1-selected.json",
+      "sha256": "cd3d221aac83f338debd06ef933e29f08da069b2418e8aa1ee333f08050c718c",
+      "contents": "selected mineral relations"
+    },
+    {
+      "path": "modb-related-3-selected.json",
+      "sha256": "b858e5bea6087182cb756c44cadcef9c7211d05da08f47871f2def4d80d24e1c",
+      "contents": "selected occurrence-mode relations"
+    },
+    {
+      "path": "modb-related-6-selected.json",
+      "sha256": "1a076d5d6119ce406ba62304c5f5fa6b183a1584b8733cd9439fb628f636d490",
+      "contents": "selected commodity relations"
+    },
+    {
+      "path": "modb-related-7-selected.json",
+      "sha256": "51a6e9d153aad932cbb349f7d943ac8d594f11805598f4bc3326f4edea7fda8c",
+      "contents": "selected survey relations"
+    }
+  ],
+  "raw_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw",
+  "coordinate_correction": "Worker summary copied stored Lat_WM84dd/Lon_WM84dd attributes under the query-output label. Final mining-records.json distinguishes both and uses actual returned EPSG:4326 geometry."
+}

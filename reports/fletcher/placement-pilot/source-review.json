@@ -1,0 +1,173 @@
+{
+  "associations": [
+    {
+      "annotation_id": "F19-JUD-004",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4022,
+        1338
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The single compact black building mark immediately above-left of School, below the road.",
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    },
+    {
+      "annotation_id": "F19-JUD-005",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3986,
+        1567
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated building mark directly left of Forge, south of the stream; other buildings lie north of that stream.",
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    },
+    {
+      "annotation_id": "F19-JUD-008",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3873,
+        1854
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated building mark immediately right of Stage Stables, west of the main road. This is a symbol association, not a footprint.",
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    },
+    {
+      "annotation_id": "F19-JUD-015",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3701,
+        2537
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Distinct cross-like church symbol below the R.C. Church lettering beside the stream and coastal road.",
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    },
+    {
+      "annotation_id": "F19-JUD-077",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4760,
+          4170,
+          80,
+          80
+        ]
+      ],
+      "note": "The singular Mill label points toward a brook bend, but the reviewed native pixels do not separate a facility mark from the stream line. A marks this ambiguous bend only.",
+      "historical_site_geometry": null,
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    },
+    {
+      "annotation_id": "F19-JUD-078",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4065,
+          4375,
+          190,
+          105
+        ]
+      ],
+      "note": "Plural Mills lies among several building-like dots and branching lines. Region B bounds the candidate cluster; no unique printed mill symbol is supported.",
+      "historical_site_geometry": null,
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    },
+    {
+      "annotation_id": "F19-JUD-079",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4365,
+          4340,
+          90,
+          100
+        ]
+      ],
+      "note": "Plural Mills lies beside a dense group of four building-like dots near a junction. Region C bounds that cluster; the source does not identify one dot as the anchor.",
+      "historical_site_geometry": null,
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    },
+    {
+      "annotation_id": "F19-JUD-021",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4430,
+          2790,
+          25,
+          26
+        ]
+      ],
+      "note": "Multiple printed marks between the road and brook. The worker junction proposal is not an individual mill mark and is not adopted.",
+      "historical_site_geometry": null,
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    },
+    {
+      "annotation_id": "F19-JUD-061",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        8379,
+        2878
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Coordinator native 4x review identifies the compact dark oval beneath Gold at the brook/road, despite geological overprinting. Its centre is approximate printed-symbol placement, not a surveyed mine entrance. The worker alternative regions omitted this mark.",
+      "historical_site_geometry": null,
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    },
+    {
+      "annotation_id": "F19-JUD-094",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6955,
+        3930
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Coordinator native 4x review confirms the oval mine mark west of the road, immediately before Gold Mine. Initial worker crosshair was about 20 native pixels north; corrected before use.",
+      "historical_site_geometry": null,
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    },
+    {
+      "annotation_id": "F19-JUD-103",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6917,
+        4665
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Coordinator native 4x review identifies the isolated filled mark immediately under Mine and above C. The separate southeastern building cluster proposed by the worker is not adopted as the annotation anchor.",
+      "historical_site_geometry": null,
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    },
+    {
+      "annotation_id": "F19-JUD-117",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7219,
+        4888
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Coordinator native 4x review selects the road-centre/river crossing west of the railway and label. This locates the printed crossing, not a proven modern bridge. Worker crosshair was refined within the width of the printed linework.",
+      "historical_site_geometry": null,
+      "reviewer": "Codex coordinator, 2026-09-06",
+      "pixel_convention": "Original 10815 x 7549 image, x right / y down; approximate printed-mark centre or bounded unresolved group."
+    }
+  ],
+  "limits": "Source-symbol association only. Worker proposals were separately audited; they are not automatic geographic correspondences."
+}
