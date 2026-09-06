@@ -316,3 +316,22 @@ describe("parseGeoTiff", () => {
     ).rejects.toMatchObject({ code: "invalid-georeferencing" });
   });
 });
+
+describe("GeoTIFF transparency", () => {
+  it.each([
+    { extra: 2, samples: [120, 60, 30, 0, 120, 60, 30, 128], expected: [120, 60, 30, 0, 120, 60, 30, 128] },
+    { extra: 1, samples: [0, 0, 0, 0, 60, 30, 15, 128], expected: [0, 0, 0, 0, 120, 60, 30, 128] },
+    { extra: 0, samples: [120, 60, 30, 0, 120, 60, 30, 128], expected: [120, 60, 30, 255, 120, 60, 30, 255] },
+  ])("honours ExtraSamples=$extra without making non-alpha bands transparent", async ({extra, samples, expected}) => {
+    const { writeArrayBuffer } = await import("geotiff");
+    const { rgbToRgba } = await import("./geoTiffSource");
+    const buffer = writeArrayBuffer(new Uint8Array(samples), {
+      width: 2, height: 1, SamplesPerPixel: 4, BitsPerSample: [8,8,8,8],
+      PhotometricInterpretation: 2, ExtraSamples: [extra],
+    }) as ArrayBuffer;
+    const makePreview = fakePreview();
+    await parseGeoTiff(buffer, {makePreview});
+    const [pixels,width,height] = makePreview.mock.calls[0];
+    expect([...rgbToRgba(pixels,width,height)]).toEqual(expected);
+  });
+});
