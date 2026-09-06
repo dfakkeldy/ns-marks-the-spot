@@ -2,7 +2,7 @@
   "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
   "observations_sha256": "d64dd31b6004113a424d83ff2764845aeef39dceed57373ac7d54ffaa885f9eb",
   "boundary_sha256": "2e58a9529f5dbb238e8739d468a74a3f9c771b2574f1b19c46bf43697c3124fc",
-  "build_script_sha256": "239155624a1093d9f99d998a1a0ac2d27f9f9ca4fbbefdd7b2a1abf3e074c21a",
+  "build_script_sha256": "e13464a6b8a3d879b42e6bd81538a70ea58ec5459025b7a952d61fb2c519647b",
   "model": "affine",
   "geographic_acceptance": false,
   "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",

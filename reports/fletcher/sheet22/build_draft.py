@@ -168,7 +168,7 @@ def main():
         flush=True,
     )
     with (out / "sheet22-controls-checks.csv").open("w") as stream:
-        writer = csv.writer(stream)
+        writer = csv.writer(stream, lineterminator="\n")
         writer.writerow(["pixel_x", "pixel_y", "lon", "lat", "role", "label"])
         for p in data["points"]:
             original = p.get("original_numeric_strings")
