@@ -1,0 +1,116 @@
+{
+  "fit_observations_sha256": "632f4b19fcbe64384232fc03693c4f51f646e51332c3d56e382e977ff0afda04",
+  "additional_checks_sha256": "7b45ad7b15d3c82b145c2e2fbd949a57e6dcc8869e54e1e27736f33b9b6615a8",
+  "boundary_sha256": "74a195c8210094b8d4c04fa77607913a25b5d129275523506bb6245052663010",
+  "fit": "Unchanged 39-control GDAL TPS in EPSG:3857; checks excluded",
+  "groups": {
+    "all": {
+      "count": 8,
+      "median_ground_m": 120.04000706887672,
+      "worst_ground_m": 512.6010926958171
+    },
+    "inside_hull": {
+      "count": 7,
+      "median_ground_m": 94.21930154440516,
+      "worst_ground_m": 181.37182172341866
+    },
+    "outside_hull": {
+      "count": 1,
+      "median_ground_m": 512.6010926958171,
+      "worst_ground_m": 512.6010926958171
+    }
+  },
+  "points": [
+    {
+      "id": "B01",
+      "error_ground_m": 159.94692402952566,
+      "predicted_lonlat": [
+        -61.43232336839706,
+        45.9129902936708
+      ],
+      "inside_control_hull": true
+    },
+    {
+      "id": "B02",
+      "error_ground_m": 181.37182172341866,
+      "predicted_lonlat": [
+        -61.43194755749365,
+        45.91104664377331
+      ],
+      "inside_control_hull": true
+    },
+    {
+      "id": "B03",
+      "error_ground_m": 94.21930154440516,
+      "predicted_lonlat": [
+        -61.2803931159278,
+        45.88799692876915
+      ],
+      "inside_control_hull": true
+    },
+    {
+      "id": "B04",
+      "error_ground_m": 145.86071259334827,
+      "predicted_lonlat": [
+        -61.29974241976597,
+        45.85834079010265
+      ],
+      "inside_control_hull": true
+    },
+    {
+      "id": "B05",
+      "error_ground_m": 92.89317231853771,
+      "predicted_lonlat": [
+        -61.29651085515024,
+        45.855747941903104
+      ],
+      "inside_control_hull": true
+    },
+    {
+      "id": "B06",
+      "error_ground_m": 84.15912663734281,
+      "predicted_lonlat": [
+        -61.38380911625338,
+        45.77307075510524
+      ],
+      "inside_control_hull": true
+    },
+    {
+      "id": "B07",
+      "error_ground_m": 512.6010926958171,
+      "predicted_lonlat": [
+        -61.385950454755395,
+        45.749229768196635
+      ],
+      "inside_control_hull": false
+    },
+    {
+      "id": "B08",
+      "error_ground_m": 32.30943365620871,
+      "predicted_lonlat": [
+        -61.23288867516251,
+        45.81612870615002
+      ],
+      "inside_control_hull": true
+    }
+  ],
+  "accuracy_gate_passed": false,
+  "jacobian": {
+    "sample_spacing_native_px": 25,
+    "sample_count": 71285,
+    "folded_or_degenerate_samples": 0,
+    "folded_inside_hull": 0,
+    "minimum": -48.42790898223111,
+    "maximum": -20.160942256239988,
+    "expected_sign": "negative because source y increases down",
+    "limitation": "Sampled numerical diagnostic, not proof between samples"
+  },
+  "sheet_ready_for_seamless_tiles": false,
+  "limitations": [
+    "Same-agent annotation with prior sheet exposure; not independent survey or pristine blind validation.",
+    "B01/B02 and B04/B05 are neighbouring forks; eight points represent six localities.",
+    "B07 lake banks and modern centreline junction have additional definition uncertainty.",
+    "Adjoining-sheet geography and common seam lines are untested.",
+    "A map-content crop does not validate unsupported extrapolation."
+  ]
+}
