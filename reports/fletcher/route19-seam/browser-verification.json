@@ -1,0 +1,91 @@
+{
+  "tooling": "Playwright; Browser plugin not available",
+  "before": {
+    "record": {
+      "id": "bf1825aa-81ac-4903-8ca4-d5c108f042bc",
+      "name": "judique-mabou-route19-preview",
+      "source": "geotiff",
+      "createdAt": "2026-09-06T23:11:58.962Z",
+      "pixelSize": {
+        "width": 3599,
+        "height": 5449
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6849730,
+          5,
+          0,
+          5793180,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      2705,
+      4096
+    ],
+    "storedRasterSha256": "4042421e8a7412b46688be4d145622e28d7384c64f51404c00d8e28fb5cef9c4",
+    "rasterBytes": 2118750,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 10688703,
+    "opaquePixels": 390977
+  },
+  "after": {
+    "record": {
+      "id": "bf1825aa-81ac-4903-8ca4-d5c108f042bc",
+      "name": "judique-mabou-route19-preview",
+      "source": "geotiff",
+      "createdAt": "2026-09-06T23:11:58.962Z",
+      "pixelSize": {
+        "width": 3599,
+        "height": 5449
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6849730,
+          5,
+          0,
+          5793180,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      2705,
+      4096
+    ],
+    "storedRasterSha256": "4042421e8a7412b46688be4d145622e28d7384c64f51404c00d8e28fb5cef9c4",
+    "rasterBytes": 2118750,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 10688703,
+    "opaquePixels": 390977
+  },
+  "enabledStateSurvived": true,
+  "errors": [],
+  "views": {
+    "desktop": [
+      1440,
+      1000
+    ],
+    "mobile": [
+      390,
+      844
+    ],
+    "join_position": [
+      45.92451,
+      -61.47423,
+      15
+    ],
+    "porthood_position": [
+      45.9972,
+      -61.53,
+      15
+    ]
+  }
+}
