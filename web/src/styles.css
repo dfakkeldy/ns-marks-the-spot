@@ -3794,19 +3794,15 @@ a {
     top: max(154px, calc(env(safe-area-inset-top) + 116px));
   }
 
-  /* Both readouts hang off the bottom edge, and both are caveats the reader
-     is owed on screen: a measured length, and the approximate screen scale.
-     They take the same inset the strip above does, so a home-indicator phone
-     neither buries them further under it nor leaves them in the gesture
-     zone. The scale readout has no other phone rule — without this it would
-     keep the 50px it inherits from its base rule while the strip's floor
-     rose past it. */
   .measure-readout {
     bottom: calc(16px + env(safe-area-inset-bottom));
   }
 
+  /* Follow the same measured footer as the distance bars. The extra 50px
+     above their 8px inset clears both lines and their bottom margin. The
+     measured height already includes the home-indicator safe area. */
   .display-scale-readout {
-    bottom: calc(50px + env(safe-area-inset-bottom));
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 58px);
   }
 
   /* Shares the recording HUD's row, so it moves when that row moves rather
@@ -5470,10 +5466,8 @@ a {
   cursor: pointer;
 }
 
-/* On a phone the column below is shorter and differently ordered: the
-   coordinate readout is hidden, the measure readout drops to bottom: 16px,
-   and the display-scale readout keeps its 50px and becomes the top of the
-   stack. 88px clears it. Full width here, as .modern-map-error is. */
+/* On a phone the coordinate readout is hidden and the measure readout
+   drops to bottom: 16px. The write alert spans the map width. */
 @media (max-width: 860px) {
   /* The attribution strip below reaches 72px + env(safe-area-inset-bottom),
      so a bare 88px leaves the alert's bottom rows — and its Dismiss target —

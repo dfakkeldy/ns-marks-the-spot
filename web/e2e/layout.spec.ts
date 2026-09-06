@@ -40,6 +40,39 @@ async function keyboardFocus(page: Page, control: Locator) {
   expect(outline.width).toBeGreaterThan(0);
 }
 
+for (const width of [320, 390, 844, 1440]) {
+  test(`ratio scale clears the distance bars and attribution at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto("/?basemap=osm&taxSale=off&layers=&position=45.81355,-61.47775,14");
+    await expect(page).toHaveTitle(/NS Marks The Spot/);
+    const ratio = page.locator(".display-scale-readout");
+    await expect(ratio).toContainText(/1:[\d,]+/);
+    const checkScale = async () => {
+      await expect(ratio).toBeInViewport();
+      await expect.poll(async () => {
+        const label = (await ratio.boundingBox())!;
+        const bars = (await page.locator(".leaflet-control-scale").boundingBox())!;
+        const footer = (await page.locator(".map-attribution").boundingBox())!;
+        return label.y + label.height <= bars.y && bars.y + bars.height < footer.y;
+      }).toBe(true);
+    };
+    await checkScale();
+    const beforeZoom = await ratio.textContent();
+    await page.getByRole("button", { name: "Zoom in", exact: true }).click();
+    await expect(ratio).not.toHaveText(beforeZoom!);
+    await checkScale();
+    if (width <= 860) {
+      // Exercise the measured footer height, including extra space occupied
+      // by larger text or a home-indicator inset.
+      await page.locator(".map-attribution").evaluate((footer) => {
+        footer.style.minHeight = "106px";
+        footer.style.maxHeight = "106px";
+      });
+      await checkScale();
+    }
+  });
+}
+
 for (const width of [390, 1440]) {
   test(`road names and route shields stay above contrast strokes at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
