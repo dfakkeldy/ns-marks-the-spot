@@ -1,19 +1,61 @@
 /**
  * NS Marks Atlas colour tokens.
  *
- * Day is a Fletcher-inspired palette: the warm paper, olive, ochre, salmon and
- * near-black ink of Hugh Fletcher's 1884 Geological Survey sheets of Cape Breton
+ * Day and Night are the modern Atlas: quiet paper, sage woodland and a cool
+ * water wash. Fletcher is a separate style in the salmon, olive, ochre, paper
+ * and ink of Hugh Fletcher's 1884 Geological Survey sheets of Cape Breton
  * (David Rumsey Map Collection, David Rumsey Map Center, Stanford University
- * Libraries), sampled from the scans and adjusted for screen reading. Fletcher's
- * washes and hatching encoded geology; here the same family of colours is applied
- * to modern land cover and land use classes, so every fill keeps its provincial or
- * OSM source meaning: salmon is the land ground, olive is tree cover, ochre is
- * farmland, bare paper is water. Nothing here redraws historical geology, and the
- * hatching is deliberately left out: calm fills, ink linework and paper-coloured
- * halos carry the character instead.
+ * Libraries), sampled from the scans and adjusted for screen reading. Every
+ * token in every style belongs to a modern land cover or land use class, so
+ * fills keep their provincial or OSM source meaning: in Fletcher, salmon is the
+ * land ground wherever no tree cover is mapped, olive is tree cover, ochre is
+ * farmland and bare paper is water. Nothing here redraws historical geology,
+ * and the sheets' hatching is deliberately left out.
  */
 export const atlasPalettes = {
   day: {
+    land: '#f3efe3',
+    water: '#b5ced1',
+    waterLine: '#7babb5',
+    shore: '#a3c0c3',
+    wood: '#d5dfca',
+    grass: '#e3e7d3',
+    farmland: '#ebe4ce',
+    residential: '#e9e4d8',
+    building: '#d3ccbd',
+    road: '#fffaf0',
+    roadEdge: '#c5baa4',
+    highway: '#e4c492',
+    path: '#8d927b',
+    ink: '#304746',
+    mutedInk: '#566863',
+    waterInk: '#365f6c',
+    halo: '#f3efe3',
+    boundary: '#9f9b8b',
+    accent: '#b5533a',
+  },
+  night: {
+    land: '#223338',
+    water: '#101f2b',
+    waterLine: '#395864',
+    shore: '#1c303a',
+    wood: '#293f3c',
+    grass: '#33443f',
+    farmland: '#3b413a',
+    residential: '#2c3b40',
+    building: '#465254',
+    road: '#66716d',
+    roadEdge: '#1c2a30',
+    highway: '#bda77f',
+    path: '#859487',
+    ink: '#e5e5d6',
+    mutedInk: '#b8c9bd',
+    waterInk: '#a0c4d4',
+    halo: '#223338',
+    boundary: '#75807b',
+    accent: '#e08a6a',
+  },
+  fletcher: {
     land: '#e5a878',        // Fletcher's salmon wash as the ground wherever no tree cover is mapped
     water: '#f0e7cd',       // bare paper for water, as on the sheets, under an ink shore
     waterLine: '#3f6f7c',   // brooks and ditches in teal ink
@@ -33,27 +75,6 @@ export const atlasPalettes = {
     halo: '#f3e9cf',        // burnished paper behind lettering, as on the sheets
     boundary: '#4d4a5c',    // cool slate so district lines never read as tracks
     accent: '#c1452b',      // Fletcher's vermilion; reserved for annotations, unused by the basemap
-  },
-  night: {
-    land: '#22261f',
-    water: '#131c22',
-    waterLine: '#4f7a84',
-    shore: '#26343a',
-    wood: '#2c3124',
-    grass: '#33372a',
-    farmland: '#3a3524',
-    residential: '#3b3027',
-    building: '#5a4a3a',
-    road: '#6b6552',
-    roadEdge: '#121410',
-    highway: '#c9a15f',
-    path: '#8f8767',
-    ink: '#ece3c8',
-    mutedInk: '#bdb397',
-    waterInk: '#9cbcc4',
-    halo: '#22261f',
-    boundary: '#8d8a9c',
-    accent: '#e07a5f',
   },
 } as const;
 

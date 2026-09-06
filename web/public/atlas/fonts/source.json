@@ -64,6 +64,28 @@
         "reservedFontName": null,
         "trademark": "Noto is a trademark of Google LLC"
       }
+    },
+    {
+      "stack": "Atlas Sans Bold",
+      "derivedFrom": "Noto Sans Bold 2.015",
+      "family": "Noto Sans",
+      "style": "Bold",
+      "version": "2.015",
+      "source": {
+        "archive": "https://github.com/notofonts/latin-greek-cyrillic/releases/download/NotoSans-v2.015/NotoSans-v2.015.zip",
+        "archiveSha256": "0c34df072a3fa7efbb7cbf34950e1f971a4447cffe365d3a359e2d4089b958f5",
+        "member": "NotoSans/unhinted/ttf/NotoSans-Bold.ttf"
+      },
+      "sha256": "87cb2d84472a7d66da659ee47b6cdb9552326e8c128245231f191b6ac72529d9",
+      "unitsPerEm": 1000,
+      "ascender": 1069,
+      "glyphCount": 2875,
+      "licence": {
+        "name": "SIL Open Font License 1.1",
+        "file": "OFL-Noto-Sans.txt",
+        "reservedFontName": null,
+        "trademark": "Noto is a trademark of Google LLC"
+      }
     }
   ]
 }

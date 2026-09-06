@@ -7,7 +7,7 @@ which rasterizes each glyph's own TrueType outline; source.json records each
 stack's upstream font release, checksum, licence and glyph count.
 
   Atlas Serif Regular / Atlas Serif Italic  derived from Libre Baskerville
-  Atlas Sans Regular                        derived from Noto Sans
+  Atlas Sans Regular / Atlas Sans Bold      derived from Noto Sans
 
 Both fonts are licensed under the SIL Open Font License 1.1 (texts beside this
 file). Libre Baskerville declares the Reserved Font Name "Libre Baskerville";

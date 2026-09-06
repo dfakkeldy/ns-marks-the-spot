@@ -66,6 +66,8 @@ export const fonts = [
     url: `${LIBRE_BASKERVILLE}/fonts/ttf/LibreBaskerville-Italic.ttf`, sha256: '82d05fab9a1c07f4eb4bc891fb0043a74fba1bed27ea919f61d94dbc5b54a4f6' },
   { stack: 'Atlas Sans Regular', family: 'Noto Sans', style: 'Regular', version: '2.015',
     archive: NOTO_SANS, member: 'NotoSans/unhinted/ttf/NotoSans-Regular.ttf', sha256: 'f3961a9cde016d41a4879aecda1474d3a36d6bf54fa0e4643de029cc2248b0e8' },
+  { stack: 'Atlas Sans Bold', family: 'Noto Sans', style: 'Bold', version: '2.015',
+    archive: NOTO_SANS, member: 'NotoSans/unhinted/ttf/NotoSans-Bold.ttf', sha256: '87cb2d84472a7d66da659ee47b6cdb9552326e8c128245231f191b6ac72529d9' },
 ];
 
 const README = `NS Marks Atlas label glyphs
@@ -77,7 +79,7 @@ which rasterizes each glyph's own TrueType outline; source.json records each
 stack's upstream font release, checksum, licence and glyph count.
 
   Atlas Serif Regular / Atlas Serif Italic  derived from Libre Baskerville
-  Atlas Sans Regular                        derived from Noto Sans
+  Atlas Sans Regular / Atlas Sans Bold      derived from Noto Sans
 
 Both fonts are licensed under the SIL Open Font License 1.1 (texts beside this
 file). Libre Baskerville declares the Reserved Font Name "Libre Baskerville";
