@@ -1,0 +1,1848 @@
+{
+  "sheet_id": "19",
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "source_dimensions": [
+    10815,
+    7549
+  ],
+  "remaining": 121,
+  "annotations": [
+    {
+      "annotation_id": "F19-JUD-001",
+      "source_text": "Mackay Point",
+      "source_label_boxes_xywh": [
+        [
+          2885,
+          1550,
+          360,
+          70
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-002",
+      "source_text": "John Gillis",
+      "source_label_boxes_xywh": [
+        [
+          3250,
+          1483,
+          150,
+          37
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-003",
+      "source_text": "MᶜEachern",
+      "source_label_boxes_xywh": [
+        [
+          4390,
+          1253,
+          205,
+          47
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-006",
+      "source_text": "Sh. Mill",
+      "source_label_boxes_xywh": [
+        [
+          4215,
+          1527,
+          140,
+          47
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-007",
+      "source_text": "School",
+      "source_label_boxes_xywh": [
+        [
+          4600,
+          1790,
+          145,
+          46
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-009",
+      "source_text": "Shop",
+      "source_label_boxes_xywh": [
+        [
+          3895,
+          1840,
+          88,
+          34
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-010",
+      "source_text": "P.O.",
+      "source_label_boxes_xywh": [
+        [
+          3895,
+          1869,
+          80,
+          34
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-011",
+      "source_text": "Shop",
+      "source_label_boxes_xywh": [
+        [
+          4285,
+          1936,
+          89,
+          40
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-012",
+      "source_text": "Ben Noah",
+      "source_label_boxes_xywh": [
+        [
+          4900,
+          1925,
+          360,
+          83
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-013",
+      "source_text": "Forge",
+      "source_label_boxes_xywh": [
+        [
+          3640,
+          2205,
+          100,
+          46
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-014",
+      "source_text": "Judique",
+      "source_label_boxes_xywh": [
+        [
+          3810,
+          2236,
+          282,
+          75
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-016",
+      "source_text": "Rev. Archᵈ. Chisholm",
+      "source_label_boxes_xywh": [
+        [
+          3720,
+          2530,
+          286,
+          45
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-017",
+      "source_text": "Barytes",
+      "source_label_boxes_xywh": [
+        [
+          4263,
+          2482,
+          139,
+          48
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-018",
+      "source_text": "Shop",
+      "source_label_boxes_xywh": [
+        [
+          3610,
+          2570,
+          88,
+          49
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-019",
+      "source_text": "School",
+      "source_label_boxes_xywh": [
+        [
+          4125,
+          2604,
+          114,
+          46
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-020",
+      "source_text": "Rory Chisholm's Brook",
+      "source_label_boxes_xywh": [
+        [
+          3505,
+          2705,
+          159,
+          63
+        ],
+        [
+          3813,
+          2687,
+          330,
+          128
+        ],
+        [
+          4250,
+          2808,
+          139,
+          54
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-022",
+      "source_text": "River Denys Road",
+      "source_label_boxes_xywh": [
+        [
+          4460,
+          2754,
+          245,
+          97
+        ],
+        [
+          4755,
+          2780,
+          96,
+          48
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-023",
+      "source_text": "Rory Chisholm",
+      "source_label_boxes_xywh": [
+        [
+          4947,
+          2786,
+          229,
+          48
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-024",
+      "source_text": "Shop",
+      "source_label_boxes_xywh": [
+        [
+          3717,
+          2992,
+          80,
+          44
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-025",
+      "source_text": "Graham River",
+      "source_label_boxes_xywh": [
+        [
+          3880,
+          3005,
+          226,
+          53
+        ],
+        [
+          4228,
+          3035,
+          138,
+          55
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-026",
+      "source_text": "Quarries of grey\nand red sandstone",
+      "source_label_boxes_xywh": [
+        [
+          4695,
+          3040,
+          300,
+          81
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-027",
+      "source_text": "Old Judique Road",
+      "source_label_boxes_xywh": [
+        [
+          4457,
+          3180,
+          89,
+          87
+        ],
+        [
+          4670,
+          3201,
+          125,
+          55
+        ],
+        [
+          4937,
+          3161,
+          91,
+          49
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-028",
+      "source_text": "Allan MᶜDonald",
+      "source_label_boxes_xywh": [
+        [
+          4920,
+          3373,
+          243,
+          47
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-029",
+      "source_text": "Campbell Point",
+      "source_label_boxes_xywh": [
+        [
+          3050,
+          3310,
+          395,
+          76
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-030",
+      "source_text": "A. MᶜIsaac",
+      "source_label_boxes_xywh": [
+        [
+          6355,
+          1215,
+          195,
+          55
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-031",
+      "source_text": "Barrens",
+      "source_label_boxes_xywh": [
+        [
+          5900,
+          1350,
+          305,
+          640
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-032",
+      "source_text": "Don. MᶜEachern",
+      "source_label_boxes_xywh": [
+        [
+          7155,
+          1358,
+          265,
+          53
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-033",
+      "source_text": "Squire MᶜDonald",
+      "source_label_boxes_xywh": [
+        [
+          7425,
+          1850,
+          305,
+          57
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-034",
+      "source_text": "Fall 30",
+      "source_label_boxes_xywh": [
+        [
+          8333,
+          1268,
+          117,
+          50
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-035",
+      "source_text": "Falls",
+      "source_label_boxes_xywh": [
+        [
+          8435,
+          1361,
+          105,
+          53
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-036",
+      "source_text": "Falls",
+      "source_label_boxes_xywh": [
+        [
+          7753,
+          1805,
+          115,
+          54
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-037",
+      "source_text": "River Inhabitants Road",
+      "source_label_boxes_xywh": [
+        [
+          6228,
+          2361,
+          99,
+          85
+        ],
+        [
+          6377,
+          2435,
+          191,
+          108
+        ],
+        [
+          6575,
+          2577,
+          73,
+          103
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-038",
+      "source_text": "Southwest Mabou River",
+      "source_label_boxes_xywh": [
+        [
+          5969,
+          2490,
+          256,
+          318
+        ],
+        [
+          6216,
+          2805,
+          109,
+          145
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-039",
+      "source_text": "Southwest Mabou River",
+      "source_label_boxes_xywh": [
+        [
+          6766,
+          1945,
+          203,
+          249
+        ],
+        [
+          6958,
+          2275,
+          87,
+          190
+        ],
+        [
+          7072,
+          2507,
+          66,
+          193
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-040",
+      "source_text": "Brook runs\nunderground",
+      "source_label_boxes_xywh": [
+        [
+          7389,
+          2555,
+          252,
+          79
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-041",
+      "source_text": "Falls",
+      "source_label_boxes_xywh": [
+        [
+          8133,
+          1999,
+          101,
+          46
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-042",
+      "source_text": "Fall",
+      "source_label_boxes_xywh": [
+        [
+          8165,
+          2060,
+          92,
+          48
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-043",
+      "source_text": "Falls",
+      "source_label_boxes_xywh": [
+        [
+          8292,
+          2100,
+          106,
+          48
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-044",
+      "source_text": "Fall",
+      "source_label_boxes_xywh": [
+        [
+          7996,
+          2199,
+          89,
+          47
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-045",
+      "source_text": "Iron Ore",
+      "source_label_boxes_xywh": [
+        [
+          8255,
+          2205,
+          136,
+          56
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-046",
+      "source_text": "Colin Chisholm's Mill",
+      "source_label_boxes_xywh": [
+        [
+          8429,
+          2187,
+          320,
+          56
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-047",
+      "source_text": "Diogenes Brook",
+      "source_label_boxes_xywh": [
+        [
+          7830,
+          2309,
+          279,
+          259
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-048",
+      "source_text": "P.O.",
+      "source_label_boxes_xywh": [
+        [
+          7655,
+          2746,
+          73,
+          44
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-049",
+      "source_text": "Dennistown",
+      "source_label_boxes_xywh": [
+        [
+          5840,
+          3245,
+          340,
+          74
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-050",
+      "source_text": "School",
+      "source_label_boxes_xywh": [
+        [
+          5931,
+          3185,
+          101,
+          46
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-051",
+      "source_text": "Falls",
+      "source_label_boxes_xywh": [
+        [
+          6019,
+          3451,
+          97,
+          48
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-052",
+      "source_text": "River Denys Road",
+      "source_label_boxes_xywh": [
+        [
+          6445,
+          3002,
+          116,
+          65
+        ],
+        [
+          6589,
+          2975,
+          108,
+          50
+        ],
+        [
+          6700,
+          2948,
+          104,
+          56
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-053",
+      "source_text": "Old River Denys Road",
+      "source_label_boxes_xywh": [
+        [
+          5804,
+          3633,
+          209,
+          67
+        ],
+        [
+          6072,
+          3544,
+          123,
+          109
+        ],
+        [
+          6177,
+          3367,
+          91,
+          120
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-054",
+      "source_text": "Graham River",
+      "source_label_boxes_xywh": [
+        [
+          6341,
+          3445,
+          182,
+          220
+        ],
+        [
+          6517,
+          3285,
+          166,
+          136
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-055",
+      "source_text": "Old Road",
+      "source_label_boxes_xywh": [
+        [
+          7138,
+          2813,
+          75,
+          72
+        ],
+        [
+          7215,
+          2781,
+          102,
+          59
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-056",
+      "source_text": "West Branch",
+      "source_label_boxes_xywh": [
+        [
+          7537,
+          2643,
+          90,
+          240
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-057",
+      "source_text": "School",
+      "source_label_boxes_xywh": [
+        [
+          7535,
+          2899,
+          101,
+          46
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-058",
+      "source_text": "Church",
+      "source_label_boxes_xywh": [
+        [
+          7631,
+          2872,
+          125,
+          49
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-059",
+      "source_text": "River Denys Road",
+      "source_label_boxes_xywh": [
+        [
+          7458,
+          2937,
+          563,
+          86
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-060",
+      "source_text": "Forge",
+      "source_label_boxes_xywh": [
+        [
+          8017,
+          2914,
+          102,
+          45
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-062",
+      "source_text": "Quartz\nMill",
+      "source_label_boxes_xywh": [
+        [
+          8509,
+          2866,
+          116,
+          49
+        ],
+        [
+          8521,
+          2893,
+          88,
+          48
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-063",
+      "source_text": "Doug. MᶜDonald",
+      "source_label_boxes_xywh": [
+        [
+          7275,
+          3465,
+          234,
+          50
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-064",
+      "source_text": "Diogenes Brook",
+      "source_label_boxes_xywh": [
+        [
+          8636,
+          2301,
+          187,
+          166
+        ],
+        [
+          8885,
+          2508,
+          136,
+          171
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-065",
+      "source_text": "West Branch",
+      "source_label_boxes_xywh": [
+        [
+          7798,
+          3358,
+          157,
+          129
+        ],
+        [
+          7885,
+          3450,
+          108,
+          164
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-066",
+      "source_text": "East Branch",
+      "source_label_boxes_xywh": [
+        [
+          8124,
+          3328,
+          109,
+          102
+        ],
+        [
+          8217,
+          3416,
+          157,
+          130
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-067",
+      "source_text": "Victoria Road",
+      "source_label_boxes_xywh": [
+        [
+          8358,
+          3393,
+          45,
+          145
+        ],
+        [
+          8419,
+          3247,
+          93,
+          98
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-068",
+      "source_text": "MᶜLennan's Mill",
+      "source_label_boxes_xywh": [
+        [
+          8468,
+          3605,
+          247,
+          53
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-069",
+      "source_text": "Fall 25",
+      "source_label_boxes_xywh": [
+        [
+          7993,
+          3639,
+          132,
+          48
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-070",
+      "source_text": "Falls",
+      "source_label_boxes_xywh": [
+        [
+          8575,
+          2860,
+          125,
+          50
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-071",
+      "source_text": "School",
+      "source_label_boxes_xywh": [
+        [
+          4968,
+          3752,
+          87,
+          37
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-072",
+      "source_text": "School",
+      "source_label_boxes_xywh": [
+        [
+          5329,
+          3750,
+          90,
+          38
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-073",
+      "source_text": "School",
+      "source_label_boxes_xywh": [
+        [
+          5045,
+          3808,
+          90,
+          40
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-074",
+      "source_text": "Forge",
+      "source_label_boxes_xywh": [
+        [
+          3926,
+          3851,
+          87,
+          41
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-075",
+      "source_text": "D. MᶜPherson",
+      "source_label_boxes_xywh": [
+        [
+          5692,
+          3960,
+          203,
+          37
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-076",
+      "source_text": "J. MᶜPherson",
+      "source_label_boxes_xywh": [
+        [
+          5495,
+          3995,
+          199,
+          39
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-080",
+      "source_text": "J Chisholm",
+      "source_label_boxes_xywh": [
+        [
+          3749,
+          4466,
+          163,
+          43
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-081",
+      "source_text": "Chisholm Brook",
+      "source_label_boxes_xywh": [
+        [
+          4520,
+          4487,
+          300,
+          229
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-082",
+      "source_text": "P.O.",
+      "source_label_boxes_xywh": [
+        [
+          4067,
+          4537,
+          71,
+          37
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-083",
+      "source_text": "Long Point",
+      "source_label_boxes_xywh": [
+        [
+          3890,
+          4690,
+          340,
+          78
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-084",
+      "source_text": "Long Point",
+      "source_label_boxes_xywh": [
+        [
+          3329,
+          4754,
+          320,
+          69
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-085",
+      "source_text": "Forge",
+      "source_label_boxes_xywh": [
+        [
+          3910,
+          4790,
+          99,
+          45
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-086",
+      "source_text": "Farm Road",
+      "source_label_boxes_xywh": [
+        [
+          4455,
+          4960,
+          247,
+          127
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-087",
+      "source_text": "School",
+      "source_label_boxes_xywh": [
+        [
+          4242,
+          5131,
+          112,
+          50
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-088",
+      "source_text": "A. MᶜDougall",
+      "source_label_boxes_xywh": [
+        [
+          5397,
+          5198,
+          214,
+          41
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-089",
+      "source_text": "Shop",
+      "source_label_boxes_xywh": [
+        [
+          4086,
+          5314,
+          77,
+          41
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-090",
+      "source_text": "700 Fᵀ.",
+      "source_label_boxes_xywh": [
+        [
+          4443,
+          5316,
+          140,
+          43
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-091",
+      "source_text": "School",
+      "source_label_boxes_xywh": [
+        [
+          5551,
+          5345,
+          97,
+          47
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-092",
+      "source_text": "General Line Road",
+      "source_label_boxes_xywh": [
+        [
+          4695,
+          5590,
+          165,
+          345
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-093",
+      "source_text": "Wood Road",
+      "source_label_boxes_xywh": [
+        [
+          5395,
+          5778,
+          235,
+          118
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-095",
+      "source_text": "Glendale Brook",
+      "source_label_boxes_xywh": [
+        [
+          7022,
+          3955,
+          82,
+          179
+        ],
+        [
+          7073,
+          4160,
+          72,
+          136
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-096",
+      "source_text": "MᶜPherson's Brook",
+      "source_label_boxes_xywh": [
+        [
+          6550,
+          4238,
+          239,
+          158
+        ],
+        [
+          6839,
+          4400,
+          105,
+          58
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-097",
+      "source_text": "D. MᶜInnes",
+      "source_label_boxes_xywh": [
+        [
+          7073,
+          4470,
+          164,
+          34
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-098",
+      "source_text": "Glendale",
+      "source_label_boxes_xywh": [
+        [
+          7340,
+          4452,
+          412,
+          59
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-099",
+      "source_text": "P.O.",
+      "source_label_boxes_xywh": [
+        [
+          7508,
+          4500,
+          46,
+          31
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-100",
+      "source_text": "Shop",
+      "source_label_boxes_xywh": [
+        [
+          7454,
+          4534,
+          70,
+          32
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-101",
+      "source_text": "Mills",
+      "source_label_boxes_xywh": [
+        [
+          7444,
+          4594,
+          78,
+          33
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-102",
+      "source_text": "R.C.Ch.",
+      "source_label_boxes_xywh": [
+        [
+          7298,
+          4638,
+          102,
+          36
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-104",
+      "source_text": "River Inhabitants Road",
+      "source_label_boxes_xywh": [
+        [
+          6973,
+          4384,
+          83,
+          98
+        ],
+        [
+          7110,
+          4558,
+          148,
+          166
+        ],
+        [
+          7216,
+          4762,
+          43,
+          88
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-105",
+      "source_text": "Don. Smith",
+      "source_label_boxes_xywh": [
+        [
+          7695,
+          3800,
+          177,
+          36
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-106",
+      "source_text": "D. MᶜTaggart",
+      "source_label_boxes_xywh": [
+        [
+          7719,
+          3900,
+          174,
+          36
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-107",
+      "source_text": "Donald MᶜMaster",
+      "source_label_boxes_xywh": [
+        [
+          8348,
+          4086,
+          267,
+          34
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-108",
+      "source_text": "D. Buchanan",
+      "source_label_boxes_xywh": [
+        [
+          8128,
+          4570,
+          181,
+          31
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-109",
+      "source_text": "Fall",
+      "source_label_boxes_xywh": [
+        [
+          7705,
+          4646,
+          70,
+          35
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-110",
+      "source_text": "Fall 6",
+      "source_label_boxes_xywh": [
+        [
+          7832,
+          4682,
+          78,
+          34
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-111",
+      "source_text": "Falls 18",
+      "source_label_boxes_xywh": [
+        [
+          8002,
+          4724,
+          96,
+          32
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-112",
+      "source_text": "Coal",
+      "source_label_boxes_xywh": [
+        [
+          8441,
+          4768,
+          74,
+          35
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-113",
+      "source_text": "Rough Brook",
+      "source_label_boxes_xywh": [
+        [
+          5916,
+          4876,
+          91,
+          167
+        ],
+        [
+          5918,
+          5076,
+          45,
+          145
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-114",
+      "source_text": "Mal. MᶜDonald",
+      "source_label_boxes_xywh": [
+        [
+          6204,
+          5277,
+          230,
+          36
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-115",
+      "source_text": "Norman MᶜIntyre",
+      "source_label_boxes_xywh": [
+        [
+          6102,
+          5368,
+          303,
+          37
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-116",
+      "source_text": "Nor. MᶜIsaac",
+      "source_label_boxes_xywh": [
+        [
+          5843,
+          5580,
+          189,
+          36
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-118",
+      "source_text": "Shop",
+      "source_label_boxes_xywh": [
+        [
+          7248,
+          5075,
+          74,
+          37
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-119",
+      "source_text": "Forge",
+      "source_label_boxes_xywh": [
+        [
+          7270,
+          5266,
+          85,
+          35
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-120",
+      "source_text": "Shop",
+      "source_label_boxes_xywh": [
+        [
+          7242,
+          5382,
+          75,
+          37
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-121",
+      "source_text": "Kingsville",
+      "source_label_boxes_xywh": [
+        [
+          7454,
+          5440,
+          279,
+          53
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-122",
+      "source_text": "MᶜIntosh's Shop",
+      "source_label_boxes_xywh": [
+        [
+          7514,
+          5512,
+          227,
+          35
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-123",
+      "source_text": "Shop",
+      "source_label_boxes_xywh": [
+        [
+          7497,
+          5564,
+          70,
+          36
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-124",
+      "source_text": "P.O.",
+      "source_label_boxes_xywh": [
+        [
+          7475,
+          5587,
+          62,
+          35
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-125",
+      "source_text": "Blue Bridge",
+      "source_label_boxes_xywh": [
+        [
+          7470,
+          5634,
+          163,
+          35
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-126",
+      "source_text": "River Inhabitants",
+      "source_label_boxes_xywh": [
+        [
+          7837,
+          4704,
+          153,
+          137
+        ],
+        [
+          8231,
+          4916,
+          307,
+          91
+        ],
+        [
+          8522,
+          4795,
+          73,
+          160
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-127",
+      "source_text": "Angus MᶜVarish",
+      "source_label_boxes_xywh": [
+        [
+          8580,
+          4252,
+          272,
+          36
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-128",
+      "source_text": "Neil MᶜCuish",
+      "source_label_boxes_xywh": [
+        [
+          8647,
+          4344,
+          195,
+          34
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-129",
+      "source_text": "Fine outcrops of\nblack shale full\nof fossils",
+      "source_label_boxes_xywh": [
+        [
+          8618,
+          4652,
+          270,
+          39
+        ],
+        [
+          8611,
+          4686,
+          238,
+          37
+        ],
+        [
+          8680,
+          4720,
+          150,
+          38
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-130",
+      "source_text": "CRAIGNISH",
+      "source_label_boxes_xywh": [
+        [
+          5155,
+          5680,
+          70,
+          70
+        ],
+        [
+          5332,
+          5400,
+          70,
+          80
+        ],
+        [
+          5528,
+          5140,
+          75,
+          75
+        ],
+        [
+          5723,
+          4874,
+          60,
+          42
+        ],
+        [
+          5898,
+          4598,
+          56,
+          57
+        ],
+        [
+          6075,
+          4322,
+          66,
+          75
+        ],
+        [
+          6258,
+          4068,
+          63,
+          52
+        ],
+        [
+          6442,
+          3795,
+          62,
+          62
+        ],
+        [
+          6628,
+          3525,
+          72,
+          67
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-131",
+      "source_text": "Victoria Road",
+      "source_label_boxes_xywh": [
+        [
+          7262,
+          5780,
+          113,
+          107
+        ],
+        [
+          7391,
+          5620,
+          59,
+          83
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-132",
+      "source_text": "River Inhabitants",
+      "source_label_boxes_xywh": [
+        [
+          7602,
+          5775,
+          92,
+          156
+        ],
+        [
+          7770,
+          6218,
+          193,
+          309
+        ]
+      ],
+      "status": "needs-source-review"
+    },
+    {
+      "annotation_id": "F19-JUD-133",
+      "source_text": "PROPOSED RAILWAY TO WHYCOCOMAGH",
+      "source_label_boxes_xywh": [
+        [
+          7156,
+          5828,
+          104,
+          190
+        ],
+        [
+          7279,
+          6045,
+          140,
+          169
+        ],
+        [
+          7428,
+          6228,
+          51,
+          65
+        ],
+        [
+          7476,
+          6295,
+          204,
+          249
+        ]
+      ],
+      "status": "needs-source-review"
+    }
+  ]
+}

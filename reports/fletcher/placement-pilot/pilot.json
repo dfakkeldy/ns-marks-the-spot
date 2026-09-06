@@ -201,6 +201,24 @@
         "contradictions": "Highway 19 supplies the previously omitted north-south through-road context. The earlier statement that the through-road is now farther south was based on an incomplete road layer and is withdrawn. The northern draft is clipped; differences in the junction cannot alone prove realignment or locate the school.",
         "next": "Check a dated school record or historical aerial image for the building site within this corridor."
       },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.476727036041105,
+            45.91708769805466
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            4022,
+            1338
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
+      },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
       "search_centre_lonlat": [
@@ -408,6 +426,24 @@
         "evidence": "The forge mark lies east of the old road, between two eastern tributaries entering the north-south watercourse above the coastal inlet. That tributary order and inlet relationship remain recognizable in NSTDB. Highway 19 now appears along the corresponding north-south road corridor.",
         "contradictions": "The earlier claim that the road segment was absent is withdrawn: the separate Highways layer was missing. Highway 19 is present in the corrected reference. Inlet detail differs; exact forge placement still needs site-specific evidence.",
         "next": "Seek an old aerial or forge-specific record; use the two tributaries to constrain the search."
+      },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.478507367325214,
+            45.90934492297033
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3986,
+            1567
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
       },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
@@ -675,6 +711,24 @@
         "evidence": "The stables mark lies on the east side of the elongated inlet, west of the coastal road and between two eastern tributaries. The inlet, southern tributary mouth and offshore island sequence corroborate the locality. Highway 19, now included and labelled, is the essential through-road reference along this shore.",
         "contradictions": "The initial vector comparison omitted Highway 19. With the highway restored, the through-road corridor is recognizable; local curve and shoreline differences do not by themselves establish a change or identify a stable footprint.",
         "next": "Compare the road corridor with a dated aerial or stage-route record; keep Shop and P.O. associations separate."
+      },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.48375651919939,
+            45.89950748847478
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3873,
+            1854
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
       },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
@@ -992,6 +1046,24 @@
           }
         ]
       },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.49137305156885,
+            45.877322225740016
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3701,
+            2537
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
+      },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
       "search_centre_lonlat": [
@@ -1259,6 +1331,128 @@
         "contradictions": "Multiple small marks prevent selecting one mill building. The modern road follows a different approach north of the brook. This is separate from the southern Chisholm Brook mill group.",
         "next": "Resolve the mill group using a plan, aerial or site-specific historical evidence before selecting an individual feature."
       },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.458668073091815,
+                45.87042466287186
+              ],
+              [
+                -61.45866664930161,
+                45.87014031107839
+              ],
+              [
+                -61.458665639466595,
+                45.86985550943917
+              ],
+              [
+                -61.45866506029084,
+                45.869570245391756
+              ],
+              [
+                -61.45828997949105,
+                45.869582556876374
+              ],
+              [
+                -61.457914844042946,
+                45.869594873897775
+              ],
+              [
+                -61.457539654253424,
+                45.86960719614582
+              ],
+              [
+                -61.45754084589613,
+                45.869892149025276
+              ],
+              [
+                -61.45754249269706,
+                45.87017661444968
+              ],
+              [
+                -61.45754457593836,
+                45.870460606506136
+              ],
+              [
+                -61.457919108804276,
+                45.87044864237209
+              ],
+              [
+                -61.45829360812405,
+                45.87043666085813
+              ],
+              [
+                -61.458668073091815,
+                45.87042466287186
+              ]
+            ]
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4430.0,
+                2790.0
+              ],
+              [
+                4438.333333333333,
+                2790.0
+              ],
+              [
+                4446.666666666667,
+                2790.0
+              ],
+              [
+                4455.0,
+                2790.0
+              ],
+              [
+                4455.0,
+                2798.6666666666665
+              ],
+              [
+                4455.0,
+                2807.3333333333335
+              ],
+              [
+                4455.0,
+                2816.0
+              ],
+              [
+                4446.666666666667,
+                2816.0
+              ],
+              [
+                4438.333333333333,
+                2816.0
+              ],
+              [
+                4430.0,
+                2816.0
+              ],
+              [
+                4430.0,
+                2807.3333333333335
+              ],
+              [
+                4430.0,
+                2798.6666666666665
+              ],
+              [
+                4430.0,
+                2790.0
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
+      },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
       "search_centre_lonlat": [
@@ -1459,6 +1653,288 @@
         "contradictions": "The label alone is not a building or dam point. This corridor is in the Chisholm Brook area; the pilot does not assign the main-channel name to every branch.",
         "next": "Resolve any printed facility mark, then check historical or local evidence for a mill or dam at this corridor."
       },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.44589525288425,
+                45.822449610725236
+              ],
+              [
+                -61.44587581833254,
+                45.82212699063412
+              ],
+              [
+                -61.44585544906239,
+                45.8218053658467
+              ],
+              [
+                -61.445834201372506,
+                45.82148470345543
+              ],
+              [
+                -61.44581214157881,
+                45.82116496299674
+              ],
+              [
+                -61.445789346531775,
+                45.82084609601734
+              ],
+              [
+                -61.44576590403017,
+                45.820528045724366
+              ],
+              [
+                -61.44574191310414,
+                45.820210746738866
+              ],
+              [
+                -61.44571748414259,
+                45.819894124976884
+              ],
+              [
+                -61.44525497895555,
+                45.81989275850421
+              ],
+              [
+                -61.44479251814906,
+                45.819891534015085
+              ],
+              [
+                -61.44433002976798,
+                45.81989051223238
+              ],
+              [
+                -61.44386744434011,
+                45.81988975219148
+              ],
+              [
+                -61.4434046948794,
+                45.819889311286
+              ],
+              [
+                -61.44294171682559,
+                45.819889245363505
+              ],
+              [
+                -61.44247844792269,
+                45.81988960887225
+              ],
+              [
+                -61.44201482803472,
+                45.81989045506058
+              ],
+              [
+                -61.44204013841219,
+                45.82020458912044
+              ],
+              [
+                -61.44206477864589,
+                45.820519807727166
+              ],
+              [
+                -61.44208864491559,
+                45.8208361812436
+              ],
+              [
+                -61.442111650561976,
+                45.82115376459115
+              ],
+              [
+                -61.442133725133665,
+                45.821472598261565
+              ],
+              [
+                -61.44215481314343,
+                45.821792709584535
+              ],
+              [
+                -61.44217487263566,
+                45.822114114155106
+              ],
+              [
+                -61.44219387365691,
+                45.822436817334754
+              ],
+              [
+                -61.44265679150906,
+                45.822437541941575
+              ],
+              [
+                -61.44311951644413,
+                45.822438631146134
+              ],
+              [
+                -61.44358211199387,
+                45.82244002531117
+              ],
+              [
+                -61.44404463977695,
+                45.822441666874056
+              ],
+              [
+                -61.444507159799926,
+                45.82244349999115
+              ],
+              [
+                -61.44496973066262,
+                45.82244547026073
+              ],
+              [
+                -61.445432409674474,
+                45.8224475245224
+              ],
+              [
+                -61.44589525288425,
+                45.822449610725236
+              ]
+            ]
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4760.0,
+                4170.0
+              ],
+              [
+                4770.0,
+                4170.0
+              ],
+              [
+                4780.0,
+                4170.0
+              ],
+              [
+                4790.0,
+                4170.0
+              ],
+              [
+                4800.0,
+                4170.0
+              ],
+              [
+                4810.0,
+                4170.0
+              ],
+              [
+                4820.0,
+                4170.0
+              ],
+              [
+                4830.0,
+                4170.0
+              ],
+              [
+                4840.0,
+                4170.0
+              ],
+              [
+                4840.0,
+                4180.0
+              ],
+              [
+                4840.0,
+                4190.0
+              ],
+              [
+                4840.0,
+                4200.0
+              ],
+              [
+                4840.0,
+                4210.0
+              ],
+              [
+                4840.0,
+                4220.0
+              ],
+              [
+                4840.0,
+                4230.0
+              ],
+              [
+                4840.0,
+                4240.0
+              ],
+              [
+                4840.0,
+                4250.0
+              ],
+              [
+                4830.0,
+                4250.0
+              ],
+              [
+                4820.0,
+                4250.0
+              ],
+              [
+                4810.0,
+                4250.0
+              ],
+              [
+                4800.0,
+                4250.0
+              ],
+              [
+                4790.0,
+                4250.0
+              ],
+              [
+                4780.0,
+                4250.0
+              ],
+              [
+                4770.0,
+                4250.0
+              ],
+              [
+                4760.0,
+                4250.0
+              ],
+              [
+                4760.0,
+                4240.0
+              ],
+              [
+                4760.0,
+                4230.0
+              ],
+              [
+                4760.0,
+                4220.0
+              ],
+              [
+                4760.0,
+                4210.0
+              ],
+              [
+                4760.0,
+                4200.0
+              ],
+              [
+                4760.0,
+                4190.0
+              ],
+              [
+                4760.0,
+                4180.0
+              ],
+              [
+                4760.0,
+                4170.0
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
+      },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
       "search_centre_lonlat": [
@@ -1637,6 +2113,512 @@
             "raw_response_sha256": "152e118cf2baf9989af5264252fe4c38644f8d23b8c8a2c07698577194c9c545"
           }
         ]
+      },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.47752320270822,
+                45.81526287964498
+              ],
+              [
+                -61.47751452923565,
+                45.81494463422541
+              ],
+              [
+                -61.47750587593492,
+                45.814626791964194
+              ],
+              [
+                -61.47749731696199,
+                45.814309364259074
+              ],
+              [
+                -61.47748893027037,
+                45.81399236470027
+              ],
+              [
+                -61.47748079778975,
+                45.813675809317864
+              ],
+              [
+                -61.47747300551319,
+                45.813359716771686
+              ],
+              [
+                -61.4774656433357,
+                45.813044108402615
+              ],
+              [
+                -61.477458804365945,
+                45.81272900800434
+              ],
+              [
+                -61.47745258328917,
+                45.81241444110205
+              ],
+              [
+                -61.477447073260805,
+                45.81210043347442
+              ],
+              [
+                -61.47744236094389,
+                45.81178700872382
+              ],
+              [
+                -61.4769918007312,
+                45.811786839103775
+              ],
+              [
+                -61.47654134873897,
+                45.81178726410819
+              ],
+              [
+                -61.4760910620719,
+                45.81178833529601
+              ],
+              [
+                -61.475641022717845,
+                45.81179011750809
+              ],
+              [
+                -61.47519135554768,
+                45.81179269796447
+              ],
+              [
+                -61.474742257044134,
+                45.811796200774474
+              ],
+              [
+                -61.47429395356436,
+                45.81180076584779
+              ],
+              [
+                -61.473846413059235,
+                45.81180640326835
+              ],
+              [
+                -61.47339933350671,
+                45.81181298742304
+              ],
+              [
+                -61.47295243609085,
+                45.81182040504104
+              ],
+              [
+                -61.47250551471486,
+                45.81182858014094
+              ],
+              [
+                -61.47205840740988,
+                45.811837459507345
+              ],
+              [
+                -61.471610977972105,
+                45.81184700330869
+              ],
+              [
+                -61.471163106576405,
+                45.81185718021857
+              ],
+              [
+                -61.470714684726964,
+                45.81186796469382
+              ],
+              [
+                -61.470265612373026,
+                45.811879335306315
+              ],
+              [
+                -61.46981579621179,
+                45.81189127362938
+              ],
+              [
+                -61.4693651487079,
+                45.81190376343563
+              ],
+              [
+                -61.468913587583046,
+                45.811916790078556
+              ],
+              [
+                -61.46892651142316,
+                45.81222905868402
+              ],
+              [
+                -61.46894052382736,
+                45.812541545993504
+              ],
+              [
+                -61.46895556047061,
+                45.812854246618166
+              ],
+              [
+                -61.46897154632508,
+                45.813167155341475
+              ],
+              [
+                -61.46898839638185,
+                45.81348026773957
+              ],
+              [
+                -61.469006016393834,
+                45.81379358078319
+              ],
+              [
+                -61.46902430357422,
+                45.81410709337786
+              ],
+              [
+                -61.469043147215395,
+                45.814420806814816
+              ],
+              [
+                -61.46906242922894,
+                45.814734725118164
+              ],
+              [
+                -61.4690820246364,
+                45.81504885528317
+              ],
+              [
+                -61.46910180205997,
+                45.81536320740421
+              ],
+              [
+                -61.46954851223988,
+                45.8153524575608
+              ],
+              [
+                -61.46999428538595,
+                45.81534228529324
+              ],
+              [
+                -61.4704392395413,
+                45.8153326955171
+              ],
+              [
+                -61.47088348913207,
+                45.81532369453521
+              ],
+              [
+                -61.47132714475759,
+                45.81531528982415
+              ],
+              [
+                -61.47177031286506,
+                45.815307489710406
+              ],
+              [
+                -61.47221309523991,
+                45.81530030292792
+              ],
+              [
+                -61.47265558827226,
+                45.815293738052866
+              ],
+              [
+                -61.47309788199799,
+                45.81528780282578
+              ],
+              [
+                -61.47354005896466,
+                45.815282503391934
+              ],
+              [
+                -61.473982193031745,
+                45.81527784351997
+              ],
+              [
+                -61.47442434826699,
+                45.81527382388179
+              ],
+              [
+                -61.474866578129614,
+                45.815270441489616
+              ],
+              [
+                -61.475308925107825,
+                45.81526768937654
+              ],
+              [
+                -61.475751420913106,
+                45.815265556570125
+              ],
+              [
+                -61.47619408722893,
+                45.815264028357774
+              ],
+              [
+                -61.47663693691399,
+                45.8152630867923
+              ],
+              [
+                -61.47707997548693,
+                45.815262711349874
+              ],
+              [
+                -61.47752320270822,
+                45.81526287964498
+              ]
+            ]
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4065.0,
+                4375.0
+              ],
+              [
+                4075.0,
+                4375.0
+              ],
+              [
+                4085.0,
+                4375.0
+              ],
+              [
+                4095.0,
+                4375.0
+              ],
+              [
+                4105.0,
+                4375.0
+              ],
+              [
+                4115.0,
+                4375.0
+              ],
+              [
+                4125.0,
+                4375.0
+              ],
+              [
+                4135.0,
+                4375.0
+              ],
+              [
+                4145.0,
+                4375.0
+              ],
+              [
+                4155.0,
+                4375.0
+              ],
+              [
+                4165.0,
+                4375.0
+              ],
+              [
+                4175.0,
+                4375.0
+              ],
+              [
+                4185.0,
+                4375.0
+              ],
+              [
+                4195.0,
+                4375.0
+              ],
+              [
+                4205.0,
+                4375.0
+              ],
+              [
+                4215.0,
+                4375.0
+              ],
+              [
+                4225.0,
+                4375.0
+              ],
+              [
+                4235.0,
+                4375.0
+              ],
+              [
+                4245.0,
+                4375.0
+              ],
+              [
+                4255.0,
+                4375.0
+              ],
+              [
+                4255.0,
+                4384.545454545455
+              ],
+              [
+                4255.0,
+                4394.090909090909
+              ],
+              [
+                4255.0,
+                4403.636363636364
+              ],
+              [
+                4255.0,
+                4413.181818181818
+              ],
+              [
+                4255.0,
+                4422.727272727273
+              ],
+              [
+                4255.0,
+                4432.272727272727
+              ],
+              [
+                4255.0,
+                4441.818181818182
+              ],
+              [
+                4255.0,
+                4451.363636363636
+              ],
+              [
+                4255.0,
+                4460.909090909091
+              ],
+              [
+                4255.0,
+                4470.454545454545
+              ],
+              [
+                4255.0,
+                4480.0
+              ],
+              [
+                4245.0,
+                4480.0
+              ],
+              [
+                4235.0,
+                4480.0
+              ],
+              [
+                4225.0,
+                4480.0
+              ],
+              [
+                4215.0,
+                4480.0
+              ],
+              [
+                4205.0,
+                4480.0
+              ],
+              [
+                4195.0,
+                4480.0
+              ],
+              [
+                4185.0,
+                4480.0
+              ],
+              [
+                4175.0,
+                4480.0
+              ],
+              [
+                4165.0,
+                4480.0
+              ],
+              [
+                4155.0,
+                4480.0
+              ],
+              [
+                4145.0,
+                4480.0
+              ],
+              [
+                4135.0,
+                4480.0
+              ],
+              [
+                4125.0,
+                4480.0
+              ],
+              [
+                4115.0,
+                4480.0
+              ],
+              [
+                4105.0,
+                4480.0
+              ],
+              [
+                4095.0,
+                4480.0
+              ],
+              [
+                4085.0,
+                4480.0
+              ],
+              [
+                4075.0,
+                4480.0
+              ],
+              [
+                4065.0,
+                4480.0
+              ],
+              [
+                4065.0,
+                4470.454545454545
+              ],
+              [
+                4065.0,
+                4460.909090909091
+              ],
+              [
+                4065.0,
+                4451.363636363636
+              ],
+              [
+                4065.0,
+                4441.818181818182
+              ],
+              [
+                4065.0,
+                4432.272727272727
+              ],
+              [
+                4065.0,
+                4422.727272727273
+              ],
+              [
+                4065.0,
+                4413.181818181818
+              ],
+              [
+                4065.0,
+                4403.636363636364
+              ],
+              [
+                4065.0,
+                4394.090909090909
+              ],
+              [
+                4065.0,
+                4384.545454545455
+              ],
+              [
+                4065.0,
+                4375.0
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
       },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
@@ -1928,6 +2910,336 @@
         "contradictions": "Several buildings, a pale enclosed area and branching linework make the precise facility association unresolved. A modern crossing is not proof of the historical mill footprint.",
         "next": "Identify the historical building group and inspect a dated aerial or mill plan for the crossing and waterworks."
       },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.464188588427454,
+                45.816658053470384
+              ],
+              [
+                -61.46416022783456,
+                45.8163327051907
+              ],
+              [
+                -61.464132064005405,
+                45.816007372936916
+              ],
+              [
+                -61.4641043105468,
+                45.81568200265398
+              ],
+              [
+                -61.464077159620494,
+                45.81535654723543
+              ],
+              [
+                -61.464050783896724,
+                45.815030966294486
+              ],
+              [
+                -61.46402533783279,
+                45.81470522604508
+              ],
+              [
+                -61.464000958538634,
+                45.814379299222246
+              ],
+              [
+                -61.463977766406856,
+                45.81405316499374
+              ],
+              [
+                -61.46395586562963,
+                45.813726808827546
+              ],
+              [
+                -61.46393534468757,
+                45.81340022229427
+              ],
+              [
+                -61.463467736746686,
+                45.8134188565419
+              ],
+              [
+                -61.46299846928986,
+                45.81343788353743
+              ],
+              [
+                -61.4625275753291,
+                45.81345727210936
+              ],
+              [
+                -61.46205510418702,
+                45.81347698692615
+              ],
+              [
+                -61.461581121223084,
+                45.81349698837114
+              ],
+              [
+                -61.461105707288,
+                45.81351723245627
+              ],
+              [
+                -61.46062895799754,
+                45.81353767074628
+              ],
+              [
+                -61.460150982933776,
+                45.81355825025965
+              ],
+              [
+                -61.459671904895686,
+                45.81357891330585
+              ],
+              [
+                -61.45968897174622,
+                45.81390582171256
+              ],
+              [
+                -61.45970794909264,
+                45.81423200470762
+              ],
+              [
+                -61.45972874954963,
+                45.81455747399425
+              ],
+              [
+                -61.45975125402024,
+                45.81488225787847
+              ],
+              [
+                -61.459775311903826,
+                45.81520640088319
+              ],
+              [
+                -61.459800742387735,
+                45.81552996263671
+              ],
+              [
+                -61.459827336564814,
+                45.815853016210205
+              ],
+              [
+                -61.45985486007232,
+                45.81617564612255
+              ],
+              [
+                -61.45988305599307,
+                45.8164979462219
+              ],
+              [
+                -61.45991164790996,
+                45.81682001759574
+              ],
+              [
+                -61.46039409601548,
+                45.81680103369207
+              ],
+              [
+                -61.460875288384116,
+                45.81678209087234
+              ],
+              [
+                -61.46135497056644,
+                45.81676328420429
+              ],
+              [
+                -61.46183288982624,
+                45.816744706166574
+              ],
+              [
+                -61.46230880256471,
+                45.81672644530448
+              ],
+              [
+                -61.46278248621225,
+                45.816708583851685
+              ],
+              [
+                -61.46325375506702,
+                45.81669119443605
+              ],
+              [
+                -61.46372247733172,
+                45.816674336490046
+              ],
+              [
+                -61.464188588427454,
+                45.816658053470384
+              ]
+            ]
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4365.0,
+                4340.0
+              ],
+              [
+                4375.0,
+                4340.0
+              ],
+              [
+                4385.0,
+                4340.0
+              ],
+              [
+                4395.0,
+                4340.0
+              ],
+              [
+                4405.0,
+                4340.0
+              ],
+              [
+                4415.0,
+                4340.0
+              ],
+              [
+                4425.0,
+                4340.0
+              ],
+              [
+                4435.0,
+                4340.0
+              ],
+              [
+                4445.0,
+                4340.0
+              ],
+              [
+                4455.0,
+                4340.0
+              ],
+              [
+                4455.0,
+                4350.0
+              ],
+              [
+                4455.0,
+                4360.0
+              ],
+              [
+                4455.0,
+                4370.0
+              ],
+              [
+                4455.0,
+                4380.0
+              ],
+              [
+                4455.0,
+                4390.0
+              ],
+              [
+                4455.0,
+                4400.0
+              ],
+              [
+                4455.0,
+                4410.0
+              ],
+              [
+                4455.0,
+                4420.0
+              ],
+              [
+                4455.0,
+                4430.0
+              ],
+              [
+                4455.0,
+                4440.0
+              ],
+              [
+                4445.0,
+                4440.0
+              ],
+              [
+                4435.0,
+                4440.0
+              ],
+              [
+                4425.0,
+                4440.0
+              ],
+              [
+                4415.0,
+                4440.0
+              ],
+              [
+                4405.0,
+                4440.0
+              ],
+              [
+                4395.0,
+                4440.0
+              ],
+              [
+                4385.0,
+                4440.0
+              ],
+              [
+                4375.0,
+                4440.0
+              ],
+              [
+                4365.0,
+                4440.0
+              ],
+              [
+                4365.0,
+                4430.0
+              ],
+              [
+                4365.0,
+                4420.0
+              ],
+              [
+                4365.0,
+                4410.0
+              ],
+              [
+                4365.0,
+                4400.0
+              ],
+              [
+                4365.0,
+                4390.0
+              ],
+              [
+                4365.0,
+                4380.0
+              ],
+              [
+                4365.0,
+                4370.0
+              ],
+              [
+                4365.0,
+                4360.0
+              ],
+              [
+                4365.0,
+                4350.0
+              ],
+              [
+                4365.0,
+                4340.0
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
+      },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
       "search_centre_lonlat": [
@@ -2155,6 +3467,24 @@
         "contradictions": "Geological linework overlaps the mine annotation. A place-name or nearby mineral occurrence cannot establish an opening at the printed symbol.",
         "next": "Find a dated mine description or plan that links the printed mark to the Melford occurrence and shaft candidates."
       },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.28058949576034,
+            45.86830763808595
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            8379,
+            2878
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
+      },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
       "search_centre_lonlat": [
@@ -2377,6 +3707,24 @@
           "assessment": "The displayed gold-mine candidate looks right; the reviewer explicitly identified annotation 094.",
           "scope": "Visual corroboration of the candidate locality; no opening coordinates or building footprint supplied."
         }
+      },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.34550164303901,
+            45.83392266904104
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6955,
+            3930
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
       },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
@@ -2628,6 +3976,24 @@
         "contradictions": "No persistent access path or precise mine opening can be identified from the modern road/water reference alone.",
         "next": "Find the original graphite-pit description or prospect plan to establish whether GLM-1-001 is the historical Plumbago Mine."
       },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.34651058172306,
+            45.80917397527904
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6917,
+            4665
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
+      },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",
       "search_centre_lonlat": [
@@ -2844,6 +4210,24 @@
         "evidence": "The Red Bridge annotation is associated with the road crossing of the main river, west of the railway crossing. The river's northeast-to-southwest reach and upstream branch junction constrain the crossing corridor.",
         "contradictions": "The label centre is east of the printed crossing. The corrected reference includes the separate highway and bridge layers. Present crossings still need a dated bridge or road record before one can be identified as Red Bridge; the earlier assertion of changed road/rail relationships is not established by the incomplete comparison.",
         "next": "Check dated bridge or road plans to establish the former crossing and the name Red Bridge."
+      },
+      "map_derived_placement": {
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.332261217837484,
+            45.80292313353646
+          ]
+        },
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            7219,
+            4888
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area"
       },
       "historical_site_geometry": null,
       "placement_status": "candidate-area-only",

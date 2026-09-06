@@ -1,12 +1,14 @@
 # Judique annotation placement pilot
 
-**First pass completed September 6, 2026: 12 candidate areas, eight reviewed printed-symbol anchors, four unresolved mill groups, and provincial record candidates for all three mines. Zero confirmed historical site pins.**
+**Source-derived placement, September 6, 2026: eight approximate points and four group areas exported from reviewed marks on the original sheet. Another 121 transcribed annotations await source-mark review.**
+
+Download [mapped-annotations.geojson](mapped-annotations.geojson) and load it through the web map's shared file drop zone (it appears under Your data). The [mapping queue](mapping-queue.json) retains the remaining IDs and original label rectangles. Teal marks in the comparison panels show the exported geometry. This is a research preview using Judique's supported-area draft, not a fully accepted sheet or surveyed historical-site layer.
 
 **Road-context correction (September 6):** the initial comparison loaded NSTDB Roads (layer 8) but omitted Highways (7) and Bridges (5). The corrected panels include both, with Highway 19 highlighted and labelled. Earlier missing/shifted through-road conclusions for the school, forge and church are withdrawn. The modern highway supports the historic coastal-road comparison; local offsets still do not distinguish actual realignment from map/warp error.
 
 Open [the illustrated review](review.html) for same-extent historical/modern comparisons, native source excerpts, and links to the modern map. [The evidence data](pilot.json) contains the source pixels, search areas, reference IDs and remaining questions. The [lettered mill board](images/mill-board.jpg) distinguishes the three southern annotations from the separate Rory Chisholm's Brook mill.
 
-This moves the selected annotations from transcription into geographic research. The areas are useful places to investigate; their centres are frozen-warp predictions, not independently measured site locations. The 133-entry transcription inventory remains unchanged, with null historical-site geometry throughout. No production layer, source control point, theme, or app behaviour changed.
+This transfers reviewed printed feature marks into modern coordinates through the frozen sheet transform. Distinct symbols become approximate points; ambiguous groups become transformed source-region outlines. No per-site historical record is required for this map-derived placement. The separate larger search windows remain research aids. The 133-entry transcription inventory remains unchanged, with null historical-site geometry throughout. No production layer, source control point, theme, or app behaviour changed.
 
 ## Results
 
@@ -35,7 +37,7 @@ The [1968 history by Janette MacDonald](https://epe.lac-bac.gc.ca/100/205/301/ic
 
 - **Native detail:** original 10815 × 7549 sheet coordinates, x right/y down, unrotated. A red broken crosshair marks an approximate printed-symbol centre; pink rectangles bound unresolved groups. These are source associations, not building footprints.
 - **Paired comparison:** both panels have the same 3600 × 3600 EPSG:3857 metre extent and 800 × 800 display size, north up. This is approximately 2.5 km on the ground here. Grey is outside the frozen draft's supported clipping area.
-- **Red search centre:** the source mark or unresolved group's centre passed through the frozen TPS. The lettering centre is no longer used for any of the 12 final guides.
+- **Teal mapped geometry:** the reviewed symbol point or source-group outline passed through the frozen TPS. Group edges are sampled at intervals no greater than 10 native pixels before transformation. The area bounds ambiguous printed marks, not the historical property, mill grounds or positional error. Lettering centres and operational search windows never become exported feature geometry.
 - **Ochre box:** an operational search window, with a reviewer-selected half-width of 300–500 ground metres. It is not a site extent, statistical confidence interval, accuracy claim, or assurance that evidence cannot lie outside it.
 - **Purple records:** official provincial point geometries, with record number and feature ID. Multiple points with one MODB occurrence number do not become multiple mines. They have not been snapped to Fletcher or adopted as Fletcher pins.
 - **Modern context IDs:** the NSTDB features drawn in each extent, retained for reproducibility. This list is not a set of accepted individual control-point correspondences. Roads include driveways, tracks and trails; the illustration distinguishes highway/bridge context but does not establish access. Highway 19 is identified from the provincial `RTE_NO=19` attribute, not inferred from geometry.
@@ -46,21 +48,23 @@ The final [locality review](locality-review.json) records both supporting topolo
 
 The source is Fletcher sheet 19, Rumsey `RUMSEY~8~1~2644~290012`, list 3997.021. Its native scan SHA-256 is `8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724`.
 
-The [existing Judique draft](../visual-expansion/README.md) is reused unchanged: 39 controls and eight separate diagnostic checks, with check rows excluded from fitting. Its previously reported check errors are 20–94 ground metres, median 68 m. Those checks were used in diagnosis and are not fresh blind validation or per-annotation uncertainty. The 5 projected-metre raster cells are not 5 m site accuracy. Source, warp, observation and NSTDB hashes are checked before rendering. [Supplemental road-context receipts](road-context-receipts.json) cover 156 highway features (95 Route 19) and 139 bridge features (10 Route 19) in the original envelope. They augment this pilot only; the frozen benchmark reference receipts and fitted draft remain unchanged.
+The [existing Judique draft](../visual-expansion/README.md) is reused unchanged: 39 controls and eight separate diagnostic checks, with check rows excluded from fitting. Its previously reported check errors are 20–94 ground metres, median 68 m. Those checks were used in diagnosis and are not fresh blind validation or per-annotation uncertainty. The 5 projected-metre raster cells are not 5 m site accuracy. Source, warp, observation and NSTDB hashes are checked before rendering. Later [boundary checks](../judique-boundary/README.md) failed full-sheet acceptance: the southern outlet was 513 ground metres off; the seven inside-hull checks had median/worst errors of 94/181 m. All twelve pilot features lie wholly inside the existing control hull, which limits extrapolation but does not establish accuracy everywhere. Sheet 22 also failed acceptance and is not included in this export. [Supplemental road-context receipts](road-context-receipts.json) cover 156 highway features (95 Route 19) and 139 bridge features (10 Route 19) in the original envelope. They augment this pilot only; the frozen benchmark reference receipts and fitted draft remain unchanged.
 
 NSTDB input acquisition requested `outSR=4326`; geometry arrays are longitude then latitude. The mining services also returned EPSG:4326 geometry. Their stored latitude/longitude attribute fields differ slightly from returned geometry after service transformation; both are retained and clearly named, and only returned geometry is plotted. Product metadata versions and individual record extraction/version fields are kept distinct.
 
 Sol workers handled bounded printed-mark proposals and official-record lookup. The coordinator reviewed the geography and native crosshairs. [Worker source proposals](source-worker-proposals.json) are retained separately from [the final source review](source-review.json): the coordinator corrected offsets, rejected a road/brook junction as an individual mill, and identified two mine marks omitted from worker proposals. Delegation is useful for preparation and retrieval; these results do not support unattended placement acceptance. The separate [DeepSeek geographic benchmark](../deepseek-georeferencing/README.md) also failed its geographic matching test, despite useful label-extraction results.
 
-## Assembly line after this pilot
+## Source-derived assembly line
 
-1. Transcribe exact wording and its source rectangles; keep extraction confidence separate.
-2. Inspect the printed mark or bound the unresolved group; retain the original coordinate frame.
-3. Generate a frozen-warp search guide and compare the surrounding physical topology.
-4. Retrieve independent records and retain their source identities and coordinate meanings.
-5. A coordinator accepts or rejects the linkage and chooses point, area, or unlocated display based on the evidence.
+1. Extract exact wording and label rectangles in the original scan frame.
+2. Revisit the native scan and identify the actual symbol, feature line or bounded group. Leave an unresolved association unlocated rather than falling back to its lettering centre.
+3. Transform that reviewed source geometry through the sheet's existing alignment. Sample area edges for curved transforms. Reject failed alignments and geometry outside supported coverage.
+4. Check the result visually against modern geography and retain the alignment status, source coordinates, hashes and approximate-placement meaning.
+5. Export points, lines or areas as appropriate. Historical records and local knowledge can improve the interpretation without blocking ordinary map-derived annotations.
 
-For this packet, the next useful work is site-specific historical corroboration: mine descriptions/plans, church-site evidence, old aerials and mill records. A local identification can narrow an annotation, but alone does not establish a surveyed historical footprint. Personal context is not part of the public research data.
+The current implementation covers the pilot's points and bounded groups. Roads and brooks in the remaining queue still need source-line tracing; their label boxes must not become point locations. Source-mark review can continue while other sheets' alignment is repaired. Correcting the sheet transform later allows all attached annotations to be regenerated from their retained native coordinates.
+
+`tools/fletcher/annotation_placement.py` supplies the point/group conversion used by the existing builder. It never changes controls, snaps to modern references or assigns a name from a nearby record. The source-review file retains its original distinction between supported individual marks and unresolved groups. Personal context is not part of the public research data.
 
 ## Rebuild and verification
 
@@ -72,10 +76,11 @@ python3 reports/fletcher/placement-pilot/build_review.py \
   --raster /path/to/judique-sheet19-draft.tif \
   --references /path/to/fletcher-matching-benchmark
 python3 reports/fletcher/placement-pilot/verify_review.py
+node reports/fletcher/placement-pilot/verify_geojson_import.mjs
 python3 -m unittest discover -s tools/fletcher/tests
 ```
 
-The verifier requires the highway and bridge layers and Route 19 coverage in the coastal comparisons, then checks IDs, unchanged source wording and null inventory/site geometries, source bounds, search polygon validity, coordinate provenance and artifact hashes. When locally archived mining responses exist it checks their hashes and returned geometry; those raw inputs are optional for a fresh checkout. The builder separately checks the full native scan, frozen raster and modern reference hashes. These mechanical checks do not prove historical-site identity.
+The verifier checks eight exported points, four transformed group areas, and the 121-item remaining queue separately from the null historical-site geometries. It also requires the highway and bridge layers and Route 19 coverage in the coastal comparisons, then checks IDs, unchanged source wording and null inventory/site geometries, source bounds, search polygon validity, coordinate provenance and artifact hashes. When locally archived mining responses exist it checks their hashes and returned geometry; those raw inputs are optional for a fresh checkout. The builder separately checks the full native scan, frozen raster and modern reference hashes. The Node check uses the actual web GeoJSON parser and verifies that feature IDs, geometries and provenance survive import. It requires Node with `stripTypeScriptTypes`; this is parser verification, not a browser storage/render test. These mechanical checks do not prove historical-site identity.
 
 The raw mining responses and enlarged coordinator audit crops are archived locally under `~/Downloads/fletcher-placement-pilot-20260906/`; repository mining data selects the fields needed for correspondence, without republishing unrelated site-condition or ownership attributes.
 
