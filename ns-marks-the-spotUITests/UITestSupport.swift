@@ -1,5 +1,33 @@
 import XCTest
 
+extension XCTestCase {
+    /// Wait for the result of one action without repeating that action. MapKit
+    /// can redraw its annotations before SwiftUI publishes the matching card.
+    @MainActor
+    func waitForUI(timeout: TimeInterval = 30, _ condition: () -> Bool) -> Bool {
+        let deadline = Date().addingTimeInterval(timeout)
+        while Date() < deadline {
+            if condition() { return true }
+            RunLoop.current.run(until: Date().addingTimeInterval(0.25))
+        }
+        return condition()
+    }
+
+    @MainActor
+    func attachUIFailure() {
+        guard let testRun, testRun.totalFailureCount > 0 else { return }
+        let app = XCUIApplication()
+        let screenshot = XCTAttachment(screenshot: app.screenshot())
+        screenshot.name = "UI at failure"
+        screenshot.lifetime = .keepAlways
+        add(screenshot)
+        let hierarchy = XCTAttachment(string: app.debugDescription)
+        hierarchy.name = "Accessibility hierarchy at failure"
+        hierarchy.lifetime = .keepAlways
+        add(hierarchy)
+    }
+}
+
 extension XCUIElement {
     /// `waitForExistence`, for hittability.
     ///
@@ -14,6 +42,26 @@ extension XCUIElement {
             RunLoop.current.run(until: Date().addingTimeInterval(0.25))
         }
         return exists && isHittable
+    }
+
+    /// Hittable can mean that only an edge of a scrolling button is exposed.
+    /// Require the whole target, and let scrolling settle before aiming at it.
+    func waitForStableFrame(in container: XCUIElement, timeout: TimeInterval = 30) -> Bool {
+        let deadline = Date().addingTimeInterval(timeout)
+        var previous = CGRect.zero
+        var stableSince = Date()
+        while Date() < deadline {
+            let current = exists ? frame : .zero
+            let visible = current != .zero && container.frame.contains(current) && isHittable
+            if !visible || current != previous {
+                stableSince = Date()
+            } else if Date().timeIntervalSince(stableSince) >= 0.5 {
+                return true
+            }
+            previous = current
+            RunLoop.current.run(until: Date().addingTimeInterval(0.25))
+        }
+        return false
     }
 }
 
@@ -97,9 +145,14 @@ extension XCUIApplication {
         _ element: XCUIElement,
         into container: XCUIElement,
         limit: Int = 40,
-        alsoUpwards: Bool = false
+        alsoUpwards: Bool = false,
+        fullyVisible: Bool = false
     ) -> Bool {
-        if element.exists, element.isHittable { return true }
+        func reached() -> Bool {
+            element.exists && element.isHittable
+                && (!fullyVisible || container.frame.contains(element.frame))
+        }
+        if reached() { return true }
         var directions: [() -> Void] = [container.swipeUp]
         if alsoUpwards { directions.append(container.swipeDown) }
 
@@ -108,7 +161,7 @@ extension XCUIApplication {
             var unmoved = 0
             for _ in 0..<limit {
                 swipe()
-                if element.exists, element.isHittable { return true }
+                if reached() { return true }
                 // A target a lazy `List` or `Form` has not built yet has no
                 // frame to compare, and that is the case where giving up early
                 // would be wrong: it is exactly what "keep scrolling" means.
