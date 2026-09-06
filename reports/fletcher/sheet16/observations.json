@@ -1,0 +1,972 @@
+{
+  "sheet": "sheet-16",
+  "rumsey_id": "RUMSEY~8~1~2641~290009",
+  "source_dimensions": [
+    10822,
+    7531
+  ],
+  "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+  "saved_controls_sha256": "37fcf37add41e8cb54264f315f12273e047d214ac1c2e9082e296176d4f25d98",
+  "frozen_utc": "2026-09-06T15:10:45.978094+00:00",
+  "gate": {
+    "median_max_ground_m": 100,
+    "worst_max_ground_m": 200
+  },
+  "scope": "Route19 corridor north of Judique through Port Hood toward Mabou; not whole-sheet validation",
+  "points": [
+    {
+      "id": "gcp-1",
+      "role": "control",
+      "pixel_xy": [
+        2815.5009765625,
+        3069.8764189160374
+      ],
+      "lonlat": [
+        -61.53739571571351,
+        46.02701628119886
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "2815.5009765625",
+        "pixel_y": "3069.8764189160374",
+        "lon": "-61.53739571571351",
+        "lat": "46.02701628119886"
+      }
+    },
+    {
+      "id": "gcp-3",
+      "role": "control",
+      "pixel_xy": [
+        6360.5009765625,
+        3823.8892541895866
+      ],
+      "lonlat": [
+        -61.37701034545899,
+        46.0034604901647
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "6360.5009765625",
+        "pixel_y": "3823.8892541895866",
+        "lon": "-61.37701034545899",
+        "lat": "46.0034604901647"
+      }
+    },
+    {
+      "id": "gcp-4",
+      "role": "control",
+      "pixel_xy": [
+        6922.0009765625,
+        3488.88635879067
+      ],
+      "lonlat": [
+        -61.35259151458741,
+        46.01556185354673
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "6922.0009765625",
+        "pixel_y": "3488.88635879067",
+        "lon": "-61.35259151458741",
+        "lat": "46.01556185354673"
+      }
+    },
+    {
+      "id": "gcp-5",
+      "role": "control",
+      "pixel_xy": [
+        7179.0009765625,
+        3299.3872244253976
+      ],
+      "lonlat": [
+        -61.34177684783936,
+        46.021224143730045
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "7179.0009765625",
+        "pixel_y": "3299.3872244253976",
+        "lon": "-61.34177684783936",
+        "lat": "46.021224143730045"
+      }
+    },
+    {
+      "id": "gcp-6",
+      "role": "control",
+      "pixel_xy": [
+        7752.5009765625,
+        1631.887582619078
+      ],
+      "lonlat": [
+        -61.31641387939454,
+        46.07317092041352
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "7752.5009765625",
+        "pixel_y": "1631.887582619078",
+        "lon": "-61.31641387939454",
+        "lat": "46.07317092041352"
+      }
+    },
+    {
+      "id": "gcp-7",
+      "role": "control",
+      "pixel_xy": [
+        6917.5009765625,
+        994.3840603812205
+      ],
+      "lonlat": [
+        -61.358213424682624,
+        46.0945431794409
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "6917.5009765625",
+        "pixel_y": "994.3840603812205",
+        "lon": "-61.358213424682624",
+        "lat": "46.0945431794409"
+      }
+    },
+    {
+      "id": "gcp-8",
+      "role": "control",
+      "pixel_xy": [
+        7975.5009765625,
+        1117.8902093727347
+      ],
+      "lonlat": [
+        -61.307272911071784,
+        46.088382420343684
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "7975.5009765625",
+        "pixel_y": "1117.8902093727347",
+        "lon": "-61.307272911071784",
+        "lat": "46.088382420343684"
+      }
+    },
+    {
+      "id": "gcp-9",
+      "role": "control",
+      "pixel_xy": [
+        8241.0009765625,
+        1711.887582619078
+      ],
+      "lonlat": [
+        -61.29319667816163,
+        46.07105717830346
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "8241.0009765625",
+        "pixel_y": "1711.887582619078",
+        "lon": "-61.29319667816163",
+        "lat": "46.07105717830346"
+      }
+    },
+    {
+      "id": "gcp-10",
+      "role": "control",
+      "pixel_xy": [
+        8907.0009765625,
+        2218.887015479084
+      ],
+      "lonlat": [
+        -61.263542175292976,
+        46.05578142820199
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "8907.0009765625",
+        "pixel_y": "2218.887015479084",
+        "lon": "-61.263542175292976",
+        "lat": "46.05578142820199"
+      }
+    },
+    {
+      "id": "gcp-11",
+      "role": "control",
+      "pixel_xy": [
+        9538.5009765625,
+        2905.389343738007
+      ],
+      "lonlat": [
+        -61.23350143432618,
+        46.03344088343077
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "9538.5009765625",
+        "pixel_y": "2905.389343738007",
+        "lon": "-61.23350143432618",
+        "lat": "46.03344088343077"
+      }
+    },
+    {
+      "id": "gcp-12",
+      "role": "control",
+      "pixel_xy": [
+        9440.0009765625,
+        4554.389701931687
+      ],
+      "lonlat": [
+        -61.238822937011726,
+        45.981575935563015
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "9440.0009765625",
+        "pixel_y": "4554.389701931687",
+        "lon": "-61.238822937011726",
+        "lat": "45.981575935563015"
+      }
+    },
+    {
+      "id": "gcp-14",
+      "role": "control",
+      "pixel_xy": [
+        9463.5009765625,
+        6316.887343823291
+      ],
+      "lonlat": [
+        -61.232342720031745,
+        45.92649814697973
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "9463.5009765625",
+        "pixel_y": "6316.887343823291",
+        "lon": "-61.232342720031745",
+        "lat": "45.92649814697973"
+      }
+    },
+    {
+      "id": "gcp-15",
+      "role": "control",
+      "pixel_xy": [
+        3294.0009765625,
+        6269.885045413842
+      ],
+      "lonlat": [
+        -61.51279449462891,
+        45.927513068214864
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "3294.0009765625",
+        "pixel_y": "6269.885045413842",
+        "lon": "-61.51279449462891",
+        "lat": "45.927513068214864"
+      }
+    },
+    {
+      "id": "gcp-16",
+      "role": "control",
+      "pixel_xy": [
+        4873.0009765625,
+        5507.886657285404
+      ],
+      "lonlat": [
+        -61.443099975585945,
+        45.9512689537714
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "4873.0009765625",
+        "pixel_y": "5507.886657285404",
+        "lon": "-61.443099975585945",
+        "lat": "45.9512689537714"
+      }
+    },
+    {
+      "id": "gcp-17",
+      "role": "control",
+      "pixel_xy": [
+        5441.0009765625,
+        5181.887493070658
+      ],
+      "lonlat": [
+        -61.418402194976814,
+        45.9612637549562
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5441.0009765625",
+        "pixel_y": "5181.887493070658",
+        "lon": "-61.418402194976814",
+        "lat": "45.9612637549562"
+      }
+    },
+    {
+      "id": "gcp-18",
+      "role": "control",
+      "pixel_xy": [
+        6673.0009765625,
+        5447.886597586456
+      ],
+      "lonlat": [
+        -61.36229038238526,
+        45.95356638277311
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "6673.0009765625",
+        "pixel_y": "5447.886597586456",
+        "lon": "-61.36229038238526",
+        "lat": "45.95356638277311"
+      }
+    },
+    {
+      "id": "gcp-19",
+      "role": "control",
+      "pixel_xy": [
+        5783.0009765625,
+        1239.889761630634
+      ],
+      "lonlat": [
+        -61.40902519226075,
+        46.08439397537928
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5783.0009765625",
+        "pixel_y": "1239.889761630634",
+        "lon": "-61.40902519226075",
+        "lat": "46.08439397537928"
+      }
+    },
+    {
+      "id": "gcp-21",
+      "role": "control",
+      "pixel_xy": [
+        3861.0009765625,
+        1837.8894631359003
+      ],
+      "lonlat": [
+        -61.49597167968751,
+        46.0652511327084
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "3861.0009765625",
+        "pixel_y": "1837.8894631359003",
+        "lon": "-61.49597167968751",
+        "lat": "46.0652511327084"
+      }
+    },
+    {
+      "id": "gcp-22",
+      "role": "control",
+      "pixel_xy": [
+        4749.0009765625,
+        1761.3881497590721
+      ],
+      "lonlat": [
+        -61.45528793334962,
+        46.06837755174853
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "4749.0009765625",
+        "pixel_y": "1761.3881497590721",
+        "lon": "-61.45528793334962",
+        "lat": "46.06837755174853"
+      }
+    },
+    {
+      "id": "gcp-23",
+      "role": "control",
+      "pixel_xy": [
+        4441.5009765625,
+        2976.8865677369836
+      ],
+      "lonlat": [
+        -61.466574668884284,
+        46.03093822075027
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "4441.5009765625",
+        "pixel_y": "2976.8865677369836",
+        "lon": "-61.466574668884284",
+        "lat": "46.03093822075027"
+      }
+    },
+    {
+      "id": "gcp-24",
+      "role": "control",
+      "pixel_xy": [
+        4145.0009765625,
+        4959.385134962262
+      ],
+      "lonlat": [
+        -61.47743225097657,
+        45.96931793426444
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "4145.0009765625",
+        "pixel_y": "4959.385134962262",
+        "lon": "-61.47743225097657",
+        "lat": "45.96931793426444"
+      }
+    },
+    {
+      "id": "gcp-25",
+      "role": "control",
+      "pixel_xy": [
+        4572.0009765625,
+        6234.886627435931
+      ],
+      "lonlat": [
+        -61.456103324890144,
+        45.92858768522428
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "4572.0009765625",
+        "pixel_y": "6234.886627435931",
+        "lon": "-61.456103324890144",
+        "lat": "45.92858768522428"
+      }
+    },
+    {
+      "id": "gcp-26",
+      "role": "control",
+      "pixel_xy": [
+        5041.5009765625,
+        6322.888478103279
+      ],
+      "lonlat": [
+        -61.437349319458015,
+        45.92497573066294
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5041.5009765625",
+        "pixel_y": "6322.888478103279",
+        "lon": "-61.437349319458015",
+        "lat": "45.92497573066294"
+      }
+    },
+    {
+      "id": "gcp-27",
+      "role": "control",
+      "pixel_xy": [
+        5874.5009765625,
+        6298.887612468551
+      ],
+      "lonlat": [
+        -61.39778137207032,
+        45.92628919589703
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5874.5009765625",
+        "pixel_y": "6298.887612468551",
+        "lon": "-61.39778137207032",
+        "lat": "45.92628919589703"
+      }
+    },
+    {
+      "id": "gcp-28",
+      "role": "control",
+      "pixel_xy": [
+        5338.0009765625,
+        5793.887254274871
+      ],
+      "lonlat": [
+        -61.42224311828614,
+        45.942287093650165
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5338.0009765625",
+        "pixel_y": "5793.887254274871",
+        "lon": "-61.42224311828614",
+        "lat": "45.942287093650165"
+      }
+    },
+    {
+      "id": "gcp-29",
+      "role": "control",
+      "pixel_xy": [
+        5575.0009765625,
+        4317.386746833824
+      ],
+      "lonlat": [
+        -61.41383171081544,
+        45.98903065958274
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5575.0009765625",
+        "pixel_y": "4317.386746833824",
+        "lon": "-61.41383171081544",
+        "lat": "45.98903065958274"
+      }
+    },
+    {
+      "id": "gcp-30",
+      "role": "control",
+      "pixel_xy": [
+        7432.5,
+        4667.9
+      ],
+      "lonlat": [
+        -61.33006096,
+        45.97683403
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "7432.5",
+        "pixel_y": "4667.9",
+        "lon": "-61.33006096",
+        "lat": "45.97683403"
+      }
+    },
+    {
+      "id": "gcp-32",
+      "role": "control",
+      "pixel_xy": [
+        7727.5,
+        5206.4
+      ],
+      "lonlat": [
+        -61.31555557,
+        45.96236755
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "7727.5",
+        "pixel_y": "5206.4",
+        "lon": "-61.31555557",
+        "lat": "45.96236755"
+      }
+    },
+    {
+      "id": "gcp-33",
+      "role": "control",
+      "pixel_xy": [
+        7567.5,
+        5492.4
+      ],
+      "lonlat": [
+        -61.32040501,
+        45.95291009
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "7567.5",
+        "pixel_y": "5492.4",
+        "lon": "-61.32040501",
+        "lat": "45.95291009"
+      }
+    },
+    {
+      "id": "gcp-34",
+      "role": "control",
+      "pixel_xy": [
+        8007.5,
+        5631.9
+      ],
+      "lonlat": [
+        -61.3022089,
+        45.94956826
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "8007.5",
+        "pixel_y": "5631.9",
+        "lon": "-61.3022089",
+        "lat": "45.94956826"
+      }
+    },
+    {
+      "id": "gcp-35",
+      "role": "control",
+      "pixel_xy": [
+        8733.5,
+        4915.4
+      ],
+      "lonlat": [
+        -61.27203941,
+        45.9689003
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "8733.5",
+        "pixel_y": "4915.4",
+        "lon": "-61.27203941",
+        "lat": "45.9689003"
+      }
+    },
+    {
+      "id": "gcp-36",
+      "role": "control",
+      "pixel_xy": [
+        9237.0,
+        5629.9
+      ],
+      "lonlat": [
+        -61.24792099,
+        45.946644
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "9237.0",
+        "pixel_y": "5629.9",
+        "lon": "-61.24792099",
+        "lat": "45.946644"
+      }
+    },
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        3415,
+        3758
+      ],
+      "lonlat": [
+        -61.5108299,
+        46.0061361
+      ],
+      "label": "Mill Creek north fork",
+      "identity_evidence": "Northern tributary joins the east-west creek immediately north of the diagonal road crossing; a second northern tributary lies farther west.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0556",
+        "objectids": [
+          262184,
+          270666,
+          270668
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Single-line river junction",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          3275,
+          3668,
+          3555,
+          3848
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        4932,
+        3099
+      ],
+      "lonlat": [
+        -61.4425543,
+        46.0272491
+      ],
+      "label": "Southwest Mabou eastern fork",
+      "identity_evidence": "Eastern arm meets northwestern arm before the southward turn in the branching tributary network east of the main river; road and relative order of the two junctions corroborate identity.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0473",
+        "objectids": [
+          274189,
+          286564,
+          299052
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Two arms are NSTDB indefinite single-line rivers; interpretation retains this uncertainty.",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4792,
+          3009,
+          5072,
+          3189
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        5571,
+        1454
+      ],
+      "lonlat": [
+        -61.41860857857015,
+        46.077981140635956
+      ],
+      "label": "Hughes Point southern tip",
+      "identity_evidence": "Southernmost apex of the distinctive triangular north-bank headland, opposite Indian Point; shore geometry on both sides corroborates the feature.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectid": 25483,
+        "part": 0,
+        "vertex": 52
+      },
+      "native_uncertainty_px": 10,
+      "reference_note": "Coast-river shoreline extremum; historical shoreline change remains possible.",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          5431,
+          1364,
+          5711,
+          1544
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        4194,
+        4476
+      ],
+      "lonlat": [
+        -61.4774733,
+        45.984369
+      ],
+      "label": "Little Judique upper north fork",
+      "identity_evidence": "North branch joins east-west main immediately northeast of the diagonal road crossing; the next eastern tributary joins farther northeast.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0689",
+        "objectids": [
+          211793,
+          211935,
+          212201
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Single-line river junction",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4054,
+          4386,
+          4334,
+          4566
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        5034,
+        5128
+      ],
+      "lonlat": [
+        -61.4362719,
+        45.9635417
+      ],
+      "label": "Rear Judique western tributary",
+      "identity_evidence": "Western arm joins north-south main immediately west of the north-south road; upstream branch and southern forks distinguish this junction.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0794",
+        "objectids": [
+          211937,
+          260289,
+          261524
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Single-line river junction",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4894,
+          5038,
+          5174,
+          5218
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q06",
+      "role": "check",
+      "pixel_xy": [
+        4369,
+        6228
+      ],
+      "lonlat": [
+        -61.4646672,
+        45.9289039
+      ],
+      "label": "Judique River southern-edge fork",
+      "identity_evidence": "Northwest and northeast arms converge before the southward series of tight bends; road crosses the northeast arm farther east. Southern tie-check near Sheet19 edge.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0917",
+        "objectids": [
+          195934,
+          195937,
+          196007
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Single-line river junction",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4229,
+          6138,
+          4509,
+          6318
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q07",
+      "role": "check",
+      "pixel_xy": [
+        5366,
+        1687
+      ],
+      "lonlat": [
+        -61.428650886797705,
+        46.070375771336586
+      ],
+      "label": "Goose Point eastern tip",
+      "identity_evidence": "Easternmost apex of the rounded west-bank headland on the Mabou estuary, opposite Murphy Point; distinct from Indian Point farther north.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectid": 25548,
+        "part": 0,
+        "vertex": 2
+      },
+      "native_uncertainty_px": 10,
+      "reference_note": "Coast-river shoreline extremum; historical shoreline change remains possible.",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          5226,
+          1597,
+          5506,
+          1777
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q08",
+      "role": "check",
+      "pixel_xy": [
+        3280,
+        3744
+      ],
+      "lonlat": [
+        -61.5176858,
+        46.0062793
+      ],
+      "label": "Mill Creek western north fork",
+      "identity_evidence": "Western of the two northern tributaries joins Mill Creek before the downstream road crossing; the larger eastern fork is Q01.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0555",
+        "objectids": [
+          196195,
+          270667,
+          270669
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Single-line river junction",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          3140,
+          3654,
+          3420,
+          3834
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    }
+  ]
+}
