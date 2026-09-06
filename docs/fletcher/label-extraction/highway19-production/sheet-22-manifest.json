@@ -1,0 +1,376 @@
+{
+  "sheet": 22,
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "source_dimensions_px": [
+    10790,
+    7687
+  ],
+  "rumsey_id": "RUMSEY~8~1~2647~290015",
+  "manifest_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+  "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+  "imagery_terms_url": "https://www.davidrumsey.com/about/copyright-and-permissions",
+  "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+  "coverage_rect_xywh": [
+    1500,
+    880,
+    8270,
+    5650
+  ],
+  "coverage_basis": "Native overview and existing inner neatline boundary, padded beyond all four edges",
+  "coverage_note": "Padded map interior rectangle; marginal legends and graticule excluded from transcription. Coverage is packet coverage, not reviewed completeness.",
+  "coordinate_system": "Original unwarped full scan pixels, x right / y down; no geographic placement",
+  "crop_size": 1400,
+  "overlap_px": 200,
+  "crops": [
+    {
+      "crop_id": "F22-R01C01",
+      "source_xywh": [
+        1500,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "1ab7391056473650e661a8adafbb4abaf59f76fe1e0d1a592bb067833fb4b5cb"
+    },
+    {
+      "crop_id": "F22-R01C02",
+      "source_xywh": [
+        2700,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "cefe1354a78c3f29689da3d1744626fd02f8dadd58cc5bf9f1a1548429f11107"
+    },
+    {
+      "crop_id": "F22-R01C03",
+      "source_xywh": [
+        3900,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "604f367e5217e87f53eb39aa924007e9a012f2971b457db15fefdda7ba9c0cb4"
+    },
+    {
+      "crop_id": "F22-R01C04",
+      "source_xywh": [
+        5100,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "fa2ed32de73aa83227bc535657424f3e66e0093137a9fe70e3d4665b8eff4788"
+    },
+    {
+      "crop_id": "F22-R01C05",
+      "source_xywh": [
+        6300,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "0aa0b2e1a3002203c07df99f2e2dc1e59db83cfe84dd97e7f2a0bf12cabed32c"
+    },
+    {
+      "crop_id": "F22-R01C06",
+      "source_xywh": [
+        7500,
+        880,
+        1400,
+        1400
+      ],
+      "sha256": "a92f2098c9f4645d84cff8ac638136a40e8457c0fc51c807941d32c9215719bb"
+    },
+    {
+      "crop_id": "F22-R01C07",
+      "source_xywh": [
+        8700,
+        880,
+        1070,
+        1400
+      ],
+      "sha256": "348550c3ecd2648fcaf1220a93a9a275fbcb4d5b656bc8676c749d34b14304df"
+    },
+    {
+      "crop_id": "F22-R02C01",
+      "source_xywh": [
+        1500,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "729d5895eaffe7e1b0e6e24be88049fc527eaa1b04b7c4364013fcbdaa4a09e5"
+    },
+    {
+      "crop_id": "F22-R02C02",
+      "source_xywh": [
+        2700,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "84ec042a215666840457c4a30132e0c2a63000e48633d2c51ae1e4433bc017f6"
+    },
+    {
+      "crop_id": "F22-R02C03",
+      "source_xywh": [
+        3900,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "2674c6e6ba169439ba1e991d0a70099937370305e12c27f78a0f575942084034"
+    },
+    {
+      "crop_id": "F22-R02C04",
+      "source_xywh": [
+        5100,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "c169de7de71c2bd5f85afebff481140a1966ae9aa42ce874ed56867291e44558"
+    },
+    {
+      "crop_id": "F22-R02C05",
+      "source_xywh": [
+        6300,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "dc550b7df795fb637cbefb3bbce82833d4481d7d55ec66c01617b877a5109ba9"
+    },
+    {
+      "crop_id": "F22-R02C06",
+      "source_xywh": [
+        7500,
+        2080,
+        1400,
+        1400
+      ],
+      "sha256": "bf1832fe6b1298ba0a585cb9cb61a41552d15ce33cd09c7f92bf51f80fbd3430"
+    },
+    {
+      "crop_id": "F22-R02C07",
+      "source_xywh": [
+        8700,
+        2080,
+        1070,
+        1400
+      ],
+      "sha256": "028bbad2430c41d70e11881fa047075cccf5793884f2450f58cd18dedadf125b"
+    },
+    {
+      "crop_id": "F22-R03C01",
+      "source_xywh": [
+        1500,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "5db0b7da1ea48b23ca9b40e5e8224c2257056bc29aee05aa5bf2ef2a16308dab"
+    },
+    {
+      "crop_id": "F22-R03C02",
+      "source_xywh": [
+        2700,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "95f301a79a75edb062119faf9a95e3737c0a62e8923528225d9bc3f7f04947e2"
+    },
+    {
+      "crop_id": "F22-R03C03",
+      "source_xywh": [
+        3900,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "a2b62f5e4f2379b9fd835df7fcfa163e6b26bd0c6c7fd9e25ce576a491dd9fc1"
+    },
+    {
+      "crop_id": "F22-R03C04",
+      "source_xywh": [
+        5100,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "099f7d4fdcfb87ceb5cbb06f2978d54bad6860defa044ce06aaf75281e22ae51"
+    },
+    {
+      "crop_id": "F22-R03C05",
+      "source_xywh": [
+        6300,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "e5e7f62b3793eac8d629a6b07cf057c0708a50e4693db13eb7835df308bef18b"
+    },
+    {
+      "crop_id": "F22-R03C06",
+      "source_xywh": [
+        7500,
+        3280,
+        1400,
+        1400
+      ],
+      "sha256": "3f5637161929dcd412e48637da134d8df9f02117b60f8d0833547253732426ed"
+    },
+    {
+      "crop_id": "F22-R03C07",
+      "source_xywh": [
+        8700,
+        3280,
+        1070,
+        1400
+      ],
+      "sha256": "c9a776a80a133ea84822700954c20e2ec94f10fdf79013c746ab6e271eafb819"
+    },
+    {
+      "crop_id": "F22-R04C01",
+      "source_xywh": [
+        1500,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "5e752443283d64653f70f647a7778e4bd88e236597f2dce617b8c2dde49c486e"
+    },
+    {
+      "crop_id": "F22-R04C02",
+      "source_xywh": [
+        2700,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "520225e6a1ad317a2e04f3bb1262078c459df694c7b8151b45cfb752cae36514"
+    },
+    {
+      "crop_id": "F22-R04C03",
+      "source_xywh": [
+        3900,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "e5a9e15fafba15ef64cb01967d05a8c8716dba426f50c993bd3e39d9d29caa5f"
+    },
+    {
+      "crop_id": "F22-R04C04",
+      "source_xywh": [
+        5100,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "4725c625bd0e38d5a33752be31e493d51d43643a767feb2e21c1e4a5529aebc2"
+    },
+    {
+      "crop_id": "F22-R04C05",
+      "source_xywh": [
+        6300,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "475751bde2d5e6b92f7c14f602945f94a66a181250f1d3df23d9f71164d8d119"
+    },
+    {
+      "crop_id": "F22-R04C06",
+      "source_xywh": [
+        7500,
+        4480,
+        1400,
+        1400
+      ],
+      "sha256": "e8972379678f41a747375edb31505687b4cac70dd4bda323b0a69f22a92d264e"
+    },
+    {
+      "crop_id": "F22-R04C07",
+      "source_xywh": [
+        8700,
+        4480,
+        1070,
+        1400
+      ],
+      "sha256": "60ab4de14171c805862fa797449c1aac5ed161232da31e5ec90ccee6ac1783c8"
+    },
+    {
+      "crop_id": "F22-R05C01",
+      "source_xywh": [
+        1500,
+        5680,
+        1400,
+        850
+      ],
+      "sha256": "006dc7cdf014cde7a05143af2c53e074f7a1fd7005e0e540ef811b7e4cdec55f"
+    },
+    {
+      "crop_id": "F22-R05C02",
+      "source_xywh": [
+        2700,
+        5680,
+        1400,
+        850
+      ],
+      "sha256": "2356eaef86282919795a374261defee9120d99cd7dc644be2a6a70571bed8d7b"
+    },
+    {
+      "crop_id": "F22-R05C03",
+      "source_xywh": [
+        3900,
+        5680,
+        1400,
+        850
+      ],
+      "sha256": "589895e339d66939baecf13112252e81b2fbb667e5bc0afd727dadb8bc1b8599"
+    },
+    {
+      "crop_id": "F22-R05C04",
+      "source_xywh": [
+        5100,
+        5680,
+        1400,
+        850
+      ],
+      "sha256": "ecfc04bd1a575aeb216b4faa4012527927d912ff356728e6b032a84da37ce673"
+    },
+    {
+      "crop_id": "F22-R05C05",
+      "source_xywh": [
+        6300,
+        5680,
+        1400,
+        850
+      ],
+      "sha256": "b8ca919678f0b638f88839746ccfb7725099205fabe2589200fadaf6f2d0182e"
+    },
+    {
+      "crop_id": "F22-R05C06",
+      "source_xywh": [
+        7500,
+        5680,
+        1400,
+        850
+      ],
+      "sha256": "c48b39d9afa7d0ae447c9b09d2f5123fc805c336b379a038e58ae57308cf33a0"
+    },
+    {
+      "crop_id": "F22-R05C07",
+      "source_xywh": [
+        8700,
+        5680,
+        1070,
+        850
+      ],
+      "sha256": "0af87bfbe7e64e7040ab7a6492856e2673af5b7615c53b26a94b48065c2fcdb3"
+    }
+  ]
+}
