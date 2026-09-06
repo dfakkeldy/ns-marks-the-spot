@@ -91,7 +91,10 @@ final class MapChromeUITests: XCTestCase {
         let extendedThroughBadge = expectation(
             for: NSPredicate(format: "label != %@", beforeBadgeTap), evaluatedWith: readout
         )
-        wait(for: [extendedThroughBadge], timeout: 5)
+        // A hosted simulator's accessibility snapshot can take longer than
+        // five seconds even after the map and card display the new distance.
+        // Use the normal UI timeout while still requiring the value to change.
+        wait(for: [extendedThroughBadge], timeout: timeout)
         XCTAssertTrue(endpoint.label.hasSuffix(readout.label))
         // Keep at least two points after Undo: the old behavior left that
         // shape finished and silently discarded it on the next map tap.
