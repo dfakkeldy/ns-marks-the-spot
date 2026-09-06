@@ -3,7 +3,7 @@
 Start from the user's latest saved August 2 export, corroborated by its matching
 IIIF georeferencing annotation. Preserve all 17 manually added `gcp-*` rows
 exactly. Preserve the original export separately, including `corner-se`, but
-exclude that remaining default corner from the physical-feature draft.
+exclude that remaining corner placeholder from the physical-feature draft.
 
 Use a verified native 10790×7687 scan of Rumsey item RUMSEY~8~1~2647~290015.
 Use the saved manual controls' affine fit only as a search guide. Inspect physical

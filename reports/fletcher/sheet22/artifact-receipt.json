@@ -1,0 +1,52 @@
+{
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "observations_sha256": "d64dd31b6004113a424d83ff2764845aeef39dceed57373ac7d54ffaa885f9eb",
+  "boundary_sha256": "2e58a9529f5dbb238e8739d468a74a3f9c771b2574f1b19c46bf43697c3124fc",
+  "build_script_sha256": "239155624a1093d9f99d998a1a0ac2d27f9f9ca4fbbefdd7b2a1abf3e074c21a",
+  "model": "affine",
+  "geographic_acceptance": false,
+  "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+  "rights": "CC BY-NC-SA 3.0 and recorded project permission; see ../INVENTORY.md. Crop, annotations and warp are modifications.",
+  "rasters": [
+    {
+      "file": "sheet22-neatline-diagnostic.tif",
+      "sha256": "c552c17b8bf35d7037d4d58a6a1633fa13cdf52a6220229b028b8dca7cb3e09f",
+      "size": [
+        8456,
+        5700
+      ],
+      "geoTransform": [
+        -6856860.0,
+        5.0,
+        0.0,
+        5740320.0,
+        0.0,
+        -5.0
+      ],
+      "alpha_min_max": [
+        0,
+        255
+      ]
+    },
+    {
+      "file": "sheet22-supported-diagnostic.tif",
+      "sha256": "bca9ae3765a1b40ba4bc6c88d5c73fc9f0d69393c97584fe6cb80b5f6a99d1b5",
+      "size": [
+        8157,
+        5305
+      ],
+      "geoTransform": [
+        -6856585.0,
+        5.0,
+        0.0,
+        5739610.0,
+        0.0,
+        -5.0
+      ],
+      "alpha_min_max": [
+        0,
+        255
+      ]
+    }
+  ]
+}

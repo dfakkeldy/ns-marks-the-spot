@@ -1,0 +1,412 @@
+{
+  "judique_raster_sha256": "f3cac0b2f48c02c6baedf88670cbe23b8ec790ea470a363627ca9aff67d00913",
+  "definition": "At 101 longitude samples across the shared facing-edge extent, excluding rotated side corners: Sheet22 north edge minus Judique south edge, converted from Mercator metres using local cosine. Positive=overlap; negative=gap. Not physical-feature agreement or a final seam.",
+  "minimum_ground_m": -174.0180505648669,
+  "maximum_ground_m": 165.34341595462377,
+  "samples": [
+    {
+      "longitude": -61.59616850664872,
+      "signed_overlap_ground_m": -168.42863978180597
+    },
+    {
+      "longitude": -61.5924351084035,
+      "signed_overlap_ground_m": -162.7201983946173
+    },
+    {
+      "longitude": -61.58870171015828,
+      "signed_overlap_ground_m": -160.2844800397069
+    },
+    {
+      "longitude": -61.58496831191308,
+      "signed_overlap_ground_m": -159.70244522339155
+    },
+    {
+      "longitude": -61.58123491366786,
+      "signed_overlap_ground_m": -159.07301607525645
+    },
+    {
+      "longitude": -61.57750151542264,
+      "signed_overlap_ground_m": -158.3969948361474
+    },
+    {
+      "longitude": -61.57376811717742,
+      "signed_overlap_ground_m": -157.6769146876274
+    },
+    {
+      "longitude": -61.570034718932206,
+      "signed_overlap_ground_m": -157.16232388409534
+    },
+    {
+      "longitude": -61.56630132068699,
+      "signed_overlap_ground_m": -156.93067818595563
+    },
+    {
+      "longitude": -61.56256792244178,
+      "signed_overlap_ground_m": -156.66181141595126
+    },
+    {
+      "longitude": -61.55883452419656,
+      "signed_overlap_ground_m": -156.3603973538023
+    },
+    {
+      "longitude": -61.555101125951346,
+      "signed_overlap_ground_m": -156.02985501527843
+    },
+    {
+      "longitude": -61.55136772770613,
+      "signed_overlap_ground_m": -155.67460880673949
+    },
+    {
+      "longitude": -61.547634329460905,
+      "signed_overlap_ground_m": -155.87611540002698
+    },
+    {
+      "longitude": -61.54390093121569,
+      "signed_overlap_ground_m": -157.1894984254414
+    },
+    {
+      "longitude": -61.54016753297047,
+      "signed_overlap_ground_m": -158.4875804240942
+    },
+    {
+      "longitude": -61.53643413472527,
+      "signed_overlap_ground_m": -159.77184073902595
+    },
+    {
+      "longitude": -61.532700736480045,
+      "signed_overlap_ground_m": -161.04283713238303
+    },
+    {
+      "longitude": -61.52896733823483,
+      "signed_overlap_ground_m": -162.33964748759075
+    },
+    {
+      "longitude": -61.52523393998961,
+      "signed_overlap_ground_m": -163.84083838310474
+    },
+    {
+      "longitude": -61.521500541744395,
+      "signed_overlap_ground_m": -165.74027475753826
+    },
+    {
+      "longitude": -61.51776714349918,
+      "signed_overlap_ground_m": -167.5886121286221
+    },
+    {
+      "longitude": -61.514033745253954,
+      "signed_overlap_ground_m": -169.35998002178388
+    },
+    {
+      "longitude": -61.51030034700874,
+      "signed_overlap_ground_m": -171.01482707680685
+    },
+    {
+      "longitude": -61.50656694876352,
+      "signed_overlap_ground_m": -172.50407245448633
+    },
+    {
+      "longitude": -61.50283355051831,
+      "signed_overlap_ground_m": -173.6786232695211
+    },
+    {
+      "longitude": -61.499100152273094,
+      "signed_overlap_ground_m": -174.0180505648669
+    },
+    {
+      "longitude": -61.49536675402788,
+      "signed_overlap_ground_m": -173.87774110648485
+    },
+    {
+      "longitude": -61.49163335578266,
+      "signed_overlap_ground_m": -173.08080579618834
+    },
+    {
+      "longitude": -61.487899957537444,
+      "signed_overlap_ground_m": -171.40296667386372
+    },
+    {
+      "longitude": -61.484166559292234,
+      "signed_overlap_ground_m": -168.5120209980523
+    },
+    {
+      "longitude": -61.48043316104702,
+      "signed_overlap_ground_m": -164.0733312621629
+    },
+    {
+      "longitude": -61.4766997628018,
+      "signed_overlap_ground_m": -158.70193961486538
+    },
+    {
+      "longitude": -61.472966364556584,
+      "signed_overlap_ground_m": -150.9528534088318
+    },
+    {
+      "longitude": -61.46923296631136,
+      "signed_overlap_ground_m": -140.48025258857493
+    },
+    {
+      "longitude": -61.46549956806614,
+      "signed_overlap_ground_m": -127.1426357741101
+    },
+    {
+      "longitude": -61.461766169820926,
+      "signed_overlap_ground_m": -111.17199464624075
+    },
+    {
+      "longitude": -61.45803277157571,
+      "signed_overlap_ground_m": -93.28766691637757
+    },
+    {
+      "longitude": -61.45429937333049,
+      "signed_overlap_ground_m": -73.43847265461646
+    },
+    {
+      "longitude": -61.45056597508527,
+      "signed_overlap_ground_m": -52.17498258918172
+    },
+    {
+      "longitude": -61.446832576840066,
+      "signed_overlap_ground_m": -30.154397193019477
+    },
+    {
+      "longitude": -61.44309917859485,
+      "signed_overlap_ground_m": -7.761287408159276
+    },
+    {
+      "longitude": -61.439365780349625,
+      "signed_overlap_ground_m": 14.653000680975053
+    },
+    {
+      "longitude": -61.43563238210442,
+      "signed_overlap_ground_m": 36.75840425478768
+    },
+    {
+      "longitude": -61.431898983859206,
+      "signed_overlap_ground_m": 58.13510511396602
+    },
+    {
+      "longitude": -61.42816558561399,
+      "signed_overlap_ground_m": 78.16189000765006
+    },
+    {
+      "longitude": -61.424432187368765,
+      "signed_overlap_ground_m": 96.93632372463384
+    },
+    {
+      "longitude": -61.42069878912355,
+      "signed_overlap_ground_m": 114.13180728280709
+    },
+    {
+      "longitude": -61.41696539087833,
+      "signed_overlap_ground_m": 129.44142545131496
+    },
+    {
+      "longitude": -61.413231992633115,
+      "signed_overlap_ground_m": 142.55546258491134
+    },
+    {
+      "longitude": -61.4094985943879,
+      "signed_overlap_ground_m": 153.19268963673042
+    },
+    {
+      "longitude": -61.405765196142674,
+      "signed_overlap_ground_m": 160.36334699044946
+    },
+    {
+      "longitude": -61.40203179789746,
+      "signed_overlap_ground_m": 164.30677177595672
+    },
+    {
+      "longitude": -61.398298399652255,
+      "signed_overlap_ground_m": 165.34341595462377
+    },
+    {
+      "longitude": -61.39456500140703,
+      "signed_overlap_ground_m": 163.54953920425174
+    },
+    {
+      "longitude": -61.390831603161814,
+      "signed_overlap_ground_m": 159.27963690146314
+    },
+    {
+      "longitude": -61.3870982049166,
+      "signed_overlap_ground_m": 153.65944062453286
+    },
+    {
+      "longitude": -61.38336480667138,
+      "signed_overlap_ground_m": 146.2353034744638
+    },
+    {
+      "longitude": -61.379631408426164,
+      "signed_overlap_ground_m": 137.903740240943
+    },
+    {
+      "longitude": -61.375898010180954,
+      "signed_overlap_ground_m": 128.71165815400445
+    },
+    {
+      "longitude": -61.37216461193574,
+      "signed_overlap_ground_m": 119.1939846725895
+    },
+    {
+      "longitude": -61.36843121369052,
+      "signed_overlap_ground_m": 109.88551008739833
+    },
+    {
+      "longitude": -61.364697815445304,
+      "signed_overlap_ground_m": 101.26303966001487
+    },
+    {
+      "longitude": -61.36096441720008,
+      "signed_overlap_ground_m": 93.76959539265184
+    },
+    {
+      "longitude": -61.35723101895486,
+      "signed_overlap_ground_m": 87.74094180757727
+    },
+    {
+      "longitude": -61.353497620709646,
+      "signed_overlap_ground_m": 83.41421531777667
+    },
+    {
+      "longitude": -61.349764222464444,
+      "signed_overlap_ground_m": 80.99316816373724
+    },
+    {
+      "longitude": -61.34603082421922,
+      "signed_overlap_ground_m": 80.49997375492576
+    },
+    {
+      "longitude": -61.342297425974,
+      "signed_overlap_ground_m": 81.99927631355675
+    },
+    {
+      "longitude": -61.338564027728786,
+      "signed_overlap_ground_m": 85.36701542448148
+    },
+    {
+      "longitude": -61.33483062948357,
+      "signed_overlap_ground_m": 90.51350279491783
+    },
+    {
+      "longitude": -61.331097231238346,
+      "signed_overlap_ground_m": 97.2198547935029
+    },
+    {
+      "longitude": -61.32736383299313,
+      "signed_overlap_ground_m": 105.23971983992021
+    },
+    {
+      "longitude": -61.32363043474791,
+      "signed_overlap_ground_m": 114.27797726483134
+    },
+    {
+      "longitude": -61.319897036502695,
+      "signed_overlap_ground_m": 123.43858705511356
+    },
+    {
+      "longitude": -61.31616363825748,
+      "signed_overlap_ground_m": 132.39816927809284
+    },
+    {
+      "longitude": -61.31243024001227,
+      "signed_overlap_ground_m": 141.72270105397064
+    },
+    {
+      "longitude": -61.30869684176705,
+      "signed_overlap_ground_m": 150.29963084028307
+    },
+    {
+      "longitude": -61.304963443521835,
+      "signed_overlap_ground_m": 157.34893117031484
+    },
+    {
+      "longitude": -61.30123004527662,
+      "signed_overlap_ground_m": 161.99946079438493
+    },
+    {
+      "longitude": -61.29749664703141,
+      "signed_overlap_ground_m": 163.15459631926967
+    },
+    {
+      "longitude": -61.29376324878619,
+      "signed_overlap_ground_m": 160.3536582234069
+    },
+    {
+      "longitude": -61.290029850540975,
+      "signed_overlap_ground_m": 153.93623242059533
+    },
+    {
+      "longitude": -61.28629645229576,
+      "signed_overlap_ground_m": 145.21647501071067
+    },
+    {
+      "longitude": -61.282563054050534,
+      "signed_overlap_ground_m": 134.81752386304512
+    },
+    {
+      "longitude": -61.27882965580532,
+      "signed_overlap_ground_m": 123.07261001941117
+    },
+    {
+      "longitude": -61.2750962575601,
+      "signed_overlap_ground_m": 110.30853303143851
+    },
+    {
+      "longitude": -61.271362859314884,
+      "signed_overlap_ground_m": 96.73670916599062
+    },
+    {
+      "longitude": -61.26762946106966,
+      "signed_overlap_ground_m": 82.57518112349132
+    },
+    {
+      "longitude": -61.26389606282444,
+      "signed_overlap_ground_m": 67.99136231402694
+    },
+    {
+      "longitude": -61.26016266457924,
+      "signed_overlap_ground_m": 53.154152646642665
+    },
+    {
+      "longitude": -61.256429266334024,
+      "signed_overlap_ground_m": 38.209164671018215
+    },
+    {
+      "longitude": -61.2526958680888,
+      "signed_overlap_ground_m": 23.296373731574693
+    },
+    {
+      "longitude": -61.2489624698436,
+      "signed_overlap_ground_m": 13.533325398676409
+    },
+    {
+      "longitude": -61.24522907159838,
+      "signed_overlap_ground_m": 5.8358704015941045
+    },
+    {
+      "longitude": -61.241495673353164,
+      "signed_overlap_ground_m": -1.4665745083371395
+    },
+    {
+      "longitude": -61.23776227510794,
+      "signed_overlap_ground_m": -8.288911141772836
+    },
+    {
+      "longitude": -61.23402887686272,
+      "signed_overlap_ground_m": -14.527646500839241
+    },
+    {
+      "longitude": -61.230295478617506,
+      "signed_overlap_ground_m": -20.133786437855164
+    },
+    {
+      "longitude": -61.22656208037229,
+      "signed_overlap_ground_m": -25.029105572841978
+    },
+    {
+      "longitude": -61.222828682127066,
+      "signed_overlap_ground_m": -29.19846949331169
+    }
+  ]
+}
