@@ -1,0 +1,139 @@
+{
+  "artifacts": [
+    {
+      "path": "pilot.json",
+      "sha256": "d47617e76545257626690381fbaa712323c26747c05002c6835ea698f512d48e",
+      "bytes": 81444
+    },
+    {
+      "path": "review.html",
+      "sha256": "afd392ae330f367838c1184c27a56bb3a5c99a85aaf387de0d0e4292740e6bd3",
+      "bytes": 25096
+    },
+    {
+      "path": "images/F19-JUD-004-native.jpg",
+      "sha256": "43d74a8ee866015913795abb2fd3d2b149765a4f0eb74d607eb237ffa6ce59bd",
+      "bytes": 156051
+    },
+    {
+      "path": "images/F19-JUD-004-pair.jpg",
+      "sha256": "ba227de4fe93a77663e5846da8937eaa4b26f98ead9e88bd91c96053725d6d9e",
+      "bytes": 222343
+    },
+    {
+      "path": "images/F19-JUD-005-native.jpg",
+      "sha256": "5dd13c1af88494f604190915463783937d9419f245029d533ca6e7315da7eda8",
+      "bytes": 156328
+    },
+    {
+      "path": "images/F19-JUD-005-pair.jpg",
+      "sha256": "38bb70487efa1c42d3184790c939630b1d9894a2c84317b4172dae6c4aa09716",
+      "bytes": 295748
+    },
+    {
+      "path": "images/F19-JUD-008-native.jpg",
+      "sha256": "e3044e6eb3d366363ebf455adc2f31ba9d4d9ea6df54f0817fea9992009b135e",
+      "bytes": 154873
+    },
+    {
+      "path": "images/F19-JUD-008-pair.jpg",
+      "sha256": "54e94ac1eb0e9db17ac333be3041834abe5683b7e5f863d4458e7a35a02cf6f8",
+      "bytes": 320061
+    },
+    {
+      "path": "images/F19-JUD-015-native.jpg",
+      "sha256": "69b68b5069eb7c7f58d8fff4dc8e1fb7e82e5a8cf960fbac51a661255e953bbd",
+      "bytes": 141175
+    },
+    {
+      "path": "images/F19-JUD-015-pair.jpg",
+      "sha256": "37b4338d066ee82cacb05c0f585833e8c2c72f80db2ac8a292227aaaffaf1c43",
+      "bytes": 306746
+    },
+    {
+      "path": "images/F19-JUD-021-native.jpg",
+      "sha256": "e43e2454395341a588663d8fbd55812b45fb3778a84b9ba1e77682ceedb1f9cb",
+      "bytes": 166584
+    },
+    {
+      "path": "images/F19-JUD-021-pair.jpg",
+      "sha256": "df64a0ce8b18014b41de6a359d75c6c7422494f43eb96e9877167ba36fe52a38",
+      "bytes": 325597
+    },
+    {
+      "path": "images/F19-JUD-061-native.jpg",
+      "sha256": "011dc4cb2147f9f6ac474c67819fe4244d298959f5958fdd509a64b699d71fd3",
+      "bytes": 149825
+    },
+    {
+      "path": "images/F19-JUD-061-pair.jpg",
+      "sha256": "21c117e3d02a9c53b9092e43f218f281735cd5c96fc813d97a52eb2fb9b2085b",
+      "bytes": 281278
+    },
+    {
+      "path": "images/F19-JUD-077-native.jpg",
+      "sha256": "914d4183e1354b335d3595518d2730aab1bbcb1516733e5efe58dd7c73be10de",
+      "bytes": 167549
+    },
+    {
+      "path": "images/F19-JUD-077-pair.jpg",
+      "sha256": "f54f84ba71932117d311cfaf5ff17c3202ae2cb021c826c37d34f7f2b4bd887a",
+      "bytes": 324070
+    },
+    {
+      "path": "images/F19-JUD-078-native.jpg",
+      "sha256": "ab87f557b1e27a77dba919d464d945ef96912de248be5166107698446792cce7",
+      "bytes": 164968
+    },
+    {
+      "path": "images/F19-JUD-078-pair.jpg",
+      "sha256": "bd7ec53e5d8f2d1775746185f6139e0813e44c87cf9ef6072a9db2dd7f2cd80e",
+      "bytes": 342978
+    },
+    {
+      "path": "images/F19-JUD-079-native.jpg",
+      "sha256": "30ca4c5df1a4ca95e6bc6fa1dde3c8c5315181e9020e5d1c5c57f246a8cbd40d",
+      "bytes": 168749
+    },
+    {
+      "path": "images/F19-JUD-079-pair.jpg",
+      "sha256": "59f2757c954f9960ed1d8302c9ec82a31f924fcbb9e149f8fb38af775b3a7a4c",
+      "bytes": 337884
+    },
+    {
+      "path": "images/F19-JUD-094-native.jpg",
+      "sha256": "7986fe07ea901dde1af1e49c3b182bc3c45afcea1ba0fd55e4185735f6e2c890",
+      "bytes": 137258
+    },
+    {
+      "path": "images/F19-JUD-094-pair.jpg",
+      "sha256": "9f2442b94ac0becb31f845d6a8920e404dbed95edc91a002d04cb08b079d9d06",
+      "bytes": 273731
+    },
+    {
+      "path": "images/F19-JUD-103-native.jpg",
+      "sha256": "80dd37f415d504298df2086ab84c78e371bebe119d727382b3a2a53579e52611",
+      "bytes": 125815
+    },
+    {
+      "path": "images/F19-JUD-103-pair.jpg",
+      "sha256": "06baf66b3f82899be12e4e22c2c7024a864667950d2188f5ce07a6db1510d771",
+      "bytes": 285558
+    },
+    {
+      "path": "images/F19-JUD-117-native.jpg",
+      "sha256": "4b9e828b00087ab2b4dbf86e63ae38145341bed5cb6b7f4d727ec6a59be4c6cc",
+      "bytes": 152826
+    },
+    {
+      "path": "images/F19-JUD-117-pair.jpg",
+      "sha256": "a595cae44d9b7c465bb0ffa5deb243b6769668aa2a3602b6ad20cd2630ee1873",
+      "bytes": 328948
+    },
+    {
+      "path": "images/mill-board.jpg",
+      "sha256": "1ec36ce7e1708f8860f723d7ea11e0b06616fdcd040e5dff06bc72ab9ecaf9c9",
+      "bytes": 396066
+    }
+  ]
+}

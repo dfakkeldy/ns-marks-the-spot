@@ -4,6 +4,8 @@
 
 The [six-crop model pilot](luna-pilot/README.md) compares blind Luna, Terra, Sol and DeepSeek V4 Flash Vision Experimental extraction against existing annotations. Its raw outputs remain comparison evidence only. The optional Claude comparison was set aside. The Long Point batch used Sol; the Glendale/Kingsville batch used the tested DeepSeek vision variant with the same review gates. The four core regions cover 35.64% of the whole image area; that is not a label-completeness estimate.
 
+The [12-annotation placement pilot](../../../reports/fletcher/placement-pilot/README.md) now adds reviewed source-symbol anchors, modern search areas and provincial mining-record candidates. It remains a research review: no historical site pin has been confirmed.
+
 Extracted September 5, 2026 from the original, unwarped 1884 Fletcher sheet 19. This is a research inventory for review, not a production map layer.
 
 **29 separate annotations:** 3 schools, 2 forges, 2 mills, 4 shops, a post office, stables, a church, 5 personal-name annotations, 2 settlement/place names, 2 named brooks/rivers, 2 road names, 2 points, a barytes annotation and a quarry annotation. These count printed annotations, not independently established buildings or sites.

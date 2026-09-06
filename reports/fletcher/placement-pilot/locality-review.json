@@ -1,0 +1,94 @@
+{
+  "004": {
+    "locality_status": "supported-corridor",
+    "search_half_width_ground_m": 300,
+    "evidence": "The school symbol lies south of a road junction, immediately east of a watercourse. The nearby western tributary junction and the downstream sequence of two eastern tributaries identify the corridor in the modern water network.",
+    "contradictions": "The through-road is now farther south; the frozen raster clips the northern context. The modern road junction is not an unchanged school-site anchor.",
+    "next": "Check a dated school record or historical aerial image for the building site within this corridor."
+  },
+  "005": {
+    "locality_status": "supported-corridor",
+    "search_half_width_ground_m": 300,
+    "evidence": "The forge mark lies east of the old road, between two eastern tributaries entering the north-south watercourse above the coastal inlet. That tributary order and inlet relationship remain recognizable in NSTDB.",
+    "contradictions": "The old north-south road segment is absent from the modern road reference, and the modern mapped inlet extends farther inland. Neither road snapping nor present shoreline snapping is justified.",
+    "next": "Seek an old aerial or forge-specific record; use the two tributaries to constrain the search."
+  },
+  "008": {
+    "locality_status": "supported-corridor",
+    "search_half_width_ground_m": 300,
+    "evidence": "The stables mark lies on the east side of the elongated inlet, west of the coastal road and between two eastern tributaries. The inlet, southern tributary mouth and offshore island sequence corroborate the locality.",
+    "contradictions": "Shoreline detail and road shape differ. The map does not establish a surviving stable building or its footprint.",
+    "next": "Compare the road corridor with a dated aerial or stage-route record; keep Shop and P.O. associations separate."
+  },
+  "015": {
+    "locality_status": "supported-corridor",
+    "search_half_width_ground_m": 350,
+    "evidence": "The church symbol lies south of a small coastal brook and north of Rory Chisholm's Brook. The two brooks, coastline and southern inlet constrain the district. The parish's own history provides a candidate institutional identity, St. Andrew's.",
+    "contradictions": "Modern through-road alignment is farther west. The parish history reports two wooden churches before the present stone church, but does not establish identical footprints. Do not substitute the current church address for this symbol.",
+    "next": "Find a site plan, dated photograph or parish account explicitly locating the earlier church.",
+    "external_sources": [
+      {
+        "url": "https://standrewsparishjudique.weebly.com/",
+        "accessed": "2026-09-06",
+        "source_role": "parish-maintained historical account",
+        "finding": "Two wooden churches preceded the present sandstone church; page does not establish continuity of footprint."
+      }
+    ]
+  },
+  "021": {
+    "locality_status": "supported-corridor",
+    "search_half_width_ground_m": 350,
+    "evidence": "The printed mill group lies by Rory Chisholm's Brook at the diagonal road crossing, with the large southward bend downstream and Graham River farther south. The modern brook's bend sequence and road approach corroborate this locality.",
+    "contradictions": "Multiple small marks prevent selecting one mill building. The modern road follows a different approach north of the brook. This is separate from the southern Chisholm Brook mill group.",
+    "next": "Resolve the mill group using a plan, aerial or site-specific historical evidence before selecting an individual feature."
+  },
+  "077": {
+    "locality_status": "supported-corridor",
+    "search_half_width_ground_m": 350,
+    "evidence": "The label is near the southern end of a north-south lane beside the northeast-southwest stream corridor, northeast of the other two mill groups. The upstream bend, small northern tributary and western road approach distinguish the locality in NSTDB.",
+    "contradictions": "The label alone is not a building or dam point. This corridor is in the Chisholm Brook area; the pilot does not assign the main-channel name to every branch.",
+    "next": "Resolve any printed facility mark, then check historical or local evidence for a mill or dam at this corridor."
+  },
+  "078": {
+    "locality_status": "supported-corridor",
+    "search_half_width_ground_m": 300,
+    "evidence": "The western Mills label sits at the road-and-stream crossing near a pronounced road bend, west of the eastern Mills cluster. The stream branch order and separate eastern crossing corroborate this part of the catchment.",
+    "contradictions": "Plural lettering and several nearby building marks do not identify a single facility or exact dam. Road and stream linework differ locally.",
+    "next": "Use site-specific evidence to distinguish the buildings and any millrace from the road crossing."
+  },
+  "079": {
+    "locality_status": "supported-corridor",
+    "search_half_width_ground_m": 300,
+    "evidence": "The eastern Mills label is beside a north-south road crossing and building cluster, between the western Mills crossing and the northeastern Mill locality. The two stream corridors and road approaches are recognizable in modern NSTDB.",
+    "contradictions": "Several buildings, a pale enclosed area and branching linework make the precise facility association unresolved. A modern crossing is not proof of the historical mill footprint.",
+    "next": "Identify the historical building group and inspect a dated aerial or mill plan for the crossing and waterworks."
+  },
+  "061": {
+    "locality_status": "candidate-corridor",
+    "search_half_width_ground_m": 500,
+    "evidence": "The Gold Mine annotation is north of the east-west road, near a tributary crossing, west of the Quartzite Mill annotation and main valley. The modern east-west road and tributary arrangement narrow the district.",
+    "contradictions": "Geological linework overlaps the mine annotation. A place-name or nearby mineral occurrence cannot establish an opening at the printed symbol.",
+    "next": "Find a dated mine description or plan that links the printed mark to the Melford occurrence and shaft candidates."
+  },
+  "094": {
+    "locality_status": "supported-corridor",
+    "search_half_width_ground_m": 400,
+    "evidence": "A distinct oval mine mark is west of the curving road and Glendale Brook. The brook's western tributaries and its downstream meeting with the eastern stream corroborate the corridor.",
+    "contradictions": "The lettering centre is well east of the reviewed mine mark. The modern road curve differs locally. The nearby GPS-sourced opening supports further investigation but does not independently establish the historical identity.",
+    "next": "Find a dated mining account or plan linking the Glendale Brook shaft to the Fletcher annotation."
+  },
+  "103": {
+    "locality_status": "candidate-corridor",
+    "search_half_width_ground_m": 500,
+    "evidence": "The Plumbago Mine mark lies west of the main valley and railway, south of McPherson's Brook and north of another eastern-flowing tributary. The two tributaries and eastern valley constrain a search district.",
+    "contradictions": "No persistent access path or precise mine opening can be identified from the modern road/water reference alone.",
+    "next": "Find the original graphite-pit description or prospect plan to establish whether GLM-1-001 is the historical Plumbago Mine."
+  },
+  "117": {
+    "locality_status": "supported-corridor",
+    "search_half_width_ground_m": 350,
+    "evidence": "The Red Bridge annotation is associated with the road crossing of the main river, west of the railway crossing. The river's northeast-to-southwest reach and upstream branch junction constrain the crossing corridor.",
+    "contradictions": "The label centre is east of the crossing. Road and railway relationships have changed, so the modern nearest road crossing cannot be treated as the named bridge without corroboration.",
+    "next": "Check dated bridge or road plans to establish the former crossing and the name Red Bridge."
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "F19-JUD-061": [
+    {
+      "dataset": "MODB",
+      "record_id": "F14-015",
+      "geo_id": 1584,
+      "name": "Melford Au Occurrence",
+      "geometry_lonlat": [
+        -61.28070335717088,
+        45.86907344922463
+      ],
+      "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+      "stored_geographic_attribute_lonlat": [
+        -61.280706,
+        45.869064
+      ],
+      "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+      "record_extract_date": "2015_02FEB_26_1200",
+      "record_version": 11,
+      "source_xy_method": null,
+      "source_quality_code": null,
+      "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+      "interpretation": "Strong nearby occurrence candidate, but its representative points do not identify the historical printed mine symbol.",
+      "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query?objectIds=1584&outFields=geo_id%2COcc_num%2CName%2CStatus%2CComm_prim%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversion&returnGeometry=true&outSR=4326&f=pjson",
+      "report_url": "https://gesner.novascotia.ca/modb/queryView/singlereport.aspx?Occ_number=F14-015",
+      "raw_response_sha256": "aafe45b906e8a4ed64de668245e2c8c185cbbf3e9479496fec4ac16a01cdd91e",
+      "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-061-modb-2500m.json",
+      "link_status": "candidate-only"
+    },
+    {
+      "dataset": "MODB",
+      "record_id": "F14-015",
+      "geo_id": 1583,
+      "name": "Melford Au Occurrence",
+      "geometry_lonlat": [
+        -61.28101917784668,
+        45.86718806086433
+      ],
+      "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+      "stored_geographic_attribute_lonlat": [
+        -61.281022,
+        45.867179
+      ],
+      "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+      "record_extract_date": "2015_02FEB_26_1200",
+      "record_version": 11,
+      "source_xy_method": null,
+      "source_quality_code": null,
+      "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+      "interpretation": "Strong nearby occurrence candidate, but its representative points do not identify the historical printed mine symbol.",
+      "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query?objectIds=1583&outFields=geo_id%2COcc_num%2CName%2CStatus%2CComm_prim%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversion&returnGeometry=true&outSR=4326&f=pjson",
+      "report_url": "https://gesner.novascotia.ca/modb/queryView/singlereport.aspx?Occ_number=F14-015",
+      "raw_response_sha256": "aafe45b906e8a4ed64de668245e2c8c185cbbf3e9479496fec4ac16a01cdd91e",
+      "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-061-modb-2500m.json",
+      "link_status": "candidate-only"
+    },
+    {
+      "dataset": "AMO",
+      "record_id": "MAU-1-001",
+      "geo_id": 3449,
+      "name": "Unnamed gold shaft",
+      "geometry_lonlat": [
+        -61.28100352445216,
+        45.86727783314943
+      ],
+      "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+      "stored_geographic_attribute_lonlat": [
+        -61.28100625550934,
+        45.86726831463596
+      ],
+      "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+      "record_extract_date": "2020_04APR_09_1110",
+      "record_version": 8,
+      "source_xy_method": "N.A",
+      "source_quality_code": null,
+      "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+      "interpretation": "Nearby individual-opening candidate; the source mark and local setting support investigation, but a dated description or plan is still needed to establish historical identity.",
+      "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0/query?objectIds=3449&outFields=geo_id%2CShaftID%2CS_Location%2COpening_ty%2CCommodity%2Cxy_sources%2Cquality%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversn&returnGeometry=true&outSR=4326&f=pjson",
+      "report_url": "https://gesner.novascotia.ca/amosearch/singlereport.aspx?ShaftID=MAU-1-001",
+      "raw_response_sha256": "291423ca943cdfb43497864b50ecafdb01a4d7315c672ae0880a37ca573050b8",
+      "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-061-amo-2500m.json",
+      "link_status": "candidate-only"
+    }
+  ],
+  "F19-JUD-094": [
+    {
+      "dataset": "MODB",
+      "record_id": "F14-017",
+      "geo_id": 1587,
+      "name": "Camerons Mountain Au, As, Pb, Cu Occurrence",
+      "geometry_lonlat": [
+        -61.3423999139698,
+        45.834612631174444
+      ],
+      "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+      "stored_geographic_attribute_lonlat": [
+        -61.342403,
+        45.834603
+      ],
+      "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+      "record_extract_date": "2015_02FEB_26_1200",
+      "record_version": 11,
+      "source_xy_method": null,
+      "source_quality_code": null,
+      "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+      "interpretation": "Strong nearby prospect candidate. The three features are representative points for one occurrence, not three mines.",
+      "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query?objectIds=1587&outFields=geo_id%2COcc_num%2CName%2CStatus%2CComm_prim%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversion&returnGeometry=true&outSR=4326&f=pjson",
+      "report_url": "https://gesner.novascotia.ca/modb/queryView/singlereport.aspx?Occ_number=F14-017",
+      "raw_response_sha256": "eb7b3f3ee3e0c981d84b51e49debd973aa2226fa0dff437fb0871888eb3bafe6",
+      "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-094-modb-2500m.json",
+      "link_status": "candidate-only"
+    },
+    {
+      "dataset": "MODB",
+      "record_id": "F14-017",
+      "geo_id": 1588,
+      "name": "Camerons Mountain Au, As, Pb, Cu Occurrence",
+      "geometry_lonlat": [
+        -61.34115026741737,
+        45.83333439148123
+      ],
+      "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+      "stored_geographic_attribute_lonlat": [
+        -61.341153,
+        45.833325
+      ],
+      "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+      "record_extract_date": "2015_02FEB_26_1200",
+      "record_version": 11,
+      "source_xy_method": null,
+      "source_quality_code": null,
+      "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+      "interpretation": "Strong nearby prospect candidate. The three features are representative points for one occurrence, not three mines.",
+      "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query?objectIds=1588&outFields=geo_id%2COcc_num%2CName%2CStatus%2CComm_prim%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversion&returnGeometry=true&outSR=4326&f=pjson",
+      "report_url": "https://gesner.novascotia.ca/modb/queryView/singlereport.aspx?Occ_number=F14-017",
+      "raw_response_sha256": "eb7b3f3ee3e0c981d84b51e49debd973aa2226fa0dff437fb0871888eb3bafe6",
+      "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-094-modb-2500m.json",
+      "link_status": "candidate-only"
+    },
+    {
+      "dataset": "MODB",
+      "record_id": "F14-017",
+      "geo_id": 1586,
+      "name": "Camerons Mountain Au, As, Pb, Cu Occurrence",
+      "geometry_lonlat": [
+        -61.34316949169658,
+        45.83471380264702
+      ],
+      "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+      "stored_geographic_attribute_lonlat": [
+        -61.343172,
+        45.834704
+      ],
+      "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+      "record_extract_date": "2015_02FEB_26_1200",
+      "record_version": 11,
+      "source_xy_method": null,
+      "source_quality_code": null,
+      "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+      "interpretation": "Strong nearby prospect candidate. The three features are representative points for one occurrence, not three mines.",
+      "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/mineral_occurrence_database_d002ns_UT83/FeatureServer/0/query?objectIds=1586&outFields=geo_id%2COcc_num%2CName%2CStatus%2CComm_prim%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversion&returnGeometry=true&outSR=4326&f=pjson",
+      "report_url": "https://gesner.novascotia.ca/modb/queryView/singlereport.aspx?Occ_number=F14-017",
+      "raw_response_sha256": "eb7b3f3ee3e0c981d84b51e49debd973aa2226fa0dff437fb0871888eb3bafe6",
+      "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-094-modb-2500m.json",
+      "link_status": "candidate-only"
+    },
+    {
+      "dataset": "AMO",
+      "record_id": "GBG-1-001",
+      "geo_id": 1432,
+      "name": "Unnamed gold shaft",
+      "geometry_lonlat": [
+        -61.34492092542142,
+        45.834271155621295
+      ],
+      "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+      "stored_geographic_attribute_lonlat": [
+        -61.344923635189616,
+        45.83426164379757
+      ],
+      "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+      "record_extract_date": "2020_04APR_09_1110",
+      "record_version": 8,
+      "source_xy_method": "GPS ",
+      "source_quality_code": 10,
+      "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+      "interpretation": "Nearby individual-opening candidate; the source mark and local setting support investigation, but a dated description or plan is still needed to establish historical identity.",
+      "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0/query?objectIds=1432&outFields=geo_id%2CShaftID%2CS_Location%2COpening_ty%2CCommodity%2Cxy_sources%2Cquality%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversn&returnGeometry=true&outSR=4326&f=pjson",
+      "report_url": "https://gesner.novascotia.ca/amosearch/singlereport.aspx?ShaftID=GBG-1-001",
+      "raw_response_sha256": "819b8ad7acd95ce3c2f4c3c340994eefeee9458b65ab217f2fb786e6f33ef252",
+      "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-094-amo-2500m.json",
+      "link_status": "candidate-only"
+    }
+  ],
+  "F19-JUD-103": [
+    {
+      "dataset": "AMO",
+      "record_id": "GLM-1-001",
+      "geo_id": 1452,
+      "name": "Unnamed graphite pit",
+      "geometry_lonlat": [
+        -61.346221805863955,
+        45.809916019102175
+      ],
+      "geometry_crs": "EPSG:4326 query output; longitude, latitude",
+      "stored_geographic_attribute_lonlat": [
+        -61.346224515869565,
+        45.80990651158686
+      ],
+      "coordinate_note": "Stored geographic attributes differ slightly from returned geometry after service transformation. Plot uses returned geometry.",
+      "record_extract_date": "2020_04APR_09_1110",
+      "record_version": 8,
+      "source_xy_method": "N.A",
+      "source_quality_code": null,
+      "quality_code_meaning": "Not interpreted as metres; no code domain supplied.",
+      "interpretation": "Nearby individual-opening candidate; the source mark and local setting support investigation, but a dated description or plan is still needed to establish historical identity.",
+      "url": "https://services.arcgis.com/TS1HHBYLM10d1SZH/arcgis/rest/services/Abandoned_Mine_Openings_Degree_of_Hazard_d010ns_ut83/FeatureServer/0/query?objectIds=1452&outFields=geo_id%2CShaftID%2CS_Location%2COpening_ty%2CCommodity%2Cxy_sources%2Cquality%2CLat_WM84dd%2CLon_WM84dd%2Cextrct_dt%2Cversn&returnGeometry=true&outSR=4326&f=pjson",
+      "report_url": "https://gesner.novascotia.ca/amosearch/singlereport.aspx?ShaftID=GLM-1-001",
+      "raw_response_sha256": "ed3858b352ecf1f20b415cf504a09c138032a824e15d479374db7bda97f18696",
+      "raw_response_archive": "/Users/dfakkeldy/Downloads/fletcher-placement-pilot-20260906/mining-raw/F19-JUD-103-amo-2500m.json",
+      "link_status": "candidate-only"
+    }
+  ]
+}
