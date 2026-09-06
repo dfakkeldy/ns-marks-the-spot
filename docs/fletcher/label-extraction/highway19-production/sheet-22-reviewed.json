@@ -1,0 +1,233 @@
+{
+  "sheet": 22,
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "source_dimensions_px": [
+    10790,
+    7687
+  ],
+  "source_manifest": "sheet-22-manifest.json",
+  "sheet_finalized": false,
+  "status": "partial-source-reviewed-transcription",
+  "review_method": "Coordinator visually inspected native 1400px source crops and corrected lettering boxes. No geographic placement. Crops with edge fragments remain incomplete until overlap reconciliation.",
+  "annotations": [
+    {
+      "id": "F22-HAW-001",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C03",
+      "raw_candidate_id": "F22-R01C03-01",
+      "source_label_boxes_xywh": [
+        [
+          4460,
+          1052,
+          80,
+          30
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-002",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C03",
+      "raw_candidate_id": "F22-R01C03-02",
+      "source_label_boxes_xywh": [
+        [
+          4360,
+          1050,
+          61,
+          33
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-003",
+      "source_text": "Craignish",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C03",
+      "raw_candidate_id": "F22-R01C03-03",
+      "source_label_boxes_xywh": [
+        [
+          4491,
+          1359,
+          274,
+          55
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-004",
+      "source_text": "R.C.Church",
+      "kind": "church",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C03",
+      "raw_candidate_id": "F22-R01C03-04",
+      "source_label_boxes_xywh": [
+        [
+          4532,
+          1422,
+          155,
+          33
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-005",
+      "source_text": "P.O.",
+      "kind": "post_office",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C03",
+      "raw_candidate_id": "F22-R01C03-05",
+      "source_label_boxes_xywh": [
+        [
+          4462,
+          1625,
+          60,
+          31
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-006",
+      "source_text": "Flat Point",
+      "kind": "geographical_feature",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C03",
+      "raw_candidate_id": "F22-R01C03-06",
+      "source_label_boxes_xywh": [
+        [
+          4063,
+          1908,
+          269,
+          51
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-007",
+      "source_text": "Craignish Road",
+      "kind": "named_road",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C03",
+      "raw_candidate_id": "F22-R01C03-07",
+      "source_label_boxes_xywh": [
+        [
+          4772,
+          1208,
+          99,
+          145
+        ],
+        [
+          4922,
+          1157,
+          99,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-008",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C03",
+      "raw_candidate_id": "F22-R01C03-08",
+      "source_label_boxes_xywh": [
+        [
+          5035,
+          1246,
+          91,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-009",
+      "source_text": "D.McDonald",
+      "kind": "personal_name",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C03",
+      "raw_candidate_id": "F22-R01C03-09",
+      "source_label_boxes_xywh": [
+        [
+          4794,
+          2057,
+          183,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-010",
+      "source_text": "Jack Shoal",
+      "kind": "shoal",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C01",
+      "raw_candidate_id": "F22-R01C01-01",
+      "source_label_boxes_xywh": [
+        [
+          2110,
+          2126,
+          246,
+          52
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    }
+  ],
+  "crop_reviews": [
+    {
+      "crop_id": "F22-R01C01",
+      "status": "partial-edge-review",
+      "notes": "Jack Shoal confirmed; raw Rocky is a misreading of bottom-clipped Rock dries. Complete description must be read from R02C01 before accepting. Raw unresolved marks at right are compass ornament, not label text."
+    },
+    {
+      "crop_id": "F22-R01C02",
+      "status": "reviewed-with-edge-link",
+      "notes": "Variation and Magnetic Meridian are compass/cartographic apparatus, excluded. Right-edge F is the first letter of Flat Point, fully read in R01C03; not a standalone annotation."
+    },
+    {
+      "crop_id": "F22-R01C03",
+      "status": "source-reviewed",
+      "notes": "All nine readings checked against complete native crop; model boxes replaced by visually reviewed source lettering rectangles. Mc uses ASCII c for printed superscript."
+    }
+  ],
+  "model_audit": {
+    "requested": "deepseek-cc-switch/deepseek-v4-flash-vision-exp",
+    "recorded_provider": "deepseek-cc-switch",
+    "recorded_model": "deepseek-v4-flash-vision-exp",
+    "evidence": "Local OpenCode session export for F22-R01C01; raw sessions retained outside repository."
+  }
+}

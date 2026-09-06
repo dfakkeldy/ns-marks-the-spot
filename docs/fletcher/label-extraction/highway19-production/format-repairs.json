@@ -1,0 +1,39 @@
+{
+  "sheet": 22,
+  "repairs": [
+    {
+      "crop_id": "F22-R01C01",
+      "actions": [
+        "Renamed region_xywh/description to box_xywh/note; preserved all coordinate values and text"
+      ],
+      "raw_final_sha256": "b39446cf5b13093806fde7dab41f2c66c2d54ecb28c3504855e9d91ea0f5e0c6",
+      "transcription_reviewed": false
+    },
+    {
+      "crop_id": "F22-R01C04",
+      "actions": [
+        "Renamed region_xywh/description to box_xywh/note; preserved all coordinate values and text"
+      ],
+      "raw_final_sha256": "7b89b943ceaf8b1c1f885698dff8bdf2a18914a51a09201b11b3442ca9f4a0ba",
+      "transcription_reviewed": false
+    },
+    {
+      "crop_id": "F22-R02C02",
+      "actions": [
+        "Preserved an unresolved description without invented coordinates in unlocated_unresolved_notes"
+      ],
+      "raw_final_sha256": "b4870dffc10a8f849212f6a286f9cbd90f465b344628c60c5a8aa740c5347507",
+      "transcription_reviewed": false
+    },
+    {
+      "crop_id": "F22-R02C07",
+      "actions": [
+        "Preserved an unresolved description without invented coordinates in unlocated_unresolved_notes",
+        "Preserved an unresolved description without invented coordinates in unlocated_unresolved_notes"
+      ],
+      "raw_final_sha256": "7ba5e68298fa735019d8f18a77877b0b3d153e5712f5461ad5e2fc92a8c01be7",
+      "transcription_reviewed": false
+    }
+  ],
+  "method": "Deterministic schema-only recovery. Original responses and initial receipts retained locally; no reading, box or confidence corrected."
+}

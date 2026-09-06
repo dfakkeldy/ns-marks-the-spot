@@ -1,0 +1,50 @@
+{
+  "snapshot_unix": 1788714625.640393,
+  "sheet_order": [
+    22,
+    19,
+    16,
+    14
+  ],
+  "sheets": [
+    {
+      "sheet": 22,
+      "planned_crops": 35,
+      "counts": {
+        "extracted-unreviewed": 15,
+        "needs-repair": 9,
+        "not-started": 7,
+        "started-no-receipt": 4
+      },
+      "candidate_records": 183,
+      "sheet_finalized": false
+    },
+    {
+      "sheet": 19,
+      "planned_crops": 35,
+      "counts": {
+        "not-started": 35
+      },
+      "candidate_records": 0,
+      "sheet_finalized": false
+    },
+    {
+      "sheet": 16,
+      "planned_crops": 40,
+      "counts": {
+        "not-started": 40
+      },
+      "candidate_records": 0,
+      "sheet_finalized": false
+    },
+    {
+      "sheet": 14,
+      "planned_crops": 35,
+      "counts": {
+        "not-started": 35
+      },
+      "candidate_records": 0,
+      "sheet_finalized": false
+    }
+  ]
+}

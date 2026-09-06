@@ -1,0 +1,376 @@
+{
+  "sheet": 19,
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "source_dimensions_px": [
+    10815,
+    7549
+  ],
+  "rumsey_id": "RUMSEY~8~1~2644~290012",
+  "manifest_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+  "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+  "imagery_terms_url": "https://www.davidrumsey.com/about/copyright-and-permissions",
+  "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+  "coverage_rect_xywh": [
+    1400,
+    1030,
+    8370,
+    5620
+  ],
+  "coverage_basis": "Existing native neatline with outward padding; preserve prior reviewed IDs during reconciliation",
+  "coverage_note": "Padded map interior rectangle; marginal legends and graticule excluded from transcription. Coverage is packet coverage, not reviewed completeness.",
+  "coordinate_system": "Original unwarped full scan pixels, x right / y down; no geographic placement",
+  "crop_size": 1400,
+  "overlap_px": 200,
+  "crops": [
+    {
+      "crop_id": "F19-R01C01",
+      "source_xywh": [
+        1400,
+        1030,
+        1400,
+        1400
+      ],
+      "sha256": "b940e17d5dff9fe98caa12f0c95fb516be1d6781f38a56a7d29710b01a1524cb"
+    },
+    {
+      "crop_id": "F19-R01C02",
+      "source_xywh": [
+        2600,
+        1030,
+        1400,
+        1400
+      ],
+      "sha256": "927200cf0117af36d9f1824c475295017d972db88ec427567ce655ef57798ff5"
+    },
+    {
+      "crop_id": "F19-R01C03",
+      "source_xywh": [
+        3800,
+        1030,
+        1400,
+        1400
+      ],
+      "sha256": "5dd513c075f69e0ae4f0fec3bf973c5c4af18ac814e7105974bc456f1cda8920"
+    },
+    {
+      "crop_id": "F19-R01C04",
+      "source_xywh": [
+        5000,
+        1030,
+        1400,
+        1400
+      ],
+      "sha256": "356900c27fffbeb685b8512aaa42d32dda9b7b2373dfcceccaedff09bf213405"
+    },
+    {
+      "crop_id": "F19-R01C05",
+      "source_xywh": [
+        6200,
+        1030,
+        1400,
+        1400
+      ],
+      "sha256": "09afc77528fc788d2886b8feb82be5ca18d9f2db223147e887aececd065609c4"
+    },
+    {
+      "crop_id": "F19-R01C06",
+      "source_xywh": [
+        7400,
+        1030,
+        1400,
+        1400
+      ],
+      "sha256": "530602f96625297c72922a2fb7b5acfe92232e8cc2389ea8d9b6f31c0b357171"
+    },
+    {
+      "crop_id": "F19-R01C07",
+      "source_xywh": [
+        8600,
+        1030,
+        1170,
+        1400
+      ],
+      "sha256": "8350fb8adcc032ae0c4c79b1ae78a86d62dee1eff75b48a2ed6ef9a86b30340a"
+    },
+    {
+      "crop_id": "F19-R02C01",
+      "source_xywh": [
+        1400,
+        2230,
+        1400,
+        1400
+      ],
+      "sha256": "7d0d039e3c050cdd5d10fec81ad4fceba6d3505cd1132d9b7e3d65be522079fc"
+    },
+    {
+      "crop_id": "F19-R02C02",
+      "source_xywh": [
+        2600,
+        2230,
+        1400,
+        1400
+      ],
+      "sha256": "3c96afa79cc4ceb2199b52c46c3aa43cbed00eba1f2189f73bb008f1983640bc"
+    },
+    {
+      "crop_id": "F19-R02C03",
+      "source_xywh": [
+        3800,
+        2230,
+        1400,
+        1400
+      ],
+      "sha256": "b6767b7855f609b3633ebf465000bccd53e7e1771f6f89f5cf7b0dff441fb00d"
+    },
+    {
+      "crop_id": "F19-R02C04",
+      "source_xywh": [
+        5000,
+        2230,
+        1400,
+        1400
+      ],
+      "sha256": "3b08017a2c2e1467d3cab60642af4a17f2ca20cdc9c35788fb74c5775710ba24"
+    },
+    {
+      "crop_id": "F19-R02C05",
+      "source_xywh": [
+        6200,
+        2230,
+        1400,
+        1400
+      ],
+      "sha256": "b603568086aa9542b5e4187d058922a3b22674bf0f60de6133c17e69545f0667"
+    },
+    {
+      "crop_id": "F19-R02C06",
+      "source_xywh": [
+        7400,
+        2230,
+        1400,
+        1400
+      ],
+      "sha256": "9291bae7a19f782a8c2e9041a1d4b4daec71ebd07b38af3c55cae8e9394e3c70"
+    },
+    {
+      "crop_id": "F19-R02C07",
+      "source_xywh": [
+        8600,
+        2230,
+        1170,
+        1400
+      ],
+      "sha256": "78d7c172bfabff85086070a328197d8804b3c12aff6b24e0955bcd71e415cc4b"
+    },
+    {
+      "crop_id": "F19-R03C01",
+      "source_xywh": [
+        1400,
+        3430,
+        1400,
+        1400
+      ],
+      "sha256": "780a8967eea0948fd6777ff90520b8dc81c617635ecaf1a24b8bc874089052ce"
+    },
+    {
+      "crop_id": "F19-R03C02",
+      "source_xywh": [
+        2600,
+        3430,
+        1400,
+        1400
+      ],
+      "sha256": "56c4a0f9f9b0a3a0ade615400b1aeb4a5a5532b63eb08545ca5cd6789021f8ba"
+    },
+    {
+      "crop_id": "F19-R03C03",
+      "source_xywh": [
+        3800,
+        3430,
+        1400,
+        1400
+      ],
+      "sha256": "01e53834cca4164e7de3c255ab2bbb3cc16e7035f0f74d80fe7d8fcf98e1be90"
+    },
+    {
+      "crop_id": "F19-R03C04",
+      "source_xywh": [
+        5000,
+        3430,
+        1400,
+        1400
+      ],
+      "sha256": "4851e05dab0eea88afca59c055f358b29fb090e3d013892872d1ba164109b35e"
+    },
+    {
+      "crop_id": "F19-R03C05",
+      "source_xywh": [
+        6200,
+        3430,
+        1400,
+        1400
+      ],
+      "sha256": "cfc0b38900e8d988ff827cfe248b0511e7c17e8d74e79036c0b7a7709902c273"
+    },
+    {
+      "crop_id": "F19-R03C06",
+      "source_xywh": [
+        7400,
+        3430,
+        1400,
+        1400
+      ],
+      "sha256": "784a8046165fe8ac0a5f2b7366d547d92777d82fbbf8e61fb9c6d442bceec3c9"
+    },
+    {
+      "crop_id": "F19-R03C07",
+      "source_xywh": [
+        8600,
+        3430,
+        1170,
+        1400
+      ],
+      "sha256": "4a974de3f1cd4a3f1dd8337bbc64e009c1ad51d030fcbd5084e3c1c6c57a70c4"
+    },
+    {
+      "crop_id": "F19-R04C01",
+      "source_xywh": [
+        1400,
+        4630,
+        1400,
+        1400
+      ],
+      "sha256": "adc744fed7727d32e545a8fc4cd543340c248d2089858f7694e990ee97036562"
+    },
+    {
+      "crop_id": "F19-R04C02",
+      "source_xywh": [
+        2600,
+        4630,
+        1400,
+        1400
+      ],
+      "sha256": "5d4019cacfe7a71a91d86cf34b30e88414ebc13572d7fe1d9dfa27af5819c967"
+    },
+    {
+      "crop_id": "F19-R04C03",
+      "source_xywh": [
+        3800,
+        4630,
+        1400,
+        1400
+      ],
+      "sha256": "f652005b46879e239e2d93e7d3d3ff6c95bc7ebed6b770bf5f625b4d74b16c7c"
+    },
+    {
+      "crop_id": "F19-R04C04",
+      "source_xywh": [
+        5000,
+        4630,
+        1400,
+        1400
+      ],
+      "sha256": "be7cd08044aefa2ecbb7e538572c4522a1bbcfe80f29fad314eaad3d4b1350fd"
+    },
+    {
+      "crop_id": "F19-R04C05",
+      "source_xywh": [
+        6200,
+        4630,
+        1400,
+        1400
+      ],
+      "sha256": "b450793450858239c9e0740a3ed46481489069f778eb4995fb3f73bc62614bce"
+    },
+    {
+      "crop_id": "F19-R04C06",
+      "source_xywh": [
+        7400,
+        4630,
+        1400,
+        1400
+      ],
+      "sha256": "a788342ef48a5449d3d23ee8b37b5f44bc0c195c7c8d209f1786eac6555aadcb"
+    },
+    {
+      "crop_id": "F19-R04C07",
+      "source_xywh": [
+        8600,
+        4630,
+        1170,
+        1400
+      ],
+      "sha256": "cfed3c5edcf95f4533e525075b74c8e366e5de5a88087823266690871196b920"
+    },
+    {
+      "crop_id": "F19-R05C01",
+      "source_xywh": [
+        1400,
+        5830,
+        1400,
+        820
+      ],
+      "sha256": "e35aa81097b69ef0215b2fc82f2c0e6ba08971b2ce824df611a63766d932c38e"
+    },
+    {
+      "crop_id": "F19-R05C02",
+      "source_xywh": [
+        2600,
+        5830,
+        1400,
+        820
+      ],
+      "sha256": "e20fcd4f11be837ce7dc658f511e46d0c15ecb0fbb50cc010eabde12aa475143"
+    },
+    {
+      "crop_id": "F19-R05C03",
+      "source_xywh": [
+        3800,
+        5830,
+        1400,
+        820
+      ],
+      "sha256": "668f1188169072ea451f73d19020d54a2e586712cc48bc46e1be9b785b3475f3"
+    },
+    {
+      "crop_id": "F19-R05C04",
+      "source_xywh": [
+        5000,
+        5830,
+        1400,
+        820
+      ],
+      "sha256": "3b6f5add54de989d5585239108d0e84804831d572cd47537bddeb982ba3e33a3"
+    },
+    {
+      "crop_id": "F19-R05C05",
+      "source_xywh": [
+        6200,
+        5830,
+        1400,
+        820
+      ],
+      "sha256": "c0fcca385f663e8e13d3b83aabd9a822a0bd52b1de352c4888ec559676514555"
+    },
+    {
+      "crop_id": "F19-R05C06",
+      "source_xywh": [
+        7400,
+        5830,
+        1400,
+        820
+      ],
+      "sha256": "3146231eb1837bcd4dc02f0b2728ac50b53200447e689e2e2e6172814d0b0419"
+    },
+    {
+      "crop_id": "F19-R05C07",
+      "source_xywh": [
+        8600,
+        5830,
+        1170,
+        820
+      ],
+      "sha256": "3e09072446fa158d21031cab46e52b69a43c981418eebccbe8cc81fc27987288"
+    }
+  ]
+}

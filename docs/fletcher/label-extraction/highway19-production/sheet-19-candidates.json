@@ -1,0 +1,150 @@
+{
+  "sheet": 19,
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "status": "unreviewed-first-pass-candidates",
+  "sheet_finalized": false,
+  "warning": "Includes overlaps, omissions, misreadings and unreliable model boxes. Do not use for placement or as finalized labels.",
+  "crops": [
+    {
+      "crop_id": "F19-R01C01",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R01C02",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R01C03",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R01C04",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R01C05",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R01C06",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R01C07",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R02C01",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R02C02",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R02C03",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R02C04",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R02C05",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R02C06",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R02C07",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R03C01",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R03C02",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R03C03",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R03C04",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R03C05",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R03C06",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R03C07",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R04C01",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R04C02",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R04C03",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R04C04",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R04C05",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R04C06",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R04C07",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R05C01",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R05C02",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R05C03",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R05C04",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R05C05",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R05C06",
+      "status": "not-started"
+    },
+    {
+      "crop_id": "F19-R05C07",
+      "status": "not-started"
+    }
+  ],
+  "annotations": []
+}
