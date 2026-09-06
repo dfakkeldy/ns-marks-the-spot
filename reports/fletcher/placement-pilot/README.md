@@ -2,6 +2,8 @@
 
 **First pass completed September 6, 2026: 12 candidate areas, eight reviewed printed-symbol anchors, four unresolved mill groups, and provincial record candidates for all three mines. Zero confirmed historical site pins.**
 
+**Road-context correction (September 6):** the initial comparison loaded NSTDB Roads (layer 8) but omitted Highways (7) and Bridges (5). The corrected panels include both, with Highway 19 highlighted and labelled. Earlier missing/shifted through-road conclusions for the school, forge and church are withdrawn. The modern highway supports the historic coastal-road comparison; local offsets still do not distinguish actual realignment from map/warp error.
+
 Open [the illustrated review](review.html) for same-extent historical/modern comparisons, native source excerpts, and links to the modern map. [The evidence data](pilot.json) contains the source pixels, search areas, reference IDs and remaining questions. The [lettered mill board](images/mill-board.jpg) distinguishes the three southern annotations from the separate Rory Chisholm's Brook mill.
 
 This moves the selected annotations from transcription into geographic research. The areas are useful places to investigate; their centres are frozen-warp predictions, not independently measured site locations. The 133-entry transcription inventory remains unchanged, with null historical-site geometry throughout. No production layer, source control point, theme, or app behaviour changed.
@@ -10,8 +12,8 @@ This moves the selected annotations from transcription into geographic research.
 
 | Annotation | Source-symbol result | Geographic result |
 | --- | --- | --- |
-| 004 School | Supported mark | Road/stream corridor recognized; changed through-road alignment prevents direct modern junction substitution. |
-| 005 Forge | Supported mark | Two eastern tributaries and the coastal inlet constrain the locality; old road segment is absent from the reference. |
+| 004 School | Supported mark | Road/stream corridor recognized with Highway 19 restored; exact school-site/junction linkage unresolved. |
+| 005 Forge | Supported mark | Two eastern tributaries, coastal inlet and restored Highway 19 constrain the locality; the road is present. |
 | 008 Stage Stables | Supported mark | Inlet, tributary mouths and island sequence constrain the coastal corridor; building footprint unresolved. |
 | 015 R.C. Church | Supported mark | Locality constrained between two brooks. St. Andrew's is an institutional candidate; earlier church footprint unresolved. |
 | 021 Mill, Rory Chisholm's Brook | Unresolved group | Brook bend sequence and diagonal road crossing constrain the locality; no individual mill mark selected. |
@@ -36,7 +38,7 @@ The [parish-maintained history](https://standrewsparishjudique.weebly.com/) desc
 - **Red search centre:** the source mark or unresolved group's centre passed through the frozen TPS. The lettering centre is no longer used for any of the 12 final guides.
 - **Ochre box:** an operational search window, with a reviewer-selected half-width of 300–500 ground metres. It is not a site extent, statistical confidence interval, accuracy claim, or assurance that evidence cannot lie outside it.
 - **Purple records:** official provincial point geometries, with record number and feature ID. Multiple points with one MODB occurrence number do not become multiple mines. They have not been snapped to Fletcher or adopted as Fletcher pins.
-- **Modern context IDs:** the NSTDB features drawn in each extent, retained for reproducibility. This list is not a set of accepted individual control-point correspondences. Roads include driveways, tracks and trails; the simplified illustration does not classify them or imply access.
+- **Modern context IDs:** the NSTDB features drawn in each extent, retained for reproducibility. This list is not a set of accepted individual control-point correspondences. Roads include driveways, tracks and trails; the illustration distinguishes highway/bridge context but does not establish access. Highway 19 is identified from the provincial `RTE_NO=19` attribute, not inferred from geometry.
 
 The final [locality review](locality-review.json) records both supporting topology and contradictory/changed details. Corridor recognition relies on branch order, neighbouring bends, shoreline relationships and road approaches visible in these references. It is a qualitative coordinator judgment. This pilot supplies no fresh independent geographic accuracy score.
 
@@ -44,7 +46,7 @@ The final [locality review](locality-review.json) records both supporting topolo
 
 The source is Fletcher sheet 19, Rumsey `RUMSEY~8~1~2644~290012`, list 3997.021. Its native scan SHA-256 is `8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724`.
 
-The [existing Judique draft](../visual-expansion/README.md) is reused unchanged: 39 controls and eight separate diagnostic checks, with check rows excluded from fitting. Its previously reported check errors are 20–94 ground metres, median 68 m. Those checks were used in diagnosis and are not fresh blind validation or per-annotation uncertainty. The 5 projected-metre raster cells are not 5 m site accuracy. Source, warp, observation and NSTDB hashes are checked before rendering.
+The [existing Judique draft](../visual-expansion/README.md) is reused unchanged: 39 controls and eight separate diagnostic checks, with check rows excluded from fitting. Its previously reported check errors are 20–94 ground metres, median 68 m. Those checks were used in diagnosis and are not fresh blind validation or per-annotation uncertainty. The 5 projected-metre raster cells are not 5 m site accuracy. Source, warp, observation and NSTDB hashes are checked before rendering. [Supplemental road-context receipts](road-context-receipts.json) cover 156 highway features (95 Route 19) and 139 bridge features (10 Route 19) in the original envelope. They augment this pilot only; the frozen benchmark reference receipts and fitted draft remain unchanged.
 
 NSTDB input acquisition requested `outSR=4326`; geometry arrays are longitude then latitude. The mining services also returned EPSG:4326 geometry. Their stored latitude/longitude attribute fields differ slightly from returned geometry after service transformation; both are retained and clearly named, and only returned geometry is plotted. Product metadata versions and individual record extraction/version fields are kept distinct.
 
@@ -62,7 +64,7 @@ For this packet, the next useful work is site-specific historical corroboration:
 
 ## Rebuild and verification
 
-Requires Pillow and GDAL CLI. Large source/reference files remain outside Git. Example with locally held inputs:
+Requires Pillow and GDAL CLI. Large source/reference files remain outside Git. Supplemental highway/bridge files live beside the original references. To acquire a new supplemental snapshot, run `python3 reports/fletcher/placement-pilot/fetch_road_context.py --out /path/to/fletcher-matching-benchmark`; this records a new dated receipt and does not alter the original four reference files. Example rebuild with locally held inputs:
 
 ```sh
 python3 reports/fletcher/placement-pilot/build_review.py \
@@ -73,7 +75,7 @@ python3 reports/fletcher/placement-pilot/verify_review.py
 python3 -m unittest discover -s tools/fletcher/tests
 ```
 
-The verifier checks IDs, unchanged source wording and null inventory/site geometries, source bounds, search polygon validity, coordinate provenance and artifact hashes. When locally archived mining responses exist it checks their hashes and returned geometry; those raw inputs are optional for a fresh checkout. The builder separately checks the full native scan, frozen raster and modern reference hashes. These mechanical checks do not prove historical-site identity.
+The verifier requires the highway and bridge layers and Route 19 coverage in the coastal comparisons, then checks IDs, unchanged source wording and null inventory/site geometries, source bounds, search polygon validity, coordinate provenance and artifact hashes. When locally archived mining responses exist it checks their hashes and returned geometry; those raw inputs are optional for a fresh checkout. The builder separately checks the full native scan, frozen raster and modern reference hashes. These mechanical checks do not prove historical-site identity.
 
 The raw mining responses and enlarged coordinator audit crops are archived locally under `~/Downloads/fletcher-placement-pilot-20260906/`; repository mining data selects the fields needed for correspondence, without republishing unrelated site-condition or ownership attributes.
 

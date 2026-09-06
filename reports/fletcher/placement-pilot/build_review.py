@@ -41,6 +41,7 @@ def main():
     assert digest(args.raster) == receipt['artifacts'][0]['sha256']
     assert digest(observations) == receipt['observations_sha256']
     references = read(ROOT.parent / 'matching-benchmark/reference-receipts.json')
+    references += read(ROOT / 'road-context-receipts.json')
     vectors = {}
     for ref in references:
         file = args.references / (ref['name'] + '.geojson')
@@ -102,7 +103,8 @@ def main():
         def pixel(ll):
             a = merc(ll); return [(a[0]-west)/px, (north-a[1])/px]
         scene_ids = {}
-        for name, color, width in [('water-polygons','#cce4ee',1), ('water-lines','#277baf',2), ('roads','#6b5948',3), ('rail','#888888',1)]:
+        highway19_label_positions = []
+        for name, color, width in [('water-polygons','#cce4ee',1), ('water-lines','#277baf',2), ('roads','#6b5948',3), ('rail','#888888',1), ('highways','#ad5e25',5), ('bridges','#7b401d',4)]:
             scene_ids[name] = set()
             for f in vectors[name]:
                 geom = f['geometry']; typ = geom['type']; coords = geom['coordinates']
@@ -116,6 +118,11 @@ def main():
                             else:
                                 md.line(pts, fill=color, width=width)
                             scene_ids[name].add(f['properties']['OBJECTID'])
+                            if name == 'highways' and f['properties'].get('RTE_NO') == 19:
+                                highway19_label_positions += [q for q in pts if 50 < q[0] < 670 and 50 < q[1] < 750]
+        if highway19_label_positions:
+            hx,hy = min(highway19_label_positions, key=lambda q:(q[0]-400)**2+(q[1]-200)**2)
+            md.text((hx+9,hy-22), 'Highway 19', fill='#854318', font=font, stroke_width=2, stroke_fill='#f8f4e7')
         for draw in [md,hd]:
             draw.rectangle((400-half/px,400-half/px,400+half/px,400+half/px), outline='#aa620a', width=2)
             draw.line((390,400,410,400), fill='#bd1523', width=2)
@@ -135,7 +142,7 @@ def main():
         pair = Image.new('RGB',(1600,880),'white'); pair.paste(hist,(0,80)); pair.paste(modern,(800,80)); d = ImageDraw.Draw(pair)
         d.text((10,5),aid+' '+feature['source_text'].replace('\n',' / '),font=font,fill='black')
         d.text((10,30),'Historical draft / NSTDB, same extent. Red: search centre. Ochre: search window, not site extent.',font=font,fill='black')
-        d.text((10,55),'North up. Purple: separate provincial record. Grey: outside draft coverage. Roads include tracks/trails.',font=font,fill='black')
+        d.text((10,55),'North up. Rust: highways; brown: roads/bridges; grey: rail. Purple: provincial records. Grey fill: outside draft.',font=font,fill='black')
         pair.save(out / (aid+'-pair.jpg'), quality=88)
         raster_image.close(); png.unlink(); Path(str(png)+'.aux.xml').unlink(missing_ok=True)
         x,y = int(xy[0]-325), int(xy[1]-225)
@@ -152,7 +159,7 @@ def main():
     data = {'title':'Fletcher sheet 19 placement pilot','reviewed_at':'2026-09-06','source_sha256':receipt['source']['sha256'],'observations_sha256':digest(observations),'raster_sha256':digest(args.raster),'modern_references':references,'modern_crs':'EPSG:4326, longitude then latitude; acquisition requested outSR=4326. Display EPSG:3857.','transform':'Frozen GDAL TPS, 39 controls; all 8 check rows excluded. No fitting or control edits in this pilot.','precision_note':'Existing diagnostic checks: 20–94 ground m, median 68 m. They are not per-site accuracy or confidence limits. Search widths are reviewer-selected operational windows.','cases':cases}
     (ROOT/'pilot.json').write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n')
     esc = html.escape
-    content = ['<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Judique placement pilot</title><style>body{font:17px/1.55 system-ui;color:#28261e;background:#faf7ee;max-width:1500px;margin:auto;padding:24px}a{color:#754008}h1{font-family:Georgia;font-size:2.3rem}section{background:white;padding:24px;margin:25px 0;border-top:4px solid #ce8241}img{max-width:100%;height:auto}nav{display:flex;gap:14px;flex-wrap:wrap}.note{background:#f2dfbc;padding:16px}summary{cursor:pointer}small{display:block;color:#514d40}figure{margin:15px 0}@media(max-width:600px){body{padding:12px}section{padding:12px}}</style><h1>Judique: 12 annotations on modern geography</h1><p class="note"><b>First placement pass: candidate areas, zero confirmed historical site pins.</b> Compare the printed symbols, surrounding geography and separate provincial records. Search boxes are research windows, not mill boundaries or measured uncertainty. Every original inventory geometry remains null.</p><p>Four mill annotations, three mine annotations, a school, forge, stables, church and bridge. <a href="README.md">Method and results</a> · <a href="pilot.json">Full evidence data</a></p><nav>']
+    content = ['<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Judique placement pilot</title><style>body{font:17px/1.55 system-ui;color:#28261e;background:#faf7ee;max-width:1500px;margin:auto;padding:24px}a{color:#754008}h1{font-family:Georgia;font-size:2.3rem}section{background:white;padding:24px;margin:25px 0;border-top:4px solid #ce8241}img{max-width:100%;height:auto}nav{display:flex;gap:14px;flex-wrap:wrap}.note{background:#f2dfbc;padding:16px}summary{cursor:pointer}small{display:block;color:#514d40}figure{margin:15px 0}@media(max-width:600px){body{padding:12px}section{padding:12px}}</style><h1>Judique: 12 annotations on modern geography</h1><p class="note"><b>First placement pass: candidate areas, zero confirmed historical site pins.</b> Compare the printed symbols, surrounding geography and separate provincial records. Search boxes are research windows, not mill boundaries or measured uncertainty. Every original inventory geometry remains null.</p><p><b>Road context corrected September 6:</b> Highway 19 and the separate highway/bridge layers are now included. Earlier missing-road conclusions based on the incomplete road layer have been withdrawn.</p><p>Four mill annotations, three mine annotations, a school, forge, stables, church and bridge. <a href="README.md">Method and results</a> · <a href="pilot.json">Full evidence data</a></p><nav>']
     content += [f'<a href="#{c["annotation_id"]}">{esc(c["source_text"].replace(chr(10)," / "))} {c["annotation_id"][-3:]}</a>' for c in cases]
     content.append('</nav>')
     board = ROOT/'images/mill-board.jpg'

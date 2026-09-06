@@ -3,28 +3,28 @@
     "locality_status": "supported-corridor",
     "search_half_width_ground_m": 300,
     "evidence": "The school symbol lies south of a road junction, immediately east of a watercourse. The nearby western tributary junction and the downstream sequence of two eastern tributaries identify the corridor in the modern water network.",
-    "contradictions": "The through-road is now farther south; the frozen raster clips the northern context. The modern road junction is not an unchanged school-site anchor.",
+    "contradictions": "Highway 19 supplies the previously omitted north-south through-road context. The earlier statement that the through-road is now farther south was based on an incomplete road layer and is withdrawn. The northern draft is clipped; differences in the junction cannot alone prove realignment or locate the school.",
     "next": "Check a dated school record or historical aerial image for the building site within this corridor."
   },
   "005": {
     "locality_status": "supported-corridor",
     "search_half_width_ground_m": 300,
-    "evidence": "The forge mark lies east of the old road, between two eastern tributaries entering the north-south watercourse above the coastal inlet. That tributary order and inlet relationship remain recognizable in NSTDB.",
-    "contradictions": "The old north-south road segment is absent from the modern road reference, and the modern mapped inlet extends farther inland. Neither road snapping nor present shoreline snapping is justified.",
+    "evidence": "The forge mark lies east of the old road, between two eastern tributaries entering the north-south watercourse above the coastal inlet. That tributary order and inlet relationship remain recognizable in NSTDB. Highway 19 now appears along the corresponding north-south road corridor.",
+    "contradictions": "The earlier claim that the road segment was absent is withdrawn: the separate Highways layer was missing. Highway 19 is present in the corrected reference. Inlet detail differs; exact forge placement still needs site-specific evidence.",
     "next": "Seek an old aerial or forge-specific record; use the two tributaries to constrain the search."
   },
   "008": {
     "locality_status": "supported-corridor",
     "search_half_width_ground_m": 300,
-    "evidence": "The stables mark lies on the east side of the elongated inlet, west of the coastal road and between two eastern tributaries. The inlet, southern tributary mouth and offshore island sequence corroborate the locality.",
-    "contradictions": "Shoreline detail and road shape differ. The map does not establish a surviving stable building or its footprint.",
+    "evidence": "The stables mark lies on the east side of the elongated inlet, west of the coastal road and between two eastern tributaries. The inlet, southern tributary mouth and offshore island sequence corroborate the locality. Highway 19, now included and labelled, is the essential through-road reference along this shore.",
+    "contradictions": "The initial vector comparison omitted Highway 19. With the highway restored, the through-road corridor is recognizable; local curve and shoreline differences do not by themselves establish a change or identify a stable footprint.",
     "next": "Compare the road corridor with a dated aerial or stage-route record; keep Shop and P.O. associations separate."
   },
   "015": {
     "locality_status": "supported-corridor",
     "search_half_width_ground_m": 350,
-    "evidence": "The church symbol lies south of a small coastal brook and north of Rory Chisholm's Brook. The two brooks, coastline and southern inlet constrain the district. The parish's own history provides a candidate institutional identity, St. Andrew's.",
-    "contradictions": "Modern through-road alignment is farther west. The parish history reports two wooden churches before the present stone church, but does not establish identical footprints. Do not substitute the current church address for this symbol.",
+    "evidence": "The church symbol lies south of a small coastal brook and north of Rory Chisholm's Brook. The two brooks, coastline and southern inlet constrain the district. The parish's own history provides a candidate institutional identity, St. Andrew's. Restored Highway 19 follows the same broad north-south corridor beside the church search area.",
+    "contradictions": "The previous claim that the modern through-road lies farther west is withdrawn: Highway 19 was omitted from the reference. The parish history reports two wooden churches before the present stone church but does not establish identical footprints.",
     "next": "Find a site plan, dated photograph or parish account explicitly locating the earlier church.",
     "external_sources": [
       {
@@ -88,7 +88,7 @@
     "locality_status": "supported-corridor",
     "search_half_width_ground_m": 350,
     "evidence": "The Red Bridge annotation is associated with the road crossing of the main river, west of the railway crossing. The river's northeast-to-southwest reach and upstream branch junction constrain the crossing corridor.",
-    "contradictions": "The label centre is east of the crossing. Road and railway relationships have changed, so the modern nearest road crossing cannot be treated as the named bridge without corroboration.",
+    "contradictions": "The label centre is east of the printed crossing. The corrected reference includes the separate highway and bridge layers. Present crossings still need a dated bridge or road record before one can be identified as Red Bridge; the earlier assertion of changed road/rail relationships is not established by the incomplete comparison.",
     "next": "Check dated bridge or road plans to establish the former crossing and the name Red Bridge."
   }
 }
