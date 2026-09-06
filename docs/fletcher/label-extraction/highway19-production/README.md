@@ -21,13 +21,25 @@ existing `deepseek-cc-switch/deepseek-v4-flash-vision-exp` connection. A session
 export confirms that provider and model. Actual billed cost is unavailable;
 OpenCode's custom-provider zero cost is not evidence of free use.
 
-**No sheet is finalized yet.** Candidate files deliberately retain duplicates,
+**No sheet is finalized yet.** All 145 first-pass crops have finished. After seven
+serialization repairs that required no model calls, 131 responses pass structural
+validation, containing **1,156 candidate records**; 14 responses still need repair
+or source inspection. Candidate files deliberately retain duplicates,
 tentative readings and unreliable model-estimated lettering boxes. Their
-geometry is null. The first ten source-reviewed labels are saved separately in
+geometry is null. **52 source-reviewed annotations** are saved separately in
 `sheet-22-reviewed.json`, with corrected boxes and explicit edge-review notes.
+The original ten IDs are preserved. The whole northern row and the first western
+crop of the second row have been visually reviewed (8 of 35 sheet 22 crops), with
+one tentative school-name typography reading and geological fault-label scope
+holdbacks still explicit. Seven of the 52 records are printed spot-height labels;
+they do not establish modern elevations or a vertical datum.
 The first source checks found compass text incorrectly included, a clipped
 "Rock dries" misread as "Rocky", and substantially displaced model boxes.
-The native crops remain the authoritative evidence for all repairs.
+The native crops remain the authoritative evidence for all repairs. Three new
+independent DeepSeek detail passes and rotated native excerpts helped correct
+McMaster's Mill, Askilton, the school name, and General Line Road. The coordinator
+rejected the model's incorrect grouping of General with Arm or Ice grooves.
+See `north-row-review-evidence.json` for detail-crop provenance and adjudication.
 
 ## Continuing the queue
 
@@ -60,7 +72,7 @@ through [OpenCode model options](https://opencode.ai/docs/models/). The change
 does not certify transcription quality. `--repair-incomplete` allows one recovery
 attempt for a **blank, length-truncated** response, archiving the original under
 `previous-runs/`. It never reruns a crop that already returned text or a valid
-answer. Four field-name failures were recovered without any model calls; see
+answer. Seven field-name or serialization failures were recovered without model calls; see
 `format-repairs.json`. Unresolved descriptions without coordinates remain
 explicitly unlocated instead of receiving invented boxes.
 
@@ -105,8 +117,11 @@ not every unchanged check. Pause that continuation when all four sheets finish.
    `clear` classification and a successful subprocess do not establish source
    accuracy or completeness.
 
-Use `F22-HAW-011` onward for additional sheet 22 reviewed annotations. Do not
-renumber the first ten. Keep private residence observations out of public data.
+Use `F22-HAW-053` onward for additional sheet 22 reviewed annotations. Do not
+renumber existing IDs. Next inspect R02C02 eastward, reconcile overlap with the
+reviewed row, and recover the truncated R03C05 output from new source close-ups.
+The first-pass queue has stopped normally; do not restart successful packets.
+Keep private residence observations out of public data.
 Publish incremental reviewed work to this task's PR against `nightly`; do not
 merge or deploy without separate authorization.
 

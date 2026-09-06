@@ -1,5 +1,4 @@
 {
-  "sheet": 22,
   "repairs": [
     {
       "crop_id": "F22-R01C01",
@@ -32,6 +31,30 @@
         "Preserved an unresolved description without invented coordinates in unlocated_unresolved_notes"
       ],
       "raw_final_sha256": "7ba5e68298fa735019d8f18a77877b0b3d153e5712f5461ad5e2fc92a8c01be7",
+      "transcription_reviewed": false
+    },
+    {
+      "crop_id": "F19-R01C01",
+      "actions": [
+        "Remove invalid JSON escape before an apostrophe in inspection_note"
+      ],
+      "raw_final_sha256": "a351bbafebd1e51cae11eea4b103e810256975fe00c08487087cb04ab7579439",
+      "transcription_reviewed": false
+    },
+    {
+      "crop_id": "F19-R03C01",
+      "actions": [
+        "Extract the final fenced JSON object after prose"
+      ],
+      "raw_final_sha256": "d1e7b5d78a38c4ac89d6e281c6a2771d890463355cda0701b524e2422e85fc57",
+      "transcription_reviewed": false
+    },
+    {
+      "crop_id": "F16-R05C04",
+      "actions": [
+        "Remove trailing array comma"
+      ],
+      "raw_final_sha256": "c1b530a528df74e9bcabf274c1ed7e66830d405c924869fd4fc46521b69b7a63",
       "transcription_reviewed": false
     }
   ],

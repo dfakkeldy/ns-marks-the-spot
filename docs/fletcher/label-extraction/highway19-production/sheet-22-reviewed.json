@@ -8,7 +8,7 @@
   "source_manifest": "sheet-22-manifest.json",
   "sheet_finalized": false,
   "status": "partial-source-reviewed-transcription",
-  "review_method": "Coordinator visually inspected native 1400px source crops and corrected lettering boxes. No geographic placement. Crops with edge fragments remain incomplete until overlap reconciliation.",
+  "review_method": "Coordinator whole-crop inspection plus original-pixel lettering-box checks; three independent DeepSeek close-ups and rotated source excerpts support adjudication. Geological structure words remain separate scope holdbacks. No geographic placement.",
   "annotations": [
     {
       "id": "F22-HAW-001",
@@ -205,23 +205,1016 @@
       "review_status": "source-reviewed",
       "geometry": null,
       "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-011",
+      "source_text": "Queensville Brook",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C04",
+      "raw_candidate_ids": [
+        "F22-R01C04-01",
+        "F22-R01C04-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5408,
+          1253,
+          304,
+          145
+        ],
+        [
+          6089,
+          1569,
+          143,
+          112
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Multipart stream name, separate from Queensville settlement."
+    },
+    {
+      "id": "F22-HAW-012",
+      "source_text": "McMaster Brook",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C04",
+      "raw_candidate_ids": [
+        "F22-R01C04-02",
+        "F22-R01C05-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6130,
+          1008,
+          166,
+          147
+        ],
+        [
+          6523,
+          1159,
+          121,
+          93
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-013",
+      "source_text": "Northwest Arm",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C04",
+      "raw_candidate_ids": [
+        "F22-R01C04-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5605,
+          1723,
+          189,
+          258
+        ],
+        [
+          5858,
+          2113,
+          80,
+          85
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Arm belongs to Northwest; it does not complete the adjacent General road label."
+    },
+    {
+      "id": "F22-HAW-014",
+      "source_text": "General Line Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C04",
+      "raw_candidate_ids": [
+        "F22-R01C04-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5621,
+          2061,
+          149,
+          106
+        ],
+        [
+          5818,
+          2238,
+          73,
+          58
+        ],
+        [
+          6009,
+          2430,
+          88,
+          89
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Line confirmed in rotated native context; DeepSeek incorrectly merged General with Arm / Ice grooves."
+    },
+    {
+      "id": "F22-HAW-015",
+      "source_text": "Old Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C04",
+      "raw_candidate_ids": [
+        "F22-R01C04-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6129,
+          1891,
+          69,
+          77
+        ],
+        [
+          6206,
+          1793,
+          99,
+          95
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-016",
+      "source_text": "Ice grooves",
+      "kind": "landscape-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C04",
+      "raw_candidate_ids": [
+        "F22-R01C04-09"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5651,
+          2179,
+          162,
+          45
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-017",
+      "source_text": "685 F.T.",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-DETAIL-GENERAL",
+      "raw_candidate_ids": [
+        "F22-R01C04-10"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          5542,
+          2249,
+          125,
+          42
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed historical height only; no modern elevation or vertical datum inferred."
+    },
+    {
+      "id": "F22-HAW-018",
+      "source_text": "Lamey Brook",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "crop_id": "F22-DETAIL-GENERAL",
+      "raw_candidate_ids": [
+        "F22-R01C04-08"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6130,
+          2072,
+          174,
+          159
+        ],
+        [
+          6401,
+          2282,
+          160,
+          80
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Southern printed occurrence; distinct from the other Lamey Brook lettering near the northern sheet edge."
+    },
+    {
+      "id": "F22-HAW-019",
+      "source_text": "Victoria Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C05",
+      "raw_candidate_ids": [
+        "F22-R01C05-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6837,
+          1113,
+          98,
+          155
+        ],
+        [
+          6927,
+          1000,
+          86,
+          107
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-020",
+      "source_text": "Lamey Brook",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C05",
+      "raw_candidate_ids": [
+        "F22-R01C05-03",
+        "F22-R01C05-05",
+        "F22-R01C06-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7278,
+          1127,
+          136,
+          50
+        ],
+        [
+          7560,
+          1028,
+          110,
+          83
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Northern printed occurrence; adjoining C06 Brook is an overlap duplicate."
+    },
+    {
+      "id": "F22-HAW-021",
+      "source_text": "Coal said to have\nbeen found here",
+      "kind": "mineral-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C05",
+      "raw_candidate_ids": [
+        "F22-R01C05-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7348,
+          1180,
+          262,
+          58
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Preserve the original reported/uncertain wording; not proof of a mine or deposit."
+    },
+    {
+      "id": "F22-HAW-022",
+      "source_text": "Queensville",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C05",
+      "raw_candidate_ids": [
+        "F22-R01C05-07",
+        "F22-R01C04-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6367,
+          1547,
+          404,
+          70
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-023",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C05",
+      "raw_candidate_ids": [
+        "F22-R01C05-08"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6865,
+          1410,
+          62,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-024",
+      "source_text": "Spring",
+      "kind": "hydrology-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C05",
+      "raw_candidate_ids": [
+        "F22-R01C05-09"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7024,
+          1354,
+          96,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-025",
+      "source_text": "McMaster's Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C05",
+      "raw_candidate_ids": [
+        "F22-R01C05-10",
+        "F22-R01C05-13"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7052,
+          1441,
+          218,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Native close-up confirms McMaster, not first-pass McMinisters. No additional standalone Mill label exists here."
+    },
+    {
+      "id": "F22-HAW-026",
+      "source_text": "McInnesHill\nSchool",
+      "kind": "school",
+      "reading_status": "tentative",
+      "crop_id": "F22-R01C05",
+      "raw_candidate_ids": [
+        "F22-R01C05-11"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6400,
+          1775,
+          165,
+          118
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Rotated source excerpt and independent close-up support McInnesHill; word division/capitalization remains tentative. First-pass McIlreath's rejected."
+    },
+    {
+      "id": "F22-HAW-027",
+      "source_text": "Crandall Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C05",
+      "raw_candidate_ids": [
+        "F22-R01C05-12"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7084,
+          1795,
+          41,
+          149
+        ],
+        [
+          7143,
+          2077,
+          45,
+          89
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-028",
+      "source_text": "Church",
+      "kind": "church",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C06",
+      "raw_candidate_ids": [
+        "F22-R01C06-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8375,
+          1045,
+          100,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-029",
+      "source_text": "Askilton",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C06",
+      "raw_candidate_ids": [
+        "F22-R01C06-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8343,
+          1726,
+          235,
+          61
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Native crop and independent DeepSeek detail agree; first-pass Ashillton rejected. No modern name substitution."
+    },
+    {
+      "id": "F22-HAW-030",
+      "source_text": "Long Stretch Bridge",
+      "kind": "bridge",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C06",
+      "raw_candidate_ids": [
+        "F22-R01C06-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8274,
+          1916,
+          276,
+          44
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-031",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C06",
+      "raw_candidate_ids": [
+        "F22-R01C06-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8574,
+          1823,
+          80,
+          27
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-032",
+      "source_text": "R.C. Ch.",
+      "kind": "church",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C06",
+      "raw_candidate_ids": [
+        "F22-R01C06-08"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8590,
+          1855,
+          94,
+          30
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-033",
+      "source_text": "Falls",
+      "kind": "falls-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C07",
+      "raw_candidate_ids": [
+        "F22-R01C07-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9428,
+          1082,
+          87,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-034",
+      "source_text": "Fall",
+      "kind": "falls-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C07",
+      "raw_candidate_ids": [
+        "F22-R01C07-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9411,
+          1122,
+          66,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-035",
+      "source_text": "Falls 35'",
+      "kind": "falls-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-R01C07",
+      "raw_candidate_ids": [
+        "F22-R01C07-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9469,
+          1395,
+          155,
+          42
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-036",
+      "source_text": "Rock dries\nat ½ tide",
+      "kind": "hydrology-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-02",
+        "F22-R01C01-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1962,
+          2261,
+          176,
+          82
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Complete overlapping crop corrects earlier clipped Rocky. Historical tidal description only."
+    },
+    {
+      "id": "F22-HAW-037",
+      "source_text": "Cape Jack",
+      "kind": "cape",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1882,
+          2594,
+          214,
+          49
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-038",
+      "source_text": "45FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2102,
+          2645,
+          75,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-039",
+      "source_text": "Cape Pond",
+      "kind": "waterbody",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2122,
+          2804,
+          94,
+          49
+        ],
+        [
+          2276,
+          2804,
+          93,
+          47
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-040",
+      "source_text": "40FT.",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2088,
+          2946,
+          86,
+          29
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-041",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2227,
+          2951,
+          80,
+          29
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-042",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-08"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2383,
+          2919,
+          59,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-043",
+      "source_text": "60FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-09"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2470,
+          2908,
+          89,
+          31
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-044",
+      "source_text": "Cape Jack",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-10"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2275,
+          2971,
+          237,
+          46
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Distinct printed settlement annotation south of Cape Pond, not the cape label."
+    },
+    {
+      "id": "F22-HAW-045",
+      "source_text": "R.C. Ch.",
+      "kind": "church",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-11"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2664,
+          2938,
+          114,
+          44
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-046",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-12"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2816,
+          2930,
+          82,
+          38
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-047",
+      "source_text": "Lt F. Red 107 ft.",
+      "kind": "light-annotation",
+      "reading_status": "clear",
+      "crop_id": "F22-CAPE-JACK-EDGE",
+      "raw_candidate_ids": [
+        "F22-R02C01-13"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2828,
+          3047,
+          193,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Edge context confirms printed light annotation, not the first-pass Lt.Ho; abbreviations retained without expansion."
+    },
+    {
+      "id": "F22-HAW-048",
+      "source_text": "Cape\nBlue",
+      "kind": "cape",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-14"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1568,
+          3068,
+          113,
+          80
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-049",
+      "source_text": "50FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-15"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          1802,
+          3160,
+          94,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-050",
+      "source_text": "Beach\nPond",
+      "kind": "waterbody",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-16"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2025,
+          3063,
+          107,
+          64
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-051",
+      "source_text": "90FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-17"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2465,
+          3145,
+          99,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
+    },
+    {
+      "id": "F22-HAW-052",
+      "source_text": "60FT",
+      "kind": "spot-height-label",
+      "reading_status": "clear",
+      "crop_id": "F22-R02C01",
+      "raw_candidate_ids": [
+        "F22-R02C01-18"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          2137,
+          3350,
+          100,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred"
     }
   ],
   "crop_reviews": [
     {
       "crop_id": "F22-R01C01",
-      "status": "partial-edge-review",
-      "notes": "Jack Shoal confirmed; raw Rocky is a misreading of bottom-clipped Rock dries. Complete description must be read from R02C01 before accepting. Raw unresolved marks at right are compass ornament, not label text."
+      "status": "source-reviewed",
+      "notes": "Jack Shoal confirmed; clipped Rock dries resolved by overlapping R02C01 and retained as F22-HAW-036. Right-edge marks are compass ornament."
     },
     {
       "crop_id": "F22-R01C02",
-      "status": "reviewed-with-edge-link",
-      "notes": "Variation and Magnetic Meridian are compass/cartographic apparatus, excluded. Right-edge F is the first letter of Flat Point, fully read in R01C03; not a standalone annotation."
+      "status": "source-reviewed",
+      "notes": "Compass apparatus excluded. Edge F fragment belongs to Flat Point, F22-HAW-006; no standalone annotation."
     },
     {
       "crop_id": "F22-R01C03",
       "status": "source-reviewed",
       "notes": "All nine readings checked against complete native crop; model boxes replaced by visually reviewed source lettering rectangles. Mc uses ASCII c for printed superscript."
+    },
+    {
+      "crop_id": "F22-R01C04",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Multipart names resolved across C05 and the new GENERAL detail. General Line Road, Northwest Arm and Ice grooves are separate annotations. Printed spot height retained; unit codes, red report references and dip numbers excluded. Left-edge School fragment links to F22-HAW-008 in C03."
+    },
+    {
+      "crop_id": "F22-R01C05",
+      "status": "source-reviewed-with-reading-uncertainty",
+      "notes": "Whole crop, school/mill detail and rotated school excerpt checked. McInnesHill typography remains tentative. Geological fault lettering retained separately in scope_holdbacks; not silently discarded."
+    },
+    {
+      "crop_id": "F22-R01C06",
+      "status": "source-reviewed",
+      "notes": "Whole striped crop and independent detail inspected. Askilton corrected; five full annotations and edge duplicates reconciled. Geological fault lettering retained in scope_holdbacks."
+    },
+    {
+      "crop_id": "F22-R01C07",
+      "status": "source-reviewed",
+      "notes": "Whole crop inspected; three distinct falls annotations. Dip numbers, unit codes and red report text excluded."
+    },
+    {
+      "crop_id": "F22-R02C01",
+      "status": "source-reviewed",
+      "notes": "Whole native crop and eastern light context checked. Jack Shoal links to existing F22-HAW-010. Heights with printed FT retained separately from dip numbers. The eastern School box is completed using edge context."
     }
   ],
   "model_audit": {
@@ -229,5 +1222,43 @@
     "recorded_provider": "deepseek-cc-switch",
     "recorded_model": "deepseek-v4-flash-vision-exp",
     "evidence": "Local OpenCode session export for F22-R01C01; raw sessions retained outside repository."
-  }
+  },
+  "scope_holdbacks": [
+    {
+      "crop_id": "F22-R01C05",
+      "raw_candidate_ids": [
+        "F22-R01C05-04"
+      ],
+      "source_text": "FAULT",
+      "reason": "Geological structure overlay; retained here pending a consistent sheet-wide treatment separate from historical feature labels."
+    },
+    {
+      "crop_id": "F22-R01C06",
+      "raw_candidate_ids": [
+        "F22-R01C06-03",
+        "F22-R01C06-05"
+      ],
+      "source_text": "FAULT",
+      "reason": "Two geological structure overlay occurrences; retained, not geographic placement candidates."
+    }
+  ],
+  "unresolved_readings": [
+    {
+      "id": "F22-HAW-026",
+      "issue": "McInnesHill capitalization/word division remains tentative; native rotated excerpt retained locally."
+    }
+  ],
+  "next_annotation_id": "F22-HAW-053",
+  "supplementary_source_windows": [
+    {
+      "crop_id": "F22-CAPE-JACK-EDGE",
+      "source_xywh": [
+        2730,
+        2840,
+        800,
+        500
+      ],
+      "purpose": "Complete the clipped eastern light annotation; this context is not a full review of C02."
+    }
+  ]
 }

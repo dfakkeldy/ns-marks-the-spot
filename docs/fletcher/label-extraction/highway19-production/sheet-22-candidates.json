@@ -59,7 +59,21 @@
     },
     {
       "crop_id": "F22-R01C05",
-      "status": "started-no-receipt"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [
+        {
+          "box_xywh": [
+            1095,
+            335,
+            55,
+            25
+          ],
+          "note": "faded word 'been' in coal annotation; read tentatively as 'been'"
+        }
+      ],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "Included printed streams, roads, settlement, post office, spring, mills, school, fault and descriptive coal annotation. Excluded red report/page references, geological unit codes (AB, F, G1, G in circle), dip/strike numbers, graticule 61°20' and unlabelled symbols. Several surname portions (McMinisters/McMillisters, McIlreath's) and the faded 'been' carry tentative status pending close-up review."
     },
     {
       "crop_id": "F22-R01C06",
@@ -79,7 +93,11 @@
     },
     {
       "crop_id": "F22-R02C01",
-      "status": "started-no-receipt"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "Text generally clear and upright, except 'Lt.Ho' on the right margin which is rotated 90 degrees clockwise and read as tentative. Red report/page references ('Report for 1879-80', 'Page 61 F'), geological unit codes (G1, circled F), and dip/strike numbers/arrows were excluded per instructions."
     },
     {
       "crop_id": "F22-R02C02",
@@ -101,16 +119,21 @@
     },
     {
       "crop_id": "F22-R02C04",
-      "status": "started-no-receipt"
+      "status": "needs-repair",
+      "validation_error": "Box outside assigned crop"
     },
     {
       "crop_id": "F22-R02C05",
-      "status": "started-no-receipt"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "All visible black lettering captured; partial items are clipped at crop edges. Red report references, geological unit letters, dip/strike numbers and arrows excluded per instructions. Minor lettering at left edge (Murray, Mill) and top edge (Brook, Road) is fragmentary."
     },
     {
       "crop_id": "F22-R02C06",
       "status": "needs-repair",
-      "validation_error": "Expecting value: line 1 column 1 (char 0)"
+      "validation_error": "Box outside assigned crop"
     },
     {
       "crop_id": "F22-R02C07",
@@ -130,18 +153,34 @@
     },
     {
       "crop_id": "F22-R03C02",
-      "status": "needs-repair",
-      "validation_error": "Expecting value: line 1 column 1 (char 0)"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [
+        {
+          "box_xywh": [
+            180,
+            620,
+            180,
+            150
+          ],
+          "note": "Second large lettering character ambiguous between G and R."
+        }
+      ],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "Red 'Report for 1879-80 Page 45 F.' text and geological unit codes (F, G1, etc.) excluded per instructions; dip/strike numbers (27°, 22°, 42°, 80°, 60°, 50°, 32°) excluded. Standalone numbers '69' and '70' near the township boundary appear but their meaning is unclear and they were left out of annotations. 'have Bouché' label is clipped at the left edge."
     },
     {
       "crop_id": "F22-R03C03",
       "status": "needs-repair",
-      "validation_error": "Expecting value: line 1 column 1 (char 0)"
+      "validation_error": "Box outside assigned crop"
     },
     {
       "crop_id": "F22-R03C04",
-      "status": "needs-repair",
-      "validation_error": "Expecting value: line 1 column 1 (char 0)"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "Red geological/report references, dip/strike symbols, and graticule excluded per instructions. Edge labels are clipped and flagged as partial."
     },
     {
       "crop_id": "F22-R03C05",
@@ -150,18 +189,24 @@
     },
     {
       "crop_id": "F22-R03C06",
-      "status": "needs-repair",
-      "validation_error": "Expecting value: line 1 column 1 (char 0)"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "Red report/page references ('rt for 1879-80', 'Page 72 F.', 'Note 1', 'G1'), circled geological unit letters ('F'), and dip/strike numbers (15, 20, 30, 33, 45, 50, 64 degrees) were excluded per scope. Surveyor signature along railway read as tentative. Road label at bottom-left is clipped; only 'Kin' of a place name is visible."
     },
     {
       "crop_id": "F22-R03C07",
-      "status": "needs-repair",
-      "validation_error": "Expecting value: line 1 column 1 (char 0)"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "Excluded red report/page references, geological unit codes (G2), dip/strike numbers/arrows, and graticule. 'Ferguson' near top-right is clipped at the margin; 'OUNTY' (COUNTY), 'RAILWAY', and 'Rapids' are clipped at sheet edges and marked partial."
     },
     {
       "crop_id": "F22-R04C01",
       "status": "needs-repair",
-      "validation_error": "Expecting value: line 1 column 1 (char 0)"
+      "validation_error": "Box outside assigned crop"
     },
     {
       "crop_id": "F22-R04C02",
@@ -279,31 +324,87 @@
     },
     {
       "crop_id": "F22-R05C01",
-      "status": "not-started"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "Excluded geological unit letters (G, U, Y), red F. report reference, dip/strike numbers (45°, 55°, 60°, 75°, 66°, 50°, 80°), and graticule (61°35', 35°) as out of scope. All in-scope lettering read clearly."
     },
     {
       "crop_id": "F22-R05C02",
-      "status": "not-started"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "All visible in-scope text transcribed. The large letters S, B, O likely form part of a larger word spanning multiple sheets and are flagged as partial. Dip/strike numbers and geological unit F excluded per instructions."
     },
     {
       "crop_id": "F22-R05C03",
-      "status": "not-started"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "The visible large lettering 'R O U' is the only in-scope text. Dip/strike number/arrow '45°', red report references 'Report for 1879-80. Pages 45 and 113 F.', and the marginal '61' page number are excluded per instructions."
     },
     {
       "crop_id": "F22-R05C04",
-      "status": "not-started"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "Red report/page references, geological unit codes (G, H, F), dip/strike numbers (45°, 40°, 65°), graticule annotations (61°25', Longitude West from Greenwich), and margin labels were excluded as out of scope. 'Madd'/'Poin' and 'Roger' are clipped at the right edge and are marked partial. Labels rotated along streams and harbour are enclosed by the full extent of the rotated lettering."
     },
     {
       "crop_id": "F22-R05C05",
-      "status": "not-started"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [
+        {
+          "box_xywh": [
+            108,
+            450,
+            145,
+            25
+          ],
+          "note": "Roger Point left edge clipped, reading tentative"
+        },
+        {
+          "box_xywh": [
+            1115,
+            115,
+            185,
+            55
+          ],
+          "note": "Landrie Lake top edge clipped, lettering partial"
+        },
+        {
+          "box_xywh": [
+            1255,
+            80,
+            85,
+            60
+          ],
+          "note": "Spring top edge clipped, lettering partial"
+        }
+      ],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "Excluded geological unit codes (F, G1), dip/strike numbers and arrows (32,35,36,37,43,47,58,65), red report/page references, and graticule labels (61°20', Greenwich). Red '1879-80' date retained as tentative. No unreadable standalone lettering beyond edge clipping."
     },
     {
       "crop_id": "F22-R05C06",
-      "status": "not-started"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "Reviewed whole crop including corners and rotated text. Excluded dip/strike numbers and arrows, geological unit codes (F, G1, G2), and red report/page references. Left- and right-edge labels are clipped, captured as partial."
     },
     {
       "crop_id": "F22-R05C07",
-      "status": "not-started"
+      "status": "extracted-unreviewed",
+      "validation_error": null,
+      "unresolved_regions": [],
+      "unlocated_unresolved_notes": [],
+      "inspection_note": "All visible in-scope lettering is legible. Red report/page references (Report for 1879-80., Page 69 F.), geological unit codes (F, G1, G2), the right-edge numeral '4', and the bottom marginal meridian notation were excluded per instructions. The top-left red 'F' is clipped but excluded as a geological code."
     }
   ],
   "annotations": [
@@ -1028,6 +1129,369 @@
       "box_status": "model-estimate-unverified"
     },
     {
+      "local_id": "F22-R01C05-01",
+      "source_text": "Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          210,
+          275,
+          120,
+          35
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6510,
+          1155,
+          120,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-02",
+      "source_text": "Victoria Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          445,
+          145,
+          105,
+          240
+        ]
+      ],
+      "note": "lettering rotated diagonally",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6745,
+          1025,
+          105,
+          240
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-03",
+      "source_text": "Lamey",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          912,
+          208,
+          42,
+          124
+        ]
+      ],
+      "note": "lettering vertical",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7212,
+          1088,
+          42,
+          124
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-04",
+      "source_text": "FAULT",
+      "kind": "fault",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          858,
+          182,
+          172,
+          44
+        ]
+      ],
+      "note": "geological unit chart G excluded",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7158,
+          1062,
+          172,
+          44
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-05",
+      "source_text": "Brook",
+      "kind": "stream",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          1280,
+          185,
+          120,
+          40
+        ]
+      ],
+      "note": "clipped at right edge",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7580,
+          1065,
+          120,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-06",
+      "source_text": "Coal said to have been found here",
+      "kind": "annotation",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          1088,
+          318,
+          292,
+          62
+        ]
+      ],
+      "note": "word 'been' faded",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7388,
+          1198,
+          292,
+          62
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-07",
+      "source_text": "Queensville",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          62,
+          658,
+          328,
+          52
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6362,
+          1538,
+          328,
+          52
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-08",
+      "source_text": "PO",
+      "kind": "post_office",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          504,
+          540,
+          46,
+          34
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6804,
+          1420,
+          46,
+          34
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-09",
+      "source_text": "Spring",
+      "kind": "spring",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          698,
+          540,
+          66,
+          36
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6998,
+          1420,
+          66,
+          36
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-10",
+      "source_text": "McMinisters Mill",
+      "kind": "mill",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          733,
+          572,
+          198,
+          36
+        ]
+      ],
+      "note": "surname portion faint, possibly McMinisters or McMillisters",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7033,
+          1452,
+          198,
+          36
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-11",
+      "source_text": "McIlreath's School",
+      "kind": "school",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          84,
+          915,
+          147,
+          36
+        ]
+      ],
+      "note": "surname portion faint",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6384,
+          1795,
+          147,
+          36
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-12",
+      "source_text": "Crandall Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          842,
+          700,
+          42,
+          312
+        ],
+        [
+          872,
+          1012,
+          46,
+          172
+        ]
+      ],
+      "note": "multipart vertical lettering: 'Crandall' then 'Road'",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7142,
+          1580,
+          42,
+          312
+        ],
+        [
+          7172,
+          1892,
+          46,
+          172
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R01C05-13",
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          1088,
+          1137,
+          67,
+          36
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R01C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7388,
+          2017,
+          67,
+          36
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
       "local_id": "F22-R01C06-01",
       "source_text": "Brook",
       "kind": "stream",
@@ -1320,6 +1784,492 @@
           1408,
           112,
           38
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-01",
+      "source_text": "Jack Shoal",
+      "kind": "shoal",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          575,
+          60,
+          235,
+          60
+        ]
+      ],
+      "note": "Large capital J in Jack.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2075,
+          2140,
+          235,
+          60
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-02",
+      "source_text": "Rock dries\nat ½ tide",
+      "kind": "descriptive_annotation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          450,
+          190,
+          150,
+          70
+        ]
+      ],
+      "note": "Two-line lettering; stylized fraction ½.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          1950,
+          2270,
+          150,
+          70
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-03",
+      "source_text": "Cape Jack",
+      "kind": "cape",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          400,
+          520,
+          190,
+          50
+        ]
+      ],
+      "note": "Cape/headland label on the left coast.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          1900,
+          2600,
+          190,
+          50
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-04",
+      "source_text": "45FT",
+      "kind": "elevation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          620,
+          570,
+          70,
+          30
+        ]
+      ],
+      "note": "Spot height annotation on the cape.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2120,
+          2650,
+          70,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-05",
+      "source_text": "Cape Pond",
+      "kind": "pond",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          640,
+          740,
+          190,
+          50
+        ]
+      ],
+      "note": "Pond name along the coast.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2140,
+          2820,
+          190,
+          50
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-06",
+      "source_text": "40 FT.",
+      "kind": "elevation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          560,
+          810,
+          100,
+          30
+        ]
+      ],
+      "note": "Spot height annotation.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2060,
+          2890,
+          100,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-07",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          730,
+          840,
+          60,
+          40
+        ]
+      ],
+      "note": "Slightly rotated text.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2230,
+          2920,
+          60,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-08",
+      "source_text": "P.O.",
+      "kind": "post_office",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          850,
+          850,
+          50,
+          30
+        ]
+      ],
+      "note": "Post office.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2350,
+          2930,
+          50,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-09",
+      "source_text": "60 FT.",
+      "kind": "elevation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          940,
+          830,
+          100,
+          30
+        ]
+      ],
+      "note": "Spot height annotation.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2440,
+          2910,
+          100,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-10",
+      "source_text": "Cape Jack",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          820,
+          910,
+          200,
+          50
+        ]
+      ],
+      "note": "Settlement label on a road, distinct from the cape label above.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2320,
+          2990,
+          200,
+          50
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-11",
+      "source_text": "R.C. Ch.",
+      "kind": "church",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          1180,
+          870,
+          90,
+          30
+        ]
+      ],
+      "note": "Roman Catholic Church.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2680,
+          2950,
+          90,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-12",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          1260,
+          890,
+          90,
+          30
+        ]
+      ],
+      "note": "Right-edge school label.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2760,
+          2970,
+          90,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-13",
+      "source_text": "Lt.Ho",
+      "kind": "lighthouse",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          1295,
+          920,
+          50,
+          90
+        ]
+      ],
+      "note": "Rotated 90 degrees clockwise on the right margin; likely 'Lt. Ho.' for lighthouse, reading is tentative.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2795,
+          3000,
+          50,
+          90
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-14",
+      "source_text": "Cape Blue",
+      "kind": "cape",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          55,
+          1045,
+          150,
+          75
+        ]
+      ],
+      "note": "Two-line lettering, Cape/Blue.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          1555,
+          3125,
+          150,
+          75
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-15",
+      "source_text": "50 FT.",
+      "kind": "elevation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          290,
+          1130,
+          100,
+          30
+        ]
+      ],
+      "note": "Spot height annotation.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          1790,
+          3210,
+          100,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-16",
+      "source_text": "Beach Pond",
+      "kind": "pond",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          510,
+          1030,
+          100,
+          50
+        ]
+      ],
+      "note": "Pond name, slightly rotated.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2010,
+          3110,
+          100,
+          50
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-17",
+      "source_text": "90 FT.",
+      "kind": "elevation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          940,
+          1130,
+          100,
+          30
+        ]
+      ],
+      "note": "Spot height annotation.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2440,
+          3210,
+          100,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C01-18",
+      "source_text": "60 FT.",
+      "kind": "elevation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          660,
+          1180,
+          100,
+          30
+        ]
+      ],
+      "note": "Spot height annotation.",
+      "crop_id": "F22-R02C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2160,
+          3260,
+          100,
+          30
         ]
       ],
       "box_status": "model-estimate-unverified"
@@ -2012,6 +2962,327 @@
       "box_status": "model-estimate-unverified"
     },
     {
+      "local_id": "F22-R02C05-01",
+      "source_text": "Brook",
+      "kind": "stream",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          100,
+          210,
+          120,
+          35
+        ]
+      ],
+      "note": "name clipped at top-left; preceding red text excluded",
+      "crop_id": "F22-R02C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6400,
+          2290,
+          120,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C05-02",
+      "source_text": "Murray",
+      "kind": "geographic",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          0,
+          295,
+          90,
+          35
+        ]
+      ],
+      "note": "clipped at left edge",
+      "crop_id": "F22-R02C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6300,
+          2375,
+          90,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C05-03",
+      "source_text": "Barrens",
+      "kind": "geographic",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          105,
+          725,
+          200,
+          40
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R02C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6405,
+          2805,
+          200,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C05-04",
+      "source_text": "Sugar Camp",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          995,
+          585,
+          180,
+          35
+        ]
+      ],
+      "note": "multipart line of Sugar Camp Brook",
+      "crop_id": "F22-R02C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7295,
+          2665,
+          180,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C05-05",
+      "source_text": "Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          1105,
+          615,
+          150,
+          40
+        ]
+      ],
+      "note": "second line of Sugar Camp Brook",
+      "crop_id": "F22-R02C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7405,
+          2695,
+          150,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C05-06",
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          0,
+          895,
+          55,
+          40
+        ]
+      ],
+      "note": "clipped at left edge",
+      "crop_id": "F22-R02C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6300,
+          2975,
+          55,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C05-07",
+      "source_text": "McQuarrie",
+      "kind": "personal_name",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          430,
+          1055,
+          140,
+          30
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R02C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6730,
+          3135,
+          140,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C05-08",
+      "source_text": "Dortons Bridge",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          290,
+          1170,
+          320,
+          45
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R02C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6590,
+          3250,
+          320,
+          45
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C05-09",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          940,
+          1005,
+          90,
+          25
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R02C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7240,
+          3085,
+          90,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C05-10",
+      "source_text": "Big Brook Road",
+      "kind": "road",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          185,
+          1295,
+          50,
+          50
+        ],
+        [
+          245,
+          1245,
+          60,
+          45
+        ],
+        [
+          285,
+          1270,
+          80,
+          45
+        ]
+      ],
+      "note": "Big clipped along bottom edge; lettering diagonal, multipart",
+      "crop_id": "F22-R02C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6485,
+          3375,
+          50,
+          50
+        ],
+        [
+          6545,
+          3325,
+          60,
+          45
+        ],
+        [
+          6585,
+          3350,
+          80,
+          45
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R02C05-11",
+      "source_text": "Road",
+      "kind": "road",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          845,
+          0,
+          20,
+          55
+        ]
+      ],
+      "note": "vertical at top edge, clipped",
+      "crop_id": "F22-R02C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7145,
+          2080,
+          20,
+          55
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
       "local_id": "F22-R02C07-01",
       "source_text": "G1.",
       "kind": "settlement",
@@ -2277,6 +3548,1998 @@
           3430,
           135,
           50
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C02-01",
+      "source_text": "have Bouché",
+      "kind": "place_name",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          0,
+          200,
+          300,
+          70
+        ]
+      ],
+      "note": "Clipped at left edge; town/township label.",
+      "crop_id": "F22-R03C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2700,
+          3480,
+          300,
+          70
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C02-02",
+      "source_text": "Have Bouché Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          790,
+          340,
+          80,
+          60
+        ],
+        [
+          850,
+          460,
+          120,
+          70
+        ],
+        [
+          920,
+          560,
+          100,
+          60
+        ]
+      ],
+      "note": "Rotated along the brook.",
+      "crop_id": "F22-R03C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          3490,
+          3620,
+          80,
+          60
+        ],
+        [
+          3550,
+          3740,
+          120,
+          70
+        ],
+        [
+          3620,
+          3840,
+          100,
+          60
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C02-03",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          80,
+          570,
+          80,
+          40
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2780,
+          3850,
+          80,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C02-04",
+      "source_text": "STA",
+      "kind": "station",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          270,
+          550,
+          60,
+          40
+        ]
+      ],
+      "note": "Likely abbreviation for a station; next to railway feature.",
+      "crop_id": "F22-R03C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2970,
+          3830,
+          60,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C02-05",
+      "source_text": "D.McDonald",
+      "kind": "personal_name",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          1220,
+          300,
+          140,
+          40
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          3920,
+          3580,
+          140,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C02-06",
+      "source_text": "Winter Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          610,
+          1090,
+          110,
+          50
+        ],
+        [
+          700,
+          1190,
+          110,
+          50
+        ]
+      ],
+      "note": "Rotated along the brook.",
+      "crop_id": "F22-R03C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          3310,
+          4370,
+          110,
+          50
+        ],
+        [
+          3400,
+          4470,
+          110,
+          50
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C02-07",
+      "source_text": "IRON",
+      "kind": "geographic_lettering",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          20,
+          640,
+          50,
+          90
+        ],
+        [
+          260,
+          630,
+          100,
+          130
+        ],
+        [
+          700,
+          640,
+          90,
+          100
+        ],
+        [
+          1080,
+          640,
+          100,
+          100
+        ]
+      ],
+      "note": "Large spaced lettering; second letter is ambiguous, resembles G or R. I G O N transcribed from shapes; interpreted word likely IRON.",
+      "crop_id": "F22-R03C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2720,
+          3920,
+          50,
+          90
+        ],
+        [
+          2960,
+          3910,
+          100,
+          130
+        ],
+        [
+          3400,
+          3920,
+          90,
+          100
+        ],
+        [
+          3780,
+          3920,
+          100,
+          100
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C02-08",
+      "source_text": "40 FT",
+      "kind": "elevation",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          590,
+          0,
+          100,
+          40
+        ]
+      ],
+      "note": "Elevation annotation near top edge.",
+      "crop_id": "F22-R03C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          3290,
+          3280,
+          100,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C02-09",
+      "source_text": "350 FT",
+      "kind": "elevation",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          260,
+          0,
+          120,
+          50
+        ]
+      ],
+      "note": "Elevation annotation near top edge.",
+      "crop_id": "F22-R03C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2960,
+          3280,
+          120,
+          50
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-01",
+      "source_text": "Mill",
+      "kind": "facility",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          115,
+          95,
+          60,
+          25
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5215,
+          3375,
+          60,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-02",
+      "source_text": "Horton Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          235,
+          105,
+          120,
+          35
+        ],
+        [
+          365,
+          105,
+          110,
+          35
+        ]
+      ],
+      "note": "River label split across two lines",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5335,
+          3385,
+          120,
+          35
+        ],
+        [
+          5465,
+          3385,
+          110,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-03",
+      "source_text": "Falls",
+      "kind": "waterfall",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          740,
+          285,
+          65,
+          30
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5840,
+          3565,
+          65,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-04",
+      "source_text": "Long Pond",
+      "kind": "lake/pond",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          15,
+          145,
+          65,
+          105
+        ]
+      ],
+      "note": "Rotated vertical lettering",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5115,
+          3425,
+          65,
+          105
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-05",
+      "source_text": "Forge",
+      "kind": "facility",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          265,
+          330,
+          80,
+          30
+        ]
+      ],
+      "note": "Left of Hastings",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5365,
+          3610,
+          80,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-06",
+      "source_text": "Hastings",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          445,
+          555,
+          235,
+          45
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5545,
+          3835,
+          235,
+          45
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-07",
+      "source_text": "d Cove",
+      "kind": "cove",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          0,
+          690,
+          55,
+          30
+        ]
+      ],
+      "note": "Clipped at left edge; only 'd Cove' visible",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5100,
+          3970,
+          55,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-08",
+      "source_text": "Mc Millan Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          75,
+          700,
+          190,
+          30
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5175,
+          3980,
+          190,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-09",
+      "source_text": "Cable",
+      "kind": "facility",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          195,
+          690,
+          75,
+          22
+        ]
+      ],
+      "note": "Cable line label",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5295,
+          3970,
+          75,
+          22
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-10",
+      "source_text": "Cable",
+      "kind": "facility",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          195,
+          735,
+          75,
+          22
+        ]
+      ],
+      "note": "Cable line label",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5295,
+          4015,
+          75,
+          22
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-11",
+      "source_text": "Mc Keen Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          345,
+          760,
+          175,
+          30
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5445,
+          4040,
+          175,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-12",
+      "source_text": "C. Porcupine plaster force.",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          365,
+          855,
+          335,
+          40
+        ]
+      ],
+      "note": "Printed across water",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5465,
+          4135,
+          335,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-13",
+      "source_text": "Forge",
+      "kind": "facility",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          935,
+          775,
+          85,
+          30
+        ]
+      ],
+      "note": "Right side",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6035,
+          4055,
+          85,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-14",
+      "source_text": "Quarry",
+      "kind": "facility",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          700,
+          230,
+          95,
+          28
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5800,
+          3510,
+          95,
+          28
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-15",
+      "source_text": "Victoria Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          850,
+          150,
+          230,
+          80
+        ]
+      ],
+      "note": "Diagonal lettering",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5950,
+          3430,
+          230,
+          80
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-16",
+      "source_text": "Big",
+      "kind": "geographic_feature",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          1255,
+          100,
+          45,
+          25
+        ]
+      ],
+      "note": "Clipped at right edge; possibly part of 'Big Lake'",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6355,
+          3380,
+          45,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-17",
+      "source_text": "Lake",
+      "kind": "lake/pond",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          650,
+          0,
+          55,
+          25
+        ]
+      ],
+      "note": "Clipped at top edge",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5750,
+          3280,
+          55,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-18",
+      "source_text": "400 FT",
+      "kind": "elevation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          1025,
+          585,
+          105,
+          28
+        ]
+      ],
+      "note": "Elevation annotation",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6125,
+          3865,
+          105,
+          28
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-19",
+      "source_text": "Keaton Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          620,
+          940,
+          160,
+          32
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5720,
+          4220,
+          160,
+          32
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-20",
+      "source_text": "Old Cable",
+      "kind": "facility",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          430,
+          930,
+          125,
+          30
+        ]
+      ],
+      "note": "Submarine cable line label",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5530,
+          4210,
+          125,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-21",
+      "source_text": "350 FT",
+      "kind": "elevation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          560,
+          970,
+          100,
+          28
+        ]
+      ],
+      "note": "Elevation annotation",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5660,
+          4250,
+          100,
+          28
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C04-22",
+      "source_text": "460 FT",
+      "kind": "elevation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          190,
+          930,
+          110,
+          28
+        ]
+      ],
+      "note": "Elevation annotation",
+      "crop_id": "F22-R03C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5290,
+          4210,
+          110,
+          28
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-01",
+      "source_text": "Hector McDonald",
+      "kind": "person",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          325,
+          242,
+          155,
+          28
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7825,
+          3522,
+          155,
+          28
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-02",
+      "source_text": "Termain, C.E., in 1875",
+      "kind": "survey",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          585,
+          48,
+          32,
+          295
+        ]
+      ],
+      "note": "rotated vertical lettering along railway; surname reading uncertain (Termain/Tremain)",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8085,
+          3328,
+          32,
+          295
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-03",
+      "source_text": "BROAD COVE",
+      "kind": "geographic",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          665,
+          192,
+          30,
+          88
+        ],
+        [
+          665,
+          290,
+          30,
+          78
+        ]
+      ],
+      "note": "vertical lettering, stacked words",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8165,
+          3472,
+          30,
+          88
+        ],
+        [
+          8165,
+          3570,
+          30,
+          78
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-04",
+      "source_text": "Black",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          940,
+          132,
+          80,
+          35
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8440,
+          3412,
+          80,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-05",
+      "source_text": "Water flows NE and SE",
+      "kind": "annotation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          650,
+          470,
+          115,
+          22
+        ],
+        [
+          655,
+          496,
+          92,
+          22
+        ]
+      ],
+      "note": "two-line hydrology note",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8150,
+          3750,
+          115,
+          22
+        ],
+        [
+          8155,
+          3776,
+          92,
+          22
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-06",
+      "source_text": "J. McQuarrie",
+      "kind": "person",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          126,
+          588,
+          148,
+          30
+        ]
+      ],
+      "note": "printed with superscript c in Mc",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7626,
+          3868,
+          148,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-07",
+      "source_text": "Mc Intyre Lake",
+      "kind": "lake",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          766,
+          607,
+          134,
+          27
+        ],
+        [
+          800,
+          638,
+          80,
+          24
+        ]
+      ],
+      "note": "two-line lettering",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8266,
+          3887,
+          134,
+          27
+        ],
+        [
+          8300,
+          3918,
+          80,
+          24
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-08",
+      "source_text": "Duff's Mills",
+      "kind": "mill",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          638,
+          808,
+          126,
+          28
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8138,
+          4088,
+          126,
+          28
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-09",
+      "source_text": "COUNTY",
+      "kind": "geographic",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          1115,
+          685,
+          165,
+          150
+        ]
+      ],
+      "note": "diagonal lettering; preceding word(s) of county name clipped outside crop",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8615,
+          3965,
+          165,
+          150
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-10",
+      "source_text": "TO",
+      "kind": "railway",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          1300,
+          860,
+          65,
+          50
+        ]
+      ],
+      "note": "clipped at right edge; likely part of railway destination label",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8800,
+          4140,
+          65,
+          50
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-11",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          430,
+          915,
+          85,
+          30
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7930,
+          4195,
+          85,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-12",
+      "source_text": "Beaver Dam Lake",
+      "kind": "lake",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          710,
+          1012,
+          105,
+          28
+        ],
+        [
+          748,
+          1048,
+          68,
+          28
+        ],
+        [
+          742,
+          1085,
+          75,
+          28
+        ]
+      ],
+      "note": "printed on three lines",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8210,
+          4292,
+          105,
+          28
+        ],
+        [
+          8248,
+          4328,
+          68,
+          28
+        ],
+        [
+          8242,
+          4365,
+          75,
+          28
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-13",
+      "source_text": "Little River",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          220,
+          745,
+          115,
+          155
+        ]
+      ],
+      "note": "diagonal lettering along watercourse",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7720,
+          4025,
+          115,
+          155
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-14",
+      "source_text": "PROPOSED RAILWAY",
+      "kind": "railway",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          945,
+          1035,
+          210,
+          130
+        ],
+        [
+          870,
+          1135,
+          195,
+          125
+        ]
+      ],
+      "note": "diagonal lettering, stacked lines",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8445,
+          4315,
+          210,
+          130
+        ],
+        [
+          8370,
+          4415,
+          195,
+          125
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-15",
+      "source_text": "FAULT",
+      "kind": "geological_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          125,
+          845,
+          100,
+          355
+        ]
+      ],
+      "note": "large diagonal lettering along fault line",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7625,
+          4125,
+          100,
+          355
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-16",
+      "source_text": "...ters Road",
+      "kind": "road",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          28,
+          1225,
+          185,
+          85
+        ]
+      ],
+      "note": "leading letters clipped at crop edge; diagonal lettering",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7528,
+          4505,
+          185,
+          85
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-17",
+      "source_text": "Kin",
+      "kind": "place",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          182,
+          1268,
+          58,
+          40
+        ]
+      ],
+      "note": "place-name lettering clipped, remainder outside crop",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7682,
+          4548,
+          58,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C06-18",
+      "source_text": "J. McVean",
+      "kind": "person",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          283,
+          1243,
+          90,
+          30
+        ]
+      ],
+      "note": "printed with superscript c in Mc",
+      "crop_id": "F22-R03C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7783,
+          4523,
+          90,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-01",
+      "source_text": "Ferguson",
+      "kind": "settlement",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          920,
+          20,
+          120,
+          35
+        ]
+      ],
+      "note": "top-right edge, text clipped at right margin",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9620,
+          3300,
+          120,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-02",
+      "source_text": "Fall",
+      "kind": "fall",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          750,
+          120,
+          70,
+          32
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9450,
+          3400,
+          70,
+          32
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-03",
+      "source_text": "River Inhabitants",
+      "kind": "river",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          330,
+          150,
+          580,
+          62
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9030,
+          3430,
+          580,
+          62
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-04",
+      "source_text": "or Mc Leods Bridge",
+      "kind": "bridge",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          300,
+          182,
+          560,
+          60
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9000,
+          3462,
+          560,
+          60
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-05",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          495,
+          275,
+          85,
+          32
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9195,
+          3555,
+          85,
+          32
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-06",
+      "source_text": "Church",
+      "kind": "church",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          565,
+          288,
+          78,
+          32
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9265,
+          3568,
+          78,
+          32
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-07",
+      "source_text": "P.O.",
+      "kind": "post office",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          685,
+          290,
+          60,
+          30
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9385,
+          3570,
+          60,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-08",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          715,
+          258,
+          88,
+          30
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9415,
+          3538,
+          88,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-09",
+      "source_text": "LINE",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          300,
+          440,
+          150,
+          90
+        ]
+      ],
+      "note": "rotated along county line",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9000,
+          3720,
+          150,
+          90
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-10",
+      "source_text": "OUNTY",
+      "kind": "geographic_feature",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          0,
+          560,
+          115,
+          100
+        ]
+      ],
+      "note": "COUNTY clipped at left edge",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8700,
+          3840,
+          115,
+          100
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-11",
+      "source_text": "RAILWAY",
+      "kind": "geographic_feature",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          0,
+          980,
+          105,
+          90
+        ]
+      ],
+      "note": "clipped at left edge",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8700,
+          4260,
+          105,
+          90
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-12",
+      "source_text": "TO LOUISBURG",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          200,
+          880,
+          195,
+          62
+        ]
+      ],
+      "note": "rotated along railway",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8900,
+          4160,
+          195,
+          62
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-13",
+      "source_text": "80 FT",
+      "kind": "annotation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          590,
+          740,
+          105,
+          32
+        ]
+      ],
+      "note": "elevation along road",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9290,
+          4020,
+          105,
+          32
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-14",
+      "source_text": "Cemetery",
+      "kind": "cemetery",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          565,
+          890,
+          130,
+          32
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9265,
+          4170,
+          130,
+          32
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-15",
+      "source_text": "Grant Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          630,
+          950,
+          155,
+          42
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9330,
+          4230,
+          155,
+          42
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-16",
+      "source_text": "Rapids",
+      "kind": "rapids",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          1000,
+          850,
+          70,
+          42
+        ]
+      ],
+      "note": "clipped at right edge",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9700,
+          4130,
+          70,
+          42
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-17",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          420,
+          1180,
+          92,
+          32
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9120,
+          4460,
+          92,
+          32
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-18",
+      "source_text": "Long Point",
+      "kind": "point",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          650,
+          1230,
+          155,
+          42
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9350,
+          4510,
+          155,
+          42
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R03C07-19",
+      "source_text": "70 FT",
+      "kind": "annotation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          970,
+          1260,
+          72,
+          38
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R03C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9670,
+          4540,
+          72,
+          38
         ]
       ],
       "box_status": "model-estimate-unverified"
@@ -5640,6 +8903,1674 @@
           5790,
           146,
           44
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C01-01",
+      "source_text": "Salmon\nHole",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          55,
+          35,
+          180,
+          70
+        ]
+      ],
+      "note": "Italic script, two lines",
+      "crop_id": "F22-R05C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          1555,
+          5715,
+          180,
+          70
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C01-02",
+      "source_text": "Mathy Settlement",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          725,
+          35,
+          300,
+          60
+        ]
+      ],
+      "note": "Two lines: Mathy / Settlement",
+      "crop_id": "F22-R05C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2225,
+          5715,
+          300,
+          60
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C01-03",
+      "source_text": "Cascades\nand 9 ft. fall",
+      "kind": "cascade",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          960,
+          125,
+          260,
+          85
+        ]
+      ],
+      "note": "Italic script, two lines",
+      "crop_id": "F22-R05C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2460,
+          5805,
+          260,
+          85
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C01-04",
+      "source_text": "Old Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          285,
+          528,
+          115,
+          35
+        ]
+      ],
+      "note": "Italic script",
+      "crop_id": "F22-R05C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          1785,
+          6208,
+          115,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C01-05",
+      "source_text": "P.O.",
+      "kind": "post_office",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          82,
+          498,
+          45,
+          25
+        ]
+      ],
+      "note": "Abbreviated post office label",
+      "crop_id": "F22-R05C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          1582,
+          6178,
+          45,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C01-06",
+      "source_text": "Upper Big Tracadie",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          100,
+          595,
+          380,
+          45
+        ]
+      ],
+      "note": "Large printed text",
+      "crop_id": "F22-R05C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          1600,
+          6275,
+          380,
+          45
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C01-07",
+      "source_text": "Pit",
+      "kind": "quarry",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          52,
+          612,
+          40,
+          28
+        ]
+      ],
+      "note": "Quarry pit label",
+      "crop_id": "F22-R05C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          1552,
+          6292,
+          40,
+          28
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C01-08",
+      "source_text": "Quoins\nin slate",
+      "kind": "mineral_quarry_label",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          32,
+          648,
+          130,
+          65
+        ]
+      ],
+      "note": "Italic script, two lines",
+      "crop_id": "F22-R05C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          1532,
+          6328,
+          130,
+          65
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C01-09",
+      "source_text": "Wood Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          1035,
+          525,
+          85,
+          190
+        ]
+      ],
+      "note": "Rotated along trail, runs lower-left to upper-right",
+      "crop_id": "F22-R05C01",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2535,
+          6205,
+          85,
+          190
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C02-01",
+      "source_text": "Of",
+      "kind": "geographic_feature",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          135,
+          5,
+          40,
+          30
+        ]
+      ],
+      "note": "Clipped at left edge; preceding word of a larger phrase off-crop.",
+      "crop_id": "F22-R05C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2835,
+          5685,
+          40,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C02-02",
+      "source_text": "Tracadie River",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          195,
+          20,
+          145,
+          40
+        ],
+        [
+          450,
+          25,
+          100,
+          40
+        ]
+      ],
+      "note": "Two-line printed label.",
+      "crop_id": "F22-R05C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2895,
+          5700,
+          145,
+          40
+        ],
+        [
+          3150,
+          5705,
+          100,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C02-03",
+      "source_text": "S",
+      "kind": "geographic_feature",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          310,
+          210,
+          80,
+          120
+        ]
+      ],
+      "note": "Large printed letter; likely part of a word continuing across the sheet.",
+      "crop_id": "F22-R05C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          3010,
+          5890,
+          80,
+          120
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C02-04",
+      "source_text": "B",
+      "kind": "geographic_feature",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          670,
+          210,
+          70,
+          120
+        ]
+      ],
+      "note": "Large printed letter; likely part of a word continuing across the sheet.",
+      "crop_id": "F22-R05C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          3370,
+          5890,
+          70,
+          120
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C02-05",
+      "source_text": "O",
+      "kind": "geographic_feature",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          1045,
+          210,
+          85,
+          130
+        ]
+      ],
+      "note": "Large printed letter; likely part of a word continuing across the sheet.",
+      "crop_id": "F22-R05C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          3745,
+          5890,
+          85,
+          130
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C02-06",
+      "source_text": "Fall 10'",
+      "kind": "fall",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          145,
+          415,
+          105,
+          35
+        ]
+      ],
+      "note": "Waterfall height annotation.",
+      "crop_id": "F22-R05C02",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          2845,
+          6095,
+          105,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C03-01",
+      "source_text": "R O U",
+      "kind": "geographic_feature",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          245,
+          235,
+          115,
+          100
+        ],
+        [
+          585,
+          235,
+          105,
+          100
+        ],
+        [
+          1015,
+          235,
+          105,
+          100
+        ]
+      ],
+      "note": "Large spaced lettering, clipped at right edge; word continues beyond crop boundary",
+      "crop_id": "F22-R05C03",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          4145,
+          5915,
+          115,
+          100
+        ],
+        [
+          4485,
+          5915,
+          105,
+          100
+        ],
+        [
+          4915,
+          5915,
+          105,
+          100
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C04-01",
+      "source_text": "Quarry",
+      "kind": "quarry",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          740,
+          5,
+          80,
+          35
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5840,
+          5685,
+          80,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C04-02",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          890,
+          5,
+          80,
+          35
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5990,
+          5685,
+          80,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C04-03",
+      "source_text": "STA.",
+      "kind": "station",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          850,
+          140,
+          55,
+          35
+        ]
+      ],
+      "note": "Likely part of a station label, partially obscured by dark coastal shading.",
+      "crop_id": "F22-R05C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5950,
+          5820,
+          55,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C04-04",
+      "source_text": "Madd\nPoin",
+      "kind": "place_name",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          1285,
+          65,
+          90,
+          90
+        ]
+      ],
+      "note": "Clipped at right edge; likely part of a longer point name.",
+      "crop_id": "F22-R05C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6385,
+          5745,
+          90,
+          90
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C04-05",
+      "source_text": "Quarry",
+      "kind": "quarry",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          820,
+          285,
+          85,
+          40
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5920,
+          5965,
+          85,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C04-06",
+      "source_text": "Po.",
+      "kind": "post_office",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          980,
+          280,
+          40,
+          35
+        ]
+      ],
+      "note": "Abbreviation for Post Office.",
+      "crop_id": "F22-R05C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6080,
+          5960,
+          40,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C04-07",
+      "source_text": "Forge Harbour",
+      "kind": "harbour",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          1000,
+          285,
+          185,
+          125
+        ]
+      ],
+      "note": "Rotated lettering.",
+      "crop_id": "F22-R05C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6100,
+          5965,
+          185,
+          125
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C04-08",
+      "source_text": "West Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          495,
+          375,
+          175,
+          180
+        ]
+      ],
+      "note": "Rotated lettering along the stream.",
+      "crop_id": "F22-R05C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5595,
+          6055,
+          175,
+          180
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C04-09",
+      "source_text": "Hartley's Waterfall",
+      "kind": "waterfall",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          755,
+          415,
+          115,
+          45
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          5855,
+          6095,
+          115,
+          45
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C04-10",
+      "source_text": "East Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          925,
+          520,
+          100,
+          115
+        ]
+      ],
+      "note": "Rotated lettering along the stream.",
+      "crop_id": "F22-R05C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6025,
+          6200,
+          100,
+          115
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C04-11",
+      "source_text": "Roger",
+      "kind": "place_name",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          1275,
+          440,
+          90,
+          45
+        ]
+      ],
+      "note": "Clipped at right edge; likely part of a longer name (e.g., Roger's ...).",
+      "crop_id": "F22-R05C04",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6375,
+          6120,
+          90,
+          45
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C05-01",
+      "source_text": "Madden\nPoint",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          84,
+          85,
+          115,
+          25
+        ],
+        [
+          88,
+          108,
+          82,
+          23
+        ]
+      ],
+      "note": "Multipart lettering; Point is separate line below Madden.",
+      "crop_id": "F22-R05C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6384,
+          5765,
+          115,
+          25
+        ],
+        [
+          6388,
+          5788,
+          82,
+          23
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C05-02",
+      "source_text": "Madden Cove",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          245,
+          240,
+          170,
+          30
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6545,
+          5920,
+          170,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C05-03",
+      "source_text": "Peebles Point",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          275,
+          400,
+          180,
+          25
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6575,
+          6080,
+          180,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C05-04",
+      "source_text": "Roger Point",
+      "kind": "geographic_feature",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          108,
+          450,
+          145,
+          25
+        ]
+      ],
+      "note": "Left edge of lettering is clipped by the crop boundary.",
+      "crop_id": "F22-R05C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6408,
+          6130,
+          145,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C05-05",
+      "source_text": "1879-80",
+      "kind": "date_annotation",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          30,
+          615,
+          115,
+          25
+        ]
+      ],
+      "note": "Red printed date, possibly a survey date; excluded from geological code set.",
+      "crop_id": "F22-R05C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6330,
+          6295,
+          115,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C05-06",
+      "source_text": "Landrie\nLake",
+      "kind": "water_feature",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          1115,
+          115,
+          185,
+          55
+        ],
+        [
+          1205,
+          150,
+          100,
+          50
+        ]
+      ],
+      "note": "Multipart lettering; top edges of both lines are clipped by the crop boundary.",
+      "crop_id": "F22-R05C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7415,
+          5795,
+          185,
+          55
+        ],
+        [
+          7505,
+          5830,
+          100,
+          50
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C05-07",
+      "source_text": "83 FT",
+      "kind": "elevation_annotation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          545,
+          340,
+          60,
+          20
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          6845,
+          6020,
+          60,
+          20
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C05-08",
+      "source_text": "Spring",
+      "kind": "water_feature",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          1255,
+          80,
+          85,
+          60
+        ]
+      ],
+      "note": "Rotated diagonally; top edge of lettering is clipped by the crop boundary.",
+      "crop_id": "F22-R05C05",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7555,
+          5760,
+          85,
+          60
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-01",
+      "source_text": "New Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          238,
+          2,
+          62,
+          34
+        ],
+        [
+          278,
+          65,
+          68,
+          82
+        ]
+      ],
+      "note": "rotated lettering along path",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7738,
+          5682,
+          62,
+          34
+        ],
+        [
+          7778,
+          5745,
+          68,
+          82
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-02",
+      "source_text": "Spring",
+      "kind": "spring",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          62,
+          96,
+          68,
+          24
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7562,
+          5776,
+          68,
+          24
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-03",
+      "source_text": "andrie Lake",
+      "kind": "lake",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          0,
+          145,
+          80,
+          28
+        ],
+        [
+          85,
+          147,
+          70,
+          28
+        ]
+      ],
+      "note": "first word clipped at left image edge",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7500,
+          5825,
+          80,
+          28
+        ],
+        [
+          7585,
+          5827,
+          70,
+          28
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-04",
+      "source_text": "Barren",
+      "kind": "geographic feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          630,
+          30,
+          116,
+          40
+        ]
+      ],
+      "note": "descriptive landscape term",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8130,
+          5710,
+          116,
+          40
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-05",
+      "source_text": "Seacoal Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          252,
+          525,
+          245,
+          28
+        ],
+        [
+          498,
+          528,
+          62,
+          25
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          7752,
+          6205,
+          245,
+          28
+        ],
+        [
+          7998,
+          6208,
+          62,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-06",
+      "source_text": "Carbacou",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          778,
+          515,
+          162,
+          30
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8278,
+          6195,
+          162,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-07",
+      "source_text": "P O",
+      "kind": "post office",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          798,
+          555,
+          48,
+          24
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8298,
+          6235,
+          48,
+          24
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-08",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          1318,
+          195,
+          72,
+          26
+        ]
+      ],
+      "note": "upper-right school",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8818,
+          5875,
+          72,
+          26
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-09",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          1042,
+          575,
+          62,
+          25
+        ]
+      ],
+      "note": "school near red G1",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8542,
+          6255,
+          62,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-10",
+      "source_text": "Malcolm's Wharf",
+      "kind": "wharf",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          762,
+          693,
+          92,
+          25
+        ],
+        [
+          752,
+          722,
+          78,
+          25
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8262,
+          6373,
+          92,
+          25
+        ],
+        [
+          8252,
+          6402,
+          78,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-11",
+      "source_text": "Slop",
+      "kind": "facility",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          678,
+          655,
+          40,
+          22
+        ]
+      ],
+      "note": "lettering reads like Slop; could be Slip or Shop",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8178,
+          6335,
+          40,
+          22
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-12",
+      "source_text": "Carl",
+      "kind": "settlement",
+      "reading_status": "partial",
+      "label_boxes_xywh": [
+        [
+          1368,
+          608,
+          32,
+          25
+        ]
+      ],
+      "note": "clipped at right image edge",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8868,
+          6288,
+          32,
+          25
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C06-13",
+      "source_text": "Pault",
+      "kind": "geographic feature",
+      "reading_status": "tentative",
+      "label_boxes_xywh": [
+        [
+          1098,
+          105,
+          128,
+          175
+        ]
+      ],
+      "note": "red rotated lettering, reading uncertain; possibly Fault",
+      "crop_id": "F22-R05C06",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8598,
+          5785,
+          128,
+          175
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C07-01",
+      "source_text": "River Point",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          820,
+          15,
+          190,
+          35
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9520,
+          5695,
+          190,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C07-02",
+      "source_text": "School",
+      "kind": "facility",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          45,
+          185,
+          95,
+          30
+        ]
+      ],
+      "note": "near dotted line at left edge",
+      "crop_id": "F22-R05C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8745,
+          5865,
+          95,
+          30
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C07-03",
+      "source_text": "Port Richmond",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          285,
+          165,
+          95,
+          45
+        ],
+        [
+          420,
+          155,
+          190,
+          50
+        ]
+      ],
+      "note": "label separated into two words",
+      "crop_id": "F22-R05C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8985,
+          5845,
+          95,
+          45
+        ],
+        [
+          9120,
+          5835,
+          190,
+          50
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C07-04",
+      "source_text": "Indian Point",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          815,
+          260,
+          110,
+          30
+        ],
+        [
+          925,
+          255,
+          95,
+          35
+        ]
+      ],
+      "note": "label separated into two words",
+      "crop_id": "F22-R05C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9515,
+          5940,
+          110,
+          30
+        ],
+        [
+          9625,
+          5935,
+          95,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C07-05",
+      "source_text": "Carleton Head",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          105,
+          610,
+          140,
+          30
+        ],
+        [
+          260,
+          605,
+          90,
+          35
+        ]
+      ],
+      "note": "label separated into two words",
+      "crop_id": "F22-R05C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          8805,
+          6290,
+          140,
+          30
+        ],
+        [
+          8960,
+          6285,
+          90,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C07-06",
+      "source_text": "Evans",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          720,
+          640,
+          110,
+          35
+        ]
+      ],
+      "note": "",
+      "crop_id": "F22-R05C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9420,
+          6320,
+          110,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C07-07",
+      "source_text": "50 FT or FAULT",
+      "kind": "geologic_annotation",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          685,
+          690,
+          200,
+          35
+        ]
+      ],
+      "note": "appears to describe a fault offset",
+      "crop_id": "F22-R05C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9385,
+          6370,
+          200,
+          35
+        ]
+      ],
+      "box_status": "model-estimate-unverified"
+    },
+    {
+      "local_id": "F22-R05C07-08",
+      "source_text": "Macnamara Id.",
+      "kind": "geographic_feature",
+      "reading_status": "clear",
+      "label_boxes_xywh": [
+        [
+          710,
+          735,
+          145,
+          35
+        ],
+        [
+          860,
+          735,
+          50,
+          35
+        ]
+      ],
+      "note": "label separated into name and abbreviation",
+      "crop_id": "F22-R05C07",
+      "review_status": "unreviewed",
+      "geometry": null,
+      "source_label_boxes_xywh": [
+        [
+          9410,
+          6415,
+          145,
+          35
+        ],
+        [
+          9560,
+          6415,
+          50,
+          35
         ]
       ],
       "box_status": "model-estimate-unverified"
