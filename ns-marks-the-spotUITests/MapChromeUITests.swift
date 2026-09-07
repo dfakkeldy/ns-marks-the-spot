@@ -14,6 +14,11 @@ final class MapChromeUITests: XCTestCase {
         continueAfterFailure = false
     }
 
+    override func tearDown() {
+        attachUIFailure()
+        super.tearDown()
+    }
+
     /// Measuring, by actually measuring.
     ///
     /// The readout exists from the moment the mode opens, saying what to do
@@ -34,19 +39,21 @@ final class MapChromeUITests: XCTestCase {
         let prompt = "Tap the map to measure distance"
         XCTAssertEqual(readout.label, prompt, "the readout reports something before any point exists")
         let endpoint = app.descendants(matching: .any)["measure-endpoint-label"]
+        let finish = app.buttons["measure-finish"]
+        let undo = app.buttons["measure-undo"]
         XCTAssertFalse(endpoint.exists)
 
         // Left of the control rail and above the card, so both taps land on the
         // map rather than on the chrome over it.
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.30, dy: 0.35)).tap()
+        XCTAssertTrue(waitForUI { undo.isEnabled }, "the first map tap did not place a point")
         XCTAssertFalse(endpoint.exists, "one corner is not a measured distance")
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).tap()
 
-        let measured = expectation(
-            for: NSPredicate(format: "label != %@", prompt),
-            evaluatedWith: readout
+        XCTAssertTrue(
+            waitForUI { readout.label != prompt && endpoint.exists && endpoint.label.hasSuffix(readout.label) },
+            "the endpoint and card did not publish the measured distance"
         )
-        wait(for: [measured], timeout: 10)
 
         let label = readout.label
         XCTAssertTrue(
@@ -88,27 +95,38 @@ final class MapChromeUITests: XCTestCase {
         // The badge covers map pixels, but a tap there still places a point.
         let beforeBadgeTap = readout.label
         endpoint.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.25)).tap()
-        let extendedThroughBadge = expectation(
-            for: NSPredicate(format: "label != %@", beforeBadgeTap), evaluatedWith: readout
+        XCTAssertTrue(
+            waitForUI {
+                readout.label != beforeBadgeTap && endpoint.label.hasSuffix(readout.label)
+            },
+            "the badge tap did not update both the endpoint and the card"
         )
-        // A hosted simulator's accessibility snapshot can take longer than
-        // five seconds even after the map and card display the new distance.
-        // Use the normal UI timeout while still requiring the value to change.
-        wait(for: [extendedThroughBadge], timeout: timeout)
         XCTAssertTrue(endpoint.label.hasSuffix(readout.label))
         // Keep at least two points after Undo: the old behavior left that
         // shape finished and silently discarded it on the next map tap.
+        let beforeFourthPoint = readout.label
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).tap()
-        let finish = app.buttons["measure-finish"]
-        let undo = app.buttons["measure-undo"]
+        XCTAssertTrue(
+            waitForUI { readout.label != beforeFourthPoint && endpoint.label.hasSuffix(readout.label) },
+            "the fourth point was not published before Finish"
+        )
         XCTAssertTrue(finish.waitForHittable(timeout: 5))
         finish.tap()
-        XCTAssertFalse(finish.isEnabled)
+        XCTAssertTrue(waitForUI { !finish.isEnabled }, "Finish did not finish the measurement")
         XCTAssertTrue(undo.waitForHittable(timeout: 5))
         XCTAssertEqual(undo.label, "Undo point")
+        let beforeUndo = readout.label
         undo.tap()
-        XCTAssertTrue(finish.isEnabled, "Undo did not reopen the measurement")
+        XCTAssertTrue(
+            waitForUI { finish.isEnabled && readout.label != beforeUndo && endpoint.label.hasSuffix(readout.label) },
+            "Undo did not reopen the measurement and publish the remaining path"
+        )
+        let afterUndo = readout.label
         app.coordinate(withNormalizedOffset: CGVector(dx: 0.40, dy: 0.42)).tap()
+        XCTAssertTrue(
+            waitForUI { readout.label != afterUndo && endpoint.label.hasSuffix(readout.label) },
+            "the next map tap did not extend the remaining path"
+        )
         XCTAssertNotEqual(readout.label, prompt, "the next tap discarded the remaining path")
 
         XCTAssertTrue(app.buttons["measure-done"].waitForHittable(timeout: 5))

@@ -21,6 +21,7 @@ final class ControlReachabilityUITests: XCTestCase {
     }
 
     override func tearDown() {
+        attachUIFailure()
         XCUIDevice.shared.orientation = .portrait
         super.tearDown()
     }
@@ -42,17 +43,23 @@ final class ControlReachabilityUITests: XCTestCase {
             let control = app.buttons[name]
             XCTAssertTrue(control.exists, "\(name) left the hierarchy in landscape")
             XCTAssertTrue(
-                app.scroll(control, into: rail),
+                app.scroll(control, into: rail, fullyVisible: true),
                 "\(name) cannot be reached in landscape"
             )
         }
 
         // And the route ends somewhere. Opening the panel is the claim the
         // Layers control makes.
-        XCTAssertTrue(app.scroll(app.buttons["toggle-layers-menu"], into: rail))
-        app.buttons["toggle-layers-menu"].tap()
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(app.scroll(layers, into: rail, fullyVisible: true))
+        XCTAssertTrue(layers.waitForStableFrame(in: rail), "Layers did not settle inside the rail")
+        layers.tap()
         XCTAssertTrue(
-            app.buttons["Close layers menu"].waitForHittable(timeout: timeout),
+            waitForUI { layers.value as? String == "Open" },
+            "the Layers button did not accept the tap"
+        )
+        XCTAssertTrue(
+            app.buttons["Close layers menu"].waitForHittable(timeout: 30),
             "the layers panel did not open from landscape"
         )
     }
