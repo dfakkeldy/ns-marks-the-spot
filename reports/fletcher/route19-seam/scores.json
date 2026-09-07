@@ -1,0 +1,117 @@
+{
+  "input_hashes": {
+    "route19-seam/observations.json": "a4a76997fb6109ae3feaf004dbe1cee9558705dd1edf704d28cbbac7ba57f7d9",
+    "route19-seam/continuation-trace.json": "e61a507712bb36c1c1b9d7dda3f8fa6aa131a12c8a8b858ee7634559f722faed",
+    "sheet16/observations.json": "d8537c6183c6a738d3aada9c28e3bcc56c31b3a8ef1350900cdaf4f519229c90",
+    "visual-expansion/sheet-observations.json": "632f4b19fcbe64384232fc03693c4f51f646e51332c3d56e382e977ff0afda04",
+    "sheet16/reference-receipts.json": "63211d66603a0652ed869d49100c8df93ebfed965314f02967d1e8631e8d9f10"
+  },
+  "points": [
+    {
+      "id": "S16A",
+      "predicted_lonlat": [
+        -61.46776605838525,
+        45.92562945598507
+      ],
+      "error_ground_m": 44.38435519876447
+    },
+    {
+      "id": "S19A",
+      "predicted_lonlat": [
+        -61.47321272650409,
+        45.92247964979376
+      ],
+      "error_ground_m": 153.79260153046343
+    }
+  ],
+  "lines": [
+    {
+      "id": "L16P",
+      "sample_count": 122,
+      "median_ground_m": 50.427409256301075,
+      "worst_ground_m": 69.46294704535276,
+      "passes": true,
+      "geographic_endpoints": [
+        [
+          -61.52926280303532,
+          46.00481786537682
+        ],
+        [
+          -61.5268536523336,
+          45.98790183512797
+        ]
+      ]
+    },
+    {
+      "id": "L16S",
+      "sample_count": 75,
+      "median_ground_m": 44.781208219274674,
+      "worst_ground_m": 64.0917874862202,
+      "passes": true,
+      "geographic_endpoints": [
+        [
+          -61.476774689090554,
+          45.933126718572986
+        ],
+        [
+          -61.475002317089086,
+          45.92319923775974
+        ]
+      ]
+    },
+    {
+      "id": "L19N",
+      "sample_count": 32,
+      "median_ground_m": 30.784828105097603,
+      "worst_ground_m": 35.88824803813949,
+      "passes": true,
+      "geographic_endpoints": [
+        [
+          -61.47398165791358,
+          45.92501629514225
+        ],
+        [
+          -61.47645328685745,
+          45.92033102440063
+        ]
+      ]
+    },
+    {
+      "id": "L19S",
+      "sample_count": 76,
+      "median_ground_m": 16.40598263411526,
+      "worst_ground_m": 108.94395704675057,
+      "passes": true,
+      "geographic_endpoints": [
+        [
+          -61.47645328685745,
+          45.92033102440063
+        ],
+        [
+          -61.47954268603857,
+          45.90992487645713
+        ]
+      ]
+    }
+  ],
+  "line_metric": "Perpendicular nearest distance only; correlated samples do not check along-road displacement.",
+  "duplicate_reference_segments_ignored": 1,
+  "seam": {
+    "minimum_road_step_ground_m": 0.08533473653595448,
+    "maximum_road_step_ground_m": 11.252332190279308,
+    "best_lonlat": [
+      -61.474233716695316,
+      45.92450752507426
+    ],
+    "overlap_latitude_range": [
+      45.92319923775974,
+      45.92501629514225
+    ],
+    "passes_25m": true
+  },
+  "curves_sha256": "bce54596155454ac7c77ff84ee60648bb5a0c46ae0b57f7d5c20cb4301a88deb",
+  "control_counts": {
+    "16": 32,
+    "19": 39
+  }
+}
