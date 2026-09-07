@@ -84,6 +84,32 @@ describe("map share state", () => {
     expect(url.searchParams.has("event")).toBe(false);
   });
 
+  it("reads the built-in setup a link names, and only a real value", () => {
+    expect(parseMapShareState("https://example.test/?theme=poker").themeId)
+      .toBe("poker");
+    expect(parseMapShareState("https://example.test/").themeId).toBeUndefined();
+    expect(parseMapShareState("https://example.test/?theme=%20").themeId)
+      .toBeUndefined();
+  });
+
+  it("names the setup in a link when asked, and leaves it out otherwise", () => {
+    const withTheme = new URL(buildMapShareUrl("https://example.test/", {
+      ...state,
+      themeId: "poker",
+    }));
+    const withoutTheme = new URL(buildMapShareUrl("https://example.test/", state));
+
+    expect(withTheme.searchParams.get("theme")).toBe("poker");
+    expect(withoutTheme.searchParams.has("theme")).toBe(false);
+  });
+
+  it("treats a link that only names a setup as a first visit", () => {
+    // The named setup supplies the layers; there is no shared layer list to
+    // restore, and treating one as shared would open the map empty.
+    expect(hasRecognizedMapShareState("https://example.test/?theme=poker"))
+      .toBe(false);
+  });
+
   it("distinguishes a first visit from recognized shared state", () => {
     expect(hasRecognizedMapShareState("https://example.test/")).toBe(false);
     expect(

@@ -55,6 +55,15 @@ export type MapShareState = {
   eventIds: string[];
   layerIds: ShareLayerId[];
   position: MapPosition;
+  /**
+   * The built-in setup a link names outright, unvalidated here: this module
+   * owns layer, tax-sale, and position parameters, and `mapThemes` owns which
+   * setup IDs exist. `App` decides whether the name is real and whether the
+   * rest of the link agrees with it. Absent when no setup is named, the same
+   * way `basemapStyle` is: a link that stands for exactly the layers it lists
+   * — a printed map's, say — names none.
+   */
+  themeId?: string;
 };
 
 export const DEFAULT_MAP_POSITION: MapPosition = {
@@ -132,6 +141,7 @@ export function parseMapShareState(value: string): MapShareState {
   const layerIds = (url.searchParams.get("layers") ?? "")
     .split(",")
     .filter(isShareLayerId);
+  const themeId = url.searchParams.get("theme")?.trim();
 
   return {
     ...(isBasemapStyle(basemap) ? { basemapStyle: basemap } : {}),
@@ -141,9 +151,17 @@ export function parseMapShareState(value: string): MapShareState {
     eventIds,
     layerIds,
     position: parsePosition(url.searchParams.get("position")),
+    ...(themeId ? { themeId } : {}),
   };
 }
 
+/**
+ * `theme` is deliberately absent. These keys mean "this link carries map state
+ * to restore instead of a first-visit default", and a link that names a setup
+ * without any of them carries no layer list to restore — the named setup
+ * supplies one. Listing `theme` here would restore an empty layer set and open
+ * the map with nothing drawn.
+ */
 const recognizedShareKeys = [
   "taxSale",
   "mode",
@@ -170,6 +188,7 @@ export function buildMapShareUrl(
   url.search = "";
   url.hash = "";
   if (state.basemapStyle) url.searchParams.set("basemap", state.basemapStyle);
+  if (state.themeId) url.searchParams.set("theme", state.themeId);
   url.searchParams.set("taxSale", state.taxSaleEnabled ? "on" : "off");
   url.searchParams.set("mode", state.mode);
   if (state.pid) {
