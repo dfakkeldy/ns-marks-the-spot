@@ -54,6 +54,7 @@ export async function fetchArcGISFeatureOverlay<
 }: FetchArcGISFeatureOverlayOptions): Promise<ArcGISFeatureCollection<G>> {
   const features: ArcGISFeatureCollection<G>["features"] = [];
   const seen = new Set<string>();
+  let offset = 0;
 
   for (let page = 0; page < MAX_PAGES; page += 1) {
     const queryUrl = new URL(`${serviceUrl.replace(/\/$/, "")}/query`);
@@ -73,7 +74,7 @@ export async function fetchArcGISFeatureOverlay<
     queryUrl.searchParams.set("outFields", outFields.join(","));
     queryUrl.searchParams.set("returnGeometry", "true");
     queryUrl.searchParams.set("resultRecordCount", String(PAGE_SIZE));
-    queryUrl.searchParams.set("resultOffset", String(page * PAGE_SIZE));
+    queryUrl.searchParams.set("resultOffset", String(offset));
     queryUrl.searchParams.set("orderByFields", orderByFields);
     queryUrl.searchParams.set("f", "geojson");
 
@@ -83,7 +84,10 @@ export async function fetchArcGISFeatureOverlay<
     }
 
     const pageCollection =
-      (await response.json()) as ArcGISFeatureCollection<G>;
+      (await response.json()) as ArcGISFeatureCollection<G> & {
+        exceededTransferLimit?: boolean;
+        properties?: { exceededTransferLimit?: boolean };
+      };
     if (!Array.isArray(pageCollection.features)) {
       throw new Error("ArcGIS feature query returned an invalid collection");
     }
@@ -96,9 +100,15 @@ export async function fetchArcGISFeatureOverlay<
       }
     }
 
-    if (pageCollection.features.length < PAGE_SIZE) {
+    const limited = pageCollection.exceededTransferLimit === true ||
+      pageCollection.properties?.exceededTransferLimit === true;
+    if (limited && pageCollection.features.length === 0) {
+      throw new Error("ArcGIS returned an incomplete empty page");
+    }
+    if (!limited && pageCollection.features.length < PAGE_SIZE) {
       return { type: "FeatureCollection", features };
     }
+    offset += pageCollection.features.length;
   }
 
   throw new Error("ArcGIS feature query exceeded the overlay safety limit");

@@ -128,6 +128,8 @@ describe("ExportDialog", () => {
       omittedLayerNames: [
         "Inverness zoning",
         "Published river flood zones",
+        "Karst risk",
+        "Historical coal workings",
         "My scanned survey plan",
       ],
     });
@@ -136,6 +138,8 @@ describe("ExportDialog", () => {
     for (const name of [
       "Inverness zoning",
       "Published river flood zones",
+      "Karst risk",
+      "Historical coal workings",
       "My scanned survey plan",
     ]) {
       expect(notice).toHaveTextContent(name);

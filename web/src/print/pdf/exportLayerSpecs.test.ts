@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { toMercator } from "../../userMaps/transform/webMercator";
 import { composeMapImage } from "./mapCompositor";
-import { buildExportLayers, type ExportLayerInputs } from "./exportLayerSpecs";
+import { buildExportLayers, contextExportOmission, type ExportLayerInputs } from "./exportLayerSpecs";
+import { contextLayerCatalog } from "../../layers/contextLayerCatalog";
+
+const imageContextLayers = contextLayerCatalog.filter(({ delivery }) => delivery === undefined);
 
 const bounds = { north: 46.35, south: 46.25, west: -61.25, east: -61.10 };
 
@@ -23,6 +26,101 @@ function inputs(overrides: Partial<ExportLayerInputs> = {}): ExportLayerInputs {
 }
 
 describe("buildExportLayers", () => {
+  it("omits below-scale context services before a blank image can be credited as rendered", () => {
+    for (const layer of imageContextLayers) {
+      expect(contextExportOmission(layer, layer.minZoom - 1)).toBe(
+        `below display scale (zoom ${layer.minZoom} required)`,
+      );
+      expect(contextExportOmission(layer, layer.minZoom)).toBeNull();
+      expect(contextExportOmission(layer, layer.maxZoom)).toBeNull();
+      expect(contextExportOmission(layer, layer.maxZoom + 1)).toBe(
+        `above display scale (maximum zoom ${layer.maxZoom})`,
+      );
+    }
+  });
+
+  it("names unsupported feature and static sources distinctly from below-scale sources", () => {
+    const unsupported = contextLayerCatalog.filter(({ delivery }) => delivery !== undefined);
+    expect(unsupported.some(({ delivery }) => delivery === "static-image")).toBe(true);
+    for (const layer of unsupported) {
+      expect(contextExportOmission(layer, layer.minZoom)).toBe("PDF export does not support this source format");
+      expect(contextExportOmission(layer, layer.minZoom - 1)).toContain("below display scale");
+    }
+  });
+  it("keeps topographic imagery under aerial and Fletcher, and broad overlays under parcel lines", () => {
+    const layers = buildExportLayers(inputs({
+      arcgisLayers: [
+        { id: "nsprd", name: "Parcels", serviceUrl: "https://example.test/MapServer", exportOptions: { transparent: true }, opacity: 1 },
+        ...[...imageContextLayers].reverse(),
+        { id: "ns-aerial", name: "Aerial", serviceUrl: "https://example.test/MapServer", exportOptions: { transparent: false }, opacity: 1 },
+      ],
+    }));
+    const ids = layers.map(({ id }) => id);
+    expect(ids.indexOf("modern")).toBeLessThan(ids.indexOf("ns-topographic"));
+    expect(ids.indexOf("ns-topographic")).toBeLessThan(ids.indexOf("ns-aerial"));
+    expect(ids.indexOf("ns-aerial")).toBeLessThan(ids.findIndex((id) => id.startsWith("fletcher-")));
+    for (const layer of imageContextLayers.filter(({ zIndex }) => zIndex >= 165 && zIndex <= 195)) {
+      expect(ids.indexOf(layer.id)).toBeGreaterThan(ids.findIndex((id) => id.startsWith("fletcher-")));
+      expect(ids.indexOf(layer.id)).toBeLessThan(ids.indexOf("nsprd"));
+    }
+    for (const lower of imageContextLayers) {
+      for (const higher of imageContextLayers.filter(({ zIndex }) => zIndex > lower.zIndex)) {
+        expect(ids.indexOf(lower.id)).toBeLessThan(ids.indexOf(higher.id));
+      }
+    }
+  });
+
+  it("preserves each context service's selected classes and filters in its frame render", () => {
+    const layers = buildExportLayers(inputs({ arcgisLayers: [...imageContextLayers] }));
+    for (const source of imageContextLayers) {
+      const layer = layers.find(({ id }) => id === source.id);
+      expect(layer?.kind).toBe("image");
+      if (layer?.kind !== "image") throw new Error(`Missing context image ${source.id}`);
+      const url = new URL(layer.url({ bounds, widthPx: 900, heightPx: 600 })!);
+      expect(url.origin + url.pathname).toBe(`${source.serviceUrl}/export`);
+      expect(url.searchParams.get("layers")).toBe(source.exportOptions.layers ?? null);
+      expect(url.searchParams.get("dynamicLayers")).toBe(source.exportOptions.dynamicLayers
+        ? JSON.stringify(JSON.parse(source.exportOptions.dynamicLayers)) : null);
+      expect(url.searchParams.get("size")).toBe("900,600");
+      expect(layer.opacity).toBe(source.opacity);
+    }
+  });
+
+  it("limits close-up context renders to source resolution without changing the geographic extent", () => {
+    const source = imageContextLayers.find(({ id }) => id === "ns-topographic")!;
+    expect(source.maxNativeZoom).toBe(19);
+    const layer = buildExportLayers(inputs({ arcgisLayers: [source] }))
+      .find(({ id }) => id === source.id)!;
+    if (layer.kind !== "image") throw new Error("Missing topographic export image");
+
+    const closeBounds = { north: 46.3001, south: 46.3, west: -61.2, east: -61.1999 };
+    const nw = toMercator({ lat: closeBounds.north, lng: closeBounds.west });
+    const se = toMercator({ lat: closeBounds.south, lng: closeBounds.east });
+    const resolution = 156_543.033_928_040_97 / 2 ** 19;
+    const url = new URL(layer.url({ bounds: closeBounds, widthPx: 3000, heightPx: 2000 })!);
+    const [width, height] = url.searchParams.get("size")!.split(",").map(Number);
+    expect(width).toBeGreaterThanOrEqual(1);
+    expect(height).toBeGreaterThanOrEqual(1);
+    expect(width).toBeLessThan(3000);
+    expect(height).toBeLessThan(2000);
+    expect((se.x - nw.x) / width).toBeGreaterThanOrEqual(resolution);
+    expect((nw.y - se.y) / height).toBeGreaterThanOrEqual(resolution);
+    expect(url.searchParams.get("bbox")).toBe(`${nw.x},${se.y},${se.x},${nw.y}`);
+    expect(new URL(layer.url({ bounds, widthPx: 900, heightPx: 600 })!).searchParams.get("size"))
+      .toBe("900,600");
+
+    const tinyBounds = { north: 46.300000001, south: 46.3, west: -61.2, east: -61.199999999 };
+    expect(new URL(layer.url({ bounds: tinyBounds, widthPx: 3000, heightPx: 2000 })!).searchParams.get("size"))
+      .toBe("1,1");
+
+    const parcelLayer = buildExportLayers(inputs({ arcgisLayers: [{
+      id: "nsprd", name: "Parcels", serviceUrl: "https://example.test/MapServer",
+      exportOptions: { transparent: true }, opacity: 1,
+    }] })).find(({ id }) => id === "nsprd")!;
+    if (parcelLayer.kind !== "image") throw new Error("Missing parcel export image");
+    expect(new URL(parcelLayer.url({ bounds: closeBounds, widthPx: 3000, heightPx: 2000 })!).searchParams.get("size"))
+      .toBe("3000,2000");
+  });
   it("puts the basemap first and honours the modern toggle", () => {
     const layers = buildExportLayers(inputs());
     expect(layers[0]).toMatchObject({ kind: "tile", id: "modern" });

@@ -190,6 +190,10 @@ fitBounds padding, and bounds its GPU canvas to 2048 pixels per edge. Its source
 receipt discloses resampling. Source errors remain failures and require the
 existing incomplete-export consent; the renderer never substitutes another
 basemap. Legacy snapshots without a basemap style continue to use OSM.
+Browser print supports all 37 context controls subject to fitted zoom and source
+readiness. Generated PDF supports their 32 MapServer image entries; the four
+feature-query entries and static radon image are omitted and named as not
+included. It preserves the on-screen image order and selected-parcel authority.
 
 The exact receipt is derived only after the print map resolves. It uses the
 existing map-share format with the captured PID, mode and event IDs, the
@@ -251,6 +255,17 @@ envelope, pages full ArcGIS responses, cancels stale requests after map
 movement, and deduplicates returned records. Occurrences begin at zoom 8; the
 denser mine-opening inventory waits until zoom 11. Each feature service reports
 loading, visible-record count, zoom, and failure state independently.
+
+`layers/contextLayerCatalog.ts` adds 37 default-off web-only research controls,
+composed from the NSTDB infrastructure/place and land/environment catalogues.
+Thirty-two reuse the ArcGIS image adapter; four use `ContextFeatureLayer` with
+bounded, cancellable viewport queries and source-class legends; radon uses
+`ContextImageLayer` with a reproducible source-derived raster. Licence gates,
+source dates, coverage and scale caveats remain descriptor-specific. The
+catalogue participates in categories, share state, custom themes and browser
+print without extending the native parity/offline catalogue. See the
+[GeoNova source inventory](docs/geonova-layer-expansion.md) for all layers,
+licence distinctions, source checks and the radon reproduction receipt.
 
 `MineralProximityParcelLayer` is the only derived resource renderer. It asks
 `mineralProximity.ts` for occurrence points around the viewport and submits the
@@ -393,9 +408,9 @@ default-off and uses `https://tiles.kinnokilabs.com` by default.
 `VITE_FLETCHER_TILE_BASE_URL` can disable it with an empty value or name an
 authorized HTTPS host; opacity, share state, print/evidence provenance, and
 retry status use the normal web-layer contracts. This does not change native
-URLs or native offline bundling. Geology & Resources is collapsed: its three
-open source-backed overlays and its separately licence-gated derived parcel row
-all start off. The Hydro terrain pilot is also collapsed and off by default.
+URLs or native offline bundling. Geology & Resources is collapsed: its original
+three open source-backed overlays, separately licence-gated derived parcel row,
+and added context controls all start off. The Hydro terrain pilot is also collapsed and off by default.
 Forestry is collapsed and its open old-growth policy overlay starts off.
 Municipal zoning is collapsed and all five of its layers start off; it is not
 licence-gated because its sources are municipal rather than provincial.

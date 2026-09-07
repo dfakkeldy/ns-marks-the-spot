@@ -1,3 +1,4 @@
+import { contextLayerCatalog, type ContextLayerId } from "../layers/contextLayerCatalog";
 import { isBasemapStyle, type BasemapStyle } from "../atlas/basemap";
 import { taxSaleEvents } from "../data/taxSaleCatalog";
 import { historicalTaxSaleEvents } from "../data/historicalTaxSales";
@@ -37,7 +38,8 @@ export type ShareLayerId =
   | ForestryLayerId
   | ZoningLayerId
   | WellLogLayerId
-  | LiveConditionsLayerId;
+  | LiveConditionsLayerId
+  | ContextLayerId;
 
 export type MapPosition = {
   latitude: number;
@@ -76,6 +78,7 @@ const shareLayerIdSet = new Set<ShareLayerId>([
   "modern",
   fletcherLayerCatalog.id,
   ...provinceLayerCatalog.map(({ id }) => id),
+  ...contextLayerCatalog.map(({ id }) => id),
   ...allResourceLayerCatalog.map(({ id }) => id),
   ...hydroPilotLayerCatalog.map(({ id }) => id),
   ...floodHazardLayerCatalog.map(({ id }) => id),

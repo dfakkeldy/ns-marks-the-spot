@@ -15,6 +15,7 @@ import {
   type PrintSnapshot,
 } from "../../services/printSnapshot";
 import { normalizeFletcherTileBaseUrl } from "../../layers/fletcherLayer";
+import { contextLayerCatalog } from "../../layers/contextLayerCatalog";
 import type { NsprdFeatureCollection } from "../../services/nsprd";
 import {
   MapCanvas,
@@ -148,6 +149,7 @@ export function PrintMap({
         environmentalHealthLayers={visibilityFor(environmentalHealthLayerCatalog, layerIds)}
         zoningLayers={visibilityFor(zoningLayerCatalog, layerIds)}
         wellLogLayers={visibilityFor(wellLogLayerCatalog, layerIds)}
+        contextLayers={visibilityFor(contextLayerCatalog, layerIds)}
         wellLogAccuracyFilter={snapshot.wellLogAccuracyFilter}
         fletcherVisible={
           Boolean(fletcherTileBaseUrl) && layerIds.includes("fletcher")

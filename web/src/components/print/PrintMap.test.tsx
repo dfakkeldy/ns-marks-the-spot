@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { MapLayerId, MapLayerStatus } from "../MapCanvas";
 import { PrintMap } from "./PrintMap";
 import type { PrintSnapshot } from "../../services/printSnapshot";
+import { contextLayerCatalog } from "../../layers/contextLayerCatalog";
 
 const mapCanvasProps = vi.hoisted(() => ({
   current: undefined as Record<string, unknown> | undefined,
@@ -40,6 +41,55 @@ function reportLayerStatus(id: MapLayerId, status: MapLayerStatus) {
 describe("PrintMap", () => {
   afterEach(() => {
     vi.unstubAllEnvs();
+  });
+
+  it("restores every captured context layer and waits for its rendered status", () => {
+    const onReadinessChange = vi.fn();
+    const layerIds = contextLayerCatalog.map(({ id }) => id);
+    render(<PrintMap snapshot={{ ...snapshot, layerIds }}
+      bounds={snapshot.viewport.bounds} includeAerial={false}
+      onReadinessChange={onReadinessChange} onResolvedPosition={vi.fn()} />);
+
+    expect(mapCanvasProps.current?.contextLayers).toEqual(
+      Object.fromEntries(layerIds.map((id) => [id, true])),
+    );
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "loading", renderedLayerIds: [], failedLayerIds: [], belowZoomLayerIds: [],
+    });
+    act(() => layerIds.forEach((id) => reportLayerStatus(id, { status: "ready" })));
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "ready", renderedLayerIds: layerIds, belowZoomLayerIds: [],
+    });
+  });
+
+  it("keeps a failed context layer out of the rendered print receipt", () => {
+    const onReadinessChange = vi.fn();
+    const id = contextLayerCatalog[0].id;
+    render(<PrintMap snapshot={{ ...snapshot, layerIds: [id] }}
+      bounds={snapshot.viewport.bounds} includeAerial={false}
+      onReadinessChange={onReadinessChange} onResolvedPosition={vi.fn()} />);
+
+    act(() => {
+      reportLayerStatus(id, { status: "error" });
+      reportLayerStatus(id, { status: "ready" });
+    });
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "error", renderedLayerIds: [], failedLayerIds: [id],
+      belowZoomLayerIds: [], timedOutLayerIds: [],
+    });
+  });
+
+  it("reports a context layer below display scale separately from a rendered layer", () => {
+    const onReadinessChange = vi.fn();
+    const { id, minZoom } = contextLayerCatalog[0];
+    render(<PrintMap snapshot={{ ...snapshot, layerIds: [id] }}
+      bounds={snapshot.viewport.bounds} includeAerial={false}
+      onReadinessChange={onReadinessChange} onResolvedPosition={vi.fn()} />);
+
+    act(() => reportLayerStatus(id, { status: "zoom", minZoom }));
+    expect(onReadinessChange).toHaveBeenLastCalledWith({
+      status: "ready", renderedLayerIds: [], belowZoomLayerIds: [id],
+    });
   });
 
   /**
