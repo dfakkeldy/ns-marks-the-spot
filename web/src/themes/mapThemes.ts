@@ -120,7 +120,7 @@ export const builtInMapThemes = [
     kind: "built-in",
     name: "Poker",
     description: "Civic addresses and driveway distances for your mail route.",
-    layerIds: ["modern"],
+    layerIds: ["ns-aerial", "roads"],
     opacityOverrides: {},
     preferredCategoryIds: ["background-maps", "roads-places"],
     taxSaleEnabled: false,

@@ -201,15 +201,19 @@ The six built-in map setups are **Explore Nova Scotia**,
 **Georeferencing**, and **Poker**. Applying a setup replaces the catalogue-layer configuration
 coherently; it does not remove or change imported maps or data.
 
-**Poker** is a web-only driveway-measuring workflow. Search a civic address,
-choose a result, then click the house and trace the driveway to your mail route.
-Use **Finish**, **Undo point**, or **Clear**, then **Next address** to clear the
-path and select the search text for replacement. Only the selected parcel is
-outlined by default. Aerial imagery and civic numbers have quick toggles.
-Civic numbers use official mapped points, which may not sit on a house. They
-load at zoom 16 or closer, with a disclosed 500-point viewport limit. Poker
-sessions and measurements are not saved, shared, or copied into custom themes.
-The native theme parity fixture excludes this web-only workflow.
+**Poker** is a web-only driveway-measuring workflow with an always-visible
+search field over the map. Aerial imagery and roads (including street-name
+labels) are on by default, subject to the Province licence gate. Civic numbers
+are on at street zoom. Search a civic address, choose a result, then tap the
+house and trace the driveway to your mail route. **Finish**, **Undo point**,
+and **Clear** sit with the distance total in a compact strip. Tap the search
+field to replace the address; choosing another result clears the previous path.
+Quick successive taps keep every point. Only the selected parcel is outlined.
+Civic points may not sit on a house. They load at zoom 16 or closer, with a
+500-point viewport limit. Civic-source status, attribution, and accuracy notes
+remain in the footer. Poker sessions and measurements are not saved, shared,
+or copied into custom themes. The native theme parity fixture excludes this
+web-only workflow.
 
 Custom themes are stored only in this browser's `localStorage`. They can save
 visible catalogue-layer IDs, supported opacity overrides, preferred categories,
@@ -230,10 +234,9 @@ the rest of the link agrees with the setup it names: layer, tax-sale, and mode
 parameters keep precedence, and an unknown or custom name is ignored, since a
 custom setup lives only in the browser that saved it. A named setup whose
 layers need the Province licence asks for acceptance before drawing them, the
-same as a shared link would. Share links carry `theme` only when the layer
-parameters cannot identify the selection on their own, which today means
-Poker: it draws the same single layer as Explore Nova Scotia, so without the
-name a reload would land in the wrong one.
+same as a shared link would. Share links preserve Poker’s `theme` to identify
+the driveway workflow explicitly. Other built-in setups carry their name only
+when layer parameters cannot identify the selection on their own.
 
 The generated web-to-native category and built-in-theme contract is
 [`NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json`](../NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json),

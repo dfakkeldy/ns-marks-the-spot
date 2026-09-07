@@ -3588,7 +3588,8 @@ a {
     bottom: 8px;
     left: 8px;
     display: none;
-    max-height: min(86svh, 760px);
+    /* Follow the visible viewport when the software keyboard opens. */
+    max-height: min(760px, calc(var(--app-viewport-height, 100dvh) - var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) - 16px - env(safe-area-inset-top)));
     min-height: 0;
     padding-top: 0;
     overflow-y: auto;
@@ -3601,12 +3602,12 @@ a {
 
   .layer-rail.mobile-open {
     display: block;
-    /* 8px inset + the attribution strip's 72px max-height: keep Geology
-       (and the rest of the sheet) from covering Data & licences. That cap
-       now carries env(safe-area-inset-bottom), so this derived clearance
-       carries the same inset — the 8px gap is preserved — or the sheet
-       covers the button again on a home-indicator phone. */
-    bottom: calc(80px + env(safe-area-inset-bottom));
+    /* Keep the sheet above the measured attribution strip. */
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 8px);
+  }
+
+  .search-row input {
+    font-size: 16px;
   }
 
   .map-theme-picker select,

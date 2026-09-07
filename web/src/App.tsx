@@ -294,7 +294,6 @@ type LicenceIntent =
   | { kind: "search"; query: string }
   /** The edit panel's parcel-snap toggle asked before acceptance. */
   | { kind: "snap" }
-  | { kind: "poker-aerial" }
   /** "Data & licences" review — never a licence-state or layer-state change. */
   | { kind: "review" }
   | null;
@@ -1126,12 +1125,8 @@ export function App() {
   const hasSharedEvents = initialUrl.searchParams.has("event");
   const hasSharedPosition = initialUrl.searchParams.has("position");
   /**
-   * `?theme=` names a built-in setup. Two of them — Explore Nova Scotia and
-   * Poker — draw exactly the same single layer, so the layer parameters alone
-   * cannot say which one a link meant; Poker's driveway tools hang off the
-   * selection, not off a layer. The name seeds a first visit, and never
-   * overrules a link that also carries its own state: it is honoured only
-   * while the state on the link still matches the setup it names.
+   * `?theme=` opens a built-in setup directly, including Poker's driveway
+   * tools. Explicit layer state still takes precedence over the named setup.
    */
   const requestedTheme = builtInMapThemes.find(
     ({ id }) => id === initialShareState.themeId,
@@ -1222,8 +1217,9 @@ export function App() {
   const pokerMode = selectedThemeId === "poker";
   const [pokerAddress, setPokerAddress] = useState<CivicAddress | null>(null);
   const [pokerRevision, setPokerRevision] = useState(0);
+  const [pokerCivicStatus, setPokerCivicStatus] = useState("Zoom in to see civic numbers.");
   const pokerSearchRef = useRef<HTMLInputElement>(null);
-  const pokerNextFocus = useRef(false);
+  const selectPokerQueryOnClick = useRef(false);
   const [themeResult, setThemeResult] = useState<ResolvedTheme | null>(null);
   const [customThemes, setCustomThemes] = useState<CustomMapThemeDefinition[]>(
     initialCustomThemes,
@@ -1305,11 +1301,7 @@ export function App() {
   // sheet header is sticky, so landing there scrolls nothing.
   useEffect(() => {
     if (!mobileControlsOpen) return;
-    if (pokerNextFocus.current) {
-      pokerSearchRef.current?.focus();
-      pokerSearchRef.current?.select();
-      pokerNextFocus.current = false;
-    } else mobileSheetCloseRef.current?.focus();
+    mobileSheetCloseRef.current?.focus({ preventScroll: true });
   }, [mobileControlsOpen]);
   const closeMobileControls = useCallback(() => {
     // Only reclaim focus that was still inside the sheet, and read that before
@@ -2984,6 +2976,7 @@ export function App() {
       setPokerRevision((value) => value + 1);
     }
     setSelectedThemeId(themeId);
+    if (themeId === "poker") setMobileControlsOpen(false);
     applyResolvedTheme(resolveTheme(theme, {
       licenceAccepted,
       availableLayerIds: availableThemeLayerIds,
@@ -3021,6 +3014,7 @@ export function App() {
       );
       if (theme) {
         setSelectedThemeId(theme.id);
+        if (theme.id === "poker") setMobileControlsOpen(false);
         applyResolvedTheme(resolveTheme(theme, {
           licenceAccepted: true,
           availableLayerIds: availableThemeLayerIds,
@@ -3031,9 +3025,6 @@ export function App() {
       // The search that opened this dialog runs now, with the gate bypassed:
       // `licenceAccepted` in this closure is still the pre-accept value.
       void runSearch(licenceIntent.query, { licenceJustAccepted: true });
-    } else if (licenceIntent?.kind === "poker-aerial") {
-      setProvinceLayers((current) => ({ ...current, "ns-aerial": true }));
-      setShowModernMap(false);
     } else if (licenceIntent?.kind === "layer") {
       setProvinceLayers(intendedInitialProvinceLayers);
     } else if (licenceIntent?.kind === "snap") {
@@ -3057,6 +3048,7 @@ export function App() {
       );
       if (theme) {
         setSelectedThemeId(theme.id);
+        if (theme.id === "poker") setMobileControlsOpen(false);
         applyResolvedTheme(resolveTheme(theme, {
           licenceAccepted: false,
           availableLayerIds: availableThemeLayerIds,
@@ -3498,7 +3490,7 @@ export function App() {
       setSelectedPid(null);
       setPokerAddress(address);
       setPokerRevision((value) => value + 1);
-      handOffSheetFocus();
+      mapRegionRef.current?.focus({ preventScroll: true });
       setMobileControlsOpen(false);
     }
     void identifyParcelAtPoint(
@@ -3814,17 +3806,12 @@ export function App() {
   );
   const activeThemeId = selectedTheme?.id ?? matchedTheme?.id ?? null;
   /**
-   * Named in the share URL only when the layer parameters cannot identify the
-   * selection on their own — in practice, Poker, whose one layer is also
-   * Explore Nova Scotia's. Without it the address bar rewrite below would
-   * quietly drop Poker on the next reload. A setup its own layers already
-   * identify stays out, so ordinary links keep their present shape, and a
-   * custom setup stays out because it exists only in the browser that saved
-   * it and cannot be restored from a name elsewhere.
+   * Preserve Poker's workflow identity in its URL, and any other built-in
+   * selection that layers alone cannot identify. Custom names stay local.
    */
   const shareThemeId = selectedTheme?.kind === "built-in"
     && themeStatesMatch(themeComparableState, selectedTheme)
-    && matchTheme(themeComparableState, mapThemes)?.id !== selectedTheme.id
+    && (selectedTheme.id === "poker" || matchTheme(themeComparableState, mapThemes)?.id !== selectedTheme.id)
     ? selectedTheme.id
     : undefined;
   const themeResultMatches = themeResult !== null
@@ -4379,6 +4366,128 @@ export function App() {
     setShareMessage(`Evidence note exported as ${note.filename}.`);
   };
 
+  const searchForm = (
+    <form className={`pid-search${pokerMode ? " poker-search" : ""}`} onSubmit={submitPidSearch}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          cancelAddressSearch();
+          setAddressSearchResults([]);
+        }
+      }}
+    >
+      <label className={pokerMode ? "sr-only" : undefined} htmlFor="pid-query">Search by PID or civic address</label>
+      <div className="search-row">
+        <input
+          ref={pokerSearchRef}
+          id="pid-query"
+          type="search"
+          value={query}
+          onChange={(event) => {
+            cancelAddressSearch();
+            cancelPointLookup();
+            setQuery(event.target.value);
+            setAddressSearchResults([]);
+            setSearchError(null);
+            if (!(event.nativeEvent as InputEvent).isComposing) {
+              scheduleAddressSuggestions(event.target.value);
+            }
+          }}
+          onCompositionStart={cancelAddressSearch}
+          onCompositionEnd={(event) => {
+            cancelAddressSearch();
+            scheduleAddressSuggestions(event.currentTarget.value);
+          }}
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded={addressSearchResults.length > 0}
+          aria-controls={addressSearchResults.length > 0 ? "address-search-results" : undefined}
+          aria-activedescendant={activeAddressIndex >= 0 ? `address-option-${activeAddressIndex}` : undefined}
+          onKeyDown={(event) => {
+            if (event.nativeEvent.isComposing) return;
+            if (event.key === "Escape") {
+              if (addressSearchResults.length || searchingAddresses || addressSearchTimer.current !== null) {
+                event.preventDefault();
+                event.stopPropagation();
+                cancelAddressSearch();
+                setAddressSearchResults([]);
+                setSearchError(null);
+              }
+            } else if (addressSearchResults.length && (event.key === "ArrowDown" || event.key === "ArrowUp")) {
+              event.preventDefault();
+              const next = event.key === "ArrowDown"
+                ? (activeAddressIndex + 1) % addressSearchResults.length
+                : (activeAddressIndex <= 0 ? addressSearchResults.length : activeAddressIndex) - 1;
+              setActiveAddressIndex(next);
+              document.getElementById(`address-option-${next}`)?.scrollIntoView?.({ block: "nearest" });
+            } else if (event.key === "Enter" && activeAddressIndex >= 0) {
+              event.preventDefault();
+              chooseAddress(addressSearchResults[activeAddressIndex]);
+            }
+          }}
+          onPointerDown={(event) => {
+            selectPokerQueryOnClick.current = pokerMode && document.activeElement !== event.currentTarget;
+          }}
+          onFocus={(event) => { if (pokerMode) event.currentTarget.select(); }}
+          onClick={(event) => {
+            // Safari positions its caret after focus; select after that first tap.
+            if (selectPokerQueryOnClick.current) {
+              const input = event.currentTarget;
+              requestAnimationFrame(() => {
+                if (document.activeElement === input) input.select();
+              });
+            }
+            selectPokerQueryOnClick.current = false;
+          }}
+          placeholder={pokerMode ? "Search civic address" : "PID or address"}
+          aria-describedby="pid-search-help"
+          inputMode="search"
+          autoComplete="off"
+        />
+        <button className="primary-action" type="submit" aria-label="Find parcel" title="Find parcel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+            <circle cx="10.5" cy="10.5" r="6.5" />
+            <path d="m16 16 5 5" />
+          </svg>
+        </button>
+      </div>
+      <p id="pid-search-help" className={`field-help${pokerMode && !searchError && !searchingAddresses ? " sr-only" : ""}`} role={searchError ? "alert" : undefined}>
+        {searchError ??
+          (searchingAddresses
+            ? "Searching mapped civic addresses…"
+            : "Enter an 8-digit PID or a Nova Scotia civic address.")}
+      </p>
+      <span className="sr-only" role="status">
+        {addressSearchResults.length > 0
+          ? `${addressSearchResults.length} civic address matches. Use up and down arrows, then Enter to choose.`
+          : searchingAddresses ? "Searching mapped civic addresses…" : ""}
+      </span>
+      {addressSearchResults.length > 0 ? (
+        <ul
+          id="address-search-results"
+          role="listbox"
+          className="address-search-results"
+          aria-label="Civic address results"
+        >
+          {addressSearchResults.map((address, index) => (
+            <li key={address.pntid} role="presentation">
+              <button
+                id={`address-option-${index}`}
+                role="option"
+                aria-selected={activeAddressIndex === index}
+                tabIndex={-1}
+                type="button"
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => chooseAddress(address)}
+              >
+                {address.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </form>
+  );
+
   return (
     <>
     <div
@@ -4454,111 +4563,7 @@ export function App() {
               the rail's own child-combinator rule carries its former h1
               typography over unchanged. */}
           <h2>{pokerMode ? "Poker" : "Explore Nova Scotia"}</h2>
-          <form className="pid-search" onSubmit={submitPidSearch}
-            onBlur={(event) => {
-              if (!event.currentTarget.contains(event.relatedTarget)) {
-                cancelAddressSearch();
-                setAddressSearchResults([]);
-              }
-            }}
-          >
-            <label htmlFor="pid-query">Search by PID or civic address</label>
-            <div className="search-row">
-              <input
-                ref={pokerSearchRef}
-                id="pid-query"
-                type="search"
-                value={query}
-                onChange={(event) => {
-                  cancelAddressSearch();
-                  cancelPointLookup();
-                  setQuery(event.target.value);
-                  setAddressSearchResults([]);
-                  setSearchError(null);
-                  if (!(event.nativeEvent as InputEvent).isComposing) {
-                    scheduleAddressSuggestions(event.target.value);
-                  }
-                }}
-                onCompositionStart={cancelAddressSearch}
-                onCompositionEnd={(event) => {
-                  cancelAddressSearch();
-                  scheduleAddressSuggestions(event.currentTarget.value);
-                }}
-                role="combobox"
-                aria-autocomplete="list"
-                aria-expanded={addressSearchResults.length > 0}
-                aria-controls={addressSearchResults.length > 0 ? "address-search-results" : undefined}
-                aria-activedescendant={activeAddressIndex >= 0 ? `address-option-${activeAddressIndex}` : undefined}
-                onKeyDown={(event) => {
-                  if (event.nativeEvent.isComposing) return;
-                  if (event.key === "Escape") {
-                    if (addressSearchResults.length || searchingAddresses || addressSearchTimer.current !== null) {
-                      event.preventDefault();
-                      event.stopPropagation();
-                      cancelAddressSearch();
-                      setAddressSearchResults([]);
-                      setSearchError(null);
-                    }
-                  } else if (addressSearchResults.length && (event.key === "ArrowDown" || event.key === "ArrowUp")) {
-                    event.preventDefault();
-                    const next = event.key === "ArrowDown"
-                      ? (activeAddressIndex + 1) % addressSearchResults.length
-                      : (activeAddressIndex <= 0 ? addressSearchResults.length : activeAddressIndex) - 1;
-                    setActiveAddressIndex(next);
-                    document.getElementById(`address-option-${next}`)?.scrollIntoView?.({ block: "nearest" });
-                  } else if (event.key === "Enter" && activeAddressIndex >= 0) {
-                    event.preventDefault();
-                    chooseAddress(addressSearchResults[activeAddressIndex]);
-                  }
-                }}
-                placeholder="PID or address"
-                aria-describedby="pid-search-help"
-                inputMode="search"
-                autoComplete="off"
-              />
-              <button className="primary-action" type="submit" aria-label="Find parcel" title="Find parcel">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-                  <circle cx="10.5" cy="10.5" r="6.5" />
-                  <path d="m16 16 5 5" />
-                </svg>
-              </button>
-            </div>
-            <p id="pid-search-help" className="field-help" role={searchError ? "alert" : undefined}>
-              {searchError ??
-                (searchingAddresses
-                  ? "Searching mapped civic addresses…"
-                  : "Enter an 8-digit PID or a Nova Scotia civic address.")}
-            </p>
-            <span className="sr-only" role="status">
-              {addressSearchResults.length > 0
-                ? `${addressSearchResults.length} civic address matches. Use up and down arrows, then Enter to choose.`
-                : searchingAddresses ? "Searching mapped civic addresses…" : ""}
-            </span>
-            {addressSearchResults.length > 0 ? (
-              <ul
-                id="address-search-results"
-                role="listbox"
-                className="address-search-results"
-                aria-label="Civic address results"
-              >
-                {addressSearchResults.map((address, index) => (
-                  <li key={address.pntid} role="presentation">
-                    <button
-                      id={`address-option-${index}`}
-                      role="option"
-                      aria-selected={activeAddressIndex === index}
-                      tabIndex={-1}
-                      type="button"
-                      onMouseDown={(event) => event.preventDefault()}
-                      onClick={() => chooseAddress(address)}
-                    >
-                      {address.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </form>
+          {!pokerMode && searchForm}
 
           {/* Deliberately NOT gated on `licenceAccepted`. Declining the
               Province licence runs `continueWithoutProvinceLayers`, which
@@ -5401,7 +5406,7 @@ export function App() {
         <section
           ref={mapRegionRef}
           tabIndex={-1}
-          className={`map-region${selectedPid ? " has-inspector" : ""}`}
+          className={`map-region${selectedPid && !pokerMode ? " has-inspector" : ""}${pokerMode ? " poker-mode" : ""}`}
           aria-label="Map and parcel details"
         >
           <div className="mobile-map-chrome">
@@ -5422,37 +5427,15 @@ export function App() {
               onClick={() => setMobileControlsOpen(true)}
             >
               <span aria-hidden="true">⌕</span>
-              Search &amp; layers
+              {pokerMode ? "Layers" : "Search & layers"}
             </button>
           </div>
+          {pokerMode && searchForm}
           <MapCanvas
             poker={pokerMode ? {
               address: pokerAddress,
               revision: pokerRevision,
-              aerial: provinceLayers["ns-aerial"],
-              message: parcelLookupMessage,
-              onAerialChange: () => {
-                if (!licenceAccepted) {
-                  setLicenceIntent({ kind: "poker-aerial" });
-                  setLicenceDialogOpen(true);
-                  return;
-                }
-                setProvinceLayerVisibility("ns-aerial", !provinceLayers["ns-aerial"]);
-                setShowModernMap(provinceLayers["ns-aerial"]);
-              },
-              onNext: () => {
-                cancelAddressSearch();
-                cancelPointLookup();
-                setAddressSearchResults([]);
-                setSearchError(null);
-                setSelectedPid(null);
-                setPokerAddress(null);
-                setPokerRevision((value) => value + 1);
-                pokerNextFocus.current = true;
-                setMobileControlsOpen(true);
-                pokerSearchRef.current?.focus();
-                pokerSearchRef.current?.select();
-              },
+              onCivicStatusChange: setPokerCivicStatus,
             } : null}
             basemapStyle={basemapStyle}
             onUseOsmBasemap={() => setBasemapPreference("osm")}
@@ -5734,6 +5717,7 @@ export function App() {
         >
           Open source · MIT · GitHub
         </a>
+        {pokerMode && <span role="status">{pokerCivicStatus} <a href={CIVIC_ADDRESS_DATASET_URL} target="_blank" rel="noreferrer">Nova Scotia Civic Address File</a>. Points may not mark the house. Distances follow your taps.</span>}
         <span className="province-attribution">{PROVINCE_ATTRIBUTION}</span>
         {Object.values(resourceLayers).some(Boolean) ? (
           <span>Geoscience data © Province of Nova Scotia</span>

@@ -140,7 +140,7 @@ describe("built-in map themes", () => {
 
 it("keeps Poker clear and outside the native presentation contract", () => {
   expect(builtInMapThemes.find(({ id }) => id === "poker")).toMatchObject({
-    layerIds: ["modern"], taxSaleEnabled: false,
+    layerIds: ["ns-aerial", "roads"], taxSaleEnabled: false,
   });
   expect(buildMapPresentationFixture().builtInThemes.some(({ id }) => id === "poker")).toBe(false);
 });

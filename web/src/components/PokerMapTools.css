@@ -1,29 +1,114 @@
-
-.poker-map-tools {
-  position: absolute;
-  z-index: 500;
-  right: 12px;
-  top: 12px;
-  width: min(340px, calc(100% - 150px));
-  max-height: 48%;
-  overflow: auto;
-  padding: 12px;
-  border-radius: 10px;
-  background: var(--white);
-  color: var(--survey-blue);
-  box-shadow: 0 1px 8px #12343b40;
-  font: 14px/1.35 system-ui, sans-serif;
-}
-.poker-map-tools p { margin: 6px 0; }
-.poker-map-tools small { display: block; margin-top: 7px; }
-.poker-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
-.poker-buttons button { min-height: 44px; padding: 6px 9px; border: 1px solid #688087; border-radius: 6px; background: white; color: #173a4a; cursor: pointer; }
-.poker-buttons button[aria-pressed="true"] { background: #173a4a; color: white; }
+.poker-workspace { display: contents; }
 .poker-civic-number { padding: 1px 3px; font-weight: 700; color: #173a4a; border: 0; box-shadow: 0 1px 3px #0006; pointer-events: none; }
-@media (max-width: 600px) {
-  .poker-map-tools { top: auto; bottom: calc(132px + env(safe-area-inset-bottom)); right: 8px; width: min(310px, calc(100% - 24px)); max-height: 32%; }
-  .leaflet-container:has(.poker-map-tools) .measure-readout {
-    bottom: calc(88px + env(safe-area-inset-bottom));
-    max-width: calc(100% - 24px);
+
+.poker-search {
+  position: absolute;
+  z-index: 1100;
+  top: 12px;
+  right: 12px;
+  width: min(480px, calc(100% - 84px));
+  margin: 0;
+  padding: 8px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #12343b40;
+}
+.poker-search input { font-size: 16px; }
+.poker-search .address-search-results {
+  display: block;
+  padding: 2px;
+  max-height: min(320px, calc(var(--app-viewport-height, 100dvh) - 180px - env(safe-area-inset-top)));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.poker-search .address-search-results button { min-height: 44px; font-size: 16px; }
+.poker-mode .parcel-lookup-message { top: 80px; }
+
+@media (max-width: 860px) {
+  /* Keep the measurement buttons and total in one compact strip.
+     Reserve the measured attribution plus the two-line Leaflet scale below. */
+  .poker-workspace {
+    --poker-bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 58px);
+    position: absolute;
+    z-index: 500;
+    inset-inline: 8px;
+    bottom: var(--poker-bottom);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: min(45%, calc(100% - var(--poker-bottom) - max(76px, calc(env(safe-area-inset-top) + 64px))));
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--white);
+    color: var(--chart-ink);
+    box-shadow: 0 2px 12px #12343b40;
+  }
+  .poker-search {
+    top: max(12px, env(safe-area-inset-top));
+    inset-inline: 8px;
+    width: auto;
+  }
+  .poker-mode .mobile-map-brand { display: none; }
+  .poker-mode .mobile-map-chrome {
+    top: max(82px, calc(env(safe-area-inset-top) + 70px));
+    left: auto;
+  }
+  .map-region.poker-mode .leaflet-top.leaflet-left {
+    top: max(70px, calc(env(safe-area-inset-top) + 58px));
+  }
+  .poker-mode .location-button,
+  .poker-mode .location-cluster {
+    top: max(184px, calc(env(safe-area-inset-top) + 172px));
+  }
+  .poker-mode .location-hud { top: max(236px, calc(env(safe-area-inset-top) + 224px)); }
+  .poker-mode .parcel-lookup-message { top: max(134px, calc(env(safe-area-inset-top) + 130px)); }
+  .poker-mode:has(.poker-search :focus, .address-search-results) .poker-workspace { display: none; }
+  .poker-workspace .measure-actions {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    flex: none;
+    gap: 6px;
+  }
+  .poker-workspace .measure-actions button {
+    min-width: 0;
+    height: 44px;
+    padding: 0 4px;
+    border: 1px solid var(--line);
+    box-shadow: none;
+    font-size: 13px;
+  }
+  .poker-workspace .measure-readout {
+    position: static;
+    flex: none;
+    max-width: none;
+    margin: 0;
+    font-size: 12px;
+    text-align: center;
+    pointer-events: auto;
+  }
+  .leaflet-container:has(.poker-workspace) .display-scale-readout {
+    left: auto;
+    right: 8px;
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 8px);
+    max-width: calc(100% - 120px);
+    white-space: normal;
+  }
+}
+
+@media (max-width: 860px) and (orientation: landscape) {
+  .poker-workspace {
+    /* The scale sits to the left here, leaving this side more vertical room. */
+    --poker-bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 8px);
+    left: auto;
+    width: min(390px, 48%);
+    max-height: calc(100% - var(--poker-bottom) - max(76px, calc(env(safe-area-inset-top) + 64px)));
+  }
+  .leaflet-container:has(.poker-workspace) .display-scale-readout {
+    left: 110px;
+    right: auto;
+    max-width: calc(52% - 130px);
   }
 }

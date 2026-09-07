@@ -96,6 +96,17 @@ describe("MeasureTool controls", () => {
 });
 
 describe("distance measuring", () => {
+  it("keeps successive Poker taps when Leaflet synthesizes a double-click", () => {
+    render(<MeasureTool mode="distance" driveway onModeChange={vi.fn()} />);
+    clickAt(46, -61);
+    clickAt(46.0001, -61.0001);
+    act(() => mapEvents.current.dblclick?.());
+    expect(screen.getAllByTestId("measure-vertex")).toHaveLength(2);
+    expect(screen.getByRole("button", { name: "Finish" })).toBeEnabled();
+    fireEvent.click(screen.getByRole("button", { name: "Finish" }));
+    expect(screen.getByRole("button", { name: "Finish" })).toBeDisabled();
+  });
+
   it.each(["distance", "area"] as const)("undoes %s points after finishing and lets drawing resume", (mode) => {
     render(<Harness initialMode={mode} />);
     const undo = screen.getByRole("button", { name: "Undo point" });
