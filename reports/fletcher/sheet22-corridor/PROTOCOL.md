@@ -21,3 +21,8 @@ no live layer replacement or tile publication is authorized by this protocol.
 The user reports that the points they inspected agreed with their choices.
 This is general acceptance of the reviewed work, not a fabricated point-by-point
 human audit of every stored control or check.
+
+The first corridor-only check pass uses the previously selected **17-control
+affine** diagnostic unchanged. It was selected using the old Q set, before these
+new corridor checks. Do not select a different model from the new scores and
+still call them fresh validation of that selected model.
