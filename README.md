@@ -36,7 +36,13 @@ no provincial zoning layer, so an area with no polygon is an area with no data
 rather than an area with no zoning. A collapsed, default-off live-conditions
 family offers optional Highway cameras (511 Nova Scotia) and Weather radar
 (ECCC GeoMet); source and licence detail are in
-[web/README.md](web/README.md). Background Maps offers NS Marks Atlas Day,
+[web/README.md](web/README.md). The web map also adds 37 default-off GeoNova
+research controls for topography, infrastructure and mapped places, water and
+forest context, geology, environmental screens, and historical coal workings.
+They are web-only; the native offline catalogue is unchanged. Inventory,
+licences, and the radon source receipt are in [web/README.md](web/README.md)
+and [docs/geonova-layer-expansion.md](docs/geonova-layer-expansion.md).
+Background Maps offers NS Marks Atlas Day,
 Night, Fletcher, System appearance (the default), and OpenStreetMap raster;
 atlas detail is in [web/README.md](web/README.md). The iOS app opens on the
 same Atlas and offers the same three styles, drawn from raster tiles that
