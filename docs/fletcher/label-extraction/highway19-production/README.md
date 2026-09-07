@@ -7,6 +7,17 @@ acceptance or the existing placement pilot.
 
 ## Production state
 
+**The initial source inventories for all four corridor sheets are finalized:**
+889 reviewed annotations across 145 native crops. Geographic placement remains
+deferred, and each sheet retains its explicit uncertainty list.
+
+| Sheet | Area | Reviewed annotations |
+| --- | --- | ---: |
+| 22 | Port Hawkesbury | 301 |
+| 19 | Judique | 166 |
+| 16 | Port Hood / Mabou | 256 |
+| 14 | Cape Mabou / Broad Cove | 166 |
+
 All four native-resolution mosaics are acquired and hashed. There are **145
 overlapping source crops**: 35 on sheet 22, 35 on sheet 19, 40 on sheet 16 and 35
 on sheet 14. The rectangles include the full map interiors and padded edges;
@@ -49,7 +60,7 @@ candidate identities reconciled in `sheet-19-finalization.json`. It retains all
 original four source files remain unchanged. ID130 completes CRAIGNISH to
 CRAIGNISH HILLS, and ID100 corrects Shop to School at Glendale, retaining its
 previous reading and box for audit. Eight readings remain explicitly qualified.
-Sheet 14 awaits source review.
+Sheet 14 is finalized below.
 
 **Sheet 16 is finalized as a source-only transcription:** 256 annotations,
 all 40 native crops inspected, and all 384 readable first-pass candidates
@@ -68,6 +79,22 @@ Draft reviewer boxes were checked against native snippets and corrected before
 acceptance. Robert MᶜGeen remains a qualified surname reading; three waterfall
 numerals retain explicit unit uncertainty. Printed heights and names are source
 text, not modern measurements, ownership or verified feature positions.
+
+**Sheet 14 is finalized as a source-only transcription:** 166 annotations,
+35 whole native crops, 265 first-pass candidate dispositions, and 51 readings
+from nine new DeepSeek detail packets. All 25 original/detail unresolved-region
+reports have explicit dispositions in `sheet-14-review-evidence.json`. The four
+invalid original responses remain unchanged.
+
+The source review completes Broad Cove Chapel, Broad Cove River, LOCH BAN,
+MABOU HIGHLANDS, Northeast Mabou River and Glendyer Brook across crop boundaries.
+Native rotation resolves Trap Hill, Rusty Brown Sand and Eng. Slope. Parent
+whole-crop review found five facilities omitted from the draft inventory, and
+repaired empty or clipped reviewer boxes before accepting the final snippets.
+The supposed St Croix caption is part of Black Brook, not another place.
+Five readings remain qualified: three dense seam numeral/raised-mark combinations,
+Ron./Hon. after Widow, and Mound/Mount Young. The seam marks do not establish
+measured thicknesses. Every geographic geometry remains null.
 
 The Judique northern and southern evidence files record the source checks,
 15 independent DeepSeek detail packets, and 61 detail-candidate dispositions.
@@ -193,7 +220,14 @@ not every unchanged check. Pause that continuation when all four sheets finish.
    `clear` classification and a successful subprocess do not establish source
    accuracy or completeness.
 
-**Next: sheet 14, R01C01 eastward.** Sheet 16 is closed for the initial source
+**Corridor extraction complete; pause the production continuation.** Sheet 14 is
+closed for the initial source pass. Reserve `F14-CMB-167` onward without
+renumbering. Reuse completed detail batches `review-20260907-14-01` and
+`review-20260907-14-02`; none need rerunning. Native lettering proof remains local
+under `sheet-14-final-lettering-proof`, with its hashes in the review evidence.
+Placement and georeferencing acceptance remain separate work.
+
+Sheet 16 is closed for the initial source
 pass; reserve `F16-PHM-257` onward without renumbering. Reuse its completed detail
 packets in `review-20260907-16-01` and `review-20260907-16-02`; none need rerunning.
 Sheet 19 is closed for the initial source
@@ -203,7 +237,8 @@ Reuse all finished Judique detail packets in `review-20260907-19-01` through
 the southern EAST-NAMES packet has a different source hash from the northern
 one, and the southern evidence explicitly qualifies it with its batch ID.
 Preserve the original failed responses, existing IDs and source provenance.
-Do not begin placement as part of extraction. Sheet 14 is the remaining corridor sheet.
+Do not begin placement as part of extraction. All four requested sheets now have
+finalized initial source inventories.
 
 Sheet 22 is closed for the initial source pass; reserve `F22-HAW-302` onward for
 any later additions without renumbering. Reuse existing successful detail packets
