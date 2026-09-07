@@ -1,0 +1,177 @@
+{
+  "source_dimensions": [
+    10790,
+    7687
+  ],
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "fit": "unchanged 17 saved controls, affine, selected before these checks",
+  "fit_observations_sha256": "d64dd31b6004113a424d83ff2764845aeef39dceed57373ac7d54ffaa885f9eb",
+  "gate": {
+    "median_max_ground_m": 100,
+    "worst_max_ground_m": 200
+  },
+  "role": "fresh checks only; excluded from fitting",
+  "points": [
+    {
+      "id": "C01",
+      "role": "check",
+      "pixel_xy": [
+        4429,
+        1093
+      ],
+      "lonlat": [
+        -61.4638454,
+        45.7442922
+      ],
+      "label": "Craignish northern creek mouth",
+      "identity_evidence": "East-flowing headwater bends west and reaches the straight north-south shore just south of the sheet border, north of the Craig\u00adnish Road turn; road crosses immediately inland.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0111",
+        "objectids": [
+          10129,
+          10130,
+          212377
+        ]
+      },
+      "uncertainty_native_px": 10,
+      "review": "agent native/topology review; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4329,
+          1013,
+          4529,
+          1173
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    },
+    {
+      "id": "C02",
+      "role": "check",
+      "pixel_xy": [
+        4849,
+        2821
+      ],
+      "lonlat": [
+        -61.4423751,
+        45.6888631
+      ],
+      "label": "Troy northern creek mouth",
+      "identity_evidence": "East tributary reaches the coast north of the narrow coastal pond; its inland road crossing and the next southern creek distinguish it.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0277",
+        "objectids": [
+          12935,
+          12936,
+          211914
+        ]
+      },
+      "uncertainty_native_px": 10,
+      "review": "agent native/topology review; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4749,
+          2741,
+          4949,
+          2901
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    },
+    {
+      "id": "C04",
+      "role": "check",
+      "pixel_xy": [
+        6168,
+        4520
+      ],
+      "lonlat": [
+        -61.3810428,
+        45.6351224
+      ],
+      "label": "Northern Hawkesbury coastal brook mouth",
+      "identity_evidence": "Brook with two upstream northern tributaries crosses the coastal road and reaches the sloping shore, south of the separate pond outlet and north of the tannery creek.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0613",
+        "objectids": [
+          13065,
+          13067,
+          211158
+        ]
+      },
+      "uncertainty_native_px": 10,
+      "review": "agent native/topology review; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6068,
+          4440,
+          6268,
+          4600
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    },
+    {
+      "id": "C05",
+      "role": "check",
+      "pixel_xy": [
+        6687,
+        4682
+      ],
+      "lonlat": [
+        -61.3582892,
+        45.6298056
+      ],
+      "label": "Emery Brook upper confluence",
+      "identity_evidence": "Northwestern and northeastern streams unite above the pond; the next southern eastern tributary and the diagonal road separate this from the smaller forks farther north.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0639",
+        "objectids": [
+          196572,
+          265354,
+          265355
+        ]
+      },
+      "uncertainty_native_px": 6,
+      "review": "agent native/topology review; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6587,
+          4602,
+          6787,
+          4762
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      }
+    }
+  ],
+  "rejections": [
+    "C03 Troy southern creek mouth: historic wharf obscures the exact shore/stream meeting point; excluded before scoring.",
+    "Port Hawkesbury industrial shoreline and Canso causeway: altered geography, not admitted.",
+    "Horton Brook apparent north branch near native (5450,3450) lacks matching modern connectivity and may be a leader/geological line; excluded."
+  ]
+}
