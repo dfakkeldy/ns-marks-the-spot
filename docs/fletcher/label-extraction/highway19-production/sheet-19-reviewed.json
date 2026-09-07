@@ -6,9 +6,9 @@
     7549
   ],
   "source_manifest": "sheet-19-manifest.json",
-  "sheet_finalized": false,
-  "status": "partial-source-reviewed-transcription",
-  "review_method": "Reuse the prior 133 source-reviewed Judique records with stable identities, source-file hashes and original boxes; reconcile the first two production rows by native-image inspection. Newly read labels require independent lettering-box checks. Source completion of ID130 is explicit. No geographic placement.",
+  "sheet_finalized": true,
+  "status": "finalized-source-only",
+  "review_method": "Preserve and reconcile the 133 inherited Judique identities with all 35 native production crops. Independently inspect seven southern DeepSeek detail packets and original-pixel lettering contact sheets. Preserve original source files; document ID100 correction and ID130 completion. All geographic placement remains deferred.",
   "inherited_source_inventories": [
     {
       "path": "../judique-pilot.json",
@@ -2299,23 +2299,36 @@
     },
     {
       "id": "F19-JUD-100",
-      "source_text": "Shop",
-      "kind": "shop",
+      "source_text": "School",
+      "kind": "school",
       "reading_status": "clear",
       "source_record_file": "../judique-southeast.json",
       "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
       "source_label_boxes_xywh": [
         [
-          7454,
-          4534,
-          70,
-          32
+          7445,
+          4530,
+          110,
+          40
         ]
       ],
-      "review_status": "source-reviewed-in-prior-pilot",
+      "review_status": "source-reviewed",
       "geometry": null,
       "placement_status": "deferred",
-      "review_note": "The short word south of P.O. reads Shop, not School."
+      "review_note": "Native close-up and independent DeepSeek detail read School. Correct prior Shop transcription and expand the lettering box; preserve ID100, the original source file and its hash. Final tall l is visible; no Shop descender is supported.",
+      "prior_source_reading": {
+        "source_text": "Shop",
+        "kind": "shop",
+        "source_label_boxes_xywh": [
+          [
+            7454,
+            4534,
+            70,
+            32
+          ]
+        ],
+        "review_note": "The short word south of P.O. reads Shop, not School."
+      }
     },
     {
       "id": "F19-JUD-101",
@@ -3603,6 +3616,354 @@
       "geometry": null,
       "placement_status": "deferred",
       "review_note": "Complete in a native lower-edge excerpt; excerpt does not count as whole-row-three coverage."
+    },
+    {
+      "id": "F19-JUD-152",
+      "source_text": "Widow MᶜLeod",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F19-R03C07",
+      "raw_candidate_ids": [
+        "F19-R03C07-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9338,
+          4538,
+          235,
+          38
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred."
+    },
+    {
+      "id": "F19-JUD-153",
+      "source_text": "MᶜIntosh",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F19-R03C07",
+      "raw_candidate_ids": [
+        "F19-R03C07-06",
+        "F19-R04C07-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9095,
+          4702,
+          180,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred."
+    },
+    {
+      "id": "F19-JUD-154",
+      "source_text": "Falls 15",
+      "kind": "falls",
+      "reading_status": "clear",
+      "crop_id": "F19-R04C07",
+      "raw_candidate_ids": [
+        "F19-R04C07-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9262,
+          5446,
+          112,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred. Numeral preserved without adding an unprinted unit."
+    },
+    {
+      "id": "F19-JUD-155",
+      "source_text": "Big Brook",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F19-R04C07",
+      "raw_candidate_ids": [
+        "F19-R04C07-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9290,
+          5507,
+          294,
+          65
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred. Upright place-style label distinguished from the separate rotated stream inscription ID157."
+    },
+    {
+      "id": "F19-JUD-156",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "crop_id": "F19-R04C07",
+      "raw_candidate_ids": [
+        "F19-R04C07-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9631,
+          5494,
+          63,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred."
+    },
+    {
+      "id": "F19-JUD-157",
+      "source_text": "Big Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F19-R05C07",
+      "raw_candidate_ids": [
+        "F19-R04C07-06",
+        "F19-R05C07-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9033,
+          5847,
+          80,
+          90
+        ],
+        [
+          9104,
+          5951,
+          88,
+          137
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred."
+    },
+    {
+      "id": "F19-JUD-158",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F19-R05C06",
+      "raw_candidate_ids": [
+        "F19-R04C06-15",
+        "F19-R05C06-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          7905,
+          5985,
+          100,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred."
+    },
+    {
+      "id": "F19-JUD-159",
+      "source_text": "850 Fᵀ.",
+      "kind": "printed-height",
+      "reading_status": "clear",
+      "crop_id": "F19-R05C03",
+      "raw_candidate_ids": [
+        "F19-R05C03-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          4536,
+          6496,
+          143,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred. Literal printed height only; no modern elevation or datum inferred."
+    },
+    {
+      "id": "F19-JUD-160",
+      "source_text": "Don. MᶜIsaac",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F19-R05C04",
+      "raw_candidate_ids": [
+        "F19-R05C04-02",
+        "F19-R05C05-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6182,
+          6196,
+          194,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred. Two adjacent building symbols are not a printed colon or part of the name."
+    },
+    {
+      "id": "F19-JUD-161",
+      "source_text": "Rough Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F19-R05C05",
+      "raw_candidate_ids": [
+        "F19-R05C04-03",
+        "F19-R05C05-01",
+        "F19-R05C05-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          6335,
+          5960,
+          130,
+          147
+        ],
+        [
+          6529,
+          6170,
+          124,
+          132
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred. Separate repeated inscription from upstream Rough Brook ID113."
+    },
+    {
+      "id": "F19-JUD-162",
+      "source_text": "Fall 20",
+      "kind": "falls",
+      "reading_status": "clear",
+      "crop_id": "F19-R05C06",
+      "raw_candidate_ids": [
+        "F19-R05C06-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8173,
+          6328,
+          101,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred. Numeral preserved without adding an unprinted unit."
+    },
+    {
+      "id": "F19-JUD-163",
+      "source_text": "Old Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "crop_id": "F19-R05C06",
+      "raw_candidate_ids": [
+        "F19-R05C06-07"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8330,
+          6325,
+          171,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred."
+    },
+    {
+      "id": "F19-JUD-164",
+      "source_text": "Princeville",
+      "kind": "settlement",
+      "reading_status": "tentative",
+      "crop_id": "F19-R05C06",
+      "raw_candidate_ids": [
+        "F19-R05C06-08"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8296,
+          6427,
+          345,
+          60
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred. c/d letterform crossed by linework; Princeville is supported by detail reading, with uncertainty retained."
+    },
+    {
+      "id": "F19-JUD-165",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "crop_id": "F19-R05C06",
+      "raw_candidate_ids": [
+        "F19-R05C06-09"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8223,
+          6517,
+          56,
+          30
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred."
+    },
+    {
+      "id": "F19-JUD-166",
+      "source_text": "Abraham MᶜArthur",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F19-R05C07",
+      "raw_candidate_ids": [
+        "F19-R05C07-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8756,
+          6290,
+          253,
+          38
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred. Reject first-pass McArtins; terminal Arthur letters are visible."
     }
   ],
   "crop_reviews": [
@@ -3675,6 +4036,111 @@
       "crop_id": "F19-R02C07",
       "status": "source-reviewed",
       "notes": "Whole native crop inspected. River Denys Cross Roads is one two-line settlement annotation; its tannery, post office and school remain separate. McPhail and McLennan brooks, eastern road and lower Falls added."
+    },
+    {
+      "crop_id": "F19-R03C01",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Ocean and graticule only; empty response visually checked."
+    },
+    {
+      "crop_id": "F19-R03C02",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Coastal Long Point, J. Chisholm and clipped forges reconciled; no new personal-name fragment."
+    },
+    {
+      "crop_id": "F19-R03C03",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Retained invalid original boxes; schools, forge, mills, Chisholm Brook and Long Point checked in original pixels."
+    },
+    {
+      "crop_id": "F19-R03C04",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Existing schools, McPherson names and Old River Denys Road; scattered regional letters belong to ID130."
+    },
+    {
+      "crop_id": "F19-R03C05",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Gold mine, Glendale Brook, McPherson’s Brook, Plumbago Mine and rotated road reconciled. Reject David Jones/Machabees Brook readings."
+    },
+    {
+      "crop_id": "F19-R03C06",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Retained invalid original boxes; correct ID100 to School, retain surname106 qualification; separate falls and fossil description."
+    },
+    {
+      "crop_id": "F19-R03C07",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Add Widow McLeod and McIntosh. Existing mill, falls, personal names and fossil description retain IDs."
+    },
+    {
+      "crop_id": "F19-R04C01",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Ocean and graticule only; empty response visually checked."
+    },
+    {
+      "crop_id": "F19-R04C02",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Two Long Point inscriptions and Forge overlap; no new label."
+    },
+    {
+      "crop_id": "F19-R04C03",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Farm Road, schools, shop, 700 FT and General Line Road checked; reject Farm Pond and separate Branch."
+    },
+    {
+      "crop_id": "F19-R04C04",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Existing Rough Brook, personal names, school and Wood Road; no extra J. initial; large letters belong to CRAIGNISH HILLS."
+    },
+    {
+      "crop_id": "F19-R04C05",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Existing mine, Red Bridge, shops, forge, Kingsville and road/railway fragments; no new standalone Mill."
+    },
+    {
+      "crop_id": "F19-R04C06",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Existing falls, fossil description, Kingsville and Blue Bridge; add school completed in R05C06."
+    },
+    {
+      "crop_id": "F19-R04C07",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Add Falls15, Big Brook place label, post office and separate stream inscription; McIntosh overlaps R03C07."
+    },
+    {
+      "crop_id": "F19-R05C01",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Ocean and marginal graticule only; empty response visually checked."
+    },
+    {
+      "crop_id": "F19-R05C02",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Ocean and neatline only; empty response visually checked."
+    },
+    {
+      "crop_id": "F19-R05C03",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Add 850 FT; clipped General Line Road retains ID092."
+    },
+    {
+      "crop_id": "F19-R05C04",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Add Don. McIsaac and complete lower Rough Brook in C05; Wood Road retains ID093."
+    },
+    {
+      "crop_id": "F19-R05C05",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Add separate Rough Brook inscription; complete existing railway title across C06, retaining ID133."
+    },
+    {
+      "crop_id": "F19-R05C06",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Add School, Fall20, Old Road, qualified Princeville and post office; exclude report references. Clipped Abraham name completed in C07."
+    },
+    {
+      "crop_id": "F19-R05C07",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Complete Big Brook stream and Abraham McArthur; no new geological-code labels."
     }
   ],
   "unresolved_readings": [
@@ -3705,9 +4171,13 @@
     {
       "id": "F19-JUD-106",
       "issue": "Tentative surname: independent reviewer reads McTaggart; intervening strokes and the ending remain difficult."
+    },
+    {
+      "id": "F19-JUD-164",
+      "issue": "Princeville is supported by native detail, but linework across c can resemble d; first pass read Prindeville. Qualification retained."
     }
   ],
-  "next_annotation_id": "F19-JUD-152",
+  "next_annotation_id": "F19-JUD-167",
   "scope_holdbacks": [],
   "scope_policy": "Includes named features, facilities, roads, descriptive historical/geological annotations, printed spot heights and regional title lettering inside the map area. Excludes geological unit codes, dip/strike numerals, report/page references, unnamed symbols, graticule, compass and marginal legend apparatus. Geological words are transcriptions only, with no inferred structural geometry.",
   "supplementary_source_windows": [
@@ -3810,6 +4280,83 @@
         330
       ],
       "purpose": "Read every letter of the northern standalone RAILWAY word."
+    },
+    {
+      "crop_id": "F19-DETAIL-GLENDALE",
+      "source_xywh": [
+        7270,
+        4410,
+        540,
+        320
+      ],
+      "sha256": "4666e098643ab66da206926b9def980d85fdf456f751a04c3abbfcd561451525",
+      "batch_id": "review-20260907-19-03"
+    },
+    {
+      "crop_id": "F19-DETAIL-EAST-NAMES",
+      "source_xywh": [
+        9030,
+        4490,
+        620,
+        280
+      ],
+      "sha256": "f51cd458288eabac0a149b60cc50f18f855129ec8cfc5aa434ab7307778a145b",
+      "batch_id": "review-20260907-19-03"
+    },
+    {
+      "crop_id": "F19-DETAIL-BIG-BROOK",
+      "source_xywh": [
+        9020,
+        5400,
+        700,
+        880
+      ],
+      "sha256": "012ed6b82214bfbaf72fd85f225d3c976cdc94f2dd0248312bc61941adfea0f2",
+      "batch_id": "review-20260907-19-03"
+    },
+    {
+      "crop_id": "F19-DETAIL-SOUTH-TOWN",
+      "source_xywh": [
+        7860,
+        5940,
+        940,
+        610
+      ],
+      "sha256": "b61a6415f63d231b4fdaa3a0bd22cac9c520d2fb6fb82a240d37b50db26662a3",
+      "batch_id": "review-20260907-19-03"
+    },
+    {
+      "crop_id": "F19-DETAIL-SOUTH-NAME",
+      "source_xywh": [
+        8730,
+        6230,
+        370,
+        130
+      ],
+      "sha256": "19a7d979dcf242525d8e8d9ce23f79a48d789e4bb3b6cda86b218b7ccbc48d66",
+      "batch_id": "review-20260907-19-03"
+    },
+    {
+      "crop_id": "F19-DETAIL-ROUGH-BROOK",
+      "source_xywh": [
+        6150,
+        5930,
+        530,
+        380
+      ],
+      "sha256": "1682915663bf8ab7574ea22cd7ed86edf8e9e35da89447f8e2cfbe46dc3f08e6",
+      "batch_id": "review-20260907-19-03"
+    },
+    {
+      "crop_id": "F19-DETAIL-HEIGHT",
+      "source_xywh": [
+        4510,
+        6470,
+        210,
+        80
+      ],
+      "sha256": "4d806dd90628c32f87aadb709717f6deea0ff80096c24a7baa07d58b0bc916c3",
+      "batch_id": "review-20260907-19-03"
     }
   ]
 }
