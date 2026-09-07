@@ -1,0 +1,81 @@
+{
+  "input_hashes": {
+    "visual-expansion/sheet-observations.json": "632f4b19fcbe64384232fc03693c4f51f646e51332c3d56e382e977ff0afda04",
+    "sheet22-corridor/revised-observations.json": "b829ca81a9b3da7df3e6bbae6cfc04567843407e48b33b0e197b032c422d6241",
+    "southern-seam/observations.json": "65d849761da27859346556960d13e4ddf638024b728f21c8a9ffd5e3de12ec50"
+  },
+  "points": [
+    {
+      "id": "P19",
+      "predicted_lonlat": [
+        -61.46948202175786,
+        45.754388232640885
+      ],
+      "error_ground_m": 29.093378473057502
+    },
+    {
+      "id": "P22",
+      "predicted_lonlat": [
+        -61.46267930306149,
+        45.74438210203324
+      ],
+      "error_ground_m": 46.443951674287675
+    }
+  ],
+  "lines": [
+    {
+      "id": "L19",
+      "sample_count": 123,
+      "median_ground_m": 19.748652278175914,
+      "worst_ground_m": 36.95719324498227,
+      "passes": true,
+      "geographic_endpoints": [
+        [
+          -61.46996174696725,
+          45.76535543564798
+        ],
+        [
+          -61.46368790044467,
+          45.74784208849089
+        ]
+      ]
+    },
+    {
+      "id": "L22",
+      "sample_count": 100,
+      "median_ground_m": 32.830379875793916,
+      "worst_ground_m": 63.04860224594598,
+      "passes": true,
+      "geographic_endpoints": [
+        [
+          -61.46328973607709,
+          45.74799705440351
+        ],
+        [
+          -61.46027371981743,
+          45.73410765407256
+        ]
+      ]
+    }
+  ],
+  "line_metric": "Perpendicular nearest distance only; correlated samples do not check along-road displacement.",
+  "duplicate_reference_segments_ignored": 1,
+  "seam": {
+    "minimum_road_step_ground_m": 28.60979635590063,
+    "maximum_road_step_ground_m": 35.53328702832021,
+    "best_lonlat": [
+      -61.463503750436566,
+      45.74784208849089
+    ],
+    "overlap_latitude_range": [
+      45.74784208849089,
+      45.74799705440351
+    ],
+    "passes_25m": false
+  },
+  "curves_sha256": "54b0ca85d38b355622730a400c2872717f81fc5903b4ef614236fc54d6a9b022",
+  "control_counts": {
+    "22": 19,
+    "19": 39
+  }
+}
