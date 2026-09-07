@@ -1,5 +1,5 @@
 {
-  "snapshot_unix": 1788745946.390281,
+  "snapshot_unix": 1788760318.227513,
   "sheet_order": [
     22,
     19,
@@ -45,7 +45,11 @@
         "needs-repair": 2
       },
       "candidate_records": 341,
-      "sheet_finalized": false
+      "sheet_finalized": true,
+      "source_reviewed_crops": 40,
+      "reviewed_annotation_records": 256,
+      "reviewed_inventory": "sheet-16-reviewed.json",
+      "finalization_audit": "sheet-16-finalization.json"
     },
     {
       "sheet": 14,
@@ -55,9 +59,15 @@
         "needs-repair": 4
       },
       "candidate_records": 226,
-      "sheet_finalized": false
+      "sheet_finalized": true,
+      "source_reviewed_crops": 35,
+      "reviewed_annotation_records": 166,
+      "reviewed_inventory": "sheet-14-reviewed.json",
+      "finalization_audit": "sheet-14-finalization.json"
     }
   ],
-  "next_source_review_sheet": 16,
-  "placement_status": "deferred"
+  "next_source_review_sheet": null,
+  "placement_status": "deferred",
+  "source_review_status": "corridor-initial-inventories-finalized",
+  "reviewed_annotation_records_total": 889
 }

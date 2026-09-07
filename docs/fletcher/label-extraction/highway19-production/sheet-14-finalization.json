@@ -1,0 +1,2430 @@
+{
+  "sheet": 14,
+  "status": "finalized-source-only",
+  "sheet_finalized": true,
+  "source_sha256": "907ebc260018055cfc9da780a88f127db13834c0f7e831be7bf395c600a6854c",
+  "source_dimensions_px": [
+    10852,
+    7622
+  ],
+  "reviewed_inventory_sha256": "a42933b43e31f61b3505bc674f39e6a178a4f1192c87e7981343a9e775a89cb2",
+  "source_crop_coverage": {
+    "planned": 35,
+    "source_reviewed": 35,
+    "crop_ids": [
+      "F14-R01C01",
+      "F14-R01C02",
+      "F14-R01C03",
+      "F14-R01C04",
+      "F14-R01C05",
+      "F14-R01C06",
+      "F14-R01C07",
+      "F14-R02C01",
+      "F14-R02C02",
+      "F14-R02C03",
+      "F14-R02C04",
+      "F14-R02C05",
+      "F14-R02C06",
+      "F14-R02C07",
+      "F14-R03C01",
+      "F14-R03C02",
+      "F14-R03C03",
+      "F14-R03C04",
+      "F14-R03C05",
+      "F14-R03C06",
+      "F14-R03C07",
+      "F14-R04C01",
+      "F14-R04C02",
+      "F14-R04C03",
+      "F14-R04C04",
+      "F14-R04C05",
+      "F14-R04C06",
+      "F14-R04C07",
+      "F14-R05C01",
+      "F14-R05C02",
+      "F14-R05C03",
+      "F14-R05C04",
+      "F14-R05C05",
+      "F14-R05C06",
+      "F14-R05C07"
+    ]
+  },
+  "reviewed_annotations": 166,
+  "printed_spot_height_labels": 15,
+  "partial_or_tentative_readings": [
+    {
+      "id": "F14-CMB-005",
+      "issue": "Native seam numeral and trailing raised mark remain qualified. Narrow DeepSeek passes disagree between thickness-style marks and ordinal lettering (2d./1st./3rd.); preserve the visible draft reading without asserting measured seam thickness."
+    },
+    {
+      "id": "F14-CMB-006",
+      "issue": "Native seam numeral and trailing raised mark remain qualified. Narrow DeepSeek passes disagree between thickness-style marks and ordinal lettering (2d./1st./3rd.); preserve the visible draft reading without asserting measured seam thickness."
+    },
+    {
+      "id": "F14-CMB-007",
+      "issue": "Native seam numeral and trailing raised mark remain qualified. Narrow DeepSeek passes disagree between thickness-style marks and ordinal lettering (2d./1st./3rd.); preserve the visible draft reading without asserting measured seam thickness."
+    },
+    {
+      "id": "F14-CMB-022",
+      "issue": "Initial after Widow resembles R/H under source texture; retain Ron. as qualified, do not expand personal name."
+    },
+    {
+      "id": "F14-CMB-137",
+      "issue": "Native lettering resembles Mound Young; model reads Mount. Preserve the qualified source reading instead of silently normalizing the final d/t."
+    }
+  ],
+  "placement_status": "deferred",
+  "all_annotation_geometry_null": true,
+  "first_pass_audit_note": "All 226 structurally valid candidates and 39 readable candidates from four invalid responses reconciled. Original failed responses and receipts unchanged.",
+  "first_pass_candidate_dispositions": [
+    {
+      "raw_candidate_id": "F14-R01C05-01",
+      "model_text": "Mc Isaac Pond",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-001"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-01",
+      "model_text": "Broad Cove",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-002"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-02",
+      "model_text": "A wedge of Coal on the shore",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-003"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-03",
+      "model_text": "slope",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-04",
+      "model_text": "Broad Cove",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-004"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-05",
+      "model_text": "2 Shafts",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-005"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-06",
+      "model_text": "3 Shafts",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-006",
+        "F14-CMB-007"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-07",
+      "model_text": "Slopes",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-008"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-08",
+      "model_text": "Big Slope",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-011"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-09",
+      "model_text": "Coal Mine",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-009"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-10",
+      "model_text": "Slope",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-11",
+      "model_text": "Slope",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-12",
+      "model_text": "Broad Cove Mines",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-012"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-13",
+      "model_text": "Slope",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-14",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-013"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-15",
+      "model_text": "3",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-013"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-16",
+      "model_text": "Pits",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-014"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-17",
+      "model_text": "Pits",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-18",
+      "model_text": "Pits",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-19",
+      "model_text": "ac Pond",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-001"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-20",
+      "model_text": "Fore...",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-028"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C06-21",
+      "model_text": "Slope",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-01",
+      "model_text": "Iron",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-016"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-02",
+      "model_text": "Pritties",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-016"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-03",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-017"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-04",
+      "model_text": "Fall",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-018"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-05",
+      "model_text": "12",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-018"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-06",
+      "model_text": "R.C.Ch.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-019"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-07",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-020"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-08",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-021"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-09",
+      "model_text": "Cove",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-004"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-10",
+      "model_text": "Chapel",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-004"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-11",
+      "model_text": "Widow Hon. McDonaId",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-022"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-12",
+      "model_text": "T. McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-023"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-13",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-024"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-14",
+      "model_text": "Alex. Smith",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-025"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-15",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-026"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-16",
+      "model_text": "Rory McNiel",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-027"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-17",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-028"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R01C07-18",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-015"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C04-01",
+      "model_text": "Port Ban",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-029"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C04-02",
+      "model_text": "Rankin",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-030"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C04-03",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-031"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C04-04",
+      "model_text": "Kennedy",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-032"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C04-05",
+      "model_text": "y",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R02C05-01",
+      "model_text": "Mc Isaac Pond",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-001"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C05-02",
+      "model_text": "Coal 2' 2'6\"",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-033"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C05-03",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-034"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C05-04",
+      "model_text": "Gray Sandstone",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-035"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C05-05",
+      "model_text": "Sh. Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-036"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C05-06",
+      "model_text": "School\nForge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-037",
+        "F14-CMB-038"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C05-07",
+      "model_text": "rt Ban",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-029"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C05-08",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-039"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C05-09",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-040"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C05-10",
+      "model_text": "Don. Beaton",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-041"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C05-11",
+      "model_text": "John McArthur",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-042"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-01",
+      "model_text": "ac Pond",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-001"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-02",
+      "model_text": "Coal 3",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-013"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-03",
+      "model_text": "Coal reported",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-043"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-04",
+      "model_text": "Pits",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-014"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-05",
+      "model_text": "Quarry",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-044"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-06",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-026"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-07",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-028"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-08",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-015"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-09",
+      "model_text": "Mackay",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-046"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-10",
+      "model_text": "McKenzie",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-046"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-11",
+      "model_text": "Lorn",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-12",
+      "model_text": "Bruce",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-13",
+      "model_text": "MacLellan",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-14",
+      "model_text": "HughMcLennan",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-047"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-15",
+      "model_text": "PROPOSED",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-057"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-16",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-037"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-17",
+      "model_text": "Farmer Farm",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-038"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-18",
+      "model_text": "dan McArthur",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-042"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-19",
+      "model_text": "Thomas",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-20",
+      "model_text": "King",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-21",
+      "model_text": "Strath",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-053"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-22",
+      "model_text": "Lorne",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-053"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-23",
+      "model_text": "Grant's Head",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-24",
+      "model_text": "Shops",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-050"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C06-25",
+      "model_text": "Myren",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R02C07-01",
+      "model_text": "Stap",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-026"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C07-02",
+      "model_text": "Horry McNeil",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-027"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C07-03",
+      "model_text": "Forge",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-028"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C07-04",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-015"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C07-05",
+      "model_text": "ugh Cameron",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-047"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C07-06",
+      "model_text": "PROPOSED",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-057"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R02C07-07",
+      "model_text": "Donald Kennedy",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-059"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C03-01",
+      "model_text": "Sight",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-062"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C03-02",
+      "model_text": "Cape Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-060"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C03-03",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-061"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-01",
+      "model_text": "Sight Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-062"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-02",
+      "model_text": "Wharf",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-063"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-03",
+      "model_text": "John McEachern",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-064"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-04",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-065"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-05",
+      "model_text": "White",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-066"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-06",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-066"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-07",
+      "model_text": "Kennedy",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-032"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-08",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-031"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-09",
+      "model_text": "Widow Fraser",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-067"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-10",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-068"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-11",
+      "model_text": "Cape Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-069"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-12",
+      "model_text": "McArthur",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-070"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-13",
+      "model_text": "John McLea",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-075"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-14",
+      "model_text": "700 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-071"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-15",
+      "model_text": "1000 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-072"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-16",
+      "model_text": "760 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-073"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-17",
+      "model_text": "1000 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-074"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-18",
+      "model_text": "Sch",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-061"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C04-19",
+      "model_text": "Sch",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-076"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-01",
+      "model_text": "Rankin",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-077"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-02",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-077"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-03",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-078"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-04",
+      "model_text": "Mc Intyre",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-079"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-05",
+      "model_text": "Mc Kay",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-080"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-06",
+      "model_text": "P.O",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-081"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-07",
+      "model_text": "John Mc Lean",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-075"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-08",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-076"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-09",
+      "model_text": "Mc Aulay",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-082"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-10",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-082"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-11",
+      "model_text": "John Mc Quarrie",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-083"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-12",
+      "model_text": "funnady",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-032"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-13",
+      "model_text": "aser",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-067"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C05-14",
+      "model_text": "abou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-069"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-01",
+      "model_text": "Post Off",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-02",
+      "model_text": "Strathlorne",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-053"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-03",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-051"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-04",
+      "model_text": "Ken McLeod",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-052"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-05",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-054"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-06",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-055"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-07",
+      "model_text": "Isaac McLeod",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-084"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-08",
+      "model_text": "A. Gunn",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-090"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-09",
+      "model_text": "M. Gunn",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-091"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-10",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-088"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-11",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-089"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-12",
+      "model_text": "G. Mc",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-13",
+      "model_text": "Alex Campbell",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-093"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-14",
+      "model_text": "Church",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-092"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-15",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-094"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-16",
+      "model_text": "John McLean",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-095"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-17",
+      "model_text": "Black River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-098"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-18",
+      "model_text": "RAILWAY",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-057"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-19",
+      "model_text": "John McIsaac",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-097"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-20",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-100"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-21",
+      "model_text": "School",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-22",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-101"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-23",
+      "model_text": "C. Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-085"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-24",
+      "model_text": "G. Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-086"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-25",
+      "model_text": "F. Mill",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-26",
+      "model_text": "Indian pipes gouges etc found in the fields",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-096"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C06-27",
+      "model_text": "D. Mill",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported inscription matching this candidate in the complete native crop. Exclude the hallucinated/extra occurrence; retain original model response for audit.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-01",
+      "model_text": "Donald Kennedy",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-059"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-02",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-102"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-03",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-103"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-04",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-104"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-05",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-105"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-06",
+      "model_text": "RAILWAY",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-057"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-07",
+      "model_text": "Ferrugn Spring",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-107"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-08",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-108"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-09",
+      "model_text": "ICCH",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-106"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-10",
+      "model_text": "BAY",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-106"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-11",
+      "model_text": "hur",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-090"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-12",
+      "model_text": "un.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-091"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-13",
+      "model_text": "hupas",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-096"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-14",
+      "model_text": "de",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-096"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-15",
+      "model_text": "in the",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-096"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R03C07-16",
+      "model_text": "ields",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native whole-crop and retained-lettering inspection governs; original model boxes are not accepted.",
+      "reviewed_ids": [
+        "F14-CMB-096"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-01",
+      "model_text": "Mc Phee",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-110"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-02",
+      "model_text": "McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-111"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-03",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-112"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-04",
+      "model_text": "Don McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-113"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-05",
+      "model_text": "Fossils collected\nby Mr Foord",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-114"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-06",
+      "model_text": "Finlay Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-115"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-07",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-116"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-08",
+      "model_text": "P.O.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-117"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-09",
+      "model_text": "Mabou Coal Mines",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-118"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-10",
+      "model_text": "Coal Mine Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-119"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-11",
+      "model_text": "Coal",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-120"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-12",
+      "model_text": "250 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-121"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C03-13",
+      "model_text": "400 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-122"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-01",
+      "model_text": "760 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-073"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-02",
+      "model_text": "1000 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-074"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-03",
+      "model_text": "John M'Lea...",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-075"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-04",
+      "model_text": "M'Lea...",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-075"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-05",
+      "model_text": "Sch...",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-076"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-06",
+      "model_text": "...Phee",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-110"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-07",
+      "model_text": "...Donald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-111"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-08",
+      "model_text": "...Donald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-113"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-09",
+      "model_text": "Mill Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-123"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-10",
+      "model_text": "al Mines",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-118"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-11",
+      "model_text": "Don McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-124"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-12",
+      "model_text": "Wm Burke",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-125"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-13",
+      "model_text": "Thomas Burke",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C04-14",
+      "model_text": "U",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-109"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-01",
+      "model_text": "John McLean",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-075"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-02",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-076"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-03",
+      "model_text": "Milling\nBrook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-082"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-04",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-082"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-05",
+      "model_text": "Weston Archie McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-127"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-06",
+      "model_text": "Glen D",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-128"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-07",
+      "model_text": "Alexander",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-128"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-08",
+      "model_text": "Angus McDonald",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-129"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-09",
+      "model_text": "Fall",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-130"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-10",
+      "model_text": "Rapids",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-131"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-11",
+      "model_text": "Boyle",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-132"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-12",
+      "model_text": "Thomas Burke",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-13",
+      "model_text": "Fall",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-133"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-14",
+      "model_text": "Brook",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-156"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C05-15",
+      "model_text": "Fargo",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-165"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C06-01",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-100"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C06-02",
+      "model_text": "Black",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-134"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C06-03",
+      "model_text": "St. Croix",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-134"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C06-04",
+      "model_text": "en Dhur... or",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-128"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C06-05",
+      "model_text": "Alexander",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-128"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C06-06",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-135"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C06-07",
+      "model_text": "School",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported source inscription; model extra or marginal artifact excluded.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R04C06-08",
+      "model_text": "Maine",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-137"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C06-09",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-162"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C06-10",
+      "model_text": "Brook comes in",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-136"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C07-01",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-108"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R04C07-02",
+      "model_text": "Young",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-137"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C02-01",
+      "model_text": "Gr",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-146"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C02-02",
+      "model_text": "polish",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-146"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C02-03",
+      "model_text": "Gree",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-147"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C02-04",
+      "model_text": "H",
+      "disposition": "excluded-unsupported",
+      "note": "No separate supported source inscription; model extra or marginal artifact excluded.",
+      "reviewed_ids": []
+    },
+    {
+      "raw_candidate_id": "F14-R05C03-01",
+      "model_text": "Beaton Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-138"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C03-02",
+      "model_text": "500 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-139"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C03-03",
+      "model_text": "760 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-140"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C03-04",
+      "model_text": "760 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-141"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C03-05",
+      "model_text": "Diorite dykes",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-142"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C03-06",
+      "model_text": "100 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-143"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C03-07",
+      "model_text": "400 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-144"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C03-08",
+      "model_text": "440 FT.",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-145"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C03-09",
+      "model_text": "Grooved and polished rocks",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-146"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C03-10",
+      "model_text": "Green Point",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-147"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C04-01",
+      "model_text": "Thomas Burke",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C04-02",
+      "model_text": "700 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-148"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C04-03",
+      "model_text": "700 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-149"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C04-04",
+      "model_text": "870 FT",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-150"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C04-05",
+      "model_text": "Northeast",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-151"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C04-06",
+      "model_text": "A",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-109"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C04-07",
+      "model_text": "M",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-109"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-01",
+      "model_text": "Thomas Burke",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-126"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-02",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-152"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-03",
+      "model_text": "Fall",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-153"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-04",
+      "model_text": "Fall",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-133"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-05",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-154"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-06",
+      "model_text": "SawMill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-155"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-07",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-151"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-08",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-151"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-09",
+      "model_text": "Mabou",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-151"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-10",
+      "model_text": "Glen\ndyer",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-156"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-11",
+      "model_text": "Shop",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-157"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-12",
+      "model_text": "Bro...",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-156"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C05-13",
+      "model_text": "heas",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-151"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C06-01",
+      "model_text": "Moun",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-137"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C06-02",
+      "model_text": "School",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-162"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C06-03",
+      "model_text": "Brook comes out",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-136"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C06-04",
+      "model_text": "Brook runs underground",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-158"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C07-01",
+      "model_text": "Young",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-137"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C07-02",
+      "model_text": "school",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-162"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C07-03",
+      "model_text": "Mill",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-159"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C07-04",
+      "model_text": "PO",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-160"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C07-05",
+      "model_text": "Hay",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-161"
+      ]
+    },
+    {
+      "raw_candidate_id": "F14-R05C07-06",
+      "model_text": "River",
+      "disposition": "reconciled-to-reviewed",
+      "note": "Native complete printed occurrence governs; overlaps and clipped fragments linked once, without accepting raw boxes.",
+      "reviewed_ids": [
+        "F14-CMB-161"
+      ]
+    }
+  ],
+  "detail_audit_files": [
+    "sheet-14-review-evidence.json"
+  ],
+  "detail_candidate_count": 51,
+  "unresolved_region_disposition_count": 25,
+  "limitations": "Finalized means the initial source inventory and crop audit are complete with explicit qualified readings. It does not certify infallibility, geographic placement, georeferencing acceptance, feature survival, ownership or current site conditions."
+}
