@@ -42,12 +42,24 @@ required no model calls, 131 responses pass structural validation, containing
 1,156 unreviewed candidate records. Fourteen original responses remain
 structurally unresolved and preserved. Sheet 22 source review covers its six
 invalid responses independently; it does not turn those originals into valid
-model output. Sheets 19, 16 and 14 still await complete source review. Judique’s first 14 of
-35 crops are now reconciled in `sheet-19-north-review-evidence.json`. Its
-`sheet-19-reviewed.json` retains the original 133 identities and adds 18 distinct
-source annotations (151 total). Original source files remain unchanged. The
-production record for ID130 completes CRAIGNISH to CRAIGNISH HILLS using five
-additional native letter boxes. This is a partial inventory, not sheet finalization.
+model output. **Sheet 19 is also finalized as a source-only transcription:**
+166 annotations, all 35 native crops inspected, and all 273 readable first-pass
+candidate identities reconciled in `sheet-19-finalization.json`. It retains all
+133 original Judique identities and adds 33 distinct source occurrences. The
+original four source files remain unchanged. ID130 completes CRAIGNISH to
+CRAIGNISH HILLS, and ID100 corrects Shop to School at Glendale, retaining its
+previous reading and box for audit. Eight readings remain explicitly qualified.
+Sheets 16 and 14 await source review.
+
+The Judique northern and southern evidence files record the source checks,
+15 independent DeepSeek detail packets, and 61 detail-candidate dispositions.
+The final three rows add Widow McLeod, McIntosh, Big Brook (separate place and
+stream inscriptions), Princeville, Abraham McArthur, a school, falls, a post
+office, Old Road, another Rough Brook inscription and an 850 FT label. Princeville
+remains qualified where linework crosses the c/d letterform. Native review
+rejects the model's Fallzoo stream name, extra Hills label and McArtins surname.
+The two invalid original model responses remain preserved with their failed box
+validation; source review does not silently certify them.
 
 The first source checks found compass text incorrectly included, a clipped
 "Rock dries" misread as "Rocky", and substantially displaced model boxes.
@@ -163,15 +175,14 @@ not every unchanged check. Pause that continuation when all four sheets finish.
    `clear` classification and a successful subprocess do not establish source
    accuracy or completeness.
 
-**Next: sheet 19, R03C01 eastward.** The first two rows (14/35 crops) are
-source-reviewed. Continue with R03–R05, retaining IDs001–151 and original source
-provenance; use `F19-JUD-152` onward only for distinct source occurrences.
-Original R03C03 and R03C06 answers have invalid model boxes and require native
-source checking, not automatic acceptance or a rerun of successful packets.
-Reuse the eight finished detail packets in `review-20260907-19-01` and
-`review-20260907-19-02`; all have been source-reviewed. Prior tiny-label
-uncertainties remain explicit. Do not begin placement as part of extraction.
-Sheets 16 and 14 follow once sheet 19 is finalized.
+**Next: sheet 16, R01C01 eastward.** Sheet 19 is closed for the initial source
+pass. Reserve `F19-JUD-167` onward for later additions without renumbering.
+Reuse all finished Judique detail packets in `review-20260907-19-01` through
+`review-20260907-19-03`; none need rerunning. Detail IDs are local to each batch:
+the southern EAST-NAMES packet has a different source hash from the northern
+one, and the southern evidence explicitly qualifies it with its batch ID.
+Preserve the original failed responses, existing IDs and source provenance.
+Do not begin placement as part of extraction. Sheet 14 follows sheet 16.
 
 Sheet 22 is closed for the initial source pass; reserve `F22-HAW-302` onward for
 any later additions without renumbering. Reuse existing successful detail packets
@@ -181,8 +192,8 @@ answer; its original failed serialization and receipt remain preserved.
 
 Production continues in the separate worktree
 `/Users/dfakkeldy/.codex/worktrees/fletcher-production-2/ns-marks-the-spot`,
-branch `codex/fletcher-highway19-production-2`, based on `nightly`. The earlier
-production PR364 and church correction PR366 are merged. The original worktree
+branch `codex/fletcher-judique-completion`, based on `nightly`. The earlier
+production PR364 and PR368, and church correction PR366, are merged. The original worktree
 continues to serve the placement review; production does not switch its branch.
 The first-pass queue has stopped normally; do not restart successful packets.
 Keep private residence observations out of public data.
