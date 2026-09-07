@@ -862,8 +862,10 @@ struct MapContainerView: View {
                     // OpenStreetMap ground the frame carries the credit the
                     // tiles behind it require. Apple's maps carry their own
                     // marks and need nothing here.
-                    credit: overlayVM.baseMapType == .openStreetMap
-                        ? OpenStreetMapBase.credit : nil,
+                    credit: overlayVM.baseMapType.isAtlas
+                        ? AtlasRasterBase.frameCredit
+                        : overlayVM.baseMapType == .openStreetMap
+                            ? OpenStreetMapBase.credit : nil,
                     onCancel: {
                         printFrame = nil
                         controller.endPrintFraming()

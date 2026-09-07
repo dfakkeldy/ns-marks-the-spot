@@ -94,7 +94,7 @@ extension OverlayViewModel {
                 shareURL: shareURL,
                 position: mapPosition,
                 activeLayers: rows.filter(\.isVisible).map(\.descriptor),
-                baseMap: baseMapType,
+                baseMap: controller.resolvedBaseMapType,
                 fletcherBaseURL: FletcherHost.configuredBaseURL
             )
         )
@@ -202,7 +202,7 @@ extension OverlayViewModel {
         }
         return PrintExportRequest(
             visibleBounds: box,
-            baseMap: controller.baseMapType,
+            baseMap: controller.resolvedBaseMapType,
             // Dropped from the list rather than drawn transparent: the legend
             // and the credits are built from these, and a page that names a
             // source it carries no ink from tells the reader the imagery was

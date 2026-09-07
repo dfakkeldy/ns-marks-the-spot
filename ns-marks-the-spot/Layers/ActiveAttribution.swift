@@ -63,9 +63,57 @@ nonisolated enum ActiveAttribution {
     static func credits(
         for descriptors: [LayerDescriptor], baseMap: MapBaseType
     ) -> [Credit] {
-        (baseMap == .openStreetMap ? [openStreetMapCredit] : [])
-            + credits(for: descriptors)
+        baseCredits(for: baseMap) + credits(for: descriptors)
     }
+
+    /// What the ground itself owes.
+    ///
+    /// OpenStreetMap's credit where its tiles show. For the Atlas, the
+    /// Province's licence statement for the snapshot beneath every style,
+    /// then OpenStreetMap's for the context the tiles carry — the browser
+    /// prints the same two, in that order, under its own Atlas. Apple's maps
+    /// carry their own marks on the map and owe nothing here.
+    static func baseCredits(for baseMap: MapBaseType) -> [Credit] {
+        switch baseMap {
+        case .openStreetMap:
+            return [openStreetMapCredit]
+        case .atlas, .atlasDay, .atlasNight, .atlasFletcher:
+            return [atlasCredit(fletcher: baseMap == .atlasFletcher), atlasSupplementalCredit]
+        case .standard, .satellite, .hybrid, .nsAerial, .blank:
+            return []
+        }
+    }
+
+    /// The Province's statement for the provincial snapshot the Atlas is
+    /// drawn from, with what that snapshot is and is not. The Fletcher
+    /// sentence is carried only under the Fletcher style, because it is a
+    /// limit on what that style may be taken to show.
+    static func atlasCredit(fletcher: Bool) -> Credit {
+        Credit(
+            provider: "NS Marks Atlas",
+            copyright: nil,
+            disclaimer: "Original NS Marks cartography drawn from a provincial snapshot "
+                + "built \(AtlasRaster.Provincial.builtOn): NSRN roads, GeoNAMES labels, "
+                + "NSTDB water and woodland, and municipal boundaries. "
+                + "\(AtlasRaster.Provincial.attribution). \(AtlasRaster.Provincial.scaleNote)"
+                + (fletcher ? " \(AtlasRaster.fletcherStyleNote)" : ""),
+            licenseTitle: "Open Government Licence – Nova Scotia",
+            licenseURL: AtlasRaster.Provincial.licenceURL
+        )
+    }
+
+    /// The OpenStreetMap credit the Atlas tiles' supplemental context owes,
+    /// leading with the wording the tile policy asks for.
+    static let atlasSupplementalCredit = Credit(
+        provider: "© OpenStreetMap contributors",
+        copyright: AtlasRaster.Supplemental.credit,
+        disclaimer: "Supplemental context in the Atlas tiles — "
+            + "\(AtlasRaster.Supplemental.scope) — is OpenStreetMap data via OpenFreeMap, "
+            + "as fetched when the tiles were rendered. "
+            + "Map data is available under the Open Database Licence.",
+        licenseTitle: "openstreetmap.org/copyright",
+        licenseURL: AtlasRaster.Supplemental.licenceURL
+    )
 
     /// One entry per distinct source among the layers currently drawn.
     ///

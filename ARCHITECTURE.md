@@ -32,6 +32,22 @@ replace them:
   and applies the diff. Attaching a map view replays the diff from an empty
   state, which is how layers and annotations added before the view existed
   appear on it.
+- **Base grounds** — `MapBaseType` names Apple's maps and three
+  base-replacing tile overlays: `AtlasBaseOverlay` (the NS Marks Atlas, the
+  default, drawn from raster tiles that `web/scripts/atlasRaster` renders
+  from the web's own style and archive at 512 CSS pixels per tile, so a
+  rendered zoom z is the web's Leaflet zoom z + 1 and MapKit's 256-point
+  square at zoom z is cut from the rendered tile at z − 1 — MapKit's
+  `tileSize` is an expected resolution, not a zoom offset; a 404 is open
+  water answered by the style's ocean stand-in, anything else is retried),
+  `OSMBaseOverlay` and
+  `BlankBaseOverlay`. `AtlasRaster` in `MapCatalog` pins the revision, zoom
+  range and provincial snapshot and is tested against the web's receipts; the
+  host is the `ATLAS_TILE_BASE_URL` build setting (`AtlasRasterHost`), and an
+  unhosted build drops the Atlas from the picker rather than substituting a
+  ground under its credit. A system-appearance Atlas resolves to Day or Night
+  from the map view's trait, and links, notes and pages name the resolved
+  style (`MapShareState.basemapStyle`, the web's `basemap` parameter).
 
 SwiftUI views other than the `MapSurfaceView` representable still never
 import MapKit; they observe `MapController.state` through `@Observable`.

@@ -138,6 +138,47 @@ final class MapChromeUITests: XCTestCase {
         XCTAssertTrue(endpoint.waitForNonExistence(timeout: 5), "the endpoint label stayed up after Done")
     }
 
+    /// The map opens on the Atlas, the browser's own ground, and the strip
+    /// under it says so; choosing another ground changes the credit with it.
+    ///
+    /// The credit is the assertion, not the tiles: the strip is what a
+    /// reader is owed whether or not the host answered, and it is what says
+    /// which ground the map is on when the picker is closed.
+    @MainActor
+    func testTheMapOpensOnTheAtlasAndTheCreditFollowsTheGround() throws {
+        let app = XCUIApplication.launchedForUITests()
+        let strip = app.descendants(matching: .any)["map-attribution"]
+        XCTAssertTrue(strip.waitForExistence(timeout: timeout), "no attribution strip")
+        XCTAssertTrue(
+            waitForUI { strip.label.hasPrefix("NS Marks Atlas") },
+            "the map did not open on the Atlas: the strip says \"\(strip.label)\""
+        )
+
+        let layers = app.buttons["toggle-layers-menu"]
+        XCTAssertTrue(layers.waitForHittable(timeout: timeout))
+        layers.tap()
+        let picker = app.descendants(matching: .any)["base-map-style"]
+        XCTAssertTrue(picker.waitForHittable(timeout: timeout), "the base map picker is not offered")
+        picker.tap()
+        let osm = app.buttons["OpenStreetMap"]
+        XCTAssertTrue(osm.waitForHittable(timeout: timeout), "OpenStreetMap is not offered as a ground")
+        osm.tap()
+        XCTAssertTrue(
+            waitForUI { strip.label.hasPrefix("© OpenStreetMap contributors") },
+            "choosing OpenStreetMap did not change the credit: the strip says \"\(strip.label)\""
+        )
+
+        XCTAssertTrue(picker.waitForHittable(timeout: timeout))
+        picker.tap()
+        let fletcher = app.buttons["Atlas Fletcher"]
+        XCTAssertTrue(fletcher.waitForHittable(timeout: timeout), "Atlas Fletcher is not offered as a ground")
+        fletcher.tap()
+        XCTAssertTrue(
+            waitForUI { strip.label.hasPrefix("NS Marks Atlas") },
+            "choosing Atlas Fletcher did not restore the Atlas credit"
+        )
+    }
+
     /// The sheet is long, and the sources are at the bottom of it. What is
     /// asserted is that scrolling reaches them and that a licence is written
     /// where it can be read, not merely that a heading exists.

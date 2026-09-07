@@ -3,10 +3,19 @@ import CryptoKit
 import Foundation
 import GeoCore
 import MapCatalog
+import NSDataServices
 
 nonisolated enum MapBaseType: String, CaseIterable, Identifiable, Sendable {
-    /// The browser's ground, drawn from the same tiles. First in the picker
-    /// and the default, because it is the map the other surface shows.
+    /// The browser's default ground: the NS Marks Atlas in whichever of Day
+    /// or Night the system appearance calls for. First in the picker and the
+    /// default, because it is the map the other surface opens on.
+    case atlas = "Atlas"
+    case atlasDay = "Atlas Day"
+    case atlasNight = "Atlas Night"
+    /// Modern geography in the colours and lettering of Fletcher's sheets.
+    /// An explicit choice on both surfaces, never a default.
+    case atlasFletcher = "Atlas Fletcher"
+    /// The browser's OpenStreetMap raster, drawn from the same tiles.
     case openStreetMap = "OpenStreetMap"
     case standard = "Standard"
     case satellite = "Satellite"
@@ -18,6 +27,71 @@ nonisolated enum MapBaseType: String, CaseIterable, Identifiable, Sendable {
     case blank = "None"
 
     var id: String { self.rawValue }
+
+    /// The ground the map opens on, which is the browser's.
+    static let defaultGround: MapBaseType = .atlas
+
+    /// The web's `modern` layer: its one base map, in any of its styles. A
+    /// shared link and a saved setup name this and nothing else about the
+    /// ground, because Apple's maps have no name in the shared vocabulary.
+    var isModernMap: Bool {
+        switch self {
+        case .atlas, .atlasDay, .atlasNight, .atlasFletcher, .openStreetMap: true
+        case .standard, .satellite, .hybrid, .nsAerial, .blank: false
+        }
+    }
+
+    /// Whether this ground is drawn from the rendered Atlas tiles.
+    var isAtlas: Bool { atlasStyle(systemPrefersDark: false) != nil }
+
+    /// The Atlas style this ground draws, with the system's appearance
+    /// deciding for `.atlas` — the web's `resolveBasemapStyle`.
+    func atlasStyle(systemPrefersDark: Bool) -> AtlasRasterStyle? {
+        switch self {
+        case .atlas: systemPrefersDark ? .night : .day
+        case .atlasDay: .day
+        case .atlasNight: .night
+        case .atlasFletcher: .fletcher
+        case .openStreetMap, .standard, .satellite, .hybrid, .nsAerial, .blank: nil
+        }
+    }
+
+    /// The style a shared link carries for this ground, resolved the way the
+    /// browser resolves its own before writing a link: a system-appearance
+    /// choice travels as the Day or Night it currently is.
+    func shareStyle(systemPrefersDark: Bool) -> MapShareState.BasemapStyle? {
+        if self == .openStreetMap { return .osm }
+        switch atlasStyle(systemPrefersDark: systemPrefersDark) {
+        case .day?: return .day
+        case .night?: return .night
+        case .fletcher?: return .fletcher
+        case nil: return nil
+        }
+    }
+
+    /// The ground a link's style names. Explicit, as it is on the web: a link
+    /// that says Day opens on Day whatever the phone's appearance is.
+    init(shareStyle: MapShareState.BasemapStyle) {
+        switch shareStyle {
+        case .day: self = .atlasDay
+        case .night: self = .atlasNight
+        case .fletcher: self = .atlasFletcher
+        case .osm: self = .openStreetMap
+        }
+    }
+
+    /// The grounds the picker offers: every case, less the Atlas when the
+    /// build has no host to draw it from. A choice that draws nothing is not
+    /// offered, and the default falls back to the OpenStreetMap raster the
+    /// browser itself falls back to.
+    static func available(atlasHosted: Bool) -> [MapBaseType] {
+        allCases.filter { atlasHosted || !$0.isAtlas }
+    }
+
+    /// The ground to open on, given what this build can draw.
+    static func defaultGround(atlasHosted: Bool) -> MapBaseType {
+        atlasHosted ? defaultGround : .openStreetMap
+    }
 }
 
 nonisolated enum TileLayerSource: Equatable, Sendable {
@@ -30,6 +104,11 @@ nonisolated enum TileLayerSource: Equatable, Sendable {
     /// an overlay for every tile in view: without knowing the sheet extents,
     /// panning Cape Breton would fire 24 requests per tile and discard 23.
     case fletcherSheets(baseURL: URL)
+    /// The rendered Atlas in one style, for the print export. On screen the
+    /// Atlas is a base rather than a layer (`AtlasBaseOverlay`); the page
+    /// fetches it through the same request as a layer of its own so a lost
+    /// square is reported rather than printed as blank ground.
+    case atlasRaster(style: AtlasRasterStyle, baseURL: URL)
     /// A catalogued `map-export` layer, drawn from the shared descriptor.
     ///
     /// The id alone, not the address: `TileRequestFactory` turns it into a URL,
@@ -103,6 +182,9 @@ nonisolated struct TileLayerConfiguration: Identifiable, Equatable, Sendable {
             // MapKit starts asking for tiles before it finishes — this makes
             // the identity correct rather than the timing lucky.
             configString = "fletcherSheets|\(FletcherSheets.tileRevision)|\(baseURL.absoluteString)"
+        case .atlasRaster(let style, let baseURL):
+            // The revision, for the reason the Fletcher key carries its own.
+            configString = "atlasRaster|\(AtlasRaster.tileRevision)|\(style.rawValue)|\(baseURL.absoluteString)"
         case .catalogExport(let layerID):
             // The whole export, not just the id. A catalog edit that restyles
             // `dynamicLayers`, changes `dpi`, or moves the service to another
@@ -181,7 +263,7 @@ nonisolated enum MapInteractionMode: Equatable, Sendable {
 /// The desired state of the map surface. `MapController` owns the applied
 /// copy; transitions are computed by `MapStateDiff` as `[MapMutation]`.
 nonisolated struct MapViewState: Equatable, Sendable {
-    var baseMapType: MapBaseType = .openStreetMap
+    var baseMapType: MapBaseType = .defaultGround
     var layers: [MapLayerState] = []
     var parcelShapes: [ParcelShape] = []
     /// Areal and linear geometry from the viewport feature layers.

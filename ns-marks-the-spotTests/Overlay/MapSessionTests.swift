@@ -63,6 +63,15 @@ struct MapSessionTests {
         #expect(MapSessionStore(defaults: Self.defaults()).load() == nil)
     }
 
+    /// An Atlas style is a background like any other: a reader working in
+    /// Fletcher, or on the system-appearance Atlas, comes back to it.
+    @Test(arguments: [MapBaseType.atlas, .atlasDay, .atlasNight, .atlasFletcher])
+    func anAtlasBackgroundIsStoredAndRestored(background: MapBaseType) throws {
+        let store = MapSessionStore(defaults: Self.defaults())
+        store.save(MapSession(view: MapShareState(), background: background))
+        #expect(try #require(store.load()).background == background)
+    }
+
     /// Parsing never fails, so without a check on the way in a truncated or
     /// overwritten value would open the map on the default view and present it
     /// as the one the reader left.

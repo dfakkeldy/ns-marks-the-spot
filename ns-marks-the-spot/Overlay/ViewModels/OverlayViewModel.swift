@@ -1224,6 +1224,10 @@ final class OverlayViewModel {
         }
 
         return MapShareState(
+            // Resolved, as the browser resolves its own before writing a
+            // link: a system-appearance Atlas travels as the Day or Night it
+            // is right now, so the recipient sees the map that was sent.
+            basemapStyle: baseMapType.shareStyle(systemPrefersDark: controller.systemPrefersDark),
             taxSaleEnabled: showsTaxSale,
             // The mode the map is holding, not the one it is acting on.
             // `mapRecordMode` reads `.current` while tax sales are off, and
@@ -1233,7 +1237,7 @@ final class OverlayViewModel {
             mode: (historical?.mode ?? .current) == .historical ? .historical : .current,
             pid: parcels.selectedPID,
             eventIDs: eventIDs,
-            layerIDs: (baseMapType == .openStreetMap ? [MapShareState.modernBaseLayerID] : [])
+            layerIDs: (baseMapType.isModernMap ? [MapShareState.modernBaseLayerID] : [])
                 + rows.filter(\.isVisible).map(\.id),
             position: mapPosition
         )
@@ -1418,10 +1422,17 @@ final class OverlayViewModel {
         // A session says which background it was on outright. A link only says
         // whether the modern map was drawn, because that is all the browser has
         // a word for, so anything else it leaves where it is.
+        //
+        // Which modern map: a link that names a style names the ground
+        // outright. One that names only the modern map keeps whichever modern
+        // ground the reader is on, or the default if they are on none — the
+        // browser keeps its own preference the same way.
+        let modernGround = state.basemapStyle.map(MapBaseType.init(shareStyle:))
+            ?? (baseMapType.isModernMap ? baseMapType : defaultGround)
         let restored =
             background
             ?? (state.layerIDs.contains(MapShareState.modernBaseLayerID)
-                ? .openStreetMap : baseMapType)
+                ? modernGround : baseMapType)
         // Unless the link names layers and no ground to draw them over, which
         // the browser answers by turning its modern map on. Answering it with
         // whatever this reader happened to be on would put the sender's
@@ -1432,12 +1443,12 @@ final class OverlayViewModel {
         // Only for a link. A session says outright which background it was on,
         // and resuming it is not the moment to argue.
         //
-        // Either way the ground is OpenStreetMap — the sender's modern map and
-        // this app's are now the same tiles, so a link restores the very map
+        // Either way the ground is the modern map — the sender's and this
+        // app's are now the same cartography, so a link restores the very map
         // it was sent from rather than a stand-in.
         let ground: MapBaseType =
             origin == .sharedLink && browserWouldDrawItsModernMap(state)
-            ? .openStreetMap : restored
+            ? modernGround : restored
         setBaseMapType(ground)
         // A link opens in the browser as a fresh page, so the reader who
         // follows it starts on every notice and no narrowing at all. Here it
@@ -1614,7 +1625,7 @@ final class OverlayViewModel {
     /// map shows, not where it is looking, and picking one should leave the
     /// reader over the same ground.
     var themeState: MapThemeState {
-        let layerIDs = (baseMapType == .openStreetMap ? [MapShareState.modernBaseLayerID] : [])
+        let layerIDs = (baseMapType.isModernMap ? [MapShareState.modernBaseLayerID] : [])
             + rows.filter(\.isVisible).map(\.id)
         return MapThemeState(
             layerIDs: layerIDs,
@@ -1909,7 +1920,9 @@ final class OverlayViewModel {
         // name in this vocabulary — a shared link cannot carry them either —
         // so a setup saved over one of those comes back without it.
         if wanted.contains(MapShareState.modernBaseLayerID) {
-            setBaseMapType(.openStreetMap)
+            // A setup names the modern map, not a style of it: the reader's
+            // own modern ground stands, and the default stands in for none.
+            setBaseMapType(baseMapType.isModernMap ? baseMapType : defaultGround)
         } else if !wanted.contains(LayerID.nsAerial.rawValue) {
             setBaseMapType(.blank)
         }
@@ -2387,6 +2400,17 @@ final class OverlayViewModel {
 
     // MARK: - Layers
 
+    /// The grounds the picker offers on this build.
+    var availableBaseMapTypes: [MapBaseType] {
+        MapBaseType.available(atlasHosted: controller.atlasRasterBaseURL != nil)
+    }
+
+    /// The ground the map falls back to: the browser's default, or its own
+    /// fallback on a build with no Atlas host.
+    private var defaultGround: MapBaseType {
+        .defaultGround(atlasHosted: controller.atlasRasterBaseURL != nil)
+    }
+
     /// Switching the base map is a way of turning a layer on, so it goes through
     /// the same gate the switch does.
     ///
@@ -2396,6 +2420,11 @@ final class OverlayViewModel {
     /// blank map with the picker insisting it had loaded — and no way to reach
     /// the licence sheet except noticing the separate locked row further down.
     func setBaseMapType(_ type: MapBaseType) {
+        // An Atlas ground on a build with no host — a link, a setup or a
+        // session from a build that had one — becomes the raster the browser
+        // itself falls back to, rather than a picker entry that draws Apple's
+        // map under an Atlas name.
+        let type = type.isAtlas && controller.atlasRasterBaseURL == nil ? .openStreetMap : type
         if let layerID = Self.basemapLayerID(for: type),
            requiresUnansweredLicence(layerID.rawValue) {
             licencePromptedLayerID = layerID
@@ -2523,7 +2552,7 @@ final class OverlayViewModel {
                 // Back to the map's default ground, which is the browser's:
                 // the imagery going away should leave the reader on the same
                 // modern map the other surface shows.
-                controller.baseMapType = .openStreetMap
+                controller.baseMapType = defaultGround
             }
         }
     }

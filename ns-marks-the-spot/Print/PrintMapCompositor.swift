@@ -151,7 +151,11 @@ nonisolated struct PrintMapCompositor {
         lineScale: Double,
         tileProvider: @escaping TileProvider,
         renderProvider: @escaping RenderProvider,
-        baseMapProvider: @escaping BaseMapProvider = Self.snapshotBaseMap
+        baseMapProvider: @escaping BaseMapProvider = Self.snapshotBaseMap,
+        /// Where the rendered Atlas is read from. `nil` on a build with no
+        /// host, where an Atlas ground prints as paper rather than as some
+        /// other map under an Atlas credit.
+        atlasBaseURL: URL? = AtlasRasterHost.configuredBaseURL
     ) async throws -> Output {
         let space = PrintOutputSpace(bounds: bounds, widthPx: widthPx, heightPx: heightPx)
         var outcomes = [LayerOutcome]()
@@ -199,31 +203,26 @@ nonisolated struct PrintMapCompositor {
             }
         }
 
-        if baseMap == .openStreetMap {
+        if let modern = Self.modernPrintLayer(for: baseMap, atlasBaseURL: atlasBaseURL) {
             // The page's ground is the screen's ground: the same OpenStreetMap
-            // tiles, fetched through the same provider, rather than an
-            // MKMapSnapshotter picture of a different survey. Paper-white goes
-            // underneath, so a square that never arrives prints as paper — and
-            // is *said*, because the base reports an outcome like any layer:
-            // a lost square is a partial or failed row on the page, never
-            // silently blank ground.
+            // or Atlas tiles, fetched through the same provider, rather than
+            // an MKMapSnapshotter picture of a different survey. Paper-white
+            // goes underneath, so a square that never arrives prints as paper
+            // — and is *said*, because the base reports an outcome like any
+            // layer: a lost square is a partial or failed row on the page,
+            // never silently blank ground.
             let blank = blankBaseMap(widthPx: widthPx, heightPx: heightPx)
             drawSynchronously { blank.draw(in: pageRect) }
-            let osm = OpenStreetMapBase.printLayer
             let (tiles, state) = await self.tiles(
-                for: osm, bounds: bounds, widthPx: widthPx, provider: tileProvider
+                for: modern, bounds: bounds, widthPx: widthPx, provider: tileProvider
             )
             // First drawn, which is the bottom of the stack: the web's export
             // builds its layer list the same way, modern base first.
             autoreleasepool {
-                drawLayer(tiles: tiles, whole: nil, alpha: osm.effectiveAlpha)
+                drawLayer(tiles: tiles, whole: nil, alpha: modern.effectiveAlpha)
             }
             outcomes.append(
-                LayerOutcome(
-                    id: OpenStreetMapBase.layerID,
-                    name: OpenStreetMapBase.pageName,
-                    state: state
-                )
+                LayerOutcome(id: modern.id, name: modern.name, state: state)
             )
         } else {
             let base = try await baseMapProvider(bounds, widthPx, heightPx, baseMap)
@@ -764,7 +763,7 @@ nonisolated struct PrintMapCompositor {
         // paper here too: `compose` draws it from tiles and never asks this
         // snapshotter for it, and answering with Apple's map instead would put
         // Apple pixels under an OpenStreetMap credit.
-        case .blank, .openStreetMap:
+        case .blank, .openStreetMap, .atlas, .atlasDay, .atlasNight, .atlasFletcher:
             return blankBaseMap(widthPx: widthPx, heightPx: heightPx)
         }
 
@@ -773,6 +772,20 @@ nonisolated struct PrintMapCompositor {
         } catch {
             throw Failure.baseMapUnavailable(error.localizedDescription)
         }
+    }
+
+    /// The modern map as a layer the page can fetch tile by tile, or `nil`
+    /// for a ground the snapshotter or blank paper answers for.
+    ///
+    /// A system-appearance Atlas reaches here already resolved by the caller
+    /// (`MapController.resolvedBaseMapType`); Day stands in if it did not,
+    /// because the page has to draw one of them and cannot ask the screen.
+    static func modernPrintLayer(for baseMap: MapBaseType, atlasBaseURL: URL?) -> MapLayerState? {
+        if baseMap == .openStreetMap { return OpenStreetMapBase.printLayer }
+        guard let style = baseMap.atlasStyle(systemPrefersDark: false), let atlasBaseURL else {
+            return nil
+        }
+        return AtlasRasterBase.printLayer(style: style, baseURL: atlasBaseURL)
     }
 
     /// White, the colour of the paper the rest of the page is printed on.
@@ -868,6 +881,13 @@ nonisolated struct PrintMapCompositor {
             // is the base — but it fetches through the same request the screen
             // uses, User-Agent and shared URL cache included, so the page and
             // the screen are the same map from the same session.
+            // Before the id check: the Atlas shares the modern map's id, and
+            // its source is what says which of the two grounds this is.
+            if case .atlasRaster(let style, let baseURL) = configuration.source {
+                return await AtlasRasterBase.exportTile(
+                    style: style, z: path.z, x: path.x, y: path.y, baseURL: baseURL
+                )
+            }
             if configuration.id == OpenStreetMapBase.layerID {
                 return await OpenStreetMapBase.exportTile(
                     z: path.z, x: path.x, y: path.y

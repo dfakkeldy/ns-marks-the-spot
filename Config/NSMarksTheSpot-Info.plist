@@ -4,6 +4,8 @@
 <dict>
 	<key>FletcherTileBaseURL</key>
 	<string>$(FLETCHER_TILE_BASE_URL)</string>
+	<key>AtlasTileBaseURL</key>
+	<string>$(ATLAS_TILE_BASE_URL)</string>
 
 	<!-- The photo map's row presents the limited-library picker itself from
 	     "Manage"; without this key iOS raises its own "Select More Photos"

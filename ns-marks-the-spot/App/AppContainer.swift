@@ -256,14 +256,19 @@ final class AppContainer {
         // survived the filtering above. NS Aerial is a base map and a licensed
         // layer at once, and setting it here regardless would name imagery the
         // map has just been told it may not draw.
+        let atlasHosted = controller.atlasRasterBaseURL != nil
         if let background = session?.background,
            OverlayViewModel.basemapLayerID(for: background).map(opening.contains) ?? true {
-            controller.baseMapType = background
+            // An Atlas ground stored by a hosted build is not one this build
+            // can draw; the OpenStreetMap raster is the browser's own fallback.
+            controller.baseMapType = background.isAtlas && !atlasHosted ? .openStreetMap : background
         } else if openedAerial {
             // NS Aerial is a base map as well as an overlay, and the two move
             // together everywhere else. Setting the layer alone would open with
             // imagery drawn and the base-map picker reading "Standard".
             controller.baseMapType = .nsAerial
+        } else {
+            controller.baseMapType = .defaultGround(atlasHosted: atlasHosted)
         }
     }
 
