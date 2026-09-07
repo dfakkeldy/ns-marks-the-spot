@@ -1125,24 +1125,48 @@ export function App() {
   const hasSharedLayers = initialUrl.searchParams.has("layers");
   const hasSharedEvents = initialUrl.searchParams.has("event");
   const hasSharedPosition = initialUrl.searchParams.has("position");
+  /**
+   * `?theme=` names a built-in setup. Two of them — Explore Nova Scotia and
+   * Poker — draw exactly the same single layer, so the layer parameters alone
+   * cannot say which one a link meant; Poker's driveway tools hang off the
+   * selection, not off a layer. The name seeds a first visit, and never
+   * overrules a link that also carries its own state: it is honoured only
+   * while the state on the link still matches the setup it names.
+   */
+  const requestedTheme = builtInMapThemes.find(
+    ({ id }) => id === initialShareState.themeId,
+  );
   const initialCatalogueLayerIds = useRef(new Set<ShareLayerId>(
-    hasRecognizedShareState ? initialShareState.layerIds : ["modern"],
+    hasRecognizedShareState
+      ? initialShareState.layerIds
+      : requestedTheme?.layerIds ?? ["modern"],
   )).current;
   const initialTaxSaleEnabled = hasRecognizedShareState
     ? initialShareState.taxSaleEnabled
-    : false;
+    : requestedTheme?.taxSaleEnabled ?? false;
+  const initialMapMode = hasRecognizedShareState
+    ? initialShareState.mode
+    : requestedTheme?.mapMode ?? initialShareState.mode;
   const initialLicenceAccepted = useRef(isLicenceAccepted()).current;
-  const initialNeedsLicence = hasRecognizedShareState
+  const initialNeedsLicence = (hasRecognizedShareState || requestedTheme !== undefined)
     && !initialLicenceAccepted
     && [...initialCatalogueLayerIds].some((id) =>
       restrictedThemeLayerIds.has(id),
     );
-  const initialThemeMatch = useRef(matchTheme({
+  const initialComparableState: ThemeComparableState = {
     layerIds: [...initialCatalogueLayerIds],
     opacityOverrides: {},
     taxSaleEnabled: initialTaxSaleEnabled,
-    mapMode: initialShareState.mode,
-  }, initialMapThemes)).current;
+    mapMode: initialMapMode,
+  };
+  const initialThemeMatch = useRef(
+    matchTheme(initialComparableState, initialMapThemes),
+  ).current;
+  const initialRequestedTheme = useRef(
+    requestedTheme && themeStatesMatch(initialComparableState, requestedTheme)
+      ? requestedTheme
+      : undefined,
+  ).current;
   const fletcherTileConfiguration = useMemo(() => {
     try {
       return {
@@ -1190,9 +1214,10 @@ export function App() {
     initialNeedsLicence ? { kind: "layer" } : null,
   );
   const [selectedThemeId, setSelectedThemeId] = useState<string | null>(
-    hasRecognizedShareState
-      ? initialThemeMatch?.id ?? null
-      : "explore-nova-scotia",
+    initialRequestedTheme?.id
+      ?? (hasRecognizedShareState
+        ? initialThemeMatch?.id ?? null
+        : "explore-nova-scotia"),
   );
   const pokerMode = selectedThemeId === "poker";
   const [pokerAddress, setPokerAddress] = useState<CivicAddress | null>(null);
@@ -1472,7 +1497,7 @@ export function App() {
       ? { pid: initialShareState.pid, generation: selectionGeneration.current }
       : null,
   });
-  const [mapMode, setMapMode] = useState<MapMode>(initialShareState.mode);
+  const [mapMode, setMapMode] = useState<MapMode>(initialMapMode);
   const [taxSaleEnabled, setTaxSaleEnabled] = useState(
     initialTaxSaleEnabled,
   );
@@ -1606,9 +1631,10 @@ export function App() {
   );
   const [expandedCategoryIds, setExpandedCategoryIds] = useState<Set<LayerCategoryId>>(
     () => new Set(
-      hasRecognizedShareState
-        ? initialThemeMatch?.preferredCategoryIds ?? []
-        : ["background-maps"],
+      initialRequestedTheme?.preferredCategoryIds
+        ?? (hasRecognizedShareState
+          ? initialThemeMatch?.preferredCategoryIds ?? []
+          : ["background-maps"]),
     ),
   );
   const setCategoryExpanded = useCallback(
@@ -3787,6 +3813,20 @@ export function App() {
     [mapThemes, selectedTheme, themeComparableState],
   );
   const activeThemeId = selectedTheme?.id ?? matchedTheme?.id ?? null;
+  /**
+   * Named in the share URL only when the layer parameters cannot identify the
+   * selection on their own — in practice, Poker, whose one layer is also
+   * Explore Nova Scotia's. Without it the address bar rewrite below would
+   * quietly drop Poker on the next reload. A setup its own layers already
+   * identify stays out, so ordinary links keep their present shape, and a
+   * custom setup stays out because it exists only in the browser that saved
+   * it and cannot be restored from a name elsewhere.
+   */
+  const shareThemeId = selectedTheme?.kind === "built-in"
+    && themeStatesMatch(themeComparableState, selectedTheme)
+    && matchTheme(themeComparableState, mapThemes)?.id !== selectedTheme.id
+    ? selectedTheme.id
+    : undefined;
   const themeResultMatches = themeResult !== null
     && themeStatesMatch(themeComparableState, themeResult.target);
   const themeStatus: MapThemeStatus = themeResult?.status === "partial"
@@ -3983,6 +4023,7 @@ export function App() {
         : [],
       layerIds: activeLayerIds,
       position: mapViewport.position,
+      themeId: shareThemeId,
     }),
     [
       activeLayerIds,
@@ -3992,6 +4033,7 @@ export function App() {
       selectedEventIds,
       selectedHistoricalContexts,
       selectedPid,
+      shareThemeId,
       taxSaleEnabled,
     ],
   );

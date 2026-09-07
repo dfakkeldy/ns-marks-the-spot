@@ -224,6 +224,17 @@ compatibility, a legacy link with `mode` or `event` but no `taxSale` parameter
 still enables Tax Sale; exact shared state takes precedence over local custom
 theme storage.
 
+A `theme` parameter names a built-in setup by ID, so a link can open one
+directly — `?theme=poker` starts a driveway session. It is honoured only while
+the rest of the link agrees with the setup it names: layer, tax-sale, and mode
+parameters keep precedence, and an unknown or custom name is ignored, since a
+custom setup lives only in the browser that saved it. A named setup whose
+layers need the Province licence asks for acceptance before drawing them, the
+same as a shared link would. Share links carry `theme` only when the layer
+parameters cannot identify the selection on their own, which today means
+Poker: it draws the same single layer as Explore Nova Scotia, so without the
+name a reload would land in the wrong one.
+
 The generated web-to-native category and built-in-theme contract is
 [`NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json`](../NSMarksCore/Tests/ParityFixtures/Fixtures/map-presentation.json),
 written by `src/themes/mapThemes.test.ts` and read by the Swift package's

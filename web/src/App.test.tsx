@@ -3922,6 +3922,77 @@ describe("NS Marks The Spot Online", () => {
     expect(input.selectionEnd).toBe(result.label.length);
   });
 
+  it("opens in the setup a link names, when its layers cannot say which", () => {
+    // Poker and Explore Nova Scotia draw the same single layer, so the layer
+    // parameters alone cannot choose between them; kinnokilabs.com/poker
+    // redirects here to open the driveway tools directly.
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?theme=poker");
+
+    render(<App />);
+
+    expect(screen.getByLabelText("Map setup")).toHaveValue("poker");
+    expect(screen.getByTestId("poker-session")).toBeInTheDocument();
+  });
+
+  it("keeps the named setup in the address bar so a reload stays in it", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?theme=poker");
+
+    render(<App />);
+
+    await waitFor(() => expect(
+      new URL(window.location.href).searchParams.get("layers"),
+    ).toBe("modern"));
+    expect(new URL(window.location.href).searchParams.get("theme")).toBe("poker");
+  });
+
+  it("leaves the setup out of a link its own layers already identify", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/");
+
+    render(<App />);
+
+    await waitFor(() => expect(
+      new URL(window.location.href).searchParams.get("layers"),
+    ).toBe("modern"));
+    expect(new URL(window.location.href).searchParams.has("theme")).toBe(false);
+  });
+
+  it("lets the layers a link carries overrule the setup it names", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(
+      null,
+      "",
+      "/?theme=poker&taxSale=off&layers=modern,place-names,main-roads",
+    );
+
+    render(<App />);
+
+    expect(screen.getByLabelText("Map setup")).toHaveValue("georeferencing");
+    expect(screen.queryByTestId("poker-session")).not.toBeInTheDocument();
+  });
+
+  it("ignores a setup name that is not a built-in one", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?theme=not-a-setup");
+
+    render(<App />);
+
+    expect(screen.getByLabelText("Map setup")).toHaveValue("explore-nova-scotia");
+    expect(screen.queryByTestId("poker-session")).not.toBeInTheDocument();
+  });
+
+  it("asks for the Province licence before opening a named setup that needs it", () => {
+    window.history.replaceState(null, "", "/?theme=tax-sale-research");
+
+    render(<App />);
+
+    expect(screen.getByRole("button", { name: /accept/i })).toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas"))
+      .toHaveTextContent("property boundaries: off");
+  });
+
   it("searches a civic address and opens its containing parcel", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
