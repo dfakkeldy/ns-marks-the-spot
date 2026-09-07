@@ -1,0 +1,7 @@
+{
+  "model": "TPS",
+  "controls": "revised-observations.json: all 19 role=control points, unchanged",
+  "selection": "The 19-control affine failed fresh F checks (median 116.61595467788952 m, worst 128.97597645372488 m). TPS was then compared on those now-diagnostic checks (median 65.96436344356276 m, worst 127.35574018100898 m). Distributed saved controls plus two verified coastal controls support a local curved revision. No F point is fitted.",
+  "gate": {"median_max_ground_m": 100, "worst_max_ground_m": 200},
+  "validation": "Choose and freeze different checks after this model is committed; retain all previous results."
+}
