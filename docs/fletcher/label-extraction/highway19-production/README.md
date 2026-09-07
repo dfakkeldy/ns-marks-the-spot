@@ -49,7 +49,25 @@ candidate identities reconciled in `sheet-19-finalization.json`. It retains all
 original four source files remain unchanged. ID130 completes CRAIGNISH to
 CRAIGNISH HILLS, and ID100 corrects Shop to School at Glendale, retaining its
 previous reading and box for audit. Eight readings remain explicitly qualified.
-Sheets 16 and 14 await source review.
+Sheet 14 awaits source review.
+
+**Sheet 16 is finalized as a source-only transcription:** 256 annotations,
+all 40 native crops inspected, and all 384 readable first-pass candidates
+reconciled. Its 13 DeepSeek detail packets contain 94 candidate readings; all
+42 original/detail unresolved-region reports have explicit dispositions.
+`sheet-16-review-evidence.json` retains the detail provenance and adjudications.
+The two invalid original responses and the invalid mine-detail response remain
+unchanged; native review does not certify their rejected model boxes.
+
+The inventory includes Port Hood, Mabou, Little Judique and the inland streams,
+mills, schools, churches, shops, personal-name inscriptions and old road captions.
+Rotated source review resolves the mine annotation **Four feet seam** and **LEVEL**,
+the separate **SMITH Iᵈ.** and **HENRY Iᵈ.** captions, and the complete **Post Road to
+Mabou**. It also retains the red **This region was not surveyed.** statement.
+Draft reviewer boxes were checked against native snippets and corrected before
+acceptance. Robert MᶜGeen remains a qualified surname reading; three waterfall
+numerals retain explicit unit uncertainty. Printed heights and names are source
+text, not modern measurements, ownership or verified feature positions.
 
 The Judique northern and southern evidence files record the source checks,
 15 independent DeepSeek detail packets, and 61 detail-candidate dispositions.
@@ -175,14 +193,17 @@ not every unchanged check. Pause that continuation when all four sheets finish.
    `clear` classification and a successful subprocess do not establish source
    accuracy or completeness.
 
-**Next: sheet 16, R01C01 eastward.** Sheet 19 is closed for the initial source
+**Next: sheet 14, R01C01 eastward.** Sheet 16 is closed for the initial source
+pass; reserve `F16-PHM-257` onward without renumbering. Reuse its completed detail
+packets in `review-20260907-16-01` and `review-20260907-16-02`; none need rerunning.
+Sheet 19 is closed for the initial source
 pass. Reserve `F19-JUD-167` onward for later additions without renumbering.
 Reuse all finished Judique detail packets in `review-20260907-19-01` through
 `review-20260907-19-03`; none need rerunning. Detail IDs are local to each batch:
 the southern EAST-NAMES packet has a different source hash from the northern
 one, and the southern evidence explicitly qualifies it with its batch ID.
 Preserve the original failed responses, existing IDs and source provenance.
-Do not begin placement as part of extraction. Sheet 14 follows sheet 16.
+Do not begin placement as part of extraction. Sheet 14 is the remaining corridor sheet.
 
 Sheet 22 is closed for the initial source pass; reserve `F22-HAW-302` onward for
 any later additions without renumbering. Reuse existing successful detail packets
@@ -192,8 +213,8 @@ answer; its original failed serialization and receipt remain preserved.
 
 Production continues in the separate worktree
 `/Users/dfakkeldy/.codex/worktrees/fletcher-production-2/ns-marks-the-spot`,
-branch `codex/fletcher-judique-completion`, based on `nightly`. The earlier
-production PR364 and PR368, and church correction PR366, are merged. The original worktree
+branch `codex/fletcher-sheet16-completion`, based on current `nightly`. The earlier
+production PR364, PR368 and Judique PR370, and church correction PR366, are merged. The original worktree
 continues to serve the placement review; production does not switch its branch.
 The first-pass queue has stopped normally; do not restart successful packets.
 Keep private residence observations out of public data.

@@ -1,5 +1,5 @@
 {
-  "snapshot_unix": 1788745946.390281,
+  "snapshot_unix": 1788752996.2490408,
   "sheet_order": [
     22,
     19,
@@ -45,7 +45,11 @@
         "needs-repair": 2
       },
       "candidate_records": 341,
-      "sheet_finalized": false
+      "sheet_finalized": true,
+      "source_reviewed_crops": 40,
+      "reviewed_annotation_records": 256,
+      "reviewed_inventory": "sheet-16-reviewed.json",
+      "finalization_audit": "sheet-16-finalization.json"
     },
     {
       "sheet": 14,
@@ -58,6 +62,6 @@
       "sheet_finalized": false
     }
   ],
-  "next_source_review_sheet": 16,
+  "next_source_review_sheet": 14,
   "placement_status": "deferred"
 }
