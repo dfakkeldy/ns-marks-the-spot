@@ -1,5 +1,5 @@
 {
-  "snapshot_unix": 1788740981.631681,
+  "snapshot_unix": 1788744096.963856,
   "sheet_order": [
     22,
     19,
@@ -29,7 +29,12 @@
         "needs-repair": 2
       },
       "candidate_records": 240,
-      "sheet_finalized": false
+      "sheet_finalized": false,
+      "source_reviewed_crops": 14,
+      "reviewed_annotation_records": 151,
+      "inherited_annotation_records": 133,
+      "new_annotation_records": 18,
+      "reviewed_inventory": "sheet-19-reviewed.json"
     },
     {
       "sheet": 16,

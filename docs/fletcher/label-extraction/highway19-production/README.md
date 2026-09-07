@@ -42,7 +42,12 @@ required no model calls, 131 responses pass structural validation, containing
 1,156 unreviewed candidate records. Fourteen original responses remain
 structurally unresolved and preserved. Sheet 22 source review covers its six
 invalid responses independently; it does not turn those originals into valid
-model output. Sheets 19, 16 and 14 still await complete source review.
+model output. Sheets 19, 16 and 14 still await complete source review. Judique’s first 14 of
+35 crops are now reconciled in `sheet-19-north-review-evidence.json`. Its
+`sheet-19-reviewed.json` retains the original 133 identities and adds 18 distinct
+source annotations (151 total). Original source files remain unchanged. The
+production record for ID130 completes CRAIGNISH to CRAIGNISH HILLS using five
+additional native letter boxes. This is a partial inventory, not sheet finalization.
 
 The first source checks found compass text incorrectly included, a clipped
 "Rock dries" misread as "Rocky", and substantially displaced model boxes.
@@ -158,10 +163,15 @@ not every unchanged check. Pause that continuation when all four sheets finish.
    `clear` classification and a successful subprocess do not establish source
    accuracy or completeness.
 
-**Next: sheet 19.** Reconcile its 35 first-pass crops with the existing 133
-Judique annotations, preserving IDs and original source provenance. Add new IDs
-only for distinct source occurrences after native-image inspection. Do not begin
-placement as part of extraction. Sheets 16 and 14 follow once sheet 19 is finalized.
+**Next: sheet 19, R03C01 eastward.** The first two rows (14/35 crops) are
+source-reviewed. Continue with R03–R05, retaining IDs001–151 and original source
+provenance; use `F19-JUD-152` onward only for distinct source occurrences.
+Original R03C03 and R03C06 answers have invalid model boxes and require native
+source checking, not automatic acceptance or a rerun of successful packets.
+Reuse the eight finished detail packets in `review-20260907-19-01` and
+`review-20260907-19-02`; all have been source-reviewed. Prior tiny-label
+uncertainties remain explicit. Do not begin placement as part of extraction.
+Sheets 16 and 14 follow once sheet 19 is finalized.
 
 Sheet 22 is closed for the initial source pass; reserve `F22-HAW-302` onward for
 any later additions without renumbering. Reuse existing successful detail packets

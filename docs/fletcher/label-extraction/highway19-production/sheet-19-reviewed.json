@@ -1,0 +1,3815 @@
+{
+  "sheet": 19,
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "source_dimensions_px": [
+    10815,
+    7549
+  ],
+  "source_manifest": "sheet-19-manifest.json",
+  "sheet_finalized": false,
+  "status": "partial-source-reviewed-transcription",
+  "review_method": "Reuse the prior 133 source-reviewed Judique records with stable identities, source-file hashes and original boxes; reconcile the first two production rows by native-image inspection. Newly read labels require independent lettering-box checks. Source completion of ID130 is explicit. No geographic placement.",
+  "inherited_source_inventories": [
+    {
+      "path": "../judique-pilot.json",
+      "sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "record_ids": [
+        "F19-JUD-001",
+        "F19-JUD-002",
+        "F19-JUD-003",
+        "F19-JUD-004",
+        "F19-JUD-005",
+        "F19-JUD-006",
+        "F19-JUD-007",
+        "F19-JUD-008",
+        "F19-JUD-009",
+        "F19-JUD-010",
+        "F19-JUD-011",
+        "F19-JUD-012",
+        "F19-JUD-013",
+        "F19-JUD-014",
+        "F19-JUD-015",
+        "F19-JUD-016",
+        "F19-JUD-017",
+        "F19-JUD-018",
+        "F19-JUD-019",
+        "F19-JUD-020",
+        "F19-JUD-021",
+        "F19-JUD-022",
+        "F19-JUD-023",
+        "F19-JUD-024",
+        "F19-JUD-025",
+        "F19-JUD-026",
+        "F19-JUD-027",
+        "F19-JUD-028",
+        "F19-JUD-029"
+      ],
+      "preservation": "Original file retained unchanged; production record keeps its ID, source text, original lettering boxes and transcription status except documented completion."
+    },
+    {
+      "path": "../judique-inland.json",
+      "sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "record_ids": [
+        "F19-JUD-030",
+        "F19-JUD-031",
+        "F19-JUD-032",
+        "F19-JUD-033",
+        "F19-JUD-034",
+        "F19-JUD-035",
+        "F19-JUD-036",
+        "F19-JUD-037",
+        "F19-JUD-038",
+        "F19-JUD-039",
+        "F19-JUD-040",
+        "F19-JUD-041",
+        "F19-JUD-042",
+        "F19-JUD-043",
+        "F19-JUD-044",
+        "F19-JUD-045",
+        "F19-JUD-046",
+        "F19-JUD-047",
+        "F19-JUD-048",
+        "F19-JUD-049",
+        "F19-JUD-050",
+        "F19-JUD-051",
+        "F19-JUD-052",
+        "F19-JUD-053",
+        "F19-JUD-054",
+        "F19-JUD-055",
+        "F19-JUD-056",
+        "F19-JUD-057",
+        "F19-JUD-058",
+        "F19-JUD-059",
+        "F19-JUD-060",
+        "F19-JUD-061",
+        "F19-JUD-062",
+        "F19-JUD-063",
+        "F19-JUD-064",
+        "F19-JUD-065",
+        "F19-JUD-066",
+        "F19-JUD-067",
+        "F19-JUD-068",
+        "F19-JUD-069",
+        "F19-JUD-070"
+      ],
+      "preservation": "Original file retained unchanged; production record keeps its ID, source text, original lettering boxes and transcription status except documented completion."
+    },
+    {
+      "path": "../judique-south.json",
+      "sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "record_ids": [
+        "F19-JUD-071",
+        "F19-JUD-072",
+        "F19-JUD-073",
+        "F19-JUD-074",
+        "F19-JUD-075",
+        "F19-JUD-076",
+        "F19-JUD-077",
+        "F19-JUD-078",
+        "F19-JUD-079",
+        "F19-JUD-080",
+        "F19-JUD-081",
+        "F19-JUD-082",
+        "F19-JUD-083",
+        "F19-JUD-084",
+        "F19-JUD-085",
+        "F19-JUD-086",
+        "F19-JUD-087",
+        "F19-JUD-088",
+        "F19-JUD-089",
+        "F19-JUD-090",
+        "F19-JUD-091",
+        "F19-JUD-092",
+        "F19-JUD-093"
+      ],
+      "preservation": "Original file retained unchanged; production record keeps its ID, source text, original lettering boxes and transcription status except documented completion."
+    },
+    {
+      "path": "../judique-southeast.json",
+      "sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "record_ids": [
+        "F19-JUD-094",
+        "F19-JUD-095",
+        "F19-JUD-096",
+        "F19-JUD-097",
+        "F19-JUD-098",
+        "F19-JUD-099",
+        "F19-JUD-100",
+        "F19-JUD-101",
+        "F19-JUD-102",
+        "F19-JUD-103",
+        "F19-JUD-104",
+        "F19-JUD-105",
+        "F19-JUD-106",
+        "F19-JUD-107",
+        "F19-JUD-108",
+        "F19-JUD-109",
+        "F19-JUD-110",
+        "F19-JUD-111",
+        "F19-JUD-112",
+        "F19-JUD-113",
+        "F19-JUD-114",
+        "F19-JUD-115",
+        "F19-JUD-116",
+        "F19-JUD-117",
+        "F19-JUD-118",
+        "F19-JUD-119",
+        "F19-JUD-120",
+        "F19-JUD-121",
+        "F19-JUD-122",
+        "F19-JUD-123",
+        "F19-JUD-124",
+        "F19-JUD-125",
+        "F19-JUD-126",
+        "F19-JUD-127",
+        "F19-JUD-128",
+        "F19-JUD-129",
+        "F19-JUD-130",
+        "F19-JUD-131",
+        "F19-JUD-132",
+        "F19-JUD-133"
+      ],
+      "preservation": "Original file retained unchanged; production record keeps its ID, source text, original lettering boxes and transcription status except documented completion."
+    }
+  ],
+  "annotations": [
+    {
+      "id": "F19-JUD-001",
+      "source_text": "Mackay Point",
+      "kind": "cape",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          2885,
+          1550,
+          360,
+          70
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Named coastal point west of the settlement."
+    },
+    {
+      "id": "F19-JUD-002",
+      "source_text": "John Gillis",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3250,
+          1483,
+          150,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Personal name beside buildings on the point; no ownership or resident identity inferred."
+    },
+    {
+      "id": "F19-JUD-003",
+      "source_text": "MᶜEachern",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4390,
+          1253,
+          205,
+          47
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Surname beside buildings along the northern east-west road; superscript c retained."
+    },
+    {
+      "id": "F19-JUD-004",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4010,
+          1332,
+          125,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Northern school, south of the road near a stream crossing."
+    },
+    {
+      "id": "F19-JUD-005",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3990,
+          1535,
+          95,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Northern forge near the road and stream, west of Sh. Mill."
+    },
+    {
+      "id": "F19-JUD-006",
+      "source_text": "Sh. Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4215,
+          1527,
+          140,
+          47
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Mill abbreviation is preserved. The expansion and exact building association are not established."
+    },
+    {
+      "id": "F19-JUD-007",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4600,
+          1790,
+          145,
+          46
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Eastern school near an angled road junction, northwest of Ben Noah lettering."
+    },
+    {
+      "id": "F19-JUD-008",
+      "source_text": "Stage\nStables",
+      "kind": "stables",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3765,
+          1827,
+          113,
+          50
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Two-line label beside the coastal road near Shop and P.O.; site footprint unresolved."
+    },
+    {
+      "id": "F19-JUD-009",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3895,
+          1840,
+          88,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Shop label immediately above P.O.; these are separate annotations, not two proven buildings."
+    },
+    {
+      "id": "F19-JUD-010",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3895,
+          1869,
+          80,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Abbreviated post-office label below Shop; shared/separate premises not established."
+    },
+    {
+      "id": "F19-JUD-011",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4285,
+          1936,
+          89,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Shop at the inland road junction east of the coastal stables and post office."
+    },
+    {
+      "id": "F19-JUD-012",
+      "source_text": "Ben Noah",
+      "kind": "named-place",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4900,
+          1925,
+          360,
+          83
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Large inland place label. The gazetteer describes the matching historical name as a locality, not a mountain."
+    },
+    {
+      "id": "F19-JUD-013",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3640,
+          2205,
+          100,
+          46
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Coastal forge north of the Judique lettering and R.C. Church."
+    },
+    {
+      "id": "F19-JUD-014",
+      "source_text": "Judique",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3810,
+          2236,
+          282,
+          75
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Settlement label spanning the coastal-road district; lettering position is not a settlement boundary."
+    },
+    {
+      "id": "F19-JUD-015",
+      "source_text": "R.C. Church",
+      "kind": "church",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3690,
+          2470,
+          170,
+          49
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Church label beside the coastal road and stream. Church-site continuity has not been established."
+    },
+    {
+      "id": "F19-JUD-016",
+      "source_text": "Rev. Archᵈ. Chisholm",
+      "kind": "person-label",
+      "reading_status": "tentative",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3720,
+          2530,
+          286,
+          45
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Abbreviated given name is tentative; elevated d retained. Do not silently expand it or identify a parcel."
+    },
+    {
+      "id": "F19-JUD-017",
+      "source_text": "Barytes",
+      "kind": "mineral-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4263,
+          2482,
+          139,
+          48
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Mineral annotation near dark mapped marks. Does not establish a mine, extraction history, grade or current deposit."
+    },
+    {
+      "id": "F19-JUD-018",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3610,
+          2570,
+          88,
+          49
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Shop south of the church, west of the main coastal road."
+    },
+    {
+      "id": "F19-JUD-019",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4125,
+          2604,
+          114,
+          46
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "School along the diagonal road south of the church district."
+    },
+    {
+      "id": "F19-JUD-020",
+      "source_text": "Rory Chisholm's Brook",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3505,
+          2705,
+          159,
+          63
+        ],
+        [
+          3813,
+          2687,
+          330,
+          128
+        ],
+        [
+          4250,
+          2808,
+          139,
+          54
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Name is printed in three separated parts along the brook north of Graham River."
+    },
+    {
+      "id": "F19-JUD-021",
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4333,
+          2783,
+          83,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Mill beside the brook and the diagonal road. Mill type and exact modern site remain unresolved."
+    },
+    {
+      "id": "F19-JUD-022",
+      "source_text": "River Denys Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4460,
+          2754,
+          245,
+          97
+        ],
+        [
+          4755,
+          2780,
+          96,
+          48
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Historical road name printed along a curved road. No current road segment equivalence asserted."
+    },
+    {
+      "id": "F19-JUD-023",
+      "source_text": "Rory Chisholm",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4947,
+          2786,
+          229,
+          48
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate personal-name annotation at an inland road junction; not merged with the brook name."
+    },
+    {
+      "id": "F19-JUD-024",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3717,
+          2992,
+          80,
+          44
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Shop beside the coastal road just north of Graham River."
+    },
+    {
+      "id": "F19-JUD-025",
+      "source_text": "Graham River",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3880,
+          3005,
+          226,
+          53
+        ],
+        [
+          4228,
+          3035,
+          138,
+          55
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "River name printed in two parts south of the brook and north of Campbell Point."
+    },
+    {
+      "id": "F19-JUD-026",
+      "source_text": "Quarries of grey\nand red sandstone",
+      "kind": "quarry-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4695,
+          3040,
+          300,
+          81
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Two-line quarry annotation. Extent, number of workings and present condition are not established."
+    },
+    {
+      "id": "F19-JUD-027",
+      "source_text": "Old Judique Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4457,
+          3180,
+          89,
+          87
+        ],
+        [
+          4670,
+          3201,
+          125,
+          55
+        ],
+        [
+          4937,
+          3161,
+          91,
+          49
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Three-part name follows a road crossing the Graham River area. Historical alignment is not yet traced."
+    },
+    {
+      "id": "F19-JUD-028",
+      "source_text": "Allan MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          4920,
+          3373,
+          243,
+          47
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Personal name near the southern road/stream crossing; superscript c retained."
+    },
+    {
+      "id": "F19-JUD-029",
+      "source_text": "Campbell Point",
+      "kind": "cape",
+      "reading_status": "clear",
+      "source_record_file": "../judique-pilot.json",
+      "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+      "source_label_boxes_xywh": [
+        [
+          3050,
+          3310,
+          395,
+          76
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Named coastal point south of Graham River."
+    },
+    {
+      "id": "F19-JUD-030",
+      "source_text": "A. MᶜIsaac",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          6355,
+          1215,
+          195,
+          55
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Name beside several buildings on the northern road; no person or property identity inferred."
+    },
+    {
+      "id": "F19-JUD-031",
+      "source_text": "Barrens",
+      "kind": "landscape-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          5900,
+          1350,
+          305,
+          640
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Spaced lettering beside a road. This is a landscape annotation, not an established road name or mapped land-cover boundary."
+    },
+    {
+      "id": "F19-JUD-032",
+      "source_text": "Don. MᶜEachern",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7155,
+          1358,
+          265,
+          53
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Abbreviated given name retained; beside a short side road."
+    },
+    {
+      "id": "F19-JUD-033",
+      "source_text": "Squire MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7425,
+          1850,
+          305,
+          57
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Title and surname beside a cluster east of the road."
+    },
+    {
+      "id": "F19-JUD-034",
+      "source_text": "Fall 30",
+      "kind": "waterfall-annotation",
+      "reading_status": "tentative",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8333,
+          1268,
+          117,
+          50
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "No trailing unit mark confidently resolved. Preserve the numerals without supplying a unit or modern measured height."
+    },
+    {
+      "id": "F19-JUD-035",
+      "source_text": "Falls",
+      "kind": "waterfall-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8435,
+          1361,
+          105,
+          53
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Northern tributary, south of the Fall 30 annotation."
+    },
+    {
+      "id": "F19-JUD-036",
+      "source_text": "Falls",
+      "kind": "waterfall-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7753,
+          1805,
+          115,
+          54
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Stream east of Squire MᶜDonald; separate from the other Falls annotations."
+    },
+    {
+      "id": "F19-JUD-037",
+      "source_text": "River Inhabitants Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          6228,
+          2361,
+          99,
+          85
+        ],
+        [
+          6377,
+          2435,
+          191,
+          108
+        ],
+        [
+          6575,
+          2577,
+          73,
+          103
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Three-part lettering follows the curved north-south road; not a river-name annotation."
+    },
+    {
+      "id": "F19-JUD-038",
+      "source_text": "Southwest Mabou River",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          5969,
+          2490,
+          256,
+          318
+        ],
+        [
+          6216,
+          2805,
+          109,
+          145
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Western instance of this river name. Separate annotation from F19-JUD-039; connection and modern identity need tracing."
+    },
+    {
+      "id": "F19-JUD-039",
+      "source_text": "Southwest Mabou River",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          6766,
+          1945,
+          203,
+          249
+        ],
+        [
+          6958,
+          2275,
+          87,
+          190
+        ],
+        [
+          7072,
+          2507,
+          66,
+          193
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Eastern instance, partly along a vertical graticule. Do not infer two independent rivers from two printed names."
+    },
+    {
+      "id": "F19-JUD-040",
+      "source_text": "Brook runs\nunderground",
+      "kind": "hydrology-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7389,
+          2555,
+          252,
+          79
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed observation beside a brook/road crossing; no present-day underground flow or site condition inferred."
+    },
+    {
+      "id": "F19-JUD-041",
+      "source_text": "Falls",
+      "kind": "waterfall-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8133,
+          1999,
+          101,
+          46
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Upper of three fall annotations on the north-south stream above Iron Ore."
+    },
+    {
+      "id": "F19-JUD-042",
+      "source_text": "Fall",
+      "kind": "waterfall-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8165,
+          2060,
+          92,
+          48
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Middle of the three north-south stream annotations."
+    },
+    {
+      "id": "F19-JUD-043",
+      "source_text": "Falls",
+      "kind": "waterfall-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8292,
+          2100,
+          106,
+          48
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Lower of the three north-south stream annotations."
+    },
+    {
+      "id": "F19-JUD-044",
+      "source_text": "Fall",
+      "kind": "waterfall-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7996,
+          2199,
+          89,
+          47
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "West of the Iron Ore annotation, near a geological hatch crossing."
+    },
+    {
+      "id": "F19-JUD-045",
+      "source_text": "Iron Ore",
+      "kind": "mineral-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8255,
+          2205,
+          136,
+          56
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Mineral wording only; does not establish a mine, deposit extent, grade or current resource."
+    },
+    {
+      "id": "F19-JUD-046",
+      "source_text": "Colin Chisholm's Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8429,
+          2187,
+          320,
+          56
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Label extends east of the core review region; context inspected through x=9120. No mill type or modern site established."
+    },
+    {
+      "id": "F19-JUD-047",
+      "source_text": "Diogenes Brook",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7830,
+          2309,
+          279,
+          259
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Diagonal upstream lettering. Same printed name occurs farther east as F19-JUD-064; geometry continuity not yet traced."
+    },
+    {
+      "id": "F19-JUD-048",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7655,
+          2746,
+          73,
+          44
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Post-office abbreviation north of the River Denys Road place lettering; nearby multiple building marks remain unresolved."
+    },
+    {
+      "id": "F19-JUD-049",
+      "source_text": "Dennistown",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          5840,
+          3245,
+          340,
+          74
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Large place lettering below the road near a school. Modern name identity not yet investigated."
+    },
+    {
+      "id": "F19-JUD-050",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          5931,
+          3185,
+          101,
+          46
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "School above Dennistown lettering, close to a small stream crossing."
+    },
+    {
+      "id": "F19-JUD-051",
+      "source_text": "Falls",
+      "kind": "waterfall-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          6019,
+          3451,
+          97,
+          48
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "On the western stream south of Dennistown; no height printed."
+    },
+    {
+      "id": "F19-JUD-052",
+      "source_text": "River Denys Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          6445,
+          3002,
+          116,
+          65
+        ],
+        [
+          6589,
+          2975,
+          108,
+          50
+        ],
+        [
+          6700,
+          2948,
+          104,
+          56
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Another printed instance of the name in F19-JUD-022, west of the large place lettering. Not a second proven route."
+    },
+    {
+      "id": "F19-JUD-053",
+      "source_text": "Old River Denys Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          5804,
+          3633,
+          209,
+          67
+        ],
+        [
+          6072,
+          3544,
+          123,
+          109
+        ],
+        [
+          6177,
+          3367,
+          91,
+          120
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Curved multipart name south of Dennistown; preserve Old separately from the nearby River Denys Road."
+    },
+    {
+      "id": "F19-JUD-054",
+      "source_text": "Graham River",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          6341,
+          3445,
+          182,
+          220
+        ],
+        [
+          6517,
+          3285,
+          166,
+          136
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Inland printed instance of F19-JUD-025; not a new river identity established by transcription."
+    },
+    {
+      "id": "F19-JUD-055",
+      "source_text": "Old Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7138,
+          2813,
+          75,
+          72
+        ],
+        [
+          7215,
+          2781,
+          102,
+          59
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Generic historical route annotation on the upper branch near the river crossing."
+    },
+    {
+      "id": "F19-JUD-056",
+      "source_text": "West Branch",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7537,
+          2643,
+          90,
+          240
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Branch descriptor beside the road and stream north of the church. Parent watercourse identity unresolved."
+    },
+    {
+      "id": "F19-JUD-057",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7535,
+          2899,
+          101,
+          46
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "School west of the main north-south road, near Church."
+    },
+    {
+      "id": "F19-JUD-058",
+      "source_text": "Church",
+      "kind": "church",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7631,
+          2872,
+          125,
+          49
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Church beside a cross-like map symbol at the road junction; denomination not printed here."
+    },
+    {
+      "id": "F19-JUD-059",
+      "source_text": "River Denys Road",
+      "kind": "named-place",
+      "reading_status": "tentative",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7458,
+          2937,
+          563,
+          86
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Large upright place-style lettering, unlike the smaller italic road lettering. Classification as a named place is provisional; it does not establish a settlement boundary."
+    },
+    {
+      "id": "F19-JUD-060",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8017,
+          2914,
+          102,
+          45
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Forge on a short road spur east of the large place label."
+    },
+    {
+      "id": "F19-JUD-061",
+      "source_text": "Gold Mine",
+      "kind": "mine-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8307,
+          2836,
+          174,
+          51
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Explicit historical mine label. No claim of operation, present resource, accessibility or exact modern site."
+    },
+    {
+      "id": "F19-JUD-062",
+      "source_text": "Quartz\nMill",
+      "kind": "mill",
+      "reading_status": "tentative",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8509,
+          2866,
+          116,
+          49
+        ],
+        [
+          8521,
+          2893,
+          88,
+          48
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Quartz and Mill are legible; nearby Falls lettering overlaps or adjoins the first line. Separation into two annotations is tentative."
+    },
+    {
+      "id": "F19-JUD-063",
+      "source_text": "Doug. MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7275,
+          3465,
+          234,
+          50
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Abbreviated personal name south of the River Denys Road place lettering; arrow nearby is not treated as a property boundary."
+    },
+    {
+      "id": "F19-JUD-064",
+      "source_text": "Diogenes Brook",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8636,
+          2301,
+          187,
+          166
+        ],
+        [
+          8885,
+          2508,
+          136,
+          171
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Eastern multipart instance; completed in an edge-context window outside the core region. Separate from the upstream lettering F19-JUD-047."
+    },
+    {
+      "id": "F19-JUD-065",
+      "source_text": "West Branch",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7798,
+          3358,
+          157,
+          129
+        ],
+        [
+          7885,
+          3450,
+          108,
+          164
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Southern West Branch annotation; parent name not supplied by this label."
+    },
+    {
+      "id": "F19-JUD-066",
+      "source_text": "East Branch",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8124,
+          3328,
+          109,
+          102
+        ],
+        [
+          8217,
+          3416,
+          157,
+          130
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Southern East Branch annotation; relation to West Branch requires tracing."
+    },
+    {
+      "id": "F19-JUD-067",
+      "source_text": "Victoria Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8358,
+          3393,
+          45,
+          145
+        ],
+        [
+          8419,
+          3247,
+          93,
+          98
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Vertical/diagonal multipart lettering next to a road distinct from the railway."
+    },
+    {
+      "id": "F19-JUD-068",
+      "source_text": "MᶜLennan's Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8468,
+          3605,
+          247,
+          53
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Personal-name mill label near road and stream crossing. Not a proven association with any modern mill site."
+    },
+    {
+      "id": "F19-JUD-069",
+      "source_text": "Fall 25",
+      "kind": "waterfall-annotation",
+      "reading_status": "tentative",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          7993,
+          3639,
+          132,
+          48
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Numerals read 25 after enlargement; no trailing unit mark confidently resolved. Preserve text without supplying a unit."
+    },
+    {
+      "id": "F19-JUD-070",
+      "source_text": "Falls",
+      "kind": "waterfall-annotation",
+      "reading_status": "tentative",
+      "source_record_file": "../judique-inland.json",
+      "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+      "source_label_boxes_xywh": [
+        [
+          8575,
+          2860,
+          125,
+          50
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Small lettering beside Quartz/Mill. This separation is tentative and could be revised on human review."
+    },
+    {
+      "id": "F19-JUD-071",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          4968,
+          3752,
+          87,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Northern school in the hatched area; separate printed occurrence from the school immediately southeast."
+    },
+    {
+      "id": "F19-JUD-072",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          5329,
+          3750,
+          90,
+          38
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "School on the eastern road in the orange fill."
+    },
+    {
+      "id": "F19-JUD-073",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          5045,
+          3808,
+          90,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate school southeast of F19-JUD-071; no assertion about shared or distinct premises."
+    },
+    {
+      "id": "F19-JUD-074",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          3926,
+          3851,
+          87,
+          41
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Forge by the north-south road in the striped coastal area."
+    },
+    {
+      "id": "F19-JUD-075",
+      "source_text": "D. MᶜPherson",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          5692,
+          3960,
+          203,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Completed beyond the worker crop edge using E01; abbreviation retained."
+    },
+    {
+      "id": "F19-JUD-076",
+      "source_text": "J. MᶜPherson",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          5495,
+          3995,
+          199,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Expanded the candidate box to include the final letters; separate from nearby D. MᶜPherson."
+    },
+    {
+      "id": "F19-JUD-077",
+      "source_text": "Mill",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          4694,
+          4185,
+          69,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "One singular Mill label spans adjacent worker windows; deduplicated by source position."
+    },
+    {
+      "id": "F19-JUD-078",
+      "source_text": "Mills",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          4119,
+          4386,
+          85,
+          42
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Western plural Mills annotation; preserve the plural without inferring a count or type of structures."
+    },
+    {
+      "id": "F19-JUD-079",
+      "source_text": "Mills",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          4338,
+          4386,
+          85,
+          42
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate eastern plural Mills annotation, retained independently of F19-JUD-078."
+    },
+    {
+      "id": "F19-JUD-080",
+      "source_text": "J Chisholm",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          3749,
+          4466,
+          163,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "J is not expanded. No period after the initial is confidently visible; overlapping partial J C is deduplicated."
+    },
+    {
+      "id": "F19-JUD-081",
+      "source_text": "Chisholm Brook",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          4520,
+          4487,
+          300,
+          229
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Continuous diagonal name completed across overlapping windows. Four whole/partial candidate records represent this one printed annotation; not merged with Rory Chisholm’s Brook."
+    },
+    {
+      "id": "F19-JUD-082",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          4067,
+          4537,
+          71,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Abbreviated post-office label north of the inland Long Point lettering."
+    },
+    {
+      "id": "F19-JUD-083",
+      "source_text": "Long Point",
+      "kind": "named-place",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          3890,
+          4690,
+          340,
+          78
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Large lettering inland beside the coastal road; provisionally a place label. Separate from the coastal-point lettering F19-JUD-084. No settlement boundary inferred."
+    },
+    {
+      "id": "F19-JUD-084",
+      "source_text": "Long Point",
+      "kind": "cape",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          3329,
+          4754,
+          320,
+          69
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate occurrence west of the coastal point, retained independently of the inland place lettering. No modern shoreline anchor assigned."
+    },
+    {
+      "id": "F19-JUD-085",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          3910,
+          4790,
+          99,
+          45
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Forge just south of the inland Long Point label."
+    },
+    {
+      "id": "F19-JUD-086",
+      "source_text": "Farm Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          4455,
+          4960,
+          247,
+          127
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Curved historical road lettering. Candidate box expanded to retain the initial F; alignment not traced."
+    },
+    {
+      "id": "F19-JUD-087",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          4242,
+          5131,
+          112,
+          50
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "School on the road east of the coastal junction."
+    },
+    {
+      "id": "F19-JUD-088",
+      "source_text": "A. MᶜDougall",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          5397,
+          5198,
+          214,
+          41
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Rejected the candidate’s extra J.: the preceding stroke follows the road, while the printed name begins A. No identity or property match inferred."
+    },
+    {
+      "id": "F19-JUD-089",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          4086,
+          5314,
+          77,
+          41
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Shop beside the coastal road. Tightened candidate box to the lettering, excluding the building mark above it."
+    },
+    {
+      "id": "F19-JUD-090",
+      "source_text": "700 Fᵀ.",
+      "kind": "elevation-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          4443,
+          5316,
+          140,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Added during whole-crop review; absent from worker output. Preserve the printed number and unit typography. This is not a verified modern elevation, surveyed summit, or site-height estimate."
+    },
+    {
+      "id": "F19-JUD-091",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          5551,
+          5345,
+          97,
+          47
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate eastern school south of the A. MᶜDougall annotation."
+    },
+    {
+      "id": "F19-JUD-092",
+      "source_text": "General Line Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          4695,
+          5590,
+          165,
+          345
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Edge fragments completed from E03; a rotated enlargement resolves General Line. No modern road identity or alignment established."
+    },
+    {
+      "id": "F19-JUD-093",
+      "source_text": "Wood Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-south.json",
+      "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+      "source_label_boxes_xywh": [
+        [
+          5395,
+          5778,
+          235,
+          118
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Completed from E04 beyond the southern crop edge; no modern route match asserted."
+    },
+    {
+      "id": "F19-JUD-094",
+      "source_text": "Gold Mine",
+      "kind": "mine-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          6971,
+          3911,
+          173,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate printed occurrence from F19-JUD-061; no mine-site identity or location inferred."
+    },
+    {
+      "id": "F19-JUD-095",
+      "source_text": "Glendale Brook",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7022,
+          3955,
+          82,
+          179
+        ],
+        [
+          7073,
+          4160,
+          72,
+          136
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": ""
+    },
+    {
+      "id": "F19-JUD-096",
+      "source_text": "MᶜPherson's Brook",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          6550,
+          4238,
+          239,
+          158
+        ],
+        [
+          6839,
+          4400,
+          105,
+          58
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Multipart lettering spans I01 and I02."
+    },
+    {
+      "id": "F19-JUD-097",
+      "source_text": "D. MᶜInnes",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7073,
+          4470,
+          164,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Independent source review agrees on McInnes."
+    },
+    {
+      "id": "F19-JUD-098",
+      "source_text": "Glendale",
+      "kind": "named-place",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7340,
+          4452,
+          412,
+          59
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": ""
+    },
+    {
+      "id": "F19-JUD-099",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7508,
+          4500,
+          46,
+          31
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate annotation from nearby Shop; shared premises unresolved."
+    },
+    {
+      "id": "F19-JUD-100",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7454,
+          4534,
+          70,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "The short word south of P.O. reads Shop, not School."
+    },
+    {
+      "id": "F19-JUD-101",
+      "source_text": "Mills",
+      "kind": "mill",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7444,
+          4594,
+          78,
+          33
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Plural wording retained; no count of physical mills inferred."
+    },
+    {
+      "id": "F19-JUD-102",
+      "source_text": "R.C.Ch.",
+      "kind": "church",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7298,
+          4638,
+          102,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Abbreviation retained."
+    },
+    {
+      "id": "F19-JUD-103",
+      "source_text": "Plumbago Mine",
+      "kind": "mine-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          6770,
+          4631,
+          233,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": ""
+    },
+    {
+      "id": "F19-JUD-104",
+      "source_text": "River Inhabitants Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          6973,
+          4384,
+          83,
+          98
+        ],
+        [
+          7110,
+          4558,
+          148,
+          166
+        ],
+        [
+          7216,
+          4762,
+          43,
+          88
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Multipart historical road label; separate from the watercourse wording."
+    },
+    {
+      "id": "F19-JUD-105",
+      "source_text": "Don. Smith",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7695,
+          3800,
+          177,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Given-name abbreviation retained."
+    },
+    {
+      "id": "F19-JUD-106",
+      "source_text": "D. MᶜTaggart",
+      "kind": "person-label",
+      "reading_status": "tentative",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7719,
+          3900,
+          174,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Tentative surname: independent reviewer reads McTaggart; intervening strokes and the ending remain difficult."
+    },
+    {
+      "id": "F19-JUD-107",
+      "source_text": "Donald MᶜMaster",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          8348,
+          4086,
+          267,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": ""
+    },
+    {
+      "id": "F19-JUD-108",
+      "source_text": "D. Buchanan",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          8128,
+          4570,
+          181,
+          31
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": ""
+    },
+    {
+      "id": "F19-JUD-109",
+      "source_text": "Fall",
+      "kind": "falls-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7705,
+          4646,
+          70,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate from nearby numbered falls labels; no modern flow or height inferred."
+    },
+    {
+      "id": "F19-JUD-110",
+      "source_text": "Fall 6",
+      "kind": "falls-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7832,
+          4682,
+          78,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed number retained without inferred unit."
+    },
+    {
+      "id": "F19-JUD-111",
+      "source_text": "Falls 18",
+      "kind": "falls-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          8002,
+          4724,
+          96,
+          32
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed number retained without inferred unit."
+    },
+    {
+      "id": "F19-JUD-112",
+      "source_text": "Coal",
+      "kind": "mineral-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          8441,
+          4768,
+          74,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Mineral wording only; no mine or deposit extent inferred."
+    },
+    {
+      "id": "F19-JUD-113",
+      "source_text": "Rough Brook",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          5916,
+          4876,
+          91,
+          167
+        ],
+        [
+          5918,
+          5076,
+          45,
+          145
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": ""
+    },
+    {
+      "id": "F19-JUD-114",
+      "source_text": "Mal. MᶜDonald",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          6204,
+          5277,
+          230,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Given-name abbreviation retained."
+    },
+    {
+      "id": "F19-JUD-115",
+      "source_text": "Norman MᶜIntyre",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          6102,
+          5368,
+          303,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": ""
+    },
+    {
+      "id": "F19-JUD-116",
+      "source_text": "Nor. MᶜIsaac",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          5843,
+          5580,
+          189,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Given-name abbreviation retained."
+    },
+    {
+      "id": "F19-JUD-117",
+      "source_text": "Red Bridge",
+      "kind": "bridge",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7245,
+          4894,
+          158,
+          39
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Historical bridge name only; no present-day structure match."
+    },
+    {
+      "id": "F19-JUD-118",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7248,
+          5075,
+          74,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Northern shop on the road below Red Bridge."
+    },
+    {
+      "id": "F19-JUD-119",
+      "source_text": "Forge",
+      "kind": "forge",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7270,
+          5266,
+          85,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": ""
+    },
+    {
+      "id": "F19-JUD-120",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7242,
+          5382,
+          75,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Second shop occurrence north of Kingsville."
+    },
+    {
+      "id": "F19-JUD-121",
+      "source_text": "Kingsville",
+      "kind": "named-place",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7454,
+          5440,
+          279,
+          53
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "One printed name crossing I05 and I06."
+    },
+    {
+      "id": "F19-JUD-122",
+      "source_text": "MᶜIntosh's Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7514,
+          5512,
+          227,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Source enlargement and independent review resolve McIntosh; no owner identity inferred."
+    },
+    {
+      "id": "F19-JUD-123",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7497,
+          5564,
+          70,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate shop wording from the named shop and P.O."
+    },
+    {
+      "id": "F19-JUD-124",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7475,
+          5587,
+          62,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Shared or separate premises unresolved."
+    },
+    {
+      "id": "F19-JUD-125",
+      "source_text": "Blue Bridge",
+      "kind": "bridge",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7470,
+          5634,
+          163,
+          35
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Historical bridge name only."
+    },
+    {
+      "id": "F19-JUD-126",
+      "source_text": "River Inhabitants",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7837,
+          4704,
+          153,
+          137
+        ],
+        [
+          8231,
+          4916,
+          307,
+          91
+        ],
+        [
+          8522,
+          4795,
+          73,
+          160
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Single curved name; separate from the road wording and other printed river occurrences."
+    },
+    {
+      "id": "F19-JUD-127",
+      "source_text": "Angus MᶜVarish",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          8580,
+          4252,
+          272,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Completed east of I03 from native source pixels. Nearby dots are building marks and are excluded from the lettering box."
+    },
+    {
+      "id": "F19-JUD-128",
+      "source_text": "Neil MᶜCuish",
+      "kind": "person-label",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          8647,
+          4344,
+          195,
+          34
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Completed east of I03 from native source pixels."
+    },
+    {
+      "id": "F19-JUD-129",
+      "source_text": "Fine outcrops of\nblack shale full\nof fossils",
+      "kind": "descriptive-geology",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          8618,
+          4652,
+          270,
+          39
+        ],
+        [
+          8611,
+          4686,
+          238,
+          37
+        ],
+        [
+          8680,
+          4720,
+          150,
+          38
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Three-line wording completed east of I06; line breaks preserved."
+    },
+    {
+      "id": "F19-JUD-130",
+      "source_text": "CRAIGNISH HILLS",
+      "kind": "named-place-or-landscape",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          5155,
+          5680,
+          70,
+          70
+        ],
+        [
+          5332,
+          5400,
+          70,
+          80
+        ],
+        [
+          5528,
+          5140,
+          75,
+          75
+        ],
+        [
+          5723,
+          4874,
+          60,
+          42
+        ],
+        [
+          5898,
+          4598,
+          56,
+          57
+        ],
+        [
+          6075,
+          4322,
+          66,
+          75
+        ],
+        [
+          6258,
+          4068,
+          63,
+          52
+        ],
+        [
+          6442,
+          3795,
+          62,
+          62
+        ],
+        [
+          6628,
+          3525,
+          72,
+          67
+        ],
+        [
+          7161,
+          2770,
+          67,
+          71
+        ],
+        [
+          7353,
+          2506,
+          62,
+          55
+        ],
+        [
+          7549,
+          2219,
+          72,
+          57
+        ],
+        [
+          7760,
+          1915,
+          77,
+          66
+        ],
+        [
+          7957,
+          1617,
+          73,
+          68
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Complete the same widely spaced diagonal regional inscription with H I L L S, using original pixels. Preserve F19-JUD-130 and all CRAIGNISH lettering boxes; original source file remains unchanged.",
+      "source_completion": {
+        "previous_source_text": "CRAIGNISH",
+        "added_source_text": "HILLS",
+        "evidence": "sheet-19-north-review-evidence.json"
+      }
+    },
+    {
+      "id": "F19-JUD-131",
+      "source_text": "Victoria Road",
+      "kind": "road-name",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7262,
+          5780,
+          113,
+          107
+        ],
+        [
+          7391,
+          5620,
+          59,
+          83
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Multipart lettering follows the road southwest from the Kingsville/Blue Bridge area. Box order follows source text: Victoria, then Road. The label intersects the core and continues below it."
+    },
+    {
+      "id": "F19-JUD-132",
+      "source_text": "River Inhabitants",
+      "kind": "watercourse",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7602,
+          5775,
+          92,
+          156
+        ],
+        [
+          7770,
+          6218,
+          193,
+          309
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Large watercourse lettering follows the river south beyond the I06/core edge. Box order follows source text: River, then Inhabitants. It is distinct from Victoria Road."
+    },
+    {
+      "id": "F19-JUD-133",
+      "source_text": "PROPOSED RAILWAY TO WHYCOCOMAGH",
+      "kind": "railway-annotation",
+      "reading_status": "clear",
+      "source_record_file": "../judique-southeast.json",
+      "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+      "source_label_boxes_xywh": [
+        [
+          7156,
+          5828,
+          104,
+          190
+        ],
+        [
+          7279,
+          6045,
+          140,
+          169
+        ],
+        [
+          7428,
+          6228,
+          51,
+          65
+        ],
+        [
+          7476,
+          6295,
+          204,
+          249
+        ]
+      ],
+      "review_status": "source-reviewed-in-prior-pilot",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Added during the final core-boundary audit: the opening P intersects I05; the rest is completed from E06. Proposed status is explicit source wording, not evidence of construction or a modern route."
+    },
+    {
+      "id": "F19-JUD-134",
+      "source_text": "Falls",
+      "kind": "falls",
+      "reading_status": "clear",
+      "crop_id": "F19-R01C07",
+      "raw_candidate_ids": [
+        "F19-R01C07-01",
+        "F19-DETAIL-EAST-FALLS-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8919,
+          1300,
+          80,
+          40
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Northern occurrence; distinct from the next Falls below."
+    },
+    {
+      "id": "F19-JUD-135",
+      "source_text": "Falls",
+      "kind": "falls",
+      "reading_status": "clear",
+      "crop_id": "F19-R01C07",
+      "raw_candidate_ids": [
+        "F19-R01C07-02",
+        "F19-DETAIL-EAST-FALLS-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8896,
+          1422,
+          87,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": ""
+    },
+    {
+      "id": "F19-JUD-136",
+      "source_text": "Fall",
+      "kind": "falls",
+      "reading_status": "clear",
+      "crop_id": "F19-R01C06",
+      "raw_candidate_ids": [
+        "F19-DETAIL-OVERPRINTED-FALL-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8707,
+          1540,
+          77,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed black Fall over red report reference; reject detail Fau. and retain singular form."
+    },
+    {
+      "id": "F19-JUD-137",
+      "source_text": "Fall 8'",
+      "kind": "falls",
+      "reading_status": "clear",
+      "crop_id": "F19-R01C07",
+      "raw_candidate_ids": [
+        "F19-R01C07-03",
+        "F19-R01C06-10",
+        "F19-DETAIL-EAST-FALLS-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8737,
+          1780,
+          108,
+          43
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Complete native height at crop overlap."
+    },
+    {
+      "id": "F19-JUD-138",
+      "source_text": "Fall 30'",
+      "kind": "falls",
+      "reading_status": "clear",
+      "crop_id": "F19-R01C07",
+      "raw_candidate_ids": [
+        "F19-R01C07-04",
+        "F19-DETAIL-EAST-FALLS-05",
+        "F19-DETAIL-EAST-NAMES-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8946,
+          1759,
+          109,
+          38
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Distinct from existing F19-JUD-034; retain the printed height mark."
+    },
+    {
+      "id": "F19-JUD-139",
+      "source_text": "West Branch",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F19-R01C07",
+      "raw_candidate_ids": [
+        "F19-R01C07-05",
+        "F19-DETAIL-EAST-FALLS-03",
+        "F19-DETAIL-EAST-NAMES-01",
+        "F19-DETAIL-EAST-NAMES-06"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8960,
+          1707,
+          118,
+          45
+        ],
+        [
+          9291,
+          1860,
+          52,
+          177
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "One multipart name, distinct from other West Branch inscriptions on this sheet."
+    },
+    {
+      "id": "F19-JUD-140",
+      "source_text": "East Branch",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F19-R01C07",
+      "raw_candidate_ids": [
+        "F19-R01C07-06",
+        "F19-DETAIL-EAST-NAMES-07",
+        "F19-DETAIL-EAST-NAMES-09"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9343,
+          1669,
+          111,
+          49
+        ],
+        [
+          9490,
+          1836,
+          72,
+          189
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": ""
+    },
+    {
+      "id": "F19-JUD-141",
+      "source_text": "PROPOSED RAILWAY",
+      "kind": "railway-annotation",
+      "reading_status": "clear",
+      "crop_id": "F19-R01C07",
+      "raw_candidate_ids": [
+        "F19-R01C07-07",
+        "F19-DETAIL-EAST-FALLS-08",
+        "F19-DETAIL-EAST-NAMES-04",
+        "F19-DETAIL-EAST-NAMES-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9005,
+          1922,
+          133,
+          222
+        ],
+        [
+          9170,
+          1558,
+          129,
+          223
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Only the printed proposal wording; no unprinted destination supplied. Distinct from the southern proposed-railway inscription F19-JUD-133."
+    },
+    {
+      "id": "F19-JUD-142",
+      "source_text": "John R. Morrison",
+      "kind": "personal-name",
+      "reading_status": "clear",
+      "crop_id": "F19-R01C07",
+      "raw_candidate_ids": [
+        "F19-R01C07-08",
+        "F19-DETAIL-EAST-FALLS-07",
+        "F19-DETAIL-EAST-NAMES-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8984,
+          1861,
+          262,
+          42
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Printed middle initial retained; no identity or property ownership inferred."
+    },
+    {
+      "id": "F19-JUD-143",
+      "source_text": "Shop",
+      "kind": "shop",
+      "reading_status": "clear",
+      "crop_id": "F19-R01C07",
+      "raw_candidate_ids": [
+        "F19-R01C07-09",
+        "F19-DETAIL-EAST-NAMES-08"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9347,
+          1787,
+          80,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Singular Shop; reject first-pass Shops."
+    },
+    {
+      "id": "F19-JUD-144",
+      "source_text": "MᶜPhail Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F19-R02C07",
+      "raw_candidate_ids": [
+        "F19-R02C07-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9295,
+          2375,
+          136,
+          148
+        ],
+        [
+          9408,
+          2532,
+          64,
+          154
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Superscript c transcribed consistently with the inherited Judique records."
+    },
+    {
+      "id": "F19-JUD-145",
+      "source_text": "River Denys\nCross Roads",
+      "kind": "settlement",
+      "reading_status": "clear",
+      "crop_id": "F19-R02C07",
+      "raw_candidate_ids": [
+        "F19-R02C07-05",
+        "F19-R02C07-08",
+        "F19-DETAIL-EAST-TOWN-01",
+        "F19-DETAIL-EAST-TOWN-05"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8758,
+          2696,
+          450,
+          62
+        ],
+        [
+          8828,
+          2842,
+          385,
+          64
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "One two-line settlement label; intervening tannery, post office and school are separate annotations."
+    },
+    {
+      "id": "F19-JUD-146",
+      "source_text": "Tannery",
+      "kind": "tannery",
+      "reading_status": "clear",
+      "crop_id": "F19-R02C07",
+      "raw_candidate_ids": [
+        "F19-R02C07-06",
+        "F19-R02C06-13",
+        "F19-DETAIL-EAST-TOWN-02"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8701,
+          2743,
+          100,
+          36
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Reject Hammer and invented R Marlowe."
+    },
+    {
+      "id": "F19-JUD-147",
+      "source_text": "P.O.",
+      "kind": "post-office",
+      "reading_status": "clear",
+      "crop_id": "F19-R02C07",
+      "raw_candidate_ids": [
+        "F19-R02C07-06",
+        "F19-R02C06-13",
+        "F19-DETAIL-EAST-TOWN-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8704,
+          2768,
+          57,
+          30
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate printed post-office abbreviation, not a height 130."
+    },
+    {
+      "id": "F19-JUD-148",
+      "source_text": "School",
+      "kind": "school",
+      "reading_status": "clear",
+      "crop_id": "F19-R02C07",
+      "raw_candidate_ids": [
+        "F19-R02C07-07",
+        "F19-DETAIL-EAST-TOWN-04"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8814,
+          2791,
+          95,
+          37
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": ""
+    },
+    {
+      "id": "F19-JUD-149",
+      "source_text": "River Denys Road",
+      "kind": "road",
+      "reading_status": "clear",
+      "crop_id": "F19-R02C07",
+      "raw_candidate_ids": [
+        "F19-R02C07-11",
+        "F19-DETAIL-MCLENNAN-BROOK-02",
+        "F19-DETAIL-MCLENNAN-BROOK-03"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          9164,
+          3187,
+          110,
+          65
+        ],
+        [
+          9295,
+          3220,
+          88,
+          38
+        ],
+        [
+          9415,
+          3214,
+          94,
+          42
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Separate eastern road-label occurrence."
+    },
+    {
+      "id": "F19-JUD-150",
+      "source_text": "MᶜLennan Brook",
+      "kind": "stream",
+      "reading_status": "clear",
+      "crop_id": "F19-R02C07",
+      "raw_candidate_ids": [
+        "F19-R02C07-12",
+        "F19-DETAIL-MCLENNAN-BROOK-01"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8935,
+          3210,
+          143,
+          205
+        ],
+        [
+          9062,
+          3140,
+          111,
+          97
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Native superscript c belongs to McLennan; do not invent an additional W. initial."
+    },
+    {
+      "id": "F19-JUD-151",
+      "source_text": "Falls",
+      "kind": "falls",
+      "reading_status": "clear",
+      "crop_id": "F19-R02C07",
+      "raw_candidate_ids": [
+        "F19-R02C07-13"
+      ],
+      "source_label_boxes_xywh": [
+        [
+          8910,
+          3604,
+          89,
+          44
+        ]
+      ],
+      "review_status": "source-reviewed",
+      "geometry": null,
+      "placement_status": "deferred",
+      "review_note": "Complete in a native lower-edge excerpt; excerpt does not count as whole-row-three coverage."
+    }
+  ],
+  "crop_reviews": [
+    {
+      "crop_id": "F19-R01C01",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Ocean and marginal graticule only; no in-scope lettering. Empty model response checked visually."
+    },
+    {
+      "crop_id": "F19-R01C02",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Mackay Point, John Gillis, Stage Stables, shops, post office, forge and Judique overlap retained existing identities."
+    },
+    {
+      "crop_id": "F19-R01C03",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Retain literal Sh. Mill, not expanded Saw Mill; reject red G1 M as a facility. Stage Stables and Ben Noah fragments reconciled."
+    },
+    {
+      "crop_id": "F19-R01C04",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Barrens complete; Ben Noah and River fragments completed in neighboring crops. No new standalone River label."
+    },
+    {
+      "crop_id": "F19-R01C05",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. A. McIsaac, Don. McEachern and Squire McDonald retain identities. Southwest Mabou River and River Inhabitants Road assembled across row two."
+    },
+    {
+      "crop_id": "F19-R01C06",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Upper and lower falls occurrences reconciled; three extra first-pass Falls rejected. Scattered HILLS letters completed with row two and existing CRAIGNISH prefix."
+    },
+    {
+      "crop_id": "F19-R01C07",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. New eastern falls, branches, John R. Morrison, shop and proposed-railway wording checked; no destination inferred."
+    },
+    {
+      "crop_id": "F19-R02C01",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Ocean only; empty response checked visually."
+    },
+    {
+      "crop_id": "F19-R02C02",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Church and minister name remain source-only existing IDs. Campbell Point, shops, stream lettering and upper Judique fragments reconciled."
+    },
+    {
+      "crop_id": "F19-R02C03",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Barytes is not Harvey’s. Mill and Rory Chisholm’s Brook remain distinct. Existing road and quarry descriptions checked against source."
+    },
+    {
+      "crop_id": "F19-R02C04",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Southwest Mabou River is not Miramichi. One Falls below Dennistown; reject extra reading. Old River Denys Road completed in inherited lower context."
+    },
+    {
+      "crop_id": "F19-R02C05",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Western road and stream fragments reconciled with existing records. Large terminal H is the end of CRAIGNISH; northern H begins HILLS, forming one diagonal regional title."
+    },
+    {
+      "crop_id": "F19-R02C06",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. Existing gold mine, Quartz Mill and neighboring falls remain separate IDs. Reject invented R Marlowe and height130; source context resolves Tannery/P.O."
+    },
+    {
+      "crop_id": "F19-R02C07",
+      "status": "source-reviewed",
+      "notes": "Whole native crop inspected. River Denys Cross Roads is one two-line settlement annotation; its tannery, post office and school remain separate. McPhail and McLennan brooks, eastern road and lower Falls added."
+    }
+  ],
+  "unresolved_readings": [
+    {
+      "id": "F19-JUD-016",
+      "issue": "Abbreviated given name is tentative; elevated d retained. Do not silently expand it or identify a parcel."
+    },
+    {
+      "id": "F19-JUD-034",
+      "issue": "No trailing unit mark confidently resolved. Preserve the numerals without supplying a unit or modern measured height."
+    },
+    {
+      "id": "F19-JUD-059",
+      "issue": "Large upright place-style lettering, unlike the smaller italic road lettering. Classification as a named place is provisional; it does not establish a settlement boundary."
+    },
+    {
+      "id": "F19-JUD-062",
+      "issue": "Quartz and Mill are legible; nearby Falls lettering overlaps or adjoins the first line. Separation into two annotations is tentative."
+    },
+    {
+      "id": "F19-JUD-069",
+      "issue": "Numerals read 25 after enlargement; no trailing unit mark confidently resolved. Preserve text without supplying a unit."
+    },
+    {
+      "id": "F19-JUD-070",
+      "issue": "Small lettering beside Quartz/Mill. This separation is tentative and could be revised on human review."
+    },
+    {
+      "id": "F19-JUD-106",
+      "issue": "Tentative surname: independent reviewer reads McTaggart; intervening strokes and the ending remain difficult."
+    }
+  ],
+  "next_annotation_id": "F19-JUD-152",
+  "scope_holdbacks": [],
+  "scope_policy": "Includes named features, facilities, roads, descriptive historical/geological annotations, printed spot heights and regional title lettering inside the map area. Excludes geological unit codes, dip/strike numerals, report/page references, unnamed symbols, graticule, compass and marginal legend apparatus. Geological words are transcriptions only, with no inferred structural geometry.",
+  "supplementary_source_windows": [
+    {
+      "crop_id": "F19-DETAIL-HILLS",
+      "source_xywh": [
+        7130,
+        1590,
+        920,
+        1280
+      ],
+      "sha256": "8184ba98b1f844fdc535e6e92081c098474e72143f15ca3305c1f82230202334"
+    },
+    {
+      "crop_id": "F19-DETAIL-EAST-FALLS",
+      "source_xywh": [
+        8670,
+        1240,
+        570,
+        660
+      ],
+      "sha256": "57aac5e45b9fd78833c5cb30e6ecba368435c24ce34b3b3e0e457401944fdca1"
+    },
+    {
+      "crop_id": "F19-DETAIL-OVERPRINTED-FALL",
+      "source_xywh": [
+        8615,
+        1500,
+        290,
+        155
+      ],
+      "sha256": "26731affd034daf3cb96dd8d79ea003c90e352766662022d318bbcabcc4ff91f"
+    },
+    {
+      "crop_id": "F19-DETAIL-EAST-NAMES",
+      "source_xywh": [
+        8880,
+        1650,
+        830,
+        510
+      ],
+      "sha256": "2ecac27b758bc7c38d83bded6e08e30099dbac7064ac0916ffbb161bd439fe78"
+    },
+    {
+      "crop_id": "F19-DETAIL-EAST-TOWN",
+      "source_xywh": [
+        8680,
+        2650,
+        660,
+        320
+      ],
+      "sha256": "360ee338f20fb8932679cbc215820845d4244669715a60d739aa83b24838191f"
+    },
+    {
+      "crop_id": "F19-DETAIL-MCLENNAN-BROOK",
+      "source_xywh": [
+        8900,
+        3100,
+        670,
+        420
+      ],
+      "sha256": "2de3936cb5f69610b89a3ac7deda3b782d13d361a0a48829e973ef75fd6a5e5e"
+    },
+    {
+      "crop_id": "F19-DETAIL-QUARTZ-MILL",
+      "source_xywh": [
+        8490,
+        2830,
+        250,
+        140
+      ],
+      "sha256": "ed413069ae09e6e923891709ff41f80e54ba32160a2e12479bdb8938b3068e97"
+    },
+    {
+      "crop_id": "F19-DETAIL-REV-NAME",
+      "source_xywh": [
+        3700,
+        2510,
+        330,
+        105
+      ],
+      "sha256": "220c9690cb34503c3e7d7408f7c1ddffc004781a9e7b60048e2c9a7e0b05bedf"
+    },
+    {
+      "crop_id": "F19-LOWER-FALLS-EDGE",
+      "source_xywh": [
+        8840,
+        3550,
+        250,
+        140
+      ],
+      "purpose": "Complete Falls at lower crop edge; not whole-row-three coverage."
+    },
+    {
+      "crop_id": "F19-RAILWAY-WORD",
+      "source_xywh": [
+        9120,
+        1490,
+        280,
+        330
+      ],
+      "purpose": "Read every letter of the northern standalone RAILWAY word."
+    }
+  ]
+}
