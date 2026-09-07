@@ -99,6 +99,22 @@ def main():
             'attribution':receipt['source']['attribution'], 'license':'CC BY-NC-SA 3.0',
             'rights_record':'https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/INVENTORY.md'
         }})
+        correction = decision.get('placement_correction')
+        if correction:
+            # Keep the original source association and warp prediction intact.
+            # A local correction must identify its separate modern reference.
+            assert correction['status'] == 'locally-reviewed-approximate'
+            assert correction['geometry']['type'] == 'Point'
+            assert correction['geometry']['coordinates'] == correction['modern_reference']['geometry_lonlat']
+            mapped_features[-1]['geometry'] = correction['geometry']
+            mapped_features[-1]['properties'].update({
+                'placement_status': correction['status'],
+                'geometry_basis': 'local-review-with-modern-church-reference',
+                'map_derived_geometry': placement['geometry'],
+                'placement_correction': correction,
+                'transform': 'Local church placement correction; original frozen TPS prediction retained in map_derived_geometry.',
+                'description': 'Approximate church location corrected east of Highway 19 using local review and the identified modern church reference. The original Fletcher symbol and rejected warp prediction remain in the evidence. Exact historical footprint unresolved.'
+            })
         xy = assoc['source_anchor_xy']
         origin = 'reviewed-printed-symbol'
         if xy is None:
@@ -153,7 +169,7 @@ def main():
             md.text((hx+9,hy-22), 'Highway 19', fill='#854318', font=font, stroke_width=2, stroke_fill='#f8f4e7')
         for draw in [md,hd]:
             draw.rectangle((400-half/px,400-half/px,400+half/px,400+half/px), outline='#aa620a', width=2)
-            geometry = placement['geometry']
+            geometry = correction['geometry'] if correction and draw is md else placement['geometry']
             if geometry:
                 if geometry['type'] == 'Point':
                     gx,gy = pixel(geometry['coordinates'])
@@ -162,6 +178,13 @@ def main():
                     polygons = [geometry['coordinates']] if geometry['type'] == 'Polygon' else geometry['coordinates']
                     for poly in polygons:
                         draw.line([tuple(pixel(p)) for p in poly[0]], fill='#00695c', width=3)
+        if correction:
+            old_x, old_y = pixel(placement['geometry']['coordinates'])
+            md.line((old_x-6,old_y-6,old_x+6,old_y+6), fill='#777777', width=2)
+            md.line((old_x-6,old_y+6,old_x+6,old_y-6), fill='#777777', width=2)
+            gx, gy = pixel(correction['geometry']['coordinates'])
+            md.text((gx+12,gy-26), "St. Andrew's church", fill='#00695c', font=font, stroke_width=2, stroke_fill='#f8f4e7')
+            md.text((gx+12,gy-3), 'Reviewed: east of Highway 19', fill='#00695c', font=font, stroke_width=2, stroke_fill='#f8f4e7')
 
         label_rectangles = []
         for ref in records.get(aid, []):
@@ -177,8 +200,8 @@ def main():
                 md.text((tx,ty), label, fill='#6826a0', font=font,stroke_width=1,stroke_fill='#f8f4e7')
         pair = Image.new('RGB',(1600,880),'white'); pair.paste(hist,(0,80)); pair.paste(modern,(800,80)); d = ImageDraw.Draw(pair)
         d.text((10,5),aid+' '+feature['source_text'].replace('\n',' / '),font=font,fill='black')
-        d.text((10,30),'Historical draft / NSTDB, same extent. Teal: mapped symbol/group. Ochre: research window, not site extent.',font=font,fill='black')
-        d.text((10,55),'North up. Rust: highways; brown: roads/bridges; grey: rail. Purple: provincial records. Grey fill: outside draft.',font=font,fill='black')
+        d.text((10,30),'Historical source mark / corrected modern church. Teal: reviewed point; grey X: rejected warp prediction.' if correction else 'Historical draft / NSTDB, same extent. Teal: mapped symbol/group. Ochre: research window, not site extent.',font=font,fill='black')
+        d.text((10,55),'North up, same extent. Modern church: OpenStreetMap contributors (ODbL). Rust: Highway 19. Historical footprint unresolved.' if correction else 'North up. Rust: highways; brown: roads/bridges; grey: rail. Purple: provincial records. Grey fill: outside draft.',font=font,fill='black')
         pair.save(out / (aid+'-pair.jpg'), quality=88)
         raster_image.close(); png.unlink(); Path(str(png)+'.aux.xml').unlink(missing_ok=True)
         x,y = int(xy[0]-325), int(xy[1]-225)
@@ -204,15 +227,19 @@ def main():
     (ROOT/'mapping-queue.json').write_text(json.dumps({'sheet_id':'19', 'source_sha256':receipt['source']['sha256'],
         'source_dimensions':list(source.size), 'remaining':len(queue), 'annotations':queue},ensure_ascii=False,indent=2)+'\n')
     esc = html.escape
-    content = ['<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Judique placement pilot</title><style>body{font:17px/1.55 system-ui;color:#28261e;background:#faf7ee;max-width:1500px;margin:auto;padding:24px}a{color:#754008}h1{font-family:Georgia;font-size:2.3rem}section{background:white;padding:24px;margin:25px 0;border-top:4px solid #ce8241}img{max-width:100%;height:auto}nav{display:flex;gap:14px;flex-wrap:wrap}.note{background:#f2dfbc;padding:16px}summary{cursor:pointer}small{display:block;color:#514d40}figure{margin:15px 0}@media(max-width:600px){body{padding:12px}section{padding:12px}}</style><h1>Judique: 12 annotations on modern geography</h1><p class="note"><b>Source-derived placement: eight approximate points and four group areas.</b> Teal marks follow reviewed symbols or groups on the original sheet. Judique is a supported-area draft; its full-sheet accuracy check failed. Search boxes are research windows, not mill boundaries or measured uncertainty. Every original inventory geometry remains null.</p><p><b>Road context corrected September 6:</b> Highway 19 and the separate highway/bridge layers are now included. Earlier missing-road conclusions based on the incomplete road layer have been withdrawn.</p><p>Four mill annotations, three mine annotations, a school, forge, stables, church and bridge. <a href="README.md">Method and results</a> · <a href="pilot.json">Full evidence data</a></p><nav>']
-    content[0] = content[0].replace('<nav>', '<p><a href="mapped-annotations.geojson" download>Download approximate annotation layer (GeoJSON)</a> · <a href="mapping-queue.json">121 labels awaiting source-mark review</a>. Import through the shared file drop zone; the layer appears under Your data. Coordinates come from Fletcher; historical records are optional corroboration.</p><nav>')
+    content = ['<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Judique placement pilot</title><style>body{font:17px/1.55 system-ui;color:#28261e;background:#faf7ee;max-width:1500px;margin:auto;padding:24px}a{color:#754008}h1{font-family:Georgia;font-size:2.3rem}section{background:white;padding:24px;margin:25px 0;border-top:4px solid #ce8241}img{max-width:100%;height:auto}nav{display:flex;gap:14px;flex-wrap:wrap}.note{background:#f2dfbc;padding:16px}summary{cursor:pointer}small{display:block;color:#514d40}figure{margin:15px 0}@media(max-width:600px){body{padding:12px}section{padding:12px}}</style><h1>Judique: 12 annotations on modern geography</h1><p class="note"><b>Reviewed placement: eight approximate points and four group areas.</b> Teal marks follow reviewed source symbols/groups, with the church corrected east of Highway 19 from local review and a modern church reference. Its rejected warp point remains as a grey X. Judique is a supported-area draft; its full-sheet accuracy check failed. Search boxes are research windows, not mill boundaries or measured uncertainty. Every original inventory geometry remains null.</p><p><b>Road context corrected September 6:</b> Highway 19 and the separate highway/bridge layers are now included. Earlier missing-road conclusions based on the incomplete road layer have been withdrawn.</p><p>Four mill annotations, three mine annotations, a school, forge, stables, church and bridge. <a href="README.md">Method and results</a> · <a href="pilot.json">Full evidence data</a></p><nav>']
+    content[0] = content[0].replace('<nav>', '<p><a href="mapped-annotations.geojson" download>Download approximate annotation layer (GeoJSON)</a> · <a href="mapping-queue.json">121 labels awaiting source-mark review</a>. Import through the shared file drop zone; the layer appears under Your data. Coordinates come from Fletcher except the explicitly corrected church location. Historical records and local review retain their separate provenance.</p><nav>')
     content += [f'<a href="#{c["annotation_id"]}">{esc(c["source_text"].replace(chr(10)," / "))} {c["annotation_id"][-3:]}</a>' for c in cases]
     content.append('</nav>')
     board = ROOT/'images/mill-board.jpg'
     if board.exists(): content.append('<figure><img src="images/mill-board.jpg" alt="Mill annotations A, B, C and separate Rory Chisholm Brook annotation D"><figcaption>Letters identify historical annotations only. They do not select individual buildings.</figcaption></figure>')
     for c in cases:
-        aid=c['annotation_id']; d=c['review']; ll=c['search_centre_lonlat']
-        content.append(f'<section id="{aid}"><h2>{esc(c["source_text"].replace(chr(10)," / "))} · {aid}</h2><p>{esc(d["evidence"])}</p><p><b>Unresolved details:</b> {esc(d["contradictions"])}</p><p><b>Optional historical research:</b> {esc(d["next"])}</p><p><a href="{c["source_context_url"]}">Original scan excerpt</a> · <a href="https://www.openstreetmap.org/#map=16/{ll[1]:5f}/{ll[0]:5f}">Modern map centred on search area</a></p><img src="images/{aid}-pair.jpg" alt="{aid}: historical and modern geography at the same extent"><details><summary>Native printed symbol and source review</summary><p>{esc(c["source_review"]["note"])}</p><img src="images/{aid}-native.jpg" alt="Native source detail for {aid}"><small>Original scan crop {c["source_crop"]["native_xywh"]}; displayed at 1:1, unrotated. Red crosshair: reviewed mark. Pink boxes: unresolved group.</small></details>')
+        aid=c['annotation_id']; d=c['review']; ll=d['placement_correction']['geometry']['coordinates'] if d.get('placement_correction') else c['search_centre_lonlat']
+        modern_label = 'Modern map centred on corrected church' if d.get('placement_correction') else 'Modern map centred on search area'
+        content.append(f'<section id="{aid}"><h2>{esc(c["source_text"].replace(chr(10)," / "))} · {aid}</h2><p>{esc(d["evidence"])}</p><p><b>Unresolved details:</b> {esc(d["contradictions"])}</p><p><b>Optional historical research:</b> {esc(d["next"])}</p><p><a href="{c["source_context_url"]}">Original scan excerpt</a> · <a href="https://www.openstreetmap.org/#map=16/{ll[1]:5f}/{ll[0]:5f}">{modern_label}</a></p><img src="images/{aid}-pair.jpg" alt="{aid}: historical and modern geography at the same extent"><details><summary>Native printed symbol and source review</summary><p>{esc(c["source_review"]["note"])}</p><img src="images/{aid}-native.jpg" alt="Native source detail for {aid}"><small>Original scan crop {c["source_crop"]["native_xywh"]}; displayed at 1:1, unrotated. Red crosshair: reviewed mark. Pink boxes: unresolved group.</small></details>')
+        if d.get('placement_correction'):
+            ref = d['placement_correction']['modern_reference']
+            content.append(f'<p><b>Church placement corrected September 6:</b> east of Highway 19. The grey X is the rejected source-warp prediction; the teal point uses <a href="{esc(ref["url"],quote=True)}">{esc(ref["name"])}, OpenStreetMap node {ref["id"]}</a> (version {ref["version"]}). Local review corrects the side of the road; the modern reference supplies this approximate coordinate. The native church symbol and frozen sheet transform remain unchanged. Exact historical foundations remain unresolved. <a href="{esc(ref["rights_url"],quote=True)}">© OpenStreetMap contributors, ODbL 1.0</a>.</p>')
         for ref in c['external_records']:
             content.append(f'<p><b>Separate provincial record:</b> <a href="{esc(ref["url"],quote=True)}">{esc(ref["record_id"])}</a> — {esc(ref["interpretation"])} Coordinates belong to that record; linkage to Fletcher remains a candidate.</p>')
         for ref in d.get('external_sources',[]): content.append(f'<p><a href="{ref["url"]}">Historical source</a>: {esc(ref["finding"])}</p>')

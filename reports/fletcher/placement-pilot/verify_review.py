@@ -31,18 +31,34 @@ def main():
     assert len(mapped['features']) == 12
     assert sum(f['geometry']['type'] == 'Point' for f in mapped['features']) == 8
     assert sum(f['geometry']['type'] == 'Polygon' for f in mapped['features']) == 4
+    church = next(f for f in mapped['features'] if f['id'] == 'F19-JUD-015')
+    correction = read(ROOT/'locality-review.json')['015']['placement_correction']
+    assert church['geometry'] == correction['geometry'], 'Church must use the reviewed east-side location'
+    assert correction['geometry']['coordinates'] == correction['modern_reference']['geometry_lonlat']
+    lon, lat = church['geometry']['coordinates']
+    a, b = correction['highway_side_check']['segment_lonlat']
+    assert min(a[1], b[1]) <= lat <= max(a[1], b[1])
+    road_lon = a[0] + (lat-a[1]) / (b[1]-a[1]) * (b[0]-a[0])
+    assert lon > road_lon, 'Reviewed church must be east of the recorded Highway 19 segment'
     source_reviews = {r['annotation_id']:r for r in read(ROOT/'source-review.json')['associations']}
     for f in mapped['features']:
         case = next(c for c in data['cases'] if c['annotation_id'] == f['id'])
-        assert f['geometry'] == case['map_derived_placement']['geometry']
-        assert f['properties']['placement_status'] == 'map-derived-approximate'
+        if f['id'] == 'F19-JUD-015':
+            assert f['geometry'] == case['review']['placement_correction']['geometry']
+            assert f['properties']['map_derived_geometry'] == case['map_derived_placement']['geometry']
+            assert f['geometry'] != f['properties']['map_derived_geometry']
+            assert f['properties']['placement_status'] == 'locally-reviewed-approximate'
+            assert f['properties']['placement_correction'] == correction
+        else:
+            assert f['geometry'] == case['map_derived_placement']['geometry']
+            assert f['properties']['placement_status'] == 'map-derived-approximate'
         assert f['properties']['source_text'] == annotations[f['id']]['source_text']
         assert f['properties']['source_sha256'] == data['source_sha256']
         assert f['properties']['observations_sha256'] == data['observations_sha256']
         assert f['properties']['source_review_sha256'] == hashlib.sha256((ROOT/'source-review.json').read_bytes()).hexdigest()
         if f['geometry']['type'] == 'Point':
             assert f['properties']['source_geometry_native']['coordinates'] == source_reviews[f['id']]['source_anchor_xy']
-            assert all(abs(a-b) < 1e-8 for a,b in zip(f['geometry']['coordinates'], case['search_centre_lonlat']))
+            assert all(abs(a-b) < 1e-8 for a,b in zip(case['map_derived_placement']['geometry']['coordinates'], case['search_centre_lonlat']))
         else:
             ring = f['geometry']['coordinates'][0]
             assert len(ring) > 5 and ring[0] == ring[-1]

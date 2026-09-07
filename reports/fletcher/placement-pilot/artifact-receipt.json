@@ -2,18 +2,18 @@
   "artifacts": [
     {
       "path": "pilot.json",
-      "sha256": "99d2e7b9cb8afb5f38541f20a2bc5c364687aab29b03d3e4ec2e429d241ab4a2",
-      "bytes": 123322
+      "sha256": "b3b4ea2ffb7540bc537bab69e2000050197de636246d91e6b6299df2bcf144db",
+      "bytes": 125786
     },
     {
       "path": "review.html",
-      "sha256": "8f31c0e661d14b307d9ffb713b609d2b31e4a70f2284647886a89ab204567fc6",
-      "bytes": 28876
+      "sha256": "8af21f7cf022568b40c449456961d310e6764af608d320d59d195f503338f3de",
+      "bytes": 30044
     },
     {
       "path": "mapped-annotations.geojson",
-      "sha256": "34e67f996c2a4badf3e652a659b136466e053ec1b852d65909c7afd71f5b6774",
-      "bytes": 50137
+      "sha256": "1bcf7fa7250b7ec79eb7bc9ccab423dfbf925cd42b8971916e0e22df274bb0f3",
+      "bytes": 52424
     },
     {
       "path": "mapping-queue.json",
@@ -57,8 +57,8 @@
     },
     {
       "path": "images/F19-JUD-015-pair.jpg",
-      "sha256": "a26e11ce0fe83a2cb78406ef369de2aa73db7417060cb6d1248cb264c1567f1b",
-      "bytes": 314084
+      "sha256": "520760ad78dfa045002baac3ea2eb4db90cf7f5bf857cab8555f11b3ada86b3e",
+      "bytes": 319378
     },
     {
       "path": "images/F19-JUD-021-native.jpg",

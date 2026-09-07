@@ -21,10 +21,10 @@
     "next": "Compare the road corridor with a dated aerial or stage-route record; keep Shop and P.O. associations separate."
   },
   "015": {
-    "locality_status": "supported-corridor",
+    "locality_status": "locally-corrected-church-candidate",
     "search_half_width_ground_m": 350,
-    "evidence": "The church symbol lies south of a small coastal brook and north of Rory Chisholm's Brook. The two brooks, coastline and southern inlet constrain the district. The parish's own history provides a candidate institutional identity, St. Andrew's. Restored Highway 19 follows the same broad north-south corridor beside the church search area. Janette MacDonald's 1968 St. Francis Xavier history explicitly places the present stone church where its predecessor stood, supporting reuse of the church site.",
-    "contradictions": "The previous claim that the modern through-road lies farther west is withdrawn: Highway 19 was omitted from the reference. The historical account supports the same site but supplies no foundation plan or dimensions. Accounts disagree on completion of the wooden predecessor: MacDonald gives 1879; the Participaper gives 1860.",
+    "evidence": "The church symbol lies south of a small coastal brook and north of Rory Chisholm's Brook. The two brooks, coastline and southern inlet constrain the district. The parish's own history provides a candidate institutional identity, St. Andrew's. Restored Highway 19 follows the same broad north-south corridor beside the church search area. Janette MacDonald's 1968 St. Francis Xavier history explicitly places the present stone church where its predecessor stood, supporting reuse of the church site. Local review on September 6 corrects the church to the east side of Highway 19. OpenStreetMap node 1325630467 identifies St. Andrew’s Catholic Parish Church there and supplies the corrected preview point.",
+    "contradictions": "The frozen source-symbol transform placed the church west of Highway 19; that point is rejected for the church preview. The modern church reference is approximately 169 ground metres north-northeast of that prediction and east of the highway. Source pixels and the sheet transform remain unchanged. This locally reviewed placement does not establish the exact historical footprint. Accounts disagree on completion of the wooden predecessor: MacDonald gives 1879; the Participaper gives 1860.",
     "next": "Compare a pre-1919 photograph or church plan with the present building to resolve the footprint; investigate the conflicting wooden-church completion dates.",
     "external_sources": [
       {
@@ -51,7 +51,57 @@
         "source_role": "local retrospective, Participaper, August 11, 2025",
         "finding": "Places the replacement wooden church farther from the shore, with a new graveyard, and gives completion in 1860; this conflicts with MacDonald's 1879 date. Reports the 1919 fire and 1924-1927 stone replacement."
       }
-    ]
+    ],
+    "placement_correction": {
+      "reviewed_at": "2026-09-06",
+      "status": "locally-reviewed-approximate",
+      "reason": "User identifies the church as east of Highway 19; the frozen map-derived point is on the wrong side. Use the mapped modern church as an approximate preview location, supported by the recorded historical site-continuity account.",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.4906198,
+          45.8787475
+        ]
+      },
+      "modern_reference": {
+        "provider": "OpenStreetMap",
+        "type": "node",
+        "id": 1325630467,
+        "version": 2,
+        "timestamp": "2019-10-24T20:40:42Z",
+        "name": "St Andrew's Catholic Parish Church",
+        "geometry_lonlat": [
+          -61.4906198,
+          45.8787475
+        ],
+        "url": "https://www.openstreetmap.org/node/1325630467",
+        "version_url": "https://www.openstreetmap.org/api/0.6/node/1325630467/2.json",
+        "retrieved_at": "2026-09-06",
+        "raw_response_sha256": "94013cf5584f56708bed956ec1185f8c90133d2053e214e76c139d0bf8ada865",
+        "attribution": "© OpenStreetMap contributors",
+        "license": "ODbL 1.0",
+        "rights_url": "https://www.openstreetmap.org/copyright"
+      },
+      "highway_side_check": {
+        "provider": "Province of Nova Scotia NSTDB",
+        "layer": "highways",
+        "object_id": 156236,
+        "route_number": 19,
+        "segment_lonlat": [
+          [
+            -61.49115754203206,
+            45.87871005089895
+          ],
+          [
+            -61.49115806672944,
+            45.87888106978337
+          ]
+        ],
+        "side": "east",
+        "meaning": "Longitude comparison at the church latitude against the recorded Route 19 segment; does not establish a surveyed setback."
+      },
+      "historical_footprint_status": "unresolved"
+    }
   },
   "021": {
     "locality_status": "supported-corridor",
