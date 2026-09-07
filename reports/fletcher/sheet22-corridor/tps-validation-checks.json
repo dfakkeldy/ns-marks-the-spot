@@ -1,0 +1,190 @@
+{
+  "frozen_utc": "2026-09-07T01:08:02.000349+00:00",
+  "model_commit": "2bbb14de",
+  "model_sha256": "492dcd11520898baa1ea17bed84a1134b7a5cf02aaff9b5a4eff2da1c0f90fcb",
+  "observations_sha256": "b829ca81a9b3da7df3e6bbae6cfc04567843407e48b33b0e197b032c422d6241",
+  "role": "fresh validation of frozen TPS; excluded from fitting and model selection",
+  "gate": {
+    "median_max_ground_m": 100,
+    "worst_max_ground_m": 200
+  },
+  "limitations": [
+    "Same-agent visual review, not independent surveying.",
+    "Two checks in Craignish and two in northern Hawkesbury; middle Troy evidence remains diagnostic F02.",
+    "G02 shares F01 creek; G03 shares C04/F03 brook; G04 shares C05/F04 catchment. None of those referenced checks is fitted. Fresh positions are not independent catchment samples.",
+    "No validation of full mainland, eastern mountains, southern town or adjacent-sheet seam."
+  ],
+  "rejections": [
+    "Original G01 proposal (4434,1500) was not a creek mouth; geological leader nearby; rejected before scoring.",
+    "Troy southern bridge: modern pond/channel and highway position make exact historical crossing uncertain; rejected before scoring.",
+    "Northern Hawkesbury next eastern tributary: historic stream ends rather than clearly continuing into matching junction; rejected."
+  ],
+  "points": [
+    {
+      "id": "G01",
+      "role": "check",
+      "pixel_xy": [
+        4429,
+        1651
+      ],
+      "lonlat": [
+        -61.4628667,
+        45.7271145
+      ],
+      "label": "Craignish post-office creek mouth",
+      "identity_evidence": "Creek reaches the sloping coast beside the historical post office, south of the road junction and the preceding creek; continuous stream bends inland across the coastal road.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0150",
+        "objectids": [
+          10153,
+          10154,
+          212064
+        ]
+      },
+      "uncertainty_native_px": 8,
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4329,
+          1571,
+          4529,
+          1731
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "crosshair_audit": {
+        "reason": "Visually centred on native feature before any TPS score. G03 moved 18 px right onto road centre; G04 moved 15 px right onto junction; G01 final mouth moved 4 px down."
+      }
+    },
+    {
+      "id": "G02",
+      "role": "check",
+      "pixel_xy": [
+        4493,
+        1426
+      ],
+      "lonlat": [
+        -61.46017419946802,
+        45.7344194891566
+      ],
+      "label": "Craignish church creek road crossing",
+      "identity_evidence": "Creek beside the church crosses the centre of the paired north-south road lines before reaching F01 mouth. Modern trail crossing is west of this road and is not selected.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          212208
+        ],
+        "highway_layer": "highways",
+        "highway_objectid": 259867
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4393,
+          1346,
+          4593,
+          1506
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "crosshair_audit": {
+        "reason": "Visually centred on native feature before any TPS score. G03 moved 18 px right onto road centre; G04 moved 15 px right onto junction; G01 final mouth moved 4 px down."
+      }
+    },
+    {
+      "id": "G03",
+      "role": "check",
+      "pixel_xy": [
+        6226,
+        4507
+      ],
+      "lonlat": [
+        -61.379904957419875,
+        45.63540204763919
+      ],
+      "label": "Northern Hawkesbury brook coastal-road crossing",
+      "identity_evidence": "Main brook crosses the centre of the coastal road south of its junction with the northeast road, downstream of F03 and upstream of C04. Separate tributary crosses the road farther north.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectids": [
+          211158
+        ],
+        "highway_layer": "highways",
+        "highway_objectid": 287217
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6126,
+          4427,
+          6326,
+          4587
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "crosshair_audit": {
+        "reason": "Visually centred on native feature before any TPS score. G03 moved 18 px right onto road centre; G04 moved 15 px right onto junction; G01 final mouth moved 4 px down."
+      }
+    },
+    {
+      "id": "G04",
+      "role": "check",
+      "pixel_xy": [
+        6913,
+        5057
+      ],
+      "lonlat": [
+        -61.3475302,
+        45.6185999
+      ],
+      "label": "Emery Brook southeastern confluence",
+      "identity_evidence": "Northeastern tributary crosses road near school and joins the northwest-southeast main southeast of Emery Pond; next southern road crossing and tributary fork lie downstream.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0712",
+        "objectids": [
+          196571,
+          196573,
+          196574
+        ]
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and topology audit; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          6813,
+          4977,
+          7013,
+          5137
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original scan image-edge x/y"
+      },
+      "crosshair_audit": {
+        "reason": "Visually centred on native feature before any TPS score. G03 moved 18 px right onto road centre; G04 moved 15 px right onto junction; G01 final mouth moved 4 px down."
+      }
+    }
+  ]
+}

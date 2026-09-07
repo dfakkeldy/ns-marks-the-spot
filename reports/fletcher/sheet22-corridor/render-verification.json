@@ -1,0 +1,11 @@
+{
+  "route_sample_count": 3044,
+  "route_missing_alpha_samples": 0,
+  "sampling": "At most 10 projected metres; omit 10 m margin at deliberate north/south hard cuts. This checks rendered coverage, not geographic truth.",
+  "scipy_vs_gdal_max_projected_m": 5.890201144234053e-09,
+  "independent_solver_note": "Same 19 TPS controls; solver agreement does not validate correspondence.",
+  "geotiff_sha256": "c320023ccd7c21402b315d313590d2b5aa75ab0f0392b02b34857a6b83838c47",
+  "four_bands_rgba": true,
+  "transparent_pixels": 8982531,
+  "opaque_pixels": 1387585
+}

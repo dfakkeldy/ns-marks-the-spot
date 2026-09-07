@@ -1,0 +1,124 @@
+{
+  "input_hashes": {
+    "visual-expansion/sheet-observations.json": "632f4b19fcbe64384232fc03693c4f51f646e51332c3d56e382e977ff0afda04",
+    "sheet22-corridor/revised-observations.json": "b829ca81a9b3da7df3e6bbae6cfc04567843407e48b33b0e197b032c422d6241",
+    "southern-seam/observations.json": "65d849761da27859346556960d13e4ddf638024b728f21c8a9ffd5e3de12ec50",
+    "southern-seam/revised-judique.json": "98fbd4525ea5e61cb2386291a439d0d515151270ee51ce8ee2d48d2d22718357",
+    "southern-seam/fresh-checks.json": "f609774db8781821c363fa296bd8d24de9b1bfea0a7a3c47140263f31d26db7c",
+    "southern-seam/longpoint-trace.json": "dea7e127bd0cae815f30699c0d22c2dbad2db5688f900b770dfd365e21caabff"
+  },
+  "points": [
+    {
+      "id": "P19",
+      "predicted_lonlat": [
+        -61.46952090000002,
+        45.754128000000016
+      ],
+      "error_ground_m": 2.2873787898264395e-09
+    },
+    {
+      "id": "P22",
+      "predicted_lonlat": [
+        -61.46267930306149,
+        45.74438210203324
+      ],
+      "error_ground_m": 46.443951674287675
+    },
+    {
+      "id": "V19N",
+      "predicted_lonlat": [
+        -61.467059470117285,
+        45.7587978630211
+      ],
+      "error_ground_m": 19.81703672796672
+    },
+    {
+      "id": "V19S",
+      "predicted_lonlat": [
+        -61.46610068193663,
+        45.75460250450875
+      ],
+      "error_ground_m": 17.879631566218215
+    }
+  ],
+  "lines": [
+    {
+      "id": "L19",
+      "sample_count": 123,
+      "median_ground_m": 22.730835925917678,
+      "worst_ground_m": 57.11372227216861,
+      "passes": true,
+      "geographic_endpoints": [
+        [
+          -61.4699466471348,
+          45.765456486622625
+        ],
+        [
+          -61.46375328666722,
+          45.747404371883675
+        ]
+      ]
+    },
+    {
+      "id": "L22",
+      "sample_count": 100,
+      "median_ground_m": 32.830379875793916,
+      "worst_ground_m": 63.04860224594598,
+      "passes": true,
+      "geographic_endpoints": [
+        [
+          -61.46328973607709,
+          45.74799705440351
+        ],
+        [
+          -61.46027371981743,
+          45.73410765407256
+        ]
+      ]
+    },
+    {
+      "id": "L19M",
+      "sample_count": 111,
+      "median_ground_m": 44.74687472005457,
+      "worst_ground_m": 137.53652233720558,
+      "passes": true,
+      "geographic_endpoints": [
+        [
+          -61.48555615669605,
+          45.800001094730234
+        ],
+        [
+          -61.47909697921834,
+          45.78458749976867
+        ]
+      ]
+    }
+  ],
+  "line_metric": "Perpendicular nearest distance only; correlated samples do not check along-road displacement.",
+  "duplicate_reference_segments_ignored": 2,
+  "seam": {
+    "minimum_road_step_ground_m": 27.13163636849726,
+    "maximum_road_step_ground_m": 53.0374523578777,
+    "best_lonlat": [
+      -61.46357865236308,
+      45.747404371883675
+    ],
+    "overlap_latitude_range": [
+      45.747404371883675,
+      45.74799705440351
+    ],
+    "passes_25m": false
+  },
+  "curves_sha256": "58d614f32c1b0cba1e11c540b2d2196e94021bc383a7a703ca0ca30e318ee82b",
+  "fresh_validation": {
+    "median_ground_m": 18.848334147092466,
+    "worst_ground_m": 19.81703672796672,
+    "passes": true,
+    "note": "P19 is consumed as S01; only V19N/V19S are fresh for the local Judique revision."
+  },
+  "control_counts": {
+    "22": 19,
+    "19": 40,
+    "19-base": 39
+  }
+}

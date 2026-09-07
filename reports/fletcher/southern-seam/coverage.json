@@ -1,0 +1,8 @@
+{
+  "reference_samples": 10462,
+  "missing_count": 0,
+  "missing_lonlat": [],
+  "scope": "Route 19 samples between 45.6473 and 46.0799; no more than 10 projected metre spacing. Coverage is not geographic acceptance.",
+  "reference_line_cells": 21568,
+  "transparent_line_cells": 0
+}

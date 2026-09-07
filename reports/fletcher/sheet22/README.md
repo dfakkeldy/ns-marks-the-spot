@@ -1,5 +1,9 @@
 # Sheet 22 / Hawkesbury: saved-control diagnostic
 
+A later [corridor continuation](../sheet22-corridor/README.md) preserves this
+failed baseline and provides a checked, cropped TPS strip through Craignish,
+Troy and northern Hawkesbury. It does not accept the whole sheet.
+
 The next sheet south of Judique has a reproducible cropped draft, but **does not
 pass geographic acceptance**. Seventeen saved hand controls were preserved;
 eight new stream/shoreline checks were frozen in commit `f486c98b` before scoring.

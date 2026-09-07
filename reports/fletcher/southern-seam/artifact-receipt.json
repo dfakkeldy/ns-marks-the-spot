@@ -1,0 +1,50 @@
+{
+  "status": "diagnostic-seam-failed",
+  "seam_limit_ground_m": 25,
+  "road_step_ground_m_at_rendered_cut": 27.79481913594159,
+  "seam_y_epsg3857": 5739965,
+  "seam_latitude": 45.74741953580652,
+  "upper_transition_latitude": 45.759015330205266,
+  "upper_transition_road_step_ground_m": 0.3780919329338404,
+  "new_control": "Judique S01, previously P19; 39 original controls preserved",
+  "revision_scope": "40-control TPS only in southern Judique local patch; preceding rasters elsewhere unchanged",
+  "inputs": {
+    "native-19": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+    "native-22": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+    "north": "4042421e8a7412b46688be4d145622e28d7384c64f51404c00d8e28fb5cef9c4",
+    "judique": "fcc6f297f4cd42e7c6933fd76708779112bdbc9463896a13e124b06380874385",
+    "hawkesbury": "c320023ccd7c21402b315d313590d2b5aa75ab0f0392b02b34857a6b83838c47",
+    "northern-highways": "5747648eca529c07dc4d1047b3fbf345c53ce25833a162bea5c99ed9551ca5d3",
+    "judique-neatline": "f3cac0b2f48c02c6baedf88670cbe23b8ec790ea470a363627ca9aff67d00913"
+  },
+  "scores_sha256": "83d1c067bee96924a4015a911c28b18a20023b47c4675a7f42fbcfccc6f3798d",
+  "rasters": [
+    {
+      "file": "hawkesbury-mabou-joined-diagnostic.tif",
+      "sha256": "df654367879697a98f99a110ebd17d9bb4a9ad53d43551f87855c00458f23ebe",
+      "dimensions": [
+        4010,
+        14749
+      ],
+      "bytes": 7143035
+    },
+    {
+      "file": "judique-hawkesbury-seam-detail.tif",
+      "sha256": "cb0aec4731727ded72fb758749238c0156b7dc61110cee669220f36e60dbcf2f",
+      "dimensions": [
+        445,
+        542
+      ],
+      "bytes": 154669
+    }
+  ],
+  "coverage": {
+    "reference_samples": 10462,
+    "missing_count": 0,
+    "missing_lonlat": [],
+    "scope": "Route 19 samples between 45.6473 and 46.0799; no more than 10 projected metre spacing. Coverage is not geographic acceptance.",
+    "reference_line_cells": 21568,
+    "transparent_line_cells": 0
+  },
+  "note": "No gap-filling, stretching, feathering or invented pixels. Failed seam remains explicit; not an accepted seamless tileset."
+}

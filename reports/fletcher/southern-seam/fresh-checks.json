@@ -1,0 +1,93 @@
+{
+  "fit_commit": "85f5e9b8",
+  "fit_sha256": "98fbd4525ea5e61cb2386291a439d0d515151270ee51ce8ee2d48d2d22718357",
+  "gate": {
+    "median_max_ground_m": 100,
+    "worst_max_ground_m": 200
+  },
+  "role": "fresh checks of frozen 40-control Judique TPS, never fitted",
+  "limitations": [
+    "Two distinct crossing positions in two creeks; both creek mouths are fitting controls, so these have weak spatial independence.",
+    "Only validates the narrow southern road patch; not southern lake or full sheet."
+  ],
+  "points": [
+    {
+      "id": "V19N",
+      "sheet": "19",
+      "role": "check",
+      "pixel_xy": [
+        4347,
+        6219
+      ],
+      "lonlat": [
+        -61.46686725138278,
+        45.75868048716226
+      ],
+      "label": "Northern creek road crossing",
+      "identity_evidence": "Main east-west creek crosses the centre of the paired coastal road upstream of its already identified mouth; modern trail crossing lies west of this highway crossing.",
+      "modern_reference": {
+        "water_objectids": [
+          286747
+        ],
+        "highway_objectid": 277458,
+        "definition": "Exact piecewise-linear water/highway centreline intersection in EPSG:4326"
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and topology review before score; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4247,
+          6139,
+          4447,
+          6299
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original scan image-edge x/y"
+      },
+      "crosshair_audit": "V19N moved one pixel down to visible stream centre before freezing; V19S unchanged."
+    },
+    {
+      "id": "V19S",
+      "sheet": "19",
+      "role": "check",
+      "pixel_xy": [
+        4369,
+        6347
+      ],
+      "lonlat": [
+        -61.46589308276295,
+        45.75453269124761
+      ],
+      "label": "Southern creek road crossing",
+      "identity_evidence": "Main east-west creek crosses the centre of the paired coastal road upstream of its already identified mouth; modern trail crossing lies west of this highway crossing.",
+      "modern_reference": {
+        "water_objectids": [
+          286615
+        ],
+        "highway_objectid": 259868,
+        "definition": "Exact piecewise-linear water/highway centreline intersection in EPSG:4326"
+      },
+      "uncertainty_native_px": 5,
+      "review": "agent native crosshair and topology review before score; not specifically user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4269,
+          6267,
+          4469,
+          6427
+        ],
+        "display_size": [
+          600,
+          480
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original scan image-edge x/y"
+      },
+      "crosshair_audit": "V19N moved one pixel down to visible stream centre before freezing; V19S unchanged."
+    }
+  ]
+}
