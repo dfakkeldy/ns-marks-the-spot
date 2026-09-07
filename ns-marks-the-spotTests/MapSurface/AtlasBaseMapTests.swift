@@ -139,21 +139,37 @@ struct AtlasBaseMapTests {
 
     /// A map view attached after launch has to arrive on the Atlas the state
     /// says it is on, in the style the map's own appearance calls for.
+    ///
+    /// Asserted against the appearance the view actually reports rather than
+    /// the one asked for: a dark override on a detached view reached the
+    /// trait collection on one simulator and not on the hosted runner's, and
+    /// which of Day or Night UIKit hands back is UIKit's to decide. What is
+    /// this app's to get right is that the overlay, `systemPrefersDark` and
+    /// the resolved ground all agree with it.
     @Test("A map view attached later gets the Atlas in its own appearance")
     func aMapViewAttachedLaterGetsTheAtlasInItsOwnAppearance() {
         let controller = Self.controller()
-        let mapView = MKMapView()
-        mapView.overrideUserInterfaceStyle = .dark
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 320, height: 480))
+        window.overrideUserInterfaceStyle = .dark
+        let mapView = MKMapView(frame: window.bounds)
+        window.addSubview(mapView)
+        window.isHidden = false
+        window.layoutIfNeeded()
         controller.mapView = mapView
+        let dark = mapView.traitCollection.userInterfaceStyle == .dark
         let atlas = mapView.overlays.compactMap { $0 as? AtlasBaseOverlay }
-        #expect(atlas.map(\.style) == [.night])
-        #expect(controller.systemPrefersDark)
-        #expect(controller.resolvedBaseMapType == .atlasNight)
+        #expect(atlas.map(\.style) == [dark ? .night : .day])
+        #expect(controller.systemPrefersDark == dark)
+        #expect(controller.resolvedBaseMapType == (dark ? .atlasNight : .atlasDay))
 
         // An explicit style does not follow the appearance.
         controller.baseMapType = .atlasDay
         #expect(mapView.overlays.compactMap { $0 as? AtlasBaseOverlay }.map(\.style) == [.day])
         #expect(controller.resolvedBaseMapType == .atlasDay)
+        controller.baseMapType = .atlasNight
+        #expect(mapView.overlays.compactMap { $0 as? AtlasBaseOverlay }.map(\.style) == [.night])
+        #expect(controller.resolvedBaseMapType == .atlasNight)
+        window.isHidden = true
     }
 
     /// It replaces the base map, so everything else has to be over it —
