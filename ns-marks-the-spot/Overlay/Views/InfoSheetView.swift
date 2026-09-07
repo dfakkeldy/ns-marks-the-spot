@@ -262,11 +262,43 @@ struct InfoSheetView: View {
             // The ground itself, first: the attribution strip's credit line
             // sends readers here for the rest, and the OpenStreetMap base is
             // the one source the catalogue's rows do not answer for.
+            atlasRow
             openStreetMapRow
 
             ForEach(layers) { layer in
                 LayerAttributionRow(layer: layer)
             }
+        }
+    }
+
+    /// The rendered Atlas: the ground the map opens on, and the other source
+    /// the catalogue's rows do not answer for. Both of its credits, and the
+    /// Fletcher sentence, because the sheet describes every style at once.
+    private var atlasRow: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("NS Marks Atlas base map")
+                .font(.subheadline)
+                .bold()
+
+            ForEach(ActiveAttribution.baseCredits(for: .atlas)) { credit in
+                Text(credit.copyright ?? credit.provider)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                if let licenseTitle = credit.licenseTitle, let licenseURL = credit.licenseURL {
+                    Link(licenseTitle, destination: licenseURL)
+                        .font(.caption)
+                        .accessibilityIdentifier("source-licence-atlas-\(licenseTitle)")
+                }
+
+                Text(credit.disclaimer)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Text(AtlasRaster.fletcherStyleNote)
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 

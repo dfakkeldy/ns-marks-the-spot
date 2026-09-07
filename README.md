@@ -38,7 +38,15 @@ family offers optional Highway cameras (511 Nova Scotia) and Weather radar
 (ECCC GeoMet); source and licence detail are in
 [web/README.md](web/README.md). Background Maps offers NS Marks Atlas Day,
 Night, Fletcher, System appearance (the default), and OpenStreetMap raster;
-atlas detail is in [web/README.md](web/README.md). Fletcher now has a host-neutral,
+atlas detail is in [web/README.md](web/README.md). The iOS app opens on the
+same Atlas and offers the same three styles, drawn from raster tiles that
+`web/scripts/atlasRaster` renders with the web's own MapLibre build from the
+same style, glyphs, sprite and provincial archive (revision
+`atlas-raster-20260907.1` on `https://tiles.kinnokilabs.com`; an empty
+`ATLAS_TILE_BASE_URL` override removes the Atlas entries and opens on
+OpenStreetMap). Closer zooms magnify the deepest rendered level rather than
+adding detail, and the supplemental OpenStreetMap context in those tiles is as
+fetched when they were rendered. Fletcher now has a host-neutral,
 default-off web control for the 24 independently accepted direct-Rumsey sheets,
 with bounded per-sheet requests, opacity, share, print, evidence, attribution,
 and failure handling. Ordinary iOS and web builds default to

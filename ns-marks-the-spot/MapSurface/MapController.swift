@@ -4,6 +4,7 @@ import MapKit
 import UIKit
 import NSDataServices
 import Observation
+import MapCatalog
 
 /// Interaction events flowing back from the map surface, routed through a
 /// single handler so future interaction modes can gate them centrally.
@@ -66,7 +67,11 @@ final class MapController: NSObject {
     // the same value for the diff; `applyStorage` writes back only the fields
     // that changed, so each mutation notifies exactly its own observers.
 
-    private var appliedBaseMapType: MapBaseType = .openStreetMap
+    /// Where the rendered Atlas is read from, or `nil` for a build with no
+    /// host — on which the Atlas grounds are not offered and never drawn.
+    let atlasRasterBaseURL: URL?
+
+    private var appliedBaseMapType: MapBaseType = .defaultGround
     private var appliedLayers: [MapLayerState] = []
     private var appliedParcelShapes: [ParcelShape] = []
     private var appliedFeatureShapes: [FeatureShape] = []
@@ -198,13 +203,15 @@ final class MapController: NSObject {
         tileFetcher: TileFetcher? = nil,
         tileStore: TileStore? = nil,
         fletcherMigration: Task<Void, Never>? = nil,
-        clearanceBox: LicenceClearanceBox = LicenceClearanceBox()
+        clearanceBox: LicenceClearanceBox = LicenceClearanceBox(),
+        atlasRasterBaseURL: URL? = AtlasRasterHost.configuredBaseURL
     ) {
         self.tileCache = tileCache
         self.tileFetcher = tileFetcher
         self.tileStore = tileStore
         self.fletcherMigration = fletcherMigration
         self.clearanceBox = clearanceBox
+        self.atlasRasterBaseURL = atlasRasterBaseURL
         super.init()
         locationManager.delegate = self
         progress.observe { [weak self] layerID in
@@ -227,6 +234,15 @@ final class MapController: NSObject {
             // queued would otherwise set the glyph for a map that is gone.
             if let oldValue, oldValue !== mapView, oldValue.delegate === self {
                 oldValue.delegate = nil
+            }
+            // The Atlas in system appearance is Day or Night by the map's own
+            // trait, and the trait changes under a running map. Registered on
+            // the view so the ground follows the appearance it is drawn in.
+            if let mapView, mapView !== oldValue {
+                _ = mapView.registerForTraitChanges([UITraitUserInterfaceStyle.self]) {
+                    [weak self] (_: MKMapView, _) in
+                    self?.systemAppearanceChanged()
+                }
             }
             // A replacement map view starts empty; the incremental
             // user-vector path must not skip installs because the previous
@@ -487,12 +503,34 @@ final class MapController: NSObject {
         case .nsAerial:
             // NS Aerial renders as a tile overlay above the standard basemap.
             return .standard
-        case .openStreetMap, .blank:
+        case .atlas, .atlasDay, .atlasNight, .atlasFletcher, .openStreetMap, .blank:
             // Whatever is set here is covered by the base-replacing overlay —
-            // `OSMBaseOverlay` or `BlankBaseOverlay`; MapKit requires a map
-            // type and has no case for "someone else's tiles" or "none".
+            // `AtlasBaseOverlay`, `OSMBaseOverlay` or `BlankBaseOverlay`;
+            // MapKit requires a map type and has no case for "someone else's
+            // tiles" or "none".
             return .standard
         }
+    }
+
+    /// Whether the map is being drawn in the dark appearance, which is what
+    /// decides between Day and Night for a system-appearance Atlas.
+    var systemPrefersDark: Bool {
+        (mapView?.traitCollection ?? UITraitCollection.current).userInterfaceStyle == .dark
+    }
+
+    /// The applied ground with a system-appearance Atlas resolved to the style
+    /// it is drawing right now — what a page, a note or a link has to name,
+    /// because "system appearance" is a preference and not a picture.
+    var resolvedBaseMapType: MapBaseType {
+        guard appliedBaseMapType == .atlas else { return appliedBaseMapType }
+        return systemPrefersDark ? .atlasNight : .atlasDay
+    }
+
+    /// Re-resolves a system-appearance Atlas when the appearance changes.
+    /// Any other ground is what it is whatever the appearance does.
+    private func systemAppearanceChanged() {
+        guard appliedBaseMapType == .atlas, let mapView else { return }
+        applyBaseOverlay(for: .atlas, on: mapView)
     }
 
     /// Puts in the base-replacing overlay the chosen background draws with,
@@ -504,11 +542,21 @@ final class MapController: NSObject {
     private func applyBaseOverlay(for baseType: MapBaseType, on mapView: MKMapView) {
         let wantsBlank = baseType == .blank
         let wantsOSM = baseType == .openStreetMap
+        // Resolved here, at the moment of drawing, so a system-appearance
+        // Atlas is whichever style the map's own trait calls for right now.
+        let wantsAtlas = baseType.atlasStyle(
+            systemPrefersDark: mapView.traitCollection.userInterfaceStyle == .dark
+        )
         for overlay in mapView.overlays {
             if overlay is BlankBaseOverlay, !wantsBlank {
                 mapView.removeOverlay(overlay)
             }
             if overlay is OSMBaseOverlay, !wantsOSM {
+                mapView.removeOverlay(overlay)
+            }
+            // A different style is a different ground: out, and the wanted
+            // one in below, rather than a second Atlas stacked on the first.
+            if let atlas = overlay as? AtlasBaseOverlay, atlas.style != wantsAtlas {
                 mapView.removeOverlay(overlay)
             }
         }
@@ -517,6 +565,14 @@ final class MapController: NSObject {
         }
         if wantsOSM, mapView.overlays.compactMap({ $0 as? OSMBaseOverlay }).isEmpty {
             mapView.installInDrawOrder(OSMBaseOverlay())
+        }
+        // With no host there is nothing to install and nothing stands in:
+        // the picker does not offer the Atlas on such a build, and a ground
+        // that was quietly swapped would be credited for tiles it never drew.
+        if let style = wantsAtlas, let baseURL = atlasRasterBaseURL,
+           !mapView.overlays.contains(where: { ($0 as? AtlasBaseOverlay)?.style == style })
+        {
+            mapView.installInDrawOrder(AtlasBaseOverlay(style: style, baseURL: baseURL))
         }
     }
 
@@ -2319,6 +2375,10 @@ extension MapController: MKMapViewDelegate {
 
         if let osm = overlay as? OSMBaseOverlay {
             return MKTileOverlayRenderer(tileOverlay: osm)
+        }
+
+        if let atlas = overlay as? AtlasBaseOverlay {
+            return MKTileOverlayRenderer(tileOverlay: atlas)
         }
 
         guard let tileOverlay = overlay as? OpacityTileOverlay else {

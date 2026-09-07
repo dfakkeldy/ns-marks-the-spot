@@ -87,6 +87,45 @@ Property boundaries retain the Province licence gate and attribution.
 Both HTML entry points are included in `npm run build`. The MapLibre 6 worker
 is bundled with Vite's `?worker&url` import for hosting beneath a subpath.
 
+### Raster tiles for the native app
+
+`npm run build:atlas-raster -- --archive <ns-….pmtiles> --out <dir>` renders
+the three Atlas styles to raster tiles so the native app, which has no vector
+renderer, can show the same cartography through MapKit. The pipeline
+(`scripts/atlasRaster/`) bundles the real `src/atlas/style.ts` with Vite and
+draws it with the same maplibre-gl build in headless Chromium (Metal-backed
+WebGL on macOS, SwiftShader elsewhere); no layer is re-implemented. A local
+server feeds the pinned provincial archive (verified against
+`public/atlas/provincial/source.json` before anything renders), the self-hosted
+glyphs and sprite, and a polite disk-caching proxy for OpenFreeMap. Any MapLibre
+error, a missing glyph range, or a misaligned camera fails the run rather than
+writing a blank tile. Output is an immutable revision:
+
+```
+<out>/<revision>/source.json               receipt: renderer, style hashes, archive, OSM fetch, counts
+<out>/<revision>/coverage.json             rendered addresses per zoom as inclusive x runs per row
+<out>/<revision>/<style>/{z}/{x}/{y}.webp  style = day | night | fletcher
+<out>/<revision>/<style>/ocean/{z}.webp    stand-in for any address outside coverage at that zoom
+```
+
+Tiles follow the XYZ Web Mercator scheme for zooms 5–13. Tile (z, x, y) is
+that tile's extent rendered at MapLibre zoom z (512 CSS px per tile) at
+pixelRatio 2, so every image is 1024 × 1024 px and shows the map at Leaflet
+zoom z + 1; the native app cuts its 256-point square at zoom z from the tile
+at z − 1. A tile exists if and only if the provincial archive holds a tile at that
+exact address; everything else is served by the ocean stand-in, rendered from an
+open-Atlantic address so it carries each style's water colour and, for
+Fletcher, the paper grain. Tiles are cut from 4 × 4 metatiles with a half-tile
+buffer so labels near metatile edges are drawn whole. WebP quality 0.9 is
+recorded in the receipt with measured per-zoom sizes. The script resumes by
+skipping existing tiles and accepts `--zoom`, `--styles`, `--bbox`,
+`--workers`, `--revision`, `--osm-cache`, `--force`, `--angle`, `--quality` and
+`--review`. `npm run serve:atlas-raster -- --dir <out> --port 4791` serves a
+finished directory at `http://127.0.0.1:4791/atlas-raster/<revision>/…` for a
+simulator. Rendering a revision locally does not publish it: uploading to the
+tile host is a separate, explicit step, and the native app's pinned revision
+changes only when that step is done and verified.
+
 ### Provincial archive and refresh
 
 `public/atlas/provincial/source.json` records the archive hash, source releases,

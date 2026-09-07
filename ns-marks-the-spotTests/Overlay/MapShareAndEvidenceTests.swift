@@ -116,15 +116,26 @@ struct MapShareAndEvidenceTests {
     @Test func theLinkCarriesTheVisibleLayersAndTheBaseMap() {
         let model = OverlayViewModel.forTesting(installing: [.nsprd, .nsAerial])
         model.toggleVisibility(LayerID.nsprd.rawValue)
+        model.setBaseMapType(.atlasFletcher)
 
         let state = model.shareState
         #expect(state.mode == .current)
         #expect(state.layerIDs.contains(MapShareState.modernBaseLayerID))
         #expect(state.layerIDs.contains(LayerID.nsprd.rawValue))
         #expect(state.layerIDs.contains(LayerID.nsAerial.rawValue) == false)
+        // The style first, as the browser writes it, then the rest in order.
+        #expect(state.basemapStyle == .fletcher)
         #expect(model.shareURL?.absoluteString.hasPrefix(
-            "https://kinnokilabs.com/apps/nsmarksthespot/map/?taxSale=off&mode=current"
+            "https://kinnokilabs.com/apps/nsmarksthespot/map/?basemap=fletcher&taxSale=off&mode=current"
         ) == true)
+
+        // A system-appearance Atlas travels as whichever of Day or Night it
+        // is, never as "system": that is a preference, not a view.
+        model.setBaseMapType(.atlas)
+        #expect([.day, .night].contains(model.shareState.basemapStyle))
+        model.setBaseMapType(.openStreetMap)
+        #expect(model.shareState.basemapStyle == .osm)
+        #expect(model.shareState.layerIDs.contains(MapShareState.modernBaseLayerID))
     }
 
     /// The satellite base is MapKit's, and the web has nothing to restore it
@@ -185,7 +196,9 @@ struct MapShareAndEvidenceTests {
             )!
         )
 
-        #expect(model.baseMapType == .openStreetMap)
+        // The modern map in its default style: the link named no style, and
+        // None is not a modern ground to keep.
+        #expect(model.baseMapType == .atlas)
     }
 
     /// Including over a background that draws. Satellite is ground the shared
@@ -205,7 +218,8 @@ struct MapShareAndEvidenceTests {
             )!
         )
 
-        #expect(model.baseMapType == .openStreetMap)
+        #expect(model.baseMapType == .atlas)
+        #expect(model.baseMapType.isModernMap)
     }
 
     /// The browser checks the zoom because its aerial layer has nothing under
@@ -343,9 +357,11 @@ struct MapShareAndEvidenceTests {
         #expect(model.isShowingLicenceSheet == false)
     }
 
-    /// The sender's modern map and this app's are the same OpenStreetMap
-    /// tiles now, so a link naming the modern base restores the very ground it
-    /// was sent from — and there is no substitution left to disclose.
+    /// The sender's modern map and this app's are the same cartography now,
+    /// so a link naming the modern base restores the very ground it was sent
+    /// from — and there is no substitution left to disclose. A link that
+    /// names no style leaves the reader's own modern ground standing, as the
+    /// browser leaves its own preference.
     @Test func aLinkNamingTheModernMapOpensOnTheSendersOwnGround() {
         let model = OverlayViewModel.forTesting(installing: [], licence: .accepted)
 
@@ -353,8 +369,33 @@ struct MapShareAndEvidenceTests {
             from: URL(string: "https://example.com/map/?mode=current&layers=modern")!
         )
 
-        #expect(model.baseMapType == .openStreetMap)
+        #expect(model.baseMapType == .atlas)
         #expect(model.sharedLinkNotice == nil)
+
+        model.setBaseMapType(.atlasNight)
+        model.restore(
+            from: URL(string: "https://example.com/map/?mode=current&layers=modern")!
+        )
+        #expect(model.baseMapType == .atlasNight)
+    }
+
+    /// A link that names a style names the ground outright, on both surfaces:
+    /// Fletcher opens as Fletcher whatever the reader was on, and the
+    /// OpenStreetMap raster opens as itself.
+    @Test(arguments: [
+        (MapShareState.BasemapStyle.fletcher, MapBaseType.atlasFletcher),
+        (.day, .atlasDay), (.night, .atlasNight), (.osm, .openStreetMap),
+    ])
+    func aLinkNamingAStyleOpensOnThatStyle(style: MapShareState.BasemapStyle, ground: MapBaseType) {
+        let model = OverlayViewModel.forTesting(installing: [], licence: .accepted)
+        model.setBaseMapType(.satellite)
+
+        model.restore(
+            from: URL(string: "https://example.com/map/?basemap=\(style.rawValue)&mode=current&layers=modern")!
+        )
+
+        #expect(model.baseMapType == ground)
+        #expect(model.shareState.basemapStyle == style)
     }
 
     /// A link drawn on the Province's own imagery is drawn on it here as well,

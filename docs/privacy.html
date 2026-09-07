@@ -114,8 +114,15 @@
             · © OpenStreetMap contributors; the Atlas is a hybrid, not wholly
             provincial. An explicit OpenStreetMap raster basemap remains
             available as a choice and as a fallback if the Atlas source fails.
-            The native app uses Apple MapKit and Apple basemaps; it does not
-            load OpenFreeMap or the provincial Atlas archive. Hugh Fletcher
+            The native app uses Apple MapKit. Its default NS Marks Atlas base
+            map (Day, Night, or Fletcher) is drawn from raster tiles of the same
+            cartography, rendered ahead of time from the same provincial archive
+            and OpenFreeMap context and published at
+            https://tiles.kinnokilabs.com/atlas-raster/ (public HTTP requests,
+            no app credentials), so the phone does not contact OpenFreeMap or
+            the provincial archive directly; Apple's standard, satellite and
+            hybrid maps and the OpenStreetMap raster remain available as
+            choices. Hugh Fletcher
             historical overlay tiles and Nova Scotia provincial geographic
             services are also displayed. Those map providers may receive
             standard network requests for the tiles or layers you view.

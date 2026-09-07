@@ -172,6 +172,16 @@ nonisolated enum ParcelEvidenceExport {
     /// browser's own note for the same tiles.
     private static func baseMapSource(_ baseMap: MapBaseType) -> EvidenceNoteInput.Source {
         switch baseMap {
+        case .atlas, .atlasDay, .atlasNight, .atlasFletcher:
+            // A system-appearance Atlas reaches the note already resolved to
+            // the style it drew (`MapController.resolvedBaseMapType`); Day
+            // stands in for a caller that could not ask the map.
+            let style = baseMap.atlasStyle(systemPrefersDark: false) ?? .day
+            return EvidenceNoteInput.Source(
+                name: AtlasRasterBase.pageName(style),
+                sourceURL: AtlasRaster.Provincial.licenceURL,
+                sourceDate: AtlasRaster.sourceDate(style)
+            )
         case .openStreetMap:
             return EvidenceNoteInput.Source(
                 name: OpenStreetMapBase.pageName,

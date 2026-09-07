@@ -199,7 +199,7 @@ struct TransparencySliderView: View {
                 get: { viewModel.baseMapType },
                 set: { viewModel.setBaseMapType($0) }
             )) {
-                ForEach(MapBaseType.allCases) { type in
+                ForEach(viewModel.availableBaseMapTypes) { type in
                     Text(type.rawValue).tag(type)
                 }
             }

@@ -194,6 +194,33 @@ struct ActiveAttributionTests {
         #expect(bare.count == 1)
     }
 
+    /// The Atlas owes two credits, in the browser's order: the Province's
+    /// licence statement for the snapshot beneath every style, then the
+    /// OpenStreetMap wording for the context the tiles carry. The Fletcher
+    /// sentence travels with the Fletcher style and no other.
+    @Test("The Atlas ground is credited to the Province and then to OpenStreetMap")
+    func theAtlasGroundIsCreditedToTheProvinceAndThenToOpenStreetMap() {
+        let credits = ActiveAttribution.credits(for: [descriptor(.nsprd)], baseMap: .atlas)
+        #expect(credits.count == 3)
+        #expect(credits[0].provider == "NS Marks Atlas")
+        #expect(credits[0].disclaimer.contains(AtlasRaster.Provincial.attribution))
+        #expect(credits[0].licenseURL == AtlasRaster.Provincial.licenceURL)
+        #expect(credits[1].provider == "© OpenStreetMap contributors")
+        #expect(credits[1].copyright == AtlasRaster.Supplemental.credit)
+        #expect(credits[1].licenseURL?.absoluteString == "https://www.openstreetmap.org/copyright")
+        #expect(ActiveAttribution.summary(for: credits).hasPrefix("NS Marks Atlas · © OpenStreetMap contributors"))
+        // The summary still ends on the caveat every ground carries.
+        #expect(ActiveAttribution.summary(for: credits).hasSuffix(ActiveAttribution.boundaryCaveat))
+
+        let fletcher = ActiveAttribution.baseCredits(for: .atlasFletcher)
+        #expect(fletcher[0].disclaimer.hasSuffix(AtlasRaster.fletcherStyleNote))
+        for ground in [MapBaseType.atlas, .atlasDay, .atlasNight] {
+            #expect(!ActiveAttribution.baseCredits(for: ground)[0].disclaimer.contains("Fletcher"))
+        }
+        // Two credits with distinct identities, so the strip lists both.
+        #expect(Set(fletcher.map(\.id)).count == 2)
+    }
+
     /// The credit follows the ink here as everywhere: a map on an Apple base,
     /// or on none, owes OpenStreetMap nothing.
     @Test("Other grounds carry no OpenStreetMap credit")

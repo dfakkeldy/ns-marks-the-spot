@@ -246,7 +246,7 @@ nonisolated enum PrintExportPlan {
         // one switch so no base can ever be paired with the wrong publisher.
         var sources: [PrintLayerSource]
         switch baseMap {
-        case .blank, .openStreetMap:
+        case .blank, .openStreetMap, .atlas, .atlasDay, .atlasNight, .atlasFletcher:
             sources = []
         // The aerial is a layer of its own and is credited as one; what is
         // underneath it is still Apple's standard map.
@@ -280,13 +280,20 @@ nonisolated enum PrintExportPlan {
             // so a base whose every tile failed is not credited for a page it
             // is not on.
             if outcome.id == OpenStreetMapBase.layerID {
-                sources.append(
-                    PrintLayerSource(
-                        name: OpenStreetMapBase.attributionName,
-                        attribution: OpenStreetMapBase.credit,
-                        licenceUrl: OpenStreetMapBase.copyrightURL.absoluteString
+                // The same id names the Atlas: the modern map in any style.
+                // Which ground put the ink there is the base the page was
+                // composed on, and its credit follows.
+                if baseMap.isAtlas {
+                    sources += AtlasRasterBase.printSources(fletcher: baseMap == .atlasFletcher)
+                } else {
+                    sources.append(
+                        PrintLayerSource(
+                            name: OpenStreetMapBase.attributionName,
+                            attribution: OpenStreetMapBase.credit,
+                            licenceUrl: OpenStreetMapBase.copyrightURL.absoluteString
+                        )
                     )
-                )
+                }
                 continue
             }
             guard let layer = descriptor(outcome.id) else { continue }

@@ -13,11 +13,15 @@ import UIKit
 @Suite("The OpenStreetMap base map")
 @MainActor
 struct OSMBaseMapTests {
-    /// The map the reader has not touched is the map the browser shows.
-    @Test("OpenStreetMap is the default ground")
-    func openStreetMapIsTheDefaultGround() {
-        #expect(MapViewState().baseMapType == .openStreetMap)
-        #expect(MapController().baseMapType == .openStreetMap)
+    /// The browser's fallback ground, and this app's on a build with no Atlas
+    /// host: offered on every build, the default on none that can draw the
+    /// Atlas.
+    @Test("OpenStreetMap is the fallback ground, not the default")
+    func openStreetMapIsTheFallbackGroundNotTheDefault() {
+        #expect(MapViewState().baseMapType != .openStreetMap)
+        #expect(MapBaseType.defaultGround(atlasHosted: false) == .openStreetMap)
+        #expect(MapBaseType.available(atlasHosted: false).contains(.openStreetMap))
+        #expect(MapBaseType.available(atlasHosted: true).contains(.openStreetMap))
     }
 
     @Test("Choosing OpenStreetMap replaces Apple's map and choosing back removes it")
@@ -62,14 +66,16 @@ struct OSMBaseMapTests {
 
     /// A map view attached after launch — a rotation, or a rebuilt view — has
     /// to arrive on the OpenStreetMap ground the state says it is on, even
-    /// though a fresh `MKMapView` and `MapViewState()` now disagree about what
+    /// though a fresh `MKMapView` and `MapViewState()` disagree about what
     /// "untouched" means.
     @Test("A map view attached later gets the OpenStreetMap ground too")
     func aMapViewAttachedLaterGetsTheOpenStreetMapGroundToo() {
         let controller = MapController()
+        controller.baseMapType = .openStreetMap
         let mapView = MKMapView()
         controller.mapView = mapView
         #expect(mapView.overlays.compactMap { $0 as? OSMBaseOverlay }.count == 1)
+        #expect(mapView.overlays.compactMap { $0 as? AtlasBaseOverlay }.isEmpty)
     }
 
     /// It replaces the base map, so everything else has to be over it —
