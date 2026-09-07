@@ -1,3 +1,6 @@
+import { ContextImageLayer } from "./ContextImageLayer";
+import { ContextFeatureLayer } from "./ContextFeatureLayer";
+import { contextLayerCatalog, hiddenContextLayers, type ContextLayerId, type ContextMapLayer } from "../layers/contextLayerCatalog";
 import { PokerMapTools, type PokerSession } from "./PokerMapTools";
 import {
   lazy,
@@ -192,6 +195,7 @@ type MapCanvasProps = {
   hydroPilotLayers?: Record<HydroPilotLayerId, boolean>;
   floodHazardLayers?: Record<FloodHazardLayerId, boolean>;
   environmentalHealthLayers?: Record<EnvironmentalHealthLayerId, boolean>;
+  contextLayers?: Record<ContextLayerId, boolean>;
   forestryLayers?: Record<ForestryLayerId, boolean>;
   zoningLayers?: Record<ZoningLayerId, boolean>;
   wellLogLayers?: Record<WellLogLayerId, boolean>;
@@ -304,7 +308,8 @@ export type MapLayerId =
   | ForestryLayerId
   | ZoningLayerId
   | WellLogLayerId
-  | LiveConditionsLayerId;
+  | LiveConditionsLayerId
+  | ContextLayerId;
 
 export type MapLayerStatus =
   | { status: "idle" | "loading" | "error" }
@@ -581,8 +586,10 @@ function resourceExportZIndex(
   layer:
     | ResourceMapLayerDescriptor
     | FloodHazardLayerDescriptor
-    | EnvironmentalHealthLayerDescriptor,
+    | EnvironmentalHealthLayerDescriptor
+    | ContextMapLayer,
 ): number {
+  if ("zIndex" in layer) return layer.zIndex;
   if ("screening" in layer) {
     return ENVIRONMENTAL_HEALTH_LAYER_Z_INDEX;
   }
@@ -598,7 +605,8 @@ function ResourceArcGISMapLayer({
   layer:
     | ResourceMapLayerDescriptor
     | FloodHazardLayerDescriptor
-    | EnvironmentalHealthLayerDescriptor;
+    | EnvironmentalHealthLayerDescriptor
+    | ContextMapLayer;
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
   renderMode: MapRenderMode;
@@ -619,6 +627,7 @@ function ResourceArcGISMapLayer({
       {
         minZoom: layer.minZoom,
         maxZoom: layer.maxZoom,
+        maxNativeZoom: "maxNativeZoom" in layer ? layer.maxNativeZoom : undefined,
         opacity: layer.opacity,
         zIndex: resourceExportZIndex(layer),
         updateWhenZooming: false,
@@ -1829,6 +1838,7 @@ export function MapCanvas({
   hydroPilotLayers = HIDDEN_HYDRO_PILOT_LAYERS,
   floodHazardLayers = HIDDEN_FLOOD_HAZARD_LAYERS,
   environmentalHealthLayers = HIDDEN_ENVIRONMENTAL_HEALTH_LAYERS,
+  contextLayers = hiddenContextLayers,
   forestryLayers = HIDDEN_FORESTRY_LAYERS,
   zoningLayers = HIDDEN_ZONING_LAYERS,
   wellLogLayers = HIDDEN_WELL_LOG_LAYERS,
@@ -2557,6 +2567,22 @@ export function MapCanvas({
             renderMode={renderMode}
             />
           ))}
+        {contextLayerCatalog.map((layer) => layer.delivery === "static-image" ? (
+          <ContextImageLayer key={layer.id} layer={layer}
+            visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} />
+        ) : layer.delivery === "feature-query" ? (
+          <ContextFeatureLayer key={layer.id} layer={layer}
+            visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange}
+            renderMode={renderMode} />
+        ) : (
+          <ResourceArcGISMapLayer
+            key={layer.id}
+            layer={layer}
+            visible={contextLayers[layer.id]}
+            onStatusChange={onLayerStatusChange}
+            renderMode={renderMode}
+          />
+        ))}
         {environmentalHealthLayerCatalog.map((layer) => (
           <ResourceArcGISMapLayer
             key={layer.id}

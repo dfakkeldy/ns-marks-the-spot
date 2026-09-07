@@ -21,9 +21,10 @@ npm run dev
 Use `npm test`, `npm run lint`, and `npm run build` for the verification gates.
 Run `npx playwright install chromium` once, then `npm run test:browser` for
 rendered keyboard focus, phone controls, georeferencing and print-layout checks.
-The browser suite starts Vite on `127.0.0.1:4173`, substitutes local tile imagery,
-and uses the real components. Its print fixture is synthetic and is not a
-property-evidence or live-source acceptance test. CI runs it separately from
+The browser suite builds the production app and serves its preview on
+`127.0.0.1:4173`, substitutes local tile imagery, and uses the real components.
+Its print fixture is synthetic and is not a property-evidence or live-source
+acceptance test. CI runs it separately from
 Vitest; failure screenshots and traces are saved in `web/test-results/`.
 
 Archived GeoPDF browser evidence has its own documentation check:
@@ -185,6 +186,15 @@ collapsible categories: **Background Maps**, **Land & Property**,
 **Roads & Places**, **Water & Terrain**, **Environment & Hazards**,
 **Forestry & Ecology**, **Geology & Resources**, **Historical Maps**,
 **Tax Sale**, and **My Maps**.
+
+The web-only `contextLayerCatalog` adds 37 research controls across these
+categories: provincial topography, infrastructure and mapped places, water and
+forest context, geology, environmental screens, and historical coal workings
+under **Historical Maps**. All start off. Source-specific legends, dates,
+coverage, scale caveats and licence acknowledgement remain visible; the native
+offline catalogue is unchanged. The [GeoNova source inventory](../docs/geonova-layer-expansion.md)
+lists every control, official service and licence, including the reproducible
+radon image and its source receipt.
 
 The six built-in map setups are **Explore Nova Scotia**,
 **Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**,
@@ -380,6 +390,12 @@ generated QR code plus the complete written map-state URL; the written URL is
 the required fallback if QR generation fails. It identifies the printed PID,
 mode, events, actually rendered layers, and derived print position.
 
+Browser **Print / Save PDF** supports all 37 context controls, subject to
+selection, fitted zoom, licence acknowledgement and source readiness. The
+separate **Export map (PDF)** supports the 32 context MapServer image entries;
+the four feature-query layers and static radon image are omitted and explicitly
+listed as not included.
+
 Attribution follows the material actually rendered or reported:
 
 - Province restricted-service layers retain the required Province attribution,
@@ -503,8 +519,8 @@ govern Crown-land management and do not establish conditions on private land.
 ## Geology and resources
 
 The collapsed **Geology & Resources** group starts with every switch off. Its
-three source-backed overlays use Province open data independently of the
-restricted map-services gate:
+original three source-backed overlays use Province open data independently of
+the restricted map-services gate:
 
 - [Mineral Occurrences Database](https://novascotia.ca/natr/meb/download/dp002.asp)
   records known occurrences and past producers. A point is not proof of a

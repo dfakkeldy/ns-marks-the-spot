@@ -1,3 +1,5 @@
+import { contextLayerCatalog, type ContextLayerId } from "./layers/contextLayerCatalog";
+import { ContextLayerToggle } from "./components/ContextLayerToggle";
 import {
   lazy,
   Suspense,
@@ -221,7 +223,7 @@ const ExportDialog = lazy(() =>
   })),
 );
 import { exportAttributionLines } from "./print/pdf/attributionLines";
-import { buildExportLayers } from "./print/pdf/exportLayerSpecs";
+import { buildExportLayers, contextExportOmission } from "./print/pdf/exportLayerSpecs";
 import { basemapSource, type BasemapPreference, type BasemapStyle } from "./atlas/basemap";
 import { provincialReceipt, provincialReceiptUrl, PROVINCIAL_ATTRIBUTION, PROVINCIAL_LICENCE_URL } from "./atlas/provincial";
 import { useBasemapPreference } from "./atlas/useBasemapPreference";
@@ -360,6 +362,7 @@ const allMapLayerIds: MapLayerId[] = [
   ...hydroPilotLayerCatalog.map(({ id }) => id),
   ...floodHazardLayerCatalog.map(({ id }) => id),
   ...environmentalHealthLayerCatalog.map(({ id }) => id),
+  ...contextLayerCatalog.map(({ id }) => id),
   ...forestryLayerCatalog.map(({ id }) => id),
   ...zoningLayerCatalog.map(({ id }) => id),
   ...wellLogLayerCatalog.map(({ id }) => id),
@@ -380,6 +383,9 @@ const restrictedThemeLayerIds = new Set<ShareLayerId>([
   ...environmentalHealthLayerCatalog
     .filter(({ licence }) => licence === "province-restricted")
     .map(({ id }) => id),
+  ...contextLayerCatalog
+    .filter(({ licence }) => licence === "province-restricted")
+    .map(({ id }) => id),
 ]);
 
 const themeLayerNames = new Map<ShareLayerId, string>([
@@ -390,6 +396,7 @@ const themeLayerNames = new Map<ShareLayerId, string>([
   ...hydroPilotLayerCatalog.map(({ id, name }) => [id, name] as const),
   ...floodHazardLayerCatalog.map(({ id, name }) => [id, name] as const),
   ...environmentalHealthLayerCatalog.map(({ id, name }) => [id, name] as const),
+  ...contextLayerCatalog.map(({ id, name }) => [id, name] as const),
   ...forestryLayerCatalog.map(({ id, name }) => [id, name] as const),
   ...zoningLayerCatalog.map(({ id, name }) => [id, `${name} zoning`] as const),
   ...wellLogLayerCatalog.map(({ id, name }) => [id, name] as const),
@@ -787,6 +794,14 @@ function printLayerSources(
       : OPEN_GOVERNMENT_ATTRIBUTION,
     licenceUrl: layer.licenceUrl,
   }));
+  contextLayerCatalog.forEach((layer) => sources.set(layer.id, {
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    attribution: `${layer.attribution ?? (layer.licence === "province-restricted" ? PROVINCE_ATTRIBUTION : OPEN_GOVERNMENT_ATTRIBUTION)} ${layer.scale}. ${layer.webCaveat}`,
+    licenceUrl: layer.licenceUrl,
+  }));
   forestryLayerCatalog.forEach((layer) => sources.set(layer.id, {
     id: layer.id,
     name: layer.name,
@@ -1157,6 +1172,7 @@ export function App() {
       ...hydroPilotLayerCatalog.map(({ id }) => id),
       ...floodHazardLayerCatalog.map(({ id }) => id),
       ...environmentalHealthLayerCatalog.map(({ id }) => id),
+      ...contextLayerCatalog.map(({ id }) => id),
       ...forestryLayerCatalog.map(({ id }) => id),
       ...zoningLayerCatalog.map(({ id }) => id),
       ...wellLogLayerCatalog.map(({ id }) => id),
@@ -1502,6 +1518,7 @@ export function App() {
   });
   const sharedLayersIncludeUsableBasemap =
     initialCatalogueLayerIds.has("modern") ||
+    (licenceAccepted && initialCatalogueLayerIds.has("ns-topographic")) ||
     (
       initialCatalogueLayerIds.has("ns-aerial") &&
       initialShareState.position.zoom >=
@@ -1554,6 +1571,12 @@ export function App() {
   const [environmentalHealthLayers, setEnvironmentalHealthLayers] = useState(
     () => visibilityRecordFor(
       environmentalHealthLayerCatalog.map(({ id }) => id),
+      initialCatalogueLayerIds,
+    ),
+  );
+  const [contextLayers, setContextLayers] = useState(
+    () => visibilityRecordFor(
+      contextLayerCatalog.map(({ id }) => id),
       initialCatalogueLayerIds,
     ),
   );
@@ -2006,6 +2029,18 @@ export function App() {
     ) as Record<EnvironmentalHealthLayerId, boolean>,
     [environmentalHealthLayers, licenceAccepted],
   );
+  const effectiveContextLayers = useMemo<
+    Record<ContextLayerId, boolean>
+  >(
+    () => Object.fromEntries(
+      contextLayerCatalog.map((layer) => [
+        layer.id,
+        contextLayers[layer.id] &&
+          (layer.licence === "province-open" || licenceAccepted),
+      ]),
+    ) as Record<ContextLayerId, boolean>,
+    [contextLayers, licenceAccepted],
+  );
   const effectiveFloodHazardLayers = useMemo<Record<FloodHazardLayerId, boolean>>(
     () => Object.fromEntries(
       floodHazardLayerCatalog.map((layer) => [
@@ -2073,6 +2108,11 @@ export function App() {
           layer.licence !== "province-restricted" &&
           effectiveEnvironmentalHealthLayers[layer.id],
       ) ||
+      contextLayerCatalog.some(
+        (layer) =>
+          layer.licence !== "province-restricted" && !layer.attribution &&
+          effectiveContextLayers[layer.id],
+      ) ||
       floodHazardLayerCatalog.some(
         (layer) =>
           layer.licence !== "province-restricted" &&
@@ -2081,6 +2121,7 @@ export function App() {
       ),
     [
       effectiveEnvironmentalHealthLayers,
+      effectiveContextLayers,
       effectiveFloodHazardLayers,
       forestryLayers,
       wellLogLayers,
@@ -2855,6 +2896,10 @@ export function App() {
       environmentalHealthLayerCatalog.map(({ id }) => id),
       visible,
     ));
+    setContextLayers(visibilityRecordFor(
+      contextLayerCatalog.map(({ id }) => id),
+      visible,
+    ));
     setForestryLayers(visibilityRecordFor(
       forestryLayerCatalog.map(({ id }) => id),
       visible,
@@ -3010,6 +3055,12 @@ export function App() {
           layer.licence === "province-restricted" ? false : current[layer.id],
         ]),
       ) as Record<EnvironmentalHealthLayerId, boolean>);
+      setContextLayers((current) => Object.fromEntries(
+        contextLayerCatalog.map((layer) => [
+          layer.id,
+          layer.licence === "province-restricted" ? false : current[layer.id],
+        ]),
+      ) as Record<ContextLayerId, boolean>);
       setShowModernMap(true);
     }
     setLicenceDialogOpen(false);
@@ -3031,6 +3082,7 @@ export function App() {
 
   const setProvinceLayerVisibility = useCallback(
     (id: ProvinceLayerId, visible: boolean) => {
+    if (id === "ns-aerial" && visible) setContextLayers((current) => ({ ...current, "ns-topographic": false }));
     setProvinceLayers((current) => ({ ...current, [id]: visible }));
     },
     [],
@@ -3069,6 +3121,16 @@ export function App() {
     },
     [],
   );
+  const setContextLayerVisibility = useCallback(
+    (id: ContextLayerId, visible: boolean) => {
+    setContextLayers((current) => ({ ...current, [id]: visible }));
+    if (id === "ns-topographic" && visible) {
+      setShowModernMap(false);
+      setProvinceLayers((current) => ({ ...current, "ns-aerial": false }));
+    }
+    },
+    [],
+  );
   const setForestryLayerVisibility = useCallback(
     (id: ForestryLayerId, visible: boolean) => {
     setForestryLayers((current) => ({ ...current, [id]: visible }));
@@ -3096,6 +3158,7 @@ export function App() {
   const wellLogToggleFor = useStablePerIdCallback(setWellLogLayerVisibility);
   const floodToggleFor = useStablePerIdCallback(setFloodHazardLayerVisibility);
   const environmentalToggleFor = useStablePerIdCallback(setEnvironmentalHealthLayerVisibility);
+  const contextToggleFor = useStablePerIdCallback(setContextLayerVisibility);
   const forestryToggleFor = useStablePerIdCallback(setForestryLayerVisibility);
   const zoningToggleFor = useStablePerIdCallback(setZoningLayerVisibility);
   const liveConditionsToggleFor = useStablePerIdCallback(
@@ -3532,6 +3595,9 @@ export function App() {
       ...environmentalHealthLayerCatalog
         .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
         .map(({ id }) => id),
+      ...contextLayerCatalog
+        .filter(({ id }) => effectiveContextLayers[id])
+        .map(({ id }) => id),
       ...forestryLayerCatalog
         .filter(({ id }) => forestryLayers[id])
         .map(({ id }) => id),
@@ -3553,6 +3619,7 @@ export function App() {
     return allMapLayerIds.filter((id): id is ShareLayerId => active.has(id));
   }, [
     effectiveEnvironmentalHealthLayers,
+    effectiveContextLayers,
     effectiveFloodHazardLayers,
     fletcherVisible,
     forestryLayers,
@@ -3774,6 +3841,9 @@ export function App() {
     ...environmentalHealthLayerCatalog
       .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
       .map(({ id }) => id),
+    ...contextLayerCatalog
+      .filter(({ id }) => effectiveContextLayers[id])
+      .map(({ id }) => id),
     ...forestryLayerCatalog
       .filter(({ id }) => forestryLayers[id])
       .map(({ id }) => id),
@@ -3788,6 +3858,7 @@ export function App() {
     // live frame's content cannot be re-derived from any stated source date.
   ], [
     effectiveEnvironmentalHealthLayers,
+    effectiveContextLayers,
     effectiveFloodHazardLayers,
     effectiveResourceLayers,
     fletcherVisible,
@@ -3849,12 +3920,17 @@ export function App() {
         ids.add(layer.id);
       }
     }
+    for (const layer of contextLayerCatalog) {
+      if (effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null) ids.add(layer.id);
+    }
     return ids;
   }, [
     fletcherTileConfiguration.baseUrl,
     fletcherVisible,
     licenceAccepted,
     provinceLayers,
+    effectiveContextLayers,
+    mapViewport.position.zoom,
     showModernMap,
   ]);
   /**
@@ -3878,12 +3954,17 @@ export function App() {
   const omittedLayerNames = useMemo(() => [
     ...captureLayerSources
       .filter(({ id }) => !exportedLayerIds.has(id))
-      .map(({ name }) => name),
+      .map(({ id, name }) => {
+        const layer = contextLayerCatalog.find((candidate) => candidate.id === id);
+        const reason = layer ? contextExportOmission(layer, mapViewport.position.zoom) : null;
+        return reason ? `${name} — ${reason}` : name;
+      }),
     ...userMapsApi.visibleMaps.map(({ record }) => record.name),
     ...userVectorApi.visibleLayers.map(({ record }) => record.name),
   ], [
     captureLayerSources,
     exportedLayerIds,
+    mapViewport.position.zoom,
     userMapsApi.visibleMaps,
     userVectorApi.visibleLayers,
   ]);
@@ -4108,6 +4189,13 @@ export function App() {
         })),
       ...environmentalHealthLayerCatalog
         .filter(({ id }) => effectiveEnvironmentalHealthLayers[id])
+        .map(({ name, sourceUrl, sourceDate }) => ({
+          name,
+          sourceUrl,
+          sourceDate,
+        })),
+      ...contextLayerCatalog
+        .filter(({ id }) => effectiveContextLayers[id])
         .map(({ name, sourceUrl, sourceDate }) => ({
           name,
           sourceUrl,
@@ -4496,6 +4584,9 @@ export function App() {
               const floodCategoryLayers = floodHazardLayerCatalog.filter(
                 ({ id }) => layerCategoryByLayerId[id] === category.id,
               );
+              const contextCategoryLayers = contextLayerCatalog.filter(
+                ({ category: assigned }) => assigned === category.id,
+              );
               const environmentalCategoryLayers =
                 environmentalHealthLayerCatalog.filter(
                   ({ id }) => layerCategoryByLayerId[id] === category.id,
@@ -4553,7 +4644,8 @@ export function App() {
                         aria-label="Modern map"
                         checked={showModernMap}
                         onChange={(event) =>
-                          setShowModernMap(event.target.checked)}
+                          { setShowModernMap(event.target.checked);
+                            if (event.target.checked) setContextLayers((current) => ({ ...current, "ns-topographic": false })); }}
                       />
                       <span className="switch" aria-hidden="true" />
                       <span>
@@ -4720,6 +4812,18 @@ export function App() {
                       Each layer is independently controlled.
                     </p>
                   ) : null}
+
+                  {contextCategoryLayers.map((layer) => (
+                    <ContextLayerToggle
+                      key={layer.id}
+                      layer={layer}
+                      checked={contextLayers[layer.id]}
+                      licenceAccepted={licenceAccepted}
+                      status={layerStatuses[layer.id]}
+                      onChange={contextToggleFor(layer.id)}
+                      onReviewLicence={reviewProvinceLicence}
+                    />
+                  ))}
 
                   {environmentalCategoryLayers.map((layer) => (
                     <EnvironmentalHealthLayerToggle
@@ -5319,6 +5423,7 @@ export function App() {
             hydroPilotLayers={hydroPilotLayers}
             floodHazardLayers={effectiveFloodHazardLayers}
             environmentalHealthLayers={effectiveEnvironmentalHealthLayers}
+            contextLayers={effectiveContextLayers}
             forestryLayers={forestryLayers}
             zoningLayers={zoningLayers}
             wellLogLayers={wellLogLayers}
@@ -5605,6 +5710,11 @@ export function App() {
               <span key={notice}>{notice}</span>
             ))
           : null}
+        {Array.from(new Set(contextLayerCatalog
+          .filter((layer) => effectiveContextLayers[layer.id] && layer.attribution)
+          .map((layer) => layer.attribution!))).map((attribution) => (
+            <span key={attribution}>{attribution}</span>
+          ))}
         {visibleZoningAttributions.map((attribution) => (
           <span key={attribution}>{attribution}</span>
         ))}
@@ -5690,7 +5800,7 @@ export function App() {
             maxNativeZoom:
               fletcherLayerCatalog.maxNativeZoom ?? fletcherLayerCatalog.maxZoom,
           },
-          arcgisLayers: provinceLayerCatalog
+          arcgisLayers: [...provinceLayerCatalog
             .filter((layer) =>
               licenceAccepted && provinceLayers[layer.id] && layer.exportOptions)
             .map((layer) => ({
@@ -5700,6 +5810,11 @@ export function App() {
               exportOptions: layer.exportOptions!,
               opacity: layer.opacity,
             })),
+            ...contextLayerCatalog
+              .filter((layer) => effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null)
+              .map((layer) => ({ id: layer.id, name: layer.name, serviceUrl: layer.serviceUrl,
+                exportOptions: layer.exportOptions, opacity: layer.opacity })),
+          ],
           // v1 scope cut: user-imported maps are not extracted into a
           // CanvasImageSource + mesh yet. They are named in
           // `omittedLayerNames` below, alongside every other visible layer

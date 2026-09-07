@@ -5,6 +5,8 @@ import {
 } from "../../components/mapPanes";
 import { arcGISExportUrlForBox } from "../../layers/arcGISExport";
 import { fletcherSheets, fletcherTileUrl } from "../../layers/fletcherLayer";
+import { contextLayerCatalog } from "../../layers/contextLayerCatalog";
+import type { ContextLayerDescriptor } from "../../layers/contextLayerTypes";
 import type { ArcGISExportOptions } from "../../layers/layerCatalog";
 import type { PrintMapBounds } from "../../services/printSnapshot";
 import type { LatLngPoint } from "../../userMaps/transform/projection";
@@ -23,8 +25,7 @@ export type ExportArcGisLayerInput = {
   serviceUrl: string;
   exportOptions: ArcGISExportOptions;
   opacity: number;
-  // No `maxNativeZoom`: a single bbox render has no tile pyramid to clamp to.
-  // The service renders the frame at the size asked for.
+  // Source-specific display limits are resolved from the context catalogue.
 };
 
 export type ExportUserMapInput = {
@@ -54,6 +55,14 @@ export type ExportLayerInputs = {
 };
 
 const OSM_TILE_URL = "https://tile.openstreetmap.org";
+
+/** Mirror visible source scale before requesting or crediting a context export. */
+export function contextExportOmission(layer: ContextLayerDescriptor, zoom: number): string | null {
+  if (zoom < layer.minZoom) return `below display scale (zoom ${layer.minZoom} required)`;
+  if (zoom > layer.maxZoom) return `above display scale (maximum zoom ${layer.maxZoom})`;
+  if (layer.delivery !== undefined) return "PDF export does not support this source format";
+  return null;
+}
 
 function boundsIntersect(
   a: PrintMapBounds,
@@ -106,6 +115,7 @@ function fletcherLayers(
  * tile to fetch, only a render to pay for.
  */
 function arcGisLayer(layer: ExportArcGisLayerInput): CompositorImageLayer {
+  const maxNativeZoom = contextLayerCatalog.find(({ id }) => id === layer.id)?.maxNativeZoom;
   return {
     kind: "image",
     id: layer.id,
@@ -114,6 +124,20 @@ function arcGisLayer(layer: ExportArcGisLayerInput): CompositorImageLayer {
     url: ({ bounds, widthPx, heightPx }) => {
       const nw = toMercator({ lat: bounds.north, lng: bounds.west });
       const se = toMercator({ lat: bounds.south, lng: bounds.east });
+      // Scale-limited context services can return a successful but blank PNG
+      // if the requested pixel resolution exceeds their display limit. Ask
+      // for a coarser image of the same extent and let the compositor enlarge
+      // it; no additional geographic detail is implied by the larger frame.
+      if (maxNativeZoom !== undefined) {
+        const metresPerPixel = 156_543.033_928_040_97 / 2 ** maxNativeZoom;
+        const fit = Math.min(
+          1,
+          (se.x - nw.x) / (metresPerPixel * widthPx),
+          (nw.y - se.y) / (metresPerPixel * heightPx),
+        );
+        widthPx = Math.max(1, Math.floor(widthPx * fit));
+        heightPx = Math.max(1, Math.floor(heightPx * fit));
+      }
       return arcGISExportUrlForBox(
         { serviceUrl: layer.serviceUrl, ...layer.exportOptions },
         { minX: nw.x, minY: se.y, maxX: se.x, maxY: nw.y },
@@ -123,16 +147,10 @@ function arcGisLayer(layer: ExportArcGisLayerInput): CompositorImageLayer {
   };
 }
 
-/**
- * On-screen z-index for an ArcGIS layer, per `PROVINCE_LAYER_Z_INDEXES`.
- * Unknown ids (not part of that record) default to a z-index above every
- * known one, which is where every layer *besides* `ns-aerial` (150) already
- * sits — `ns-aerial` is the one entry below Fletcher (155) and user maps
- * (160), and it is opaque, so it is the only one that must be pinned below
- * them rather than defaulting into the common "above" bucket.
- */
+/** The same pane order as the live map, including opaque context basemaps. */
 function arcGisLayerZIndex(id: string): number {
   return PROVINCE_LAYER_Z_INDEXES[id as keyof typeof PROVINCE_LAYER_Z_INDEXES]
+    ?? contextLayerCatalog.find((layer) => layer.id === id)?.zIndex
     ?? Number.POSITIVE_INFINITY;
 }
 
@@ -155,11 +173,9 @@ export function buildExportLayers(
   }
 
   // ArcGIS layers are grouped by their on-screen z-index relative to Fletcher
-  // (155): the "sub-basemap" bucket (currently only ns-aerial, at 150) sits
-  // below Fletcher/user maps and must render first, or an opaque aerial
-  // layer would paint over both of them in the exported image. Everything
-  // else sorts after, matching the ascending order MapCanvas assigns via
-  // PROVINCE_LAYER_Z_INDEXES.
+  // (155). Topographic (145) and aerial (150) backgrounds must render first
+  // so their opaque images do not cover Fletcher or user maps. Broad context
+  // fills remain below parcel lines; detailed infrastructure keeps its pane order.
   const sortedArcgis = [...inputs.arcgisLayers].sort(
     (a, b) => arcGisLayerZIndex(a.id) - arcGisLayerZIndex(b.id),
   );

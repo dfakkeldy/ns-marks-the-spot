@@ -1,0 +1,150 @@
+{
+  "product": "DP ME 486, Version 1, 2013: Potential for Radon in Indoor Air in Nova Scotia",
+  "sourceUrl": "https://data.novascotia.ca/d/tk49-rtq2",
+  "downloadUrl": "https://novascotia.ca/natr/meb/data/exe/dp486v1sh.ZIP",
+  "licenceUrl": "https://novascotia.ca/opendata/licence.asp",
+  "sourceLicenceEvidence": "Socrata api/views/tk49-rtq2.json licenseId OGL_NOVA_SCOTIA, verified 2026-09-07",
+  "attribution": "Contains information licensed under the Open Government Licence \u2013 Nova Scotia.",
+  "retrieved": "2026-09-07",
+  "archiveBytes": 6952869,
+  "archiveSha256": "ea9e79c7da0a44755262fadb40eacfdd819a35723bd52b26a136b2b754c7d0de",
+  "sourceRasterPath": "z486ns/tif/z486nsrz_radon_potential.tif",
+  "sourceRasterSha256": "6adb2aa68c87a96fddfc7d22a7088506c7ff19b214c589e95696ac8daa1fb465",
+  "sourceRasterCellSizeMetres": 250,
+  "sourceRasterDimensions": [
+    2178,
+    1665
+  ],
+  "sourcePolygonCount": 105569,
+  "sourcePolygonClassCounts": {
+    "Medium": 30842,
+    "Water Feature/No Data": 11170,
+    "Low": 53903,
+    "High": 9654
+  },
+  "classification": "Exact GRIDCODE to rank mapping taken from the accompanying source shapefile; every source raster score verified present in mapping. No thresholds invented.",
+  "scoreToClass": {
+    "160": "Medium",
+    "0": "Water Feature/No Data",
+    "150": "Medium",
+    "140": "Medium",
+    "155": "Medium",
+    "125": "Medium",
+    "135": "Medium",
+    "145": "Medium",
+    "115": "Low",
+    "110": "Low",
+    "130": "Medium",
+    "120": "Low",
+    "165": "Medium",
+    "100": "Low",
+    "175": "High",
+    "170": "Medium",
+    "180": "High",
+    "105": "Low",
+    "90": "Low",
+    "95": "Low",
+    "70": "Low",
+    "85": "Low",
+    "55": "Low",
+    "65": "Low",
+    "60": "Low",
+    "185": "High",
+    "200": "High",
+    "230": "High",
+    "210": "High",
+    "190": "High",
+    "195": "High",
+    "35": "Low",
+    "205": "High",
+    "75": "Low",
+    "220": "High",
+    "50": "Low",
+    "215": "High",
+    "80": "Low",
+    "225": "High",
+    "45": "Low",
+    "30": "Low",
+    "40": "Low",
+    "250": "High",
+    "240": "High",
+    "235": "High",
+    "25": "Low",
+    "260": "High",
+    "245": "High",
+    "15": "Water Feature/No Data",
+    "270": "High",
+    "255": "High",
+    "265": "High",
+    "275": "High"
+  },
+  "colours": {
+    "0": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "1": [
+      204,
+      204,
+      204,
+      255
+    ],
+    "2": [
+      247,
+      195,
+      72,
+      255
+    ],
+    "3": [
+      196,
+      109,
+      27,
+      255
+    ],
+    "4": [
+      107,
+      6,
+      1,
+      255
+    ]
+  },
+  "transformation": "GDAL GDAL 3.13.3 \"Iowa City\", released 2026/08/13; exact source categories reprojected EPSG:2961 to EPSG:3857 using nearest neighbour at 350 projected metres per pixel. No smoothing, gap filling, interpolation of hazard classes, or new observations.",
+  "imageBounds": [
+    [
+      43.324810556275615,
+      -66.65938281080358
+    ],
+    [
+      47.12280911317586,
+      -59.48768274003538
+    ]
+  ],
+  "imageDimensions": [
+    2281,
+    1716
+  ],
+  "outputProjectedBounds": [
+    -7420488.551092548,
+    5361542.734010391,
+    -6622138.551092548,
+    5962142.734010391
+  ],
+  "outputBytes": 139328,
+  "outputSha256": "38f5ceaf511035a64a28864e3ab46387f75c9c202b2b689015b18def794f6f13",
+  "validation": {
+    "independentlyReprojectedPixelCentres": 13534,
+    "mismatches": 0,
+    "outputCategories": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "sourceNoDataTransparent": true,
+    "waterFeatureNoDataColour": "#cccccc"
+  },
+  "limitations": "Regional potential map, 2013; native raster cell size 250 m. Magnification adds no local accuracy. Only a radon test can determine indoor conditions. Water Feature/No Data is grey; outside source coverage is transparent."
+}

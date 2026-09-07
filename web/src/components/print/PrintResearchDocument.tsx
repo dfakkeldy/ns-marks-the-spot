@@ -15,6 +15,8 @@ import {
   type PrintEvidenceAttribution,
 } from "../../services/printEvidenceAttribution";
 import { resourceLayerCatalog } from "../../layers/layerCatalog";
+import { contextLayerCatalog, type ContextLayerId } from "../../layers/contextLayerCatalog";
+import { contextPrintColor } from "../../services/contextFeatures";
 import { renderedPrintLayerSources } from "../../services/printRenderedLayers";
 import { PrintEvidenceAppendix } from "./PrintEvidenceAppendix";
 
@@ -104,6 +106,7 @@ export function PrintHeader({ snapshot, title, kind }: {
 }
 
 const PRINT_LEGEND_SYMBOL_KINDS: Record<ShareLayerId, string> = {
+  ...Object.fromEntries(contextLayerCatalog.map(({ id }) => [id, "source-classes"])) as Record<ContextLayerId, string>,
   modern: "basemap-grid",
   fletcher: "historical-raster",
   "ns-aerial": "aerial-tone",
@@ -207,6 +210,7 @@ export function ActiveLayerLegend({
               </span>
               <span>
                 <strong>{source.name}</strong>
+                <ContextPrintLegend layerId={source.id} />
                 {showSourceDates ? <span>{source.sourceDate}</span> : null}
               </span>
             </li>
@@ -214,6 +218,25 @@ export function ActiveLayerLegend({
         </ul>
       )}
     </section>
+  );
+}
+
+function ContextPrintLegend({ layerId }: { layerId: ShareLayerId }) {
+  const layer = contextLayerCatalog.find(({ id }) => id === layerId);
+  if (!layer || (layer.delivery !== "feature-query" && layer.delivery !== "static-image")) return null;
+  return (
+    <span className="print-context-classes" aria-label={`${layer.name} classes`}>
+      {layer.legend.map(({ label, color }, index) => (
+        <span key={`${index}:${label}`} style={{ display: "block" }}>
+          {color ? <span aria-hidden="true" style={{
+            display: "inline-block", width: 10, height: 10, marginRight: 4,
+            border: "1px solid #555", printColorAdjust: "exact",
+            backgroundColor: layer.delivery === "feature-query" ? contextPrintColor(color) : color,
+          }} /> : null}
+          {label}
+        </span>
+      ))}
+    </span>
   );
 }
 

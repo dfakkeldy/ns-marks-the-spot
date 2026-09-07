@@ -32,8 +32,9 @@ export type ExportDialogProps = {
    * Names of layers that are visible on screen but will NOT be in this
    * export — the seven layer families the compositor does not carry yet
    * (resources, hydro pilot, flood hazard, environmental health, forestry,
-   * zoning, well logs), any Province layer without export options, and
-   * user-imported maps. Shown with the same treatment as failed layers so
+   * zoning, well logs), context layers served only as features, any Province
+   * layer without export options, and user-imported maps.
+   * Shown with the same treatment as failed layers so
    * the omission is never silent. It does not block Download: the user is
    * told what the page will be missing and decides.
    */
@@ -287,7 +288,7 @@ export function ExportDialog(props: ExportDialogProps) {
                 </li>
               ))}
             </ul>
-            <p>PDF export doesn&rsquo;t support them yet.</p>
+            <p>The PDF will omit the layers listed above.</p>
           </div>
         ) : null}
 

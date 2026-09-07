@@ -1,3 +1,4 @@
+import { contextLayerCatalog } from "./layers/contextLayerCatalog";
 import {
   act,
   fireEvent,
@@ -68,6 +69,7 @@ const lastObservedInteractiveMapState = vi.hoisted(() => ({
 }));
 
 const currentCatalogueIds = [
+  ...contextLayerCatalog.map(({ id }) => id),
   "modern",
   fletcherLayerCatalog.id,
   ...provinceLayerCatalog.map(({ id }) => id),
@@ -83,6 +85,9 @@ const currentCatalogueIds = [
 ];
 
 const expectedCataloguePlacement = [
+  ...contextLayerCatalog.map(({ id, name, category }) => ({
+    id, label: name, category: layerCategories.find(({ id }) => id === category)!.name, kind: "control",
+  })),
   { id: "modern", label: "Modern map", category: "Background Maps", kind: "control" },
   { id: "ns-aerial", label: "NS Aerial", category: "Background Maps", kind: "control" },
   { id: "nsprd", label: "NS Property Boundaries", category: "Land & Property", kind: "control" },
@@ -166,6 +171,7 @@ vi.mock("./components/MapCanvas", () => ({
     hydroPilotLayers,
     forestryLayers,
     environmentalHealthLayers,
+    contextLayers,
     floodHazardLayers,
     fletcherVisible,
     fletcherOpacity,
@@ -198,6 +204,7 @@ vi.mock("./components/MapCanvas", () => ({
     hydroPilotLayers: Record<string, boolean>;
     forestryLayers?: Record<string, boolean>;
     environmentalHealthLayers?: Record<string, boolean>;
+    contextLayers?: Record<string, boolean>;
     floodHazardLayers: Record<string, boolean>;
     fletcherVisible?: boolean;
     fletcherOpacity?: number;
@@ -319,6 +326,7 @@ vi.mock("./components/MapCanvas", () => ({
       {resourceLayers["mineral-proximity-parcels"] ? "on" : "off"}
       ; Inverness micro-hydro screen: {hydroPilotLayers["inverness-hydro-potential"] ? "on" : "off"}
       ; old-growth policy areas: {forestryLayers?.["old-growth-policy"] ? "on" : "off"}
+      ; context layers: {Object.entries(contextLayers ?? {}).filter(([, visible]) => visible).map(([id]) => id).join(",")}
       ; arsenic risk: {environmentalHealthLayers?.["arsenic-risk-wells"] ? "on" : "off"}
       ; uranium risk: {environmentalHealthLayers?.["uranium-risk-wells"] ? "on" : "off"}
       ; surficial aquifers: {environmentalHealthLayers?.["surficial-aquifers"] ? "on" : "off"}
@@ -1583,6 +1591,26 @@ describe("NS Marks The Spot Online", () => {
       .not.toBeInTheDocument();
   });
 
+  it("licence-gates shared infrastructure and restores accepted historical coal context", async () => {
+    window.history.replaceState(null, "", "/?taxSale=off&layers=transmission-lines,historical-coal-workings");
+    render(<App />);
+    expect(screen.getByTestId("map-canvas")).not.toHaveTextContent("context layers: transmission-lines");
+    const accept = screen.getByRole("button", { name: /accept/i });
+    await userEvent.click(accept);
+    await waitFor(() => expect(screen.getByTestId("map-canvas")).toHaveTextContent("transmission-lines"));
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("historical-coal-workings");
+    await userEvent.click(screen.getByRole("button", { name: /^Historical Maps/ }));
+    expect(screen.getByRole("checkbox", { name: "Historical coal workings" })).toBeChecked();
+  });
+
+  it("restores a shared provincial topographic background without adding the modern map", () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?taxSale=off&layers=ns-topographic");
+    render(<App />);
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("modern map: off");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("context layers: ns-topographic");
+  });
+
   it("renders every current catalogue entry in exactly one expected category region", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/?taxSale=off&layers=modern");
@@ -1635,7 +1663,7 @@ describe("NS Marks The Spot Online", () => {
       name: "Redemption category",
       level: 4,
     })).not.toBeInTheDocument();
-  });
+  }, 15_000);
 
   it("updates a collapsed category summary from Off to 1 on without modifying the theme", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");

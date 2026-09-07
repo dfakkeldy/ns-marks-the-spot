@@ -1,3 +1,4 @@
+import { contextLayerCatalog } from "./contextLayerCatalog";
 import { describe, expect, it } from "vitest";
 import {
   churchLayerCatalog,
@@ -18,6 +19,7 @@ import {
 } from "./layerCategories";
 
 const catalogueIds = [
+  ...contextLayerCatalog.map(({ id }) => id),
   "modern",
   fletcherLayerCatalog.id,
   ...provinceLayerCatalog.map((layer) => layer.id),

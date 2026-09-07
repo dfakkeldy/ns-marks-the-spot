@@ -1,3 +1,4 @@
+import { contextLayerCatalog } from "../layers/contextLayerCatalog";
 import {
   isLayerCategoryId,
   layerCategories,
@@ -133,7 +134,7 @@ export const builtInMapThemes = [
  * list them either — a native panel has no row to reproduce for them.
  */
 const nativeExcludedLayerIds = new Set<CategorizedLayerId>(
-  liveConditionsLayerCatalog.map(({ id }) => id),
+  [...liveConditionsLayerCatalog, ...contextLayerCatalog].map(({ id }) => id),
 );
 
 export function buildMapPresentationFixture(): MapPresentationFixture {

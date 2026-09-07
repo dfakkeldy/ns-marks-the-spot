@@ -22,9 +22,36 @@ import {
 } from "../../services/printSnapshot";
 import { ADJACENT_ROAD_DISTANCE_METRES } from "../../services/parcelContext";
 import { PrintFieldDocument } from "./PrintFieldDocument";
-import { PrintResearchDocument } from "./PrintResearchDocument";
+import { ActiveLayerLegend, PrintResearchDocument } from "./PrintResearchDocument";
+import { contextLayerCatalog } from "../../layers/contextLayerCatalog";
 
 const shareUrl = "https://example.test/map/?pid=01234567";
+
+it("prints every captured context layer with its source name and a defined legend treatment", () => {
+  render(<ActiveLayerLegend sources={contextLayerCatalog.map((layer) => ({
+    id: layer.id,
+    name: layer.name,
+    sourceUrl: layer.sourceUrl,
+    sourceDate: layer.sourceDate,
+    licenceUrl: layer.licenceUrl,
+    attribution: "Context source attribution",
+  }))} />);
+
+  const legend = screen.getByLabelText("Active map layers");
+  for (const layer of contextLayerCatalog) {
+    const row = within(legend).getByText(layer.name).closest("li")!;
+    expect(row.querySelector(".print-layer-symbol"))
+      .toHaveAttribute("data-symbol-kind", "source-classes");
+    if (layer.delivery === "feature-query" || layer.delivery === "static-image") {
+      const classes = within(row).getByLabelText(`${layer.name} classes`);
+      for (const { label } of layer.legend) {
+        expect(within(classes).getAllByText(label).length).toBeGreaterThan(0);
+      }
+    } else {
+      expect(within(row).queryByLabelText(`${layer.name} classes`)).not.toBeInTheDocument();
+    }
+  }
+});
 const scale = { label: "200 m", metres: 200, pixels: 80 };
 const qr = { status: "error" as const };
 const readyQr = {

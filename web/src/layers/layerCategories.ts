@@ -1,3 +1,4 @@
+import { contextLayerCategories } from "./contextLayerCatalog";
 import type { ChurchCountyLayerId } from "./layerCatalog";
 import type { ShareLayerId } from "../services/mapShareState";
 
@@ -40,6 +41,7 @@ export const layerCategories = [
 ] as const satisfies readonly LayerCategoryDefinition[];
 
 export const layerCategoryByLayerId = {
+  ...contextLayerCategories,
   modern: "background-maps",
   "ns-aerial": "background-maps",
   nsprd: "land-property",

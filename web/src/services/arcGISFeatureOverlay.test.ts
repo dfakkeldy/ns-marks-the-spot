@@ -68,6 +68,19 @@ describe("ArcGIS feature overlays", () => {
     expect(requestUrl.searchParams.get("units")).toBe("esriSRUnit_Meter");
   });
 
+  it("continues when a server reports a short transfer-limited page", async () => {
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(new Response(JSON.stringify({ type: "FeatureCollection", features: [feature(1)], exceededTransferLimit: true })))
+      .mockResolvedValueOnce(new Response(JSON.stringify({ type: "FeatureCollection", features: [feature(2)], exceededTransferLimit: false })));
+    vi.stubGlobal("fetch", fetchMock);
+    const collection = await fetchArcGISFeatureOverlay({
+      serviceUrl: "https://example.test/FeatureServer/0",
+      bounds: { west: -62, south: 45, east: -60, north: 47 }, outFields: ["geo_id"],
+    });
+    expect(collection.features).toHaveLength(2);
+    expect(new URL(fetchMock.mock.calls[1][0]).searchParams.get("resultOffset")).toBe("1");
+  });
+
   it("continues through full pages and removes duplicate records", async () => {
     const fullPage = Array.from({ length: 2_000 }, (_, index) => feature(index));
     const fetchMock = vi
