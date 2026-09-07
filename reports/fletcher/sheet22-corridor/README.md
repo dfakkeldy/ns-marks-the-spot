@@ -1,5 +1,9 @@
 # Sheet 22 / Hawkesbury: checked road-corridor preview
 
+A subsequent [southern seam diagnostic](../southern-seam/README.md) joins this
+with Judique and Mabou, closes coverage gaps, and retains a failed 27.79 m road
+step at the Judique–Hawkesbury cut. This earlier corridor result stays intact.
+
 A cropped TPS preview now covers the checked portion of the requested corridor,
 from Craignish through Troy and Port Hastings into northern Port Hawkesbury.
 It preserves all **17 saved hand controls**, adds two verified coastal controls,
