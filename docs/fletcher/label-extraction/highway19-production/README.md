@@ -21,20 +21,34 @@ existing `deepseek-cc-switch/deepseek-v4-flash-vision-exp` connection. A session
 export confirms that provider and model. Actual billed cost is unavailable;
 OpenCode's custom-provider zero cost is not evidence of free use.
 
-**No sheet is finalized yet.** All 145 first-pass crops have finished. After seven
-serialization repairs that required no model calls, 131 responses pass structural
-validation, containing **1,156 candidate records**; 14 original responses remain
-structurally unresolved, with their source crops reviewed separately. Candidate files deliberately retain duplicates,
-tentative readings and unreliable model-estimated lettering boxes. Their
-geometry is null. **185 source-reviewed annotations** are saved separately in
-`sheet-22-reviewed.json`, with corrected boxes and explicit edge-review notes.
-The original ten IDs are preserved. The first three rows have been visually
-inspected (21 of 35 sheet 22 crops). Large ANTIGONISH lettering is assembled,
-and tentative Shops has been corrected to Shop after separating an adjacent
-building symbol. School-name typography, an obscured H in the large river title,
-and geological structure scope holdbacks remain explicit.
-Twenty-nine of the 185 records are printed spot-height labels;
-they do not establish modern elevations or a vertical datum.
+**Sheet 22 is finalized as a source-only transcription:** 301 reviewed
+annotations, all 35 native crops inspected, and 448 readable first-pass candidate
+identities reconciled in `sheet-22-finalization.json`. All geometry remains null;
+this does not establish geographic placement or georeferencing acceptance.
+The original ten F22 identities and all 133 existing Judique identities are
+preserved. The earlier Peter’s Road annotation keeps ID159 and is completed to
+**Saint Peter’s Road** using its full printed prefix.
+
+Four readings remain explicitly qualified: McInnesHill typography, the obscured
+H in RIVER INHABITANTS, the incomplete large county fragment R I, and overprinted
+140 FT. No missing county-name continuation is invented. Forty-one records are
+printed spot-height labels; these do not establish modern elevations or a datum.
+Nine FAULT/FAULT ? words and two Dyke occurrences are included as literal
+geological annotations, without inferred structure geometry. Unit codes,
+dip/strike numbers, report references and marginal apparatus remain excluded.
+
+All 145 first-pass crops have finished. After seven serialization repairs that
+required no model calls, 131 responses pass structural validation, containing
+1,156 unreviewed candidate records. Fourteen original responses remain
+structurally unresolved and preserved. Sheet 22 source review covers its six
+invalid responses independently; it does not turn those originals into valid
+model output. Sheets 19, 16 and 14 still await complete source review. Judique’s first 14 of
+35 crops are now reconciled in `sheet-19-north-review-evidence.json`. Its
+`sheet-19-reviewed.json` retains the original 133 identities and adds 18 distinct
+source annotations (151 total). Original source files remain unchanged. The
+production record for ID130 completes CRAIGNISH to CRAIGNISH HILLS using five
+additional native letter boxes. This is a partial inventory, not sheet finalization.
+
 The first source checks found compass text incorrectly included, a clipped
 "Rock dries" misread as "Rocky", and substantially displaced model boxes.
 The native crops remain the authoritative evidence for all repairs. Three new
@@ -62,7 +76,16 @@ See `third-row-west-review-evidence.json` for the earlier receipts and
 `third-row-completion-review-evidence.json` for the later adjudication and
 dispositions of all 124 original row-three candidate identities, including five
 visible in the incomplete R03C05 response. Lower-row labels incidentally visible
-in detail windows still await the normal coverage review.
+in those windows were subsequently reviewed in the final-row pass.
+
+The final two rows add Richmond Mine, mills, schools, old road names, ferry and
+wharf labels, and the complete GUYSBOROUGH title. Eight further DeepSeek native
+detail passes support the review; one extra JSON quote was repaired without a
+model rerun, preserving the original answer and receipt. Source inspection
+rejects combined “Forge Harbour” and “50 FT of FAULT” readings, separating Pirate
+Harbour from its forge and the island name from height/geological lettering.
+See `final-rows-review-evidence.json` for receipts, corrections and dispositions,
+and `sheet-22-finalization.json` for complete coverage and the identity audit.
 
 ## Continuing the queue
 
@@ -140,16 +163,27 @@ not every unchanged check. Pause that continuation when all four sheets finish.
    `clear` classification and a successful subprocess do not establish source
    accuracy or completeness.
 
-Use `F22-HAW-186` onward for additional sheet 22 reviewed annotations. Do not
-renumber existing IDs. Next inspect R04C01 eastward and reconcile overlap with the
-reviewed rows. The C05-NW/NE/SW/SE detail answers under `review-20260906-03` have
-been source-reviewed; do not rerun them. Narrow lower-edge contexts under
-`review-20260906-04` can be reused during row-four review. The river-title H
-remains partly obscured; do not manufacture a clearer reading from model guesses.
-Reuse the existing RAILWAY, INHABITANTS and HORTON-EDGE detail packets under
-`review-20260906-02` for lower-edge context; do not rerun them. Prefer smaller
-windows over another broad STRAIT model pass. The survey and regional strait
-annotations are already complete; their lower-row pieces are duplicates.
+**Next: sheet 19, R03C01 eastward.** The first two rows (14/35 crops) are
+source-reviewed. Continue with R03–R05, retaining IDs001–151 and original source
+provenance; use `F19-JUD-152` onward only for distinct source occurrences.
+Original R03C03 and R03C06 answers have invalid model boxes and require native
+source checking, not automatic acceptance or a rerun of successful packets.
+Reuse the eight finished detail packets in `review-20260907-19-01` and
+`review-20260907-19-02`; all have been source-reviewed. Prior tiny-label
+uncertainties remain explicit. Do not begin placement as part of extraction.
+Sheets 16 and 14 follow once sheet 19 is finalized.
+
+Sheet 22 is closed for the initial source pass; reserve `F22-HAW-302` onward for
+any later additions without renumbering. Reuse existing successful detail packets
+under `review-20260906-01` through `review-20260906-06`; never rerun them merely to
+recreate output. The final southwest-minerals detail has a separate format-repaired
+answer; its original failed serialization and receipt remain preserved.
+
+Production continues in the separate worktree
+`/Users/dfakkeldy/.codex/worktrees/fletcher-production-2/ns-marks-the-spot`,
+branch `codex/fletcher-highway19-production-2`, based on `nightly`. The earlier
+production PR364 and church correction PR366 are merged. The original worktree
+continues to serve the placement review; production does not switch its branch.
 The first-pass queue has stopped normally; do not restart successful packets.
 Keep private residence observations out of public data.
 Publish incremental reviewed work to this task's PR against `nightly`; do not
