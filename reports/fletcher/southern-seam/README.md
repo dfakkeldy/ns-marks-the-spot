@@ -1,11 +1,34 @@
-# Judique–Hawkesbury seam: joined diagnostic, acceptance still fails
+# Judique–Hawkesbury seam: accepted for approximate corridor browsing
 
 The combined preview now has continuous raster coverage along the tested
 Route 19 centreline from Port Hastings to Mabou. It includes the existing
-Highway 4 corridor into northern Port Hawkesbury. The geographic seam is **not
-accepted**: the actual grid-aligned cut leaves a **27.79 m road-centre step**,
-above the predeclared 25 m limit. This is an explicitly labelled diagnostic,
-not a seamless tileset or a published replacement layer.
+Highway 4 corridor into northern Port Hawkesbury. On 2026-09-07 the user accepted
+the current join for **approximate corridor browsing**, including its **27.79 m road-centre step**. The original 25 m
+working target still fails; this specific browsing exception does not change
+the measurements or establish a new tolerance for other seams. This is not a
+seamless tileset or a published replacement layer.
+
+The accepted downloads are in `~/Downloads/fletcher-southern-seam/accepted/`:
+
+- `hawkesbury-mabou-browsing-preview.tif` — the combined corridor.
+- `judique-hawkesbury-browsing-detail.tif` — full-resolution southern join.
+- `browsing-acceptance.json` — acceptance scope, original hashes and limitations.
+
+They are byte-identical copies of the original diagnostic TIFFs. The
+[acceptance record](browsing-acceptance.json) is separate from the preserved
+original failed scores and artifact receipt.
+
+### Colour review
+
+The dominant contrast is printed olive hatching versus orange map fill, visible
+inside the frames in the [Judique edge](colour-review-sheet19.png) and
+[Hawkesbury edge](colour-review-sheet22.png). The paper outside the frames is
+much closer in colour. No reliable paper-only correction was identified that
+would remove this contrast while preserving the printed information. Blending
+displaced road linework could also create a doubled road. The delivered version
+therefore preserves the source colours and sharp linework; the visible colour
+seam remains. The earlier suggestion to blend paper colours overstated how
+much that would help this particular join.
 
 ![Actual clipped rasters and joined diagnostic](join-comparison.jpg)
 
@@ -46,9 +69,9 @@ and cannot detect along-road displacement. These results do not accept
 mountainous or wider sheet coverage.
 
 The revised minimum road step is 27.13 m. Rounding the cut inward onto the
-5 m projected raster grid gives the delivered **27.79 m**, still a failure.
-The limit was not relaxed and source coordinates were not moved to make it
-pass. [Scores](scores.json) separate this failure from passing local geography.
+5 m projected raster grid gives the delivered **27.79 m**, still a failure
+against the original target. The recorded target was not relaxed and source
+coordinates were not moved to make it pass. [Scores](scores.json) separate this failure from passing local geography.
 A nearby old road junction was rejected as a further anchor: the modern road
 network does not establish an unambiguous surviving counterpart. Smaller
 coastal marks were also excluded where modern hydrography did not identify them.
@@ -77,7 +100,8 @@ Final [coverage checks](coverage.json) find **zero transparent samples out of
 10,462**, and **zero transparent cells out of 21,568 output cells touched by
 the modern Route 19 line**. The checked range is 45.6473–46.0799 latitude.
 Duplicate source segments do not turn these into independent observations.
-Coverage is a raster-mechanics result; it does not override the failed seam.
+Coverage is a raster-mechanics result; it does not override the failed 25 m
+comparison. Browsing acceptance is the separate user decision recorded above.
 The Highway 4 section retains the preceding Hawkesbury artifact and its checks.
 
 ## Artifacts and browser verification
@@ -144,10 +168,16 @@ With the NSMtS development server on port 4197, run `verify-browser.mjs` with
 TIFF path and output directory arguments. It supports the combined and detail
 TIFF names above.
 
-Next acceptance work needs a defensible additional geographic constraint near
-the road join, followed by fresh checks, or an explicit reconsideration of the
-seam tolerance. The present result is preserved rather than rounded into a pass.
-Wider sheet seams, southern town and the inland lake remain separate work.
+The original diagnostic renderer and its 25 m guard remain unchanged. To
+reproduce the accepted exports, render the diagnostics, verify their hashes
+against the acceptance record, then copy the two TIFFs to the accepted names
+listed above without altering their contents. Acceptance applies to those
+recorded hashes; changed imagery or fitting needs its own review.
+
+Further geographic improvement would require a defensible additional constraint
+near the road join and fresh checks. It no longer blocks this accepted browsing
+preview. Wider sheet seams, southern town and the inland lake remain separate
+work. Final tile publication has not been performed.
 
 Imagery: David Rumsey Map Collection / David Rumsey Map Center, Stanford
 University Libraries; CC BY-NC-SA 3.0 and recorded project permission. Crop,
