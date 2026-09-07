@@ -1,0 +1,70 @@
+{
+  "id": "L19M",
+  "sheet": "19-base",
+  "role": "check-trace",
+  "pixel_xy": [
+    [
+      3894,
+      4850
+    ],
+    [
+      3896,
+      4900
+    ],
+    [
+      3910,
+      4950
+    ],
+    [
+      3924,
+      5000
+    ],
+    [
+      3938,
+      5050
+    ],
+    [
+      3957,
+      5100
+    ],
+    [
+      3977,
+      5150
+    ],
+    [
+      3999,
+      5200
+    ],
+    [
+      4021,
+      5250
+    ],
+    [
+      4040,
+      5300
+    ],
+    [
+      4059,
+      5350
+    ]
+  ],
+  "source_crop": {
+    "native_box": [
+      3830,
+      4840,
+      4080,
+      5370
+    ],
+    "display_size": [
+      500,
+      1060
+    ],
+    "rotation_degrees": 0,
+    "coordinate_convention": "original scan image-edge x/y"
+  },
+  "model": "unchanged 39-control Judique TPS",
+  "identity_evidence": "Paired coastal road through Long Point, crossing the visible streams and east-road junction. Excludes shoreline and stripe hatching.",
+  "uncertainty_native_px": 5,
+  "review": "agent native trace before score; not specifically user-reviewed",
+  "limitation": "Correlated lateral-only road samples; not along-road or full-area accuracy."
+}
