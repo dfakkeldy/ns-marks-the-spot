@@ -290,14 +290,14 @@ function MeasureCapture({
           );
         })}
       </Pane>
-      <p className="measure-readout" role="status">
+      {(!driveway || points.length >= MIN_FINISH_POINTS[mode]) && <p className="measure-readout" role="status">
         {readoutText(mode, points)}
         {/* The gestures are otherwise undiscoverable; surface them once a
             measurement is underway. */}
-        {!finished && points.length > 0
-          ? driveway ? " · Tap Finish for total" : " · double-click or Enter to finish · Esc to clear"
+        {!driveway && !finished && points.length > 0
+          ? " · double-click or Enter to finish · Esc to clear"
           : null}
-      </p>
+      </p>}
     </>
   );
 }

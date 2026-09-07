@@ -50,7 +50,8 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
       const undoBox = await box(page.getByRole("button", { name: "Undo point", exact: true }));
       expect(finishBox.y).toBe(undoBox.y);
       expect(finishBox.height).toBeGreaterThanOrEqual(44);
-      const readout = await box(page.locator(".measure-readout"));
+      await expect(page.locator(".measure-readout")).toHaveCount(0);
+      const readout = await box(page.locator(".poker-workspace"));
       const scale = await box(page.locator(".leaflet-control-scale"));
       const screenScale = await box(page.locator(".display-scale-readout"));
       const attribution = await box(page.locator(".map-attribution"));

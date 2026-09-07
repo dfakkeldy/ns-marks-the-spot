@@ -41,7 +41,9 @@
     padding: 10px;
     border: 1px solid var(--line);
     border-radius: 14px;
-    background: var(--white);
+    background: color-mix(in srgb, var(--white) 65%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     color: var(--chart-ink);
     box-shadow: 0 2px 12px #12343b40;
   }
@@ -78,6 +80,7 @@
     padding: 0 4px;
     border: 1px solid var(--line);
     box-shadow: none;
+    background: color-mix(in srgb, var(--white) 35%, transparent);
     font-size: 13px;
   }
   .poker-workspace .measure-readout {
@@ -88,6 +91,8 @@
     font-size: 12px;
     text-align: center;
     pointer-events: auto;
+    background: transparent;
+    border: 0;
   }
   .leaflet-container:has(.poker-workspace) .display-scale-readout {
     left: auto;
