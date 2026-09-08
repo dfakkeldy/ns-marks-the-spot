@@ -2908,21 +2908,41 @@ describe("NS Marks The Spot Online", () => {
     ).toBeGreaterThan(0);
   });
 
-  it("reveals the privacy-minimized upcoming events after acceptance", async () => {
+  // Accepting the licence after every category is open rebuilds a large
+  // accessibility tree, then this test queries many labels. 5s is enough
+  // locally; the shared CI runner needs more headroom for the same queries.
+  it("reveals the privacy-minimized upcoming events after acceptance", { timeout: 15_000 }, async () => {
     const user = userEvent.setup();
     setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
+    const licenceDialog = await screen.findByRole(
+      "dialog",
+      { name: "Province data licence" },
+      { timeout: 10_000 },
+    );
     await user.click(
-      screen.getByRole("button", { name: "Accept and view map layers" }),
+      within(licenceDialog).getByRole("button", {
+        name: "Accept and view map layers",
+      }),
     );
 
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    }, { timeout: 10_000 });
     expect(
-      screen.getByText("27 advertised · 18 withdrawn · 27 active PIDs"),
+      await screen.findByText(
+        "27 advertised · 18 withdrawn · 27 active PIDs",
+        undefined,
+        { timeout: 10_000 },
+      ),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("13 advertised · 0 withdrawn · 14 active PIDs"),
+      await screen.findByText(
+        "13 advertised · 0 withdrawn · 14 active PIDs",
+        undefined,
+        { timeout: 10_000 },
+      ),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
