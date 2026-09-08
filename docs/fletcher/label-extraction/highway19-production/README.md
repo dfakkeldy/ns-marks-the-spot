@@ -5,6 +5,12 @@ from Port Hawkesbury through Judique and Port Hood/Mabou to Cape Mabou and Broad
 Cove. Geographic placement is deferred. This work does not change georeferencing
 acceptance or the existing placement pilot.
 
+Sheets 19, 16 and 22 now also have a separate
+[lettering-geography derivative](../../../../reports/fletcher/label-geography/README.md)
+using PR #380's full-sheet fits. It preserves these source-only inventories and
+records original pixels and fit revisions alongside derived lettering centres.
+Feature/site placement remains deferred.
+
 ## Production state
 
 **The initial source inventories for all four corridor sheets are finalized:**

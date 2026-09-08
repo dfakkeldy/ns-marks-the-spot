@@ -1,0 +1,357 @@
+{
+  "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+  "fit_sha256": "8eaa8822e820af83790e940510cf8619b14f14a571160b8ad0ea5c5dce36a44c",
+  "image_sha256": "7dee73a50e8a5e019ab8f42365ca724a971e06a02f1096824ebd70a4831dcee7",
+  "frames": [
+    {
+      "annotation_id": "F16-PHM-001",
+      "box_index": 0,
+      "source_xywh": [
+        3833,
+        950,
+        377,
+        105
+      ],
+      "displayed_dimensions_px": [
+        470,
+        131
+      ],
+      "display_offset_xy": [
+        15,
+        62
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        3868,
+        985,
+        307,
+        35
+      ],
+      "source_anchor_xy": [
+        4021.5,
+        1002.5
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-042",
+      "box_index": 0,
+      "source_xywh": [
+        6915,
+        1023,
+        174,
+        119
+      ],
+      "displayed_dimensions_px": [
+        234,
+        160
+      ],
+      "display_offset_xy": [
+        515,
+        62
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        6950,
+        1058,
+        104,
+        49
+      ],
+      "source_anchor_xy": [
+        7002.0,
+        1082.5
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-125",
+      "box_index": 0,
+      "source_xywh": [
+        7145,
+        3360,
+        240,
+        113
+      ],
+      "displayed_dimensions_px": [
+        340,
+        160
+      ],
+      "display_offset_xy": [
+        1015,
+        62
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        7180,
+        3395,
+        170,
+        43
+      ],
+      "source_anchor_xy": [
+        7265.0,
+        3416.5
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-140",
+      "box_index": 0,
+      "source_xywh": [
+        9590,
+        2789,
+        162,
+        106
+      ],
+      "displayed_dimensions_px": [
+        245,
+        160
+      ],
+      "display_offset_xy": [
+        15,
+        312
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        9625,
+        2824,
+        92,
+        36
+      ],
+      "source_anchor_xy": [
+        9671.0,
+        2842.0
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-146",
+      "box_index": 0,
+      "source_xywh": [
+        1284,
+        4055,
+        471,
+        121
+      ],
+      "displayed_dimensions_px": [
+        470,
+        121
+      ],
+      "display_offset_xy": [
+        515,
+        312
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        1319,
+        4090,
+        401,
+        51
+      ],
+      "source_anchor_xy": [
+        1519.5,
+        4115.5
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-147",
+      "box_index": 0,
+      "source_xywh": [
+        1231,
+        4182,
+        309,
+        117
+      ],
+      "displayed_dimensions_px": [
+        423,
+        160
+      ],
+      "display_offset_xy": [
+        1015,
+        312
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        1266,
+        4217,
+        239,
+        47
+      ],
+      "source_anchor_xy": [
+        1385.5,
+        4240.5
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-149",
+      "box_index": 0,
+      "source_xywh": [
+        1428,
+        4302,
+        158,
+        107
+      ],
+      "displayed_dimensions_px": [
+        236,
+        160
+      ],
+      "display_offset_xy": [
+        15,
+        562
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        1463,
+        4337,
+        88,
+        37
+      ],
+      "source_anchor_xy": [
+        1507.0,
+        4355.5
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-193",
+      "box_index": 0,
+      "source_xywh": [
+        9531,
+        4249,
+        190,
+        107
+      ],
+      "displayed_dimensions_px": [
+        284,
+        160
+      ],
+      "display_offset_xy": [
+        515,
+        562
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        9566,
+        4284,
+        120,
+        37
+      ],
+      "source_anchor_xy": [
+        9626.0,
+        4302.5
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-197",
+      "box_index": 0,
+      "source_xywh": [
+        1446,
+        4350,
+        119,
+        373
+      ],
+      "displayed_dimensions_px": [
+        51,
+        160
+      ],
+      "display_offset_xy": [
+        1015,
+        562
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        1481,
+        4385,
+        49,
+        303
+      ],
+      "source_anchor_xy": [
+        1505.5,
+        4536.5
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-200",
+      "box_index": 0,
+      "source_xywh": [
+        1315,
+        4739,
+        297,
+        134
+      ],
+      "displayed_dimensions_px": [
+        355,
+        160
+      ],
+      "display_offset_xy": [
+        15,
+        812
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        1350,
+        4774,
+        227,
+        64
+      ],
+      "source_anchor_xy": [
+        1463.5,
+        4806.0
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-234",
+      "box_index": 0,
+      "source_xywh": [
+        7562,
+        4939,
+        153,
+        100
+      ],
+      "displayed_dimensions_px": [
+        245,
+        160
+      ],
+      "display_offset_xy": [
+        515,
+        812
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        7597,
+        4974,
+        83,
+        30
+      ],
+      "source_anchor_xy": [
+        7638.5,
+        4989.0
+      ]
+    },
+    {
+      "annotation_id": "F16-PHM-256",
+      "box_index": 0,
+      "source_xywh": [
+        9199,
+        6291,
+        412,
+        152
+      ],
+      "displayed_dimensions_px": [
+        434,
+        160
+      ],
+      "display_offset_xy": [
+        1015,
+        812
+      ],
+      "rotation_degrees": 0,
+      "source_label_box_xywh": [
+        9234,
+        6326,
+        342,
+        82
+      ],
+      "source_anchor_xy": [
+        9405.0,
+        6367.0
+      ]
+    }
+  ],
+  "mapping": "Subtract display_offset_xy, then source_xywh origin plus display coordinate times source extent / displayed_dimensions_px. No rotation.",
+  "scope": "Representative first-box frame review; native crop equality for all production packets is recorded separately."
+}
