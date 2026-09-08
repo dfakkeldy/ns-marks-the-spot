@@ -1,0 +1,140 @@
+{
+  "fit_sha256": "4e79c9645b9549b01ff85d0ac4ed783aa69fb377a729b91fb9853342ccc5ddbc",
+  "points": [
+    {
+      "id": "D01",
+      "role": "check",
+      "pixel_xy": [
+        4954,
+        1151
+      ],
+      "lonlat": [
+        -61.4373118,
+        45.9233856
+      ],
+      "modern_node": "J0895",
+      "modern_objectids": [
+        195560,
+        195683,
+        209514
+      ],
+      "identity_evidence": "Northern edge: southeast tributary joins the north\u2013south Ben Noah stem just inside the neatline. Followed east tributary and downstream road/branch order toward B01/B02.",
+      "source_uncertainty_px": 6,
+      "native_audit": {
+        "preliminary_xy": [
+          4953,
+          1153
+        ],
+        "final_xy": [
+          4954,
+          1151
+        ],
+        "reason": "Corrected to observed branch intersection on 4\u00d7 native crop before numerical evaluation."
+      },
+      "review": "Agent native crosshair and topology inspection; not user point-by-point audit."
+    },
+    {
+      "id": "D02",
+      "role": "check",
+      "pixel_xy": [
+        9196,
+        1560
+      ],
+      "lonlat": [
+        -61.2469322,
+        45.9123613
+      ],
+      "modern_node": "J0937",
+      "modern_objectids": [
+        197843,
+        274529,
+        274669
+      ],
+      "identity_evidence": "Northeast: short western tributary joins the descending main stem, downstream from the existing falls tributary O05 and above the next longer western tributary.",
+      "source_uncertainty_px": 6,
+      "native_audit": {
+        "preliminary_xy": [
+          9183,
+          1556
+        ],
+        "final_xy": [
+          9196,
+          1560
+        ],
+        "reason": "Corrected to observed branch intersection on 4\u00d7 native crop before numerical evaluation."
+      },
+      "review": "Agent native crosshair and topology inspection; not user point-by-point audit."
+    },
+    {
+      "id": "D03",
+      "role": "check",
+      "pixel_xy": [
+        8153,
+        3416
+      ],
+      "lonlat": [
+        -61.2903126,
+        45.8499052
+      ],
+      "modern_node": "J1188",
+      "modern_objectids": [
+        196740,
+        196741,
+        196914
+      ],
+      "identity_evidence": "Central eastern hills: next western tributary below B04/B05 joins the southeast-flowing East Branch before hatching and the railway corridor. Separate small north twig lies immediately downstream and is not the selected junction.",
+      "source_uncertainty_px": 6,
+      "native_audit": {
+        "preliminary_xy": [
+          8157,
+          3410
+        ],
+        "final_xy": [
+          8153,
+          3416
+        ],
+        "reason": "Corrected to observed branch intersection on 4\u00d7 native crop before numerical evaluation."
+      },
+      "review": "Agent native crosshair and topology inspection; not user point-by-point audit."
+    },
+    {
+      "id": "D04",
+      "role": "check",
+      "pixel_xy": [
+        9216,
+        6501
+      ],
+      "lonlat": [
+        -61.2419871,
+        45.7527618
+      ],
+      "modern_node": "J1491",
+      "modern_objectids": [
+        195853,
+        197964,
+        197965
+      ],
+      "identity_evidence": "Southeastern edge: southeast tributary joins the north-to-southwest stem immediately above the printed southern frame, below the hatched reach and north/east meander.",
+      "source_uncertainty_px": 6,
+      "native_audit": {
+        "preliminary_xy": [
+          9218,
+          6492
+        ],
+        "final_xy": [
+          9216,
+          6501
+        ],
+        "reason": "Corrected to observed branch intersection on 4\u00d7 native crop before numerical evaluation."
+      },
+      "review": "Agent native crosshair and topology inspection; not user point-by-point audit."
+    }
+  ],
+  "rejected": [
+    {
+      "candidate": "WB at [7563,3559]",
+      "reason": "Native audit shows a road crossing, not a secure stream confluence; do not use the guide node as correspondence."
+    }
+  ],
+  "method": "Original scan inspected against independent affine search guide and NSTDB topology. Candidate TPS predictions not used for selection."
+}
