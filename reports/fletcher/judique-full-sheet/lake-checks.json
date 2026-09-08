@@ -1,0 +1,46 @@
+{
+  "candidate_sha256": "4e79c9645b9549b01ff85d0ac4ed783aa69fb377a729b91fb9853342ccc5ddbc",
+  "points": [
+    {
+      "id": "L01",
+      "role": "check",
+      "pixel_xy": [
+        6032,
+        6290
+      ],
+      "lonlat": [
+        -61.3889847,
+        45.7577946
+      ],
+      "modern_objectids": [
+        123842,
+        123927,
+        269115
+      ],
+      "label": "Long lake northern inlet",
+      "source_uncertainty_px": 8,
+      "identity_evidence": "Northern convergence of lake banks at incoming west stream, downstream of new road-crossing control; weak independence, separate physical position. Crosshair corrected from [6017,6288] on native inspection before scoring."
+    },
+    {
+      "id": "L02",
+      "role": "check",
+      "pixel_xy": [
+        5720,
+        6492
+      ],
+      "lonlat": [
+        -61.4038423,
+        45.7510059
+      ],
+      "modern_objectids": [
+        124540,
+        124541,
+        212551
+      ],
+      "label": "Lobed pond southwest outlet",
+      "source_uncertainty_px": 10,
+      "identity_evidence": "Separate western pond, distinctive lobes and southern outlet bends west then south; red overprint adds uncertainty. Crosshair corrected from [5704,6495] to bank convergence before scoring."
+    }
+  ],
+  "note": "Checks frozen after fitting controls selected but before numerical scoring. Shoreline endpoints have greater uncertainty than fixed road crossings."
+}
