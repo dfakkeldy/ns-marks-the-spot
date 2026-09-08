@@ -373,14 +373,21 @@ final class MapChromeUITests: XCTestCase {
         // screen allows.
         let panel = app.scrollViews["layer-panel-scroll"]
         XCTAssertTrue(panel.waitForExistence(timeout: timeout), "the panel has no scrolling region")
-        let exposed = panel.frame.minX
+        // The panel slides in from the trailing edge. A tap taken from the
+        // first hittable frame lands on the moving overlay, MapKit never
+        // sees it, and the panel stays open.
+        XCTAssertTrue(
+            panel.waitForStableFrame(in: app.windows.firstMatch, timeout: timeout),
+            "the layers panel was still moving"
+        )
+        let exposed = panel.frame.minX - app.windows.firstMatch.frame.minX
         try XCTSkipIf(exposed < 24, "no map is exposed beside the panel on this screen")
-        app.coordinate(withNormalizedOffset: .zero)
-            .withOffset(CGVector(dx: exposed / 2, dy: panel.frame.midY))
+        panel.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0.5))
+            .withOffset(CGVector(dx: -min(16, exposed / 2), dy: 0))
             .tap()
 
         XCTAssertTrue(
-            close.waitForNonExistence(timeout: 10),
+            waitForUI(timeout: 10) { !close.exists },
             "a tap on the map beside the panel left it open"
         )
         // And the map is still there to be used: the panel gave the tap up,
