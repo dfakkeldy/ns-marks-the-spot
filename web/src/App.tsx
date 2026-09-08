@@ -3398,6 +3398,10 @@ export function App() {
     setSearchError(null);
     setAddressSearchResults([]);
     const pid = normalizePid(rawQuery);
+    if (pokerMode && pid) {
+      setSearchError("Search a civic address in Poker mode.");
+      return;
+    }
 
     if (!pid) {
       const normalizedQuery = rawQuery.trim().replace(/\s+/gu, " ");
@@ -3487,11 +3491,16 @@ export function App() {
   const chooseAddress = (address: CivicAddress) => {
     setQuery(address.label);
     if (pokerMode) {
+      cancelAddressSearch();
+      cancelPointLookup();
+      setAddressSearchResults([]);
+      setParcelLookupMessage(null);
       setSelectedPid(null);
       setPokerAddress(address);
       setPokerRevision((value) => value + 1);
       mapRegionRef.current?.focus({ preventScroll: true });
       setMobileControlsOpen(false);
+      return;
     }
     void identifyParcelAtPoint(
       address.coordinates[1],
@@ -5439,11 +5448,11 @@ export function App() {
             } : null}
             basemapStyle={basemapStyle}
             onUseOsmBasemap={() => setBasemapPreference("osm")}
-            parcels={drawableParcels}
+            parcels={pokerMode ? { type: "FeatureCollection", features: [] } : drawableParcels}
             taxSalePids={effectiveTaxSalePids}
             historicalTaxSalePids={effectiveHistoricalTaxSalePids}
-            selectedPid={selectedPid}
-            provinceLayers={provinceLayers}
+            selectedPid={pokerMode ? null : selectedPid}
+            provinceLayers={pokerMode ? { ...provinceLayers, nsprd: false } : provinceLayers}
             resourceLayers={effectiveResourceLayers}
             hydroPilotLayers={hydroPilotLayers}
             floodHazardLayers={effectiveFloodHazardLayers}

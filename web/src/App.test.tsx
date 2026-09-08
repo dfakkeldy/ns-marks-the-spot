@@ -3909,7 +3909,8 @@ describe("NS Marks The Spot Online", () => {
     await waitFor(() => expect(screen.getByTestId("poker-session")).toHaveTextContent(result.label));
     expect(screen.queryByRole("complementary", { name: "Parcel 50251750 details" })).not.toBeInTheDocument();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("property boundaries: off");
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("selected PID: 50251750");
+    expect(screen.getByTestId("map-canvas")).not.toHaveTextContent("selected PID: 50251750");
+    expect(fetchParcelAtPoint).not.toHaveBeenCalled();
     expect(fetchParcelAssessments).toHaveBeenCalledTimes(assessmentCalls);
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("roads: on");

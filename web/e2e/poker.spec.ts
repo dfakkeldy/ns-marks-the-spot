@@ -17,12 +17,14 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
     await page.setViewportSize(viewport);
     const activate = (control: Locator) => viewport.width <= 860 ? control.tap() : control.click();
     const errors: string[] = [];
+    const parcelQueries: string[] = [];
     page.on("pageerror", error => errors.push(error.message));
     page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
     await page.addInitScript(() => localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted"));
     await page.route("https://**/*", route => {
       const url = route.request().url();
       if (url.includes("tntn-er5g")) return route.fulfill({ json: civic });
+      if (url.includes("/query") && /NSPRD/i.test(url)) parcelQueries.push(url);
       if (url.includes("/query")) return route.fulfill({ json: { type: "FeatureCollection", features: [] } });
       if (route.request().resourceType() === "image") return route.fulfill({ contentType: "image/svg+xml", body: tile });
       return route.fulfill({ contentType: "text/css", body: "" });
@@ -102,5 +104,6 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
     }
     await expect(page.locator("vite-error-overlay")).toHaveCount(0);
     expect(errors).toEqual([]);
+    expect(parcelQueries).toEqual([]);
   });
 }
