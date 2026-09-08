@@ -1,0 +1,19 @@
+{
+  "sheet": "sheet-14",
+  "rumsey_id": "RUMSEY~8~1~2639~290007",
+  "source_path": "/Users/dfakkeldy/Downloads/fletcher-sheet14/native/sheet14.png",
+  "source_sha256": "907ebc260018055cfc9da780a88f127db13834c0f7e831be7bf395c600a6854c",
+  "source_dimensions": [
+    10852,
+    7622
+  ],
+  "manifest_sha256": "deae89536f80b80177eb6eee8198ebed2052d1e875c0e75443238682d830016c",
+  "native_quality_verification": "All 24 cached native IIIF JPEG regions have their requested native dimensions and are pixel-identical to their positions in the assembled PNG. No enlarged preview substitution.",
+  "source_hash_note": "This lossless assembly of native JPEG regions differs in encoding/content bytes from the historical July source receipt. Old source hash is not asserted for this file.",
+  "adjacency_evidence": "Sheet 16 northern margin prints 14; Sheet 14 southern margin prints 16. Inspected native scans.",
+  "existing_physical_controls": 0,
+  "scope": "Complete sheet neatline, including Cape Mabou highlands and eastern interior, not a coastal strip.",
+  "check_policy": "Reserve at least eight distinct physical features across land coverage; no check enters fitting. Checks used for model choice become diagnostic. Seek <=100m median and <=200m worst ground error for label and browsing use at historical scale 1:63360, explicitly report missed targets. Compare affine and TPS, inspect local distortions and full edges.",
+  "guide_policy": "Printed graticule provides search guidance only, not geographic controls or accuracy evidence.",
+  "created_utc": "2026-09-08T23:29:46.561229+00:00"
+}
