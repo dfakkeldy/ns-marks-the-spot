@@ -1323,3 +1323,11 @@ receipts stay with the deployable package. Hosting, upload verification, and
 custom-domain acceptance remain separate gates. The permission does not by
 itself clear native offline bundling. Unsupported historical
 sources remain fail-closed; this web workflow does not change the native app.
+
+### Corrected Fletcher corridor preview
+
+`VITE_FLETCHER_CORRIDOR_TILE_BASE_URL` optionally enables the separately tiled,
+checked Port Hawkesbury–Mabou corridor. It has its own visibility and opacity
+control, retains the accepted approximately 28 m southern sheet offset, and is
+excluded from map exports. Unset by default; the published Fletcher sheet layer
+is unchanged. See [package and local preview instructions](../reports/fletcher/corridor-tiles/README.md).

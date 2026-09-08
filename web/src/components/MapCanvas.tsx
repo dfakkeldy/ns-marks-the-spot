@@ -105,6 +105,7 @@ import { parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 import { MeasureTool, type MeasureMode } from "./MeasureTool";
 import { FletcherTileLayer } from "./FletcherTileLayer";
+import { FletcherCorridorPreview } from "./FletcherCorridorPreview";
 import { ZoningLayer } from "./ZoningLayer";
 import { OldGrowthPolicyLayer } from "./OldGrowthPolicyLayer";
 import { TrafficCameraLayer } from "./TrafficCameraLayer";
@@ -2536,6 +2537,7 @@ export function MapCanvas({
         ) : (
           <MapStatusController id="modern" visible={false} onStatusChange={reportLayerStatus} />
         )}
+        <FletcherCorridorPreview renderMode={renderMode} />
         <FletcherTileLayer
           visible={fletcherVisible}
           opacity={fletcherOpacity}
