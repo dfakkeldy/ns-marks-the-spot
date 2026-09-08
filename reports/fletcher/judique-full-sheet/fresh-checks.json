@@ -1,0 +1,144 @@
+{
+  "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+  "points": [
+    {
+      "id": "E01",
+      "role": "check",
+      "pixel_xy": [
+        8458,
+        1300
+      ],
+      "lonlat": [
+        -61.2764878,
+        45.9163464
+      ],
+      "modern_node": "J0923",
+      "modern_objectids": [
+        195971,
+        274528,
+        274668
+      ],
+      "identity_evidence": "Northeast: northwest descending stem merges with west-flowing-to-east main river immediately east of the southern tributary J0925. Northern stem follows and then leaves the paired road before the Fall 30 label; distinct from downstream O05 falls junction.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          8368,
+          1220,
+          8548,
+          1380
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "native_audit": {
+        "preliminary_xy": [
+          8446,
+          1287
+        ],
+        "final_xy": [
+          8458,
+          1300
+        ],
+        "reason": "Observed junction centre on enlarged source, before score; no fitted prediction used"
+      },
+      "review": "Same-agent topology and crosshair review; not independently user audited"
+    },
+    {
+      "id": "E02",
+      "role": "check",
+      "pixel_xy": [
+        9559,
+        5692
+      ],
+      "lonlat": [
+        -61.2291948,
+        45.7773155
+      ],
+      "modern_node": "J1423",
+      "modern_objectids": [
+        198321,
+        268578,
+        268579
+      ],
+      "identity_evidence": "Southeast: large east tributary joins main stem from northeast, crosses the railway southeast of the junction. Above small western tributaries and downstream from O09; nearby smaller west arm is not chosen.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          9469,
+          5612,
+          9649,
+          5772
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "native_audit": {
+        "preliminary_xy": [
+          9505,
+          5683
+        ],
+        "final_xy": [
+          9559,
+          5692
+        ],
+        "reason": "Observed junction centre on enlarged source, before score; no fitted prediction used"
+      },
+      "review": "Same-agent topology and crosshair review; not independently user audited"
+    },
+    {
+      "id": "E03",
+      "role": "check",
+      "pixel_xy": [
+        6819,
+        4447
+      ],
+      "lonlat": [
+        -61.3512545,
+        45.8163112
+      ],
+      "modern_node": "J1277",
+      "modern_objectids": [
+        222450,
+        273924,
+        273926
+      ],
+      "identity_evidence": "Interior: McPhersons Brook descending from northwest joins long western tributary immediately before eastward stretch to Glendale Brook. Western arm crosses north-south road farther west. Separate upstream fork J1291 not selected.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          6729,
+          4367,
+          6909,
+          4527
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "native_audit": {
+        "preliminary_xy": [
+          6830,
+          4455
+        ],
+        "final_xy": [
+          6819,
+          4447
+        ],
+        "reason": "Observed junction centre on enlarged source, before score; no fitted prediction used"
+      },
+      "review": "Same-agent topology and crosshair review; not independently user audited"
+    }
+  ],
+  "scope": "Three additional positions distributed northeast, southeast, and interior. Same-agent checks, some share catchments with controls; not survey validation."
+}

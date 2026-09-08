@@ -1,0 +1,122 @@
+{
+  "fit_sha256": "8eaa8822e820af83790e940510cf8619b14f14a571160b8ad0ea5c5dce36a44c",
+  "points": [
+    {
+      "id": "M05",
+      "role": "check",
+      "pixel_xy": [
+        9143,
+        2075
+      ],
+      "lonlat": [
+        -61.2537262,
+        46.0608386
+      ],
+      "modern_node": "J0328",
+      "modern_objectids": [
+        199826,
+        274420,
+        274421
+      ],
+      "identity_evidence": "McQueens Brook: thin eastern tributary enters downstream of the long north-south reach, immediately upstream of the road crossing and river outlet. Nearby dip arrows at native y2000 are not tributaries.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          9053,
+          1995,
+          9233,
+          2155
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent native topology and enlarged crosshair before scoring; no user audit"
+    },
+    {
+      "id": "M06",
+      "role": "check",
+      "pixel_xy": [
+        8807,
+        5972
+      ],
+      "lonlat": [
+        -61.2650787,
+        45.9346069
+      ],
+      "modern_node": "J0893",
+      "modern_objectids": [
+        265953,
+        265954,
+        286596
+      ],
+      "identity_evidence": "Next western tributary downstream of M04; main stem turns southeast immediately below the junction, with a separate west-side bifurcation farther upstream on the tributary. Correlated catchment with M04.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          8717,
+          5892,
+          8897,
+          6052
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent native topology and enlarged crosshair before scoring; no user audit"
+    },
+    {
+      "id": "M07",
+      "role": "check",
+      "pixel_xy": [
+        8070,
+        5410
+      ],
+      "lonlat": [
+        -61.3009939,
+        45.9558741
+      ],
+      "modern_node": "J0822",
+      "modern_objectids": [
+        223258,
+        223362,
+        224039
+      ],
+      "identity_evidence": "Southern interior River: southwestern tributary joins meandering north stem upstream from successive eastern arms and road crossing. West arm traced to road and branching drainage; not downstream J0836.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          7980,
+          5330,
+          8160,
+          5490
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent native topology and enlarged crosshair before scoring; no user audit",
+      "native_audit": {
+        "preliminary_xy": [
+          8070,
+          5407
+        ],
+        "final_xy": [
+          8070,
+          5410
+        ],
+        "reason": "Moved three native pixels down to branch centre on enlarged crosshair before score"
+      }
+    }
+  ],
+  "scope": "Fresh locations after 34-control fit frozen; same-agent review and shared catchments limit independence."
+}

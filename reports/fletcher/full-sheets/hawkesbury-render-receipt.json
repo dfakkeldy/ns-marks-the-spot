@@ -1,0 +1,175 @@
+{
+  "fit_sha256": "d19f28006254479a15efb976e438e15230bb29dfbf94b1202419ca2f56e4cb91",
+  "boundary_sha256": "2e58a9529f5dbb238e8739d468a74a3f9c771b2574f1b19c46bf43697c3124fc",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Diagnostic after revision; not fresh validation",
+  "checks_sha256": "c245c9b2f7a4196b962177cf03793881ea0b1126a273d17b87ffc0944043be70",
+  "median_ground_m": 75.89760372852942,
+  "worst_ground_m": 165.23632128223872,
+  "points": [
+    {
+      "id": "Q02",
+      "error_ground_m": 17.595382818926936,
+      "predicted_lonlat": [
+        -61.26474794227071,
+        45.72038469912711
+      ]
+    },
+    {
+      "id": "Q05",
+      "error_ground_m": 92.77249754146897,
+      "predicted_lonlat": [
+        -61.34371822906653,
+        45.700279197686754
+      ]
+    },
+    {
+      "id": "Q08",
+      "error_ground_m": 165.23632128223872,
+      "predicted_lonlat": [
+        -61.519159755759,
+        45.68308701975071
+      ]
+    },
+    {
+      "id": "C04",
+      "error_ground_m": 27.331414341401263,
+      "predicted_lonlat": [
+        -61.38094748453902,
+        45.63535898899432
+      ]
+    },
+    {
+      "id": "C05",
+      "error_ground_m": 156.18935231546055,
+      "predicted_lonlat": [
+        -61.35654149133523,
+        45.63049796507369
+      ]
+    },
+    {
+      "id": "F01",
+      "error_ground_m": 13.49463343303559,
+      "predicted_lonlat": [
+        -61.46308215250368,
+        45.73452136763576
+      ]
+    },
+    {
+      "id": "F02",
+      "error_ground_m": 46.29116342599383,
+      "predicted_lonlat": [
+        -61.43921739210575,
+        45.68858436336398
+      ]
+    },
+    {
+      "id": "F03",
+      "error_ground_m": 125.53816881576724,
+      "predicted_lonlat": [
+        -61.37693577055024,
+        45.63586633186727
+      ]
+    },
+    {
+      "id": "F04",
+      "error_ground_m": 74.49785027386729,
+      "predicted_lonlat": [
+        -61.35681714982991,
+        45.62697406130069
+      ]
+    },
+    {
+      "id": "G01",
+      "error_ground_m": 46.98776874734643,
+      "predicted_lonlat": [
+        -61.462841964029046,
+        45.72669228238227
+      ]
+    },
+    {
+      "id": "G02",
+      "error_ground_m": 35.857587959327304,
+      "predicted_lonlat": [
+        -61.46027711081138,
+        45.73410511645128
+      ]
+    },
+    {
+      "id": "G03",
+      "error_ground_m": 137.75241141497787,
+      "predicted_lonlat": [
+        -61.37824771651208,
+        45.63584017474853
+      ]
+    },
+    {
+      "id": "G04",
+      "error_ground_m": 138.4176905175617,
+      "predicted_lonlat": [
+        -61.34577856703849,
+        45.61837948700016
+      ]
+    },
+    {
+      "id": "H04",
+      "error_ground_m": 75.89760372852942,
+      "predicted_lonlat": [
+        -61.23036608671526,
+        45.62046050214343
+      ]
+    },
+    {
+      "id": "H05",
+      "error_ground_m": 112.74912962442804,
+      "predicted_lonlat": [
+        -61.23469125212555,
+        45.58683999339194
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 70595,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -35.43073153270023,
+      -21.853183347903776
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/result/sheet-22-full-sheet.tif",
+    "sha256": "3622cd99536e0a464ae1a7cb32a2114ae72f0014f26b47eebd4acb5f4dddd2e3",
+    "size": [
+      8379,
+      5712
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.596446,
+            45.7499583
+          ],
+          [
+            -61.596446,
+            45.5706467
+          ],
+          [
+            -61.2200968,
+            45.5706467
+          ],
+          [
+            -61.2200968,
+            45.7499583
+          ],
+          [
+            -61.596446,
+            45.7499583
+          ]
+        ]
+      ]
+    }
+  }
+}

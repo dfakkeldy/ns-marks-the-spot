@@ -1,0 +1,40 @@
+{
+  "fit_sha256": "d19f28006254479a15efb976e438e15230bb29dfbf94b1202419ca2f56e4cb91",
+  "points": [
+    {
+      "id": "J22-E01",
+      "role": "check",
+      "pixel_xy": [
+        8983,
+        1116
+      ],
+      "lonlat": [
+        -61.2545114,
+        45.7460043
+      ],
+      "modern_objectids": [
+        195750,
+        195853,
+        197273
+      ],
+      "modern_node": "J0110",
+      "source_uncertainty_px": 5,
+      "identity_evidence": "Eastern arm crosses the curved north\u2013south road east of the confluence, joins north\u2013south main below its northern road crossing. Main then curves southwest to downstream forks. NSTDB 195853 connects upstream to Judique D04; these are different junctions on the same stream, not coincident tie points.",
+      "source_crop": {
+        "native_box": [
+          8920,
+          1050,
+          9050,
+          1190
+        ],
+        "display_size": [
+          650,
+          700
+        ],
+        "rotation_degrees": 0
+      },
+      "review": "Native crosshair inspected at 5x before scoring; agent reviewed, not user audited."
+    }
+  ],
+  "scope": "Physical eastern boundary check against frozen 27-control Hawkesbury TPS."
+}

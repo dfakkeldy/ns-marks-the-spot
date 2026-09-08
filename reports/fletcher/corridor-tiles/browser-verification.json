@@ -1,0 +1,395 @@
+{
+  "tooling": "Playwright; Browser plugin not available",
+  "url": "http://127.0.0.1:4197/?basemap=osm&taxSale=off&mode=current&layers=modern&position=45.85%2C-61.44%2C11",
+  "title": "NS Marks The Spot \u2014 Nova Scotia parcel & tax-sale map",
+  "tileResponses": [
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11691.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11690.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10789/11690.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10789/11691.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11690.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10789/11690.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11691.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10789/11691.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10787/11683.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11684.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10787/11685.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10787/11684.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10786/11683.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10786/11684.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11685.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11683.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10786/11685.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10787/11667.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10786/11666.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10787/11668.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10787/11666.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10786/11667.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10786/11668.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10784/11669.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11669.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10789/11667.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10784/11667.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11668.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10787/11665.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11665.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10784/11668.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10789/11669.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10789/11666.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10789/11668.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10785/11665.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10789/11665.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10785/11667.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10784/11666.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10785/11666.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10785/11668.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10786/11665.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11667.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10786/11669.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10784/11665.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10788/11666.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10785/11669.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10787/11669.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10796/11649.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10795/11648.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10796/11648.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10795/11647.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10795/11649.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10796/11647.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10798/11650.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10794/11650.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10798/11649.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10797/11650.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10793/11648.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10794/11647.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10793/11650.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10797/11647.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10798/11647.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10797/11648.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10793/11647.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10796/11650.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10793/11649.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10798/11648.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10794/11649.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10797/11649.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10794/11648.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10795/11650.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10798/11704.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10799/11706.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10798/11706.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10798/11705.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10799/11704.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10799/11705.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10796/11704.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10797/11706.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10797/11707.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10798/11707.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10797/11705.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10796/11706.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10797/11704.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10799/11707.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10796/11705.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/15/10796/11707.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/11/674/731.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/11/674/729.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/11/673/729.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/11/674/728.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/11/673/730.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/11/674/730.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/11/673/728.png",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:4198/fletcher-corridor-20260908.1/11/673/731.png",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "checks": {
+    "toggle": true,
+    "opacity": true,
+    "reload": true,
+    "desktop": true,
+    "mobile": true
+  }
+}

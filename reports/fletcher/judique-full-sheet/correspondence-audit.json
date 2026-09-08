@@ -1,0 +1,17 @@
+{
+  "D02": {
+    "status": "withheld; original observation and failed score retained",
+    "reason": "The first small western modern tributary J0937 lies in an upstream hatched reach. The visible source arm may be the next western tributary J0945. The source does not resolve both arms confidently enough to establish junction order. Do not fit either correspondence or count the original 559 m result as a confirmed geographic error.",
+    "source_xy": [
+      9196,
+      1560
+    ],
+    "original_modern_node": "J0937",
+    "alternative_modern_node": "J0945",
+    "action": "Seek a different northeast feature; no reassignment to improve scores."
+  },
+  "B08": {
+    "status": "excluded from independent check summaries",
+    "reason": "Same modern junction as O08 and only about nine source pixels apart; preserve record as diagnostic duplicate."
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "fit_sha256": "8eaa8822e820af83790e940510cf8619b14f14a571160b8ad0ea5c5dce36a44c",
+  "boundary_sha256": "401fbbd567c67820be00f63b7b42eec5248a48ca289d8ee1df5f9d79d24a08af",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Diagnostic after revision; not fresh validation",
+  "checks_sha256": "aa15ff8c3f71db34757f4e95928e89aa06b6042a788c55375c50131def00776b",
+  "median_ground_m": 60.664192666361465,
+  "worst_ground_m": 126.22460130812291,
+  "points": [
+    {
+      "id": "M05",
+      "error_ground_m": 126.22460130812291,
+      "predicted_lonlat": [
+        -61.25339018207508,
+        46.05972764042247
+      ]
+    },
+    {
+      "id": "M06",
+      "error_ground_m": 60.664192666361465,
+      "predicted_lonlat": [
+        -61.26506283961806,
+        45.93515235391666
+      ]
+    },
+    {
+      "id": "M07",
+      "error_ground_m": 57.81277032183761,
+      "predicted_lonlat": [
+        -61.300416478203594,
+        45.95620451382303
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71062,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -27.713287660239395,
+      -20.847343406933376
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/mabou-full-sheet/result/sheet-16-full-sheet.tif",
+    "sha256": "848aa657c6c78d8e4d7b51f4351790cbda1cc4b6b727f3730ad64ea0dca81669",
+    "size": [
+      8479,
+      5553
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.6010274,
+            46.0944635
+          ],
+          [
+            -61.6010274,
+            45.9212285
+          ],
+          [
+            -61.2201866,
+            45.9212285
+          ],
+          [
+            -61.2201866,
+            46.0944635
+          ],
+          [
+            -61.6010274,
+            46.0944635
+          ]
+        ]
+      ]
+    }
+  }
+}

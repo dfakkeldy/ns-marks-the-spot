@@ -1,0 +1,13 @@
+{
+  "source_sha256": "75e921bf63dd427e700790bf1ddb74d5013e375c07209561608f06d602b5bdc7",
+  "inventory_sha256": "b9d19b2f8fd4d9a5a97a3b1de53eddafa759f044a22142cd8051febbcd313e0f",
+  "tile_count": 3357,
+  "complete_xyz_pyramids": true,
+  "native_zoom": 15,
+  "missing_source_coverage_cells": 0,
+  "opaque_cells_compared": 149858863,
+  "opaque_rgb_max_difference": 1,
+  "opaque_rgb_mean_difference": 4.448630219933449e-09,
+  "tile_edge_opaque_rgb_max_difference": 0,
+  "scope": "Tile mechanics only. Source geographic gaps are retained, not certified or filled."
+}
