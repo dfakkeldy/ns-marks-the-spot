@@ -2831,10 +2831,19 @@ export function MapCanvas({
               as a dead button. `measureMode` itself is left alone, so the
               user's tool choice survives the session. */}
           {georeference ? null : (
-            <>
-              {poker && <PokerMapTools session={poker} />}
-              <MeasureTool key={poker ? `poker-${poker.revision}` : "standard"} driveway={poker !== null} mode={poker ? "distance" : measureMode} onModeChange={setMeasureMode} />
-            </>
+            poker ? <div className="poker-workspace" ref={(node) => {
+              if (!node) return;
+              L.DomEvent.disableClickPropagation(node);
+              L.DomEvent.disableScrollPropagation(node);
+              // Leaflet's simulated double-tap calls stopPropagation on the
+              // second click, swallowing rapid button taps before React sees
+              // them. Block native dblclick only; keep the map-click guard.
+              L.DomEvent.off(node, "dblclick", L.DomEvent.stopPropagation);
+              node.addEventListener("dblclick", L.DomEvent.stopPropagation);
+            }}>
+              <PokerMapTools session={poker} />
+              <MeasureTool key={`poker-${poker.revision}`} driveway mode="distance" onModeChange={setMeasureMode} />
+            </div> : <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
           )}
         </>}
         <MapPositionController

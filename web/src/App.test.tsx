@@ -304,8 +304,6 @@ vi.mock("./components/MapCanvas", () => ({
       {poker && <div data-testid="poker-session">
         <span>{poker.address?.label ?? "No Poker address"}</span>
         <span>Revision {poker.revision}</span>
-        <button onClick={poker.onNext}>Next address</button>
-        <button onClick={poker.onAerialChange}>Poker aerial</button>
       </div>}
       Map PID count: {taxSalePids.size}; geometry count: {parcels.features.length};
       modern map: {showModernMap ? "on" : "off"}; tax-sale layer:{" "}
@@ -3895,7 +3893,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.queryByText("Civic address search is unavailable right now.")).not.toBeInTheDocument();
   });
 
-  it("keeps Poker searches focused on one outline and makes the next address ready", async () => {
+  it("keeps Poker search on the map with aerial and roads enabled", async () => {
     const user = userEvent.setup();
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     const result = civicAddress("27700002", "11064 Highway 19, Southwest Mabou");
@@ -3913,19 +3911,16 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("property boundaries: off");
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("selected PID: 50251750");
     expect(fetchParcelAssessments).toHaveBeenCalledTimes(assessmentCalls);
-    await user.click(screen.getByRole("button", { name: "Poker aerial" }));
+    expect(screen.getByLabelText("NS Aerial")).toBeChecked();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("roads: on");
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("modern map: off");
-    await user.click(screen.getByRole("button", { name: "Next address" }));
-    expect(screen.getByTestId("poker-session")).toHaveTextContent("No Poker address");
+    await user.click(input);
     expect(input).toHaveFocus();
     expect(input.selectionStart).toBe(0);
     expect(input.selectionEnd).toBe(result.label.length);
   });
 
-  it("opens in the setup a link names, when its layers cannot say which", () => {
-    // Poker and Explore Nova Scotia draw the same single layer, so the layer
-    // parameters alone cannot choose between them; kinnokilabs.com/poker
-    // redirects here to open the driveway tools directly.
+  it("opens Poker directly from its named setup link", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/?theme=poker");
 
@@ -3943,7 +3938,7 @@ describe("NS Marks The Spot Online", () => {
 
     await waitFor(() => expect(
       new URL(window.location.href).searchParams.get("layers"),
-    ).toBe("modern"));
+    ).toBe("ns-aerial,roads"));
     expect(new URL(window.location.href).searchParams.get("theme")).toBe("poker");
   });
 

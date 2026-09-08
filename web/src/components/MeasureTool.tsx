@@ -109,7 +109,7 @@ export function MeasureTool({
       </div>}
       {mode !== "off" ? (
         // key remounts capture state when switching distance ↔ area.
-        <MeasureCapture key={mode} mode={mode} onExit={() => onModeChange("off")} />
+        <MeasureCapture key={mode} mode={mode} driveway={driveway} onExit={() => onModeChange("off")} />
       ) : null}
     </>
   );
@@ -122,9 +122,11 @@ interface Measurement {
 
 function MeasureCapture({
   mode,
+  driveway,
   onExit,
 }: {
   mode: ActiveMeasureMode;
+  driveway: boolean;
   onExit: () => void;
 }) {
   const map = useMap();
@@ -160,7 +162,9 @@ function MeasureCapture({
       // The double-click's own second click just added a duplicate vertex;
       // drop it before finishing.
       setMeasurement((current) => {
-        if (current.finished) {
+        // Leaflet can synthesize dblclick from two quick touch taps at
+        // different positions. Poker uses Finish; never discard that point.
+        if (driveway || current.finished) {
           return current;
         }
         const points = current.points.slice(0, -1);
@@ -207,7 +211,8 @@ function MeasureCapture({
       <div
         className="measure-control measure-actions"
         ref={(node) => {
-          if (node) {
+          // Poker's containing dock owns propagation, including touch taps.
+          if (node && !driveway) {
             L.DomEvent.disableClickPropagation(node);
             L.DomEvent.disableScrollPropagation(node);
           }
@@ -285,14 +290,14 @@ function MeasureCapture({
           );
         })}
       </Pane>
-      <p className="measure-readout" role="status">
+      {(!driveway || points.length >= MIN_FINISH_POINTS[mode]) && <p className="measure-readout" role="status">
         {readoutText(mode, points)}
         {/* The gestures are otherwise undiscoverable; surface them once a
             measurement is underway. */}
-        {!finished && points.length > 0
+        {!driveway && !finished && points.length > 0
           ? " · double-click or Enter to finish · Esc to clear"
           : null}
-      </p>
+      </p>}
     </>
   );
 }

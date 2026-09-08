@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { PokerMapTools, type PokerSession } from "./PokerMapTools";
 import { fetchViewportCivicAddresses } from "../services/civicAddresses";
@@ -19,8 +19,7 @@ vi.mock("../services/civicAddresses", async (original) => ({
   fetchViewportCivicAddresses: vi.fn(),
 }));
 const session: PokerSession = {
-  address: null, revision: 0, aerial: false, message: null,
-  onNext: vi.fn(), onAerialChange: vi.fn(),
+  address: null, revision: 0, onCivicStatusChange: vi.fn(),
 };
 beforeEach(() => {
   vi.useFakeTimers(); vi.clearAllMocks(); map.getZoom.mockReturnValue(18);
@@ -34,7 +33,7 @@ it("waits for street-level zoom and keeps public civic numbers independent of re
   render(<PokerMapTools session={session} />);
   await settle();
   expect(fetchViewportCivicAddresses).not.toHaveBeenCalled();
-  expect(screen.getByText(/Zoom to level 16/)).toBeInTheDocument();
+  expect(session.onCivicStatusChange).toHaveBeenLastCalledWith(expect.stringMatching(/Zoom to level 16/));
   map.getZoom.mockReturnValue(18);
   act(() => events.current.moveend());
   await settle();
@@ -52,21 +51,16 @@ it("aborts old viewport work and ignores its late reply", async () => {
   act(() => events.current.moveend());
   await settle();
   await act(async () => resolveOld({ addresses: [], truncated: true, unreadableRows: 0 }));
-  expect(screen.getByText(/No civic points returned/)).toBeInTheDocument();
-  expect(screen.queryByText(/Showing up to 500/)).not.toBeInTheDocument();
+  expect(session.onCivicStatusChange).toHaveBeenLastCalledWith(expect.stringMatching(/No civic points returned/));
 });
 
-it("discloses errors and capped views and forwards quick actions", async () => {
+it("discloses errors and capped views to the attribution footer", async () => {
   vi.mocked(fetchViewportCivicAddresses).mockRejectedValueOnce(new Error("offline"));
   render(<PokerMapTools session={session} />);
   await settle();
-  expect(screen.getByText(/Civic numbers unavailable/)).toBeInTheDocument();
+  expect(session.onCivicStatusChange).toHaveBeenLastCalledWith(expect.stringMatching(/Civic numbers unavailable/));
   vi.mocked(fetchViewportCivicAddresses).mockResolvedValueOnce({ addresses: [], truncated: true, unreadableRows: 0 });
   act(() => events.current.moveend());
   await settle();
-  expect(screen.getByText(/Showing up to 500/)).toBeInTheDocument();
-  fireEvent.click(screen.getByRole("button", { name: "Next address" }));
-  fireEvent.click(screen.getByRole("button", { name: "Aerial off" }));
-  expect(session.onNext).toHaveBeenCalledOnce();
-  expect(session.onAerialChange).toHaveBeenCalledOnce();
+  expect(session.onCivicStatusChange).toHaveBeenLastCalledWith(expect.stringMatching(/Showing up to 500/));
 });
