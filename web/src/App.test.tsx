@@ -2922,7 +2922,7 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText("27 advertised · 18 withdrawn · 27 active PIDs"),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("19 advertised · 0 withdrawn · 20 active PIDs"),
+      screen.getByText("13 advertised · 0 withdrawn · 14 active PIDs"),
     ).toBeInTheDocument();
     expect(
       screen.queryByRole("checkbox", { name: /CBRM.*July 21, 2026/i }),
@@ -2954,8 +2954,11 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText("Snapshot retrieved August 10, 2026"),
     ).toBeInTheDocument();
     expect(
-      screen.getAllByText("Snapshot retrieved September 3, 2026"),
-    ).toHaveLength(2);
+      screen.getByText("Snapshot retrieved September 3, 2026"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Snapshot retrieved September 8, 2026"),
+    ).toBeInTheDocument();
   });
 
   it("makes current notices and historical records separate map modes", async () => {
@@ -6156,19 +6159,19 @@ describe("NS Marks The Spot Online", () => {
     setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 53;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 47;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 26;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 20;");
     await user.click(
       screen.getByRole("checkbox", { name: /Annapolis.*August 31, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 25;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 19;");
     await user.click(
       screen.getByRole("checkbox", { name: /Victoria County.*September 14, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 20;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 14;");
     await user.click(
       screen.getByRole("checkbox", { name: /Halifax.*September 15, 2026/i }),
     );
