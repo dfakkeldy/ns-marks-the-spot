@@ -488,12 +488,16 @@ failure boundary, while road and water intersections come from restricted map
 services.
 
 The web-only Poker theme uses `components/PokerMapTools.tsx` for bounded civic
-number queries at zoom 16 and above, address-point focus, and quick aerial and
-next-address actions. Viewport replies are capped at 500 source
-rows with truncation and unreadable-row notices; movement cancels stale work.
-Only the selected outline is shown by default. Poker skips inspector evidence
-requests and reuses the existing manually clicked distance tool, resetting it
-for each address. A civic point is never promoted to a house location.
+number queries at zoom 16 and above, address-point focus, and a search-first
+layout with always-visible civic search over the map. Finish, Undo point, and
+Clear sit with the distance readout in a compact measure strip. Viewport
+replies are capped at 500 source rows with truncation and unreadable-row
+notices; movement cancels stale work. Only the selected outline is shown by
+default. Poker skips inspector evidence requests and reuses the existing
+manually clicked distance tool, resetting it for each address. Defaults are
+NS Aerial (`ns-aerial`) and roads (street-name labels), subject to the
+Province licence gate; there are no quick aerial or next-address controls.
+A civic point is never promoted to a house location.
 
 The same civic service owns sidebar address discovery. It sends normalized user
 text through Socrata's full-text `$q` index, returns bounded labelled Civic
