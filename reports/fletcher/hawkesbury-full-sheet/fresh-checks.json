@@ -1,0 +1,80 @@
+{
+  "fit_sha256": "02b0579756a05ab4ccb73ed44db327518b9d1182c59deca0ae5b7aa8a0430a12",
+  "points": [
+    {
+      "id": "H04",
+      "role": "check",
+      "pixel_xy": [
+        9488,
+        5041
+      ],
+      "lonlat": [
+        -61.22955544129869,
+        45.62008045969098
+      ],
+      "modern_objectids": [
+        27661
+      ],
+      "identity_evidence": "Southernmost apex of the isolated island in River Inhabitants southeast of Macmillan Creek, opposite Brule Point. Complete closed coast outline separates island from adjacent mainland. Southern tip avoids lettering on northern shoreline.",
+      "source_uncertainty_px": 12,
+      "source_crop": {
+        "native_box": [
+          9398,
+          4961,
+          9578,
+          5121
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent full coast topology and native crosshair before scoring; shoreline changes possible, not independently user audited."
+    },
+    {
+      "id": "H05",
+      "role": "check",
+      "pixel_xy": [
+        9380,
+        6072
+      ],
+      "lonlat": [
+        -61.233302032195354,
+        45.5871280063675
+      ],
+      "modern_objectids": [
+        2210
+      ],
+      "identity_evidence": "Southernmost apex of Fort Richmond promontory, west of the small eastern inlet separating it from Indian Point. Modern local coast extremum on western promontory; do not select farther-south Indian Point to east. Coast shape and northern cove establish identity.",
+      "source_uncertainty_px": 12,
+      "source_crop": {
+        "native_box": [
+          9290,
+          5992,
+          9470,
+          6152
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent full coast topology and native crosshair before scoring; shoreline changes possible, not independently user audited."
+    }
+  ],
+  "scope": "Two fresh southeastern shoreline checks; not a whole-sheet accuracy sample by themselves. Earlier inland/corridor checks replayed separately.",
+  "rejected": [
+    {
+      "candidate": "Queensville J0146",
+      "reason": "Apparent northern/southern tributary topology conflict in source; withhold pending tracing, not numerical evaluation."
+    },
+    {
+      "candidate": "Western J0609",
+      "reason": "Short native arm may be geological or road-related; insufficient branch evidence."
+    }
+  ]
+}
