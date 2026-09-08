@@ -1,0 +1,148 @@
+{
+  "fit_source": "../sheet16/observations.json",
+  "fit_sha256": "d8537c6183c6a738d3aada9c28e3bcc56c31b3a8ef1350900cdaf4f519229c90",
+  "fit": "Unchanged 32 saved controls, TPS in EPSG:3857; whole neatline",
+  "points": [
+    {
+      "id": "M01",
+      "role": "check",
+      "pixel_xy": [
+        9228,
+        1605
+      ],
+      "lonlat": [
+        -61.2508908,
+        46.0732851
+      ],
+      "modern_node": "J0236",
+      "modern_objectids": [
+        198351,
+        274418,
+        274419
+      ],
+      "identity_evidence": "Northeast McQueens Brook: largest eastern arm joins north stem below smaller eastern tributaries, above southwest road crossing. Eastern arm bends north then turns southeast; main stem continues southwest.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          9138,
+          1525,
+          9318,
+          1685
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original image-edge xy"
+      },
+      "review": "Agent topology and native crosshair inspected at 4x before scoring. Not user audited."
+    },
+    {
+      "id": "M02",
+      "role": "check",
+      "pixel_xy": [
+        9447,
+        2703
+      ],
+      "lonlat": [
+        -61.2379472,
+        46.0410268
+      ],
+      "modern_node": "J0427",
+      "modern_objectids": [
+        198109,
+        198111,
+        286220
+      ],
+      "identity_evidence": "Eastern hills: long western arm joins north-northeast flowing stem; southern arm continues to paired-road crossing and next east tributary. Geological dip arrow lies above this junction and is not a stream.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          9357,
+          2623,
+          9537,
+          2783
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original image-edge xy"
+      },
+      "review": "Agent topology and native crosshair inspected at 4x before scoring. Not user audited."
+    },
+    {
+      "id": "M03",
+      "role": "check",
+      "pixel_xy": [
+        8418,
+        5657
+      ],
+      "lonlat": [
+        -61.2843832,
+        45.9478089
+      ],
+      "modern_node": "J0852",
+      "modern_objectids": [
+        224042,
+        224043,
+        286606
+      ],
+      "identity_evidence": "Southeast: northeastern arm joins east-southeast brook below the River bridge and before Fall 8. Stream remains distinct from separate southern channel and hatched geological mark.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          8328,
+          5577,
+          8508,
+          5737
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original image-edge xy"
+      },
+      "review": "Agent topology and native crosshair inspected at 4x before scoring. Not user audited."
+    },
+    {
+      "id": "M04",
+      "role": "check",
+      "pixel_xy": [
+        8864,
+        5923
+      ],
+      "lonlat": [
+        -61.2628011,
+        45.9365731
+      ],
+      "modern_node": "J0885",
+      "modern_objectids": [
+        198508,
+        265952,
+        265953
+      ],
+      "identity_evidence": "Southeast southern drainage: western arm enters below the upper east/northwest fork and above a second western arm. Western arm traced toward Fall 15; main stem turns southeast farther downstream.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          8774,
+          5843,
+          8954,
+          6003
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original image-edge xy"
+      },
+      "review": "Agent topology and native crosshair inspected at 4x before scoring. Not user audited."
+    }
+  ],
+  "scope": "Four eastern checks complement existing western checks; no check fitted."
+}
