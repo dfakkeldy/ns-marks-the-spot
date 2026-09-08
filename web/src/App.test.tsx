@@ -3898,7 +3898,8 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     const result = civicAddress("27700002", "11064 Highway 19, Southwest Mabou");
     vi.mocked(searchCivicAddresses).mockResolvedValue([result]);
-    vi.mocked(fetchParcelAtPoint).mockResolvedValue({ type: "FeatureCollection", features: [parcelFeature("50251750")] });
+    // Earlier research tests use this shared mock; count only this Poker session.
+    vi.mocked(fetchParcelAtPoint).mockClear().mockResolvedValue({ type: "FeatureCollection", features: [parcelFeature("50251750")] });
     renderAppWithCategoriesOpen();
     await user.selectOptions(screen.getByRole("combobox", { name: "Map setup" }), "poker");
     const assessmentCalls = vi.mocked(fetchParcelAssessments).mock.calls.length;
