@@ -208,7 +208,7 @@ are on at street zoom. Search a civic address, choose a result, then tap the
 house and trace the driveway to your mail route. **Finish**, **Undo point**,
 and **Clear** sit with the distance total in a compact strip. Tap the search
 field to replace the address; choosing another result clears the previous path.
-Quick successive taps keep every point. Only the selected parcel is outlined.
+Quick successive taps keep every point. Parcel boundaries and parcel lookups are disabled in Poker so they cannot intercept measurement taps.
 Civic points may not sit on a house. They load at zoom 16 or closer, with a
 500-point viewport limit. Civic-source status, attribution, and accuracy notes
 remain in the footer. Poker sessions and measurements are not saved, shared,

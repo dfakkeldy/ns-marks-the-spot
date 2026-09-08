@@ -3898,7 +3898,8 @@ describe("NS Marks The Spot Online", () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     const result = civicAddress("27700002", "11064 Highway 19, Southwest Mabou");
     vi.mocked(searchCivicAddresses).mockResolvedValue([result]);
-    vi.mocked(fetchParcelAtPoint).mockResolvedValue({ type: "FeatureCollection", features: [parcelFeature("50251750")] });
+    // Earlier research tests use this shared mock; count only this Poker session.
+    vi.mocked(fetchParcelAtPoint).mockClear().mockResolvedValue({ type: "FeatureCollection", features: [parcelFeature("50251750")] });
     renderAppWithCategoriesOpen();
     await user.selectOptions(screen.getByRole("combobox", { name: "Map setup" }), "poker");
     const assessmentCalls = vi.mocked(fetchParcelAssessments).mock.calls.length;
@@ -3909,7 +3910,8 @@ describe("NS Marks The Spot Online", () => {
     await waitFor(() => expect(screen.getByTestId("poker-session")).toHaveTextContent(result.label));
     expect(screen.queryByRole("complementary", { name: "Parcel 50251750 details" })).not.toBeInTheDocument();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("property boundaries: off");
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("selected PID: 50251750");
+    expect(screen.getByTestId("map-canvas")).not.toHaveTextContent("selected PID: 50251750");
+    expect(fetchParcelAtPoint).not.toHaveBeenCalled();
     expect(fetchParcelAssessments).toHaveBeenCalledTimes(assessmentCalls);
     expect(screen.getByLabelText("NS Aerial")).toBeChecked();
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("roads: on");
