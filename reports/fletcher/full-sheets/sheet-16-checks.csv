@@ -1,0 +1,5 @@
+# Checks only; NEVER fit. See JSON provenance for fresh versus diagnostic status.
+pixel_x,pixel_y,lon,lat,role,label
+9143,2075,-61.2537262,46.0608386,check,M05
+8807,5972,-61.2650787,45.9346069,check,M06
+8070,5410,-61.3009939,45.9558741,check,M07

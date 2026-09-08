@@ -1,0 +1,195 @@
+{
+  "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+  "boundary_sha256": "74a195c8210094b8d4c04fa77607913a25b5d129275523506bb6245052663010",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Diagnostic after revision; not fresh validation",
+  "excluded": [
+    "B08 duplicate O08",
+    "D02 unresolved",
+    "D01/D03/D04 consumed"
+  ],
+  "median_ground_m": 82.05810423128604,
+  "worst_ground_m": 123.35364864911969,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 94.82136406713909,
+      "predicted_lonlat": [
+        -61.410905352295295,
+        45.84255460511052
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 20.111995936493052,
+      "predicted_lonlat": [
+        -61.392861574791304,
+        45.85103449474311
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 32.547358693427185,
+      "predicted_lonlat": [
+        -61.37356963106452,
+        45.83950001806113
+      ]
+    },
+    {
+      "id": "Q04",
+      "error_ground_m": 89.74994076224424,
+      "predicted_lonlat": [
+        -61.37689697406051,
+        45.82394431413191
+      ]
+    },
+    {
+      "id": "Q05",
+      "error_ground_m": 82.05810423128604,
+      "predicted_lonlat": [
+        -61.48034008637824,
+        45.909918487790016
+      ]
+    },
+    {
+      "id": "Q06",
+      "error_ground_m": 93.91470749934128,
+      "predicted_lonlat": [
+        -61.238624938454606,
+        45.89177552501036
+      ]
+    },
+    {
+      "id": "Q07",
+      "error_ground_m": 38.06110545025984,
+      "predicted_lonlat": [
+        -61.39631609939423,
+        45.78471409508038
+      ]
+    },
+    {
+      "id": "Q08",
+      "error_ground_m": 64.87224821029912,
+      "predicted_lonlat": [
+        -61.3497727685334,
+        45.7928163560109
+      ]
+    },
+    {
+      "id": "B01",
+      "error_ground_m": 76.22750892868993,
+      "predicted_lonlat": [
+        -61.43384486324286,
+        45.912587664643226
+      ]
+    },
+    {
+      "id": "B02",
+      "error_ground_m": 75.89076784922483,
+      "predicted_lonlat": [
+        -61.43337041748054,
+        45.91067259092419
+      ]
+    },
+    {
+      "id": "B03",
+      "error_ground_m": 108.32723874592499,
+      "predicted_lonlat": [
+        -61.2796950638303,
+        45.88737166140358
+      ]
+    },
+    {
+      "id": "B04",
+      "error_ground_m": 45.87770856753104,
+      "predicted_lonlat": [
+        -61.29836771644835,
+        45.85695366443526
+      ]
+    },
+    {
+      "id": "B05",
+      "error_ground_m": 123.27588423365364,
+      "predicted_lonlat": [
+        -61.295070402073094,
+        45.85427942109096
+      ]
+    },
+    {
+      "id": "B06",
+      "error_ground_m": 123.35364864911969,
+      "predicted_lonlat": [
+        -61.38401854889354,
+        45.7734094206356
+      ]
+    },
+    {
+      "id": "B07",
+      "error_ground_m": 95.67220383998787,
+      "predicted_lonlat": [
+        -61.38811971179393,
+        45.752681208156076
+      ]
+    },
+    {
+      "id": "L01",
+      "error_ground_m": 75.601383253592,
+      "predicted_lonlat": [
+        -61.38804530900201,
+        45.75797544752299
+      ]
+    },
+    {
+      "id": "L02",
+      "error_ground_m": 102.20665902459059,
+      "predicted_lonlat": [
+        -61.40372445170462,
+        45.75192137958164
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71285,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -48.26117366214812,
+      -20.11952293080937
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/judique-full-sheet/result/judique-full-sheet.tif",
+    "sha256": "adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4",
+    "size": [
+      8379,
+      5757
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.5958171,
+            45.9251653
+          ],
+          [
+            -61.5958171,
+            45.7450061
+          ],
+          [
+            -61.219468,
+            45.7450061
+          ],
+          [
+            -61.219468,
+            45.9251653
+          ],
+          [
+            -61.5958171,
+            45.9251653
+          ]
+        ]
+      ]
+    }
+  }
+}

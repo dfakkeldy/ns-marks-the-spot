@@ -7128,7 +7128,7 @@ a {
 .context-layer-control > .text-button { margin-left: 3rem; }
 
 /* Optional corrected-corridor review control; never shown without its tile host. */
-.fletcher-corridor-preview {
+.fletcher-full-sheets-preview {
   width: min(270px, calc(100vw - 40px));
   padding: 10px 12px;
   border: 1px solid var(--line);
@@ -7138,6 +7138,6 @@ a {
   box-shadow: 0 2px 8px #0002;
   font-size: 12px;
 }
-.fletcher-corridor-preview label { display: flex; align-items: center; gap: 6px; }
-.fletcher-corridor-preview p { margin: 6px 0; line-height: 1.35; }
-.fletcher-corridor-preview input[type="range"] { flex: 1; min-width: 0; }
+.fletcher-full-sheets-preview label { display: flex; align-items: center; gap: 6px; }
+.fletcher-full-sheets-preview p { margin: 6px 0; line-height: 1.35; }
+.fletcher-full-sheets-preview input[type="range"] { flex: 1; min-width: 0; }
