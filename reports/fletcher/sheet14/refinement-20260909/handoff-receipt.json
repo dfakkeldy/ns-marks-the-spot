@@ -1,0 +1,17 @@
+{
+  "directory": "/Users/dfakkeldy/Downloads/fletcher-sheet14/digitization-handoff-20260909",
+  "metadata_sha256": "dfbf0b211972d354423e6b221029a064bd85a9e5929e2016ac429b417450c8fc",
+  "files": {
+    "handoff.json": "dfbf0b211972d354423e6b221029a064bd85a9e5929e2016ac429b417450c8fc",
+    "render-receipt.json": "1ff4a06aa9f0fded3ae498c8568cb870f31bd355ebc12bb6235cadbfb4289569",
+    "scores.json": "605c09d1207eed7d7b1e71a4e5117ba093d2138dc2558cbeeda98811862cf9c9",
+    "sheet-14-review.csv": "689f9eae54d8ca7b046effbd69107f1ee092a0052bec686fb86e8e26665f2df1",
+    "sheet-14-controls.csv": "7659739f5b58eeb828defedb959d65d172fb3f97851639f021cf9f004a2f48bc",
+    "fit.json": "f79cc2641141548d1cf62690968806838ce57424600224c457f8b8059e878a5d",
+    "checks.json": "dbc023445b2c947d73f79caa835ec7165d790dc3d7a50c077d16bb301fc6c390",
+    "README.md": "7ba92a0f019391e0f2cff6557e7be64d271a9b8cdfa8ce80783758f2715267e0",
+    "sheet-14-checks.csv": "549c9bdf406bfe8bbc03d0ac1d4e2570c55bef96e91804f24dab43753383cc77",
+    "boundary.json": "03983c1d7ed4bdfefde19d469abba2b60cd9e05fb36567508e17411c5b606ec5",
+    "coverage-verification.json": "c2d3e1db5aa2ee12b3a93c10e1f46de767616ab62468ddcd5c9a4600600661bf"
+  }
+}

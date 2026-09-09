@@ -58,11 +58,11 @@ PACKETS = [
 ]
 
 
-def main():
-    out = ROOT / "sheet14/review"
+def main(packets=PACKETS, out=None):
+    out = out or ROOT / "sheet14/review"
     out.mkdir(exist_ok=True)
     receipts = []
-    for sheet, record, source, reference, ids in PACKETS:
+    for sheet, record, source, reference, ids in packets:
         data = json.loads((ROOT / record).read_text())
         native = Image.open(DOWNLOADS / source)
         vectors = {}

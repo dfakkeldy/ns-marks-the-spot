@@ -1,5 +1,7 @@
 # Fletcher Sheet 14 — Cape Mabou / Broad Cove
 
+**Active refinement (9 September):** [25-control revision](refinement-20260909/README.md), with editable controls, ten diagnostics and verified full-sheet raster coverage. The 22-control files below are the preserved baseline. Hay River and the Mabou join remain unresolved.
+
 Sheet 14, immediately north of Mabou (16), now has a complete cropped review
 raster and is included in the four-sheet local tile preview. This covers the
 whole printed map, including the Cape Mabou highlands and eastern interior.

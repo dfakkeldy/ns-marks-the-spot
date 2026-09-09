@@ -141,36 +141,36 @@
     },
     {
       "sheet": "14",
-      "fit": "sheet14/refinement-20260909/fit.json",
-      "fit_sha256": "f79cc2641141548d1cf62690968806838ce57424600224c457f8b8059e878a5d",
-      "raster_sha256": "a39e19ba0ae9df98105ec1c3b13a86dbda6fba7cf77281743b0cdaab5afe0428",
+      "fit": "sheet14/final-fit.json",
+      "fit_sha256": "46837fbcd06c83ae9256fa324edebba820e7e1ab25e14dc010c136400c2b84af",
+      "raster_sha256": "fcd823bc891904d737346105ef9de9818f582ead53093f6b2fe11802d5c334e0",
       "dimensions": [
-        9168,
-        5688
+        9155,
+        5618
       ],
       "bounds": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              -61.62097,
-              46.2705093
+              -61.6203861,
+              46.2685222
             ],
             [
-              -61.62097,
-              46.0936225
-            ],
-            [
-              -61.2091823,
-              46.0936225
+              -61.6203861,
+              46.0938094
             ],
             [
               -61.2091823,
-              46.2705093
+              46.0938094
             ],
             [
-              -61.62097,
-              46.2705093
+              -61.2091823,
+              46.2685222
+            ],
+            [
+              -61.6203861,
+              46.2685222
             ]
           ]
         ]
@@ -180,8 +180,8 @@
         "native_grid_step_px": 25,
         "nonnegative_determinants": 0,
         "determinant_range": [
-          -34.808660742819335,
-          -17.660994462120637
+          -43.60482538392495,
+          -17.461020855501648
         ]
       }
     }
@@ -189,26 +189,25 @@
   "composite_order_bottom_to_top": [
     "22",
     "16",
-    "19",
-    "14"
+    "19"
   ],
-  "geographic_quality": "See per-sheet reports. Same-agent checks do not establish survey accuracy. Judique fresh median118m misses working100m target. Full-width southern gaps remain visible; no content fabricated. Sheet14 refinement has ten diagnostics: median89m/worst376m, including unresolved Hay River trial. No geographic acceptance; original sheets19/16/22 unchanged.",
+  "geographic_quality": "See per-sheet reports. Same-agent checks do not establish survey accuracy. Judique fresh median118m misses working100m target. Full-width southern gaps remain visible; no content fabricated.",
   "composite": {
-    "sha256": "d1955ef269df37d1bc8336f943fe81fe36bd3ccf07609e6514b3d7b323553b52",
+    "sha256": "e2abe62ed814234b7f67d4ff0616f9cbb482258e781844ce98018362802291ce",
     "dimensions": [
-      9168,
-      22399
+      9155,
+      22335
     ],
     "bounds": {
       "type": "Polygon",
       "coordinates": [
         [
           [
-            -61.62097,
-            46.2705093
+            -61.6203861,
+            46.2685222
           ],
           [
-            -61.62097,
+            -61.6203861,
             45.5706467
           ],
           [
@@ -217,11 +216,11 @@
           ],
           [
             -61.2091823,
-            46.2705093
+            46.2685222
           ],
           [
-            -61.62097,
-            46.2705093
+            -61.6203861,
+            46.2685222
           ]
         ]
       ]

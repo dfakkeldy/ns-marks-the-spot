@@ -1,0 +1,19 @@
+{
+  "fit_sha256": "523893178a7a0d09afba93c36916ce17cec8644248c7baab2e28e53d30af4259",
+  "least_negative_25px_sample_xy": [
+    9212,
+    5988
+  ],
+  "determinant": -0.32302021421567595,
+  "fine_audit": {
+    "grid_step_native_px": 1,
+    "derivative_step_native_px": 0.1,
+    "samples": 5041,
+    "reversed": 0,
+    "range": [
+      -3.321256518072393,
+      -0.2643904894674858
+    ]
+  },
+  "note": "Sampled derivative audit only; does not prove continuously fold-free surface."
+}

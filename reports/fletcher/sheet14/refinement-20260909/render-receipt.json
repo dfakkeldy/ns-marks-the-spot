@@ -1,0 +1,135 @@
+{
+  "fit_sha256": "f79cc2641141548d1cf62690968806838ce57424600224c457f8b8059e878a5d",
+  "boundary_sha256": "03983c1d7ed4bdfefde19d469abba2b60cd9e05fb36567508e17411c5b606ec5",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Ten diagnostic observations, all excluded from this 25-control fit. R04 was used in failed candidate26 and exposes an unresolved Hay River discrepancy; not independent. T01 modern identity corrected after scores. Other checks target known problem regions; not whole-sheet acceptance.",
+  "checks_sha256": "dbc023445b2c947d73f79caa835ec7165d790dc3d7a50c077d16bb301fc6c390",
+  "median_ground_m": 89.4808105273292,
+  "worst_ground_m": 376.3785586450071,
+  "points": [
+    {
+      "id": "Q02",
+      "error_ground_m": 65.13439284258745,
+      "predicted_lonlat": [
+        -61.337840700373064,
+        46.18545165626113
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 24.024938257825667,
+      "predicted_lonlat": [
+        -61.37976099104657,
+        46.14321291755525
+      ]
+    },
+    {
+      "id": "F06",
+      "error_ground_m": 166.96874751595925,
+      "predicted_lonlat": [
+        -61.27623962198694,
+        46.24306114611465
+      ]
+    },
+    {
+      "id": "F07",
+      "error_ground_m": 113.82722821207096,
+      "predicted_lonlat": [
+        -61.405252027131965,
+        46.18001108137899
+      ]
+    },
+    {
+      "id": "G01",
+      "error_ground_m": 168.21893603431988,
+      "predicted_lonlat": [
+        -61.43877413207736,
+        46.10710770697697
+      ]
+    },
+    {
+      "id": "T01",
+      "error_ground_m": 48.663807526965506,
+      "predicted_lonlat": [
+        -61.40055007922158,
+        46.175501319079224
+      ]
+    },
+    {
+      "id": "T02",
+      "error_ground_m": 50.30036082904969,
+      "predicted_lonlat": [
+        -61.39388175641387,
+        46.16040259456067
+      ]
+    },
+    {
+      "id": "T03",
+      "error_ground_m": 48.25258281164708,
+      "predicted_lonlat": [
+        -61.31209912450059,
+        46.19750581368243
+      ]
+    },
+    {
+      "id": "T04",
+      "error_ground_m": 115.73447562448503,
+      "predicted_lonlat": [
+        -61.322611010056136,
+        46.18240913989918
+      ]
+    },
+    {
+      "id": "R04",
+      "error_ground_m": 376.3785586450071,
+      "predicted_lonlat": [
+        -61.243643755769774,
+        46.108486242414806
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 70997,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -34.808660742819335,
+      -17.660994462120637
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet14/refinement-20260909/result25/sheet-14-full-sheet.tif",
+    "sha256": "a39e19ba0ae9df98105ec1c3b13a86dbda6fba7cf77281743b0cdaab5afe0428",
+    "size": [
+      9168,
+      5688
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.62097,
+            46.2705093
+          ],
+          [
+            -61.62097,
+            46.0936225
+          ],
+          [
+            -61.2091823,
+            46.0936225
+          ],
+          [
+            -61.2091823,
+            46.2705093
+          ],
+          [
+            -61.62097,
+            46.2705093
+          ]
+        ]
+      ]
+    }
+  }
+}

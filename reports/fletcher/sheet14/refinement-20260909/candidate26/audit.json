@@ -1,0 +1,228 @@
+{
+  "frozen_utc": "2026-09-09T09:56:26.838458+00:00",
+  "baseline_fit_sha256": "46837fbcd06c83ae9256fa324edebba820e7e1ab25e14dc010c136400c2b84af",
+  "fit_sha256": "523893178a7a0d09afba93c36916ce17cec8644248c7baab2e28e53d30af4259",
+  "checks_sha256": "91e1e2b11b0e9dc50d19537ab40977f49eff19e56f724cd7b8cd14d70e69caef",
+  "target": "Keep prior <=100m median, <=200m worst working targets; compare same nine checks and actual warped imagery; no cosmetic join adjustment.",
+  "corrected_control": {
+    "before": {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        8303,
+        3360
+      ],
+      "lonlat": [
+        -61.2881622,
+        46.194898
+      ],
+      "modern_node": "J0174",
+      "modern_objectids": [
+        185241,
+        260156,
+        260157
+      ],
+      "identity_evidence": "Large western tributary reaches north\u2013south main west of Strathlorne road. Western branch crosses hatching from northwest before meeting the left bank; separate downstream forks are not used here.",
+      "source_uncertainty_px": 8,
+      "review": "Agent topology and native 4x crosshair audit; observed pixel corrections made before fitting.",
+      "selection_note": "Reserved before any model fitting or numerical scoring; copied from correspondence collection. No score existed for the initial 16-point collection.",
+      "consumed_from": "checks.json"
+    },
+    "after": {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        8303,
+        3360
+      ],
+      "lonlat": [
+        -61.2884184,
+        46.1921991
+      ],
+      "modern_node": "J0182",
+      "modern_objectids": [
+        261081,
+        261082,
+        263939
+      ],
+      "identity_evidence": "Frasers Brook enters Broad Cove River after the upstream northern/western fork R03 and southwestern tributary T03. NSTDB named Frasers Brook path 264089,121396,263938,263940,263939 terminates at J0182, between Broad Cove River features 261081 and 261082. Old J0174 is a separate unnamed western tributary (185241); J0185 is another unnamed indefinite tributary (287753). Native pixel unchanged; modern feature identity corrected.",
+      "source_uncertainty_px": 8,
+      "review": "2026-09-09: native source and full upstream network re-audited. Modern river-name metadata and endpoint connectivity resolve old wrong confluence. Agent review, not user audited.",
+      "selection_note": "Reserved before any model fitting or numerical scoring; copied from correspondence collection. No score existed for the initial 16-point collection.",
+      "consumed_from": "checks.json"
+    }
+  },
+  "new_observations": [
+    {
+      "id": "R01",
+      "role": "control",
+      "pixel_xy": [
+        5880,
+        3935
+      ],
+      "lonlat": [
+        -61.4039697,
+        46.1772838
+      ],
+      "modern_node": "J0240",
+      "modern_objectids": [
+        196862,
+        277456,
+        315723
+      ],
+      "identity_evidence": "White Brook junction: east branch towards Cove Brook leaves the southbound western stem below the upstream eastern tributary F07. The small modern western tributary J0243 is downstream and is not this source junction.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology review and enlarged native crosshair audit before fitting/scoring this revision; source pixel corrections follow visible ink, not residual minimization. Modern inverse guide used only for search."
+    },
+    {
+      "id": "R02",
+      "role": "control",
+      "pixel_xy": [
+        6000,
+        4287
+      ],
+      "lonlat": [
+        -61.398126,
+        46.1644937
+      ],
+      "modern_node": "J0299",
+      "modern_objectids": [
+        196531,
+        277459,
+        277460
+      ],
+      "identity_evidence": "Cove Brook lower eastern branch divides again: south-east arm descends to T02, east arm continues towards the J0306 branch. Upstream western junction J0297 is a separate source fork at about 5968,4290. The thin southeast stream meets the bold east-west stream here; horizontal printed graticule below is not water.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology review and enlarged native crosshair audit before fitting/scoring this revision; source pixel corrections follow visible ink, not residual minimization. Modern inverse guide used only for search."
+    },
+    {
+      "id": "R03",
+      "role": "control",
+      "pixel_xy": [
+        7751,
+        3052
+      ],
+      "lonlat": [
+        -61.3149477,
+        46.2028234
+      ],
+      "modern_node": "J0149",
+      "modern_objectids": [
+        192415,
+        264088,
+        264089
+      ],
+      "identity_evidence": "Frasers Brook northern arm meets west road-following arm, continuing southeast past T03 then to C09. Named NSTDB Frasers Brook path 264089,121396,263938,263940,263939 connects this exact sequence.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology review and enlarged native crosshair audit before fitting/scoring this revision; source pixel corrections follow visible ink, not residual minimization. Modern inverse guide used only for search."
+    },
+    {
+      "id": "R04",
+      "role": "control",
+      "pixel_xy": [
+        9067,
+        6058
+      ],
+      "lonlat": [
+        -61.2402308,
+        46.1109067
+      ],
+      "modern_node": "J0550",
+      "modern_objectids": [
+        169928,
+        169929,
+        191399
+      ],
+      "identity_evidence": "Hay River northern tributary 191399 crosses railway then road and turns southeast to the northern bank of Hay River (169928/169929). The bold diagonal farther northwest is railway, not river. Nearby modern J0553 is a southwest tributary, not this north arm. Single historical ink junction versus modern double-line north bank gives placement uncertainty.",
+      "source_uncertainty_px": 12,
+      "review": "Agent topology review and enlarged native crosshair audit before fitting/scoring this revision; source pixel corrections follow visible ink, not residual minimization. Modern inverse guide used only for search."
+    },
+    {
+      "id": "T01",
+      "role": "check",
+      "pixel_xy": [
+        5948,
+        3982
+      ],
+      "lonlat": [
+        -61.3990525,
+        46.1746166
+      ],
+      "modern_node": "J0252",
+      "modern_objectids": [
+        195446,
+        195448,
+        195795
+      ],
+      "identity_evidence": "Cove Brook long eastern branch joins southbound stem below R01. Modern small northeastern branch J0248 immediately above is not separately drawn in the historical scan; the long eastern branch and downstream north-south reach identify this junction.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology review and enlarged native crosshair audit before fitting/scoring this revision; source pixel corrections follow visible ink, not residual minimization. Modern inverse guide used only for search."
+    },
+    {
+      "id": "T02",
+      "role": "check",
+      "pixel_xy": [
+        6090,
+        4406
+      ],
+      "lonlat": [
+        -61.3945209,
+        46.1604956
+      ],
+      "modern_node": "J0317",
+      "modern_objectids": [
+        195665,
+        277460,
+        277461
+      ],
+      "identity_evidence": "Southeast arm from R02 meets eastern tributary before continuing south to next eastern tributary J0333. Exact ink junction sits above later road crossing; branch order and paired eastern arms match.",
+      "source_uncertainty_px": 5,
+      "review": "Agent topology review and enlarged native crosshair audit before fitting/scoring this revision; source pixel corrections follow visible ink, not residual minimization. Modern inverse guide used only for search."
+    },
+    {
+      "id": "T03",
+      "role": "check",
+      "pixel_xy": [
+        7810,
+        3203
+      ],
+      "lonlat": [
+        -61.3114722,
+        46.1975077
+      ],
+      "modern_node": "J0167",
+      "modern_objectids": [
+        192412,
+        263938,
+        263940
+      ],
+      "identity_evidence": "Frasers Brook western/southwestern tributary enters southeast-flowing main below R03, before main continues to C09. Named Frasers Brook features 263938 and 263940 meet tributary 192412. Nearby short thin northern source spur is not the long western arm.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology review and enlarged native crosshair audit before fitting/scoring this revision; source pixel corrections follow visible ink, not residual minimization. Modern inverse guide used only for search."
+    },
+    {
+      "id": "T04",
+      "role": "check",
+      "pixel_xy": [
+        7586,
+        3633
+      ],
+      "lonlat": [
+        -61.3224035,
+        46.18344
+      ],
+      "modern_node": "J0214",
+      "modern_objectids": [
+        191070,
+        269070,
+        269176
+      ],
+      "identity_evidence": "MacIsaacs Brook southwestern tributary enters west end of the large eastward loop below C06/C07. Main arrives from northwest and turns east along loop beneath road; southwestern tributary remains separate from southwest road. The loop leads through northern tributary J0202 and onwards to F03.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology review and enlarged native crosshair audit before fitting/scoring this revision; source pixel corrections follow visible ink, not residual minimization. Modern inverse guide used only for search."
+    }
+  ],
+  "check_roles_frozen_before_scoring": true,
+  "source_frame": "Native image edge coordinates, 10852 x 7622; no rotation. Native audit crops have 120px extent enlarged to 480px (4x); see review frames for paired figures.",
+  "old_fit_preserved": true
+}
