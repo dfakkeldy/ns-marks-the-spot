@@ -29,7 +29,7 @@ export function FletcherFullSheetsPreview({ renderMode }: { renderMode: MapRende
     enabled.type = 'checkbox'; enabled.checked = true;
     label.append(enabled, ' Fletcher · full sheets'); panel.append(label);
     const note = document.createElement('p');
-    note.textContent = 'Judique · Mabou · Hawkesbury. Complete sheets; approximate alignment and gaps at some joins.';
+    note.textContent = 'Cape Mabou · Mabou · Judique · Hawkesbury. Complete sheets; approximate alignment and gaps at some joins.';
     panel.append(note);
     const opacityLabel = document.createElement('label');
     opacityLabel.textContent = 'Opacity';

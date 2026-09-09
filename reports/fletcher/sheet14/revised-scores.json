@@ -1,0 +1,59 @@
+{
+  "fit_sha256": "ce0ff13c6a3119ebd75e02b2ff6a4c7018123d1cfdaa9bb9de915c25c2ecc6c0",
+  "checks_sha256": "4fab17b1016df98feb8779ce83ceb8c87c180e71762a4fafc29d3ae00ec9a30a",
+  "control_count": 15,
+  "method": "GDAL TPS in EPSG:3857",
+  "error_units": "Approximate spherical ground metres",
+  "median_ground_m": 161.06869739726443,
+  "worst_ground_m": 241.65653412260775,
+  "points": [
+    {
+      "id": "C05",
+      "error_ground_m": 230.74780796555527,
+      "predicted_lonlat": [
+        -61.27285527024678,
+        46.23869559532707
+      ]
+    },
+    {
+      "id": "C11",
+      "error_ground_m": 176.3930280624365,
+      "predicted_lonlat": [
+        -61.30827410992062,
+        46.11268812719855
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 63.486336296329426,
+      "predicted_lonlat": [
+        -61.33787746305938,
+        46.18539377880622
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 22.973634243553,
+      "predicted_lonlat": [
+        -61.37977775383973,
+        46.14321723697626
+      ]
+    },
+    {
+      "id": "Q05",
+      "error_ground_m": 145.74436673209232,
+      "predicted_lonlat": [
+        -61.36882054763624,
+        46.10197680708723
+      ]
+    },
+    {
+      "id": "Q06",
+      "error_ground_m": 241.65653412260775,
+      "predicted_lonlat": [
+        -61.245446429200186,
+        46.193206591408526
+      ]
+    }
+  ]
+}

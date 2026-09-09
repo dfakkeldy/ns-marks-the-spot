@@ -20,6 +20,7 @@ def main():
     parser.add_argument("--fit", type=Path, required=True)
     parser.add_argument("--checks", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--transform", choices=("tps", "affine"), default="tps")
     args = parser.parse_args()
     observations = json.loads(args.fit.read_text())
     data = json.loads(args.checks.read_text())
@@ -38,7 +39,7 @@ def main():
         gcps.extend(["-gcp", *map(str, [*p["pixel_xy"], *world])])
     result = c.run(
         "gdaltransform",
-        "-tps",
+        *(["-tps"] if args.transform == "tps" else ["-order", "1"]),
         *gcps,
         stdin="".join(f"{p['pixel_xy'][0]} {p['pixel_xy'][1]}\n" for p in checks),
     )
@@ -55,7 +56,7 @@ def main():
         "fit_sha256": c.digest(args.fit),
         "checks_sha256": c.digest(args.checks),
         "control_count": len(controls),
-        "method": "GDAL TPS in EPSG:3857",
+        "method": f"GDAL {args.transform.upper()} in EPSG:3857",
         "error_units": "Approximate spherical ground metres",
         "median_ground_m": float(np.median(error)),
         "worst_ground_m": float(max(error)),

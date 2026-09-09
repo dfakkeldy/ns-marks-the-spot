@@ -1,0 +1,46 @@
+{
+  "fit_sha256": "ee8c2de3f9c471f3c7e812e9372d40e51c5dee113954cfc08b7c5939c4d2cccc",
+  "points": [
+    {
+      "id": "G01",
+      "role": "check",
+      "pixel_xy": [
+        5156,
+        6061
+      ],
+      "lonlat": [
+        -61.4374246,
+        46.1082965
+      ],
+      "modern_node": "J0562",
+      "modern_objectids": [
+        207280,
+        276286,
+        276287
+      ],
+      "identity_evidence": "Northern arm joins northeast-running main above F04. Main northeast arm reaches the next northern fork J0554; downstream stem runs south to F04 east-arm confluence. Nearby same-catchment check, limited independence.",
+      "source_uncertainty_px": 5,
+      "review": "Agent native crosshair and topology audit after freezing 21-control fit, before numerical scoring."
+    },
+    {
+      "id": "G03",
+      "role": "check",
+      "pixel_xy": [
+        8877,
+        3892
+      ],
+      "lonlat": [
+        -61.26422315506629,
+        46.1755968481123
+      ],
+      "modern_node": null,
+      "modern_objectids": [
+        129496
+      ],
+      "identity_evidence": "Easternmost tip of the prominent western Loch Ban peninsula, below the narrow northern part and above the long southwest shoreline. Selected shoreline vertex on main peninsula, separate from offshore island 145929. Historical broad tip and water-level uncertainty.",
+      "source_uncertainty_px": 8,
+      "review": "Agent native crosshair and topology audit after freezing 21-control fit, before numerical scoring."
+    }
+  ],
+  "status": "Two fresh checks selected after the 21-control fit was frozen; spatial independence is limited, especially G01."
+}

@@ -1,0 +1,111 @@
+{
+  "fit_sha256": "ff1981e9afd1d6d044c454ca05707b2203afcb3ce3d513a4223324e63618bb2b",
+  "points": [
+    {
+      "id": "F03",
+      "role": "check",
+      "pixel_xy": [
+        8317,
+        3599
+      ],
+      "lonlat": [
+        -61.2892991,
+        46.1823219
+      ],
+      "modern_node": "J0220",
+      "modern_objectids": [
+        261085,
+        261086,
+        298546
+      ],
+      "identity_evidence": "Large western catchment containing C06/C07 reaches north\u2013south main at Strathlorne. Traced the whole catchment and intervening loops to distinguish it from northern J0185; eastern tributary enters nearby above it.",
+      "source_uncertainty_px": 8,
+      "review": "Agent topology and native 4x crosshair audit after freezing 18-control fit, before numerical scoring. Preliminary pixel errors corrected from visible ink."
+    },
+    {
+      "id": "F04",
+      "role": "check",
+      "pixel_xy": [
+        5140,
+        6150
+      ],
+      "lonlat": [
+        -61.4394085,
+        46.1043032
+      ],
+      "modern_node": "J0576",
+      "modern_objectids": [
+        196164,
+        276287,
+        276288
+      ],
+      "identity_evidence": "Eastern tributary joins north\u2013south stem before southwest reach crosses road and joins the separate western branch downstream. Northern arm has an upstream east/west fork pair; southeastern arm extends off right crop.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit after freezing 18-control fit, before numerical scoring. Preliminary pixel errors corrected from visible ink."
+    },
+    {
+      "id": "F05",
+      "role": "check",
+      "pixel_xy": [
+        8948,
+        6115
+      ],
+      "lonlat": [
+        -61.2489105,
+        46.1081554
+      ],
+      "modern_node": "J0563",
+      "modern_objectids": [
+        269424,
+        276971,
+        276972
+      ],
+      "identity_evidence": "Western long southern tributary of Hay River, separate from eastern C14 arm. Main approaches from northeast and continues west toward mill and road; southern arm continues to its own lower fork J0596.",
+      "source_uncertainty_px": 8,
+      "review": "Agent topology and native 4x crosshair audit after freezing 18-control fit, before numerical scoring. Preliminary pixel errors corrected from visible ink."
+    },
+    {
+      "id": "F06",
+      "role": "check",
+      "pixel_xy": [
+        8570,
+        1806
+      ],
+      "lonlat": [
+        -61.2784062,
+        46.2431588
+      ],
+      "modern_node": "J0059",
+      "modern_objectids": [
+        191037,
+        191038,
+        191164
+      ],
+      "identity_evidence": "Northern tributary joins east\u2013west stream before diagonal-road crossing eastward; western reach continues to western stem and lower C05 junction. Thin channel distinguished from diagonal double-line road.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit after freezing 18-control fit, before numerical scoring. Preliminary pixel errors corrected from visible ink."
+    },
+    {
+      "id": "F07",
+      "role": "check",
+      "pixel_xy": [
+        5853,
+        3855
+      ],
+      "lonlat": [
+        -61.4043153,
+        46.1792191
+      ],
+      "modern_node": "J0236",
+      "modern_objectids": [
+        277455,
+        277456,
+        315956
+      ],
+      "identity_evidence": "Eastern tributary enters north\u2013south Cove Brook above lower major eastward branch. Eastern arm rises northeast to a further north/east fork, separate from lower Cove Brook junctions.",
+      "source_uncertainty_px": 6,
+      "review": "Agent topology and native 4x crosshair audit after freezing 18-control fit, before numerical scoring. Preliminary pixel errors corrected from visible ink."
+    }
+  ],
+  "status": "Five fresh unfitted checks frozen before scoring; report separately from retained diagnostics."
+}

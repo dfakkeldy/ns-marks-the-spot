@@ -1,0 +1,43 @@
+[
+  {
+    "id": "C02-provisional",
+    "pixel_xy": [
+      9078,
+      1280
+    ],
+    "reason": "Road/water line overlap near the mill does not resolve modern J0036 confluence identity. Withheld before fitting or scoring."
+  },
+  {
+    "id": "F01-provisional",
+    "pixel_xy": [
+      8515,
+      1951
+    ],
+    "reason": "Native crosshair reveals no reliably drawn southern tributary at proposed J0070; obscured by settlement/road ink. Rejected before scoring."
+  },
+  {
+    "id": "F02-provisional",
+    "pixel_xy": [
+      6247,
+      4091
+    ],
+    "reason": "Crosshair is southern arm, proposed J0272 is northern arm. Broader source and modern branch ordering do not support an unambiguous identity. Rejected before scoring."
+  },
+  {
+    "id": "Q05",
+    "pixel_xy": [
+      6449,
+      6363
+    ],
+    "modern_node": "J0584",
+    "reason": "Final side-by-side review and expanded native context reveal contradictory branch orientation: source is a northern tributary, modern J0584 is a southeastern tributary. No independently traceable connection resolves this. Excluded as an invalid check despite its low 124 m score; never fitted. Prior scoring files retained."
+  },
+  {
+    "id": "G02-provisional",
+    "pixel_xy": [
+      8918,
+      6262
+    ],
+    "reason": "Modern J0596 requires a second southern water branch; source has road/stream overlap without a separately resolved matching water branch. Withheld before scoring."
+  }
+]
