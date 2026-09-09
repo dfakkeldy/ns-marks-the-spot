@@ -1325,10 +1325,13 @@ custom-domain acceptance remain separate gates. The permission does not by
 itself clear native offline bundling. Unsupported historical
 sources remain fail-closed; this web workflow does not change the native app.
 
-### Corrected Fletcher corridor preview
+### Fletcher full-sheets review preview
 
-`VITE_FLETCHER_CORRIDOR_TILE_BASE_URL` optionally enables the separately tiled,
-checked Port Hawkesbury–Mabou corridor. It has its own visibility and opacity
-control, retains the accepted approximately 28 m southern sheet offset, and is
-excluded from map exports. Unset by default; the published Fletcher sheet layer
-is unchanged. See [package and local preview instructions](../reports/fletcher/corridor-tiles/README.md).
+`VITE_FLETCHER_FULL_SHEETS_TILE_BASE_URL` optionally enables a local review overlay
+of the complete cropped Judique, Mabou, and Hawkesbury sheets. Example local
+host: `http://127.0.0.1:4198` (see `.env.example`). When the variable is absent
+or unset, the control is absent. It does not replace the published 24-sheet
+Fletcher layer. Alignment is approximate, with gaps at some joins; this is a
+review preview only, not a geographically accepted production replacement. It
+has its own visibility and opacity control and is excluded from map exports
+and print. See [package and local preview instructions](../reports/fletcher/full-sheets/README.md).
