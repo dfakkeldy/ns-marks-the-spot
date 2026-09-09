@@ -1,6 +1,6 @@
 # Fletcher full-sheet review tiles
 
-This revision renders the complete cropped map content of Judique (19), Mabou
+This revision renders the complete cropped map content of Cape Mabou / Broad Cove (14), Judique (19), Mabou
 (16) and Hawkesbury (22), including the eastern interior and southern mainland.
 It replaces the local Route 19 strip preview. It is an approximate, reversible
 review mosaic, **not a geographically accepted seamless replacement layer**.
@@ -13,6 +13,7 @@ No production layer has been changed.
 | Judique 19 | [revised-fit.json](../judique-full-sheet/revised-fit.json) | 44 | 15 |
 | Mabou 16 | [revised-fit.json](../mabou-full-sheet/revised-fit.json) | 34 | 32 |
 | Hawkesbury 22 | [boundary-fit.json](../hawkesbury-full-sheet/boundary-fit.json) | 28 | 17 |
+| Cape Mabou 14 | [final-fit.json](../sheet14/final-fit.json) | 22 | 0 |
 
 [Control preservation](control-preservation.json) records exact equality of all
 64 hand controls and the prior accepted agent controls. The `sheet-*-controls.csv`
@@ -23,7 +24,7 @@ Do not attach native controls to the resampled GeoTIFF.
 
 [inputs.json](inputs.json) identifies each source fit, rendered raster, dimensions,
 bounds, orientation samples and composite hash. The original neatline masks are
-retained: 8 px inset for Judique and Mabou, approximately 12 px for Hawkesbury.
+retained: 8 px inset for Sheet 14, Judique and Mabou, approximately 12 px for Hawkesbury.
 These remove the printed frames, not inland map coverage. Sources remain intact.
 The coordinate system is EPSG:3857, with 5 projected-metre raster cells; this is
 resolution, not positional accuracy.
@@ -40,6 +41,11 @@ The working 100 m median / 200 m worst targets are **not satisfied uniformly**:
 Judique's fresh median and Mabou's retained diagnostic median exceed 100 m.
 Nearby checks on the same catchment have weak independence. These are same-agent
 physical-feature audits, not survey validation or a user audit of every point.
+
+Sheet 14 has five retained diagnostic checks at 82/169 m, but no fresh validation
+of its final revision. Earlier fresh checks exposed large errors and were consumed
+explicitly; one apparently good check was later rejected for contradictory stream
+topology. Its full history and editable files are in the [Sheet 14 report](../sheet14/README.md).
 
 Earlier failed fits and checks remain in the per-sheet reports. Consumed checks
 are identified as controls; they do not contribute to the reported accuracy.
@@ -84,24 +90,30 @@ exactly the transparent strip. The preview retains these gaps. A seamless mosaic
 still needs further justified correspondences, another source covering the gap,
 or a separately identified cartographic adjustment. No such adjustment was made.
 
+The Sheet 14–Mabou join remains open by approximately 335–775 m between
+-61.46° and -61.24°. Wider eastern samples approach staggered side edges.
+[Join evidence](../sheet14/mabou-join.json) does not justify stretching the sheets
+together; this is coverage separation, not a feature-accuracy measurement.
+
 ## Tiles and local verification
 
-Artifact revision: `fletcher-full-sheets-20260908.3`, in
+Artifact revision: `fletcher-full-sheets-20260908.4`, in
 `~/Downloads/fletcher-full-sheet-tiles/`. The mosaic uses bottom-to-top ordering
-22, 16, 19, so Judique takes priority in overlaps. Tiles are RGBA PNG XYZ, zooms
-8–15, with overzoom in the browser. The full pyramid contains 3,357 tile objects;
+22, 16, 19, 14, so Sheet 14 takes priority at its join and Judique retains
+priority in the earlier overlaps. Tiles are RGBA PNG XYZ, zooms
+8–15, with overzoom in the browser. The full pyramid contains 4,792 tile objects;
 blank objects are intentionally retained to avoid missing-tile errors.
 
 [Tile verification](tile-verification.json) checks every inventory hash and XYZ
 object, and compares all opaque zoom-15 cells against a continuous GDAL resample.
 There are zero lost source-coverage cells and zero tile-edge RGB differences.
-The maximum interior RGB difference is one 8-bit level from rounding; an earlier
-exact-zero comparison is retained separately. This tests tile mechanics, not
+This revision has zero interior RGB differences as well. Earlier revision receipts
+are retained separately. This tests tile mechanics, not
 geographic accuracy. Earlier revision receipts remain explicitly labelled.
 
 The web preview is opt-in through `VITE_FLETCHER_FULL_SHEETS_TILE_BASE_URL`.
 Local browser checks cover desktop/mobile rendering, interior and edge locations,
-toggle, opacity and reload; 147 tile responses succeeded with no console errors.
+toggle, opacity and reload; 156 tile responses succeeded with no console errors.
 The preview is excluded from map exports. Its source link exposes the raster and
 fit provenance; default production Fletcher layers remain unchanged.
 
@@ -114,8 +126,8 @@ and GDAL CLIs on PATH. Large native scans and raster outputs stay outside Git.
    verifies source hashes, scores the named frozen checks, samples the Jacobian,
    and renders the complete neatline. Use the active inputs above and their
    corresponding diagnostic/fresh check JSON; do not use checks as controls.
-2. Composite the three outputs with `gdalwarp -srcalpha -dstalpha -r near -tr 5 5
-   -tap -co COMPRESS=DEFLATE -co TILED=YES HAWKESBURY MABOU JUDIQUE OUTPUT`.
+2. Composite the four outputs with `gdalwarp -srcalpha -dstalpha -r near -tr 5 5
+   -tap -co COMPRESS=DEFLATE -co TILED=YES HAWKESBURY MABOU JUDIQUE SHEET14 OUTPUT`.
 3. Record its hash in `inputs.json`, then run
    `tools/fletcher/tile_full_sheets.py --source OUTPUT --out NEW_REVISION_DIR
    --gdal /opt/homebrew/bin/gdal` (GDAL 3.11+). Update the immutable revision name

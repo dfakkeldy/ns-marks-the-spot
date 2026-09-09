@@ -13,7 +13,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 ACCEPTANCE = ROOT / "reports/fletcher/full-sheets/inputs.json"
-REVISION = "fletcher-full-sheets-20260908.3"
+REVISION = "fletcher-full-sheets-20260908.4"
 
 
 def digest(path):
@@ -107,7 +107,7 @@ def main():
     write(a.out / "tile-inventory.json", inventory)
     source = {
         "revision": REVISION,
-        "name": "Fletcher complete sheets — Judique, Mabou and Hawkesbury",
+        "name": "Fletcher complete sheets — Cape Mabou, Judique, Mabou and Hawkesbury",
         "status": "local-preview",
         "scheme": "xyz",
         "format": "png",
