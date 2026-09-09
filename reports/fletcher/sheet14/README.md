@@ -56,6 +56,15 @@ revision**. Five checks, some close to controls in the same catchment, cannot
 establish uniform full-sheet accuracy. These are agent audits, not a point-by-point
 user audit or survey validation. The offshore area is largely extrapolation.
 
+[Actual warped-raster overlays](warped-review/) against modern water and roads
+show local stream-shape offsets of several hundred metres away from controls,
+including Cove Brook and tributaries around Strathlorne and Hay River. These
+visual checks are not captured by the five-point statistic. The useful next
+geographic work is to resolve additional tributary identities in those areas
+and independently check the southern boundary before treating all extracted
+labels as accurately positioned. The current transform is suitable for a
+provisional digitization preview, with uncertainty retained.
+
 Earlier fits and failures remain intact. After the 18-control fit was frozen,
 five fresh checks found 516/545 m median/worst error, including large errors near
 Strathlorne, the southwestern interior and Hay River. Those three verified
