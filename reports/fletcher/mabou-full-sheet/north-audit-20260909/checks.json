@@ -1,0 +1,75 @@
+{
+  "sheet": "sheet-16",
+  "fit_sha256": "8eaa8822e820af83790e940510cf8619b14f14a571160b8ad0ea5c5dce36a44c",
+  "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+  "source_dimensions": [
+    10822,
+    7531
+  ],
+  "status": "Three fresh northern checks reserved before scoring; same-agent review and two points on Glendyer Brook limit independence. No control changes.",
+  "points": [
+    {
+      "id": "N01",
+      "role": "check",
+      "pixel_xy": [
+        7054,
+        1100
+      ],
+      "lonlat": [
+        -61.3484237,
+        46.0899668
+      ],
+      "modern_node": "J0127",
+      "modern_objectids": [
+        195827,
+        262773,
+        262774
+      ],
+      "identity_evidence": "Glendyer Brook weaving mill: long eastern tributary joins the main immediately south of the diagonal road bridge. Main follows the road north/south; separate western branch joins farther south at J0131. The eastern tributary continues through branching northern-edge drainage, not the next eastern creek farther downstream.",
+      "source_uncertainty_px": 8,
+      "review": "Agent native topology and enlarged grid review before scoring. Not user audited. Coordinates reserved outside fitting; Mabou34-control fit unchanged."
+    },
+    {
+      "id": "N02",
+      "role": "check",
+      "pixel_xy": [
+        7828,
+        1117
+      ],
+      "lonlat": [
+        -61.31369,
+        46.0898438
+      ],
+      "modern_node": "J0128",
+      "modern_objectids": [
+        223141,
+        223142,
+        223359
+      ],
+      "identity_evidence": "Elgin Brook upper fork: northern arm descends from its own fork near the top frame, joins the east-west main that turns southwest then south through the long Elgin valley. Farther east another northeast arm joins at J0137. Geological arrows are distinct from the continuously traced northern arm.",
+      "source_uncertainty_px": 8,
+      "review": "Agent native topology and enlarged grid review before scoring. Not user audited. Coordinates reserved outside fitting; Mabou34-control fit unchanged."
+    },
+    {
+      "id": "N03",
+      "role": "check",
+      "pixel_xy": [
+        6934,
+        1530
+      ],
+      "lonlat": [
+        -61.3553273,
+        46.0760474
+      ],
+      "modern_node": "J0210",
+      "modern_objectids": [
+        196877,
+        262782,
+        262783
+      ],
+      "identity_evidence": "Glendyer Brook lower eastern tributary: joins at the upper bend of the broad S above the tannery and estuary mouth. Eastern arm forks farther upstream around the field block; separate small western branches occur above this junction beside the north-south road.",
+      "source_uncertainty_px": 8,
+      "review": "Agent native topology and enlarged grid review before scoring. Not user audited. Coordinates reserved outside fitting; Mabou34-control fit unchanged."
+    }
+  ]
+}

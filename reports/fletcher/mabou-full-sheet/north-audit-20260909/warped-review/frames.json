@@ -1,0 +1,47 @@
+[
+  {
+    "image": "glendyer.jpg",
+    "lonlat_bounds": [
+      -61.372,
+      46.065,
+      -61.325,
+      46.102
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/mabou-full-sheet/result/sheet-16-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/result36/sheet-16-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet16/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "elgin.jpg",
+    "lonlat_bounds": [
+      -61.328,
+      46.07,
+      -61.29,
+      46.105
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/mabou-full-sheet/result/sheet-16-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/result36/sheet-16-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet16/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "mabou-estuary.jpg",
+    "lonlat_bounds": [
+      -61.445,
+      46.061,
+      -61.399,
+      46.091
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/mabou-full-sheet/result/sheet-16-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/result36/sheet-16-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet16/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

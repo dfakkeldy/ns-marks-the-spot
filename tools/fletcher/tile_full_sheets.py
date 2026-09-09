@@ -13,7 +13,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
 ACCEPTANCE = ROOT / "reports/fletcher/full-sheets/inputs.json"
-REVISION = "fletcher-full-sheets-20260909.2"
+REVISION = "fletcher-full-sheets-20260909.3"
 
 
 def digest(path):

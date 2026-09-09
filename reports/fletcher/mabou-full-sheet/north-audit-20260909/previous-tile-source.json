@@ -1,5 +1,5 @@
 {
-  "revision": "fletcher-full-sheets-20260909.3",
+  "revision": "fletcher-full-sheets-20260909.2",
   "name": "Fletcher complete sheets \u2014 Cape Mabou, Judique, Mabou and Hawkesbury",
   "status": "local-preview",
   "scheme": "xyz",
@@ -16,8 +16,8 @@
   "attribution": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
   "licence": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
   "modifications": "Georeferenced, cropped and tiled; original printed colours preserved.",
-  "sourceRasterSha256": "01b72d49d32fc00f1e7fec0d0ad06602558b82bedc36edba8e4a7a8f1257c35f",
-  "provenanceSha256": "db9c9880406df01602a406115ed0383ead03dee90409d9212dd23d8cd53d418c",
+  "sourceRasterSha256": "9b69af863e859c9044479c3db6b6cc2f112637d4e7454dd2233bfb11bdb93682",
+  "provenanceSha256": "ca624e0f6fc4ed360478f4ba039a80ee925358455aefecd3800c663f847d2409",
   "provenance": {
     "scope": "Four complete inner neatlines; approximate georeferencing, joins remain imperfect",
     "sheets": [
@@ -69,23 +69,23 @@
       },
       {
         "sheet": "16",
-        "fit": "mabou-full-sheet/north-audit-20260909/candidate36/fit.json",
-        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
-        "raster_sha256": "bc1a357cc470536e820ddaccf16e61ab3c4c728a29b473fcc07de9e3703ff82c",
+        "fit": "mabou-full-sheet/revised-fit.json",
+        "fit_sha256": "8eaa8822e820af83790e940510cf8619b14f14a571160b8ad0ea5c5dce36a44c",
+        "raster_sha256": "848aa657c6c78d8e4d7b51f4351790cbda1cc4b6b727f3730ad64ea0dca81669",
         "dimensions": [
-          8497,
-          5560
+          8479,
+          5553
         ],
         "bounds": {
           "type": "Polygon",
           "coordinates": [
             [
               [
-                -61.6018359,
-                46.0946815
+                -61.6010274,
+                46.0944635
               ],
               [
-                -61.6018359,
+                -61.6010274,
                 45.9212285
               ],
               [
@@ -94,11 +94,11 @@
               ],
               [
                 -61.2201866,
-                46.0946815
+                46.0944635
               ],
               [
-                -61.6018359,
-                46.0946815
+                -61.6010274,
+                46.0944635
               ]
             ]
           ]
@@ -108,8 +108,8 @@
           "native_grid_step_px": 25,
           "nonnegative_determinants": 0,
           "determinant_range": [
-            -40.38313911295963,
-            -20.85218553899207
+            -27.713287660239395,
+            -20.847343406933376
           ]
         }
       },
@@ -212,9 +212,9 @@
       "19",
       "14"
     ],
-    "geographic_quality": "Approximate geography, not survey accuracy. Mabou36 controls:14 excluded diagnostics median107m/worst151m; Glendyer locally improved while some estuary/Elgin errors slightly worsen. Sheet14:26 controls,13 diagnostics112m/241m. Judique fresh median118m. Working100m median target not met uniformly. Gaps retained; no full-sheet geographic acceptance.",
+    "geographic_quality": "See per-sheet reports. Same-agent checks do not establish survey accuracy. Judique fresh median118m misses working100m target. Gaps remain transparent; no content fabricated. Sheet14 has26 controls and13 excluded diagnostics: median112m/worst241m. Southern confluence and Hay River identities corrected using native topology, NSTDB and dated NRCan context. No full-sheet geographic acceptance; original sheets19/16/22 unchanged.",
     "composite": {
-      "sha256": "01b72d49d32fc00f1e7fec0d0ad06602558b82bedc36edba8e4a7a8f1257c35f",
+      "sha256": "9b69af863e859c9044479c3db6b6cc2f112637d4e7454dd2233bfb11bdb93682",
       "dimensions": [
         8805,
         22388
@@ -246,7 +246,7 @@
           ]
         ]
       },
-      "method": "gdalwarp -srcalpha -dstalpha -r near -tr5 5 -tap; four individual rasters in order22,16,19,14; complete neatlines and transparent gaps"
+      "method": "gdalwarp -srcalpha -dstalpha -r near -tr 5 5 -tap; previous 22,16,19 composite followed by 14; complete neatlines, gaps remain transparent"
     }
   },
   "gdalVersion": "GDAL 3.13.3 \"Iowa City\", released 2026/08/13",
@@ -264,8 +264,8 @@
     "9": 3
   },
   "tileCount": 4630,
-  "tileBytes": 427130113,
-  "fullyTransparentTiles": 232,
-  "inventorySha256": "31bacc830ef0739f63a687e0893b25679d2efcd86e4f1e84111228c46fec5b35",
+  "tileBytes": 426899209,
+  "fullyTransparentTiles": 233,
+  "inventorySha256": "aa47ef622a0527ac82dda1a9184283e0d81edc80039153c2ac69c16e262272a9",
   "note": "Transparent tiles intentionally retained within raster bounds to avoid missing-object errors. Higher display zooms enlarge zoom 15. No geographic improvement or production publication is implied."
 }

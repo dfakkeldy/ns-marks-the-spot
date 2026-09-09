@@ -1,0 +1,62 @@
+[
+  {
+    "image": "sheet-16-N01.jpg",
+    "point_record": "mabou-full-sheet/north-audit-20260909/checks.json",
+    "point_id": "N01",
+    "native_box": [
+      6944,
+      990,
+      7164,
+      1210
+    ],
+    "native_coordinates": [
+      7054,
+      1100
+    ],
+    "modern_lonlat": [
+      -61.3484237,
+      46.0899668
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-16-N02.jpg",
+    "point_record": "mabou-full-sheet/north-audit-20260909/checks.json",
+    "point_id": "N02",
+    "native_box": [
+      7718,
+      1007,
+      7938,
+      1227
+    ],
+    "native_coordinates": [
+      7828,
+      1117
+    ],
+    "modern_lonlat": [
+      -61.31369,
+      46.0898438
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-16-N03.jpg",
+    "point_record": "mabou-full-sheet/north-audit-20260909/checks.json",
+    "point_id": "N03",
+    "native_box": [
+      6824,
+      1420,
+      7044,
+      1640
+    ],
+    "native_coordinates": [
+      6934,
+      1530
+    ],
+    "modern_lonlat": [
+      -61.3553273,
+      46.0760474
+    ],
+    "rotation_degrees": 0
+  }
+]

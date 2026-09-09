@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/result36/sheet-16-full-sheet.tif",
+  "raster_sha256": "bc1a357cc470536e820ddaccf16e61ab3c4c728a29b473fcc07de9e3703ff82c",
+  "cutline_sha256": "e58b58131982382b7e503fd113e1c947f1e358e6bc58b6888a6831b5aed6956b",
+  "expected_interior_cells": 44632729,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

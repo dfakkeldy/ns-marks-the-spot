@@ -1,0 +1,10 @@
+{
+  "focused_web_tests": "39 passed",
+  "web_build": "passed with existing bundle-size advisory",
+  "import": "36controls/14checks; CSV roundtrip and web/GDAL difference below0.001m",
+  "coverage": "44632729 interior cells,zeroalpha holes",
+  "tiles": "4630tiles;201818912opaque cellscompared;zero lostcoverage;zero tileedge RGB differences;one8bitlevel maximuminterior difference",
+  "browser": "261successful responses,noJavaScript errors;desktop/mobile,toggle,opacity,reload,13geographic views",
+  "provenance": "All active fit/check/render/tile/handoff hashes consistent",
+  "scope": "Local verification,not geographic acceptance or hosted CI"
+}

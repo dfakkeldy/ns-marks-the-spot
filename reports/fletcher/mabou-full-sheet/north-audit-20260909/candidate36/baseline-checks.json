@@ -1,0 +1,527 @@
+{
+  "fit_sha256": "8eaa8822e820af83790e940510cf8619b14f14a571160b8ad0ea5c5dce36a44c",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        3415,
+        3758
+      ],
+      "lonlat": [
+        -61.5108299,
+        46.0061361
+      ],
+      "label": "Mill Creek north fork",
+      "identity_evidence": "Northern tributary joins the east-west creek immediately north of the diagonal road crossing; a second northern tributary lies farther west.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0556",
+        "objectids": [
+          262184,
+          270666,
+          270668
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Single-line river junction",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          3275,
+          3668,
+          3555,
+          3848
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        4932,
+        3099
+      ],
+      "lonlat": [
+        -61.4425543,
+        46.0272491
+      ],
+      "label": "Southwest Mabou eastern fork",
+      "identity_evidence": "Eastern arm meets northwestern arm before the southward turn in the branching tributary network east of the main river; road and relative order of the two junctions corroborate identity.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0473",
+        "objectids": [
+          274189,
+          286564,
+          299052
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Two arms are NSTDB indefinite single-line rivers; interpretation retains this uncertainty.",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4792,
+          3009,
+          5072,
+          3189
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        5571,
+        1454
+      ],
+      "lonlat": [
+        -61.41860857857015,
+        46.077981140635956
+      ],
+      "label": "Hughes Point southern tip",
+      "identity_evidence": "Southernmost apex of the distinctive triangular north-bank headland, opposite Indian Point; shore geometry on both sides corroborates the feature.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectid": 25483,
+        "part": 0,
+        "vertex": 52
+      },
+      "native_uncertainty_px": 10,
+      "reference_note": "Coast-river shoreline extremum; historical shoreline change remains possible.",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          5431,
+          1364,
+          5711,
+          1544
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        4194,
+        4476
+      ],
+      "lonlat": [
+        -61.4774733,
+        45.984369
+      ],
+      "label": "Little Judique upper north fork",
+      "identity_evidence": "North branch joins east-west main immediately northeast of the diagonal road crossing; the next eastern tributary joins farther northeast.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0689",
+        "objectids": [
+          211793,
+          211935,
+          212201
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Single-line river junction",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4054,
+          4386,
+          4334,
+          4566
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        5034,
+        5128
+      ],
+      "lonlat": [
+        -61.4362719,
+        45.9635417
+      ],
+      "label": "Rear Judique western tributary",
+      "identity_evidence": "Western arm joins north-south main immediately west of the north-south road; upstream branch and southern forks distinguish this junction.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0794",
+        "objectids": [
+          211937,
+          260289,
+          261524
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Single-line river junction",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4894,
+          5038,
+          5174,
+          5218
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q06",
+      "role": "check",
+      "pixel_xy": [
+        4369,
+        6228
+      ],
+      "lonlat": [
+        -61.4646672,
+        45.9289039
+      ],
+      "label": "Judique River southern-edge fork",
+      "identity_evidence": "Northwest and northeast arms converge before the southward series of tight bends; road crosses the northeast arm farther east. Southern tie-check near Sheet19 edge.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0917",
+        "objectids": [
+          195934,
+          195937,
+          196007
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Single-line river junction",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4229,
+          6138,
+          4509,
+          6318
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q07",
+      "role": "check",
+      "pixel_xy": [
+        5366,
+        1687
+      ],
+      "lonlat": [
+        -61.428650886797705,
+        46.070375771336586
+      ],
+      "label": "Goose Point eastern tip",
+      "identity_evidence": "Easternmost apex of the rounded west-bank headland on the Mabou estuary, opposite Murphy Point; distinct from Indian Point farther north.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "objectid": 25548,
+        "part": 0,
+        "vertex": 2
+      },
+      "native_uncertainty_px": 10,
+      "reference_note": "Coast-river shoreline extremum; historical shoreline change remains possible.",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          5226,
+          1597,
+          5506,
+          1777
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "Q08",
+      "role": "check",
+      "pixel_xy": [
+        3280,
+        3744
+      ],
+      "lonlat": [
+        -61.5176858,
+        46.0062793
+      ],
+      "label": "Mill Creek western north fork",
+      "identity_evidence": "Western of the two northern tributaries joins Mill Creek before the downstream road crossing; the larger eastern fork is Q01.",
+      "modern_reference": {
+        "layer": "water-lines",
+        "node": "J0555",
+        "objectids": [
+          196195,
+          270667,
+          270669
+        ]
+      },
+      "native_uncertainty_px": 5,
+      "reference_note": "Single-line river junction",
+      "review": "agent topology and native crosshair; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          3140,
+          3654,
+          3420,
+          3834
+        ],
+        "display_size": [
+          560,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based original full-scan image-edge pixels"
+      }
+    },
+    {
+      "id": "M02",
+      "role": "check",
+      "pixel_xy": [
+        9447,
+        2703
+      ],
+      "lonlat": [
+        -61.2379472,
+        46.0410268
+      ],
+      "modern_node": "J0427",
+      "modern_objectids": [
+        198109,
+        198111,
+        286220
+      ],
+      "identity_evidence": "Eastern hills: long western arm joins north-northeast flowing stem; southern arm continues to paired-road crossing and next east tributary. Geological dip arrow lies above this junction and is not a stream.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          9357,
+          2623,
+          9537,
+          2783
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original image-edge xy"
+      },
+      "review": "Agent topology and native crosshair inspected at 4x before scoring. Not user audited."
+    },
+    {
+      "id": "M03",
+      "role": "check",
+      "pixel_xy": [
+        8418,
+        5657
+      ],
+      "lonlat": [
+        -61.2843832,
+        45.9478089
+      ],
+      "modern_node": "J0852",
+      "modern_objectids": [
+        224042,
+        224043,
+        286606
+      ],
+      "identity_evidence": "Southeast: northeastern arm joins east-southeast brook below the River bridge and before Fall 8. Stream remains distinct from separate southern channel and hatched geological mark.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          8328,
+          5577,
+          8508,
+          5737
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original image-edge xy"
+      },
+      "review": "Agent topology and native crosshair inspected at 4x before scoring. Not user audited."
+    },
+    {
+      "id": "M05",
+      "role": "check",
+      "pixel_xy": [
+        9143,
+        2075
+      ],
+      "lonlat": [
+        -61.2537262,
+        46.0608386
+      ],
+      "modern_node": "J0328",
+      "modern_objectids": [
+        199826,
+        274420,
+        274421
+      ],
+      "identity_evidence": "McQueens Brook: thin eastern tributary enters downstream of the long north-south reach, immediately upstream of the road crossing and river outlet. Nearby dip arrows at native y2000 are not tributaries.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          9053,
+          1995,
+          9233,
+          2155
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent native topology and enlarged crosshair before scoring; no user audit"
+    },
+    {
+      "id": "M06",
+      "role": "check",
+      "pixel_xy": [
+        8807,
+        5972
+      ],
+      "lonlat": [
+        -61.2650787,
+        45.9346069
+      ],
+      "modern_node": "J0893",
+      "modern_objectids": [
+        265953,
+        265954,
+        286596
+      ],
+      "identity_evidence": "Next western tributary downstream of M04; main stem turns southeast immediately below the junction, with a separate west-side bifurcation farther upstream on the tributary. Correlated catchment with M04.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          8717,
+          5892,
+          8897,
+          6052
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent native topology and enlarged crosshair before scoring; no user audit"
+    },
+    {
+      "id": "M07",
+      "role": "check",
+      "pixel_xy": [
+        8070,
+        5410
+      ],
+      "lonlat": [
+        -61.3009939,
+        45.9558741
+      ],
+      "modern_node": "J0822",
+      "modern_objectids": [
+        223258,
+        223362,
+        224039
+      ],
+      "identity_evidence": "Southern interior River: southwestern tributary joins meandering north stem upstream from successive eastern arms and road crossing. West arm traced to road and branching drainage; not downstream J0836.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          7980,
+          5330,
+          8160,
+          5490
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "review": "Agent native topology and enlarged crosshair before scoring; no user audit",
+      "native_audit": {
+        "preliminary_xy": [
+          8070,
+          5407
+        ],
+        "final_xy": [
+          8070,
+          5410
+        ],
+        "reason": "Moved three native pixels down to branch centre on enlarged crosshair before score"
+      }
+    },
+    {
+      "id": "N02",
+      "role": "check",
+      "pixel_xy": [
+        7828,
+        1117
+      ],
+      "lonlat": [
+        -61.31369,
+        46.0898438
+      ],
+      "modern_node": "J0128",
+      "modern_objectids": [
+        223141,
+        223142,
+        223359
+      ],
+      "identity_evidence": "Elgin Brook upper fork: northern arm descends from its own fork near the top frame, joins the east-west main that turns southwest then south through the long Elgin valley. Farther east another northeast arm joins at J0137. Geological arrows are distinct from the continuously traced northern arm.",
+      "source_uncertainty_px": 8,
+      "review": "Agent native topology and enlarged grid review before scoring. Not user audited. Coordinates reserved outside fitting; Mabou34-control fit unchanged."
+    }
+  ],
+  "status": "Fourteen excluded diagnostics; N01/N03 consumed intofit. No fresh full-sheet acceptance."
+}

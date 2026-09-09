@@ -1,0 +1,13 @@
+{
+  "scope": "Mabou northern boundary and adjacent drainage, complete sheet retained",
+  "baseline_controls": 34,
+  "preserve_hand_controls": 32,
+  "working_criteria_ground_m": {
+    "median": 100,
+    "worst": 200
+  },
+  "interpretation": "Diagnostic regional criteria inherited from current Fletcher project; not universal historical-map accuracy or proof of full-sheet acceptance. Do not shift controls simply to close the Sheet14 gap.",
+  "source_pixel_convention": "Native image-edge xy; unrotated crops with visible grid",
+  "reference_receipts": "reports/fletcher/sheet16/reference-receipts.json",
+  "prior_sheet14_fit": "reports/fletcher/sheet14/southern-audit-20260909/hay-topology/fit.json"
+}

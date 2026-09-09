@@ -1,0 +1,14 @@
+{
+  "status": "Selected provisional Mabou refinement",
+  "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+  "frozen_candidate_metadata_retained": true,
+  "controls": 36,
+  "excluded_checks": 14,
+  "all32_hand_controls_preserved": true,
+  "other_sheets_unchanged": [
+    "14",
+    "19",
+    "22"
+  ],
+  "reason": "Two independently identified Glendyer junctions improve actual channel alignment; one-point35 trial displaced the downstream junction and was rejected. Retained check median106.8m/worst151.3m vs106.1m/139.0m before: no aggregate accuracy gain claimed. No forced boundary adjustment or full-sheet geographic acceptance."
+}

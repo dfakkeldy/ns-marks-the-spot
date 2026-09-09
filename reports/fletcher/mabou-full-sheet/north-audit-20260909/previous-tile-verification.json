@@ -1,13 +1,13 @@
 {
-  "source_sha256": "01b72d49d32fc00f1e7fec0d0ad06602558b82bedc36edba8e4a7a8f1257c35f",
-  "inventory_sha256": "31bacc830ef0739f63a687e0893b25679d2efcd86e4f1e84111228c46fec5b35",
+  "source_sha256": "9b69af863e859c9044479c3db6b6cc2f112637d4e7454dd2233bfb11bdb93682",
+  "inventory_sha256": "aa47ef622a0527ac82dda1a9184283e0d81edc80039153c2ac69c16e262272a9",
   "tile_count": 4630,
   "complete_xyz_pyramids": true,
   "native_zoom": 15,
   "missing_source_coverage_cells": 0,
-  "opaque_cells_compared": 201818912,
-  "opaque_rgb_max_difference": 1,
-  "opaque_rgb_mean_difference": 1.6516456759678365e-09,
+  "opaque_cells_compared": 201710950,
+  "opaque_rgb_max_difference": 0,
+  "opaque_rgb_mean_difference": 0.0,
   "tile_edge_opaque_rgb_max_difference": 0,
   "rgb_tolerance": "One 8-bit level: strip and tile sampling can round at a half value; exact-zero diagnostic retained separately",
   "scope": "Tile mechanics only. Source geographic gaps are retained, not certified or filled."
