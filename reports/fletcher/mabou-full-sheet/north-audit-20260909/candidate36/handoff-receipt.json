@@ -3,8 +3,8 @@
   "files": [
     {
       "name": "README.md",
-      "sha256": "ca9e1ffa70d1c3da9a84270e69979a07c3d08e70de7f4a5d1d560019f1977fc2",
-      "bytes": 1353
+      "sha256": "0f7dd45d6a38d2477937da443fbcfb784878eee6ea25a2b31c4b5f6c85a2cd1c",
+      "bytes": 1616
     },
     {
       "name": "boundary.json",
@@ -28,8 +28,8 @@
     },
     {
       "name": "handoff.json",
-      "sha256": "df7d1765101446e4b2cdce572ef75bcaf7bf93c829982709a12f831044f706c2",
-      "bytes": 1905
+      "sha256": "66c9e6476472da3578dcf825a62933520ebccba75457d824f827a1092c2c24a0",
+      "bytes": 2309
     },
     {
       "name": "import-verification.json",
@@ -55,6 +55,11 @@
       "name": "sheet-16-controls.csv",
       "sha256": "19448236872e9c591c7259ac1e44b2be9a49dc17a457e82677fe6bc47b8f3d8b",
       "bytes": 2864
+    },
+    {
+      "name": "sheet-16-labels.geojson",
+      "sha256": "3cdf007c0c03edf28cffa2ec9877398c2bafc0542b0a07c56cf979b5b857ff85",
+      "bytes": 474140
     },
     {
       "name": "sheet-16-review.csv",

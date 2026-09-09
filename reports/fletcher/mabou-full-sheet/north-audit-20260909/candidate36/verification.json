@@ -6,5 +6,7 @@
   "tiles": "4630tiles;201818912opaque cellscompared;zero lostcoverage;zero tileedge RGB differences;one8bitlevel maximuminterior difference",
   "browser": "261successful responses,noJavaScript errors;desktop/mobile,toggle,opacity,reload,13geographic views",
   "provenance": "All active fit/check/render/tile/handoff hashes consistent",
-  "scope": "Local verification,not geographic acceptance or hosted CI"
+  "scope": "Local verification,not geographic acceptance or hosted CI",
+  "label_pipeline_repair": "CI Active fit mismatch reproduced locally; per-sheet pin updated;256 annotations regenerated from unchanged sourceboxes;10 labeltests passed including GDAL full reproduction",
+  "fletcher_pipeline_suite": "281 tests run,8 optional-dependency skips;passed"
 }

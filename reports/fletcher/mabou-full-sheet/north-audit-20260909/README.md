@@ -38,3 +38,9 @@ Dated handoff: `~/Downloads/mabou-north-audit-20260909/digitization-handoff/`.
 Four-sheet tile revision: `fletcher-full-sheets-20260909.3`. Sheet 14, Judique and Hawkesbury raster inputs remain unchanged; previous revisions and handoffs are preserved.
 
 For digitized labels, recompute geography from saved native pixel positions using the new fit, and record its hash. Keep pixel coordinates so later revisions remain reversible. The next useful geographic work is additional independent Glendyer/Elgin checks and physical matching in the still-open Sheet 14 join.
+
+CI detected the downstream label projector still pinned to the old Mabou fit.
+The pipeline now pins each sheet explicitly, and the [256 Mabou annotations](../../label-geography/sheet-16-labels.geojson)
+have been reprojected from unchanged source boxes: 292 supported anchors and
+five retained neatline holdbacks. The updated handoff includes this GeoJSON.
+These are lettering locations, not accepted physical feature placements.
