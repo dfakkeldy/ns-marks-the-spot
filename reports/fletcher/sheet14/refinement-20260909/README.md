@@ -1,5 +1,7 @@
 # Sheet 14 refinement — 9 September 2026
 
+**Superseded:** [southern and Hay River revision](../southern-audit-20260909/README.md) is now active. This report and its25-control files preserve the earlier result.
+
 The active revision uses **25 controls** over the complete sheet. It corrects
 Frasers Brook's modern confluence (C09) and adds three audited junctions in
 White/Cove Brook and upper Frasers Brook. The original 22-control fit and tiles

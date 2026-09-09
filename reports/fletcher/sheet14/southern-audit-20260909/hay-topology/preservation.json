@@ -1,0 +1,11 @@
+{
+  "unchanged_sheet_records": [
+    "19",
+    "16",
+    "22"
+  ],
+  "unchanged_original_hand_controls": 64,
+  "basis": "Exact equality of previous/current full-sheets input records for19/16/22, including fit and raster hashes; existing control-preservation.json audits64 hand controls. Sheet14 neatline/source hashes unchanged.",
+  "previous_inputs_sha256": "62f05e03f3690079b1a9aafe50cdd9c0e376d23c556b16f5878b4d79e0f102f9",
+  "current_inputs_sha256": "ca624e0f6fc4ed360478f4ba039a80ee925358455aefecd3800c663f847d2409"
+}

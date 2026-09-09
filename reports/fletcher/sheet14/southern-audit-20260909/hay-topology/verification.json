@@ -1,0 +1,11 @@
+{
+  "focused_web_tests": "39 passed, run from web/ using project Vitest config",
+  "web_build": "passed; existing bundle-size advisory",
+  "ruff": "passed for all5 new report scripts",
+  "import": "26 controls13 checks, semantic CSV roundtrip and web/GDAL agreement",
+  "coverage": "47338856 interior cells; zero holes",
+  "tile_mechanics": "4630 tiles;201710950 opaque cells compared; zero coverage loss or RGB differences",
+  "browser": "216 successful tile responses; zero console/page errors; toggle, opacity, reload, desktop/mobile and10 geographic views",
+  "initial_test_invocation": "An initial invocation from repository root omitted web Vitest config and failed on missing window; rerun in web/ passed. No implementation change required.",
+  "scope": "Local evidence; not geographic acceptance or hosted CI"
+}

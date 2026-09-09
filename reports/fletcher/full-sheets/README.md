@@ -13,7 +13,7 @@ No production layer has been changed.
 | Judique 19 | [revised-fit.json](../judique-full-sheet/revised-fit.json) | 44 | 15 |
 | Mabou 16 | [revised-fit.json](../mabou-full-sheet/revised-fit.json) | 34 | 32 |
 | Hawkesbury 22 | [boundary-fit.json](../hawkesbury-full-sheet/boundary-fit.json) | 28 | 17 |
-| Cape Mabou 14 | [refined fit.json](../sheet14/refinement-20260909/fit.json) | 25 | 0 |
+| Cape Mabou 14 | [refined fit.json](../sheet14/southern-audit-20260909/hay-topology/fit.json) | 26 | 0 |
 
 [Control preservation](control-preservation.json) records exact equality of all
 64 hand controls and the prior accepted agent controls. The `sheet-*-controls.csv`
@@ -42,13 +42,14 @@ Judique's fresh median and Mabou's retained diagnostic median exceed 100 m.
 Nearby checks on the same catchment have weak independence. These are same-agent
 physical-feature audits, not survey validation or a user audit of every point.
 
-Sheet 14 now has ten diagnostic observations at 89/376 m, including the unresolved
-Hay River trial. The same ten locations on the previous fit scored 114/377 m.
-The active refinement improves Cove Brook and Strathlorne but is not full-sheet
-geographic acceptance. A 26-control trial produced raster holes and was rejected;
-the active 25-control raster has zero holes over 48.5 million interior cells.
-See the [refinement report](../sheet14/refinement-20260909/README.md) for the failed
-candidate, post-score check correction, editable controls and uneven improvements.
+Sheet 14 now has 26 controls and 13 excluded diagnostics at 112/241 m. Southern
+confluence C13 and Hay River controls C14/F05 had incorrect modern identities;
+they are corrected, and mill confluence B01 is added. Schoolhouse Brook remains
+excluded and scores 80 m. The selected raster has zero interior alpha holes across
+47.3 million cells. The older trial that fitted the misidentified R04 remains
+rejected. See the [current audit](../sheet14/southern-audit-20260909/README.md)
+for dated reference evidence, post-score pixel correction and uneven accuracy.
+This does not establish full-sheet geographic acceptance.
 
 Earlier failed fits and checks remain in the per-sheet reports. Consumed checks
 are identified as controls; they do not contribute to the reported accuracy.
@@ -93,18 +94,18 @@ exactly the transparent strip. The preview retains these gaps. A seamless mosaic
 still needs further justified correspondences, another source covering the gap,
 or a separately identified cartographic adjustment. No such adjustment was made.
 
-The Sheet 14–Mabou join remains open by approximately 333–761 m between
--61.46° and -61.24°. Wider eastern samples approach staggered side edges.
-[Join evidence](../sheet14/refinement-20260909/mabou-join.json) does not justify stretching the sheets
-together; this is coverage separation, not a feature-accuracy measurement.
+The Sheet 14–Mabou join remains open by approximately 113–1,013 m between
+-61.46° and -61.24°. [Join evidence](../sheet14/southern-audit-20260909/hay-topology/mabou-join.json)
+measures coverage separation, not feature accuracy. Correcting river identities
+does not justify stretching the sheets together.
 
 ## Tiles and local verification
 
-Artifact revision: `fletcher-full-sheets-20260909.1`, in
+Artifact revision: `fletcher-full-sheets-20260909.2`, in
 `~/Downloads/fletcher-full-sheet-tiles/`. The mosaic uses bottom-to-top ordering
 22, 16, 19, 14, so Sheet 14 takes priority at its join and Judique retains
 priority in the earlier overlaps. Tiles are RGBA PNG XYZ, zooms
-8–15, with overzoom in the browser. The full pyramid contains 4,792 tile objects;
+8–15, with overzoom in the browser. The full pyramid contains 4,630 tile objects;
 blank objects are intentionally retained to avoid missing-tile errors.
 
 [Tile verification](tile-verification.json) checks every inventory hash and XYZ

@@ -1,0 +1,92 @@
+{
+  "frozen_utc": "2026-09-09T11:18:09.589937+00:00",
+  "candidate_fit_sha256": "d7bdaa9b273d323c6d507e8c9dbdea18baa9a5a6979a6c5defaee9c9493dd612",
+  "candidate_checks_sha256": "1c4c54acc4d041831ce59a8300bc6d373674e0f94c46f364b314a9f388733a83",
+  "C13_before": {
+    "id": "C13",
+    "role": "control",
+    "pixel_xy": [
+      6375,
+      6411
+    ],
+    "lonlat": [
+      -61.371637,
+      46.1008555
+    ],
+    "modern_node": "J0593",
+    "modern_objectids": [
+      196696,
+      271711,
+      271712
+    ],
+    "identity_evidence": "Long northwestern tributary joins Northeast Mabou main immediately above southern frame, west of the upstream northern fork and large meander. Large arm traced back through road crossing.",
+    "source_uncertainty_px": 8,
+    "review": "Agent topology and native 4x crosshair audit; visible placement corrections before fitting."
+  },
+  "C13_after": {
+    "id": "C13",
+    "role": "control",
+    "pixel_xy": [
+      6375,
+      6411
+    ],
+    "lonlat": [
+      -61.3701531,
+      46.1048035
+    ],
+    "modern_node": "J0573",
+    "modern_objectids": [
+      196697,
+      271581,
+      271711
+    ],
+    "identity_evidence": "Long northwestern tributary meets the main Northeast Mabou River downstream of the mill confluence. Modern tributary196697 joins named main271581 at J0573; downstream continuation271711 proceeds to J0593, a separate eastern tributary. Historical bold main traces north through the mill (B01) to its northern fork B02, with the C13 northwest arm approaching beside an older road and crossing its eastern spur. Original J0593 assignment interchanged main stem and eastern tributary; native pixel unchanged.",
+    "source_uncertainty_px": 8,
+    "review": "2026-09-09 full upstream topology re-audit, tracing both arms and intermediate mill. Agent interpretation, not user point-by-point acceptance."
+  },
+  "new": [
+    {
+      "id": "B01",
+      "role": "control",
+      "pixel_xy": [
+        6738,
+        5889
+      ],
+      "lonlat": [
+        -61.3652304,
+        46.1131386
+      ],
+      "modern_node": "J0544",
+      "modern_objectids": [
+        203144,
+        271580,
+        271581
+      ],
+      "identity_evidence": "Mill confluence immediately above diagonal road bridge. Northwest branch203144 approaches beside road and northern branch271580 comes from the separate B02 fork; downstream main271581 runs south to C13. Mill text and road partly overlap the ink; bank/line uncertainty retained.",
+      "source_uncertainty_px": 8,
+      "review": "Native pixel audit and explicit modern feature connectivity before fitting/scoring this trial; source coordinates follow ink, not predicted residuals."
+    },
+    {
+      "id": "B02",
+      "role": "check",
+      "pixel_xy": [
+        6669,
+        5643
+      ],
+      "lonlat": [
+        -61.3668143,
+        46.1215531
+      ],
+      "modern_node": "J0517",
+      "modern_objectids": [
+        222500,
+        222501,
+        271580
+      ],
+      "identity_evidence": "Northern headwater fork above the mill: northwestern arm222500 and northeastern arm222501 meet before main271580 continues southeast to B01. Distinct fork in open orange terrain above the printed Fall label; the separate vertical mark southwest is geological annotation, not a water arm.",
+      "source_uncertainty_px": 5,
+      "review": "Native pixel audit and explicit modern feature connectivity before fitting/scoring this trial; source coordinates follow ink, not predicted residuals."
+    }
+  ],
+  "policy": "Existing100m median/200m worst working targets; actual raster and alpha verification required before promotion. No edge stretching. Existing hand controls untouched. Candidate identity still subject to broader visual review."
+}

@@ -1,5 +1,5 @@
 {
-  "revision": "fletcher-full-sheets-20260909.1",
+  "revision": "fletcher-full-sheets-20260909.2",
   "name": "Fletcher complete sheets \u2014 Cape Mabou, Judique, Mabou and Hawkesbury",
   "status": "local-preview",
   "scheme": "xyz",
@@ -8,16 +8,16 @@
   "minzoom": 8,
   "maxzoom": 15,
   "bounds": [
-    -61.62096997675531,
+    -61.61495126435171,
     45.57064671131964,
-    -61.20918225051492,
-    46.27050928856906
+    -61.21946796051809,
+    46.27016775707022
   ],
   "attribution": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
   "licence": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
   "modifications": "Georeferenced, cropped and tiled; original printed colours preserved.",
-  "sourceRasterSha256": "d1955ef269df37d1bc8336f943fe81fe36bd3ccf07609e6514b3d7b323553b52",
-  "provenanceSha256": "62f05e03f3690079b1a9aafe50cdd9c0e376d23c556b16f5878b4d79e0f102f9",
+  "sourceRasterSha256": "9b69af863e859c9044479c3db6b6cc2f112637d4e7454dd2233bfb11bdb93682",
+  "provenanceSha256": "ca624e0f6fc4ed360478f4ba039a80ee925358455aefecd3800c663f847d2409",
   "provenance": {
     "scope": "Four complete inner neatlines; approximate georeferencing, joins remain imperfect",
     "sheets": [
@@ -161,36 +161,36 @@
       },
       {
         "sheet": "14",
-        "fit": "sheet14/refinement-20260909/fit.json",
-        "fit_sha256": "f79cc2641141548d1cf62690968806838ce57424600224c457f8b8059e878a5d",
-        "raster_sha256": "a39e19ba0ae9df98105ec1c3b13a86dbda6fba7cf77281743b0cdaab5afe0428",
+        "fit": "sheet14/southern-audit-20260909/hay-topology/fit.json",
+        "fit_sha256": "71118fb1eb9f2b87dbd838f1a218692fd8defc793c6549a76cf8730100a72ccb",
+        "raster_sha256": "722f13f79e967462392557b2cb8bd79f9931d3704b5a2ebf98126631ef66e9a7",
         "dimensions": [
-          9168,
-          5688
+          8724,
+          5734
         ],
         "bounds": {
           "type": "Polygon",
           "coordinates": [
             [
               [
-                -61.62097,
-                46.2705093
+                -61.6149513,
+                46.2701678
               ],
               [
-                -61.62097,
-                46.0936225
+                -61.6149513,
+                46.091847
               ],
               [
-                -61.2091823,
-                46.0936225
+                -61.2231061,
+                46.091847
               ],
               [
-                -61.2091823,
-                46.2705093
+                -61.2231061,
+                46.2701678
               ],
               [
-                -61.62097,
-                46.2705093
+                -61.6149513,
+                46.2701678
               ]
             ]
           ]
@@ -200,8 +200,8 @@
           "native_grid_step_px": 25,
           "nonnegative_determinants": 0,
           "determinant_range": [
-            -34.808660742819335,
-            -17.660994462120637
+            -34.73829661566929,
+            -10.263134541606268
           ]
         }
       }
@@ -212,36 +212,36 @@
       "19",
       "14"
     ],
-    "geographic_quality": "See per-sheet reports. Same-agent checks do not establish survey accuracy. Judique fresh median118m misses working100m target. Full-width southern gaps remain visible; no content fabricated. Sheet14 refinement has ten diagnostics: median89m/worst376m, including unresolved Hay River trial. No geographic acceptance; original sheets19/16/22 unchanged.",
+    "geographic_quality": "See per-sheet reports. Same-agent checks do not establish survey accuracy. Judique fresh median118m misses working100m target. Gaps remain transparent; no content fabricated. Sheet14 has26 controls and13 excluded diagnostics: median112m/worst241m. Southern confluence and Hay River identities corrected using native topology, NSTDB and dated NRCan context. No full-sheet geographic acceptance; original sheets19/16/22 unchanged.",
     "composite": {
-      "sha256": "d1955ef269df37d1bc8336f943fe81fe36bd3ccf07609e6514b3d7b323553b52",
+      "sha256": "9b69af863e859c9044479c3db6b6cc2f112637d4e7454dd2233bfb11bdb93682",
       "dimensions": [
-        9168,
-        22399
+        8805,
+        22388
       ],
       "bounds": {
         "type": "Polygon",
         "coordinates": [
           [
             [
-              -61.62097,
-              46.2705093
+              -61.6149513,
+              46.2701678
             ],
             [
-              -61.62097,
+              -61.6149513,
               45.5706467
             ],
             [
-              -61.2091823,
+              -61.219468,
               45.5706467
             ],
             [
-              -61.2091823,
-              46.2705093
+              -61.219468,
+              46.2701678
             ],
             [
-              -61.62097,
-              46.2705093
+              -61.6149513,
+              46.2701678
             ]
           ]
         ]
@@ -257,15 +257,15 @@
     "10": 8,
     "11": 21,
     "12": 78,
-    "13": 264,
-    "14": 920,
-    "15": 3496,
+    "13": 240,
+    "14": 874,
+    "15": 3404,
     "8": 2,
     "9": 3
   },
-  "tileCount": 4792,
-  "tileBytes": 429437344,
-  "fullyTransparentTiles": 362,
-  "inventorySha256": "89fd513c4b69d1034feec08e876ba29bb12ed960adcb02bb87fa2ad71000b985",
+  "tileCount": 4630,
+  "tileBytes": 426899209,
+  "fullyTransparentTiles": 233,
+  "inventorySha256": "aa47ef622a0527ac82dda1a9184283e0d81edc80039153c2ac69c16e262272a9",
   "note": "Transparent tiles intentionally retained within raster bounds to avoid missing-object errors. Higher display zooms enlarge zoom 15. No geographic improvement or production publication is implied."
 }
