@@ -9,6 +9,14 @@ import MapKit
 /// `OverlayZIndex.drawOrder` flattens Leaflet's two stacking spaces onto the
 /// one number line that comparison needs.
 ///
+/// The one thing MapKit does stack is its own lettering: overlays at
+/// `MKOverlayLevel.aboveRoads` draw under Apple's place names and shields,
+/// overlays at `.aboveLabels` over them, and the whole upper stack draws over
+/// the whole lower one. An order kept within one level therefore means
+/// nothing against an overlay in the other, so every overlay on the map is
+/// installed at one level — the ground's, `MapController.overlayLevel` — and
+/// the installers below take it rather than falling back to MapKit's default.
+///
 /// A known divergence from the web: this covers overlays only. Wells, mineral
 /// occurrences and abandoned mines are drawn as annotations, and MapKit puts
 /// every annotation above every overlay with no way to interleave them — so a
@@ -24,20 +32,26 @@ nonisolated protocol WebDrawOrdered {
 }
 
 extension MKMapView {
-    /// Installs `overlay` at the position its draw order asks for.
+    /// Installs `overlay` at the position its draw order asks for, at `level`.
+    ///
+    /// Only that level's stack is scanned for the place: it is the one the
+    /// overlay is going into, and the invariant that every overlay shares the
+    /// ground's level makes it the whole map.
     ///
     /// Anything already installed that does not state an order — the bounds
     /// selection rectangle — is treated as topmost, because it is an
     /// interaction affordance rather than a layer, and a data overlay must not
     /// be laid over the box the user is currently dragging.
-    func installInDrawOrder(_ overlay: MKOverlay & WebDrawOrdered) {
-        let above = overlays.first { existing in
+    func installInDrawOrder(_ overlay: MKOverlay & WebDrawOrdered, level: MKOverlayLevel) {
+        let above = overlays(in: level).first { existing in
             ((existing as? WebDrawOrdered)?.webDrawOrder ?? .max) > overlay.webDrawOrder
         }
         if let above {
+            // At the sibling's own level, which is `level`: that is the
+            // stack it was found in.
             insertOverlay(overlay, below: above)
         } else {
-            addOverlay(overlay)
+            addOverlay(overlay, level: level)
         }
     }
 
@@ -51,13 +65,13 @@ extension MKMapView {
     /// non-decreasing draw order (this is the invariant the single path
     /// maintains), so one snapshot of their orders and one walk of the sorted
     /// batch places everything with the same result in linear time.
-    func installInDrawOrder(_ batch: [any MKOverlay & WebDrawOrdered]) {
+    func installInDrawOrder(_ batch: [any MKOverlay & WebDrawOrdered], level: MKOverlayLevel) {
         guard !batch.isEmpty else { return }
         guard batch.count > 1 else {
-            installInDrawOrder(batch[0])
+            installInDrawOrder(batch[0], level: level)
             return
         }
-        let existingOrders = overlays.map { ($0 as? WebDrawOrdered)?.webDrawOrder ?? .max }
+        let existingOrders = overlays(in: level).map { ($0 as? WebDrawOrdered)?.webDrawOrder ?? .max }
         // Sorted with the original position as tiebreak: `sorted` is not
         // guaranteed stable, and members of equal order must keep the order
         // their caller stated.
@@ -73,7 +87,7 @@ extension MKMapView {
                   existingOrders[existingIndex] <= overlay.webDrawOrder {
                 existingIndex += 1
             }
-            insertOverlay(overlay, at: existingIndex + inserted)
+            insertOverlay(overlay, at: existingIndex + inserted, level: level)
             inserted += 1
         }
     }

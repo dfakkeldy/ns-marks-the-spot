@@ -47,7 +47,5 @@ explicit step, as it is for the Fletcher sheets.
   30–70 KB. A lower Fletcher quality or a second revision is a render
   decision, not an app change.
 - The Atlas is not part of saved offline areas; only Fletcher sheets are.
-- Apple's own place labels still draw over every base-replacing overlay
-  (OpenStreetMap included); that predates this work.
 - Label placement is per 4×4 metatile, so a label within half a tile of a
   metatile edge can differ between neighbours. None were seen in review.

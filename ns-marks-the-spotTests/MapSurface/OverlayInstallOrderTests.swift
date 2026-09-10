@@ -64,8 +64,13 @@ struct OverlayInstallOrderTests {
         return polygon
     }
 
-    @Test("The batch path leaves the map exactly as the loop would have")
-    func theBatchPathLeavesTheMapExactlyAsTheLoopWouldHave() throws {
+    /// At both of MapKit's levels: the ground decides which one the map is
+    /// drawn at, and the batch has to land in the same stack as the loop.
+    @Test(
+        "The batch path leaves the map exactly as the loop would have",
+        arguments: [MKOverlayLevel.aboveRoads, .aboveLabels]
+    )
+    func theBatchPathLeavesTheMapExactlyAsTheLoopWouldHave(stack: MKOverlayLevel) throws {
         let parcels = (0..<40).map(parcel)
         let parcelOrder = parcels[0].webDrawOrder
 
@@ -84,11 +89,11 @@ struct OverlayInstallOrderTests {
         let byLoop = MKMapView()
         let byBatch = MKMapView()
         for map in [byLoop, byBatch] {
-            for overlay in scene { map.installInDrawOrder(overlay) }
+            for overlay in scene { map.installInDrawOrder(overlay, level: stack) }
         }
 
-        for parcel in parcels { byLoop.installInDrawOrder(parcel) }
-        byBatch.installInDrawOrder(parcels)
+        for parcel in parcels { byLoop.installInDrawOrder(parcel, level: stack) }
+        byBatch.installInDrawOrder(parcels, level: stack)
 
         // The same objects in the same places. Identity, element by element:
         // the two maps hold the very same overlay instances, so this cannot
@@ -97,6 +102,14 @@ struct OverlayInstallOrderTests {
             byLoop.overlays.map { ObjectIdentifier($0) }
                 == byBatch.overlays.map { ObjectIdentifier($0) }
         )
+        // And all in the one stack asked for. MapKit draws its whole upper
+        // stack over its whole lower one, so an overlay that slipped into the
+        // other level would be out of order however `overlays` read.
+        let other: MKOverlayLevel = stack == .aboveRoads ? .aboveLabels : .aboveRoads
+        for map in [byLoop, byBatch] {
+            #expect(map.overlays(in: other).isEmpty)
+            #expect(map.overlays(in: stack).count == map.overlays.count)
+        }
 
         // Both paths agree — and this is what they agree on. Said separately,
         // because two paths that broke the same way would agree with each
@@ -123,14 +136,14 @@ struct OverlayInstallOrderTests {
     @Test("A batch of one and a batch of none go the same way as the loop")
     func aBatchOfOneAndABatchOfNoneGoTheSameWayAsTheLoop() {
         let map = MKMapView()
-        for tile in tiles(2) { map.installInDrawOrder(tile) }
+        for tile in tiles(2) { map.installInDrawOrder(tile, level: .aboveRoads) }
         let before = map.overlays.count
 
-        map.installInDrawOrder([any MKOverlay & WebDrawOrdered]())
+        map.installInDrawOrder([any MKOverlay & WebDrawOrdered](), level: .aboveRoads)
         #expect(map.overlays.count == before)
 
         let only = parcel(7)
-        map.installInDrawOrder([only])
+        map.installInDrawOrder([only], level: .aboveRoads)
         #expect(map.overlays.count == before + 1)
         #expect((map.overlays.last as? ParcelPolygon)?.pid == only.pid)
     }
