@@ -1,0 +1,110 @@
+{
+  "sheet": "sheet-11",
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "source_dimensions": [
+    10771,
+    7551
+  ],
+  "points": [
+    {
+      "id": "N01",
+      "role": "control",
+      "pixel_xy": [
+        5794,
+        1067
+      ],
+      "lonlat": [
+        -61.0332864,
+        46.4467321
+      ],
+      "modern_node": "J0101",
+      "modern_objectids": [
+        263251,
+        263252,
+        272245
+      ],
+      "identity_evidence": "Mink Brook enters Gallant River from east; Gallant continues north beyond frame and turns southwest below junction, then first west tributary Q08. Modern named Mink edges connect to node, independently distinguishing East Branch Gallant farther south.",
+      "source_uncertainty_px": 10,
+      "review": "Agent native full-network, named modern topology and enlarged native crosshair audit. Source point corrected to actual ink junction before scoring this refinement; no user audit claimed.",
+      "pre_crosshair_pixel_xy": [
+        5783,
+        1066
+      ]
+    },
+    {
+      "id": "N02",
+      "role": "control",
+      "pixel_xy": [
+        5623,
+        2459
+      ],
+      "lonlat": [
+        -61.0382429,
+        46.4008591
+      ],
+      "modern_node": "J0425",
+      "modern_objectids": [
+        264113,
+        264114,
+        279067
+      ],
+      "identity_evidence": "Long eastern tributary enters Gallant River below cascade reach and above large southward bend; tributary runs northeast and turns north in inland valley. Deep Brook and road crossing lie farther south.",
+      "source_uncertainty_px": 10,
+      "review": "Agent native full-network, named modern topology and enlarged native crosshair audit. Source point corrected to actual ink junction before scoring this refinement; no user audit claimed.",
+      "pre_crosshair_pixel_xy": [
+        5620,
+        2457
+      ]
+    },
+    {
+      "id": "N03",
+      "role": "control",
+      "pixel_xy": [
+        5734,
+        2940
+      ],
+      "lonlat": [
+        -61.0298397,
+        46.3859519
+      ],
+      "modern_node": "J0507",
+      "modern_objectids": [
+        264257,
+        264258,
+        265684
+      ],
+      "identity_evidence": "Deep Brook mouth into Gallant just south of historic mill; east-west creek is north of main road crossing and follows northern side of the road before its eastward bend. Tiny northern-arm junction on Deep is separately downstream/upstream along the east arm, not the main Gallant mouth.",
+      "source_uncertainty_px": 10,
+      "review": "Agent native full-network, named modern topology and enlarged native crosshair audit. Source point corrected to actual ink junction before scoring this refinement; no user audit claimed.",
+      "pre_crosshair_pixel_xy": [
+        5734,
+        2940
+      ]
+    },
+    {
+      "id": "Q08",
+      "role": "check",
+      "pixel_xy": [
+        5527,
+        1298
+      ],
+      "lonlat": [
+        -61.0450747,
+        46.4394202
+      ],
+      "modern_node": "J0150",
+      "modern_objectids": [
+        263255,
+        263256,
+        293633
+      ],
+      "identity_evidence": "First west-side Gallant tributary south of Mink mouth and long southwest bend, above eastern branch. Short northwest arm is distinct from farther-south west tributaries.",
+      "source_uncertainty_px": 10,
+      "review": "Agent native full-network, named modern topology and enlarged native crosshair audit. Source point corrected to actual ink junction before scoring this refinement; no user audit claimed.",
+      "pre_crosshair_pixel_xy": [
+        5524,
+        1289
+      ]
+    }
+  ]
+}

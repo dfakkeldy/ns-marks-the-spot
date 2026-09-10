@@ -1,0 +1,36 @@
+{
+  "failed_receipt": "raster-coverage.json",
+  "corrected_receipt": "raster-coverage-exact.json",
+  "failed_cell_xy": [
+    54,
+    5925
+  ],
+  "distance_to_cutline_projected_m": 3.6883087271035464,
+  "observation": "One zero-alpha cell at the southwest crop edge, inside the independent cardinal-neighbour mask. Not a large interior void.",
+  "fix": "Rerender original controlled scan with unchanged TPS and cutline using gdalwarp -et 0. No mask painting, pixel filling or boundary movement.",
+  "command": [
+    "gdalwarp",
+    "-overwrite",
+    "-tps",
+    "-et",
+    "0",
+    "-t_srs",
+    "EPSG:3857",
+    "-r",
+    "cubic",
+    "-tr",
+    "5",
+    "5",
+    "-tap",
+    "-cutline",
+    "reports/fletcher/sheet11/refinement-20260910/cutline.geojson",
+    "-crop_to_cutline",
+    "-dstalpha",
+    "-co",
+    "COMPRESS=DEFLATE",
+    "-co",
+    "TILED=YES",
+    "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260910/central-mainland/controls.vrt",
+    "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260910/sheet-11-exact.tif"
+  ]
+}

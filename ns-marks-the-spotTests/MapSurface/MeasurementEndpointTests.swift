@@ -61,7 +61,10 @@ struct MeasurementEndpointTests {
         #expect(view.centerOffset.y + marker.frame.midY - view.bounds.midY == 0)
         #expect(view.accessibilityIdentifier == "measure-endpoint-label")
         #expect(view.accessibilityHint == "Measured on the map, not surveyed.")
-        #expect(view.hitTest(CGPoint(x: view.bounds.midX, y: view.bounds.midY), with: nil) == nil)
+        #expect(!view.isUserInteractionEnabled)
+        let onBadge = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
+        #expect(view.hitTest(onBadge, with: nil) == nil)
+        #expect(!view.point(inside: onBadge, with: nil))
 
         view.prepareForReuse()
         view.configure(with: VectorDraftVertexAnnotation(
@@ -73,5 +76,40 @@ struct MeasurementEndpointTests {
         #expect(view.accessibilityIdentifier == nil)
         #expect(view.accessibilityLabel == "Placed corner 1")
         #expect(view.isUserInteractionEnabled)
+        #expect(view.point(inside: CGPoint(x: view.bounds.midX, y: view.bounds.midY), with: nil))
+        #expect(!MapController.measurementEndpointCovers(.zero, view: view))
+    }
+
+    @Test func theIdentifyTapMayRunWithMapKitOverTheMeasurementLabel() throws {
+        var session = MeasureSession(mode: .distance)
+        points.forEach { session.add($0) }
+        let endpoint = try #require(VectorDraftPreview(measuring: session).handles().last)
+        let map = MKMapView()
+        let controller = MapController()
+        let view = try #require(
+            controller.mapView(map, viewFor: endpoint) as? MeasurementEndpointAnnotationView
+        )
+        view.frame = CGRect(x: 10, y: 20, width: 80, height: 50)
+        #expect(MapController.measurementEndpointCovers(CGPoint(x: 50, y: 40), view: view))
+        #expect(!MapController.measurementEndpointCovers(CGPoint(x: 0, y: 0), view: view))
+        #expect(!MapController.measurementEndpointCovers(.zero, view: MKAnnotationView()))
+    }
+
+    @Test func aDraftCornerSelectionIsReleasedRatherThanOpeningACard() throws {
+        var session = MeasureSession(mode: .distance)
+        points.forEach { session.add($0) }
+        let endpoint = try #require(VectorDraftPreview(measuring: session).handles().last)
+        let map = MKMapView()
+        let controller = MapController()
+        controller.mapView = map
+        let view = try #require(
+            controller.mapView(map, viewFor: endpoint) as? MeasurementEndpointAnnotationView
+        )
+        var leaked = false
+        controller.events = { _ in leaked = true }
+        map.selectAnnotation(endpoint, animated: false)
+        controller.mapView(map, didSelect: view)
+        #expect(!leaked)
+        #expect(map.selectedAnnotations.isEmpty)
     }
 }

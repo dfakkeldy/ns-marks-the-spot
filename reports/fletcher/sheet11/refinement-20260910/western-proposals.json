@@ -1,0 +1,94 @@
+{
+  "sheet": "sheet-11",
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "source_dimensions": [
+    10771,
+    7551
+  ],
+  "points": [
+    {
+      "id": "W01",
+      "role": "control",
+      "pixel_xy": [
+        3088,
+        2173
+      ],
+      "lonlat": [
+        -61.1518728,
+        46.4080454
+      ],
+      "modern_node": "J0371",
+      "modern_objectids": [
+        11206,
+        11207,
+        186849
+      ],
+      "identity_evidence": "Coastal creek mouth beside historical lime kiln; creek crosses coast road then runs southeast inland to excluded Q04 fork. Adjacent coastal mouths to south are distinct.",
+      "source_uncertainty_px": 10,
+      "review": "Broad native/modern network traced; enlarged crosshair review pending before revised score."
+    },
+    {
+      "id": "W02",
+      "role": "control",
+      "pixel_xy": [
+        3688,
+        2565
+      ],
+      "lonlat": [
+        -61.1245792,
+        46.3936087
+      ],
+      "modern_node": "J0466",
+      "modern_objectids": [
+        186106,
+        272637,
+        272776
+      ],
+      "identity_evidence": "Mill Valley Brook western tributary below northern confluence C12 and small northwest spurs; long west arm has its own northern fork before joining main, downstream main runs southwest toward coastal outlet.",
+      "source_uncertainty_px": 10,
+      "review": "Broad native/modern network traced; enlarged crosshair review pending before revised score."
+    },
+    {
+      "id": "F01",
+      "role": "control",
+      "pixel_xy": [
+        8627,
+        5331
+      ],
+      "lonlat": [
+        -60.8992944,
+        46.3100977
+      ],
+      "modern_node": "J0919",
+      "modern_objectids": [
+        263330,
+        263331,
+        287054
+      ],
+      "identity_evidence": "Fionnar major western tributary above lower long eastern arm Q02 and below upper eastern tributary; historical small eastern spur immediately above junction is not selected.",
+      "source_uncertainty_px": 10,
+      "review": "Broad native/modern network traced; enlarged crosshair review pending before revised score."
+    },
+    {
+      "id": "Q06",
+      "role": "check",
+      "pixel_xy": [
+        3586,
+        6064
+      ],
+      "lonlat": [
+        -61.1311937,
+        46.2824542
+      ],
+      "modern_node": "J1062",
+      "modern_objectids": [
+        287139,
+        287277,
+        287278
+      ],
+      "identity_evidence": "Cameron southern tributary FIRST major eastern arm below control C15; original [3561,6159] selected SECOND eastern fork farther south. Whole native branch ordering and modern road/river context support first-fork identity. Correction after score; retained diagnostic, not independent validation.",
+      "source_uncertainty_px": 10,
+      "review": "Broad native/modern network traced; enlarged crosshair review pending before revised score."
+    }
+  ]
+}

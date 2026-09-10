@@ -1,0 +1,11 @@
+{
+  "original_18_controls_preserved_exactly": true,
+  "trial_hash_chains_checked": true,
+  "failed_validation_preserved": true,
+  "promoted_V03_not_counted_as_check": true,
+  "final_raster_hash_verified": true,
+  "reference_hashes_verified": true,
+  "provisional_gates_preserved": true,
+  "rendered_regions_reviewed": 8,
+  "browser_mesh_save_reload_claimed": false
+}

@@ -81,6 +81,19 @@ extension XCUIApplication {
         return app
     }
 
+    /// A tap on the map itself, even where an annotation covers those pixels.
+    ///
+    /// XCUITest's element tap aims at the accessibility element. A measuring
+    /// endpoint is a StaticText whose view refuses interaction so a finger
+    /// can reach the map; tapping that element therefore does nothing. The
+    /// first two measuring taps already go through the application. This is
+    /// the same path, at a known screen point.
+    func tapMap(at point: CGPoint) {
+        coordinate(withNormalizedOffset: .zero)
+            .withOffset(CGVector(dx: point.x - frame.minX, dy: point.y - frame.minY))
+            .tap()
+    }
+
     /// Turns the device, and waits for the window to agree.
     ///
     /// Setting the orientation returns before the device has turned. Asserting

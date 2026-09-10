@@ -1,0 +1,57 @@
+{
+  "sheet": "sheet-09",
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "source_dimensions": [
+    10762,
+    7642
+  ],
+  "status": "Two nearby reviewed seeds only. Insufficient to fit or validate whole sheet; not accepted for tiling or labels.",
+  "points": [
+    {
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        5880,
+        2963
+      ],
+      "lonlat": [
+        -61.0249697,
+        46.5621644
+      ],
+      "modern_node": "J0600",
+      "modern_objectids": [
+        126291,
+        126381,
+        275861
+      ],
+      "identity_evidence": "Lake north of Grand Etang: western outlet through shore, separate northern lobe, elongated southwest lobe and eastern inlet. Outlet creek meanders west to coast and crosses coast road. Broad shoreline configuration identifies lake; not fit prediction.",
+      "source_uncertainty_px": 12,
+      "review": "Broad native/modern lake, outlet, road and coastal-mouth geometry inspected; native crosshair audited before any fitting. C01 moved out of lake interior to outlet throat. Agent-reviewed seed only.",
+      "pre_crosshair_pixel_xy": [
+        5899,
+        2963
+      ]
+    },
+    {
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        5666,
+        2909
+      ],
+      "lonlat": [
+        -61.0350036,
+        46.563704
+      ],
+      "modern_node": "J0581",
+      "modern_objectids": [
+        11598,
+        11620,
+        275862
+      ],
+      "identity_evidence": "Same lake outlet creek at coastal shoreline beside historical lobster factory, north of Grand Etang mouth. Lake/creek/road/coast sequence identifies mouth. Modern offshore line meeting this node is a dataset boundary, not selected water feature.",
+      "source_uncertainty_px": 12,
+      "review": "Broad native/modern lake, outlet, road and coastal-mouth geometry inspected; native crosshair audited before any fitting. C01 moved out of lake interior to outlet throat. Agent-reviewed seed only."
+    }
+  ]
+}

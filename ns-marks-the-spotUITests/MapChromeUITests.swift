@@ -93,8 +93,13 @@ final class MapChromeUITests: XCTestCase {
         let lastPoint = app.coordinate(withNormalizedOffset: CGVector(dx: 0.55, dy: 0.50)).screenPoint
         XCTAssertTrue(endpoint.frame.contains(lastPoint), "the label is not attached to the last corner")
         // The badge covers map pixels, but a tap there still places a point.
+        // Aimed at the application, not at the StaticText: that element is
+        // the label whose view refuses interaction so the map can receive
+        // the tap, and XCUITest's element tap would land on the label.
         let beforeBadgeTap = readout.label
-        endpoint.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.25)).tap()
+        app.tapMap(
+            at: endpoint.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.25)).screenPoint
+        )
         XCTAssertTrue(
             waitForUI {
                 readout.label != beforeBadgeTap && endpoint.label.hasSuffix(readout.label)
