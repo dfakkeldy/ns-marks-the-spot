@@ -1,41 +1,30 @@
 {
   "schemaVersion": 1,
   "municipality": "Halifax Regional Municipality",
-  "source": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept8.26.pdf",
+  "source": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept10.26.pdf",
   "landingPage": "https://www.halifax.ca/home-property/property-taxes/tax-sale",
   "tenderInstructions": "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf",
-  "retrievedDate": "2026-09-08",
+  "retrievedDate": "2026-09-10",
   "tenderNumber": "HRM-TaxSale23",
   "tenderDocumentSha256": "4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56",
-  "scheduleDocumentSha256": "f850e7b59c0914b2e4699fee83d91e3691f648d5142f7ebe07eae696f7524a0c",
-  "sourceFactsSha256": "7bf1cc1107adf150060d16c41b4985da213c171b5354cffe3e0595a1f51dd0b1",
+  "scheduleDocumentSha256": "e91aa0de8d671ed6b90f374c663fc2bbe45228cb9026f63302bd822ff1558534",
+  "sourceFactsSha256": "7e71f73150c5b182f7eb9350d85b0363eba25d9b6c65c32be211faa25352fb32",
   "sourceHashPolicy": "Both dated official PDFs contain assessed-owner names. This receipt hashes the source bytes and normalized owner-free facts; the PDFs themselves are not committed.",
   "ownerNamesExcluded": true,
   "eventDate": "2026-09-15",
   "bidDeadlineTime": "10:00",
   "venue": "Online or Alderney Customer Service Centre, 40 Alderney Drive, Dartmouth, Nova Scotia",
-  "sourceRowCount": 13,
-  "listingCount": 13,
-  "parcelIdentifierCount": 14,
-  "mappedListingCount": 13,
-  "mappedParcelIdentifierCount": 14,
+  "sourceRowCount": 11,
+  "listingCount": 11,
+  "parcelIdentifierCount": 12,
+  "mappedListingCount": 11,
+  "mappedParcelIdentifierCount": 12,
   "hstYesCount": 5,
   "notRedeemableCount": 1,
   "geometryExceptions": [],
   "listings": [
     {
       "item": 1,
-      "aan": "00276111",
-      "pids": [
-        "00535617"
-      ],
-      "description": "1295 Higginsville Rd Higginsville - Dwelling",
-      "openingBidCents": 297246,
-      "redeemable": true,
-      "listingStatus": "advertised"
-    },
-    {
-      "item": 2,
       "aan": "00418048",
       "pids": [
         "00577643"
@@ -46,7 +35,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 3,
+      "item": 2,
       "aan": "01850652",
       "pids": [
         "00015966"
@@ -57,7 +46,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 4,
+      "item": 3,
       "aan": "02300761",
       "pids": [
         "00018531"
@@ -68,7 +57,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 5,
+      "item": 4,
       "aan": "02365103",
       "pids": [
         "00098723",
@@ -80,7 +69,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 6,
+      "item": 5,
       "aan": "03042227",
       "pids": [
         "00649160"
@@ -91,7 +80,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 7,
+      "item": 6,
       "aan": "03294625",
       "pids": [
         "40290983"
@@ -102,7 +91,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 8,
+      "item": 7,
       "aan": "04360435",
       "pids": [
         "41414913"
@@ -113,7 +102,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 9,
+      "item": 8,
       "aan": "08587949",
       "pids": [
         "40636888"
@@ -124,7 +113,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 10,
+      "item": 9,
       "aan": "08960526",
       "pids": [
         "40772188"
@@ -135,7 +124,7 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 11,
+      "item": 10,
       "aan": "09002952",
       "pids": [
         "40816878"
@@ -146,24 +135,13 @@
       "listingStatus": "advertised"
     },
     {
-      "item": 12,
+      "item": 11,
       "aan": "10117747",
       "pids": [
         "41270000"
       ],
       "description": "Cresthaven Dr Halifax - Land",
       "openingBidCents": 850350,
-      "redeemable": true,
-      "listingStatus": "advertised"
-    },
-    {
-      "item": 13,
-      "aan": "10190312",
-      "pids": [
-        "41274085"
-      ],
-      "description": "57 Inspector Crt Lot 10 Halifax - Dwelling",
-      "openingBidCents": 1198513,
       "redeemable": true,
       "listingStatus": "advertised"
     }

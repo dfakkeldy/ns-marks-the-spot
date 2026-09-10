@@ -15,7 +15,7 @@ const MONTHS = [
   "January", "February", "March", "April", "May", "June", "July",
   "August", "September", "October", "November", "December",
 ];
-// The sept8 Schedule A continues to omit the two parking-space PIDs that
+// The sept10 Schedule A continues to omit the two parking-space PIDs that
 // previously had empty NSPRD geometry. A non-empty pin must match a live row.
 export const HALIFAX_GEOMETRY_EXCEPTIONS = [];
 
@@ -34,8 +34,17 @@ function uniqueMatchingUrls(html, pattern) {
   const officialOrigin = new URL(LANDING_PAGE_URL).origin;
   return [...new Set(Array.from(
     html.matchAll(/href=["']([^"']+)["']/giu),
-    ([, href]) => String(new URL(decodeHtml(href), LANDING_PAGE_URL)),
+    ([, href]) => {
+      try {
+        return String(new URL(decodeHtml(href), LANDING_PAGE_URL));
+      } catch {
+        // Official HTML has included broken hrefs (spaces in a fake absolute
+        // URL). Skip those so PDF discovery can still fail closed on count.
+        return null;
+      }
+    },
   ).filter((url) => {
+    if (!url) return false;
     const parsed = new URL(url);
     return parsed.origin === officialOrigin && pattern.test(parsed.pathname);
   }))];
@@ -125,9 +134,9 @@ export function parseScheduleText(source) {
 }
 
 export function assertCurrentScheduleCounts(listings) {
-  if (listings.length !== 13) throw new Error(`Expected 13 Halifax Schedule A rows, found ${listings.length}.`);
+  if (listings.length !== 11) throw new Error(`Expected 11 Halifax Schedule A rows, found ${listings.length}.`);
   const pidCount = new Set(listings.flatMap(({ pids }) => pids)).size;
-  if (pidCount !== 14) throw new Error(`Expected 14 Halifax Schedule A PIDs, found ${pidCount}.`);
+  if (pidCount !== 12) throw new Error(`Expected 12 Halifax Schedule A PIDs, found ${pidCount}.`);
 }
 
 function sha256(contents) {

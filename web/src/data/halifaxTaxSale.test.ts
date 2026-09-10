@@ -14,33 +14,35 @@ async function sha256Hex(source: string): Promise<string> {
 }
 
 describe("the Halifax September 2026 tender dataset", () => {
-  it("pins all 13 owner-free source rows byte for byte", async () => {
+  it("pins all 11 owner-free source rows byte for byte", async () => {
     expect(await sha256Hex(halifaxTaxSaleSnapshotSource)).toBe(HALIFAX_TAX_SALE_DATASET_SHA256);
     expect(halifaxTaxSaleSnapshot.ownerNamesExcluded).toBe(true);
-    expect(halifaxTaxSaleSnapshot.sourceRowCount).toBe(13);
-    expect(halifaxTaxSaleSnapshot.parcelIdentifierCount).toBe(14);
-    expect(halifaxTaxSaleSnapshot.mappedListingCount).toBe(13);
-    expect(halifaxTaxSaleSnapshot.mappedParcelIdentifierCount).toBe(14);
+    expect(halifaxTaxSaleSnapshot.sourceRowCount).toBe(11);
+    expect(halifaxTaxSaleSnapshot.parcelIdentifierCount).toBe(12);
+    expect(halifaxTaxSaleSnapshot.mappedListingCount).toBe(11);
+    expect(halifaxTaxSaleSnapshot.mappedParcelIdentifierCount).toBe(12);
     expect(halifaxTaxSaleSnapshot.hstYesCount).toBe(5);
     expect(halifaxTaxSaleSnapshot.notRedeemableCount).toBe(1);
   });
 
-  it("maps all 13 advertised rows after the sept8 Schedule A dropped six more advertised rows", () => {
+  it("maps all 11 advertised rows after the sept10 Schedule A dropped two more advertised rows", () => {
     expect(halifaxTaxSaleEvent.eventType).toBe("sealed-tender");
     expect(halifaxTaxSaleEvent.eventStatus).toBe("upcoming");
     expect(halifaxTaxSaleEvent.saleStartsAt).toBe("2026-09-15T10:00:00-03:00");
-    expect(halifaxTaxSaleEvent.listings).toHaveLength(13);
+    expect(halifaxTaxSaleEvent.listings).toHaveLength(11);
     const pids = halifaxTaxSaleEvent.listings.flatMap(({ pids }) => pids);
-    expect(pids).toHaveLength(14);
-    expect(new Set(pids).size).toBe(14);
+    expect(pids).toHaveLength(12);
+    expect(new Set(pids).size).toBe(12);
     expect(pids).not.toContain("41051889");
     expect(pids).not.toContain("41051897");
+    expect(pids).not.toContain("00535617");
+    expect(pids).not.toContain("41274085");
     expect(halifaxTaxSaleEvent.geometryExceptions).toEqual([]);
   });
 
   it("preserves opening-bid semantics and keeps public rows owner-free", () => {
     expect(halifaxTaxSaleEvent.listings[0].financial).toEqual({
-      kind: "minimum-bid", label: "Opening bid", amountCents: 297_246,
+      kind: "minimum-bid", label: "Opening bid", amountCents: 1_489_072,
     });
     expect(halifaxTaxSaleEvent.listings.find(({ aan }) => aan === "02365103")?.pids).toEqual(["00098723", "00632414"]);
     expect(halifaxTaxSaleEvent.listings.filter(

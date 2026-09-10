@@ -23,8 +23,8 @@
     },
     {
       "path": "halifaxTaxSale.snapshot.json",
-      "bytes": 4810,
-      "sha256": "8ef901499f4c6438ac7014bcd34c8583aee12516dce47320d3b5d9e3ec40c54e"
+      "bytes": 4284,
+      "sha256": "78e355d91be8ce55a253295c76d78f02980822a090ff5212a9256b56adf224e4"
     },
     {
       "path": "historicalMatchExceptions.json",
