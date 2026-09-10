@@ -3,7 +3,7 @@ import { halifaxTimestamp } from "./halifaxTime";
 import halifaxTaxSaleSnapshot from "./halifaxTaxSale.snapshot.json";
 
 export const HALIFAX_TAX_SALE_DATASET_SHA256 =
-  "8ef901499f4c6438ac7014bcd34c8583aee12516dce47320d3b5d9e3ec40c54e";
+  "78e355d91be8ce55a253295c76d78f02980822a090ff5212a9256b56adf224e4";
 
 const HALIFAX_EVENT_ID = "halifax-2026-09-15";
 

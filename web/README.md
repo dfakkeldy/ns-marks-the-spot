@@ -1136,19 +1136,19 @@ archive capture fails closed.
   [tender instructions](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf)
   have SHA-256
   `4562a7b644c40d25b9000f4ef61505af07547c359f2af5bd25b2c62899e0af56`;
-  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept8.26.pdf)
+  the official [Schedule A](https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept10.26.pdf)
   has SHA-256
-  `f850e7b59c0914b2e4699fee83d91e3691f648d5142f7ebe07eae696f7524a0c`.
-- Schedule A contains 13 advertised rows and 14 exact PIDs. All 13 rows
-  covering 14 PIDs are mapped. The sept8 revision no longer advertises six
-  additional rows that were on the sept3 draft; the two parking-space PIDs
+  `e91aa0de8d671ed6b90f374c663fc2bbe45228cb9026f63302bd822ff1558534`.
+- Schedule A contains 11 advertised rows and 12 exact PIDs. All 11 rows
+  covering 12 PIDs are mapped. The sept10 revision no longer advertises two
+  additional rows that were on the sept8 draft; the two parking-space PIDs
   that previously returned empty NSPRD collections remain unpublished, so this
   snapshot has no geometry exceptions.
 - Five source rows print HST `Yes`, and one prints redeemable `No`. Those inputs
   are validated and counted but HST is not added to the public listing schema.
   The assessed-name column and owner-bearing PDF bytes are not committed. The
   byte-for-byte owner-free public dataset SHA-256 is
-  `8ef901499f4c6438ac7014bcd34c8583aee12516dce47320d3b5d9e3ec40c54e`.
+  `78e355d91be8ce55a253295c76d78f02980822a090ff5212a9256b56adf224e4`.
 
 Run `npm run refresh:halifax-tax-sale` to reparse both dated official PDFs. The
 refresh fails closed on a changed document link, tender number, layout,
