@@ -43,6 +43,8 @@ final class MeasurementEndpointAnnotationView: MKAnnotationView {
         badge.layer.borderColor = UIColor(featureHex: corner.colorHex).cgColor
         // A label can cover the ground where the reader wants to place the
         // next point. It must not select an annotation or intercept that tap.
+        // `isUserInteractionEnabled` makes UIView's hit test return nil;
+        // MapKit still hit-tests annotation views through `point(inside:)`.
         isUserInteractionEnabled = corner.endpointLabel == nil
         displayPriority = corner.endpointLabel == nil ? .defaultLow : .required
         zPriority = corner.endpointLabel == nil ? .defaultUnselected : .max
@@ -79,6 +81,23 @@ final class MeasurementEndpointAnnotationView: MKAnnotationView {
         // MapKit anchors the view's centre plus this offset. Keep the corner
         // dot exactly at the coordinate when the label wraps or text grows.
         centerOffset = CGPoint(x: 0, y: -(height - dot.height) / 2)
+    }
+
+    /// A labelled endpoint is read, not selected. MapKit hit-tests annotation
+    /// views even when UIView interaction is off, and a hit here would steal
+    /// the map tap that places the next measuring point.
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        guard readout.text != nil else {
+            return super.point(inside: point, with: event)
+        }
+        return false
+    }
+
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard readout.text != nil else {
+            return super.hitTest(point, with: event)
+        }
+        return nil
     }
 
     override func prepareForReuse() {

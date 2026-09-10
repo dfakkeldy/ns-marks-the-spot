@@ -2767,6 +2767,12 @@ extension MapController: MKMapViewDelegate {
         // A selection queued on a replaced map is not a tap on this one: it
         // must neither take the camera nor open a card.
         guard mapView === self.mapView else { return }
+        if view.annotation is VectorDraftVertexAnnotation {
+            // Draft corners are marks of a shape in progress, not records.
+            // Selecting one would consume the tap that places the next point.
+            mapView.deselectAnnotation(view.annotation, animated: false)
+            return
+        }
         if let cluster = view.annotation as? MKClusterAnnotation {
             let members = cluster.memberAnnotations
             if Self.clusterIsInseparable(members, in: mapView) {
@@ -2842,7 +2848,35 @@ extension MapController: UIGestureRecognizerDelegate {
         _ gestureRecognizer: UIGestureRecognizer,
         shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
     ) -> Bool {
-        false
+        let identify = gestureRecognizer.name == Self.identifyTapName
+            ? gestureRecognizer
+            : otherGestureRecognizer.name == Self.identifyTapName
+                ? otherGestureRecognizer
+                : nil
+        guard let identify, let mapView = identify.view as? MKMapView else { return false }
+        // The measurement total is drawn on the last corner. MapKit's own tap
+        // would otherwise win that hit and the identify tap would never place
+        // the next point. Everywhere else the two still refuse each other, so
+        // a marker tap does not also identify the parcel underneath.
+        return Self.measurementEndpointCovers(identify.location(in: mapView), in: mapView)
+    }
+
+    /// Whether a point on the map sits on the labelled measuring endpoint.
+    ///
+    /// Uses the view's frame rather than hit-testing: the view refuses
+    /// interaction so a finger can reach the map, which makes `hitTest`
+    /// skip it.
+    static func measurementEndpointCovers(_ point: CGPoint, in mapView: MKMapView) -> Bool {
+        mapView.annotations.contains { annotation in
+            measurementEndpointCovers(point, view: mapView.view(for: annotation))
+        }
+    }
+
+    static func measurementEndpointCovers(_ point: CGPoint, view: MKAnnotationView?) -> Bool {
+        guard let view = view as? MeasurementEndpointAnnotationView,
+              view.accessibilityIdentifier == "measure-endpoint-label"
+        else { return false }
+        return view.frame.contains(point)
     }
 }
 
