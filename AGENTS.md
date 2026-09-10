@@ -106,3 +106,9 @@ deployed from a build or repository merge alone.
   call for it; do not auto-rebase or force-push as a standing rule.
 - Update documentation only when a change makes the existing description
   inaccurate.
+- Pin frozen-input provenance (anything resolved with `git show <rev>:<path>`)
+  to a commit on the target branch's own history, normally the squash merge
+  that landed the inputs. Never pin a PR-branch commit: GitHub deletes the head
+  branch after a squash merge, so that commit becomes unreachable in a checkout
+  of `nightly` and the gate fails on the push after merge. Land the inputs
+  first, then pin them in a follow-up PR.
