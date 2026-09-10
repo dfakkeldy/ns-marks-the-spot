@@ -4,7 +4,7 @@
 from explicit per-sheet revisions. Judique and Hawkesbury remain frozen at
 PR #380 merge `a6619d96ba8fa8279ea6a8027654a92b15942b9d`; Mabou was reprocessed
 through the 36-control Glendyer refinement in [PR #385](https://github.com/dfakkeldy/ns-marks-the-spot/pull/385),
-frozen at `ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b`. The output locates
+frozen at the #385 merge `249b2be0b378adec894abc34520f83b009dbf8fd`. The output locates
 **printed lettering**. It does not identify the corresponding mill wheel,
 church symbol, mine opening, road alignment, feature footprint or modern site.
 Existing feature placement and the placement pilot remain unchanged.
