@@ -306,6 +306,9 @@ final class MapController: NSObject {
         switch mutation {
         case .setMapType(let baseType):
             mapView.mapType = Self.mkMapType(for: baseType)
+            // Before the new ground goes in, so it lands in the stack the
+            // layers are now in rather than in the other one.
+            moveOverlays(to: Self.overlayLevel(for: baseType), on: mapView)
             applyBaseOverlay(for: baseType, on: mapView)
 
         case .addTileOverlay(let layer):
@@ -326,7 +329,7 @@ final class MapController: NSObject {
             // otherwise paint over the outline the user is looking at — imagery
             // hiding the boundary it is being compared to — and over the vector
             // layers, which sit above every raster.
-            mapView.installInDrawOrder(overlay)
+            mapView.installInDrawOrder(overlay, level: overlayLevel)
 
         case .removeTileOverlay(let id):
             for overlay in mapView.overlays {
@@ -354,7 +357,7 @@ final class MapController: NSObject {
             // goes under the rasters rather than over them.
             let ordered = shapes.sorted { $0.zIndex < $1.zIndex }
                 .flatMap { $0.overlays() }
-            mapView.installInDrawOrder(ordered)
+            mapView.installInDrawOrder(ordered, level: overlayLevel)
 
         case .setFeatureMarkers(let markers):
             mapView.removeAnnotations(
@@ -369,7 +372,7 @@ final class MapController: NSObject {
             mapView.removeOverlays(mapView.overlays.compactMap { $0 as? UserMapOverlay })
             mapView.installInDrawOrder(drapes.compactMap { drape in
                 UserMapOverlay(record: drape.record, image: drape.image, alpha: drape.alpha)
-            })
+            }, level: overlayLevel)
 
         case .setUserMapAlpha(let id, let alpha):
             for overlay in mapView.overlays {
@@ -408,7 +411,7 @@ final class MapController: NSObject {
             )
             guard let draft else { break }
             if let overlay = draft.overlay() {
-                mapView.installInDrawOrder(overlay)
+                mapView.installInDrawOrder(overlay, level: overlayLevel)
             }
             mapView.addAnnotations(draft.handles())
 
@@ -422,7 +425,7 @@ final class MapController: NSObject {
             // selection, every tap, every tax-sale toggle and every filter
             // change, and with the tax-sale layers on that is hundreds of
             // polygons against whatever else is drawn, on the main thread.
-            mapView.installInDrawOrder(shapes.flatMap { ParcelPolygon.polygons(for: $0) })
+            mapView.installInDrawOrder(shapes.flatMap { ParcelPolygon.polygons(for: $0) }, level: overlayLevel)
 
         case .setShowsUserLocation(let shows):
             // MapKit asks for permission itself when the dot goes on. Not in
@@ -512,6 +515,38 @@ final class MapController: NSObject {
         }
     }
 
+    /// The level every overlay on the map is installed at.
+    ///
+    /// One level for everything, decided by the ground: MapKit draws the
+    /// whole `aboveLabels` stack over the whole `aboveRoads` stack, so a
+    /// base at the upper level would cover every layer left at the lower
+    /// one, and a layer at the lower level would be read under Apple's
+    /// lettering on a ground chosen to be read without it. Which grounds
+    /// want which is `MapBaseType.showsAppleLabels`.
+    private var overlayLevel: MKOverlayLevel { Self.overlayLevel(for: appliedBaseMapType) }
+
+    static func overlayLevel(for baseType: MapBaseType) -> MKOverlayLevel {
+        baseType.showsAppleLabels ? .aboveRoads : .aboveLabels
+    }
+
+    /// Carries every overlay across to `level` when a change of ground moves
+    /// the map to the other side of Apple's lettering.
+    ///
+    /// Removed and added back in the order they held, into a stack that is
+    /// empty — every install goes to the one level the ground calls for, so
+    /// nothing is ever waiting at the other — which is what keeps the order
+    /// `installInDrawOrder` built. MapKit asks for each overlay's renderer
+    /// again on the way back and the tile overlays for their squares, from
+    /// the app's own cache; a change of ground is a deliberate act, not
+    /// something a pan does.
+    private func moveOverlays(to level: MKOverlayLevel, on mapView: MKMapView) {
+        let other: MKOverlayLevel = level == .aboveRoads ? .aboveLabels : .aboveRoads
+        let stranded = mapView.overlays(in: other)
+        guard !stranded.isEmpty else { return }
+        mapView.removeOverlays(stranded)
+        mapView.addOverlays(stranded, level: level)
+    }
+
     /// Whether the map is being drawn in the dark appearance, which is what
     /// decides between Day and Night for a system-appearance Atlas.
     var systemPrefersDark: Bool {
@@ -540,6 +575,7 @@ final class MapController: NSObject {
     /// under the layers that are already on the map rather than over them —
     /// switching the base map must not blank out the sheet being read.
     private func applyBaseOverlay(for baseType: MapBaseType, on mapView: MKMapView) {
+        let level = Self.overlayLevel(for: baseType)
         let wantsBlank = baseType == .blank
         let wantsOSM = baseType == .openStreetMap
         // Resolved here, at the moment of drawing, so a system-appearance
@@ -561,10 +597,10 @@ final class MapController: NSObject {
             }
         }
         if wantsBlank, mapView.overlays.compactMap({ $0 as? BlankBaseOverlay }).isEmpty {
-            mapView.installInDrawOrder(BlankBaseOverlay())
+            mapView.installInDrawOrder(BlankBaseOverlay(), level: level)
         }
         if wantsOSM, mapView.overlays.compactMap({ $0 as? OSMBaseOverlay }).isEmpty {
-            mapView.installInDrawOrder(OSMBaseOverlay())
+            mapView.installInDrawOrder(OSMBaseOverlay(), level: level)
         }
         // With no host there is nothing to install and nothing stands in:
         // the picker does not offer the Atlas on such a build, and a ground
@@ -572,7 +608,7 @@ final class MapController: NSObject {
         if let style = wantsAtlas, let baseURL = atlasRasterBaseURL,
            !mapView.overlays.contains(where: { ($0 as? AtlasBaseOverlay)?.style == style })
         {
-            mapView.installInDrawOrder(AtlasBaseOverlay(style: style, baseURL: baseURL))
+            mapView.installInDrawOrder(AtlasBaseOverlay(style: style, baseURL: baseURL), level: level)
         }
     }
 
@@ -729,7 +765,7 @@ final class MapController: NSObject {
                     updateAnnotations(from: before, to: after, on: mapView)
                 } else {
                     removeUserVectorShapes(on: mapView) { $0 == after.record.id }
-                    mapView.installInDrawOrder(after.overlays())
+                    mapView.installInDrawOrder(after.overlays(), level: overlayLevel)
                     mapView.addAnnotations(after.annotations())
                 }
             }
@@ -742,7 +778,7 @@ final class MapController: NSObject {
         guard removedIDs.isDisjoint(with: old[..<prefix].map(\.record.id)) else {
             removeUserVectorShapes(on: mapView) { _ in true }
             for drawing in drawings {
-                mapView.installInDrawOrder(drawing.overlays())
+                mapView.installInDrawOrder(drawing.overlays(), level: overlayLevel)
                 mapView.addAnnotations(drawing.annotations())
             }
             return
@@ -751,7 +787,7 @@ final class MapController: NSObject {
             removeUserVectorShapes(on: mapView) { removedIDs.contains($0) }
         }
         for drawing in drawings[prefix...] {
-            mapView.installInDrawOrder(drawing.overlays())
+            mapView.installInDrawOrder(drawing.overlays(), level: overlayLevel)
             mapView.addAnnotations(drawing.annotations())
         }
     }
@@ -1915,7 +1951,11 @@ final class MapController: NSObject {
         } else {
             overlay = BoundsSelectionOverlay()
             selectionOverlay = overlay
-            mapView.addOverlay(overlay)
+            // At the ground's level like everything else: in the other
+            // stack it would draw under a base-replacing ground, or over
+            // Apple's lettering on an Apple ground — either way outside
+            // the order `installInDrawOrder` keeps.
+            mapView.addOverlay(overlay, level: overlayLevel)
         }
         overlay.set(start: start, end: end)
         (mapView.renderer(for: overlay) as? BoundsSelectionRenderer)?.setNeedsDisplay()

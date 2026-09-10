@@ -44,6 +44,30 @@ nonisolated enum MapBaseType: String, CaseIterable, Identifiable, Sendable {
     /// Whether this ground is drawn from the rendered Atlas tiles.
     var isAtlas: Bool { atlasStyle(systemPrefersDark: false) != nil }
 
+    /// Whether Apple's own lettering — place names, route shields and
+    /// points of interest — belongs over this ground.
+    ///
+    /// MapKit draws that lettering as a pass of its own, above every overlay
+    /// installed at `MKOverlayLevel.aboveRoads`, and `canReplaceMapContent`
+    /// does nothing to it: a base-replacing overlay left at that level is
+    /// read under Apple's names for the places its own tiles already name.
+    /// Apple's grounds keep the lettering, since it is theirs. NS Aerial is
+    /// one of them: the Province's imagery drawn over Apple's standard map,
+    /// which keeps Apple's names over it the way Hybrid keeps them over
+    /// Apple's own imagery — the browser draws nothing over its aerial
+    /// imagery, and keeping the names here is the native map's own choice,
+    /// the one it made before this rule existed. The Atlas and
+    /// OpenStreetMap carry their own lettering in the tiles, and None is
+    /// chosen exactly to read a sheet with no modern names over it, so
+    /// those go above the lettering and cover it.
+    /// `MapController.overlayLevel(for:)` turns this into the level.
+    var showsAppleLabels: Bool {
+        switch self {
+        case .standard, .satellite, .hybrid, .nsAerial: true
+        case .atlas, .atlasDay, .atlasNight, .atlasFletcher, .openStreetMap, .blank: false
+        }
+    }
+
     /// The Atlas style this ground draws, with the system's appearance
     /// deciding for `.atlas` — the web's `resolveBasemapStyle`.
     func atlasStyle(systemPrefersDark: Bool) -> AtlasRasterStyle? {

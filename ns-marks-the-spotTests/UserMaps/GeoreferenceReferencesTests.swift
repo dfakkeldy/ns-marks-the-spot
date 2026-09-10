@@ -83,7 +83,7 @@ struct GeoreferenceReferencesTests {
         let mapView = MKMapView()
         let coordinator = Self.coordinator(on: mapView)
         let scan = try #require(Self.placedScan())
-        mapView.installInDrawOrder(scan)
+        mapView.installInDrawOrder(scan, level: GeoreferenceMapPane.overlayLevel)
         coordinator.apply(references: Set(GeoreferenceReference.allCases), services: services())
 
         let ids = Self.installedIDs(on: mapView)
@@ -102,7 +102,7 @@ struct GeoreferenceReferencesTests {
             for overlay in mapView.overlays where overlay is UserMapOverlay {
                 mapView.removeOverlay(overlay)
             }
-            mapView.installInDrawOrder(try #require(Self.placedScan()))
+            mapView.installInDrawOrder(try #require(Self.placedScan()), level: GeoreferenceMapPane.overlayLevel)
         }
         #expect(Self.installedIDs(on: mapView) == ["ns-aerial", "scan", "nsprd"])
     }
@@ -238,8 +238,8 @@ struct GeoreferenceReferencesTests {
         let mapView = MKMapView()
         let coordinator = Self.coordinator(on: mapView)
         // As `makeUIView` installs it: first, before anything else is drawn.
-        mapView.installInDrawOrder(OSMBaseOverlay())
-        mapView.installInDrawOrder(try #require(Self.placedScan()))
+        mapView.installInDrawOrder(OSMBaseOverlay(), level: GeoreferenceMapPane.overlayLevel)
+        mapView.installInDrawOrder(try #require(Self.placedScan()), level: GeoreferenceMapPane.overlayLevel)
         coordinator.apply(references: Set(GeoreferenceReference.allCases), services: services())
         #expect(Self.installedIDs(on: mapView) == ["osm", "ns-aerial", "scan", "nsprd"])
     }

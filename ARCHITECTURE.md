@@ -48,6 +48,13 @@ replace them:
   ground under its credit. A system-appearance Atlas resolves to Day or Night
   from the map view's trait, and links, notes and pages name the resolved
   style (`MapShareState.basemapStyle`, the web's `basemap` parameter).
+  MapKit draws its own place names and route shields over everything at
+  `MKOverlayLevel.aboveRoads` whatever `canReplaceMapContent` says, so a
+  base-replacing ground and every overlay with it are installed at
+  `.aboveLabels`, while Apple's grounds — NS Aerial included — keep
+  `.aboveRoads` so Apple's lettering stays over the layers
+  (`MapBaseType.showsAppleLabels`, `MapController.overlayLevel(for:)`;
+  a change of ground carries the installed overlays across in order).
 
 SwiftUI views other than the `MapSurfaceView` representable still never
 import MapKit; they observe `MapController.state` through `@Observable`.
