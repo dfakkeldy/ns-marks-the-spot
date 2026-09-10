@@ -12,8 +12,9 @@
     "fit": "mabou-full-sheet/revised-fit.json",
     "preserved_original_controls": 32,
     "preserved_hand_controls": 32,
-    "current_controls": 34,
-    "coordinates_exactly_equal": true
+    "current_controls": 36,
+    "coordinates_exactly_equal": true,
+    "current_verification": "mabou-full-sheet/north-audit-20260909/candidate36/preservation.json"
   },
   {
     "sheet": "22",

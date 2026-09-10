@@ -1,0 +1,24 @@
+[
+  {
+    "id": "V02",
+    "role": "check",
+    "pixel_xy": [
+      7119,
+      6128
+    ],
+    "lonlat": [
+      -61.3421682,
+      46.1071794
+    ],
+    "modern_node": "J0568",
+    "modern_objectids": [
+      196549,
+      262652,
+      262653
+    ],
+    "identity_evidence": "Glendyer eastern tributary below sawmill: arm crosses north-south road, enters east bank before the separate northwest V01 fork farther downstream.",
+    "source_uncertainty_px": 8,
+    "review": "Candidate frozen before scoring; enlarged crosshair review pending. Same-agent observations; clustered catchments, not whole-sheet validation.",
+    "reason": "Enlarged native figure does not establish a separate east tributary at the proposed point; hatching/road crossing can imitate a junction. Omitted before scoring."
+  }
+]

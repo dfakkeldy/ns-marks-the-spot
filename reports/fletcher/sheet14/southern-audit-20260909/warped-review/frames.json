@@ -1,0 +1,32 @@
+[
+  {
+    "image": "northeast-mabou.jpg",
+    "lonlat_bounds": [
+      -61.394,
+      46.095,
+      -61.346,
+      46.132
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/refinement-20260909/result25/sheet-14-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/result26/sheet-14-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet14/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "hay-river.jpg",
+    "lonlat_bounds": [
+      -61.26,
+      46.101,
+      -61.222,
+      46.123
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/refinement-20260909/result25/sheet-14-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/result26/sheet-14-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet14/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

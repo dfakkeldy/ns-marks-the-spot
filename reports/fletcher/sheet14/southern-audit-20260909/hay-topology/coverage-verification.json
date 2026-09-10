@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/hay-result/sheet-14-full-sheet.tif",
+  "raster_sha256": "722f13f79e967462392557b2cb8bd79f9931d3704b5a2ebf98126631ef66e9a7",
+  "cutline_sha256": "c8aa4e0acb2fb8624b72da76d0c345f9696c761b278b2e2529f303ad3a71ad96",
+  "expected_interior_cells": 47338856,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

@@ -1,0 +1,72 @@
+{
+  "directory": "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/digitization-handoff",
+  "files": [
+    {
+      "name": "README.md",
+      "sha256": "0f7dd45d6a38d2477937da443fbcfb784878eee6ea25a2b31c4b5f6c85a2cd1c",
+      "bytes": 1616
+    },
+    {
+      "name": "boundary.json",
+      "sha256": "401fbbd567c67820be00f63b7b42eec5248a48ca289d8ee1df5f9d79d24a08af",
+      "bytes": 2033
+    },
+    {
+      "name": "checks.json",
+      "sha256": "aad350df5e395a5fcb6de5f9f122892d1806e02b67aea1c92f9c6d8d6cf092d9",
+      "bytes": 14516
+    },
+    {
+      "name": "coverage.json",
+      "sha256": "012c3c57c9727a2ce461775ebe78bb6c447b7bc2ad0745d0bf79ba30c851436c",
+      "bytes": 488
+    },
+    {
+      "name": "fit.json",
+      "sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+      "bytes": 21199
+    },
+    {
+      "name": "handoff.json",
+      "sha256": "66c9e6476472da3578dcf825a62933520ebccba75457d824f827a1092c2c24a0",
+      "bytes": 2309
+    },
+    {
+      "name": "import-verification.json",
+      "sha256": "28fa487d8037d678a86ea2197d4d56d925509c99f6e0047ff6aeea110675f623",
+      "bytes": 226
+    },
+    {
+      "name": "render-receipt.json",
+      "sha256": "a74e74b1da2c99dbcd439b2f6bb3ae2affcf4ea5977e136a1e426d39b18cf91c",
+      "bytes": 3777
+    },
+    {
+      "name": "scores.json",
+      "sha256": "297becef81947492a8a76f160f814ec8ccfd44a5caa168eb994b6c401dd0ea20",
+      "bytes": 2713
+    },
+    {
+      "name": "sheet-16-checks.csv",
+      "sha256": "4808f83847aa9d3835283cd3eb639b0d77edea8757ab639c2f0c93d0b3b15015",
+      "bytes": 750
+    },
+    {
+      "name": "sheet-16-controls.csv",
+      "sha256": "19448236872e9c591c7259ac1e44b2be9a49dc17a457e82677fe6bc47b8f3d8b",
+      "bytes": 2864
+    },
+    {
+      "name": "sheet-16-labels.geojson",
+      "sha256": "3cdf007c0c03edf28cffa2ec9877398c2bafc0542b0a07c56cf979b5b857ff85",
+      "bytes": 474140
+    },
+    {
+      "name": "sheet-16-review.csv",
+      "sha256": "33a0b1aa206bf2a94d2f3521702588cb2af1bb6c17c93359079a06ca4086d078",
+      "bytes": 3494
+    }
+  ],
+  "raster_hash_verified": true,
+  "tile_archive_crc_verified": true
+}

@@ -1,0 +1,38 @@
+{
+  "publisher": "Natural Resources Canada / Canada Centre for Mapping",
+  "title": "Lake Ainslie, NTS11K/3, edition4",
+  "scale_denominator": 50000,
+  "published": 1998,
+  "information_current_as_of": 1994,
+  "date_evidence": "Visible lower-left map margin, reference-review/margin-left.jpg. File timestamp and FTP modification date were not used as survey dates.",
+  "url": "https://ftp.maps.canada.ca/pub/nrcan_rncan/raster/topographic/50k/011/k/03/011k03_0400_canmatrix_geotiff.zip",
+  "reference_role": "Named drainage and road-context corroboration; NSTDB still supplies all modern control coordinates. Not proof of unchanged channels since Fletcher, and no new claim of measured accuracy from this map.",
+  "crop_command": "gdal_translate -q -of PNG -expand rgb -projwin_srs EPSG:4326 -projwin -61.28 46.135 -61.21 46.08 INPUT hay.png",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/canmatrix/geotiff.zip",
+      "sha256": "e59b14688112e9e3eb54d71a2a90fd68b797e2a36c3029ec7b4a928c32b8a9d6",
+      "bytes": 5134142
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/canmatrix/printpdf.zip",
+      "sha256": "61497e9844a904026c028e5a43de71fc99817d2def2fa41ba8812059744fc642",
+      "bytes": 7256231
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/canmatrix/geotiff/011k03_0400_canmatrix_geo.tif",
+      "sha256": "cead41a00699e060ad365f6f9f225126f0bf8bc88bf8e47604f6754748ab2b38",
+      "bytes": 94660213
+    },
+    {
+      "path": "/Users/dfakkeldy/Developer/ns-marks-the-spot-worktrees/judique-benchmark/reports/fletcher/sheet14/southern-audit-20260909/hay-topology/reference-review/hay.png",
+      "sha256": "e22e909f29d4db99231ef8e576960c2f35da67abe204e3957724bbcd26aa3e43",
+      "bytes": 263178
+    },
+    {
+      "path": "/Users/dfakkeldy/Developer/ns-marks-the-spot-worktrees/judique-benchmark/reports/fletcher/sheet14/southern-audit-20260909/hay-topology/reference-review/margin-left.jpg",
+      "sha256": "f34fb7d43fd80b3d91bbbf7572da03b712c161675309b4667be9aea4cf2fc03b",
+      "bytes": 69869
+    }
+  ]
+}

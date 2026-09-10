@@ -1,0 +1,127 @@
+{
+  "fit_sha256": "523893178a7a0d09afba93c36916ce17cec8644248c7baab2e28e53d30af4259",
+  "boundary_sha256": "03983c1d7ed4bdfefde19d469abba2b60cd9e05fb36567508e17411c5b606ec5",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Five previously used diagnostics plus four checks reserved before fitting this revision. Four new checks target known problem regions, are not geographically independent whole-sheet validation, and become diagnostic after comparison. No check is fitted.",
+  "checks_sha256": "91e1e2b11b0e9dc50d19537ab40977f49eff19e56f724cd7b8cd14d70e69caef",
+  "median_ground_m": 113.85659811740044,
+  "worst_ground_m": 166.92228915183307,
+  "points": [
+    {
+      "id": "Q02",
+      "error_ground_m": 65.1663262231341,
+      "predicted_lonlat": [
+        -61.337840220931234,
+        46.18545199581216
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 23.473400116161784,
+      "predicted_lonlat": [
+        -61.379766617242794,
+        46.143208929901256
+      ]
+    },
+    {
+      "id": "F06",
+      "error_ground_m": 166.92228915183307,
+      "predicted_lonlat": [
+        -61.27624027076533,
+        46.243060687117634
+      ]
+    },
+    {
+      "id": "F07",
+      "error_ground_m": 113.85659811740044,
+      "predicted_lonlat": [
+        -61.40524963493247,
+        46.18001277575387
+      ]
+    },
+    {
+      "id": "G01",
+      "error_ground_m": 166.65192972050468,
+      "predicted_lonlat": [
+        -61.43875984040418,
+        46.107117843062206
+      ]
+    },
+    {
+      "id": "T01",
+      "error_ground_m": 151.5896515691732,
+      "predicted_lonlat": [
+        -61.40055227557676,
+        46.17549976329169
+      ]
+    },
+    {
+      "id": "T02",
+      "error_ground_m": 50.197122308090584,
+      "predicted_lonlat": [
+        -61.39388350552042,
+        46.160401355241454
+      ]
+    },
+    {
+      "id": "T03",
+      "error_ground_m": 48.16986065309329,
+      "predicted_lonlat": [
+        -61.31209805352373,
+        46.19750657200499
+      ]
+    },
+    {
+      "id": "T04",
+      "error_ground_m": 113.88686110683453,
+      "predicted_lonlat": [
+        -61.32259007040295,
+        46.18242397063121
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 70997,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -44.708504945922996,
+      -0.32302021421567595
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet14/refinement-20260909/result/sheet-14-full-sheet.tif",
+    "sha256": "19763f6d2cd8ad795cd41a7a0ccf163e63e6579b1ab71b76c13fc98c816127f8",
+    "size": [
+      9080,
+      5777
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.6189937,
+            46.2719064
+          ],
+          [
+            -61.6189937,
+            46.0922519
+          ],
+          [
+            -61.2111585,
+            46.0922519
+          ],
+          [
+            -61.2111585,
+            46.2719064
+          ],
+          [
+            -61.6189937,
+            46.2719064
+          ]
+        ]
+      ]
+    }
+  }
+}

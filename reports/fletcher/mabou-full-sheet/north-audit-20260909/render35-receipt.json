@@ -1,0 +1,175 @@
+{
+  "fit_sha256": "aa679bd5f1c2e06772271415120e81a1b68c287ad6d2c21b9669a210ed1968ba",
+  "boundary_sha256": "401fbbd567c67820be00f63b7b42eec5248a48ca289d8ee1df5f9d79d24a08af",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Fifteen excluded diagnostics: prior10 retained+3 previously fresh+N02/N03 consumed by this model comparison. N01 used forfit,neveraccuracy. Not independent full-sheet validation.",
+  "checks_sha256": "f5f0063cbca005fa00512c4d45207503212859820854fa736a7c3c8bd4161520",
+  "median_ground_m": 105.21745753920955,
+  "worst_ground_m": 207.99956254197988,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 39.51195349435309,
+      "predicted_lonlat": [
+        -61.510531447115156,
+        46.00642470501154
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 105.21745753920955,
+      "predicted_lonlat": [
+        -61.443914397529646,
+        46.02718910620805
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 84.05165188175077,
+      "predicted_lonlat": [
+        -61.41773247833696,
+        46.0775316588195
+      ]
+    },
+    {
+      "id": "Q04",
+      "error_ground_m": 118.18650824400102,
+      "predicted_lonlat": [
+        -61.47595623513204,
+        45.98450500240251
+      ]
+    },
+    {
+      "id": "Q05",
+      "error_ground_m": 49.608180567411495,
+      "predicted_lonlat": [
+        -61.43673041758246,
+        45.96322952553339
+      ]
+    },
+    {
+      "id": "Q06",
+      "error_ground_m": 12.312353531850494,
+      "predicted_lonlat": [
+        -61.464793286691254,
+        45.92897149704169
+      ]
+    },
+    {
+      "id": "Q07",
+      "error_ground_m": 170.1092357669819,
+      "predicted_lonlat": [
+        -61.426446380385805,
+        46.070410648190254
+      ]
+    },
+    {
+      "id": "Q08",
+      "error_ground_m": 114.81278453022172,
+      "predicted_lonlat": [
+        -61.516368949609095,
+        46.00675840044231
+      ]
+    },
+    {
+      "id": "M02",
+      "error_ground_m": 125.69884385666512,
+      "predicted_lonlat": [
+        -61.23805807022946,
+        46.03989898750034
+      ]
+    },
+    {
+      "id": "M03",
+      "error_ground_m": 97.59196825125493,
+      "predicted_lonlat": [
+        -61.284326153710225,
+        45.9469321323368
+      ]
+    },
+    {
+      "id": "M05",
+      "error_ground_m": 129.28149006044015,
+      "predicted_lonlat": [
+        -61.25333636267033,
+        46.059707851931265
+      ]
+    },
+    {
+      "id": "M06",
+      "error_ground_m": 60.6412373369651,
+      "predicted_lonlat": [
+        -61.26506225663157,
+        45.93515213907925
+      ]
+    },
+    {
+      "id": "M07",
+      "error_ground_m": 57.80091627386627,
+      "predicted_lonlat": [
+        -61.3004168306336,
+        45.95620464364836
+      ]
+    },
+    {
+      "id": "N02",
+      "error_ground_m": 152.11133933750793,
+      "predicted_lonlat": [
+        -61.313763276597136,
+        46.08847677606111
+      ]
+    },
+    {
+      "id": "N03",
+      "error_ground_m": 207.99956254197988,
+      "predicted_lonlat": [
+        -61.352641911286256,
+        46.076217204953885
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71062,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -37.91059290417114,
+      -20.830748026330824
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/result35/sheet-16-full-sheet.tif",
+    "sha256": "b05d1fbed8993eb8db42cd1744af1cc9272d58772b947f105874ff8da2b79846",
+    "size": [
+      8517,
+      5560
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.6027342,
+            46.0946815
+          ],
+          [
+            -61.6027342,
+            45.9212285
+          ],
+          [
+            -61.2201866,
+            45.9212285
+          ],
+          [
+            -61.2201866,
+            46.0946815
+          ],
+          [
+            -61.6027342,
+            46.0946815
+          ]
+        ]
+      ]
+    }
+  }
+}

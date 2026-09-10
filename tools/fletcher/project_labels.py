@@ -1,4 +1,4 @@
-"""Project reviewed lettering through PR #380's frozen native-scan TPS fits.
+"""Project reviewed lettering through explicitly frozen native-scan TPS fits.
 
 Requires GDAL's gdaltransform; --source/--packets additionally requires Pillow.
 No source inventories, controls, or feature placements are modified.
@@ -18,14 +18,16 @@ ROOT = Path(__file__).resolve().parents[2]
 INVENTORIES = Path("docs/fletcher/label-extraction/highway19-production")
 REPORT = Path("reports/fletcher/label-geography")
 REVISION = "a6619d96ba8fa8279ea6a8027654a92b15942b9d"
+REVISIONS = {19: REVISION, 16: "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b", 22: REVISION}
+MABOU_NORTH = "mabou-full-sheet/north-audit-20260909/candidate36"
 SHEETS = {
     19: ("judique-full-sheet/revised-fit.json", "judique-boundary/boundary.json", "judique-render-receipt.json"),
-    16: ("mabou-full-sheet/revised-fit.json", "sheet16/boundary.json", "mabou-render-receipt.json"),
+    16: (f"{MABOU_NORTH}/fit.json", "sheet16/boundary.json", f"{MABOU_NORTH}/render-receipt.json"),
     22: ("hawkesbury-full-sheet/boundary-fit.json", "sheet22/boundary.json", "hawkesbury-boundary-render-receipt.json"),
 }
 CHECKS = {
     19: ("judique-full-sheet/fresh-checks.json", "judique-full-sheet/fresh-scores.json"),
-    16: ("mabou-full-sheet/fresh-checks.json", "full-sheets/mabou-render-receipt.json"),
+    16: (f"{MABOU_NORTH}/checks.json", f"{MABOU_NORTH}/scores.json"),
     22: ("hawkesbury-full-sheet/boundary-diagnostic-checks.json", "full-sheets/hawkesbury-boundary-render-receipt.json"),
 }
 RADIUS = 6378137.0
@@ -120,17 +122,20 @@ def transform(controls, points, executable):
 
 def load_inputs(sheet):
     fit_name, boundary_name, receipt_name = SHEETS[sheet]
+    revision = REVISIONS[sheet]
     fit_path = Path("reports/fletcher") / fit_name
     boundary_path = Path("reports/fletcher") / boundary_name
     inventory_path = INVENTORIES / f"sheet-{sheet}-reviewed.json"
     manifest_path = INVENTORIES / f"sheet-{sheet}-manifest.json"
     csv_path = Path(f"reports/fletcher/full-sheets/sheet-{sheet}-controls.csv")
-    receipt_path = Path("reports/fletcher/full-sheets") / receipt_name
+    if sheet == 16:
+        csv_path = Path("reports/fletcher") / MABOU_NORTH / "sheet-16-controls.csv"
+    receipt_path = Path("reports/fletcher" if sheet == 16 else "reports/fletcher/full-sheets") / receipt_name
     paths = [fit_path, boundary_path, inventory_path, manifest_path, csv_path, receipt_path]
     paths += [Path("reports/fletcher") / name for name in CHECKS[sheet]]
-    # This derivative is pinned to PR #380. Future revisions require explicit reprocessing.
+    # Each sheet is pinned independently. Future revisions require explicit reprocessing.
     for path in paths:
-        frozen = subprocess.run(["git", "show", f"{REVISION}:{path}"], cwd=ROOT,
+        frozen = subprocess.run(["git", "show", f"{revision}:{path}"], cwd=ROOT,
                                 capture_output=True, check=True).stdout
         require(hashlib.sha256(frozen).hexdigest() == digest(ROOT / path), f"Changed frozen input: {path}")
     fit, boundary, inventory, manifest = map(lambda p: read(ROOT / p), paths[:4])
@@ -146,7 +151,7 @@ def load_inputs(sheet):
     require([(p["id"], p["pixel_xy"], p["lonlat"]) for p in controls] ==
             [(p["label"], [float(p["pixel_x"]), float(p["pixel_y"])], [float(p["lon"]), float(p["lat"])]) for p in rows], "Editable controls differ from fit")
     return fit, boundary, inventory, manifest, controls, receipt, {
-        "fit_revision": REVISION, "fit_pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/380",
+        "fit_revision": revision, "fit_pr": f"https://github.com/dfakkeldy/ns-marks-the-spot/pull/{385 if sheet == 16 else 380}",
         "fit_path": str(fit_path), "fit_sha256": digest(ROOT / fit_path),
         "input_sha256": {str(p): digest(ROOT / p) for p in paths},
     }
@@ -201,7 +206,7 @@ def project(sheet, executable):
             if supported:
                 all_anchors.append(anchor)
         features.append({"type": "Feature", "id": annotation["id"], "geometry": None,
-                         "properties": {**annotation, "fit_revision": REVISION, "fit_sha256": provenance["fit_sha256"],
+                         "properties": {**annotation, "fit_revision": provenance["fit_revision"], "fit_sha256": provenance["fit_sha256"],
                                         "label_anchors": anchors, "geographic_role": "printed-lettering-only"}})
     # Include controls to verify numerical fidelity of the frozen transform.
     worlds = transform(controls, [a["source_pixel_xy"] for a in all_anchors] + [p["pixel_xy"] for p in controls], executable)
@@ -210,7 +215,7 @@ def project(sheet, executable):
         anchor["lonlat"] = lonlat(world)
     max_residual = max(math.dist(world, mercator(p["lonlat"])) for world, p in zip(worlds[len(all_anchors):], controls))
     require(max_residual < 0.001, "TPS does not reproduce fitting controls within 1 mm projected")
-    # Replay independent-of-controls sample predictions already recorded in PR #380.
+    # Replay the frozen predictions for checks excluded from this sheet fit.
     checks = read(ROOT / "reports/fletcher" / CHECKS[sheet][0])
     scores = read(ROOT / "reports/fletcher" / CHECKS[sheet][1])
     require(checks["fit_sha256"] == scores["fit_sha256"] == provenance["fit_sha256"], "Check fit mismatch")
@@ -218,7 +223,7 @@ def project(sheet, executable):
     require(all(p["role"] == "check" for p in check_by_id.values()), "Invalid check role")
     predicted = transform(controls, [check_by_id[p["id"]]["pixel_xy"] for p in scores["points"]], executable)
     replay_difference = max(math.dist(world, mercator(p["predicted_lonlat"])) for world, p in zip(predicted, scores["points"]))
-    require(replay_difference < 0.001, "Transform differs from PR #380 check predictions")
+    require(replay_difference < 0.001, "Transform differs from frozen check predictions")
     for feature in features:
         anchors = feature["properties"]["label_anchors"]
         # Keep partial/outside records fail-closed; preserve available anchors individually.
@@ -234,7 +239,7 @@ def project(sheet, executable):
         "method": "GDAL TPS in EPSG:3857, then inverse spherical Mercator to GeoJSON longitude/latitude (OGC:CRS84)",
         "gdal_version": subprocess.run([executable, "--version"], text=True, capture_output=True, check=True).stdout.strip(),
         "geographic_role": "Lettering box centres, not feature symbols, sites, boundaries or ownership. Feature placement remains deferred.",
-        "accuracy": "Approximate PR #380 fits; working accuracy targets not uniformly satisfied. See full-sheets/README.md. No new geographic acceptance.",
+        "accuracy": f"Approximate PR #{385 if sheet == 16 else 380} fits; working accuracy targets not uniformly satisfied. See full-sheets/README.md. No new geographic acceptance.",
         "credit": manifest["credit"], "manifest_url": manifest["manifest_url"],
         "imagery_licence_url": manifest["imagery_licence_url"],
         "verification": {"annotation_count": len(features), "box_count": sum(len(f["properties"]["label_anchors"]) for f in features),
@@ -259,7 +264,7 @@ def main():
     if args.source:
         _, _, inventory, manifest, *_ = load_inputs(args.sheet)
         audit = audit_scan(args.source, args.packets, inventory, manifest)
-        audit["fit_revision"] = REVISION
+        audit["fit_revision"] = result["provenance"]["fit_revision"]
         audit["fit_sha256"] = result["provenance"]["fit_sha256"]
         write(args.out / f"sheet-{args.sheet}-frame-audit.json", audit)
     write(args.out / f"sheet-{args.sheet}-labels.geojson", result)

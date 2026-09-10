@@ -1,8 +1,10 @@
 # Fletcher lettering geography — sheets 19, 16 and 22
 
 723 reviewed annotations have been processed using the active full-sheet fits
-from [PR #380](https://github.com/dfakkeldy/ns-marks-the-spot/pull/380), frozen at
-merge revision `a6619d96ba8fa8279ea6a8027654a92b15942b9d`. The output locates
+from explicit per-sheet revisions. Judique and Hawkesbury remain frozen at
+PR #380 merge `a6619d96ba8fa8279ea6a8027654a92b15942b9d`; Mabou was reprocessed
+through the 36-control Glendyer refinement in [PR #385](https://github.com/dfakkeldy/ns-marks-the-spot/pull/385),
+frozen at `ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b`. The output locates
 **printed lettering**. It does not identify the corresponding mill wheel,
 church symbol, mine opening, road alignment, feature footprint or modern site.
 Existing feature placement and the placement pilot remain unchanged.
@@ -71,10 +73,10 @@ single feature pin. `projected_xy_m` is EPSG:3857; `lonlat` and GeoJSON geometry
 use longitude then latitude, in degrees (OGC:CRS84).
 
 Each record carries `fit_revision` and `fit_sha256`. Collection provenance also
-retains the fit path, merge revision, input inventory and manifest hashes,
+retains the fit path, pinned commit revision, input inventory and manifest hashes,
 editable control CSV hash, boundary hash and frozen check evidence hashes.
 The active fits are Judique `revised-fit.json` (44 controls), Mabou
-`revised-fit.json` (34), and Hawkesbury **`boundary-fit.json` (28)**. CSV control
+[northern `fit.json`](../mabou-full-sheet/north-audit-20260909/candidate36/fit.json) (36), and Hawkesbury **`boundary-fit.json` (28)**. CSV control
 coordinates match the fits exactly. Checks are never fitted.
 
 Six anchors fall outside the active native neatline and retain null derived
@@ -136,3 +138,9 @@ Historical attribution: David Rumsey Map Collection / David Rumsey Map Center,
 Stanford University Libraries, CC BY-NC-SA 3.0, with the existing project
 permission receipts retained. Source-specific manifests and licence links
 remain in each derivative. No production layer or deployment is changed.
+
+The Mabou update preserves all 256 annotations, original lettering boxes and
+source-pixel anchors. It recomputes 292 supported anchors and retains the five
+Mabou neatline holdbacks. Source frame/crop audits above remain the original
+audits: source imagery and extraction coordinates did not change. See the
+[reprojection receipt](../mabou-full-sheet/north-audit-20260909/candidate36/label-reprojection.json).

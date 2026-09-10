@@ -1,0 +1,49 @@
+{
+  "point_id": "T01",
+  "before": {
+    "id": "T01",
+    "role": "check",
+    "pixel_xy": [
+      5948,
+      3982
+    ],
+    "lonlat": [
+      -61.3990525,
+      46.1746166
+    ],
+    "modern_node": "J0252",
+    "modern_objectids": [
+      195446,
+      195448,
+      195795
+    ],
+    "identity_evidence": "Cove Brook long eastern branch joins southbound stem below R01. Modern small northeastern branch J0248 immediately above is not separately drawn in the historical scan; the long eastern branch and downstream north-south reach identify this junction.",
+    "source_uncertainty_px": 6,
+    "review": "Agent topology review and enlarged native crosshair audit before fitting/scoring this revision; source pixel corrections follow visible ink, not residual minimization. Modern inverse guide used only for search."
+  },
+  "after": {
+    "id": "T01",
+    "role": "check",
+    "pixel_xy": [
+      5948,
+      3982
+    ],
+    "lonlat": [
+      -61.4003982,
+      46.1750765
+    ],
+    "modern_node": "J0248",
+    "modern_objectids": [
+      195795,
+      277457,
+      315723
+    ],
+    "identity_evidence": "Stewarts Brook (historical White Brook) northwest stem 315723 from R01 continues south as named main 277457. Eastern tributary 195795 joins at J0248. J0252 is a separate junction farther east on that tributary where 195446 and 195448 split southeast/northeast; the earlier guide plot labels obscured this order. Historical T01 is northwest/south/east three-arm main-stem junction, not the downstream eastern fork. Source pixel unchanged.",
+    "source_uncertainty_px": 6,
+    "review": "2026-09-09 post-score check identity correction from explicit feature endpoints and named main-stem connectivity, confirmed against actual modern geometry and source. Earlier wrong T01 scores retained; this check is diagnostic, not fresh validation."
+  },
+  "reason": "Main stem and eastern fork were confused in the inverse-guide plot. Direct NSTDB geometry shows J0248, not J0252, has the historical northwest-south-east main-stem connectivity. No fit controls changed; source pixel unchanged.",
+  "fit_sha256_unchanged": "523893178a7a0d09afba93c36916ce17cec8644248c7baab2e28e53d30af4259",
+  "retained_history": "*-before-check-audit.json",
+  "validation_status": "Post-score diagnostic correction, not fresh validation."
+}

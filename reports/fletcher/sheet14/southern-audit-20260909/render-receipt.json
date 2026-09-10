@@ -1,0 +1,143 @@
+{
+  "fit_sha256": "21f56c6fee4a8310943789ca83e130d69aeb4eac4156ca3f18949410db2aa74f",
+  "boundary_sha256": "03983c1d7ed4bdfefde19d469abba2b60cd9e05fb36567508e17411c5b606ec5",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Eleven diagnostic observations excluded from this 26-control fit. B02 was reserved before the candidate trial and is now diagnostic. R04 remains a provisional Hay River observation used in an earlier rejected fit. This is not independent full-sheet validation.",
+  "checks_sha256": "d71abb9bdfb15bc4498b7031931067b899277d62e0dab7344bac0d942a9bdd0a",
+  "median_ground_m": 113.59586711053822,
+  "worst_ground_m": 378.4839924450584,
+  "points": [
+    {
+      "id": "Q02",
+      "error_ground_m": 65.24438729588431,
+      "predicted_lonlat": [
+        -61.33783923938776,
+        46.18545177231112
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 43.562035589316366,
+      "predicted_lonlat": [
+        -61.3795132860017,
+        46.14325275059257
+      ]
+    },
+    {
+      "id": "F06",
+      "error_ground_m": 167.224423894328,
+      "predicted_lonlat": [
+        -61.276236029974726,
+        46.24306395242107
+      ]
+    },
+    {
+      "id": "F07",
+      "error_ground_m": 113.59586711053822,
+      "predicted_lonlat": [
+        -61.405249415889614,
+        46.180009872424456
+      ]
+    },
+    {
+      "id": "G01",
+      "error_ground_m": 188.03044296734586,
+      "predicted_lonlat": [
+        -61.43897623692396,
+        46.10699181195634
+      ]
+    },
+    {
+      "id": "T01",
+      "error_ground_m": 48.819419573625176,
+      "predicted_lonlat": [
+        -61.40054946159336,
+        46.1755028659282
+      ]
+    },
+    {
+      "id": "T02",
+      "error_ground_m": 59.44277439176508,
+      "predicted_lonlat": [
+        -61.393756496993795,
+        46.16042176128046
+      ]
+    },
+    {
+      "id": "T03",
+      "error_ground_m": 48.12142971773678,
+      "predicted_lonlat": [
+        -61.312097418079475,
+        46.197505468487975
+      ]
+    },
+    {
+      "id": "T04",
+      "error_ground_m": 114.30714731819236,
+      "predicted_lonlat": [
+        -61.322538105453965,
+        46.18241624570321
+      ]
+    },
+    {
+      "id": "R04",
+      "error_ground_m": 378.4839924450584,
+      "predicted_lonlat": [
+        -61.24365760045088,
+        46.10846915212871
+      ]
+    },
+    {
+      "id": "B02",
+      "error_ground_m": 192.50395217926226,
+      "predicted_lonlat": [
+        -61.36848590601414,
+        46.120266761664006
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 70997,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -34.752396517022355,
+      -10.440829448023585
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/result26/sheet-14-full-sheet.tif",
+    "sha256": "6eb28a545246cc1ac70edf70ac96e5abed0b1b6f1b7d2071cfc44933963a2275",
+    "size": [
+      9211,
+      5629
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.622003,
+            46.2693915
+          ],
+          [
+            -61.622003,
+            46.0943389
+          ],
+          [
+            -61.2082839,
+            46.0943389
+          ],
+          [
+            -61.2082839,
+            46.2693915
+          ],
+          [
+            -61.622003,
+            46.2693915
+          ]
+        ]
+      ]
+    }
+  }
+}

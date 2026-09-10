@@ -1,0 +1,749 @@
+{
+  "sheet": "sheet-16",
+  "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+  "source_dimensions": [
+    10822,
+    7531
+  ],
+  "parent_fit_sha256": "8eaa8822e820af83790e940510cf8619b14f14a571160b8ad0ea5c5dce36a44c",
+  "points": [
+    {
+      "id": "gcp-1",
+      "role": "control",
+      "pixel_xy": [
+        2815.5009765625,
+        3069.8764189160374
+      ],
+      "lonlat": [
+        -61.53739571571351,
+        46.02701628119886
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "2815.5009765625",
+        "pixel_y": "3069.8764189160374",
+        "lon": "-61.53739571571351",
+        "lat": "46.02701628119886"
+      }
+    },
+    {
+      "id": "gcp-3",
+      "role": "control",
+      "pixel_xy": [
+        6360.5009765625,
+        3823.8892541895866
+      ],
+      "lonlat": [
+        -61.37701034545899,
+        46.0034604901647
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "6360.5009765625",
+        "pixel_y": "3823.8892541895866",
+        "lon": "-61.37701034545899",
+        "lat": "46.0034604901647"
+      }
+    },
+    {
+      "id": "gcp-4",
+      "role": "control",
+      "pixel_xy": [
+        6922.0009765625,
+        3488.88635879067
+      ],
+      "lonlat": [
+        -61.35259151458741,
+        46.01556185354673
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "6922.0009765625",
+        "pixel_y": "3488.88635879067",
+        "lon": "-61.35259151458741",
+        "lat": "46.01556185354673"
+      }
+    },
+    {
+      "id": "gcp-5",
+      "role": "control",
+      "pixel_xy": [
+        7179.0009765625,
+        3299.3872244253976
+      ],
+      "lonlat": [
+        -61.34177684783936,
+        46.021224143730045
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "7179.0009765625",
+        "pixel_y": "3299.3872244253976",
+        "lon": "-61.34177684783936",
+        "lat": "46.021224143730045"
+      }
+    },
+    {
+      "id": "gcp-6",
+      "role": "control",
+      "pixel_xy": [
+        7752.5009765625,
+        1631.887582619078
+      ],
+      "lonlat": [
+        -61.31641387939454,
+        46.07317092041352
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "7752.5009765625",
+        "pixel_y": "1631.887582619078",
+        "lon": "-61.31641387939454",
+        "lat": "46.07317092041352"
+      }
+    },
+    {
+      "id": "gcp-7",
+      "role": "control",
+      "pixel_xy": [
+        6917.5009765625,
+        994.3840603812205
+      ],
+      "lonlat": [
+        -61.358213424682624,
+        46.0945431794409
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "6917.5009765625",
+        "pixel_y": "994.3840603812205",
+        "lon": "-61.358213424682624",
+        "lat": "46.0945431794409"
+      }
+    },
+    {
+      "id": "gcp-8",
+      "role": "control",
+      "pixel_xy": [
+        7975.5009765625,
+        1117.8902093727347
+      ],
+      "lonlat": [
+        -61.307272911071784,
+        46.088382420343684
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "7975.5009765625",
+        "pixel_y": "1117.8902093727347",
+        "lon": "-61.307272911071784",
+        "lat": "46.088382420343684"
+      }
+    },
+    {
+      "id": "gcp-9",
+      "role": "control",
+      "pixel_xy": [
+        8241.0009765625,
+        1711.887582619078
+      ],
+      "lonlat": [
+        -61.29319667816163,
+        46.07105717830346
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "8241.0009765625",
+        "pixel_y": "1711.887582619078",
+        "lon": "-61.29319667816163",
+        "lat": "46.07105717830346"
+      }
+    },
+    {
+      "id": "gcp-10",
+      "role": "control",
+      "pixel_xy": [
+        8907.0009765625,
+        2218.887015479084
+      ],
+      "lonlat": [
+        -61.263542175292976,
+        46.05578142820199
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "8907.0009765625",
+        "pixel_y": "2218.887015479084",
+        "lon": "-61.263542175292976",
+        "lat": "46.05578142820199"
+      }
+    },
+    {
+      "id": "gcp-11",
+      "role": "control",
+      "pixel_xy": [
+        9538.5009765625,
+        2905.389343738007
+      ],
+      "lonlat": [
+        -61.23350143432618,
+        46.03344088343077
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "9538.5009765625",
+        "pixel_y": "2905.389343738007",
+        "lon": "-61.23350143432618",
+        "lat": "46.03344088343077"
+      }
+    },
+    {
+      "id": "gcp-12",
+      "role": "control",
+      "pixel_xy": [
+        9440.0009765625,
+        4554.389701931687
+      ],
+      "lonlat": [
+        -61.238822937011726,
+        45.981575935563015
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "9440.0009765625",
+        "pixel_y": "4554.389701931687",
+        "lon": "-61.238822937011726",
+        "lat": "45.981575935563015"
+      }
+    },
+    {
+      "id": "gcp-14",
+      "role": "control",
+      "pixel_xy": [
+        9463.5009765625,
+        6316.887343823291
+      ],
+      "lonlat": [
+        -61.232342720031745,
+        45.92649814697973
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "9463.5009765625",
+        "pixel_y": "6316.887343823291",
+        "lon": "-61.232342720031745",
+        "lat": "45.92649814697973"
+      }
+    },
+    {
+      "id": "gcp-15",
+      "role": "control",
+      "pixel_xy": [
+        3294.0009765625,
+        6269.885045413842
+      ],
+      "lonlat": [
+        -61.51279449462891,
+        45.927513068214864
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "3294.0009765625",
+        "pixel_y": "6269.885045413842",
+        "lon": "-61.51279449462891",
+        "lat": "45.927513068214864"
+      }
+    },
+    {
+      "id": "gcp-16",
+      "role": "control",
+      "pixel_xy": [
+        4873.0009765625,
+        5507.886657285404
+      ],
+      "lonlat": [
+        -61.443099975585945,
+        45.9512689537714
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "4873.0009765625",
+        "pixel_y": "5507.886657285404",
+        "lon": "-61.443099975585945",
+        "lat": "45.9512689537714"
+      }
+    },
+    {
+      "id": "gcp-17",
+      "role": "control",
+      "pixel_xy": [
+        5441.0009765625,
+        5181.887493070658
+      ],
+      "lonlat": [
+        -61.418402194976814,
+        45.9612637549562
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5441.0009765625",
+        "pixel_y": "5181.887493070658",
+        "lon": "-61.418402194976814",
+        "lat": "45.9612637549562"
+      }
+    },
+    {
+      "id": "gcp-18",
+      "role": "control",
+      "pixel_xy": [
+        6673.0009765625,
+        5447.886597586456
+      ],
+      "lonlat": [
+        -61.36229038238526,
+        45.95356638277311
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "6673.0009765625",
+        "pixel_y": "5447.886597586456",
+        "lon": "-61.36229038238526",
+        "lat": "45.95356638277311"
+      }
+    },
+    {
+      "id": "gcp-19",
+      "role": "control",
+      "pixel_xy": [
+        5783.0009765625,
+        1239.889761630634
+      ],
+      "lonlat": [
+        -61.40902519226075,
+        46.08439397537928
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5783.0009765625",
+        "pixel_y": "1239.889761630634",
+        "lon": "-61.40902519226075",
+        "lat": "46.08439397537928"
+      }
+    },
+    {
+      "id": "gcp-21",
+      "role": "control",
+      "pixel_xy": [
+        3861.0009765625,
+        1837.8894631359003
+      ],
+      "lonlat": [
+        -61.49597167968751,
+        46.0652511327084
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "3861.0009765625",
+        "pixel_y": "1837.8894631359003",
+        "lon": "-61.49597167968751",
+        "lat": "46.0652511327084"
+      }
+    },
+    {
+      "id": "gcp-22",
+      "role": "control",
+      "pixel_xy": [
+        4749.0009765625,
+        1761.3881497590721
+      ],
+      "lonlat": [
+        -61.45528793334962,
+        46.06837755174853
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "4749.0009765625",
+        "pixel_y": "1761.3881497590721",
+        "lon": "-61.45528793334962",
+        "lat": "46.06837755174853"
+      }
+    },
+    {
+      "id": "gcp-23",
+      "role": "control",
+      "pixel_xy": [
+        4441.5009765625,
+        2976.8865677369836
+      ],
+      "lonlat": [
+        -61.466574668884284,
+        46.03093822075027
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "4441.5009765625",
+        "pixel_y": "2976.8865677369836",
+        "lon": "-61.466574668884284",
+        "lat": "46.03093822075027"
+      }
+    },
+    {
+      "id": "gcp-24",
+      "role": "control",
+      "pixel_xy": [
+        4145.0009765625,
+        4959.385134962262
+      ],
+      "lonlat": [
+        -61.47743225097657,
+        45.96931793426444
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "4145.0009765625",
+        "pixel_y": "4959.385134962262",
+        "lon": "-61.47743225097657",
+        "lat": "45.96931793426444"
+      }
+    },
+    {
+      "id": "gcp-25",
+      "role": "control",
+      "pixel_xy": [
+        4572.0009765625,
+        6234.886627435931
+      ],
+      "lonlat": [
+        -61.456103324890144,
+        45.92858768522428
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "4572.0009765625",
+        "pixel_y": "6234.886627435931",
+        "lon": "-61.456103324890144",
+        "lat": "45.92858768522428"
+      }
+    },
+    {
+      "id": "gcp-26",
+      "role": "control",
+      "pixel_xy": [
+        5041.5009765625,
+        6322.888478103279
+      ],
+      "lonlat": [
+        -61.437349319458015,
+        45.92497573066294
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5041.5009765625",
+        "pixel_y": "6322.888478103279",
+        "lon": "-61.437349319458015",
+        "lat": "45.92497573066294"
+      }
+    },
+    {
+      "id": "gcp-27",
+      "role": "control",
+      "pixel_xy": [
+        5874.5009765625,
+        6298.887612468551
+      ],
+      "lonlat": [
+        -61.39778137207032,
+        45.92628919589703
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5874.5009765625",
+        "pixel_y": "6298.887612468551",
+        "lon": "-61.39778137207032",
+        "lat": "45.92628919589703"
+      }
+    },
+    {
+      "id": "gcp-28",
+      "role": "control",
+      "pixel_xy": [
+        5338.0009765625,
+        5793.887254274871
+      ],
+      "lonlat": [
+        -61.42224311828614,
+        45.942287093650165
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5338.0009765625",
+        "pixel_y": "5793.887254274871",
+        "lon": "-61.42224311828614",
+        "lat": "45.942287093650165"
+      }
+    },
+    {
+      "id": "gcp-29",
+      "role": "control",
+      "pixel_xy": [
+        5575.0009765625,
+        4317.386746833824
+      ],
+      "lonlat": [
+        -61.41383171081544,
+        45.98903065958274
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-annotation.json",
+      "original_numeric_strings": {
+        "pixel_x": "5575.0009765625",
+        "pixel_y": "4317.386746833824",
+        "lon": "-61.41383171081544",
+        "lat": "45.98903065958274"
+      }
+    },
+    {
+      "id": "gcp-30",
+      "role": "control",
+      "pixel_xy": [
+        7432.5,
+        4667.9
+      ],
+      "lonlat": [
+        -61.33006096,
+        45.97683403
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "7432.5",
+        "pixel_y": "4667.9",
+        "lon": "-61.33006096",
+        "lat": "45.97683403"
+      }
+    },
+    {
+      "id": "gcp-32",
+      "role": "control",
+      "pixel_xy": [
+        7727.5,
+        5206.4
+      ],
+      "lonlat": [
+        -61.31555557,
+        45.96236755
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "7727.5",
+        "pixel_y": "5206.4",
+        "lon": "-61.31555557",
+        "lat": "45.96236755"
+      }
+    },
+    {
+      "id": "gcp-33",
+      "role": "control",
+      "pixel_xy": [
+        7567.5,
+        5492.4
+      ],
+      "lonlat": [
+        -61.32040501,
+        45.95291009
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "7567.5",
+        "pixel_y": "5492.4",
+        "lon": "-61.32040501",
+        "lat": "45.95291009"
+      }
+    },
+    {
+      "id": "gcp-34",
+      "role": "control",
+      "pixel_xy": [
+        8007.5,
+        5631.9
+      ],
+      "lonlat": [
+        -61.3022089,
+        45.94956826
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "8007.5",
+        "pixel_y": "5631.9",
+        "lon": "-61.3022089",
+        "lat": "45.94956826"
+      }
+    },
+    {
+      "id": "gcp-35",
+      "role": "control",
+      "pixel_xy": [
+        8733.5,
+        4915.4
+      ],
+      "lonlat": [
+        -61.27203941,
+        45.9689003
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "8733.5",
+        "pixel_y": "4915.4",
+        "lon": "-61.27203941",
+        "lat": "45.9689003"
+      }
+    },
+    {
+      "id": "gcp-36",
+      "role": "control",
+      "pixel_xy": [
+        9237.0,
+        5629.9
+      ],
+      "lonlat": [
+        -61.24792099,
+        45.946644
+      ],
+      "review": "preserved saved gcp; not re-audited",
+      "coordinate_source": "saved-measured.csv; rounded to 0.1 native pixel and 8 decimal degrees",
+      "original_numeric_strings": {
+        "pixel_x": "9237.0",
+        "pixel_y": "5629.9",
+        "lon": "-61.24792099",
+        "lat": "45.946644"
+      }
+    },
+    {
+      "id": "M01",
+      "role": "control",
+      "pixel_xy": [
+        9228,
+        1605
+      ],
+      "lonlat": [
+        -61.2508908,
+        46.0732851
+      ],
+      "modern_node": "J0236",
+      "modern_objectids": [
+        198351,
+        274418,
+        274419
+      ],
+      "identity_evidence": "Northeast McQueens Brook: largest eastern arm joins north stem below smaller eastern tributaries, above southwest road crossing. Eastern arm bends north then turns southeast; main stem continues southwest.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          9138,
+          1525,
+          9318,
+          1685
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original image-edge xy"
+      },
+      "review": "Agent topology and native crosshair inspected at 4x before scoring. Not user audited.",
+      "consumed_from": "checks.json"
+    },
+    {
+      "id": "M04",
+      "role": "control",
+      "pixel_xy": [
+        8864,
+        5923
+      ],
+      "lonlat": [
+        -61.2628011,
+        45.9365731
+      ],
+      "modern_node": "J0885",
+      "modern_objectids": [
+        198508,
+        265952,
+        265953
+      ],
+      "identity_evidence": "Southeast southern drainage: western arm enters below the upper east/northwest fork and above a second western arm. Western arm traced toward Fall 15; main stem turns southeast farther downstream.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          8774,
+          5843,
+          8954,
+          6003
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "original image-edge xy"
+      },
+      "review": "Agent topology and native crosshair inspected at 4x before scoring. Not user audited.",
+      "consumed_from": "checks.json"
+    },
+    {
+      "id": "N01",
+      "role": "control",
+      "pixel_xy": [
+        7054,
+        1100
+      ],
+      "lonlat": [
+        -61.3484237,
+        46.0899668
+      ],
+      "modern_node": "J0127",
+      "modern_objectids": [
+        195827,
+        262773,
+        262774
+      ],
+      "identity_evidence": "Glendyer Brook weaving mill: long eastern tributary joins the main immediately south of the diagonal road bridge. Main follows the road north/south; separate western branch joins farther south at J0131. The eastern tributary continues through branching northern-edge drainage, not the next eastern creek farther downstream.",
+      "source_uncertainty_px": 8,
+      "review": "Agent native topology and enlarged grid review before scoring. Not user audited. Coordinates reserved outside fitting; Mabou34-control fit unchanged.",
+      "consumed_from": "north-audit-20260909/checks.json",
+      "selection_note": "Promoted after262m frozen-baseline error and native/modern identity review. Excluded from revised accuracy scores."
+    }
+  ],
+  "scope": "Complete neatline TPS in EPSG:3857; preserve 32 saved controls and consume M01/M04 from eastern diagnostic checks. No corridor crop.",
+  "status": "Candidate pending fresh checks and rendered verification",
+  "revision": "Mabou northern mill refinement;35 controls including32 unchanged hand controls. Provisional full-sheet geography."
+}

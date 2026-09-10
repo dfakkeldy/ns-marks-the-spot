@@ -1,0 +1,30 @@
+{
+  "baseline_fit_sha256": "46837fbcd06c83ae9256fa324edebba820e7e1ab25e14dc010c136400c2b84af",
+  "fit_sha256": "f79cc2641141548d1cf62690968806838ce57424600224c457f8b8059e878a5d",
+  "checks_sha256": "dbc023445b2c947d73f79caa835ec7165d790dc3d7a50c077d16bb301fc6c390",
+  "first_frozen_candidate": "candidate26/audit.json",
+  "check_identity_correction": "check-correction.json",
+  "excluded_trial_control": {
+    "id": "R04",
+    "role": "check",
+    "pixel_xy": [
+      9067,
+      6058
+    ],
+    "lonlat": [
+      -61.2402308,
+      46.1109067
+    ],
+    "modern_node": "J0550",
+    "modern_objectids": [
+      169928,
+      169929,
+      191399
+    ],
+    "identity_evidence": "Hay River northern tributary 191399 crosses railway then road and turns southeast to the northern bank of Hay River (169928/169929). The bold diagonal farther northwest is railway, not river. Nearby modern J0553 is a southwest tributary, not this north arm. Single historical ink junction versus modern double-line north bank gives placement uncertainty.",
+    "source_uncertainty_px": 12,
+    "review": "Agent topology review and enlarged native crosshair audit before fitting/scoring this revision; source pixel corrections follow visible ink, not residual minimization. Modern inverse guide used only for search. Originally trialled as control in failed 26-point candidate. Excluded because the interpolating TPS becomes nearly singular around native (9212,5988) and the actual GDAL render develops large holes. This is a consumed model-diagnostic observation, not an independent check. Match remains provisional pending further Hay River network/bank audit."
+  },
+  "selection_reason": "Actual rendered Hay River distortion rules out 26-control candidate despite good check statistics and no reversed 25px samples. Deliver supported changes in Cove/Frasers while retaining the unresolved Hay River discrepancy explicitly. No hand points moved and no cosmetic boundary matching.",
+  "fresh_validation": false
+}

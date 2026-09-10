@@ -11,9 +11,9 @@ No production layer has been changed.
 | Sheet | Active fit | Controls | Original hand controls preserved |
 | --- | --- | ---: | ---: |
 | Judique 19 | [revised-fit.json](../judique-full-sheet/revised-fit.json) | 44 | 15 |
-| Mabou 16 | [revised-fit.json](../mabou-full-sheet/revised-fit.json) | 34 | 32 |
+| Mabou 16 | [northern fit.json](../mabou-full-sheet/north-audit-20260909/candidate36/fit.json) | 36 | 32 |
 | Hawkesbury 22 | [boundary-fit.json](../hawkesbury-full-sheet/boundary-fit.json) | 28 | 17 |
-| Cape Mabou 14 | [final-fit.json](../sheet14/final-fit.json) | 22 | 0 |
+| Cape Mabou 14 | [refined fit.json](../sheet14/southern-audit-20260909/hay-topology/fit.json) | 26 | 0 |
 
 [Control preservation](control-preservation.json) records exact equality of all
 64 hand controls and the prior accepted agent controls. The `sheet-*-controls.csv`
@@ -34,7 +34,7 @@ resolution, not positional accuracy.
 | Sheet | Retained diagnostic median / worst, ground m | Later checks |
 | --- | --- | --- |
 | Judique | 82 / 123 (17, duplicate B08 excluded) | Three fresh checks: 118 / 168 |
-| Mabou | 106 / 133 (10) | Three fresh checks: 61 / 126 |
+| Mabou | 107 / 151 (14 excluded diagnostics, 36-control fit) | Northern N01/N03 consumed as controls; N02 remains excluded |
 | Hawkesbury | 75 / 165 (17, final 28-control fit) | H06 and eastern boundary check were inspected before the final revision; now diagnostics |
 
 The working 100 m median / 200 m worst targets are **not satisfied uniformly**:
@@ -42,10 +42,20 @@ Judique's fresh median and Mabou's retained diagnostic median exceed 100 m.
 Nearby checks on the same catchment have weak independence. These are same-agent
 physical-feature audits, not survey validation or a user audit of every point.
 
-Sheet 14 has five retained diagnostic checks at 82/169 m, but no fresh validation
-of its final revision. Earlier fresh checks exposed large errors and were consumed
-explicitly; one apparently good check was later rejected for contradictory stream
-topology. Its full history and editable files are in the [Sheet 14 report](../sheet14/README.md).
+Sheet 14 now has 26 controls and 13 excluded diagnostics at 112/241 m. Southern
+confluence C13 and Hay River controls C14/F05 had incorrect modern identities;
+they are corrected, and mill confluence B01 is added. Schoolhouse Brook remains
+excluded and scores 80 m. The selected raster has zero interior alpha holes across
+47.3 million cells. The older trial that fitted the misidentified R04 remains
+rejected. See the [current audit](../sheet14/southern-audit-20260909/README.md)
+for dated reference evidence, post-score pixel correction and uneven accuracy.
+This does not establish full-sheet geographic acceptance.
+
+Mabou now includes two Glendyer controls that improve the actual mill-to-tannery
+channel alignment. The same final checks previously scored 106/139 m, so the
+107/151 m result is not an aggregate accuracy gain. All 32 hand controls remain
+exactly preserved. See the [Mabou northern audit](../mabou-full-sheet/north-audit-20260909/README.md)
+for the rejected one-point trial and local tradeoffs.
 
 Earlier failed fits and checks remain in the per-sheet reports. Consumed checks
 are identified as controls; they do not contribute to the reported accuracy.
@@ -90,30 +100,31 @@ exactly the transparent strip. The preview retains these gaps. A seamless mosaic
 still needs further justified correspondences, another source covering the gap,
 or a separately identified cartographic adjustment. No such adjustment was made.
 
-The Sheet 14–Mabou join remains open by approximately 335–775 m between
--61.46° and -61.24°. Wider eastern samples approach staggered side edges.
-[Join evidence](../sheet14/mabou-join.json) does not justify stretching the sheets
-together; this is coverage separation, not a feature-accuracy measurement.
+The Sheet 14–Mabou join remains open by approximately 86–959 m between
+-61.46° and -61.24°. [Join evidence](../mabou-full-sheet/north-audit-20260909/candidate36/northern-join.json)
+measures coverage separation, not feature accuracy. Correcting river identities
+does not justify stretching the sheets together.
 
 ## Tiles and local verification
 
-Artifact revision: `fletcher-full-sheets-20260908.4`, in
+Artifact revision: `fletcher-full-sheets-20260909.3`, in
 `~/Downloads/fletcher-full-sheet-tiles/`. The mosaic uses bottom-to-top ordering
 22, 16, 19, 14, so Sheet 14 takes priority at its join and Judique retains
 priority in the earlier overlaps. Tiles are RGBA PNG XYZ, zooms
-8–15, with overzoom in the browser. The full pyramid contains 4,792 tile objects;
+8–15, with overzoom in the browser. The full pyramid contains 4,630 tile objects;
 blank objects are intentionally retained to avoid missing-tile errors.
 
 [Tile verification](tile-verification.json) checks every inventory hash and XYZ
 object, and compares all opaque zoom-15 cells against a continuous GDAL resample.
 There are zero lost source-coverage cells and zero tile-edge RGB differences.
-This revision has zero interior RGB differences as well. Earlier revision receipts
+The maximum interior RGB difference is one 8-bit level, within the recorded
+resampling-rounding tolerance. Earlier revision receipts
 are retained separately. This tests tile mechanics, not
 geographic accuracy. Earlier revision receipts remain explicitly labelled.
 
 The web preview is opt-in through `VITE_FLETCHER_FULL_SHEETS_TILE_BASE_URL`.
 Local browser checks cover desktop/mobile rendering, interior and edge locations,
-toggle, opacity and reload; 156 tile responses succeeded with no console errors.
+toggle, opacity and reload; see [browser receipt](browser-verification.json) for the current responses.
 The preview is excluded from map exports. Its source link exposes the raster and
 fit provenance; default production Fletcher layers remain unchanged.
 
@@ -126,7 +137,9 @@ and GDAL CLIs on PATH. Large native scans and raster outputs stay outside Git.
    verifies source hashes, scores the named frozen checks, samples the Jacobian,
    and renders the complete neatline. Use the active inputs above and their
    corresponding diagnostic/fresh check JSON; do not use checks as controls.
-2. Composite the four outputs with `gdalwarp -srcalpha -dstalpha -r near -tr 5 5
+2. Check raster alpha against the complete neatline with Sheet 14's
+   `refinement-20260909/verify_raster_coverage.py`. A negative sampled Jacobian
+   alone did not detect the failed Hay River render. Composite the four outputs with `gdalwarp -srcalpha -dstalpha -r near -tr 5 5
    -tap -co COMPRESS=DEFLATE -co TILED=YES HAWKESBURY MABOU JUDIQUE SHEET14 OUTPUT`.
 3. Record its hash in `inputs.json`, then run
    `tools/fletcher/tile_full_sheets.py --source OUTPUT --out NEW_REVISION_DIR

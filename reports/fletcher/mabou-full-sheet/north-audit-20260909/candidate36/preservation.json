@@ -1,0 +1,11 @@
+{
+  "prior_control_records_exactly_preserved": 34,
+  "hand_control_records_exactly_preserved": 32,
+  "added": [
+    "N01",
+    "N03"
+  ],
+  "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+  "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+  "scope": "Exact equality of complete point records, not just numeric coordinates."
+}

@@ -1,4 +1,4 @@
-"""Frame, provenance and fail-closed regression tests for the PR #380 derivative."""
+"""Frame, provenance and fail-closed regression tests for the frozen per-sheet derivatives."""
 import math
 import shutil
 import unittest
@@ -41,7 +41,7 @@ class FrozenDerivativeTests(unittest.TestCase):
             for annotation, feature in zip(original["annotations"], data["features"]):
                 for key, value in annotation.items():
                     self.assertEqual(feature["properties"][key], value, (sheet, annotation["id"], key))
-                self.assertEqual(feature["properties"]["fit_revision"], p.REVISION)
+                self.assertEqual(feature["properties"]["fit_revision"], p.REVISIONS[sheet])
                 self.assertEqual(feature["properties"]["fit_sha256"], data["provenance"]["fit_sha256"])
                 for box, anchor in zip(annotation["source_label_boxes_xywh"], feature["properties"]["label_anchors"]):
                     self.assertEqual(anchor["source_pixel_xy"], p.box_center(box, original["source_dimensions_px"]))
