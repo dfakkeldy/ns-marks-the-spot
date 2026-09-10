@@ -5433,7 +5433,7 @@ export function App() {
         <section
           ref={mapRegionRef}
           tabIndex={-1}
-          className={`map-region${selectedPid && !pokerMode ? " has-inspector" : ""}${pokerMode ? " poker-mode" : ""}`}
+          className={`map-region${selectedPid && !pokerMode ? " has-inspector" : ""}${pokerMode ? " poker-mode" : ""}${attributionCollapsed ? " attribution-folded" : ""}`}
           aria-label="Map and parcel details"
         >
           <div className="mobile-map-chrome">
@@ -5721,10 +5721,13 @@ export function App() {
         {pokerMode && <button type="button" aria-expanded={!attributionCollapsed} onClick={() => setAttributionFolded((folded) => !folded)}>
           {attributionCollapsed ? "Show licences" : "Hide licences"}
         </button>}
-        {pokerMode && <span className="poker-civic-status" role="status">
-          {pokerCivicStatus}
-          {!attributionCollapsed && <> <a href={CIVIC_ADDRESS_DATASET_URL} target="_blank" rel="noreferrer">Nova Scotia Civic Address File</a>. Points may not mark the house. Distances follow your taps.</>}
-        </span>}
+        {pokerMode && (attributionCollapsed
+          // Folded, the strip is a corner pill with no room for the civic
+          // status; it stays a live region so it is still announced.
+          ? <span className="sr-only" role="status">{pokerCivicStatus}</span>
+          : <span className="poker-civic-status" role="status">
+            {pokerCivicStatus} <a href={CIVIC_ADDRESS_DATASET_URL} target="_blank" rel="noreferrer">Nova Scotia Civic Address File</a>. Points may not mark the house. Distances follow your taps.
+          </span>)}
         {!attributionCollapsed && <>
           <a
             className="feedback-link"

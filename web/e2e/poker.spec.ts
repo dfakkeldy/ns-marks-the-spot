@@ -75,8 +75,16 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
       const scale = await box(page.locator(".leaflet-control-scale"));
       const screenScale = await box(page.locator(".display-scale-readout"));
       const attribution = await box(page.locator(".map-attribution"));
-      expect(screenScale.y + screenScale.height).toBeLessThanOrEqual(attribution.y);
+      // Folded, the strip is a corner pill and the scale bar and readout
+      // share its row; the buttons sit above all three.
+      expect(attribution.height).toBeLessThanOrEqual(48);
+      expect(attribution.x + attribution.width).toBeLessThanOrEqual(viewport.width);
+      expect(scale.y + scale.height / 2).toBeGreaterThanOrEqual(attribution.y);
+      expect(scale.y + scale.height / 2).toBeLessThanOrEqual(attribution.y + attribution.height);
+      expect(screenScale.y + screenScale.height).toBeLessThanOrEqual(attribution.y + attribution.height);
+      expect(screenScale.x + screenScale.width).toBeLessThanOrEqual(attribution.x);
       expect(screenScale.x).toBeGreaterThanOrEqual(scale.x + scale.width);
+      expect(readout.y + readout.height).toBeLessThanOrEqual(attribution.y);
       if (viewport.width > viewport.height) expect(readout.x).toBeGreaterThanOrEqual(scale.x + scale.width);
       else expect(readout.y + readout.height).toBeLessThanOrEqual(scale.y);
     }

@@ -3386,9 +3386,8 @@ a {
   border-left: 0;
 }
 
-/* Poker folds the strip to one row: the toggle and the civic status (see the
-   fold effect in App.tsx). The status wraps inside its own box so a long
-   notice cannot push the toggle onto a second row. */
+/* Poker folds the strip to its toggle (see the fold effect in App.tsx): one
+   row here, a corner pill on phones below. */
 .map-attribution.collapsed {
   flex-wrap: nowrap;
 }
@@ -3398,11 +3397,6 @@ a {
 .map-attribution .poker-civic-status {
   display: block;
   line-height: 1.3;
-}
-
-.map-attribution.collapsed .poker-civic-status {
-  flex: 1 1 auto;
-  min-width: 0;
 }
 
 .feedback-link {
@@ -3585,6 +3579,28 @@ a {
      get. In-row Review is a second licence path, not a replacement. */
   .map-attribution button {
     min-height: 44px;
+  }
+
+  /* Folded, the strip is a pill in the bottom-right corner rather than a
+     full-width bar: the scale bar and screen-scale readout share its row
+     (PokerMapTools.css) and the map runs to the bottom edge behind them.
+     The pill's own box is what the ResizeObserver measures, so the layer
+     sheet still clears it. */
+  .map-attribution.collapsed {
+    right: 8px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    left: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 0 14px;
+    overflow: visible;
+    border-top: 0;
+    border-radius: 22px;
+    box-shadow: 0 1px 8px rgba(18, 52, 59, 0.35);
+  }
+
+  .map-attribution.collapsed > :first-child {
+    padding: 0;
   }
 
   /* Attribution wraps to different heights across phone widths and font

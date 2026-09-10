@@ -3963,24 +3963,29 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
 
     const footer = screen.getByRole("contentinfo");
+    const region = screen.getByRole("region", { name: "Map and parcel details" });
     expect(within(footer).getByRole("button", { name: "Hide licences" })).toHaveAttribute("aria-expanded", "true");
     expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
     expect(within(footer).getByRole("status")).toHaveTextContent(
       "Zoom in to see civic numbers. Nova Scotia Civic Address File. Points may not mark the house. Distances follow your taps.",
     );
+    expect(region).not.toHaveClass("attribution-folded");
 
-    fireEvent.pointerDown(screen.getByRole("region", { name: "Map and parcel details" }));
+    fireEvent.pointerDown(region);
 
     const toggle = within(footer).getByRole("button", { name: "Show licences" });
     expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(region).toHaveClass("attribution-folded");
     expect(within(footer).queryByRole("link", { name: "© OpenStreetMap contributors" })).not.toBeInTheDocument();
     expect(within(footer).queryByRole("button", { name: "Data & licences" })).not.toBeInTheDocument();
     expect(within(footer).queryByText(OPEN_GOVERNMENT_ATTRIBUTION)).not.toBeInTheDocument();
-    // The civic-source status stays in the folded row; only its caveats fold.
+    // The civic-source status is still announced while folded, not shown.
+    expect(within(footer).getByRole("status")).toHaveClass("sr-only");
     expect(within(footer).getByRole("status")).toHaveTextContent("Zoom in to see civic numbers.");
     expect(within(footer).getByRole("status")).not.toHaveTextContent("Points may not mark the house");
 
     await user.click(toggle);
+    expect(region).not.toHaveClass("attribution-folded");
     expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
     expect(within(footer).getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
     expect(within(footer).getByRole("button", { name: "Data & licences" })).toBeInTheDocument();
@@ -3992,6 +3997,7 @@ describe("NS Marks The Spot Online", () => {
     expect(within(footer).queryByRole("button", { name: "Show licences" })).not.toBeInTheDocument();
     expect(within(footer).queryByRole("button", { name: "Hide licences" })).not.toBeInTheDocument();
     expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
+    expect(region).not.toHaveClass("attribution-folded");
   });
 
   it("folds the Poker attribution strip on its own after five seconds", () => {

@@ -85,6 +85,21 @@
     max-width: calc(100% - 120px);
     white-space: normal;
   }
+  /* With the strip folded to its corner pill (styles.css), the scale bar and
+     the screen-scale readout drop into the pill's row and the buttons sit
+     just above it. The readout keeps clear of the pill on its right and the
+     scale on its left, wrapping to fit. */
+  .map-region.attribution-folded .leaflet-bottom.leaflet-left {
+    bottom: calc(8px + env(safe-area-inset-bottom));
+  }
+  .map-region.attribution-folded .display-scale-readout {
+    right: 134px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    max-width: calc(100% - 238px);
+  }
+  .map-region.attribution-folded .poker-workspace {
+    --poker-bottom: calc(60px + env(safe-area-inset-bottom));
+  }
 }
 
 @media (max-width: 860px) and (orientation: landscape) {
