@@ -1,0 +1,17 @@
+{
+  "sheet": "sheet-09",
+  "status": "reviewed-seeds-insufficient-for-fit",
+  "accepted_for_tiling": false,
+  "accepted_for_production_label_projection": false,
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "controls": 2,
+  "checks": 0,
+  "fit": null,
+  "scope": "Whole sheet; two nearby coastal seeds are only the beginning, not supported coverage.",
+  "next": [
+    "Distributed northern and eastern physical controls",
+    "Independent checks reserved before fit",
+    "Shared Sheet11 boundary review",
+    "Whole-sheet warp, crop, geographic and raster QA"
+  ]
+}

@@ -1,0 +1,617 @@
+{
+  "sheet": "sheet-11",
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "source_dimensions": [
+    10771,
+    7551
+  ],
+  "points": [
+    {
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        8828,
+        2488
+      ],
+      "lonlat": [
+        -60.8910096,
+        46.4013192
+      ],
+      "modern_node": "J0421",
+      "modern_objectids": [
+        266813,
+        274796,
+        274799
+      ],
+      "identity_evidence": "Black Brook northern arm joins Ranalds Brook; Ranald main continues west to Martha branch.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        8825,
+        2488
+      ]
+    },
+    {
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        8717,
+        2971
+      ],
+      "lonlat": [
+        -60.8951016,
+        46.38646
+      ],
+      "modern_node": "J0505",
+      "modern_objectids": [
+        186088,
+        186090,
+        187368
+      ],
+      "identity_evidence": "Martha Brook long northeast arm joins northwest main before southeastern continuation.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        8712,
+        2965
+      ],
+      "pre_review_modern_node": "J0501",
+      "identity_correction": "Paired-arm audit: J0503 is the southwestern spur immediately before the long northeastern arm J0505. Long northeast arm is the retained physical feature, corrected before fitting/scoring."
+    },
+    {
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        8378,
+        2634
+      ],
+      "lonlat": [
+        -60.9130651,
+        46.3978189
+      ],
+      "modern_node": "J0455",
+      "modern_objectids": [
+        187369,
+        274903,
+        274905
+      ],
+      "identity_evidence": "Martha Brook joins Ranalds main from the south; Ranald extends east to Black Brook and west to Big Brook.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        8353,
+        2634
+      ]
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        9107,
+        1814
+      ],
+      "lonlat": [
+        -60.8822083,
+        46.4252224
+      ],
+      "modern_node": "J0252",
+      "modern_objectids": [
+        188842,
+        285539,
+        285676
+      ],
+      "identity_evidence": "Peters/Peter Ross Brook major northeast arm joins westward main; southeast main continues through southern tributary sequence to barrens.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        9107,
+        1814
+      ]
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        5981,
+        3640
+      ],
+      "lonlat": [
+        -61.0211491,
+        46.3643683
+      ],
+      "modern_node": "J0612",
+      "modern_objectids": [
+        273074,
+        273075,
+        293917
+      ],
+      "identity_evidence": "Marsh Brook upstream northwest tributary, above lower west fork Q01; northeast main heads to road and branching upper valley.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        5954,
+        3638
+      ]
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        5745,
+        3306
+      ],
+      "lonlat": [
+        -61.0286577,
+        46.3737384
+      ],
+      "modern_node": "J0572",
+      "modern_objectids": [
+        186566,
+        186567,
+        186569
+      ],
+      "identity_evidence": "Black Brook southern fork: southeastern arm branches off north-south headwater beyond long reach from north.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        5745,
+        3306
+      ]
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        8713,
+        5736
+      ],
+      "lonlat": [
+        -60.8952376,
+        46.2988386
+      ],
+      "modern_node": "J0978",
+      "modern_objectids": [
+        160422,
+        160563,
+        263471
+      ],
+      "identity_evidence": "Fionnar Brook enters Middle River at west end of long southwest river reach; western tributary joins main farther south.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        8717,
+        5740
+      ]
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        8818,
+        6090
+      ],
+      "lonlat": [
+        -60.8890499,
+        46.2868578
+      ],
+      "modern_node": "J1035",
+      "modern_objectids": [
+        157635,
+        182532,
+        277186
+      ],
+      "identity_evidence": "Small southeastern tributary enters Savach just above its mouth into Middle River. The larger Bothan/Betham mouth lies separately farther south.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        8780,
+        6100
+      ]
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        9220,
+        5204
+      ],
+      "lonlat": [
+        -60.8703501,
+        46.3172293
+      ],
+      "modern_node": "J0885",
+      "modern_objectids": [
+        201282,
+        273744,
+        273745
+      ],
+      "identity_evidence": "Middle River upper fork: northwest arm joins long northeast main before southward reach.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        9217,
+        5201
+      ]
+    },
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        9368,
+        5760
+      ],
+      "lonlat": [
+        -60.8667206,
+        46.2975872
+      ],
+      "modern_node": "J0984",
+      "modern_objectids": [
+        277192,
+        277518,
+        278076
+      ],
+      "identity_evidence": "Savach/South Branch: long southeast arm enters north/east main; downstream reach bends west toward Middle River.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        9370,
+        5775
+      ],
+      "pre_review_modern_node": "J0990",
+      "identity_correction": "Main branch junction, not next tiny spur on one arm; corrected from network topology before fitting/scoring."
+    },
+    {
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        3800,
+        1505
+      ],
+      "lonlat": [
+        -61.1200209,
+        46.4283762
+      ],
+      "modern_node": "J0224",
+      "modern_objectids": [
+        186097,
+        269306,
+        269307
+      ],
+      "identity_evidence": "Grey Point interior stream: northern main receives southwest and southern arms, above downstream fork Q03.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        3850,
+        1500
+      ]
+    },
+    {
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        3848,
+        2371
+      ],
+      "lonlat": [
+        -61.1135166,
+        46.4024338
+      ],
+      "modern_node": "J0416",
+      "modern_objectids": [
+        186846,
+        272632,
+        272633
+      ],
+      "identity_evidence": "West bank Margaree mill tributary: western branch joins southwest headwater before long eastern reach to main river.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        3907,
+        2338
+      ],
+      "identity_correction": "Post-score network audit: source northern tributary has its own north/west fork. This is J0416 fed by186846 from J0397, not downstream short northern spur J0392. Source unchanged; first scores retained."
+    },
+    {
+      "id": "C14",
+      "role": "control",
+      "pixel_xy": [
+        2890,
+        5979
+      ],
+      "lonlat": [
+        -61.163036,
+        46.2849819
+      ],
+      "modern_node": "J1042",
+      "modern_objectids": [
+        186577,
+        260617,
+        260619
+      ],
+      "identity_evidence": "Southwest Margaree western tributary: long southwest arm joins western main below successive forks; downstream main east to Margaree.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        2879,
+        5977
+      ]
+    },
+    {
+      "id": "C15",
+      "role": "control",
+      "pixel_xy": [
+        3510,
+        5978
+      ],
+      "lonlat": [
+        -61.1336529,
+        46.2853051
+      ],
+      "modern_node": "J1040",
+      "modern_objectids": [
+        261909,
+        261910,
+        287139
+      ],
+      "identity_evidence": "Cameron Brook: southern arm joins eastern main before westward main to Margaree; next southern fork Q06 distinct.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        3547,
+        5966
+      ]
+    },
+    {
+      "id": "C17",
+      "role": "control",
+      "pixel_xy": [
+        1170,
+        5105
+      ],
+      "lonlat": [
+        -61.2443332,
+        46.3116271
+      ],
+      "modern_node": "J0910",
+      "modern_objectids": [
+        11368,
+        11393,
+        272824
+      ],
+      "identity_evidence": "Murdoch MacLeods Brook mouth (NSTDB OBJECTID 272824), historical Broad Cove Marsh locality north of Marsh Point: creek exits beside recurved spit then runs south inland. Coast/creek junction may have changed; not modern Broad Cove River.",
+      "source_uncertainty_px": 15,
+      "review": "Agent enlarged native crosshair and full branch/shore context inspected before fitting/scoring."
+    },
+    {
+      "id": "C18",
+      "role": "control",
+      "pixel_xy": [
+        860,
+        3389
+      ],
+      "lonlat": [
+        -61.25431668223287,
+        46.3679652002784
+      ],
+      "modern_reference": {
+        "objectid": 19023,
+        "part": 0,
+        "vertex": 33
+      },
+      "identity_evidence": "Sea Wolf Island northernmost tip; whole elongated island outline corroborates identity.",
+      "source_uncertainty_px": 15,
+      "review": "Agent enlarged native crosshair and modern full shoreline context inspected before coastal-fit scoring; native tip pixels corrected where needed. Shoreline change remains possible."
+    },
+    {
+      "id": "C19",
+      "role": "control",
+      "pixel_xy": [
+        572,
+        3847
+      ],
+      "lonlat": [
+        -61.26611860040565,
+        46.35212099990494
+      ],
+      "modern_reference": {
+        "objectid": 19024,
+        "part": 0,
+        "vertex": 15
+      },
+      "identity_evidence": "Sea Wolf Island southernmost tip; rounded southwest base versus pointed northeastern end.",
+      "source_uncertainty_px": 15,
+      "review": "Agent enlarged native crosshair and modern full shoreline context inspected before coastal-fit scoring; native tip pixels corrected where needed. Shoreline change remains possible."
+    },
+    {
+      "id": "C20",
+      "role": "control",
+      "pixel_xy": [
+        3620,
+        1104
+      ],
+      "lonlat": [
+        -61.12683925535848,
+        46.44175930960087
+      ],
+      "modern_reference": {
+        "objectid": 6081,
+        "part": 0,
+        "vertex": 9
+      },
+      "identity_evidence": "Grey Point mainland northern apex; western shore and sheltered eastern bay with pond corroborate identity. Nearby offshore islet OBJECTID 21772 was rejected before scoring as a different feature.",
+      "source_uncertainty_px": 15,
+      "review": "Agent enlarged native crosshair and modern full shoreline context inspected before coastal-fit scoring; native tip pixels corrected where needed. Shoreline change remains possible."
+    },
+    {
+      "id": "N01",
+      "role": "control",
+      "pixel_xy": [
+        5794,
+        1067
+      ],
+      "lonlat": [
+        -61.0332864,
+        46.4467321
+      ],
+      "modern_node": "J0101",
+      "modern_objectids": [
+        263251,
+        263252,
+        272245
+      ],
+      "identity_evidence": "Mink Brook enters Gallant River from east; Gallant continues north beyond frame and turns southwest below junction, then first west tributary Q08. Modern named Mink edges connect to node, independently distinguishing East Branch Gallant farther south.",
+      "source_uncertainty_px": 10,
+      "review": "Agent native full-network, named modern topology and enlarged native crosshair audit. Source point corrected to actual ink junction before scoring this refinement; no user audit claimed.",
+      "pre_crosshair_pixel_xy": [
+        5783,
+        1066
+      ]
+    },
+    {
+      "id": "N02",
+      "role": "control",
+      "pixel_xy": [
+        5623,
+        2459
+      ],
+      "lonlat": [
+        -61.0382429,
+        46.4008591
+      ],
+      "modern_node": "J0425",
+      "modern_objectids": [
+        264113,
+        264114,
+        279067
+      ],
+      "identity_evidence": "Long eastern tributary enters Gallant River below cascade reach and above large southward bend; tributary runs northeast and turns north in inland valley. Deep Brook and road crossing lie farther south.",
+      "source_uncertainty_px": 10,
+      "review": "Agent native full-network, named modern topology and enlarged native crosshair audit. Source point corrected to actual ink junction before scoring this refinement; no user audit claimed.",
+      "pre_crosshair_pixel_xy": [
+        5620,
+        2457
+      ]
+    },
+    {
+      "id": "N03",
+      "role": "control",
+      "pixel_xy": [
+        5734,
+        2940
+      ],
+      "lonlat": [
+        -61.0298397,
+        46.3859519
+      ],
+      "modern_node": "J0507",
+      "modern_objectids": [
+        264257,
+        264258,
+        265684
+      ],
+      "identity_evidence": "Deep Brook mouth into Gallant just south of historic mill; east-west creek is north of main road crossing and follows northern side of the road before its eastward bend. Tiny northern-arm junction on Deep is separately downstream/upstream along the east arm, not the main Gallant mouth.",
+      "source_uncertainty_px": 10,
+      "review": "Agent native full-network, named modern topology and enlarged native crosshair audit. Source point corrected to actual ink junction before scoring this refinement; no user audit claimed.",
+      "pre_crosshair_pixel_xy": [
+        5734,
+        2940
+      ]
+    },
+    {
+      "id": "W01",
+      "role": "control",
+      "pixel_xy": [
+        3092,
+        2173
+      ],
+      "lonlat": [
+        -61.1518728,
+        46.4080454
+      ],
+      "modern_node": "J0371",
+      "modern_objectids": [
+        11206,
+        11207,
+        186849
+      ],
+      "identity_evidence": "Coastal creek mouth beside historical lime kiln; creek crosses coast road then runs southeast inland to excluded Q04 fork. Adjacent coastal mouths to south are distinct.",
+      "source_uncertainty_px": 10,
+      "review": "Agent enlarged native crosshair and broad drainage comparison completed before revised score. Q06 repair follows failed diagnostic; no fresh validation claim.",
+      "pre_crosshair_pixel_xy": [
+        3088,
+        2173
+      ]
+    },
+    {
+      "id": "W02",
+      "role": "control",
+      "pixel_xy": [
+        3688,
+        2565
+      ],
+      "lonlat": [
+        -61.1245792,
+        46.3936087
+      ],
+      "modern_node": "J0466",
+      "modern_objectids": [
+        186106,
+        272637,
+        272776
+      ],
+      "identity_evidence": "Mill Valley Brook western tributary below northern confluence C12 and small northwest spurs; long west arm has its own northern fork before joining main, downstream main runs southwest toward coastal outlet.",
+      "source_uncertainty_px": 10,
+      "review": "Agent enlarged native crosshair and broad drainage comparison completed before revised score. Q06 repair follows failed diagnostic; no fresh validation claim."
+    },
+    {
+      "id": "F01",
+      "role": "control",
+      "pixel_xy": [
+        8627,
+        5331
+      ],
+      "lonlat": [
+        -60.8992944,
+        46.3100977
+      ],
+      "modern_node": "J0919",
+      "modern_objectids": [
+        263330,
+        263331,
+        287054
+      ],
+      "identity_evidence": "Fionnar major western tributary above lower long eastern arm Q02 and below upper eastern tributary; historical small eastern spur immediately above junction is not selected.",
+      "source_uncertainty_px": 10,
+      "review": "Agent enlarged native crosshair and broad drainage comparison completed before revised score. Q06 repair follows failed diagnostic; no fresh validation claim."
+    },
+    {
+      "id": "T01",
+      "role": "control",
+      "pixel_xy": [
+        4613,
+        3834
+      ],
+      "lonlat": [
+        -61.081042,
+        46.3572813
+      ],
+      "modern_node": "J0645",
+      "modern_objectids": [
+        173277,
+        175486,
+        283126
+      ],
+      "identity_evidence": "Tompkins Brook outlet through east bank of Northeast Margaree, below elongated river island and above historical mill. Road crosses brook immediately east of bank. Definition is brook centre at river bank, not river centreline. Bank changes remain possible.",
+      "source_uncertainty_px": 15,
+      "pre_crosshair_pixel_xy": [
+        4594,
+        3834
+      ],
+      "pixel_review": "Moved from opposite bank to brook-mouth centre through east bank, observed on native crosshair before scoring.",
+      "review": "Broad native topology and enlarged native/modern crosshairs inspected by agent before first validation score.",
+      "former_check_id": "V03",
+      "revision_reason": "After independent 24-control check failed at Tompkins outlet (372.595m), use reviewed bank-mouth correspondence to support central valley. V03 is no longer an excluded check; its original failed result is preserved."
+    }
+  ],
+  "status": "25-control whole-sheet refinement. Central outlet added after failed 24-control validation; fresh validation of repaired central valley remains outstanding."
+}

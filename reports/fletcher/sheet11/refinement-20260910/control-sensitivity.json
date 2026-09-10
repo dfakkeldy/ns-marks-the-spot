@@ -1,0 +1,173 @@
+{
+  "scope": "Leave-one-control-out diagnostic, not check accuracy or automatic reason to remove a point.",
+  "points": [
+    {
+      "id": "C01",
+      "leave_one_out_error_ground_m": 166.0302880602895,
+      "delta_ground_xy_m": [
+        -95.88879012145968,
+        135.54112469072024
+      ]
+    },
+    {
+      "id": "C02",
+      "leave_one_out_error_ground_m": 19.13500052948066,
+      "delta_ground_xy_m": [
+        -19.13049432765054,
+        -0.41524937441951904
+      ]
+    },
+    {
+      "id": "C03",
+      "leave_one_out_error_ground_m": 169.6365817023904,
+      "delta_ground_xy_m": [
+        116.97844856511253,
+        -122.85199397230431
+      ]
+    },
+    {
+      "id": "C04",
+      "leave_one_out_error_ground_m": 392.85110177686613,
+      "delta_ground_xy_m": [
+        253.04913639575634,
+        -300.496460439486
+      ]
+    },
+    {
+      "id": "C05",
+      "leave_one_out_error_ground_m": 284.14622602995235,
+      "delta_ground_xy_m": [
+        253.8358026170372,
+        -127.69676220182447
+      ]
+    },
+    {
+      "id": "C06",
+      "leave_one_out_error_ground_m": 126.33704909044911,
+      "delta_ground_xy_m": [
+        -89.67701799675994,
+        88.98922640461228
+      ]
+    },
+    {
+      "id": "C07",
+      "leave_one_out_error_ground_m": 158.69651566673917,
+      "delta_ground_xy_m": [
+        156.54824474835945,
+        26.023665210176237
+      ]
+    },
+    {
+      "id": "C08",
+      "leave_one_out_error_ground_m": 221.44229024380195,
+      "delta_ground_xy_m": [
+        -219.10600986322743,
+        -32.081838323816676
+      ]
+    },
+    {
+      "id": "C09",
+      "leave_one_out_error_ground_m": 308.170844817923,
+      "delta_ground_xy_m": [
+        -266.16729226415265,
+        -155.31980596357158
+      ]
+    },
+    {
+      "id": "C10",
+      "leave_one_out_error_ground_m": 326.45459756069994,
+      "delta_ground_xy_m": [
+        302.5556177093938,
+        122.60792168944764
+      ]
+    },
+    {
+      "id": "C11",
+      "leave_one_out_error_ground_m": 202.72181795775998,
+      "delta_ground_xy_m": [
+        169.5409282375274,
+        111.13959298313432
+      ]
+    },
+    {
+      "id": "C12",
+      "leave_one_out_error_ground_m": 409.12747807062317,
+      "delta_ground_xy_m": [
+        -342.49935610341976,
+        -223.78445965073425
+      ]
+    },
+    {
+      "id": "C14",
+      "leave_one_out_error_ground_m": 47.83045057629449,
+      "delta_ground_xy_m": [
+        -27.421993205905544,
+        -39.189109341073575
+      ]
+    },
+    {
+      "id": "C15",
+      "leave_one_out_error_ground_m": 51.88880046822915,
+      "delta_ground_xy_m": [
+        2.240674092169387,
+        51.84039924271782
+      ]
+    },
+    {
+      "id": "C17",
+      "leave_one_out_error_ground_m": 352.5486296111791,
+      "delta_ground_xy_m": [
+        352.54141117972637,
+        2.2560239642893727
+      ]
+    },
+    {
+      "id": "C18",
+      "leave_one_out_error_ground_m": 243.14752765256904,
+      "delta_ground_xy_m": [
+        229.23963067963282,
+        -81.05499324176371
+      ]
+    },
+    {
+      "id": "C19",
+      "leave_one_out_error_ground_m": 244.63257234082894,
+      "delta_ground_xy_m": [
+        -236.32166250048832,
+        63.22315464366043
+      ]
+    },
+    {
+      "id": "C20",
+      "leave_one_out_error_ground_m": 229.82805878915144,
+      "delta_ground_xy_m": [
+        -209.17144415113282,
+        -95.22732569236193
+      ]
+    },
+    {
+      "id": "N01",
+      "leave_one_out_error_ground_m": 179.0755029096367,
+      "delta_ground_xy_m": [
+        -117.96370707793731,
+        -134.73158336028675
+      ]
+    },
+    {
+      "id": "N02",
+      "leave_one_out_error_ground_m": 185.0074833781719,
+      "delta_ground_xy_m": [
+        173.35405372886834,
+        64.62306834013057
+      ]
+    },
+    {
+      "id": "N03",
+      "leave_one_out_error_ground_m": 79.30716142257042,
+      "delta_ground_xy_m": [
+        -44.677773505830004,
+        -65.52497544804878
+      ]
+    }
+  ]
+}

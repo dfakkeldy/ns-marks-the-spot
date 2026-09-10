@@ -1,0 +1,62 @@
+[
+  {
+    "image": "gallantfull.jpg",
+    "source_box": [
+      4900,
+      950,
+      6550,
+      3300
+    ],
+    "displayed_dimensions": [
+      1650,
+      2350
+    ],
+    "rotation_degrees": 0,
+    "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916"
+  },
+  {
+    "image": "cameron-review.jpg",
+    "source_box": [
+      2900,
+      5550,
+      4300,
+      6450
+    ],
+    "displayed_dimensions": [
+      1400,
+      900
+    ],
+    "rotation_degrees": 0,
+    "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916"
+  },
+  {
+    "image": "central-divide.jpg",
+    "source_box": [
+      4600,
+      3680,
+      5850,
+      4300
+    ],
+    "displayed_dimensions": [
+      1250,
+      620
+    ],
+    "rotation_degrees": 0,
+    "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916"
+  },
+  {
+    "image": "beatons-detail.jpg",
+    "source_box": [
+      920,
+      5780,
+      1560,
+      6360
+    ],
+    "displayed_dimensions": [
+      640,
+      580
+    ],
+    "rotation_degrees": 0,
+    "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916"
+  }
+]
