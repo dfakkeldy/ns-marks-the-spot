@@ -1,0 +1,48 @@
+{
+  "fit_sha256": "71118fb1eb9f2b87dbd838f1a218692fd8defc793c6549a76cf8730100a72ccb",
+  "points": [
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        6998,
+        6198
+      ],
+      "lonlat": [
+        -61.3454993,
+        46.1047453
+      ],
+      "modern_node": "J0574",
+      "modern_objectids": [
+        196547,
+        262653,
+        262654
+      ],
+      "identity_evidence": "Glendyer lower main: northwest tributary runs southeast from beside western road and enters below the east tributary V02. Southern main continues through a west fork and broad bend toward lower edge.",
+      "source_uncertainty_px": 8,
+      "review": "Candidate frozen before scoring; enlarged crosshair review pending. Same-agent observations; clustered catchments, not whole-sheet validation."
+    },
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        7119,
+        6128
+      ],
+      "lonlat": [
+        -61.3421682,
+        46.1071794
+      ],
+      "modern_node": "J0568",
+      "modern_objectids": [
+        196549,
+        262652,
+        262653
+      ],
+      "identity_evidence": "Glendyer eastern tributary below sawmill: arm crosses north-south road, enters east bank before the separate northwest V01 fork farther downstream.",
+      "source_uncertainty_px": 8,
+      "review": "Candidate frozen before scoring; enlarged crosshair review pending. Same-agent observations; clustered catchments, not whole-sheet validation."
+    }
+  ],
+  "status": "Reserved outside fitting before scoring."
+}

@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/fletcher-sheet11/trial/sheet-11-provisional.tif",
+  "raster_sha256": "c1c5cafe60fdfb5fb9fa49820e0212f6acb1f6cb414393fd2d6f6e1f6c6e6b8c",
+  "cutline_sha256": "338a32b24cadf3ec61ad9b08ac0a84cad799545402ef18174304201de0aa901f",
+  "expected_interior_cells": 48687078,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "name": "roads",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/8/query",
+    "bbox": "-61.34,46.24,-60.83,46.46",
+    "count": 3155,
+    "sha256": "b81f24eeccab47b64cbcdd00cbe8bf779c6dca194a74d9d6e2ceb658c57e0e32"
+  },
+  {
+    "name": "rail",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/6/query",
+    "bbox": "-61.34,46.24,-60.83,46.46",
+    "count": 0,
+    "status": "returned-empty",
+    "sha256": "7d09e532fc380630caac6b4b1b5174a7a9f7a308f6544bcb79eefb97b1e12306"
+  },
+  {
+    "name": "water-lines",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+    "bbox": "-61.34,46.24,-60.83,46.46",
+    "count": 3574,
+    "sha256": "07ba34f360d909bfa71e9324845308184a07457d3494c1a45a92d37ffbb63474"
+  },
+  {
+    "name": "water-polygons",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/8/query",
+    "bbox": "-61.34,46.24,-60.83,46.46",
+    "count": 603,
+    "sha256": "5e448212df73b5701d2dc945694ea1185e7524f4e0c771822573979d3a98f33e"
+  }
+]

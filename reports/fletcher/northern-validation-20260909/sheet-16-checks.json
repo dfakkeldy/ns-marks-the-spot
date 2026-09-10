@@ -1,0 +1,102 @@
+{
+  "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+  "points": [
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        7430,
+        1060
+      ],
+      "lonlat": [
+        -61.3395704,
+        46.0884615
+      ],
+      "modern_node": "J0136",
+      "modern_objectids": [
+        195822,
+        195823,
+        195827
+      ],
+      "identity_evidence": "Glendyer mill tributary: northern arm joins the east-west stem upstream of weaving-mill confluence; next northeast fork V02 is distinct.",
+      "source_uncertainty_px": 8,
+      "review": "Agent enlarged native/modern paired crosshair review before numerical score; same-agent observations, clustered catchments.",
+      "pixel_audit": {
+        "before": [
+          7364,
+          1060
+        ],
+        "after": [
+          7430,
+          1060
+        ],
+        "timing": "Before any numerical score; native crosshair exposes initial crop/grid-reading error. Final coordinate placed at visible ink junction."
+      }
+    },
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        7470,
+        1023
+      ],
+      "lonlat": [
+        -61.3321045,
+        46.089737
+      ],
+      "modern_node": "J0129",
+      "modern_objectids": [
+        195822,
+        195825,
+        195826
+      ],
+      "identity_evidence": "Glendyer mill tributary upper fork: north arm leaves the printed edge; southeast arm has a separate small southern branch immediately downstream.",
+      "source_uncertainty_px": 8,
+      "review": "Agent enlarged native/modern paired crosshair review before numerical score; same-agent observations, clustered catchments.",
+      "pixel_audit": {
+        "before": [
+          7469,
+          1020
+        ],
+        "after": [
+          7470,
+          1023
+        ],
+        "timing": "Before any numerical score; native crosshair exposes initial crop/grid-reading error. Final coordinate placed at visible ink junction."
+      }
+    },
+    {
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        8096,
+        1208
+      ],
+      "lonlat": [
+        -61.3012903,
+        46.0856568
+      ],
+      "modern_node": "J0150",
+      "modern_objectids": [
+        197862,
+        197863,
+        197864
+      ],
+      "identity_evidence": "Elgin eastern headwaters: long northeast arm joins northwest arm before short southward reach; western upstream fork is existing hand control gcp-8 and is excluded from this fresh set.",
+      "source_uncertainty_px": 8,
+      "review": "Agent enlarged native/modern paired crosshair review before numerical score; same-agent observations, clustered catchments.",
+      "pixel_audit": {
+        "before": [
+          8096,
+          1205
+        ],
+        "after": [
+          8096,
+          1208
+        ],
+        "timing": "Before any numerical score; native crosshair exposes initial crop/grid-reading error. Final coordinate placed at visible ink junction."
+      }
+    }
+  ],
+  "status": "Reserved outside fitting before scoring."
+}
