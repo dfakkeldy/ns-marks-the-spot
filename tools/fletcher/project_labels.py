@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 INVENTORIES = Path("docs/fletcher/label-extraction/highway19-production")
 REPORT = Path("reports/fletcher/label-geography")
 REVISION = "a6619d96ba8fa8279ea6a8027654a92b15942b9d"
-REVISIONS = {19: REVISION, 16: "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b", 22: REVISION}
+REVISIONS = {19: REVISION, 16: "249b2be0b378adec894abc34520f83b009dbf8fd", 22: REVISION}
 MABOU_NORTH = "mabou-full-sheet/north-audit-20260909/candidate36"
 SHEETS = {
     19: ("judique-full-sheet/revised-fit.json", "judique-boundary/boundary.json", "judique-render-receipt.json"),

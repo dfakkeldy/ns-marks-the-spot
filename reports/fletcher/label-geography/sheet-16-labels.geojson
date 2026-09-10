@@ -2,7 +2,7 @@
   "type": "FeatureCollection",
   "sheet": 16,
   "provenance": {
-    "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+    "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
     "fit_pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/385",
     "fit_path": "reports/fletcher/mabou-full-sheet/north-audit-20260909/candidate36/fit.json",
     "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
@@ -90,7 +90,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -153,7 +153,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -216,7 +216,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -321,7 +321,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -464,7 +464,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -528,7 +528,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -602,7 +602,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -685,7 +685,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -748,7 +748,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -903,7 +903,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1149,7 +1149,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1212,7 +1212,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1275,7 +1275,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1339,7 +1339,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1402,7 +1402,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1465,7 +1465,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1530,7 +1530,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1596,7 +1596,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1660,7 +1660,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1723,7 +1723,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1786,7 +1786,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1849,7 +1849,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1913,7 +1913,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -1976,7 +1976,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2040,7 +2040,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2103,7 +2103,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2166,7 +2166,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2229,7 +2229,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2292,7 +2292,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2365,7 +2365,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2448,7 +2448,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2511,7 +2511,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2574,7 +2574,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2638,7 +2638,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2701,7 +2701,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2764,7 +2764,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2828,7 +2828,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2893,7 +2893,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -2957,7 +2957,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3022,7 +3022,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3086,7 +3086,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3149,7 +3149,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3212,7 +3212,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3275,7 +3275,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3338,7 +3338,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3401,7 +3401,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3464,7 +3464,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3527,7 +3527,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3590,7 +3590,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3653,7 +3653,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3716,7 +3716,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3780,7 +3780,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3845,7 +3845,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3910,7 +3910,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -3975,7 +3975,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4041,7 +4041,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4107,7 +4107,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4171,7 +4171,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4236,7 +4236,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4300,7 +4300,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4363,7 +4363,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4426,7 +4426,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4500,7 +4500,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4583,7 +4583,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4656,7 +4656,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4739,7 +4739,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4804,7 +4804,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4870,7 +4870,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -4936,7 +4936,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5002,7 +5002,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5067,7 +5067,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5133,7 +5133,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5199,7 +5199,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5265,7 +5265,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5332,7 +5332,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5396,7 +5396,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5461,7 +5461,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5527,7 +5527,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5593,7 +5593,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5659,7 +5659,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5725,7 +5725,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5795,7 +5795,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5862,7 +5862,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -5935,7 +5935,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6018,7 +6018,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6081,7 +6081,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6144,7 +6144,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6207,7 +6207,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6270,7 +6270,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6334,7 +6334,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6395,7 +6395,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6456,7 +6456,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6520,7 +6520,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6583,7 +6583,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6646,7 +6646,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6709,7 +6709,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6772,7 +6772,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6835,7 +6835,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6898,7 +6898,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -6983,7 +6983,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7088,7 +7088,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7153,7 +7153,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7219,7 +7219,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7285,7 +7285,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7349,7 +7349,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7412,7 +7412,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7475,7 +7475,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7540,7 +7540,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7604,7 +7604,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7668,7 +7668,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7731,7 +7731,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7794,7 +7794,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7859,7 +7859,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -7936,7 +7936,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8032,7 +8032,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8116,7 +8116,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8181,7 +8181,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8247,7 +8247,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8312,7 +8312,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8377,7 +8377,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8440,7 +8440,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8503,7 +8503,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8566,7 +8566,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8633,7 +8633,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8703,7 +8703,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8786,7 +8786,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8874,7 +8874,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -8939,7 +8939,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R01C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9002,7 +9002,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9063,7 +9063,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9126,7 +9126,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9189,7 +9189,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9265,7 +9265,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9370,7 +9370,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9475,7 +9475,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9538,7 +9538,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9603,7 +9603,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9667,7 +9667,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9751,7 +9751,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9856,7 +9856,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9926,7 +9926,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -9992,7 +9992,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10055,7 +10055,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10118,7 +10118,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10181,7 +10181,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10236,7 +10236,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10285,7 +10285,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10344,7 +10344,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10400,7 +10400,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10459,7 +10459,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10525,7 +10525,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10625,7 +10625,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10751,7 +10751,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10814,7 +10814,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10878,7 +10878,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -10941,7 +10941,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11004,7 +11004,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11067,7 +11067,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11150,7 +11150,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11253,7 +11253,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11316,7 +11316,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11379,7 +11379,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11442,7 +11442,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11505,7 +11505,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11568,7 +11568,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11632,7 +11632,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11701,7 +11701,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11767,7 +11767,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11830,7 +11830,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11893,7 +11893,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -11960,7 +11960,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12025,7 +12025,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12089,7 +12089,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12155,7 +12155,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12227,7 +12227,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12291,7 +12291,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12354,7 +12354,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12419,7 +12419,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12483,7 +12483,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12557,7 +12557,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12645,7 +12645,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12713,7 +12713,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12784,7 +12784,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12850,7 +12850,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12912,7 +12912,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -12977,7 +12977,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13042,7 +13042,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13105,7 +13105,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13180,7 +13180,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13265,7 +13265,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13328,7 +13328,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13391,7 +13391,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13456,7 +13456,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13532,7 +13532,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13614,7 +13614,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13676,7 +13676,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13730,7 +13730,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13787,7 +13787,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R02C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13849,7 +13849,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13904,7 +13904,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -13961,7 +13961,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14024,7 +14024,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14087,7 +14087,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14150,7 +14150,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14213,7 +14213,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14276,7 +14276,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14341,7 +14341,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14405,7 +14405,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14468,7 +14468,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14533,7 +14533,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C01",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14596,7 +14596,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14661,7 +14661,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14727,7 +14727,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14792,7 +14792,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14861,7 +14861,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14925,7 +14925,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -14988,7 +14988,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15053,7 +15053,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15121,7 +15121,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R03C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15209,7 +15209,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15313,7 +15313,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15376,7 +15376,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15439,7 +15439,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15502,7 +15502,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15571,7 +15571,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15637,7 +15637,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15703,7 +15703,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15768,7 +15768,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15834,7 +15834,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15900,7 +15900,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C04",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -15963,7 +15963,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16026,7 +16026,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16091,7 +16091,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16157,7 +16157,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16220,7 +16220,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16293,7 +16293,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16374,7 +16374,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16439,7 +16439,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16502,7 +16502,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16565,7 +16565,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16634,7 +16634,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16702,7 +16702,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16769,7 +16769,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16835,7 +16835,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16898,7 +16898,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -16963,7 +16963,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C02",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -17050,7 +17050,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -17154,7 +17154,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -17219,7 +17219,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C03",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -17282,7 +17282,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -17347,7 +17347,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C05",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -17410,7 +17410,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C06",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -17475,7 +17475,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R04C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -17538,7 +17538,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -17601,7 +17601,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
@@ -17665,7 +17665,7 @@
         "geometry": null,
         "placement_status": "deferred",
         "crop_id": "F16-R05C07",
-        "fit_revision": "ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
         "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
         "label_anchors": [
           {
