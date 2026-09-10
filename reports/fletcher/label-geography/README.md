@@ -4,7 +4,9 @@
 from explicit per-sheet revisions. Judique and Hawkesbury remain frozen at
 PR #380 merge `a6619d96ba8fa8279ea6a8027654a92b15942b9d`; Mabou was reprocessed
 through the 36-control Glendyer refinement in [PR #385](https://github.com/dfakkeldy/ns-marks-the-spot/pull/385),
-frozen at the #385 merge `249b2be0b378adec894abc34520f83b009dbf8fd`. The output locates
+frozen at its nightly squash merge `249b2be0b378adec894abc34520f83b009dbf8fd`
+(re-pinned on 2026-09-10 from the PR-branch commit `ca59a267`, which GitHub
+deleted with the branch; the frozen inputs are byte-identical at both). The output locates
 **printed lettering**. It does not identify the corresponding mill wheel,
 church symbol, mine opening, road alignment, feature footprint or modern site.
 Existing feature placement and the placement pilot remain unchanged.
@@ -126,7 +128,11 @@ Repeat for sheets 16 and 22 using their native scans and packet folders.
 and `--packets` reproduces geography without re-auditing local imagery; it does
 not create a new frame-audit receipt. Mismatched hashes, dimensions, editable
 controls, out-of-frame boxes or altered pinned inputs fail closed. A future fit
-revision requires explicit reprocessing and a new revision record.
+revision requires explicit reprocessing and a new revision record. Pin only a
+commit on `nightly`'s own history, normally the squash merge that landed the
+frozen inputs: a PR-branch commit disappears with its branch after the squash
+merge, so land the inputs first and pin them in a follow-up change. The test
+suite checks that every pin is already on `origin/nightly`.
 
 The tests cover source preservation, crop scaling and offsets, axis order,
 invalid boxes, neatline holdbacks and frozen evidence hashes. The GDAL replay

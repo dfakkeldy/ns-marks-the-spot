@@ -18,6 +18,9 @@ ROOT = Path(__file__).resolve().parents[2]
 INVENTORIES = Path("docs/fletcher/label-extraction/highway19-production")
 REPORT = Path("reports/fletcher/label-geography")
 REVISION = "a6619d96ba8fa8279ea6a8027654a92b15942b9d"
+# Pin only commits on nightly's own history (normally the squash-merge commit that
+# landed the frozen inputs). A PR-branch commit is deleted with its branch after
+# the squash merge, so `git show` cannot resolve it in a checkout of nightly.
 REVISIONS = {19: REVISION, 16: "249b2be0b378adec894abc34520f83b009dbf8fd", 22: REVISION}
 MABOU_NORTH = "mabou-full-sheet/north-audit-20260909/candidate36"
 SHEETS = {
@@ -135,9 +138,11 @@ def load_inputs(sheet):
     paths += [Path("reports/fletcher") / name for name in CHECKS[sheet]]
     # Each sheet is pinned independently. Future revisions require explicit reprocessing.
     for path in paths:
-        frozen = subprocess.run(["git", "show", f"{revision}:{path}"], cwd=ROOT,
-                                capture_output=True, check=True).stdout
-        require(hashlib.sha256(frozen).hexdigest() == digest(ROOT / path), f"Changed frozen input: {path}")
+        shown = subprocess.run(["git", "show", f"{revision}:{path}"], cwd=ROOT, capture_output=True)
+        require(shown.returncode == 0,
+                f"Frozen input {path} cannot be read at pinned revision {revision}: "
+                "the commit is unreachable in this checkout or the path is absent there")
+        require(hashlib.sha256(shown.stdout).hexdigest() == digest(ROOT / path), f"Changed frozen input: {path}")
     fit, boundary, inventory, manifest = map(lambda p: read(ROOT / p), paths[:4])
     receipt = read(ROOT / receipt_path)
     active = next(s for s in read(ROOT / "reports/fletcher/full-sheets/inputs.json")["sheets"] if s["sheet"] == str(sheet))

@@ -1,6 +1,7 @@
 """Frame, provenance and fail-closed regression tests for the frozen per-sheet derivatives."""
 import math
 import shutil
+import subprocess
 import unittest
 
 from tools.fletcher import project_labels as p
@@ -45,6 +46,29 @@ class FrozenDerivativeTests(unittest.TestCase):
                 self.assertEqual(feature["properties"]["fit_sha256"], data["provenance"]["fit_sha256"])
                 for box, anchor in zip(annotation["source_label_boxes_xywh"], feature["properties"]["label_anchors"]):
                     self.assertEqual(anchor["source_pixel_xy"], p.box_center(box, original["source_dimensions_px"]))
+
+    def test_pinned_revisions_are_already_on_nightly(self):
+        # GitHub deletes a PR branch after its squash merge, so a pin naming a
+        # PR-branch commit becomes unreachable from a checkout of nightly. Frozen
+        # inputs must land on nightly first and be pinned by a later change.
+        probe = subprocess.run(["git", "rev-parse", "--verify", "--quiet", "origin/nightly^{commit}"],
+                               cwd=p.ROOT, capture_output=True, text=True)
+        if probe.returncode != 0:
+            self.skipTest("origin/nightly is not available in this checkout")
+        for sheet, revision in p.REVISIONS.items():
+            with self.subTest(sheet=sheet):
+                ancestry = subprocess.run(["git", "merge-base", "--is-ancestor", revision, "origin/nightly"], cwd=p.ROOT)
+                self.assertEqual(ancestry.returncode, 0,
+                                 f"Sheet {sheet} pins {revision}, which is not on origin/nightly (fetch origin first)")
+
+    def test_unreachable_pin_fails_closed_with_a_named_revision(self):
+        original = p.REVISIONS[16]
+        p.REVISIONS[16] = "0" * 40
+        try:
+            with self.assertRaisesRegex(ValueError, "cannot be read at pinned revision 0{40}"):
+                p.load_inputs(16)
+        finally:
+            p.REVISIONS[16] = original
 
     def test_frozen_fit_and_source_hashes_still_match(self):
         for sheet in p.SHEETS:

@@ -4,8 +4,9 @@
   "supported_anchors": 292,
   "source_pixels_unchanged": true,
   "maximum_anchor_movement_approx_ground_m": 201.78491448279038,
-  "derivative_sha256": "3cdf007c0c03edf28cffa2ec9877398c2bafc0542b0a07c56cf979b5b857ff85",
+  "derivative_sha256": "5e29559ec4a4e505e31c6b87c493fc76a248a95d189b315e3d59c9529e6e99a2",
   "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
   "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
-  "scope": "Lettering geography only,not feature placement"
+  "scope": "Lettering geography only,not feature placement",
+  "fit_revision_note": "Re-pinned 2026-09-10 from PR-branch commit ca59a2671b5b07ca7c5c6a37287c7ee36752ec5b (deleted with its branch after the squash merge) to the PR #385 squash commit on nightly; all eight frozen inputs are byte-identical at both commits, and the derivative changed only in its fit_revision fields (previous derivative sha256 3cdf007c0c03edf28cffa2ec9877398c2bafc0542b0a07c56cf979b5b857ff85)"
 }
