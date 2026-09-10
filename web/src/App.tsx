@@ -1395,6 +1395,24 @@ export function App() {
       shell.style.removeProperty("--map-attribution-height");
     };
   }, []);
+  // Poker folds the attribution strip to one row so the map keeps its height.
+  // The full strip is shown on entry and folds after the first map
+  // interaction or five seconds, the OSMF attribution guidelines' collapse
+  // allowances; "Show licences" brings it back. Outside Poker it never folds.
+  const [attributionFolded, setAttributionFolded] = useState(false);
+  const attributionCollapsed = pokerMode && attributionFolded;
+  useEffect(() => {
+    if (!pokerMode) return;
+    setAttributionFolded(false);
+    const region = mapRegionRef.current;
+    const fold = () => setAttributionFolded(true);
+    const timer = window.setTimeout(fold, 5000);
+    region?.addEventListener("pointerdown", fold, { once: true, passive: true });
+    return () => {
+      window.clearTimeout(timer);
+      region?.removeEventListener("pointerdown", fold);
+    };
+  }, [pokerMode]);
   // Name the tab after the open parcel: multi-tab research otherwise produces
   // indistinguishable tabs and identical history entries. The PID is already
   // in the share URL, so this discloses nothing new.
@@ -5699,73 +5717,81 @@ export function App() {
         </section>
       </main>
 
-      <footer ref={attributionRef} className="map-attribution">
-        <a
-          className="feedback-link"
-          href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20map%20feedback"
-        >
-          Feedback &amp; suggestions: map@kinnokilabs.com
-        </a>
-        <a
-          href="https://www.openstreetmap.org/copyright"
-          target="_blank"
-          rel="noreferrer"
-        >
-          © OpenStreetMap contributors
-        </a>
-        {showModernMap && basemapStyle !== "osm" ? (
-          <span>NS Marks Atlas · Provincial-first · {PROVINCIAL_ATTRIBUTION}
-            {" · "}<a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Licence</a>
-            {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Tile sources</a>
-            {" · "}Supplemental <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer">© OpenMapTiles</a></span>
-        ) : null}
-        <a
-          href="https://github.com/dfakkeldy/ns-marks-the-spot"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Open source · MIT · GitHub
-        </a>
-        {pokerMode && <span role="status">{pokerCivicStatus} <a href={CIVIC_ADDRESS_DATASET_URL} target="_blank" rel="noreferrer">Nova Scotia Civic Address File</a>. Points may not mark the house. Distances follow your taps.</span>}
-        <span className="province-attribution">{PROVINCE_ATTRIBUTION}</span>
-        {Object.values(resourceLayers).some(Boolean) ? (
-          <span>Geoscience data © Province of Nova Scotia</span>
-        ) : null}
-        {/* Licence-mandated statements for what is actually on screen. The
-            catalog carried these strings precisely because the licences
-            require them in products using the data, but nothing rendered
-            them live: zoning's OGL–Halifax/EDPC lines, the OGL–NS sentence
-            for open layers beyond forestry, and Rumsey's CC BY-NC-SA line
-            for the Fletcher sheets. */}
-        {oglLayerVisible || pokerMode ? (
-          <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>
-        ) : null}
-        {coastalLayerVisible
-          ? COASTAL_HAZARD_NOTICES.map((notice) => (
-              <span key={notice}>{notice}</span>
-            ))
-          : null}
-        {Array.from(new Set(contextLayerCatalog
-          .filter((layer) => effectiveContextLayers[layer.id] && layer.attribution)
-          .map((layer) => layer.attribution!))).map((attribution) => (
+      <footer ref={attributionRef} className={`map-attribution${attributionCollapsed ? " collapsed" : ""}`}>
+        {pokerMode && <button type="button" aria-expanded={!attributionCollapsed} onClick={() => setAttributionFolded((folded) => !folded)}>
+          {attributionCollapsed ? "Show licences" : "Hide licences"}
+        </button>}
+        {pokerMode && <span className="poker-civic-status" role="status">
+          {pokerCivicStatus}
+          {!attributionCollapsed && <> <a href={CIVIC_ADDRESS_DATASET_URL} target="_blank" rel="noreferrer">Nova Scotia Civic Address File</a>. Points may not mark the house. Distances follow your taps.</>}
+        </span>}
+        {!attributionCollapsed && <>
+          <a
+            className="feedback-link"
+            href="mailto:map@kinnokilabs.com?subject=NS%20Marks%20The%20Spot%20map%20feedback"
+          >
+            Feedback &amp; suggestions: map@kinnokilabs.com
+          </a>
+          <a
+            href="https://www.openstreetmap.org/copyright"
+            target="_blank"
+            rel="noreferrer"
+          >
+            © OpenStreetMap contributors
+          </a>
+          {showModernMap && basemapStyle !== "osm" ? (
+            <span>NS Marks Atlas · Provincial-first · {PROVINCIAL_ATTRIBUTION}
+              {" · "}<a href={PROVINCIAL_LICENCE_URL} target="_blank" rel="noreferrer">Licence</a>
+              {" · "}<a href={provincialReceiptUrl()} target="_blank" rel="noreferrer">Tile sources</a>
+              {" · "}Supplemental <a href="https://openfreemap.org/" target="_blank" rel="noreferrer">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer">© OpenMapTiles</a></span>
+          ) : null}
+          <a
+            href="https://github.com/dfakkeldy/ns-marks-the-spot"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open source · MIT · GitHub
+          </a>
+          <span className="province-attribution">{PROVINCE_ATTRIBUTION}</span>
+          {Object.values(resourceLayers).some(Boolean) ? (
+            <span>Geoscience data © Province of Nova Scotia</span>
+          ) : null}
+          {/* Licence-mandated statements for what is actually on screen. The
+              catalog carried these strings precisely because the licences
+              require them in products using the data, but nothing rendered
+              them live: zoning's OGL–Halifax/EDPC lines, the OGL–NS sentence
+              for open layers beyond forestry, and Rumsey's CC BY-NC-SA line
+              for the Fletcher sheets. */}
+          {oglLayerVisible || pokerMode ? (
+            <span>{OPEN_GOVERNMENT_ATTRIBUTION}</span>
+          ) : null}
+          {coastalLayerVisible
+            ? COASTAL_HAZARD_NOTICES.map((notice) => (
+                <span key={notice}>{notice}</span>
+              ))
+            : null}
+          {Array.from(new Set(contextLayerCatalog
+            .filter((layer) => effectiveContextLayers[layer.id] && layer.attribution)
+            .map((layer) => layer.attribution!))).map((attribution) => (
+              <span key={attribution}>{attribution}</span>
+            ))}
+          {visibleZoningAttributions.map((attribution) => (
             <span key={attribution}>{attribution}</span>
           ))}
-        {visibleZoningAttributions.map((attribution) => (
-          <span key={attribution}>{attribution}</span>
-        ))}
-        {liveConditionsLayerCatalog
-          .filter(({ id }) => liveConditionsLayers[id])
-          .map(({ id, attribution }) => (
-            <span key={id}>{attribution}</span>
-          ))}
-        {fletcherVisible ? <span>{RUMSEY_ATTRIBUTION}</span> : null}
-        <span>Boundaries are not a survey</span>
-        <button type="button" onClick={() => setDataSourcesOpen(true)}>
-          Data &amp; licences
-        </button>
-        <button type="button" onClick={() => setAboutOpen(true)}>
-          About this map
-        </button>
+          {liveConditionsLayerCatalog
+            .filter(({ id }) => liveConditionsLayers[id])
+            .map(({ id, attribution }) => (
+              <span key={id}>{attribution}</span>
+            ))}
+          {fletcherVisible ? <span>{RUMSEY_ATTRIBUTION}</span> : null}
+          <span>Boundaries are not a survey</span>
+          <button type="button" onClick={() => setDataSourcesOpen(true)}>
+            Data &amp; licences
+          </button>
+          <button type="button" onClick={() => setAboutOpen(true)}>
+            About this map
+          </button>
+        </>}
       </footer>
 
       {licenceDialogOpen ? (

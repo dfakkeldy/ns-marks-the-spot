@@ -47,6 +47,24 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
       expect(locate.y).toBeGreaterThanOrEqual(zoom.y + zoom.height);
     }
     await expect(page.locator(".poker-civic-number")).toHaveCount(1);
+    // The attribution strip was shown on entering Poker and folded at the
+    // first map interaction (the search's Find button); the folded row keeps
+    // only its toggle and the civic status, and the toggle restores it.
+    const showLicences = page.getByRole("button", { name: "Show licences", exact: true });
+    await expect(showLicences).toBeVisible();
+    await expect(page.getByRole("link", { name: "© OpenStreetMap contributors" })).toHaveCount(0);
+    expect((await box(page.locator(".map-attribution"))).height).toBeLessThanOrEqual(52);
+    await activate(showLicences);
+    await expect(page.getByRole("link", { name: "© OpenStreetMap contributors" })).toBeVisible();
+    await activate(page.getByRole("button", { name: "Hide licences", exact: true }));
+    await expect(showLicences).toBeVisible();
+    // The strip's ResizeObserver republishes its height a frame after it
+    // folds, and everything above it moves then; measure only once settled.
+    await expect.poll(async () => {
+      const strip = Math.ceil((await box(page.locator(".map-attribution"))).height);
+      const measured = await page.locator(".app-shell").evaluate((shell) => getComputedStyle(shell).getPropertyValue("--map-attribution-height"));
+      return measured === `${strip}px`;
+    }).toBe(true);
     if (viewport.width <= 860) {
       const finishBox = await box(page.getByRole("button", { name: "Finish", exact: true }));
       const undoBox = await box(page.getByRole("button", { name: "Undo point", exact: true }));
@@ -81,7 +99,10 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
     }
     await expect(page.getByRole("button", { name: "Finish", exact: true })).toBeEnabled();
     await activate(page.getByRole("button", { name: "Finish", exact: true }));
-    await expect(page.locator(".measure-readout")).toContainText(/m|ft/);
+    // The total lives on the map label; the strip only announces it.
+    await expect(page.locator(".measure-endpoint-label")).toContainText(/m|ft/);
+    await expect(page.locator(".poker-workspace [role=status]")).toContainText(/m|ft/);
+    await expect(page.locator(".measure-readout")).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Finish", exact: true })).toBeDisabled();
     await activate(page.getByRole("button", { name: "Clear", exact: true }));
     await expect(page.getByRole("button", { name: "Undo point", exact: true })).toBeDisabled();

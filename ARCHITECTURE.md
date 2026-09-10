@@ -497,7 +497,10 @@ services.
 The web-only Poker theme uses `components/PokerMapTools.tsx` for bounded civic
 number queries at zoom 16 and above, address-point focus, and always-visible
 civic search over the map. Finish, Undo point, and Clear sit in a translucent
-measure strip, with the distance readout appearing once a measurement exists.
+button row; the distance total is the map label at the last vertex and the
+strip only announces it. The attribution footer is shown on entering Poker and
+folds to its toggle plus the civic status after the first map interaction or
+five seconds, the collapse the OSMF attribution guidelines allow.
 Viewport replies are capped at 500 source rows with truncation and
 unreadable-row notices; movement cancels stale work. Poker disables parcel
 rendering and lookups, including address-to-parcel identification and PID

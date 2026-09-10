@@ -3955,6 +3955,65 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.getByTestId("poker-session")).toBeInTheDocument();
   });
 
+  it("shows the attribution strip on entering Poker, folds it at the first map touch, and reopens it on request", async () => {
+    const user = userEvent.setup();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?theme=poker");
+
+    render(<App />);
+
+    const footer = screen.getByRole("contentinfo");
+    expect(within(footer).getByRole("button", { name: "Hide licences" })).toHaveAttribute("aria-expanded", "true");
+    expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
+    expect(within(footer).getByRole("status")).toHaveTextContent(
+      "Zoom in to see civic numbers. Nova Scotia Civic Address File. Points may not mark the house. Distances follow your taps.",
+    );
+
+    fireEvent.pointerDown(screen.getByRole("region", { name: "Map and parcel details" }));
+
+    const toggle = within(footer).getByRole("button", { name: "Show licences" });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(within(footer).queryByRole("link", { name: "© OpenStreetMap contributors" })).not.toBeInTheDocument();
+    expect(within(footer).queryByRole("button", { name: "Data & licences" })).not.toBeInTheDocument();
+    expect(within(footer).queryByText(OPEN_GOVERNMENT_ATTRIBUTION)).not.toBeInTheDocument();
+    // The civic-source status stays in the folded row; only its caveats fold.
+    expect(within(footer).getByRole("status")).toHaveTextContent("Zoom in to see civic numbers.");
+    expect(within(footer).getByRole("status")).not.toHaveTextContent("Points may not mark the house");
+
+    await user.click(toggle);
+    expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
+    expect(within(footer).getByText(OPEN_GOVERNMENT_ATTRIBUTION)).toBeInTheDocument();
+    expect(within(footer).getByRole("button", { name: "Data & licences" })).toBeInTheDocument();
+    await user.click(within(footer).getByRole("button", { name: "Hide licences" }));
+    expect(within(footer).getByRole("button", { name: "Show licences" })).toBeInTheDocument();
+
+    // Only Poker folds: every other setup keeps the full strip and no toggle.
+    await user.selectOptions(screen.getByRole("combobox", { name: "Map setup" }), "explore-nova-scotia");
+    expect(within(footer).queryByRole("button", { name: "Show licences" })).not.toBeInTheDocument();
+    expect(within(footer).queryByRole("button", { name: "Hide licences" })).not.toBeInTheDocument();
+    expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
+  });
+
+  it("folds the Poker attribution strip on its own after five seconds", () => {
+    vi.useFakeTimers();
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    window.history.replaceState(null, "", "/?theme=poker");
+
+    render(<App />);
+
+    const footer = screen.getByRole("contentinfo");
+    expect(within(footer).getByRole("button", { name: "Hide licences" })).toBeInTheDocument();
+    act(() => {
+      vi.advanceTimersByTime(4999);
+    });
+    expect(within(footer).getByRole("button", { name: "Hide licences" })).toBeInTheDocument();
+    act(() => {
+      vi.advanceTimersByTime(1);
+    });
+    expect(within(footer).getByRole("button", { name: "Show licences" })).toBeInTheDocument();
+    vi.useRealTimers();
+  });
+
   it("keeps the named setup in the address bar so a reload stays in it", async () => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
     window.history.replaceState(null, "", "/?theme=poker");

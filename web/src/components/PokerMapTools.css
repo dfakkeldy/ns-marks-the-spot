@@ -26,8 +26,9 @@
 .poker-mode .parcel-lookup-message { top: 80px; }
 
 @media (max-width: 860px) {
-  /* Keep the measurement buttons and total in one compact strip.
-     Reserve the measured attribution plus the two-line Leaflet scale below. */
+  /* A bare row of measurement buttons over the map: no dock behind them, so
+     the imagery shows through between and around them. Reserve the measured
+     attribution plus the two-line Leaflet scale below. */
   .poker-workspace {
     --poker-bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 58px);
     position: absolute;
@@ -36,16 +37,6 @@
     bottom: var(--poker-bottom);
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    max-height: min(45%, calc(100% - var(--poker-bottom) - max(76px, calc(env(safe-area-inset-top) + 64px))));
-    padding: 10px;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    background: color-mix(in srgb, var(--white) 65%, transparent);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: var(--chart-ink);
-    box-shadow: 0 2px 12px #12343b40;
   }
   .poker-search {
     top: max(12px, env(safe-area-inset-top));
@@ -74,25 +65,18 @@
     flex: none;
     gap: 6px;
   }
+  /* Each button blurs what is behind it so its label stays legible over
+     aerial imagery at half opacity. */
   .poker-workspace .measure-actions button {
     min-width: 0;
     height: 44px;
     padding: 0 4px;
-    border: 1px solid var(--line);
-    box-shadow: none;
-    background: color-mix(in srgb, var(--white) 35%, transparent);
+    border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+    box-shadow: 0 1px 6px #12343b33;
+    background: color-mix(in srgb, var(--white) 50%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     font-size: 13px;
-  }
-  .poker-workspace .measure-readout {
-    position: static;
-    flex: none;
-    max-width: none;
-    margin: 0;
-    font-size: 12px;
-    text-align: center;
-    pointer-events: auto;
-    background: transparent;
-    border: 0;
   }
   .leaflet-container:has(.poker-workspace) .display-scale-readout {
     left: auto;
@@ -109,7 +93,6 @@
     --poker-bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 8px);
     left: auto;
     width: min(390px, 48%);
-    max-height: calc(100% - var(--poker-bottom) - max(76px, calc(env(safe-area-inset-top) + 64px)));
   }
   .leaflet-container:has(.poker-workspace) .display-scale-readout {
     left: 110px;
