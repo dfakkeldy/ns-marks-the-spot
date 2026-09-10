@@ -302,10 +302,15 @@ it("supports a driveway session with touch finish, clear and a fresh next addres
   const { rerender } = render(<MeasureTool key="first" driveway mode="distance" onModeChange={vi.fn()} />);
   expect(screen.queryByRole("button", { name: "Measure area" })).not.toBeInTheDocument();
   clickAt(46, -61);
+  expect(screen.queryByRole("status")).not.toBeInTheDocument();
   clickAt(46.001, -61);
   fireEvent.click(screen.getByRole("button", { name: "Finish" }));
   expect(screen.getByRole("button", { name: "Finish" })).toBeDisabled();
   expect(screen.getByTestId("measurement-label")).toHaveTextContent("Total distance");
+  // The total is the map label; the strip only announces it, on no line of its own.
+  expect(screen.getByRole("status")).toHaveClass("sr-only");
+  expect(screen.getByRole("status")).toHaveTextContent(/\d m$/);
+  expect(document.querySelector(".measure-readout")).toBeNull();
   fireEvent.click(screen.getByRole("button", { name: "Clear" }));
   expect(screen.queryByTestId("measure-line")).not.toBeInTheDocument();
   clickAt(46, -61);
