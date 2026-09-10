@@ -1328,10 +1328,12 @@ sources remain fail-closed; this web workflow does not change the native app.
 ### Fletcher full-sheets review preview
 
 `VITE_FLETCHER_FULL_SHEETS_TILE_BASE_URL` optionally enables a local review overlay
-of the complete cropped Judique, Mabou, and Hawkesbury sheets. Example local
-host: `http://127.0.0.1:4198` (see `.env.example`). When the variable is absent
-or unset, the control is absent. It does not replace the published 24-sheet
-Fletcher layer. Alignment is approximate, with gaps at some joins; this is a
-review preview only, not a geographically accepted production replacement. It
-has its own visibility and opacity control and is excluded from map exports
-and print. See [package and local preview instructions](../reports/fletcher/full-sheets/README.md).
+of the complete cropped Cape Mabou / Broad Cove (14), Judique (19), Mabou (16),
+and Hawkesbury (22) sheets from the immutable `fletcher-full-sheets-20260909.3`
+revision. Example local host: `http://127.0.0.1:4198` (see `.env.example`). When
+the variable is absent or unset, the control is absent. It does not replace the
+published 24-sheet Fletcher layer. Alignment is approximate, with gaps at some
+joins; this is a review preview only, not a geographically accepted production
+replacement. It has its own visibility and opacity control and is excluded from
+map exports and print. Sheet 11 is a provisional draft and is not in this tile
+package. See [package and local preview instructions](../reports/fletcher/full-sheets/README.md).
