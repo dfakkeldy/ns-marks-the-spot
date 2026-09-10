@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-11-V03.jpg",
+    "point_record": "sheet11/refinement-20260910/validation-proposals.json",
+    "point_id": "V03",
+    "native_box": [
+      4484,
+      3724,
+      4704,
+      3944
+    ],
+    "native_coordinates": [
+      4594,
+      3834
+    ],
+    "modern_lonlat": [
+      -61.081042,
+      46.3572813
+    ],
+    "rotation_degrees": 0
+  }
+]

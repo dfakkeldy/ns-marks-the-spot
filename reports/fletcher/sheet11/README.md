@@ -1,5 +1,7 @@
 # Fletcher Sheet 11 — whole-sheet provisional georeferencing
 
+**Current revision (10 September):** [25-control refinement](refinement-20260910/README.md), 100.707 m median / 174.382 m worst on nine diagnostics. A fresh central check failed and was repaired; the sheet remains provisional pending new validation. The active draft is pinned in [status.json](status.json). The 18-control work below is the preserved earlier trial.
+
 **Sheet 11 is a rendered, editable draft; it is not accepted for tiles or production
 label projection.** Eighteen reviewed physical controls and six excluded diagnostic
 checks support this first full-sheet trial. The current TPS trial scores **175.7 m

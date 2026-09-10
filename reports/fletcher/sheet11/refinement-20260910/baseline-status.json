@@ -1,0 +1,79 @@
+{
+  "sheet": "sheet-11",
+  "status": "provisional-geography-not-accepted",
+  "accepted_for_tiling": false,
+  "accepted_for_production_label_projection": false,
+  "controls": 18,
+  "diagnostic_checks": 6,
+  "fresh_validation_checks_after_control_repairs": 0,
+  "fit_file": "coastal-fit.json",
+  "fit_sha256": "0ec9b754154ef5a6b9d0692b051e8545e044f3f6218697cdaeb91d9fe25443dc",
+  "check_file": "coastal-checks.json",
+  "check_sha256": "ec03a5008df54cdc09c1dd3efb35ed9e1d12242ca3550a698d746507b5400191",
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "transform": "GDAL TPS in EPSG:3857, 5 projected m output cells",
+  "scope": "Full main-sheet interior, western mapped mainland extension, separate Sea Wolf/Margaree Island component with printed name. Crop is a draft, not a seamless mosaic claim.",
+  "raster_path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/trial/sheet-11-provisional.tif",
+  "raster_sha256": "c1c5cafe60fdfb5fb9fa49820e0212f6acb1f6cb414393fd2d6f6e1f6c6e6b8c",
+  "raster_size": [
+    9483,
+    5970
+  ],
+  "raster_bounds_wgs84": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -61.275433,
+          46.4526141
+        ],
+        [
+          -61.275433,
+          46.2675596
+        ],
+        [
+          -60.8494968,
+          46.2675596
+        ],
+        [
+          -60.8494968,
+          46.4526141
+        ],
+        [
+          -61.275433,
+          46.4526141
+        ]
+      ]
+    ]
+  },
+  "orientation": [
+    {
+      "component": "mainland",
+      "samples": 72604,
+      "native_grid_step_px": 25,
+      "nonnegative_determinants": 0,
+      "determinant_range": [
+        -29.944481826632266,
+        -20.610209047785514
+      ]
+    },
+    {
+      "component": "island",
+      "samples": 814,
+      "native_grid_step_px": 25,
+      "nonnegative_determinants": 0,
+      "determinant_range": [
+        -27.08943839116136,
+        -25.16263143711311
+      ]
+    }
+  ],
+  "remaining": [
+    "Resolve northern Gallant/printed Trunk Brook drainage topology and add independently identified controls. No control inferred from guide prediction.",
+    "Review Cameron, western interior and upper Fionnar discrepancies; six current diagnostics are not fresh validation.",
+    "Freeze revised fit and select new distributed checks before tile or label promotion.",
+    "Review Sheet11\u2013Sheet14 join once Sheet11 geography is supported."
+  ],
+  "unchanged_active_tile_revision": "fletcher-full-sheets-20260909.3",
+  "browser_scope": "No Sheet11 browser layer activated or user records changed. Import/serialization and solver checked separately; browser mesh/save/reload not claimed."
+}

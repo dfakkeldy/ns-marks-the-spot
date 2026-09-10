@@ -137,6 +137,9 @@ def main():
         "gdalwarp",
         "-overwrite",
         "-tps",
+        # Exact transformation avoids cutline-edge omissions seen on Sheet11.
+        "-et",
+        0,
         "-t_srs",
         "EPSG:3857",
         "-r",
