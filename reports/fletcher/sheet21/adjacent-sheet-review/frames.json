@@ -1,5 +1,35 @@
 [
   {
+    "image": "22latest-west-north.jpg",
+    "lonlat_bounds": [
+      -61.235,
+      45.67,
+      -61.2,
+      45.733
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "22latest-west-south.jpg",
+    "lonlat_bounds": [
+      -61.235,
+      45.575,
+      -61.2,
+      45.625
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
     "image": "18-northwest.jpg",
     "lonlat_bounds": [
       -61.205,

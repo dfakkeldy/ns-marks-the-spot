@@ -15,7 +15,11 @@
     {
       "path": "/Users/dfakkeldy/Downloads/fletcher-sheet22/result/sheet22-neatline-diagnostic.tif",
       "sha256": "c552c17b8bf35d7037d4d58a6a1633fa13cdf52a6220229b028b8dca7cb3e09f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif",
+      "sha256": "b49f81d7a6533e753def1c698e20b25e5fa8134ed2b67bf17bf0c73b7817bec1"
     }
   ],
-  "status": "Six actual comparisons personally inspected. Northern northwest gap and stream discontinuity; western stream/coast disagreement with prior affine Sheet22; eastern extent overlap and stream/coast disagreement with Sheet20. No seam accepted."
+  "status": "Eight actual comparisons personally inspected, including both old affine and later full-sheet TPS Sheet22. Later western TPS reduces some visible coast offsets but stream/shore discontinuities and extent differences remain; no seam accepted."
 }

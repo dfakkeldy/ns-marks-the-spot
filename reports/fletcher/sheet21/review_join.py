@@ -20,8 +20,8 @@ DATA = Path.home() / "Downloads/fletcher-sheet21"
 OUT = HERE / "adjacent-sheet-review"
 OUT.mkdir(exist_ok=True)
 RASTER = DATA / "repaired-fifteen/sheet-21-full-sheet.tif"
-NEIGHBORS = {"18": ("Sheet 18: provisional 14-control TPS", Path.home() / "Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif"), "20": ("Sheet 20: provisional 12-control TPS", Path.home() / "Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"), "22": ("Sheet 22: prior 17-control affine full-neatline diagnostic", Path.home() / "Downloads/fletcher-sheet22/result/sheet22-neatline-diagnostic.tif")}
-REGIONS = {"18-northwest": [-61.205,45.737,-61.145,45.760], "18-northeast": [-60.965,45.737,-60.895,45.760], "22-west-north": [-61.235,45.67,-61.20,45.733], "22-west-south": [-61.235,45.575,-61.20,45.625], "20-east-north": [-60.855,45.69,-60.825,45.735], "20-east-central": [-60.855,45.63,-60.825,45.675]}
+NEIGHBORS = {"22latest": ("Sheet 22: later full-sheet TPS boundary result", Path.home() / "Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif"), "18": ("Sheet 18: provisional 14-control TPS", Path.home() / "Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif"), "20": ("Sheet 20: provisional 12-control TPS", Path.home() / "Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"), "22": ("Sheet 22: prior 17-control affine full-neatline diagnostic", Path.home() / "Downloads/fletcher-sheet22/result/sheet22-neatline-diagnostic.tif")}
+REGIONS = {"22latest-west-north": [-61.235,45.67,-61.20,45.733], "22latest-west-south": [-61.235,45.575,-61.20,45.625], "18-northwest": [-61.205,45.737,-61.145,45.760], "18-northeast": [-60.965,45.737,-60.895,45.760], "22-west-north": [-61.235,45.67,-61.20,45.733], "22-west-south": [-61.235,45.575,-61.20,45.625], "20-east-north": [-60.855,45.69,-60.825,45.735], "20-east-central": [-60.855,45.63,-60.825,45.675]}
 
 
 def merc(c):
