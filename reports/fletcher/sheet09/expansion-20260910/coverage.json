@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/fletcher-sheet09/expansion-20260910/sheet-09-full-sheet.tif",
+  "raster_sha256": "87d011076c43e08513a221a00fdfa6ecdb67097336a3f480e78974e08fb5e353",
+  "cutline_sha256": "4458b16f037bb68c0a328b4cddebaf89a09add82eb36527e9fe6c0ece73f4cc7",
+  "expected_interior_cells": 44850834,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

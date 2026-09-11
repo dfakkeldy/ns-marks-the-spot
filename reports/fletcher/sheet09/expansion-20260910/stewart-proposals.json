@@ -1,0 +1,74 @@
+{
+  "sheet": "sheet-09",
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "source_dimensions": [
+    10762,
+    7642
+  ],
+  "status": "Historical proposal packet retained for native crosshair audit. See draft-fit.json, draft-checks.json and point-review-index.json for current points and status.",
+  "points": [
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        7767,
+        6358
+      ],
+      "lonlat": [
+        -60.9398873,
+        46.4581803
+      ],
+      "modern_node": "J1447",
+      "modern_objectids": [
+        188945,
+        277808,
+        277812
+      ],
+      "identity_evidence": "Stewart major northern tributary below western/southwestern branch convergence. Northern arm runs north past historical copper-ore site; main Stewart continues east to southern tributary then Margaree.",
+      "source_uncertainty_px": 12,
+      "review": "Native crosshair proposal prior to fitting; broad branch ordering inspected."
+    },
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        8213,
+        6405
+      ],
+      "lonlat": [
+        -60.9241152,
+        46.4550339
+      ],
+      "modern_node": "J1468",
+      "modern_objectids": [
+        159199,
+        159200,
+        277807
+      ],
+      "identity_evidence": "Stewart outlet at west bank of Northeast Margaree, halfway down the west side of the large eastward river meander. Select bank entry, not river centre; historical mill lies just south.",
+      "source_uncertainty_px": 12,
+      "review": "Native crosshair proposal prior to fitting; broad branch ordering inspected."
+    },
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        7951,
+        6395
+      ],
+      "lonlat": [
+        -60.9275594,
+        46.4580556
+      ],
+      "modern_node": "J1449",
+      "modern_objectids": [
+        277807,
+        277810,
+        287345
+      ],
+      "identity_evidence": "Stewart long southern tributary below northern control C09 and above the river mouth C10; tributary curves southwest upstream. Smaller modern southern spurs nearer C09 are not this arm.",
+      "source_uncertainty_px": 12,
+      "review": "Native crosshair proposal prior to fitting; broad branch ordering inspected."
+    }
+  ]
+}

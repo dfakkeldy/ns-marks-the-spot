@@ -1,0 +1,84 @@
+{
+  "tooling": "Playwright; Browser plugin not available",
+  "before": {
+    "record": {
+      "id": "f2df61fd-93a4-419c-abaa-c47dedf2badf",
+      "name": "sheet-09-full-sheet",
+      "source": "geotiff",
+      "createdAt": "2026-09-11T01:41:58.251Z",
+      "pixelSize": {
+        "width": 8393,
+        "height": 5571
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6815980,
+          5,
+          0,
+          5879485,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      4096,
+      2719
+    ],
+    "storedRasterSha256": "87d011076c43e08513a221a00fdfa6ecdb67097336a3f480e78974e08fb5e353",
+    "rasterBytes": 90626403,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 448005,
+    "opaquePixels": 10689019
+  },
+  "after": {
+    "record": {
+      "id": "f2df61fd-93a4-419c-abaa-c47dedf2badf",
+      "name": "sheet-09-full-sheet",
+      "source": "geotiff",
+      "createdAt": "2026-09-11T01:41:58.251Z",
+      "pixelSize": {
+        "width": 8393,
+        "height": 5571
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6815980,
+          5,
+          0,
+          5879485,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      4096,
+      2719
+    ],
+    "storedRasterSha256": "87d011076c43e08513a221a00fdfa6ecdb67097336a3f480e78974e08fb5e353",
+    "rasterBytes": 90626403,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 448005,
+    "opaquePixels": 10689019
+  },
+  "enabledStateSurvived": true,
+  "url": "http://127.0.0.1:4197/?basemap=osm&taxSale=off&layers=modern&position=46.55,-60.96,13",
+  "viewports": [
+    [
+      1440,
+      1000
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "console_and_page_errors": [],
+  "scope": "Actual embedded-GeoTIFF import, visible rendering, stored source hash, enabled state and reload. Isolated profile; user records unchanged. Raw-scan CSV import/TPS browser mesh not tested.",
+  "screenshot_review": "Desktop reload and mobile screenshots inspected. No error overlay or blank map."
+}

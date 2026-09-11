@@ -1,5 +1,13 @@
 # Sheet 9 — whole-sheet work started 10 September
 
+**Current:** [the whole-sheet expansion](expansion-20260910/README.md) now has
+16 physical controls, five excluded diagnostics, a cropped provisional GeoTIFF,
+and actual-raster and browser-import verification. Diagnostics remain above the
+working targets, with an unresolved Stewart tributary. It is not accepted for
+tiles or production labels. `status.json` identifies the active files.
+
+The following records the original two-seed starting point, retained for history.
+
 Sheet9 is the printed neighbour north of Sheet11, covering the coast toward
 Chéticamp and the inland valleys. This starts the **whole sheet**, including
 coast, lakes, northern/eastern mountains and its southern boundary.
@@ -25,8 +33,8 @@ outlet throat during native crosshair review, before any fitting. The offshore
 line meeting C02 in the water dataset is a dataset boundary, not a matched stream.
 `seed-review/` contains the corrected native/modern crosshairs.
 
-These two nearby seeds **cannot support a full-sheet fit**. There is no new warp,
-accuracy claim, tile revision or production label transform for Sheet9.
+These two nearby seeds **could not support a full-sheet fit**. At that starting
+point there was no warp, accuracy claim, tile revision or label transform.
 
 Investigated but not adopted:
 
@@ -39,6 +47,6 @@ Investigated but not adopted:
 
 The saved context views retain original crop extents. Modern panels use the old
 printed-graticule guide solely to search; it is not accepted georeferencing.
-Next: spread additional physical controls across the northern coast and eastern
+The initial next step was to spread physical controls across the northern coast and eastern
 valleys, reserve independent checks, and review the shared Sheet11 boundary before
 fitting and cropping the whole sheet.

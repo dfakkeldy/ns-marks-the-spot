@@ -1,0 +1,53 @@
+{
+  "sheet": "sheet-09",
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "source_dimensions": [
+    10762,
+    7642
+  ],
+  "points": [
+    {
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        8613,
+        1918
+      ],
+      "lonlat": [
+        -60.8989298,
+        46.5942935
+      ],
+      "modern_node": "J0291",
+      "modern_objectids": [
+        190652,
+        263590,
+        263591
+      ],
+      "identity_evidence": "Faribault major eastern headwater arm below northern lake tributary. Main downstream leaves northwest; east arm runs through cascades to lake chain; separate southern tributary continues south through wet ground. Minor northern east spur is not selected.",
+      "source_uncertainty_px": 12,
+      "review": "Proposal awaiting exact native crosshair and broader pond topology review."
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        8475,
+        1655
+      ],
+      "lonlat": [
+        -60.9049773,
+        46.6021433
+      ],
+      "modern_node": "J0213",
+      "modern_objectids": [
+        184691,
+        263586,
+        263587
+      ],
+      "identity_evidence": "Faribault eastern tributary above major southern/eastern headwater split C03; eastern tributary connects small ponds north of its mouth; downstream Faribault turns northwest, upstream main continues southeast past a western spur.",
+      "source_uncertainty_px": 12,
+      "review": "Proposal awaiting exact native crosshair and broader pond topology review."
+    }
+  ],
+  "status": "Historical proposal packet retained for native crosshair audit. See draft-fit.json, draft-checks.json and point-review-index.json for current points and status."
+}
