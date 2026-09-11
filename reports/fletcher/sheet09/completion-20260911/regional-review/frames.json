@@ -1,0 +1,62 @@
+[
+  {
+    "image": "sheet-09-C18.jpg",
+    "point_record": "sheet09/completion-20260911/regional-proposals.json",
+    "point_id": "C18",
+    "native_box": [
+      5701,
+      6277,
+      5921,
+      6497
+    ],
+    "native_coordinates": [
+      5811,
+      6387
+    ],
+    "modern_lonlat": [
+      -61.0321106,
+      46.4579014
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C20.jpg",
+    "point_record": "sheet09/completion-20260911/regional-proposals.json",
+    "point_id": "C20",
+    "native_box": [
+      9326,
+      2850,
+      9546,
+      3070
+    ],
+    "native_coordinates": [
+      9436,
+      2960
+    ],
+    "modern_lonlat": [
+      -60.8681633,
+      46.5632049
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C21.jpg",
+    "point_record": "sheet09/completion-20260911/regional-proposals.json",
+    "point_id": "C21",
+    "native_box": [
+      8781,
+      2585,
+      9001,
+      2805
+    ],
+    "native_coordinates": [
+      8891,
+      2695
+    ],
+    "modern_lonlat": [
+      -60.8895442,
+      46.5710948
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,20 +1,24 @@
 {
   "sheet": "sheet-09",
-  "status": "provisional-full-sheet-trial-needs-refinement",
+  "status": "provisional-validation-failed-gallant",
   "accepted_for_tiling": false,
   "accepted_for_production_label_projection": false,
   "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
-  "controls": 16,
+  "controls": 24,
   "checks": 5,
-  "fit": "expansion-20260910/draft-fit.json",
-  "scope": "Complete printed inner neatline; geography under-supported in southwestern and eastern interior areas. Not production coverage.",
+  "fit": "completion-20260911/reviewed-fit.json",
+  "scope": "Complete inner neatline; added Gallant, Jim Campbells and Rocky support. No whole-sheet geographic acceptance.",
   "next": [
-    "Resolve Stewart Q01 southern-tributary identity without residual snapping",
-    "Add southwestern coast/Gallant and eastern Rocky/Jim Campbells physical support",
-    "Freeze repaired fit and select fresh geographically distributed checks",
-    "Review full shared Sheet11 boundary before any tile or production label promotion"
+    "Investigate Gallant V02 fork failure (501.415 m); preserve original check and frozen fit. C19 is the unnamed branch north of Mink, not Mink.",
+    "Resolve Stewart Q01 southern tributary without residual snapping; unchanged failure 442.189 m.",
+    "Western coast Q04 remains over 200 m; broader fresh validation and support needed after any repair.",
+    "Sheet11 feature join inspected in three sectors; Gallant and western interior remain discontinuous. Do not stretch either edge."
   ],
-  "fit_sha256": "ae7b4eb9f843012feada645bee9ddb5e009b6873f5d065c05e3361e0ba7a64e6",
-  "diagnostics": "expansion-20260910/draft-checks.json",
-  "raster_receipt": "expansion-20260910/raster-receipt.json"
+  "fit_sha256": "859ba33527e11723fc76527ef48ba953d21832d5e98ab81f08257c285900dd74",
+  "diagnostics": "completion-20260911/reviewed-diagnostic-checks.json",
+  "raster_receipt": "completion-20260911/regional-scores.json",
+  "fresh_validation_checks": 2,
+  "validation": "completion-20260911/reviewed-validation-checks.json",
+  "validation_results": "completion-20260911/reviewed-validation-scores.json",
+  "handoff": "completion-20260911/handoff.json"
 }
