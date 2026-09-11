@@ -1,0 +1,32 @@
+{
+  "sheet": "sheet-20",
+  "component": "southwest-islet",
+  "source_sha256": "3be7a138e4fd1a42cef0a549b7317180718a36fc7134777323ff2f1f8eb053dc",
+  "source_dimensions": [
+    10792,
+    7662
+  ],
+  "ring_pixel_xy": [
+    [
+      4035,
+      6735
+    ],
+    [
+      4155,
+      6735
+    ],
+    [
+      4155,
+      6830
+    ],
+    [
+      4035,
+      6830
+    ],
+    [
+      4035,
+      6735
+    ]
+  ],
+  "scope": "Full neatline with southern mainland, Red Island, Michaux Point and its small island, plus separate southern AB islets. Native review required before rendering."
+}

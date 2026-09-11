@@ -1,0 +1,331 @@
+{
+  "sheet": "sheet-20",
+  "points": [
+    {
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        5430,
+        3473
+      ],
+      "lonlat": [
+        -60.6586398,
+        45.6774393
+      ],
+      "modern_node_id": "J0604",
+      "modern_objectids": [
+        193468,
+        193607,
+        194437
+      ],
+      "identity_evidence": "Murchison Brook northern tributary joins main west/east brook",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        1678,
+        4416
+      ],
+      "lonlat": [
+        -60.837974,
+        45.6406735
+      ],
+      "modern_node_id": "J0951",
+      "modern_objectids": [
+        129601,
+        129603,
+        193516
+      ],
+      "identity_evidence": "Beauvais Lake western outlet",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        2866,
+        4414
+      ],
+      "lonlat": [
+        -60.7811876,
+        45.6404474
+      ],
+      "modern_node_id": "J0959",
+      "modern_objectids": [
+        128634,
+        128734,
+        285770
+      ],
+      "identity_evidence": "Condon Lakes easternmost basin southeast outlet",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        6856,
+        4225
+      ],
+      "lonlat": [
+        -60.5996981,
+        45.6465712
+      ],
+      "modern_node_id": "J0909",
+      "modern_objectids": [
+        126902,
+        126991,
+        194311
+      ],
+      "identity_evidence": "Ferguson Lake main basin southeast outlet into small eastern basin",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "lonlat": [
+        -60.81539930647283,
+        45.73724478893603
+      ],
+      "guide_xy": [
+        2052.5021048618946,
+        1534.5748353267554
+      ],
+      "modern_objectid": 13982,
+      "modern_part": 0,
+      "modern_vertex": 37,
+      "modern_properties": {
+        "OBJECTID": 13982,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 618.228892457636
+      },
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        2120,
+        1419
+      ],
+      "identity_evidence": "Cape George northernmost outer coast bend",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "lonlat": [
+        -60.77658447810415,
+        45.70805807500798
+      ],
+      "guide_xy": [
+        2904.596269074129,
+        2446.6012721506413
+      ],
+      "modern_objectid": 23383,
+      "modern_part": 0,
+      "modern_vertex": 7,
+      "modern_properties": {
+        "OBJECTID": 23383,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 3759.329871655344
+      },
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        3100,
+        2300
+      ],
+      "identity_evidence": "Chapel Island southernmost outer coast tip",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted"
+    },
+    {
+      "lonlat": [
+        -60.811033025299906,
+        45.59478487384901
+      ],
+      "guide_xy": [
+        2148.3542021953035,
+        5986.162261966616
+      ],
+      "modern_objectid": 22481,
+      "modern_part": 0,
+      "modern_vertex": 190,
+      "modern_properties": {
+        "OBJECTID": 22481,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 3964.255856631327
+      },
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        2200,
+        5868
+      ],
+      "identity_evidence": "St Peters Island southernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "lonlat": [
+        -60.49065088772981,
+        45.622466249093534
+      ],
+      "guide_xy": [
+        9181.6391918445,
+        5121.1746483256575
+      ],
+      "modern_objectid": 22545,
+      "modern_part": 0,
+      "modern_vertex": 100,
+      "modern_properties": {
+        "OBJECTID": 22545,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 1655.0622978606282
+      },
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        9296,
+        5075
+      ],
+      "identity_evidence": "Saint Esprit Island northernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "lonlat": [
+        -60.519080002362756,
+        45.62675552000971
+      ],
+      "guide_xy": [
+        8557.540524130221,
+        4987.143510736991
+      ],
+      "modern_objectid": 5496,
+      "modern_part": 0,
+      "modern_vertex": 49,
+      "modern_properties": {
+        "OBJECTID": 5496,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 335.14593306313327
+      },
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        8603,
+        4964
+      ],
+      "identity_evidence": "Kemp Point southernmost tip",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        6925,
+        1665
+      ],
+      "lonlat": [
+        -60.5938789,
+        45.7323726
+      ],
+      "modern_node_id": "J0188",
+      "modern_objectids": [
+        132805,
+        132806,
+        310800
+      ],
+      "identity_evidence": "Grand River northern head lake southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted"
+    },
+    {
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        6248,
+        1884
+      ],
+      "lonlat": [
+        -60.6227189,
+        45.727847
+      ],
+      "modern_node_id": "J0222",
+      "modern_objectids": [
+        161018,
+        161155,
+        194983
+      ],
+      "identity_evidence": "Grand River upper eastern tributary junction",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted"
+    },
+    {
+      "lonlat": [
+        -60.68630974860301,
+        45.56615932702436
+      ],
+      "guide_xy": [
+        4886.379350867122,
+        6880.65334914322
+      ],
+      "modern_objectid": 8448,
+      "modern_part": 0,
+      "modern_vertex": 92,
+      "modern_properties": {
+        "OBJECTID": 8448,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 984.6707889470143
+      },
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        5055,
+        6655
+      ],
+      "identity_evidence": "Michaux Point southernmost outer mainland coast",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted"
+    }
+  ]
+}

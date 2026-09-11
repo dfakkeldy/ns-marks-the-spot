@@ -1,0 +1,137 @@
+[
+  {
+    "image": "northwest-inlet.jpg",
+    "lonlat_bounds": [
+      -60.85,
+      45.694,
+      -60.725,
+      45.751
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "upper-grand-river.jpg",
+    "lonlat_bounds": [
+      -60.7,
+      45.699,
+      -60.58,
+      45.751
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "northeast-unexplored.jpg",
+    "lonlat_bounds": [
+      -60.6,
+      45.685,
+      -60.46,
+      45.751
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "central-grand-river.jpg",
+    "lonlat_bounds": [
+      -60.69,
+      45.625,
+      -60.61,
+      45.704
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "western-lakes.jpg",
+    "lonlat_bounds": [
+      -60.85,
+      45.616,
+      -60.74,
+      45.674
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southwest-island.jpg",
+    "lonlat_bounds": [
+      -60.84,
+      45.584,
+      -60.75,
+      45.631
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "ferguson-lake.jpg",
+    "lonlat_bounds": [
+      -60.635,
+      45.625,
+      -60.54,
+      45.671
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "saint-esprit-coast.jpg",
+    "lonlat_bounds": [
+      -60.56,
+      45.608,
+      -60.465,
+      45.664
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southern-extensions.jpg",
+    "lonlat_bounds": [
+      -60.755,
+      45.55,
+      -60.655,
+      45.606
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

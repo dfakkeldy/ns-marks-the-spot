@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-20-Q04.jpg",
+    "point_record": "sheet20/diagnostic-corrected-v2.json",
+    "point_id": "Q04",
+    "native_box": [
+      8111,
+      4317,
+      8331,
+      4537
+    ],
+    "native_coordinates": [
+      8221,
+      4427
+    ],
+    "modern_lonlat": [
+      -60.5346714,
+      45.6405475
+    ],
+    "rotation_degrees": 0
+  }
+]

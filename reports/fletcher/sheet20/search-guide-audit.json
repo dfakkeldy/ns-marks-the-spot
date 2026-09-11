@@ -1,0 +1,8 @@
+{
+  "original_file": "tools/fletcher/observations/sheet-20.json",
+  "original_sha256": "f2de86df98bdb05f54fdaf9cec62381731c449f2813f67b5940d98c66eba4490",
+  "original_unchanged": true,
+  "issue": "Old latitude values 45d50 at y3740 and 45d45 at y6344 are 10 minutes north of actual native labels 45d40 and 45d35. Original top latitude also unsupported. New guide uses only inspected printed parallels.",
+  "new_guide": "search-guide.json",
+  "physical_controls": false
+}

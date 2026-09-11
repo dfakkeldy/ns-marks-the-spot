@@ -1,0 +1,80 @@
+[
+  {
+    "name": "northwest",
+    "native_box": [
+      1450,
+      1080,
+      4400,
+      3000
+    ],
+    "source_image": "northwest-grid.jpg",
+    "modern_image": "northwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Separately audited search guide only, not a physical control or warped-image proof. Filled modern lakes are reference geometry."
+  },
+  {
+    "name": "central",
+    "native_box": [
+      4300,
+      3000,
+      7000,
+      4800
+    ],
+    "source_image": "central-grid.jpg",
+    "modern_image": "central-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Separately audited search guide only, not a physical control or warped-image proof. Filled modern lakes are reference geometry."
+  },
+  {
+    "name": "southwest",
+    "native_box": [
+      1450,
+      3650,
+      4800,
+      6300
+    ],
+    "source_image": "southwest-grid.jpg",
+    "modern_image": "southwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Separately audited search guide only, not a physical control or warped-image proof. Filled modern lakes are reference geometry."
+  },
+  {
+    "name": "southeast",
+    "native_box": [
+      6200,
+      3800,
+      9650,
+      5750
+    ],
+    "source_image": "southeast-grid.jpg",
+    "modern_image": "southeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Separately audited search guide only, not a physical control or warped-image proof. Filled modern lakes are reference geometry."
+  },
+  {
+    "name": "north-central",
+    "native_box": [
+      4200,
+      1150,
+      7200,
+      2950
+    ],
+    "source_image": "north-central-grid.jpg",
+    "modern_image": "north-central-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Separately audited search guide only, not a physical control or warped-image proof. Filled modern lakes are reference geometry."
+  },
+  {
+    "name": "southern-extension",
+    "native_box": [
+      3500,
+      6000,
+      5500,
+      6950
+    ],
+    "source_image": "southern-extension-grid.jpg",
+    "modern_image": "southern-extension-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Separately audited search guide only, not a physical control or warped-image proof. Filled modern lakes are reference geometry."
+  }
+]
