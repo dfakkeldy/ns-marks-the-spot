@@ -1,0 +1,10 @@
+{
+  "fit_sha256": "18157a6f3361eeb1a9be31c476769796d4ea0705bdb82ea87645289634b7264f",
+  "frozen_at_utc": "2026-09-11T11:43:14.858595+00:00",
+  "controls": 26,
+  "fresh_checks_selected": 0,
+  "criteria_ground_m": {
+    "median": 100,
+    "worst": 200
+  }
+}

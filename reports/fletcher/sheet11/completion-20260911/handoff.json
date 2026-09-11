@@ -1,0 +1,33 @@
+{
+  "sheet": "sheet-11",
+  "status": "provisional-geography-not-accepted",
+  "source_pixels": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/native/sheet11.png",
+    "sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+    "dimensions": [
+      10771,
+      7551
+    ],
+    "coordinates": "Original native scan pixel x right, y down. Do not use preview or warped pixel coordinates."
+  },
+  "transform": {
+    "fit_file": "western-fit.json",
+    "fit_sha256": "18157a6f3361eeb1a9be31c476769796d4ea0705bdb82ea87645289634b7264f",
+    "method": "GDAL exact TPS in EPSG:3857; five projected metre output cells",
+    "controls": 26
+  },
+  "diagnostics_file": "western-diagnostics.json",
+  "fresh_validation_file": "western-validation-checks.json",
+  "raster_receipt": "raster-receipt.json",
+  "import_controls": "sheet-11-controls.csv",
+  "label_projection_allowed": false,
+  "label_draft_policy": "Keep source pixel coordinates, original spelling, source identity and this transform hash attached to any future draft. Do not treat geographic output as production accepted.",
+  "next_work": [
+    "Fresh replacement checks fail: V06 western interior 154.079 m; V07 river-bank tributary 408.093 m. V07 island/channel identity or historical change remains unresolved; retain failure.",
+    "Ten reused diagnostic median 100.488 m remains above 100 m goal; worst 174.240 m. No rounding into acceptance.",
+    "W03 is failed V05 converted to control; T01 is an earlier failed check converted to control. Neither is independent validation.",
+    "Q03 Grey headwater precise fork remains ambiguous and retained as diagnostic only.",
+    "Actual Sheet11\u201314 coastal and interior joins remain discontinuous; Sheet09 join also remains provisional.",
+    "Whole-sheet geographic acceptance remains blocked; no tiling or production label projection."
+  ]
+}
