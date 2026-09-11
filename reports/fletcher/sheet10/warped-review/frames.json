@@ -1,0 +1,167 @@
+[
+  {
+    "image": "upper-middle.jpg",
+    "lonlat_bounds": [
+      -60.86,
+      46.39,
+      -60.7,
+      46.45
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet10/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "lower-middle.jpg",
+    "lonlat_bounds": [
+      -60.8,
+      46.33,
+      -60.68,
+      46.4
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet10/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "west-branch.jpg",
+    "lonlat_bounds": [
+      -60.86,
+      46.31,
+      -60.68,
+      46.37
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet10/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "upper-barasois.jpg",
+    "lonlat_bounds": [
+      -60.7,
+      46.4,
+      -60.6,
+      46.45
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet10/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "barasois-mckay.jpg",
+    "lonlat_bounds": [
+      -60.66,
+      46.35,
+      -60.56,
+      46.41
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet10/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "bentinck-extension.jpg",
+    "lonlat_bounds": [
+      -60.54,
+      46.39,
+      -60.45,
+      46.45
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet10/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "indian-mcaskill.jpg",
+    "lonlat_bounds": [
+      -60.58,
+      46.35,
+      -60.46,
+      46.42
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet10/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "baddeck-lakes.jpg",
+    "lonlat_bounds": [
+      -60.83,
+      46.27,
+      -60.68,
+      46.33
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet10/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "north-river.jpg",
+    "lonlat_bounds": [
+      -60.67,
+      46.27,
+      -60.58,
+      46.36
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet10/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "st-anns-beacon.jpg",
+    "lonlat_bounds": [
+      -60.6,
+      46.27,
+      -60.47,
+      46.35
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet10/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "full-sheet.jpg",
+    "lonlat_bounds": [
+      -60.89,
+      46.25,
+      -60.42,
+      46.47
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet10/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

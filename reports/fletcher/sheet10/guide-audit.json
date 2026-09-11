@@ -1,0 +1,8 @@
+{
+  "original_observation": "tools/fletcher/observations/sheet-10.json",
+  "original_sha256": "9cbf3a2e28ac9e8fa304e98f0445e9dfd9ec04d561c5200f7b8ee3998c282fc3",
+  "original_unchanged": true,
+  "guide_method": "Original ten individually measured slanted grid intersections; affine search guidance only, not physical evidence.",
+  "native_label_review": "Both 46 degrees 25 / 46 degrees 20 north labels and outer 60 degrees 50 / 60 degrees 30 west labels personally read.",
+  "source_encoding": "New native-region PNG assembly; original July hash and files retained separately."
+}

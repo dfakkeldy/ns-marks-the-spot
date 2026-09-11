@@ -1,0 +1,131 @@
+{
+  "sheet": "sheet-10",
+  "fit_sha256": "1aa0ede8ec06ee965a390fd30bcb4e07c7a679c0b28a58242e977191ccd77cff",
+  "points": [
+    {
+      "lonlat": [
+        -60.8074007,
+        46.4042343
+      ],
+      "source_guide_xy": [
+        2298.112511459971,
+        2402.4568610799033
+      ],
+      "objectids": [
+        201861,
+        273491,
+        273492
+      ],
+      "id": "Q01",
+      "role": "check",
+      "modern_node_id": "J0963",
+      "pixel_xy": [
+        2554,
+        2603
+      ],
+      "identity_evidence": "Northern branch confluence on long western tributary of Middle River",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    },
+    {
+      "lonlat": [
+        -60.6573321,
+        46.4371696
+      ],
+      "source_guide_xy": [
+        5539.837614540476,
+        1389.8835247601382
+      ],
+      "objectids": [
+        187736,
+        276357,
+        276478
+      ],
+      "id": "Q02",
+      "role": "check",
+      "modern_node_id": "J0584",
+      "pixel_xy": [
+        5660,
+        1387
+      ],
+      "identity_evidence": "Upper Barasois Brook northern fork",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    },
+    {
+      "lonlat": [
+        -60.6139002,
+        46.3162515
+      ],
+      "source_guide_xy": [
+        6469.583919720491,
+        5160.923250400461
+      ],
+      "objectids": [
+        187298,
+        280104,
+        280105
+      ],
+      "id": "Q03",
+      "role": "check",
+      "modern_node_id": "J1719",
+      "pixel_xy": [
+        6485,
+        5185
+      ],
+      "identity_evidence": "Elders Brook joining North River from east",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    },
+    {
+      "lonlat": [
+        -60.5462741,
+        46.3080307
+      ],
+      "source_guide_xy": [
+        7928.922883020714,
+        5423.123690920416
+      ],
+      "objectids": [
+        5980,
+        5981,
+        187593
+      ],
+      "id": "Q04",
+      "role": "check",
+      "modern_node_id": "J1778",
+      "pixel_xy": [
+        8030,
+        5355
+      ],
+      "identity_evidence": "Brook mouth on west St Anns shore north of Beacon spit",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    },
+    {
+      "lonlat": [
+        -60.7374714,
+        46.3006591
+      ],
+      "source_guide_xy": [
+        3800.992609320674,
+        5635.573708960321
+      ],
+      "objectids": [
+        125268,
+        125269,
+        294986
+      ],
+      "id": "Q05",
+      "role": "check",
+      "modern_node_id": "J1832",
+      "pixel_xy": [
+        4000,
+        5915
+      ],
+      "identity_evidence": "Baddeck Lakes northern inlet",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    }
+  ]
+}

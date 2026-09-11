@@ -1,0 +1,24 @@
+{
+  "source_sha256": "492a7b5b6cf6e0b33576c5b9489bc9bd91bc43d8f0f63a125c44225929fcab46",
+  "native_dimensions": [
+    10782,
+    7612
+  ],
+  "rotation_degrees": 0,
+  "image": "boundary-overview.jpg",
+  "extension_native_boxes": [
+    [
+      9480,
+      1080,
+      10200,
+      2350
+    ],
+    [
+      6750,
+      6320,
+      7330,
+      6700
+    ]
+  ],
+  "status": "Full native overview, corners, coordinate labels and both extensions personally inspected. One continuous ring retains Bentinck Point and its labels to the northeast, and the southern St Anns point. Whitespace and incidental marginal text retained."
+}
