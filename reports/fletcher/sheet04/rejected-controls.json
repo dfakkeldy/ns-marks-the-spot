@@ -1,0 +1,72 @@
+{
+  "sheet": "sheet-04",
+  "points": [
+    {
+      "lonlat": [
+        -60.431786,
+        46.6564322
+      ],
+      "source_guide_xy": [
+        1978.8160895991605,
+        5268.648818400456
+      ],
+      "objectids": [
+        171104,
+        171105,
+        191369
+      ],
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        2020,
+        5240
+      ],
+      "modern_node_id": "J0705",
+      "identity_evidence": "Clyburn Brook northern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Rejected and unscored",
+      "rejection_reason": "Native northern tributary meets or is obscured by road before the river; exact junction and branch order are not established."
+    },
+    {
+      "lonlat": [
+        -60.34879597526248,
+        46.65555015776002
+      ],
+      "guide_xy": [
+        3778.570962067228,
+        5296.369641918456
+      ],
+      "modern_objectid": 22540,
+      "modern_part": 0,
+      "modern_vertex": 24,
+      "modern_properties": {
+        "OBJECTID": 22540,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 290.3336962185983
+      },
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        3850,
+        5160
+      ],
+      "identity_evidence": "Middle Head easternmost tip",
+      "selection_box_source_guide": [
+        3700,
+        5240,
+        3830,
+        5400
+      ],
+      "selection_axis": 0,
+      "selection_direction": "max",
+      "source_uncertainty_px": 20,
+      "status": "Rejected and unscored",
+      "rejection_reason": "Modern selected eastern tip is coastal island 22540; historical target is attached Middle Head peninsula. Exact corresponding mainland/island tip is not established."
+    }
+  ]
+}

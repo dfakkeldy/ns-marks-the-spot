@@ -1,0 +1,341 @@
+{
+  "sheet": "sheet-04",
+  "source_sha256": "6f6a3436e048c23cc5c8d8aef1382be9803801bac401c2cdae285e0ed30399cf",
+  "points": [
+    {
+      "lonlat": [
+        -60.4012006,
+        46.7703941
+      ],
+      "source_guide_xy": [
+        2642.1033081589267,
+        1687.0542252005544
+      ],
+      "objectids": [
+        165109,
+        170610,
+        178998
+      ],
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        2716,
+        1468
+      ],
+      "modern_node_id": "J0235",
+      "identity_evidence": "Black Brook / historical Pine Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "initial_pixel_xy": [
+        2710,
+        1476
+      ],
+      "correction": "Move onto northern-bank junction; bank width remains an uncertainty. Tributary lengths differ."
+    },
+    {
+      "lonlat": [
+        -60.3640754,
+        46.7612864
+      ],
+      "source_guide_xy": [
+        3447.2152454392053,
+        1973.2910208003595
+      ],
+      "objectids": [
+        180514,
+        274084,
+        315647
+      ],
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        3560,
+        1910
+      ],
+      "modern_node_id": "J0285",
+      "identity_evidence": "Mary Ann Brook western tributary below Black Brook",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "initial_pixel_xy": [
+        3555,
+        1904
+      ],
+      "correction": "Move onto western tributary junction. The next upstream western tributary is shorter historically; local order supports correspondence."
+    },
+    {
+      "lonlat": [
+        -60.3837889,
+        46.7125753
+      ],
+      "source_guide_xy": [
+        3019.7003990390804,
+        3504.183471600525
+      ],
+      "objectids": [
+        141323,
+        141416,
+        282271
+      ],
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        3135,
+        3504
+      ],
+      "modern_node_id": "J0495",
+      "identity_evidence": "Warren Lake eastern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "initial_pixel_xy": [
+        3130,
+        3495
+      ],
+      "correction": "Move onto lake outlet rather than adjacent land. Lake shape and outlet reach differ."
+    },
+    {
+      "lonlat": [
+        -60.3975972,
+        46.715591
+      ],
+      "source_guide_xy": [
+        2720.2480819190387,
+        3409.406052000122
+      ],
+      "objectids": [
+        141322,
+        141323,
+        191001
+      ],
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        2821,
+        3401
+      ],
+      "modern_node_id": "J0480",
+      "identity_evidence": "Warren Lake northern inlet",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "initial_pixel_xy": [
+        2830,
+        3420
+      ],
+      "correction": "Move from the southern peninsula onto the northern inlet; modern extra tributaries and lake shape differ."
+    },
+    {
+      "lonlat": [
+        -60.4323147,
+        46.6880015
+      ],
+      "source_guide_xy": [
+        1967.3504899193067,
+        4276.488858000375
+      ],
+      "objectids": [
+        191549,
+        261648,
+        261767
+      ],
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        2123,
+        4235
+      ],
+      "modern_node_id": "J0598",
+      "identity_evidence": "Cameron Brook northern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "initial_pixel_xy": [
+        2110,
+        4220
+      ],
+      "correction": "Move from northern arm onto confluence. North/south tributary order supports identity; historical arms are shorter."
+    },
+    {
+      "lonlat": [
+        -60.343462677293964,
+        46.70099250465348
+      ],
+      "guide_xy": [
+        3894.2309951316565,
+        3868.2075637509115
+      ],
+      "modern_objectid": 9454,
+      "modern_part": 0,
+      "modern_vertex": 14,
+      "modern_properties": {
+        "OBJECTID": 9454,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 9999,
+        "FID": null,
+        "SHAPE_Length": 104.52818657412439
+      },
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        3990,
+        3853
+      ],
+      "identity_evidence": "Archibald Point / Red Head easternmost tip",
+      "selection_box_source_guide": [
+        3800,
+        3750,
+        3950,
+        3950
+      ],
+      "selection_axis": 0,
+      "selection_direction": "max",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "initial_pixel_xy": [
+        3995,
+        3840
+      ],
+      "correction": "Move from sea onto easternmost headland; historical rounded point differs from fine modern outline."
+    },
+    {
+      "lonlat": [
+        -60.34373300982762,
+        46.68711297816827
+      ],
+      "guide_xy": [
+        3888.368455673801,
+        4304.41332212789
+      ],
+      "modern_objectid": 17782,
+      "modern_part": 0,
+      "modern_vertex": 135,
+      "modern_properties": {
+        "OBJECTID": 17782,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.5,
+        "FID": null,
+        "SHAPE_Length": 1052.2240839301382
+      },
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        3957,
+        4248
+      ],
+      "identity_evidence": "Ingonish Island northernmost headland",
+      "selection_box_source_guide": [
+        3800,
+        4280,
+        4070,
+        4500
+      ],
+      "selection_axis": 1,
+      "selection_direction": "max",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "initial_pixel_xy": [
+        3990,
+        4255
+      ],
+      "correction": "Initial world point was offshore rock 21509. Corrected to northernmost vertex of connected Ingonish Island shoreline component seeded at 17782; move native pixel to northern lobe.",
+      "initial_modern_record": {
+        "lonlat": [
+          -60.33646379076963,
+          46.6877592649558
+        ],
+        "guide_xy": [
+          4046.011647853069,
+          4284.1018209694885
+        ],
+        "modern_objectid": 21509,
+        "modern_part": 0,
+        "modern_vertex": 7,
+        "modern_properties": {
+          "OBJECTID": 21509,
+          "FEAT_CODE": "WACOIS10",
+          "FEAT_DESC": "Coastal Island - Water to the right line",
+          "RIVNAME_1": " ",
+          "RIVNAME_2": " ",
+          "ZVALUE": 0.5,
+          "FID": null,
+          "SHAPE_Length": 107.18883122161999
+        }
+      }
+    },
+    {
+      "lonlat": [
+        -60.35009258026133,
+        46.62765541169051
+      ],
+      "guide_xy": [
+        3750.4522674202453,
+        6173.04572139075
+      ],
+      "modern_objectid": 10612,
+      "modern_part": 0,
+      "modern_vertex": 22,
+      "modern_properties": {
+        "OBJECTID": 10612,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.5,
+        "FID": null,
+        "SHAPE_Length": 197.86333214289647
+      },
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        3862,
+        6122
+      ],
+      "identity_evidence": "Smoky Cape northern eastern headland",
+      "selection_box_source_guide": [
+        3670,
+        6090,
+        3820,
+        6220
+      ],
+      "selection_axis": 0,
+      "selection_direction": "max",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "initial_pixel_xy": [
+        3840,
+        6075
+      ],
+      "correction": "Initial world point was offshore rock 20224. Corrected to mainland coast WACO20 eastern tip behind rock; move native pixel onto eastern extremity of rounded cape. Modern small rocks and detailed outline differ.",
+      "initial_modern_record": {
+        "lonlat": [
+          -60.349665645933506,
+          46.62733546042169
+        ],
+        "guide_xy": [
+          3759.710936027346,
+          6183.101149867289
+        ],
+        "modern_objectid": 20224,
+        "modern_part": 0,
+        "modern_vertex": 24,
+        "modern_properties": {
+          "OBJECTID": 20224,
+          "FEAT_CODE": "WACOIS10",
+          "FEAT_DESC": "Coastal Island - Water to the right line",
+          "RIVNAME_1": " ",
+          "RIVNAME_2": " ",
+          "ZVALUE": 0.5,
+          "FID": null,
+          "SHAPE_Length": 209.3692659316266
+        }
+      }
+    }
+  ],
+  "source_width": 10629,
+  "source_height": 7603,
+  "method": "Eight reviewed physical river/lake junctions and headlands. Prior printed grid is search-only.",
+  "prior_control_count": 0
+}

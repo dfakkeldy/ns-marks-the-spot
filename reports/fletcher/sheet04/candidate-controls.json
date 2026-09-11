@@ -1,0 +1,316 @@
+{
+  "sheet": "sheet-04",
+  "source_sha256": "6f6a3436e048c23cc5c8d8aef1382be9803801bac401c2cdae285e0ed30399cf",
+  "points": [
+    {
+      "lonlat": [
+        -60.4012006,
+        46.7703941
+      ],
+      "source_guide_xy": [
+        2642.1033081589267,
+        1687.0542252005544
+      ],
+      "objectids": [
+        165109,
+        170610,
+        178998
+      ],
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        2710,
+        1476
+      ],
+      "modern_node_id": "J0235",
+      "identity_evidence": "Black Brook / historical Pine Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.3640754,
+        46.7612864
+      ],
+      "source_guide_xy": [
+        3447.2152454392053,
+        1973.2910208003595
+      ],
+      "objectids": [
+        180514,
+        274084,
+        315647
+      ],
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        3555,
+        1904
+      ],
+      "modern_node_id": "J0285",
+      "identity_evidence": "Mary Ann Brook western tributary below Black Brook",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.3837889,
+        46.7125753
+      ],
+      "source_guide_xy": [
+        3019.7003990390804,
+        3504.183471600525
+      ],
+      "objectids": [
+        141323,
+        141416,
+        282271
+      ],
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        3130,
+        3495
+      ],
+      "modern_node_id": "J0495",
+      "identity_evidence": "Warren Lake eastern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.3975972,
+        46.715591
+      ],
+      "source_guide_xy": [
+        2720.2480819190387,
+        3409.406052000122
+      ],
+      "objectids": [
+        141322,
+        141323,
+        191001
+      ],
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        2830,
+        3420
+      ],
+      "modern_node_id": "J0480",
+      "identity_evidence": "Warren Lake northern inlet",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.4323147,
+        46.6880015
+      ],
+      "source_guide_xy": [
+        1967.3504899193067,
+        4276.488858000375
+      ],
+      "objectids": [
+        191549,
+        261648,
+        261767
+      ],
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        2110,
+        4220
+      ],
+      "modern_node_id": "J0598",
+      "identity_evidence": "Cameron Brook northern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.431786,
+        46.6564322
+      ],
+      "source_guide_xy": [
+        1978.8160895991605,
+        5268.648818400456
+      ],
+      "objectids": [
+        171104,
+        171105,
+        191369
+      ],
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        2020,
+        5240
+      ],
+      "modern_node_id": "J0705",
+      "identity_evidence": "Clyburn Brook northern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial physical proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.343462677293964,
+        46.70099250465348
+      ],
+      "guide_xy": [
+        3894.2309951316565,
+        3868.2075637509115
+      ],
+      "modern_objectid": 9454,
+      "modern_part": 0,
+      "modern_vertex": 14,
+      "modern_properties": {
+        "OBJECTID": 9454,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 9999,
+        "FID": null,
+        "SHAPE_Length": 104.52818657412439
+      },
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        3995,
+        3840
+      ],
+      "identity_evidence": "Archibald Point / Red Head easternmost tip",
+      "selection_box_source_guide": [
+        3800,
+        3750,
+        3950,
+        3950
+      ],
+      "selection_axis": 0,
+      "selection_direction": "max",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial coastal proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.33646379076963,
+        46.6877592649558
+      ],
+      "guide_xy": [
+        4046.011647853069,
+        4284.1018209694885
+      ],
+      "modern_objectid": 21509,
+      "modern_part": 0,
+      "modern_vertex": 7,
+      "modern_properties": {
+        "OBJECTID": 21509,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.5,
+        "FID": null,
+        "SHAPE_Length": 107.18883122161999
+      },
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        3990,
+        4255
+      ],
+      "identity_evidence": "Ingonish Island northernmost headland",
+      "selection_box_source_guide": [
+        3800,
+        4280,
+        4070,
+        4500
+      ],
+      "selection_axis": 1,
+      "selection_direction": "max",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial coastal proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.34879597526248,
+        46.65555015776002
+      ],
+      "guide_xy": [
+        3778.570962067228,
+        5296.369641918456
+      ],
+      "modern_objectid": 22540,
+      "modern_part": 0,
+      "modern_vertex": 24,
+      "modern_properties": {
+        "OBJECTID": 22540,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 290.3336962185983
+      },
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        3850,
+        5160
+      ],
+      "identity_evidence": "Middle Head easternmost tip",
+      "selection_box_source_guide": [
+        3700,
+        5240,
+        3830,
+        5400
+      ],
+      "selection_axis": 0,
+      "selection_direction": "max",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial coastal proposal; no fit scored."
+    },
+    {
+      "lonlat": [
+        -60.349665645933506,
+        46.62733546042169
+      ],
+      "guide_xy": [
+        3759.710936027346,
+        6183.101149867289
+      ],
+      "modern_objectid": 20224,
+      "modern_part": 0,
+      "modern_vertex": 24,
+      "modern_properties": {
+        "OBJECTID": 20224,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.5,
+        "FID": null,
+        "SHAPE_Length": 209.3692659316266
+      },
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        3840,
+        6075
+      ],
+      "identity_evidence": "Smoky Cape northern eastern headland",
+      "selection_box_source_guide": [
+        3670,
+        6090,
+        3820,
+        6220
+      ],
+      "selection_axis": 0,
+      "selection_direction": "max",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial coastal proposal; no fit scored."
+    }
+  ]
+}

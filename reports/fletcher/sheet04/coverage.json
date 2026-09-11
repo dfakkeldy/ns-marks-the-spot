@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+  "raster_sha256": "e62f084f1bb73de336d9e1740337701812c5c607155ec689b7e6aed82b54dd10",
+  "cutline_sha256": "19f715068fc1a316a68a85e4693ccd78fc846a3537793315ec0fe5d210f074cb",
+  "expected_interior_cells": 47309533,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

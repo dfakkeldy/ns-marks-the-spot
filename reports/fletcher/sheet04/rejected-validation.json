@@ -1,0 +1,31 @@
+{
+  "sheet": "sheet-04",
+  "points": [
+    {
+      "lonlat": [
+        -60.4433207,
+        46.6249802
+      ],
+      "source_guide_xy": [
+        1728.6699715193827,
+        6257.122274400201
+      ],
+      "objectids": [
+        169145,
+        169146,
+        191340
+      ],
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        1920,
+        6250
+      ],
+      "modern_node_id": "J0821",
+      "identity_evidence": "Ingonish River western tributary above harbour",
+      "source_uncertainty_px": 20,
+      "status": "Rejected and unscored",
+      "rejection_reason": "Initial pixel lies on land at the McKinnon label. Historical short southern branches do not establish the proposed modern western-arm confluence; main/tributary topology differs."
+    }
+  ]
+}
