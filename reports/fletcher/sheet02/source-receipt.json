@@ -1,0 +1,283 @@
+{
+  "sheet": "sheet-02",
+  "rumsey_id": "RUMSEY~8~1~2627~280041",
+  "manifest_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2627~280041/manifest",
+  "manifest_sha256": "15afb0912fca28e5e847d9cbab505754a469e98040136eb924b41e2e010faa00",
+  "manifest_label": "Province of Nova Scotia (Island of Cape Breton). Sheet no. 2.",
+  "attribution": "David Rumsey Historical Map Collection",
+  "license": null,
+  "source_path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/sheet02.png",
+  "source_sha256": "b4094db3ab94e60e3f30727c7edb97d6ac66e19a7e640c3a5ce3b339b91e1922",
+  "native_dimensions": [
+    10829,
+    7582
+  ],
+  "tif_sha256": "d85195fdc904dca6de48d11f18272bd78480dccd3411ff63e8b5898a959b67de",
+  "retrieved_date": "2026-09-11",
+  "regions": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/000000_000000_002048_002048.jpg",
+      "native_rect": [
+        0,
+        0,
+        2048,
+        2048
+      ],
+      "sha256": "124d4c12cf36cda2e33d749593ca3fcb21cf7a6c36d592a7e1154b9c42286b78",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/002048_000000_002048_002048.jpg",
+      "native_rect": [
+        2048,
+        0,
+        2048,
+        2048
+      ],
+      "sha256": "a471a9e8e4461b87624dc61361d507319e7b0f7f2d0a0aee79f8e3cfbb69f728",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/004096_000000_002048_002048.jpg",
+      "native_rect": [
+        4096,
+        0,
+        2048,
+        2048
+      ],
+      "sha256": "a3f38a0551fe74988e840c8f57de74c082118392387cd2835f7b1e76b44041ba",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/006144_000000_002048_002048.jpg",
+      "native_rect": [
+        6144,
+        0,
+        2048,
+        2048
+      ],
+      "sha256": "3e0aa4e25c7e95e6b3a799d9666f6be0c4ff2a4e8607c907225dce06740982f8",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/008192_000000_002048_002048.jpg",
+      "native_rect": [
+        8192,
+        0,
+        2048,
+        2048
+      ],
+      "sha256": "2a1ad2407291df02d4d12d3e888f850a771ba1fca0784b501fceae0b75b901ca",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/010240_000000_000589_002048.jpg",
+      "native_rect": [
+        10240,
+        0,
+        589,
+        2048
+      ],
+      "sha256": "dbb415df61dd57351adc7dbc6fbc5cea5aa76e04f0174c754125ff56c34757ee",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/000000_002048_002048_002048.jpg",
+      "native_rect": [
+        0,
+        2048,
+        2048,
+        2048
+      ],
+      "sha256": "58a1529839dd5e5bc24890faa436acbd21517713197f29c848e9ccd36c47a533",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/002048_002048_002048_002048.jpg",
+      "native_rect": [
+        2048,
+        2048,
+        2048,
+        2048
+      ],
+      "sha256": "005901acfba9655913fbe95916ea5d5f2c16826b156df86c0cb3473b44795b46",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/004096_002048_002048_002048.jpg",
+      "native_rect": [
+        4096,
+        2048,
+        2048,
+        2048
+      ],
+      "sha256": "0e681eda0a94ef12b5845f6bc09c7e1a12dd459fe05ce426bab433b83bce5654",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/006144_002048_002048_002048.jpg",
+      "native_rect": [
+        6144,
+        2048,
+        2048,
+        2048
+      ],
+      "sha256": "ed26caa22202a81907343383a376f253a0992058b4597c57f2192a6bb5ba9176",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/008192_002048_002048_002048.jpg",
+      "native_rect": [
+        8192,
+        2048,
+        2048,
+        2048
+      ],
+      "sha256": "e796e333cc7d7aed77cf238288135cb93cc2cce5913d88d7873569d06f716a12",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/010240_002048_000589_002048.jpg",
+      "native_rect": [
+        10240,
+        2048,
+        589,
+        2048
+      ],
+      "sha256": "4348956fa4c5e4fbba3088e6c096f005bfe1400a7fb9e456d3ad874ffe1d18fb",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/000000_004096_002048_002048.jpg",
+      "native_rect": [
+        0,
+        4096,
+        2048,
+        2048
+      ],
+      "sha256": "15cb4eee9a5c22deeb4fcb67bbc89970ec4791f2065a2f9c831f753ccfef9088",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/002048_004096_002048_002048.jpg",
+      "native_rect": [
+        2048,
+        4096,
+        2048,
+        2048
+      ],
+      "sha256": "679fbdc819d99643bd3da16125c34e9fbb66b39f3433d2a8372f21f01477a9d5",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/004096_004096_002048_002048.jpg",
+      "native_rect": [
+        4096,
+        4096,
+        2048,
+        2048
+      ],
+      "sha256": "3cc07b0066e42a6c2da0fc9bdf4b38e86e29c9ddcd50e2c593e3155e893feb90",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/006144_004096_002048_002048.jpg",
+      "native_rect": [
+        6144,
+        4096,
+        2048,
+        2048
+      ],
+      "sha256": "b078b8f22bf82e06309431812a4f678a934030e848cc754bea830a8cc3ebb0ea",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/008192_004096_002048_002048.jpg",
+      "native_rect": [
+        8192,
+        4096,
+        2048,
+        2048
+      ],
+      "sha256": "d190f56d9a5d2ca586b5f48ed75a2d5d1349f26e31e57417880f71de2ac5c3df",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/010240_004096_000589_002048.jpg",
+      "native_rect": [
+        10240,
+        4096,
+        589,
+        2048
+      ],
+      "sha256": "d074f6cb76b4a30420845d3036837c222f21c3f4f6979a07e84083b613390d96",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/000000_006144_002048_001438.jpg",
+      "native_rect": [
+        0,
+        6144,
+        2048,
+        1438
+      ],
+      "sha256": "c88bca11fff19a1ee96e03c1a733a276bb79c87d27cddfaf5bf751d9ac71c7b6",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/002048_006144_002048_001438.jpg",
+      "native_rect": [
+        2048,
+        6144,
+        2048,
+        1438
+      ],
+      "sha256": "fd2a2e7b977036e2e542159d8cf02fdb7bf71465ce1800e191edc828a6076448",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/004096_006144_002048_001438.jpg",
+      "native_rect": [
+        4096,
+        6144,
+        2048,
+        1438
+      ],
+      "sha256": "9f5ff5b69eda0c2cc1bb7182dca2d73426b3f0f18c9e75d979be5eace875277b",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/006144_006144_002048_001438.jpg",
+      "native_rect": [
+        6144,
+        6144,
+        2048,
+        1438
+      ],
+      "sha256": "2db1a89d91806b19845e100d7dd692bb713561c884d4bb40017c461da4e518fa",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/008192_006144_002048_001438.jpg",
+      "native_rect": [
+        8192,
+        6144,
+        2048,
+        1438
+      ],
+      "sha256": "27fb0415504b82b75c556c8e222a4b02e9fa5d0a5c0f5ae3c23ef5d4d0ac3a99",
+      "pixel_parity_verified": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/native/parts/010240_006144_000589_001438.jpg",
+      "native_rect": [
+        10240,
+        6144,
+        589,
+        1438
+      ],
+      "sha256": "1949cc768e10a09bc61c0fa6a9821d727589974f43581df12884b225784ca0ef",
+      "pixel_parity_verified": true
+    }
+  ]
+}

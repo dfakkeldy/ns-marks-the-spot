@@ -1,0 +1,3 @@
+from pathlib import Path
+import json
+D=Path('reports/fletcher/sheet02');p=json.loads((D/'candidate-diagnostics.json').read_text());reject=p['points'][1];reject['rejection_reason']='Historical short northern tributary does not establish the modern long western branch / divided channel geometry. Rejected unscored after close and wide review.';(D/'rejected-diagnostics.json').write_text(json.dumps(dict(points=[reject]),indent=2)+'\n');p['points']=p['points'][:1];q=p['points'][0];q['original_pixel_xy']=q['pixel_xy'];q['pixel_xy']=[4568,5453];q['status']='Corrected mouth pixel; final crosshair pending inspection before scoring.';(D/'diagnostic-checks.json').write_text(json.dumps(p,indent=2)+'\n')
