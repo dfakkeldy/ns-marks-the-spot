@@ -1,0 +1,14 @@
+{
+  "tool": "reports/fletcher/full-sheets/render.py",
+  "tool_sha256": "7d08b133fd344d44ad30014510f361ccd3da22d0875a96f772a71d8bccc19067",
+  "base_commit_on_nightly_history": "fcd79889edae8c77500505bf0c41493b7c2623bc",
+  "source_receipt": "source-receipt.json",
+  "fit_sha256": "3d4a6d192eb87a343b649941518538f2ca108a25e20182055eadccfba2ff7981",
+  "boundary_sha256": "f7cd2eca10af9fb59a12d66abc02926d57f739f0da11b01f6eddc2822023f746",
+  "crs": "EPSG:3857",
+  "source_axis_order": "native image x,y",
+  "world_axis_order": "longitude,latitude",
+  "warp": "GDAL TPS -et 0 -r cubic -tr 5 5 -tap -dstalpha -cutline neatline.geojson -crop_to_cutline",
+  "initial_artifact": "initial-raster-receipt.json",
+  "current_artifact": "raster-receipt.json"
+}

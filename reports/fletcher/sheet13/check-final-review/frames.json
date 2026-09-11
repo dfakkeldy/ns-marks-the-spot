@@ -1,0 +1,142 @@
+[
+  {
+    "image": "sheet-13-Q01.jpg",
+    "point_record": "sheet13/checks.json",
+    "point_id": "Q01",
+    "native_box": [
+      2590,
+      1427,
+      2810,
+      1647
+    ],
+    "native_coordinates": [
+      2700,
+      1537
+    ],
+    "modern_lonlat": [
+      -61.1703457,
+      46.2564104
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-13-Q02.jpg",
+    "point_record": "sheet13/checks.json",
+    "point_id": "Q02",
+    "native_box": [
+      4512,
+      2885,
+      4732,
+      3105
+    ],
+    "native_coordinates": [
+      4622,
+      2995
+    ],
+    "modern_lonlat": [
+      -61.0793835,
+      46.2120159
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-13-Q03.jpg",
+    "point_record": "sheet13/checks.json",
+    "point_id": "Q03",
+    "native_box": [
+      8628,
+      2440,
+      8848,
+      2660
+    ],
+    "native_coordinates": [
+      8738,
+      2550
+    ],
+    "modern_lonlat": [
+      -60.890921,
+      46.2292303
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-13-Q04.jpg",
+    "point_record": "sheet13/checks.json",
+    "point_id": "Q04",
+    "native_box": [
+      5380,
+      3999,
+      5600,
+      4219
+    ],
+    "native_coordinates": [
+      5490,
+      4109
+    ],
+    "modern_lonlat": [
+      -61.0474967,
+      46.1746907
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-13-Q05.jpg",
+    "point_record": "sheet13/checks.json",
+    "point_id": "Q05",
+    "native_box": [
+      3695,
+      5637,
+      3915,
+      5857
+    ],
+    "native_coordinates": [
+      3805,
+      5747
+    ],
+    "modern_lonlat": [
+      -61.1190319,
+      46.1234773
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-13-Q06.jpg",
+    "point_record": "sheet13/checks.json",
+    "point_id": "Q06",
+    "native_box": [
+      5035,
+      6245,
+      5255,
+      6465
+    ],
+    "native_coordinates": [
+      5145,
+      6355
+    ],
+    "modern_lonlat": [
+      -61.06265,
+      46.1061528
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-13-Q07.jpg",
+    "point_record": "sheet13/checks.json",
+    "point_id": "Q07",
+    "native_box": [
+      4698,
+      6166,
+      4918,
+      6386
+    ],
+    "native_coordinates": [
+      4808,
+      6276
+    ],
+    "modern_lonlat": [
+      -61.0739639,
+      46.1083197
+    ],
+    "rotation_degrees": 0
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "image": "11-margaree.jpg",
+    "lonlat_bounds": [
+      -61.16,
+      46.265,
+      -61.125,
+      46.281
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/sheet-13-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet13/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "11-middle-river.jpg",
+    "lonlat_bounds": [
+      -60.897,
+      46.266,
+      -60.858,
+      46.283
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/sheet-13-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet13/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "14-western-interior.jpg",
+    "lonlat_bounds": [
+      -61.24,
+      46.224,
+      -61.215,
+      46.252
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/sheet-13-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/hay-result/sheet-14-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet13/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "14-west-lake.jpg",
+    "lonlat_bounds": [
+      -61.24,
+      46.13,
+      -61.215,
+      46.155
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/sheet-13-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/hay-result/sheet-14-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet13/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]
