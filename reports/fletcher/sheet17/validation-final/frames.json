@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-17-V05.jpg",
+    "point_record": "sheet17/validation-final-proposals.json",
+    "point_id": "V05",
+    "native_box": [
+      8346,
+      1070,
+      8566,
+      1290
+    ],
+    "native_coordinates": [
+      8456,
+      1180
+    ],
+    "modern_lonlat": [
+      -60.531051,
+      45.9162627
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-17-V06.jpg",
+    "point_record": "sheet17/validation-final-proposals.json",
+    "point_id": "V06",
+    "native_box": [
+      3115,
+      5698,
+      3335,
+      5918
+    ],
+    "native_coordinates": [
+      3225,
+      5808
+    ],
+    "modern_lonlat": [
+      -60.77188651538825,
+      45.76513140021305
+    ],
+    "rotation_degrees": 0
+  }
+]

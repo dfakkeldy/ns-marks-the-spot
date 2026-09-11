@@ -1,0 +1,70 @@
+{
+  "points": [
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        7675,
+        5790
+      ],
+      "lonlat": [
+        -60.5671548,
+        45.7669802
+      ],
+      "modern_node_id": "J0633",
+      "modern_objectids": [
+        132120,
+        132121,
+        194254
+      ],
+      "identity_evidence": "Connection between middle and southern Loch Lomond at eastern bank",
+      "source_uncertainty_px": 15,
+      "status": "rejected unscored",
+      "reason": "Native connection endpoint cannot be distinguished from road and mill channel in the narrow neck."
+    },
+    {
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        8120,
+        4520
+      ],
+      "lonlat": [
+        -60.544655,
+        45.8077093
+      ],
+      "modern_node_id": "J0433",
+      "modern_objectids": [
+        126887,
+        126888,
+        199980
+      ],
+      "identity_evidence": "Eastern upper pond southern outlet northeast of Loch Lomond",
+      "source_uncertainty_px": 20,
+      "status": "rejected unscored",
+      "reason": "Modern node is pond/bay neck, not the claimed eastern outlet; source and modern southern bay morphology differ."
+    },
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        6910,
+        5345
+      ],
+      "lonlat": [
+        -60.6061231,
+        45.7839928
+      ],
+      "modern_node_id": "J0530",
+      "modern_objectids": [
+        164068,
+        166571,
+        195250
+      ],
+      "identity_evidence": "Middle Loch Lomond western arm river mouth; original J0544 proposal was upstream junction, corrected before scoring",
+      "source_uncertainty_px": 20,
+      "status": "rejected unscored",
+      "reason": "J0530 is narrow lake connection, not western tributary mouth; neither proposed node establishes source mouth identity."
+    }
+  ]
+}

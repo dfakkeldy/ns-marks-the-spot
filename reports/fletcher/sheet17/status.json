@@ -1,0 +1,75 @@
+{
+  "sheet": "sheet-17",
+  "status": "provisional-geography-not-accepted",
+  "accepted_for_tiling": false,
+  "accepted_for_production_label_projection": false,
+  "controls": 10,
+  "diagnostic_checks": 2,
+  "fresh_validation_checks_after_control_repairs": 4,
+  "fit_file": "regional-fit.json",
+  "fit_sha256": "1c30eee3254577eb7fb47cbb971cdcd8691c63addcc315c259c95fe08ddbf03a",
+  "check_file": "regional-diagnostics.json",
+  "fresh_check_file": "validation.json",
+  "source_sha256": "a8a3f35cbf6addc45abc8cb2934ddea9a6eec4edc8346efc6de783d35355cd7e",
+  "source_dimensions": [
+    10873,
+    7642
+  ],
+  "transform": "Exact GDAL TPS in EPSG:3857, 5 projected metre cells",
+  "boundary_file": "boundary.json",
+  "boundary_sha256": "75a44aff1b2f32294bf21f3139de4822545a892fb408516a2865c16790d75a8d",
+  "scope": "Complete mapped inner neatline, including the Great Bras d\u2019Or Lake, Red Island, northern peninsula and southern mainland/lake portions. No separate mapped extension or crossing place label visible outside the frame.",
+  "raster_path": "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+  "raster_sha256": "4e8c2f78df96806aea71da7851220ca2ad44e84a2612604cb1237cb3efc54b5b",
+  "raster_size": [
+    8603,
+    5907
+  ],
+  "raster_bounds_wgs84": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -60.8508443,
+          45.9263837
+        ],
+        [
+          -60.8508443,
+          45.7415267
+        ],
+        [
+          -60.464434,
+          45.7415267
+        ],
+        [
+          -60.464434,
+          45.9263837
+        ],
+        [
+          -60.8508443,
+          45.9263837
+        ]
+      ]
+    ]
+  },
+  "orientation": {
+    "samples": 71795,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -28.613508059957578,
+      -20.33236454965338
+    ]
+  },
+  "fresh_validation_median_ground_m": 120.27050892736317,
+  "fresh_validation_worst_ground_m": 630.289956371886,
+  "remaining": [
+    "Fresh validation fails both targets: median 120.270509 m, worst 630.289956 m at Bruce Brook coastal gap V05. Preserve four fresh checks unpromoted.",
+    "Northeast Bruce Brook and Gaspereau drainage remains displaced. C15 former Q05 anchors a small coastal projection with shape-change uncertainty; V05 barrier and lagoon morphology also differ. Audit stable physical features before further refinement.",
+    "Middle Loch Lomond basin and western arms have substantial shape/position differences. V02 proposed nodes were not the historical tributary mouth, and V04 confused a bay neck with an outlet. Both remain rejected unscored.",
+    "Central and southeast source annotations explicitly mark unexplored regions. Do not invent historical drainage or promote modern geography into historical evidence.",
+    "C03 reshaped Lochmore spit, C04 Bruce Brook wrong arm, C12 ambiguous fork and C13 absent fork remain rejected. Q02 lake connection/road/mill identity is unresolved.",
+    "Western Sheet18 join windows are almost entirely open water and do not establish shared-feature alignment. Northern, eastern and southern geographic joins remain outstanding."
+  ],
+  "unchanged_active_tile_revision": "fletcher-full-sheets-20260909.3"
+}

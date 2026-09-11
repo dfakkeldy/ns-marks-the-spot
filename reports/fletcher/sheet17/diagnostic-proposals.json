@@ -1,0 +1,128 @@
+{
+  "sheet": "sheet-17",
+  "fit_sha256": "cfad34018a018539e3c6b6056fa473bd23971509c5a687e88fee3cc8f57c04ad",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        7133,
+        4945
+      ],
+      "lonlat": [
+        -60.5914593,
+        45.7944226
+      ],
+      "modern_node_id": "J0479",
+      "modern_objectids": [
+        139237,
+        139239,
+        195251
+      ],
+      "identity_evidence": "Northern Loch Lomond southwest outlet at mill",
+      "source_uncertainty_px": 15
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        7675,
+        5790
+      ],
+      "lonlat": [
+        -60.5671548,
+        45.7669802
+      ],
+      "modern_node_id": "J0633",
+      "modern_objectids": [
+        132120,
+        132121,
+        194254
+      ],
+      "identity_evidence": "Connection between middle and southern Loch Lomond at eastern bank",
+      "source_uncertainty_px": 15
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        7975,
+        4320
+      ],
+      "lonlat": [
+        -60.5539977,
+        45.8136712
+      ],
+      "modern_node_id": "J0404",
+      "modern_objectids": [
+        135855,
+        135857,
+        295489
+      ],
+      "identity_evidence": "Northern upper pond southern outlet above Loch Lomond",
+      "source_uncertainty_px": 15
+    },
+    {
+      "lonlat": [
+        -60.762471084012375,
+        45.80550790462264
+      ],
+      "guide_xy": [
+        3351.8832601290196,
+        4744.824616930215
+      ],
+      "modern_objectid": 23627,
+      "modern_part": 0,
+      "modern_vertex": 355,
+      "modern_properties": {
+        "OBJECTID": 23627,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 3072.15148130193
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        3438,
+        4605
+      ],
+      "identity_evidence": "Red Island main island easternmost outer coast tip",
+      "source_uncertainty_px": 20
+    },
+    {
+      "lonlat": [
+        -60.537051875203986,
+        45.90983107852831
+      ],
+      "guide_xy": [
+        8288.563933032798,
+        1479.9265663779806
+      ],
+      "modern_objectid": 13969,
+      "modern_part": 0,
+      "modern_vertex": 34,
+      "modern_properties": {
+        "OBJECTID": 13969,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 387.94050392649467
+      },
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        8232,
+        1388
+      ],
+      "identity_evidence": "Small west-protruding coast point immediately southwest of Big Pond village; candidate shoreline vertex requires crosshair audit",
+      "source_uncertainty_px": 20
+    }
+  ]
+}

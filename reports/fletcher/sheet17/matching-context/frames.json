@@ -1,0 +1,67 @@
+[
+  {
+    "name": "north-peninsula",
+    "native_box": [
+      3800,
+      1030,
+      5800,
+      2200
+    ],
+    "source_image": "north-peninsula-grid.jpg",
+    "modern_image": "north-peninsula-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed-graticule search guide only; no physical control or warped-image proof. Filled lake polygons are modern reference geometry."
+  },
+  {
+    "name": "northeast",
+    "native_box": [
+      7200,
+      1040,
+      9770,
+      3200
+    ],
+    "source_image": "northeast-grid.jpg",
+    "modern_image": "northeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed-graticule search guide only; no physical control or warped-image proof. Filled lake polygons are modern reference geometry."
+  },
+  {
+    "name": "northeast-check",
+    "native_box": [
+      8200,
+      1100,
+      9300,
+      2200
+    ],
+    "source_image": "northeast-check-grid.jpg",
+    "modern_image": "northeast-check-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed-graticule search guide only; no physical control or warped-image proof. Filled lake polygons are modern reference geometry."
+  },
+  {
+    "name": "loch-lomond",
+    "native_box": [
+      6500,
+      4100,
+      9778,
+      6507
+    ],
+    "source_image": "loch-lomond-grid.jpg",
+    "modern_image": "loch-lomond-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed-graticule search guide only; no physical control or warped-image proof. Filled lake polygons are modern reference geometry."
+  },
+  {
+    "name": "southwest",
+    "native_box": [
+      3100,
+      4500,
+      6400,
+      6516
+    ],
+    "source_image": "southwest-grid.jpg",
+    "modern_image": "southwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed-graticule search guide only; no physical control or warped-image proof. Filled lake polygons are modern reference geometry."
+  }
+]

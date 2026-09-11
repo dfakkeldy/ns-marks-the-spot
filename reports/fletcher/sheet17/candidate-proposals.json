@@ -1,0 +1,174 @@
+{
+  "sheet": "sheet-17",
+  "points": [
+    {
+      "lonlat": [
+        -60.722409849460604,
+        45.90110294179096
+      ],
+      "guide_xy": [
+        4229.224296812667,
+        1753.0823337100446
+      ],
+      "modern_objectid": 13938,
+      "modern_part": 0,
+      "modern_vertex": 46,
+      "modern_properties": {
+        "OBJECTID": 13938,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1205.7725439430296
+      },
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        4204,
+        1586
+      ],
+      "identity_evidence": "Benacadie Point southernmost coast west of Benacadie Pond",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted; native audit required"
+    },
+    {
+      "lonlat": [
+        -60.66570221584912,
+        45.90664435711554
+      ],
+      "guide_xy": [
+        5471.121472904226,
+        1579.6581997119356
+      ],
+      "modern_objectid": 13939,
+      "modern_part": 0,
+      "modern_vertex": 82,
+      "modern_properties": {
+        "OBJECTID": 13939,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 2982.6574967240267
+      },
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        5506,
+        1421
+      ],
+      "identity_evidence": "Dhu Point southernmost coast south of Armagguadecs Pond",
+      "source_uncertainty_px": 20,
+      "status": "candidate; not fitted; native audit required"
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        8833,
+        1304
+      ],
+      "lonlat": [
+        -60.5120085,
+        45.9132912
+      ],
+      "modern_node_id": "J0160",
+      "modern_objectids": [
+        200353,
+        260139,
+        262152
+      ],
+      "identity_evidence": "Bruce Brook northern tributary junction near road turn",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; native audit required"
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        7335,
+        4700
+      ],
+      "lonlat": [
+        -60.5801208,
+        45.800244
+      ],
+      "modern_node_id": "J0457",
+      "modern_objectids": [
+        139327,
+        139328,
+        270056
+      ],
+      "identity_evidence": "Northern Loch Lomond west shore Small Brook mouth",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; native audit required"
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        7833,
+        4435
+      ],
+      "lonlat": [
+        -60.559398,
+        45.8100631
+      ],
+      "modern_node_id": "J0423",
+      "modern_objectids": [
+        139324,
+        139325,
+        295489
+      ],
+      "identity_evidence": "Northern Loch Lomond northern head tributary mouth",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; native audit required"
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        8070,
+        4900
+      ],
+      "lonlat": [
+        -60.5504286,
+        45.7957361
+      ],
+      "modern_node_id": "J0476",
+      "modern_objectids": [
+        139236,
+        139324,
+        274543
+      ],
+      "identity_evidence": "Northern Loch Lomond easternmost inlet creek mouth",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; native audit required"
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        7626,
+        6250
+      ],
+      "lonlat": [
+        -60.5716711,
+        45.7544052
+      ],
+      "modern_node_id": "J0693",
+      "modern_objectids": [
+        124293,
+        275422,
+        312824
+      ],
+      "identity_evidence": "Southern Loch Lomond eastern shore brook mouth near mill",
+      "source_uncertainty_px": 15,
+      "status": "candidate; not fitted; native audit required"
+    }
+  ]
+}

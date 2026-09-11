@@ -1,0 +1,109 @@
+{
+  "sheet": "sheet-17",
+  "fit_sha256": "1c30eee3254577eb7fb47cbb971cdcd8691c63addcc315c259c95fe08ddbf03a",
+  "status": "Four fresh checks selected after ten-control freeze, native crosshairs inspected before scoring; all remain unpromoted. V05 coastal gap and V06 broad bend have morphology uncertainty.",
+  "points": [
+    {
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        7798,
+        5697
+      ],
+      "lonlat": [
+        -60.5645599,
+        45.7704887
+      ],
+      "modern_node_id": "J0611",
+      "modern_objectids": [
+        132915,
+        132916,
+        194255
+      ],
+      "identity_evidence": "Middle Loch Lomond eastern shore tributary mouth opposite northern end of southern lake",
+      "source_uncertainty_px": 20
+    },
+    {
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        8456,
+        1180
+      ],
+      "lonlat": [
+        -60.531051,
+        45.9162627
+      ],
+      "modern_node_id": "J0144",
+      "modern_objectids": [
+        156839,
+        170777,
+        194797
+      ],
+      "identity_evidence": "Bruce Brook outer coastal outlet in the gap at southern end of barrier; contemporary bar and lagoon shape differ",
+      "source_uncertainty_px": 20
+    },
+    {
+      "lonlat": [
+        -60.55499213631489,
+        45.79824792493352
+      ],
+      "guide_xy": [
+        7895.672214704566,
+        4972.032941280864
+      ],
+      "modern_objectid": 147405,
+      "modern_part": 0,
+      "modern_vertex": 63,
+      "modern_properties": {
+        "OBJECTID": 147405,
+        "FEAT_CODE": "WALKIS10",
+        "FEAT_DESC": "Lake Island - Island to the left line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 47.9,
+        "FID": null,
+        "SHAPE_Length": 824.7917062274732
+      },
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        7967,
+        4835
+      ],
+      "identity_evidence": "Lone island in eastern part of northern Loch Lomond: northernmost shoreline",
+      "source_uncertainty_px": 20
+    },
+    {
+      "lonlat": [
+        -60.77188651538825,
+        45.76513140021305
+      ],
+      "guide_xy": [
+        3145.6853129975498,
+        6008.447698932607
+      ],
+      "modern_objectid": 24160,
+      "modern_part": 0,
+      "modern_vertex": 2,
+      "modern_properties": {
+        "OBJECTID": 24160,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 6421.79192327042
+      },
+      "id": "V06",
+      "role": "check",
+      "pixel_xy": [
+        3225,
+        5808
+      ],
+      "identity_evidence": "Johnson Island westernmost outer coast bend",
+      "source_uncertainty_px": 20
+    }
+  ]
+}

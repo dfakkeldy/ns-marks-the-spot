@@ -1,0 +1,7 @@
+{
+  "fit": "reviewed-fit.json",
+  "sha256": "cfad34018a018539e3c6b6056fa473bd23971509c5a687e88fee3cc8f57c04ad",
+  "frozen_utc": "2026-09-11T14:06:49.541449+00:00",
+  "control_count": 8,
+  "checks_selected_after_freeze": true
+}
