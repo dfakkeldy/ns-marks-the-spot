@@ -1,0 +1,81 @@
+{
+  "sheet": "sheet-08",
+  "fit_sha256": "2016e596356476f281c840d4ae44d17d109e8eadb9256625c75c6f89b3cea85b",
+  "points": [
+    {
+      "lonlat": [
+        -60.792662,
+        46.504338
+      ],
+      "source_guide_xy": [
+        2608.627065599663,
+        4548.594478400424
+      ],
+      "objectids": [
+        190148,
+        260361,
+        260365
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        2240,
+        4480
+      ],
+      "modern_node_id": "J2486",
+      "identity_evidence": "Coulmeach Brook major northern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    },
+    {
+      "lonlat": [
+        -60.7144433,
+        46.5307376
+      ],
+      "source_guide_xy": [
+        4296.893213759642,
+        3728.6039835202973
+      ],
+      "objectids": [
+        189798,
+        282335,
+        282339
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        4370,
+        3780
+      ],
+      "modern_node_id": "J2062",
+      "identity_evidence": "West Branch Indian Brook major northern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    },
+    {
+      "lonlat": [
+        -60.5663559,
+        46.4737903
+      ],
+      "source_guide_xy": [
+        7495.252802880015,
+        5517.197194160661
+      ],
+      "objectids": [
+        170720,
+        170721,
+        201994
+      ],
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        7737,
+        5774
+      ],
+      "modern_node_id": "J2950",
+      "identity_evidence": "Indian Brook smaller eastern tributary below the fitted major eastern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed diagnostic proposal"
+    }
+  ]
+}

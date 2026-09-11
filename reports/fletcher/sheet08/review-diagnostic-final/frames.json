@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-08-Q01.jpg",
+    "point_record": "sheet08/diagnostic.json",
+    "point_id": "Q01",
+    "native_box": [
+      2152,
+      4376,
+      2372,
+      4596
+    ],
+    "native_coordinates": [
+      2262,
+      4486
+    ],
+    "modern_lonlat": [
+      -60.792662,
+      46.504338
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-08-Q03.jpg",
+    "point_record": "sheet08/diagnostic.json",
+    "point_id": "Q03",
+    "native_box": [
+      7627,
+      5664,
+      7847,
+      5884
+    ],
+    "native_coordinates": [
+      7737,
+      5774
+    ],
+    "modern_lonlat": [
+      -60.5663559,
+      46.4737903
+    ],
+    "rotation_degrees": 0
+  }
+]
