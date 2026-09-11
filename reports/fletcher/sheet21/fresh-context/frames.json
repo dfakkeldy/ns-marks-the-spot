@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-21-V02.jpg",
+    "point_record": "sheet21/fresh-proposals.json",
+    "point_id": "V02",
+    "native_box": [
+      6922,
+      1265,
+      7622,
+      1965
+    ],
+    "native_coordinates": [
+      7272,
+      1615
+    ],
+    "modern_lonlat": [
+      -60.9595277,
+      45.7303951
+    ],
+    "rotation_degrees": 0
+  }
+]

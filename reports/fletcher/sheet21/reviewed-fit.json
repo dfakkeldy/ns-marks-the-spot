@@ -1,0 +1,416 @@
+{
+  "sheet": "sheet-21",
+  "points": [
+    {
+      "lonlat": [
+        -61.12050058884525,
+        45.706478090205344
+      ],
+      "guide_xy": [
+        3671.38873679284,
+        2514.904017222114
+      ],
+      "modern_objectid": 13595,
+      "modern_part": 0,
+      "modern_vertex": 12,
+      "modern_properties": {
+        "OBJECTID": 13595,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 446.10288499284053
+      },
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        3780,
+        2306
+      ],
+      "identity_evidence": "Ballam Head northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved."
+    },
+    {
+      "lonlat": [
+        -61.11466030676841,
+        45.737682461866385
+      ],
+      "guide_xy": [
+        3798.968530704966,
+        1557.803529634839
+      ],
+      "modern_objectid": 13688,
+      "modern_part": 0,
+      "modern_vertex": 24,
+      "modern_properties": {
+        "OBJECTID": 13688,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 378.7027241225687
+      },
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        3877,
+        1317
+      ],
+      "identity_evidence": "Spruce Point easternmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved."
+    },
+    {
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        3080,
+        1758
+      ],
+      "lonlat": [
+        -61.1519997,
+        45.7236303
+      ],
+      "modern_node_id": "J0132",
+      "modern_objectids": [
+        13397,
+        13414,
+        261642
+      ],
+      "identity_evidence": "Cameron Brook mouth into West Bay",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved."
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        6562,
+        2678
+      ],
+      "lonlat": [
+        -60.9920609,
+        45.6948582
+      ],
+      "modern_node_id": "J0301",
+      "modern_objectids": [
+        137990,
+        137991,
+        283111
+      ],
+      "identity_evidence": "Mountain Lake southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved."
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        7167,
+        1934
+      ],
+      "lonlat": [
+        -60.9612912,
+        45.7193717
+      ],
+      "modern_node_id": "J0155",
+      "modern_objectids": [
+        136149,
+        136150,
+        194727
+      ],
+      "identity_evidence": "McDonald Lake southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Original J0162 is downstream small pond outlet, not main McDonald Lake. Corrected to J0155 main lake outlet before fit; original rejected correspondence retained."
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        8620,
+        2390
+      ],
+      "lonlat": [
+        -60.8948463,
+        45.7056054
+      ],
+      "modern_node_id": "J0219",
+      "modern_objectids": [
+        135327,
+        135330,
+        194021
+      ],
+      "identity_evidence": "Murray Lakes eastern basin southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control."
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        4950,
+        3657
+      ],
+      "lonlat": [
+        -60.9867337,
+        45.6700217
+      ],
+      "modern_node_id": "J0499",
+      "modern_objectids": [
+        199039,
+        283230,
+        283231
+      ],
+      "identity_evidence": "Western Black River brook joins north/south channel",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved. Original northern-tributary orientation was incorrect."
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        4250,
+        4238
+      ],
+      "lonlat": [
+        -61.098232,
+        45.6453133
+      ],
+      "modern_node_id": "J0691",
+      "modern_objectids": [
+        124550,
+        125812,
+        198106
+      ],
+      "identity_evidence": "Buchanan Lake eastern basin southeast outlet",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved."
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        5650,
+        4272
+      ],
+      "lonlat": [
+        -61.0337471,
+        45.6444922
+      ],
+      "modern_node_id": "J0696",
+      "modern_objectids": [
+        139538,
+        139540,
+        198081
+      ],
+      "identity_evidence": "False Bay Lake east outlet into small eastern basin",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved."
+    },
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        3134,
+        5220
+      ],
+      "lonlat": [
+        -61.1475212,
+        45.6144228
+      ],
+      "modern_node_id": "J0900",
+      "modern_objectids": [
+        141255,
+        141355,
+        272019
+      ],
+      "identity_evidence": "White Lake southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved."
+    },
+    {
+      "lonlat": [
+        -61.08630496161329,
+        45.585457786852686
+      ],
+      "guide_xy": [
+        4418.385374550009,
+        6226.838761654915
+      ],
+      "modern_objectid": 5701,
+      "modern_part": 0,
+      "modern_vertex": 47,
+      "modern_properties": {
+        "OBJECTID": 5701,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 488.73790492110896
+      },
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        4458,
+        6155
+      ],
+      "identity_evidence": "Burnt Point easternmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved. Original modern window clipped mainland tip. Expanded window accidentally reached Burnt Island; restrict actual coast OBJECTID 5701 to mainland and select its east tip before fit."
+    },
+    {
+      "lonlat": [
+        -61.18386585745589,
+        45.58573415106713
+      ],
+      "guide_xy": [
+        2287.187117047375,
+        6218.362118469551
+      ],
+      "modern_objectid": 16916,
+      "modern_part": 0,
+      "modern_vertex": 62,
+      "modern_properties": {
+        "OBJECTID": 16916,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 1244.9998640143692
+      },
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        2360,
+        6148
+      ],
+      "identity_evidence": "Freeman Island easternmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved."
+    },
+    {
+      "lonlat": [
+        -60.9765015866024,
+        45.607603186687115
+      ],
+      "guide_xy": [
+        6817.018140987493,
+        5547.595057933126
+      ],
+      "modern_objectid": 16828,
+      "modern_part": 0,
+      "modern_vertex": 45,
+      "modern_properties": {
+        "OBJECTID": 16828,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 1806.4478187366085
+      },
+      "id": "C13",
+      "role": "control",
+      "pixel_xy": [
+        6870,
+        5442
+      ],
+      "identity_evidence": "Cascarette Island southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved."
+    },
+    {
+      "lonlat": [
+        -60.8890930277233,
+        45.57742998764084
+      ],
+      "guide_xy": [
+        8726.440627990058,
+        6473.067419080529
+      ],
+      "modern_objectid": 7036,
+      "modern_part": 0,
+      "modern_vertex": 23,
+      "modern_properties": {
+        "OBJECTID": 7036,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 386.0516920563251
+      },
+      "id": "C14",
+      "role": "control",
+      "pixel_xy": [
+        8824,
+        6406
+      ],
+      "identity_evidence": "Cape Round easternmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved. Wide context distinguishes outer Cape Round from inner spit hook."
+    },
+    {
+      "lonlat": [
+        -60.89629523121766,
+        45.64371427006186
+      ],
+      "guide_xy": [
+        8569.109933096217,
+        4439.9959086631425
+      ],
+      "modern_objectid": 313808,
+      "modern_part": 0,
+      "modern_vertex": 21,
+      "modern_properties": {
+        "OBJECTID": 313808,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 301.2155617018148
+      },
+      "id": "C15",
+      "role": "control",
+      "pixel_xy": [
+        8632,
+        4316
+      ],
+      "identity_evidence": "Tillard Point southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry personally reviewed before fit; provisional physical control.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved. Original easternmost identity was along flank; use southern tip visible in both. Broad southern search accidentally reached opposite Brick Point coast; narrowed to Tillard Point before fit."
+    }
+  ],
+  "source_sha256": "1f135b06b54b9fb4a3083d39b326b7d45ad76a096336c4806c7696a10a3b74be",
+  "source_dimensions": [
+    10811,
+    7646
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "sheet": "sheet-21",
+  "points": [
+    {
+      "id": "C16",
+      "role": "control",
+      "pixel_xy": [
+        4950,
+        3657
+      ],
+      "lonlat": [
+        -61.05905,
+        45.6701746
+      ],
+      "modern_node_id": "J0495",
+      "modern_objectids": [
+        196707,
+        196709,
+        292441
+      ],
+      "identity_evidence": "Western Black River brook joins north/south channel",
+      "source_uncertainty_px": 20,
+      "status": "Replacement proposal after first failed diagnostic score; not fitted",
+      "review_note": "Retires C07 wrong J0499 identity, which is a similar junction far east. J0495 selected from full regional context; verify actual junction configuration before fitting."
+    }
+  ]
+}

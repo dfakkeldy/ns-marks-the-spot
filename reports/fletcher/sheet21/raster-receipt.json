@@ -1,0 +1,103 @@
+{
+  "fit_sha256": "82e1c9490d3b0ea8ca239a17a0b012d9a9036c9fe2cf7018c891433ea9631618",
+  "boundary_sha256": "7946eeedda680117a2d5ab349de2a763d59bea863bd15dc8fa94b301a30faa6c",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Reused six diagnostics after C07 identity correction; not fresh validation.",
+  "checks_sha256": "d7b69ded559e3cb890504aa40226ab5b5e2792cee967b990aaa772a0cb73d833",
+  "median_ground_m": 93.94675666747355,
+  "worst_ground_m": 145.54844143992622,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 60.3475505051511,
+      "predicted_lonlat": [
+        -60.98472641876897,
+        45.69629772963852
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 29.856724354456816,
+      "predicted_lonlat": [
+        -60.961142460660454,
+        45.717960791241836
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 100.32164025399649,
+      "predicted_lonlat": [
+        -61.147633797944,
+        45.61564133636488
+      ]
+    },
+    {
+      "id": "Q04",
+      "error_ground_m": 145.54844143992622,
+      "predicted_lonlat": [
+        -61.21068791470154,
+        45.58982421777317
+      ]
+    },
+    {
+      "id": "Q05",
+      "error_ground_m": 143.86302275009461,
+      "predicted_lonlat": [
+        -61.03971039692403,
+        45.7257004582416
+      ]
+    },
+    {
+      "id": "Q06",
+      "error_ground_m": 87.57187308095061,
+      "predicted_lonlat": [
+        -60.97983701382567,
+        45.60951785538165
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71786,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -34.71490267325999,
+      -21.689323647520613
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+    "sha256": "75e5ce00163ef7e7c698bcd305a506770d67a719d581f0e8deeaa6d7a05e04be",
+    "size": [
+      8496,
+      5580
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.2224773,
+            45.747733
+          ],
+          [
+            -61.2224773,
+            45.5725647
+          ],
+          [
+            -60.840873,
+            45.5725647
+          ],
+          [
+            -60.840873,
+            45.747733
+          ],
+          [
+            -61.2224773,
+            45.747733
+          ]
+        ]
+      ]
+    }
+  }
+}

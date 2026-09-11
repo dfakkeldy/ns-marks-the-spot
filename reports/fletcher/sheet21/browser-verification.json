@@ -1,0 +1,47 @@
+{
+  "method": "Actual GeoTIFF UI import in isolated Chromium via Playwright; desktop 1440x1000 and mobile 390x844 screenshots personally inspected.",
+  "geographic_acceptance": false,
+  "url": "http://127.0.0.1:4198/?basemap=osm&taxSale=off&layers=modern&position=45.66,-61.03,12",
+  "raster_sha256": "75e5ce00163ef7e7c698bcd305a506770d67a719d581f0e8deeaa6d7a05e04be",
+  "raster_bytes": 106348585,
+  "pixel_size": {
+    "width": 8496,
+    "height": 5580
+  },
+  "georef": {
+    "kind": "embedded",
+    "crs": "EPSG:3857",
+    "geotransform": [
+      -6815255,
+      5,
+      0,
+      5740015,
+      0,
+      -5
+    ]
+  },
+  "preview_size": [
+    4096,
+    2690
+  ],
+  "transparent_preview_pixels": 218755,
+  "opaque_preview_pixels": 10799485,
+  "raster_bytes_and_georef_preserved_on_reload": true,
+  "enabled_state_survived_reload": true,
+  "console_and_page_errors": [],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/browser/import-desktop.png",
+      "sha256": "a1f8d1cef66f5171deaf9da2f2de267a4925c31d6a5a4ec0d78c63b0b5f3824d"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/browser/reload-desktop.png",
+      "sha256": "62e1979573f8058d578e38baf21e135a53f530e30e956d837b830c78179e6ffb"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/browser/reload-mobile.png",
+      "sha256": "377c462e608e4a636df773775a8821645bd8d37db89237d2035d454201d02008"
+    }
+  ],
+  "full_receipt": "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/browser/verification.json"
+}

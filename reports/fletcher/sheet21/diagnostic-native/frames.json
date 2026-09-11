@@ -1,0 +1,122 @@
+[
+  {
+    "image": "sheet-21-Q01.jpg",
+    "point_record": "sheet21/diagnostic-proposals.json",
+    "point_id": "Q01",
+    "native_box": [
+      6588,
+      2507,
+      6808,
+      2727
+    ],
+    "native_coordinates": [
+      6698,
+      2617
+    ],
+    "modern_lonlat": [
+      -60.9853977,
+      45.6974916
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-Q02.jpg",
+    "point_record": "sheet21/diagnostic-proposals.json",
+    "point_id": "Q02",
+    "native_box": [
+      7068,
+      1867,
+      7288,
+      2087
+    ],
+    "native_coordinates": [
+      7178,
+      1977
+    ],
+    "modern_lonlat": [
+      -60.9611606,
+      45.718229
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-Q03.jpg",
+    "point_record": "sheet21/diagnostic-proposals.json",
+    "point_id": "Q03",
+    "native_box": [
+      3020,
+      5065,
+      3240,
+      5285
+    ],
+    "native_coordinates": [
+      3130,
+      5175
+    ],
+    "modern_lonlat": [
+      -61.1478017,
+      45.6147468
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-Q04.jpg",
+    "point_record": "sheet21/diagnostic-proposals.json",
+    "point_id": "Q04",
+    "native_box": [
+      1663,
+      5900,
+      1883,
+      6120
+    ],
+    "native_coordinates": [
+      1773,
+      6010
+    ],
+    "modern_lonlat": [
+      -61.208914544288895,
+      45.58940794764046
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-Q05.jpg",
+    "point_record": "sheet21/diagnostic-proposals.json",
+    "point_id": "Q05",
+    "native_box": [
+      5334,
+      1642,
+      5554,
+      1862
+    ],
+    "native_coordinates": [
+      5444,
+      1752
+    ],
+    "modern_lonlat": [
+      -61.04154974224805,
+      45.72585903531084
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-21-Q06.jpg",
+    "point_record": "sheet21/diagnostic-proposals.json",
+    "point_id": "Q06",
+    "native_box": [
+      6690,
+      5268,
+      6910,
+      5488
+    ],
+    "native_coordinates": [
+      6800,
+      5378
+    ],
+    "modern_lonlat": [
+      -60.98143632797189,
+      45.61468075590798
+    ],
+    "rotation_degrees": 0
+  }
+]

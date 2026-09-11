@@ -1,0 +1,80 @@
+[
+  {
+    "name": "northwest",
+    "native_box": [
+      1550,
+      1080,
+      4600,
+      3000
+    ],
+    "source_image": "northwest-grid.jpg",
+    "modern_image": "northwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior graticule guide only, not physical controls or warped-image proof. Filled modern lakes are reference geometry."
+  },
+  {
+    "name": "north-central",
+    "native_box": [
+      4300,
+      1500,
+      7300,
+      3550
+    ],
+    "source_image": "north-central-grid.jpg",
+    "modern_image": "north-central-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior graticule guide only, not physical controls or warped-image proof. Filled modern lakes are reference geometry."
+  },
+  {
+    "name": "northeast",
+    "native_box": [
+      6600,
+      1100,
+      9700,
+      3500
+    ],
+    "source_image": "northeast-grid.jpg",
+    "modern_image": "northeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior graticule guide only, not physical controls or warped-image proof. Filled modern lakes are reference geometry."
+  },
+  {
+    "name": "central",
+    "native_box": [
+      3100,
+      2900,
+      6500,
+      4700
+    ],
+    "source_image": "central-grid.jpg",
+    "modern_image": "central-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior graticule guide only, not physical controls or warped-image proof. Filled modern lakes are reference geometry."
+  },
+  {
+    "name": "southwest",
+    "native_box": [
+      1550,
+      4300,
+      5300,
+      6500
+    ],
+    "source_image": "southwest-grid.jpg",
+    "modern_image": "southwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior graticule guide only, not physical controls or warped-image proof. Filled modern lakes are reference geometry."
+  },
+  {
+    "name": "southeast",
+    "native_box": [
+      5500,
+      3900,
+      9700,
+      6500
+    ],
+    "source_image": "southeast-grid.jpg",
+    "modern_image": "southeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Prior graticule guide only, not physical controls or warped-image proof. Filled modern lakes are reference geometry."
+  }
+]
