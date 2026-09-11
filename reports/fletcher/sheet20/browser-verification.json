@@ -1,0 +1,47 @@
+{
+  "method": "Actual GeoTIFF UI import in isolated Chromium via Playwright; desktop 1440x1000 and mobile 390x844 screenshots personally inspected.",
+  "geographic_acceptance": false,
+  "url": "http://127.0.0.1:4198/?basemap=osm&taxSale=off&layers=modern&position=45.66,-60.66,12",
+  "raster_sha256": "5fa544e6c2b48f399dc93d6ab5a16970ed80363b03dec45bb589b0518b497f9b",
+  "raster_bytes": 93676699,
+  "pixel_size": {
+    "width": 8381,
+    "height": 6114
+  },
+  "georef": {
+    "kind": "embedded",
+    "crs": "EPSG:3857",
+    "geotransform": [
+      -6773635,
+      5,
+      0,
+      5740200,
+      0,
+      -5
+    ]
+  },
+  "preview_size": [
+    4096,
+    2988
+  ],
+  "transparent_preview_pixels": 1316436,
+  "opaque_preview_pixels": 10922412,
+  "raster_bytes_and_georef_preserved_on_reload": true,
+  "enabled_state_survived_reload": true,
+  "console_and_page_errors": [],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/browser/import-desktop.png",
+      "sha256": "d99e06c974a5cd1cfcbb42cfdb960892210aad57fcf4fc9c18c5432ff32a70c8"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/browser/reload-desktop.png",
+      "sha256": "b08fe3efab633ee3ab7d8832928306a1c49cd9be5d5a18f5c2532fd5ed020a48"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/browser/reload-mobile.png",
+      "sha256": "18b92c1e8beba12fb0e9fa14b17424e6dbd344d52ed830ee0e263e21eadc74df"
+    }
+  ],
+  "full_receipt": "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/browser/verification.json"
+}

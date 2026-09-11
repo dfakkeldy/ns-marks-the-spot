@@ -1,0 +1,19 @@
+{
+  "source_sha256": "3be7a138e4fd1a42cef0a549b7317180718a36fc7134777323ff2f1f8eb053dc",
+  "native_dimensions": [
+    10792,
+    7662
+  ],
+  "rotation_degrees": 0,
+  "image": "full-boundary-review.jpg",
+  "southern_closeup": {
+    "image": "southern-boundary-review.jpg",
+    "native_box": [
+      3500,
+      6300,
+      5500,
+      7020
+    ]
+  },
+  "status": "Full native overview, corners, southern mainland extension, Red Island, Michaux Point and both tiny AB offshore islets personally inspected. Three components use one warp; small caption fragments in the broad mainland notch are incidental."
+}

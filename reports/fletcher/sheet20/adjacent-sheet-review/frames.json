@@ -1,0 +1,47 @@
+[
+  {
+    "image": "17-northwest-inlet.jpg",
+    "lonlat_bounds": [
+      -60.84,
+      45.736,
+      -60.735,
+      45.762
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "17-north-grand-head-lake.jpg",
+    "lonlat_bounds": [
+      -60.65,
+      45.736,
+      -60.57,
+      45.763
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "17-northeast.jpg",
+    "lonlat_bounds": [
+      -60.56,
+      45.736,
+      -60.47,
+      45.763
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet20/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

@@ -1,0 +1,116 @@
+{
+  "source_sha256": "3be7a138e4fd1a42cef0a549b7317180718a36fc7134777323ff2f1f8eb053dc",
+  "fit_sha256": "511a3d1f8209ce7df876fc2a169b8cb01fe050c8cb6e0e5742066a580cd8c208",
+  "script_sha256": "5d311790698adf54fff2d862c413ab21765f7157fbbe2c1b573563e3f657e206",
+  "boundaries": [
+    {
+      "component": "main",
+      "path": "/Users/dfakkeldy/.codex/worktrees/0ca7/ns-marks-the-spot/reports/fletcher/sheet20/boundary-main.json",
+      "sha256": "ff6f1f8aa0d030ab67688cb6c274694cd6a758c395a1ceba8431be67a5a2342d"
+    },
+    {
+      "component": "southwest-islet",
+      "path": "/Users/dfakkeldy/.codex/worktrees/0ca7/ns-marks-the-spot/reports/fletcher/sheet20/boundary-southwest-islet.json",
+      "sha256": "2e400a86ab0d728012bcc141cba4213ab9b7ca874af34560feb3ac32725dd9be"
+    },
+    {
+      "component": "southeast-islet",
+      "path": "/Users/dfakkeldy/.codex/worktrees/0ca7/ns-marks-the-spot/reports/fletcher/sheet20/boundary-southeast-islet.json",
+      "sha256": "53b52a2154a7a7baa538ab4a8c673da74b6f1d2a6a1b30e8c03488ad966a268f"
+    }
+  ],
+  "cutline_sha256": "12af69887ada6d0f475dc051730fea6571ff80b3de7447a34b0e0c7b0857a196",
+  "orientation": [
+    {
+      "component": "main",
+      "samples": 72261,
+      "native_grid_step_px": 25,
+      "nonnegative_determinants": 0,
+      "determinant_range": [
+        -28.734577283618172,
+        -20.2744759605526
+      ]
+    },
+    {
+      "component": "southwest-islet",
+      "samples": 15,
+      "native_grid_step_px": 25,
+      "nonnegative_determinants": 0,
+      "determinant_range": [
+        -25.467965351609475,
+        -25.395468846831825
+      ]
+    },
+    {
+      "component": "southeast-islet",
+      "samples": 16,
+      "native_grid_step_px": 25,
+      "nonnegative_determinants": 0,
+      "determinant_range": [
+        -25.449917701437382,
+        -25.302953035919398
+      ]
+    }
+  ],
+  "command": [
+    "gdalwarp",
+    "-overwrite",
+    "-tps",
+    "-et",
+    "0",
+    "-t_srs",
+    "EPSG:3857",
+    "-r",
+    "cubic",
+    "-tr",
+    "5",
+    "5",
+    "-tap",
+    "-cutline",
+    "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/cutline.geojson",
+    "-crop_to_cutline",
+    "-dstalpha",
+    "-co",
+    "COMPRESS=DEFLATE",
+    "-co",
+    "TILED=YES",
+    "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/controls.vrt",
+    "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif"
+  ],
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+    "sha256": "5fa544e6c2b48f399dc93d6ab5a16970ed80363b03dec45bb589b0518b497f9b",
+    "size": [
+      8381,
+      6114
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.8485985,
+            45.7488926
+          ],
+          [
+            -60.8485985,
+            45.5569362
+          ],
+          [
+            -60.4721595,
+            45.5569362
+          ],
+          [
+            -60.4721595,
+            45.7488926
+          ],
+          [
+            -60.8485985,
+            45.7488926
+          ]
+        ]
+      ]
+    }
+  },
+  "geographic_status": "Provisional research warp. Full mainland extension and both southern offshore islets retained; numerical and visual acceptance recorded separately."
+}
