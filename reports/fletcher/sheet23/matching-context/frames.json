@@ -1,0 +1,54 @@
+[
+  {
+    "name": "northwest",
+    "native_box": [
+      1450,
+      1100,
+      4400,
+      3200
+    ],
+    "source_image": "northwest-grid.jpg",
+    "modern_image": "northwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight original individually measured graticule intersections provide search guidance only, not physical controls or warped-image proof."
+  },
+  {
+    "name": "central",
+    "native_box": [
+      4000,
+      1100,
+      7100,
+      3800
+    ],
+    "source_image": "central-grid.jpg",
+    "modern_image": "central-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight original individually measured graticule intersections provide search guidance only, not physical controls or warped-image proof."
+  },
+  {
+    "name": "east",
+    "native_box": [
+      6800,
+      1100,
+      9670,
+      4200
+    ],
+    "source_image": "east-grid.jpg",
+    "modern_image": "east-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight original individually measured graticule intersections provide search guidance only, not physical controls or warped-image proof."
+  },
+  {
+    "name": "south",
+    "native_box": [
+      4600,
+      3300,
+      7400,
+      4800
+    ],
+    "source_image": "south-grid.jpg",
+    "modern_image": "south-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight original individually measured graticule intersections provide search guidance only, not physical controls or warped-image proof."
+  }
+]

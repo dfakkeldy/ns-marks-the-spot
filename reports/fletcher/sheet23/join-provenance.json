@@ -1,0 +1,13 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "sha256": "6355a23f84dd1a7017a6065f7b48e9552ce4cbd3dd1074cd441a936906293581"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "sha256": "75e5ce00163ef7e7c698bcd305a506770d67a719d581f0e8deeaa6d7a05e04be"
+    }
+  ],
+  "status": "Three actual northern comparisons personally inspected. Partial frame overlap and coast/stream discontinuities with Sheet21; no seam accepted. Western Sheet24 comparison outstanding; no prior local raster found."
+}
