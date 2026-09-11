@@ -1,6 +1,6 @@
 # Fletcher Sheet 11 — whole-sheet provisional georeferencing
 
-**Current revision (10 September):** [25-control refinement](refinement-20260910/README.md), 100.707 m median / 174.382 m worst on nine diagnostics. A fresh central check failed and was repaired; the sheet remains provisional pending new validation. The active draft is pinned in [status.json](status.json). The 18-control work below is the preserved earlier trial.
+**Current revision (11 September):** [26-control western completion packet](completion-20260911/README.md). The active fit is the 26-control western trial (`completion-20260911/western-fit.json`). **Provisional; geography is not accepted.** Fresh validation failed (V06 ~154 m, V07 ~408 m). Failed V05 became control W03 and is not independent validation. Sheet 11–14 joins remain discontinuous. No tile or production-label promotion. Canonical status remains [status.json](status.json). The [10 September 25-control refinement](refinement-20260910/README.md) and the 18-control work below are preserved earlier trials.
 
 **Sheet 11 is a rendered, editable draft; it is not accepted for tiles or production
 label projection.** Eighteen reviewed physical controls and six excluded diagnostic
