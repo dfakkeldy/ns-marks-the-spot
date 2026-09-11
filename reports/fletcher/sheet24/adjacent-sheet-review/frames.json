@@ -1,0 +1,62 @@
+[
+  {
+    "image": "22-northwest.jpg",
+    "lonlat_bounds": [
+      -61.56,
+      45.563,
+      -61.48,
+      45.589
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "22-northeast.jpg",
+    "lonlat_bounds": [
+      -61.33,
+      45.563,
+      -61.245,
+      45.589
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "23-east-north.jpg",
+    "lonlat_bounds": [
+      -61.235,
+      45.522,
+      -61.202,
+      45.577
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "23-east-south.jpg",
+    "lonlat_bounds": [
+      -61.235,
+      45.397,
+      -61.202,
+      45.46
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

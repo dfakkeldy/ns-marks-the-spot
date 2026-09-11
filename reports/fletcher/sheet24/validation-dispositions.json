@@ -1,0 +1,171 @@
+{
+  "sheet": "sheet-24",
+  "fit_sha256": "709a307b37d27bcfbabaa2c68e2d961d26f2b9bdcde35c305e4bb1d6ae5d3456",
+  "points": [
+    {
+      "lonlat": [
+        -61.261255,
+        45.5107036
+      ],
+      "source_guide_xy": [
+        8626.60078444006,
+        3096.0951208001934
+      ],
+      "objectids": [
+        135749,
+        135750,
+        196298
+      ],
+      "id": "V01",
+      "role": "rejected",
+      "modern_node_id": "J0654",
+      "pixel_xy": [
+        8680,
+        2997
+      ],
+      "identity_evidence": "Knight Lake northern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: historical northern stream is now an extended water basin; chosen water-line junction is not a secure physical shoreline/stream identity."
+    },
+    {
+      "lonlat": [
+        -61.48807962148118,
+        45.37923234701242
+      ],
+      "guide_xy": [
+        3660.822425646009,
+        7184.322811188409
+      ],
+      "modern_objectid": 3905,
+      "modern_part": 0,
+      "modern_vertex": 2,
+      "modern_properties": {
+        "OBJECTID": 3905,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 929.96179269281
+      },
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        3748,
+        7058
+      ],
+      "identity_evidence": "Hadley Beach southernmost spit, mapped Guysborough extension",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed fresh proposal after frozen repair"
+    },
+    {
+      "lonlat": [
+        -61.5503352,
+        45.4445601
+      ],
+      "source_guide_xy": [
+        2309.082488320535,
+        5128.957091440447
+      ],
+      "objectids": [
+        127433,
+        127434,
+        211975
+      ],
+      "id": "V03",
+      "role": "check",
+      "modern_node_id": "J1084",
+      "pixel_xy": [
+        2388,
+        4951
+      ],
+      "identity_evidence": "Fraser Lake northern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed fresh proposal after frozen repair"
+    },
+    {
+      "lonlat": [
+        -61.4121455,
+        45.4295003
+      ],
+      "source_guide_xy": [
+        5323.907571820077,
+        5619.715096000116
+      ],
+      "objectids": [
+        136232,
+        136333,
+        196359
+      ],
+      "id": "V04",
+      "role": "check",
+      "modern_node_id": "J1214",
+      "pixel_xy": [
+        5428,
+        5507
+      ],
+      "identity_evidence": "McPherson Lake southeastern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed fresh proposal after frozen repair"
+    },
+    {
+      "lonlat": [
+        -61.4889991,
+        45.5217866
+      ],
+      "source_guide_xy": [
+        3656.4894863804802,
+        2717.6871719204355
+      ],
+      "objectids": [
+        139525,
+        139526,
+        203790
+      ],
+      "id": "V05",
+      "role": "rejected",
+      "modern_node_id": "J0540",
+      "pixel_xy": [
+        3780,
+        2605
+      ],
+      "identity_evidence": "Sundown Lake western tributary/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: one historical western tributary versus three closely spaced modern western/northwestern tributaries; exact correspondence unresolved."
+    },
+    {
+      "lonlat": [
+        -61.28188878963612,
+        45.5533698853498
+      ],
+      "guide_xy": [
+        8180.904401891865,
+        1756.4523657981772
+      ],
+      "modern_objectid": 4978,
+      "modern_part": 0,
+      "modern_vertex": 2,
+      "modern_properties": {
+        "OBJECTID": 4978,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 183.78535073389037
+      },
+      "id": "V06",
+      "role": "check",
+      "pixel_xy": [
+        8298,
+        1688
+      ],
+      "identity_evidence": "Flat Head southernmost outer coast, north side of Strait",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed fresh proposal after frozen repair",
+      "correction": "Expanded selection window to include complete Flat Head tip; initial minimum was clipped at window boundary."
+    }
+  ]
+}

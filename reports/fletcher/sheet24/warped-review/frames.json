@@ -1,0 +1,167 @@
+[
+  {
+    "image": "northwest-tracadie.jpg",
+    "lonlat_bounds": [
+      -61.6,
+      45.52,
+      -61.49,
+      45.582
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "shepherd-clam.jpg",
+    "lonlat_bounds": [
+      -61.58,
+      45.494,
+      -61.465,
+      45.551
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "sundown.jpg",
+    "lonlat_bounds": [
+      -61.49,
+      45.506,
+      -61.43,
+      45.54
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "goose-harbour-lakes.jpg",
+    "lonlat_bounds": [
+      -61.46,
+      45.516,
+      -61.385,
+      45.579
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "strait-bear-head.jpg",
+    "lonlat_bounds": [
+      -61.36,
+      45.54,
+      -61.23,
+      45.58
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "eddy-knight.jpg",
+    "lonlat_bounds": [
+      -61.3,
+      45.476,
+      -61.218,
+      45.535
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "guysborough-harbour.jpg",
+    "lonlat_bounds": [
+      -61.58,
+      45.422,
+      -61.45,
+      45.47
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "guysborough-extension.jpg",
+    "lonlat_bounds": [
+      -61.52,
+      45.372,
+      -61.45,
+      45.41
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "mcpherson-ragged.jpg",
+    "lonlat_bounds": [
+      -61.455,
+      45.398,
+      -61.355,
+      45.445
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "goose-grady.jpg",
+    "lonlat_bounds": [
+      -61.35,
+      45.433,
+      -61.26,
+      45.488
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southern-full-frame.jpg",
+    "lonlat_bounds": [
+      -61.61,
+      45.37,
+      -61.21,
+      45.43
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet24/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

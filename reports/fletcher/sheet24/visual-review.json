@@ -1,0 +1,14 @@
+{
+  "personally_inspected_point_frames": 54,
+  "personally_inspected_warped_frames": 11,
+  "personally_inspected_adjacent_frames": 4,
+  "personally_inspected_browser_screenshots": 3,
+  "geographic_acceptance": false,
+  "limitations": [
+    "Fresh median 111.588509 m exceeds 100 m",
+    "Sparse northwestern/northern and interior physical support",
+    "Substantial historical/modern lake and river differences",
+    "Northern/eastern joins unaccepted",
+    "Southern mapped sea is extrapolation"
+  ]
+}

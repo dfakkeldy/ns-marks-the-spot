@@ -1,0 +1,27 @@
+{
+  "files": [
+    {
+      "path": "tools/fletcher/physical_observations/sheet-24.json",
+      "sha256": "6e44be00b36188612fe0c2d3ad0dae7a88839c3ebbca6ce0032952505b849b28",
+      "status": "Preserved byte-unchanged; July physical pilot stopped before any observations; later grid-only work is separate."
+    },
+    {
+      "path": "tools/fletcher/physical_results/sheet-24-modern-v1.json",
+      "sha256": "b701ad1c9feda36ebcc2b9de731d90a6b410e074a07d7f2df40187d42731f882",
+      "status": "Preserved byte-unchanged; July physical pilot stopped before any observations; later grid-only work is separate."
+    },
+    {
+      "path": "tools/fletcher/observations/sheet-24.json",
+      "sha256": "acf00f3cc036afa923f64fa1f7f392ade5a4e2b82cc5264267bc9b437464a247",
+      "status": "Preserved byte-unchanged; July physical pilot stopped before any observations; later grid-only work is separate."
+    },
+    {
+      "path": "tools/fletcher/gcps/sheet-24.csv",
+      "sha256": "0ea8be036010a3e06dd14c6e9172f7bf12615f8007f1f20ceaeff57bb54dfaa4",
+      "status": "Preserved byte-unchanged; July physical pilot stopped before any observations; later grid-only work is separate."
+    }
+  ],
+  "prior_physical_controls": 0,
+  "prior_physical_checks": 0,
+  "source_boundary": "Independent new direct-Rumsey native-region acquisition. Original incomplete Bazzite compute-manifest receipt and source-drift terminal state remain unchanged; new source encoding SHA is distinct."
+}

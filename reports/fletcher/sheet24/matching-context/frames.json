@@ -1,0 +1,80 @@
+[
+  {
+    "name": "northwest",
+    "native_box": [
+      1500,
+      1000,
+      4500,
+      3650
+    ],
+    "source_image": "northwest-grid.jpg",
+    "modern_image": "northwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten original individual graticule intersections provide search guidance only, not fitting controls or warped-image proof."
+  },
+  {
+    "name": "northcentral",
+    "native_box": [
+      4400,
+      1000,
+      7500,
+      3600
+    ],
+    "source_image": "northcentral-grid.jpg",
+    "modern_image": "northcentral-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten original individual graticule intersections provide search guidance only, not fitting controls or warped-image proof."
+  },
+  {
+    "name": "northeast",
+    "native_box": [
+      7300,
+      1030,
+      9690,
+      3900
+    ],
+    "source_image": "northeast-grid.jpg",
+    "modern_image": "northeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten original individual graticule intersections provide search guidance only, not fitting controls or warped-image proof."
+  },
+  {
+    "name": "southwest",
+    "native_box": [
+      1500,
+      3600,
+      4700,
+      6500
+    ],
+    "source_image": "southwest-grid.jpg",
+    "modern_image": "southwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten original individual graticule intersections provide search guidance only, not fitting controls or warped-image proof."
+  },
+  {
+    "name": "southeast",
+    "native_box": [
+      4600,
+      3500,
+      9400,
+      6500
+    ],
+    "source_image": "southeast-grid.jpg",
+    "modern_image": "southeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten original individual graticule intersections provide search guidance only, not fitting controls or warped-image proof."
+  },
+  {
+    "name": "extension",
+    "native_box": [
+      3000,
+      6200,
+      4400,
+      7170
+    ],
+    "source_image": "extension-grid.jpg",
+    "modern_image": "extension-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten original individual graticule intersections provide search guidance only, not fitting controls or warped-image proof."
+  }
+]
