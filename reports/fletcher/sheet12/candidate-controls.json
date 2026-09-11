@@ -1,0 +1,387 @@
+{
+  "sheet": "sheet-12",
+  "source_sha256": "72f758991fe7bce3eba450aecb030b5b681ad037f44168c34ad7c5e82e20034f",
+  "points": [
+    {
+      "lonlat": [
+        -60.7690523,
+        46.2031738
+      ],
+      "source_guide_xy": [
+        3138.426985400263,
+        2888.7297823999543
+      ],
+      "objectids": [
+        177265,
+        272744,
+        272745
+      ],
+      "id": "C01",
+      "modern_node_id": "J0641",
+      "role": "control",
+      "pixel_xy": [
+        3230,
+        2860
+      ],
+      "identity_evidence": "Sam Brook / northern branch of Baddeck River confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.689485,
+        46.2313997
+      ],
+      "source_guide_xy": [
+        4865.196530000074,
+        2009.4365455999505
+      ],
+      "objectids": [
+        177521,
+        266989,
+        267117
+      ],
+      "id": "C02",
+      "modern_node_id": "J0408",
+      "role": "control",
+      "pixel_xy": [
+        4835,
+        2066
+      ],
+      "identity_evidence": "Big Glen Brook / Christopher McLeod Brook confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.590816861445845,
+        46.255555563202485
+      ],
+      "guide_xy": [
+        7006.492472902406,
+        1256.9330951161683
+      ],
+      "modern_objectid": 10712,
+      "modern_part": 0,
+      "modern_vertex": 11,
+      "modern_properties": {
+        "OBJECTID": 10712,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 264.76769795480044
+      },
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        7070,
+        1285
+      ],
+      "identity_evidence": "Monroe Point easternmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.499387922168744,
+        46.23120573711263
+      ],
+      "guide_xy": [
+        8990.683313094312,
+        2015.4788774673361
+      ],
+      "modern_objectid": 20527,
+      "modern_part": 0,
+      "modern_vertex": 22,
+      "modern_properties": {
+        "OBJECTID": 20527,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1143.9270577842126
+      },
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        9050,
+        1970
+      ],
+      "identity_evidence": "Seal Island southern tip of larger island",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.52757429866172,
+        46.21215509910506
+      ],
+      "guide_xy": [
+        8378.982570443768,
+        2608.9443526791874
+      ],
+      "modern_objectid": 18364,
+      "modern_part": 0,
+      "modern_vertex": 40,
+      "modern_properties": {
+        "OBJECTID": 18364,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1542.963253102389
+      },
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        8390,
+        2580
+      ],
+      "identity_evidence": "Otter Island southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.7858912,
+        46.176639
+      ],
+      "source_guide_xy": [
+        2772.989177600248,
+        3715.3418719999027
+      ],
+      "objectids": [
+        274789,
+        274790,
+        287412
+      ],
+      "id": "C06",
+      "modern_node_id": "J0860",
+      "role": "control",
+      "pixel_xy": [
+        2990,
+        3680
+      ],
+      "identity_evidence": "McRae Brook mouth at west bank of Baddeck River",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.774752,
+        46.1373863
+      ],
+      "source_guide_xy": [
+        3014.7320960005745,
+        4938.1419823998585
+      ],
+      "objectids": [
+        183266,
+        183267,
+        263660
+      ],
+      "id": "C07",
+      "modern_node_id": "J1117",
+      "role": "control",
+      "pixel_xy": [
+        3088,
+        4926
+      ],
+      "identity_evidence": "Tom Moore Brook / Herring Brook confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.7932803,
+        46.1290563
+      ],
+      "source_guide_xy": [
+        2612.630929400446,
+        5197.6381423999555
+      ],
+      "objectids": [
+        158504,
+        158505,
+        178474
+      ],
+      "id": "C08",
+      "modern_node_id": "J1180",
+      "role": "control",
+      "pixel_xy": [
+        2628,
+        5240
+      ],
+      "identity_evidence": "Herring Brook mouth at east bank of Baddeck River",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.74983807459437,
+        46.092382139551376
+      ],
+      "guide_xy": [
+        3555.4141051534098,
+        6340.111588695552
+      ],
+      "modern_objectid": 18000,
+      "modern_part": 0,
+      "modern_vertex": 5,
+      "modern_properties": {
+        "OBJECTID": 18000,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 967.1641470770766
+      },
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        3660,
+        6267
+      ],
+      "identity_evidence": "Kidston Island southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.654391491343134,
+        46.07161528896575
+      ],
+      "guide_xy": [
+        5626.79585487186,
+        6987.040518139023
+      ],
+      "modern_objectid": 10801,
+      "modern_part": 0,
+      "modern_vertex": 24,
+      "modern_properties": {
+        "OBJECTID": 10801,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 3900.8354813886735
+      },
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        5660,
+        6910
+      ],
+      "identity_evidence": "Kemp Head southernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.528392783013715,
+        46.139112050184494
+      ],
+      "guide_xy": [
+        8361.219823037041,
+        4884.381412652787
+      ],
+      "modern_objectid": 5749,
+      "modern_part": 0,
+      "modern_vertex": 7,
+      "modern_properties": {
+        "OBJECTID": 5749,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 203.01228330277962
+      },
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        8453,
+        4760
+      ],
+      "identity_evidence": "Island Point northeastern outer tip",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.52199760231245,
+        46.09090284102577
+      ],
+      "guide_xy": [
+        8500.008034615777,
+        6386.19469636539
+      ],
+      "modern_objectid": 10891,
+      "modern_part": 0,
+      "modern_vertex": 13,
+      "modern_properties": {
+        "OBJECTID": 10891,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1522.9916561634643
+      },
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        8593,
+        6260
+      ],
+      "identity_evidence": "Lockman Point westernmost headland at extension",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    },
+    {
+      "lonlat": [
+        -60.71532638084902,
+        46.09391399713029
+      ],
+      "guide_xy": [
+        4304.386882815044,
+        6292.391161397332
+      ],
+      "modern_objectid": 9447,
+      "modern_part": 0,
+      "modern_vertex": 7,
+      "modern_properties": {
+        "OBJECTID": 9447,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 337.7144289592738
+      },
+      "id": "C13",
+      "role": "control",
+      "pixel_xy": [
+        4365,
+        6260
+      ],
+      "identity_evidence": "Red Point southernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; native crosshair required before fit."
+    }
+  ]
+}

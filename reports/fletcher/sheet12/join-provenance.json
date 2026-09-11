@@ -1,0 +1,13 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "sha256": "70f38cadb03bbb6d0b5753a96cf1802800d2e7b03503490a660121e10d589b98"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/regional-eleven/sheet-13-full-sheet.tif",
+      "sha256": "178cf532aee8967ee38cc3cc76a29a691e8310a08ac49afe3944916e442e5a91"
+    }
+  ],
+  "status": "Two actual western Sheet13 comparisons personally inspected. Frame overlap and river/shore discontinuities; no seam accepted. Northern Sheet10 comparison pending its physical raster."
+}
