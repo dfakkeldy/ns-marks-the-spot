@@ -1,0 +1,96 @@
+{
+  "sheet": "sheet-23",
+  "rumsey_id": "RUMSEY~8~1~2648~290016",
+  "source_sha256": "407c48993dd29f8483700050cd4d2b61bca737629223abea7bdf676246244d31",
+  "retrieved": "2026-07-25",
+  "method": "The full-resolution scan's engraved coordinate labels were read directly. Each retained graticule crossing was then measured individually because the scan is slanted and the automatic regular-lattice detector was inadequate. Folds, hatching, boundaries, text strokes and neatlines were excluded before roles were assigned.",
+  "qa_review": "Four engraved meridian labels and two engraved parallel labels were independently readable. Individual intersection pixels retain the scan's slant instead of flattening it. Detector candidates near x=6173 and x=8011 were true meridians; candidates near x=1371/1476 and x=9650/9760 were borders or neatlines, and x=5336 was a linen fold. Horizontal candidates near y=1001/1115 and y=6589/6718 were borders or neatlines. Linen folds near the true rules, lithology hatching, shoreline or survey boundaries, text strokes and decorative rules were excluded.",
+  "meridians": [
+    {
+      "lon": -61.166666666666664,
+      "label": "61d10mW"
+    },
+    {
+      "lon": -61.083333333333336,
+      "label": "61d05mW"
+    },
+    {
+      "lon": -61,
+      "label": "61d00mW"
+    },
+    {
+      "lon": -60.916666666666664,
+      "label": "60d55mW"
+    }
+  ],
+  "parallels": [
+    {
+      "lat": 45.5,
+      "label": "45d30mN"
+    },
+    {
+      "lat": 45.416666666666664,
+      "label": "45d25mN"
+    }
+  ],
+  "check_intersections": [
+    [
+      0,
+      0
+    ],
+    [
+      3,
+      1
+    ]
+  ],
+  "intersections": [
+    {
+      "meridian_index": 0,
+      "parallel_index": 0,
+      "pixel_x": 2539.0,
+      "pixel_y": 3505.0
+    },
+    {
+      "meridian_index": 1,
+      "parallel_index": 0,
+      "pixel_x": 4359.0,
+      "pixel_y": 3529.0
+    },
+    {
+      "meridian_index": 2,
+      "parallel_index": 0,
+      "pixel_x": 6178.0,
+      "pixel_y": 3545.0
+    },
+    {
+      "meridian_index": 3,
+      "parallel_index": 0,
+      "pixel_x": 8008.0,
+      "pixel_y": 3557.0
+    },
+    {
+      "meridian_index": 0,
+      "parallel_index": 1,
+      "pixel_x": 2492.0,
+      "pixel_y": 6127.0
+    },
+    {
+      "meridian_index": 1,
+      "parallel_index": 1,
+      "pixel_x": 4322.0,
+      "pixel_y": 6155.0
+    },
+    {
+      "meridian_index": 2,
+      "parallel_index": 1,
+      "pixel_x": 6143.0,
+      "pixel_y": 6176.0
+    },
+    {
+      "meridian_index": 3,
+      "parallel_index": 1,
+      "pixel_x": 7987.0,
+      "pixel_y": 6197.0
+    }
+  ]
+}

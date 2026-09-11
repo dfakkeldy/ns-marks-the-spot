@@ -1,0 +1,16 @@
+{
+  "personally_inspected_point_frames": 49,
+  "personally_inspected_warped_frames": 10,
+  "personally_inspected_adjacent_frames": 3,
+  "personally_inspected_browser_screenshots": 3,
+  "geographic_acceptance": false,
+  "fresh_median_ground_m": 229.36932702567017,
+  "fresh_worst_ground_m": 506.9713560185798,
+  "limitations": [
+    "Grand Lake, Shaw Lake and Thorn Island fresh failures",
+    "Northern seam discontinuities",
+    "Western Sheet24 seam outstanding",
+    "Southern mapped sea is extrapolation",
+    "Historical/modern shoreline and island-shape differences"
+  ]
+}

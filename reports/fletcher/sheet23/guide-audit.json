@@ -1,0 +1,9 @@
+{
+  "original_observation": "tools/fletcher/observations/sheet-23.json",
+  "original_sha256": "1fe64c970ef0414d9a19d3c47d7a02bc9869fe13cfcf346ae2636764b200e294",
+  "original_unchanged": true,
+  "guide_method": "Eight individually measured, slanted graticule intersections fitted as one affine search guide. Original grid control/check roles are not physical evidence.",
+  "native_label_review": "Both left and right 45 degrees 30 minutes and 45 degrees 25 minutes north and outer 61 degrees 10 minutes / 60 degrees 55 minutes west personally seen in graticule-labels.jpg.",
+  "source_encoding": "Current native-region assembly source SHA differs from July observation source SHA; do not claim byte identity. Coordinates are provisional search guidance, never geographic controls.",
+  "physical_prior_search": "Targeted existing sheet23 paths yielded engraved-grid observations and generated grid CSV; no earlier physical-control packet found."
+}

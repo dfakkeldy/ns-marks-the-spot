@@ -1,0 +1,8 @@
+{
+  "fit": "repaired-fit.json",
+  "sha256": "d90713b109ed4e9032f1837357f9f2bf983f3db000e8dbb5cff1159ec7f1405e",
+  "control_count": 12,
+  "frozen_utc": "2026-09-11T16:42:49.239566+00:00",
+  "fresh_checks_selected": false,
+  "promotion": "Q02 to C13; coordinates unchanged"
+}

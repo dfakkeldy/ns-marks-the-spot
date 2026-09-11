@@ -1,0 +1,312 @@
+{
+  "sheet": "sheet-23",
+  "source_sha256": "2ed268fb21d3ff991d2d79a4b0c7792ae4284a68b525993798534c321db865ba",
+  "points": [
+    {
+      "lonlat": [
+        -61.20060527524983,
+        45.54195668175147
+      ],
+      "guide_xy": [
+        1804.814657079056,
+        2171.54163841391
+      ],
+      "modern_objectid": 22246,
+      "modern_part": 0,
+      "modern_vertex": 3,
+      "modern_properties": {
+        "OBJECTID": 22246,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 29.927935827135276
+      },
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        1873,
+        2083
+      ],
+      "identity_evidence": "Thomas Head westernmost mainland coast",
+      "source_uncertainty_px": 20,
+      "status": "Corrected candidate awaiting second native review; no fit or score yet."
+    },
+    {
+      "lonlat": [
+        -61.18625326292238,
+        45.515552961887515
+      ],
+      "guide_xy": [
+        2108.309723344166,
+        3008.2341427414212
+      ],
+      "modern_objectid": 16261,
+      "modern_part": 0,
+      "modern_vertex": 30,
+      "modern_properties": {
+        "OBJECTID": 16261,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 281.436037967875
+      },
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        2184,
+        2932
+      ],
+      "identity_evidence": "Peninsula Point southernmost tip, Janvrin Island",
+      "source_uncertainty_px": 20,
+      "status": "Corrected candidate awaiting second native review; no fit or score yet."
+    },
+    {
+      "lonlat": [
+        -61.154396133086536,
+        45.55555801991422
+      ],
+      "guide_xy": [
+        2823.394648012938,
+        1753.4975805869326
+      ],
+      "modern_objectid": 16923,
+      "modern_part": 0,
+      "modern_vertex": 140,
+      "modern_properties": {
+        "OBJECTID": 16923,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 1383.1440500559095
+      },
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        2867,
+        1691
+      ],
+      "identity_evidence": "Campbell Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Corrected candidate awaiting second native review; no fit or score yet."
+    },
+    {
+      "lonlat": [
+        -61.0528313,
+        45.528831
+      ],
+      "source_guide_xy": [
+        5038.38918903959,
+        2621.480524660554
+      ],
+      "objectids": [
+        127916,
+        127918,
+        197787
+      ],
+      "id": "C04",
+      "modern_node_id": "J0439",
+      "role": "control",
+      "pixel_xy": [
+        5076,
+        2530
+      ],
+      "identity_evidence": "Lac Le Blanc southern stream/shoreline junction",
+      "source_uncertainty_px": 20,
+      "status": "Corrected candidate awaiting second native review; no fit or score yet."
+    },
+    {
+      "lonlat": [
+        -60.9950064,
+        45.5413771
+      ],
+      "source_guide_xy": [
+        6311.1340991198085,
+        2239.545307780383
+      ],
+      "objectids": [
+        142299,
+        142394,
+        285836
+      ],
+      "id": "C05",
+      "modern_node_id": "J0368",
+      "role": "control",
+      "pixel_xy": [
+        6402,
+        2128
+      ],
+      "identity_evidence": "Shaw Lake southeastern stream/shoreline junction",
+      "source_uncertainty_px": 20,
+      "status": "Corrected candidate awaiting second native review; no fit or score yet."
+    },
+    {
+      "lonlat": [
+        -61.06344073234006,
+        45.49616246305774
+      ],
+      "guide_xy": [
+        4792.11813417566,
+        3649.83618420735
+      ],
+      "modern_objectid": 17711,
+      "modern_part": 0,
+      "modern_vertex": 256,
+      "modern_properties": {
+        "OBJECTID": 17711,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 4040.051192130907
+      },
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        4866,
+        3579
+      ],
+      "identity_evidence": "Jerseyman Island westernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Corrected candidate awaiting second native review; no fit or score yet."
+    },
+    {
+      "lonlat": [
+        -60.89411847956157,
+        45.55901173707832
+      ],
+      "guide_xy": [
+        8529.923152366886,
+        1707.4437646616716
+      ],
+      "modern_objectid": 7009,
+      "modern_part": 0,
+      "modern_vertex": 4,
+      "modern_properties": {
+        "OBJECTID": 7009,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 440.839881802037
+      },
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        8606,
+        1592
+      ],
+      "identity_evidence": "Petit Nez easternmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Corrected candidate awaiting second native review; no fit or score yet."
+    },
+    {
+      "lonlat": [
+        -60.91032885987277,
+        45.509144053873264
+      ],
+      "guide_xy": [
+        8153.660157303326,
+        3277.198573604459
+      ],
+      "modern_objectid": 20959,
+      "modern_part": 0,
+      "modern_vertex": 35,
+      "modern_properties": {
+        "OBJECTID": 20959,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 180.19037082878336
+      },
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        8216,
+        3146
+      ],
+      "identity_evidence": "Flat Point easternmost coast on Petit-de-Grat Island",
+      "source_uncertainty_px": 20,
+      "status": "Corrected candidate awaiting second native review; no fit or score yet."
+    },
+    {
+      "lonlat": [
+        -60.94800865299454,
+        45.478746154961186
+      ],
+      "guide_xy": [
+        7314.982118365588,
+        4227.354095596122
+      ],
+      "modern_objectid": 20925,
+      "modern_part": 0,
+      "modern_vertex": 12,
+      "modern_properties": {
+        "OBJECTID": 20925,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 267.12662998922633
+      },
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        7394,
+        4100
+      ],
+      "identity_evidence": "Heath Head southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Corrected candidate awaiting second native review; no fit or score yet."
+    },
+    {
+      "lonlat": [
+        -60.904246283327446,
+        45.47790626793955
+      ],
+      "guide_xy": [
+        8273.865499023581,
+        4264.440151323099
+      ],
+      "modern_objectid": 18505,
+      "modern_part": 0,
+      "modern_vertex": 2,
+      "modern_properties": {
+        "OBJECTID": 18505,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 460.80500462902654
+      },
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        8392,
+        4104
+      ],
+      "identity_evidence": "Green Island westernmost coast; northern outline differs so northern proposal retired before fit.",
+      "source_uncertainty_px": 20,
+      "status": "Corrected candidate awaiting second native review; no fit or score yet."
+    }
+  ]
+}
