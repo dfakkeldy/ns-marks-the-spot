@@ -3386,7 +3386,7 @@ a {
   border-left: 0;
 }
 
-/* Poker folds the strip to its toggle (see the fold effect in App.tsx): one
+/* Every setup folds the strip to its toggle (see the fold effect in App.tsx): one
    row here, a corner pill on phones below. */
 .map-attribution.collapsed {
   flex-wrap: nowrap;
@@ -3583,7 +3583,7 @@ a {
 
   /* Folded, the strip is a pill in the bottom-right corner rather than a
      full-width bar: the scale bar and screen-scale readout share its row
-     (PokerMapTools.css) and the map runs to the bottom edge behind them.
+     and the map runs to the bottom edge behind them.
      The pill's own box is what the ResizeObserver measures, so the layer
      sheet still clears it. */
   .map-attribution.collapsed {
@@ -3830,8 +3830,54 @@ a {
     top: max(154px, calc(env(safe-area-inset-top) + 116px));
   }
 
+  /* Share Poker's bare button row with distance and area measurements. */
+  .map-region:not(.poker-mode) .measure-actions {
+    top: auto;
+    right: 8px;
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 90px);
+    left: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .measure-actions button {
+    min-width: 0;
+    height: 44px;
+    padding: 0 4px;
+    border: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+    box-shadow: 0 1px 6px #12343b33;
+    background: color-mix(in srgb, var(--white) 50%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    font-size: 13px;
+  }
+
   .measure-readout {
-    bottom: calc(16px + env(safe-area-inset-bottom));
+    bottom: calc(var(--map-attribution-height, calc(72px + env(safe-area-inset-bottom))) + 142px);
+    max-width: calc(100% - 24px);
+  }
+
+  .map-region.attribution-folded .measure-actions {
+    bottom: var(--compact-tools-bottom, calc(60px + env(safe-area-inset-bottom)));
+  }
+
+  .map-region.attribution-folded .measure-readout {
+    bottom: calc(var(--compact-tools-bottom, calc(60px + env(safe-area-inset-bottom))) + 52px);
+  }
+
+  /* All setups share the folded footer's bottom row. Explicit left/width
+     constraints also cover non-Poker maps and landscape layouts. */
+  .map-region.attribution-folded .leaflet-bottom.leaflet-left {
+    bottom: calc(8px + env(safe-area-inset-bottom));
+  }
+
+  .map-region.attribution-folded .leaflet-container .display-scale-readout {
+    left: auto;
+    right: 134px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    max-width: calc(100% - 238px);
+    white-space: normal;
   }
 
   /* Follow the same measured footer as the distance bars. The extra 50px
@@ -7176,3 +7222,11 @@ a {
 .fletcher-full-sheets-preview label { display: flex; align-items: center; gap: 6px; }
 .fletcher-full-sheets-preview p { margin: 6px 0; line-height: 1.35; }
 .fletcher-full-sheets-preview input[type="range"] { flex: 1; min-width: 0; }
+
+/* On small phones the approximate scale needs more lines between the bars
+   and licence pill. Keep measurement actions above that text as well. */
+@media (max-width: 360px) {
+  .map-region.attribution-folded {
+    --compact-tools-bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+}

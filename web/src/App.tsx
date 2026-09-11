@@ -1395,24 +1395,31 @@ export function App() {
       shell.style.removeProperty("--map-attribution-height");
     };
   }, []);
-  // Poker folds the attribution strip to one row so the map keeps its height.
-  // The full strip is shown on entry and folds after the first map
-  // interaction or five seconds, the OSMF attribution guidelines' collapse
-  // allowances; "Show licences" brings it back. Outside Poker it never folds.
-  const [attributionFolded, setAttributionFolded] = useState(false);
-  const attributionCollapsed = pokerMode && attributionFolded;
+  // Present source credits on entry to each setup, then give the map its
+  // space back. Reading or reopening the footer cancels automatic folding.
+  const [attributionCollapsed, setAttributionFolded] = useState(false);
+  const cancelAttributionFold = useRef<() => void>(() => {});
   useEffect(() => {
-    if (!pokerMode) return;
     setAttributionFolded(false);
     const region = mapRegionRef.current;
-    const fold = () => setAttributionFolded(true);
-    const timer = window.setTimeout(fold, 5000);
-    region?.addEventListener("pointerdown", fold, { once: true, passive: true });
-    return () => {
+    const footer = attributionRef.current;
+    const cancel = () => {
       window.clearTimeout(timer);
       region?.removeEventListener("pointerdown", fold);
+      footer?.removeEventListener("focusin", cancel);
+      footer?.removeEventListener("pointerdown", cancel);
     };
-  }, [pokerMode]);
+    const fold = () => {
+      cancel();
+      setAttributionFolded(true);
+    };
+    const timer = window.setTimeout(fold, 5000);
+    cancelAttributionFold.current = cancel;
+    region?.addEventListener("pointerdown", fold, { once: true, passive: true });
+    footer?.addEventListener("focusin", cancel);
+    footer?.addEventListener("pointerdown", cancel, { passive: true });
+    return cancel;
+  }, [selectedThemeId]);
   // Name the tab after the open parcel: multi-tab research otherwise produces
   // indistinguishable tabs and identical history entries. The PID is already
   // in the share URL, so this discloses nothing new.
@@ -5718,9 +5725,12 @@ export function App() {
       </main>
 
       <footer ref={attributionRef} className={`map-attribution${attributionCollapsed ? " collapsed" : ""}`}>
-        {pokerMode && <button type="button" aria-expanded={!attributionCollapsed} onClick={() => setAttributionFolded((folded) => !folded)}>
+        <button type="button" aria-expanded={!attributionCollapsed} onClick={() => {
+          cancelAttributionFold.current();
+          setAttributionFolded((folded) => !folded);
+        }}>
           {attributionCollapsed ? "Show licences" : "Hide licences"}
-        </button>}
+        </button>
         {pokerMode && (attributionCollapsed
           // Folded, the strip is a corner pill with no room for the civic
           // status; it stays a live region so it is still announced.

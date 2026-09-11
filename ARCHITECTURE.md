@@ -498,12 +498,17 @@ The web-only Poker theme uses `components/PokerMapTools.tsx` for bounded civic
 number queries at zoom 16 and above, address-point focus, and always-visible
 civic search over the map. Finish, Undo point, and Clear sit in a translucent
 button row; the distance total is the map label at the last vertex and the
-strip only announces it. The attribution footer is shown on entering Poker and
-folds to its `Show licences` toggle after the first map interaction or five
+strip only announces it. Across all built-in and custom setups, the attribution
+footer is shown on entry and folds to its `Show licences` toggle after the first map interaction or five
 seconds, the collapse the OSMF attribution guidelines allow; on phones the
 toggle is a corner pill, the scale bar and screen-scale readout share its row
 (`attribution-folded` on the map region), and the civic status becomes a
-visually hidden live region.
+visually hidden live region in Poker. Shared footer and scale geometry lives in
+`styles.css`. General distance/area actions share the translucent mobile button
+row while retaining instructions above it during drawing. Finished totals
+remain on the map label and in the screen-reader status. Entering a setup
+resets the fold cycle; interacting with or reopening the footer cancels its
+pending timer and map listener so the credits stay open for reading.
 Viewport replies are capped at 500 source rows with truncation and
 unreadable-row notices; movement cancels stale work. Poker disables parcel
 rendering and lookups, including address-to-parcel identification and PID

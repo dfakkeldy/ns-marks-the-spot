@@ -201,6 +201,15 @@ The six built-in map setups are **Explore Nova Scotia**,
 **Georeferencing**, and **Poker**. Applying a setup replaces the catalogue-layer configuration
 coherently; it does not remove or change imported maps or data.
 
+Across all built-in and custom setups, the footer presents source credits on
+entry, then folds after the first map touch or five seconds. **Show licences**
+restores the full strip and keeps it open for reading; **Hide licences** folds
+it again. On phones, the toggle becomes a corner pill beside the scale bar
+and screen-scale readout. Distance and area measurement actions use the same
+translucent button row as Poker, with instructions above it while drawing and
+the completed total on the map label. These controls follow the current light
+or dark appearance.
+
 **Poker** is a web-only driveway-measuring workflow with an always-visible
 search field over the map. Aerial imagery and roads (including street-name
 labels) are on by default, subject to the Province licence gate. Civic numbers
@@ -211,12 +220,9 @@ the label on the last point. Tap the search
 field to replace the address; choosing another result clears the previous path.
 Quick successive taps keep every point. Parcel boundaries and parcel lookups are disabled in Poker so they cannot intercept measurement taps.
 Civic points may not sit on a house. They load at zoom 16 or closer, with a
-500-point viewport limit. The footer shows its civic-source status,
-attribution, and accuracy notes on entering Poker, then folds to a
-**Show licences** button after the first map touch or five seconds; on phones
-that button is a corner pill sharing its row with the scale bar, and the civic
-status is still announced to screen readers while folded. The button brings
-the full strip back. Poker sessions and measurements are not saved, shared,
+500-point viewport limit. The footer also shows its civic-source status and
+accuracy notes. Civic status is still announced to screen readers while the
+footer is folded. Poker sessions and measurements are not saved, shared,
 or copied into custom themes. The native theme parity fixture excludes this
 web-only workflow.
 

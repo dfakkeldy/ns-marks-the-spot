@@ -85,6 +85,7 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
       expect(screenScale.x + screenScale.width).toBeLessThanOrEqual(attribution.x);
       expect(screenScale.x).toBeGreaterThanOrEqual(scale.x + scale.width);
       expect(readout.y + readout.height).toBeLessThanOrEqual(attribution.y);
+      expect(readout.y + readout.height).toBeLessThanOrEqual(screenScale.y);
       if (viewport.width > viewport.height) expect(readout.x).toBeGreaterThanOrEqual(scale.x + scale.width);
       else expect(readout.y + readout.height).toBeLessThanOrEqual(scale.y);
     }
