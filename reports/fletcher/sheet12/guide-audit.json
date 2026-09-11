@@ -1,0 +1,8 @@
+{
+  "original_observation": "tools/fletcher/observations/sheet-12.json",
+  "original_sha256": "4c31657baf6a489ab8d0d6d0116503605283a1520469ed5dd78a73f579300aa2",
+  "original_unchanged": true,
+  "guide_method": "Original five meridian x/two parallel y Cartesian intersections; affine search guidance only. Printed-grid roles are not physical evidence.",
+  "native_label_review": "Both 46 degrees 15 / 46 degrees 10 north and outer 60 degrees 50 / 60 degrees 30 west labels personally read. Small slant in printed rules remains a guide limitation, not fitting evidence.",
+  "source_encoding": "New native-region PNG assembly; original July hash and files retained separately."
+}

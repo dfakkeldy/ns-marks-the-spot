@@ -1,0 +1,170 @@
+{
+  "sheet": "sheet-12",
+  "fit_sha256": "8bc31eb8031bdbca38c4db30760081ebe7b57cbc37271ed2cf88f192aad336d6",
+  "points": [
+    {
+      "lonlat": [
+        -60.7826646,
+        46.2276333
+      ],
+      "source_guide_xy": [
+        2843.0128508002963,
+        2126.7674383998383
+      ],
+      "objectids": [
+        176756,
+        183661,
+        183799
+      ],
+      "id": "Q01",
+      "role": "check",
+      "modern_node_id": "J0429",
+      "pixel_xy": [
+        2981,
+        2059
+      ],
+      "identity_evidence": "Small eastern tributary at northern Baddeck branch, above Sam Brook",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern physical context personally inspected before first diagnostic score.",
+      "original_candidate": {
+        "lonlat": [
+          -60.7826646,
+          46.2276333
+        ],
+        "source_guide_xy": [
+          2843.0128508002963,
+          2126.7674383998383
+        ],
+        "objectids": [
+          176756,
+          183661,
+          183799
+        ],
+        "id": "Q01",
+        "role": "check",
+        "modern_node_id": "J0429",
+        "pixel_xy": [
+          2960,
+          2045
+        ],
+        "identity_evidence": "Northern Baddeck branch small tributary confluence",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      }
+    },
+    {
+      "lonlat": [
+        -60.59869789483884,
+        46.22417270916442
+      ],
+      "guide_xy": [
+        6835.458286207868,
+        2234.571764109889
+      ],
+      "modern_objectid": 10910,
+      "modern_part": 0,
+      "modern_vertex": 37,
+      "modern_properties": {
+        "OBJECTID": 10910,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 838.0291924317437
+      },
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        6927,
+        2230
+      ],
+      "identity_evidence": "McLeod Point northernmost coast of peninsula between North/South Gut",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern physical context personally inspected before first diagnostic score.",
+      "original_candidate": {
+        "lonlat": [
+          -60.59869789483884,
+          46.22417270916442
+        ],
+        "guide_xy": [
+          6835.458286207868,
+          2234.571764109889
+        ],
+        "modern_objectid": 10910,
+        "modern_part": 0,
+        "modern_vertex": 37,
+        "modern_properties": {
+          "OBJECTID": 10910,
+          "FEAT_CODE": "WACO20",
+          "FEAT_DESC": "Coast - Water to the right line",
+          "RIVNAME_1": " ",
+          "RIVNAME_2": " ",
+          "ZVALUE": 0.4,
+          "FID": null,
+          "SHAPE_Length": 838.0291924317437
+        },
+        "id": "Q02",
+        "role": "check",
+        "pixel_xy": [
+          6950,
+          2220
+        ],
+        "identity_evidence": "McLeod Point northernmost coast of peninsula between North/South Gut",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      }
+    },
+    {
+      "lonlat": [
+        -60.6645993,
+        46.22046
+      ],
+      "source_guide_xy": [
+        5405.265991400462,
+        2350.230079999892
+      ],
+      "objectids": [
+        158506,
+        158507,
+        308791
+      ],
+      "id": "Q05",
+      "role": "check",
+      "modern_node_id": "J0482",
+      "pixel_xy": [
+        5480,
+        2337
+      ],
+      "identity_evidence": "Pond western outlet neck south of St Anns road; modern banked outlet differs in width",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern physical context personally inspected before first diagnostic score.",
+      "original_candidate": {
+        "lonlat": [
+          -60.6645993,
+          46.22046
+        ],
+        "source_guide_xy": [
+          5405.265991400462,
+          2350.230079999892
+        ],
+        "objectids": [
+          158506,
+          158507,
+          308791
+        ],
+        "id": "Q05",
+        "role": "check",
+        "modern_node_id": "J0482",
+        "pixel_xy": [
+          5517,
+          2324
+        ],
+        "identity_evidence": "Western outlet/shore connection of pond south of St Anns road",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      }
+    }
+  ]
+}

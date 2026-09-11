@@ -1,0 +1,15 @@
+{
+  "personally_inspected_point_frames": 47,
+  "personally_inspected_warped_frames": 11,
+  "personally_inspected_adjacent_frames": 2,
+  "personally_inspected_browser_screenshots": 3,
+  "geographic_acceptance": false,
+  "limitations": [
+    "Fresh worst 1111.670765 m exceeds 200 m; Fraser Point also fails at 353.486200 m",
+    "Sparse northwestern and interior physical support",
+    "Substantial historical/modern river and shore differences",
+    "Western joins unaccepted; northern join pending Sheet10",
+    "Query bbox south bound 46.08 N: crossing features extend into lower notches, but complete modern feature coverage south of that bound is not claimed",
+    "Mapped sea and unsupported regions remain extrapolation"
+  ]
+}

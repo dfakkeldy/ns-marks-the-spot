@@ -1,0 +1,152 @@
+{
+  "sheet": "sheet-12",
+  "fit_sha256": "2b4a15579de38102ce6950f95f954c401e6d4b1f4266d2516e6757c8a671a997",
+  "points": [
+    {
+      "lonlat": [
+        -60.7797388,
+        46.195576
+      ],
+      "source_guide_xy": [
+        2906.5085624002386,
+        3125.416447999887
+      ],
+      "objectids": [
+        159476,
+        159477,
+        177269
+      ],
+      "id": "V01",
+      "role": "check",
+      "modern_node_id": "J0703",
+      "pixel_xy": [
+        3020,
+        3125
+      ],
+      "identity_evidence": "Small western tributary mouth on Baddeck immediately south of Sam Brook",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed fresh validation proposal, collected after fourteen-control freeze."
+    },
+    {
+      "lonlat": [
+        -60.8401001,
+        46.2152212
+      ],
+      "source_guide_xy": [
+        1596.5476298001595,
+        2513.4291775997262
+      ],
+      "objectids": [
+        177379,
+        272550,
+        272623
+      ],
+      "id": "V02",
+      "role": "check",
+      "modern_node_id": "J0540",
+      "pixel_xy": [
+        1634,
+        2680
+      ],
+      "identity_evidence": "Musk Rat Brook / west-side tributary confluence in northwest interior",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed fresh validation proposal, collected after fourteen-control freeze."
+    },
+    {
+      "lonlat": [
+        -60.49603106580725,
+        46.23811419296403
+      ],
+      "guide_xy": [
+        9063.53380985139,
+        1800.2666607848369
+      ],
+      "modern_objectid": 4708,
+      "modern_part": 0,
+      "modern_vertex": 131,
+      "modern_properties": {
+        "OBJECTID": 4708,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1015.2915182810075
+      },
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        9120,
+        1865
+      ],
+      "identity_evidence": "Seal Island northernmost coast of larger island",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed fresh validation proposal, collected after fourteen-control freeze."
+    },
+    {
+      "lonlat": [
+        -60.746969709635955,
+        46.10071606212428
+      ],
+      "guide_xy": [
+        3617.6633614809252,
+        6080.493232704466
+      ],
+      "modern_objectid": 10535,
+      "modern_part": 0,
+      "modern_vertex": 6,
+      "modern_properties": {
+        "OBJECTID": 10535,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 168.58020206840976
+      },
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        3820,
+        6110
+      ],
+      "identity_evidence": "Kidston Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed fresh validation proposal, collected after fourteen-control freeze."
+    },
+    {
+      "lonlat": [
+        -60.652961148419145,
+        46.1000283481585
+      ],
+      "guide_xy": [
+        5657.837157008238,
+        6101.916898166295
+      ],
+      "modern_objectid": 17044,
+      "modern_part": 0,
+      "modern_vertex": 3,
+      "modern_properties": {
+        "OBJECTID": 17044,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 365.6620223782465
+      },
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        5750,
+        6010
+      ],
+      "identity_evidence": "Fraser Point northernmost hooked coast near Kemp peninsula",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed fresh validation proposal, collected after fourteen-control freeze."
+    }
+  ]
+}
