@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-24-C15.jpg",
+    "point_record": "sheet24/additional-candidates.json",
+    "point_id": "C15",
+    "native_box": [
+      1857,
+      2259,
+      2557,
+      2959
+    ],
+    "native_coordinates": [
+      2207,
+      2609
+    ],
+    "modern_lonlat": [
+      -61.55921,
+      45.5193249
+    ],
+    "rotation_degrees": 0
+  }
+]

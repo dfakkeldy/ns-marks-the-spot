@@ -1,0 +1,89 @@
+{
+  "sheet": "sheet-24",
+  "fit_sha256": "709a307b37d27bcfbabaa2c68e2d961d26f2b9bdcde35c305e4bb1d6ae5d3456",
+  "points": [
+    {
+      "lonlat": [
+        -61.2645943,
+        45.5078578
+      ],
+      "source_guide_xy": [
+        8553.394364139996,
+        3184.8029101602733
+      ],
+      "objectids": [
+        135748,
+        135750,
+        293281
+      ],
+      "id": "Q02",
+      "role": "check",
+      "modern_node_id": "J0669",
+      "pixel_xy": [
+        8596,
+        3107
+      ],
+      "identity_evidence": "Knight Lake western tributary/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern topology personally inspected before score."
+    },
+    {
+      "lonlat": [
+        -61.5503315,
+        45.4403133
+      ],
+      "source_guide_xy": [
+        2308.6944074204657,
+        5262.0183352003805
+      ],
+      "objectids": [
+        127433,
+        127435,
+        223474
+      ],
+      "id": "Q03",
+      "role": "check",
+      "modern_node_id": "J1129",
+      "pixel_xy": [
+        2366,
+        5088
+      ],
+      "identity_evidence": "Fraser Lake southwestern tributary/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern topology personally inspected before score."
+    },
+    {
+      "lonlat": [
+        -61.49514132519521,
+        45.396519103790745
+      ],
+      "guide_xy": [
+        3508.583777902415,
+        6641.728106741793
+      ],
+      "modern_objectid": 18114,
+      "modern_part": 0,
+      "modern_vertex": 29,
+      "modern_properties": {
+        "OBJECTID": 18114,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 346.38038708987983
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        3553,
+        6525
+      ],
+      "identity_evidence": "Byron Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern topology personally inspected before score."
+    }
+  ],
+  "status": "Three reused diagnostics; not independent fresh validation after repair."
+}

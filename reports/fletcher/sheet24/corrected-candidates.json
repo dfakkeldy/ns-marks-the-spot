@@ -1,0 +1,367 @@
+{
+  "sheet": "sheet-24",
+  "source_sha256": "916cf84b046656412ddfcfc88c0d0fef6c4a3b1ea8bba69c9f5e24ebd085eee8",
+  "points": [
+    {
+      "lonlat": [
+        -61.5548616,
+        45.5232322
+      ],
+      "source_guide_xy": [
+        2218.962913120864,
+        2663.3836427202914
+      ],
+      "objectids": [
+        142409,
+        142511,
+        292742
+      ],
+      "id": "C01",
+      "modern_node_id": "J0518",
+      "role": "control",
+      "pixel_xy": [
+        2316,
+        2514
+      ],
+      "identity_evidence": "Shepherd Lake eastern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.5006865,
+        45.5004612
+      ],
+      "source_guide_xy": [
+        3399.015582580585,
+        3384.255768400384
+      ],
+      "objectids": [
+        128281,
+        128284,
+        203783
+      ],
+      "id": "C02",
+      "modern_node_id": "J0706",
+      "role": "control",
+      "pixel_xy": [
+        3466,
+        3225
+      ],
+      "identity_evidence": "Clam Harbour Lake southeastern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.4174538,
+        45.5143962
+      ],
+      "source_guide_xy": [
+        5217.407321800478,
+        2959.030581760453
+      ],
+      "objectids": [
+        130837,
+        130838,
+        277690
+      ],
+      "id": "C03",
+      "modern_node_id": "J0628",
+      "role": "control",
+      "pixel_xy": [
+        5195,
+        2991
+      ],
+      "identity_evidence": "Goose Harbour River north and west branch confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.3457876,
+        45.5579732
+      ],
+      "source_guide_xy": [
+        6786.591035920428,
+        1603.4799539204687
+      ],
+      "objectids": [
+        12969,
+        12970,
+        286727
+      ],
+      "id": "C04",
+      "modern_node_id": "J0338",
+      "role": "control",
+      "pixel_xy": [
+        6907,
+        1618
+      ],
+      "identity_evidence": "Byers Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.28847897358456,
+        45.54801955963449
+      ],
+      "guide_xy": [
+        8036.4592365960125,
+        1923.1872339460533
+      ],
+      "modern_objectid": 2944,
+      "modern_part": 0,
+      "modern_vertex": 0,
+      "modern_properties": {
+        "OBJECTID": 2944,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 65.47332396319828
+      },
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        8140,
+        1849
+      ],
+      "identity_evidence": "Bear Head southernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.24992019629032,
+        45.52239257393309
+      ],
+      "guide_xy": [
+        8875.314143419499,
+        2731.406790676061
+      ],
+      "modern_objectid": 5082,
+      "modern_part": 0,
+      "modern_vertex": 11,
+      "modern_properties": {
+        "OBJECTID": 5082,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 130.04739731867272
+      },
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        8990,
+        2655
+      ],
+      "identity_evidence": "Eddy Point northernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.2645943,
+        45.5078578
+      ],
+      "source_guide_xy": [
+        8553.394364139996,
+        3184.8029101602733
+      ],
+      "objectids": [
+        135748,
+        135750,
+        293281
+      ],
+      "id": "C07",
+      "modern_node_id": "J0669",
+      "role": "control",
+      "pixel_xy": [
+        8650,
+        3142
+      ],
+      "identity_evidence": "Knight Lake southern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.4253465,
+        45.4591245
+      ],
+      "source_guide_xy": [
+        5039.018734900048,
+        4689.723764800234
+      ],
+      "objectids": [
+        196654,
+        196817,
+        293116
+      ],
+      "id": "C08",
+      "modern_node_id": "J0957",
+      "role": "control",
+      "pixel_xy": [
+        5228,
+        4495
+      ],
+      "identity_evidence": "Round Lake southwestern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.5768757,
+        45.4171718
+      ],
+      "source_guide_xy": [
+        1726.7168617004063,
+        5983.456566640176
+      ],
+      "objectids": [
+        142779,
+        142860,
+        203799
+      ],
+      "id": "C09",
+      "modern_node_id": "J1290",
+      "role": "control",
+      "pixel_xy": [
+        1800,
+        5780
+      ],
+      "identity_evidence": "Rocky Lake southern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.487694816231645,
+        45.399073426196466
+      ],
+      "guide_xy": [
+        3671.4126406582072,
+        6562.71475955192
+      ],
+      "modern_objectid": 18113,
+      "modern_part": 0,
+      "modern_vertex": 47,
+      "modern_properties": {
+        "OBJECTID": 18113,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 690.9073780228493
+      },
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        3738,
+        6460
+      ],
+      "identity_evidence": "Birch Island southernmost coast, Guysborough Harbour",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.49038478115265,
+        45.38164190350355
+      ],
+      "guide_xy": [
+        3610.7700322780292,
+        7108.511241365224
+      ],
+      "modern_objectid": 5212,
+      "modern_part": 0,
+      "modern_vertex": 3,
+      "modern_properties": {
+        "OBJECTID": 5212,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 215.60788236158695
+      },
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        3678,
+        7020
+      ],
+      "identity_evidence": "Eliza Point easternmost outer coast, Guysborough extension",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.381871724459266,
+        45.410098800828365
+      ],
+      "guide_xy": [
+        5982.599783079699,
+        6231.744320539758
+      ],
+      "modern_objectid": 9385,
+      "modern_part": 0,
+      "modern_vertex": 4,
+      "modern_properties": {
+        "OBJECTID": 9385,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 55.4426697808332
+      },
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        6130,
+        6129
+      ],
+      "identity_evidence": "Ragged Head southernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    },
+    {
+      "lonlat": [
+        -61.5475064,
+        45.4395402
+      ],
+      "source_guide_xy": [
+        2370.2770350403152,
+        5286.627578080166
+      ],
+      "objectids": [
+        127434,
+        127435,
+        223866
+      ],
+      "id": "C13",
+      "modern_node_id": "J1136",
+      "role": "control",
+      "pixel_xy": [
+        2415,
+        5100
+      ],
+      "identity_evidence": "Fraser Lake southeastern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed candidate; original native crosshair and modern topology required before fit."
+    }
+  ],
+  "stage": "Second proposals before first score; original proposals remain unchanged."
+}
