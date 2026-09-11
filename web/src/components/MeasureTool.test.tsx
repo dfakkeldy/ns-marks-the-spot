@@ -168,7 +168,9 @@ describe("distance measuring", () => {
     act(() => {
       fireEvent.keyDown(window, { key: "Enter" });
     });
-    // A finished measurement reads as a result, not an instruction.
+    // Finished totals stay on the map label and are announced without a duplicate strip.
+    expect(screen.getByRole("status")).toHaveClass("sr-only");
+    expect(document.querySelector(".measure-readout")).toBeNull();
     expect(screen.getByRole("status")).toHaveTextContent("111.19 km");
     expect(screen.getByRole("status")).not.toHaveTextContent("Esc to clear");
   });

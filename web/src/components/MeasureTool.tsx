@@ -294,7 +294,7 @@ function MeasureCapture({
         // Poker reads the total off the map label at the last vertex; the
         // strip only announces it so it does not spend a line on it.
         points.length >= MIN_FINISH_POINTS[mode] && <p className="sr-only" role="status">{readoutText(mode, points)}</p>
-      ) : <p className="measure-readout" role="status">
+      ) : <p className={finished ? "sr-only" : "measure-readout"} role="status">
         {readoutText(mode, points)}
         {/* The gestures are otherwise undiscoverable; surface them once a
             measurement is underway. */}

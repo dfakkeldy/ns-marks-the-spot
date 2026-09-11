@@ -53,7 +53,12 @@ for (const width of [320, 390, 844, 1440]) {
         const label = (await ratio.boundingBox())!;
         const bars = (await page.locator(".leaflet-control-scale").boundingBox())!;
         const footer = (await page.locator(".map-attribution").boundingBox())!;
-        return label.y + label.height <= bars.y && bars.y + bars.height < footer.y;
+        const folded = await page.locator(".map-attribution").evaluate(element => element.classList.contains("collapsed"));
+        return width <= 860 && folded
+          ? label.x >= bars.x + bars.width && label.x + label.width <= footer.x
+            && bars.y + bars.height <= footer.y + footer.height
+            && label.y + label.height <= footer.y + footer.height
+          : label.y + label.height <= bars.y && bars.y + bars.height < footer.y;
       }).toBe(true);
     };
     await checkScale();
@@ -62,6 +67,7 @@ for (const width of [320, 390, 844, 1440]) {
     await expect(ratio).not.toHaveText(beforeZoom!);
     await checkScale();
     if (width <= 860) {
+      await page.getByRole("button", { name: "Show licences", exact: true }).click();
       // Exercise the measured footer height, including extra space occupied
       // by larger text or a home-indicator inset.
       await page.locator(".map-attribution").evaluate((footer) => {
@@ -137,6 +143,7 @@ test("phone categories keep touch controls and attribution reachable", async ({ 
   const back = page.getByRole("button", { name: "Back to categories", exact: true });
   expect((await back.boundingBox())?.height).toBeGreaterThanOrEqual(44);
   await back.click();
+  await page.getByRole("button", { name: "Show licences", exact: true }).click();
   await page.getByRole("button", { name: "Data & licences", exact: true }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await page.getByText("Provincial-first Atlas sources", { exact: true }).click();
@@ -198,4 +205,56 @@ for (const template of ["research", "field"]) {
     await expect(sheet.getByText(/not a survey/i).first()).toBeVisible();
     await expect(page.locator(".print-preview-backdrop")).not.toHaveCSS("position", "fixed");
   });
+}
+
+for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }, { width: 844, height: 390 }]) {
+  for (const colorScheme of ["light", "dark"] as const) {
+    test(`shared mobile measurement row at ${viewport.width}x${viewport.height} in ${colorScheme}`, async ({ page }, testInfo) => {
+      await page.setViewportSize(viewport);
+      await page.emulateMedia({ colorScheme });
+      await page.goto("/?basemap=osm&taxSale=off&layers=&position=45.81355,-61.47775,14");
+      await expect(page).toHaveTitle(/NS Marks The Spot/);
+      const map = page.locator(".map-canvas .leaflet-container");
+      for (const mode of ["distance", "area"]) {
+        await page.getByRole("button", { name: `Measure ${mode}`, exact: true }).click();
+        await expect(page.locator(".map-attribution")).toHaveClass(/collapsed/);
+        const readout = page.locator(".measure-readout");
+        await expect(readout).toContainText(mode === "distance" ? "Tap the map to measure distance" : "Tap the map to outline an area");
+        const actions = page.locator(".measure-actions");
+        await expect.poll(async () => {
+          const row = (await actions.boundingBox())!;
+          const instructions = (await readout.boundingBox())!;
+          const footer = (await page.locator(".map-attribution").boundingBox())!;
+          const bars = (await page.locator(".leaflet-control-scale").boundingBox())!;
+          const ratio = (await page.locator(".display-scale-readout").boundingBox())!;
+          return row.y + row.height <= Math.min(footer.y, bars.y, ratio.y)
+            && instructions.y + instructions.height <= row.y;
+        }).toBe(true);
+        for (const label of ["Finish", "Clear", "Undo point"]) {
+          const button = page.getByRole("button", { name: label, exact: true });
+          await expect(button).toBeInViewport({ ratio: 1 });
+          expect((await button.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+          await expect(button).toHaveCSS("backdrop-filter", "blur(8px)");
+        }
+        for (const position of [{ x: 180, y: 170 }, { x: 220, y: 170 }, { x: 220, y: 210 }]) {
+          await map.click({ position });
+        }
+        await page.getByRole("button", { name: "Finish", exact: true }).click();
+        await expect(page.getByRole("button", { name: "Finish", exact: true })).toBeDisabled();
+        await expect(readout).toHaveCount(0);
+        await expect(page.getByRole("tooltip", { name: mode === "distance" ? /^Total distance/ : /^Area/ })).toBeVisible();
+        await page.screenshot({ path: testInfo.outputPath(`${mode}-${colorScheme}.png`) });
+        await page.getByRole("button", { name: "Clear", exact: true }).click();
+        await expect(readout).toContainText("Tap the map");
+      }
+      // Reopening credits preserves both the source links and a clear row.
+      await page.getByRole("button", { name: "Show licences", exact: true }).click();
+      await expect(page.getByRole("link", { name: "© OpenStreetMap contributors" })).toBeVisible();
+      await expect.poll(async () => {
+        const actions = (await page.locator(".measure-actions").boundingBox())!;
+        const ratio = (await page.locator(".display-scale-readout").boundingBox())!;
+        return actions.y + actions.height < ratio.y;
+      }).toBe(true);
+    });
+  }
 }

@@ -3992,18 +3992,20 @@ describe("NS Marks The Spot Online", () => {
     await user.click(within(footer).getByRole("button", { name: "Hide licences" }));
     expect(within(footer).getByRole("button", { name: "Show licences" })).toBeInTheDocument();
 
-    // Only Poker folds: every other setup keeps the full strip and no toggle.
+    // Switching setups presents the new source credits before folding again.
     await user.selectOptions(screen.getByRole("combobox", { name: "Map setup" }), "explore-nova-scotia");
     expect(within(footer).queryByRole("button", { name: "Show licences" })).not.toBeInTheDocument();
-    expect(within(footer).queryByRole("button", { name: "Hide licences" })).not.toBeInTheDocument();
+    expect(within(footer).getByRole("button", { name: "Hide licences" })).toBeInTheDocument();
     expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
     expect(region).not.toHaveClass("attribution-folded");
+    fireEvent.pointerDown(region);
+    expect(region).toHaveClass("attribution-folded");
   });
 
-  it("folds the Poker attribution strip on its own after five seconds", () => {
+  it.each(builtInMapThemes)("folds the attribution strip after five seconds in $name", ({ id }) => {
     vi.useFakeTimers();
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
-    window.history.replaceState(null, "", "/?theme=poker");
+    window.history.replaceState(null, "", `/?theme=${id}`);
 
     render(<App />);
 
@@ -4017,6 +4019,38 @@ describe("NS Marks The Spot Online", () => {
       vi.advanceTimersByTime(1);
     });
     expect(within(footer).getByRole("button", { name: "Show licences" })).toBeInTheDocument();
+    vi.useRealTimers();
+  });
+
+  it("folds and restores source credits for a saved custom theme", async () => {
+    localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
+    storeCustomThemes([STORED_FIELD_THEME]);
+    render(<App />);
+    await userEvent.selectOptions(screen.getByRole("combobox", { name: "Map setup" }), STORED_FIELD_THEME.id);
+    const footer = screen.getByRole("contentinfo");
+    const credits = footer.textContent;
+    fireEvent.pointerDown(screen.getByRole("region", { name: "Map and parcel details" }));
+    fireEvent.click(within(footer).getByRole("button", { name: "Show licences" }));
+    expect(footer.textContent).toBe(credits);
+  });
+
+  it.each(["pointer", "timer", "manual", "focus"])("keeps licences open for reading after %s interaction", (trigger) => {
+    vi.useFakeTimers();
+    render(<App />);
+    const footer = screen.getByRole("contentinfo");
+    const region = screen.getByRole("region", { name: "Map and parcel details" });
+    if (trigger === "pointer") fireEvent.pointerDown(region);
+    if (trigger === "timer") act(() => { vi.advanceTimersByTime(5000); });
+    if (trigger === "manual") fireEvent.click(within(footer).getByRole("button", { name: "Hide licences" }));
+    if (trigger === "focus") {
+      fireEvent.focusIn(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" }));
+    } else {
+      fireEvent.click(within(footer).getByRole("button", { name: "Show licences" }));
+    }
+    fireEvent.pointerDown(region);
+    act(() => { vi.advanceTimersByTime(5000); });
+    expect(within(footer).getByRole("link", { name: "© OpenStreetMap contributors" })).toBeInTheDocument();
+    expect(within(footer).getByRole("button", { name: "Hide licences" })).toHaveAttribute("aria-expanded", "true");
     vi.useRealTimers();
   });
 
