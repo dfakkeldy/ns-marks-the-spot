@@ -1,0 +1,210 @@
+{
+  "sheet": "sheet-13",
+  "source_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f",
+  "source_dimensions": [
+    10872,
+    7682
+  ],
+  "points": [
+    {
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        8695,
+        2442
+      ],
+      "lonlat": [
+        -60.8928464,
+        46.2320951
+      ],
+      "modern_node": "J0353",
+      "modern_objectids": [
+        176767,
+        269265,
+        269372
+      ],
+      "identity_evidence": "McLean Brook major interior fork: west downstream, northeastern and southeastern long arms; northern-arm tributary C02 corroborates the junction order.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        8690,
+        2440
+      ]
+    },
+    {
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        8787,
+        2376
+      ],
+      "lonlat": [
+        -60.8882613,
+        46.2340679
+      ],
+      "modern_node": "J0338",
+      "modern_objectids": [
+        176774,
+        269265,
+        269373
+      ],
+      "identity_evidence": "First substantial northern tributary on the northeastern arm above C01, before the paired eastern forks.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        8798,
+        2374
+      ]
+    },
+    {
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        2612,
+        1437
+      ],
+      "lonlat": [
+        -61.1745557,
+        46.259508
+      ],
+      "modern_node": "J0180",
+      "modern_objectids": [
+        186434,
+        261149,
+        261150
+      ],
+      "identity_evidence": "Ball Brook central fork: downstream northeast to the next western tributary, upstream west and south arms; paired eastern tributaries on the south arm corroborate.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        2590,
+        1437
+      ]
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        3483,
+        6148
+      ],
+      "lonlat": [
+        -61.1366662,
+        46.1100839
+      ],
+      "modern_node": "J0930",
+      "modern_objectids": [
+        130541,
+        130542,
+        275399
+      ],
+      "identity_evidence": "Lake Ainslie eastern-shore tributary mouth at the southern road bend, south of the mill brook and north of Trout Pool; exact shoreline junction.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        3377,
+        6187
+      ]
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        9356,
+        4614
+      ],
+      "lonlat": [
+        -60.8633288,
+        46.1588858
+      ],
+      "modern_node": "J0741",
+      "modern_objectids": [
+        192866,
+        192867,
+        287110
+      ],
+      "identity_evidence": "McDonald Brook first northwestern small tributary on the northeastern rising reach, below the larger fork beside the road crossing. The initial proposal on a southern tributary contradicted the modern branch directions and was rejected; source moved to the physically matching upstream fork before any fit.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        9276,
+        4699
+      ]
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        5500,
+        2935
+      ],
+      "lonlat": [
+        -61.0374896,
+        46.2143643
+      ],
+      "modern_node": "J0430",
+      "modern_objectids": [
+        192935,
+        279493,
+        279494
+      ],
+      "identity_evidence": "Mount Pleasant Brook major northeastern fork: west downstream, northeast main arm and southeast tributary; northern tributary immediately upstream corroborates.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        5500,
+        2935
+      ]
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        5215,
+        4095
+      ],
+      "lonlat": [
+        -61.0568465,
+        46.1765718
+      ],
+      "modern_node": "J0658",
+      "modern_objectids": [
+        192688,
+        260997,
+        260998
+      ],
+      "identity_evidence": "Coopers Brook interior fork: west downstream, northern headwater arm, southeast arm continuing through nearby large upstream junction.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        5210,
+        4104
+      ]
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        6228,
+        3100
+      ],
+      "lonlat": [
+        -61.0127492,
+        46.2112555
+      ],
+      "modern_node": "J0458",
+      "modern_objectids": [
+        185525,
+        191298,
+        192814
+      ],
+      "identity_evidence": "Central eastern drainage fork west of Murdock Brook: east downstream, northern headwater arm with distinctive hook and long southwestern arm.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        6207,
+        3097
+      ]
+    }
+  ]
+}

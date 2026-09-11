@@ -1,0 +1,33 @@
+{
+  "sheet": "sheet-13",
+  "status": "provisional-geography-not-accepted",
+  "source_pixels": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/native/sheet13.png",
+    "sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f",
+    "dimensions": [
+      10872,
+      7682
+    ],
+    "coordinates": "Original image-edge x right / y down. No preview or warped pixel coordinates."
+  },
+  "transform": {
+    "file": "regional-fit.json",
+    "sha256": "3d4a6d192eb87a343b649941518538f2ca108a25e20182055eadccfba2ff7981",
+    "method": "GDAL exact TPS in EPSG:3857, 5 projected metre cells"
+  },
+  "editable_controls": "sheet-13-controls.csv",
+  "diagnostics": "sheet-13-diagnostic-review.csv",
+  "fresh_validation": "sheet-13-validation-review.csv",
+  "raster_receipt": "raster-receipt.json",
+  "label_projection_allowed": false,
+  "future_label_draft_contract": "Retain original source spelling, source-native pixel coordinates, source hash and selected transform hash for every draft label. No production geographic projection from this provisional fit.",
+  "remaining": [
+    "Fresh validation median 115.492 m and worst 245.573 m fail the 100/200 m criteria; V02 North Brook northern arm is the largest failure. Preserve all residuals.",
+    "Q04 Coopers branch definition and Q07 North Brook parallel downstream branch require further topology audit; both are retained diagnostics, not clean acceptance evidence.",
+    "Middle River C06 remains rejected because the historical major channel merger is not modern J0910; resolve bank/centreline identity before adding valley support.",
+    "Historical mill-brook outlet course and parts of Lake Ainslie shoreline differ from modern geometry. Distinguish historical mapping/landscape change from transform error before adding shoreline controls.",
+    "Northwestern valley, southern interior and southeast estuary remain sparsely supported and visibly displaced. Whole-sheet alignment cannot be inferred from the control clusters.",
+    "Sheet 11 northern border and Sheet 14 western border retain offsets/gaps; no seamless mosaic acceptance."
+  ],
+  "next_adjacent_sheet": "15, immediately south; source already acquired outside Git."
+}

@@ -1,0 +1,103 @@
+{
+  "fit_sha256": "3d4a6d192eb87a343b649941518538f2ca108a25e20182055eadccfba2ff7981",
+  "points": [
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        4883,
+        3024
+      ],
+      "lonlat": [
+        -61.0673312,
+        46.2103331
+      ],
+      "modern_node": "J0468",
+      "modern_objectids": [
+        190934,
+        279726,
+        279727
+      ],
+      "identity_evidence": "First substantial southern tributary east of the Mount Pleasant northern-arm control C10; long southern arm and next northern small tributary corroborate.",
+      "source_uncertainty_px": 10,
+      "review": "Selected after regional freeze; native crosshair and modern topology inspected before scoring. V01 corrected from main reach to the southern tributary junction.",
+      "pre_review_pixel_xy": [
+        4860,
+        3020
+      ]
+    },
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        4950,
+        6090
+      ],
+      "lonlat": [
+        -61.0689392,
+        46.1123579
+      ],
+      "modern_node": "J0921",
+      "modern_objectids": [
+        191154,
+        281284,
+        281285
+      ],
+      "identity_evidence": "North Brook northern arm small northeastern tributary, above the tight southern bend and downstream of the preceding western branch; distinct from Q07 and C12.",
+      "source_uncertainty_px": 10,
+      "review": "Selected after regional freeze; native crosshair and modern topology inspected before scoring. V01 corrected from main reach to the southern tributary junction.",
+      "pre_review_pixel_xy": [
+        4950,
+        6090
+      ]
+    },
+    {
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        9437,
+        4552
+      ],
+      "lonlat": [
+        -60.8602622,
+        46.159877
+      ],
+      "modern_node": "J0732",
+      "modern_objectids": [
+        192593,
+        192599,
+        192866
+      ],
+      "identity_evidence": "McDonald Brook larger upstream fork beside the road crossing, northeast of small northwestern tributary C05; eastern arm and northward reach corroborate.",
+      "source_uncertainty_px": 10,
+      "review": "Selected after regional freeze; native crosshair and modern topology inspected before scoring. V01 corrected from main reach to the southern tributary junction.",
+      "pre_review_pixel_xy": [
+        9437,
+        4552
+      ]
+    },
+    {
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        3874,
+        5613
+      ],
+      "lonlat": [
+        -61.11429005755775,
+        46.128122510389886
+      ],
+      "modern_objectids": [
+        269340
+      ],
+      "modern_definition": "Northernmost vertex of the continuous northern looping headwater arm above J0880 (OBJECTID 269340).",
+      "identity_evidence": "Northernmost turn of the distinctive hooked headwater arm above C11, before the long southeast descent. Small historical crest tributary is not represented in modern line. Bend placement less precise than a junction.",
+      "source_uncertainty_px": 15,
+      "review": "Selected after regional freeze; native crosshair and modern topology inspected before scoring. V01 corrected from main reach to the southern tributary junction.",
+      "pre_review_pixel_xy": [
+        3874,
+        5613
+      ]
+    }
+  ]
+}

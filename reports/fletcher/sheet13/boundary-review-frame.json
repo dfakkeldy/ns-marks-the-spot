@@ -1,0 +1,18 @@
+{
+  "source": "/Users/dfakkeldy/Downloads/fletcher-sheet13/native/sheet13.png",
+  "native_origin": [
+    0,
+    0
+  ],
+  "native_extent": [
+    10872,
+    7682
+  ],
+  "display_size": [
+    1700,
+    1201
+  ],
+  "rotation_degrees": 0,
+  "boundary": "boundary.json",
+  "corners_native_crop_sheet": "/Users/dfakkeldy/Downloads/fletcher-sheet13/boundary-corners.jpg"
+}
