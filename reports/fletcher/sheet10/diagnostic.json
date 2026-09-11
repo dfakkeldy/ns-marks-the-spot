@@ -1,0 +1,156 @@
+{
+  "sheet": "sheet-10",
+  "fit_sha256": "1aa0ede8ec06ee965a390fd30bcb4e07c7a679c0b28a58242e977191ccd77cff",
+  "points": [
+    {
+      "lonlat": [
+        -60.8074007,
+        46.4042343
+      ],
+      "source_guide_xy": [
+        2298.112511459971,
+        2402.4568610799033
+      ],
+      "objectids": [
+        201861,
+        273491,
+        273492
+      ],
+      "id": "Q01",
+      "role": "check",
+      "modern_node_id": "J0963",
+      "pixel_xy": [
+        2574,
+        2605
+      ],
+      "identity_evidence": "Northern branch confluence on long western tributary of Middle River",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wide context personally inspected before first score; original proposals retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.8074007,
+          46.4042343
+        ],
+        "source_guide_xy": [
+          2298.112511459971,
+          2402.4568610799033
+        ],
+        "objectids": [
+          201861,
+          273491,
+          273492
+        ],
+        "id": "Q01",
+        "role": "check",
+        "modern_node_id": "J0963",
+        "pixel_xy": [
+          2554,
+          2603
+        ],
+        "identity_evidence": "Northern branch confluence on long western tributary of Middle River",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      }
+    },
+    {
+      "lonlat": [
+        -60.6573321,
+        46.4371696
+      ],
+      "source_guide_xy": [
+        5539.837614540476,
+        1389.8835247601382
+      ],
+      "objectids": [
+        187736,
+        276357,
+        276478
+      ],
+      "id": "Q02",
+      "role": "check",
+      "modern_node_id": "J0584",
+      "pixel_xy": [
+        5683,
+        1385
+      ],
+      "identity_evidence": "Upper Barasois Brook northern fork",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wide context personally inspected before first score; original proposals retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.6573321,
+          46.4371696
+        ],
+        "source_guide_xy": [
+          5539.837614540476,
+          1389.8835247601382
+        ],
+        "objectids": [
+          187736,
+          276357,
+          276478
+        ],
+        "id": "Q02",
+        "role": "check",
+        "modern_node_id": "J0584",
+        "pixel_xy": [
+          5660,
+          1387
+        ],
+        "identity_evidence": "Upper Barasois Brook northern fork",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      }
+    },
+    {
+      "lonlat": [
+        -60.6125077,
+        46.3172394
+      ],
+      "source_guide_xy": [
+        6499.70839014044,
+        5130.2711436403915
+      ],
+      "objectids": [
+        265349,
+        280103,
+        280104
+      ],
+      "id": "Q03",
+      "role": "check",
+      "modern_node_id": "J1713",
+      "pixel_xy": [
+        6575,
+        5100
+      ],
+      "identity_evidence": "Elders Brook joining North River from east",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wide context personally inspected before first score; original proposals retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.6139002,
+          46.3162515
+        ],
+        "source_guide_xy": [
+          6469.583919720491,
+          5160.923250400461
+        ],
+        "objectids": [
+          187298,
+          280104,
+          280105
+        ],
+        "id": "Q03",
+        "role": "check",
+        "modern_node_id": "J1719",
+        "pixel_xy": [
+          6485,
+          5185
+        ],
+        "identity_evidence": "Elders Brook joining North River from east",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      }
+    }
+  ]
+}

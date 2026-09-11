@@ -1,0 +1,17 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "sha256": "990434356bf80c3c5a9fd310b220d3da9fa6b0dff61177286c5f5c90092b6c8a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "sha256": "8721b668ddcb7fac3bfa8bbf3bb29fec7351483d62893ffe1f0a787a8b70acda"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "sha256": "70f38cadb03bbb6d0b5753a96cf1802800d2e7b03503490a660121e10d589b98"
+    }
+  ],
+  "status": "Four actual western Sheet11 and southern Sheet12 comparisons personally inspected. No seam accepted. Northern Sheet8 comparison pending its physical raster."
+}

@@ -1,0 +1,67 @@
+[
+  {
+    "name": "northwest",
+    "native_box": [
+      1465,
+      1110,
+      4600,
+      3900
+    ],
+    "source_image": "northwest-grid.jpg",
+    "modern_image": "northwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten individually measured slanted printed-graticule intersections give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "northcentral",
+    "native_box": [
+      4350,
+      1110,
+      7200,
+      3900
+    ],
+    "source_image": "northcentral-grid.jpg",
+    "modern_image": "northcentral-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten individually measured slanted printed-graticule intersections give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "northeast",
+    "native_box": [
+      6950,
+      1110,
+      10190,
+      3950
+    ],
+    "source_image": "northeast-grid.jpg",
+    "modern_image": "northeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten individually measured slanted printed-graticule intersections give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "southwest",
+    "native_box": [
+      1465,
+      3700,
+      5900,
+      6580
+    ],
+    "source_image": "southwest-grid.jpg",
+    "modern_image": "southwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten individually measured slanted printed-graticule intersections give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "southeast",
+    "native_box": [
+      5700,
+      3700,
+      9660,
+      6660
+    ],
+    "source_image": "southeast-grid.jpg",
+    "modern_image": "southeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Ten individually measured slanted printed-graticule intersections give search guidance only, not physical fitting controls or warped-image proof."
+  }
+]
