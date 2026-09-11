@@ -1,0 +1,313 @@
+{
+  "sheet": "sheet-07",
+  "source_sha256": "a75274bc0f1849bc024c1013d84d0904845c3893b9599827ed1521948fec3b61",
+  "points": [
+    {
+      "lonlat": [
+        -60.4654921,
+        46.5997694
+      ],
+      "source_guide_xy": [
+        1401.905876999488,
+        1640.43346080021
+      ],
+      "objectids": [
+        185179,
+        185444,
+        185573
+      ],
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        1469,
+        1598
+      ],
+      "modern_node_id": "J0223",
+      "identity_evidence": "Northwestern brook small southern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting."
+    },
+    {
+      "lonlat": [
+        -60.3856399,
+        46.5773732
+      ],
+      "source_guide_xy": [
+        3129.108962999424,
+        2342.957462400198
+      ],
+      "objectids": [
+        11298,
+        11299,
+        271555
+      ],
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        3214,
+        2272
+      ],
+      "modern_node_id": "J0286",
+      "identity_evidence": "Pathend Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting."
+    },
+    {
+      "lonlat": [
+        -60.3913876,
+        46.5712846
+      ],
+      "source_guide_xy": [
+        3004.786211999366,
+        2533.944667200325
+      ],
+      "objectids": [
+        11299,
+        11300,
+        267368
+      ],
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        3125,
+        2486
+      ],
+      "modern_node_id": "J0311",
+      "identity_evidence": "Morrison Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting."
+    },
+    {
+      "lonlat": [
+        -60.4007474,
+        46.5587526
+      ],
+      "source_guide_xy": [
+        2802.3337379994337,
+        2927.0484432002995
+      ],
+      "objectids": [
+        160080,
+        168856,
+        298879
+      ],
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        2880,
+        2887
+      ],
+      "modern_node_id": "J0344",
+      "identity_evidence": "McLeod Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting."
+    },
+    {
+      "lonlat": [
+        -60.443811,
+        46.5548038
+      ],
+      "source_guide_xy": [
+        1870.8680699996185,
+        3050.9144016001374
+      ],
+      "objectids": [
+        184778,
+        272023,
+        272025
+      ],
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        1920,
+        2963
+      ],
+      "modern_node_id": "J0355",
+      "identity_evidence": "Ferry Brook western tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting."
+    },
+    {
+      "lonlat": [
+        -60.4169035,
+        46.5221455
+      ],
+      "source_guide_xy": [
+        2452.8772949995473,
+        4075.3399559999816
+      ],
+      "objectids": [
+        11578,
+        11579,
+        280390
+      ],
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        2473,
+        4038
+      ],
+      "modern_node_id": "J0431",
+      "identity_evidence": "Wreck Cove Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting."
+    },
+    {
+      "lonlat": [
+        -60.4591869,
+        46.52413
+      ],
+      "source_guide_xy": [
+        1538.2873529994395,
+        4013.090160000138
+      ],
+      "objectids": [
+        190214,
+        269079,
+        269081
+      ],
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        1535,
+        3981
+      ],
+      "modern_node_id": "J0426",
+      "identity_evidence": "Mill Brook southwestern tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting."
+    },
+    {
+      "lonlat": [
+        -60.426935,
+        46.5111101
+      ],
+      "source_guide_xy": [
+        2235.895949999569,
+        4421.498383200029
+      ],
+      "objectids": [
+        11343,
+        11344,
+        269087
+      ],
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        2307,
+        4350
+      ],
+      "modern_node_id": "J0462",
+      "identity_evidence": "Mill Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting."
+    },
+    {
+      "lonlat": [
+        -60.441026,
+        46.482129
+      ],
+      "source_guide_xy": [
+        1931.107619999675,
+        5330.577528000111
+      ],
+      "objectids": [
+        4837,
+        4839,
+        264095
+      ],
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        2074,
+        5269
+      ],
+      "modern_node_id": "J0556",
+      "identity_evidence": "North Shore main brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting."
+    },
+    {
+      "lonlat": [
+        -60.4607659,
+        46.4676389
+      ],
+      "source_guide_xy": [
+        1504.133582999697,
+        5785.1029848000035
+      ],
+      "objectids": [
+        188303,
+        282784,
+        282785
+      ],
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        1525,
+        5680
+      ],
+      "modern_node_id": "J0598",
+      "identity_evidence": "Northern brook above Breeding Cove western tributary",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting."
+    },
+    {
+      "lonlat": [
+        -60.4578989,
+        46.4611481
+      ],
+      "source_guide_xy": [
+        1566.1467929994687,
+        5988.7063992000185
+      ],
+      "objectids": [
+        125611,
+        125612,
+        188302
+      ],
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        1622,
+        6020
+      ],
+      "modern_node_id": "J0606",
+      "identity_evidence": "Western inlet to large Breeding Cove pond",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; exact native crosshair and wider modern topology required before fitting."
+    },
+    {
+      "lonlat": [
+        -60.45395804608211,
+        46.463920876624556
+      ],
+      "guide_xy": [
+        1651.3874632436782,
+        5901.729942040984
+      ],
+      "modern_objectid": 11340,
+      "modern_part": 0,
+      "modern_vertex": 56,
+      "modern_properties": {
+        "OBJECTID": 11340,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 2215.1538270908245
+      },
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        1720,
+        5920
+      ],
+      "identity_evidence": "Large Breeding Cove pond northern shore tip",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed shore proposal; water body component identity must be established before fitting."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "name": "north",
+    "native_box": [
+      1334,
+      1005,
+      4050,
+      3050
+    ],
+    "source_image": "north-grid.jpg",
+    "modern_image": "north-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight intersections of the prior approximate Cartesian printed-graticule guide give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "central",
+    "native_box": [
+      1330,
+      2800,
+      3000,
+      4950
+    ],
+    "source_image": "central-grid.jpg",
+    "modern_image": "central-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight intersections of the prior approximate Cartesian printed-graticule guide give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "south",
+    "native_box": [
+      1322,
+      4650,
+      2550,
+      6500
+    ],
+    "source_image": "south-grid.jpg",
+    "modern_image": "south-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight intersections of the prior approximate Cartesian printed-graticule guide give search guidance only, not physical fitting controls or warped-image proof."
+  }
+]

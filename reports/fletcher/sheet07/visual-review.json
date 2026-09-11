@@ -1,0 +1,14 @@
+{
+  "personally_inspected_point_frames": 57,
+  "personally_inspected_warped_frames": 7,
+  "personally_inspected_adjacent_frames": 3,
+  "personally_inspected_browser_screenshots": 3,
+  "geographic_acceptance": false,
+  "limitations": [
+    "Two post-repair fresh checks fail: median 311.995500 m, worst 476.977451 m",
+    "Controls occupy a narrow western strip; offshore placement is unsupported extrapolation",
+    "Historical river/shore geometry differs from modern references",
+    "Earlier V03 failed at 760.512277 m and was promoted unchanged, never counted fresh again",
+    "Western Sheet8 seams unaccepted; northern Sheet4 pending"
+  ]
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "image": "08-west-north.jpg",
+    "lonlat_bounds": [
+      -60.495,
+      46.56,
+      -60.445,
+      46.62
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet07/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "08-west-middle.jpg",
+    "lonlat_bounds": [
+      -60.495,
+      46.5,
+      -60.445,
+      46.56
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet07/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "08-west-south.jpg",
+    "lonlat_bounds": [
+      -60.495,
+      46.445,
+      -60.445,
+      46.5
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet07/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

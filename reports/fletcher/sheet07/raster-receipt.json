@@ -1,0 +1,87 @@
+{
+  "fit_sha256": "b36039ccc4f179f600c3136a3126b93efc4abd9a8917e3c4c9fa0426fcdd153a",
+  "boundary_sha256": "ebf62db3000ce6fd6393ac213d6125fe87ac4d469128ea2fe8ca7b0f0b7c593d",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Supplied frozen check set; see check file for independence and revision history",
+  "checks_sha256": "c6d20b657fe0eca0bab1bd46052ff4cfa6242d6e16ae81ff0c71884d1e36dc46",
+  "median_ground_m": 62.79313222723779,
+  "worst_ground_m": 113.8012137621284,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 45.007469135884776,
+      "predicted_lonlat": [
+        -60.446981347390086,
+        46.55598664725179
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 44.3745341205719,
+      "predicted_lonlat": [
+        -60.458682791490205,
+        46.52387839743331
+      ]
+    },
+    {
+      "id": "V01",
+      "error_ground_m": 113.8012137621284,
+      "predicted_lonlat": [
+        -60.393427648243545,
+        46.58342310524224
+      ]
+    },
+    {
+      "id": "V02",
+      "error_ground_m": 80.5787953185908,
+      "predicted_lonlat": [
+        -60.400432347316205,
+        46.57358994872264
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71931,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -27.40129746631149,
+      -14.647122122093153
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+    "sha256": "49263f0abb5bfb5bd5a12edecd908fbcf12f24ee88c3e1c18a5d470eda71c5dd",
+    "size": [
+      7679,
+      6160
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.4711264,
+            46.635469
+          ],
+          [
+            -60.4711264,
+            46.4451559
+          ],
+          [
+            -60.1262183,
+            46.4451559
+          ],
+          [
+            -60.1262183,
+            46.635469
+          ],
+          [
+            -60.4711264,
+            46.635469
+          ]
+        ]
+      ]
+    }
+  }
+}
