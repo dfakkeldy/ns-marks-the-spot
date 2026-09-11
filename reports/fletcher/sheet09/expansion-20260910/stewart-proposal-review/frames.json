@@ -1,0 +1,62 @@
+[
+  {
+    "image": "sheet-09-C09.jpg",
+    "point_record": "sheet09/expansion-20260910/stewart-proposals.json",
+    "point_id": "C09",
+    "native_box": [
+      7657,
+      6248,
+      7877,
+      6468
+    ],
+    "native_coordinates": [
+      7767,
+      6358
+    ],
+    "modern_lonlat": [
+      -60.9398873,
+      46.4581803
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C10.jpg",
+    "point_record": "sheet09/expansion-20260910/stewart-proposals.json",
+    "point_id": "C10",
+    "native_box": [
+      8103,
+      6295,
+      8323,
+      6515
+    ],
+    "native_coordinates": [
+      8213,
+      6405
+    ],
+    "modern_lonlat": [
+      -60.9241152,
+      46.4550339
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-Q01.jpg",
+    "point_record": "sheet09/expansion-20260910/stewart-proposals.json",
+    "point_id": "Q01",
+    "native_box": [
+      7841,
+      6285,
+      8061,
+      6505
+    ],
+    "native_coordinates": [
+      7951,
+      6395
+    ],
+    "modern_lonlat": [
+      -60.9275594,
+      46.4580556
+    ],
+    "rotation_degrees": 0
+  }
+]

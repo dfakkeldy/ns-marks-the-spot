@@ -1,0 +1,268 @@
+[
+  {
+    "image": "faribault-upper-grid.jpg",
+    "native_box": [
+      8250,
+      1450,
+      9400,
+      2330
+    ],
+    "original_display_size": [
+      1150,
+      880
+    ],
+    "saved_display_size": [
+      1150,
+      880
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Native crop with labelled pixel grid"
+  },
+  {
+    "image": "faribault-upper-modern.jpg",
+    "native_box": [
+      8250,
+      1450,
+      9400,
+      2330
+    ],
+    "original_display_size": [
+      1150,
+      880
+    ],
+    "saved_display_size": [
+      1150,
+      880
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Modern reference on old printed-graticule affine search guide ONLY; not fitted geographic evidence"
+  },
+  {
+    "image": "cheticamp-point-grid.jpg",
+    "native_box": [
+      4800,
+      1200,
+      6300,
+      2360
+    ],
+    "original_display_size": [
+      1500,
+      1160
+    ],
+    "saved_display_size": [
+      1500,
+      1160
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Native crop with labelled pixel grid"
+  },
+  {
+    "image": "cheticamp-point-modern.jpg",
+    "native_box": [
+      4800,
+      1200,
+      6300,
+      2360
+    ],
+    "original_display_size": [
+      1500,
+      1160
+    ],
+    "saved_display_size": [
+      1500,
+      1160
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Modern reference on old printed-graticule affine search guide ONLY; not fitted geographic evidence"
+  },
+  {
+    "image": "farm-junctions-grid.jpg",
+    "native_box": [
+      6820,
+      3140,
+      7480,
+      3630
+    ],
+    "original_display_size": [
+      660,
+      490
+    ],
+    "saved_display_size": [
+      660,
+      490
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Native crop with labelled pixel grid"
+  },
+  {
+    "image": "farm-junctions-modern.jpg",
+    "native_box": [
+      6820,
+      3140,
+      7480,
+      3630
+    ],
+    "original_display_size": [
+      660,
+      490
+    ],
+    "saved_display_size": [
+      660,
+      490
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Modern reference on old printed-graticule affine search guide ONLY; not fitted geographic evidence"
+  },
+  {
+    "image": "stewart-river-bends-grid.jpg",
+    "native_box": [
+      7800,
+      6080,
+      8800,
+      6700
+    ],
+    "original_display_size": [
+      1000,
+      620
+    ],
+    "saved_display_size": [
+      1000,
+      620
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Native crop with labelled pixel grid"
+  },
+  {
+    "image": "stewart-river-bends-modern.jpg",
+    "native_box": [
+      7800,
+      6080,
+      8800,
+      6700
+    ],
+    "original_display_size": [
+      1000,
+      620
+    ],
+    "saved_display_size": [
+      1000,
+      620
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Modern reference on old printed-graticule affine search guide ONLY; not fitted geographic evidence"
+  },
+  {
+    "image": "stewart-full-sequence-grid.jpg",
+    "native_box": [
+      7450,
+      6100,
+      8340,
+      6690
+    ],
+    "original_display_size": [
+      890,
+      590
+    ],
+    "saved_display_size": [
+      890,
+      590
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Native crop with labelled pixel grid"
+  },
+  {
+    "image": "stewart-full-sequence-modern.jpg",
+    "native_box": [
+      7450,
+      6100,
+      8340,
+      6690
+    ],
+    "original_display_size": [
+      890,
+      590
+    ],
+    "saved_display_size": [
+      890,
+      590
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Modern reference on old printed-graticule affine search guide ONLY; not fitted geographic evidence"
+  },
+  {
+    "image": "basile-pembroke-detail-grid.jpg",
+    "native_box": [
+      4800,
+      4380,
+      5510,
+      4930
+    ],
+    "original_display_size": [
+      710,
+      550
+    ],
+    "saved_display_size": [
+      710,
+      550
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Native crop with labelled pixel grid"
+  },
+  {
+    "image": "basile-pembroke-detail-modern.jpg",
+    "native_box": [
+      4800,
+      4380,
+      5510,
+      4930
+    ],
+    "original_display_size": [
+      710,
+      550
+    ],
+    "saved_display_size": [
+      710,
+      550
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Modern reference on old printed-graticule affine search guide ONLY; not fitted geographic evidence"
+  },
+  {
+    "image": "southeast-valleys-grid.jpg",
+    "native_box": [
+      8300,
+      4640,
+      9650,
+      6660
+    ],
+    "original_display_size": [
+      1350,
+      2020
+    ],
+    "saved_display_size": [
+      1069,
+      1600
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Native crop with labelled pixel grid"
+  },
+  {
+    "image": "southeast-valleys-modern.jpg",
+    "native_box": [
+      8300,
+      4640,
+      9650,
+      6660
+    ],
+    "original_display_size": [
+      1350,
+      2020
+    ],
+    "saved_display_size": [
+      1069,
+      1600
+    ],
+    "rotation_degrees": 0,
+    "coordinate_basis": "Modern reference on old printed-graticule affine search guide ONLY; not fitted geographic evidence"
+  }
+]

@@ -1,0 +1,95 @@
+{
+  "sheet": "sheet-09",
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "source_dimensions": [
+    10762,
+    7642
+  ],
+  "status": "Historical proposal packet retained for native crosshair audit. See draft-fit.json, draft-checks.json and point-review-index.json for current points and status.",
+  "points": [
+    {
+      "id": "C14",
+      "role": "control",
+      "pixel_xy": [
+        7060,
+        3276
+      ],
+      "lonlat": [
+        -60.9681646,
+        46.5528543
+      ],
+      "modern_node": "J0681",
+      "modern_objectids": [
+        188905,
+        263862,
+        263863
+      ],
+      "identity_evidence": "Farm Brook major northeastern headwater arm. Distinguish the small southwestern spur immediately above and small southern spur immediately below; the selected northeastern arm branches repeatedly around the printed Falls and mineral marking.",
+      "source_uncertainty_px": 10,
+      "review": "Broad branch sequence and enlarged native pixel examined. Proposed before scoring this regional addition."
+    },
+    {
+      "id": "C15",
+      "role": "control",
+      "pixel_xy": [
+        7282,
+        3437
+      ],
+      "lonlat": [
+        -60.9580015,
+        46.5480384
+      ],
+      "modern_node": "J0715",
+      "modern_objectids": [
+        189213,
+        263864,
+        263865
+      ],
+      "identity_evidence": "Farm Brook eastern arm above the long southern main reach. Eastern arm has repeated northeast/southeast forks. The pond-bearing southern tributary Q05 joins the main river above this point.",
+      "source_uncertainty_px": 10,
+      "review": "Broad branch sequence and enlarged native pixel examined. Proposed before scoring this regional addition."
+    },
+    {
+      "id": "C16",
+      "role": "control",
+      "pixel_xy": [
+        7384,
+        3572
+      ],
+      "lonlat": [
+        -60.9535169,
+        46.5440136
+      ],
+      "modern_node": "J0764",
+      "modern_objectids": [
+        189358,
+        263865,
+        263866
+      ],
+      "identity_evidence": "Farm Brook large eastern tributary at the end of a southeast reach, followed by a southward main reach. Eastern arm has short northern branch, bends southeast past Fall 30 and a branching lake/wetland headwater complex.",
+      "source_uncertainty_px": 10,
+      "review": "Broad branch sequence and enlarged native pixel examined. Proposed before scoring this regional addition."
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        7176,
+        3368
+      ],
+      "lonlat": [
+        -60.9625724,
+        46.5499856
+      ],
+      "modern_node": "J0699",
+      "modern_objectids": [
+        263863,
+        263864,
+        312425
+      ],
+      "identity_evidence": "Farm Brook southern tributary feeding a small downstream/upstream pond and then a branching southern valley. Located between the major northeastern arm C14 and eastern arm C15. The tiny southern spur immediately below C14 is not this larger pond-bearing tributary. Local interpolation check.",
+      "source_uncertainty_px": 10,
+      "review": "Broad branch sequence and enlarged native pixel examined. Proposed before scoring this regional addition."
+    }
+  ]
+}

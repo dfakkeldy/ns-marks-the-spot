@@ -1,0 +1,80 @@
+{
+  "sheet": "sheet-09",
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "source_dimensions": [
+    10762,
+    7642
+  ],
+  "ring_pixel_xy": [
+    [
+      1512,
+      1228
+    ],
+    [
+      2400,
+      1231
+    ],
+    [
+      3600,
+      1237
+    ],
+    [
+      4800,
+      1243
+    ],
+    [
+      6000,
+      1249
+    ],
+    [
+      7200,
+      1257
+    ],
+    [
+      8400,
+      1265
+    ],
+    [
+      9667,
+      1275
+    ],
+    [
+      9654,
+      6707
+    ],
+    [
+      8400,
+      6698
+    ],
+    [
+      7200,
+      6692
+    ],
+    [
+      6000,
+      6686
+    ],
+    [
+      4800,
+      6676
+    ],
+    [
+      3600,
+      6670
+    ],
+    [
+      2400,
+      6660
+    ],
+    [
+      1485,
+      6653
+    ],
+    [
+      1512,
+      1228
+    ]
+  ],
+  "scope": "Complete inner printed neatline including offshore map area; no corridor or control-hull clipping. Approximately eight native pixels inside the inner frame.",
+  "status": "Provisional map-frame crop; no seam adjustment or geographic acceptance."
+}

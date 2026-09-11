@@ -1,0 +1,40 @@
+{
+  "sheet": "sheet-09",
+  "source_sha256": "cb36b40c41a6ead89c3cebec8421bdc18cb79f0a72fb924f4ac755d70582cb45",
+  "source_dimensions": [
+    10762,
+    7642
+  ],
+  "status": "First full-sheet trial; sparse interior and southwestern support, unvalidated for production.",
+  "points": [
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        8231,
+        6494
+      ],
+      "lonlat": [
+        -60.9241152,
+        46.4550339
+      ],
+      "modern_node": "J1468",
+      "modern_objectids": [
+        159199,
+        159200,
+        277807
+      ],
+      "identity_evidence": "Stewart outlet at northern bank of westward Northeast Margaree reach below the eastward meander. The brook crosses the coast-valley road, curls east and south past the mill, then enters the river. Initial pixel was at the road crossing upstream of this curl, not at the mouth.",
+      "source_uncertainty_px": 12,
+      "review": "Post-score identity audit: observed road-crossing-versus-mouth error. Pixel correction derived from continuous native stream tracing, not residual snapping. Original failure preserved.",
+      "pre_crosshair_pixel_xy": [
+        8213,
+        6405
+      ],
+      "intermediate_crosshair_pixel_xy": [
+        8230,
+        6483
+      ]
+    }
+  ]
+}
