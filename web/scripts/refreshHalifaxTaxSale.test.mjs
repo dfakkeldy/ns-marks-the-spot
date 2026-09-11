@@ -96,6 +96,19 @@ describe("Halifax September 2026 tender refresh", () => {
     });
   });
 
+  it("resolves the sept11 website-draft Schedule A as the single official current file", async () => {
+    const { parseLandingPage } = await loadModule();
+    const sept11Landing = `
+      <h2>Tender Number: HRM-TaxSale23</h2>
+      <a href="/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf">Tender instructions</a>
+      <a href="/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept11.26.pdf">SCHEDULE A</a>`;
+    expect(parseLandingPage(sept11Landing)).toEqual({
+      tenderNumber: "HRM-TaxSale23",
+      tenderUrl: "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/tender-doc-sept15.26.pdf",
+      scheduleUrl: "https://www.halifax.ca/sites/default/files/documents/home-property/property-taxes/sept15.2026newspaper.website-draft-sept11.26.pdf",
+    });
+  });
+
   it("ignores a malformed landing-page href instead of aborting official PDF discovery", async () => {
     const { parseLandingPage } = await loadModule();
     const landing = `${landingHtml}
@@ -160,23 +173,23 @@ describe("Halifax September 2026 tender refresh", () => {
     expect(liveLayoutLine.indexOf("00535617")).toBe(190);
   });
 
-  it("fails closed unless the current Schedule A has 11 rows and 12 unique PIDs", async () => {
+  it("fails closed unless the current Schedule A has 10 rows and 11 unique PIDs", async () => {
     const { assertCurrentScheduleCounts } = await loadModule();
     const currentListings = [
       { pids: ["pid-00-a", "pid-00-b"] },
-      ...Array.from({ length: 10 }, (_, index) => ({
+      ...Array.from({ length: 9 }, (_, index) => ({
         pids: [`pid-${String(index + 1).padStart(2, "0")}`],
       })),
     ];
 
     expect(() => assertCurrentScheduleCounts(currentListings)).not.toThrow();
-    expect(() => assertCurrentScheduleCounts(currentListings.slice(0, 10))).toThrow(
-      /Expected 11 Halifax Schedule A rows, found 10/,
+    expect(() => assertCurrentScheduleCounts(currentListings.slice(0, 9))).toThrow(
+      /Expected 10 Halifax Schedule A rows, found 9/,
     );
     expect(() => assertCurrentScheduleCounts([
       { pids: ["pid-00"] },
       ...currentListings.slice(1),
-    ])).toThrow(/Expected 12 Halifax Schedule A PIDs, found 11/);
+    ])).toThrow(/Expected 11 Halifax Schedule A PIDs, found 10/);
   });
 
   it("fails closed on a shifted column, duplicate PID, or unfamiliar status", async () => {

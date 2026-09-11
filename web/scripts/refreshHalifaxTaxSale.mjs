@@ -15,7 +15,7 @@ const MONTHS = [
   "January", "February", "March", "April", "May", "June", "July",
   "August", "September", "October", "November", "December",
 ];
-// The sept10 Schedule A continues to omit the two parking-space PIDs that
+// The sept11 Schedule A continues to omit the two parking-space PIDs that
 // previously had empty NSPRD geometry. A non-empty pin must match a live row.
 export const HALIFAX_GEOMETRY_EXCEPTIONS = [];
 
@@ -134,9 +134,9 @@ export function parseScheduleText(source) {
 }
 
 export function assertCurrentScheduleCounts(listings) {
-  if (listings.length !== 11) throw new Error(`Expected 11 Halifax Schedule A rows, found ${listings.length}.`);
+  if (listings.length !== 10) throw new Error(`Expected 10 Halifax Schedule A rows, found ${listings.length}.`);
   const pidCount = new Set(listings.flatMap(({ pids }) => pids)).size;
-  if (pidCount !== 12) throw new Error(`Expected 12 Halifax Schedule A PIDs, found ${pidCount}.`);
+  if (pidCount !== 11) throw new Error(`Expected 11 Halifax Schedule A PIDs, found ${pidCount}.`);
 }
 
 function sha256(contents) {

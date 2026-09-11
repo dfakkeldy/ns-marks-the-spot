@@ -2939,7 +2939,7 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
     expect(
       await screen.findByText(
-        "11 advertised · 0 withdrawn · 12 active PIDs",
+        "10 advertised · 0 withdrawn · 11 active PIDs",
         undefined,
         { timeout: 10_000 },
       ),
