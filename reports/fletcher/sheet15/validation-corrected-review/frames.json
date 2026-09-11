@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-15-V05.jpg",
+    "point_record": "sheet15/validation.json",
+    "point_id": "V05",
+    "native_box": [
+      4498,
+      5556,
+      4718,
+      5776
+    ],
+    "native_coordinates": [
+      4608,
+      5666
+    ],
+    "modern_lonlat": [
+      -61.08119437132325,
+      45.947551527218586
+    ],
+    "rotation_degrees": 0
+  }
+]

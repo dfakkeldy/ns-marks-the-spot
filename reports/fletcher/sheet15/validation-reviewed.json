@@ -1,0 +1,93 @@
+{
+  "sheet": "sheet-15",
+  "fit_sha256": "abc9f6ba93d9196051f573a42e1aeeb872c5eda76e9229ab7b6116444cefd41e",
+  "purpose": "Fresh physical checks selected after eleven-control TPS freeze. No fitting or model tuning against these checks.",
+  "points": [
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        1777,
+        5940
+      ],
+      "lonlat": [
+        -61.2103705,
+        45.9379366
+      ],
+      "modern_node": "J1255",
+      "modern_objectids": [
+        198507,
+        261051,
+        261052
+      ],
+      "identity_evidence": "Blues Brook southwestern tributary just below the intervening northeastern tributary after C13. Initial selection on northeastern tributary contradicted the modern branch direction; corrected before scoring.",
+      "source_uncertainty_px": 10,
+      "pre_review_pixel_xy": [
+        1768,
+        5930
+      ]
+    },
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        2556,
+        2067
+      ],
+      "lonlat": [
+        -61.1764689,
+        46.0616443
+      ],
+      "modern_node": "J0276",
+      "modern_objectids": [
+        286708,
+        299826,
+        299828
+      ],
+      "identity_evidence": "Lake Ainslie western brook: northern tributary at road crossing upstream of C01, before the next southern tributary.",
+      "source_uncertainty_px": 10,
+      "pre_review_pixel_xy": [
+        2550,
+        2067
+      ]
+    },
+    {
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        7877,
+        2663
+      ],
+      "lonlat": [
+        -60.93404435122135,
+        46.04547710092628
+      ],
+      "modern_objectid": 22123,
+      "modern_part_index": 0,
+      "modern_vertex_index": 58,
+      "identity_evidence": "Hume Island easternmost tip, isolated small island west of Cranberry Point and north of Bell Rock.",
+      "source_uncertainty_px": 15,
+      "pre_review_pixel_xy": [
+        7880,
+        2650
+      ]
+    },
+    {
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        4590,
+        5660
+      ],
+      "lonlat": [
+        -61.08119437132325,
+        45.947551527218586
+      ],
+      "modern_objectid": 19516,
+      "modern_part_index": 0,
+      "modern_vertex_index": 242,
+      "identity_evidence": "Westernmost tip of long MacIver Island, east of MacDonald Island; distinct from south-bank coves.",
+      "source_uncertainty_px": 15
+    }
+  ]
+}

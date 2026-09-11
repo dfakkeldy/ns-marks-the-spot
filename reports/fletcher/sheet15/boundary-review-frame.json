@@ -1,0 +1,12 @@
+{
+  "source_sha256": "7a5e7ec0e1a8ce9c6095d4b8e65abb11f86841a337a7b937ddbb084261bb1b72",
+  "native_box": [
+    0,
+    0,
+    10832,
+    7582
+  ],
+  "rotation_degrees": 0,
+  "image": "boundary-overview.jpg",
+  "overlay": "Red boundary, rendered from native pixel ring; full scan and four native corner crops inspected."
+}
