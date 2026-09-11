@@ -1,0 +1,8 @@
+{
+  "original_observation": "tools/fletcher/observations/sheet-08.json",
+  "original_sha256": "b74557743f3688a99dc8632f45807d449f1d573c9c08cc0622ea4473ce250f33",
+  "original_unchanged": true,
+  "guide_method": "Original ten individually measured slanted graticule crossings; affine guidance for search only. No printed grid point is a physical control.",
+  "native_label_review": "Both 46 degrees 35 / 46 degrees 30 north labels and outer 60 degrees 50 / 60 degrees 30 west labels personally read.",
+  "source_encoding": "New native-region PNG assembly; original July hash and files preserved separately."
+}

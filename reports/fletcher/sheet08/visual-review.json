@@ -1,0 +1,15 @@
+{
+  "personally_inspected_point_frames": 46,
+  "personally_inspected_warped_frames": 11,
+  "personally_inspected_adjacent_frames": 4,
+  "personally_inspected_browser_screenshots": 3,
+  "geographic_acceptance": false,
+  "limitations": [
+    "Three fresh checks: median 154.800614 m and worst 344.071022 m exceed 100/200 m thresholds",
+    "Sparse southwest and central interior support; no stable reservoir-shore acceptance",
+    "Substantial historical/modern river differences and post-survey reservoir development",
+    "Reused Q03 remains 131.195863 m away",
+    "Western Sheet9 and southern Sheet10 joins unaccepted; northern Sheet5 and eastern Sheet7 pending",
+    "Unsupported areas remain extrapolation"
+  ]
+}

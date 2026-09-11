@@ -1,0 +1,27 @@
+{
+  "sheet": "sheet-08",
+  "source_sha256": "aa324565b0b25bdd1ae102f14e4bad8b542547d6e5bba76dd620a52dafa1d4aa",
+  "ring_pixel_xy": [
+    [
+      1444,
+      940
+    ],
+    [
+      9630,
+      966
+    ],
+    [
+      9652,
+      6430
+    ],
+    [
+      1464,
+      6405
+    ],
+    [
+      1444,
+      940
+    ]
+  ],
+  "method": "Complete native mapped frame including all river and lake regions. No mapped extensions outside main frame identified in native overview and corner review. One continuous warp; no control-hull clipping."
+}
