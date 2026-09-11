@@ -1,0 +1,76 @@
+{
+  "sheet": "sheet-15",
+  "status": "provisional-geography-not-accepted",
+  "accepted_for_tiling": false,
+  "accepted_for_production_label_projection": false,
+  "controls": 11,
+  "diagnostic_checks": 3,
+  "fresh_validation_checks_after_control_repairs": 4,
+  "fit_file": "regional-fit.json",
+  "fit_sha256": "abc9f6ba93d9196051f573a42e1aeeb872c5eda76e9229ab7b6116444cefd41e",
+  "check_file": "regional-diagnostics.json",
+  "fresh_check_file": "validation.json",
+  "source_sha256": "7a5e7ec0e1a8ce9c6095d4b8e65abb11f86841a337a7b937ddbb084261bb1b72",
+  "source_dimensions": [
+    10832,
+    7582
+  ],
+  "transform": "GDAL exact TPS in EPSG:3857, 5 projected metre cells",
+  "boundary_file": "boundary.json",
+  "boundary_sha256": "1d6afd62fe504a68f70fc0397bdd8a12ebc8b4956179ebbbe45e43c286571ff8",
+  "scope": "Entire mapped inner neatline, including all visible channel islands, lake and shoreline geometry; thin frame margin retained. No separate mapped extension visible outside the rectangle.",
+  "raster_path": "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+  "raster_sha256": "7f27bdaa39bb8358f1cbdd7c70a0dd0614336c60edcac2a044ce3ed70c07883f",
+  "raster_size": [
+    8383,
+    5785
+  ],
+  "raster_bounds_wgs84": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -61.2243638,
+          46.0999452
+        ],
+        [
+          -61.2243638,
+          45.9194787
+        ],
+        [
+          -60.8478349,
+          45.9194787
+        ],
+        [
+          -60.8478349,
+          46.0999452
+        ],
+        [
+          -61.2243638,
+          46.0999452
+        ]
+      ]
+    ]
+  },
+  "orientation": {
+    "samples": 71854,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -29.001031089674772,
+      -20.593701905487038
+    ]
+  },
+  "fresh_validation_median_ground_m": 103.60250126261032,
+  "fresh_validation_worst_ground_m": 284.0067134117789,
+  "remaining": [
+    "Fresh validation median 103.603 m and worst 284.007 m fail the 100/200 m target. Hume Island V03 is visibly southeast of modern geometry; preserve all four checks and residuals.",
+    "Lake Ainslie upper eastern shore and northwestern headwaters retain displaced geometry despite Q01/C12 local support. Audit the distinct stream-mouth sequence before adding more shoreline controls.",
+    "Central Lewis Mountain / McKay headwaters and Little Narrows have substantial branch and shoreline configuration differences. Resolve source generalization or landscape change separately from transform error.",
+    "C03 northern tributary, C06 Cave/McAskill fork ordering, Q06 western-arm tributary and V04 paired MacKinnon branches remain rejected or unresolved. Do not silently restore them to a fit or acceptance set.",
+    "Southeastern interior has sparse independent support; C09 anchors one identified tributary but does not validate the surrounding valley or harbour.",
+    "Four actual joins against Sheets 13 and 16 retain gaps or displaced stream/shoreline continuations. No seamless mosaic acceptance."
+  ],
+  "browser_scope": "Actual GeoTIFF UI import, desktop/mobile rendering and reload; stored bytes, georef, alpha and enabled state preserved; zero captured errors.",
+  "unchanged_active_tile_revision": "fletcher-full-sheets-20260909.3"
+}

@@ -1,0 +1,229 @@
+{
+  "sheet": "sheet-15",
+  "source_sha256": "7a5e7ec0e1a8ce9c6095d4b8e65abb11f86841a337a7b937ddbb084261bb1b72",
+  "source_dimensions": [
+    10832,
+    7582
+  ],
+  "points": [
+    {
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        2770,
+        1957
+      ],
+      "lonlat": [
+        -61.1668017,
+        46.0659799
+      ],
+      "modern_node": "J0263",
+      "modern_objectids": [
+        287033,
+        299827,
+        299828
+      ],
+      "identity_evidence": "Lake Ainslie western tributary major northern fork, downstream northeast to lake.",
+      "source_uncertainty_px": 10,
+      "review": "Native crosshair and modern physical context reviewed before fitting; original proposals and corrections retained. No user point audit.",
+      "pre_review_pixel_xy": [
+        2740,
+        1902
+      ]
+    },
+    {
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        8214,
+        1320
+      ],
+      "lonlat": [
+        -60.9176376,
+        46.0882851
+      ],
+      "modern_node": "J0165",
+      "modern_objectids": [
+        25437,
+        25441,
+        193414
+      ],
+      "identity_evidence": "Nyanza western tributary mouth on western bank of the main river, upstream of estuarine islands. Earlier inland tributary proposal rejected because branch absent on scan.",
+      "source_uncertainty_px": 10,
+      "review": "Native crosshair and modern physical context reviewed before fitting; original proposals and corrections retained. No user point audit.",
+      "pre_review_pixel_xy": [
+        8135,
+        1347
+      ]
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        6393,
+        3118
+      ],
+      "lonlat": [
+        -60.9991354,
+        46.0289731
+      ],
+      "modern_node": "J0467",
+      "modern_objectids": [
+        136006,
+        136007,
+        269517
+      ],
+      "identity_evidence": "Lake McPhedran eastern outlet to long brook draining east to Bucklaw.",
+      "source_uncertainty_px": 10,
+      "review": "Native crosshair and modern physical context reviewed before fitting; original proposals and corrections retained. No user point audit.",
+      "pre_review_pixel_xy": [
+        6370,
+        3100
+      ]
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        5898,
+        3980
+      ],
+      "lonlat": [
+        -61.0235119,
+        46.0018243
+      ],
+      "modern_node": "J0646",
+      "modern_objectids": [
+        193099,
+        274177,
+        274303
+      ],
+      "identity_evidence": "Brook northwest of Little Narrows, major western fork with long northern and southwestern arms.",
+      "source_uncertainty_px": 10,
+      "review": "Native crosshair and modern physical context reviewed before fitting; original proposals and corrections retained. No user point audit.",
+      "pre_review_pixel_xy": [
+        5890,
+        3945
+      ]
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        2220,
+        6333
+      ],
+      "lonlat": [
+        -61.1911804,
+        45.9288435
+      ],
+      "modern_node": "J1388",
+      "modern_objectids": [
+        198356,
+        261169,
+        261317
+      ],
+      "identity_evidence": "Blues Brook northern tributary junction before coastal lowland.",
+      "source_uncertainty_px": 10,
+      "review": "Native crosshair and modern physical context reviewed before fitting; original proposals and corrections retained. No user point audit.",
+      "pre_review_pixel_xy": [
+        2145,
+        6290
+      ]
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        4000,
+        2101
+      ],
+      "lonlat": [
+        -61.1174323,
+        46.0684433
+      ],
+      "modern_node": "J0249",
+      "modern_objectids": [
+        130765,
+        130766,
+        275249
+      ],
+      "identity_evidence": "Lake Ainslie eastern-shore brook mouth at coast-road crossing, north of two successive eastern tributary mouths. Earlier wording of inland fork corrected to shoreline mouth.",
+      "source_uncertainty_px": 10,
+      "review": "Native crosshair and modern physical context reviewed before fitting; original proposals and corrections retained. No user point audit.",
+      "pre_review_pixel_xy": [
+        4020,
+        2035
+      ]
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        9210,
+        5102
+      ],
+      "lonlat": [
+        -60.8727927,
+        45.9658701
+      ],
+      "modern_node": "J1040",
+      "modern_objectids": [
+        193689,
+        274496,
+        274497
+      ],
+      "identity_evidence": "MacKinnon Brook first northern tributary on eastern arm above the larger northern branch. Tributary crosses the road to the main channel just east of the pronounced southwest road bend. Earlier placement on larger downstream fork rejected before fit.",
+      "source_uncertainty_px": 10,
+      "pre_review_pixel_xy": [
+        9117,
+        5110
+      ],
+      "review": "Native crosshair and modern physical context reviewed before fitting; original proposals and corrections retained. No user point audit."
+    },
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        9405,
+        2268
+      ],
+      "lonlat": [
+        -60.86354465496307,
+        46.058026812954324
+      ],
+      "modern_objectid": 10543,
+      "modern_part_index": 0,
+      "modern_vertex_index": 6,
+      "identity_evidence": "Deadman Point easternmost tip of the northern long peninsula; island farther east remains separate.",
+      "source_uncertainty_px": 15,
+      "pre_review_pixel_xy": [
+        9376,
+        2258
+      ],
+      "review": "Native crosshair and modern physical context reviewed before fitting; original proposals and corrections retained. No user point audit."
+    },
+    {
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        4270,
+        5774
+      ],
+      "lonlat": [
+        -61.097225799577274,
+        45.94503111924709
+      ],
+      "modern_objectid": 20139,
+      "modern_part_index": 0,
+      "modern_vertex_index": 30,
+      "identity_evidence": "MacDonald Island southernmost tip, narrow southern lobe below broader northern island, east of Indian Island.",
+      "source_uncertainty_px": 15,
+      "pre_review_pixel_xy": [
+        4220,
+        5770
+      ],
+      "review": "Native crosshair and modern physical context reviewed before fitting; original proposals and corrections retained. No user point audit."
+    }
+  ]
+}

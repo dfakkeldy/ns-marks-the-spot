@@ -1,0 +1,11 @@
+{
+  "fit_sha256": "abc9f6ba93d9196051f573a42e1aeeb872c5eda76e9229ab7b6116444cefd41e",
+  "control_count": 11,
+  "frozen_at_utc": "2026-09-11T12:36:29.282643+00:00",
+  "model": "TPS",
+  "reason": "Nine-control TPS improves worst diagnostic residual over affine; failed lake-shore and Blues Brook checks explicitly promoted, preserving all nine prior controls. Freeze before selecting fresh validation checks.",
+  "promotions": {
+    "Q01": "C12",
+    "Q03": "C13"
+  }
+}

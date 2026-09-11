@@ -1,0 +1,93 @@
+[
+  {
+    "name": "northwest",
+    "native_box": [
+      1500,
+      1050,
+      4800,
+      3300
+    ],
+    "source_image": "northwest-grid.jpg",
+    "modern_image": "northwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed graticule search guide only; not a physical control or proof of warped alignment."
+  },
+  {
+    "name": "northeast",
+    "native_box": [
+      7600,
+      1050,
+      9760,
+      3350
+    ],
+    "source_image": "northeast-grid.jpg",
+    "modern_image": "northeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed graticule search guide only; not a physical control or proof of warped alignment."
+  },
+  {
+    "name": "central",
+    "native_box": [
+      4250,
+      2600,
+      8000,
+      4800
+    ],
+    "source_image": "central-grid.jpg",
+    "modern_image": "central-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed graticule search guide only; not a physical control or proof of warped alignment."
+  },
+  {
+    "name": "southwest",
+    "native_box": [
+      1500,
+      4400,
+      5400,
+      6530
+    ],
+    "source_image": "southwest-grid.jpg",
+    "modern_image": "southwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed graticule search guide only; not a physical control or proof of warped alignment."
+  },
+  {
+    "name": "southeast",
+    "native_box": [
+      6800,
+      4450,
+      9761,
+      6556
+    ],
+    "source_image": "southeast-grid.jpg",
+    "modern_image": "southeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed graticule search guide only; not a physical control or proof of warped alignment."
+  },
+  {
+    "name": "middle-checks",
+    "native_box": [
+      4800,
+      3400,
+      6800,
+      4200
+    ],
+    "source_image": "middle-checks-grid.jpg",
+    "modern_image": "middle-checks-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed graticule search guide only; not a physical control or proof of warped alignment."
+  },
+  {
+    "name": "lake-west-checks",
+    "native_box": [
+      2050,
+      1750,
+      2850,
+      2250
+    ],
+    "source_image": "lake-west-checks-grid.jpg",
+    "modern_image": "lake-west-checks-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Printed graticule search guide only; not a physical control or proof of warped alignment."
+  }
+]

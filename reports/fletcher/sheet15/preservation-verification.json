@@ -1,0 +1,19 @@
+{
+  "verified_at_utc": "2026-09-11T12:45:54.679226+00:00",
+  "all_nine_prior_controls_unchanged": true,
+  "promotions": {
+    "Q01": "C12",
+    "Q03": "C13"
+  },
+  "fresh_validation_disjoint_from_fit": true,
+  "rejected_candidates_excluded": [
+    "C03",
+    "C06",
+    "Q06",
+    "V04"
+  ],
+  "original_observations_unchanged": true,
+  "source_sha256_verified": "7a5e7ec0e1a8ce9c6095d4b8e65abb11f86841a337a7b937ddbb084261bb1b72",
+  "reference_files_verified": 4,
+  "fit_sha256": "abc9f6ba93d9196051f573a42e1aeeb872c5eda76e9229ab7b6116444cefd41e"
+}
