@@ -14,25 +14,26 @@ async function sha256Hex(source: string): Promise<string> {
 }
 
 describe("the Halifax September 2026 tender dataset", () => {
-  it("pins all 11 owner-free source rows byte for byte", async () => {
+  it("pins all 10 owner-free source rows byte for byte", async () => {
     expect(await sha256Hex(halifaxTaxSaleSnapshotSource)).toBe(HALIFAX_TAX_SALE_DATASET_SHA256);
     expect(halifaxTaxSaleSnapshot.ownerNamesExcluded).toBe(true);
-    expect(halifaxTaxSaleSnapshot.sourceRowCount).toBe(11);
-    expect(halifaxTaxSaleSnapshot.parcelIdentifierCount).toBe(12);
-    expect(halifaxTaxSaleSnapshot.mappedListingCount).toBe(11);
-    expect(halifaxTaxSaleSnapshot.mappedParcelIdentifierCount).toBe(12);
+    expect(halifaxTaxSaleSnapshot.sourceRowCount).toBe(10);
+    expect(halifaxTaxSaleSnapshot.parcelIdentifierCount).toBe(11);
+    expect(halifaxTaxSaleSnapshot.mappedListingCount).toBe(10);
+    expect(halifaxTaxSaleSnapshot.mappedParcelIdentifierCount).toBe(11);
     expect(halifaxTaxSaleSnapshot.hstYesCount).toBe(5);
     expect(halifaxTaxSaleSnapshot.notRedeemableCount).toBe(1);
   });
 
-  it("maps all 11 advertised rows after the sept10 Schedule A dropped two more advertised rows", () => {
+  it("maps all 10 advertised rows after the sept11 Schedule A dropped one more advertised row", () => {
     expect(halifaxTaxSaleEvent.eventType).toBe("sealed-tender");
     expect(halifaxTaxSaleEvent.eventStatus).toBe("upcoming");
     expect(halifaxTaxSaleEvent.saleStartsAt).toBe("2026-09-15T10:00:00-03:00");
-    expect(halifaxTaxSaleEvent.listings).toHaveLength(11);
+    expect(halifaxTaxSaleEvent.listings).toHaveLength(10);
     const pids = halifaxTaxSaleEvent.listings.flatMap(({ pids }) => pids);
-    expect(pids).toHaveLength(12);
-    expect(new Set(pids).size).toBe(12);
+    expect(pids).toHaveLength(11);
+    expect(new Set(pids).size).toBe(11);
+    expect(pids).not.toContain("00015966");
     expect(pids).not.toContain("41051889");
     expect(pids).not.toContain("41051897");
     expect(pids).not.toContain("00535617");

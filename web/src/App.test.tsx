@@ -2939,7 +2939,7 @@ describe("NS Marks The Spot Online", () => {
     ).toBeInTheDocument();
     expect(
       await screen.findByText(
-        "11 advertised · 0 withdrawn · 12 active PIDs",
+        "10 advertised · 0 withdrawn · 11 active PIDs",
         undefined,
         { timeout: 10_000 },
       ),
@@ -2977,7 +2977,7 @@ describe("NS Marks The Spot Online", () => {
       screen.getByText("Snapshot retrieved September 3, 2026"),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("Snapshot retrieved September 10, 2026"),
+      screen.getByText("Snapshot retrieved September 11, 2026"),
     ).toBeInTheDocument();
   });
 
@@ -6278,19 +6278,19 @@ describe("NS Marks The Spot Online", () => {
     setTaxSaleResearchUrl();
     renderAppWithCategoriesOpen();
 
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 45;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 44;");
     await user.click(
       screen.getByRole("checkbox", { name: /Inverness.*August 11, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 18;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 17;");
     await user.click(
       screen.getByRole("checkbox", { name: /Annapolis.*August 31, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 17;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 16;");
     await user.click(
       screen.getByRole("checkbox", { name: /Victoria County.*September 14, 2026/i }),
     );
-    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 12;");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("Map PID count: 11;");
     await user.click(
       screen.getByRole("checkbox", { name: /Halifax.*September 15, 2026/i }),
     );

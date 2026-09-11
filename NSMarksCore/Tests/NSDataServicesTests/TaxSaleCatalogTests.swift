@@ -126,17 +126,19 @@ struct TaxSaleCatalogTests {
         #expect(context.event.id == event.id)
     }
 
-    @Test func halifaxMapsEveryAdvertisedSept10ScheduleARow() throws {
+    @Test func halifaxMapsEveryAdvertisedSept11ScheduleARow() throws {
         let event = try #require(TaxSaleCatalog.bundled.event(id: "halifax-2026-09-15"))
 
-        // Eleven rows / 12 PIDs in the sept10 Schedule A. Two further advertised
-        // rows left the sept8 draft; the two parking-space PIDs that previously
+        // Ten rows / 11 PIDs in the sept11 Schedule A. One further advertised
+        // row left the sept10 draft; the two parking-space PIDs that previously
         // had empty NSPRD geometry remain unpublished.
-        #expect(event.listings.count == 11)
-        #expect(event.pids.count == 12)
+        #expect(event.listings.count == 10)
+        #expect(event.pids.count == 11)
         #expect(event.geometryExceptions.isEmpty)
 
+        #expect(TaxSaleCatalog.bundled.listingContext(forPID: "00015966") == nil)
         #expect(TaxSaleCatalog.bundled.listingContext(forPID: "41051889") == nil)
+        #expect(!event.pids.contains("00015966"))
         #expect(!event.pids.contains("41051889"))
         #expect(!event.pids.contains("41051897"))
         #expect(!event.pids.contains("00535617"))
