@@ -1,0 +1,41 @@
+[
+  {
+    "name": "west",
+    "native_box": [
+      2750,
+      3750,
+      6250,
+      6555
+    ],
+    "source_image": "west-grid.jpg",
+    "modern_image": "west-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior slanted crossing pixels retained. Native latitude and all four longitude labels rechecked; old meridians were five minutes too far west, and corrected only in this search guide. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "central",
+    "native_box": [
+      5900,
+      4350,
+      7900,
+      6555
+    ],
+    "source_image": "central-grid.jpg",
+    "modern_image": "central-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior slanted crossing pixels retained. Native latitude and all four longitude labels rechecked; old meridians were five minutes too far west, and corrected only in this search guide. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "east",
+    "native_box": [
+      7350,
+      4000,
+      8990,
+      6555
+    ],
+    "source_image": "east-grid.jpg",
+    "modern_image": "east-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior slanted crossing pixels retained. Native latitude and all four longitude labels rechecked; old meridians were five minutes too far west, and corrected only in this search guide. These give search guidance only, not physical fitting controls or warped-image proof."
+  }
+]
