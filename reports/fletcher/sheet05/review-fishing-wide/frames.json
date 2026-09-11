@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-05-C11.jpg",
+    "point_record": "sheet05/final-candidates.json",
+    "point_id": "C11",
+    "native_box": [
+      1155,
+      944,
+      1855,
+      1644
+    ],
+    "native_coordinates": [
+      1505,
+      1294
+    ],
+    "modern_lonlat": [
+      -60.8385679,
+      46.7658058
+    ],
+    "rotation_degrees": 0
+  }
+]

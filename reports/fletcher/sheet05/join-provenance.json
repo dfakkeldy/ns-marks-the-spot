@@ -1,0 +1,17 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "sha256": "edda68be62add08f293ec6fba64bad9dc40678e12f97114aaa92271e9598269b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "sha256": "9f3cbc615328c16e806daf15954b0cf58595105e41205fc0f922521de44d3544"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "sha256": "e5bcdd37da6e814297d3b432f3549ecf81bbc5b1f558b2f78c3fc600e98006a9"
+    }
+  ],
+  "status": "Four actual western Sheet6 and southern Sheet8 comparisons personally inspected. Western interior streams disagree and southern boundaries have offsets/gaps. No seam accepted. Northern Sheet3 and eastern Sheet4 pending."
+}

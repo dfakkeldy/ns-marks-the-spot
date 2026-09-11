@@ -1,0 +1,56 @@
+{
+  "sheet": "sheet-05",
+  "fit_sha256": "f04cbd3f80ff7361bf6d719f0989834dfa4cc9833242f0c18f6ffed1f2e80db9",
+  "points": [
+    {
+      "lonlat": [
+        -60.5511469,
+        46.6794582
+      ],
+      "source_guide_xy": [
+        7708.029555879999,
+        4596.4447086402215
+      ],
+      "objectids": [
+        191144,
+        261956,
+        261957
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        7689,
+        4110
+      ],
+      "modern_node_id": "J1879",
+      "identity_evidence": "Clyburn Brook upper northern tributary at Gorge bend",
+      "source_uncertainty_px": 20,
+      "status": "Diagnostic candidate selected after initial eleven-control freeze; unreviewed."
+    },
+    {
+      "lonlat": [
+        -60.8391869,
+        46.7666365
+      ],
+      "source_guide_xy": [
+        1471.1110658792313,
+        1877.7907758399379
+      ],
+      "objectids": [
+        179954,
+        263338,
+        263339
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        1492,
+        1264
+      ],
+      "modern_node_id": "J0692",
+      "identity_evidence": "Fishing Cove River short western tributary north of fitted southwestern branch",
+      "source_uncertainty_px": 20,
+      "status": "Diagnostic candidate selected after initial eleven-control freeze; unreviewed."
+    }
+  ]
+}

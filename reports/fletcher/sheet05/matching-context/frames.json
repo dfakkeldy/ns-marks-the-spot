@@ -1,0 +1,54 @@
+[
+  {
+    "name": "northwest",
+    "native_box": [
+      1300,
+      1050,
+      5400,
+      3600
+    ],
+    "source_image": "northwest-grid.jpg",
+    "modern_image": "northwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior individually recorded slanted printed-graticule intersections; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "northeast",
+    "native_box": [
+      5200,
+      1050,
+      9540,
+      3600
+    ],
+    "source_image": "northeast-grid.jpg",
+    "modern_image": "northeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior individually recorded slanted printed-graticule intersections; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "southwest",
+    "native_box": [
+      1300,
+      3400,
+      5450,
+      6515
+    ],
+    "source_image": "southwest-grid.jpg",
+    "modern_image": "southwest-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior individually recorded slanted printed-graticule intersections; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  },
+  {
+    "name": "southeast",
+    "native_box": [
+      5200,
+      3400,
+      9540,
+      6515
+    ],
+    "source_image": "southeast-grid.jpg",
+    "modern_image": "southeast-modern.jpg",
+    "rotation_degrees": 0,
+    "method": "Eight prior individually recorded slanted printed-graticule intersections; only native latitude and outer longitude labels rechecked in this pass. These give search guidance only, not physical fitting controls or warped-image proof."
+  }
+]

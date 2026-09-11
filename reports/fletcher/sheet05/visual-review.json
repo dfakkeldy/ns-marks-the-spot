@@ -1,0 +1,14 @@
+{
+  "personally_inspected_point_frames": 55,
+  "personally_inspected_warped_frames": 9,
+  "personally_inspected_adjacent_frames": 4,
+  "personally_inspected_browser_screenshots": 3,
+  "geographic_acceptance": false,
+  "limitations": [
+    "Four fresh checks pass numerical thresholds: median 80.706303340 m and worst 117.235618843 m; limited coverage does not establish whole-sheet acceptance",
+    "Substantial western and interior river displacement, including Sunday Lake and upper Clyburn",
+    "Ch\u00e9ticamp Flowage is a later reservoir; modern shore differences are not solely registration error",
+    "Two initial checks are retained as diagnostics, separate from four fresh checks",
+    "Western Sheet6 and southern Sheet8 joins remain unaccepted; northern Sheet3 and eastern Sheet4 pending"
+  ]
+}

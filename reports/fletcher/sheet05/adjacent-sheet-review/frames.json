@@ -1,0 +1,62 @@
+[
+  {
+    "image": "06-west-north.jpg",
+    "lonlat_bounds": [
+      -60.91,
+      46.7,
+      -60.8,
+      46.8
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "06-west-south.jpg",
+    "lonlat_bounds": [
+      -60.91,
+      46.6,
+      -60.8,
+      46.71
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "08-south-west.jpg",
+    "lonlat_bounds": [
+      -60.87,
+      46.59,
+      -60.65,
+      46.65
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "08-south-east.jpg",
+    "lonlat_bounds": [
+      -60.67,
+      46.59,
+      -60.43,
+      46.65
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]
