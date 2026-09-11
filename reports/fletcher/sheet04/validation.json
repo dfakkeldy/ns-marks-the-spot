@@ -1,0 +1,103 @@
+{
+  "sheet": "sheet-04",
+  "fit_sha256": "36e898f50cd6980892c46d66ca41e61de8142f248a7b66c44e30844454daf877",
+  "points": [
+    {
+      "lonlat": [
+        -60.4071293,
+        46.7731404
+      ],
+      "source_guide_xy": [
+        2513.5311484790873,
+        1600.7435088003986
+      ],
+      "objectids": [
+        178997,
+        178998,
+        180024
+      ],
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        2617,
+        1420
+      ],
+      "modern_node_id": "J0228",
+      "identity_evidence": "Historical Pine Brook northern tributary upstream of Black Brook",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact final crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        2615,
+        1425
+      ],
+      "limitation": "Local tributary order supports identity; historical arms are shorter and modern branch shapes differ."
+    },
+    {
+      "lonlat": [
+        -60.4380734,
+        46.686391
+      ],
+      "source_guide_xy": [
+        1842.465018239338,
+        4327.103652000194
+      ],
+      "objectids": [
+        191755,
+        261643,
+        261767
+      ],
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        2038,
+        4278
+      ],
+      "modern_node_id": "J0618",
+      "identity_evidence": "Cameron Brook southern tributary west of C05",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact final crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        2042,
+        4278
+      ],
+      "limitation": "Local tributary order supports identity; historical arms are shorter and modern branch shapes differ."
+    },
+    {
+      "lonlat": [
+        -60.34065358161873,
+        46.68132471304055
+      ],
+      "guide_xy": [
+        3955.1501675830223,
+        4486.32691856171
+      ],
+      "modern_objectid": 17819,
+      "modern_part": 0,
+      "modern_vertex": 144,
+      "modern_properties": {
+        "OBJECTID": 17819,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.5,
+        "FID": null,
+        "SHAPE_Length": 1329.3762826399097
+      },
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        3987,
+        4407
+      ],
+      "identity_evidence": "Ingonish Island southernmost shoreline",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact final crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        3970,
+        4405
+      ],
+      "limitation": "Broad historical island outline differs from detailed modern shoreline."
+    }
+  ]
+}

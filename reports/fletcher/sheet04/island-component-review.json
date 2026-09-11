@@ -1,0 +1,33 @@
+{
+  "start_objectid": 17782,
+  "coast_objectids": [
+    17780,
+    17781,
+    17782,
+    17819
+  ],
+  "northern_extremity": {
+    "lonlat": [
+      -60.34373300982762,
+      46.68711297816827
+    ],
+    "guide_xy": [
+      3888.368455673801,
+      4304.41332212789
+    ],
+    "modern_objectid": 17782,
+    "modern_part": 0,
+    "modern_vertex": 135,
+    "modern_properties": {
+      "OBJECTID": 17782,
+      "FEAT_CODE": "WACOIS10",
+      "FEAT_DESC": "Coastal Island - Water to the right line",
+      "RIVNAME_1": " ",
+      "RIVNAME_2": " ",
+      "ZVALUE": 0.5,
+      "FID": null,
+      "SHAPE_Length": 1052.2240839301382
+    }
+  },
+  "scope": "Connected source coast component within reference query, used to verify northern tip; not whole-island completeness beyond query."
+}

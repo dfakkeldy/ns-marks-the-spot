@@ -1,0 +1,14 @@
+{
+  "personally_inspected_point_frames": 49,
+  "personally_inspected_warped_frames": 8,
+  "personally_inspected_adjacent_frames": 4,
+  "personally_inspected_browser_screenshots": 3,
+  "geographic_acceptance": false,
+  "limitations": [
+    "Three fresh checks fail numerical thresholds: median 125.757995703 m and worst 219.577753759 m",
+    "Substantial northern/interior river displacement and unsupported southern drainage",
+    "Broad eastern sea is unsupported extrapolation",
+    "Two initial checks remain separate diagnostics; no repair or promotion performed",
+    "Western Sheet5 and southern Sheet7 seams unaccepted; northern Sheet2 pending"
+  ]
+}

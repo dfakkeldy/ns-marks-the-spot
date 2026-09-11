@@ -1,0 +1,31 @@
+{
+  "sheet": "sheet-04",
+  "points": [
+    {
+      "lonlat": [
+        -60.3932305,
+        46.6423729
+      ],
+      "source_guide_xy": [
+        2814.946084799245,
+        5710.504498800263
+      ],
+      "objectids": [
+        127170,
+        127171,
+        185038
+      ],
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        2960,
+        5680
+      ],
+      "modern_node_id": "J0754",
+      "identity_evidence": "Freshwater Lake southeastern outlet toward sea",
+      "source_uncertainty_px": 20,
+      "status": "Rejected and unscored",
+      "rejection_reason": "Initial pixel is offshore on the Mill label. The exact historical lake outlet and channel through the overprinted barrier are not established."
+    }
+  ]
+}
