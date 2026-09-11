@@ -1,0 +1,56 @@
+{
+  "sheet": "sheet-03",
+  "fit_sha256": "2325f9159275e4a03f19c3a1e7189b26322e11fa4f600ed161dcf36cfa1f8422",
+  "points": [
+    {
+      "lonlat": [
+        -60.5212195,
+        46.9369451
+      ],
+      "source_guide_xy": [
+        8329.596425400116,
+        2015.6618159993086
+      ],
+      "objectids": [
+        177090,
+        280819,
+        280820
+      ],
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        8219,
+        1980
+      ],
+      "modern_node_id": "J0275",
+      "identity_evidence": "Wilkie Brook first eastern tributary upstream of C07",
+      "source_uncertainty_px": 20,
+      "status": "Fresh post-final-freeze proposal; exact native crosshair and wide context pending review."
+    },
+    {
+      "lonlat": [
+        -60.5534612,
+        46.9012939
+      ],
+      "source_guide_xy": [
+        7629.21731021977,
+        3125.1944644195028
+      ],
+      "objectids": [
+        174886,
+        273019,
+        273020
+      ],
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        7713,
+        2846
+      ],
+      "modern_node_id": "J0499",
+      "identity_evidence": "North Branch Brook eastern tributary downstream of Whiskey Den junction",
+      "source_uncertainty_px": 20,
+      "status": "Fresh post-final-freeze proposal; exact native crosshair and wide context pending review."
+    }
+  ]
+}

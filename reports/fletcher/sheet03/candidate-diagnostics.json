@@ -1,0 +1,56 @@
+{
+  "sheet": "sheet-03",
+  "fit_sha256": "2325f9159275e4a03f19c3a1e7189b26322e11fa4f600ed161dcf36cfa1f8422",
+  "points": [
+    {
+      "lonlat": [
+        -60.5533496,
+        46.9024182
+      ],
+      "source_guide_xy": [
+        7631.7586767601315,
+        3090.0688923595008
+      ],
+      "objectids": [
+        273018,
+        273019,
+        280966
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        7708,
+        2798
+      ],
+      "modern_node_id": "J0489",
+      "identity_evidence": "North Branch Brook / Whiskey Den Brook junction upstream of C05",
+      "source_uncertainty_px": 20,
+      "status": "Post-freeze proposal; exact crosshair and wide context pending review before scoring."
+    },
+    {
+      "lonlat": [
+        -60.8766574,
+        46.7962211
+      ],
+      "source_guide_xy": [
+        638.0189675397705,
+        6361.169461739715
+      ],
+      "objectids": [
+        4943,
+        4944,
+        263344
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        851,
+        6017
+      ],
+      "modern_node_id": "J1556",
+      "identity_evidence": "Fishing Cove River mouth at mainland shoreline",
+      "source_uncertainty_px": 20,
+      "status": "Post-freeze proposal; exact crosshair and wide context pending review before scoring."
+    }
+  ]
+}

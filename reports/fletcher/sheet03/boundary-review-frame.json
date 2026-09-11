@@ -1,0 +1,18 @@
+{
+  "source_sha256": "1dd5a8cc142b452fc594b6ab53d0eb94de24e1435fed25da61d8f3cf03a9a413",
+  "native_dimensions": [
+    10668,
+    7613
+  ],
+  "rotation_degrees": 0,
+  "image": "boundary-overview.jpg",
+  "extension_native_boxes": [
+    [
+      100,
+      5350,
+      2150,
+      6700
+    ]
+  ],
+  "status": "Full native overview, corners, coordinate labels and complete boundary personally inspected. One continuous ring retains all mapped regions, interior legend, North Pond islands and southwest Fishing Cove / White Capes extension with labels and rocks."
+}

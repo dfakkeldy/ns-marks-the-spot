@@ -1,0 +1,56 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.6375439,
+        46.8086933
+      ],
+      "source_guide_xy": [
+        5802.751665839925,
+        6007.049463239731
+      ],
+      "objectids": [
+        158619,
+        158779,
+        268945
+      ],
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        6419,
+        5806
+      ],
+      "modern_node_id": "J1413",
+      "identity_evidence": "North Aspy River / Little Southwest Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; no fit scored.",
+      "rejection_reason": "Initial native point lies on report lettering, not river. Wide review does not establish the proposed North Aspy junction or branch ordering; unscored."
+    },
+    {
+      "lonlat": [
+        -60.6385768,
+        46.8087821
+      ],
+      "source_guide_xy": [
+        5780.458232579753,
+        6004.119526379742
+      ],
+      "objectids": [
+        182898,
+        182899,
+        270578
+      ],
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        6610,
+        5740
+      ],
+      "modern_node_id": "J1410",
+      "identity_evidence": "North Aspy River / MacGregor Brook junction",
+      "source_uncertainty_px": 20,
+      "status": "Unreviewed initial proposal; no fit scored.",
+      "rejection_reason": "Initial native point lies on report lettering, not river. Wide review does not establish the proposed North Aspy junction or branch ordering; unscored."
+    }
+  ]
+}

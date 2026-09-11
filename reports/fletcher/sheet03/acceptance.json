@@ -1,0 +1,15 @@
+{
+  "status": "rejected-whole-sheet-geography",
+  "production_eligible": false,
+  "fit_sha256": "2325f9159275e4a03f19c3a1e7189b26322e11fa4f600ed161dcf36cfa1f8422",
+  "fresh_check_count": 2,
+  "fresh_numerical_thresholds_passed": true,
+  "median_ground_m": 81.36453684278737,
+  "worst_ground_m": 98.21106815621943,
+  "required_median_max_m": 100,
+  "required_worst_max_m": 200,
+  "initial_diagnostics_separate": true,
+  "repair_performed": false,
+  "limitation": "Fresh checks are northeastern tributaries only; actual raster review shows substantial displacement elsewhere.",
+  "hosted_ci": "Inspect PR checks separately."
+}

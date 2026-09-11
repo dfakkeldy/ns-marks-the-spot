@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "path": "tools/fletcher/observations/sheet-03.json",
+      "sha256": "c2bf1159458a16983d04ebcc1b7a0b9ff7513d70ca5e916ff50cb4d4fbd21a51",
+      "status": "Original grid-only evidence unchanged; not physical controls."
+    },
+    {
+      "path": "tools/fletcher/gcps/sheet-03.csv",
+      "sha256": "dddd7be295e7c2f0cdb6aa5cd76c445a27c4f99cc043d8106e57d9d8e36bf3af",
+      "status": "Original grid-only evidence unchanged; not physical controls."
+    }
+  ],
+  "prior_physical_controls_found": 0,
+  "search_scope": "Current repository, local Fletcher branch names, Downloads and knowledge-base filenames; no earlier physical Sheet03 packet found."
+}
