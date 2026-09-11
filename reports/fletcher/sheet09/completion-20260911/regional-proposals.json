@@ -1,0 +1,113 @@
+{
+  "points": [
+    {
+      "id": "C17",
+      "role": "control",
+      "pixel_xy": [
+        5825,
+        6131
+      ],
+      "lonlat": [
+        -61.0317083,
+        46.465377
+      ],
+      "modern_node": "J1400",
+      "modern_objectids": [
+        262306,
+        262309,
+        272885
+      ],
+      "identity_evidence": "Gallant northwestern tributary at the western bend, above two eastern arms. North arm passes a western tributary and ponds; east arm follows the long meandering transverse valley. Downstream turns south through two bends before C18.",
+      "source_uncertainty_px": 12,
+      "review": "Broad branch sequence and native/modern crosshairs inspected. C18 moved from dip-symbol vicinity to actual tributary junction using 4x native detail before any score."
+    },
+    {
+      "id": "C18",
+      "role": "control",
+      "pixel_xy": [
+        5811,
+        6387
+      ],
+      "lonlat": [
+        -61.0321106,
+        46.4579014
+      ],
+      "modern_node": "J1454",
+      "modern_objectids": [
+        188663,
+        262309,
+        262310
+      ],
+      "identity_evidence": "Gallant eastern tributary between C17 and Mink Brook. Its long east arm has a northern fork shortly upstream; the main Gallant continues south past a tight east bend to the Mink junction.",
+      "source_uncertainty_px": 12,
+      "review": "Broad branch sequence and native/modern crosshairs inspected. C18 moved from dip-symbol vicinity to actual tributary junction using 4x native detail before any score.",
+      "pre_crosshair_pixel_xy": [
+        5828,
+        6398
+      ]
+    },
+    {
+      "id": "C19",
+      "role": "control",
+      "pixel_xy": [
+        5846,
+        6545
+      ],
+      "lonlat": [
+        -61.0301708,
+        46.4531917
+      ],
+      "modern_node": "J1484",
+      "modern_objectids": [
+        189264,
+        262310,
+        262311
+      ],
+      "identity_evidence": "Mink Brook confluence with Gallant, below the intervening eastern tributary C18. Mink extends east as a long unbranched reach; the preceding east arm has a north fork and the main river continues south toward the sheet edge.",
+      "source_uncertainty_px": 12,
+      "review": "Broad branch sequence and native/modern crosshairs inspected. C18 moved from dip-symbol vicinity to actual tributary junction using 4x native detail before any score."
+    },
+    {
+      "id": "C20",
+      "role": "control",
+      "pixel_xy": [
+        9436,
+        2960
+      ],
+      "lonlat": [
+        -60.8681633,
+        46.5632049
+      ],
+      "modern_node": "J0589",
+      "modern_objectids": [
+        188863,
+        275231,
+        275363
+      ],
+      "identity_evidence": "Jim Campbells major northern tributary after the long lake-fed western arm and southern headwater forks. Northern arm passes a short eastern tributary before a longer northeast arm and northern wetland/lake tributaries. Main brook turns southeast toward the Margaree. Smaller northern tributary farther downstream is not selected.",
+      "source_uncertainty_px": 12,
+      "review": "Broad lake/branch sequence inspected; crosshair pending. Not scored."
+    },
+    {
+      "id": "C21",
+      "role": "control",
+      "pixel_xy": [
+        8891,
+        2695
+      ],
+      "lonlat": [
+        -60.8895442,
+        46.5710948
+      ],
+      "modern_node": "J0519",
+      "modern_objectids": [
+        137263,
+        137265,
+        275228
+      ],
+      "identity_evidence": "Outlet at southern point of irregular Jim Campbells headwater lake. Shoreline has broad western lobe, northwestern rounded corner, eastern inset and northeast inlet; outflow heads southeast past west tributaries and cascades, then east toward the large northern arm C20. The elongated lake to the east feeds a separate northern tributary, not this outlet.",
+      "source_uncertainty_px": 12,
+      "review": "Broad lake/branch sequence inspected; crosshair pending. Not scored."
+    }
+  ]
+}

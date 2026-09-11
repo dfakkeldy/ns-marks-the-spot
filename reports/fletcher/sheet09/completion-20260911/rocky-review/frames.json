@@ -1,0 +1,82 @@
+[
+  {
+    "image": "sheet-09-C20.jpg",
+    "point_record": "sheet09/completion-20260911/regional-proposals-v2.json",
+    "point_id": "C20",
+    "native_box": [
+      9325,
+      2858,
+      9545,
+      3078
+    ],
+    "native_coordinates": [
+      9435,
+      2968
+    ],
+    "modern_lonlat": [
+      -60.8681633,
+      46.5632049
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C22.jpg",
+    "point_record": "sheet09/completion-20260911/regional-proposals-v2.json",
+    "point_id": "C22",
+    "native_box": [
+      9008,
+      4432,
+      9228,
+      4652
+    ],
+    "native_coordinates": [
+      9118,
+      4542
+    ],
+    "modern_lonlat": [
+      -60.884549,
+      46.5167813
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C23.jpg",
+    "point_record": "sheet09/completion-20260911/regional-proposals-v2.json",
+    "point_id": "C23",
+    "native_box": [
+      8988,
+      4321,
+      9208,
+      4541
+    ],
+    "native_coordinates": [
+      9098,
+      4431
+    ],
+    "modern_lonlat": [
+      -60.8824588,
+      46.5206477
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-09-C24.jpg",
+    "point_record": "sheet09/completion-20260911/regional-proposals-v2.json",
+    "point_id": "C24",
+    "native_box": [
+      9061,
+      4133,
+      9281,
+      4353
+    ],
+    "native_coordinates": [
+      9171,
+      4243
+    ],
+    "modern_lonlat": [
+      -60.8796705,
+      46.5263991
+    ],
+    "rotation_degrees": 0
+  }
+]
