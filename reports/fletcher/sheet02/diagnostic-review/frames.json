@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-02-Q01.jpg",
+    "point_record": "sheet02/diagnostic-checks.json",
+    "point_id": "Q01",
+    "native_box": [
+      4458,
+      5343,
+      4678,
+      5563
+    ],
+    "native_coordinates": [
+      4568,
+      5453
+    ],
+    "modern_lonlat": [
+      -60.3217877,
+      46.8213966
+    ],
+    "rotation_degrees": 0
+  }
+]

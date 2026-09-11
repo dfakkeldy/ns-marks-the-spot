@@ -1,0 +1,28 @@
+{
+  "sheet": "sheet-02",
+  "source_sha256": "b4094db3ab94e60e3f30727c7edb97d6ac66e19a7e640c3a5ce3b339b91e1922",
+  "ring_pixel_xy": [
+    [
+      1305,
+      985
+    ],
+    [
+      9493,
+      1038
+    ],
+    [
+      9470,
+      6472
+    ],
+    [
+      1282,
+      6423
+    ],
+    [
+      1305,
+      985
+    ]
+  ],
+  "scope": "Complete mapped frame. No outside mapped extension identified; broad sea, interior legend, pond islands and offshore rocks retained.",
+  "status": "Native overview, four corners and labels personally inspected; boundary overlay pending review."
+}

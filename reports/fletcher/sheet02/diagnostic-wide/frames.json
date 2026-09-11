@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-02-Q01.jpg",
+    "point_record": "sheet02/candidate-diagnostics.json",
+    "point_id": "Q01",
+    "native_box": [
+      4217,
+      5090,
+      4917,
+      5790
+    ],
+    "native_coordinates": [
+      4567,
+      5440
+    ],
+    "modern_lonlat": [
+      -60.3217877,
+      46.8213966
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-02-Q02.jpg",
+    "point_record": "sheet02/candidate-diagnostics.json",
+    "point_id": "Q02",
+    "native_box": [
+      3615,
+      5245,
+      4315,
+      5945
+    ],
+    "native_coordinates": [
+      3965,
+      5595
+    ],
+    "modern_lonlat": [
+      -60.3436567,
+      46.8143414
+    ],
+    "rotation_degrees": 0
+  }
+]
