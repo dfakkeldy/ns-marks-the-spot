@@ -1,0 +1,27 @@
+{
+  "sheet": "sheet-21",
+  "points": [
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        4950,
+        3657
+      ],
+      "lonlat": [
+        -60.9867337,
+        45.6700217
+      ],
+      "modern_node_id": "J0499",
+      "modern_objectids": [
+        199039,
+        283230,
+        283231
+      ],
+      "identity_evidence": "Western Black River brook joins north/south channel",
+      "source_uncertainty_px": 20,
+      "status": "Rejected after first diagnostic score: wrong modern J0499, similar junction far east; original fit and failing scores preserved.",
+      "review_note": "Native scan crosshair corrected before any fit or score; original proposal preserved. Original northern-tributary orientation was incorrect."
+    }
+  ]
+}

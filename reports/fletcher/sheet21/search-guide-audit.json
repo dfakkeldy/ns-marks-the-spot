@@ -1,0 +1,6 @@
+{
+  "original_observations": "tools/fletcher/observations/sheet-21.json",
+  "original_sha256": "c54b1f6651057f6ddf3b78e87e211dc903b909efe0dca27f1f1567dd662ec7d3",
+  "status": "Native labels confirm 45d40 and 45d35; prior meridian labels also visible on overview. Existing flat graticule guide retained only for approximate search; engraved rules slope and guide pixel positions are not physical controls.",
+  "native_label_review": "graticule-labels.jpg"
+}

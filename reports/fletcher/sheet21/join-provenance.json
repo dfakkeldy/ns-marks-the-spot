@@ -1,0 +1,25 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "sha256": "75e5ce00163ef7e7c698bcd305a506770d67a719d581f0e8deeaa6d7a05e04be"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "sha256": "014d63338579b4b21074eb0b5d3e55a06e55906cf13c6371f5548f834cd344ea"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "sha256": "5fa544e6c2b48f399dc93d6ab5a16970ed80363b03dec45bb589b0518b497f9b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet22/result/sheet22-neatline-diagnostic.tif",
+      "sha256": "c552c17b8bf35d7037d4d58a6a1633fa13cdf52a6220229b028b8dca7cb3e09f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif",
+      "sha256": "b49f81d7a6533e753def1c698e20b25e5fa8134ed2b67bf17bf0c73b7817bec1"
+    }
+  ],
+  "status": "Eight actual comparisons personally inspected, including both old affine and later full-sheet TPS Sheet22. Later western TPS reduces some visible coast offsets but stream/shore discontinuities and extent differences remain; no seam accepted."
+}
