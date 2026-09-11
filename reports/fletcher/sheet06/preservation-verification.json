@@ -1,0 +1,15 @@
+{
+  "verified_at_utc": "2026-09-11T20:12:53.801732+00:00",
+  "initial_eight_controls_unchanged": true,
+  "promotions": [
+    "Q01 to C14",
+    "Q03 to C15"
+  ],
+  "promotion_coordinates_unchanged": true,
+  "failed_initial_fit_and_scores_preserved": true,
+  "fresh_validation_disjoint_from_fit": true,
+  "original_two_prior_files_unchanged": true,
+  "source_sha256_verified": "f0eba470a9ff0ae9e89a2c211c2d6eab6b7a647cd71c706c8913708a625091e3",
+  "reference_files_verified": 4,
+  "fit_sha256": "007808040feca6310cf934bafcf3467f594bed43ba056c32faea45dc1758c54e"
+}

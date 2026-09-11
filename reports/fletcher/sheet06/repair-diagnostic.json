@@ -1,0 +1,31 @@
+{
+  "fit_sha256": "007808040feca6310cf934bafcf3467f594bed43ba056c32faea45dc1758c54e",
+  "points": [
+    {
+      "lonlat": [
+        -60.9275657,
+        46.6251279
+      ],
+      "source_guide_xy": [
+        7698.894801279297,
+        6294.394700000063
+      ],
+      "objectids": [
+        190203,
+        263446,
+        263447
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        7751,
+        6144
+      ],
+      "modern_node_id": "J0521",
+      "identity_evidence": "Faribault Brook main southeastern arm and western tributary junction; corrected from downstream western tributary fork J0534 to J0521 before scoring.",
+      "source_uncertainty_px": 20,
+      "status": "Corrected diagnostic pending exact crosshair inspection before first score."
+    }
+  ],
+  "scope": "Reused diagnostic only, not final fresh validation."
+}

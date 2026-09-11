@@ -1,0 +1,30 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.9194291,
+        46.6202824
+      ],
+      "source_guide_xy": [
+        7873.245153939119,
+        6447.250084700063
+      ],
+      "objectids": [
+        184702,
+        263447,
+        263448
+      ],
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        7803,
+        6187
+      ],
+      "modern_node_id": "J0555",
+      "identity_evidence": "Faribault Brook smaller southern tributary on southeastern main arm",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate collected after ten-control freeze, not yet reviewed.",
+      "rejection_reason": "Native crosshair lies at a short southern twig. The proposed modern southern branch is long and divided; the later east/south main-arm geometry does not establish this correspondence. No fresh error calculated; retained unscored."
+    }
+  ]
+}
