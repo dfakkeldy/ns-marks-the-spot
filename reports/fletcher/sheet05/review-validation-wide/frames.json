@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-05-V01.jpg",
+    "point_record": "sheet05/validation-candidates.json",
+    "point_id": "V01",
+    "native_box": [
+      4398,
+      1305,
+      5098,
+      2005
+    ],
+    "native_coordinates": [
+      4748,
+      1655
+    ],
+    "modern_lonlat": [
+      -60.6887621,
+      46.7643107
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-05-V02.jpg",
+    "point_record": "sheet05/validation-candidates.json",
+    "point_id": "V02",
+    "native_box": [
+      7120,
+      1769,
+      7820,
+      2469
+    ],
+    "native_coordinates": [
+      7470,
+      2119
+    ],
+    "modern_lonlat": [
+      -60.5644481,
+      46.747879
+    ],
+    "rotation_degrees": 0
+  }
+]

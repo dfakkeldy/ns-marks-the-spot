@@ -1,0 +1,56 @@
+{
+  "sheet": "sheet-05",
+  "fit_sha256": "f04cbd3f80ff7361bf6d719f0989834dfa4cc9833242f0c18f6ffed1f2e80db9",
+  "points": [
+    {
+      "lonlat": [
+        -60.4874953,
+        46.7735022
+      ],
+      "source_guide_xy": [
+        9079.476551559987,
+        1651.104990880005
+      ],
+      "objectids": [
+        180930,
+        281429,
+        281430
+      ],
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        9200,
+        1340
+      ],
+      "modern_node_id": "J0605",
+      "identity_evidence": "Donovan Brook eastern tributary upstream of Black Brook",
+      "source_uncertainty_px": 20,
+      "status": "Additional fresh candidate after final eleven-control freeze; unreviewed."
+    },
+    {
+      "lonlat": [
+        -60.5051358,
+        46.67872
+      ],
+      "source_guide_xy": [
+        8703.514794160146,
+        4618.001442880137
+      ],
+      "objectids": [
+        191190,
+        265938,
+        266047
+      ],
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        9038,
+        4515
+      ],
+      "modern_node_id": "J1889",
+      "identity_evidence": "Dauphiney Brook eastern tributary upstream of Curtis Brook",
+      "source_uncertainty_px": 20,
+      "status": "Additional fresh candidate after final eleven-control freeze; unreviewed."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.5511469,
+        46.6794582
+      ],
+      "source_guide_xy": [
+        7708.029555879999,
+        4596.4447086402215
+      ],
+      "objectids": [
+        191144,
+        261956,
+        261957
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        7689,
+        4110
+      ],
+      "modern_node_id": "J1879",
+      "identity_evidence": "Clyburn Brook upper northern tributary at Gorge bend",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: proposed native crosshair is above the main junction, where a broken northern line and short northeastern tributary meet. Modern J1879 is a short eastern branch on the main stream with the major northern tributary farther west. Wider context does not establish the intended upper Clyburn northern-tributary identity."
+    }
+  ]
+}
