@@ -1,0 +1,37 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.46944136004461,
+        46.99526265967672
+      ],
+      "guide_xy": [
+        7005.086301079486,
+        5611.020025417907
+      ],
+      "modern_objectid": 13512,
+      "modern_part": 0,
+      "modern_vertex": 24,
+      "modern_properties": {
+        "OBJECTID": 13512,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 301.53321799186017
+      },
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        7110,
+        5450
+      ],
+      "identity_evidence": "Historical McDougall Pond southern shore tip; modern feature is coastal water, so connection and identity require review",
+      "source_uncertainty_px": 20,
+      "status": "Initial lake proposal pending review.",
+      "rejection_reason": "McDougall Pond identity is broadly recognizable but the historical smooth southern lobe does not identify a stable vertex on the modern irregular coastal shoreline. Rejected unscored after close/wide review."
+    }
+  ]
+}

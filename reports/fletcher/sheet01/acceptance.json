@@ -1,0 +1,16 @@
+{
+  "status": "rejected-whole-sheet-geography",
+  "production_eligible": false,
+  "fit_sha256": "4dbb3c414a96a7a3a7a547b2c837e601aa6a9a7e68387f46e43415c2611c9daa",
+  "fresh_check_count": 2,
+  "fresh_numerical_thresholds_passed": false,
+  "median_ground_m": 364.5288499026002,
+  "worst_ground_m": 457.39505128124506,
+  "required_median_max_m": 100,
+  "required_worst_max_m": 200,
+  "initial_diagnostic_failure_preserved": true,
+  "repair_performed": true,
+  "promotion": "Q02 to C09 unchanged",
+  "limitation": "Fresh checks fail both limits; actual raster and joins remain displaced; northern sea unsupported.",
+  "hosted_ci": "Inspect PR checks separately."
+}

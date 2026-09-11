@@ -1,0 +1,17 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/regional-eight/sheet-01-full-sheet.tif",
+      "sha256": "50fe7caa175899f9e98667992346326d6e70f8274832b5423a94b314db1b234f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+      "sha256": "86f27229ea21c2e36d822be8f9871c16241a28bb1b4daa8abd7ec2761eaed951"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+      "sha256": "ec5096c078ea3628b00f39ef28a9475f641bbd0daa0db19a2c24f655143a1465"
+    }
+  ],
+  "status": "Three actual southern Sheet3 and southeast Sheet2 comparisons personally inspected; detailed findings in README. No seam accepted."
+}

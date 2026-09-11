@@ -1,0 +1,31 @@
+{
+  "sheet": "sheet-01",
+  "fit_sha256": "4dbb3c414a96a7a3a7a547b2c837e601aa6a9a7e68387f46e43415c2611c9daa",
+  "points": [
+    {
+      "lonlat": [
+        -60.6342323,
+        47.0098426
+      ],
+      "source_guide_xy": [
+        3472.320920160273,
+        5133.998579259263
+      ],
+      "objectids": [
+        9467,
+        9468,
+        180248
+      ],
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        3500,
+        5045
+      ],
+      "modern_node_id": "J0091",
+      "identity_evidence": "Low Fall stream shoreline mouth on western coast south of Lowland Cove",
+      "source_uncertainty_px": 20,
+      "status": "Additional fresh post-repair-freeze proposal; no fresh scores inspected yet."
+    }
+  ]
+}

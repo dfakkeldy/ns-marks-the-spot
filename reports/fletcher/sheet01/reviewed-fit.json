@@ -1,0 +1,272 @@
+{
+  "sheet": "sheet-01",
+  "source_sha256": "ee65feacee038b3f57804b3e88ceedba38bc810682faa79d305ea8000c9130a3",
+  "points": [
+    {
+      "lonlat": [
+        -60.59836641693324,
+        47.041967210032965
+      ],
+      "guide_xy": [
+        4240.785186965484,
+        4131.5496407737955
+      ],
+      "modern_objectid": 10488,
+      "modern_part": 0,
+      "modern_vertex": 93,
+      "modern_properties": {
+        "OBJECTID": 10488,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 408.80858862689524
+      },
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        4411,
+        3844
+      ],
+      "identity_evidence": "Cape St Lawrence northernmost mainland tip",
+      "selection_box_source_guide": [
+        4140,
+        4050,
+        4490,
+        4240
+      ],
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        4400,
+        3840
+      ],
+      "identity_limitation": "Historical coastal generalization and channel geometry differ; 20 native pixel uncertainty. Modern cape vertices checked against complete selected coast segments."
+    },
+    {
+      "lonlat": [
+        -60.6007298,
+        47.0390291
+      ],
+      "source_guide_xy": [
+        4190.157074160175,
+        4223.345087259309
+      ],
+      "objectids": [
+        11527,
+        11556,
+        263400
+      ],
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        4247,
+        3983
+      ],
+      "modern_node_id": "J0001",
+      "identity_evidence": "Historical Lowland Brook mouth northwest of Cape St Lawrence; modern French Brook by matching cape and channel sequence",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        4225,
+        3975
+      ],
+      "identity_limitation": "Historical coastal generalization and channel geometry differ; 20 native pixel uncertainty. Modern cape vertices checked against complete selected coast segments."
+    },
+    {
+      "lonlat": [
+        -60.5955112,
+        47.0231367
+      ],
+      "source_guide_xy": [
+        4302.217867440311,
+        4722.064421139192
+      ],
+      "objectids": [
+        180946,
+        263531,
+        263532
+      ],
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        4444,
+        4474
+      ],
+      "modern_node_id": "J0046",
+      "identity_evidence": "Historical Lowland / modern French Brook eastern tributary at main river bend",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        4420,
+        4470
+      ],
+      "identity_limitation": "Historical coastal generalization and channel geometry differ; 20 native pixel uncertainty. Modern cape vertices checked against complete selected coast segments."
+    },
+    {
+      "lonlat": [
+        -60.53339115177294,
+        47.028296919280535
+      ],
+      "guide_xy": [
+        5633.810994642554,
+        4567.904210542096
+      ],
+      "modern_objectid": 2301,
+      "modern_part": 0,
+      "modern_vertex": 11,
+      "modern_properties": {
+        "OBJECTID": 2301,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 76.399551830209
+      },
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        5740,
+        4390
+      ],
+      "identity_evidence": "Black Point northernmost mainland promontory below Shag Rocks",
+      "selection_box_source_guide": [
+        5500,
+        4500,
+        5750,
+        4700
+      ],
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        5740,
+        4390
+      ],
+      "identity_limitation": "Historical coastal generalization and channel geometry differ; 20 native pixel uncertainty. Modern cape vertices checked against complete selected coast segments."
+    },
+    {
+      "lonlat": [
+        -60.41458318933296,
+        47.036948118430104
+      ],
+      "guide_xy": [
+        8180.569709486095,
+        4311.2377878208645
+      ],
+      "modern_objectid": 8126,
+      "modern_part": 0,
+      "modern_vertex": 48,
+      "modern_properties": {
+        "OBJECTID": 8126,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 215.67585729630827
+      },
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        8200,
+        4077
+      ],
+      "identity_evidence": "Cape North northernmost mainland tip",
+      "selection_box_source_guide": [
+        8100,
+        4250,
+        8310,
+        4440
+      ],
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        8170,
+        4077
+      ],
+      "identity_limitation": "Historical coastal generalization and channel geometry differ; 20 native pixel uncertainty. Modern cape vertices checked against complete selected coast segments."
+    },
+    {
+      "lonlat": [
+        -60.3867625789395,
+        47.01932460409864
+      ],
+      "guide_xy": [
+        8777.166052540531,
+        4866.964900829131
+      ],
+      "modern_objectid": 2390,
+      "modern_part": 0,
+      "modern_vertex": 147,
+      "modern_properties": {
+        "OBJECTID": 2390,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 779.0194136093003
+      },
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        8798,
+        4665
+      ],
+      "identity_evidence": "Money Point easternmost mainland tip",
+      "selection_box_source_guide": [
+        8700,
+        4800,
+        8900,
+        5050
+      ],
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        8790,
+        4680
+      ],
+      "identity_limitation": "Historical coastal generalization and channel geometry differ; 20 native pixel uncertainty. Modern cape vertices checked against complete selected coast segments."
+    },
+    {
+      "lonlat": [
+        -60.5139107,
+        47.0066028
+      ],
+      "source_guide_xy": [
+        6051.669872640166,
+        5250.192321939394
+      ],
+      "objectids": [
+        10350,
+        10351,
+        181235
+      ],
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        6234,
+        5162
+      ],
+      "modern_node_id": "J0105",
+      "identity_evidence": "Historical Wreck Cove Brook shoreline mouth",
+      "source_uncertainty_px": 20,
+      "status": "Exact final crosshair and modern context personally inspected; geographic accuracy unaccepted.",
+      "original_pixel_xy": [
+        6200,
+        5155
+      ],
+      "identity_limitation": "Historical coastal generalization and channel geometry differ; 20 native pixel uncertainty. Modern cape vertices checked against complete selected coast segments."
+    }
+  ],
+  "source_width": 10874,
+  "source_height": 7680,
+  "method": "Seven reviewed physical river junctions and mainland headlands. Corrected printed grid is search-only.",
+  "prior_control_count": 0
+}

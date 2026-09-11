@@ -1,0 +1,14 @@
+{
+  "personally_inspected_point_frames": 36,
+  "personally_inspected_warped_frames": 8,
+  "personally_inspected_adjacent_frames": 3,
+  "personally_inspected_browser_screenshots": 3,
+  "geographic_acceptance": false,
+  "limitations": [
+    "Two fresh checks fail: median 364.528850 m / worst 457.395051 m",
+    "Broad northern sea remains unsupported extrapolation",
+    "Southern interior lacks supported controls; rejected McDougall, Salmon and southern Lowland proposals preserved",
+    "Initial Q02 failed at 500.650477 m and was promoted unchanged",
+    "Southern Sheet3 and southeast Sheet2 joins remain unaccepted"
+  ]
+}

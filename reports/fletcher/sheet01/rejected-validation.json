@@ -1,0 +1,30 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.6197063,
+        47.0214088
+      ],
+      "source_guide_xy": [
+        3783.5730825604405,
+        4773.271571859252
+      ],
+      "objectids": [
+        7566,
+        7567,
+        180803
+      ],
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        3880,
+        4645
+      ],
+      "modern_node_id": "J0058",
+      "identity_evidence": "Southern Lowland Cove stream mouth at road bend, next mouth south of promoted Q02",
+      "source_uncertainty_px": 20,
+      "status": "Fresh post-repair-freeze proposal; exact native and modern context pending review.",
+      "rejection_reason": "Southern Lowland Cove mouth proposal has unresolved branch directions and sequence relative to additional modern mouths. Rejected unscored after close/wide review."
+    }
+  ]
+}
