@@ -1,0 +1,14 @@
+{
+  "source": "/Users/dfakkeldy/Downloads/fletcher-sheet18/native/sheet18.png",
+  "source_sha256": "82de26909fee8671007efe39ef86b90099fad303aecfe9e74e2578a1b552a890",
+  "source_native_dimensions": [
+    10832,
+    7683
+  ],
+  "fit_sha256": "24cf96fa66b38eb9920c91ec304ffd7e5333f5b825fbe22e64eecc61944f00e4",
+  "boundary_sha256": "d7dbaf254a8deacd4ff05d011d5adfd2f6450afc077ffd1667a8d14978b26224",
+  "raster_sha256": "014d63338579b4b21074eb0b5d3e55a06e55906cf13c6371f5548f834cd344ea",
+  "script": "reports/fletcher/full-sheets/render.py",
+  "script_sha256": "7d08b133fd344d44ad30014510f361ccd3da22d0875a96f772a71d8bccc19067",
+  "method": "Exact GDAL TPS (-et 0), EPSG:3857, 5 projected metre cells, full dense boundary cutline plus Macrae Point label notch, RGBA. Raster receipt contains reused diagnostics; fresh validation separate."
+}

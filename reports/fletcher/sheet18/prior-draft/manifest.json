@@ -1,0 +1,160 @@
+{
+  "@context" : "http://iiif.io/api/presentation/2/context.json",
+  "@type" : "sc:Manifest",
+  "@id" : "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2643~290011/manifest",
+  "label" : "Province of Nova Scotia (Island of Cape Breton). Sheet no. 18.",
+  "attribution" : "David Rumsey Historical Map Collection",
+  "service" : {
+    "@context" : "http://iiif.io/api/search/1/context.json",
+    "@id" : "https://www.davidrumsey.com/luna/servlet/iiif/services/RUMSEY~8~1~2643~290011/search",
+    "profile" : "http://iiif.io/api/search/1/search"
+  },
+  "sequences" : [ {
+    "@type" : "sc:Sequence",
+    "canvases" : [ {
+      "@id" : "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2643~290011/canvas/c1",
+      "@type" : "sc:Canvas",
+      "label" : "Province of Nova Scotia (Island of Cape Breton). Sheet no. 18.",
+      "description" : "",
+      "metadata" : [ {
+        "label" : "Author",
+        "value" : "Fletcher, Hugh."
+      }, {
+        "label" : "Author",
+        "value" : "Geological Survey of Canada"
+      }, {
+        "label" : "Date",
+        "value" : "1884"
+      }, {
+        "label" : "Short Title",
+        "value" : "Province of Nova Scotia (Island of Cape Breton). Sheet no. 18."
+      }, {
+        "label" : "Publisher",
+        "value" : "Geological and Natural History Survey of Canada"
+      }, {
+        "label" : "Publisher Location",
+        "value" : "Ottawa"
+      }, {
+        "label" : "Type",
+        "value" : "Atlas Map"
+      }, {
+        "label" : "Obj Height cm",
+        "value" : "37"
+      }, {
+        "label" : "Obj Width cm",
+        "value" : "53"
+      }, {
+        "label" : "Scale 1",
+        "value" : "63,360"
+      }, {
+        "label" : "Note",
+        "value" : "Full color. Shows geologic units, mineral deposits, mineral springs, falls, fishing stations, buildings, land holders names, schools, parish and county boundaries, notes, etc. Relief shown by spot heights. The maps index the various geological reports. Rumsey collection maps backed on linen; protected in new blue cloth folding boards with blue cloth slip case 22 x 16.5 cm., stamped with title \"Cape Breton, Nova Scotia, Geological Survey of Canada, 1884\" on spine in gold."
+      }, {
+        "label" : "Reference",
+        "value" : "None found."
+      }, {
+        "label" : "State/Province",
+        "value" : "Nova Scotia"
+      }, {
+        "label" : "Region",
+        "value" : "Cape Breton Island"
+      }, {
+        "label" : "Subject",
+        "value" : "Geology"
+      }, {
+        "label" : "Full Title",
+        "value" : "Province of Nova Scotia (Island of Cape Breton). Geological and Natural History Survey of Canada. Alfred R.C. Selwyn, LL.D., F.R.S. &c. Director. 1884. The Burland Lith. Company Montreal. Compiled and drawn by Hugh Fletcher, from plans made by the Admiralty, the Department of Crown Lands, Nova Scotia, and the Geological Survey. To illustrate Reports by Hugh Fletcher, 1879 to 1884. Sheet no. 18."
+      }, {
+        "label" : "List No",
+        "value" : "3997.020"
+      }, {
+        "label" : "Series No",
+        "value" : "20"
+      }, {
+        "label" : "Page No",
+        "value" : "No. 18"
+      }, {
+        "label" : "Engraver or Printer",
+        "value" : "Burland Lith. Company"
+      }, {
+        "label" : "Publication Author",
+        "value" : "Fletcher, Hugh."
+      }, {
+        "label" : "Publication Author",
+        "value" : "Geological Survey of Canada"
+      }, {
+        "label" : "Pub Date",
+        "value" : "1884"
+      }, {
+        "label" : "Pub Title",
+        "value" : "Province of Nova Scotia (Island of Cape Breton). Geological and Natural History Survey of Canada. Alfred R.C. Selwyn, LL.D., F.R.S. &c. Director. 1884. The Burland Lith. Company Montreal. Compiled and drawn by Hugh Fletcher, from Plans made by the Admiralty, the Department of Crown Lands, Nova Scotia, and the Geological Survey. To illustrate Reports by Hugh Fletcher, 1879 to 1884."
+      }, {
+        "label" : "Pub Reference",
+        "value" : "None found."
+      }, {
+        "label" : "Pub Note",
+        "value" : "24 separate sheets backed on linen showing the geology of Cape Breton Island, as well as very detailed cultural information, including the placement of houses, schools, churches, farms, roads, etc. They were issued to accompany reports by Hugh Fletcher from 1879-1884. Printed in full color. Rumsey Collection copy: maps are protected in new blue cloth folding boards with blue cloth slip case 22x16.5 stamped with the title \"Cape Breton, Nova Scotia. Geological Survey Of Canada. 1884\" on the spine in gold."
+      }, {
+        "label" : "Pub List No",
+        "value" : "3997.000"
+      }, {
+        "label" : "Pub Type",
+        "value" : "State Atlas"
+      }, {
+        "label" : "Pub Maps",
+        "value" : "24"
+      }, {
+        "label" : "Pub Height cm",
+        "value" : "41"
+      }, {
+        "label" : "Pub Width cm",
+        "value" : "59"
+      }, {
+        "label" : "Image No",
+        "value" : "3997020"
+      }, {
+        "label" : "Download 1",
+        "value" : "<a href=https://www.davidrumsey.com/rumsey/download.pl?image=/D0029/3997020.sid target=_blank>Full Image Download in MrSID Format</a>"
+      }, {
+        "label" : "Download 2",
+        "value" : "<a href=\"https://www.extensis.com/support/geoviewer-9\" target=\"_blank\">GeoViewer for JP2 and SID files</a>"
+      }, {
+        "label" : "Authors",
+        "value" : "Fletcher, Hugh.; Geological Survey of Canada"
+      }, {
+        "label" : "Collection",
+        "value" : "Rumsey Collection"
+      } ],
+      "thumbnail" : {
+        "@id" : "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2643~290011/full/!96,96/0/default.jpg",
+        "format" : "image/jpeg"
+      },
+      "images" : [ {
+        "@type" : "oa:Annotation",
+        "motivation" : "sc:painting",
+        "resource" : {
+          "@id" : "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2643~290011/full/!1024,1024/0/default.jpg",
+          "@type" : "dctypes:Image",
+          "service" : {
+            "@context" : "http://iiif.io/api/image/2/context.json",
+            "@id" : "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2643~290011",
+            "profile" : "http://iiif.io/api/image/2/level1.json",
+            "protocol" : "http://iiif.io/api/image"
+          },
+          "format" : "image/jpeg",
+          "width" : 10832,
+          "height" : 7683
+        },
+        "on" : "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2643~290011/canvas/c1"
+      } ],
+      "otherContent" : [ "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2643~290011/list/luna" ],
+      "width" : 10832,
+      "height" : 7683
+    } ]
+  } ],
+  "logo" : {
+    "@id" : "https://www.davidrumsey.com/luna/images/LUNAIIIF80.png",
+    "format" : "image/png"
+  },
+  "related" : "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~2643~290011"
+}

@@ -1,0 +1,22 @@
+{
+  "sheet": "sheet-18",
+  "fit_sha256": "39480e31d91c5da004cbe6a1e472ab163c8a0416fcb90c1b11c34c1d23e0edc0",
+  "purpose": "Reproduction of prior rounded draft; old Crane Island check is reused diagnostic, not fresh acceptance.",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        2319.0,
+        3011.0
+      ],
+      "lonlat": [
+        -61.0805,
+        45.7652
+      ],
+      "identity_evidence": "Crane Island northern tip",
+      "source_uncertainty_px": 1,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals."
+    }
+  ]
+}

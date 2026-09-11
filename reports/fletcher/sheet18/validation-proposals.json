@@ -1,0 +1,129 @@
+{
+  "sheet": "sheet-18",
+  "fit_sha256": "24cf96fa66b38eb9920c91ec304ffd7e5333f5b825fbe22e64eecc61944f00e4",
+  "purpose": "Fresh physical checks selected after fourteen-control repair freeze. No validation point fitted.",
+  "points": [
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        2663,
+        5975
+      ],
+      "lonlat": [
+        -61.1685816,
+        45.7678693
+      ],
+      "modern_node_id": "J0763",
+      "modern_objectids": [
+        198419,
+        198518,
+        198521
+      ],
+      "identity_evidence": "Ross Brook next western tributary below the major Beaver Lakes confluence",
+      "source_uncertainty_px": 15
+    },
+    {
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        2762,
+        1854
+      ],
+      "lonlat": [
+        -61.1648471,
+        45.899365
+      ],
+      "modern_node_id": "J0329",
+      "modern_objectids": [
+        63540,
+        63541,
+        197934
+      ],
+      "identity_evidence": "Ashfield eastern main brook small pond southern outlet upstream of C10",
+      "source_uncertainty_px": 15
+    },
+    {
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        5500,
+        3570
+      ],
+      "lonlat": [
+        -61.0384891,
+        45.8446489
+      ],
+      "modern_node_id": "J0612",
+      "modern_objectids": [
+        125319,
+        125320,
+        194482
+      ],
+      "identity_evidence": "McKenzie Brook western-arm small lake eastern tributary mouth",
+      "source_uncertainty_px": 15
+    },
+    {
+      "lonlat": [
+        -60.96632513932155,
+        45.91468046685319
+      ],
+      "guide_xy": [
+        7160.899786562193,
+        1356.0700699151494
+      ],
+      "modern_objectid": 23630,
+      "modern_part": 0,
+      "modern_vertex": 184,
+      "modern_properties": {
+        "OBJECTID": 23630,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 2152.9775502434345
+      },
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        7148,
+        1340
+      ],
+      "identity_evidence": "Round Island northernmost tip, north of Cranberry Island",
+      "source_uncertainty_px": 12
+    },
+    {
+      "lonlat": [
+        -60.936522073009826,
+        45.83572365259661
+      ],
+      "guide_xy": [
+        7772.686109033413,
+        3829.6384681914933
+      ],
+      "modern_objectid": 23747,
+      "modern_part": 0,
+      "modern_vertex": 22,
+      "modern_properties": {
+        "OBJECTID": 23747,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 687.0640942599167
+      },
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        7780,
+        3818
+      ],
+      "identity_evidence": "Militia Island northern tip off Militia Point",
+      "source_uncertainty_px": 12
+    }
+  ]
+}

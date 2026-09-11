@@ -1,0 +1,45 @@
+{
+  "fit_sha256": "24cf96fa66b38eb9920c91ec304ffd7e5333f5b825fbe22e64eecc61944f00e4",
+  "frozen_at": "2026-09-11T13:20:46.380383+00:00",
+  "control_count": 14,
+  "initial_fit_sha256": "1687c94ff4a10bb039e9ec2801b6ee323546134cbabb6508b17a2775db4561dc",
+  "promotions": [
+    {
+      "check_id": "Q05",
+      "control_id": "C13",
+      "pixel_xy": [
+        2660,
+        5889
+      ],
+      "lonlat": [
+        -61.1676266,
+        45.7704048
+      ]
+    },
+    {
+      "check_id": "Q06",
+      "control_id": "C14",
+      "pixel_xy": [
+        1920,
+        5640
+      ],
+      "lonlat": [
+        -61.2063705,
+        45.7795174
+      ]
+    },
+    {
+      "check_id": "Q04",
+      "control_id": "C15",
+      "pixel_xy": [
+        6758,
+        1499
+      ],
+      "lonlat": [
+        -60.982318246420604,
+        45.90967889548603
+      ]
+    }
+  ],
+  "fresh_checks_seen_or_used": false
+}
