@@ -1,0 +1,36 @@
+{
+  "sheet": "sheet-03",
+  "source_sha256": "1dd5a8cc142b452fc594b6ab53d0eb94de24e1435fed25da61d8f3cf03a9a413",
+  "ring_pixel_xy": [
+    [
+      1272,
+      1053
+    ],
+    [
+      9483,
+      1107
+    ],
+    [
+      9470,
+      6540
+    ],
+    [
+      230,
+      6500
+    ],
+    [
+      230,
+      5475
+    ],
+    [
+      1260,
+      5475
+    ],
+    [
+      1272,
+      1053
+    ]
+  ],
+  "scope": "Complete mapped frame and southwest Fishing Cove / White Capes extension, including labels and offshore rocks.",
+  "status": "Native overview, four corners and labels personally inspected; boundary overlay pending review."
+}
