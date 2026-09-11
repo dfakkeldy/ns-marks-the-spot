@@ -1,0 +1,13 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "sha256": "4e8c2f78df96806aea71da7851220ca2ad44e84a2612604cb1237cb3efc54b5b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "sha256": "014d63338579b4b21074eb0b5d3e55a06e55906cf13c6371f5548f834cd344ea"
+    }
+  ],
+  "status": "Two actual western lake-edge comparisons inspected. Almost entirely open water without shared physical features; these show frame placement only, not geographic seam acceptance. Northern/eastern/southern joins remain outstanding."
+}

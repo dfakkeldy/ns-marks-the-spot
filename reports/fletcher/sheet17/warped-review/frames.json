@@ -1,0 +1,137 @@
+[
+  {
+    "image": "northern-peninsula.jpg",
+    "lonlat_bounds": [
+      -60.76,
+      45.884,
+      -60.635,
+      45.935
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet17/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "northeast-bruce.jpg",
+    "lonlat_bounds": [
+      -60.555,
+      45.864,
+      -60.46,
+      45.927
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet17/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "lochmore-coast.jpg",
+    "lonlat_bounds": [
+      -60.625,
+      45.844,
+      -60.535,
+      45.9
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet17/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "central-unexplored.jpg",
+    "lonlat_bounds": [
+      -60.675,
+      45.81,
+      -60.53,
+      45.867
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet17/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "north-loch-lomond.jpg",
+    "lonlat_bounds": [
+      -60.63,
+      45.777,
+      -60.525,
+      45.84
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet17/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "south-loch-lomond.jpg",
+    "lonlat_bounds": [
+      -60.64,
+      45.74,
+      -60.53,
+      45.792
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet17/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "red-islands.jpg",
+    "lonlat_bounds": [
+      -60.795,
+      45.791,
+      -60.709,
+      45.822
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet17/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southwest-mainland.jpg",
+    "lonlat_bounds": [
+      -60.795,
+      45.744,
+      -60.66,
+      45.797
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet17/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southeast.jpg",
+    "lonlat_bounds": [
+      -60.535,
+      45.746,
+      -60.46,
+      45.813
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet17/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

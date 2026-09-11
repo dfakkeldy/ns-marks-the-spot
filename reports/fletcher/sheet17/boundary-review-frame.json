@@ -1,0 +1,12 @@
+{
+  "source_sha256": "a8a3f35cbf6addc45abc8cb2934ddea9a6eec4edc8346efc6de783d35355cd7e",
+  "native_box": [
+    0,
+    0,
+    10873,
+    7642
+  ],
+  "rotation_degrees": 0,
+  "image": "full-boundary-review.jpg",
+  "overlay": "Red ring on complete native scan. Full scan and all native corners inspected; all mapped regions inside full neatline."
+}

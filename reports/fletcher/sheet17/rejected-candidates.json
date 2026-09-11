@@ -1,0 +1,103 @@
+{
+  "points": [
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        8833,
+        1304
+      ],
+      "lonlat": [
+        -60.5120085,
+        45.9132912
+      ],
+      "modern_node_id": "J0160",
+      "modern_objectids": [
+        200353,
+        260139,
+        262152
+      ],
+      "identity_evidence": "Bruce Brook northern tributary junction near road turn",
+      "source_uncertainty_px": 15,
+      "status": "rejected unscored",
+      "reason": "J0160 is southern arm; native proposal is beside a northern thin line at a road crossing. Fork identity not established."
+    },
+    {
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        5080,
+        5920
+      ],
+      "lonlat": [
+        -60.6775276,
+        45.7672802
+      ],
+      "modern_node_id": "J0632",
+      "modern_objectids": [
+        195271,
+        283240,
+        283241
+      ],
+      "identity_evidence": "Soldiers Cove upper river west tributary fork north of large bend",
+      "source_uncertainty_px": 15,
+      "status": "rejected unscored",
+      "reason": "Native fork geometry does not establish the modern node identity; C13 proposal is on land beside a single drawn channel."
+    },
+    {
+      "id": "C13",
+      "role": "control",
+      "pixel_xy": [
+        4890,
+        6410
+      ],
+      "lonlat": [
+        -60.7008063,
+        45.7541914
+      ],
+      "modern_node_id": "J0696",
+      "modern_objectids": [
+        195123,
+        283366,
+        283367
+      ],
+      "identity_evidence": "Soldiers Cove Brook eastern branch junction above falls",
+      "source_uncertainty_px": 15,
+      "status": "rejected unscored",
+      "reason": "Native fork geometry does not establish the modern node identity; C13 proposal is on land beside a single drawn channel."
+    },
+    {
+      "lonlat": [
+        -60.56907710086979,
+        45.901768155199036
+      ],
+      "guide_xy": [
+        7587.211490951711,
+        1732.26381489099
+      ],
+      "modern_objectid": 23472,
+      "modern_part": 0,
+      "modern_vertex": 76,
+      "modern_properties": {
+        "OBJECTID": 23472,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 791.181426981356
+      },
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        7660,
+        1598
+      ],
+      "identity_evidence": "Lochmore hook spit northernmost outer shoreline bend; spit is potentially mobile and shape differs, retained as a physical feature with explicit stability limitation",
+      "source_uncertainty_px": 25,
+      "status": "rejected unscored",
+      "reason": "Hook spit has markedly changed curvature and width; no stable northern apex supported."
+    }
+  ]
+}
