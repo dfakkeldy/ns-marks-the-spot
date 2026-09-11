@@ -1,0 +1,27 @@
+{
+  "sheet": "sheet-18",
+  "fit_sha256": "90c7222ca187b95dc8bfa121f97f5f33abb8159213fcf5ffc6a3e462dae1cac1",
+  "purpose": "Prior Crane Island check converted by source-dimension ratio; reused diagnostic only.",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        4638.0,
+        6021.216293597085
+      ],
+      "lonlat": [
+        -61.0805,
+        45.7652
+      ],
+      "identity_evidence": "Crane Island northern tip",
+      "source_uncertainty_px": 2,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        2319.0,
+        3011.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit."
+    }
+  ]
+}

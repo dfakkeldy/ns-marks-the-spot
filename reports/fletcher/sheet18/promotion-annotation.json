@@ -1,0 +1,5 @@
+{
+  "fit_file": "regional-fit.json",
+  "fit_unchanged": true,
+  "clarification": "The frozen promotion_reason says initial TPS check failed. Q05 and Q06 each exceeded 200 m. Q04 was 119.106687 m and did not individually exceed the maximum; it was promoted for north-island support after the overall five-check set failed. This annotation corrects the wording without changing the frozen fit, scores or coordinates."
+}
