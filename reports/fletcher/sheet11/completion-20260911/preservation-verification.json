@@ -1,0 +1,22 @@
+{
+  "prior_25_controls_unchanged": true,
+  "failed_V05_preserved_in_validation_scores": true,
+  "failed_V05_promoted_only_as_W03": true,
+  "fresh_checks": [
+    "V06",
+    "V07"
+  ],
+  "reference_hashes_reverified": true,
+  "boundaries_unchanged": [
+    {
+      "component": "mainland",
+      "path": "/Users/dfakkeldy/.codex/worktrees/0ca7/ns-marks-the-spot/reports/fletcher/sheet11/boundary-mainland.json",
+      "sha256": "c4f19abbac51325f1492174adbb522719fdb615a73e2517261d845649019eafb"
+    },
+    {
+      "component": "island",
+      "path": "/Users/dfakkeldy/.codex/worktrees/0ca7/ns-marks-the-spot/reports/fletcher/sheet11/boundary-island.json",
+      "sha256": "f4fb41dcc790c8d3520fafaa28cc5b88192bdf2c85135b093d94cef4e121eb6c"
+    }
+  ]
+}

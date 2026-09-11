@@ -1,0 +1,32 @@
+[
+  {
+    "image": "coast.jpg",
+    "lonlat_bounds": [
+      -61.281,
+      46.26,
+      -61.258,
+      46.288
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/hay-result/sheet-14-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "western-interior.jpg",
+    "lonlat_bounds": [
+      -61.255,
+      46.265,
+      -61.222,
+      46.288
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/hay-result/sheet-14-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

@@ -3,45 +3,45 @@
   "status": "provisional-geography-not-accepted",
   "accepted_for_tiling": false,
   "accepted_for_production_label_projection": false,
-  "controls": 25,
-  "diagnostic_checks": 9,
-  "fresh_validation_checks_after_control_repairs": 0,
-  "fit_file": "refinement-20260910/central-fit.json",
-  "fit_sha256": "06246fcba7c1fd68414cff5d47ee3ddf0820cd33a47cc0dbad03457d3f7d4f2b",
-  "check_file": "refinement-20260910/central-checks.json",
-  "check_sha256": "ea30df2b475a41ca0811488d9a18371f7947ea4615b6bb42f86e8d98942341ca",
+  "controls": 26,
+  "diagnostic_checks": 10,
+  "fresh_validation_checks_after_control_repairs": 2,
+  "fit_file": "completion-20260911/western-fit.json",
+  "fit_sha256": "18157a6f3361eeb1a9be31c476769796d4ea0705bdb82ea87645289634b7264f",
+  "check_file": "completion-20260911/western-diagnostics.json",
+  "check_sha256": "a88928b0e23b060bc4b07f5b14025815d5b49d9d73af9f7bfb617590adf9682d",
   "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
   "transform": "GDAL TPS in EPSG:3857, 5 projected m output cells",
   "scope": "Full main-sheet interior, western mapped mainland extension, separate Sea Wolf/Margaree Island component with printed name. Crop is a draft, not a seamless mosaic claim.",
-  "raster_path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260910/sheet-11-exact.tif",
-  "raster_sha256": "1f8941f1b444e0c73a27eab9c07a0e96882dd354340a8df9b7d5848c46229521",
+  "raster_path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+  "raster_sha256": "8721b668ddcb7fac3bfa8bbf3bb29fec7351483d62893ffe1f0a787a8b70acda",
   "raster_size": [
-    9450,
-    5956
+    9365,
+    5983
   ],
   "raster_bounds_wgs84": {
     "type": "Polygon",
     "coordinates": [
       [
         [
-          -61.273816,
-          46.4528926
+          -61.2700431,
+          46.4529235
         ],
         [
-          -61.273816,
-          46.2682738
+          -61.2700431,
+          46.2674665
         ],
         [
-          -60.8493621,
-          46.2682738
+          -60.849407,
+          46.2674665
         ],
         [
-          -60.8493621,
-          46.4528926
+          -60.849407,
+          46.4529235
         ],
         [
-          -61.273816,
-          46.4528926
+          -61.2700431,
+          46.4529235
         ]
       ]
     ]
@@ -53,8 +53,8 @@
       "native_grid_step_px": 25,
       "nonnegative_determinants": 0,
       "determinant_range": [
-        -40.588688403626456,
-        -20.044179722336587
+        -40.58237741925258,
+        -20.03240369272934
       ]
     },
     {
@@ -63,18 +63,21 @@
       "native_grid_step_px": 25,
       "nonnegative_determinants": 0,
       "determinant_range": [
-        -25.847688150949164,
-        -24.507057108990914
+        -25.41498324752713,
+        -23.69537707764053
       ]
     }
   ],
   "remaining": [
-    "Fresh independent checks in repaired Tompkins central valley and western interior; 24-control validation failure was converted to control T01, not counted as a passing check.",
-    "Q03 Grey headwater precise fork remains ambiguous; exclude from any independent-acceptance claim.",
-    "Nine diagnostic median 100.707 m is slightly above predeclared 100 m goal; do not silently round into acceptance. Worst 174.382 m is below 200 m goal.",
-    "Sheet11\u201314 footprint gap up to 139.445 m remains; no cosmetic stretching.",
-    "Whole-sheet acceptance and browser mesh/save/reload still outstanding before tile or production label promotion."
+    "Fresh replacement checks fail: V06 western interior 154.079 m; V07 river-bank tributary 408.093 m. V07 island/channel identity or historical change remains unresolved; retain failure.",
+    "Ten reused diagnostic median 100.488 m remains above 100 m goal; worst 174.240 m. No rounding into acceptance.",
+    "W03 is failed V05 converted to control; T01 is an earlier failed check converted to control. Neither is independent validation.",
+    "Q03 Grey headwater precise fork remains ambiguous and retained as diagnostic only.",
+    "Actual Sheet11\u201314 coastal and interior joins remain discontinuous; Sheet09 join also remains provisional.",
+    "Whole-sheet geographic acceptance remains blocked; no tiling or production label projection."
   ],
   "unchanged_active_tile_revision": "fletcher-full-sheets-20260909.3",
-  "browser_scope": "No Sheet11 browser layer activated or user records changed. Import/serialization and solver checked separately; browser mesh/save/reload not claimed."
+  "browser_scope": "Real GeoTIFF imported, rendered on desktop/mobile, and reloaded in isolated Chromium. Stored bytes, embedded georef, alpha and enabled state preserved; zero captured browser errors. See completion-20260911/browser-verification.json.",
+  "fresh_check_file": "completion-20260911/western-validation-checks.json",
+  "fresh_check_sha256": "4f70f1a9a03e119f048e2e71d9b8244701b88b1c6f12031506843642b1864c66"
 }

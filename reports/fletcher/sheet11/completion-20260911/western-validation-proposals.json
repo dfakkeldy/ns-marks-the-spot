@@ -1,0 +1,49 @@
+{
+  "sheet": "sheet-11",
+  "fit_sha256": "18157a6f3361eeb1a9be31c476769796d4ea0705bdb82ea87645289634b7264f",
+  "status": "Fresh after western repair; central river valley and western interior. Not scored yet.",
+  "points": [
+    {
+      "id": "V06",
+      "role": "check",
+      "pixel_xy": [
+        1286,
+        5356
+      ],
+      "lonlat": [
+        -61.235794,
+        46.3026459
+      ],
+      "modern_node": "J0961",
+      "modern_objectids": [
+        272824,
+        272825,
+        285997
+      ],
+      "identity_evidence": "First eastern tributary of Murdoch MacLeods Brook below its coastal outlet C17 and above the paired forks around W03. Small eastern arm runs inland toward road and wet hollow, separate from the long eastern arm farther downstream. Main creek passes the coastal spit, runs south through tight bends, then southeast to W03.",
+      "source_uncertainty_px": 15,
+      "review": "Selected after 26-control freeze. Native crosshair pending before scoring."
+    },
+    {
+      "id": "V07",
+      "role": "check",
+      "pixel_xy": [
+        4712,
+        3415
+      ],
+      "lonlat": [
+        -61.0784807,
+        46.3670861
+      ],
+      "modern_node": "J0603",
+      "modern_objectids": [
+        159977,
+        159978,
+        186233
+      ],
+      "identity_evidence": "East-bank tributary entry below the large eastward river loop and above the small elongated island, north of Tompkins outlet. Historical brook extends southeast and crosses valley road; bank-entry definition avoids river centreline. The other eastern entry south of the island is not selected.",
+      "source_uncertainty_px": 15,
+      "review": "Selected after 26-control freeze. Native crosshair pending before scoring."
+    }
+  ]
+}
