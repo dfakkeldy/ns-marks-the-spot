@@ -1,0 +1,9 @@
+{
+  "source_sha256": "a75274bc0f1849bc024c1013d84d0904845c3893b9599827ed1521948fec3b61",
+  "original_grid_source_encoding_sha256": "ef1dff9ed98f24739c2f0355f88bcb9d2e588f399d6c57de84594c2a9beee0d7",
+  "status": "Both native 46d35 and 46d30 latitude labels and the outer 60d25 and 60d10 longitude labels personally read. Existing approximate Cartesian grid intersections retained for search only; sheet rules slope slightly. No grid point enters the physical fit.",
+  "native_dimensions": [
+    10821,
+    7693
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "sha256": "49263f0abb5bfb5bd5a12edecd908fbcf12f24ee88c3e1c18a5d470eda71c5dd"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "sha256": "e5bcdd37da6e814297d3b432f3549ecf81bbc5b1f558b2f78c3fc600e98006a9"
+    }
+  ],
+  "status": "Three actual western Sheet8 comparisons personally inspected; seams unaccepted. Northern Sheet4 pending; eastern and southern boundaries are offshore."
+}

@@ -1,0 +1,36 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.45627829704659,
+        46.45808388842513
+      ],
+      "guide_xy": [
+        1601.200434881961,
+        6084.824587880634
+      ],
+      "modern_objectid": 125610,
+      "modern_part": 0,
+      "modern_vertex": 110,
+      "modern_properties": {
+        "OBJECTID": 125610,
+        "FEAT_CODE": "WALK20",
+        "FEAT_DESC": "Lake - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.5,
+        "FID": null,
+        "SHAPE_Length": 866.248724332772
+      },
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        1650,
+        6090
+      ],
+      "identity_evidence": "Southern extremity of large coastal pond at Breeding Cove",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored: proposed modern point is a coastal contact on a partial lake shoreline, not a reliable counterpart of the historical southern pond tip. Wider review shows changed coastal-water geometry."
+    }
+  ]
+}

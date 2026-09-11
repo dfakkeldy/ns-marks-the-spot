@@ -1,0 +1,267 @@
+{
+  "sheet": "sheet-07",
+  "source_sha256": "a75274bc0f1849bc024c1013d84d0904845c3893b9599827ed1521948fec3b61",
+  "points": [
+    {
+      "lonlat": [
+        -60.3856399,
+        46.5773732
+      ],
+      "source_guide_xy": [
+        3129.108962999424,
+        2342.957462400198
+      ],
+      "objectids": [
+        11298,
+        11299,
+        271555
+      ],
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        3270,
+        2316
+      ],
+      "modern_node_id": "J0286",
+      "identity_evidence": "Pathend Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern corrected crosshairs personally reviewed; retained for initial fit, geographic accuracy unaccepted."
+    },
+    {
+      "lonlat": [
+        -60.3913876,
+        46.5712846
+      ],
+      "source_guide_xy": [
+        3004.786211999366,
+        2533.944667200325
+      ],
+      "objectids": [
+        11299,
+        11300,
+        267368
+      ],
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        3125,
+        2486
+      ],
+      "modern_node_id": "J0311",
+      "identity_evidence": "Morrison Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern corrected crosshairs personally reviewed; retained for initial fit, geographic accuracy unaccepted."
+    },
+    {
+      "lonlat": [
+        -60.4005967,
+        46.5584094
+      ],
+      "source_guide_xy": [
+        2805.5933789995033,
+        2937.813940800028
+      ],
+      "objectids": [
+        11301,
+        11302,
+        298879
+      ],
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        2880,
+        2897
+      ],
+      "modern_node_id": "J0346",
+      "identity_evidence": "McLeod Brook coastal mouth Corrected from inner bank junction J0344 to coastal intersection J0346 before scoring; modern final reach is classified indefinite.",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern corrected crosshairs personally reviewed; retained for initial fit, geographic accuracy unaccepted."
+    },
+    {
+      "lonlat": [
+        -60.443811,
+        46.5548038
+      ],
+      "source_guide_xy": [
+        1870.8680699996185,
+        3050.9144016001374
+      ],
+      "objectids": [
+        184778,
+        272023,
+        272025
+      ],
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        1932,
+        2965
+      ],
+      "modern_node_id": "J0355",
+      "identity_evidence": "Ferry Brook western tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern corrected crosshairs personally reviewed; retained for initial fit, geographic accuracy unaccepted."
+    },
+    {
+      "lonlat": [
+        -60.4169035,
+        46.5221455
+      ],
+      "source_guide_xy": [
+        2452.8772949995473,
+        4075.3399559999816
+      ],
+      "objectids": [
+        11578,
+        11579,
+        280390
+      ],
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        2496,
+        4030
+      ],
+      "modern_node_id": "J0431",
+      "identity_evidence": "Wreck Cove Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern corrected crosshairs personally reviewed; retained for initial fit, geographic accuracy unaccepted."
+    },
+    {
+      "lonlat": [
+        -60.4591869,
+        46.52413
+      ],
+      "source_guide_xy": [
+        1538.2873529994395,
+        4013.090160000138
+      ],
+      "objectids": [
+        190214,
+        269079,
+        269081
+      ],
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        1546,
+        3966
+      ],
+      "modern_node_id": "J0426",
+      "identity_evidence": "Mill Brook southwestern tributary confluence",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern corrected crosshairs personally reviewed; retained for initial fit, geographic accuracy unaccepted."
+    },
+    {
+      "lonlat": [
+        -60.426935,
+        46.5111101
+      ],
+      "source_guide_xy": [
+        2235.895949999569,
+        4421.498383200029
+      ],
+      "objectids": [
+        11343,
+        11344,
+        269087
+      ],
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        2325,
+        4359
+      ],
+      "modern_node_id": "J0462",
+      "identity_evidence": "Mill Brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern corrected crosshairs personally reviewed; retained for initial fit, geographic accuracy unaccepted."
+    },
+    {
+      "lonlat": [
+        -60.441026,
+        46.482129
+      ],
+      "source_guide_xy": [
+        1931.107619999675,
+        5330.577528000111
+      ],
+      "objectids": [
+        4837,
+        4839,
+        264095
+      ],
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        2074,
+        5269
+      ],
+      "modern_node_id": "J0556",
+      "identity_evidence": "North Shore main brook coastal mouth",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern corrected crosshairs personally reviewed; retained for initial fit, geographic accuracy unaccepted."
+    },
+    {
+      "lonlat": [
+        -60.4607659,
+        46.4676389
+      ],
+      "source_guide_xy": [
+        1504.133582999697,
+        5785.1029848000035
+      ],
+      "objectids": [
+        188303,
+        282784,
+        282785
+      ],
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        1525,
+        5680
+      ],
+      "modern_node_id": "J0598",
+      "identity_evidence": "Northern brook above Breeding Cove western tributary",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern corrected crosshairs personally reviewed; retained for initial fit, geographic accuracy unaccepted."
+    },
+    {
+      "lonlat": [
+        -60.45491260721991,
+        46.46272905398421
+      ],
+      "guide_xy": [
+        1630.7403058330528,
+        5939.115034623304
+      ],
+      "modern_objectid": 125610,
+      "modern_part": 0,
+      "modern_vertex": 35,
+      "modern_properties": {
+        "OBJECTID": 125610,
+        "FEAT_CODE": "WALK20",
+        "FEAT_DESC": "Lake - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.5,
+        "FID": null,
+        "SHAPE_Length": 866.248724332772
+      },
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        1720,
+        5926
+      ],
+      "identity_evidence": "Large Breeding Cove pond northern shore tip Corrected from adjacent sea shoreline to northern tip of the connected lake shore, NSTDB WALK20 objects 125610/125611/125612.",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern corrected crosshairs personally reviewed; retained for initial fit, geographic accuracy unaccepted."
+    }
+  ],
+  "source_width": 10821,
+  "source_height": 7693,
+  "method": "Ten reviewed coastal mouths, inland junctions and a pond tip. Prior approximate printed grid is search-only; physical controls occupy the western strip.",
+  "prior_control_count": 0
+}
