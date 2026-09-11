@@ -1,0 +1,16 @@
+{
+  "source_sha256": "f0eba470a9ff0ae9e89a2c211c2d6eab6b7a647cd71c706c8913708a625091e3",
+  "prior_encoding_sha256": "daeff1177e62f3991ab408fbb48fa9a8c2e5449f12cc96ea177c3999db2d1e83",
+  "method": "Existing eight individually recorded crossings retained for search only; this pass personally checked both latitude labels and outer longitude labels on native scan, not a fresh measurement of every crossing.",
+  "longitude_labels": [
+    "61d10mW",
+    "61d05mW",
+    "61d00mW",
+    "60d55mW"
+  ],
+  "latitude_labels": [
+    "46d45mN",
+    "46d40mN"
+  ],
+  "physical_fitting_constraint": false
+}

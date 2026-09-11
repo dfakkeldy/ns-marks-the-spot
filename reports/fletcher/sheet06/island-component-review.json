@@ -1,0 +1,65 @@
+{
+  "start_objectid": 3841,
+  "coast_objectids": [
+    3805,
+    3806,
+    3807,
+    3808,
+    3809,
+    3810,
+    3811,
+    3812,
+    3813,
+    3839,
+    3840,
+    3841,
+    3842,
+    3843,
+    3844,
+    4100,
+    4101,
+    4102,
+    4103,
+    4104,
+    4105,
+    4106,
+    4138,
+    4139,
+    4140,
+    4141,
+    4142,
+    4143,
+    4145,
+    4146,
+    9458,
+    9459,
+    9484,
+    11597,
+    15191,
+    15192
+  ],
+  "northern_extremity": {
+    "lonlat": [
+      -61.02522789200965,
+      46.65064021460863
+    ],
+    "guide_xy": [
+      5601.006965555018,
+      5481.528422839474
+    ],
+    "modern_objectid": 3841,
+    "modern_part": 0,
+    "modern_vertex": 41,
+    "modern_properties": {
+      "OBJECTID": 3841,
+      "FEAT_CODE": "WACO20",
+      "FEAT_DESC": "Coast - Water to the right line",
+      "RIVNAME_1": " ",
+      "RIVNAME_2": " ",
+      "ZVALUE": 0.4,
+      "FID": null,
+      "SHAPE_Length": 433.79183773452183
+    }
+  },
+  "scope": "Connected source coast component within reference query, used to verify northern tip; not whole-island completeness beyond query."
+}

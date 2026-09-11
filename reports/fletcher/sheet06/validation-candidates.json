@@ -1,0 +1,81 @@
+{
+  "sheet": "sheet-06",
+  "fit_sha256": "007808040feca6310cf934bafcf3467f594bed43ba056c32faea45dc1758c54e",
+  "points": [
+    {
+      "lonlat": [
+        -60.9194291,
+        46.6202824
+      ],
+      "source_guide_xy": [
+        7873.245153939119,
+        6447.250084700063
+      ],
+      "objectids": [
+        184702,
+        263447,
+        263448
+      ],
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        7803,
+        6187
+      ],
+      "modern_node_id": "J0555",
+      "identity_evidence": "Faribault Brook smaller southern tributary on southeastern main arm",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate collected after ten-control freeze, not yet reviewed."
+    },
+    {
+      "lonlat": [
+        -60.9056458,
+        46.6246656
+      ],
+      "source_guide_xy": [
+        8170.594535319367,
+        6312.086453000084
+      ],
+      "objectids": [
+        184698,
+        265793,
+        265794
+      ],
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        8277,
+        6216
+      ],
+      "modern_node_id": "J0522",
+      "identity_evidence": "Daphin\u00e9 Brook first eastern tributary south of Ch\u00e9ticamp River",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate collected after ten-control freeze, not yet reviewed."
+    },
+    {
+      "lonlat": [
+        -60.912404,
+        46.7433752
+      ],
+      "source_guide_xy": [
+        8044.015326399123,
+        2595.6012272003572
+      ],
+      "objectids": [
+        185689,
+        275538,
+        275539
+      ],
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        8280,
+        2305
+      ],
+      "modern_node_id": "J0153",
+      "identity_evidence": "Jumping Brook southern tributary upstream of the first coastal tributary",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate collected after ten-control freeze, not yet reviewed."
+    }
+  ]
+}

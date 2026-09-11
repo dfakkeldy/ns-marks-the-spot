@@ -1,0 +1,18 @@
+exec(open('reports/fletcher/sheet06/point_tools.py').read())
+pts=[]
+def node(i,xy,k,e):
+ r=nodes[k].copy();r.update(id=i,role='control',pixel_xy=xy,modern_node_id=k,identity_evidence=e,source_uncertainty_px=20,status='Unreviewed physical-control proposal.');pts.append(r)
+node('C01',[8620,1324],'J0080','Brook mouth at historical Pigeon Cove')
+node('C02',[8380,1568],'J0110','Historical George Brook / modern Georges Brook mouth; name alone is insufficient')
+node('C03',[8080,2390],'J0154','Jumping Brook coastal mouth')
+node('C04',[7852,2948],'J0202','Corney Brook coastal mouth; modern terminal reach is indefinite')
+node('C05',[8275,3291],'J0223','Corney Brook main southern branch confluence')
+node('C06',[7768,3475],'J0233','Historical Trout Brook large southern tributary')
+node('C07',[7130,4645],'J0317','Historical Jerome Brook / modern Rigwash Brook coastal mouth')
+node('C08',[7324,4504],'J0298','Jerome/Rigwash Brook northern/eastern-arm junction')
+node('C09',[8440,4650],'J0320','Robert Brook upper western/northern-arm junction')
+node('C10',[7520,5562],'J0443','Robert Brook mouth into Chéticamp River')
+node('C11',[7768,5948],'J0511','Chéticamp River first major southern tributary')
+node('C12',[8088,5940],'J0503','Chéticamp River next southern tributary east of first major')
+r=select([5600,5350,5910,5600],1,'max').copy();r.update(id='C13',role='control',pixel_xy=[5780,5440],identity_evidence='Northern extremity of Chéticamp Island / Enragée Point',source_uncertainty_px=20,status='Unreviewed physical-control proposal.');pts.append(r)
+(D/'candidate-controls.json').write_text(json.dumps(dict(sheet='sheet-06',source_sha256=json.loads((D/'source-receipt.json').read_text())['source_sha256'],points=pts),indent=2)+'\n')

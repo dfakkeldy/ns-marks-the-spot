@@ -1,0 +1,21 @@
+{
+  "fit_sha256": "007808040feca6310cf934bafcf3467f594bed43ba056c32faea45dc1758c54e",
+  "frozen_at": "2026-09-11T20:02:20.474712+00:00",
+  "control_ids": [
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C09",
+    "C11",
+    "C12",
+    "C13",
+    "C14",
+    "C15"
+  ],
+  "promotions": [
+    "Q01 to C14",
+    "Q03 to C15"
+  ],
+  "fresh_checks_not_collected_yet": true
+}
