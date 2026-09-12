@@ -1,0 +1,158 @@
+{
+  "reviewed_at": "2026-09-12T17:32:36.157168+00:00",
+  "reviewer": "Primary Codex agent personally viewed every figure",
+  "count": 36,
+  "figures": [
+    {
+      "path": "adjacent-sheet-review/21-north-central.jpg",
+      "sha256": "1090a5dde3bdc1610434f9779e22852b54a6f380b60af40c2ca7471efef002f9"
+    },
+    {
+      "path": "adjacent-sheet-review/21-northeast.jpg",
+      "sha256": "730f3ba7e80c8f49b60ae2162e9ede38edcc3a68ef1d48158cec334fd83fae08"
+    },
+    {
+      "path": "adjacent-sheet-review/21-northwest.jpg",
+      "sha256": "6e112fd1d7d943aa7b525658a3789e7079df1ad82f9f37db0eea7ba3f60b67df"
+    },
+    {
+      "path": "adjacent-sheet-review/24-west-north.jpg",
+      "sha256": "796ac05ff996ff2e62d99b700fc042b4c5c4b2deca531f5737d69da6e52d044a"
+    },
+    {
+      "path": "adjacent-sheet-review/24-west-south.jpg",
+      "sha256": "c308123011b3679c5b829ab0a588a4afcc04c5d39d523481bfa9f0b2d939ee20"
+    },
+    {
+      "path": "adjusted-close/sheet-23-F01.jpg",
+      "sha256": "3ed11c541a8cf3831c98cdc2b31ab73c8d37f7e8a1f6dca9b58bae20f673b560"
+    },
+    {
+      "path": "adjusted-close/sheet-23-F03.jpg",
+      "sha256": "a13195106a0edea8931221a5d675aba6620e62dae0da2a072a5017d6008c119c"
+    },
+    {
+      "path": "adjusted-wide/sheet-23-F01.jpg",
+      "sha256": "8af89d71df50f00f78ff8db39ee4c2316f209ad6223ea0069789ea144f2eb611"
+    },
+    {
+      "path": "adjusted-wide/sheet-23-F03.jpg",
+      "sha256": "4f54d39f04f7eff9eabe7474c7a9f3d4613faf6085b9b0b0064ce757d15bcf27"
+    },
+    {
+      "path": "boundary-corners.jpg",
+      "sha256": "6671999f7d85eb8ec27b7a90d7eb21a977a1ceefafb870c4d9a17f3298767741"
+    },
+    {
+      "path": "boundary-overview.jpg",
+      "sha256": "32a502185fc313fe4df2882b21e1223df3784dfb23f6ed9365e0d9ef01c79f86"
+    },
+    {
+      "path": "browser/import-desktop.png",
+      "sha256": "848fbe37026448ddf5dcb51a5187183344bcaa5b4ed0ae8eb452846fc282e7f1"
+    },
+    {
+      "path": "browser/reload-desktop.png",
+      "sha256": "1689056cf043b31f0d85c82a40d2ff002a5aba97424244c45c8b65ba1ae016fc"
+    },
+    {
+      "path": "browser/reload-mobile.png",
+      "sha256": "b9f37ba3c5ec9aba83eccec807b5bf3b571fee0a381ab82c08c7ec52ecffdf87"
+    },
+    {
+      "path": "fresh-close/sheet-23-F01.jpg",
+      "sha256": "96201d8c309b85d1f99db38de73f696e5e187358c1d6235c3d3e9de34bef90d0"
+    },
+    {
+      "path": "fresh-close/sheet-23-F02.jpg",
+      "sha256": "400b4ea0be875a68e582469047d275c00cb97b53d7574bc0d04fd5adc9ce2a4f"
+    },
+    {
+      "path": "fresh-close/sheet-23-F03.jpg",
+      "sha256": "cdadd853bad48f3b1f0d7ebd08d1946c4cff9927e4a2fbdc8d72b54d8905e464"
+    },
+    {
+      "path": "fresh-wide/sheet-23-F01.jpg",
+      "sha256": "3688a05377c8f29c90dcd331c219a7e6b0d6091784df7062b0c782426ba56b19"
+    },
+    {
+      "path": "fresh-wide/sheet-23-F02.jpg",
+      "sha256": "c81438b19aa7d4258852afa3f34e6175a97bb61cd7d7a46f34875c219bd310f6"
+    },
+    {
+      "path": "fresh-wide/sheet-23-F03.jpg",
+      "sha256": "98ddb5961bf89cfbf8f3e479d89b9bfe54461cd422908c5454d3592ca0b0dc41"
+    },
+    {
+      "path": "repair-close/sheet-23-V01.jpg",
+      "sha256": "37eb1c443d4b9064104f4718e7c94683e52a9b25df4dd37cb8f92cf28a84d786"
+    },
+    {
+      "path": "repair-close/sheet-23-V02.jpg",
+      "sha256": "c6a691cec3ded5e06003596c01c6c366408627b05e17b635e6860cc7804c5a1d"
+    },
+    {
+      "path": "repair-close/sheet-23-V03.jpg",
+      "sha256": "9044d2b8a7a19442b5914d8b06dffa8cc38b73c90760135c79450c2166ab909a"
+    },
+    {
+      "path": "repair-wide/sheet-23-V01.jpg",
+      "sha256": "3fd32d793d46eb03263b68b963915325df4f1549e042c2ea9556c538ec18e0c4"
+    },
+    {
+      "path": "repair-wide/sheet-23-V02.jpg",
+      "sha256": "92f97813b39f12dc9ca88ac63bfd9d74849c4ff9def5edd6e23b3aea31c6215e"
+    },
+    {
+      "path": "repair-wide/sheet-23-V03.jpg",
+      "sha256": "97909cff5df117abafcc2c53394603387125c5f1557267664995018d04f44e88"
+    },
+    {
+      "path": "warped-review/arichat-jerseyman.jpg",
+      "sha256": "0aeb32728aaee376902a040a04fcf698a07ce6d0d48cf92b1e954b4f0d2f434c"
+    },
+    {
+      "path": "warped-review/cape-hogan.jpg",
+      "sha256": "c3d163fb4e6a18d0972dd25688a89d9b8858b1fa757299dc94db10e8e9757370"
+    },
+    {
+      "path": "warped-review/grand-lake.jpg",
+      "sha256": "86492d1db3ac710edcb8cb8da4ad49272c455260346aef1274a2d66ba0fe236d"
+    },
+    {
+      "path": "warped-review/haddock-harbour.jpg",
+      "sha256": "d0c5f5b0faea367dee1990f67eb178f0240f2e21cad6b9061682c6353b962876"
+    },
+    {
+      "path": "warped-review/janvrin.jpg",
+      "sha256": "b65a4ef96852efad687086f8e510f6be0228b5c0494b6e719ad48e2aad589d86"
+    },
+    {
+      "path": "warped-review/offshore-islands.jpg",
+      "sha256": "179f20764ff609a58ad2eff9e335a8fa5366d1c96dab136ada7deca91e20f5dd"
+    },
+    {
+      "path": "warped-review/petit-de-grat.jpg",
+      "sha256": "625ea54a7cf28a4c366231cda6a43d3147ccec7c8b30f4e0fbe9aa83f93ea9ae"
+    },
+    {
+      "path": "warped-review/petit-nez.jpg",
+      "sha256": "6d0424043d530fb124ee7bff5216785cdb0200a80d98761e3592d117d1ed2ef1"
+    },
+    {
+      "path": "warped-review/shaw-lake.jpg",
+      "sha256": "286ec31635df2b2eec071f0657bb6db6ede86427a5deed96a68cc79650d2e412"
+    },
+    {
+      "path": "warped-review/southern-full-frame.jpg",
+      "sha256": "135640ee5989f78b6912da42118c473be35a6597dc9edf29c068ccb85cf32d2c"
+    }
+  ],
+  "findings": [
+    "Six repair and six original fresh native close/wide frames personally viewed; four corrected fresh frames reviewed before first score. Lac Sec F02 rejected as wrong feature identity.",
+    "Ten actual old/new warp panels: Grand north lobe locally improves but shape remains wrong, Shaw moves south and shears, Rocky Islets move away from modern geometry, Thorn/Glasgow and Janvrin coves remain offset.",
+    "Cape Hogan and Jerseyman anchored regions largely unchanged; Petit-de-Grat internal lakes and shoreline proportions disagree. All offshore marks and southern sea retained, with no physical validation over the sea.",
+    "Three northern joins against preferred Sheet21 fifteen-control baseline have gaps/displaced drainage. Two western Sheet24 views show mismatched Rabbit Island coast and mostly empty southern sea; no seam acceptance.",
+    "Three actual browser screenshots show import and desktop/mobile reload; stored raster hash and enabled state survived."
+  ]
+}

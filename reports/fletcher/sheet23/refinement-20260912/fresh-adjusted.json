@@ -1,0 +1,84 @@
+{
+  "sheet": "sheet-23",
+  "selected_at": "2026-09-12T17:25:42.693176+00:00",
+  "points": [
+    {
+      "id": "F01",
+      "role": "check",
+      "pixel_xy": [
+        5340,
+        1657
+      ],
+      "lonlat": [
+        -61.0423234,
+        45.5569906
+      ],
+      "modern_node_id": "J0281",
+      "objectids": [
+        126130,
+        126132,
+        199171
+      ],
+      "identity_evidence": "Grand Lake northern lobe northeast stream inlet",
+      "source_uncertainty_px": 20,
+      "status": "Fresh proposal after repair freeze, not scored",
+      "original_pixel_xy": [
+        5320,
+        1652
+      ],
+      "review_note": "Move from land beside the inlet to the actual shoreline-stream junction; before first score."
+    },
+    {
+      "id": "F02",
+      "role": "check",
+      "pixel_xy": [
+        5895,
+        1476
+      ],
+      "lonlat": [
+        -61.0205772,
+        45.5610857
+      ],
+      "modern_node_id": "J0261",
+      "objectids": [
+        196204,
+        199618,
+        199742
+      ],
+      "identity_evidence": "Lac Sec western outlet",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored",
+      "original_pixel_xy": [
+        5895,
+        1476
+      ],
+      "review_note": "J0261 is a stream junction beside the road west of Lac Sec, not the actual lake outlet. Native proposal also lies west of its shore. Identity unsupported; no score."
+    },
+    {
+      "id": "F03",
+      "role": "check",
+      "pixel_xy": [
+        6121,
+        1985
+      ],
+      "lonlat": [
+        -61.0072836,
+        45.5460647
+      ],
+      "modern_node_id": "J0337",
+      "objectids": [
+        142295,
+        142296,
+        198616
+      ],
+      "identity_evidence": "Shaw Lake northern tributary inlet",
+      "source_uncertainty_px": 20,
+      "status": "Fresh proposal after repair freeze, not scored",
+      "original_pixel_xy": [
+        6160,
+        1940
+      ],
+      "review_note": "Move from north of road to tributary crossing the road and entering lake shoreline; before first score."
+    }
+  ]
+}
