@@ -1,0 +1,137 @@
+[
+  {
+    "image": "fishing-mackenzie.jpg",
+    "lonlat_bounds": [
+      -60.86,
+      46.7,
+      -60.72,
+      46.8
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "aspy-southwest.jpg",
+    "lonlat_bounds": [
+      -60.75,
+      46.71,
+      -60.62,
+      46.8
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "black-doherty.jpg",
+    "lonlat_bounds": [
+      -60.6,
+      46.72,
+      -60.45,
+      46.8
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "sunday-interior.jpg",
+    "lonlat_bounds": [
+      -60.7,
+      46.675,
+      -60.55,
+      46.75
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "clyburn-curtis.jpg",
+    "lonlat_bounds": [
+      -60.67,
+      46.625,
+      -60.43,
+      46.72
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "cheticamp-west.jpg",
+    "lonlat_bounds": [
+      -60.86,
+      46.605,
+      -60.7,
+      46.66
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "cheticamp-flowage.jpg",
+    "lonlat_bounds": [
+      -60.73,
+      46.605,
+      -60.57,
+      46.695
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "south-interior.jpg",
+    "lonlat_bounds": [
+      -60.62,
+      46.6,
+      -60.44,
+      46.65
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "full-sheet.jpg",
+    "lonlat_bounds": [
+      -60.9,
+      46.59,
+      -60.42,
+      46.83
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet05/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

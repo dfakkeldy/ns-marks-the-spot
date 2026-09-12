@@ -1,0 +1,24 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+      "sha256": "86f27229ea21c2e36d822be8f9871c16241a28bb1b4daa8abd7ec2761eaed951"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+      "sha256": "e62f084f1bb73de336d9e1740337701812c5c607155ec689b7e6aed82b54dd10"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif",
+      "sha256": "3affbba1a4d33c7b4e3a5ddc241fa20850473f170539426ee105dfd2c2d593c9"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "sha256": "9f3cbc615328c16e806daf15954b0cf58595105e41205fc0f922521de44d3544"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif",
+      "sha256": "72e71a885c26a3b675de77d0d4c5dd9c8ad50637806621d4cc97c619128c59c4"
+    }
+  ]
+}

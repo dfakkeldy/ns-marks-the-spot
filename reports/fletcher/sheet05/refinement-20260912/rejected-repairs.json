@@ -1,0 +1,30 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.5555391,
+        46.6802137
+      ],
+      "source_guide_xy": [
+        7612.95985732018,
+        4572.948158560088
+      ],
+      "objectids": [
+        191136,
+        261956,
+        261958
+      ],
+      "id": "R02",
+      "role": "check",
+      "modern_node_id": "J1866",
+      "pixel_xy": [
+        7708,
+        4123
+      ],
+      "identity_evidence": "Upper Clyburn major northern tributary near Gorge bend; alternative to rejected Q01 short eastern branch",
+      "source_uncertainty_px": 20,
+      "status": "Repair proposal pending native and modern close/wide identity review; unscored.",
+      "decision": "Rejected before fitting/scoring. Native crosshair is off the stream; the broken northern line follows an apparent county boundary, while the thin northeastern tributary does not securely identify modern large northern J1866. Earlier Q01/J1879 rejection retained."
+    }
+  ]
+}

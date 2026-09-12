@@ -1,0 +1,63 @@
+{
+  "sheet": "sheet-05",
+  "fit_sha256": "f04cbd3f80ff7361bf6d719f0989834dfa4cc9833242f0c18f6ffed1f2e80db9",
+  "collected_at_utc": "2026-09-12T14:06:33.198664+00:00",
+  "history_identity_checked": true,
+  "points": [
+    {
+      "lonlat": [
+        -60.6182049,
+        46.7371945
+      ],
+      "source_guide_xy": [
+        6253.778959479649,
+        2791.782612639945
+      ],
+      "objectids": [
+        139421,
+        139423,
+        183828
+      ],
+      "id": "F05",
+      "role": "check",
+      "modern_node_id": "J1021",
+      "pixel_xy": [
+        6280,
+        2658
+      ],
+      "identity_evidence": "Sunday Lake northwestern stream inlet opposite fitted eastern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Corrected exact native and modern crosshairs personally reviewed close/wide before first score; never fitted.",
+      "review_note": "Corrected before score from marsh above inlet to actual native lake/stream boundary; world node unchanged.",
+      "review_evidence": "Distinct NW inlet of Sunday Lake; known local uncertainty from marsh edge/shoreline geometry. Near fitted outlet, so local check only."
+    },
+    {
+      "lonlat": [
+        -60.6671927,
+        46.7365995
+      ],
+      "source_guide_xy": [
+        5193.973404039629,
+        2812.0497227199376
+      ],
+      "objectids": [
+        267374,
+        267375,
+        290882
+      ],
+      "id": "F07",
+      "role": "check",
+      "modern_node_id": "J1031",
+      "pixel_xy": [
+        5301,
+        2735
+      ],
+      "identity_evidence": "Big Southwest Brook eastern headwater tributary west of Sunday Lake",
+      "source_uncertainty_px": 20,
+      "status": "Corrected exact native and modern crosshairs personally reviewed close/wide before first score; never fitted.",
+      "review_note": "Corrected before first score from printed county-boundary crossing to actual river junction west of it; modern node unchanged.",
+      "review_evidence": "Actual Big Southwest Brook junction west of county boundary, northern stem with east and south headwater arms. Branch order and surrounding pond/tributary context support correspondence; historical generalization remains."
+    }
+  ],
+  "review_completed_at_utc": "2026-09-12T14:09:18.838554+00:00"
+}
