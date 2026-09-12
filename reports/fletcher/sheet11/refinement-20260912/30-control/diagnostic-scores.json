@@ -1,0 +1,99 @@
+{
+  "fit_sha256": "00b50e12cca689d24748f570ddbc496dc5778f13d86fc9d2423837172b6eddfa",
+  "checks_sha256": "e356090901b3ae7433335f808eeaa6b12976df889218a0f287aee6bee2581ff4",
+  "control_count": 30,
+  "method": "GDAL TPS in EPSG:3857",
+  "error_units": "Approximate spherical ground metres",
+  "median_ground_m": 103.40947111370288,
+  "worst_ground_m": 418.5506510951685,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 130.61350804653748,
+      "predicted_lonlat": [
+        -61.02796576711605,
+        46.35977521811093
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 35.8425061087273,
+      "predicted_lonlat": [
+        -60.89817173901928,
+        46.30718236685868
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 67.70186386938416,
+      "predicted_lonlat": [
+        -61.12516584272557,
+        46.417641648471104
+      ]
+    },
+    {
+      "id": "Q06",
+      "error_ground_m": 86.64610198165973,
+      "predicted_lonlat": [
+        -61.1300907897223,
+        46.282616086664326
+      ]
+    },
+    {
+      "id": "Q07",
+      "error_ground_m": 87.35023167929926,
+      "predicted_lonlat": [
+        -60.871590490768476,
+        46.43225476822611
+      ]
+    },
+    {
+      "id": "Q08",
+      "error_ground_m": 102.4745838460074,
+      "predicted_lonlat": [
+        -61.044507372338714,
+        46.438585664191436
+      ]
+    },
+    {
+      "id": "V01",
+      "error_ground_m": 128.7931973638306,
+      "predicted_lonlat": [
+        -61.176217687705936,
+        46.29352213270185
+      ]
+    },
+    {
+      "id": "V02",
+      "error_ground_m": 111.57883884123272,
+      "predicted_lonlat": [
+        -60.858328636182904,
+        46.40167587899269
+      ]
+    },
+    {
+      "id": "V04",
+      "error_ground_m": 103.40947111370288,
+      "predicted_lonlat": [
+        -61.063037963573265,
+        46.353544735815156
+      ]
+    },
+    {
+      "id": "V07",
+      "error_ground_m": 418.5506510951685,
+      "predicted_lonlat": [
+        -61.07519790250233,
+        46.37009233912191
+      ]
+    },
+    {
+      "id": "F08",
+      "error_ground_m": 218.955714139084,
+      "predicted_lonlat": [
+        -61.22602250642331,
+        46.29116800744401
+      ]
+    }
+  ]
+}

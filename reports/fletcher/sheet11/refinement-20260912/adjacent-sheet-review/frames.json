@@ -1,0 +1,122 @@
+[
+  {
+    "image": "09-north-west.jpg",
+    "lonlat_bounds": [
+      -61.15,
+      46.435,
+      -61.0,
+      46.46
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "09-north-east.jpg",
+    "lonlat_bounds": [
+      -60.99,
+      46.435,
+      -60.85,
+      46.46
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "10-east-north.jpg",
+    "lonlat_bounds": [
+      -60.875,
+      46.36,
+      -60.83,
+      46.43
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "10-east-south.jpg",
+    "lonlat_bounds": [
+      -60.875,
+      46.28,
+      -60.83,
+      46.35
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "13-south-west.jpg",
+    "lonlat_bounds": [
+      -61.22,
+      46.255,
+      -61.06,
+      46.29
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/sheet-13-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "13-south-east.jpg",
+    "lonlat_bounds": [
+      -61.05,
+      46.255,
+      -60.86,
+      46.29
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/sheet-13-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "14-coast.jpg",
+    "lonlat_bounds": [
+      -61.281,
+      46.26,
+      -61.258,
+      46.288
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/hay-result/sheet-14-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "14-western-interior.jpg",
+    "lonlat_bounds": [
+      -61.255,
+      46.265,
+      -61.222,
+      46.288
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/hay-result/sheet-14-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

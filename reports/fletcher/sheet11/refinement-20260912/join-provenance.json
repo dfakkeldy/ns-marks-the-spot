@@ -1,0 +1,33 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "sha256": "4b6057df3d3ad73269cce9cbf43dedf72a0cb73a5f9974a794b31c70d3722180"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "sha256": "990434356bf80c3c5a9fd310b220d3da9fa6b0dff61177286c5f5c90092b6c8a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "sha256": "8721b668ddcb7fac3bfa8bbf3bb29fec7351483d62893ffe1f0a787a8b70acda"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/30-control/sheet-11-exact.tif",
+      "sha256": "b765d51fc4466a9f17dae197898f1cbe84208127b9987bf238adc8dbe7aec95f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif",
+      "sha256": "89ce10ceca225e79aaccaa0fd9c0b9a0655e0e7102d534e7858d5d0fe1084e1a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/sheet-13-full-sheet.tif",
+      "sha256": "cd28de67764371a68388446a23a9b8442de1af253d2e95fbeeeacd00b91dc2e2"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet14/hay-boundary-audit/hay-result/sheet-14-full-sheet.tif",
+      "sha256": "722f13f79e967462392557b2cb8bd79f9931d3704b5a2ebf98126631ef66e9a7"
+    }
+  ],
+  "status": "All provisional. Sheet10 preserved twelve-control baseline; Sheet13 fourteen-control external draft; Sheet14 preserved Hay revision. No neighboring report edits."
+}
