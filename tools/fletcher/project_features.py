@@ -81,7 +81,12 @@ def project(sheet, executable):
             geometry_meaning = 'Approximate historical mark location; not a surveyed site, current condition, ownership or access.'
         elif placed['source_geometry_native']['type'] == 'LineString':
             geographic_role = 'reviewed-source-line'
-            geometry_meaning = 'Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.'
+            if 'road' in original[aid]['kind']:
+                geometry_meaning = 'Approximate traced axis of a printed historical road section. Endpoints delimit reviewed source evidence, not the complete named route. No present road alignment, condition, destination or access is asserted.'
+            elif 'railway' in original[aid]['kind'] and 'PROPOSED' in original[aid]['source_text'].upper():
+                geometry_meaning = 'Approximate traced axis of a printed historical railway proposal. Endpoints delimit reviewed source evidence, not the complete proposal. Construction, operation, a current railway and present access are not established.'
+            else:
+                geometry_meaning = 'Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.'
         else:
             geographic_role = 'reviewed-source-group'
             geometry_meaning = 'Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.'

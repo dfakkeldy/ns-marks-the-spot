@@ -1,11 +1,11 @@
 {
   "scope": "Reviewed approximate Fletcher historical features; ongoing digitization, incomplete sheet inventory.",
-  "feature_count": 70,
+  "feature_count": 82,
   "sources": [
     {
       "sheet": 19,
       "path": "reports/fletcher/feature-geography/sheet-19-features.geojson",
-      "sha256": "5bae00b1a80a1b5de63336465cc36ef510763bc4f9b9957d2ba56ba0559221cf",
+      "sha256": "25931b6a9508f68ca3bdb315b61ae40f6585348385284828a1b86cac4f2ced1d",
       "provenance": {
         "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
         "fit_pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/380",
@@ -22,8 +22,8 @@
           "reports/fletcher/judique-full-sheet/fresh-scores.json": "f829a7c9f685c6c8d298b37e0b98c2f75b306725e9ab90cfad2d4d1cbaa63ddd"
         },
         "source_review_inputs_sha256": {
-          "reports/fletcher/feature-geography/sheet-19-source-review.json": "0916ba4616eccfcdb802208e9360455196c6ee4b80346fe068e97e784d6d3828",
-          "reports/fletcher/feature-geography/sheet-19-placement-review.json": "0d10cd514116b5a8e271e1900cde3363b65d25778c8fa003d532e053871bfa31",
+          "reports/fletcher/feature-geography/sheet-19-source-review.json": "2d11c5c2bdebd23a15e8ad4e88effb83d62eef2881942dae4c6c18965a3709fe",
+          "reports/fletcher/feature-geography/sheet-19-placement-review.json": "f93322809168d510f937be3397ea16856cdfc4591c1e7018ec066c5804da2915",
           "reports/fletcher/placement-pilot/source-review.json": "7d6b4958f3a15e26830092cf2d34e7c8988c18b873037ec3d58315eab45e357f",
           "reports/fletcher/placement-pilot/mapped-annotations.geojson": "1bcf7fa7250b7ec79eb7bc9ccab423dfbf925cd42b8971916e0e22df274bb0f3",
           "reports/fletcher/placement-pilot/locality-review.json": "5aad64e2407afbc5005abf6dbe40bd30c8f86cfabde06dcbe9d1b1d52dabd0e3"
@@ -31,7 +31,7 @@
       }
     }
   ],
-  "derivative_sha256": "301f67ab27a707452e6ddef8f24eb0eaa4debd5268da69dbe389960d9a4e9658",
+  "derivative_sha256": "90ce0041997e41ae08cdb9c7cdcc73c74e5f7a1c0a9c04c76fcc2b65ad74f321",
   "credit": "David Rumsey Map Collection / David Rumsey Map Center, Stanford University Libraries",
   "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
   "changes": "Historical annotations transcribed, source symbols/groups/linear reaches reviewed, projected with frozen TPS fits; one explicit church correction from local review and OpenStreetMap (ODbL 1.0).",
@@ -304,6 +304,25 @@
       }
     },
     {
+      "annotation_id": "F19-JUD-022",
+      "path": "excerpts/F19-JUD-022.jpg",
+      "sha256": "007c2e67a27ab8523b35ba93ff9cefed10029d4409ee3ab52484d9ec5a67f142",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          4252,
+          2577,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F19-JUD-024",
       "path": "excerpts/F19-JUD-024.jpg",
       "sha256": "2ceedc7c71561eb54873db1b3bb1a790c211982a9cd51b247e5a497b0a51a376",
@@ -312,6 +331,25 @@
         "native_xywh": [
           3427,
           2789,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F19-JUD-027",
+      "path": "excerpts/F19-JUD-027.jpg",
+      "sha256": "53f33cba2283ee06a2f496fee66d37e9d4cecd4da4727688388d1f5fef843a61",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          4171,
+          2998,
           660,
           450
         ],
@@ -350,6 +388,25 @@
         "native_xywh": [
           7480,
           1607,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F19-JUD-037",
+      "path": "excerpts/F19-JUD-037.jpg",
+      "sha256": "03035ec3ce1bdc189d24a0b04e6c22b4b6b8128115bb6eb56be8489dd7e4de00",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          5947,
+          2178,
           660,
           450
         ],
@@ -532,6 +589,63 @@
       }
     },
     {
+      "annotation_id": "F19-JUD-052",
+      "path": "excerpts/F19-JUD-052.jpg",
+      "sha256": "a852e402a11c575dacc95fa0faf9148dfbca799a25deff7d6c2a96fb3b1be143",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          6173,
+          2809,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F19-JUD-053",
+      "path": "excerpts/F19-JUD-053.jpg",
+      "sha256": "a12645371e17778c0f73c3e7e45297b1e6886bfb5fb7635c3802d0e031efacf8",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          5578,
+          3441,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F19-JUD-055",
+      "path": "excerpts/F19-JUD-055.jpg",
+      "sha256": "fefc222f0ef84f22896a5724fe1ac2c92719cb24d89c3d91f7bae92f360cfb6e",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          6845,
+          2624,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F19-JUD-057",
       "path": "excerpts/F19-JUD-057.jpg",
       "sha256": "12fba467a6d82231abd38d9da3dd8991040364c31d1d6f89ef49d1385e86cb5e",
@@ -597,6 +711,25 @@
         "native_xywh": [
           8237,
           2665,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F19-JUD-067",
+      "path": "excerpts/F19-JUD-067.jpg",
+      "sha256": "6a01ba44d5d7c6c9cf97c2360940c3840e62df8297e2d127ff64098fc806ff92",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          8050,
+          3240,
           660,
           450
         ],
@@ -817,6 +950,25 @@
       }
     },
     {
+      "annotation_id": "F19-JUD-086",
+      "path": "excerpts/F19-JUD-086.jpg",
+      "sha256": "ebb1a7894aeaa973854be62a7de19064801e80d34a1e142fc9b3c094ec5970e1",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          4248,
+          4798,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F19-JUD-087",
       "path": "excerpts/F19-JUD-087.jpg",
       "sha256": "cbcf2a518cc05bfa5a443351e8323ad9bd224aa27e1baa803a9ee792c0a17d3e",
@@ -863,6 +1015,44 @@
         "native_xywh": [
           5269,
           5143,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F19-JUD-092",
+      "path": "excerpts/F19-JUD-092.jpg",
+      "sha256": "f2f1c3c321172a6286715b9868bdbbb7adc3edee4cb9b560c67b58d1efb2e386",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          4447,
+          5537,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F19-JUD-093",
+      "path": "excerpts/F19-JUD-093.jpg",
+      "sha256": "88b7a6b1ac248d5a96100aaa3cda39ef81f025593e891fcfdf1f592b886a17f3",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          5182,
+          5612,
           660,
           450
         ],
@@ -958,6 +1148,25 @@
         "native_xywh": [
           6556,
           4425,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F19-JUD-104",
+      "path": "excerpts/F19-JUD-104.jpg",
+      "sha256": "0ec78faf1cc4b499979883b6e8eba2941a78ba991bfa3629d95db94990e3d22b",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          6684,
+          4208,
           660,
           450
         ],
@@ -1356,6 +1565,25 @@
       "frame": {
         "native_xywh": [
           7893,
+          6121,
+          660,
+          450
+        ],
+        "display_size": [
+          660,
+          450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F19-JUD-163",
+      "path": "excerpts/F19-JUD-163.jpg",
+      "sha256": "0d211d9766556ce30ccded143758ee94bd01251127c315a9be14992978e1c022",
+      "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+      "frame": {
+        "native_xywh": [
+          8085,
           6121,
           660,
           450

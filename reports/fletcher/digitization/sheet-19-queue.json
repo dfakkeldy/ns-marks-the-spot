@@ -218,11 +218,11 @@
       "annotation_id": "F19-JUD-022",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-023",
@@ -268,11 +268,11 @@
       "annotation_id": "F19-JUD-027",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-028",
@@ -368,11 +368,11 @@
       "annotation_id": "F19-JUD-037",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-038",
@@ -518,21 +518,21 @@
       "annotation_id": "F19-JUD-052",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-053",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-054",
@@ -548,11 +548,11 @@
       "annotation_id": "F19-JUD-055",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-056",
@@ -668,11 +668,11 @@
       "annotation_id": "F19-JUD-067",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-068",
@@ -858,11 +858,11 @@
       "annotation_id": "F19-JUD-086",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-087",
@@ -918,21 +918,21 @@
       "annotation_id": "F19-JUD-092",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-093",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-094",
@@ -1038,11 +1038,11 @@
       "annotation_id": "F19-JUD-104",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-105",
@@ -1308,11 +1308,11 @@
       "annotation_id": "F19-JUD-131",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The source Victoria Road axis is clear, but its northern Blue Bridge approach retains the previously unresolved crossing mismatch. The current fit also places parts of the road/rail junction district against modern river channels in relationships not reconciled with the source. Preserve the full prediction as evidence and withhold web placement pending a supported local comparison; do not replace it with a convenient modern road."
     },
     {
       "annotation_id": "F19-JUD-132",
@@ -1328,11 +1328,11 @@
       "annotation_id": "F19-JUD-133",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The printed proposal axis is clear, but its surrounding river and road-crossing relationships under this fit are not reconciled with the modern channel/wetland network. A present railway match is not required for a proposal; the unresolved issue is the geographic context. Preserve the proposal and prediction as evidence, withholding web placement until that context is supported. No construction or operation is inferred."
     },
     {
       "annotation_id": "F19-JUD-134",
@@ -1408,11 +1408,11 @@
       "annotation_id": "F19-JUD-141",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete northeastern proposed-railway axis extends beyond the conservative source-control hull. Preserve the proposal and native trace without map geometry; no constructed railway or modern route is inferred."
     },
     {
       "annotation_id": "F19-JUD-142",
@@ -1488,11 +1488,11 @@
       "annotation_id": "F19-JUD-149",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "The complete lower River Denys Road trace extends beyond the conservative native source-control hull. Keep the source axis and withhold map geometry; do not trim the road to force acceptance."
     },
     {
       "annotation_id": "F19-JUD-150",
@@ -1628,11 +1628,11 @@
       "annotation_id": "F19-JUD-163",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact extent and local geographic offset remain unresolved; endpoints delimit reviewed source evidence"
     },
     {
       "annotation_id": "F19-JUD-164",

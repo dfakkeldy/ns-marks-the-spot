@@ -4766,7 +4766,7 @@ export function App() {
                         <input type="checkbox" checked={fletcherFeaturesVisible} onChange={event => setFletcherFeaturesVisible(event.target.checked)} />
                         Reviewed Fletcher features
                       </label>
-                      <p className="resource-source-note" role="status">{fletcherFeaturesVisible ? fletcherFeaturesStatus : 'Historical features hidden'}. Zoom to level 12 or closer; select a mark for its original scan and evidence. Points and traced reaches are approximate; dashed areas retain unresolved groups. On-screen research layer, excluded from exports.</p>
+                      <p className="resource-source-note" role="status">{fletcherFeaturesVisible ? fletcherFeaturesStatus : 'Historical features hidden'}. Zoom to level 12 or closer; select a mark for its original scan and evidence. Historical points and lines are approximate; dashed areas retain unresolved groups. On-screen research layer, excluded from exports.</p>
                     </> : null}
                     </div>
                   ) : null}

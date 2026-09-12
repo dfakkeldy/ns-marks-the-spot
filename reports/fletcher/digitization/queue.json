@@ -2,7 +2,7 @@
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-12",
   "nightly_revision": "c32c85e917aa8746fa0b98f928f76a366127b7ee",
-  "next_action": "Continue Judique road and waterway traces, then places and historical name annotations. 86 source reviews, 70 local integrations and 16 explicit holdbacks are recorded. PR439 merged on green required CI; next 18 additions pass local source/geographic/browser checks. Remaining priority sheets and all-sheet extraction reconciliation remain open.",
+  "next_action": "Continue Judique waterways (22 source occurrences), then places and historical name annotations. All service, falls/mineral/landscape and road/proposal source reviews are recorded: 102 reviews, 82 local integrations, 20 explicit holdbacks, 64 pending. PR446 merged on green CI; next 12 road additions and local preview range-cache fix are verified. Priority sheets 22/16/14 and remaining-sheet extraction/reconciliation stay open.",
   "sheets": [
     {
       "sheet": 22,
@@ -21,9 +21,9 @@
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 166,
       "lettering_status": "processed",
-      "source_associated_count": 79,
-      "approximate_placement_reviewed_count": 70,
-      "integrated_count": 70,
+      "source_associated_count": 95,
+      "approximate_placement_reviewed_count": 82,
+      "integrated_count": 82,
       "blockers": [
         {
           "annotation_id": "F19-JUD-026",
@@ -81,14 +81,34 @@
           "reason": "The descriptive shale/fossil wording has no distinct outcrop mark or defensible extent in the inspected source. The river and geological unit are not outcrop boundaries."
         },
         {
+          "annotation_id": "F19-JUD-131",
+          "stage": "locality-unresolved",
+          "reason": "The source Victoria Road axis is clear, but its northern Blue Bridge approach retains the previously unresolved crossing mismatch. The current fit also places parts of the road/rail junction district against modern river channels in relationships not reconciled with the source. Preserve the full prediction as evidence and withhold web placement pending a supported local comparison; do not replace it with a convenient modern road."
+        },
+        {
+          "annotation_id": "F19-JUD-133",
+          "stage": "locality-unresolved",
+          "reason": "The printed proposal axis is clear, but its surrounding river and road-crossing relationships under this fit are not reconciled with the modern channel/wetland network. A present railway match is not required for a proposal; the unresolved issue is the geographic context. Preserve the proposal and prediction as evidence, withholding web placement until that context is supported. No construction or operation is inferred."
+        },
+        {
           "annotation_id": "F19-JUD-134",
           "stage": "outside-supported-coverage",
           "reason": "The complete native falls-junction group extends outside the conservative source-control hull. Preserve its source geometry and withhold modern placement; do not shrink the group to pass."
         },
         {
+          "annotation_id": "F19-JUD-141",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete northeastern proposed-railway axis extends beyond the conservative source-control hull. Preserve the proposal and native trace without map geometry; no constructed railway or modern route is inferred."
+        },
+        {
           "annotation_id": "F19-JUD-143",
           "stage": "outside-supported-coverage",
           "reason": "The complete shop candidate group extends outside the current conservative source-control hull. Keep source geometry and withhold map placement pending accepted local support."
+        },
+        {
+          "annotation_id": "F19-JUD-149",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete lower River Denys Road trace extends beyond the conservative native source-control hull. Keep the source axis and withhold map geometry; do not trim the road to force acceptance."
         },
         {
           "annotation_id": "F19-JUD-156",
@@ -108,9 +128,9 @@
       ],
       "annotation_queue": "sheet-19-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-19-labels.geojson",
-      "integration_status": "52 merged via PR436/439; 18 further source features pass local browser checks and await next PR.",
-      "source_association_reviewed_count": 86,
-      "merged_integrated_count": 52
+      "integration_status": "70 merged via PR436/439/446; 12 road additions pass local source/geographic/browser checks and await next PR.",
+      "source_association_reviewed_count": 102,
+      "merged_integrated_count": 70
     },
     {
       "sheet": 16,
@@ -412,6 +432,13 @@
       "head": "aec7b91c1a98ce5a15e81f4f243229532bf26e09",
       "ci": "Updated head passed all required checks; earlier native measuring UI flakes are retained in PR history.",
       "merge_commit": "c4298d490ccb428000654712ef663ec822eed543"
+    },
+    {
+      "pr": 446,
+      "status": "merged",
+      "head": "eaabb9b2998b24d86b1e3cf5e20f3fbf467a4093",
+      "merge_commit": "9d6f982785b251ead63cb66560072cd29530252b",
+      "ci": "All required checks passed"
     }
   ]
 }

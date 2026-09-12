@@ -1,7 +1,7 @@
 {
   "sheet": 19,
   "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
-  "source_review_sha256": "0916ba4616eccfcdb802208e9360455196c6ee4b80346fe068e97e784d6d3828",
+  "source_review_sha256": "2d11c5c2bdebd23a15e8ad4e88effb83d62eef2881942dae4c6c18965a3709fe",
   "raster_sha256": "adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4",
   "reviews": [
     {
@@ -850,6 +850,164 @@
       "scene": "judique-southern-natural-20260912.jpg",
       "scene_sha256": "412cf6a8aa04086f02d8d8285a4a9147e43ff5f56f8a1e2d1798b79e644e9210",
       "evidence": "Full native context contains the spaced Barrens descriptor and road but no boundary for the described land cover. Geological hatching is not a barrens boundary. No point or polygon is invented."
+    },
+    {
+      "annotation_id": "F19-JUD-022",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-western-named-roads-geography.jpg",
+      "scene_sha256": "9365ce9367073d38269c6d051140aadfa3bf2872f50349fb7886fb670bc8ffe5",
+      "evidence": "The historical road remains east of Highway 19, across the brook district between the western approach and eastern fork. Modern roads follow a similar corridor but diverge at bends and crossings; the source trace is not snapped to them. The church included for context retains its explicit east-side correction. No current travel or access claim is made.",
+      "limits": "Reviewed printed road section and approximate locality only. No current route, full named extent, destination, road condition, ownership or access conclusion."
+    },
+    {
+      "annotation_id": "F19-JUD-027",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-western-named-roads-geography.jpg",
+      "scene_sha256": "9365ce9367073d38269c6d051140aadfa3bf2872f50349fb7886fb670bc8ffe5",
+      "evidence": "The old road’s western ascent, pronounced bend and eastern section south of Graham River are recognizable in the modern road/stream context. Local offsets remain. The trace preserves the source caption and reviewed section only, without asserting a complete named route or present condition.",
+      "limits": "Reviewed printed road section and approximate locality only. No current route, full named extent, destination, road condition, ownership or access conclusion."
+    },
+    {
+      "annotation_id": "F19-JUD-037",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-northern-inland-road-geography.jpg",
+      "scene_sha256": "a021c81cd36a1b8e91bf1cc71ff85fb87cc33a05f0ae25c8b6f2d6c358774956",
+      "evidence": "The northwestern stream crossing and southeast alignment above the Southwest Mabou drainage constrain the historical road section. Modern road linework only partly corresponds; much of the eastern source section has no matching road in this reference. Preserve it as approximate historical evidence, not a current road, navigable route or proof of absence from other modern sources.",
+      "limits": "Reviewed printed road section and approximate locality only. No current route, full named extent, destination, road condition, ownership or access conclusion."
+    },
+    {
+      "annotation_id": "F19-JUD-052",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-dennistown-named-roads-geography.jpg",
+      "scene_sha256": "20cda7a76852eef1edeeab24def7e8047026eab2acd200b51070ca6a70dddbc1",
+      "evidence": "The northern River Denys Road section crosses the western stream and eastern north-south road above the Dennistown drainage. Modern road/stream sequence supports the broad corridor, while local junctions and bends differ. Endpoints remain limits of source review, not the full named-road extent.",
+      "limits": "Reviewed printed road section and approximate locality only. No current route, full named extent, destination, road condition, ownership or access conclusion."
+    },
+    {
+      "annotation_id": "F19-JUD-053",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-dennistown-named-roads-geography.jpg",
+      "scene_sha256": "20cda7a76852eef1edeeab24def7e8047026eab2acd200b51070ca6a70dddbc1",
+      "evidence": "The southern old-road bends, main stream crossing and northeastern turn retain their broad order in modern context, south of River Denys Road 052. The southern arm at the eastern fork is a separate source route. The line records historical geometry only; current alignment and accessibility are not established.",
+      "limits": "Reviewed printed road section and approximate locality only. No current route, full named extent, destination, road condition, ownership or access conclusion."
+    },
+    {
+      "annotation_id": "F19-JUD-055",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-old-road-alternative-geography.jpg",
+      "scene_sha256": "94df86faad73310c84d159c8bba8e8bd761acf478ae861bca4e9d14fcaf5a0ef",
+      "evidence": "The source upper alternative crosses the western watercourse and approaches the eastern rejoin above the lower route. Modern streams constrain the district, but current road linework does not reproduce this upper alternative. Retain the approximate historical line and source caption, with no inference that it exists or is passable today.",
+      "limits": "Reviewed printed road section and approximate locality only. No current route, full named extent, destination, road condition, ownership or access conclusion."
+    },
+    {
+      "annotation_id": "F19-JUD-067",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-north-victoria-road-geography.jpg",
+      "scene_sha256": "6f333b28f0ac09a1ecda6fc86011b6b8737de541b7a057e6bb57a9b55e8f892a",
+      "evidence": "The north-south Victoria Road section retains its relation to the southern crossing, eastern brook and upper road junction. It is east of the modern highway and current roads differ locally. Retain the printed historical axis without identifying it as the current highway or asserting present access.",
+      "limits": "Historical source geometry only. Current routes, road/rail construction, travel conditions, ownership and access are not established."
+    },
+    {
+      "annotation_id": "F19-JUD-086",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-coastal-inland-roads-geography.jpg",
+      "scene_sha256": "9785ba87b592b9a2fff7d17017369e4d892af7146c72ecffca7fbc4152199ff8",
+      "evidence": "Farm Road’s upper alternative remains inland from Highway 19 and links the western approach to the eastern road corridor. Modern roads broadly follow parts of the route but differ at the western and eastern bends. The trace is approximate historical geometry, not a statement of current passability.",
+      "limits": "Historical source geometry only. Current routes, road/rail construction, travel conditions, ownership and access are not established."
+    },
+    {
+      "annotation_id": "F19-JUD-092",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-coastal-inland-roads-geography.jpg",
+      "scene_sha256": "9785ba87b592b9a2fff7d17017369e4d892af7146c72ecffca7fbc4152199ff8",
+      "evidence": "The General Line Road curve remains east of the coastal corridor, between the southern road and northern junction. Modern road and drainage context supports that corridor, including eastern water features absent from the old rendering. Exact alignment and complete named extent remain unresolved.",
+      "limits": "Historical source geometry only. Current routes, road/rail construction, travel conditions, ownership and access are not established."
+    },
+    {
+      "annotation_id": "F19-JUD-093",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-wood-road-geography.jpg",
+      "scene_sha256": "b5831653e5721e86d0728240e95b4ecfc1f48bafe14725c7f0689645afe5da1f",
+      "evidence": "The western low bend and eastern approach meet the same broad road and stream-junction district in modern context. Current road linework smooths or shifts several historical bends. Preserve the source Wood Road section without treating it as a complete modern route.",
+      "limits": "Historical source geometry only. Current routes, road/rail construction, travel conditions, ownership and access are not established."
+    },
+    {
+      "annotation_id": "F19-JUD-104",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-glendale-road-caption-geography.jpg",
+      "scene_sha256": "75df6a3051f2f5f32de59a6298679ed720c20dde7996a23b55d659a359826bc1",
+      "evidence": "The northern fork, west-to-east brook crossings and southbound road corridor north of Glendale constrain this occurrence. The projected road is generally west of the modern road linework. It remains an approximate historical trace with no current alignment, condition or access claim.",
+      "limits": "Historical source geometry only. Current routes, road/rail construction, travel conditions, ownership and access are not established."
+    },
+    {
+      "annotation_id": "F19-JUD-131",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-southern-victoria-proposal-geography.jpg",
+      "scene_sha256": "5a8d240dfbb2ca985499625f59e4692a6c47d0cca63b3b159787b6d0d7d016cb",
+      "evidence": "The source Victoria Road axis is clear, but its northern Blue Bridge approach retains the previously unresolved crossing mismatch. The current fit also places parts of the road/rail junction district against modern river channels in relationships not reconciled with the source. Preserve the full prediction as evidence and withhold web placement pending a supported local comparison; do not replace it with a convenient modern road.",
+      "limits": "Historical source geometry only. Current routes, road/rail construction, travel conditions, ownership and access are not established."
+    },
+    {
+      "annotation_id": "F19-JUD-133",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-southern-victoria-proposal-geography.jpg",
+      "scene_sha256": "5a8d240dfbb2ca985499625f59e4692a6c47d0cca63b3b159787b6d0d7d016cb",
+      "evidence": "The printed proposal axis is clear, but its surrounding river and road-crossing relationships under this fit are not reconciled with the modern channel/wetland network. A present railway match is not required for a proposal; the unresolved issue is the geographic context. Preserve the proposal and prediction as evidence, withholding web placement until that context is supported. No construction or operation is inferred.",
+      "limits": "Historical source geometry only. Current routes, road/rail construction, travel conditions, ownership and access are not established."
+    },
+    {
+      "annotation_id": "F19-JUD-163",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-princeville-old-road-geography.jpg",
+      "scene_sha256": "c22c8eaa36517186b28243f987fc2e3977542308aae45cd990042e8c17166421",
+      "evidence": "The printed Old Road crosses the northern Princeville stream and the eastern tributary in the same broad sequence. The modern reference does not reproduce the east-west road, so it is retained only as a historical source trace. The southern border, current road/stream offsets and unresolved full extent remain explicit; no present road or access is asserted.",
+      "limits": "Historical source geometry only. Current routes, road/rail construction, travel conditions, ownership and access are not established."
+    },
+    {
+      "annotation_id": "F19-JUD-149",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-roads-and-proposals-20260912.jpg",
+      "scene_sha256": "da58167428de9e87d344fd88f3457ed4cd04dbb573c2064f020ed0cf641afbd9",
+      "evidence": "The complete lower River Denys Road trace extends beyond the conservative native source-control hull. Keep the source axis and withhold map geometry; do not trim the road to force acceptance."
+    },
+    {
+      "annotation_id": "F19-JUD-141",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-roads-and-proposals-20260912.jpg",
+      "scene_sha256": "da58167428de9e87d344fd88f3457ed4cd04dbb573c2064f020ed0cf641afbd9",
+      "evidence": "The complete northeastern proposed-railway axis extends beyond the conservative source-control hull. Preserve the proposal and native trace without map geometry; no constructed railway or modern route is inferred."
     }
   ]
 }
