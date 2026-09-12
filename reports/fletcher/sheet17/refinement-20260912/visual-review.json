@@ -1,0 +1,134 @@
+{
+  "reviewed_at": "2026-09-12T16:25:44.006813+00:00",
+  "count": 31,
+  "figures": [
+    {
+      "path": "adjacent-sheet-review/15-northwest-corner.jpg",
+      "sha256": "abd6490890e58e4505a479cfe4177d13d7123ed63d03845278a1afa16f6e88a4"
+    },
+    {
+      "path": "adjacent-sheet-review/18-west-north.jpg",
+      "sha256": "c4ebaab35f0e4edb06956305fc228c6bb20eab6bbe4c792e4b4fbffa55efcfd9"
+    },
+    {
+      "path": "adjacent-sheet-review/18-west-south.jpg",
+      "sha256": "4d65aee2b60501c2cff5bf67e0e0f3a1f0df637007f4cf38fbdfd794e363f461"
+    },
+    {
+      "path": "adjacent-sheet-review/20-southeast.jpg",
+      "sha256": "8a1c80eee749fe763ac4ea3e6cbc35ba948552fbda5bba056ccfaecc1000ec9e"
+    },
+    {
+      "path": "adjacent-sheet-review/20-southwest.jpg",
+      "sha256": "39ea7f0191c4813304bf4943fc6e2f54b70cc8ba937946129792283417659c6a"
+    },
+    {
+      "path": "adjusted-close/sheet-17-F01.jpg",
+      "sha256": "a9dc4d1f51bbf40e740424ceb5a55461c5015817a60f286c0f976b0b9ea1b76f"
+    },
+    {
+      "path": "adjusted-wide/sheet-17-F01.jpg",
+      "sha256": "ae392d62a9f4de54719f4e0850727d0e48744a677f65e26a64986cd4d9bde50a"
+    },
+    {
+      "path": "boundary-corners.jpg",
+      "sha256": "a8b7d2cbf8c4e6de62e7907ccdbe08e8ac0a8c3296a2a7b53f5a43e9006c84c5"
+    },
+    {
+      "path": "browser/import-desktop.png",
+      "sha256": "0f01e04322af933199f10bc34398c263f76ad04219247924a03e360a46ffa3bc"
+    },
+    {
+      "path": "browser/reload-desktop.png",
+      "sha256": "bf7d69ca0a0516a159a4a9dae73184da0d15b3b0478bdd7da02b0885d3c502bc"
+    },
+    {
+      "path": "browser/reload-mobile.png",
+      "sha256": "e498af428442fb00d8f353844fc0367bdb179a8bef4dafe5611333f1b11626d7"
+    },
+    {
+      "path": "final-close/sheet-17-F01.jpg",
+      "sha256": "f16f9ddc7a5116b83d3bee48a1b7a1e5d53c90958675efea78e3ce9bfd937b09"
+    },
+    {
+      "path": "final-wide/sheet-17-F01.jpg",
+      "sha256": "7062fac198fd8e571f3ef92746749568a02ee6aa968fc2701c8bb135a18ce651"
+    },
+    {
+      "path": "fresh-close/sheet-17-F01.jpg",
+      "sha256": "22db3e80317946e0ab01e71c4a93e2e9125d101e01fa3811fba4a51150f5f263"
+    },
+    {
+      "path": "fresh-close/sheet-17-F02.jpg",
+      "sha256": "34a8e636ba0a89bcbe81377d07b054caa76953d89cbf00bbe6109b9011822790"
+    },
+    {
+      "path": "fresh-wide/sheet-17-F01.jpg",
+      "sha256": "28b20b68d1704269e958508f39150c8c20cf8ee3179ac79826fbb3fd009c47f2"
+    },
+    {
+      "path": "fresh-wide/sheet-17-F02.jpg",
+      "sha256": "7fce50f38433a38e638f69aba43ca8a504f2273adfe96899e6b847c46cfd31ab"
+    },
+    {
+      "path": "full-boundary-review.jpg",
+      "sha256": "7063819a0076520eb7a866d747c9244dbc8be0684ebc9e80e776b07ad76ff70b"
+    },
+    {
+      "path": "repair-close/sheet-17-V03.jpg",
+      "sha256": "85eef991a00bbcd3e64e81f1489a57d4c8e10f32c2af0d8dcba8ed3d4fe3191c"
+    },
+    {
+      "path": "repair-close/sheet-17-V05.jpg",
+      "sha256": "7c41d72215b210c99c81bd80898b128d98793d582eafcdab46207517f8da6580"
+    },
+    {
+      "path": "repair-wide/sheet-17-V03.jpg",
+      "sha256": "3648f5044a85c539553a8f72ba290e699067df541c5d78f426b2626e12a34b88"
+    },
+    {
+      "path": "repair-wide/sheet-17-V05.jpg",
+      "sha256": "31583e59f674e8a040170f4abce775229e8f649ad723cbb99c24f32d648c38bf"
+    },
+    {
+      "path": "warped-review/central-unexplored.jpg",
+      "sha256": "eaf79a5db0942192c747f3bce3a0fc7914a8e6ad699d3af6b8958ee1a2b5039b"
+    },
+    {
+      "path": "warped-review/lochmore-coast.jpg",
+      "sha256": "c7f407d36dc70a1862696bc3141f65b2b3554e35852b92af48795f3c800340da"
+    },
+    {
+      "path": "warped-review/north-loch-lomond.jpg",
+      "sha256": "c0d4fe051a3b55c55b26ee2b0e4132f950398a69bbd4615253059caf84206cf2"
+    },
+    {
+      "path": "warped-review/northeast-bruce.jpg",
+      "sha256": "c2448a148031fd6d344d4edb3046cd46c7607836de7dd262a791132448e602cd"
+    },
+    {
+      "path": "warped-review/northern-peninsula.jpg",
+      "sha256": "8583c45d98d70814040f2b0c536d88abc96e5a31604337262bb5a0a68b80c3fa"
+    },
+    {
+      "path": "warped-review/red-islands.jpg",
+      "sha256": "f2ce81eba1c88f58b8a7c8ede286e88c563c56536239ef83af96d7e5888e6a1b"
+    },
+    {
+      "path": "warped-review/south-loch-lomond.jpg",
+      "sha256": "1dfd7bf9176ff1c312ca6b5de2a35f2013b884b2c139443d1e26f7c44c1b37aa"
+    },
+    {
+      "path": "warped-review/southeast.jpg",
+      "sha256": "ce65ef5d09d8e326bc4bd9ef10f8dccf61dc9151361b9b1704336361f3cd909c"
+    },
+    {
+      "path": "warped-review/southwest-mainland.jpg",
+      "sha256": "03cac5b2b2e4f322d919fbef56f72eb82118ec3d858c97aa0f82d9734ca90a4e"
+    }
+  ],
+  "native": "All twelve exact unrotated native crosshair/modern frames personally inspected, including both initial errors and two pre-score island corrections. Whole scan and corner montage personally inspected.",
+  "warped": "Nine actual old/new/raster-alone regions inspected. Repaired middle-lake mouth aligns, but western arms and fresh island remain displaced. Benacadie/Dhu and Red Island controls remain locally close; Lochmore barrier, Bruce/Gaspereau, central unexplored ground, southeast lakes and headwaters remain uncertain or displaced.",
+  "joins": "Five actual geographic comparisons inspected: Sheet15 NW corner and Sheet18 western intervals mostly water, with no shared stable feature proving a seam. Sheet20 southern joins show source coverage gaps/offset mainland and drainage. No available full northern/eastern neighbor establishes those seams.",
+  "browser": "All three actual desktop import/reload and mobile reload screenshots viewed. Raster visible with transparent exterior, no console errors."
+}

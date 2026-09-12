@@ -1,0 +1,30 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.5992191,
+        45.7710981
+      ],
+      "source_guide_xy": [
+        6927.101710000541,
+        5821.713862400269
+      ],
+      "objectids": [
+        55167,
+        55168,
+        194694
+      ],
+      "id": "F02",
+      "modern_node_id": "J0607",
+      "role": "check",
+      "pixel_xy": [
+        6860,
+        5840
+      ],
+      "identity_evidence": "Proposed western water connection at the northern end of southern Loch Lomond; historical distinction from adjoining lake branch requires review.",
+      "source_uncertainty_px": 20,
+      "status": "rejected unscored",
+      "reason": "Modern J0607 is an inland pond outlet, not a southern lake water connection. Proposed native pixel is land; lake morphology and topology do not support identity."
+    }
+  ]
+}

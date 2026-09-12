@@ -1,0 +1,49 @@
+{
+  "fit_sha256": "b41485f0d4b2f691786655eba5815816ed571be49f08c38b83c194dcac6e78c1",
+  "selected_at": "2026-09-12T16:21:13.201983+00:00",
+  "points": [
+    {
+      "id": "F01",
+      "role": "check",
+      "pixel_xy": [
+        7241,
+        5336
+      ],
+      "lonlat": [
+        -60.57380105889673,
+        45.780115841178386
+      ],
+      "modern_objectid": 153876,
+      "modern_part": 0,
+      "modern_vertex": 6,
+      "identity_evidence": "Middle Loch Lomond isolated island northernmost extent; north of the smaller island and west of eastern promontory. Distinct island from prior northern-lake V01.",
+      "source_uncertainty_px": 20,
+      "status": "Fresh post-freeze proposal, exact native review pending."
+    },
+    {
+      "lonlat": [
+        -60.5992191,
+        45.7710981
+      ],
+      "source_guide_xy": [
+        6927.101710000541,
+        5821.713862400269
+      ],
+      "objectids": [
+        55167,
+        55168,
+        194694
+      ],
+      "id": "F02",
+      "modern_node_id": "J0607",
+      "role": "check",
+      "pixel_xy": [
+        6860,
+        5840
+      ],
+      "identity_evidence": "Proposed western water connection at the northern end of southern Loch Lomond; historical distinction from adjoining lake branch requires review.",
+      "source_uncertainty_px": 20,
+      "status": "Fresh proposal, no score."
+    }
+  ]
+}
