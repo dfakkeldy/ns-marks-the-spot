@@ -192,13 +192,13 @@ describe("web native-layer parity catalog", () => {
     });
   });
 
-  it("offers labelled LiDAR-derived contours as an optional close-range layer", () => {
+  it("offers open NSTDB contours as an optional close-range layer", () => {
     const contours = provinceLayerCatalog.find(({ id }) => id === "contours");
 
     expect(contours).toMatchObject({
       name: "Contours",
       serviceUrl:
-        "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Landforms_UT83/MapServer",
+        "https://data.novascotia.ca/resource/bhx9-mpui.geojson",
       minZoom: 13,
       maxZoom: 24,
       opacity: 0.88,
@@ -208,8 +208,8 @@ describe("web native-layer parity catalog", () => {
         dpi: 144,
       },
     });
-    expect(contours?.webCaveat).toContain("terrain screening only");
-    expect(contours?.scale).toContain("5 m contours");
+    expect(contours?.webCaveat).toContain("interval and survey dates vary");
+    expect(contours?.scale).toContain("NSTDB 1:10,000");
   });
 
   it("adds the web-only NSTDB buildings overlay without changing native parity", () => {
@@ -218,7 +218,7 @@ describe("web native-layer parity catalog", () => {
       expect.objectContaining({
         name: "Buildings",
         serviceUrl:
-          "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Buildings_UT83/MapServer",
+          "https://data.novascotia.ca/resource/t5xr-fjkr.geojson",
         minZoom: 13,
         exportOptions: { transparent: true, dpi: 144 },
       }),

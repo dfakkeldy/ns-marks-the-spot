@@ -1,3 +1,4 @@
+import { renderOpenData } from "../services/renderOpenData";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useEffect, type CSSProperties, type PropsWithChildren } from "react";
@@ -21,6 +22,7 @@ import type { GeoreferenceBinding } from "../userMaps/components/GeoreferenceMap
 // settle a mocked fetch on a microtask. Applied to every waitFor in the file so
 // no single call site is left encoding an accidental performance assertion.
 const ASYNC_LAYER_TIMEOUT_MS = 5_000;
+vi.mock("../services/renderOpenData", () => ({ renderOpenData: vi.fn(() => new Promise(() => {})) }));
 
 // Backs the useMap() stub's getPane/createPane below. Originally this stored
 // panes for the REAL UserMapLayers' ensurePane; both UserMapLayers and
@@ -3133,7 +3135,8 @@ describe("MapCanvas Province overlays", () => {
     mapMock.getZoom.mockReturnValue(16);
   });
 
-  it("adds a dedicated trail and track contrast pass above the roads layer", () => {
+  it("renders the complete open roads result as one image above reference overlays", async () => {
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
     render(
       <MapCanvas
         parcels={{ type: "FeatureCollection", features: [] }}
@@ -3164,10 +3167,12 @@ describe("MapCanvas Province overlays", () => {
       />,
     );
 
-    expect(mapMock.addLayer).toHaveBeenCalledTimes(2);
+    await waitFor(() => expect(mapMock.addLayer).toHaveBeenCalledTimes(1));
+    expect(vi.mocked(renderOpenData).mock.calls.at(-1)?.[0].parts[0].dataset).toBe("484g-adjn");
   });
 
-  it("recovers interactive roads readiness after a later successful load", () => {
+  it("reports roads ready only after the open-data image loads", async () => {
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
     const onLayerStatusChange = vi.fn();
     render(
       <MapCanvas
@@ -3200,27 +3205,10 @@ describe("MapCanvas Province overlays", () => {
       />,
     );
 
-    const roadLayers = mapMock.addLayer.mock.calls.map(
-      ([layer]) =>
-        layer as {
-          fire: (event: string) => void;
-        },
-    );
-    expect(roadLayers).toHaveLength(2);
-
-    act(() => roadLayers[0].fire("tileerror"));
-    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
-      status: "error",
-    });
-
-    act(() => {
-      roadLayers[0].fire("load");
-      roadLayers[1].fire("load");
-    });
-    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
-      status: "ready",
-      count: 0,
-    });
+    await waitFor(() => expect(mapMock.addLayer).toHaveBeenCalledTimes(1));
+    expect(onLayerStatusChange).not.toHaveBeenCalledWith("roads", expect.objectContaining({ status: "ready" }));
+    act(() => mapMock.addLayer.mock.calls[0][0].fire("load"));
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", { status: "ready", count: 5 });
   });
 
   it("does not force the overview map inward when default property boundaries are checked", () => {
@@ -4168,7 +4156,8 @@ describe("MapCanvas print mode", () => {
     });
   });
 
-  it("requires every physical roads tile sublayer and keeps any error sticky", () => {
+  it("keeps an open roads print image failure sticky", async () => {
+    vi.mocked(renderOpenData).mockResolvedValueOnce({ canvas: { toDataURL: () => "data:image/png;base64,test" } as HTMLCanvasElement, count: 5 });
     mapMock.getZoom.mockReturnValue(15);
     const onLayerStatusChange = vi.fn();
     render(
@@ -4203,27 +4192,10 @@ describe("MapCanvas print mode", () => {
       />,
     );
 
-    const roadLayers = mapMock.addLayer.mock.calls
-      .map(([layer]) => layer as {
-        options: { className?: string };
-        fire: (event: string) => void;
-      })
-      .filter(({ options }) => options.className === "print-layer-roads");
-    expect(roadLayers).toHaveLength(2);
-
-    act(() => roadLayers[0].fire("load"));
-    expect(onLayerStatusChange).not.toHaveBeenCalledWith(
-      "roads",
-      expect.objectContaining({ status: "ready" }),
-    );
-
-    act(() => {
-      roadLayers[1].fire("tileerror");
-      roadLayers[1].fire("load");
-    });
-    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", {
-      status: "error",
-    });
+    await waitFor(() => expect(mapMock.addLayer).toHaveBeenCalledTimes(1));
+    const image = mapMock.addLayer.mock.calls[0][0];
+    act(() => { image.fire("error"); image.fire("load"); });
+    expect(onLayerStatusChange).toHaveBeenLastCalledWith("roads", { status: "error" });
   });
 });
 

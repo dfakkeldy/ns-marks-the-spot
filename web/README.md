@@ -427,9 +427,9 @@ generated QR code plus the complete written map-state URL; the written URL is
 the required fallback if QR generation fails. It identifies the printed PID,
 mode, events, actually rendered layers, and derived print position.
 
-Browser **Print / Save PDF** supports all 37 context controls, subject to
+Browser **Print / Save PDF** supports all 38 context controls, subject to
 selection, fitted zoom, licence acknowledgement and source readiness. The
-separate **Export map (PDF)** supports the 32 context MapServer image entries;
+separate **Export map (PDF)** supports 33 context MapServer, open-data and tile entries;
 the four feature-query layers and static radon image are omitted and explicitly
 listed as not included.
 
@@ -464,20 +464,45 @@ enough. Layers that are on screen but not carried into the export are named in
 the dialog before the download, so the page never credits data it does not
 contain.
 
-## Native layer parity
+## Web data sources and native parity
 
-Both surfaces carry the same 36 layers under the same ids. `layerParity.ts`
-projects every field of every web descriptor and the Swift catalog test compares
-against that projection, so a source URL, renderer restriction, zoom gate, panel
-position, or default-visibility change on one side fails the build on the other.
-What still differs is delivery: the browser is online-only, while the app can
-save an area's Fletcher tiles for use without a connection.
+The web map now prefers Open Government Licence–Nova Scotia downloads for
+Crown Land, the three watershed levels, water features, roads, geographic names,
+buildings, contours, and 15 infrastructure controls. The 24 controls use bounded
+Socrata GeoJSON queries and shared browser/PDF cartography. Source row IDs,
+constituent dataset links, licence attribution and scale caveats are retained.
+`src/data/openLayerSources.json` records the metadata and schemas checked on
+September 12, 2026; it is not a frozen geometry snapshot. Display geometries use
+subpixel, topology-preserving simplification capped at 10 metres. Requests are
+limited to 12,000 features and 24 MiB per layer; oversized areas ask the user to
+zoom in instead of displaying partial results. Source failures are not empty maps.
 
-The two live-conditions overlays (highway cameras, weather radar) sit outside
-this contract by design: they are web-only moment-in-time context with no
-native counterpart, and both `layerParity.ts` and the map-presentation fixture
-exclude them explicitly rather than forcing Swift rows for layers the app does
-not ship.
+`nativeProvinceLayerCatalog` and `layerParity.ts` retain the native service
+contract. `provinceLayerCatalog` applies web-specific open-data replacements;
+the native app and its offline cache policy are separate. Parcel building counts
+and road/water intersection evidence still query their original services and
+retain those service attributions. Display geometry never supplies parcel
+intersection, proximity, access or title evidence.
+
+Sentinel-2 is a separate, default-off background using EOX's CC BY 4.0 **2016
+edition**, with 2016–2017 acquisitions and 10 m source imagery. Its tile ceiling
+is zoom 14; closer views enlarge pixels. The live WMTS capabilities identify
+`s2cloudless_3857` as the open edition. Newer EOX editions have additional
+restrictions and must not be substituted by changing the year. Credits and dates
+travel with shared views, browser print and generated PDFs. See
+[EOX pricing and service-use terms](https://cloudless.eox.at/pricing) and
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+NS Aerial remains available under its existing restricted-service gate. This
+migration changes the web's sources; it does not add an offline area-download
+control or authorize bulk downloads from someone else's tile service.
+
+Remaining source/service review includes NS Aerial, NSPRD and derived parcel
+geometry, the complete provincial topographic cartography, the marked forestry,
+water-supply and other thematic services, and the parcel evidence queries above.
+Review each service's own terms separately from its underlying dataset licence;
+the presence of an open download is not evidence that its rendered service has
+the same grant. No permission request has been sent as part of this change.
 
 The layers a reader is most likely to ask about:
 
@@ -491,35 +516,27 @@ The layers a reader is most likely to ask about:
   and map-tap parcel identification follows the same zoom floor. A selected sale
   parcel becomes fully opaque at zoom 15 and closer while other listed parcels
   keep their lighter overview fill.
-- Crown Lands uses the native green dynamic renderer.
-- Watersheds uses the native `show:24,25,26` restriction; it is watershed
-  context, not flood-risk mapping.
+- [Crown Lands](https://data.novascotia.ca/d/3nka-59nz) uses the open dataset,
+  including partial Crown interests; it is not proof of title or public access.
+- Watersheds uses open primary, secondary and tertiary boundaries; it is
+  watershed context, not flood-risk mapping.
 - Flood hazard context is separate and default-off: published 5%/1% AEP river
   layers for four study areas plus current, 2050, and 2100 Coastal Hazard Map
   scenarios. Selected parcels show coverage-aware source states and approximate
   raster exposure rather than a universal PID probability.
-- Waterfalls uses hydrography layer 1 and the exact Province falls definition;
-  enabling it fits the map to all 90 matching points before the user zooms in.
-- [Water Features](https://data.novascotia.ca/Lands-Forests-and-Wildlife/Nova-Scotia-Topographic-DataBase-Water-Features-Li/fpca-jrmt)
-  uses the complete Province hydrography service for rivers,
-  lakes, wetlands, rapids, ditches, dams, and other mapped features, from
-  zoom 10 where its 1:10,000 line work is legible. A higher
-  export resolution improves line legibility without replacing the Province's
-  symbols or colours.
-- [Roads, Trails & Culverts](https://data.novascotia.ca/Roads-Driving-and-Transport/Nova-Scotia-Topographic-DataBase-Roads-Trails-and-/gywn-246n)
-  uses the complete Province transportation service,
-  including highways, local/resource roads, unpaved roads, tracks, trails,
-  bridges, rail, ferry crossings, road polygons, and close-range culvert
-  features, from zoom 10 so the service's route shields appear only where
-  they are legible. A compact legend explains the principal line classes.
-- [Buildings](https://data.novascotia.ca/d/tz45-5mz7) is a default-off NSTDB
-  context layer from zoom 13. It preserves the Province's point and polygon
-  renderer.
-- [Contours](https://data.novascotia.ca/d/j63u-5nkj) is a default-off Topography
-  layer from zoom 13. It uses the maintained NSTDB Landforms renderer's
-  labelled 5 m LiDAR-derived contour lines. The layer is visual terrain
-  screening only: it does not establish surveyed grade, drainage, stability,
-  access, flood exposure, or buildability.
+- Waterfalls retains the exact NSTDB falls feature class in the open point
+  inventory; enabling it fits the discovery extent.
+- Water features combine open NSTDB polygons and lines from zoom 11, plus
+  points at close range. Their blue display is project cartography, not the service renderer.
+- Roads use the open NSRN road network plus NSTDB line/point details at close
+  range. Minor tracks, trails, driveways and unpaved features use dashed lines;
+  mapped transport features do not establish access or passability.
+- Buildings combine open NSTDB polygon footprints and close-range point records.
+  They remain default-off and begin at zoom 13.
+- Contours use open NSTDB Landforms elevation lines from zoom 13. Elevations are
+  in metres; intervals and survey dates vary. They do not claim the former
+  service's uniform 5 m LiDAR interval or establish surveyed grade, drainage,
+  stability, flood exposure or buildability.
 - Fletcher has a real default-off control for the 24 independently accepted
   direct-Rumsey sheets. The browser renders bounded per-sheet XYZ trees from
   the immutable `fletcher-direct-rumsey-20260831.1` revision (twelve sheets

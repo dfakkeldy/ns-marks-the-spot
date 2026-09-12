@@ -1,3 +1,4 @@
+import { openInfrastructureSource } from "./openDataSources";
 import { PROVINCE_LICENSE_URL } from "../licensing/provinceLicense";
 import type { ContextLayerDescriptor } from "./contextLayerTypes";
 
@@ -17,9 +18,10 @@ const common = {
 
 type FeatureSelection = readonly [layerId: number, descriptions: readonly string[]];
 
-/** Keep source renderers and exact FEAT_DESC values; omit polygon callout copies. */
+/** Preserve exact source feature classes in the open replacement; omit callout copies. */
 function filtered(theme: string, selections: readonly FeatureSelection[]) {
   return {
+    openData: openInfrastructureSource(theme, selections),
     serviceUrl: service(theme),
     sourceUrl: service(theme),
     exportOptions: {
@@ -34,8 +36,9 @@ function filtered(theme: string, selections: readonly FeatureSelection[]) {
   };
 }
 
-// These are direct provincial map services, not the separately licensed open-data
-// downloads. Their lack of an open-licence declaration retains the Province gate.
+// Keep the original service definitions as the class-selection reference.
+// contextLayerCatalog replaces filtered entries with their verified open datasets.
+// The complete provincial topographic cartography retains its service licence.
 export const infrastructureLayers = [
   {
     ...common,

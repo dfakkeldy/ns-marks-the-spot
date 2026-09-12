@@ -1,3 +1,4 @@
+import { openDataPrintCredit } from "./layers/openDataSources";
 import { contextLayerCatalog, type ContextLayerId } from "./layers/contextLayerCatalog";
 import { ContextLayerToggle } from "./components/ContextLayerToggle";
 import {
@@ -369,7 +370,7 @@ const allMapLayerIds: MapLayerId[] = [
 ];
 
 const restrictedThemeLayerIds = new Set<ShareLayerId>([
-  ...provinceLayerCatalog.map(({ id }) => id),
+  ...provinceLayerCatalog.filter(({ licence }) => licence === "province-restricted").map(({ id }) => id),
   ...allResourceLayerCatalog
     .filter(
       (layer) =>
@@ -427,11 +428,6 @@ function initialLayerStatuses(): Record<MapLayerId, MapLayerStatus> {
   ) as Record<MapLayerId, MapLayerStatus>;
 }
 
-function disabledProvinceLayers(): Record<ProvinceLayerId, boolean> {
-  return Object.fromEntries(
-    provinceLayerCatalog.map(({ id }) => [id, false]),
-  ) as Record<ProvinceLayerId, boolean>;
-}
 
 const upcomingTaxSaleEvents = eventsForStatus("upcoming");
 const upcomingTaxSalePids = advertisedPidsForEvents(upcomingTaxSaleEvents);
@@ -743,10 +739,10 @@ function printLayerSources(
   provinceLayerCatalog.forEach((layer) => sources.set(layer.id, {
     id: layer.id,
     name: layer.name,
-    sourceUrl: layer.serviceUrl,
+    sourceUrl: layer.sourceUrl ?? layer.serviceUrl,
     sourceDate: layer.sourceDate,
-    attribution: PROVINCE_ATTRIBUTION,
-    licenceUrl: PROVINCE_LICENSE_URL,
+    attribution: (layer.attribution ?? PROVINCE_ATTRIBUTION) + openDataPrintCredit(layer.openData),
+    licenceUrl: layer.licenceUrl ?? PROVINCE_LICENSE_URL,
   }));
   allResourceLayerCatalog.forEach((layer) => sources.set(layer.id, {
     id: layer.id,
@@ -798,7 +794,7 @@ function printLayerSources(
     name: layer.name,
     sourceUrl: layer.sourceUrl,
     sourceDate: layer.sourceDate,
-    attribution: `${layer.attribution ?? (layer.licence === "province-restricted" ? PROVINCE_ATTRIBUTION : OPEN_GOVERNMENT_ATTRIBUTION)} ${layer.scale}. ${layer.webCaveat}`,
+    attribution: `${layer.attribution ?? (layer.licence === "province-restricted" ? PROVINCE_ATTRIBUTION : OPEN_GOVERNMENT_ATTRIBUTION)} ${layer.scale}. ${layer.webCaveat}${openDataPrintCredit(layer.openData)}`,
     licenceUrl: layer.licenceUrl,
   }));
   forestryLayerCatalog.forEach((layer) => sources.set(layer.id, {
@@ -878,10 +874,10 @@ function LicenceDialog({
         </div>
         <h2 id="licence-title">Province data licence</h2>
         <p>
-          Aerial imagery, property boundaries, Crown lands, flood-risk areas,
-          waterfalls, water features, and transportation features come from
-          Province map services. Accept the Province’s restricted geographic
-          services licence before these layers are loaded.
+          NS Aerial, property boundaries and other marked provincial services
+          require acceptance of the Province’s restricted geographic services
+          licence. Open-data layers, including Crown Land and Sentinel-2,
+          remain available without this agreement.
         </p>
         <blockquote>{PROVINCE_ATTRIBUTION}</blockquote>
         <p className="licence-caveat">
@@ -1560,6 +1556,7 @@ export function App() {
   });
   const sharedLayersIncludeUsableBasemap =
     initialCatalogueLayerIds.has("modern") ||
+    initialCatalogueLayerIds.has("sentinel-2") ||
     (licenceAccepted && initialCatalogueLayerIds.has("ns-topographic")) ||
     (
       initialCatalogueLayerIds.has("ns-aerial") &&
@@ -1590,9 +1587,7 @@ export function App() {
     ),
   ).current;
   const [provinceLayers, setProvinceLayers] = useState(
-    () => licenceAccepted
-      ? intendedInitialProvinceLayers
-      : disabledProvinceLayers(),
+    () => Object.fromEntries(provinceLayerCatalog.map((layer) => [layer.id, intendedInitialProvinceLayers[layer.id] && (layer.licence === "province-open" || licenceAccepted)])) as Record<ProvinceLayerId, boolean>,
   );
   const [resourceLayers, setResourceLayers] = useState(
     () => visibilityRecordFor(
@@ -2081,7 +2076,7 @@ export function App() {
       contextLayerCatalog.map((layer) => [
         layer.id,
         contextLayers[layer.id] &&
-          (layer.licence === "province-open" || licenceAccepted),
+          (layer.licence !== "province-restricted" || licenceAccepted),
       ]),
     ) as Record<ContextLayerId, boolean>,
     [contextLayers, licenceAccepted],
@@ -2146,6 +2141,7 @@ export function App() {
   /** Any visible layer whose licence mandates the OGL–NS statement. */
   const oglLayerVisible = useMemo(
     () =>
+      provinceLayerCatalog.some((layer) => layer.licence === "province-open" && provinceLayers[layer.id]) ||
       Object.values(forestryLayers).some(Boolean) ||
       Object.values(wellLogLayers).some(Boolean) ||
       environmentalHealthLayerCatalog.some(
@@ -2165,6 +2161,7 @@ export function App() {
           effectiveFloodHazardLayers[layer.id],
       ),
     [
+      provinceLayers,
       effectiveEnvironmentalHealthLayers,
       effectiveContextLayers,
       effectiveFloodHazardLayers,
@@ -3083,7 +3080,7 @@ export function App() {
         }));
       }
     } else {
-      setProvinceLayers(disabledProvinceLayers());
+      setProvinceLayers((current) => Object.fromEntries(provinceLayerCatalog.map((layer) => [layer.id, layer.licence === "province-open" && current[layer.id]])) as Record<ProvinceLayerId, boolean>);
       setResourceLayers((current) => ({
         ...current,
         "mineral-proximity-parcels": false,
@@ -3127,7 +3124,7 @@ export function App() {
 
   const setProvinceLayerVisibility = useCallback(
     (id: ProvinceLayerId, visible: boolean) => {
-    if (id === "ns-aerial" && visible) setContextLayers((current) => ({ ...current, "ns-topographic": false }));
+    if (id === "ns-aerial" && visible) setContextLayers((current) => ({ ...current, "ns-topographic": false, "sentinel-2": false }));
     setProvinceLayers((current) => ({ ...current, [id]: visible }));
     },
     [],
@@ -3169,7 +3166,8 @@ export function App() {
   const setContextLayerVisibility = useCallback(
     (id: ContextLayerId, visible: boolean) => {
     setContextLayers((current) => ({ ...current, [id]: visible }));
-    if (id === "ns-topographic" && visible) {
+    if ((id === "ns-topographic" || id === "sentinel-2") && visible) {
+      setContextLayers((current) => ({ ...current, "ns-topographic": id === "ns-topographic", "sentinel-2": id === "sentinel-2" }));
       setShowModernMap(false);
       setProvinceLayers((current) => ({ ...current, "ns-aerial": false }));
     }
@@ -3720,7 +3718,7 @@ export function App() {
         (layerId) => layerCategoryByLayerId[layerId] === categoryId,
       )
     ) {
-      notices.push("Province licence required");
+      notices.push("Some layers: Province licence required");
     }
 
     return [summary, ...notices].join(" · ");
@@ -3890,7 +3888,7 @@ export function App() {
     ...(showModernMap ? (["modern"] as const) : []),
     ...(fletcherVisible ? (["fletcher"] as const) : []),
     ...provinceLayerCatalog
-      .filter(({ id }) => licenceAccepted && provinceLayers[id])
+      .filter(({ id, licence }) => (licence === "province-open" || licenceAccepted) && provinceLayers[id])
       .map(({ id }) => id),
     ...allResourceLayerCatalog
       .filter(({ id }) => effectiveResourceLayers[id])
@@ -3979,7 +3977,7 @@ export function App() {
       ids.add("fletcher");
     }
     for (const layer of provinceLayerCatalog) {
-      if (licenceAccepted && provinceLayers[layer.id] && layer.exportOptions) {
+      if ((layer.licence === "province-open" || licenceAccepted) && provinceLayers[layer.id] && layer.exportOptions) {
         ids.add(layer.id);
       }
     }
@@ -4728,7 +4726,7 @@ export function App() {
                         checked={showModernMap}
                         onChange={(event) =>
                           { setShowModernMap(event.target.checked);
-                            if (event.target.checked) setContextLayers((current) => ({ ...current, "ns-topographic": false })); }}
+                            if (event.target.checked) setContextLayers((current) => ({ ...current, "ns-topographic": false, "sentinel-2": false })); }}
                       />
                       <span className="switch" aria-hidden="true" />
                       <span>
@@ -5890,18 +5888,19 @@ export function App() {
           },
           arcgisLayers: [...provinceLayerCatalog
             .filter((layer) =>
-              licenceAccepted && provinceLayers[layer.id] && layer.exportOptions)
+              (layer.licence === "province-open" || licenceAccepted) && provinceLayers[layer.id] && layer.exportOptions)
             .map((layer) => ({
               id: layer.id,
               name: layer.name,
               serviceUrl: layer.serviceUrl,
               exportOptions: layer.exportOptions!,
+              openData: layer.openData,
               opacity: layer.opacity,
             })),
             ...contextLayerCatalog
               .filter((layer) => effectiveContextLayers[layer.id] && contextExportOmission(layer, mapViewport.position.zoom) === null)
               .map((layer) => ({ id: layer.id, name: layer.name, serviceUrl: layer.serviceUrl,
-                exportOptions: layer.exportOptions, opacity: layer.opacity })),
+                exportOptions: layer.exportOptions, openData: layer.openData, tileUrl: "tileUrl" in layer ? layer.tileUrl : undefined, maxNativeZoom: layer.maxNativeZoom, opacity: layer.opacity })),
           ],
           // v1 scope cut: user-imported maps are not extracted into a
           // CanvasImageSource + mesh yet. They are named in
