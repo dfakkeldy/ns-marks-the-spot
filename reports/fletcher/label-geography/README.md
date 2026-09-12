@@ -1,6 +1,6 @@
-# Fletcher lettering geography — sheets 19, 16 and 22
+# Fletcher lettering geography — Highway 19 corridor
 
-723 reviewed annotations have been processed using the active full-sheet fits
+889 reviewed annotations have been processed using the active full-sheet fits
 from explicit per-sheet revisions. Judique and Hawkesbury remain frozen at
 PR #380 merge `a6619d96ba8fa8279ea6a8027654a92b15942b9d`; Mabou was reprocessed
 through the 36-control Glendyer refinement in [PR #385](https://github.com/dfakkeldy/ns-marks-the-spot/pull/385),
@@ -16,7 +16,8 @@ Existing feature placement and the placement pilot remain unchanged.
 | 19 — Judique | 166 | 225 | 225 | 166 |
 | 16 — Port Hood / Mabou | 256 | 297 | 292 | 251 |
 | 22 — Port Hawkesbury | 301 | 436 | 435 | 300 |
-| Total | 723 | 958 | 952 | 717 |
+| 14 — Cape Mabou / Broad Cove | 166 | 204 | 204 | 166 |
+| Total | 889 | 1162 | 1156 | 883 |
 
 ## Original scan frames confirmed
 
@@ -123,7 +124,7 @@ python reports/fletcher/label-geography/build_frame_review.py --sheet 19 \
 python -m unittest tools.fletcher.tests.test_project_labels -v
 ```
 
-Repeat for sheets 16 and 22 using their native scans and packet folders.
+Repeat for sheets 14, 16 and 22 using their native scans and packet folders.
 `--gdaltransform` may name an explicit GDAL executable. Omitting both `--source`
 and `--packets` reproduces geography without re-auditing local imagery; it does
 not create a new frame-audit receipt. Mismatched hashes, dimensions, editable
@@ -150,3 +151,25 @@ source-pixel anchors. It recomputes 292 supported anchors and retains the five
 Mabou neatline holdbacks. Source frame/crop audits above remain the original
 audits: source imagery and extraction coordinates did not change. See the
 [reprojection receipt](../mabou-full-sheet/north-audit-20260909/candidate36/label-reprojection.json).
+
+## Sheet 14 completion — September 12, 2026
+
+Sheet 14 uses the merged 26-control Hay-topology fit from PR #385, pinned to
+`249b2be0b378adec894abc34520f83b009dbf8fd`. Open refinement drafts were inspected
+but are not adopted. Its native scan is **10852 × 7622**, SHA256
+`907ebc260018055cfc9da780a88f127db13834c0f7e831be7bf395c600a6854c`.
+
+[Sheet 14 lettering](sheet-14-labels.geojson) preserves all 166 source records
+and 204 original boxes. All 204 anchors are inside the neatline; 43 lie outside
+the control hull and retain that warning. All 35 production crops matched the
+original pixels, bringing the audited corridor total to 145 crops.
+[Frame audit](sheet-14-frame-audit.json) records equality and transforms;
+[frame review](sheet-14-frame-review.jpg) and
+[display frames](sheet-14-review-frames.json) preserve 12 visually inspected
+first-box excerpts. The boxes land on their lettering, including vertical and
+multipart names. This is a frame check, not feature-symbol association.
+
+All 26 fitting controls and 13 excluded diagnostic predictions reproduce within
+0.00000001 projected metre. These are computational differences, not accuracy.
+The fit's 112 m median / 241 m worst diagnostics and imperfect Mabou join remain
+limitations. Previous derivatives and pilot placements are unchanged.
