@@ -1,0 +1,7 @@
+{
+  "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/refinement-20260912/search/all-modern-nodes-anchored.json",
+  "sha256": "0b75bb77df36fb8292ce28d56a1926bfe81a4cd34015c7f438c1c4dcf0bd937d",
+  "script": "search_context.py",
+  "references": "../reference-receipts.json",
+  "scope": "Printed graticule guides search only; world picks use source NSTDB endpoints, never inverse fit predictions."
+}

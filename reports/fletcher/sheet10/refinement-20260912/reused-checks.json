@@ -1,0 +1,157 @@
+{
+  "sheet": "sheet-10",
+  "fit_sha256": "c2d78d959d656e0f8d718cca620774dc25853bfe676ec67392ab1ab984e57a67",
+  "points": [
+    {
+      "lonlat": [
+        -60.6573321,
+        46.4371696
+      ],
+      "source_guide_xy": [
+        5539.837614540476,
+        1389.8835247601382
+      ],
+      "objectids": [
+        187736,
+        276357,
+        276478
+      ],
+      "id": "Q02",
+      "role": "check",
+      "modern_node_id": "J0584",
+      "pixel_xy": [
+        5683,
+        1385
+      ],
+      "identity_evidence": "Upper Barasois Brook northern fork",
+      "source_uncertainty_px": 20,
+      "status": "Native close and wide context personally inspected before first score; original proposals retained.",
+      "original_candidate": {
+        "lonlat": [
+          -60.6573321,
+          46.4371696
+        ],
+        "source_guide_xy": [
+          5539.837614540476,
+          1389.8835247601382
+        ],
+        "objectids": [
+          187736,
+          276357,
+          276478
+        ],
+        "id": "Q02",
+        "role": "check",
+        "modern_node_id": "J0584",
+        "pixel_xy": [
+          5660,
+          1387
+        ],
+        "identity_evidence": "Upper Barasois Brook northern fork",
+        "source_uncertainty_px": 20,
+        "status": "Unreviewed diagnostic proposal"
+      }
+    },
+    {
+      "lonlat": [
+        -60.7591921,
+        46.4330211
+      ],
+      "source_guide_xy": [
+        3340.676227740012,
+        1509.9601531599183
+      ],
+      "objectids": [
+        201446,
+        266722,
+        266723
+      ],
+      "id": "V01",
+      "role": "check",
+      "modern_node_id": "J0633",
+      "pixel_xy": [
+        3680,
+        1501
+      ],
+      "identity_evidence": "Long eastern tributary of upper Middle River above Camp; original short tick/tributary proposal discarded after wider topology review.",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected native close and wide crosshairs before first score. Never used in fit.",
+      "original_candidate": {
+        "lonlat": [
+          -60.7591921,
+          46.4330211
+        ],
+        "source_guide_xy": [
+          3340.676227740012,
+          1509.9601531599183
+        ],
+        "objectids": [
+          201446,
+          266722,
+          266723
+        ],
+        "id": "V01",
+        "role": "check",
+        "modern_node_id": "J0633",
+        "pixel_xy": [
+          3650,
+          1600
+        ],
+        "identity_evidence": "Small eastern tributary of upper Middle River above Camp",
+        "source_uncertainty_px": 20,
+        "status": "Fresh validation proposal collected after twelve-control freeze; review pending."
+      }
+    },
+    {
+      "lonlat": [
+        -60.651048,
+        46.4195315
+      ],
+      "source_guide_xy": [
+        5674.352046000073,
+        1939.9535164001863
+      ],
+      "objectids": [
+        165370,
+        166924,
+        266380
+      ],
+      "id": "V02",
+      "role": "check",
+      "modern_node_id": "J0800",
+      "pixel_xy": [
+        5843,
+        1936
+      ],
+      "identity_evidence": "Small eastern tributary of Barasois below western confluence",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected native close and wide crosshairs before first score. Never used in fit.",
+      "original_candidate": {
+        "lonlat": [
+          -60.651048,
+          46.4195315
+        ],
+        "source_guide_xy": [
+          5674.352046000073,
+          1939.9535164001863
+        ],
+        "objectids": [
+          165370,
+          166924,
+          266380
+        ],
+        "id": "V02",
+        "role": "check",
+        "modern_node_id": "J0800",
+        "pixel_xy": [
+          5849,
+          1940
+        ],
+        "identity_evidence": "Small eastern tributary of Barasois below western confluence",
+        "source_uncertainty_px": 20,
+        "status": "Fresh validation proposal collected after twelve-control freeze; review pending."
+      }
+    }
+  ],
+  "purpose": "Three reused diagnostics. Q02 and V01 retain identity/geometry uncertainty."
+}

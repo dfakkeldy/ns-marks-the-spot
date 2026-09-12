@@ -1,0 +1,21 @@
+{
+  "whole_sheet_accepted": false,
+  "repair_recommended_as_replacement": false,
+  "draft_required": true,
+  "controls": 13,
+  "collected_fresh_checks": 2,
+  "fresh_median_ground_m": 498.75480997504235,
+  "fresh_worst_ground_m": 894.1446392405404,
+  "numeric_gate_passed": false,
+  "median_limit_ground_m": 100,
+  "worst_limit_ground_m": 200,
+  "identity_caveat": "F01 broader branch hierarchy remains unresolved after post-score review; retain failure, not a verified map-error magnitude.",
+  "blockers": [
+    "Worsened lower Middle River, West Branch and Baddeck reaches",
+    "Unresolved upper Middle River and Barasois diagnostic identities",
+    "Eastern coastline, Baddeck Lakes and every reviewed seam remain unaccepted",
+    "No distributed whole-sheet fresh coverage"
+  ],
+  "merge_authorized": false,
+  "deployment_authorized": false
+}
