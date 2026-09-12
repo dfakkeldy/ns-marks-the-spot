@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "unchanged_prior_controls": 10,
+  "verified_native_frames": 12,
+  "viewed_figures": 31,
+  "coverage_and_sampled_orientation": "pass",
+  "web_csv_and_solver": "pass",
+  "actual_browser_import_desktop_mobile_reload": "pass",
+  "fresh_check_scope": "One new island check within a controlled lake system, failed; no independent whole-interior validation.",
+  "whole_sheet_geographically_accepted": false
+}

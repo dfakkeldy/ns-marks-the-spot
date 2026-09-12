@@ -1,0 +1,39 @@
+{
+  "fit_sha256": "b41485f0d4b2f691786655eba5815816ed571be49f08c38b83c194dcac6e78c1",
+  "selected_at": "2026-09-12T16:21:13.201983+00:00",
+  "points": [
+    {
+      "id": "F01",
+      "role": "check",
+      "pixel_xy": [
+        7506,
+        5347
+      ],
+      "lonlat": [
+        -60.57380105889673,
+        45.780115841178386
+      ],
+      "modern_objectid": 153876,
+      "modern_part": 0,
+      "modern_vertex": 6,
+      "identity_evidence": "Middle Loch Lomond isolated island northernmost extent; north of the smaller island and west of eastern promontory. Distinct island from prior northern-lake V01.",
+      "source_uncertainty_px": 20,
+      "status": "Final pre-score native crosshair at broad northern island shoreline; complete modern island has a more indented northern edge. Morphology/generalization uncertainty retained.",
+      "pre_review_pixel_xy": [
+        7241,
+        5336
+      ],
+      "adjustment_history": [
+        [
+          7241,
+          5336
+        ],
+        [
+          7498,
+          5340
+        ]
+      ]
+    }
+  ],
+  "adjusted_at": "2026-09-12T16:21:50.493989+00:00"
+}

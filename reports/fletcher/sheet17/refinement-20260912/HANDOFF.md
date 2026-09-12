@@ -1,0 +1,3 @@
+Sheet 17 remains unaccepted. Keep old ten-control provisional raster; eleven-control experiment worsens fresh island extent from 272.828 to 306.400 m. Do not promote or shift F01 merely to reduce its residual. Its broad shape uncertainty and shared lake system limit its independence. V05 barrier-gap error is preserved with post-score identity uncertainty, excluded from repair.
+
+All current scripts and evidence live beside this note. Exact source, fit, boundary, reference and raster hashes are in the receipts. Technical packet verification passes, including actual browser import/reload on desktop and mobile. No merge or deployment. A new repair requires a new frozen fit and genuinely new reviewed checks; preserve all earlier versions. Continue the queue with Sheet 18.
