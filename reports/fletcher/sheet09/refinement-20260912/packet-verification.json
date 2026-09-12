@@ -1,0 +1,207 @@
+{
+  "passed": true,
+  "controls": 25,
+  "reused_checks": 7,
+  "collected_fresh_checks": 2,
+  "old_twenty_four_controls_unchanged": true,
+  "new_control_matches_reviewed_prior_check": true,
+  "figure_count": 40,
+  "figures": [
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/adjacent-sheet-review/06-north-coast.jpg",
+      "sha256": "a666afb8cc03b9295897cab7394f14c2240f6ed5c2be6d9abf72de45a7bc945d"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/adjacent-sheet-review/06-north-interior.jpg",
+      "sha256": "ff0326c6fb7ca41c70fc69ffb0e120e5a8c0d50d2292f8b05472d802b3e900e3"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/adjacent-sheet-review/08-east-north.jpg",
+      "sha256": "089740b470601907bad657dfd16234ce2ee610ec75e969d794683d2b2b78d3a2"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/adjacent-sheet-review/08-east-south.jpg",
+      "sha256": "e58a5005348b78103a30dd1394507af916ba795999c7fed8d347bfbb3573bb1c"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/adjacent-sheet-review/11-south-coast.jpg",
+      "sha256": "85f1fa27e0263cfd75e1822dfea4bcb3a7501102d5b21308b09680b2be767a63"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/adjacent-sheet-review/11-south-interior.jpg",
+      "sha256": "b5f282f9dcd0873467fa43a36623799bf82fb8779aa03644d912dcea140753a2"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/adjacent-sheet-review/11-south-margaree.jpg",
+      "sha256": "dafba999205951ce15464115bb3f5392f86ccb0f667965f9924515dba92302d3"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/diagnostic-close/sheet-09-Q01.jpg",
+      "sha256": "a3801f3509017b28252b60f320c6a36dcd6680626a43ef77b034aa2c4a310e82"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/diagnostic-close/sheet-09-Q04.jpg",
+      "sha256": "3f390fe596e1e715b1aaa51d9b151b94d582c5d69d83a153fbfab10d76fa35b2"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/diagnostic-wide/sheet-09-Q01.jpg",
+      "sha256": "823e78f853a346759a6c65c96c954d28df11496024d4e32104f2629892c27233"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/diagnostic-wide/sheet-09-Q04.jpg",
+      "sha256": "2860e47065c54f1266ac0ee3ae7060e1b076e71e223db7ad2736f9254eec0da0"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/fresh-close/sheet-09-F03.jpg",
+      "sha256": "dba67b7fbe6f697b912a9136ef4ef9c2bb86e03c77678bfff753581fec0eb4c8"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/fresh-close/sheet-09-F04.jpg",
+      "sha256": "fa30950f9458990744713134af8956ca37077a1fb845b30ddc06d12fcc4ceb3d"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/fresh-corrected-close/sheet-09-F04.jpg",
+      "sha256": "d7d7ecfeb92c488cd899067276925ddf04f6e78ad6ee4f56302900cc7688bccc"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/fresh-corrected-close/sheet-09-F05.jpg",
+      "sha256": "5f8e5f1730af98a51a35f425f517f6601581824db387092ffabf2d132c141b88"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/fresh-corrected-wide/sheet-09-F04.jpg",
+      "sha256": "405173c0925414d0f971ab8106336e034249631ddd1e2cc38dc0ef39f35c3c32"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/fresh-corrected-wide/sheet-09-F05.jpg",
+      "sha256": "f449530bae4d821fcf2a753485d75f53794077625d4f2d71fe7081f569ffd128"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/fresh-final-close/sheet-09-F06.jpg",
+      "sha256": "c431fc8c3cba8a444b2242ef0928751010a6472a69831032a42627e744f1dfe3"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/fresh-final-wide/sheet-09-F06.jpg",
+      "sha256": "14b1ff00807d9a8999bd841f7e7838440aa9449ef2dd3cfaa169fe50782e3ca6"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/fresh-wide/sheet-09-F03.jpg",
+      "sha256": "5b8e3bc42ef5c2550844a3db5ce3adeda8bb842d67fb80f3f66678a1ad8c840b"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/fresh-wide/sheet-09-F04.jpg",
+      "sha256": "9a40b9699493728c408bf37bf0fdd33ffb385fa5f8e52120e81ca52a40fa033f"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/prior-close/sheet-09-V02.jpg",
+      "sha256": "20d9f60debf6b8f06a9fca04e748cff4154c1110364e2849e849780b3a8a4ac5"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/prior-wide/sheet-09-V02.jpg",
+      "sha256": "902b8eafcf97ba00ba5d0b62e374652843252ae13b5690c6a5ad1fc00328d3d6"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/repair-close/sheet-09-R01.jpg",
+      "sha256": "940fe9791bdeeb024178019ca1bca060a4716ec20208c7b8a117088f1b85c149"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/repair-wide/sheet-09-R01.jpg",
+      "sha256": "fe57c30a5947f2cf0254f38b146eaa36ac81001174de2ec2dab261b7d728e990"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/cheticamp-harbour.jpg",
+      "sha256": "6ccd229a55e53fb48d161e78a78ac51fc61a322c78d62e3d4bbfef023ad034ff"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/faribault.jpg",
+      "sha256": "12b7789056d18cf859903086b260baf2d44b9070a51c5ad4ef19a84e675d5a0f"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/fiset-aucoin.jpg",
+      "sha256": "f4e330976c81fbd273500f4bf172f7983a43bd6b915790f2d6725320a0ba739b"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/grand-etang.jpg",
+      "sha256": "5f4e2e25a357afdf68de59fd64823d47f4e68e9f9b0744f57f6380184a38a80d"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/west-basile.jpg",
+      "sha256": "f39c22a09a90167e99f29a9988155e427b5ddc2af927dd4b03c734797b170e8a"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/farm-interior.jpg",
+      "sha256": "a1700393f91bfe84012fcccf6204df7688ba8e66464c79da3272edc7402aad81"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/first-second-fork.jpg",
+      "sha256": "bc57b230d3f2eea762131d6f639ef69d354bb582e38ee002fd2cca68fa198475"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/stewart.jpg",
+      "sha256": "6d336f79d6a5f4f68cf67d8a89e31d7834c2ffb09a753a4e36caef618c105048"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/unsupported-southwest.jpg",
+      "sha256": "8715055f14c5c1f83f2b388270255a2e46928bf7b3fd8aef87a806c7ebd93936"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/rocky-eastern-interior.jpg",
+      "sha256": "759b793e78f8639fb99b00c43febb327dec5ed1a1fea6b9f26c6407168ec97c3"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/western-coast.jpg",
+      "sha256": "52aabcc7a19642a81ad7fe3bae49bf28fa0ee2e84e19c00e9d7f10b1e4e930b8"
+    },
+    {
+      "path": "reports/fletcher/sheet09/refinement-20260912/warped-review/full-sheet.jpg",
+      "sha256": "6b99ec88152a551b2f00f25c75438366ffe131df2bfc0766e2d49014a1ee255a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/browser/import-desktop.png",
+      "sha256": "e4a51eddd03c7d09144653b81c0b2430c972aeee7bd36055bcb2b4002706d0f8"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/browser/reload-desktop.png",
+      "sha256": "2613689f683161cf512490332ada497eafc2ef1710f04e4ae34d415f749625e8"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/browser/reload-mobile.png",
+      "sha256": "58cb515ab89d697b29e0fab599582ba5b01b34ac54466ae182ed286b567544e8"
+    }
+  ],
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/sheet-09-full-sheet.tif",
+    "sha256": "3e67d70abb9d33a86bdceccd9be00a1e68f98e93f988267ff281a315d5a23edf",
+    "size": [
+      8204,
+      5415
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.2232858,
+            46.6151411
+          ],
+          [
+            -61.2232858,
+            46.4478174
+          ],
+          [
+            -60.8547969,
+            46.4478174
+          ],
+          [
+            -60.8547969,
+            46.6151411
+          ],
+          [
+            -61.2232858,
+            46.6151411
+          ]
+        ]
+      ]
+    }
+  },
+  "scope": "Computational, provenance and import verification only. Fresh thresholds and whole-sheet geography fail. Local coastal improvement only; Q01, V02 and R01 identity concerns remain; F03/F05 rejected before scoring."
+}

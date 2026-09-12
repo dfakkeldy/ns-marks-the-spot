@@ -1,0 +1,162 @@
+{
+  "fit_sha256": "3ca430d2f637410bec54e0381e0629d2c73e357d0ef981dc26f4f40842be82ec",
+  "status": "Reused diagnostics, including unresolved Stewart Q01, Gallant V02 and coastal R01. Not fresh acceptance evidence.",
+  "points": [
+    {
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        7951,
+        6395
+      ],
+      "lonlat": [
+        -60.9275594,
+        46.4580556
+      ],
+      "modern_node": "J1449",
+      "modern_objectids": [
+        277807,
+        277810,
+        287345
+      ],
+      "identity_evidence": "Stewart long southern tributary below northern control C09 and above the river mouth C10; tributary curves southwest upstream. Smaller modern southern spurs nearer C09 are not this arm.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed.",
+      "identity_status": "Unresolved after failed initial check. Long historical southern arm may not correspond to the selected short modern tributary; retain as diagnostic, not acceptance evidence."
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        9160,
+        5673
+      ],
+      "lonlat": [
+        -60.8816454,
+        46.4831797
+      ],
+      "modern_node": "J1287",
+      "modern_objectids": [
+        200072,
+        277198,
+        277201
+      ],
+      "identity_evidence": "Second Fork long southern tributary at low point of eastward reach above mouth; main continues northeast toward paired northern and southeastern spurs by Fall 50. Smaller southern tributary immediately adjacent to river mouth is not selected.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        7543,
+        1729
+      ],
+      "lonlat": [
+        -60.9431439,
+        46.5996268
+      ],
+      "modern_node": "J0241",
+      "modern_objectids": [
+        223208,
+        266665,
+        267773
+      ],
+      "identity_evidence": "Aucoin southern tributary just southeast of major northeastern headwater fork C08. Southern arm curves southwest; main headwater continues southeast. Close local check, not independent regional validation.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected before first fit. Physical feature and branch sequence selected without model residuals. Agent reviewed; user acceptance not claimed."
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "pixel_xy": [
+        7176,
+        3368
+      ],
+      "lonlat": [
+        -60.9625724,
+        46.5499856
+      ],
+      "modern_node": "J0699",
+      "modern_objectids": [
+        263863,
+        263864,
+        312425
+      ],
+      "identity_evidence": "Farm Brook southern tributary feeding a small downstream/upstream pond and then a branching southern valley. Located between the major northeastern arm C14 and eastern arm C15. The tiny southern spur immediately below C14 is not this larger pond-bearing tributary. Local interpolation check.",
+      "source_uncertainty_px": 10,
+      "review": "Broad branch sequence and enlarged native pixel examined. Proposed before scoring this regional addition."
+    },
+    {
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        8920,
+        2618
+      ],
+      "lonlat": [
+        -60.8882406,
+        46.5733458
+      ],
+      "modern_node": "J0498",
+      "modern_objectids": [
+        137264,
+        137265,
+        293750
+      ],
+      "identity_evidence": "Northeastern inlet of the Jim Campbells headwater lake at the small eastern inset, opposite the broad western lobe; outlet C21 is at the separate southern point. Check of local lake shape, not regional coverage.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected after fit freeze and before any validation score; V02 corrected to visible fork before scoring."
+    },
+    {
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        5901,
+        6193
+      ],
+      "lonlat": [
+        -61.028377,
+        46.4590557
+      ],
+      "modern_node": "J1444",
+      "modern_objectids": [
+        188663,
+        188664,
+        188809
+      ],
+      "identity_evidence": "Northern tributary of the eastern Gallant arm above C18. From main Gallant trace east/northeast to this fork; north arm heads northwest, east arm crosses the hatched upland. Local check independent of fitting but geographically near C18.",
+      "source_uncertainty_px": 12,
+      "review": "Native and modern crosshairs inspected after fit freeze and before any validation score; V02 corrected to visible fork before scoring.",
+      "pre_crosshair_pixel_xy": [
+        5874,
+        6194
+      ]
+    },
+    {
+      "lonlat": [
+        -61.0821354,
+        46.4824238
+      ],
+      "source_guide_xy": [
+        4529.393100959249,
+        5523.3555748004
+      ],
+      "objectids": [
+        11443,
+        272052,
+        311341
+      ],
+      "modern_node": "J1292",
+      "id": "R01",
+      "role": "check",
+      "pixel_xy": [
+        4609,
+        5485
+      ],
+      "identity_evidence": "Murphys Brook coastal outlet below Q04 creek and above the long coastal-parallel southern drainage; separate long northern bend and inland fork distinguish it.",
+      "status": "Repair proposal; close/wide native review pending; unscored",
+      "source_uncertainty_px": 15
+    }
+  ]
+}
