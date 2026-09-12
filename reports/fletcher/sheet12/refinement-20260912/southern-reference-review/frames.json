@@ -1,0 +1,47 @@
+[
+  {
+    "image": "baddeck-kidston.jpg",
+    "lonlat_bounds": [
+      -60.85,
+      46.08,
+      -60.69,
+      46.145
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/refinement-20260912/south-reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "kemp-coffin-extension.jpg",
+    "lonlat_bounds": [
+      -60.7,
+      46.063,
+      -60.58,
+      46.12
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/refinement-20260912/south-reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "lockman-extension.jpg",
+    "lonlat_bounds": [
+      -60.55,
+      46.067,
+      -60.465,
+      46.12
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/regional-fourteen/sheet-12-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/sheet-12-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet12/refinement-20260912/south-reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

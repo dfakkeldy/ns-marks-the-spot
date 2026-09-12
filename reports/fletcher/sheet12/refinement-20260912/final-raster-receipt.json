@@ -1,0 +1,111 @@
+{
+  "fit_sha256": "b84997485c0836ac598429f63167199ae1e600b1c623a87b5c2747b3a57a2cc2",
+  "boundary_sha256": "71bc58ceb5476a5ca9b98fd8be187d4ea88b4052cad67a37c1f534bfbdb6c720",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Reused diagnostics; F02 has been promoted with exact old scores retained, so is excluded. No fresh independent validation claim.",
+  "checks_sha256": "b4e04bedca704fbb0ae3b5fb0dfa8595824805f7bfe43edc3379e9b969f6c4d2",
+  "median_ground_m": 78.00139338175504,
+  "worst_ground_m": 305.5896066407884,
+  "points": [
+    {
+      "id": "Q02",
+      "error_ground_m": 152.64571015041196,
+      "predicted_lonlat": [
+        -60.59671408938577,
+        46.224201460427345
+      ]
+    },
+    {
+      "id": "V01",
+      "error_ground_m": 76.06611287985017,
+      "predicted_lonlat": [
+        -60.778758440575295,
+        46.195662374119
+      ]
+    },
+    {
+      "id": "V03",
+      "error_ground_m": 78.00139338175504,
+      "predicted_lonlat": [
+        -60.497581571810635,
+        46.23522992613853
+      ]
+    },
+    {
+      "id": "V04",
+      "error_ground_m": 27.75030547824027,
+      "predicted_lonlat": [
+        -60.74213617990075,
+        46.098441433524464
+      ]
+    },
+    {
+      "id": "V05",
+      "error_ground_m": 305.5896066407884,
+      "predicted_lonlat": [
+        -60.64933390511191,
+        46.10113604147318
+      ]
+    },
+    {
+      "id": "F01",
+      "error_ground_m": 62.68319362125623,
+      "predicted_lonlat": [
+        -60.83921303753369,
+        46.21415233878954
+      ]
+    },
+    {
+      "id": "F05",
+      "error_ground_m": 122.21885730796781,
+      "predicted_lonlat": [
+        -60.52458521891922,
+        46.21608571758564
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 79024,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -32.327210463820585,
+      -20.64175975631203
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/17-control/sheet-12-full-sheet.tif",
+    "sha256": "48e70f98e72ad23fafb00c5437e476ad693727e09a46d1ae1a3145907550a40d",
+    "size": [
+      8528,
+      6547
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.8535392,
+            46.274297
+          ],
+          [
+            -60.8535392,
+            46.0706614
+          ],
+          [
+            -60.4704976,
+            46.0706614
+          ],
+          [
+            -60.4704976,
+            46.274297
+          ],
+          [
+            -60.8535392,
+            46.274297
+          ]
+        ]
+      ]
+    }
+  }
+}

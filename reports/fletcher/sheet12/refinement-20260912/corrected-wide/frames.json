@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-12-R02.jpg",
+    "point_record": "sheet12/refinement-20260912/corrected-proposals.json",
+    "point_id": "R02",
+    "native_box": [
+      2332,
+      434,
+      3532,
+      1634
+    ],
+    "native_coordinates": [
+      2932,
+      1034
+    ],
+    "modern_lonlat": [
+      -60.7874986,
+      46.259802
+    ],
+    "rotation_degrees": 0
+  }
+]
