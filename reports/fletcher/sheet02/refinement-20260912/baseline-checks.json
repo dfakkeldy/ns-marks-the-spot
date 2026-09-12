@@ -1,0 +1,35 @@
+{
+  "fit_sha256": "3094eec05b4adec75eaaea85a19c3349f2ab9d2d45963359533d7d86a2917c6a",
+  "selected_at": "2026-09-12T15:27:10.880827+00:00",
+  "points": [
+    {
+      "id": "F04",
+      "role": "check",
+      "pixel_xy": [
+        3768,
+        3358
+      ],
+      "lonlat": [
+        -60.35146901934966,
+        46.885554730980665
+      ],
+      "modern_objectid": 14622,
+      "modern_part": 0,
+      "modern_vertex": 65,
+      "modern_component_ids": [
+        14622,
+        16918,
+        22162
+      ],
+      "identity_evidence": "White Point largest offshore island southernmost tip; same complete island as old V01 northern tip. Correlated extent check, not independent island identity.",
+      "source_uncertainty_px": 25,
+      "status": "Final native close/wide crosshair personally inspected before first score. Same-island extent check with generalized southern shore; does not validate inland control.",
+      "original_pixel_xy": [
+        3775,
+        3323
+      ],
+      "correction": "Move from island interior to southernmost historical shoreline before first score."
+    }
+  ],
+  "reviewed_at": "2026-09-12T15:29:09.706818+00:00"
+}

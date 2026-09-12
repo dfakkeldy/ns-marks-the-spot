@@ -1,0 +1,26 @@
+{
+  "sheet": "sheet-02",
+  "whole_sheet_geographically_accepted": false,
+  "recommended_whole_sheet_replacement": false,
+  "production_eligible": false,
+  "control_count": 10,
+  "criteria": {
+    "median_ground_m_max": 100,
+    "worst_ground_m_max": 200,
+    "distributed_independent_checks_and_whole_sheet_review_required": true
+  },
+  "fresh_check": {
+    "id": "F04",
+    "error_ground_m": 46.90204551861114,
+    "baseline_ground_m": 44.31319468289065,
+    "numeric_threshold_pass": true,
+    "independence": "New coordinate but same island as old V01; correlated extent check; no validation of new inland control."
+  },
+  "blockers": [
+    "No qualified independent inland check for R02/C10; its northern branch length differs substantially.",
+    "Pond island and entrance/barrier identities unresolved; R01 rejected.",
+    "Rachel competing southwest tributaries unresolved; F03 rejected.",
+    "Upper Rachel, broader drainage, shorelines and neighboring seams remain displaced."
+  ],
+  "recommendation": "Retain original nine-control raster as provisional comparison. New ten-control trial is not an accepted replacement."
+}
