@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { ContextLayerToggle } from "./ContextLayerToggle";
 import { contextLayerCatalog } from "../layers/contextLayerCatalog";
 
-const layer = contextLayerCatalog.find(({ id }) => id === "transmission-lines")!;
+const layer = contextLayerCatalog.find(({ id }) => id === "ns-topographic")!;
 describe("context layer control", () => {
   it("keeps a shared restricted selection disabled until licence acceptance", () => {
     const change = vi.fn(); const review = vi.fn();

@@ -1,3 +1,4 @@
+import type { OpenDataSource } from "./openDataSources";
 import type { ArcGISExportOptions } from "./layerCatalog";
 
 /** Web research overlays, independent of the native/offline catalogue. */
@@ -6,9 +7,11 @@ export interface ContextLayerDescriptor {
   name: string;
   category: "background-maps" | "land-property" | "roads-places" | "water-terrain" | "environment-hazards" | "forestry-ecology" | "geology-resources" | "historical-maps";
   serviceUrl: string;
+  openData?: OpenDataSource;
+  tileUrl?: string;
   sourceUrl: string;
   licenceUrl: string;
-  licence: "province-open" | "province-restricted";
+  licence: "province-open" | "province-restricted" | "cc-by";
   attribution?: string;
   sourceDate: string;
   scale: string;
@@ -20,7 +23,7 @@ export interface ContextLayerDescriptor {
   opacity: number;
   zIndex: number;
   exportOptions: ArcGISExportOptions;
-  delivery?: "feature-query" | "static-image";
+  delivery?: "feature-query" | "static-image" | "tile";
   imageBounds?: readonly [readonly [number, number], readonly [number, number]];
   idField?: string;
   outFields?: readonly string[];

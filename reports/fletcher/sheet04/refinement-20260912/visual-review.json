@@ -1,0 +1,19 @@
+{
+  "reviewer": "Primary agent personally inspected native unrotated close and wide point crosshairs, then actual rasters and modern vectors, all listed figures.",
+  "top_level_figures": 37,
+  "eleven_control_figures": 23,
+  "total_figures": 60,
+  "findings": {
+    "black-pine": "Pine new-check position improves over eight controls but western Black Brook remains displaced north, more so after Mary Ann addition; do not promote either experiment as replacement.",
+    "mary-ann-black-cove": "Eleven controls align the fitted Mary Ann confluence; Black Brook mouth remains 481 m off and southwestern tributary 227 m off. Coast and unfitted stream geometry remain inconsistent.",
+    "warren": "Lake controls align locally; north/west drainage and tributaries remain displaced.",
+    "ingonish-island": "Fitted northern tip local; full perimeter and neighbouring coastal detail not accepted; southern V02 remains diagnostic.",
+    "clyburn-middle": "Some local channel improvement; meanders and Middle Head coastline differ. Connected mainland identity alone cannot select equivalent historical/modern extremity.",
+    "freshwater-smoky": "Harbour and southern drainage remain displaced; cape tip fit does not validate adjoining coast.",
+    "full-sheet": "Eastern sea, legend, Ingonish Island, offshore rocks and full mapped frame preserved in both rasters.",
+    "02-seam": "Northern drainage and coastline not continuous; eastern sea-only window cannot establish geographic acceptance.",
+    "05-seam": "Western Black Brook and adjoining drainage visibly mismatched; southern Cameron/Clyburn seam also unaccepted.",
+    "07-seam": "Southern drainage and coastal seam unaccepted; sea-only window supplies no physical check.",
+    "browser": "Both exact raster hashes persisted in IndexedDB through desktop/mobile reload; rendered raster visible, no console errors."
+  }
+}

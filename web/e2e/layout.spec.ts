@@ -80,25 +80,30 @@ for (const width of [320, 390, 844, 1440]) {
 }
 
 for (const width of [390, 1440]) {
-  test(`road names and route shields stay above contrast strokes at ${width}px`, async ({ page }) => {
+  test(`open road overlays redraw after toggling at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
-    await page.addInitScript(() => {
-      localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
-    });
-    await page.route("**/BASE_NSTDB_10k_Roads_UT83/MapServer/export?**", (route) =>
-      route.fulfill({ contentType: "image/png", body: png }),
+    await page.route("**/data.novascotia.ca/resource/*.geojson?**", (route) =>
+      route.fulfill({ contentType: "application/geo+json", json: {
+        type: "FeatureCollection",
+        features: route.request().url().includes("484g-adjn") ? [{
+          type: "Feature", geometry: { type: "LineString", coordinates: [[-61.479,45.813],[-61.477,45.815]] },
+          properties: { source_row_id: "road-1", street: "Test Road", feat_desc: "PAVED ROAD", roadc_desc: "Local" },
+        }] : [],
+      } }),
     );
     await page.goto("/?basemap=osm&taxSale=off&layers=roads&position=45.81355,-61.47775,16");
     const roadLayers = page.locator(".map-layer-roads");
     const checkOrder = async () => {
-      await expect(roadLayers).toHaveCount(2);
-      const passes = await roadLayers.evaluateAll((elements) => elements.map((element) => ({
-        contrast: new URL(element.querySelector("img")!.src).searchParams.has("dynamicLayers"),
-        zIndex: Number(getComputedStyle(element).zIndex),
-      })));
-      expect(passes.find(({ contrast }) => contrast)!.zIndex).toBeLessThan(
-        passes.find(({ contrast }) => !contrast)!.zIndex,
-      );
+      await expect(roadLayers).toHaveCount(1);
+      await expect(roadLayers).toBeVisible();
+      const image = await roadLayers.evaluate((element) => ({
+        tag: element.tagName,
+        url: (element as HTMLImageElement).src,
+        zIndex: Number(getComputedStyle(element.parentElement!).zIndex),
+      }));
+      expect(image.tag).toBe("IMG");
+      expect(image.url).toMatch(/^data:image\/png;base64,/);
+      expect(image.zIndex).toBe(235);
     };
     await checkOrder();
     if (width < 860) await page.getByRole("button", { name: "Search & layers", exact: true }).click();

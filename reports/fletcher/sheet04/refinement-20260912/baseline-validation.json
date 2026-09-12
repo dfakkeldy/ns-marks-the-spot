@@ -1,0 +1,89 @@
+{
+  "sheet": "sheet-04",
+  "fit_sha256": "36e898f50cd6980892c46d66ca41e61de8142f248a7b66c44e30844454daf877",
+  "collected_at_utc": "2026-09-12T14:32:13.661971+00:00",
+  "review_completed_at_utc": "2026-09-12T14:35:24.331348+00:00",
+  "history_identity_checked": true,
+  "points": [
+    {
+      "lonlat": [
+        -60.4236749,
+        46.7753844
+      ],
+      "source_guide_xy": [
+        2154.716648638947,
+        1530.219076800393
+      ],
+      "objectids": [
+        178996,
+        179000,
+        180024
+      ],
+      "id": "F05",
+      "modern_node_id": "J0217",
+      "role": "check",
+      "pixel_xy": [
+        2335,
+        1378
+      ],
+      "identity_evidence": "Pine Brook western tributary below the northern stem",
+      "source_uncertainty_px": 20,
+      "status": "Final exact native and modern crosshairs personally reviewed close and wide before first score; never fitted.",
+      "review_note": "Second prescore placement correction: center onto the northern-stem/Pine junction; previous corrected crosshair was slightly east on the adjoining bank.",
+      "limitation": "Historical branch length and bank/generalization differences remain; evidence is local to this junction."
+    },
+    {
+      "lonlat": [
+        -60.3578851,
+        46.7649495
+      ],
+      "source_guide_xy": [
+        3581.460567359347,
+        1858.1671140003018
+      ],
+      "objectids": [
+        159986,
+        159987,
+        273968
+      ],
+      "id": "F06",
+      "modern_node_id": "J0266",
+      "role": "check",
+      "pixel_xy": [
+        3759,
+        1645
+      ],
+      "identity_evidence": "Mary Ann Brook confluence with Black Brook",
+      "source_uncertainty_px": 20,
+      "status": "Final exact native and modern crosshairs personally reviewed close and wide before first score; never fitted.",
+      "review_note": "Before scoring, moved left onto actual southern-bank Mary Ann/Black junction; original point was downstream on the bank.",
+      "limitation": "Historical branch length and bank/generalization differences remain; evidence is local to this junction."
+    },
+    {
+      "lonlat": [
+        -60.4496182,
+        46.68701
+      ],
+      "source_guide_xy": [
+        1592.099867519224,
+        4307.649720000336
+      ],
+      "objectids": [
+        191123,
+        191124,
+        191252
+      ],
+      "id": "F07",
+      "modern_node_id": "J0611",
+      "role": "check",
+      "pixel_xy": [
+        1821,
+        4264
+      ],
+      "identity_evidence": "Cameron western southern tributary upstream of northern branch and fitted C12",
+      "source_uncertainty_px": 20,
+      "status": "Final exact native and modern crosshairs personally reviewed close and wide before first score; never fitted.",
+      "limitation": "Historical branch length and bank/generalization differences remain; evidence is local to this junction."
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import type { OpenDataSource } from "../../layers/openDataSources";
 import type { BasemapStyle } from "../../atlas/basemap";
 import {
   FLETCHER_LAYER_Z_INDEX,
@@ -13,7 +14,6 @@ import type { LatLngPoint } from "../../userMaps/transform/projection";
 import { toMercator } from "../../userMaps/transform/webMercator";
 import type { PixelRect } from "../../userMaps/types";
 import type {
-  CompositorImageLayer,
   CompositorLayer,
   CompositorTileLayer,
 } from "./mapCompositor";
@@ -25,6 +25,9 @@ export type ExportArcGisLayerInput = {
   serviceUrl: string;
   exportOptions: ArcGISExportOptions;
   opacity: number;
+  openData?: OpenDataSource;
+  tileUrl?: string;
+  maxNativeZoom?: number;
   // Source-specific display limits are resolved from the context catalogue.
 };
 
@@ -60,7 +63,7 @@ const OSM_TILE_URL = "https://tile.openstreetmap.org";
 export function contextExportOmission(layer: ContextLayerDescriptor, zoom: number): string | null {
   if (zoom < layer.minZoom) return `below display scale (zoom ${layer.minZoom} required)`;
   if (zoom > layer.maxZoom) return `above display scale (maximum zoom ${layer.maxZoom})`;
-  if (layer.delivery !== undefined) return "PDF export does not support this source format";
+  if (layer.delivery !== undefined && layer.delivery !== "tile") return "PDF export does not support this source format";
   return null;
 }
 
@@ -114,7 +117,9 @@ function fletcherLayers(
  * nsgiwa.novascotia.ca. These are dynamic map services: there is no cached
  * tile to fetch, only a render to pay for.
  */
-function arcGisLayer(layer: ExportArcGisLayerInput): CompositorImageLayer {
+function arcGisLayer(layer: ExportArcGisLayerInput): CompositorLayer {
+  if (layer.tileUrl) return { kind: "tile", id: layer.id, name: layer.name, opacity: layer.opacity, maxNativeZoom: layer.maxNativeZoom ?? 14, url: ({ z, x, y }) => layer.tileUrl!.replace("{z}", String(z)).replace("{x}", String(x)).replace("{y}", String(y)) };
+  if (layer.openData) return { kind: "open-data", id: layer.id, name: layer.name, source: layer.openData, opacity: layer.opacity };
   const maxNativeZoom = contextLayerCatalog.find(({ id }) => id === layer.id)?.maxNativeZoom;
   return {
     kind: "image",

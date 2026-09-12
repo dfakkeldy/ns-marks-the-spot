@@ -1,0 +1,29 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+      "sha256": "e62f084f1bb73de336d9e1740337701812c5c607155ec689b7e6aed82b54dd10"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/sheet-04-full-sheet.tif",
+      "sha256": "c0c423c20dcf6fe1ed912683cb95a0bb29a741ae9a39c6f4411a20e560600add"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/11-control/sheet-04-full-sheet.tif",
+      "sha256": "e739f6a1cd4ede3a9df9662f6758b87e5e1a2819e1bab08ea0574b47b06b77b7"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/regional-nine/sheet-02-full-sheet.tif",
+      "sha256": "ec5096c078ea3628b00f39ef28a9475f641bbd0daa0db19a2c24f655143a1465"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/refinement-20260912/sheet-05-full-sheet.tif",
+      "sha256": "3affbba1a4d33c7b4e3a5ddc241fa20850473f170539426ee105dfd2c2d593c9"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "sha256": "49263f0abb5bfb5bd5a12edecd908fbcf12f24ee88c3e1c18a5d470eda71c5dd"
+    }
+  ],
+  "scope": "Identical geographic windows against provisional neighbours, not accepted seams. Sea-only panels cannot establish physical alignment."
+}

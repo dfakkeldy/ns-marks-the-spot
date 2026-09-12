@@ -1,0 +1,19 @@
+{
+  "whole_sheet_geographically_accepted": false,
+  "production_accepted": false,
+  "median_ground_m": 199.69554425805913,
+  "worst_ground_m": 199.69554425805913,
+  "targets_ground_m": {
+    "median": 100,
+    "worst": 200
+  },
+  "fresh_check_count": 1,
+  "scope": "One local coastal mouth near repair C11; no independent inland validation. Diagnostic and validation files are identical single-point evidence, not two checks.",
+  "recommendation": "Retain ten-control trial as local coast improvement only; no whole-sheet replacement recommendation.",
+  "blockers": [
+    "Median target fails; F01 residual and original V02/V03 failures retained.",
+    "Inland Wreck Cove, Salmon, McDougall and eastern headwaters remain unsupported.",
+    "Unresolved stream hierarchy F02 rejected unscored; older C08/Q01/V01 remain excluded.",
+    "Three adjacent-sheet joins remain unaccepted; northern sea extrapolation is unsupported."
+  ]
+}

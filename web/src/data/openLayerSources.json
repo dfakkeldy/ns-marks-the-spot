@@ -1,0 +1,416 @@
+{
+  "checkedAt": "2026-09-12T17:22:08.304086+00:00",
+  "licenceUrl": "https://support.novascotia.ca/services/open-data-portal-licence",
+  "note": "Metadata verification, not a frozen copy of the data. Live queries retain source row identifiers. Capture/survey dates vary.",
+  "datasets": [
+    {
+      "id": "3nka-59nz",
+      "name": "Crown Land",
+      "url": "https://data.novascotia.ca/d/3nka-59nz",
+      "metadataUrl": "https://data.novascotia.ca/api/views/3nka-59nz.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1788607873,
+      "metadataSha256": "c78de59a12e638f4e2c051087270ebeb088dc77b9e716d316bd77c0d2358bed8",
+      "fields": [
+        "the_geom",
+        "dnr_id",
+        "pgpi",
+        "fcode",
+        "partialown",
+        "hectares",
+        "acres",
+        "symbol",
+        "shape_leng",
+        "shape_area"
+      ],
+      "geometryType": "multipolygon"
+    },
+    {
+      "id": "458x-dmz3",
+      "name": "Nova Scotia Topographic DataBase - Water Features (Point Layer)",
+      "url": "https://data.novascotia.ca/d/458x-dmz3",
+      "metadataUrl": "https://data.novascotia.ca/api/views/458x-dmz3.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777979397,
+      "metadataSha256": "4c5452e51596509d21477d27a4f61853de43c67d9acf070fa780c1762d3ad1b1",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue"
+      ],
+      "geometryType": "point"
+    },
+    {
+      "id": "484g-adjn",
+      "name": "Nova Scotia Road Network (NSRN)",
+      "url": "https://data.novascotia.ca/d/484g-adjn",
+      "metadataUrl": "https://data.novascotia.ca/api/views/484g-adjn.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1788606995,
+      "metadataSha256": "831b6fadd2769c663e99edb069f25b4c22f4c6b29a773b170922424a7c8f03b1",
+      "fields": [
+        "the_geom",
+        "roadsegid",
+        "feat_code",
+        "feat_desc",
+        "ids",
+        "segid",
+        "street",
+        "mun_id",
+        "trafficdir",
+        "traff_desc",
+        "date_act",
+        "date_rev",
+        "structid",
+        "roadclass",
+        "roadc_desc",
+        "rte_no",
+        "anum",
+        "owner",
+        "owner_desc"
+      ],
+      "geometryType": "multiline"
+    },
+    {
+      "id": "4ujs-gpyq",
+      "name": "Nova Scotia Topographic DataBase - Utilities (Poly Layer)",
+      "url": "https://data.novascotia.ca/d/4ujs-gpyq",
+      "metadataUrl": "https://data.novascotia.ca/api/views/4ujs-gpyq.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777994864,
+      "metadataSha256": "d30a34dfe517c27ed441c0a028329ed79d4b2d23da963b86d757c6b150d65448",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue",
+        "shape_area",
+        "shape_len"
+      ],
+      "geometryType": "multipolygon"
+    },
+    {
+      "id": "569x-2wnq",
+      "name": "1:10,000 Nova Scotia Primary Watersheds",
+      "url": "https://data.novascotia.ca/d/569x-2wnq",
+      "metadataUrl": "https://data.novascotia.ca/api/views/569x-2wnq.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1610028795,
+      "metadataSha256": "d831829a40d6e33981d11f08941009f47ee249b9ec7161437d2e781b12eedb48",
+      "fields": [
+        "the_geom",
+        "area",
+        "perimeter",
+        "primary_ws",
+        "primary__1",
+        "river",
+        "flow_dir",
+        "primary_co",
+        "acres",
+        "hectares",
+        "shape_leng",
+        "shape_area"
+      ],
+      "geometryType": "multipolygon"
+    },
+    {
+      "id": "62ap-bhwk",
+      "name": "Nova Scotia Topographic DataBase - Roads, Trails and Rails (Line Layer)",
+      "url": "https://data.novascotia.ca/d/62ap-bhwk",
+      "metadataUrl": "https://data.novascotia.ca/api/views/62ap-bhwk.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777979428,
+      "metadataSha256": "8cf519a2e6d45dc6df6103128e00015f154f0f9acd9d3cabaff7fce681a5346e",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue",
+        "shape_len"
+      ],
+      "geometryType": "multiline"
+    },
+    {
+      "id": "6htv-yzkm",
+      "name": "1:10,000 Nova Scotia Tertiary Watersheds",
+      "url": "https://data.novascotia.ca/d/6htv-yzkm",
+      "metadataUrl": "https://data.novascotia.ca/api/views/6htv-yzkm.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1610043918,
+      "metadataSha256": "70a90279bfa28d813299cc06c6fd400cc48d537fadfbb4f6a419154b4d844484",
+      "fields": [
+        "the_geom",
+        "objectid",
+        "area",
+        "perimeter",
+        "sec_code",
+        "sd_sec_cod",
+        "sec_name",
+        "tertiary_1",
+        "tert_code",
+        "primary",
+        "secondary",
+        "shape_leng",
+        "shape_area",
+        "acres",
+        "hectares"
+      ],
+      "geometryType": "multipolygon"
+    },
+    {
+      "id": "bhx9-mpui",
+      "name": "Nova Scotia Topographic DataBase - Landforms (Line Layer)",
+      "url": "https://data.novascotia.ca/d/bhx9-mpui",
+      "metadataUrl": "https://data.novascotia.ca/api/views/bhx9-mpui.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777980235,
+      "metadataSha256": "f967e3f39cc420fca2a457a4bc79290f536e7de2da6afb5d0f727a954972e675",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue",
+        "shape_leng"
+      ],
+      "geometryType": "multiline"
+    },
+    {
+      "id": "eiwy-kfrj",
+      "name": "Nova Scotia Topographic DataBase - Utilities (Point Layer)",
+      "url": "https://data.novascotia.ca/d/eiwy-kfrj",
+      "metadataUrl": "https://data.novascotia.ca/api/views/eiwy-kfrj.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777994916,
+      "metadataSha256": "59021fa1fdb9172d4c0f3e64d11c58db39b3e278c204f551c924f5da16b0e506",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue",
+        "angle"
+      ],
+      "geometryType": "point"
+    },
+    {
+      "id": "fpca-jrmt",
+      "name": "Nova Scotia Topographic DataBase - Water Features (Line Layer)",
+      "url": "https://data.novascotia.ca/d/fpca-jrmt",
+      "metadataUrl": "https://data.novascotia.ca/api/views/fpca-jrmt.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777979641,
+      "metadataSha256": "a27c6bbae6e0eb47f6dfab874fdfe5045dda375fb98479c8360cf7c582f33070",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "rivname_1",
+        "rivname_2",
+        "zvalue",
+        "shape_len"
+      ],
+      "geometryType": "multiline"
+    },
+    {
+      "id": "h8jb-hzrm",
+      "name": "Nova Scotia Topographic DataBase - Water Features (Poly Layer)",
+      "url": "https://data.novascotia.ca/d/h8jb-hzrm",
+      "metadataUrl": "https://data.novascotia.ca/api/views/h8jb-hzrm.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777979466,
+      "metadataSha256": "70b37157726b8a69575258ad43aa70ca0534cf8f26c6b000af01432315e9896e",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue",
+        "shape_area",
+        "shape_len"
+      ],
+      "geometryType": "multipolygon"
+    },
+    {
+      "id": "kfmd-m3ru",
+      "name": "Nova Scotia Topographic Database - Structures (Line Layer)",
+      "url": "https://data.novascotia.ca/d/kfmd-m3ru",
+      "metadataUrl": "https://data.novascotia.ca/api/views/kfmd-m3ru.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777978807,
+      "metadataSha256": "2f1e8ed143330c50ae142805b1fa53a86c51825b27301a840c26a27a18ca8bd5",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue",
+        "shape_len"
+      ],
+      "geometryType": "multiline"
+    },
+    {
+      "id": "n7be-bzwb",
+      "name": "Nova Scotia Topographic DataBase - Buildings (Point Layer)",
+      "url": "https://data.novascotia.ca/d/n7be-bzwb",
+      "metadataUrl": "https://data.novascotia.ca/api/views/n7be-bzwb.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777978875,
+      "metadataSha256": "87ab6baac09caa0b7856dc4233df7550de0135398a770f8d725ebf2ae897c4f7",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue"
+      ],
+      "geometryType": "point"
+    },
+    {
+      "id": "p4z4-pvgm",
+      "name": "Nova Scotia Topographic Database - Structures (Point Layer)",
+      "url": "https://data.novascotia.ca/d/p4z4-pvgm",
+      "metadataUrl": "https://data.novascotia.ca/api/views/p4z4-pvgm.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777994914,
+      "metadataSha256": "3fe20f0bc3da028401239bbd2268bba8c24245794d43ab33250c76f4af0e8b45",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue",
+        "angle"
+      ],
+      "geometryType": "point"
+    },
+    {
+      "id": "t5xr-fjkr",
+      "name": "Nova Scotia Topographic DataBase - Buildings (Poly Layer)",
+      "url": "https://data.novascotia.ca/d/t5xr-fjkr",
+      "metadataUrl": "https://data.novascotia.ca/api/views/t5xr-fjkr.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777992168,
+      "metadataSha256": "cd7799a5dcda75cf42c5fb617b782bf2d0215911445ff802d28adf0a52ef98bb",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue",
+        "shape_area",
+        "shape_len"
+      ],
+      "geometryType": "multipolygon"
+    },
+    {
+      "id": "ty4r-gcnk",
+      "name": "Nova Scotia Topographic Database - Designated Areas",
+      "url": "https://data.novascotia.ca/d/ty4r-gcnk",
+      "metadataUrl": "https://data.novascotia.ca/api/views/ty4r-gcnk.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777978837,
+      "metadataSha256": "5dcb672ac82d5c23ac463e52ec0bd695aaa99f5204a7cd5e01552d0f53786bfe",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue",
+        "shape_area",
+        "shape_len"
+      ],
+      "geometryType": "multipolygon"
+    },
+    {
+      "id": "x8jw-yjc2",
+      "name": "Nova Scotia Topographic DataBase - Roads, Trails and Rails (Point Layer)",
+      "url": "https://data.novascotia.ca/d/x8jw-yjc2",
+      "metadataUrl": "https://data.novascotia.ca/api/views/x8jw-yjc2.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777979325,
+      "metadataSha256": "3fb6ecab0c3f0774af7583ba06f62ff643b32b4c7011ba1502a1246d13521ab5",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue",
+        "angle"
+      ],
+      "geometryType": "point"
+    },
+    {
+      "id": "xf3i-vxcb",
+      "name": "Nova Scotia GeoNAMES",
+      "url": "https://data.novascotia.ca/d/xf3i-vxcb",
+      "metadataUrl": "https://data.novascotia.ca/api/views/xf3i-vxcb.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1785929910,
+      "metadataSha256": "8148a6bf84e5baac5e4a253510c3fb48c3e7d5c905df787c8cf7889c2f7f49ae",
+      "fields": [
+        "the_geom",
+        "objectid",
+        "cgndb_key",
+        "geoname",
+        "status_cd",
+        "status_ds",
+        "generic_cd",
+        "generic_tm",
+        "concise_cd",
+        "concise_ds",
+        "admin_loc",
+        "county",
+        "ordec_date",
+        "decis_date",
+        "fmod_date",
+        "tmod_date",
+        "nad83_lat",
+        "nad83_lon",
+        "gaz_map",
+        "nts_map",
+        "jurr_narr",
+        "locn_narr",
+        "orig_narr"
+      ],
+      "geometryType": "point"
+    },
+    {
+      "id": "yjmz-hpnc",
+      "name": "Nova Scotia Topographic DataBase - Utilities (Line Layer)",
+      "url": "https://data.novascotia.ca/d/yjmz-hpnc",
+      "metadataUrl": "https://data.novascotia.ca/api/views/yjmz-hpnc.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1777978857,
+      "metadataSha256": "7d56ad943c3b904f1d2b7f8fc3a0483897e31fb829cbe62f19db4d18b573ef07",
+      "fields": [
+        "the_geom",
+        "feat_code",
+        "feat_desc",
+        "zvalue",
+        "shape_len"
+      ],
+      "geometryType": "multiline"
+    },
+    {
+      "id": "ynkv-x6rx",
+      "name": "1:10,000 Nova Scotia Secondary Watersheds",
+      "url": "https://data.novascotia.ca/d/ynkv-x6rx",
+      "metadataUrl": "https://data.novascotia.ca/api/views/ynkv-x6rx.json",
+      "licenseId": "OGL_NOVA_SCOTIA",
+      "dataUpdatedAt": 1610043104,
+      "metadataSha256": "ea4d71ce62aedb4c44f076fbf3063f03ff6faf5dd774c8e68b07867ad0ea2223",
+      "fields": [
+        "the_geom",
+        "area",
+        "perimeter",
+        "secondary_",
+        "secondary1",
+        "sec_code",
+        "sd_sec_cod",
+        "sec_name",
+        "main_sec_c",
+        "shape_leng",
+        "acres",
+        "hectares",
+        "label_id",
+        "shape_le_1",
+        "shape_area",
+        "flow_direc"
+      ],
+      "geometryType": "multipolygon"
+    }
+  ]
+}

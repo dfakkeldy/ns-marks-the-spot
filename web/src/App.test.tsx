@@ -1589,16 +1589,32 @@ describe("NS Marks The Spot Online", () => {
       .not.toBeInTheDocument();
   });
 
-  it("licence-gates shared infrastructure and restores accepted historical coal context", async () => {
+  it("restores open infrastructure immediately and gates restricted historical coal context", async () => {
     window.history.replaceState(null, "", "/?taxSale=off&layers=transmission-lines,historical-coal-workings");
     render(<App />);
-    expect(screen.getByTestId("map-canvas")).not.toHaveTextContent("context layers: transmission-lines");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("context layers: transmission-lines");
+    expect(screen.getByTestId("map-canvas")).not.toHaveTextContent("historical-coal-workings");
     const accept = screen.getByRole("button", { name: /accept/i });
     await userEvent.click(accept);
     await waitFor(() => expect(screen.getByTestId("map-canvas")).toHaveTextContent("transmission-lines"));
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("historical-coal-workings");
     await userEvent.click(screen.getByRole("button", { name: /^Historical Maps/ }));
     expect(screen.getByRole("checkbox", { name: "Historical coal workings" })).toBeChecked();
+  });
+
+  it("restores Sentinel without a licence gate and switches between background choices", async () => {
+    window.history.replaceState(null, "", "/?taxSale=off&layers=sentinel-2&position=45.88,-61.49,14");
+    render(<App />);
+    expect(screen.queryByRole("dialog", { name: "Province data licence" })).not.toBeInTheDocument();
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("modern map: off");
+    expect(screen.getByTestId("map-canvas")).toHaveTextContent("context layers: sentinel-2");
+    openLayerCategory("Background Maps");
+    expect(screen.getByRole("checkbox", { name: "Sentinel-2 satellite · 2016–2017" })).toBeChecked();
+    expect(screen.getByRole("checkbox", { name: "NS Aerial" })).toBeDisabled();
+    await userEvent.click(screen.getByRole("checkbox", { name: "Modern map" }));
+    expect(screen.getByRole("checkbox", { name: "Sentinel-2 satellite · 2016–2017" })).not.toBeChecked();
+    await userEvent.click(screen.getByRole("checkbox", { name: "Sentinel-2 satellite · 2016–2017" }));
+    expect(screen.getByRole("checkbox", { name: "Modern map" })).not.toBeChecked();
   });
 
   it("restores a shared provincial topographic background without adding the modern map", () => {
@@ -2035,21 +2051,19 @@ describe("NS Marks The Spot Online", () => {
     expect(mapSetup).toHaveFocus();
   });
 
-  it("applies the unrestricted subset and names blocked layers after refusal", async () => {
+  it("applies open historical reference layers without a licence gate and names missing tiles", async () => {
     vi.stubEnv("VITE_FLETCHER_TILE_BASE_URL", "");
     window.history.replaceState(null, "", "/");
     render(<App />);
 
     const mapSetup = screen.getByLabelText("Map setup");
     await userEvent.selectOptions(mapSetup, "historical-maps");
-    await userEvent.click(
-      screen.getByRole("button", { name: /continue without/i }),
-    );
+    expect(screen.queryByRole("dialog", { name: /province data licence/i })).not.toBeInTheDocument();
 
     openLayerCategory("Background Maps");
     expect(screen.getByLabelText("Modern map")).toBeChecked();
     expect(mapSetupStatus()).toHaveTextContent(
-      /Historical Maps — Partially applied.*Fletcher historical map.*Place Names.*Main Roads/i,
+      /Historical Maps — Partially applied.*Fletcher historical map/i,
     );
     expect(mapSetup).toHaveFocus();
 
@@ -2690,7 +2704,7 @@ describe("NS Marks The Spot Online", () => {
   });
 
   it("uses the same licence decision and reset path for a restricted custom theme", async () => {
-    storeCustomThemes([STORED_FIELD_THEME]);
+    storeCustomThemes([{ ...STORED_FIELD_THEME, layerIds: ["modern", "roads", "nsprd"] }]);
     window.history.replaceState(null, "", "/");
     render(<App />);
     openLayerCategory("Roads & Places");
@@ -4538,18 +4552,15 @@ describe("NS Marks The Spot Online", () => {
     expect(waterfalls).toBeChecked();
   });
 
-  it("shows the official road-style legend only while the road layer is visible", async () => {
+  it("shows the project-rendered road-style legend only while the road layer is visible", async () => {
     const user = userEvent.setup();
     localStorage.setItem("ns-marks-the-spot:province-license:v1", "accepted");
     window.history.replaceState(null, "", "/?taxSale=off&layers=modern,roads");
     renderAppWithCategoriesOpen();
 
     const legend = screen.getByRole("list", { name: "Road type legend" });
-    expect(within(legend).getByText("Highway")).toBeInTheDocument();
-    expect(within(legend).getByText("Local road")).toBeInTheDocument();
-    expect(within(legend).getByText("Resource road")).toBeInTheDocument();
-    expect(within(legend).getByText("Trail / track")).toBeInTheDocument();
-    expect(within(legend).getByText("Culvert")).toBeInTheDocument();
+    expect(within(legend).getByText("Mapped road or transport feature")).toBeInTheDocument();
+    expect(within(legend).getByText("Trail, track, driveway or unpaved feature")).toBeInTheDocument();
 
     await user.click(screen.getByLabelText("Roads, trails & culverts"));
     expect(

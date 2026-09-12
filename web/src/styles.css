@@ -7241,3 +7241,7 @@ a {
 .mailing-addresses li > span { display: block; overflow-wrap: anywhere; }
 .mailing-addresses li { margin-bottom: .5rem; }
 @media print { .mailing-addresses, .mailing-source { display: none !important; } }
+.road-swatch.open-road, .road-swatch.open-minor { border-color: #654735; border-top-width: 2px; }
+.road-swatch.open-minor { border-top-style: dashed; }
+
+.leaflet-control-attribution { max-width: min(540px, calc(100vw - 64px)); }

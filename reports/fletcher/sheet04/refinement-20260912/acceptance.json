@@ -1,0 +1,44 @@
+{
+  "geographic_acceptance": false,
+  "recommended_replacement": false,
+  "draft_required": true,
+  "merge_authorized": false,
+  "deployment_authorized": false,
+  "fresh_validation": {
+    "fit_sha256": "cfd7390a4b70e2673d7507a9ac3fea9368034de3c34e102595334a0f1178e292",
+    "checks_sha256": "a699ff3668401900be89435e1413c9954b5bd25ccdea0897485bc6ee70c513cd",
+    "control_count": 10,
+    "method": "GDAL TPS in EPSG:3857",
+    "error_units": "Approximate spherical ground metres",
+    "median_ground_m": 123.41229793935297,
+    "worst_ground_m": 557.4727472632364,
+    "points": [
+      {
+        "id": "F05",
+        "error_ground_m": 123.41229793935297,
+        "predicted_lonlat": [
+          -60.42218551425448,
+          46.77582187136006
+        ]
+      },
+      {
+        "id": "F06",
+        "error_ground_m": 557.4727472632364,
+        "predicted_lonlat": [
+          -60.354439000924636,
+          46.769372517692986
+        ]
+      },
+      {
+        "id": "F07",
+        "error_ground_m": 80.64683798756366,
+        "predicted_lonlat": [
+          -60.450459323702596,
+          46.68657057595242
+        ]
+      }
+    ]
+  },
+  "reason": "Fresh checks fail 100 m median / 200 m worst criterion; western Black Brook displacement and northern/western/southern seams remain unaccepted. Local improvements do not establish a whole-sheet replacement.",
+  "preferred_baseline": "Earlier eight-control raster retained as comparison; not geographically accepted."
+}

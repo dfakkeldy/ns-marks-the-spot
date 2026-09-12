@@ -1,17 +1,21 @@
+import { sentinel2Layer } from "./sentinel2";
+import { openSourceMetadata } from "./openDataSources";
 import { infrastructureLayers } from "./infrastructureLayers";
 import { landContextLayers } from "./landContextLayers";
 import type { ContextLayerDescriptor } from "./contextLayerTypes";
 
 export type ContextLayerId =
+  | typeof sentinel2Layer.id
   | (typeof infrastructureLayers)[number]["id"]
   | (typeof landContextLayers)[number]["id"];
 
 export type ContextMapLayer = ContextLayerDescriptor & { id: ContextLayerId };
 
-/** Online research layers use the existing ArcGIS image adapter. */
+/** Web sources retain their own delivery and licensing contracts. */
 export const contextLayerCatalog: readonly ContextMapLayer[] = [
-  ...infrastructureLayers,
+  ...infrastructureLayers.map((layer) => openSourceMetadata(layer, "openData" in layer ? layer.openData : undefined)),
   ...landContextLayers,
+  sentinel2Layer,
 ];
 
 export const hiddenContextLayers = Object.fromEntries(

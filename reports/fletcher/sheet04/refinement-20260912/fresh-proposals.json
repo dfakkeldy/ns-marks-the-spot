@@ -1,0 +1,56 @@
+{
+  "sheet": "sheet-04",
+  "collected_at_utc": "2026-09-12T14:32:13.661971+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.4236749,
+        46.7753844
+      ],
+      "source_guide_xy": [
+        2154.716648638947,
+        1530.219076800393
+      ],
+      "objectids": [
+        178996,
+        179000,
+        180024
+      ],
+      "id": "F05",
+      "modern_node_id": "J0217",
+      "role": "check",
+      "pixel_xy": [
+        2229,
+        1373
+      ],
+      "identity_evidence": "Pine Brook western tributary below the northern stem",
+      "source_uncertainty_px": 20,
+      "status": "Candidate awaiting exact native/modern close/wide review; unscored."
+    },
+    {
+      "lonlat": [
+        -60.3578851,
+        46.7649495
+      ],
+      "source_guide_xy": [
+        3581.460567359347,
+        1858.1671140003018
+      ],
+      "objectids": [
+        159986,
+        159987,
+        273968
+      ],
+      "id": "F06",
+      "modern_node_id": "J0266",
+      "role": "check",
+      "pixel_xy": [
+        3770,
+        1642
+      ],
+      "identity_evidence": "Mary Ann Brook confluence with Black Brook",
+      "source_uncertainty_px": 20,
+      "status": "Candidate awaiting exact native/modern close/wide review; unscored."
+    }
+  ]
+}

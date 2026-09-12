@@ -197,7 +197,7 @@ export function validateMapTheme(theme: MapThemeDefinition): string[] {
     }
   }
 
-  if (layerIds.has("modern") && layerIds.has("ns-aerial")) {
+  if (["modern", "ns-aerial", "ns-topographic", "sentinel-2"].filter((id) => layerIds.has(id as ShareLayerId)).length > 1) {
     errors.push("opaque background");
   }
 

@@ -197,8 +197,8 @@ fitBounds padding, and bounds its GPU canvas to 2048 pixels per edge. Its source
 receipt discloses resampling. Source errors remain failures and require the
 existing incomplete-export consent; the renderer never substitutes another
 basemap. Legacy snapshots without a basemap style continue to use OSM.
-Browser print supports all 37 context controls subject to fitted zoom and source
-readiness. Generated PDF supports their 32 MapServer image entries; the four
+Browser print supports all 38 context controls subject to fitted zoom and source
+readiness. Generated PDF supports their 33 MapServer, open-data and tile entries; the four
 feature-query entries and static radon image are omitted and named as not
 included. It preserves the on-screen image order and selected-parcel authority.
 
@@ -231,27 +231,29 @@ The boundary exports a rendered personal/research view only. It does not expose
 raw geometry, tiles, owner names, private notes, uploads, browser location, or
 a public/commercial bulk-print API.
 
-`web/src/layers/layerCatalog.ts` is the web parity contract. It mirrors the
-native catalog order, URLs, Province licence requirement, and rendering
-restrictions. Web-specific display ranges may extend where the live service
-supports them: the map zooms through level 23 while aerial imagery safely
-overzooms its last useful native level instead of disappearing, and
-turning on Waterfalls first fits the map to the 90-fall discovery extent.
-`ArcGISExportTileLayer` converts Leaflet tile
-coordinates to Web Mercator bounds and requests direct PNG tiles from each
-MapServer's `export` operation. This matches the native app's service model
-without sharing its offline cache policy.
+`web/src/layers/layerCatalog.ts` separates the retained native service catalogue
+from the web's `provinceLayerCatalog`. `layerParity.ts` projects the native
+catalogue. `layers/openDataSources.ts` replaces nine provincial controls and
+15 NSTDB infrastructure controls with explicitly identified OGL-NS datasets.
+`services/openDataOverlay.ts` queries only the viewport, paginates by source row
+ID and fails closed on missing geometry, repeated rows, failed constituents or
+size limits. `services/renderOpenData.ts` supplies the same project cartography
+to `OpenDataLayer` and the PDF compositor. Display geometry can be simplified
+within half a pixel, capped at 10 metres; parcel evidence never uses this path.
+Dataset links and licence credits remain attached to all constituent sources.
 
-The catalog also appends a separately identified Province layer for NSTDB
-buildings. It starts off, renders only from zoom 13, and sits above property
-boundaries but below the road overlay, reusing the same MapServer export adapter
-and selected-parcel visual authority. The app carries it under the same id.
+The web's default-off `sentinel-2` context background uses EOX's CC BY 4.0 2016
+mosaic, explicitly dated 2016–2017. `ContextTileLayer` renders its WMTS tiles
+through native zoom 14 and overzooms beyond that. Its attribution is independent
+of OGL-NS and restricted-service credits, and PDF export uses the same tile
+identifier. NS Aerial and NSPRD keep their existing service/licence gates.
+`ArcGISExportTileLayer` remains for services without migrated replacements.
+The map stays online-only; source migration does not create offline downloads.
 
-The collapsed Topography group uses the same adapter for the NSTDB Landforms
-contour renderer. Labelled 5 m LiDAR-derived contours start off and render from
-zoom 13 beneath NSPRD boundaries. The group describes them as terrain screening
-only; it does not derive parcel slope, grade, drainage, stability, access, flood
-exposure, or buildability.
+Buildings and contours remain default-off at zoom 13. The contour replacement
+uses NSTDB elevations in metres with variable source intervals; it does not claim
+a uniform 5 m LiDAR interval. Original road/water parcel intersection queries and
+building-count queries remain separately attributed service evidence.
 
 The same catalog also owns a separate `resourceLayerCatalog`. These open-data
 overlays do not depend on the restricted-services acceptance gate. NovaROC

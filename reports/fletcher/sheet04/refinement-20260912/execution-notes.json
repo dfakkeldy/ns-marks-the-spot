@@ -1,0 +1,6 @@
+{
+  "corrected_review_script_path": "Eleven-control seam renderer first carried an invalid Sheet05 /11-control/ path from string substitution. Fixed to actual Sheet05 twelve-control raster and regenerated all six panels successfully. No source, point, fit, score or raster changed.",
+  "parser_frame": "Verifier initially inherited Sheet05 dimensions; corrected to actual Sheet04 10629 x 7603 and reran both parser/solver proofs.",
+  "frozen_metadata": "Both frozen fits retain inherited prior_control_count:0. Actual preserved counts are eight then ten and are verified by full record equality; frozen bytes are not changed after validation.",
+  "review_radius": "Middle Head wide frame is exceptionally wide because radius replacement also changed native bounds. Its frames.json records actual bounds; source remains unrotated."
+}
