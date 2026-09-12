@@ -39,80 +39,80 @@
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-symbol",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-005",
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-symbol",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-006",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-007",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-008",
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-symbol",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-009",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-010",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-011",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-012",
@@ -128,11 +128,11 @@
       "annotation_id": "F19-JUD-013",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-014",
@@ -149,10 +149,10 @@
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-symbol",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-016",
@@ -209,10 +209,10 @@
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-group",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-022",
@@ -609,10 +609,10 @@
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-symbol",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-062",
@@ -769,30 +769,30 @@
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-group",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-078",
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-group",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-079",
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-group",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-080",
@@ -939,10 +939,10 @@
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-symbol",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-095",
@@ -1029,10 +1029,10 @@
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-symbol",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-104",
@@ -1169,10 +1169,10 @@
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-symbol",
-      "approximate_placement": "reviewed-pilot",
-      "integration": "pending",
-      "evidence": "reports/fletcher/placement-pilot/pilot.json",
-      "remaining_question": null
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
     },
     {
       "annotation_id": "F19-JUD-118",

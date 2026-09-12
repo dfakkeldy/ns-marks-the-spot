@@ -43,5 +43,6 @@ layer 7 as well as Roads 8 and Bridges 5.
 4. Complete the other priority sheets, then reconcile and reuse extraction runs
    for the other 20. Source transcription can continue while fits are unsupported.
 
-No new historical features have been integrated into the web map at this
-checkpoint. A source PR/merge is not production deployment or geographic proof.
+The first 18 reviewed Judique annotations are now integrated locally into the
+Fletcher web-map style; delivery status is recorded in the queue. The [feature
+review](../feature-geography/README.md) retains source and geographic evidence. A source PR/merge is not production deployment or geographic proof.

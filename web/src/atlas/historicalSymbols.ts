@@ -1,10 +1,9 @@
 import { atlasPalettes, type AtlasMode } from './palette';
 
 /**
- * Design specimens for historical site symbols (schools, mills, mines, forges)
- * that a later extraction effort may place from Fletcher's sheets. They are
- * drawn here only as unlocated key entries: no historical coordinates exist in
- * this module and nothing draws them on production geography.
+ * Shared symbols for the reviewed Fletcher feature layer and the Atlas study's
+ * unlocated key entries. This module defines appearance only; source-reviewed
+ * geometry and its separate placement uncertainty come from the feature data.
  *
  * The two confidence states differ by shape, not just colour: a recorded
  * location is a solid ink silhouette; an approximate location is a hollow

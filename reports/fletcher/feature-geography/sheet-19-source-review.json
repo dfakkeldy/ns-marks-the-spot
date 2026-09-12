@@ -1,0 +1,107 @@
+{
+  "sheet": 19,
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "source_dimensions_px": [
+    10815,
+    7549
+  ],
+  "associations": [
+    {
+      "annotation_id": "F19-JUD-006",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4310,
+          1525,
+          110,
+          90
+        ]
+      ],
+      "note": "Sh. Mill lettering lies west of the road/stream crossing. Two printed marks southwest of the road and two on the eastern stream bank form the immediate candidate group. Lettering does not uniquely select one mill building. Retain the group; its rectangle is neither a site footprint nor positional uncertainty.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native pixels and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Display detail 2×, crop origin recorded; no rotation.",
+      "review_batch": "judique-north-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-007",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4715,
+        1813
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated compact building mark immediately right of School lies west of the double-line road and east of the south-running watercourse, just south of the crossing. The upstream western stream bend and the southward road junction distinguish this mark from houses farther northeast.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native pixels and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Display detail 2×, crop origin recorded; no rotation.",
+      "review_batch": "judique-north-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-009",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3886,
+          1869,
+          30,
+          42
+        ]
+      ],
+      "note": "Shop and P.O. sit beside a row of three compact marks east of the coastal road, southeast of Stage Stables and north of the brook. The source supports the shared service cluster but does not unambiguously assign each service to one of those three marks. Both annotations deliberately share this group.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native pixels and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Display detail 2×, crop origin recorded; no rotation.",
+      "review_batch": "judique-north-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-010",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3886,
+          1869,
+          30,
+          42
+        ]
+      ],
+      "note": "Shop and P.O. sit beside a row of three compact marks east of the coastal road, southeast of Stage Stables and north of the brook. The source supports the shared service cluster but does not unambiguously assign each service to one of those three marks. Both annotations deliberately share this group.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native pixels and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Display detail 2×, crop origin recorded; no rotation.",
+      "review_batch": "judique-north-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-011",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4330,
+        1933
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Single building mark immediately above Shop, on the south side of the east-west road just west of its stream crossing. Distinct from the four marks north of the junction.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native pixels and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Display detail 2×, crop origin recorded; no rotation.",
+      "review_batch": "judique-north-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-013",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3755,
+        2230
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact rectangular mark immediately east of the coastal road and opposite Forge is the closest aligned mark; the two marks farther south and the eastern house column are separate. The coast and southern cross-road provide broader context.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native pixels and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Display detail 2×, crop origin recorded; no rotation.",
+      "review_batch": "judique-north-services-20260912"
+    }
+  ],
+  "limits": "Source mark association only. Group outlines retain individual-building ambiguity. Geographic coordinates require the frozen fit and separate placement review."
+}
