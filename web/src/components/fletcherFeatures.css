@@ -1,0 +1,18 @@
+.fletcher-feature-marker { border-radius: 50%; background: #fff4df; box-shadow: 0 1px 5px #50311c55; }
+.fletcher-feature-marker svg { display: block; width: 30px; height: 30px; }
+.fletcher-feature-label { color: #54331e; background: #fff4dfe8; border: 1px solid #9c673b; font: italic 14px/1.3 Georgia, serif; box-shadow: 0 1px 3px #50311c33; }
+.fletcher-feature-popup .leaflet-popup-content { margin: 16px; max-width: calc(100vw - 80px); }
+.fletcher-feature-evidence { color: #3b2c20; font: 14px/1.45 system-ui, sans-serif; }
+.fletcher-feature-evidence + .fletcher-feature-evidence { margin-top: 20px; padding-top: 16px; border-top: 1px solid #d2b78b; }
+.fletcher-feature-evidence h3 { margin: 0 0 6px; font: 700 22px/1.25 Georgia, serif; }
+.fletcher-feature-evidence p { margin: 10px 0; }
+.fletcher-feature-evidence img { width: 100%; height: auto; border: 1px solid #d2b78b; }
+.fletcher-feature-evidence summary { cursor: pointer; min-height: 32px; font-weight: 600; }
+.fletcher-feature-evidence a { color: #75400b; text-decoration: underline; }
+.fletcher-feature-id, .fletcher-feature-credit { font-size: 12px; }
+.fletcher-features-toggle { display: flex; gap: 8px; align-items: center; min-height: 44px; margin-top: 8px; }
+@media (max-width: 860px) {
+  /* The source popup is the active task. Restore map tools when it closes. */
+  .map-canvas:has(.fletcher-feature-popup) .location-button,
+  .map-canvas:has(.fletcher-feature-popup) .measure-control { visibility: hidden; }
+}

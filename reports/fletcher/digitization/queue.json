@@ -2,7 +2,7 @@
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-12",
   "nightly_revision": "c32c85e917aa8746fa0b98f928f76a366127b7ee",
-  "next_action": "Review Judique source symbols and source feature geometry; preserve pilot church correction and group areas. Integrate supportable reviewed results.",
+  "next_action": "Continue pending Judique source annotations, beginning with 018,019,024 and subsequent service clusters. Extend source/placement reviews and regenerate feature export. Remaining priority sheets and 20-sheet extraction queue remain open.",
   "sheets": [
     {
       "sheet": 22,
@@ -21,12 +21,13 @@
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 166,
       "lettering_status": "processed",
-      "source_associated_count": 12,
-      "approximate_placement_reviewed_count": 12,
-      "integrated_count": 0,
+      "source_associated_count": 18,
+      "approximate_placement_reviewed_count": 18,
+      "integrated_count": 18,
       "blockers": [],
       "annotation_queue": "sheet-19-queue.json",
-      "lettering_path": "reports/fletcher/label-geography/sheet-19-labels.geojson"
+      "lettering_path": "reports/fletcher/label-geography/sheet-19-labels.geojson",
+      "integration_status": "local-implementation-verified; PR delivery pending"
     },
     {
       "sheet": 16,
@@ -291,6 +292,16 @@
       "blockers": [],
       "georeferencing_evidence": "reports/fletcher/sheet24",
       "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+    }
+  ],
+  "deliveries": [
+    {
+      "pr": 432,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/432",
+      "state": "merged",
+      "merge_revision": "84b37f934305d5599922d215b051a57aacb6249d",
+      "ci": "Build gate + tests passed",
+      "scope": "Sheet 14 lettering geography and 24-sheet queue; feature integration follows separately."
     }
   ]
 }
