@@ -112,14 +112,9 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
       filter: ['match', ['get', 'feat_desc'], ['ORCHARD polygon', 'NURSERY polygon'], true, false], paint: { 'fill-color': p.farmland } },
     { id: 'reforestation', type: 'fill', ...province, 'source-layer': 'woodland',
       filter: ['==', ['get', 'feat_desc'], 'REFORESTATION (< 2m high only) polygon'], paint: { 'fill-color': p.grass } },
-    // Merged before tiling. Only the separately derived boundary lines are inked;
-    // polygon tile cuts and former parcel edges never become outlines.
+    // One merged fill with no boundary stroke or antialiased tile-edge outline.
     { id: 'crown-land', type: 'fill', source: 'crown', 'source-layer': 'crown',
       paint: { 'fill-color': p.crown, 'fill-antialias': false } },
-    { id: 'crown-land-boundary', type: 'line', source: 'crown', 'source-layer': 'crown_outline',
-      layout: { 'line-join': 'round', 'line-cap': 'round' },
-      paint: { 'line-color': p.crownEdge, 'line-opacity': 0.85,
-        'line-width': ['interpolate', ['linear'], ['zoom'], 5, 0.35, 10, 0.7, 15, 1.25] } },
     { id: 'ocean-context', type: 'fill', ...osm, 'source-layer': 'water',
       filter: ['==', ['get', 'class'], 'ocean'], paint: { 'fill-color': p.water } },
     { id: 'wetlands', type: 'fill', ...water,

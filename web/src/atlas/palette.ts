@@ -20,7 +20,6 @@ export const atlasPalettes = {
     shore: '#a3c0c3',
     wood: '#d5dfca',
     crown: '#9ebfb0',
-    crownEdge: '#48796c',
     grass: '#e3e7d3',
     farmland: '#ebe4ce',
     residential: '#e9e4d8',
@@ -43,7 +42,6 @@ export const atlasPalettes = {
     shore: '#1c303a',
     wood: '#293f3c',
     crown: '#365d57',
-    crownEdge: '#7da99a',
     grass: '#33443f',
     farmland: '#3b413a',
     residential: '#2c3b40',
@@ -65,8 +63,7 @@ export const atlasPalettes = {
     waterLine: '#3f6f7c',   // brooks and ditches in teal ink
     shore: '#d8ccae',       // inner band on the water side of shorelines
     wood: '#aa9d66',        // olive for NSTDB tree areas
-    crown: '#c6ae45',       // Fletcher's mustard wash, reserved for mapped Crown Land
-    crownEdge: '#746020',
+    crown: '#d4bd4d',       // Fletcher's mustard wash, reserved for mapped Crown Land
     grass: '#d2c47f',       // scrub, grass and young reforestation
     farmland: '#e3b356',    // Devonian ochre for farmland, orchards and nurseries
     residential: '#d6845b', // deeper salmon for OSM settlement areas, a clear step from the ground

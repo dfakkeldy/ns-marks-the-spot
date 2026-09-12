@@ -4764,7 +4764,7 @@ export function App() {
                       </select>
                     </label>
                     {basemapStyle !== "osm" && <p className="crown-land-key">
-                      <span aria-hidden="true" style={{ background: atlasPalettes[basemapStyle].crown, borderColor: atlasPalettes[basemapStyle].crownEdge }} />
+                      <span aria-hidden="true" style={{ background: atlasPalettes[basemapStyle].crown }} />
                       <span><a href={CROWN_SOURCE_URL}>Crown Land</a> · {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</span>
                     </p>}
                     {basemapStyle === 'fletcher' ? <>

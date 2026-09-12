@@ -3,7 +3,7 @@
 
 python3 tools/build_crown_atlas.py --work-dir /tmp/ns-crown-atlas
 The source snapshot is cached outside Git. Dissolve before simplification or
-tiling; derive the outline as lines so tile cuts never become boundaries.
+tiling; render the resulting polygons as fills without boundary strokes.
 """
 import argparse
 import datetime
@@ -17,7 +17,7 @@ from build_provincial_atlas import (ATTRIBUTION, LICENCE, ROOT, download,
 SOURCE = ('3nka-59nz', 'dnr_id,pgpi,fcode,partialown,hectares,acres,symbol,shape_leng,shape_area')
 MINZOOM, MAXZOOM = 5, 13
 NOTE = ('Project-derived union of mapped Crown Land, including full or partial provincial interest. '
-        'Internal parcel edges removed; holes and disconnected areas retained. '
+        'Fill only, without boundary lines; holes and disconnected areas retained. '
         'Not a parcel survey, ownership determination or permission to enter.')
 
 
@@ -33,19 +33,6 @@ def dissolve(geometries):
     if merged is None or merged.IsEmpty() or not merged.IsValid():
         raise ValueError('Crown Land union failed')
     return merged
-
-
-def boundary_lines(geometry):
-    from osgeo import ogr
-    lines = ogr.Geometry(ogr.wkbMultiLineString)
-    for polygon in polygonal_parts(geometry):
-        for index in range(polygon.GetGeometryCount()):
-            ring = polygon.GetGeometryRef(index)
-            line = ogr.Geometry(ogr.wkbLineString)
-            for x, y, *_ in ring.GetPoints():
-                line.AddPoint_2D(x, y)
-            lines.AddGeometry(line)
-    return lines
 
 
 def build(work, output):
@@ -96,30 +83,26 @@ def build(work, output):
     relative_area_change = abs(display.GetArea() - merged.GetArea()) / merged.GetArea()
     if relative_area_change > 0.001:
         raise ValueError('Crown Land generalization changed area by more than 0.1%')
-    outline = boundary_lines(display)
     gpkg = work / 'crown.gpkg'
     gpkg.unlink(missing_ok=True)
     database = ogr.GetDriverByName('GPKG').CreateDataSource(str(gpkg))
     srs = osr.SpatialReference()
     srs.ImportFromEPSG(4326)
     srs.SetAxisMappingStrategy(osr.OAMS_TRADITIONAL_GIS_ORDER)
-    # Separate line geometry prevents a polygon's tile-clipping edge being inked.
-    for name, parts, kind in [('crown', display_parts, ogr.wkbPolygon),
-                              ('crown_outline', [outline.GetGeometryRef(i) for i in range(outline.GetGeometryCount())], ogr.wkbLineString)]:
-        layer = database.CreateLayer(name, srs, kind)
-        layer.CreateField(ogr.FieldDefn('display_id', ogr.OFTInteger))
-        database.StartTransaction()
-        for index, geom in enumerate(parts):
-            feature = ogr.Feature(layer.GetLayerDefn())
-            feature.SetField('display_id', index)
-            feature.SetGeometry(geom)
-            layer.CreateFeature(feature)
-        database.CommitTransaction()
+    layer = database.CreateLayer('crown', srs, ogr.wkbPolygon)
+    layer.CreateField(ogr.FieldDefn('display_id', ogr.OFTInteger))
+    database.StartTransaction()
+    for index, geom in enumerate(display_parts):
+        feature = ogr.Feature(layer.GetLayerDefn())
+        feature.SetField('display_id', index)
+        feature.SetGeometry(geom)
+        layer.CreateFeature(feature)
+    database.CommitTransaction()
     feature = layer = database = None
     archive = work / 'crown.pmtiles'
     archive.unlink(missing_ok=True)
     gdal.SetConfigOption('GDAL_NUM_THREADS', '2')
-    print('Tiling dissolved fill and boundary lines', flush=True)
+    print('Tiling dissolved fill', flush=True)
     result = gdal.VectorTranslate(str(archive), str(gpkg), format='PMTiles',
         datasetCreationOptions=[f'MINZOOM={MINZOOM}', f'MAXZOOM={MAXZOOM}', 'EXTENT=8192',
             'SIMPLIFICATION=1', 'SIMPLIFICATION_MAX_ZOOM=0', 'MAX_SIZE=5000000',
@@ -128,10 +111,9 @@ def build(work, output):
         raise ValueError('Crown Land tiling failed')
     result = None
     tiles = gdal.OpenEx(str(archive), gdal.OF_VECTOR, open_options=[f'ZOOM_LEVEL={MAXZOOM}'])
-    for name in ('crown', 'crown_outline'):
-        layer = tiles.GetLayerByName(name)
-        if layer is None or layer.GetNextFeature() is None:
-            raise ValueError(f'Generated Crown Land archive has no {name} features')
+    layer = tiles.GetLayerByName('crown')
+    if layer is None or layer.GetNextFeature() is None or tiles.GetLayerCount() != 1:
+        raise ValueError('Generated Crown Land archive must contain only the polygon fill')
     layer = tiles = None
     digest = sha256(archive)
     filename = f'crown-{digest[:16]}.pmtiles'
@@ -143,12 +125,11 @@ def build(work, output):
                'minzoom': MINZOOM, 'maxzoom': MAXZOOM, 'extent': 8192,
                'attribution': ATTRIBUTION, 'licenceUrl': LICENCE, 'source': source, 'note': NOTE,
                'transform': 'GEOS MakeValid structure repair; full-precision cascaded union; topology-preserving '
-                            '0.000018 degree simplification (at most 2 m); separate boundary lines before MVT clipping. '
+                            '0.000018 degree simplification (at most 2 m); unoutlined polygon fill. '
                             'MVT display quantization at 8192 units per tile; no parcel attributes assigned to union components.',
                'validation': {'acceptedRecords': source['featureCount'] - len(rejected),
                               'components': len(components), 'holes': holes(components),
-                              'relativeAreaChange': relative_area_change,
-                              'outlineRings': outline.GetGeometryCount()}}
+                              'relativeAreaChange': relative_area_change}}
     output.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(archive, output / filename)
     (output / 'source.json').write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + '\n')

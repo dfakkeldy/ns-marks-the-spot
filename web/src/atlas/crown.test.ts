@@ -11,18 +11,17 @@ describe('dissolved Crown Land atlas', () => {
     expect(crownReceiptUrl(base)).toBe('https://example.org/apps/map/atlas/crown/source.json');
   });
 
-  it.each(['day', 'night', 'fletcher'] as const)('draws the %s union below water, roads and labels with a separate outline', mode => {
+  it.each(['day', 'night', 'fletcher'] as const)('draws the %s union as an unoutlined fill below water, roads and labels', mode => {
     const style = buildAtlasStyle(mode);
     const fill = style.layers.find(layer => layer.id === 'crown-land');
     expect(fill).toMatchObject({ type: 'fill', source: 'crown', 'source-layer': 'crown',
       paint: { 'fill-color': atlasPalettes[mode].crown, 'fill-antialias': false } });
-    expect(style.layers.find(layer => layer.id === 'crown-land-boundary')).toMatchObject({
-      type: 'line', source: 'crown', 'source-layer': 'crown_outline',
-    });
+    expect(style.layers.filter(layer => layer.type === 'line' && 'source' in layer && layer.source === 'crown')).toEqual([]);
+    expect(fill && 'paint' in fill && fill.paint).not.toHaveProperty('fill-outline-color');
     const ids = style.layers.map(layer => layer.id);
     expect(ids.indexOf('woodland')).toBeLessThan(ids.indexOf('crown-land'));
     for (const id of ['water', 'surface-roads', 'town-names']) {
-      expect(ids.indexOf('crown-land-boundary')).toBeLessThan(ids.indexOf(id));
+      expect(ids.indexOf('crown-land')).toBeLessThan(ids.indexOf(id));
     }
     expect(style.layers.filter(layer => layer.type === 'line' && 'source-layer' in layer && layer['source-layer'] === 'crown')).toEqual([]);
     const provenance = basemapSource(mode).attribution;

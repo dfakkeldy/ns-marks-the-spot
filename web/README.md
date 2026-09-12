@@ -38,8 +38,7 @@ provincial vector-tile archive: NSRN roads (including tracks, rail and ferries),
 GeoNAMES labels, NSTDB hydrography and woodland, and municipal boundaries.
 A separate pinned archive adds [Crown Land](https://data.novascotia.ca/d/3nka-59nz)
 to all three Atlas styles. Adjoining and overlapping polygons are dissolved
-before tiling; separate boundary lines remove internal parcel edges and avoid
-outlines along tile cuts. Holes and disconnected areas remain. This includes
+before tiling and rendered as fills without boundary lines. Holes and disconnected areas remain. This includes
 full or partial provincial interest, not a survey or permission to enter.
 OpenFreeMap's OSM tiles supplement ocean context, grass, farmland, settlement
 areas and building footprints. Atlas covers Nova Scotia; choose OpenStreetMap
