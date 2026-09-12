@@ -1,0 +1,41 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.34941307014683,
+        46.65359529636769
+      ],
+      "modern_objectid": 8513,
+      "modern_part": 0,
+      "modern_vertex": 4,
+      "modern_properties": {
+        "OBJECTID": 8513,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.5,
+        "FID": null,
+        "SHAPE_Length": 216.97944574228939
+      },
+      "id": "R01",
+      "role": "check",
+      "pixel_xy": [
+        3864,
+        5163
+      ],
+      "identity_evidence": "Middle Head easternmost mainland shore, excluding detached offshore islands",
+      "source_uncertainty_px": 20,
+      "status": "New mainland identity proposal, unscored and awaiting native/modern close/wide review.",
+      "selection_lonlat_box": [
+        -60.38,
+        46.65,
+        -60.347,
+        46.66
+      ],
+      "selection_axis": 0,
+      "selection_direction": "max"
+    }
+  ],
+  "reason": "Modern mainland identity resolved separately from offshore island, but historical NE finger differs from modern eastern mainland edge. Native crosshair is on land at finger rather than an exactly shared extremity. Precise correspondence unresolved; no score or fit."
+}

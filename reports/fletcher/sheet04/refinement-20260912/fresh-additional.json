@@ -1,0 +1,31 @@
+{
+  "sheet": "sheet-04",
+  "collected_at_utc": "2026-09-12T14:33:57.326166+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.4496182,
+        46.68701
+      ],
+      "source_guide_xy": [
+        1592.099867519224,
+        4307.649720000336
+      ],
+      "objectids": [
+        191123,
+        191124,
+        191252
+      ],
+      "id": "F07",
+      "modern_node_id": "J0611",
+      "role": "check",
+      "pixel_xy": [
+        1821,
+        4264
+      ],
+      "identity_evidence": "Cameron western southern tributary upstream of northern branch and fitted C12",
+      "source_uncertainty_px": 20,
+      "status": "Candidate awaiting exact native/modern close/wide review; unscored."
+    }
+  ]
+}

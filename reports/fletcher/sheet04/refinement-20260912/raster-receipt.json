@@ -1,0 +1,79 @@
+{
+  "fit_sha256": "cfd7390a4b70e2673d7507a9ac3fea9368034de3c34e102595334a0f1178e292",
+  "boundary_sha256": "2856d3476dfe640644cd10bafbd6151447833b2d1d44c895c29b015b1ff2ed15",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Supplied frozen check set; see check file for independence and revision history",
+  "checks_sha256": "258d94ed9c1d0a69fb2c7bfacad50af1412d2ba0537fae55931e7b30029cd88d",
+  "median_ground_m": 80.61038486602415,
+  "worst_ground_m": 118.45252337311199,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 20.7608517850465,
+      "predicted_lonlat": [
+        -60.43043277985468,
+        46.68798870813287
+      ]
+    },
+    {
+      "id": "Q02",
+      "error_ground_m": 80.61038486602415,
+      "predicted_lonlat": [
+        -60.40646958189671,
+        46.71682606024318
+      ]
+    },
+    {
+      "id": "V02",
+      "error_ground_m": 118.45252337311199,
+      "predicted_lonlat": [
+        -60.34204659228289,
+        46.68179532305458
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71737,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -38.28872778551038,
+      -20.394203023211215
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/sheet-04-full-sheet.tif",
+    "sha256": "c0c423c20dcf6fe1ed912683cb95a0bb29a741ae9a39c6f4411a20e560600add",
+    "size": [
+      9167,
+      5717
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.488419,
+            46.7926826
+          ],
+          [
+            -60.488419,
+            46.6165911
+          ],
+          [
+            -60.0766762,
+            46.6165911
+          ],
+          [
+            -60.0766762,
+            46.7926826
+          ],
+          [
+            -60.488419,
+            46.7926826
+          ]
+        ]
+      ]
+    }
+  }
+}
