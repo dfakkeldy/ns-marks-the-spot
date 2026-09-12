@@ -1,0 +1,114 @@
+{
+  "base_commit": "c32c85e917aa8746fa0b98f928f76a366127b7ee",
+  "source_boundary": "Complete inner mapped ring retained with all channels, islands, lakes, terrain and internal labels. Native whole source and four corners personally inspected; no mapped extensions visible.",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/regional-fit.json",
+      "sha256": "abc9f6ba93d9196051f573a42e1aeeb872c5eda76e9229ab7b6116444cefd41e"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/validation.json",
+      "sha256": "6772417512ebf48a479b37558cc773d50b27d1447d9e0e2d0b0891eb7c9318f1"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/validation-scores.json",
+      "sha256": "35a1180e507cab83f00a94e80b46242b5c1ad1fa8ccfb8163d85b17722cf1c26"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/regional-diagnostics.json",
+      "sha256": "f56920c58c96a753ecc9cded0e229334b6708568779a4f48832d60e08739a0ad"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/boundary.json",
+      "sha256": "1d6afd62fe504a68f70fc0397bdd8a12ebc8b4956179ebbbe45e43c286571ff8"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/source-receipt.json",
+      "sha256": "a3543ec62f263aa481e899ccb93a3e21d4e4464bd52a6bad05f5d3fc02bdaa87"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/reference-receipts.json",
+      "sha256": "889b77f4f00568f264b7fbb3723402fae23396d78c14fa02f57c776f3e80c5e1"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/rejected-validation-candidates.json",
+      "sha256": "b0275cccc65879c080260990a40af1d90fed82cfeb9db0ef8c8c5badf0d4f5e8"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/rejected-diagnostics.json",
+      "sha256": "b347c16d876401db7416e99f04e5d4c4e6dbc7387d8900b69daf6c49ce6fdc40"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/boundary-overview.jpg",
+      "sha256": "c2bc2e30f979d81de5d71dc2b4a5e7384a9cdcc165376e398870e634a7e8d69d"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/boundary-corners.jpg",
+      "sha256": "cf720d3cd9917898af093dd3079ea85af881dc0cd8cf88930e5e2ae19075b016"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/refinement-20260912/reviewed-fit.json",
+      "sha256": "f7081a2addfd19fd70fb9c33358274b22fab7621ffc9631ea87befe3194439d6"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/refinement-20260912/frozen-fit.json",
+      "sha256": "66106999d2fcd0ce52a57cd7a680704a36e6e5b8af4e065336b52a430011f3c2"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/refinement-20260912/validation.json",
+      "sha256": "a4172e35fd57e86379cf75740714b60ac238bc3f5f7a8904dbb0f0a352051db1"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet15/refinement-20260912/reviewed-additions.json",
+      "sha256": "a2d183c25fe10a6cbff1907662af13b040a4bef56c75e706bd0e35bcc6e39210"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/full-sheets/render.py",
+      "sha256": "7d08b133fd344d44ad30014510f361ccd3da22d0875a96f772a71d8bccc19067"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/full-sheets/score.py",
+      "sha256": "b722ec3a769b9c149ea646eb0905b927938bf8f5738790db1ae067284cafe9f2"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/tools/fletcher/observations/sheet-15.json",
+      "sha256": "c3d0b541d778249e419fe6c6d76999b8199272788231f5794d604d9947907c5f"
+    }
+  ],
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/17-control/sheet-12-full-sheet.tif",
+      "sha256": "48e70f98e72ad23fafb00c5437e476ad693727e09a46d1ae1a3145907550a40d"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/sheet-13-full-sheet.tif",
+      "sha256": "cd28de67764371a68388446a23a9b8442de1af253d2e95fbeeeacd00b91dc2e2"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet14/refinement-20260909/result25/sheet-14-full-sheet.tif",
+      "sha256": "a39e19ba0ae9df98105ec1c3b13a86dbda6fba7cf77281743b0cdaab5afe0428"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet15/refinement-20260912/sheet-15-full-sheet.tif",
+      "sha256": "c0340eb0c91d8f37defc299880583d202a283a99f27620f6dd6250a0164ad3ba"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet15/regional-eleven/sheet-15-full-sheet.tif",
+      "sha256": "7f27bdaa39bb8358f1cbdd7c70a0dd0614336c60edcac2a044ce3ed70c07883f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "sha256": "4e8c2f78df96806aea71da7851220ca2ad44e84a2612604cb1237cb3efc54b5b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "sha256": "014d63338579b4b21074eb0b5d3e55a06e55906cf13c6371f5548f834cd344ea"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/mabou-north-audit-20260909/result36/sheet-16-full-sheet.tif",
+      "sha256": "bc1a357cc470536e820ddaccf16e61ab3c4c728a29b473fcc07de9e3703ff82c"
+    }
+  ],
+  "external_cutline_sha256": "e7013d7dd55192f285f4cb7d8f088f1a0036200e958c565a303e143c4e7817be",
+  "licence": "David Rumsey Historical Map Collection; existing CC BY-NC-SA 3.0 boundary retained; null manifest licence does not establish publication clearance."
+}
