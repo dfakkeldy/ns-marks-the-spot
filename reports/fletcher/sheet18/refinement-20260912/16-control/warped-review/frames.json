@@ -1,0 +1,146 @@
+[
+  {
+    "image": "northwest-ashfield.jpg",
+    "lonlat_bounds": [
+      -61.23,
+      45.86,
+      -61.1,
+      45.929
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "northeast-islands.jpg",
+    "lonlat_bounds": [
+      -61.075,
+      45.865,
+      -60.89,
+      45.93
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southwest-highlands.jpg",
+    "lonlat_bounds": [
+      -61.23,
+      45.747,
+      -61.12,
+      45.81
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southeast-mainland.jpg",
+    "lonlat_bounds": [
+      -60.96,
+      45.739,
+      -60.84,
+      45.79
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "central-marble.jpg",
+    "lonlat_bounds": [
+      -61.13,
+      45.795,
+      -61.025,
+      45.86
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "east-harbours.jpg",
+    "lonlat_bounds": [
+      -60.97,
+      45.824,
+      -60.89,
+      45.87
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "ross-brook.jpg",
+    "lonlat_bounds": [
+      -61.185,
+      45.748,
+      -61.135,
+      45.805
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "west-river-denys.jpg",
+    "lonlat_bounds": [
+      -61.23,
+      45.818,
+      -61.095,
+      45.867
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southern-islands.jpg",
+    "lonlat_bounds": [
+      -61.115,
+      45.755,
+      -61.0,
+      45.8
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

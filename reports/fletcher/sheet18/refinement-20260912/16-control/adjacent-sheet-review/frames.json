@@ -1,0 +1,122 @@
+[
+  {
+    "image": "15-northwest.jpg",
+    "lonlat_bounds": [
+      -61.21,
+      45.91,
+      -61.1,
+      45.945
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/refinement-20260912/sheet-15-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "15-northeast.jpg",
+    "lonlat_bounds": [
+      -61.05,
+      45.91,
+      -60.93,
+      45.945
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet15/refinement-20260912/sheet-15-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "19-west-north.jpg",
+    "lonlat_bounds": [
+      -61.245,
+      45.85,
+      -61.205,
+      45.905
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/judique-full-sheet/result/judique-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "19-west-south.jpg",
+    "lonlat_bounds": [
+      -61.24,
+      45.75,
+      -61.2,
+      45.81
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/judique-full-sheet/result/judique-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "17-east-north.jpg",
+    "lonlat_bounds": [
+      -60.875,
+      45.85,
+      -60.825,
+      45.915
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "17-east-south.jpg",
+    "lonlat_bounds": [
+      -60.875,
+      45.75,
+      -60.825,
+      45.8
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "21-southwest.jpg",
+    "lonlat_bounds": [
+      -61.2,
+      45.73,
+      -61.1,
+      45.765
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "21-southeast.jpg",
+    "lonlat_bounds": [
+      -60.98,
+      45.73,
+      -60.87,
+      45.765
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/refinement-20260912/16-control/sheet-18-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet18/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

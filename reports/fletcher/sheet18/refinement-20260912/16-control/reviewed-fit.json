@@ -1,0 +1,404 @@
+{
+  "sheet": "sheet-18",
+  "source_sha256": "82de26909fee8671007efe39ef86b90099fad303aecfe9e74e2578a1b552a890",
+  "source_dimensions": [
+    10832,
+    7683
+  ],
+  "points": [
+    {
+      "id": "P01",
+      "role": "control",
+      "pixel_xy": [
+        8190.0,
+        2631.657470067673
+      ],
+      "lonlat": [
+        -60.918,
+        45.874
+      ],
+      "identity_evidence": "Big Harbour Island hooked peninsula northern tip",
+      "source_uncertainty_px": 20,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        4095.0,
+        1316.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit.",
+      "review": "Native crosshair and modern reference inspected. Preserve original rounded placement unchanged; native placement and original four-decimal world rounding are not precise survey observations. Source crosshairs fall near the intended coastal features; P04 bank/crossing wording remains imprecise."
+    },
+    {
+      "id": "P02",
+      "role": "control",
+      "pixel_xy": [
+        7660.0,
+        5833.240760020823
+      ],
+      "lonlat": [
+        -60.9404,
+        45.7717
+      ],
+      "identity_evidence": "Black Pond headland northern tip",
+      "source_uncertainty_px": 20,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        3830.0,
+        2917.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit.",
+      "review": "Native crosshair and modern reference inspected. Preserve original rounded placement unchanged; native placement and original four-decimal world rounding are not precise survey observations. Source crosshairs fall near the intended coastal features; P04 bank/crossing wording remains imprecise."
+    },
+    {
+      "id": "P03",
+      "role": "control",
+      "pixel_xy": [
+        5088.0,
+        5129.332378969287
+      ],
+      "lonlat": [
+        -61.0603,
+        45.7944
+      ],
+      "identity_evidence": "Calder Island northern tip",
+      "source_uncertainty_px": 20,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        2544.0,
+        2565.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit.",
+      "review": "Native crosshair and modern reference inspected. Preserve original rounded placement unchanged; native placement and original four-decimal world rounding are not precise survey observations. Source crosshairs fall near the intended coastal features; P04 bank/crossing wording remains imprecise."
+    },
+    {
+      "id": "P04",
+      "role": "control",
+      "pixel_xy": [
+        4490.0,
+        3255.5762623633523
+      ],
+      "lonlat": [
+        -61.0887,
+        45.854
+      ],
+      "identity_evidence": "River Denys estuary narrow crossing",
+      "source_uncertainty_px": 20,
+      "coordinate_precision": "Preserved rounded UI transcription, not exact browser export; geographic coordinates retain original 4 decimals.",
+      "prior_half_resolution_pixel_xy": [
+        2245.0,
+        1628.0
+      ],
+      "conversion": "Exact source-dimension ratios x=10832/5416=2; y=7683/3842. Original rounded CSV unchanged. Native physical placement requires visual audit.",
+      "review": "Native crosshair and modern reference inspected. Preserve original rounded placement unchanged; native placement and original four-decimal world rounding are not precise survey observations. Source crosshairs fall near the intended coastal features; P04 bank/crossing wording remains imprecise."
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        4153,
+        4002
+      ],
+      "lonlat": [
+        -61.0997002,
+        45.8349727
+      ],
+      "modern_node_id": "J0641",
+      "modern_objectids": [
+        197949,
+        261443,
+        261444
+      ],
+      "identity_evidence": "Marble Mountain western north-draining brook: major eastern tributary junction",
+      "source_uncertainty_px": 15,
+      "status": "Native crosshair and modern physical topology inspected before fitting.",
+      "review": "Branch order matches, but historical eastern headwater branch is much longer than modern mapped branch; surrounding headwaters still require separate checks."
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        5560,
+        3436
+      ],
+      "lonlat": [
+        -61.0362663,
+        45.8486709
+      ],
+      "modern_node_id": "J0594",
+      "modern_objectids": [
+        193201,
+        194483,
+        194731
+      ],
+      "identity_evidence": "McKenzie Brook southern arm: major western tributary junction",
+      "source_uncertainty_px": 15,
+      "status": "Native crosshair and modern physical topology inspected before fitting."
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        4972,
+        4520
+      ],
+      "lonlat": [
+        -61.0655263,
+        45.8148989
+      ],
+      "modern_node_id": "J0679",
+      "modern_objectids": [
+        198180,
+        274051,
+        274052
+      ],
+      "identity_evidence": "Sydenham Brook eastern headwater branch junction",
+      "source_uncertainty_px": 15,
+      "status": "Native crosshair and modern physical topology inspected before fitting."
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        3445,
+        4960
+      ],
+      "lonlat": [
+        -61.1358011,
+        45.798516
+      ],
+      "modern_node_id": "J0716",
+      "modern_objectids": [
+        198190,
+        275572,
+        275573
+      ],
+      "identity_evidence": "Lime Hill western brook major northwest tributary junction",
+      "source_uncertainty_px": 15,
+      "status": "Native crosshair and modern physical topology inspected before fitting."
+    },
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        2743,
+        1959
+      ],
+      "lonlat": [
+        -61.1707891,
+        45.8948025
+      ],
+      "modern_node_id": "J0359",
+      "modern_objectids": [
+        197934,
+        198047,
+        286308
+      ],
+      "identity_evidence": "Ashfield eastern brook: southern tributary joins west-flowing main brook below road",
+      "source_uncertainty_px": 12,
+      "status": "Native crosshair and modern physical topology inspected before fitting.",
+      "review": "Southern tributary runs close to the historic road; actual confluence west of road selected, not road intersection."
+    },
+    {
+      "lonlat": [
+        -60.93148272620052,
+        45.84515621388909
+      ],
+      "guide_xy": [
+        7885.312907643616,
+        3534.0538446332794
+      ],
+      "modern_objectid": 13709,
+      "modern_part": 0,
+      "modern_vertex": 8,
+      "modern_properties": {
+        "OBJECTID": 13709,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 223.47872265937266
+      },
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        7918,
+        3528
+      ],
+      "identity_evidence": "Pellier Point easternmost headland tip; distinct peninsula south of harbour",
+      "source_uncertainty_px": 12,
+      "status": "Native crosshair and modern physical topology inspected before fitting.",
+      "modern_vertex_selection": "Extremum on the physically identified local coast; affine search window does not supply geographic coordinates."
+    },
+    {
+      "lonlat": [
+        -60.90104330679375,
+        45.76987614542048
+      ],
+      "guide_xy": [
+        8512.323027311591,
+        5892.417832624633
+      ],
+      "modern_objectid": 23891,
+      "modern_part": 0,
+      "modern_vertex": 44,
+      "modern_properties": {
+        "OBJECTID": 23891,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 368.47783657662535
+      },
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        8537,
+        5902
+      ],
+      "identity_evidence": "Morrison Head northernmost tip on southern mainland strip",
+      "source_uncertainty_px": 12,
+      "status": "Native crosshair and modern physical topology inspected before fitting.",
+      "modern_vertex_selection": "Extremum on the physically identified local coast; affine search window does not supply geographic coordinates.",
+      "review": "Modern reference represents the head as an island; historic depiction has a narrow mainland connection. Match uses outer northern coast tip, not the neck."
+    },
+    {
+      "id": "C13",
+      "role": "control",
+      "pixel_xy": [
+        2660,
+        5889
+      ],
+      "lonlat": [
+        -61.1676266,
+        45.7704048
+      ],
+      "modern_node_id": "J0758",
+      "modern_objectids": [
+        198344,
+        198517,
+        198518
+      ],
+      "identity_evidence": "Ross Brook major western Beaver Lakes tributary junction",
+      "source_uncertainty_px": 15,
+      "review": "Native crosshair and modern physical feature visually inspected; final source placement recorded before scoring.",
+      "promoted_from": "Q05",
+      "promotion_reason": "Initial TPS check failed; explicitly promoted to constrain the unsupported southwest or north-island region. Old check and score remain unchanged."
+    },
+    {
+      "id": "C14",
+      "role": "control",
+      "pixel_xy": [
+        1920,
+        5640
+      ],
+      "lonlat": [
+        -61.2063705,
+        45.7795174
+      ],
+      "modern_node_id": "J0744",
+      "modern_objectids": [
+        198424,
+        280823,
+        280824
+      ],
+      "identity_evidence": "Southwest interior west-draining brook: major northeastern branch junction",
+      "source_uncertainty_px": 15,
+      "review": "Native crosshair and modern physical feature visually inspected; final source placement recorded before scoring.",
+      "promoted_from": "Q06",
+      "promotion_reason": "Initial TPS check failed; explicitly promoted to constrain the unsupported southwest or north-island region. Old check and score remain unchanged."
+    },
+    {
+      "lonlat": [
+        -60.982318246420604,
+        45.90967889548603
+      ],
+      "guide_xy": [
+        6813.5097691589035,
+        1512.9267054852098
+      ],
+      "modern_objectid": 23467,
+      "modern_part": 0,
+      "modern_vertex": 41,
+      "modern_properties": {
+        "OBJECTID": 23467,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 948.6066122453084
+      },
+      "id": "C15",
+      "role": "control",
+      "pixel_xy": [
+        6758,
+        1499
+      ],
+      "identity_evidence": "Cranberry Island northern tip, northeast hook",
+      "source_uncertainty_px": 12,
+      "review": "Native crosshair and modern physical feature visually inspected; final source placement recorded before scoring.",
+      "promoted_from": "Q04",
+      "promotion_reason": "Initial TPS check failed; explicitly promoted to constrain the unsupported southwest or north-island region. Old check and score remain unchanged."
+    },
+    {
+      "id": "C16",
+      "role": "control",
+      "pixel_xy": [
+        2763,
+        1863
+      ],
+      "lonlat": [
+        -61.1648471,
+        45.899365
+      ],
+      "modern_node_id": "J0329",
+      "modern_objectids": [
+        63540,
+        63541,
+        197934
+      ],
+      "identity_evidence": "Ashfield eastern main brook small pond southern outlet upstream of C10",
+      "source_uncertainty_px": 15,
+      "review": "Native crosshair and modern feature inspected before fresh-check scoring. Point not used to fit or tune the frozen fourteen-control raster.",
+      "promoted_from": "V03",
+      "prior_error_ground_m": 432.57164609770246,
+      "status": "Personally inspected exact original close/wide crosshair and direct modern pond outlet. Promoted unchanged before fresh selection; pond/road ordering and downstream channel support identity."
+    },
+    {
+      "lonlat": [
+        -61.1697131,
+        45.8547673
+      ],
+      "source_guide_xy": [
+        2744.5505004981533,
+        3235.1452832215
+      ],
+      "objectids": [
+        62589,
+        62590,
+        195769
+      ],
+      "id": "C17",
+      "modern_node_id": "J0563",
+      "role": "control",
+      "pixel_xy": [
+        2716,
+        3259
+      ],
+      "identity_evidence": "Small isolated pond southwest outlet east of road south of A. Cumming; separate southern drainage from repaired Ashfield pond.",
+      "source_uncertainty_px": 15,
+      "status": "Promoted unchanged after failed fifteen-control fresh validation. All original proposal/correction frames and failure retained; personally reviewed exact outlet and downstream drainage. New fit frozen before any new checks.",
+      "pre_review_pixel_xy": [
+        2690,
+        3236
+      ],
+      "promoted_from": "F04",
+      "prior_error_ground_m": 943.9928298125147
+    }
+  ],
+  "purpose": "Regional fourteen-control repair, preserving the first eleven controls; frozen before fresh validation."
+}
