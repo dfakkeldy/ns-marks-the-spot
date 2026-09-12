@@ -1,0 +1,24 @@
+{
+  "points": [
+    {
+      "id": "F01",
+      "role": "check",
+      "pixel_xy": [
+        3099,
+        2005
+      ],
+      "lonlat": [
+        -60.77166013368106,
+        45.7173311882538
+      ],
+      "modern_objectid": 23536,
+      "modern_part": 0,
+      "modern_vertex": 347,
+      "identity_evidence": "Moonac Island northernmost coast; separate island near existing Chapel/Doctor controls.",
+      "source_uncertainty_px": 20,
+      "status": "Post-freeze proposal; exact source/modern review pending."
+    }
+  ],
+  "reason": "F01 duplicates original Q02 Moonac northernmost coast world coordinate. Withdrawn before first validation score; different proposed pixel does not make it fresh. Original Q02 retained unchanged as reused diagnostic.",
+  "failed_attempts": "Pre-score duplicate assertion prevented writing validation.json. Initial scoring attempts therefore stopped on missing file and produced no validation values."
+}

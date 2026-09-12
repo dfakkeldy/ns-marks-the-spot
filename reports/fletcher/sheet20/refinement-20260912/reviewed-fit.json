@@ -1,0 +1,411 @@
+{
+  "sheet": "sheet-20",
+  "source_sha256": "3be7a138e4fd1a42cef0a549b7317180718a36fc7134777323ff2f1f8eb053dc",
+  "source_dimensions": [
+    10792,
+    7662
+  ],
+  "points": [
+    {
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        5430,
+        3473
+      ],
+      "lonlat": [
+        -60.6586398,
+        45.6774393
+      ],
+      "modern_node_id": "J0604",
+      "modern_objectids": [
+        193468,
+        193607,
+        194437
+      ],
+      "identity_evidence": "Murchison Brook northern tributary joins main west/east brook",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry reviewed before fit; provisional physical control.",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "lonlat": [
+        -60.81539930647283,
+        45.73724478893603
+      ],
+      "guide_xy": [
+        2052.5021048618946,
+        1534.5748353267554
+      ],
+      "modern_objectid": 13982,
+      "modern_part": 0,
+      "modern_vertex": 37,
+      "modern_properties": {
+        "OBJECTID": 13982,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 618.228892457636
+      },
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        2120,
+        1419
+      ],
+      "identity_evidence": "Cape George northernmost outer coast bend",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry reviewed before fit; provisional physical control.",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "lonlat": [
+        -60.77658447810415,
+        45.70805807500798
+      ],
+      "guide_xy": [
+        2904.596269074129,
+        2446.6012721506413
+      ],
+      "modern_objectid": 23383,
+      "modern_part": 0,
+      "modern_vertex": 7,
+      "modern_properties": {
+        "OBJECTID": 23383,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 3759.329871655344
+      },
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        2980,
+        2306
+      ],
+      "identity_evidence": "Chapel Island southernmost outer coast tip",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry reviewed before fit; provisional physical control.",
+      "revision": "Native context located actual south tip; initial point was in water. Corrected before fitting."
+    },
+    {
+      "lonlat": [
+        -60.811033025299906,
+        45.59478487384901
+      ],
+      "guide_xy": [
+        2148.3542021953035,
+        5986.162261966616
+      ],
+      "modern_objectid": 22481,
+      "modern_part": 0,
+      "modern_vertex": 190,
+      "modern_properties": {
+        "OBJECTID": 22481,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 3964.255856631327
+      },
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        2200,
+        5868
+      ],
+      "identity_evidence": "St Peters Island southernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry reviewed before fit; provisional physical control.",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        1678,
+        4416
+      ],
+      "lonlat": [
+        -60.837974,
+        45.6406735
+      ],
+      "modern_node_id": "J0951",
+      "modern_objectids": [
+        129601,
+        129603,
+        193516
+      ],
+      "identity_evidence": "Beauvais Lake western outlet",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry reviewed before fit; provisional physical control.",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "id": "C06",
+      "role": "control",
+      "pixel_xy": [
+        2866,
+        4414
+      ],
+      "lonlat": [
+        -60.7811876,
+        45.6404474
+      ],
+      "modern_node_id": "J0959",
+      "modern_objectids": [
+        128634,
+        128734,
+        285770
+      ],
+      "identity_evidence": "Condon Lakes easternmost basin southeast outlet",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry reviewed before fit; provisional physical control.",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        6856,
+        4225
+      ],
+      "lonlat": [
+        -60.5996981,
+        45.6465712
+      ],
+      "modern_node_id": "J0909",
+      "modern_objectids": [
+        126902,
+        126991,
+        194311
+      ],
+      "identity_evidence": "Ferguson Lake main basin southeast outlet into small eastern basin",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry reviewed before fit; provisional physical control.",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "lonlat": [
+        -60.49065088772981,
+        45.622466249093534
+      ],
+      "guide_xy": [
+        9181.6391918445,
+        5121.1746483256575
+      ],
+      "modern_objectid": 22545,
+      "modern_part": 0,
+      "modern_vertex": 100,
+      "modern_properties": {
+        "OBJECTID": 22545,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 1655.0622978606282
+      },
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        9296,
+        5075
+      ],
+      "identity_evidence": "Saint Esprit Island northernmost outer coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry reviewed before fit; provisional physical control.",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "lonlat": [
+        -60.519080002362756,
+        45.62675552000971
+      ],
+      "guide_xy": [
+        8557.540524130221,
+        4987.143510736991
+      ],
+      "modern_objectid": 5496,
+      "modern_part": 0,
+      "modern_vertex": 49,
+      "modern_properties": {
+        "OBJECTID": 5496,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 335.14593306313327
+      },
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        8603,
+        4964
+      ],
+      "identity_evidence": "Kemp Point southernmost tip",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry reviewed before fit; provisional physical control.",
+      "revision": "Original native close-up corrected before any fitting; prior proposal preserved."
+    },
+    {
+      "lonlat": [
+        -60.68630974860301,
+        45.56615932702436
+      ],
+      "guide_xy": [
+        4886.379350867122,
+        6880.65334914322
+      ],
+      "modern_objectid": 8448,
+      "modern_part": 0,
+      "modern_vertex": 92,
+      "modern_properties": {
+        "OBJECTID": 8448,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 984.6707889470143
+      },
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        5055,
+        6655
+      ],
+      "identity_evidence": "Michaux Point southernmost outer mainland coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry reviewed before fit; provisional physical control."
+    },
+    {
+      "id": "C13",
+      "role": "control",
+      "pixel_xy": [
+        5295,
+        1637
+      ],
+      "lonlat": [
+        -60.6718891,
+        45.7277827
+      ],
+      "modern_node_id": "J0224",
+      "modern_objectids": [
+        136770,
+        136863,
+        273922
+      ],
+      "identity_evidence": "McNab Brook long lake eastern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and actual modern geometry reviewed before fit; provisional physical control.",
+      "revision": "Native close-up distinguishes eastern tributary from southern outlet; corrected before fitting."
+    },
+    {
+      "id": "C14",
+      "role": "control",
+      "pixel_xy": [
+        8221,
+        4427
+      ],
+      "lonlat": [
+        -60.5346714,
+        45.6405475
+      ],
+      "modern_node_id": "J0955",
+      "modern_objectids": [
+        143277,
+        143278,
+        277194
+      ],
+      "identity_evidence": "Little Saint Esprit Lake northwestern tributary mouth",
+      "source_uncertainty_px": 20,
+      "status": "Promoted diagnostic for southeast repair after 269.144 m initial TPS failure; coordinates unchanged.",
+      "revision": "Native and modern context correction before diagnostic scoring; original proposal retained.",
+      "promoted_from": "Q04"
+    },
+    {
+      "lonlat": [
+        -60.78819165556398,
+        45.70627716813678
+      ],
+      "guide_xy": [
+        2649.7862237340305,
+        2502.251050062012
+      ],
+      "modern_objectid": 16571,
+      "modern_part": 0,
+      "modern_vertex": 89,
+      "modern_properties": {
+        "OBJECTID": 16571,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1857.3760178795155
+      },
+      "id": "C15",
+      "role": "control",
+      "pixel_xy": [
+        2728,
+        2422
+      ],
+      "identity_evidence": "Doctor Island southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Original exact close and native-wide crosshairs and direct modern geometry personally inspected; promoted unchanged before new check selection.",
+      "revision": "Native tip corrected before any fresh-check score; original proposal retained.",
+      "promoted_from": "V02",
+      "prior_error_ground_m": 206.97487612683847
+    },
+    {
+      "lonlat": [
+        -60.806406792541694,
+        45.604033851006896
+      ],
+      "guide_xy": [
+        2249.912964689778,
+        5697.150223736884
+      ],
+      "modern_objectid": 22481,
+      "modern_part": 0,
+      "modern_vertex": 389,
+      "modern_properties": {
+        "OBJECTID": 22481,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 3964.255856631327
+      },
+      "id": "C16",
+      "role": "control",
+      "pixel_xy": [
+        2327,
+        5497
+      ],
+      "identity_evidence": "St Peters Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Original exact close and native-wide crosshairs and direct modern geometry personally inspected; promoted unchanged before new check selection.",
+      "revision": "Native tip corrected before any fresh-check score; original proposal retained.",
+      "promoted_from": "V03",
+      "prior_error_ground_m": 269.89873673312064
+    }
+  ],
+  "status": "Twelve-control regional repair; frozen before fresh checks."
+}

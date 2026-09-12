@@ -1,0 +1,74 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.78819165556398,
+        45.70627716813678
+      ],
+      "guide_xy": [
+        2649.7862237340305,
+        2502.251050062012
+      ],
+      "modern_objectid": 16571,
+      "modern_part": 0,
+      "modern_vertex": 89,
+      "modern_properties": {
+        "OBJECTID": 16571,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 1857.3760178795155
+      },
+      "id": "C15",
+      "role": "control",
+      "pixel_xy": [
+        2728,
+        2422
+      ],
+      "identity_evidence": "Doctor Island southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Original exact close and native-wide crosshairs and direct modern geometry personally inspected; promoted unchanged before new check selection.",
+      "revision": "Native tip corrected before any fresh-check score; original proposal retained.",
+      "promoted_from": "V02",
+      "prior_error_ground_m": 206.97487612683847
+    },
+    {
+      "lonlat": [
+        -60.806406792541694,
+        45.604033851006896
+      ],
+      "guide_xy": [
+        2249.912964689778,
+        5697.150223736884
+      ],
+      "modern_objectid": 22481,
+      "modern_part": 0,
+      "modern_vertex": 389,
+      "modern_properties": {
+        "OBJECTID": 22481,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 3964.255856631327
+      },
+      "id": "C16",
+      "role": "control",
+      "pixel_xy": [
+        2327,
+        5497
+      ],
+      "identity_evidence": "St Peters Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Original exact close and native-wide crosshairs and direct modern geometry personally inspected; promoted unchanged before new check selection.",
+      "revision": "Native tip corrected before any fresh-check score; original proposal retained.",
+      "promoted_from": "V03",
+      "prior_error_ground_m": 269.89873673312064
+    }
+  ]
+}
