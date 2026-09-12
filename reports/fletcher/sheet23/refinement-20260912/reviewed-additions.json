@@ -1,0 +1,74 @@
+{
+  "sheet": "sheet-23",
+  "points": [
+    {
+      "lonlat": [
+        -61.0508564,
+        45.5550717
+      ],
+      "source_guide_xy": [
+        5092.698511119699,
+        1793.8802855804097
+      ],
+      "objectids": [
+        126132,
+        126210,
+        199175
+      ],
+      "id": "C14",
+      "modern_node_id": "J0291",
+      "role": "control",
+      "pixel_xy": [
+        5129,
+        1729
+      ],
+      "identity_evidence": "Grand Lake western lobe northern stream/shoreline junction",
+      "source_uncertainty_px": 20,
+      "status": "Unchanged prior check promoted after personal native close/wide and modern identity review; old failure preserved.",
+      "promoted_from": "V01",
+      "prior_failure": {
+        "id": "V01",
+        "error_ground_m": 506.9713560185798,
+        "predicted_lonlat": [
+          -61.044885205118234,
+          45.55688982179867
+        ]
+      }
+    },
+    {
+      "lonlat": [
+        -61.002239,
+        45.5415435
+      ],
+      "source_guide_xy": [
+        6152.6711811996065,
+        2232.5453803003766
+      ],
+      "objectids": [
+        142393,
+        142394,
+        197755
+      ],
+      "id": "C15",
+      "modern_node_id": "J0366",
+      "role": "control",
+      "pixel_xy": [
+        6324,
+        2088
+      ],
+      "identity_evidence": "Shaw Lake southern stream/shoreline junction, west of southeastern fitting control",
+      "source_uncertainty_px": 20,
+      "status": "Unchanged prior check promoted after personal native close/wide and modern identity review; old failure preserved.",
+      "promoted_from": "V02",
+      "prior_failure": {
+        "id": "V02",
+        "error_ground_m": 334.6109106732332,
+        "predicted_lonlat": [
+          -60.99829490096213,
+          45.5427370887906
+        ]
+      }
+    }
+  ],
+  "not_promoted": "V03 Thorn Island west retains 229 m failure; historical broad bulb differs from modern narrow lobe. No coordinate changed."
+}

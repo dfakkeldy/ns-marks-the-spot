@@ -1,0 +1,205 @@
+{
+  "sheet": "sheet-23",
+  "fit_sha256": "d806dd99be1fc103230145282ed707d808a77918802bb6fcd3676ee53776648d",
+  "points": [
+    {
+      "lonlat": [
+        -61.151477149200694,
+        45.55338023836882
+      ],
+      "guide_xy": [
+        2886.461771354545,
+        1822.9276431188919
+      ],
+      "modern_objectid": 16923,
+      "modern_part": 0,
+      "modern_vertex": 51,
+      "modern_properties": {
+        "OBJECTID": 16923,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 1383.1440500559095
+      },
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        2925,
+        1774
+      ],
+      "identity_evidence": "Campbell Island southernmost protruding coast; modern island OBJECTID fixed to same island as northern control, different vertex.",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed native and modern crosshairs before first score; never fitted."
+    },
+    {
+      "lonlat": [
+        -60.955508634593336,
+        45.53262968141554
+      ],
+      "guide_xy": [
+        7173.21960281604,
+        2525.138155725319
+      ],
+      "modern_objectid": 21823,
+      "modern_part": 0,
+      "modern_vertex": 18,
+      "modern_properties": {
+        "OBJECTID": 21823,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 553.9241741164167
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        7250,
+        2399
+      ],
+      "identity_evidence": "Rocky Islets easternmost main island coast",
+      "source_uncertainty_px": 25,
+      "status": "Personally reviewed native and modern crosshairs before first score; never fitted.",
+      "review_note": "Island group proportions differ; retained as provisional check with explicit uncertainty."
+    },
+    {
+      "lonlat": [
+        -61.0017142,
+        45.4748092
+      ],
+      "source_guide_xy": [
+        6136.145971359918,
+        4338.6065820402
+      ],
+      "objectids": [
+        7234,
+        7235,
+        197768
+      ],
+      "id": "Q05",
+      "modern_node_id": "J0663",
+      "role": "check",
+      "pixel_xy": [
+        6200,
+        4245
+      ],
+      "identity_evidence": "Guet Cove western stream/shoreline junction",
+      "source_uncertainty_px": 20,
+      "status": "Personally reviewed native and modern crosshairs before first score; never fitted."
+    },
+    {
+      "lonlat": [
+        -61.136691099720245,
+        45.554071560252794
+      ],
+      "guide_xy": [
+        3210.8505023177713,
+        1804.6868651907425
+      ],
+      "modern_objectid": 3359,
+      "modern_part": 0,
+      "modern_vertex": 11,
+      "modern_properties": {
+        "OBJECTID": 3359,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 149.41117766028628
+      },
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        3270,
+        1731
+      ],
+      "identity_evidence": "Thorn Island westernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Fresh, personally reviewed, never fitted."
+    },
+    {
+      "lonlat": [
+        -61.0552484707365,
+        45.50418769745562
+      ],
+      "guide_xy": [
+        4975.056553163566,
+        3398.5647511691786
+      ],
+      "modern_objectid": 17712,
+      "modern_part": 0,
+      "modern_vertex": 3,
+      "modern_properties": {
+        "OBJECTID": 17712,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 120.90020207733268
+      },
+      "id": "V04",
+      "role": "check",
+      "pixel_xy": [
+        5048,
+        3315
+      ],
+      "identity_evidence": "Jerseyman Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Fresh, personally reviewed, never fitted.",
+      "modern_connected_coast_objectids": [
+        17709,
+        17710,
+        17711,
+        17712
+      ],
+      "review_note": "Original candidate selected a separate northern islet / tiny northern coast segment. Corrected to actual connected coastline of the identified island before scoring."
+    },
+    {
+      "lonlat": [
+        -60.89971912245267,
+        45.476676329154856
+      ],
+      "guide_xy": [
+        8372.580669380259,
+        4304.347997051431
+      ],
+      "modern_objectid": 18505,
+      "modern_part": 0,
+      "modern_vertex": 69,
+      "modern_properties": {
+        "OBJECTID": 18505,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 460.80500462902654
+      },
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        8500,
+        4149
+      ],
+      "identity_evidence": "Green Island southernmost main coast, excluding detached southeastern rock",
+      "source_uncertainty_px": 20,
+      "status": "Fresh, personally reviewed, never fitted.",
+      "modern_connected_coast_objectids": [
+        18505,
+        18506
+      ],
+      "review_note": "Original candidate selected a separate northern islet / tiny northern coast segment. Corrected to actual connected coastline of the identified island before scoring."
+    }
+  ],
+  "status": "Reused diagnostics, not fresh validation"
+}

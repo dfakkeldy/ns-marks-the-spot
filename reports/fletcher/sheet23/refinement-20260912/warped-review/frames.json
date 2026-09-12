@@ -1,0 +1,162 @@
+[
+  {
+    "image": "janvrin.jpg",
+    "lonlat_bounds": [
+      -61.22,
+      45.508,
+      -61.12,
+      45.578
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet23/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "haddock-harbour.jpg",
+    "lonlat_bounds": [
+      -61.16,
+      45.53,
+      -61.075,
+      45.578
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet23/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "grand-lake.jpg",
+    "lonlat_bounds": [
+      -61.085,
+      45.532,
+      -60.99,
+      45.578
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet23/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "shaw-lake.jpg",
+    "lonlat_bounds": [
+      -61.035,
+      45.525,
+      -60.965,
+      45.568
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet23/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "petit-nez.jpg",
+    "lonlat_bounds": [
+      -60.96,
+      45.53,
+      -60.86,
+      45.58
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet23/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "arichat-jerseyman.jpg",
+    "lonlat_bounds": [
+      -61.105,
+      45.48,
+      -61.025,
+      45.526
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet23/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "cape-hogan.jpg",
+    "lonlat_bounds": [
+      -61.045,
+      45.457,
+      -60.975,
+      45.51
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet23/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "petit-de-grat.jpg",
+    "lonlat_bounds": [
+      -60.995,
+      45.467,
+      -60.895,
+      45.525
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet23/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "offshore-islands.jpg",
+    "lonlat_bounds": [
+      -60.97,
+      45.465,
+      -60.85,
+      45.55
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet23/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "southern-full-frame.jpg",
+    "lonlat_bounds": [
+      -61.23,
+      45.389,
+      -60.84,
+      45.47
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/refinement-20260912/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet23/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

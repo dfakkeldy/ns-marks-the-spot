@@ -1,0 +1,11 @@
+{
+  "whole_sheet_geographically_accepted": false,
+  "thresholds": {
+    "median_ground_m": 100,
+    "worst_ground_m": 200
+  },
+  "recommendation": "Retain earlier twelve-control provisional baseline; preserve fourteen-control experiment and severe Shaw inlet regression.",
+  "fresh_median_ground_m": 428.2861833466982,
+  "fresh_worst_ground_m": 646.4086070586859,
+  "reason": "Both local checks fail; Shaw north inlet and reused Rocky Islets regress; unsupported lake shapes, northern seams and sea extrapolation remain."
+}
