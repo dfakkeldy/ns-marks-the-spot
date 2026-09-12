@@ -21,14 +21,18 @@ REVISION = "a6619d96ba8fa8279ea6a8027654a92b15942b9d"
 # Pin only commits on nightly's own history (normally the squash-merge commit that
 # landed the frozen inputs). A PR-branch commit is deleted with its branch after
 # the squash merge, so `git show` cannot resolve it in a checkout of nightly.
-REVISIONS = {19: REVISION, 16: "249b2be0b378adec894abc34520f83b009dbf8fd", 22: REVISION}
+REVISIONS = {19: REVISION, 16: "249b2be0b378adec894abc34520f83b009dbf8fd", 22: REVISION,
+             14: "249b2be0b378adec894abc34520f83b009dbf8fd"}
 MABOU_NORTH = "mabou-full-sheet/north-audit-20260909/candidate36"
+CAPE_MABOU = "sheet14/southern-audit-20260909/hay-topology"
 SHEETS = {
+    14: (f"{CAPE_MABOU}/fit.json", "sheet14/boundary.json", f"{CAPE_MABOU}/render-receipt.json"),
     19: ("judique-full-sheet/revised-fit.json", "judique-boundary/boundary.json", "judique-render-receipt.json"),
     16: (f"{MABOU_NORTH}/fit.json", "sheet16/boundary.json", f"{MABOU_NORTH}/render-receipt.json"),
     22: ("hawkesbury-full-sheet/boundary-fit.json", "sheet22/boundary.json", "hawkesbury-boundary-render-receipt.json"),
 }
 CHECKS = {
+    14: (f"{CAPE_MABOU}/checks.json", f"{CAPE_MABOU}/scores.json"),
     19: ("judique-full-sheet/fresh-checks.json", "judique-full-sheet/fresh-scores.json"),
     16: (f"{MABOU_NORTH}/checks.json", f"{MABOU_NORTH}/scores.json"),
     22: ("hawkesbury-full-sheet/boundary-diagnostic-checks.json", "full-sheets/hawkesbury-boundary-render-receipt.json"),
@@ -133,7 +137,9 @@ def load_inputs(sheet):
     csv_path = Path(f"reports/fletcher/full-sheets/sheet-{sheet}-controls.csv")
     if sheet == 16:
         csv_path = Path("reports/fletcher") / MABOU_NORTH / "sheet-16-controls.csv"
-    receipt_path = Path("reports/fletcher" if sheet == 16 else "reports/fletcher/full-sheets") / receipt_name
+    if sheet == 14:
+        csv_path = Path("reports/fletcher") / CAPE_MABOU / "sheet-14-controls.csv"
+    receipt_path = Path("reports/fletcher" if sheet in (14, 16) else "reports/fletcher/full-sheets") / receipt_name
     paths = [fit_path, boundary_path, inventory_path, manifest_path, csv_path, receipt_path]
     paths += [Path("reports/fletcher") / name for name in CHECKS[sheet]]
     # Each sheet is pinned independently. Future revisions require explicit reprocessing.
@@ -156,7 +162,7 @@ def load_inputs(sheet):
     require([(p["id"], p["pixel_xy"], p["lonlat"]) for p in controls] ==
             [(p["label"], [float(p["pixel_x"]), float(p["pixel_y"])], [float(p["lon"]), float(p["lat"])]) for p in rows], "Editable controls differ from fit")
     return fit, boundary, inventory, manifest, controls, receipt, {
-        "fit_revision": revision, "fit_pr": f"https://github.com/dfakkeldy/ns-marks-the-spot/pull/{385 if sheet == 16 else 380}",
+        "fit_revision": revision, "fit_pr": f"https://github.com/dfakkeldy/ns-marks-the-spot/pull/{385 if sheet in (14, 16) else 380}",
         "fit_path": str(fit_path), "fit_sha256": digest(ROOT / fit_path),
         "input_sha256": {str(p): digest(ROOT / p) for p in paths},
     }
@@ -244,7 +250,7 @@ def project(sheet, executable):
         "method": "GDAL TPS in EPSG:3857, then inverse spherical Mercator to GeoJSON longitude/latitude (OGC:CRS84)",
         "gdal_version": subprocess.run([executable, "--version"], text=True, capture_output=True, check=True).stdout.strip(),
         "geographic_role": "Lettering box centres, not feature symbols, sites, boundaries or ownership. Feature placement remains deferred.",
-        "accuracy": f"Approximate PR #{385 if sheet == 16 else 380} fits; working accuracy targets not uniformly satisfied. See full-sheets/README.md. No new geographic acceptance.",
+        "accuracy": f"Approximate PR #{385 if sheet in (14, 16) else 380} fits; working accuracy targets not uniformly satisfied. See full-sheets/README.md. No new geographic acceptance.",
         "credit": manifest["credit"], "manifest_url": manifest["manifest_url"],
         "imagery_licence_url": manifest["imagery_licence_url"],
         "verification": {"annotation_count": len(features), "box_count": sum(len(f["properties"]["label_anchors"]) for f in features),

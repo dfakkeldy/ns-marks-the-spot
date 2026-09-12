@@ -35,7 +35,7 @@ class FrameTests(unittest.TestCase):
 
 class FrozenDerivativeTests(unittest.TestCase):
     def test_all_original_annotations_and_pixels_preserved(self):
-        for sheet, count in [(19, 166), (16, 256), (22, 301)]:
+        for sheet, count in [(19, 166), (16, 256), (22, 301), (14, 166)]:
             data = p.read(p.ROOT / p.REPORT / f"sheet-{sheet}-labels.geojson")
             original = p.read(p.ROOT / p.INVENTORIES / f"sheet-{sheet}-reviewed.json")
             self.assertEqual(len(data["features"]), count)
@@ -79,7 +79,7 @@ class FrozenDerivativeTests(unittest.TestCase):
 
     def test_neatline_holdbacks_and_coordinate_axes(self):
         expected = {16: {"F16-PHM-146", "F16-PHM-147", "F16-PHM-149", "F16-PHM-197", "F16-PHM-200"},
-                    19: set(), 22: {"F22-HAW-181"}}
+                    19: set(), 22: {"F22-HAW-181"}, 14: set()}
         for sheet, ids in expected.items():
             data = p.read(p.ROOT / p.REPORT / f"sheet-{sheet}-labels.geojson")
             self.assertEqual({f["id"] for f in data["features"] if f["geometry"] is None}, ids)
@@ -109,7 +109,7 @@ class FrozenDerivativeTests(unittest.TestCase):
                 self.assertEqual(crop["scale_to_native_xy"], [1, 1])
                 self.assertEqual(crop["offset_to_native_xy"], original["source_xywh"][:2])
             total += len(audit["crops"])
-        self.assertEqual(total, 110)
+        self.assertEqual(total, 145)
 
     @unittest.skipUnless(shutil.which("gdaltransform"), "GDAL CLI is optional in stdlib CI")
     def test_gdal_reproduces_entire_committed_derivative(self):
