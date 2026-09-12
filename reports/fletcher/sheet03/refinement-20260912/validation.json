@@ -1,0 +1,113 @@
+{
+  "fit_sha256": "814f03953ecf5bbc10d94842e2dd6aec241248be9ebdff94057ffc9813ef6159",
+  "selected_at_utc": "2026-09-12T12:44:35.275270+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.717832404932196,
+        46.891299340691205
+      ],
+      "guide_xy": [
+        4078.7147701976355,
+        3413.037346717436
+      ],
+      "modern_objectid": 271254,
+      "modern_part": 0,
+      "modern_vertex": 115,
+      "modern_properties": {
+        "OBJECTID": 271254,
+        "FEAT_CODE": "WARV50",
+        "FEAT_DESC": "River - Single Line",
+        "RIVNAME_1": "Otter Brook",
+        "RIVNAME_2": " ",
+        "ZVALUE": 9999,
+        "FID": null,
+        "SHAPE_Length": 642.2313646103682
+      },
+      "id": "U01",
+      "pixel_xy": [
+        4496,
+        2900
+      ],
+      "role": "check",
+      "identity_evidence": "Otter Brook shoreline mouth. Same named stream traced south/east through three eastern branches and western tributaries; native mouth at the coastal road crossing. Modern terminal endpoint of complete named feature 271254.",
+      "source_uncertainty_px": 20,
+      "status": "Final coordinates awaiting final-frame inspection before scoring.",
+      "original_pixel_xy": [
+        4498,
+        2892
+      ],
+      "correction": "Move onto the exact shoreline contact/extreme after enlarged native crosshair review."
+    },
+    {
+      "lonlat": [
+        -60.54564513438929,
+        46.81301125047446
+      ],
+      "guide_xy": [
+        7787.6636713841,
+        5885.812960841926
+      ],
+      "modern_objectid": 124811,
+      "modern_part": 0,
+      "modern_vertex": 60,
+      "modern_properties": {
+        "OBJECTID": 124811,
+        "FEAT_CODE": "WALK20",
+        "FEAT_DESC": "Lake - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 404,
+        "FID": null,
+        "SHAPE_Length": 578.7368811184249
+      },
+      "id": "U02",
+      "pixel_xy": [
+        8123,
+        5607
+      ],
+      "role": "check",
+      "identity_evidence": "Northernmost shoreline of easternmost/largest of four Chain Lakes. Complete modern fourth-lake boundary 124810/124811; four-basin chain and western outlet establish lake identity. Historical shore is generalized.",
+      "source_uncertainty_px": 25,
+      "status": "Final coordinates awaiting final-frame inspection before scoring."
+    },
+    {
+      "lonlat": [
+        -60.482436336285026,
+        46.91121930626405
+      ],
+      "guide_xy": [
+        9164.046874895925,
+        2825.5671554631554
+      ],
+      "modern_objectid": 20918,
+      "modern_part": 0,
+      "modern_vertex": 92,
+      "modern_properties": {
+        "OBJECTID": 20918,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.4,
+        "FID": null,
+        "SHAPE_Length": 1253.32329005519
+      },
+      "id": "U03",
+      "pixel_xy": [
+        9259,
+        2628
+      ],
+      "role": "check",
+      "identity_evidence": "Southernmost shoreline of North Pond long northern island. Same island as R10, opposite extremity; explicitly a correlated shape check, not an independent island identity.",
+      "source_uncertainty_px": 25,
+      "independence_limitation": "Shares feature identity with R10; tests island extent only.",
+      "status": "Final coordinates awaiting final-frame inspection before scoring.",
+      "original_pixel_xy": [
+        9256,
+        2629
+      ],
+      "correction": "Move onto the exact shoreline contact/extreme after enlarged native crosshair review."
+    }
+  ]
+}

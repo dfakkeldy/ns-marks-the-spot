@@ -1,0 +1,14 @@
+{
+  "frozen_at_utc": "2026-09-12T12:41:58.564256+00:00",
+  "fit_sha256": "814f03953ecf5bbc10d94842e2dd6aec241248be9ebdff94057ffc9813ef6159",
+  "baseline_fit_sha256": "2325f9159275e4a03f19c3a1e7189b26322e11fa4f600ed161dcf36cfa1f8422",
+  "prior_seven_controls_unchanged": true,
+  "control_count": 9,
+  "fresh_validation_not_yet_selected": true,
+  "complete_boundary_sha256": "3956eff0f13aba1316eed2e8df40d36fb3429138e4e356f3a1a7be10739a547b",
+  "rejected_ids": [
+    "R11",
+    "R12"
+  ],
+  "no_prior_checks_promoted": true
+}

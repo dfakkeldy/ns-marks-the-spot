@@ -1,0 +1,10 @@
+{
+  "frozen_at_utc": "2026-09-12T12:47:19.578098+00:00",
+  "fit_sha256": "4f096b8ccf363047e5c1bbb523cf3c5b07d0b8bcb5f460637e49ccf5b6301b04",
+  "previous_fit_sha256": "814f03953ecf5bbc10d94842e2dd6aec241248be9ebdff94057ffc9813ef6159",
+  "prior_nine_controls_unchanged": true,
+  "promotion": "U01 to R14; pixels and world unchanged",
+  "failed_nine_control_scores_sha256": "8ec7f1b1d2abb43404cd0be806607565b59a3c14a0ac3bf1bf94d148ec9d9e58",
+  "fresh_validation_not_yet_selected": true,
+  "production_eligible": false
+}

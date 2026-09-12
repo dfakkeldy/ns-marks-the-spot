@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "recovered_files_unchanged": 111,
+  "viewed_figures": 71,
+  "source_native_regions_hash_verified": 24,
+  "baseline_on_nightly_history": true,
+  "historical_check_coordinate_dedup": [
+    {
+      "stage": "nine",
+      "id": "U01",
+      "exact_coordinate_duplicate": false,
+      "limitation": "Distinct coordinate only; shared island/lake-group/watershed identity and U06 uncertainty remain explicit."
+    },
+    {
+      "stage": "nine",
+      "id": "U02",
+      "exact_coordinate_duplicate": false,
+      "limitation": "Distinct coordinate only; shared island/lake-group/watershed identity and U06 uncertainty remain explicit."
+    },
+    {
+      "stage": "nine",
+      "id": "U03",
+      "exact_coordinate_duplicate": false,
+      "limitation": "Distinct coordinate only; shared island/lake-group/watershed identity and U06 uncertainty remain explicit."
+    },
+    {
+      "stage": "ten",
+      "id": "U04",
+      "exact_coordinate_duplicate": false,
+      "limitation": "Distinct coordinate only; shared island/lake-group/watershed identity and U06 uncertainty remain explicit."
+    },
+    {
+      "stage": "ten",
+      "id": "U06",
+      "exact_coordinate_duplicate": false,
+      "limitation": "Distinct coordinate only; shared island/lake-group/watershed identity and U06 uncertainty remain explicit."
+    }
+  ],
+  "full_boundary_coverage": true,
+  "browser_desktop_mobile_reload": true,
+  "whole_sheet_geographically_accepted": false,
+  "scope": "Technical evidence integrity and arithmetic, not independent first-score chronology or geographic acceptance."
+}

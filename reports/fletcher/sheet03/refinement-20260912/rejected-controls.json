@@ -1,0 +1,56 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.6682872,
+        46.9145565
+      ],
+      "source_guide_xy": [
+        5151.285286019789,
+        2693.49037181912
+      ],
+      "objectids": [
+        180737,
+        261823,
+        261959
+      ],
+      "id": "R11",
+      "modern_node_id": "J0376",
+      "pixel_xy": [
+        5585,
+        2095
+      ],
+      "role": "control",
+      "identity_evidence": "Blair River lower eastern tributary, before the river turns north towards the first large western tributary and the upper hairpin. Historical tributary much shorter; proposal requires wider branch-order review.",
+      "status": "Rejected, unscored",
+      "source_uncertainty_px": 30,
+      "rejection_reason": "The short historical east tributary may correspond to the modern long southeast tributary, but nearby modern northern forks are absent historically; exact branch order cannot be established from inspected broad context."
+    },
+    {
+      "lonlat": [
+        -60.675515,
+        46.8978756
+      ],
+      "source_guide_xy": [
+        4993.260844199918,
+        3213.805429799482
+      ],
+      "objectids": [
+        181016,
+        284878,
+        284879
+      ],
+      "id": "R12",
+      "modern_node_id": "J0537",
+      "pixel_xy": [
+        5875,
+        2570
+      ],
+      "role": "control",
+      "identity_evidence": "Historical South Branch / modern Polletts Cove River prominent northeastern tributary before the main river continues east/southeast. Tributary length and additional modern branches differ; wider review required.",
+      "status": "Rejected, unscored",
+      "source_uncertainty_px": 30,
+      "rejection_reason": "Historical west-to-east main river and northern fork do not establish the chosen modern northwest-to-southeast main channel and northeast fork; branch order and bend geometry conflict."
+    }
+  ]
+}
