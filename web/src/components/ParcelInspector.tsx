@@ -1,3 +1,4 @@
+import { MailingAddressDetails } from "./MailingAddressDetails";
 import { useEffect, useRef, type ReactNode } from "react";
 import {
   eventLifecycleStatus,
@@ -1186,6 +1187,7 @@ function CivicAddressDetails({ state }: { state: CivicAddressState }) {
           })}
         </ul>
       )}
+      {addresses.length > 0 ? <MailingAddressDetails addresses={addresses} /> : null}
       {addresses.length > 0 && unreadableRows > 0 ? (
         <p className="civic-address-status">
           {civicAddressShortfall(unreadableRows)}

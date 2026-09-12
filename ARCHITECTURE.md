@@ -561,6 +561,19 @@ explains that mapped physical-address points do not prove ownership, mailing
 address, access, occupancy, or legal parcel status. This open-data attribution
 is separate from the NSPRD restricted-services licence gate.
 
+`services/mailingAddresses.ts` adds the separately attributed, dated Statistics
+Canada National Address Register mailing record to on-screen civic evidence.
+Its generated Nova Scotia subset lives in `web/public/mailing-addresses`, with
+pinned input hashes, output checksums and coverage counts. An exact normalized
+road/number/suffix/unit match within 50 metres is required; multiple source IDs
+stay ambiguous. NAR building coordinates only support matching and bounded civic
+candidate queries, never destinations, parcel IDs or replacement civic geometry.
+Postal-community search requires a unique matching live civic point and reports
+bounded search truncation or source failures. `MailingAddressDetails` owns a
+cancelled-on-change lookup independent of the civic evidence request and is
+excluded from print/PDF/evidence-note snapshots. Data attribution and licensing
+remain separate from the MIT software licence.
+
 `services/googleMaps.ts` converts each authoritative civic-point coordinate to
 a full 10-character Open Location Code (Plus Code) in the browser. The parcel
 sheet presents that code as a universal Google Maps directions link whose exact

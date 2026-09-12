@@ -133,10 +133,11 @@ import {
   OPEN_GOVERNMENT_LICENCE_URL,
   CivicAddressGeometryError,
   fetchCivicAddresses,
-  searchCivicAddresses,
   type CivicAddress,
   type CivicAddressReading,
 } from "./services/civicAddresses";
+import { searchAddressesWithMailing, mailingLabel, type MailingCivicAddress } from "./services/mailingAddresses";
+import { MailingSource } from "./components/MailingAddressDetails";
 import {
   fetchParcelAtPoint,
   fetchParcels,
@@ -1365,8 +1366,9 @@ export function App() {
   const [parcelMessage, setParcelMessage] = useState<string | null>(null);
   const [query, setQuery] = useState(initialShareState.pid ?? "");
   const [searchError, setSearchError] = useState<string | null>(null);
+  const [mailingSearchNotice, setMailingSearchNotice] = useState<string | null>(null);
   const [addressSearchResults, setAddressSearchResults] = useState<
-    CivicAddress[]
+    MailingCivicAddress[]
   >([]);
   const [searchingAddresses, setSearchingAddresses] = useState(false);
   const [activeAddressIndex, setActiveAddressIndex] = useState(-1);
@@ -3289,6 +3291,7 @@ export function App() {
   };
 
   const cancelAddressSearch = () => {
+    setMailingSearchNotice(null);
     if (addressSearchTimer.current !== null) {
       clearTimeout(addressSearchTimer.current);
       addressSearchTimer.current = null;
@@ -3446,7 +3449,7 @@ export function App() {
       setSearchingAddresses(true);
 
       try {
-        const results = await searchCivicAddresses(
+        const reading = await searchAddressesWithMailing(
           normalizedQuery,
           controller.signal,
           ...(suggest ? [{ suggest: true }] : []),
@@ -3454,8 +3457,10 @@ export function App() {
         if (controller.signal.aborted) {
           return;
         }
+        const results = reading.addresses;
+        setMailingSearchNotice(reading.notice);
         if (results.length === 0) {
-          setSearchError("No mapped civic address matched that search.");
+          setSearchError(reading.notice ? "No verified civic matches were returned; see the lookup status below." : "No mapped civic address matched that search.");
           return;
         }
         setAddressSearchResults(results);
@@ -4515,12 +4520,15 @@ export function App() {
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => chooseAddress(address)}
               >
-                {address.label}
+                <span>{address.label}</span>
+                {address.mailing?.status === "matched" ? <span className="mailing-search-label">Mailing: {mailingLabel(address.mailing.record)}</span> : null}
               </button>
             </li>
           ))}
         </ul>
       ) : null}
+      {mailingSearchNotice ? <p className="field-help" role="status">{mailingSearchNotice}</p> : null}
+      {addressSearchResults.some(a => a.mailing?.status === "matched") ? <MailingSource /> : null}
     </form>
   );
 

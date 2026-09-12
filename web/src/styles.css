@@ -7230,3 +7230,14 @@ a {
     --compact-tools-bottom: calc(80px + env(safe-area-inset-bottom));
   }
 }
+
+/* Mailing records retain their own source and never replace civic labels. */
+.mailing-search-label { display: block; margin-top: .25rem; font-size: .85em; font-weight: normal; }
+.mailing-source { font-size: .8rem; margin-block: .5rem; overflow-wrap: anywhere; }
+.mailing-source summary { cursor: pointer; }
+.mailing-source p { margin-block: .4rem; }
+.mailing-addresses { margin-block: .75rem; padding-top: .5rem; border-top: 1px solid var(--border-color, #8885); }
+.mailing-addresses h4 { margin-block: .25rem; }
+.mailing-addresses li > span { display: block; overflow-wrap: anywhere; }
+.mailing-addresses li { margin-bottom: .5rem; }
+@media print { .mailing-addresses, .mailing-source { display: none !important; } }
