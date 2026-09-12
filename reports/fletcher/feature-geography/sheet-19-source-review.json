@@ -101,6 +101,294 @@
       "reviewer": "Codex coordinator, native pixels and topology, 2026-09-12",
       "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Display detail 2×, crop origin recorded; no rotation.",
       "review_batch": "judique-north-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-018",
+      "source_anchor_xy": [
+        3712,
+        2608
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Isolated mark east of coastal road, opposite Shop and south of east-west cross-road.",
+      "status": "supported-source-association",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-019",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4090,
+          2610,
+          60,
+          70
+        ]
+      ],
+      "note": "School beside four compact marks straddling the road; individual mark not yet resolved.",
+      "status": "unresolved",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-024",
+      "source_anchor_xy": [
+        3721,
+        2997
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Mark immediately above-left of Shop east of coastal road and north of Graham River.",
+      "status": "supported-source-association",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-050",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5900,
+          3180,
+          125,
+          60
+        ]
+      ],
+      "note": "School lettering near northwest pair of marks and southeast crossing mark; keep source group pending final review.",
+      "status": "unresolved",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-057",
+      "source_anchor_xy": [
+        7629,
+        2910
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Filled mark immediately right of School west of main road, just south of western branch crossing.",
+      "status": "supported-source-association",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-058",
+      "source_anchor_xy": [
+        7672,
+        2874
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Cross-like church symbol south of diagonal road and east of main road, above Church lettering.",
+      "status": "supported-source-association",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-060",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7973,
+          2918,
+          42,
+          52
+        ]
+      ],
+      "note": "Forge lies beside the terminal road bend and four nearby compact marks, on both sides of the bend. The lettering does not uniquely assign the forge to one mark; retain the group.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-062",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8584,
+          2927,
+          18,
+          14
+        ]
+      ],
+      "note": "Quartz Mill lettering is above two adjacent compact marks on the north side of the east-west road, west of the railway. Both remain candidate mill marks; no precise individual building is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-068",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8466,
+          3592,
+          35,
+          29
+        ]
+      ],
+      "note": "McLennan’s Mill lettering follows the road bend and watercourse crossing. A rounded mark west of the crossing and an adjacent mark near the watercourse form the immediate candidate group. The source does not establish one unique mill building.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-071",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4974,
+        3788
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated filled building mark directly below School lies north of the road, east of the western watercourse crossing, and west of School 073. The two marks northeast of the lettering are separate.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-072",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5325,
+          3776,
+          110,
+          29
+        ]
+      ],
+      "note": "School is north of the road just west of a south-running junction. A faint possible mark below the lettering and a clearer mark southeast of that junction cannot be uniquely assigned. Keep their candidate region; neither the faint mark nor an exact school site is confirmed.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-073",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5107,
+        3847
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact filled mark immediately below School lies north of the curving road and east of School 071. It is distinct from the northwestern pair of building marks.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-074",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3960,
+          3808,
+          45,
+          99
+        ]
+      ],
+      "note": "Forge lettering is among several marks west of the coastal road around the eastern road junction. Marks above and below the lettering remain candidates; no individual forge building can be selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-082",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4034,
+          4537,
+          20,
+          27
+        ]
+      ],
+      "note": "P.O. lettering is immediately east of a pair of compact marks, east of the coastal road and south of the Chisholm mills road. The service cannot be uniquely assigned to one of the pair.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-085",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3855,
+          4796,
+          49,
+          22
+        ]
+      ],
+      "note": "Forge is printed east of the coastal road below the crossing watercourse, opposite two marks west of the road. Both marks remain candidates; the label does not establish an individual building.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-087",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4233,
+        5157
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Single filled mark immediately left of School, east of the rising road bend and inland from the coastal road junction. The other small mark at the road bend is farther west.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-089",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4078,
+        5344
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Compact mark directly left of Shop, east of the coastal road. The two marks farther north and the one southeast below the lettering are separate.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-091",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5571,
+        5389
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Single filled mark directly beneath School and north of the road, between the small western tributary and the larger northeastern stream junction. It is not the lettering centre.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
     }
   ],
   "limits": "Source mark association only. Group outlines retain individual-building ambiguity. Geographic coordinates require the frozen fit and separate placement review."

@@ -33,6 +33,17 @@ describe('reviewed Fletcher features', () => {
     expect(screen.getByRole('heading', { name: 'Shop' })).toBeVisible();
     expect(screen.getByRole('heading', { name: 'P.O.' })).toBeVisible();
   });
+  it('does not restart popup auto-pan when the parent reports an unchanged viewport', async () => {
+    const status = vi.fn();
+    const view = render(layer(status));
+    fireEvent.click(await screen.findByTitle('R.C. Church · approximate Fletcher location'));
+    await screen.findByText('Approximate location · locally corrected');
+    const update = vi.spyOn(L.Popup.prototype, 'update');
+    try {
+      view.rerender(layer(status));
+      expect(update).not.toHaveBeenCalled();
+    } finally { update.mockRestore(); }
+  });
   it('keeps source failure distinct from empty coverage', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false }));
     const status=vi.fn(); render(layer(status));

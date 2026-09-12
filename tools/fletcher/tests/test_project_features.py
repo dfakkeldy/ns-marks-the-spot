@@ -53,8 +53,18 @@ class FeatureEvidenceTests(unittest.TestCase):
         pending['features'][0]['properties']['geographic_review_status']='pending-current-fit-review'
         with tempfile.TemporaryDirectory() as tmp,patch.object(labels,'read',return_value=pending):
             exported=export_features.export([19],Path(tmp))
-            self.assertEqual(len(exported),len(pending['features'])-1)
+            expected={f['id'] for f in pending['features'] if f['geometry'] is not None and f['properties']['geographic_review_status']=='approximate-placement-reviewed'}
+            self.assertEqual({f['id'] for f in exported},expected)
             self.assertNotIn(pending['features'][0]['id'],{f['id'] for f in exported})
+
+    def test_reviewed_source_holdbacks_remain_out_of_web_export(self):
+        self.assertIsNone(self.rows['F19-JUD-085']['geometry'])
+        self.assertEqual(self.rows['F19-JUD-085']['properties']['placement_status'],'outside-supported-coverage')
+        self.assertIsNotNone(self.rows['F19-JUD-060']['geometry'])
+        self.assertEqual(self.rows['F19-JUD-060']['properties']['geographic_review_status'],'locality-unresolved')
+        with tempfile.TemporaryDirectory() as tmp:
+            exported=export_features.export([19],Path(tmp))
+            self.assertTrue({'F19-JUD-060','F19-JUD-085'}.isdisjoint(f['id'] for f in exported))
 
     def test_committed_placement_review_images_and_fits_match(self):
         review=labels.read(labels.ROOT/features.REPORT/'sheet-19-placement-review.json')

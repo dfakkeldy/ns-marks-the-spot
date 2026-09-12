@@ -1,7 +1,7 @@
 {
   "sheet": 19,
   "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
-  "source_review_sha256": "72eea74f1c9a8c9d8b227adff1a694dd845c3d3b1631e52f9965d822d13241ba",
+  "source_review_sha256": "8b64dc20d5a52fc3308463bc1180df28f7b0b7a028b0a411ed065d45e527204b",
   "raster_sha256": "adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4",
   "reviews": [
     {
@@ -183,6 +183,185 @@
       "scene_sha256": "774f1aa3cd95a8736331f2acf4d1c308844c5a1d851fe61520cbb8a839c2a008",
       "evidence": "Gold Mine 094 remains west of the curving road and Glendale Brook. The user corroborated this source feature in the earlier pilot; this new fit is not newly user-validated. Plumbago 103 remains in the western tributary corridor; Red Bridge 117 remains at the main valley crossing. Current road, rail and stream alignments differ locally; no current opening or modern bridge identity is asserted.",
       "limits": "Source correspondence and approximate locality review only. Fit targets are not uniformly satisfied; no surveyed position, present condition, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-018",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-central-coastal-services-geography.jpg",
+      "scene_sha256": "469b16fb991f65dc524fc55e161301282c418bc684883d6eb4ca07b8915ea227",
+      "evidence": "The two coastal brooks, inlet and cross-road constrain the shop district south of the church. The printed mark is east of the historical road, but this fit predicts just west of Highway 19: road-side agreement is unresolved. Retain the source projection as approximate; do not snap it across the highway or claim a present shop site.",
+      "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-019",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-central-coastal-services-geography.jpg",
+      "scene_sha256": "469b16fb991f65dc524fc55e161301282c418bc684883d6eb4ca07b8915ea227",
+      "evidence": "The school group remains beside the inland road above Rory Chisholm Brook. Road approach and southern drainage identify the broad corridor. Four source marks straddle the road, and the lettering does not uniquely choose one. Current stream and road positions differ locally; no school building is selected.",
+      "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-024",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-central-coastal-services-geography.jpg",
+      "scene_sha256": "469b16fb991f65dc524fc55e161301282c418bc684883d6eb4ca07b8915ea227",
+      "evidence": "The source shop mark is east of the coastal road and north of the printed Graham River. Modern drainage differs in this part of the fit, including the watercourse immediately beside the predicted point. The coastal corridor and sequence south of Rory Chisholm Brook support approximate locality only; exact bank/road-side placement remains unresolved.",
+      "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-050",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-dennistown-school-geography.jpg",
+      "scene_sha256": "d7527c7105cff17db028d27c154088cf30f5a837f4fa3797d7b86622f38fcee4",
+      "evidence": "The road bend, small north-south tributary crossing and southern river junction retain their order in the modern reference. The three candidate source marks span the school locality. The source cannot assign a unique school building; keep a group outline, not a footprint or error bound.",
+      "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-057",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-river-denys-services-geography.jpg",
+      "scene_sha256": "a3bf77035ac34f2f5611eb3d364e429146ba6abe7efb08c6954f6f39e13b6ce7",
+      "evidence": "The school mark sits west of the north-south road just below its western junction. The western stream corridor and eastern valley constrain this district, while modern branch and road linework differ. Keep the direct source-symbol projection approximate; no present school site is inferred.",
+      "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-058",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-river-denys-services-geography.jpg",
+      "scene_sha256": "a3bf77035ac34f2f5611eb3d364e429146ba6abe7efb08c6954f6f39e13b6ce7",
+      "evidence": "The printed cross-like church symbol is south of the diagonal road and east of the north-south road, northeast of School 057. The broader western stream/eastern valley topology is recognizable, but nearby modern road linework diverges and does not verify the church road-side relation. No modern church coordinate or continuing site identity is substituted.",
+      "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-060",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-eastern-forge-mill-geography.jpg",
+      "scene_sha256": "4e771b7ef7abc1b473e68d4928f752aadbe14641e588b7c4b7bc807c235f2876",
+      "evidence": "Forge group projects onto a modern stream reach with no matching terminal road bend at that location. The broad western tributary/eastern valley arrangement is recognizable, but the road-versus-stream conflict is substantial. Retain the computed geometry as evidence only and withhold web placement pending a supported local correspondence; do not snap the group to another road.",
+      "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-062",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-eastern-forge-mill-geography.jpg",
+      "scene_sha256": "4e771b7ef7abc1b473e68d4928f752aadbe14641e588b7c4b7bc807c235f2876",
+      "evidence": "The mill group remains immediately north of the east-west road, west of the main eastern valley and near the small northern tributary. The modern road/stream approach supports this approximate corridor. The two source marks cannot be assigned individually; no present mill building is established.",
+      "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-068",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-mclennan-mill-geography.jpg",
+      "scene_sha256": "70de45177c25c53609dd531eadfc6a1811be028d61171e67ff626babd4c39d97",
+      "evidence": "The road bend, north-south watercourse and western valley retain their relative order around the mill group. The current crossing is offset and modern water polygons occupy the southwestern reach. This supports approximate locality only; exact bank, footprint and individual mill remain unresolved.",
+      "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-071",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-central-schools-geography.jpg",
+      "scene_sha256": "a247d33cdc6f749c2fccadbcd2bc07b1a4bb5c0fb316de50dc76914f31870aba",
+      "evidence": "The western crossing, north-of-road source school and southern drainage corridor are recognizable in the modern reference. Nearby road and tributary lines differ locally. The source mark supports an approximate historical point, not a surveyed or continuing school site.",
+      "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-072",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-central-schools-geography.jpg",
+      "scene_sha256": "a247d33cdc6f749c2fccadbcd2bc07b1a4bb5c0fb316de50dc76914f31870aba",
+      "evidence": "The school candidate region lies near the north-south road approach, between western and eastern drainage corridors. Modern linework does not reproduce the historical east-west road and junction exactly. The source itself is ambiguous, including a faint possible mark; retain the candidate group only.",
+      "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-073",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-central-schools-geography.jpg",
+      "scene_sha256": "a247d33cdc6f749c2fccadbcd2bc07b1a4bb5c0fb316de50dc76914f31870aba",
+      "evidence": "The source mark lies north of the eastern curved road section, southeast of School 071 and north of the southern stream corridor. The modern road ends nearby and does not reproduce the entire printed curve; the cause of this difference is unproven. Retain approximate historical locality with this limit.",
+      "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-074",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-long-point-north-geography.jpg",
+      "scene_sha256": "d7f21ddea65ada8d6191c0f76599f7bc3adae14922f639c25c249ed46931ea65",
+      "evidence": "The coastal road corridor and eastern road approaches constrain the forge group west of Highway 19, north of the Chisholm brook district. Modern branch connections differ. Source marks above and below the label remain unresolved as individual buildings.",
+      "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-082",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-long-point-north-geography.jpg",
+      "scene_sha256": "d7f21ddea65ada8d6191c0f76599f7bc3adae14922f639c25c249ed46931ea65",
+      "evidence": "The P.O. pair remains east of the coastal road corridor and south of the Chisholm brook/mills sequence. The modern highway bends west while local road and stream positions differ. Preserve the pair as one approximate service group, without selecting an individual building.",
+      "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-087",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-long-point-south-geography.jpg",
+      "scene_sha256": "98534982eb66a8bf5d80ec2c800b696fe8939aa1b8951d40cebd86746c34bd3f",
+      "evidence": "The school is inland from the coastal junction, east of the road bend and above the south-flowing tributary corridor. Modern road and stream geometry supports this district but differs around the bend. No current school identity or exact footprint is inferred.",
+      "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-089",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-long-point-south-geography.jpg",
+      "scene_sha256": "98534982eb66a8bf5d80ec2c800b696fe8939aa1b8951d40cebd86746c34bd3f",
+      "evidence": "The shop remains beside the narrow coastal road, west of modern Highway 19 and south of the school cross-road. The two modern road lines must remain distinct. The source supports a mark east of its coastal road, not a claim that the shop lay east of today’s Highway 19.",
+      "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-091",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-western-school-geography.jpg",
+      "scene_sha256": "9c83c54ceca0bf4be85914b22befdd3e5ec70b992feef1aead9be3c36a87fb10",
+      "evidence": "The school remains north of the east-west road, west of the major northeastern stream junction and above a southern road branch. Smaller historical tributaries are not reproduced in modern linework. Approximate district is supported; exact bank and building footprint are unresolved.",
+      "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+    },
+    {
+      "annotation_id": "F19-JUD-085",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-southern-services-20260912.jpg",
+      "evidence": "The inspected source group includes points outside the current fit’s conservative native control hull. Retain source geometry but withhold map geometry and web placement. A supported local fit or newly accepted controls are required; the group must not be shrunk to evade the coverage gate.",
+      "scene_sha256": "f22bdbd984eb535abf27d0e419d3e39bdb899f08e7eb20d12ba67e12727b6f87"
     }
   ]
 }

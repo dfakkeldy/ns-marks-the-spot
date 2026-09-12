@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import L from 'leaflet';
 import { GeoJSON, Marker, Pane, Popup, Tooltip, useMapEvents } from 'react-leaflet';
 import type { Feature, Point, Polygon, MultiPolygon } from 'geojson';
@@ -68,7 +68,10 @@ function Evidence({ feature }: { feature: HistoricalFeature }) {
   </article>;
 }
 
-export function FletcherFeaturesLayer({ onStatus }: { onStatus: (status: string) => void }) {
+// A popup pan reports viewport/tile state to App. Recreating unchanged popup
+// children on that parent render calls Leaflet.update(), stops the active pan,
+// emits moveend and can loop. Keep this layer stable across parent-only updates.
+export const FletcherFeaturesLayer = memo(function FletcherFeaturesLayer({ onStatus }: { onStatus: (status: string) => void }) {
   const [features, setFeatures] = useState<HistoricalFeature[]>([]);
   const map = useMapEvents({ zoomend: () => setZoom(map.getZoom()), resize: () => setHeight(map.getSize().y) });
   const [zoom, setZoom] = useState(map.getZoom());
@@ -107,4 +110,4 @@ export function FletcherFeaturesLayer({ onStatus }: { onStatus: (status: string)
         : <GeoJSON key={feature.properties.annotation_id} data={feature} onEachFeature={(_feature, layer) => accessibleGroup(title, layer)} style={{ color: '#79431f', weight: 2, dashArray: '5 4', fillColor: '#e9af60', fillOpacity: 0.14, bubblingMouseEvents: false }}>{contents}</GeoJSON>;
     })}
   </Pane></>;
-}
+});

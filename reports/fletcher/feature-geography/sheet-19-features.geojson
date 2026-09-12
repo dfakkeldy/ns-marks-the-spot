@@ -17,8 +17,8 @@
       "reports/fletcher/judique-full-sheet/fresh-scores.json": "f829a7c9f685c6c8d298b37e0b98c2f75b306725e9ab90cfad2d4d1cbaa63ddd"
     },
     "source_review_inputs_sha256": {
-      "reports/fletcher/feature-geography/sheet-19-source-review.json": "72eea74f1c9a8c9d8b227adff1a694dd845c3d3b1631e52f9965d822d13241ba",
-      "reports/fletcher/feature-geography/sheet-19-placement-review.json": "f042700c8b0512953a1a9b74f0bde01dd37690749d2cb14a6ba344bde1c59562",
+      "reports/fletcher/feature-geography/sheet-19-source-review.json": "8b64dc20d5a52fc3308463bc1180df28f7b0b7a028b0a411ed065d45e527204b",
+      "reports/fletcher/feature-geography/sheet-19-placement-review.json": "510f73d455051991770ff6a4e8fbe43b3d192e153ca64f1aaeef5a5deeede54d",
       "reports/fletcher/placement-pilot/source-review.json": "7d6b4958f3a15e26830092cf2d34e7c8988c18b873037ec3d58315eab45e357f",
       "reports/fletcher/placement-pilot/mapped-annotations.geojson": "1bcf7fa7250b7ec79eb7bc9ccab423dfbf925cd42b8971916e0e22df274bb0f3",
       "reports/fletcher/placement-pilot/locality-review.json": "5aad64e2407afbc5005abf6dbe40bd30c8f86cfabde06dcbe9d1b1d52dabd0e3"
@@ -2438,6 +2438,554 @@
     },
     {
       "type": "Feature",
+      "id": "F19-JUD-018",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.49080108401613,
+          45.87517787225128
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-018",
+        "sheet": 19,
+        "name": "Shop",
+        "source_text": "Shop",
+        "kind": "shop",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-018",
+          "source_text": "Shop",
+          "kind": "shop",
+          "reading_status": "clear",
+          "source_record_file": "../judique-pilot.json",
+          "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+          "source_label_boxes_xywh": [
+            [
+              3610,
+              2570,
+              88,
+              49
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Shop south of the church, west of the main coastal road."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-018",
+          "source_anchor_xy": [
+            3712,
+            2608
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "Isolated mark east of coastal road, opposite Shop and south of east-west cross-road.",
+          "status": "supported-source-association",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+          "review_batch": "judique-central-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3712,
+            2608
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.49080108401613,
+            45.87517787225128
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            3324,
+            2369,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3324,2369,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-018",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-central-coastal-services-geography.jpg",
+          "scene_sha256": "469b16fb991f65dc524fc55e161301282c418bc684883d6eb4ca07b8915ea227",
+          "evidence": "The two coastal brooks, inlet and cross-road constrain the shop district south of the church. The printed mark is east of the historical road, but this fit predicts just west of Highway 19: road-side agreement is unresolved. Retain the source projection as approximate; do not snap it across the highway or claim a present shop site.",
+          "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-019",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.47385184077171,
+              45.875844384523056
+            ],
+            [
+              -61.47385075681023,
+              45.87552154303551
+            ],
+            [
+              -61.4738498534907,
+              45.875198485713895
+            ],
+            [
+              -61.47384914098286,
+              45.8748752025647
+            ],
+            [
+              -61.47384862948798,
+              45.87455168361977
+            ],
+            [
+              -61.473848329223664,
+              45.87422791894982
+            ],
+            [
+              -61.473848250408444,
+              45.873903898678535
+            ],
+            [
+              -61.473848403244936,
+              45.87357961299652
+            ],
+            [
+              -61.47340163983059,
+              45.87359527110134
+            ],
+            [
+              -61.4729549347656,
+              45.87361080812584
+            ],
+            [
+              -61.4725082869656,
+              45.873626224225376
+            ],
+            [
+              -61.47206169541585,
+              45.87364151949945
+            ],
+            [
+              -61.47161515917412,
+              45.873656693988586
+            ],
+            [
+              -61.47116867737425,
+              45.87367174767178
+            ],
+            [
+              -61.47116908930841,
+              45.87399643877551
+            ],
+            [
+              -61.47116974195747,
+              45.87432085352137
+            ],
+            [
+              -61.471170623692714,
+              45.874645002846435
+            ],
+            [
+              -61.47117172288899,
+              45.87496889775336
+            ],
+            [
+              -61.4711730279468,
+              45.87529254929127
+            ],
+            [
+              -61.47117452731316,
+              45.87561596853779
+            ],
+            [
+              -61.47117620950114,
+              45.87593916658127
+            ],
+            [
+              -61.471621894302224,
+              45.875923789660845
+            ],
+            [
+              -61.4720676802871,
+              45.875908243429755
+            ],
+            [
+              -61.47251356763851,
+              45.8758925288915
+            ],
+            [
+              -61.47295955661076,
+              45.8758766469851
+            ],
+            [
+              -61.47340564752616,
+              45.87586059858862
+            ],
+            [
+              -61.47385184077171,
+              45.875844384523056
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-019",
+        "sheet": 19,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-019",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "source_record_file": "../judique-pilot.json",
+          "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+          "source_label_boxes_xywh": [
+            [
+              4125,
+              2604,
+              114,
+              46
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "School along the diagonal road south of the church district."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-019",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              4090,
+              2610,
+              60,
+              70
+            ]
+          ],
+          "note": "School beside four compact marks straddling the road; individual mark not yet resolved.",
+          "status": "unresolved",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+          "review_batch": "judique-central-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4090.0,
+                2610.0
+              ],
+              [
+                4100.0,
+                2610.0
+              ],
+              [
+                4110.0,
+                2610.0
+              ],
+              [
+                4120.0,
+                2610.0
+              ],
+              [
+                4130.0,
+                2610.0
+              ],
+              [
+                4140.0,
+                2610.0
+              ],
+              [
+                4150.0,
+                2610.0
+              ],
+              [
+                4150.0,
+                2620.0
+              ],
+              [
+                4150.0,
+                2630.0
+              ],
+              [
+                4150.0,
+                2640.0
+              ],
+              [
+                4150.0,
+                2650.0
+              ],
+              [
+                4150.0,
+                2660.0
+              ],
+              [
+                4150.0,
+                2670.0
+              ],
+              [
+                4150.0,
+                2680.0
+              ],
+              [
+                4140.0,
+                2680.0
+              ],
+              [
+                4130.0,
+                2680.0
+              ],
+              [
+                4120.0,
+                2680.0
+              ],
+              [
+                4110.0,
+                2680.0
+              ],
+              [
+                4100.0,
+                2680.0
+              ],
+              [
+                4090.0,
+                2680.0
+              ],
+              [
+                4090.0,
+                2670.0
+              ],
+              [
+                4090.0,
+                2660.0
+              ],
+              [
+                4090.0,
+                2650.0
+              ],
+              [
+                4090.0,
+                2640.0
+              ],
+              [
+                4090.0,
+                2630.0
+              ],
+              [
+                4090.0,
+                2620.0
+              ],
+              [
+                4090.0,
+                2610.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.47385184077171,
+                45.875844384523056
+              ],
+              [
+                -61.47385075681023,
+                45.87552154303551
+              ],
+              [
+                -61.4738498534907,
+                45.875198485713895
+              ],
+              [
+                -61.47384914098286,
+                45.8748752025647
+              ],
+              [
+                -61.47384862948798,
+                45.87455168361977
+              ],
+              [
+                -61.473848329223664,
+                45.87422791894982
+              ],
+              [
+                -61.473848250408444,
+                45.873903898678535
+              ],
+              [
+                -61.473848403244936,
+                45.87357961299652
+              ],
+              [
+                -61.47340163983059,
+                45.87359527110134
+              ],
+              [
+                -61.4729549347656,
+                45.87361080812584
+              ],
+              [
+                -61.4725082869656,
+                45.873626224225376
+              ],
+              [
+                -61.47206169541585,
+                45.87364151949945
+              ],
+              [
+                -61.47161515917412,
+                45.873656693988586
+              ],
+              [
+                -61.47116867737425,
+                45.87367174767178
+              ],
+              [
+                -61.47116908930841,
+                45.87399643877551
+              ],
+              [
+                -61.47116974195747,
+                45.87432085352137
+              ],
+              [
+                -61.471170623692714,
+                45.874645002846435
+              ],
+              [
+                -61.47117172288899,
+                45.87496889775336
+              ],
+              [
+                -61.4711730279468,
+                45.87529254929127
+              ],
+              [
+                -61.47117452731316,
+                45.87561596853779
+              ],
+              [
+                -61.47117620950114,
+                45.87593916658127
+              ],
+              [
+                -61.471621894302224,
+                45.875923789660845
+              ],
+              [
+                -61.4720676802871,
+                45.875908243429755
+              ],
+              [
+                -61.47251356763851,
+                45.8758925288915
+              ],
+              [
+                -61.47295955661076,
+                45.8758766469851
+              ],
+              [
+                -61.47340564752616,
+                45.87586059858862
+              ],
+              [
+                -61.47385184077171,
+                45.875844384523056
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            3852,
+            2402,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3852,2402,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-019",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-central-coastal-services-geography.jpg",
+          "scene_sha256": "469b16fb991f65dc524fc55e161301282c418bc684883d6eb4ca07b8915ea227",
+          "evidence": "The school group remains beside the inland road above Rory Chisholm Brook. Road approach and southern drainage identify the broad corridor. Four source marks straddle the road, and the lettering does not uniquely choose one. Current stream and road positions differ locally; no school building is selected.",
+          "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
       "id": "F19-JUD-021",
       "geometry": {
         "type": "Polygon",
@@ -2866,6 +3414,1308 @@
     },
     {
       "type": "Feature",
+      "id": "F19-JUD-024",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.49049768207359,
+          45.86268415723927
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-024",
+        "sheet": 19,
+        "name": "Shop",
+        "source_text": "Shop",
+        "kind": "shop",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-024",
+          "source_text": "Shop",
+          "kind": "shop",
+          "reading_status": "clear",
+          "source_record_file": "../judique-pilot.json",
+          "source_record_sha256": "6e1d4a98e007aca2f53cc9ac2e55141b7b3302ebe46fa5c8b9bdaa990e1177cd",
+          "source_label_boxes_xywh": [
+            [
+              3717,
+              2992,
+              80,
+              44
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Shop beside the coastal road just north of Graham River."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-024",
+          "source_anchor_xy": [
+            3721,
+            2997
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "Mark immediately above-left of Shop east of coastal road and north of Graham River.",
+          "status": "supported-source-association",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+          "review_batch": "judique-central-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3721,
+            2997
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.49049768207359,
+            45.86268415723927
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            3427,
+            2789,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3427,2789,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-024",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-central-coastal-services-geography.jpg",
+          "scene_sha256": "469b16fb991f65dc524fc55e161301282c418bc684883d6eb4ca07b8915ea227",
+          "evidence": "The source shop mark is east of the coastal road and north of the printed Graham River. Modern drainage differs in this part of the fit, including the watercourse immediately beside the predicted point. The coastal corridor and sequence south of Rory Chisholm Brook support approximate locality only; exact bank/road-side placement remains unresolved.",
+          "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-050",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.39291818678302,
+              45.85782563778057
+            ],
+            [
+              -61.39292121975378,
+              45.857504844268014
+            ],
+            [
+              -61.392924074186254,
+              45.857183692713946
+            ],
+            [
+              -61.39292671919395,
+              45.85686218155808
+            ],
+            [
+              -61.392929124540295,
+              45.856540308287535
+            ],
+            [
+              -61.39293126062975,
+              45.85621806922012
+            ],
+            [
+              -61.392933098478885,
+              45.85589545926642
+            ],
+            [
+              -61.39250707321959,
+              45.85589770128092
+            ],
+            [
+              -61.392081171880186,
+              45.85589955626684
+            ],
+            [
+              -61.391655366676964,
+              45.855901008025604
+            ],
+            [
+              -61.39122963174868,
+              45.855902043003745
+            ],
+            [
+              -61.390803943319526,
+              45.85590265071317
+            ],
+            [
+              -61.390378279851134,
+              45.855902824127114
+            ],
+            [
+              -61.38995262217545,
+              45.855902560033925
+            ],
+            [
+              -61.38952695359825,
+              45.85590185932626
+            ],
+            [
+              -61.389101259966054,
+              45.85590072721046
+            ],
+            [
+              -61.388675529690225,
+              45.85589917332121
+            ],
+            [
+              -61.38824975372456,
+              45.85589721173472
+            ],
+            [
+              -61.387823925496356,
+              45.855894860878315
+            ],
+            [
+              -61.38739804079285,
+              45.85589214334311
+            ],
+            [
+              -61.38740200622969,
+              45.856211919861884
+            ],
+            [
+              -61.38740568526584,
+              45.85653139380274
+            ],
+            [
+              -61.38740910381175,
+              45.8568505694541
+            ],
+            [
+              -61.38741228764117,
+              45.85716945012159
+            ],
+            [
+              -61.387415262413846,
+              45.85748803830483
+            ],
+            [
+              -61.387418053685515,
+              45.85780633585258
+            ],
+            [
+              -61.38784147866038,
+              45.85780892677822
+            ],
+            [
+              -61.388264803176,
+              45.8578113699887
+            ],
+            [
+              -61.38868803480995,
+              45.85781364937754
+            ],
+            [
+              -61.38911118286223,
+              45.85781575122446
+            ],
+            [
+              -61.38953425841103,
+              45.85781766427446
+            ],
+            [
+              -61.38995727435294,
+              45.85781937978227
+            ],
+            [
+              -61.390380245427856,
+              45.85782089152078
+            ],
+            [
+              -61.39080318822821,
+              45.857822195753684
+            ],
+            [
+              -61.39122612119345,
+              45.857823291174704
+            ],
+            [
+              -61.391649064591,
+              45.85782417881521
+            ],
+            [
+              -61.39207204048655,
+              45.8578248619253
+            ],
+            [
+              -61.39249507270466,
+              45.85782534583211
+            ],
+            [
+              -61.39291818678302,
+              45.85782563778057
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-050",
+        "sheet": 19,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-050",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              5931,
+              3185,
+              101,
+              46
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "School above Dennistown lettering, close to a small stream crossing."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-050",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              5900,
+              3180,
+              125,
+              60
+            ]
+          ],
+          "note": "School lettering near northwest pair of marks and southeast crossing mark; keep source group pending final review.",
+          "status": "unresolved",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+          "review_batch": "judique-central-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                5900.0,
+                3180.0
+              ],
+              [
+                5909.615384615385,
+                3180.0
+              ],
+              [
+                5919.2307692307695,
+                3180.0
+              ],
+              [
+                5928.846153846154,
+                3180.0
+              ],
+              [
+                5938.461538461538,
+                3180.0
+              ],
+              [
+                5948.076923076923,
+                3180.0
+              ],
+              [
+                5957.692307692308,
+                3180.0
+              ],
+              [
+                5967.307692307692,
+                3180.0
+              ],
+              [
+                5976.923076923077,
+                3180.0
+              ],
+              [
+                5986.538461538462,
+                3180.0
+              ],
+              [
+                5996.153846153846,
+                3180.0
+              ],
+              [
+                6005.7692307692305,
+                3180.0
+              ],
+              [
+                6015.384615384615,
+                3180.0
+              ],
+              [
+                6025.0,
+                3180.0
+              ],
+              [
+                6025.0,
+                3190.0
+              ],
+              [
+                6025.0,
+                3200.0
+              ],
+              [
+                6025.0,
+                3210.0
+              ],
+              [
+                6025.0,
+                3220.0
+              ],
+              [
+                6025.0,
+                3230.0
+              ],
+              [
+                6025.0,
+                3240.0
+              ],
+              [
+                6015.384615384615,
+                3240.0
+              ],
+              [
+                6005.7692307692305,
+                3240.0
+              ],
+              [
+                5996.153846153846,
+                3240.0
+              ],
+              [
+                5986.538461538462,
+                3240.0
+              ],
+              [
+                5976.923076923077,
+                3240.0
+              ],
+              [
+                5967.307692307692,
+                3240.0
+              ],
+              [
+                5957.692307692308,
+                3240.0
+              ],
+              [
+                5948.076923076923,
+                3240.0
+              ],
+              [
+                5938.461538461538,
+                3240.0
+              ],
+              [
+                5928.846153846154,
+                3240.0
+              ],
+              [
+                5919.2307692307695,
+                3240.0
+              ],
+              [
+                5909.615384615385,
+                3240.0
+              ],
+              [
+                5900.0,
+                3240.0
+              ],
+              [
+                5900.0,
+                3230.0
+              ],
+              [
+                5900.0,
+                3220.0
+              ],
+              [
+                5900.0,
+                3210.0
+              ],
+              [
+                5900.0,
+                3200.0
+              ],
+              [
+                5900.0,
+                3190.0
+              ],
+              [
+                5900.0,
+                3180.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.39291818678302,
+                45.85782563778057
+              ],
+              [
+                -61.39292121975378,
+                45.857504844268014
+              ],
+              [
+                -61.392924074186254,
+                45.857183692713946
+              ],
+              [
+                -61.39292671919395,
+                45.85686218155808
+              ],
+              [
+                -61.392929124540295,
+                45.856540308287535
+              ],
+              [
+                -61.39293126062975,
+                45.85621806922012
+              ],
+              [
+                -61.392933098478885,
+                45.85589545926642
+              ],
+              [
+                -61.39250707321959,
+                45.85589770128092
+              ],
+              [
+                -61.392081171880186,
+                45.85589955626684
+              ],
+              [
+                -61.391655366676964,
+                45.855901008025604
+              ],
+              [
+                -61.39122963174868,
+                45.855902043003745
+              ],
+              [
+                -61.390803943319526,
+                45.85590265071317
+              ],
+              [
+                -61.390378279851134,
+                45.855902824127114
+              ],
+              [
+                -61.38995262217545,
+                45.855902560033925
+              ],
+              [
+                -61.38952695359825,
+                45.85590185932626
+              ],
+              [
+                -61.389101259966054,
+                45.85590072721046
+              ],
+              [
+                -61.388675529690225,
+                45.85589917332121
+              ],
+              [
+                -61.38824975372456,
+                45.85589721173472
+              ],
+              [
+                -61.387823925496356,
+                45.855894860878315
+              ],
+              [
+                -61.38739804079285,
+                45.85589214334311
+              ],
+              [
+                -61.38740200622969,
+                45.856211919861884
+              ],
+              [
+                -61.38740568526584,
+                45.85653139380274
+              ],
+              [
+                -61.38740910381175,
+                45.8568505694541
+              ],
+              [
+                -61.38741228764117,
+                45.85716945012159
+              ],
+              [
+                -61.387415262413846,
+                45.85748803830483
+              ],
+              [
+                -61.387418053685515,
+                45.85780633585258
+              ],
+              [
+                -61.38784147866038,
+                45.85780892677822
+              ],
+              [
+                -61.388264803176,
+                45.8578113699887
+              ],
+              [
+                -61.38868803480995,
+                45.85781364937754
+              ],
+              [
+                -61.38911118286223,
+                45.85781575122446
+              ],
+              [
+                -61.38953425841103,
+                45.85781766427446
+              ],
+              [
+                -61.38995727435294,
+                45.85781937978227
+              ],
+              [
+                -61.390380245427856,
+                45.85782089152078
+              ],
+              [
+                -61.39080318822821,
+                45.857822195753684
+              ],
+              [
+                -61.39122612119345,
+                45.857823291174704
+              ],
+              [
+                -61.391649064591,
+                45.85782417881521
+              ],
+              [
+                -61.39207204048655,
+                45.8578248619253
+              ],
+              [
+                -61.39249507270466,
+                45.85782534583211
+              ],
+              [
+                -61.39291818678302,
+                45.85782563778057
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            5651,
+            2983,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5651,2983,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-050",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-dennistown-school-geography.jpg",
+          "scene_sha256": "d7527c7105cff17db028d27c154088cf30f5a837f4fa3797d7b86622f38fcee4",
+          "evidence": "The road bend, small north-south tributary crossing and southern river junction retain their order in the modern reference. The three candidate source marks span the school locality. The source cannot assign a unique school building; keep a group outline, not a footprint or error bound.",
+          "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-057",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.31448960160216,
+          45.867319980605906
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-057",
+        "sheet": 19,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-057",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              7535,
+              2899,
+              101,
+              46
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "School west of the main north-south road, near Church."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-057",
+          "source_anchor_xy": [
+            7629,
+            2910
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "Filled mark immediately right of School west of main road, just south of western branch crossing.",
+          "status": "supported-source-association",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+          "review_batch": "judique-central-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            7629,
+            2910
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.31448960160216,
+            45.867319980605906
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7255,
+            2697,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7255,2697,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-057",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-river-denys-services-geography.jpg",
+          "scene_sha256": "a3bf77035ac34f2f5611eb3d364e429146ba6abe7efb08c6954f6f39e13b6ce7",
+          "evidence": "The school mark sits west of the north-south road just below its western junction. The western stream corridor and eastern valley constrain this district, while modern branch and road linework differ. Keep the direct source-symbol projection approximate; no present school site is inferred.",
+          "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-058",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.31240900361075,
+          45.86841245596135
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-058",
+        "sheet": 19,
+        "name": "Church",
+        "source_text": "Church",
+        "kind": "church",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-058",
+          "source_text": "Church",
+          "kind": "church",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              7631,
+              2872,
+              125,
+              49
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Church beside a cross-like map symbol at the road junction; denomination not printed here."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-058",
+          "source_anchor_xy": [
+            7672,
+            2874
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "Cross-like church symbol south of diagonal road and east of main road, above Church lettering.",
+          "status": "supported-source-association",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+          "review_batch": "judique-central-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            7672,
+            2874
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.31240900361075,
+            45.86841245596135
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7363,
+            2671,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7363,2671,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-058",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-river-denys-services-geography.jpg",
+          "scene_sha256": "a3bf77035ac34f2f5611eb3d364e429146ba6abe7efb08c6954f6f39e13b6ce7",
+          "evidence": "The printed cross-like church symbol is south of the diagonal road and east of the north-south road, northeast of School 057. The broader western stream/eastern valley topology is recognizable, but nearby modern road linework diverges and does not verify the church road-side relation. No modern church coordinate or continuing site identity is substituted.",
+          "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-060",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.298359528659105,
+              45.86643887415923
+            ],
+            [
+              -61.29836855698786,
+              45.866156207901675
+            ],
+            [
+              -61.29837758955387,
+              45.8658734935807
+            ],
+            [
+              -61.29838662372178,
+              45.86559073260697
+            ],
+            [
+              -61.29839565691051,
+              45.86530792643002
+            ],
+            [
+              -61.298404686596534,
+              45.865025076540476
+            ],
+            [
+              -61.2984137103173,
+              45.864742184472775
+            ],
+            [
+              -61.29801949220672,
+              45.86472748039231
+            ],
+            [
+              -61.297625386847024,
+              45.86471288838872
+            ],
+            [
+              -61.29723139788906,
+              45.86469841296625
+            ],
+            [
+              -61.29683752890172,
+              45.86468405852856
+            ],
+            [
+              -61.29644378336733,
+              45.86466982937384
+            ],
+            [
+              -61.29643547512442,
+              45.864952843653974
+            ],
+            [
+              -61.29642715861207,
+              45.86523581318115
+            ],
+            [
+              -61.29641883615943,
+              45.865518736437906
+            ],
+            [
+              -61.29641051015754,
+              45.86580161195308
+            ],
+            [
+              -61.29640218305604,
+              45.866084438299346
+            ],
+            [
+              -61.29639385735984,
+              45.86636721409057
+            ],
+            [
+              -61.296786786300665,
+              45.866381329317925
+            ],
+            [
+              -61.29717982102207,
+              45.86639555692746
+            ],
+            [
+              -61.29757295844084,
+              45.86640989297858
+            ],
+            [
+              -61.297966195397265,
+              45.86642433343317
+            ],
+            [
+              -61.298359528659105,
+              45.86643887415923
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-060",
+        "sheet": 19,
+        "name": "Forge",
+        "source_text": "Forge",
+        "kind": "forge",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-060",
+          "source_text": "Forge",
+          "kind": "forge",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              8017,
+              2914,
+              102,
+              45
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Forge on a short road spur east of the large place label."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-060",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              7973,
+              2918,
+              42,
+              52
+            ]
+          ],
+          "note": "Forge lies beside the terminal road bend and four nearby compact marks, on both sides of the bend. The lettering does not uniquely assign the forge to one mark; retain the group.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-eastern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                7973.0,
+                2918.0
+              ],
+              [
+                7981.4,
+                2918.0
+              ],
+              [
+                7989.8,
+                2918.0
+              ],
+              [
+                7998.2,
+                2918.0
+              ],
+              [
+                8006.6,
+                2918.0
+              ],
+              [
+                8015.0,
+                2918.0
+              ],
+              [
+                8015.0,
+                2926.6666666666665
+              ],
+              [
+                8015.0,
+                2935.3333333333335
+              ],
+              [
+                8015.0,
+                2944.0
+              ],
+              [
+                8015.0,
+                2952.6666666666665
+              ],
+              [
+                8015.0,
+                2961.3333333333335
+              ],
+              [
+                8015.0,
+                2970.0
+              ],
+              [
+                8006.6,
+                2970.0
+              ],
+              [
+                7998.2,
+                2970.0
+              ],
+              [
+                7989.8,
+                2970.0
+              ],
+              [
+                7981.4,
+                2970.0
+              ],
+              [
+                7973.0,
+                2970.0
+              ],
+              [
+                7973.0,
+                2961.3333333333335
+              ],
+              [
+                7973.0,
+                2952.6666666666665
+              ],
+              [
+                7973.0,
+                2944.0
+              ],
+              [
+                7973.0,
+                2935.3333333333335
+              ],
+              [
+                7973.0,
+                2926.6666666666665
+              ],
+              [
+                7973.0,
+                2918.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.298359528659105,
+                45.86643887415923
+              ],
+              [
+                -61.29836855698786,
+                45.866156207901675
+              ],
+              [
+                -61.29837758955387,
+                45.8658734935807
+              ],
+              [
+                -61.29838662372178,
+                45.86559073260697
+              ],
+              [
+                -61.29839565691051,
+                45.86530792643002
+              ],
+              [
+                -61.298404686596534,
+                45.865025076540476
+              ],
+              [
+                -61.2984137103173,
+                45.864742184472775
+              ],
+              [
+                -61.29801949220672,
+                45.86472748039231
+              ],
+              [
+                -61.297625386847024,
+                45.86471288838872
+              ],
+              [
+                -61.29723139788906,
+                45.86469841296625
+              ],
+              [
+                -61.29683752890172,
+                45.86468405852856
+              ],
+              [
+                -61.29644378336733,
+                45.86466982937384
+              ],
+              [
+                -61.29643547512442,
+                45.864952843653974
+              ],
+              [
+                -61.29642715861207,
+                45.86523581318115
+              ],
+              [
+                -61.29641883615943,
+                45.865518736437906
+              ],
+              [
+                -61.29641051015754,
+                45.86580161195308
+              ],
+              [
+                -61.29640218305604,
+                45.866084438299346
+              ],
+              [
+                -61.29639385735984,
+                45.86636721409057
+              ],
+              [
+                -61.296786786300665,
+                45.866381329317925
+              ],
+              [
+                -61.29717982102207,
+                45.86639555692746
+              ],
+              [
+                -61.29757295844084,
+                45.86640989297858
+              ],
+              [
+                -61.297966195397265,
+                45.86642433343317
+              ],
+              [
+                -61.298359528659105,
+                45.86643887415923
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "locality-unresolved",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7738,
+            2711,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7738,2711,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-060",
+          "status": "locality-unresolved",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-eastern-forge-mill-geography.jpg",
+          "scene_sha256": "4e771b7ef7abc1b473e68d4928f752aadbe14641e588b7c4b7bc807c235f2876",
+          "evidence": "Forge group projects onto a modern stream reach with no matching terminal road bend at that location. The broad western tributary/eastern valley arrangement is recognizable, but the road-versus-stream conflict is substantial. Retain the computed geometry as evidence only and withhold web placement pending a supported local correspondence; do not snap the group to another road.",
+          "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
       "id": "F19-JUD-061",
       "geometry": {
         "type": "Point",
@@ -3025,6 +4875,1696 @@
           "scene_sha256": "a31245f32ca1025f454dd096f668bc9d49a51f87231d09d1f15bcd79ed779f7c",
           "evidence": "Gold Mine 061 remains north of the east-west road and beside the northern tributary junction, west of the major eastern valley. Modern road and watercourses support locality only; no mine footprint or present opening is established. Reprojection moves this annotation approximately 151 ground metres from the earlier 39-control pilot coordinate. Both revisions are retained; this is not a newly verified mine opening.",
           "limits": "Source correspondence and approximate locality review only. Fit targets are not uniformly satisfied; no surveyed position, present condition, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-062",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.27010226450964,
+              45.865483116678085
+            ],
+            [
+              -61.27010733898424,
+              45.86525772796517
+            ],
+            [
+              -61.27011241925533,
+              45.86503234083411
+            ],
+            [
+              -61.26970144691127,
+              45.86502899140808
+            ],
+            [
+              -61.269290599166155,
+              45.86502579389479
+            ],
+            [
+              -61.26928544137765,
+              45.86525100963181
+            ],
+            [
+              -61.26928028881788,
+              45.86547622805635
+            ],
+            [
+              -61.26969121525506,
+              45.86547959651197
+            ],
+            [
+              -61.27010226450964,
+              45.865483116678085
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-062",
+        "sheet": 19,
+        "name": "Quartz\nMill",
+        "source_text": "Quartz\nMill",
+        "kind": "mill",
+        "reading_status": "tentative",
+        "source_annotation": {
+          "id": "F19-JUD-062",
+          "source_text": "Quartz\nMill",
+          "kind": "mill",
+          "reading_status": "tentative",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              8509,
+              2866,
+              116,
+              49
+            ],
+            [
+              8521,
+              2893,
+              88,
+              48
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Quartz and Mill are legible; nearby Falls lettering overlaps or adjoins the first line. Separation into two annotations is tentative."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-062",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              8584,
+              2927,
+              18,
+              14
+            ]
+          ],
+          "note": "Quartz Mill lettering is above two adjacent compact marks on the north side of the east-west road, west of the railway. Both remain candidate mill marks; no precise individual building is selected.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-eastern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                8584.0,
+                2927.0
+              ],
+              [
+                8593.0,
+                2927.0
+              ],
+              [
+                8602.0,
+                2927.0
+              ],
+              [
+                8602.0,
+                2934.0
+              ],
+              [
+                8602.0,
+                2941.0
+              ],
+              [
+                8593.0,
+                2941.0
+              ],
+              [
+                8584.0,
+                2941.0
+              ],
+              [
+                8584.0,
+                2934.0
+              ],
+              [
+                8584.0,
+                2927.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.27010226450964,
+                45.865483116678085
+              ],
+              [
+                -61.27010733898424,
+                45.86525772796517
+              ],
+              [
+                -61.27011241925533,
+                45.86503234083411
+              ],
+              [
+                -61.26970144691127,
+                45.86502899140808
+              ],
+              [
+                -61.269290599166155,
+                45.86502579389479
+              ],
+              [
+                -61.26928544137765,
+                45.86525100963181
+              ],
+              [
+                -61.26928028881788,
+                45.86547622805635
+              ],
+              [
+                -61.26969121525506,
+                45.86547959651197
+              ],
+              [
+                -61.27010226450964,
+                45.865483116678085
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8237,
+            2665,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8237,2665,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-062",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-eastern-forge-mill-geography.jpg",
+          "scene_sha256": "4e771b7ef7abc1b473e68d4928f752aadbe14641e588b7c4b7bc807c235f2876",
+          "evidence": "The mill group remains immediately north of the east-west road, west of the main eastern valley and near the small northern tributary. The modern road/stream approach supports this approximate corridor. The two source marks cannot be assigned individually; no present mill building is established.",
+          "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-068",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.27602664122093,
+              45.84419563254327
+            ],
+            [
+              -61.27603610728436,
+              45.84389004463622
+            ],
+            [
+              -61.27604557947825,
+              45.84358456650627
+            ],
+            [
+              -61.276055052535135,
+              45.84327919270321
+            ],
+            [
+              -61.275655004126975,
+              45.843281002674075
+            ],
+            [
+              -61.27525513579582,
+              45.84328298278936
+            ],
+            [
+              -61.274855443359264,
+              45.8432851293433
+            ],
+            [
+              -61.27445592272534,
+              45.84328743872983
+            ],
+            [
+              -61.27444651289941,
+              45.8435926636059
+            ],
+            [
+              -61.27443710743086,
+              45.843897989857076
+            ],
+            [
+              -61.2744277108762,
+              45.844203422290846
+            ],
+            [
+              -61.27482718473773,
+              45.84420123034482
+            ],
+            [
+              -61.27522682834858,
+              45.844199198987496
+            ],
+            [
+              -61.27562664578481,
+              45.84419733181778
+            ],
+            [
+              -61.27602664122093,
+              45.84419563254327
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-068",
+        "sheet": 19,
+        "name": "MᶜLennan's Mill",
+        "source_text": "MᶜLennan's Mill",
+        "kind": "mill",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-068",
+          "source_text": "MᶜLennan's Mill",
+          "kind": "mill",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              8468,
+              3605,
+              247,
+              53
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Personal-name mill label near road and stream crossing. Not a proven association with any modern mill site."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-068",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              8466,
+              3592,
+              35,
+              29
+            ]
+          ],
+          "note": "McLennan’s Mill lettering follows the road bend and watercourse crossing. A rounded mark west of the crossing and an adjacent mark near the watercourse form the immediate candidate group. The source does not establish one unique mill building.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-eastern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                8466.0,
+                3592.0
+              ],
+              [
+                8474.75,
+                3592.0
+              ],
+              [
+                8483.5,
+                3592.0
+              ],
+              [
+                8492.25,
+                3592.0
+              ],
+              [
+                8501.0,
+                3592.0
+              ],
+              [
+                8501.0,
+                3601.6666666666665
+              ],
+              [
+                8501.0,
+                3611.3333333333335
+              ],
+              [
+                8501.0,
+                3621.0
+              ],
+              [
+                8492.25,
+                3621.0
+              ],
+              [
+                8483.5,
+                3621.0
+              ],
+              [
+                8474.75,
+                3621.0
+              ],
+              [
+                8466.0,
+                3621.0
+              ],
+              [
+                8466.0,
+                3611.3333333333335
+              ],
+              [
+                8466.0,
+                3601.6666666666665
+              ],
+              [
+                8466.0,
+                3592.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.27602664122093,
+                45.84419563254327
+              ],
+              [
+                -61.27603610728436,
+                45.84389004463622
+              ],
+              [
+                -61.27604557947825,
+                45.84358456650627
+              ],
+              [
+                -61.276055052535135,
+                45.84327919270321
+              ],
+              [
+                -61.275655004126975,
+                45.843281002674075
+              ],
+              [
+                -61.27525513579582,
+                45.84328298278936
+              ],
+              [
+                -61.274855443359264,
+                45.8432851293433
+              ],
+              [
+                -61.27445592272534,
+                45.84328743872983
+              ],
+              [
+                -61.27444651289941,
+                45.8435926636059
+              ],
+              [
+                -61.27443710743086,
+                45.843897989857076
+              ],
+              [
+                -61.2744277108762,
+                45.844203422290846
+              ],
+              [
+                -61.27482718473773,
+                45.84420123034482
+              ],
+              [
+                -61.27522682834858,
+                45.844199198987496
+              ],
+              [
+                -61.27562664578481,
+                45.84419733181778
+              ],
+              [
+                -61.27602664122093,
+                45.84419563254327
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8261,
+            3406,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8261,3406,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-068",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-mclennan-mill-geography.jpg",
+          "scene_sha256": "70de45177c25c53609dd531eadfc6a1811be028d61171e67ff626babd4c39d97",
+          "evidence": "The road bend, north-south watercourse and western valley retain their relative order around the mill group. The current crossing is offset and modern water polygons occupy the southwestern reach. This supports approximate locality only; exact bank, footprint and individual mill remain unresolved.",
+          "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-071",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.43605344281125,
+          45.83560421154273
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-071",
+        "sheet": 19,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-071",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "source_record_file": "../judique-south.json",
+          "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+          "source_label_boxes_xywh": [
+            [
+              4968,
+              3752,
+              87,
+              37
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Northern school in the hatched area; separate printed occurrence from the school immediately southeast."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-071",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            4974,
+            3788
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The isolated filled building mark directly below School lies north of the road, east of the western watercourse crossing, and west of School 073. The two marks northeast of the lettering are separate.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-eastern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            4974,
+            3788
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.43605344281125,
+            45.83560421154273
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            4681,
+            3545,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4681,3545,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-071",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-central-schools-geography.jpg",
+          "scene_sha256": "a247d33cdc6f749c2fccadbcd2bc07b1a4bb5c0fb316de50dc76914f31870aba",
+          "evidence": "The western crossing, north-of-road source school and southern drainage corridor are recognizable in the modern reference. Nearby road and tributary lines differ locally. The source mark supports an approximate historical point, not a surveyed or continuing school site.",
+          "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-072",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.41949152136199,
+              45.836582639959175
+            ],
+            [
+              -61.41948329209492,
+              45.83624778381609
+            ],
+            [
+              -61.419474808347886,
+              45.83591340493125
+            ],
+            [
+              -61.419466057972066,
+              45.835579519390784
+            ],
+            [
+              -61.41898960197112,
+              45.83559878369475
+            ],
+            [
+              -61.41851321670721,
+              45.83561804754708
+            ],
+            [
+              -61.418036921844006,
+              45.835637305879615
+            ],
+            [
+              -61.417560736161946,
+              45.83565655453543
+            ],
+            [
+              -61.41708467749852,
+              45.8356757902286
+            ],
+            [
+              -61.416608762691126,
+              45.83569501049756
+            ],
+            [
+              -61.41613300752434,
+              45.83571421365633
+            ],
+            [
+              -61.41565742668155,
+              45.83573339874156
+            ],
+            [
+              -61.41518203370012,
+              45.83575256545868
+            ],
+            [
+              -61.414706840931245,
+              45.835771714126906
+            ],
+            [
+              -61.41423185950442,
+              45.83579084562394
+            ],
+            [
+              -61.41424094596521,
+              45.836123760605744
+            ],
+            [
+              -61.41424980093287,
+              45.83645705052884
+            ],
+            [
+              -61.414258427719915,
+              45.83679069965117
+            ],
+            [
+              -61.41473351829643,
+              45.83677160357684
+            ],
+            [
+              -61.41520878726797,
+              45.836752544351
+            ],
+            [
+              -61.41568422032756,
+              45.83673352094746
+            ],
+            [
+              -61.41615980200209,
+              45.836714532684574
+            ],
+            [
+              -61.41663551571442,
+              45.836695579281404
+            ],
+            [
+              -61.4171113438511,
+              45.83667666091561
+            ],
+            [
+              -61.4175872678346,
+              45.83665777827973
+            ],
+            [
+              -61.418063268200775,
+              45.836638932637086
+            ],
+            [
+              -61.41853932467895,
+              45.8366201258752
+            ],
+            [
+              -61.41901541627597,
+              45.836601360555456
+            ],
+            [
+              -61.41949152136199,
+              45.836582639959175
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-072",
+        "sheet": 19,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-072",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "source_record_file": "../judique-south.json",
+          "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+          "source_label_boxes_xywh": [
+            [
+              5329,
+              3750,
+              90,
+              38
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "School on the eastern road in the orange fill."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-072",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              5325,
+              3776,
+              110,
+              29
+            ]
+          ],
+          "note": "School is north of the road just west of a south-running junction. A faint possible mark below the lettering and a clearer mark southeast of that junction cannot be uniquely assigned. Keep their candidate region; neither the faint mark nor an exact school site is confirmed.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-eastern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                5325.0,
+                3776.0
+              ],
+              [
+                5335.0,
+                3776.0
+              ],
+              [
+                5345.0,
+                3776.0
+              ],
+              [
+                5355.0,
+                3776.0
+              ],
+              [
+                5365.0,
+                3776.0
+              ],
+              [
+                5375.0,
+                3776.0
+              ],
+              [
+                5385.0,
+                3776.0
+              ],
+              [
+                5395.0,
+                3776.0
+              ],
+              [
+                5405.0,
+                3776.0
+              ],
+              [
+                5415.0,
+                3776.0
+              ],
+              [
+                5425.0,
+                3776.0
+              ],
+              [
+                5435.0,
+                3776.0
+              ],
+              [
+                5435.0,
+                3785.6666666666665
+              ],
+              [
+                5435.0,
+                3795.3333333333335
+              ],
+              [
+                5435.0,
+                3805.0
+              ],
+              [
+                5425.0,
+                3805.0
+              ],
+              [
+                5415.0,
+                3805.0
+              ],
+              [
+                5405.0,
+                3805.0
+              ],
+              [
+                5395.0,
+                3805.0
+              ],
+              [
+                5385.0,
+                3805.0
+              ],
+              [
+                5375.0,
+                3805.0
+              ],
+              [
+                5365.0,
+                3805.0
+              ],
+              [
+                5355.0,
+                3805.0
+              ],
+              [
+                5345.0,
+                3805.0
+              ],
+              [
+                5335.0,
+                3805.0
+              ],
+              [
+                5325.0,
+                3805.0
+              ],
+              [
+                5325.0,
+                3795.3333333333335
+              ],
+              [
+                5325.0,
+                3785.6666666666665
+              ],
+              [
+                5325.0,
+                3776.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.41949152136199,
+                45.836582639959175
+              ],
+              [
+                -61.41948329209492,
+                45.83624778381609
+              ],
+              [
+                -61.419474808347886,
+                45.83591340493125
+              ],
+              [
+                -61.419466057972066,
+                45.835579519390784
+              ],
+              [
+                -61.41898960197112,
+                45.83559878369475
+              ],
+              [
+                -61.41851321670721,
+                45.83561804754708
+              ],
+              [
+                -61.418036921844006,
+                45.835637305879615
+              ],
+              [
+                -61.417560736161946,
+                45.83565655453543
+              ],
+              [
+                -61.41708467749852,
+                45.8356757902286
+              ],
+              [
+                -61.416608762691126,
+                45.83569501049756
+              ],
+              [
+                -61.41613300752434,
+                45.83571421365633
+              ],
+              [
+                -61.41565742668155,
+                45.83573339874156
+              ],
+              [
+                -61.41518203370012,
+                45.83575256545868
+              ],
+              [
+                -61.414706840931245,
+                45.835771714126906
+              ],
+              [
+                -61.41423185950442,
+                45.83579084562394
+              ],
+              [
+                -61.41424094596521,
+                45.836123760605744
+              ],
+              [
+                -61.41424980093287,
+                45.83645705052884
+              ],
+              [
+                -61.414258427719915,
+                45.83679069965117
+              ],
+              [
+                -61.41473351829643,
+                45.83677160357684
+              ],
+              [
+                -61.41520878726797,
+                45.836752544351
+              ],
+              [
+                -61.41568422032756,
+                45.83673352094746
+              ],
+              [
+                -61.41615980200209,
+                45.836714532684574
+              ],
+              [
+                -61.41663551571442,
+                45.836695579281404
+              ],
+              [
+                -61.4171113438511,
+                45.83667666091561
+              ],
+              [
+                -61.4175872678346,
+                45.83665777827973
+              ],
+              [
+                -61.418063268200775,
+                45.836638932637086
+              ],
+              [
+                -61.41853932467895,
+                45.8366201258752
+              ],
+              [
+                -61.41901541627597,
+                45.836601360555456
+              ],
+              [
+                -61.41949152136199,
+                45.836582639959175
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            5044,
+            3544,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5044,3544,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-072",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-central-schools-geography.jpg",
+          "scene_sha256": "a247d33cdc6f749c2fccadbcd2bc07b1a4bb5c0fb316de50dc76914f31870aba",
+          "evidence": "The school candidate region lies near the north-south road approach, between western and eastern drainage corridors. Modern linework does not reproduce the historical east-west road and junction exactly. The source itself is ambiguous, including a faint possible mark; retain the candidate group only.",
+          "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-073",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.429816216843356,
+          45.833710156694565
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-073",
+        "sheet": 19,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-073",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "source_record_file": "../judique-south.json",
+          "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+          "source_label_boxes_xywh": [
+            [
+              5045,
+              3808,
+              90,
+              40
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Separate school southeast of F19-JUD-071; no assertion about shared or distinct premises."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-073",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            5107,
+            3847
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The compact filled mark immediately below School lies north of the curving road and east of School 071. It is distinct from the northwestern pair of building marks.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-eastern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            5107,
+            3847
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.429816216843356,
+            45.833710156694565
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            4760,
+            3603,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4760,3603,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-073",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-central-schools-geography.jpg",
+          "scene_sha256": "a247d33cdc6f749c2fccadbcd2bc07b1a4bb5c0fb316de50dc76914f31870aba",
+          "evidence": "The source mark lies north of the eastern curved road section, southeast of School 071 and north of the southern stream corridor. The modern road ends nearby and does not reproduce the entire printed curve; the cause of this difference is unproven. Retain approximate historical locality with this limit.",
+          "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-074",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.48163261730472,
+              45.83478881538216
+            ],
+            [
+              -61.48165531206115,
+              45.83444052917377
+            ],
+            [
+              -61.48167770104445,
+              45.834092385675866
+            ],
+            [
+              -61.48169977164585,
+              45.83374439251202
+            ],
+            [
+              -61.48172151124476,
+              45.833396557212794
+            ],
+            [
+              -61.48174290721471,
+              45.833048887216535
+            ],
+            [
+              -61.4817639469315,
+              45.83270138987027
+            ],
+            [
+              -61.481784617782075,
+              45.8323540724299
+            ],
+            [
+              -61.48180490717519,
+              45.832006942061305
+            ],
+            [
+              -61.4818248025541,
+              45.83166000584107
+            ],
+            [
+              -61.48184429141077,
+              45.83131327075683
+            ],
+            [
+              -61.48145321410931,
+              45.83131120022408
+            ],
+            [
+              -61.48106213183135,
+              45.83130915187829
+            ],
+            [
+              -61.48067103481097,
+              45.83130712888364
+            ],
+            [
+              -61.48027991290481,
+              45.83130513434805
+            ],
+            [
+              -61.47988875558862,
+              45.83130317131916
+            ],
+            [
+              -61.47986883039758,
+              45.83165007876189
+            ],
+            [
+              -61.47984848242192,
+              45.83199719837571
+            ],
+            [
+              -61.47982772552369,
+              45.832344523182954
+            ],
+            [
+              -61.47980657350977,
+              45.83269204611759
+            ],
+            [
+              -61.479785040123446,
+              45.833039760023674
+            ],
+            [
+              -61.47976313903764,
+              45.83338765765452
+            ],
+            [
+              -61.479740883850134,
+              45.83373573167196
+            ],
+            [
+              -61.47971828807996,
+              45.83408397464514
+            ],
+            [
+              -61.47969536516519,
+              45.83443237904977
+            ],
+            [
+              -61.47967212846215,
+              45.83478093726727
+            ],
+            [
+              -61.480064320145374,
+              45.83478250112433
+            ],
+            [
+              -61.480456455970646,
+              45.83478407355868
+            ],
+            [
+              -61.480848544930794,
+              45.83478565191022
+            ],
+            [
+              -61.48124059583516,
+              45.83478723344978
+            ],
+            [
+              -61.48163261730472,
+              45.83478881538216
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-074",
+        "sheet": 19,
+        "name": "Forge",
+        "source_text": "Forge",
+        "kind": "forge",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-074",
+          "source_text": "Forge",
+          "kind": "forge",
+          "reading_status": "clear",
+          "source_record_file": "../judique-south.json",
+          "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+          "source_label_boxes_xywh": [
+            [
+              3926,
+              3851,
+              87,
+              41
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Forge by the north-south road in the striped coastal area."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-074",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              3960,
+              3808,
+              45,
+              99
+            ]
+          ],
+          "note": "Forge lettering is among several marks west of the coastal road around the eastern road junction. Marks above and below the lettering remain candidates; no individual forge building can be selected.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-southern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                3960.0,
+                3808.0
+              ],
+              [
+                3969.0,
+                3808.0
+              ],
+              [
+                3978.0,
+                3808.0
+              ],
+              [
+                3987.0,
+                3808.0
+              ],
+              [
+                3996.0,
+                3808.0
+              ],
+              [
+                4005.0,
+                3808.0
+              ],
+              [
+                4005.0,
+                3817.9
+              ],
+              [
+                4005.0,
+                3827.8
+              ],
+              [
+                4005.0,
+                3837.7
+              ],
+              [
+                4005.0,
+                3847.6
+              ],
+              [
+                4005.0,
+                3857.5
+              ],
+              [
+                4005.0,
+                3867.4
+              ],
+              [
+                4005.0,
+                3877.3
+              ],
+              [
+                4005.0,
+                3887.2
+              ],
+              [
+                4005.0,
+                3897.1
+              ],
+              [
+                4005.0,
+                3907.0
+              ],
+              [
+                3996.0,
+                3907.0
+              ],
+              [
+                3987.0,
+                3907.0
+              ],
+              [
+                3978.0,
+                3907.0
+              ],
+              [
+                3969.0,
+                3907.0
+              ],
+              [
+                3960.0,
+                3907.0
+              ],
+              [
+                3960.0,
+                3897.1
+              ],
+              [
+                3960.0,
+                3887.2
+              ],
+              [
+                3960.0,
+                3877.3
+              ],
+              [
+                3960.0,
+                3867.4
+              ],
+              [
+                3960.0,
+                3857.5
+              ],
+              [
+                3960.0,
+                3847.6
+              ],
+              [
+                3960.0,
+                3837.7
+              ],
+              [
+                3960.0,
+                3827.8
+              ],
+              [
+                3960.0,
+                3817.9
+              ],
+              [
+                3960.0,
+                3808.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.48163261730472,
+                45.83478881538216
+              ],
+              [
+                -61.48165531206115,
+                45.83444052917377
+              ],
+              [
+                -61.48167770104445,
+                45.834092385675866
+              ],
+              [
+                -61.48169977164585,
+                45.83374439251202
+              ],
+              [
+                -61.48172151124476,
+                45.833396557212794
+              ],
+              [
+                -61.48174290721471,
+                45.833048887216535
+              ],
+              [
+                -61.4817639469315,
+                45.83270138987027
+              ],
+              [
+                -61.481784617782075,
+                45.8323540724299
+              ],
+              [
+                -61.48180490717519,
+                45.832006942061305
+              ],
+              [
+                -61.4818248025541,
+                45.83166000584107
+              ],
+              [
+                -61.48184429141077,
+                45.83131327075683
+              ],
+              [
+                -61.48145321410931,
+                45.83131120022408
+              ],
+              [
+                -61.48106213183135,
+                45.83130915187829
+              ],
+              [
+                -61.48067103481097,
+                45.83130712888364
+              ],
+              [
+                -61.48027991290481,
+                45.83130513434805
+              ],
+              [
+                -61.47988875558862,
+                45.83130317131916
+              ],
+              [
+                -61.47986883039758,
+                45.83165007876189
+              ],
+              [
+                -61.47984848242192,
+                45.83199719837571
+              ],
+              [
+                -61.47982772552369,
+                45.832344523182954
+              ],
+              [
+                -61.47980657350977,
+                45.83269204611759
+              ],
+              [
+                -61.479785040123446,
+                45.833039760023674
+              ],
+              [
+                -61.47976313903764,
+                45.83338765765452
+              ],
+              [
+                -61.479740883850134,
+                45.83373573167196
+              ],
+              [
+                -61.47971828807996,
+                45.83408397464514
+              ],
+              [
+                -61.47969536516519,
+                45.83443237904977
+              ],
+              [
+                -61.47967212846215,
+                45.83478093726727
+              ],
+              [
+                -61.480064320145374,
+                45.83478250112433
+              ],
+              [
+                -61.480456455970646,
+                45.83478407355868
+              ],
+              [
+                -61.480848544930794,
+                45.83478565191022
+              ],
+              [
+                -61.48124059583516,
+                45.83478723344978
+              ],
+              [
+                -61.48163261730472,
+                45.83478881538216
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            3639,
+            3646,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3639,3646,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-074",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-long-point-north-geography.jpg",
+          "scene_sha256": "d7f21ddea65ada8d6191c0f76599f7bc3adae14922f639c25c249ed46931ea65",
+          "evidence": "The coastal road corridor and eastern road approaches constrain the forge group west of Highway 19, north of the Chisholm brook district. Modern branch connections differ. Source marks above and below the label remain unresolved as individual buildings.",
+          "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
         }
       }
     },
@@ -6199,6 +9739,751 @@
           "scene_sha256": "41d1457589dec1e142aaa73638c771e4ca07b52e734908862333073c1ce9783a",
           "evidence": "Western crossing 078, separate eastern crossing 079 and northeastern stream bend 077 retain their relative order. Current stream geometry visibly differs within the group rectangles. These remain approximate bounded source groups; neither individual buildings nor private residences are identified.",
           "limits": "Source correspondence and approximate locality review only. Fit targets are not uniformly satisfied; no surveyed position, present condition, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-082",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.47883090789123,
+              45.80991011448552
+            ],
+            [
+              -61.47883287403712,
+              45.80961753034135
+            ],
+            [
+              -61.478835502587145,
+              45.809325351039604
+            ],
+            [
+              -61.47883877581106,
+              45.80903356184406
+            ],
+            [
+              -61.478386218748675,
+              45.809034824901715
+            ],
+            [
+              -61.47793368576428,
+              45.80903650384951
+            ],
+            [
+              -61.477930680000796,
+              45.809328090704476
+            ],
+            [
+              -61.477928360044,
+              45.80962006433125
+            ],
+            [
+              -61.477926752758435,
+              45.80991244344912
+            ],
+            [
+              -61.47837883136149,
+              45.8099110737259
+            ],
+            [
+              -61.47883090789123,
+              45.80991011448552
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-082",
+        "sheet": 19,
+        "name": "P.O.",
+        "source_text": "P.O.",
+        "kind": "post-office",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-082",
+          "source_text": "P.O.",
+          "kind": "post-office",
+          "reading_status": "clear",
+          "source_record_file": "../judique-south.json",
+          "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+          "source_label_boxes_xywh": [
+            [
+              4067,
+              4537,
+              71,
+              37
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Abbreviated post-office label north of the inland Long Point lettering."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-082",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              4034,
+              4537,
+              20,
+              27
+            ]
+          ],
+          "note": "P.O. lettering is immediately east of a pair of compact marks, east of the coastal road and south of the Chisholm mills road. The service cannot be uniquely assigned to one of the pair.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-southern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4034.0,
+                4537.0
+              ],
+              [
+                4044.0,
+                4537.0
+              ],
+              [
+                4054.0,
+                4537.0
+              ],
+              [
+                4054.0,
+                4546.0
+              ],
+              [
+                4054.0,
+                4555.0
+              ],
+              [
+                4054.0,
+                4564.0
+              ],
+              [
+                4044.0,
+                4564.0
+              ],
+              [
+                4034.0,
+                4564.0
+              ],
+              [
+                4034.0,
+                4555.0
+              ],
+              [
+                4034.0,
+                4546.0
+              ],
+              [
+                4034.0,
+                4537.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.47883090789123,
+                45.80991011448552
+              ],
+              [
+                -61.47883287403712,
+                45.80961753034135
+              ],
+              [
+                -61.478835502587145,
+                45.809325351039604
+              ],
+              [
+                -61.47883877581106,
+                45.80903356184406
+              ],
+              [
+                -61.478386218748675,
+                45.809034824901715
+              ],
+              [
+                -61.47793368576428,
+                45.80903650384951
+              ],
+              [
+                -61.477930680000796,
+                45.809328090704476
+              ],
+              [
+                -61.477928360044,
+                45.80962006433125
+              ],
+              [
+                -61.477926752758435,
+                45.80991244344912
+              ],
+              [
+                -61.47837883136149,
+                45.8099110737259
+              ],
+              [
+                -61.47883090789123,
+                45.80991011448552
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            3772,
+            4330,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3772,4330,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-082",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-long-point-north-geography.jpg",
+          "scene_sha256": "d7f21ddea65ada8d6191c0f76599f7bc3adae14922f639c25c249ed46931ea65",
+          "evidence": "The P.O. pair remains east of the coastal road corridor and south of the Chisholm brook/mills sequence. The modern highway bends west while local road and stream positions differ. Preserve the pair as one approximate service group, without selecting an individual building.",
+          "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-085",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F19-JUD-085",
+        "sheet": 19,
+        "name": "Forge",
+        "source_text": "Forge",
+        "kind": "forge",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-085",
+          "source_text": "Forge",
+          "kind": "forge",
+          "reading_status": "clear",
+          "source_record_file": "../judique-south.json",
+          "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+          "source_label_boxes_xywh": [
+            [
+              3910,
+              4790,
+              99,
+              45
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Forge just south of the inland Long Point label."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-085",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              3855,
+              4796,
+              49,
+              22
+            ]
+          ],
+          "note": "Forge is printed east of the coastal road below the crossing watercourse, opposite two marks west of the road. Both marks remain candidates; the label does not establish an individual building.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-southern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                3855.0,
+                4796.0
+              ],
+              [
+                3864.8,
+                4796.0
+              ],
+              [
+                3874.6,
+                4796.0
+              ],
+              [
+                3884.4,
+                4796.0
+              ],
+              [
+                3894.2,
+                4796.0
+              ],
+              [
+                3904.0,
+                4796.0
+              ],
+              [
+                3904.0,
+                4803.333333333333
+              ],
+              [
+                3904.0,
+                4810.666666666667
+              ],
+              [
+                3904.0,
+                4818.0
+              ],
+              [
+                3894.2,
+                4818.0
+              ],
+              [
+                3884.4,
+                4818.0
+              ],
+              [
+                3874.6,
+                4818.0
+              ],
+              [
+                3864.8,
+                4818.0
+              ],
+              [
+                3855.0,
+                4818.0
+              ],
+              [
+                3855.0,
+                4810.666666666667
+              ],
+              [
+                3855.0,
+                4803.333333333333
+              ],
+              [
+                3855.0,
+                4796.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            3629,
+            4587,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3629,4587,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-085",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-southern-services-20260912.jpg",
+          "evidence": "The inspected source group includes points outside the current fit’s conservative native control hull. Retain source geometry but withhold map geometry and web placement. A supported local fit or newly accepted controls are required; the group must not be shrunk to evade the coverage gate.",
+          "scene_sha256": "f22bdbd984eb535abf27d0e419d3e39bdb899f08e7eb20d12ba67e12727b6f87"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-087",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.47081087902505,
+          45.79046062572036
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-087",
+        "sheet": 19,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-087",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "source_record_file": "../judique-south.json",
+          "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+          "source_label_boxes_xywh": [
+            [
+              4242,
+              5131,
+              112,
+              50
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "School on the road east of the coastal junction."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-087",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            4233,
+            5157
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "Single filled mark immediately left of School, east of the rising road bend and inland from the coastal road junction. The other small mark at the road bend is farther west.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-southern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            4233,
+            5157
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.47081087902505,
+            45.79046062572036
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            3968,
+            4931,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3968,4931,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-087",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-long-point-south-geography.jpg",
+          "scene_sha256": "98534982eb66a8bf5d80ec2c800b696fe8939aa1b8951d40cebd86746c34bd3f",
+          "evidence": "The school is inland from the coastal junction, east of the road bend and above the south-flowing tributary corridor. Modern road and stream geometry supports this district but differs around the bend. No current school identity or exact footprint is inferred.",
+          "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-089",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.47821683652508,
+          45.784723807541894
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-089",
+        "sheet": 19,
+        "name": "Shop",
+        "source_text": "Shop",
+        "kind": "shop",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-089",
+          "source_text": "Shop",
+          "kind": "shop",
+          "reading_status": "clear",
+          "source_record_file": "../judique-south.json",
+          "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+          "source_label_boxes_xywh": [
+            [
+              4086,
+              5314,
+              77,
+              41
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Shop beside the coastal road. Tightened candidate box to the lettering, excluding the building mark above it."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-089",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            4078,
+            5344
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "Compact mark directly left of Shop, east of the coastal road. The two marks farther north and the one southeast below the lettering are separate.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-southern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            4078,
+            5344
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.47821683652508,
+            45.784723807541894
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            3794,
+            5109,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3794,5109,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-089",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-long-point-south-geography.jpg",
+          "scene_sha256": "98534982eb66a8bf5d80ec2c800b696fe8939aa1b8951d40cebd86746c34bd3f",
+          "evidence": "The shop remains beside the narrow coastal road, west of modern Highway 19 and south of the school cross-road. The two modern road lines must remain distinct. The source supports a mark east of its coastal road, not a claim that the shop lay east of today’s Highway 19.",
+          "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-091",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.409023011856284,
+          45.78495910308449
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-091",
+        "sheet": 19,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-091",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "source_record_file": "../judique-south.json",
+          "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+          "source_label_boxes_xywh": [
+            [
+              5551,
+              5345,
+              97,
+              47
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Separate eastern school south of the A. MᶜDougall annotation."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-091",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            5571,
+            5389
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "Single filled mark directly beneath School and north of the road, between the small western tributary and the larger northeastern stream junction. It is not the lettering centre.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+          "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+          "review_batch": "judique-southern-services-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            5571,
+            5389
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.409023011856284,
+            45.78495910308449
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            5269,
+            5143,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5269,5143,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-091",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-western-school-geography.jpg",
+          "scene_sha256": "9c83c54ceca0bf4be85914b22befdd3e5ec70b992feef1aead9be3c36a87fb10",
+          "evidence": "The school remains north of the east-west road, west of the major northeastern stream junction and above a southern road branch. Smaller historical tributaries are not reproduced in modern linework. Approximate district is supported; exact bank and building footprint are unresolved.",
+          "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
         }
       }
     },

@@ -1,13 +1,13 @@
 {
   "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
   "source_review_sha256": "8b64dc20d5a52fc3308463bc1180df28f7b0b7a028b0a411ed065d45e527204b",
-  "image_sha256": "c4f4c9d1528acb17a12dbb9918b4bbeb2120633cce8b9162cca9274d2a886aa2",
+  "image_sha256": "d364b7e15195fbed7dd713794c47d3f3ba0f4083c9e9c568ceefd702d99b629b",
   "frames": [
     {
-      "annotation_id": "F19-JUD-006",
+      "annotation_id": "F19-JUD-060",
       "native_xywh": [
-        3955,
-        1325,
+        7738,
+        2711,
         660,
         450
       ],
@@ -23,118 +23,122 @@
       "source_anchor_xy": null,
       "source_group_xywh": [
         [
-          4310,
-          1525,
+          7973,
+          2918,
+          42,
+          52
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-062",
+      "native_xywh": [
+        8237,
+        2665,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        60
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          8584,
+          2927,
+          18,
+          14
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-068",
+      "native_xywh": [
+        8261,
+        3406,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        590
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          8466,
+          3592,
+          35,
+          29
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-071",
+      "native_xywh": [
+        4681,
+        3545,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        590
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": [
+        4974,
+        3788
+      ],
+      "source_group_xywh": []
+    },
+    {
+      "annotation_id": "F19-JUD-072",
+      "native_xywh": [
+        5044,
+        3544,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        1120
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          5325,
+          3776,
           110,
-          90
+          29
         ]
       ]
     },
     {
-      "annotation_id": "F19-JUD-007",
+      "annotation_id": "F19-JUD-073",
       "native_xywh": [
-        4342,
-        1588,
-        660,
-        450
-      ],
-      "display_xy": [
-        660,
-        60
-      ],
-      "display_size": [
-        660,
-        450
-      ],
-      "rotation_degrees": 0,
-      "source_anchor_xy": [
-        4715,
-        1813
-      ],
-      "source_group_xywh": []
-    },
-    {
-      "annotation_id": "F19-JUD-009",
-      "native_xywh": [
-        3609,
-        1632,
-        660,
-        450
-      ],
-      "display_xy": [
-        0,
-        590
-      ],
-      "display_size": [
-        660,
-        450
-      ],
-      "rotation_degrees": 0,
-      "source_anchor_xy": null,
-      "source_group_xywh": [
-        [
-          3886,
-          1869,
-          30,
-          42
-        ]
-      ]
-    },
-    {
-      "annotation_id": "F19-JUD-010",
-      "native_xywh": [
-        3605,
-        1661,
-        660,
-        450
-      ],
-      "display_xy": [
-        660,
-        590
-      ],
-      "display_size": [
-        660,
-        450
-      ],
-      "rotation_degrees": 0,
-      "source_anchor_xy": null,
-      "source_group_xywh": [
-        [
-          3886,
-          1869,
-          30,
-          42
-        ]
-      ]
-    },
-    {
-      "annotation_id": "F19-JUD-011",
-      "native_xywh": [
-        3999,
-        1731,
-        660,
-        450
-      ],
-      "display_xy": [
-        0,
-        1120
-      ],
-      "display_size": [
-        660,
-        450
-      ],
-      "rotation_degrees": 0,
-      "source_anchor_xy": [
-        4330,
-        1933
-      ],
-      "source_group_xywh": []
-    },
-    {
-      "annotation_id": "F19-JUD-013",
-      "native_xywh": [
-        3360,
-        2003,
+        4760,
+        3603,
         660,
         450
       ],
@@ -148,8 +152,8 @@
       ],
       "rotation_degrees": 0,
       "source_anchor_xy": [
-        3755,
-        2230
+        5107,
+        3847
       ],
       "source_group_xywh": []
     }

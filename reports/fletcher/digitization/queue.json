@@ -2,7 +2,7 @@
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-12",
   "nightly_revision": "c32c85e917aa8746fa0b98f928f76a366127b7ee",
-  "next_action": "Continue pending Judique source annotations, beginning with 018,019,024 and subsequent service clusters. Extend source/placement reviews and regenerate feature export. Remaining priority sheets and 20-sheet extraction queue remain open.",
+  "next_action": "Finish next Judique service inventory: 046,048,099,100,101,102,118,119,120,122,123,124,125,143,146,147,148,156,158,165. Continue natural features and historical names after services. First 18 integrations merged via PR #436; 16 further exports and two specific holdbacks pass local review and await the next PR. Priority sheets and remaining 20-sheet extraction reconciliation stay open.",
   "sheets": [
     {
       "sheet": 22,
@@ -21,13 +21,24 @@
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 166,
       "lettering_status": "processed",
-      "source_associated_count": 18,
-      "approximate_placement_reviewed_count": 18,
-      "integrated_count": 18,
-      "blockers": [],
+      "source_associated_count": 36,
+      "approximate_placement_reviewed_count": 34,
+      "integrated_count": 34,
+      "blockers": [
+        {
+          "annotation_id": "F19-JUD-060",
+          "stage": "locality-unresolved",
+          "reason": "Forge group projects onto a modern stream reach with no matching terminal road bend at that location. The broad western tributary/eastern valley arrangement is recognizable, but the road-versus-stream conflict is substantial. Retain the computed geometry as evidence only and withhold web placement pending a supported local correspondence; do not snap the group to another road."
+        },
+        {
+          "annotation_id": "F19-JUD-085",
+          "stage": "outside-supported-coverage",
+          "reason": "The inspected source group includes points outside the current fit’s conservative native control hull. Retain source geometry but withhold map geometry and web placement. A supported local fit or newly accepted controls are required; the group must not be shrunk to evade the coverage gate."
+        }
+      ],
       "annotation_queue": "sheet-19-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-19-labels.geojson",
-      "integration_status": "local-implementation-verified; PR delivery pending"
+      "integration_status": "18 features merged in PR #436; 16 further local integrations pass browser checks and await next PR"
     },
     {
       "sheet": 16,
@@ -55,7 +66,7 @@
     },
     {
       "sheet": 1,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -67,7 +78,7 @@
     },
     {
       "sheet": 2,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -79,7 +90,7 @@
     },
     {
       "sheet": 3,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -91,7 +102,7 @@
     },
     {
       "sheet": 4,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -103,7 +114,7 @@
     },
     {
       "sheet": 5,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -115,7 +126,7 @@
     },
     {
       "sheet": 6,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -127,7 +138,7 @@
     },
     {
       "sheet": 7,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -139,7 +150,7 @@
     },
     {
       "sheet": 8,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -151,7 +162,7 @@
     },
     {
       "sheet": 9,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -163,7 +174,7 @@
     },
     {
       "sheet": 10,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -175,7 +186,7 @@
     },
     {
       "sheet": 11,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -187,7 +198,7 @@
     },
     {
       "sheet": 12,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -199,7 +210,7 @@
     },
     {
       "sheet": 13,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -211,7 +222,7 @@
     },
     {
       "sheet": 15,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -223,7 +234,7 @@
     },
     {
       "sheet": 17,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -235,7 +246,7 @@
     },
     {
       "sheet": 18,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -247,7 +258,7 @@
     },
     {
       "sheet": 20,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -259,7 +270,7 @@
     },
     {
       "sheet": 21,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -271,7 +282,7 @@
     },
     {
       "sheet": 23,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -283,7 +294,7 @@
     },
     {
       "sheet": 24,
-      "extraction_status": "not-started",
+      "extraction_status": "not-reconciled",
       "source_reviewed_count": 0,
       "lettering_status": "not-started",
       "source_associated_count": 0,
@@ -302,6 +313,26 @@
       "merge_revision": "84b37f934305d5599922d215b051a57aacb6249d",
       "ci": "Build gate + tests passed",
       "scope": "Sheet 14 lettering geography and 24-sheet queue; feature integration follows separately."
+    },
+    {
+      "pr": 436,
+      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/436",
+      "state": "ready-CI-running",
+      "head_revision": "0b7360478667c7956c7af47cde5d7774e567b25f",
+      "scope": "First 18 reviewed Judique features and web integration; six further source/placement records developed locally while CI runs."
+    }
+  ],
+  "delivery": [
+    {
+      "pr": 432,
+      "status": "merged",
+      "merge_commit": "84b37f934305d5599922d215b051a57aacb6249d"
+    },
+    {
+      "pr": 436,
+      "status": "merged",
+      "merge_commit": "706efb63a25bca3b9f45a7980161ed78a41a02f3",
+      "ci": "All required checks passed"
     }
   ]
 }
