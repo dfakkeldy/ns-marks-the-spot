@@ -33,7 +33,7 @@ def main():
         file=args.references/(ref['name']+'.geojson')
         require(digest(file)==ref['sha256'],f"Reference mismatch: {ref['name']}")
         vectors[ref['name']]=read(file)['features']
-    groups={'eastern-forge-mill':[60,62], 'mclennan-mill':[68], 'central-schools':[71,72,73], 'long-point-north':[74,82], 'long-point-south':[87,89], 'western-school':[91], 'central-coastal-services':[18,19,24], 'dennistown-school':[50], 'river-denys-services':[57,58], 'north-services':[4,5,6,7,8,9,10,11], 'church-brook':[13,15,21], 'chisholm-mills':[77,78,79], 'northeast-mine':[61], 'glendale':[94,103,117]}
+    groups={'barytes':[17], 'northern-falls':[35], 'western-falls':[36], 'underground-brook-note':[40], 'colin-chisholm-mill':[46], 'river-denys-post':[48], 'glendale-services':[99,100,102], 'kingsville-approach':[118,119,120], 'kingsville-crossing':[122,123,124,125], 'river-denys-crossroads':[146,147,148], 'southern-school':[158], 'eastern-forge-mill':[60,62], 'mclennan-mill':[68], 'central-schools':[71,72,73], 'long-point-north':[74,82], 'long-point-south':[87,89], 'western-school':[91], 'central-coastal-services':[18,19,24], 'dennistown-school':[50], 'river-denys-services':[57,58], 'north-services':[4,5,6,7,8,9,10,11], 'church-brook':[13,15,21], 'chisholm-mills':[77,78,79], 'northeast-mine':[61], 'glendale':[94,103,117]}
     receipt={'fit_sha256':data['provenance']['fit_sha256'],'raster_sha256':digest(args.raster),'reference_receipts':refs,'coordinate_convention':'North up; identical EPSG:3857 extent in raster and independent-vector panels. Extent is in projected metres, not ground metres.','scenes':[]}
     font=ImageFont.load_default(size=18)
     for name,ids in groups.items():

@@ -19,6 +19,8 @@ PILOT = Path('reports/fletcher/placement-pilot')
 def native_points(geometry):
     if geometry['type'] == 'Point':
         return [geometry['coordinates']]
+    if geometry['type'] == 'LineString':
+        return geometry['coordinates']
     if geometry['type'] == 'Polygon':
         return [p for ring in geometry['coordinates'] for p in ring]
     return [p for polygon in geometry['coordinates'] for ring in polygon for p in ring]
@@ -70,6 +72,19 @@ def project(sheet, executable):
         correction = decision.get('placement_correction')
         geometry = placed['geometry']
         status = placed['placement_status']
+        if placed['source_geometry_native'] is None:
+            status = 'source-location-unresolved'
+            geographic_role = 'unlocated-source-feature'
+            geometry_meaning = 'Source label reviewed, but no distinct feature mark or defensible group identified. No feature location is asserted.'
+        elif placed['source_geometry_native']['type'] == 'Point':
+            geographic_role = 'reviewed-source-mark'
+            geometry_meaning = 'Approximate historical mark location; not a surveyed site, current condition, ownership or access.'
+        elif placed['source_geometry_native']['type'] == 'LineString':
+            geographic_role = 'reviewed-source-line'
+            geometry_meaning = 'Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.'
+        else:
+            geographic_role = 'reviewed-source-group'
+            geometry_meaning = 'Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.'
         if correction:
             labels.require(correction['status'] == 'locally-reviewed-approximate' and
                            correction['geometry']['coordinates'] == correction['modern_reference']['geometry_lonlat'], 'Unsupported correction')
@@ -88,8 +103,8 @@ def project(sheet, executable):
             'map_derived_geometry': placed['geometry'], 'placement_status': status,
             'alignment_status': placed['alignment_status'], 'fit_revision': provenance['fit_revision'],
             'fit_sha256': provenance['fit_sha256'], 'fit_path': provenance['fit_path'],
-            'geographic_role': 'reviewed-source-mark' if placed['source_geometry_native'] and placed['source_geometry_native']['type']=='Point' else 'reviewed-source-group',
-            'geometry_meaning': 'Approximate historical mark location; not a surveyed site, current condition, ownership or access.' if placed['source_geometry_native'] and placed['source_geometry_native']['type']=='Point' else 'Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.',
+            'geographic_role': geographic_role,
+            'geometry_meaning': geometry_meaning,
             'geographic_review_status': 'pending-current-fit-review',
             'prior_locality_review': decision or None,
             'source_crop': {'native_xywh':[left,top,660,450], 'display_size':[660,450], 'rotation_degrees':0},

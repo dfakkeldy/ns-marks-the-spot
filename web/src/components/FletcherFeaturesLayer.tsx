@@ -1,7 +1,7 @@
 import { memo, useEffect, useMemo, useState } from 'react';
 import L from 'leaflet';
 import { GeoJSON, Marker, Pane, Popup, Tooltip, useMapEvents } from 'react-leaflet';
-import type { Feature, Point, Polygon, MultiPolygon } from 'geojson';
+import type { Feature, Point, Polygon, MultiPolygon, LineString } from 'geojson';
 import { historicalSiteSvg, type HistoricalSiteKind } from '../atlas/historicalSymbols';
 import './fletcherFeatures.css';
 
@@ -14,7 +14,7 @@ type HistoricalProperties = {
   imagery_licence_url: string; credit: string;
   placement_correction?: { modern_reference: { url: string; rights_url: string; attribution: string } };
 };
-type HistoricalFeature = Feature<Point | Polygon | MultiPolygon, HistoricalProperties>;
+type HistoricalFeature = Feature<Point | Polygon | MultiPolygon | LineString, HistoricalProperties>;
 const ROOT = `${import.meta.env.BASE_URL}fletcher-features/`;
 const ICONS = new Map<string, L.DivIcon>();
 function featureIcon(kind: string) {
@@ -28,7 +28,7 @@ function featureIcon(kind: string) {
   return ICONS.get(kind)!;
 }
 
-function accessibleGroup(title: string, layer: L.Layer) {
+function accessibleGeometry(title: string, layer: L.Layer, isLine: boolean) {
   let element: Element | undefined;
   const activate = (event: Event) => {
     const key = (event as KeyboardEvent).key;
@@ -36,14 +36,14 @@ function accessibleGroup(title: string, layer: L.Layer) {
       event.preventDefault(); event.stopPropagation();
       // The React popup belongs to the GeoJSON group. Propagate the same
       // selection event as a pointer click on its child polygon.
-      layer.fire('click', { latlng: (layer as L.Polygon).getBounds().getCenter() }, true);
+      layer.fire('click', { latlng: (layer as L.Polyline).getBounds().getCenter() }, true);
     }
   };
   layer.on('add', () => {
     element = (layer as L.Path).getElement();
     element?.setAttribute('tabindex', '0');
     element?.setAttribute('role', 'button');
-    element?.setAttribute('aria-label', `${title} · approximate Fletcher group`);
+    element?.setAttribute('aria-label', `${title} · approximate Fletcher ${isLine ? 'reach' : 'group'}`);
     element?.addEventListener('keydown', activate);
   });
   layer.on('remove', () => element?.removeEventListener('keydown', activate));
@@ -54,7 +54,7 @@ function Evidence({ feature }: { feature: HistoricalFeature }) {
   return <article className="fletcher-feature-evidence">
     <h3>{p.source_text}</h3>
     <p className="fletcher-feature-id">Fletcher · sheet {p.sheet} · {p.annotation_id}</p>
-    <p><strong>{p.geographic_role === 'reviewed-source-group' ? 'Approximate group · individual feature unresolved' : p.placement_status === 'locally-reviewed-approximate' ? 'Approximate location · locally corrected' : 'Approximate historical location'}</strong></p>
+    <p><strong>{p.geographic_role === 'reviewed-source-line' ? 'Approximate historical reach' : p.geographic_role === 'reviewed-source-group' ? 'Approximate group · individual feature unresolved' : p.placement_status === 'locally-reviewed-approximate' ? 'Approximate location · locally corrected' : 'Approximate historical location'}</strong></p>
     <p>Reading: {p.reading_status.replaceAll('-', ' ')}. Placement is separate from reading confidence.</p>
     <img src={`${ROOT}${p.source_excerpt}`} alt={`Original Fletcher lettering and surrounding source marks: ${p.source_text}`} width="660" height="450" loading="lazy" />
     <p>{p.source_note}</p>
@@ -83,7 +83,7 @@ export const FletcherFeaturesLayer = memo(function FletcherFeaturesLayer({ onSta
       if (!response.ok) throw new Error('Historical feature source unavailable');
       const data = await response.json() as { type?: string; features?: HistoricalFeature[] };
       if (data.type !== 'FeatureCollection' || !Array.isArray(data.features)) throw new Error('Invalid historical feature source');
-      const valid = data.features.every(f => f.geometry && ['Point', 'Polygon', 'MultiPolygon'].includes(f.geometry.type)
+      const valid = data.features.every(f => f.geometry && ['Point', 'Polygon', 'MultiPolygon', 'LineString'].includes(f.geometry.type)
         && f.properties?.annotation_id && ['map-derived-approximate', 'locally-reviewed-approximate'].includes(f.properties.placement_status));
       if (!valid) throw new Error('Unreviewed historical feature source');
       if (!controller.signal.aborted) { setFeatures(data.features); onStatus(`${data.features.length} reviewed annotations · digitization in progress`); }
@@ -103,11 +103,12 @@ export const FletcherFeaturesLayer = memo(function FletcherFeaturesLayer({ onSta
   return <><Pane name="fletcher-feature-popups" style={{ zIndex: 1100 }} /><Pane name="fletcher-features" style={{ zIndex: 404 }}>
     {groups.map(group => {
       const feature = group[0];
+      const isLine = feature.geometry?.type === 'LineString';
       const title = group.map(f => f.properties.source_text).join(' / ');
       const contents = <><Tooltip pane="tooltipPane" permanent={zoom >= 15} direction="top" offset={[0, -12]} className="fletcher-feature-label">{title}</Tooltip><Popup pane="fletcher-feature-popups" className="fletcher-feature-popup" maxWidth={360} minWidth={240} maxHeight={Math.max(140, Math.min(420, height - 220))} autoPanPaddingTopLeft={[20, 100]} autoPanPaddingBottomRight={[20, 80]}>{group.map(f => <Evidence key={f.properties.annotation_id} feature={f} />)}</Popup></>;
       return feature.geometry?.type === 'Point'
         ? <Marker key={feature.properties.annotation_id} position={[feature.geometry.coordinates[1], feature.geometry.coordinates[0]]} icon={featureIcon(feature.properties.kind)} title={`${title} · approximate Fletcher location`} alt={`${title} · approximate Fletcher location`} bubblingMouseEvents={false}>{contents}</Marker>
-        : <GeoJSON key={feature.properties.annotation_id} data={feature} onEachFeature={(_feature, layer) => accessibleGroup(title, layer)} style={{ color: '#79431f', weight: 2, dashArray: '5 4', fillColor: '#e9af60', fillOpacity: 0.14, bubblingMouseEvents: false }}>{contents}</GeoJSON>;
+        : <GeoJSON key={feature.properties.annotation_id} data={feature} onEachFeature={(_feature, layer) => accessibleGeometry(title, layer, isLine)} style={{ color: '#79431f', weight: isLine ? 5 : 2, dashArray: isLine ? '8 8' : '5 4', fill: !isLine, fillColor: '#e9af60', fillOpacity: 0.14, bubblingMouseEvents: false }}>{contents}</GeoJSON>;
     })}
   </Pane></>;
 });

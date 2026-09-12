@@ -2,7 +2,7 @@
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-12",
   "nightly_revision": "c32c85e917aa8746fa0b98f928f76a366127b7ee",
-  "next_action": "Finish next Judique service inventory: 046,048,099,100,101,102,118,119,120,122,123,124,125,143,146,147,148,156,158,165. Continue natural features and historical names after services. First 18 integrations merged via PR #436; 16 further exports and two specific holdbacks pass local review and await the next PR. Priority sheets and remaining 20-sheet extraction reconciliation stay open.",
+  "next_action": "Continue Judique falls, mineral and quarry notes, then trace roads/waterways and review remaining historical names. 62 source association reviews, 52 local exports and 10 specific holdbacks are recorded. PR439 is blocked by an unrelated native measuring UI test after two attempts; web/core CI passed. Updating that PR with the latest verified features and line support. Remaining priority sheets and all-sheet extraction reconciliation remain open.",
   "sheets": [
     {
       "sheet": 22,
@@ -21,10 +21,20 @@
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 166,
       "lettering_status": "processed",
-      "source_associated_count": 36,
-      "approximate_placement_reviewed_count": 34,
-      "integrated_count": 34,
+      "source_associated_count": 60,
+      "approximate_placement_reviewed_count": 52,
+      "integrated_count": 52,
       "blockers": [
+        {
+          "annotation_id": "F19-JUD-026",
+          "stage": "source-location-unresolved",
+          "reason": "Original quarry wording is reviewed, but the source crop does not provide a distinct quarry mark or defensible extraction-area boundary. River and lettering geometry must not be promoted into quarry geometry."
+        },
+        {
+          "annotation_id": "F19-JUD-034",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native reach associated with Fall 30 extends outside the current conservative source-control hull. Keep its source path and historical wording, with no map geometry or web export. Do not trim the reach to make it pass."
+        },
         {
           "annotation_id": "F19-JUD-060",
           "stage": "locality-unresolved",
@@ -34,11 +44,43 @@
           "annotation_id": "F19-JUD-085",
           "stage": "outside-supported-coverage",
           "reason": "The inspected source group includes points outside the current fit’s conservative native control hull. Retain source geometry but withhold map geometry and web placement. A supported local fit or newly accepted controls are required; the group must not be shrunk to evade the coverage gate."
+        },
+        {
+          "annotation_id": "F19-JUD-101",
+          "stage": "source-location-unresolved",
+          "reason": "Native source reviewed: Mills does not identify a distinct mark or a defensible building group. Keep native and map feature geometry null; lettering and crossing are not substitute sites."
+        },
+        {
+          "annotation_id": "F19-JUD-124",
+          "stage": "locality-unresolved",
+          "reason": "The source postal mark north of Blue Bridge projects into the modern river corridor, while the road crossing has a different position. The local bank/road correspondence cannot support a postal-site placement. Retain the computed point as evidence only and withhold web export pending supported local correspondence."
+        },
+        {
+          "annotation_id": "F19-JUD-125",
+          "stage": "locality-unresolved",
+          "reason": "The source road/river intersection is explicit, but its projected point is off the modern watercourse and lacks a matching road crossing. Do not identify it with the modern highway bridge farther northwest. The historical crossing needs a supported local comparison before web placement; retain the prediction as evidence only."
+        },
+        {
+          "annotation_id": "F19-JUD-143",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete shop candidate group extends outside the current conservative source-control hull. Keep source geometry and withhold map placement pending accepted local support."
+        },
+        {
+          "annotation_id": "F19-JUD-156",
+          "stage": "outside-supported-coverage",
+          "reason": "The Big Brook P.O. candidate group is outside the current conservative source-control hull. Keep source geometry without map placement; do not extrapolate."
+        },
+        {
+          "annotation_id": "F19-JUD-165",
+          "stage": "outside-fit-neatline",
+          "reason": "The Princeville P.O. candidate group crosses the frozen fit’s native neatline near the printed southern border. Preserve the actual source group and withhold map placement; do not trim it to force acceptance."
         }
       ],
       "annotation_queue": "sheet-19-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-19-labels.geojson",
-      "integration_status": "18 features merged in PR #436; 16 further local integrations pass browser checks and await next PR"
+      "integration_status": "52 local integrations verified; 18 merged via PR436. Updating PR439 with all subsequent reviewed services and natural reaches.",
+      "source_association_reviewed_count": 62,
+      "merged_integrated_count": 18
     },
     {
       "sheet": 16,
@@ -333,6 +375,13 @@
       "status": "merged",
       "merge_commit": "706efb63a25bca3b9f45a7980161ed78a41a02f3",
       "ci": "All required checks passed"
+    },
+    {
+      "pr": 439,
+      "status": "ready-ci-blocked",
+      "head": "8a9ff5b0637a773062916ed806141b4cdcfbbf80",
+      "ci": "Web/core pass. Native MapChromeUITests.testMeasuringReportsADistanceForTapsOnTheMap failed at first tap, then fourth tap on rerun. Native source unchanged by this work.",
+      "next": "Update same ready PR with subsequent verified source/features and run normal required CI."
     }
   ]
 }

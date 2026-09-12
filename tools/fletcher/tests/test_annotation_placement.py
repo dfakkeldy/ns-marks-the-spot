@@ -35,6 +35,31 @@ class AnnotationPlacementTests(unittest.TestCase):
         self.assertIsNone(result["geometry"])
         self.assertEqual(result["placement_status"], "needs-source-review")
 
+    def test_reviewed_reach_keeps_bends_and_open_endpoints(self):
+        inputs = []
+        def curved(rows):
+            inputs.extend(rows)
+            return [[-61 + x / 10000, 46 - y / 10000 + x*x / 1e9] for x, y in rows]
+        result = self.place({"status": "supported-source-line", "source_path_xy": [[100, 200], [140, 200], [140, 230]]}, curved)
+        self.assertEqual(result['geometry']['type'], 'LineString')
+        self.assertIn([120, 200], inputs)
+        self.assertIn([140, 200], inputs)
+        self.assertNotEqual(result['geometry']['coordinates'][0], result['geometry']['coordinates'][-1])
+        self.assertEqual(result['source_geometry_native']['coordinates'][-1], [140, 230])
+
+    def test_reach_outside_support_is_withheld_in_full(self):
+        result = self.place({"status": "supported-source-line", "source_path_xy": [[800, 100], [950, 100]]})
+        self.assertIsNone(result['geometry'])
+        self.assertEqual(result['placement_status'], 'outside-supported-coverage')
+
+    def test_unreviewed_or_degenerate_reach_cannot_supply_geometry(self):
+        for review in [{"status": "unresolved", "source_path_xy": [[100,100],[200,200]]},
+                       {"status": "supported-source-line", "source_path_xy": [[100,100]]},
+                       {"status": "supported-source-line", "source_path_xy": [[100,100],[100,100]]},
+                       {"status": "supported-source-line", "source_path_xy": [[100,100],[200,200]], "source_anchor_xy": [100,100]}]:
+            with self.assertRaises(ValueError):
+                source_geometry(review, self.dimensions)
+
     def test_whole_group_must_be_supported_not_just_centre(self):
         result = self.place({"status": "unresolved", "candidate_symbol_regions_xywh": [[850, 100, 100, 30]]})
         self.assertIsNone(result["geometry"])

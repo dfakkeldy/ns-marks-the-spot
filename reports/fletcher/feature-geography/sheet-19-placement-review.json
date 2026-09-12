@@ -1,7 +1,7 @@
 {
   "sheet": 19,
   "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
-  "source_review_sha256": "8b64dc20d5a52fc3308463bc1180df28f7b0b7a028b0a411ed065d45e527204b",
+  "source_review_sha256": "81009f24e706d2ffdb785e2875b09a0b57be004a22105632e78863867c5e36ee",
   "raster_sha256": "adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4",
   "reviews": [
     {
@@ -362,6 +362,260 @@
       "scene": "judique-southern-services-20260912.jpg",
       "evidence": "The inspected source group includes points outside the current fit’s conservative native control hull. Retain source geometry but withhold map geometry and web placement. A supported local fit or newly accepted controls are required; the group must not be shrunk to evade the coverage gate.",
       "scene_sha256": "f22bdbd984eb535abf27d0e419d3e39bdb899f08e7eb20d12ba67e12727b6f87"
+    },
+    {
+      "annotation_id": "F19-JUD-046",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-colin-chisholm-mill-geography.jpg",
+      "scene_sha256": "94a70ac236eb3b734e578d1dd3fe798ec9b418d4e9b7acabca357be0b0e2f611",
+      "evidence": "The western tributary, eastward road and eastern Diogenes drainage preserve the mill district’s topology. The projected group lies near the road bend, but the modern watercourse is north of the historical crossing and the small pond differs. Retain an approximate source group; exact bank and mill buildings remain unresolved.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-048",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-river-denys-post-geography.jpg",
+      "scene_sha256": "998dece8d0dbc65891fc4754ce4465bf35caa99475bfebe30d2b5f74fd12bb53",
+      "evidence": "The postal group remains between the western stream/road corridor and eastern branch, north of the church and school district. Modern road approaches diverge locally; the printed two-mark service group is an approximate locality, not an identified modern postal site.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-099",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-glendale-services-geography.jpg",
+      "scene_sha256": "a1f9efd5aa7f9cb0d424937762795d4b2645a007dc6715462ca5ffd585a47a74",
+      "evidence": "The postal mark remains northeast of School 100, north of the east-west road corridor and west of the eastern main valley approach. The modern road sits farther south and small tributaries differ. Preserve an approximate historical mark without a current service identity.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-100",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-glendale-services-geography.jpg",
+      "scene_sha256": "a1f9efd5aa7f9cb0d424937762795d4b2645a007dc6715462ca5ffd585a47a74",
+      "evidence": "The school mark remains southwest of P.O.099 and northeast of the western river/road crossing. Modern tributary and road lines differ immediately beside the projected point. The broader Glendale river-junction locality is supported; exact bank/footprint is not.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-102",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-glendale-services-geography.jpg",
+      "scene_sha256": "a1f9efd5aa7f9cb0d424937762795d4b2645a007dc6715462ca5ffd585a47a74",
+      "evidence": "The church symbol remains southeast of the western road approach and west of the main river, south of the Glendale crossing. Modern road and river bends support the broad locality. This source church does not receive the separate Judique church correction and is not identified with a current church.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-118",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-kingsville-approach-geography.jpg",
+      "scene_sha256": "f59faf5327be5ecb0ae35dcebac3801ac54cc98690e55041f6db9a26d1753dc2",
+      "evidence": "The source shop remains east of the north-south road and east of the western river corridor, south of Red Bridge. Modern linework places the road farther west near this mark. Preserve approximate historical locality without selecting a present building.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-119",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-kingsville-approach-geography.jpg",
+      "scene_sha256": "f59faf5327be5ecb0ae35dcebac3801ac54cc98690e55041f6db9a26d1753dc2",
+      "evidence": "Forge remains between the northern shop and southern shop along the curving road east of the river valley. The source mark is west of its road, but the projected point nearly overlaps the modern road; exact road-side agreement is unresolved. No current roadside building is inferred.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-120",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-kingsville-approach-geography.jpg",
+      "scene_sha256": "f59faf5327be5ecb0ae35dcebac3801ac54cc98690e55041f6db9a26d1753dc2",
+      "evidence": "The shop remains west of the diagonal road and north of the Kingsville river crossing district. The modern road bend and western river sequence support approximate locality; local tributaries and river bends differ.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-122",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-kingsville-crossing-geography.jpg",
+      "scene_sha256": "dffe1b3fb1bfe38dfbb49678ee2fc62cf9dde353dad03b5eddf71a129a54eee3",
+      "evidence": "The shared shop group remains northeast of the river bend and southeast of the historical road junction. Modern branch connections differ, so the group is an approximate source locality only. McIntosh’s Shop and Shop 123 cannot be uniquely assigned to the two candidate buildings.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-123",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-kingsville-crossing-geography.jpg",
+      "scene_sha256": "dffe1b3fb1bfe38dfbb49678ee2fc62cf9dde353dad03b5eddf71a129a54eee3",
+      "evidence": "The shared shop group remains northeast of the river bend and southeast of the historical road junction. Modern branch connections differ, so the group is an approximate source locality only. McIntosh’s Shop and Shop 123 cannot be uniquely assigned to the two candidate buildings.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-124",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-kingsville-crossing-geography.jpg",
+      "scene_sha256": "dffe1b3fb1bfe38dfbb49678ee2fc62cf9dde353dad03b5eddf71a129a54eee3",
+      "evidence": "The source postal mark north of Blue Bridge projects into the modern river corridor, while the road crossing has a different position. The local bank/road correspondence cannot support a postal-site placement. Retain the computed point as evidence only and withhold web export pending supported local correspondence.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-125",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-kingsville-crossing-geography.jpg",
+      "scene_sha256": "dffe1b3fb1bfe38dfbb49678ee2fc62cf9dde353dad03b5eddf71a129a54eee3",
+      "evidence": "The source road/river intersection is explicit, but its projected point is off the modern watercourse and lacks a matching road crossing. Do not identify it with the modern highway bridge farther northwest. The historical crossing needs a supported local comparison before web placement; retain the prediction as evidence only.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-146",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-river-denys-crossroads-geography.jpg",
+      "scene_sha256": "29ae9469f2c92fafe0298861f7e5f9ccb2332a493d0bf6af96e076e0735ba3d8",
+      "evidence": "The tannery/postal group remains at the eastern road approach east of the railway/main valley corridor, with the school candidates to the south. The modern crossroads and small watercourse positions differ. Keep the shared service group; no tannery building or current postal site is selected.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-147",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-river-denys-crossroads-geography.jpg",
+      "scene_sha256": "29ae9469f2c92fafe0298861f7e5f9ccb2332a493d0bf6af96e076e0735ba3d8",
+      "evidence": "The tannery/postal group remains at the eastern road approach east of the railway/main valley corridor, with the school candidates to the south. The modern crossroads and small watercourse positions differ. Keep the shared service group; no tannery building or current postal site is selected.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-148",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-river-denys-crossroads-geography.jpg",
+      "scene_sha256": "29ae9469f2c92fafe0298861f7e5f9ccb2332a493d0bf6af96e076e0735ba3d8",
+      "evidence": "The school’s three source candidates remain south of the shared tannery/postal group and south of the east-west road. Modern drainage includes a small water feature near the group and the north-south road differs locally. Approximate district only; the school building is unresolved.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-158",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-southern-school-geography.jpg",
+      "scene_sha256": "58b4f06e561b2f613884a3cc2065ad0cfb6a20e9e013a36cb0a3bb309497a7ff",
+      "evidence": "The school remains east of the main meandering river and north of the next southern tributary/road sequence. It is east of the historical road, whereas the current projection is west of the modern road. Keep this road-side disagreement explicit; the point represents approximate historical locality only.",
+      "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-101",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-glendale-services-20260912.jpg",
+      "scene_sha256": "7fa46572cf4dbaf9b796eb1419dd973be79c6759508f047d86194df85a3d4a0e",
+      "evidence": "Native source reviewed: Mills does not identify a distinct mark or a defensible building group. Keep native and map feature geometry null; lettering and crossing are not substitute sites."
+    },
+    {
+      "annotation_id": "F19-JUD-143",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-crossroads-services-20260912.jpg",
+      "scene_sha256": "fa7a3e6b1c2fe74d5817421c9f4cc1c1d36aeac114285f6dc0817f0c4d9335cc",
+      "evidence": "The complete shop candidate group extends outside the current conservative source-control hull. Keep source geometry and withhold map placement pending accepted local support."
+    },
+    {
+      "annotation_id": "F19-JUD-156",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-crossroads-services-20260912.jpg",
+      "scene_sha256": "fa7a3e6b1c2fe74d5817421c9f4cc1c1d36aeac114285f6dc0817f0c4d9335cc",
+      "evidence": "The Big Brook P.O. candidate group is outside the current conservative source-control hull. Keep source geometry without map placement; do not extrapolate."
+    },
+    {
+      "annotation_id": "F19-JUD-165",
+      "status": "outside-fit-neatline",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-last-services-20260912.jpg",
+      "scene_sha256": "b0746c48601ad00e9065b76fd8ec04744013fd6beb6421e45a8367923f196be0",
+      "evidence": "The Princeville P.O. candidate group crosses the frozen fit’s native neatline near the printed southern border. Preserve the actual source group and withhold map placement; do not trim it to force acceptance."
+    },
+    {
+      "annotation_id": "F19-JUD-017",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-barytes-geography.jpg",
+      "scene_sha256": "b698efb901fcde9fbe54ea562a5ed19371395049476d5ef3e21c0650d80a7c49",
+      "evidence": "The two Barytes marks remain south of the road/tributary junction, between the western approach and southeastern drainage. Modern roads and streams differ locally, including the small bend beside the group. This supports an approximate source group, not a current mineral opening or proven deposit.",
+      "limits": "Source feature/reach and approximate locality only. Historical height and hydrology wording does not establish present measurements or conditions."
+    },
+    {
+      "annotation_id": "F19-JUD-035",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-northern-falls-geography.jpg",
+      "scene_sha256": "8b171713af6c305a3ac0ebc539b1d9f4b40486cf52a7841b77a8b9268beadfcb",
+      "evidence": "The reviewed southern tributary reach remains below the northern stream junction and east of the western branch. Modern tributary topology supports the locality, with visible bend offsets. The line carries the historical Falls annotation; it does not identify a precise drop, waterfall extent or present condition.",
+      "limits": "Source feature/reach and approximate locality only. Historical height and hydrology wording does not establish present measurements or conditions."
+    },
+    {
+      "annotation_id": "F19-JUD-036",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-western-falls-geography.jpg",
+      "scene_sha256": "e5282881ca54c76e33759650962a9dd541a379f033c49c732a496e8b1aaca286",
+      "evidence": "The source reach is at the bend between the western confluence and northeastern fork. The modern stream is west of the projected trace and has different bend detail. Preserve the approximate historical reach and explicit offset; no exact waterfall site or modern channel segment is substituted.",
+      "limits": "Source feature/reach and approximate locality only. Historical height and hydrology wording does not establish present measurements or conditions."
+    },
+    {
+      "annotation_id": "F19-JUD-040",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-underground-brook-note-geography.jpg",
+      "scene_sha256": "c728f3205990599897131711551231dcfd5e6bf5c283f0898157117a9b3805f6",
+      "evidence": "The short visible historical brook stroke is in the road-and-tributary district south of the northern confluence. Current road and stream lines differ locally and do not establish an underground route. Only the inspected source stroke is retained; the dotted geological boundary was rejected and no modern flow direction, sink, spring or subsurface connection is asserted.",
+      "limits": "Source feature/reach and approximate locality only. Historical height and hydrology wording does not establish present measurements or conditions."
+    },
+    {
+      "annotation_id": "F19-JUD-026",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-natural-features-20260912.jpg",
+      "scene_sha256": "ee6ea7d0a9879cb7a798871a6982891c2f56ce26d15a7e344406643d4cce444d",
+      "evidence": "Original quarry wording is reviewed, but the source crop does not provide a distinct quarry mark or defensible extraction-area boundary. River and lettering geometry must not be promoted into quarry geometry."
+    },
+    {
+      "annotation_id": "F19-JUD-034",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-natural-features-20260912.jpg",
+      "scene_sha256": "ee6ea7d0a9879cb7a798871a6982891c2f56ce26d15a7e344406643d4cce444d",
+      "evidence": "The complete native reach associated with Fall 30 extends outside the current conservative source-control hull. Keep its source path and historical wording, with no map geometry or web export. Do not trim the reach to make it pass."
     }
   ]
 }

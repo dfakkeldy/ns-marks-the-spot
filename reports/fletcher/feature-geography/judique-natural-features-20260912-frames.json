@@ -1,0 +1,239 @@
+{
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "source_review_sha256": "81009f24e706d2ffdb785e2875b09a0b57be004a22105632e78863867c5e36ee",
+  "image_sha256": "ee6ea7d0a9879cb7a798871a6982891c2f56ce26d15a7e344406643d4cce444d",
+  "frames": [
+    {
+      "annotation_id": "F19-JUD-017",
+      "native_xywh": [
+        4002,
+        2281,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        60
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          4333,
+          2463,
+          32,
+          34
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-026",
+      "native_xywh": [
+        4515,
+        2855,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        60
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": []
+    },
+    {
+      "annotation_id": "F19-JUD-034",
+      "native_xywh": [
+        8061,
+        1068,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        590
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [],
+      "source_path_xy": [
+        [
+          8380,
+          1325
+        ],
+        [
+          8400,
+          1318
+        ],
+        [
+          8415,
+          1308
+        ],
+        [
+          8430,
+          1301
+        ],
+        [
+          8455,
+          1299
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-035",
+      "native_xywh": [
+        8157,
+        1162,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        590
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [],
+      "source_path_xy": [
+        [
+          8440,
+          1351
+        ],
+        [
+          8447,
+          1366
+        ],
+        [
+          8439,
+          1376
+        ],
+        [
+          8442,
+          1390
+        ],
+        [
+          8443,
+          1402
+        ],
+        [
+          8434,
+          1414
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-036",
+      "native_xywh": [
+        7480,
+        1607,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        1120
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [],
+      "source_path_xy": [
+        [
+          7779,
+          1782
+        ],
+        [
+          7765,
+          1787
+        ],
+        [
+          7759,
+          1798
+        ],
+        [
+          7757,
+          1811
+        ],
+        [
+          7761,
+          1823
+        ],
+        [
+          7760,
+          1835
+        ],
+        [
+          7749,
+          1843
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-040",
+      "native_xywh": [
+        7185,
+        2369,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        1120
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [],
+      "source_path_xy": [
+        [
+          7593,
+          2622
+        ],
+        [
+          7599,
+          2616
+        ],
+        [
+          7605,
+          2612
+        ],
+        [
+          7613,
+          2609
+        ],
+        [
+          7616,
+          2606
+        ],
+        [
+          7618,
+          2602
+        ]
+      ]
+    }
+  ],
+  "scope": "Source-mark crosshair/group review, not geographic validation. Original scans remain unchanged."
+}
