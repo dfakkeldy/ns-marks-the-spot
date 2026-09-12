@@ -1,0 +1,130 @@
+[
+  {
+    "image": "fishing-extension.jpg",
+    "lonlat_bounds": [
+      -60.9,
+      46.775,
+      -60.8,
+      46.84
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet03/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "grande-anse.jpg",
+    "lonlat_bounds": [
+      -60.815,
+      46.78,
+      -60.735,
+      46.865
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet03/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "red-river.jpg",
+    "lonlat_bounds": [
+      -60.79,
+      46.83,
+      -60.64,
+      46.91
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet03/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "blair-north.jpg",
+    "lonlat_bounds": [
+      -60.745,
+      46.895,
+      -60.58,
+      46.995
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet03/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "grays-north-branch.jpg",
+    "lonlat_bounds": [
+      -60.63,
+      46.86,
+      -60.49,
+      46.93
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet03/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "wilkie-pond.jpg",
+    "lonlat_bounds": [
+      -60.565,
+      46.9,
+      -60.425,
+      46.965
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet03/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "aspy-south.jpg",
+    "lonlat_bounds": [
+      -60.69,
+      46.765,
+      -60.42,
+      46.875
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet03/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "full-sheet.jpg",
+    "lonlat_bounds": [
+      -60.94,
+      46.74,
+      -60.4,
+      47.02
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/regional-seven/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet03/refinement-20260912/result-nine/sheet-03-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet03/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

@@ -1,0 +1,48 @@
+{
+  "records": [
+    {
+      "id": "R10",
+      "file": "reviewed-additions.json",
+      "method": "Exact source feature part/vertex; feature identity separately reviewed.",
+      "matched": true
+    },
+    {
+      "id": "R13",
+      "file": "reviewed-additions.json",
+      "method": "Rounded shared endpoints of each recorded NSTDB source object; feature identity separately reviewed.",
+      "matched": true
+    },
+    {
+      "id": "U01",
+      "file": "validation.json",
+      "method": "Exact source feature part/vertex; feature identity separately reviewed.",
+      "matched": true
+    },
+    {
+      "id": "U02",
+      "file": "validation.json",
+      "method": "Exact source feature part/vertex; feature identity separately reviewed.",
+      "matched": true
+    },
+    {
+      "id": "U03",
+      "file": "validation.json",
+      "method": "Exact source feature part/vertex; feature identity separately reviewed.",
+      "matched": true
+    },
+    {
+      "id": "U04",
+      "file": "validation-ten.json",
+      "method": "Rounded shared endpoints of each recorded NSTDB source object; feature identity separately reviewed.",
+      "matched": true
+    },
+    {
+      "id": "U06",
+      "file": "validation-ten.json",
+      "method": "Exact source feature part/vertex; feature identity separately reviewed.",
+      "matched": true
+    }
+  ],
+  "reference_receipts_sha256": "06bebf7cb35decc6d76b68a5c5f9da60c061a55c6fe09511bdf1ef4beaae5cfe",
+  "scope": "Coordinates verified directly, not inferred from the search guide. Does not resolve U06 historical shoreline definition."
+}

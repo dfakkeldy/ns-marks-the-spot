@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "experiments": [
+    {
+      "stage": "nine",
+      "controls": 9,
+      "diagnostics": 4,
+      "historical_checks": 3,
+      "semantic_roundtrip": true,
+      "maximum_web_gdal_difference_projected_m": 7.273861836555093e-9
+    },
+    {
+      "stage": "ten",
+      "controls": 10,
+      "diagnostics": 6,
+      "historical_checks": 2,
+      "semantic_roundtrip": true,
+      "maximum_web_gdal_difference_projected_m": 6.780130685568339e-9
+    }
+  ],
+  "scope": "Preserved historical check files, including U06 with post-score definition uncertainty; not acceptance or newly collected validation."
+}
