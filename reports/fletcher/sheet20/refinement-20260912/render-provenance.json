@@ -1,0 +1,215 @@
+{
+  "base_commit": "c32c85e917aa8746fa0b98f928f76a366127b7ee",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/candidate-corrected-v2.json",
+      "sha256": "84eef3ca499ff86c70b7fd76111e8d3316fbbc2a0d17ce5e5eaa312899c12bca"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/search-guide-audit.json",
+      "sha256": "c40353bfc61861dcb85ef8d346ba6698dc6a805405bb5ab5fe44f0c418ba925e"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/boundary-main.json",
+      "sha256": "ff6f1f8aa0d030ab67688cb6c274694cd6a758c395a1ceba8431be67a5a2342d"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/candidate-proposals.json",
+      "sha256": "dd1056a429c764cbfa20182fdef92ab2e0ab51ab9e3c6aa65a3bd5d2664ce507"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/frame-verification.json",
+      "sha256": "480752616e5b4f20f82d715e238fbbbb5d2ecd785312ecd88be445256f8bcaac"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/preservation-verification.json",
+      "sha256": "1c5fe62f8cc4a71bc44cd646462306346d4a447cbe5acdc916618a1e6c49a87d"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/boundary-southwest-islet.json",
+      "sha256": "2e400a86ab0d728012bcc141cba4213ab9b7ca874af34560feb3ac32725dd9be"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/candidate-corrected-v3.json",
+      "sha256": "6b8035382209fb8bdd7fda7caf4b9b5e33fdd449750f3f60ab37b07f06c0f6dd"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/join-provenance.json",
+      "sha256": "3f1f86f8e78d0a59ce2e1c976f5f5e53bb6886904534beb47ec7008bee625703"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/import-verification.json",
+      "sha256": "af67241f09dcb547b41fa7cbaa023c134fd092ac5e96a5509ae1ce4640fe7a9a"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/boundary-review-frame.json",
+      "sha256": "7ff09f695571f4a9b868b02ffdb0f0b875737a58b471c5a936c51f436a556f2e"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/browser-verification.json",
+      "sha256": "a5f00766f2fdc627f94f0f5ba43b91edac34cbe68e0ec28cbfb3d2cd4f607fd3"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/validation-scores.json",
+      "sha256": "67c8558181ad9aeae94dc39accbb325947bea0125e83c49e878089356d9073b0"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/diagnostic-corrected-v1.json",
+      "sha256": "134998cc8f883d958d9455aafb52b5a81743703a757c73af9910c8bd435a4ece"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/candidate-corrected-v4.json",
+      "sha256": "2800941a14c784c06a9319f08908a4458bc0f5bea8dd99c0f1484858ca48f600"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/regional-diagnostic-scores.json",
+      "sha256": "85ed3613dc2a2517cb9f1d54cdb31b4aee84f9b73cbc461929c07dcdf92e48cb"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/rejected-controls.json",
+      "sha256": "7299e2d3b448ece4b16615b4c437fbe8729633369a8bfcfc6f79be5259b1152c"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/reference-receipts.json",
+      "sha256": "49f3816c4d885129b108c9cc576b80a3d0a82b27d892eca1812e9c5e2c90593c"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/search-guide.json",
+      "sha256": "7678dbe596950b059b01a4653c8fa872e9655ee5f0197acb187c8adfbc964a0a"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/diagnostic-reused.json",
+      "sha256": "5dac756e46c85d0c555cdfd159b17f9ba551f0181673b48e1ee1486dc626c15f"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/initial-tps-scores.json",
+      "sha256": "6c9e3cfd0aa9a2114642a1a38616ab947081b219b6863c3055e5343b6ec78e42"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/regional-fit.json",
+      "sha256": "511a3d1f8209ce7df876fc2a169b8cb01fe050c8cb6e0e5742066a580cd8c208"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/raster-receipt.json",
+      "sha256": "90fcba4a156bf1c49bf35ecbdcd402ffaad5846bd4f3e4d2ec4b49b4a3721efa"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/reviewed-fit.json",
+      "sha256": "1ee7a625b6c950a68b1c48b96397bd804a9481cf942a5026e510330aa611be93"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/diagnostic-corrected-v2.json",
+      "sha256": "e2a0e93d04845222806c52e3cf18f8f64b42a8bfb583a951f0a05272544557ee"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/initial-fit-freeze.json",
+      "sha256": "aac7990ad45a79f27252d2f1d3a242c29c0ee561d8c9536b8a60b68c9b45ac4c"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/validation.json",
+      "sha256": "afd7f5bcc3de0d560884eaf03cbefcce46c67ad6edfb14ed9b5c149b18d3908a"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/diagnostic-proposals.json",
+      "sha256": "574fe4916b7c4a57ab5d1663fbc1c1897edfb9ba1eacf8c812a3be28213678d6"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/coverage.json",
+      "sha256": "1334a1e8ea2ff0b3f275211baa656c40361ed58978680864bf0a1fe35707e613"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/source-receipt.json",
+      "sha256": "7f2a267d23fb96014ba4ff43d8743276077db232cdf15b03c3b96acd122d21d0"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/fresh-corrected-v1.json",
+      "sha256": "88eef94f4613c6b390673737c91678341992c48a59673271e38d9c6b84f9a49d"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/initial-affine-scores.json",
+      "sha256": "9cbbf47703db06b4e9804aab4f3a3a1030bf17000d5ad6421d555101268e285a"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/fresh-proposals.json",
+      "sha256": "da4edbf2920739fd501b292d1671efa54482759fdbec40953d9031a3d8da731d"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/boundary-southeast-islet.json",
+      "sha256": "53b52a2154a7a7baa538ab4a8c673da74b6f1d2a6a1b30e8c03488ad966a268f"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/diagnostic-checks.json",
+      "sha256": "28ec7e73ab943312bd47bcd8627afd938a1f97f99a12ed76e4f5b7ded1001077"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/regional-fit-freeze.json",
+      "sha256": "c5cf6ad361c20b67e8b032c594fbb83be75ea03646b2c174b1cbce9f1d0b5c4a"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/render-provenance.json",
+      "sha256": "634897e0e04b416de11c654734572ff0807b8970a44d22694d8eddda0eeaee69"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/candidate-corrected-v1.json",
+      "sha256": "1c7dab63211c0961f9c274333ddbb0d8361d24845d6f26c85ef6f3f2e8e87098"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/initial-criteria.json",
+      "sha256": "778c085ac8cd79ce92bdb6394cc8beb3f79727cef421a9e041e3dd5f2f8b09fb"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/full-boundary-review.jpg",
+      "sha256": "eab3420e25984b6a3968a89ebb58d74f013fd00eb850ff2df1aeae8d17d0a955"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/boundary-corners.jpg",
+      "sha256": "66e7fb6f0a8ededa3951a1747fdd9865a868d3b8ec0af0d68db5c63a938331cb"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/southern-boundary-review.jpg",
+      "sha256": "deb11dcebce82f413ca05ad928f1bab2cb42386ac6973999fb8389564d5c211d"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/refinement-20260912/reviewed-fit.json",
+      "sha256": "4f661910ecdf4de6ac22cb6db3352375467f08b2287083e5d32e908c6f4b06b1"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/refinement-20260912/frozen-fit.json",
+      "sha256": "ecd43d2a866de2a0c5b6472adf03b901154680c666fa8559ca29469bd528d521"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/refinement-20260912/validation.json",
+      "sha256": "981561146804a3d3185e0557592ef7d835f7c4d259538e59ce41c860a061c99e"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet20/refinement-20260912/diagnostic-checks.json",
+      "sha256": "baf8cd101bbee609132de67f18a74b2bbd9f6b3227c1bb8c4677e5c119dfe643"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet20/refinement-20260912/cutline.geojson",
+      "sha256": "c28689a633858afed7db5168954e3fe78e05327b61f52a3fab17bcf40037dfd5"
+    }
+  ],
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet17/regional-ten/sheet-17-full-sheet.tif",
+      "sha256": "4e8c2f78df96806aea71da7851220ca2ad44e84a2612604cb1237cb3efc54b5b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet20/refinement-20260912/sheet-20-full-sheet.tif",
+      "sha256": "8c98db3aa2da6abb4c8347c096d2c7f3d49eb22c5c4c45539126bff15ded9cfa"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet20/regional-fit/sheet-20-full-sheet.tif",
+      "sha256": "5fa544e6c2b48f399dc93d6ab5a16970ed80363b03dec45bb589b0518b497f9b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet21/repaired-fifteen/sheet-21-full-sheet.tif",
+      "sha256": "75e5ce00163ef7e7c698bcd305a506770d67a719d581f0e8deeaa6d7a05e04be"
+    }
+  ],
+  "source_boundary": "Unchanged main notch and two separate AB islet rings all transformed by one exact TPS. Native full source, corners and southern extensions personally reviewed.",
+  "credit": "David Rumsey Historical Map Collection / Stanford; original CC BY-NC-SA 3.0 terms and null manifest licence preserved. No publication clearance.",
+  "references": "All four NSTDB file hashes reverified; returned-empty rail remains distinct from absence.",
+  "guide": "Preserved corrected latitude guide is approximate context only; stale parent source hash and three-parallel QA text are not promoted to facts. Actual new points use direct native pixels and full closed modern island coordinates."
+}

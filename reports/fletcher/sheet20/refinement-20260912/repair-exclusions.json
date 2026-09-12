@@ -1,0 +1,39 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.74065013530659,
+        45.56829709158974
+      ],
+      "guide_xy": [
+        3693.455709640635,
+        6813.852482004091
+      ],
+      "modern_objectid": 20365,
+      "modern_part": 0,
+      "modern_vertex": 61,
+      "modern_properties": {
+        "OBJECTID": 20365,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.6,
+        "FID": null,
+        "SHAPE_Length": 492.3391593698983
+      },
+      "id": "V05",
+      "role": "check",
+      "pixel_xy": [
+        3815,
+        6678
+      ],
+      "identity_evidence": "Red Island southernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Fresh check reviewed after twelve-control freeze, before scoring; never fitted.",
+      "morphology_note": "Historical Red Island is elongated northeast/southwest; modern island is smaller and east/west. Southernmost coast identity is provisional and shape-change uncertainty remains."
+    }
+  ],
+  "reason": "Prior failed Red Island southern coast retains value and coordinates. Personally inspected shape differs greatly in size/orientation; no promotion or post-score pixel adjustment.",
+  "frame_setup": "First repair-wide set expanded only modern radius because the copied wrapper missed spaced native radius syntax. Preserved those frames, then generated and personally viewed repair-native-wide at native radius350 before promotion."
+}

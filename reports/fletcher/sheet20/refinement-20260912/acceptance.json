@@ -1,0 +1,13 @@
+{
+  "whole_sheet_geographically_accepted": false,
+  "local_inlet_check_thresholds_passed": true,
+  "thresholds": {
+    "median_ground_m_max": 100,
+    "worst_ground_m_max": 200,
+    "scope": "Full mapped sheet including southern extensions and offshore islets. Physical native/source identity and fresh checks required; coverage is not acceptance."
+  },
+  "recommendation": "Fourteen-control experiment supports local inlet improvement; preserve twelve-control baseline and keep whole sheet provisional.",
+  "reason": "New checks are two islands in a controlled inlet; upper Grand River, northeastern unexplored drainage, coast shapes and adjacent joins remain inadequate.",
+  "fresh_median_ground_m": 38.01315878141146,
+  "fresh_worst_ground_m": 65.95856984008392
+}
