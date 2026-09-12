@@ -928,6 +928,732 @@
           ]
         }
       ]
+    },
+    {
+      "annotation_id": "F19-JUD-041",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8180,
+          2025,
+          65,
+          25
+        ]
+      ],
+      "note": "Falls lies above the short western tributary/main-stream junction. Both adjoining source reaches remain candidates; the lettering does not uniquely fix a fall point or one arm. Keep their junction group, not a waterfall footprint or search-box centre.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+      "review_batch": "judique-middle-falls-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-042",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Fall is beside the main stream immediately south of the western tributary junction and north of Falls 043. Trace this adjacent source reach only; no precise drop point is drawn.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+      "review_batch": "judique-middle-falls-20260912",
+      "source_path_xy": [
+        [
+          8239.5,
+          2060
+        ],
+        [
+          8248,
+          2070
+        ],
+        [
+          8258.5,
+          2080
+        ],
+        [
+          8264,
+          2090
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-043",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Falls is immediately east of the same main stream farther south than Fall 042, beside the small eastern tributary. Retain the adjacent printed reach; endpoints do not establish the falls extent.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+      "review_batch": "judique-middle-falls-20260912",
+      "source_path_xy": [
+        [
+          8271.5,
+          2100
+        ],
+        [
+          8278,
+          2110
+        ],
+        [
+          8291,
+          2120
+        ],
+        [
+          8300,
+          2130
+        ],
+        [
+          8308,
+          2140
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-044",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Fall sits above the stream east of the geological strike lines, upstream of the Diogenes Brook junction. Trace the visible stream section below the label. The strike lines are not falls symbols or a measured drop.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+      "review_batch": "judique-middle-falls-20260912",
+      "source_path_xy": [
+        [
+          8000,
+          2253.5
+        ],
+        [
+          8010,
+          2262
+        ],
+        [
+          8020,
+          2274
+        ],
+        [
+          8030,
+          2279
+        ],
+        [
+          8040,
+          2282.5
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-045",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Iron Ore lies beside the stream and a small coloured geological unit. No distinct ore mark or uniquely bounded deposit is identified. The adjacent unit, letter O and nearby mill marks must not become an iron-ore site or deposit boundary.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+      "review_batch": "judique-middle-falls-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-051",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Falls labels the curving main stream south of the Dennistown tributary junction. Trace the visible adjacent bend; the printed source does not locate an exact drop or quantify a modern waterfall.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+      "review_batch": "judique-middle-falls-20260912",
+      "source_path_xy": [
+        [
+          5987.5,
+          3455
+        ],
+        [
+          6006.5,
+          3465
+        ],
+        [
+          6018,
+          3475
+        ],
+        [
+          6021.5,
+          3485
+        ],
+        [
+          6020.5,
+          3495
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-069",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7955,
+          3635,
+          52,
+          80
+        ]
+      ],
+      "note": "Fall 25 is beside the West Branch reach partly overprinted by geological strike marks above the railway junction. Retain the bounded source reach group where the exact fall position is obscured. The hatching is not a falls symbol and 25 is historical wording, not a modern measurement.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+      "review_batch": "judique-river-falls-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-070",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "The tentative Falls reading lies below the lower of two small tributaries west of the main watercourse and railway, above the Quartz Mill district. Wider native context separates this stream from the road, railway and mill marks. Trace only that adjacent tributary; do not assign an exact drop point or silently upgrade the reading.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+      "review_batch": "judique-river-falls-20260912",
+      "source_path_xy": [
+        [
+          8596,
+          2866
+        ],
+        [
+          8615,
+          2869
+        ],
+        [
+          8632,
+          2865
+        ],
+        [
+          8648,
+          2863
+        ],
+        [
+          8665,
+          2868
+        ],
+        [
+          8685,
+          2872
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-109",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Fall is below the small river bend east of the Glendale road crossing and west of Fall 6. Trace the adjacent printed river section, without an exact drop point.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+      "review_batch": "judique-river-falls-20260912",
+      "source_path_xy": [
+        [
+          7720,
+          4644.5
+        ],
+        [
+          7730,
+          4646
+        ],
+        [
+          7740,
+          4650.5
+        ],
+        [
+          7750,
+          4652.5
+        ],
+        [
+          7760,
+          4651
+        ],
+        [
+          7770,
+          4643
+        ],
+        [
+          7780,
+          4643
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-110",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Fall 6 sits below the next printed river section east of Fall 109 and west of Falls 18. Retain this source reach; the printed 6 does not establish current height or the falls extent.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+      "review_batch": "judique-river-falls-20260912",
+      "source_path_xy": [
+        [
+          7840,
+          4674.5
+        ],
+        [
+          7850,
+          4676
+        ],
+        [
+          7860,
+          4679
+        ],
+        [
+          7870,
+          4677
+        ],
+        [
+          7880,
+          4682
+        ],
+        [
+          7890,
+          4685
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-111",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Falls 18 is beside the following river bend east of Fall 6 and west of the eastern road crossing. Retain the adjacent printed reach without turning historical height wording into a present measurement.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+      "review_batch": "judique-river-falls-20260912",
+      "source_path_xy": [
+        [
+          7978,
+          4730
+        ],
+        [
+          7990,
+          4735
+        ],
+        [
+          7997,
+          4745
+        ],
+        [
+          7995,
+          4755
+        ],
+        [
+          7984,
+          4763
+        ],
+        [
+          7980,
+          4770
+        ],
+        [
+          7986,
+          4776
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-112",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8494,
+          4812,
+          43,
+          25
+        ],
+        [
+          8540,
+          4795,
+          20,
+          17
+        ],
+        [
+          8568,
+          4768,
+          45,
+          30
+        ]
+      ],
+      "note": "Three bold coal-related source strokes cross the stream corridor beside Coal. Keep their separated source regions, including gaps. They do not define a continuous coal deposit, mine opening, property or modern resource extent.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+      "review_batch": "judique-river-falls-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-129",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Fine outcrops of black shale full of fossils is a descriptive geological annotation above the river. The source does not identify a distinct outcrop mark or defensible extent. Neither the river bank nor the coloured geological unit is promoted into an outcrop, fossil locality or modern site boundary.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-eastern-falls-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-134",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8914,
+          1326,
+          48,
+          30
+        ]
+      ],
+      "note": "Falls lies over the main river and southern tributary junction immediately below the horizontal graticule. Both source arms remain candidates; retain their small junction group without selecting a precise fall point. The straight graticule is not a watercourse.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-eastern-falls-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-135",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Falls labels the south-running tributary below the previous river junction. Trace the visible bend immediately left of the lettering; it is separate from the eastern main stem and the vertical graticule.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-eastern-falls-20260912",
+      "source_path_xy": [
+        [
+          8896,
+          1436
+        ],
+        [
+          8889,
+          1444
+        ],
+        [
+          8890,
+          1450
+        ],
+        [
+          8884,
+          1456
+        ],
+        [
+          8883,
+          1465
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-136",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Fall sits beside the small tributary partly crossed by red report text. The stored path follows the visible stroke below that overprint to its western tributary junction. No exact drop position is invented under the report lettering.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-eastern-falls-20260912",
+      "source_path_xy": [
+        [
+          8709,
+          1583
+        ],
+        [
+          8709,
+          1589
+        ],
+        [
+          8714,
+          1596
+        ],
+        [
+          8713,
+          1602
+        ],
+        [
+          8711,
+          1609
+        ],
+        [
+          8709,
+          1617
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-137",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "The curved stream associated with Fall 8 crosses straight geological strike marks. Enlarged native pixels distinguish the curved watercourse from the diagonal strokes; only the watercourse is traced. The exact drop and extent are unresolved, and the printed 8 is not a modern measurement.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-eastern-falls-20260912",
+      "source_path_xy": [
+        [
+          8675,
+          1814
+        ],
+        [
+          8681.4,
+          1817
+        ],
+        [
+          8684.6,
+          1824.4
+        ],
+        [
+          8687.8,
+          1832.2
+        ],
+        [
+          8692.2,
+          1839.2
+        ],
+        [
+          8700.4,
+          1842.8
+        ],
+        [
+          8709.2,
+          1846.2
+        ],
+        [
+          8715.6,
+          1851.6
+        ],
+        [
+          8717.6,
+          1860
+        ],
+        [
+          8721.2,
+          1868.2
+        ],
+        [
+          8727,
+          1872
+        ],
+        [
+          8728.8,
+          1880
+        ],
+        [
+          8727.4,
+          1887.6
+        ],
+        [
+          8730.4,
+          1893.8
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-138",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Fall 30 lies below the West Branch bend crossing the vertical graticule. Trace the curved river above the lettering; the graticule and geological arrows are separate. The source height remains historical wording.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-eastern-falls-20260912",
+      "source_path_xy": [
+        [
+          8946.7,
+          1746
+        ],
+        [
+          8957.7,
+          1752
+        ],
+        [
+          8972,
+          1756
+        ],
+        [
+          8983.3,
+          1761
+        ],
+        [
+          8993.3,
+          1766.3
+        ],
+        [
+          9001.3,
+          1767
+        ],
+        [
+          9010,
+          1762.7
+        ],
+        [
+          9019.7,
+          1760.3
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-151",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Falls is beside the small south-running tributary east of the mill district and north of the road. Trace the printed stroke immediately left of the lettering after the upper bend; no exact drop point is shown.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-southern-natural-20260912",
+      "source_path_xy": [
+        [
+          8891,
+          3615
+        ],
+        [
+          8896,
+          3623
+        ],
+        [
+          8895,
+          3632
+        ],
+        [
+          8893,
+          3642
+        ],
+        [
+          8892,
+          3649
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-154",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Falls 15 is above the small tributary bend west of Big Brook and the eastern road. Trace the adjacent source stroke below/right of the wording, keeping the geological angle arrows separate. No present height or exact falls extent is asserted.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-southern-natural-20260912",
+      "source_path_xy": [
+        [
+          9330,
+          5485
+        ],
+        [
+          9340,
+          5479
+        ],
+        [
+          9353,
+          5481
+        ],
+        [
+          9365,
+          5484
+        ],
+        [
+          9371,
+          5478
+        ],
+        [
+          9378,
+          5469
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-162",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Fall 20 is immediately left of the stream south of the Old Road crossing and north of Princeville. Trace that visible stroke; it is not the road line or the printed text. Twenty remains historical source wording.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-southern-natural-20260912",
+      "source_path_xy": [
+        [
+          8280,
+          6333
+        ],
+        [
+          8272,
+          6344
+        ],
+        [
+          8270,
+          6354
+        ],
+        [
+          8266,
+          6364
+        ],
+        [
+          8260,
+          6373
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-090",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "700 FT. is printed in an unbounded part of the geological map without a spot-height mark, benchmark or uniquely identified summit in this context. Preserve the printed height unlocated; its lettering centre is not a surveyed elevation point or a modern terrain measurement.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-southern-natural-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-159",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "850 FT. is printed near the southern map border without an associated spot-height mark, benchmark or distinct summit. No feature coordinate is supplied from the label or the geological colour boundary. The original height wording remains preserved.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-southern-natural-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-031",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Barrens is a widely spaced landscape descriptor beside the road. No boundary delineates the described land cover, and the geological hatching is not a vegetation boundary. Preserve the descriptor unlocated rather than inventing a barrens polygon or point.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+      "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+      "review_batch": "judique-southern-natural-20260912",
+      "additional_source_context": {
+        "native_xywh": [
+          5800,
+          1250,
+          600,
+          850
+        ],
+        "display_size": [
+          600,
+          850
+        ],
+        "rotation_degrees": 0,
+        "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/barrens-full-context.png",
+        "sha256": "5adc4ee8dfcdd518ac006402527d16abd28229f039d8e0c50a4dc52e89da9e42",
+        "meaning": "Whole spaced landscape word and surrounding road; no barrens boundary drawn."
+      }
     }
   ],
   "limits": "Source mark association only. Group outlines retain individual-building ambiguity. Geographic coordinates require the frozen fit and separate placement review."

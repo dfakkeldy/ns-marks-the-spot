@@ -175,6 +175,723 @@
   "coordinate_convention": "North up; identical EPSG:3857 extent in raster and independent-vector panels. Extent is in projected metres, not ground metres.",
   "scenes": [
     {
+      "name": "northeast-falls-reaches",
+      "annotation_ids": [
+        "F19-JUD-135",
+        "F19-JUD-136",
+        "F19-JUD-137",
+        "F19-JUD-138"
+      ],
+      "extent_epsg3857": [
+        -6821096.227538594,
+        5763330.420881719,
+        -6817296.012521555,
+        5767130.635898759
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-northeast-falls-reaches-geography.jpg",
+      "image_sha256": "8b2fc3f8256a324720fa61a3dc76d055fd44e9252517d41a8cb104915916e2b9",
+      "context_object_ids": {
+        "roads": [
+          20261,
+          78690,
+          78691,
+          78692,
+          109672,
+          109924,
+          109926,
+          114104,
+          159106
+        ],
+        "rail": [],
+        "water-lines": [
+          62670,
+          62671,
+          62672,
+          62673,
+          62737,
+          68475,
+          68557,
+          68558,
+          195775,
+          197843,
+          198172,
+          199810,
+          199812,
+          199813,
+          254538,
+          274529,
+          274668,
+          274669,
+          274670,
+          286856,
+          286857,
+          286858,
+          286859,
+          286861,
+          288038,
+          288039,
+          312780
+        ],
+        "water-polygons": [
+          1363,
+          40290,
+          82340,
+          97189,
+          99080,
+          112930,
+          117173
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "mclennan-tributary-falls",
+      "annotation_ids": [
+        "F19-JUD-151"
+      ],
+      "extent_epsg3857": [
+        -6820359.74646444,
+        5753952.234255355,
+        -6817759.74646444,
+        5756552.234255355
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-mclennan-tributary-falls-geography.jpg",
+      "image_sha256": "9d0e089dee0bb0c0c6870d242792409e77d8a6bc3ee2fe9ca94d29325469fc62",
+      "context_object_ids": {
+        "roads": [
+          44368,
+          80522,
+          82078,
+          82085,
+          83579,
+          83587,
+          83588,
+          114364,
+          115384,
+          115385,
+          156285,
+          156286,
+          156412
+        ],
+        "rail": [],
+        "water-lines": [
+          195961,
+          197586,
+          197802,
+          274498,
+          274499
+        ],
+        "water-polygons": [
+          1363
+        ],
+        "highways": [
+          148289
+        ],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "big-brook-falls",
+      "annotation_ids": [
+        "F19-JUD-154"
+      ],
+      "extent_epsg3857": [
+        -6818214.875729095,
+        5744666.96404742,
+        -6815614.875729095,
+        5747266.96404742
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-big-brook-falls-geography.jpg",
+      "image_sha256": "c680218b7c35ec7cb74e2fd193f3bc3e48b0144e564489fb3aeace6fe1266a4e",
+      "context_object_ids": {
+        "roads": [
+          304,
+          10269,
+          38951,
+          61512,
+          82338,
+          82341,
+          82345,
+          112612,
+          147683,
+          156259
+        ],
+        "rail": [
+          26447
+        ],
+        "water-lines": [
+          63046,
+          63047,
+          198321,
+          198322,
+          198323,
+          198420,
+          198423,
+          268457,
+          268458,
+          268578,
+          268579,
+          280824,
+          286188
+        ],
+        "water-polygons": [
+          1363,
+          1940,
+          7473,
+          150509
+        ],
+        "highways": [],
+        "bridges": [
+          38950
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "princeville-fall",
+      "annotation_ids": [
+        "F19-JUD-162"
+      ],
+      "extent_epsg3857": [
+        -6823604.718052154,
+        5739731.325594049,
+        -6821004.718052154,
+        5742331.325594049
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-princeville-fall-geography.jpg",
+      "image_sha256": "99ce6ed5dfc0affa3b1813d924a5c79ea946ee1d8df94914916a5473f8c526c8",
+      "context_object_ids": {
+        "roads": [
+          82342,
+          82827,
+          86007,
+          112006,
+          112007,
+          112073,
+          112438,
+          112608,
+          112979,
+          133748,
+          133749,
+          133750,
+          133751,
+          133752,
+          133753,
+          135259,
+          136841,
+          136842,
+          137251,
+          228327,
+          228330,
+          228331,
+          313316
+        ],
+        "rail": [],
+        "water-lines": [
+          161195,
+          161348,
+          161948,
+          168601,
+          168932,
+          195341,
+          198382,
+          198482,
+          198484,
+          269668,
+          269669,
+          269696
+        ],
+        "water-polygons": [
+          1363,
+          1940,
+          13632,
+          80849
+        ],
+        "highways": [],
+        "bridges": [
+          228328,
+          228329
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "upper-diogenes-falls",
+      "annotation_ids": [
+        "F19-JUD-041",
+        "F19-JUD-042",
+        "F19-JUD-043"
+      ],
+      "extent_epsg3857": [
+        -6823570.681763509,
+        5761908.191334554,
+        -6820970.681763509,
+        5764508.191334554
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-upper-diogenes-falls-geography.jpg",
+      "image_sha256": "0dd140d3e61eeb3196e95f2a56904a02dafee03b2fdb3ae3e90c0447e1ce98e2",
+      "context_object_ids": {
+        "roads": [
+          16128,
+          16680,
+          52326,
+          52328,
+          55839,
+          76779,
+          76780,
+          76782,
+          76785,
+          82020,
+          82021,
+          82136,
+          82137,
+          82138,
+          82139,
+          82140,
+          82997,
+          114105,
+          115119,
+          115123
+        ],
+        "rail": [],
+        "water-lines": [
+          195862,
+          195863,
+          198123,
+          198124,
+          198125,
+          199813,
+          262648,
+          262649,
+          262650,
+          262770,
+          286864,
+          288038,
+          292135
+        ],
+        "water-polygons": [
+          1363,
+          22284
+        ],
+        "highways": [],
+        "bridges": [
+          52327
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "diogenes-fall",
+      "annotation_ids": [
+        "F19-JUD-044"
+      ],
+      "extent_epsg3857": [
+        -6824711.8788584955,
+        5761015.993612645,
+        -6822111.8788584955,
+        5763615.993612645
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-diogenes-fall-geography.jpg",
+      "image_sha256": "88982f55539481d307538e7c20f7d0cec0dda63cb0e62c75b2cb42d956fd0e72",
+      "context_object_ids": {
+        "roads": [
+          16128,
+          16680,
+          52328,
+          55839,
+          82137,
+          82139,
+          82140,
+          82398,
+          82513,
+          82997,
+          113723,
+          114105,
+          115119,
+          115123
+        ],
+        "rail": [],
+        "water-lines": [
+          195862,
+          198122,
+          198123,
+          198124,
+          198125,
+          262650,
+          262770,
+          286863,
+          292608
+        ],
+        "water-polygons": [
+          1363
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "dennistown-falls",
+      "annotation_ids": [
+        "F19-JUD-051"
+      ],
+      "extent_epsg3857": [
+        -6834990.4323142255,
+        5754761.224957289,
+        -6832390.4323142255,
+        5757361.224957289
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-dennistown-falls-geography.jpg",
+      "image_sha256": "0ab190b1b6c9de56a1b28c068bf6f49975d87b0d497490933578545ed5c41458",
+      "context_object_ids": {
+        "roads": [
+          22757,
+          51898,
+          52298,
+          87343,
+          114247,
+          118050,
+          132281,
+          148584,
+          150511,
+          156246,
+          156550,
+          158945,
+          158946,
+          159111,
+          159112
+        ],
+        "rail": [],
+        "water-lines": [
+          195687,
+          195811,
+          224092,
+          262457,
+          262950,
+          263092
+        ],
+        "water-polygons": [
+          1363,
+          77679,
+          95990
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "west-branch-fall",
+      "annotation_ids": [
+        "F19-JUD-069"
+      ],
+      "extent_epsg3857": [
+        -6825038.501549125,
+        5753740.720910434,
+        -6822438.501549125,
+        5756340.720910434
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-west-branch-fall-geography.jpg",
+      "image_sha256": "efb73abf9512329b1f34f0d6ebdcf813df6e18e26b98a750da0a936bb5e4420f",
+      "context_object_ids": {
+        "roads": [
+          3070,
+          112115,
+          114361,
+          114363,
+          115328,
+          130019,
+          143974,
+          148585
+        ],
+        "rail": [],
+        "water-lines": [
+          63292,
+          63293,
+          196740,
+          196741,
+          196914,
+          197584,
+          198028,
+          198029,
+          198030,
+          198582,
+          274386,
+          274502
+        ],
+        "water-polygons": [
+          1363,
+          55280,
+          106750
+        ],
+        "highways": [
+          156262,
+          156263
+        ],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "quartz-falls",
+      "annotation_ids": [
+        "F19-JUD-070"
+      ],
+      "extent_epsg3857": [
+        -6821564.809284179,
+        5757819.953609055,
+        -6818964.809284179,
+        5760419.953609055
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-quartz-falls-geography.jpg",
+      "image_sha256": "57225827145e05f3d63feb0e0674a28260ba2bbb61436fcd516386894379f821",
+      "context_object_ids": {
+        "roads": [
+          19414,
+          57157,
+          60345,
+          81545,
+          82507,
+          82508,
+          82509,
+          82510,
+          114106,
+          114107,
+          114822,
+          115124,
+          132403,
+          132405,
+          132406,
+          132408,
+          132413,
+          132414,
+          132416,
+          137470,
+          198260,
+          312893,
+          312894
+        ],
+        "rail": [],
+        "water-lines": [
+          63669,
+          195752,
+          195860,
+          196262,
+          198253,
+          198254,
+          198368,
+          198369,
+          198370,
+          198372,
+          198373,
+          198374,
+          262769,
+          274498,
+          312176
+        ],
+        "water-polygons": [
+          1363,
+          70290,
+          123366
+        ],
+        "highways": [
+          20008,
+          148289,
+          198255,
+          198256,
+          198257,
+          198258,
+          198259
+        ],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "glendale-falls",
+      "annotation_ids": [
+        "F19-JUD-109",
+        "F19-JUD-110",
+        "F19-JUD-111"
+      ],
+      "extent_epsg3857": [
+        -6825751.461440779,
+        5748278.594577058,
+        -6822860.72472245,
+        5751169.331295388
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-glendale-falls-geography.jpg",
+      "image_sha256": "bdf81e47a38b6428b67ffc454fbb43d7b5e1ef3e55c858aa999801a8a6b466a5",
+      "context_object_ids": {
+        "roads": [
+          838,
+          10024,
+          10026,
+          10027,
+          10028,
+          46402,
+          46597,
+          54439,
+          59207,
+          60572,
+          80520,
+          112057,
+          112118,
+          115329,
+          117677,
+          118105,
+          118443,
+          130025
+        ],
+        "rail": [],
+        "water-lines": [
+          195338,
+          196419,
+          196579,
+          197430,
+          197431,
+          197918,
+          198141,
+          269586,
+          276071,
+          276072,
+          276073,
+          276074,
+          286187
+        ],
+        "water-polygons": [
+          1363,
+          1940
+        ],
+        "highways": [
+          9622,
+          41541,
+          52041
+        ],
+        "bridges": [
+          10025
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "coal-marks",
+      "annotation_ids": [
+        "F19-JUD-112"
+      ],
+      "extent_epsg3857": [
+        -6822153.242093559,
+        5747986.482662714,
+        -6819553.242093559,
+        5750586.482662714
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-coal-marks-geography.jpg",
+      "image_sha256": "b7467bf223c1c03dac3cd3e2050aa8920b568519b9bdfa49b1da0b054db0e37c",
+      "context_object_ids": {
+        "roads": [
+          56722,
+          80521,
+          82077,
+          82080,
+          82343,
+          82344,
+          83580,
+          112556,
+          114339,
+          114362,
+          156553
+        ],
+        "rail": [],
+        "water-lines": [
+          196416,
+          196418,
+          197428,
+          197582,
+          197583,
+          198130,
+          198131,
+          198132,
+          198137,
+          198138,
+          273065,
+          273066,
+          273067,
+          273068,
+          273069,
+          276220,
+          276221,
+          276222
+        ],
+        "water-polygons": [
+          1363,
+          1940,
+          47355,
+          79078
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
       "name": "barytes",
       "annotation_ids": [
         "F19-JUD-017"

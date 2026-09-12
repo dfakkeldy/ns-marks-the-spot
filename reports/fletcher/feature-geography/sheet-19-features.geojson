@@ -17,8 +17,8 @@
       "reports/fletcher/judique-full-sheet/fresh-scores.json": "f829a7c9f685c6c8d298b37e0b98c2f75b306725e9ab90cfad2d4d1cbaa63ddd"
     },
     "source_review_inputs_sha256": {
-      "reports/fletcher/feature-geography/sheet-19-source-review.json": "81009f24e706d2ffdb785e2875b09a0b57be004a22105632e78863867c5e36ee",
-      "reports/fletcher/feature-geography/sheet-19-placement-review.json": "7694aff4cc0c8832c83052a2d002e80e7da5bb3a3264853d4c854059f2a17ba1",
+      "reports/fletcher/feature-geography/sheet-19-source-review.json": "0916ba4616eccfcdb802208e9360455196c6ee4b80346fe068e97e784d6d3828",
+      "reports/fletcher/feature-geography/sheet-19-placement-review.json": "0d10cd514116b5a8e271e1900cde3363b65d25778c8fa003d532e053871bfa31",
       "reports/fletcher/placement-pilot/source-review.json": "7d6b4958f3a15e26830092cf2d34e7c8988c18b873037ec3d58315eab45e357f",
       "reports/fletcher/placement-pilot/mapped-annotations.geojson": "1bcf7fa7250b7ec79eb7bc9ccab423dfbf925cd42b8971916e0e22df274bb0f3",
       "reports/fletcher/placement-pilot/locality-review.json": "5aad64e2407afbc5005abf6dbe40bd30c8f86cfabde06dcbe9d1b1d52dabd0e3"
@@ -3930,6 +3930,110 @@
     },
     {
       "type": "Feature",
+      "id": "F19-JUD-031",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F19-JUD-031",
+        "sheet": 19,
+        "name": "Barrens",
+        "source_text": "Barrens",
+        "kind": "landscape-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-031",
+          "source_text": "Barrens",
+          "kind": "landscape-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              5900,
+              1350,
+              305,
+              640
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Spaced lettering beside a road. This is a landscape annotation, not an established road name or mapped land-cover boundary."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-031",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Barrens is a widely spaced landscape descriptor beside the road. No boundary delineates the described land cover, and the geological hatching is not a vegetation boundary. Preserve the descriptor unlocated rather than inventing a barrens polygon or point.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-southern-natural-20260912",
+          "additional_source_context": {
+            "native_xywh": [
+              5800,
+              1250,
+              600,
+              850
+            ],
+            "display_size": [
+              600,
+              850
+            ],
+            "rotation_degrees": 0,
+            "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/barrens-full-context.png",
+            "sha256": "5adc4ee8dfcdd518ac006402527d16abd28229f039d8e0c50a4dc52e89da9e42",
+            "meaning": "Whole spaced landscape word and surrounding road; no barrens boundary drawn."
+          }
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": null,
+        "map_derived_geometry": null,
+        "placement_status": "source-location-unresolved",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "unlocated-source-feature",
+        "geometry_meaning": "Source label reviewed, but no distinct feature mark or defensible group identified. No feature location is asserted.",
+        "geographic_review_status": "source-location-unresolved",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            5722,
+            1445,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5722,1445,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-031",
+          "status": "source-location-unresolved",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-southern-natural-20260912.jpg",
+          "scene_sha256": "412cf6a8aa04086f02d8d8285a4a9147e43ff5f56f8a1e2d1798b79e644e9210",
+          "evidence": "Full native context contains the spaced Barrens descriptor and road but no boundary for the described land cover. Geological hatching is not a barrens boundary. No point or polygon is invented."
+        }
+      }
+    },
+    {
+      "type": "Feature",
       "id": "F19-JUD-034",
       "geometry": null,
       "properties": {
@@ -4873,6 +4977,1125 @@
           "scene_sha256": "c728f3205990599897131711551231dcfd5e6bf5c283f0898157117a9b3805f6",
           "evidence": "The short visible historical brook stroke is in the road-and-tributary district south of the northern confluence. Current road and stream lines differ locally and do not establish an underground route. Only the inspected source stroke is retained; the dotted geological boundary was rejected and no modern flow direction, sink, spring or subsurface connection is asserted.",
           "limits": "Source feature/reach and approximate locality only. Historical height and hydrology wording does not establish present measurements or conditions."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-041",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.28847118925424,
+              45.894845137390185
+            ],
+            [
+              -61.28846641024558,
+              45.89458101192817
+            ],
+            [
+              -61.28846178161383,
+              45.894316820337075
+            ],
+            [
+              -61.28845730412426,
+              45.894052561977006
+            ],
+            [
+              -61.288030405563354,
+              45.89403976173222
+            ],
+            [
+              -61.28760346319179,
+              45.89402701872987
+            ],
+            [
+              -61.28717647717809,
+              45.894014334407096
+            ],
+            [
+              -61.28674944767356,
+              45.8940017101778
+            ],
+            [
+              -61.286322374812265,
+              45.89398914743252
+            ],
+            [
+              -61.285895258710575,
+              45.89397664753828
+            ],
+            [
+              -61.28546809946765,
+              45.89396421183881
+            ],
+            [
+              -61.285472609109455,
+              45.89422865434131
+            ],
+            [
+              -61.28547726661541,
+              45.89449303460441
+            ],
+            [
+              -61.2854820712759,
+              45.89475735321976
+            ],
+            [
+              -61.28590921822889,
+              45.894769715800976
+            ],
+            [
+              -61.28633632193051,
+              45.894782140002185
+            ],
+            [
+              -61.28676338232775,
+              45.89479462447656
+            ],
+            [
+              -61.28719039935173,
+              45.89480716785506
+            ],
+            [
+              -61.28761737291739,
+              45.894819768746345
+            ],
+            [
+              -61.28804430292381,
+              45.89483242573673
+            ],
+            [
+              -61.28847118925424,
+              45.894845137390185
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-041",
+        "sheet": 19,
+        "name": "Falls",
+        "source_text": "Falls",
+        "kind": "waterfall-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-041",
+          "source_text": "Falls",
+          "kind": "waterfall-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              8133,
+              1999,
+              101,
+              46
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Upper of three fall annotations on the north-south stream above Iron Ore."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-041",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              8180,
+              2025,
+              65,
+              25
+            ]
+          ],
+          "note": "Falls lies above the short western tributary/main-stream junction. Both adjoining source reaches remain candidates; the lettering does not uniquely fix a fall point or one arm. Keep their junction group, not a waterfall footprint or search-box centre.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+          "review_batch": "judique-middle-falls-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                8180.0,
+                2025.0
+              ],
+              [
+                8189.285714285715,
+                2025.0
+              ],
+              [
+                8198.57142857143,
+                2025.0
+              ],
+              [
+                8207.857142857143,
+                2025.0
+              ],
+              [
+                8217.142857142857,
+                2025.0
+              ],
+              [
+                8226.42857142857,
+                2025.0
+              ],
+              [
+                8235.714285714286,
+                2025.0
+              ],
+              [
+                8245.0,
+                2025.0
+              ],
+              [
+                8245.0,
+                2033.3333333333333
+              ],
+              [
+                8245.0,
+                2041.6666666666667
+              ],
+              [
+                8245.0,
+                2050.0
+              ],
+              [
+                8235.714285714286,
+                2050.0
+              ],
+              [
+                8226.42857142857,
+                2050.0
+              ],
+              [
+                8217.142857142857,
+                2050.0
+              ],
+              [
+                8207.857142857143,
+                2050.0
+              ],
+              [
+                8198.57142857143,
+                2050.0
+              ],
+              [
+                8189.285714285715,
+                2050.0
+              ],
+              [
+                8180.0,
+                2050.0
+              ],
+              [
+                8180.0,
+                2041.6666666666667
+              ],
+              [
+                8180.0,
+                2033.3333333333333
+              ],
+              [
+                8180.0,
+                2025.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.28847118925424,
+                45.894845137390185
+              ],
+              [
+                -61.28846641024558,
+                45.89458101192817
+              ],
+              [
+                -61.28846178161383,
+                45.894316820337075
+              ],
+              [
+                -61.28845730412426,
+                45.894052561977006
+              ],
+              [
+                -61.288030405563354,
+                45.89403976173222
+              ],
+              [
+                -61.28760346319179,
+                45.89402701872987
+              ],
+              [
+                -61.28717647717809,
+                45.894014334407096
+              ],
+              [
+                -61.28674944767356,
+                45.8940017101778
+              ],
+              [
+                -61.286322374812265,
+                45.89398914743252
+              ],
+              [
+                -61.285895258710575,
+                45.89397664753828
+              ],
+              [
+                -61.28546809946765,
+                45.89396421183881
+              ],
+              [
+                -61.285472609109455,
+                45.89422865434131
+              ],
+              [
+                -61.28547726661541,
+                45.89449303460441
+              ],
+              [
+                -61.2854820712759,
+                45.89475735321976
+              ],
+              [
+                -61.28590921822889,
+                45.894769715800976
+              ],
+              [
+                -61.28633632193051,
+                45.894782140002185
+              ],
+              [
+                -61.28676338232775,
+                45.89479462447656
+              ],
+              [
+                -61.28719039935173,
+                45.89480716785506
+              ],
+              [
+                -61.28761737291739,
+                45.894819768746345
+              ],
+              [
+                -61.28804430292381,
+                45.89483242573673
+              ],
+              [
+                -61.28847118925424,
+                45.894845137390185
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7853,
+            1797,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7853,1797,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-041",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-upper-diogenes-falls-geography.jpg",
+          "scene_sha256": "0dd140d3e61eeb3196e95f2a56904a02dafee03b2fdb3ae3e90c0447e1ce98e2",
+          "evidence": "The western tributary and northern main stream join inside the projected source group. Falls 041 stays distinct from the two southern labelled reaches. Modern junction topology supports the approximate group; the source does not select an exact fall point or arm.",
+          "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-042",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.285715902330594,
+            45.893654172020725
+          ],
+          [
+            -61.28551786269473,
+            45.89348973233114
+          ],
+          [
+            -61.28531986509385,
+            45.893325271621904
+          ],
+          [
+            -61.28507590000466,
+            45.8931594539058
+          ],
+          [
+            -61.28483197164084,
+            45.89299362163056
+          ],
+          [
+            -61.284703117652946,
+            45.89283110382175
+          ],
+          [
+            -61.28457431206105,
+            45.89266856264433
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-042",
+        "sheet": 19,
+        "name": "Fall",
+        "source_text": "Fall",
+        "kind": "waterfall-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-042",
+          "source_text": "Fall",
+          "kind": "waterfall-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              8165,
+              2060,
+              92,
+              48
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Middle of the three north-south stream annotations."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-042",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Fall is beside the main stream immediately south of the western tributary junction and north of Falls 043. Trace this adjacent source reach only; no precise drop point is drawn.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+          "review_batch": "judique-middle-falls-20260912",
+          "source_path_xy": [
+            [
+              8239.5,
+              2060
+            ],
+            [
+              8248,
+              2070
+            ],
+            [
+              8258.5,
+              2080
+            ],
+            [
+              8264,
+              2090
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              8239.5,
+              2060.0
+            ],
+            [
+              8243.75,
+              2065.0
+            ],
+            [
+              8248.0,
+              2070.0
+            ],
+            [
+              8253.25,
+              2075.0
+            ],
+            [
+              8258.5,
+              2080.0
+            ],
+            [
+              8261.25,
+              2085.0
+            ],
+            [
+              8264,
+              2090
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.285715902330594,
+              45.893654172020725
+            ],
+            [
+              -61.28551786269473,
+              45.89348973233114
+            ],
+            [
+              -61.28531986509385,
+              45.893325271621904
+            ],
+            [
+              -61.28507590000466,
+              45.8931594539058
+            ],
+            [
+              -61.28483197164084,
+              45.89299362163056
+            ],
+            [
+              -61.284703117652946,
+              45.89283110382175
+            ],
+            [
+              -61.28457431206105,
+              45.89266856264433
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7881,
+            1859,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7881,1859,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-042",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-upper-diogenes-falls-geography.jpg",
+          "scene_sha256": "0dd140d3e61eeb3196e95f2a56904a02dafee03b2fdb3ae3e90c0447e1ce98e2",
+          "evidence": "The short main-stream reach lies immediately south of the western junction and north of the next eastern tributary. Modern stream order and orientation agree broadly, with a local offset. Retain the historical reach without an exact drop site.",
+          "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-043",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.28422480627592,
+            45.8923407556481
+          ],
+          [
+            -61.28407313164123,
+            45.89217748603036
+          ],
+          [
+            -61.283921503803285,
+            45.89201419597219
+          ],
+          [
+            -61.283620335297016,
+            45.891846596146266
+          ],
+          [
+            -61.28331919666055,
+            45.89167899963446
+          ],
+          [
+            -61.28311015612457,
+            45.891514026365094
+          ],
+          [
+            -61.282901157546114,
+            45.8913490420043
+          ],
+          [
+            -61.28271522015608,
+            45.89118469899009
+          ],
+          [
+            -61.28252932731913,
+            45.89102034302835
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-043",
+        "sheet": 19,
+        "name": "Falls",
+        "source_text": "Falls",
+        "kind": "waterfall-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-043",
+          "source_text": "Falls",
+          "kind": "waterfall-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              8292,
+              2100,
+              106,
+              48
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Lower of the three north-south stream annotations."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-043",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Falls is immediately east of the same main stream farther south than Fall 042, beside the small eastern tributary. Retain the adjacent printed reach; endpoints do not establish the falls extent.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+          "review_batch": "judique-middle-falls-20260912",
+          "source_path_xy": [
+            [
+              8271.5,
+              2100
+            ],
+            [
+              8278,
+              2110
+            ],
+            [
+              8291,
+              2120
+            ],
+            [
+              8300,
+              2130
+            ],
+            [
+              8308,
+              2140
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              8271.5,
+              2100.0
+            ],
+            [
+              8274.75,
+              2105.0
+            ],
+            [
+              8278.0,
+              2110.0
+            ],
+            [
+              8284.5,
+              2115.0
+            ],
+            [
+              8291.0,
+              2120.0
+            ],
+            [
+              8295.5,
+              2125.0
+            ],
+            [
+              8300.0,
+              2130.0
+            ],
+            [
+              8304.0,
+              2135.0
+            ],
+            [
+              8308,
+              2140
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.28422480627592,
+              45.8923407556481
+            ],
+            [
+              -61.28407313164123,
+              45.89217748603036
+            ],
+            [
+              -61.283921503803285,
+              45.89201419597219
+            ],
+            [
+              -61.283620335297016,
+              45.891846596146266
+            ],
+            [
+              -61.28331919666055,
+              45.89167899963446
+            ],
+            [
+              -61.28311015612457,
+              45.891514026365094
+            ],
+            [
+              -61.282901157546114,
+              45.8913490420043
+            ],
+            [
+              -61.28271522015608,
+              45.89118469899009
+            ],
+            [
+              -61.28252932731913,
+              45.89102034302835
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8015,
+            1899,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8015,1899,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-043",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-upper-diogenes-falls-geography.jpg",
+          "scene_sha256": "0dd140d3e61eeb3196e95f2a56904a02dafee03b2fdb3ae3e90c0447e1ce98e2",
+          "evidence": "The labelled reach lies south of Fall 042 near the next eastern tributary and above the mill district. Its projection is west of the modern channel, so exact channel-side agreement is unresolved. The stream sequence supports approximate historical locality only.",
+          "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-044",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.296670304580466,
+            45.88784799706886
+          ],
+          [
+            -61.296440682334726,
+            45.887704676510545
+          ],
+          [
+            -61.29621106994782,
+            45.88756132965548
+          ],
+          [
+            -61.29598151200547,
+            45.887362121288824
+          ],
+          [
+            -61.295751998471694,
+            45.88716285948144
+          ],
+          [
+            -61.295522361323535,
+            45.88707527939248
+          ],
+          [
+            -61.295292713329026,
+            45.88698769743352
+          ],
+          [
+            -61.29506301767289,
+            45.88692406222701
+          ],
+          [
+            -61.294833307845266,
+            45.886860432651154
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-044",
+        "sheet": 19,
+        "name": "Fall",
+        "source_text": "Fall",
+        "kind": "waterfall-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-044",
+          "source_text": "Fall",
+          "kind": "waterfall-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              7996,
+              2199,
+              89,
+              47
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "West of the Iron Ore annotation, near a geological hatch crossing."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-044",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Fall sits above the stream east of the geological strike lines, upstream of the Diogenes Brook junction. Trace the visible stream section below the label. The strike lines are not falls symbols or a measured drop.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+          "review_batch": "judique-middle-falls-20260912",
+          "source_path_xy": [
+            [
+              8000,
+              2253.5
+            ],
+            [
+              8010,
+              2262
+            ],
+            [
+              8020,
+              2274
+            ],
+            [
+              8030,
+              2279
+            ],
+            [
+              8040,
+              2282.5
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              8000.0,
+              2253.5
+            ],
+            [
+              8005.0,
+              2257.75
+            ],
+            [
+              8010.0,
+              2262.0
+            ],
+            [
+              8015.0,
+              2268.0
+            ],
+            [
+              8020.0,
+              2274.0
+            ],
+            [
+              8025.0,
+              2276.5
+            ],
+            [
+              8030.0,
+              2279.0
+            ],
+            [
+              8035.0,
+              2280.75
+            ],
+            [
+              8040,
+              2282.5
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.296670304580466,
+              45.88784799706886
+            ],
+            [
+              -61.296440682334726,
+              45.887704676510545
+            ],
+            [
+              -61.29621106994782,
+              45.88756132965548
+            ],
+            [
+              -61.29598151200547,
+              45.887362121288824
+            ],
+            [
+              -61.295751998471694,
+              45.88716285948144
+            ],
+            [
+              -61.295522361323535,
+              45.88707527939248
+            ],
+            [
+              -61.295292713329026,
+              45.88698769743352
+            ],
+            [
+              -61.29506301767289,
+              45.88692406222701
+            ],
+            [
+              -61.294833307845266,
+              45.886860432651154
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7710,
+            1997,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7710,1997,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-044",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-diogenes-fall-geography.jpg",
+          "scene_sha256": "88982f55539481d307538e7c20f7d0cec0dda63cb0e62c75b2cb42d956fd0e72",
+          "evidence": "The reach remains east of the western tributary junction and west of the Diogenes Brook confluence. Modern stream order and orientation support the district, with differing bend detail. Geological strike strokes are not mapped as falls, and no precise drop is asserted.",
+          "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-045",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F19-JUD-045",
+        "sheet": 19,
+        "name": "Iron Ore",
+        "source_text": "Iron Ore",
+        "kind": "mineral-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-045",
+          "source_text": "Iron Ore",
+          "kind": "mineral-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              8255,
+              2205,
+              136,
+              56
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Mineral wording only; does not establish a mine, deposit extent, grade or current resource."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-045",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Iron Ore lies beside the stream and a small coloured geological unit. No distinct ore mark or uniquely bounded deposit is identified. The adjacent unit, letter O and nearby mill marks must not become an iron-ore site or deposit boundary.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+          "review_batch": "judique-middle-falls-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": null,
+        "map_derived_geometry": null,
+        "placement_status": "source-location-unresolved",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "unlocated-source-feature",
+        "geometry_meaning": "Source label reviewed, but no distinct feature mark or defensible group identified. No feature location is asserted.",
+        "geographic_review_status": "source-location-unresolved",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7993,
+            2008,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7993,2008,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-045",
+          "status": "source-location-unresolved",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-middle-falls-20260912.jpg",
+          "scene_sha256": "40ff1fb4689af66df6c23c9b3446e5099c12b8cae77031a6cb87b25d8b67b3d6",
+          "evidence": "Iron Ore has no distinct native ore mark or defensible deposit boundary in the inspected context. Preserve the wording unlocated; a geological unit, letter O or mill mark cannot supply an ore-site geometry."
         }
       }
     },
@@ -6067,6 +7290,249 @@
           "scene_sha256": "d7527c7105cff17db028d27c154088cf30f5a837f4fa3797d7b86622f38fcee4",
           "evidence": "The road bend, small north-south tributary crossing and southern river junction retain their order in the modern reference. The three candidate source marks span the school locality. The source cannot assign a unique school building; keep a group outline, not a footprint or error bound.",
           "limits": "Approximate projection of inspected source geometry only. Local road/bank-side disagreements remain explicit. No surveyed position, present condition, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-051",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.38888767974267,
+            45.848905604705195
+          ],
+          [
+            -61.38859443193291,
+            45.848794102004526
+          ],
+          [
+            -61.38830074212219,
+            45.84868190189325
+          ],
+          [
+            -61.388006661191824,
+            45.84856911475277
+          ],
+          [
+            -61.387735483230045,
+            45.848399776399354
+          ],
+          [
+            -61.387463810734474,
+            45.84823007413908
+          ],
+          [
+            -61.38737382389183,
+            45.84806105909174
+          ],
+          [
+            -61.3872835660415,
+            45.84789193608346
+          ],
+          [
+            -61.38729560439264,
+            45.84772315839099
+          ],
+          [
+            -61.38730748837523,
+            45.84755421421784
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-051",
+        "sheet": 19,
+        "name": "Falls",
+        "source_text": "Falls",
+        "kind": "waterfall-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-051",
+          "source_text": "Falls",
+          "kind": "waterfall-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              6019,
+              3451,
+              97,
+              48
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "On the western stream south of Dennistown; no height printed."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-051",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Falls labels the curving main stream south of the Dennistown tributary junction. Trace the visible adjacent bend; the printed source does not locate an exact drop or quantify a modern waterfall.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native topology and dark-ink coordinate measurements, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down, no crop offset or rotation. Path vertices follow inspected source ink.",
+          "review_batch": "judique-middle-falls-20260912",
+          "source_path_xy": [
+            [
+              5987.5,
+              3455
+            ],
+            [
+              6006.5,
+              3465
+            ],
+            [
+              6018,
+              3475
+            ],
+            [
+              6021.5,
+              3485
+            ],
+            [
+              6020.5,
+              3495
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              5987.5,
+              3455.0
+            ],
+            [
+              5993.833333333333,
+              3458.3333333333335
+            ],
+            [
+              6000.166666666667,
+              3461.6666666666665
+            ],
+            [
+              6006.5,
+              3465.0
+            ],
+            [
+              6012.25,
+              3470.0
+            ],
+            [
+              6018.0,
+              3475.0
+            ],
+            [
+              6019.75,
+              3480.0
+            ],
+            [
+              6021.5,
+              3485.0
+            ],
+            [
+              6021.0,
+              3490.0
+            ],
+            [
+              6020.5,
+              3495
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.38888767974267,
+              45.848905604705195
+            ],
+            [
+              -61.38859443193291,
+              45.848794102004526
+            ],
+            [
+              -61.38830074212219,
+              45.84868190189325
+            ],
+            [
+              -61.388006661191824,
+              45.84856911475277
+            ],
+            [
+              -61.387735483230045,
+              45.848399776399354
+            ],
+            [
+              -61.387463810734474,
+              45.84823007413908
+            ],
+            [
+              -61.38737382389183,
+              45.84806105909174
+            ],
+            [
+              -61.3872835660415,
+              45.84789193608346
+            ],
+            [
+              -61.38729560439264,
+              45.84772315839099
+            ],
+            [
+              -61.38730748837523,
+              45.84755421421784
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            5737,
+            3250,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/5737,3250,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-051",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-dennistown-falls-geography.jpg",
+          "scene_sha256": "0ab190b1b6c9de56a1b28c068bf6f49975d87b0d497490933578545ed5c41458",
+          "evidence": "The curved main reach south of the Dennistown tributary junction and north of Old River Denys Road is recognizable in the modern stream network. The projected bend follows the same broad location, but neither an exact falls point nor a current height is established.",
+          "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
         }
       }
     },
@@ -7363,6 +8829,739 @@
           "scene_sha256": "70de45177c25c53609dd531eadfc6a1811be028d61171e67ff626babd4c39d97",
           "evidence": "The road bend, north-south watercourse and western valley retain their relative order around the mill group. The current crossing is offset and modern water polygons occupy the southwestern reach. This supports approximate locality only; exact bank, footprint and individual mill remain unresolved.",
           "limits": "Native source and approximate locality review are separate. Local linework differences and group ambiguity remain explicit. No present site identity, surveyed position, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-069",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.299897217572706,
+              45.84316409821608
+            ],
+            [
+              -61.29990418826377,
+              45.84284237878156
+            ],
+            [
+              -61.299910928535795,
+              45.84252066594519
+            ],
+            [
+              -61.29991743112735,
+              45.84219895384228
+            ],
+            [
+              -61.299923689269065,
+              45.84187723704813
+            ],
+            [
+              -61.29992969667949,
+              45.841555510572675
+            ],
+            [
+              -61.29993544755946,
+              45.84123376985366
+            ],
+            [
+              -61.299940936584306,
+              45.84091201074803
+            ],
+            [
+              -61.29994615889556,
+              45.84059022952199
+            ],
+            [
+              -61.29953494149972,
+              45.84057867476078
+            ],
+            [
+              -61.299123932683,
+              45.840567301155225
+            ],
+            [
+              -61.298713138204825,
+              45.840556114274435
+            ],
+            [
+              -61.29830256374591,
+              45.84054511965887
+            ],
+            [
+              -61.29789221489509,
+              45.84053432280643
+            ],
+            [
+              -61.297482097136516,
+              45.84052372915606
+            ],
+            [
+              -61.297475859709316,
+              45.840844210701825
+            ],
+            [
+              -61.2974693772041,
+              45.84116467601427
+            ],
+            [
+              -61.297462654727696,
+              45.841485129297936
+            ],
+            [
+              -61.29745569787347,
+              45.84180557518837
+            ],
+            [
+              -61.29744851274026,
+              45.84212601877253
+            ],
+            [
+              -61.29744110595071,
+              45.842446465609285
+            ],
+            [
+              -61.29743348467161,
+              45.84276692175115
+            ],
+            [
+              -61.29742565663283,
+              45.84308739376607
+            ],
+            [
+              -61.29783698834072,
+              45.84309964539654
+            ],
+            [
+              -61.29824856765531,
+              45.8431121195649
+            ],
+            [
+              -61.29866038740783,
+              45.84312480906595
+            ],
+            [
+              -61.299072440420765,
+              45.84313770673384
+            ],
+            [
+              -61.29948471952476,
+              45.843150805461335
+            ],
+            [
+              -61.299897217572706,
+              45.84316409821608
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-069",
+        "sheet": 19,
+        "name": "Fall 25",
+        "source_text": "Fall 25",
+        "kind": "waterfall-annotation",
+        "reading_status": "tentative",
+        "source_annotation": {
+          "id": "F19-JUD-069",
+          "source_text": "Fall 25",
+          "kind": "waterfall-annotation",
+          "reading_status": "tentative",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              7993,
+              3639,
+              132,
+              48
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Numerals read 25 after enlargement; no trailing unit mark confidently resolved. Preserve text without supplying a unit."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-069",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              7955,
+              3635,
+              52,
+              80
+            ]
+          ],
+          "note": "Fall 25 is beside the West Branch reach partly overprinted by geological strike marks above the railway junction. Retain the bounded source reach group where the exact fall position is obscured. The hatching is not a falls symbol and 25 is historical wording, not a modern measurement.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+          "review_batch": "judique-river-falls-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                7955.0,
+                3635.0
+              ],
+              [
+                7963.666666666667,
+                3635.0
+              ],
+              [
+                7972.333333333333,
+                3635.0
+              ],
+              [
+                7981.0,
+                3635.0
+              ],
+              [
+                7989.666666666667,
+                3635.0
+              ],
+              [
+                7998.333333333333,
+                3635.0
+              ],
+              [
+                8007.0,
+                3635.0
+              ],
+              [
+                8007.0,
+                3645.0
+              ],
+              [
+                8007.0,
+                3655.0
+              ],
+              [
+                8007.0,
+                3665.0
+              ],
+              [
+                8007.0,
+                3675.0
+              ],
+              [
+                8007.0,
+                3685.0
+              ],
+              [
+                8007.0,
+                3695.0
+              ],
+              [
+                8007.0,
+                3705.0
+              ],
+              [
+                8007.0,
+                3715.0
+              ],
+              [
+                7998.333333333333,
+                3715.0
+              ],
+              [
+                7989.666666666667,
+                3715.0
+              ],
+              [
+                7981.0,
+                3715.0
+              ],
+              [
+                7972.333333333333,
+                3715.0
+              ],
+              [
+                7963.666666666667,
+                3715.0
+              ],
+              [
+                7955.0,
+                3715.0
+              ],
+              [
+                7955.0,
+                3705.0
+              ],
+              [
+                7955.0,
+                3695.0
+              ],
+              [
+                7955.0,
+                3685.0
+              ],
+              [
+                7955.0,
+                3675.0
+              ],
+              [
+                7955.0,
+                3665.0
+              ],
+              [
+                7955.0,
+                3655.0
+              ],
+              [
+                7955.0,
+                3645.0
+              ],
+              [
+                7955.0,
+                3635.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.299897217572706,
+                45.84316409821608
+              ],
+              [
+                -61.29990418826377,
+                45.84284237878156
+              ],
+              [
+                -61.299910928535795,
+                45.84252066594519
+              ],
+              [
+                -61.29991743112735,
+                45.84219895384228
+              ],
+              [
+                -61.299923689269065,
+                45.84187723704813
+              ],
+              [
+                -61.29992969667949,
+                45.841555510572675
+              ],
+              [
+                -61.29993544755946,
+                45.84123376985366
+              ],
+              [
+                -61.299940936584306,
+                45.84091201074803
+              ],
+              [
+                -61.29994615889556,
+                45.84059022952199
+              ],
+              [
+                -61.29953494149972,
+                45.84057867476078
+              ],
+              [
+                -61.299123932683,
+                45.840567301155225
+              ],
+              [
+                -61.298713138204825,
+                45.840556114274435
+              ],
+              [
+                -61.29830256374591,
+                45.84054511965887
+              ],
+              [
+                -61.29789221489509,
+                45.84053432280643
+              ],
+              [
+                -61.297482097136516,
+                45.84052372915606
+              ],
+              [
+                -61.297475859709316,
+                45.840844210701825
+              ],
+              [
+                -61.2974693772041,
+                45.84116467601427
+              ],
+              [
+                -61.297462654727696,
+                45.841485129297936
+              ],
+              [
+                -61.29745569787347,
+                45.84180557518837
+              ],
+              [
+                -61.29744851274026,
+                45.84212601877253
+              ],
+              [
+                -61.29744110595071,
+                45.842446465609285
+              ],
+              [
+                -61.29743348467161,
+                45.84276692175115
+              ],
+              [
+                -61.29742565663283,
+                45.84308739376607
+              ],
+              [
+                -61.29783698834072,
+                45.84309964539654
+              ],
+              [
+                -61.29824856765531,
+                45.8431121195649
+              ],
+              [
+                -61.29866038740783,
+                45.84312480906595
+              ],
+              [
+                -61.299072440420765,
+                45.84313770673384
+              ],
+              [
+                -61.29948471952476,
+                45.843150805461335
+              ],
+              [
+                -61.299897217572706,
+                45.84316409821608
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7729,
+            3438,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7729,3438,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-069",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-west-branch-fall-geography.jpg",
+          "scene_sha256": "efb73abf9512329b1f34f0d6ebdcf813df6e18e26b98a750da0a936bb5e4420f",
+          "evidence": "The West Branch enters the projected group from the north and turns toward the southeastern valley junction. Modern topology supports this approximate reach region; the historical railway/road positions and local bend differ. Geological overprint obscures the exact source fall position. The group is not a waterfall footprint, and 25 remains historical wording.",
+          "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-070",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.26950984029191,
+            45.86744153204088
+          ],
+          [
+            -61.269076844082754,
+            45.86738902417952
+          ],
+          [
+            -61.268643992506476,
+            45.86733671724404
+          ],
+          [
+            -61.268254345673824,
+            45.867397515756515
+          ],
+          [
+            -61.26786477211638,
+            45.8674583998072
+          ],
+          [
+            -61.26749884459884,
+            45.86748743556863
+          ],
+          [
+            -61.26713298884368,
+            45.86751656313751
+          ],
+          [
+            -61.26674707407489,
+            45.867433247261815
+          ],
+          [
+            -61.266361285934074,
+            45.86735010990376
+          ],
+          [
+            -61.2660583064401,
+            45.86730515874525
+          ],
+          [
+            -61.265755397295884,
+            45.867260305550346
+          ],
+          [
+            -61.26545255815792,
+            45.867215549757425
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-070",
+        "sheet": 19,
+        "name": "Falls",
+        "source_text": "Falls",
+        "kind": "waterfall-annotation",
+        "reading_status": "tentative",
+        "source_annotation": {
+          "id": "F19-JUD-070",
+          "source_text": "Falls",
+          "kind": "waterfall-annotation",
+          "reading_status": "tentative",
+          "source_record_file": "../judique-inland.json",
+          "source_record_sha256": "7335336af26c5a98ccf123c563e6de87d8be10dcc22d4391712e5d59990eeafa",
+          "source_label_boxes_xywh": [
+            [
+              8575,
+              2860,
+              125,
+              50
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Small lettering beside Quartz/Mill. This separation is tentative and could be revised on human review."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-070",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "The tentative Falls reading lies below the lower of two small tributaries west of the main watercourse and railway, above the Quartz Mill district. Wider native context separates this stream from the road, railway and mill marks. Trace only that adjacent tributary; do not assign an exact drop point or silently upgrade the reading.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+          "review_batch": "judique-river-falls-20260912",
+          "source_path_xy": [
+            [
+              8596,
+              2866
+            ],
+            [
+              8615,
+              2869
+            ],
+            [
+              8632,
+              2865
+            ],
+            [
+              8648,
+              2863
+            ],
+            [
+              8665,
+              2868
+            ],
+            [
+              8685,
+              2872
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              8596.0,
+              2866.0
+            ],
+            [
+              8605.5,
+              2867.5
+            ],
+            [
+              8615.0,
+              2869.0
+            ],
+            [
+              8623.5,
+              2867.0
+            ],
+            [
+              8632.0,
+              2865.0
+            ],
+            [
+              8640.0,
+              2864.0
+            ],
+            [
+              8648.0,
+              2863.0
+            ],
+            [
+              8656.5,
+              2865.5
+            ],
+            [
+              8665.0,
+              2868.0
+            ],
+            [
+              8671.666666666666,
+              2869.3333333333335
+            ],
+            [
+              8678.333333333334,
+              2870.6666666666665
+            ],
+            [
+              8685,
+              2872
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.26950984029191,
+              45.86744153204088
+            ],
+            [
+              -61.269076844082754,
+              45.86738902417952
+            ],
+            [
+              -61.268643992506476,
+              45.86733671724404
+            ],
+            [
+              -61.268254345673824,
+              45.867397515756515
+            ],
+            [
+              -61.26786477211638,
+              45.8674583998072
+            ],
+            [
+              -61.26749884459884,
+              45.86748743556863
+            ],
+            [
+              -61.26713298884368,
+              45.86751656313751
+            ],
+            [
+              -61.26674707407489,
+              45.867433247261815
+            ],
+            [
+              -61.266361285934074,
+              45.86735010990376
+            ],
+            [
+              -61.2660583064401,
+              45.86730515874525
+            ],
+            [
+              -61.265755397295884,
+              45.867260305550346
+            ],
+            [
+              -61.26545255815792,
+              45.867215549757425
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8307,
+            2660,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8307,2660,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-070",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-quartz-falls-geography.jpg",
+          "scene_sha256": "57225827145e05f3d63feb0e0674a28260ba2bbb61436fcd516386894379f821",
+          "evidence": "The lower small historical tributary approaches the main valley above the mill district. The modern reference does not resolve this small tributary, and the projected trace crosses the modern main channel near its eastern end. Retain approximate historical evidence only; no current tributary, exact drop or upgraded reading is claimed.",
+          "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
         }
       }
     },
@@ -12345,6 +14544,94 @@
     },
     {
       "type": "Feature",
+      "id": "F19-JUD-090",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F19-JUD-090",
+        "sheet": 19,
+        "name": "700 Fᵀ.",
+        "source_text": "700 Fᵀ.",
+        "kind": "elevation-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-090",
+          "source_text": "700 Fᵀ.",
+          "kind": "elevation-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-south.json",
+          "source_record_sha256": "5c61af33c89717d77c9296ba2159e9ac5a3f388fa351b959dabb6af72c759ad8",
+          "source_label_boxes_xywh": [
+            [
+              4443,
+              5316,
+              140,
+              43
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Added during whole-crop review; absent from worker output. Preserve the printed number and unit typography. This is not a verified modern elevation, surveyed summit, or site-height estimate."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-090",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "700 FT. is printed in an unbounded part of the geological map without a spot-height mark, benchmark or uniquely identified summit in this context. Preserve the printed height unlocated; its lettering centre is not a surveyed elevation point or a modern terrain measurement.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-southern-natural-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": null,
+        "map_derived_geometry": null,
+        "placement_status": "source-location-unresolved",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "unlocated-source-feature",
+        "geometry_meaning": "Source label reviewed, but no distinct feature mark or defensible group identified. No feature location is asserted.",
+        "geographic_review_status": "source-location-unresolved",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            4183,
+            5112,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4183,5112,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-090",
+          "status": "source-location-unresolved",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-southern-natural-20260912.jpg",
+          "scene_sha256": "412cf6a8aa04086f02d8d8285a4a9147e43ff5f56f8a1e2d1798b79e644e9210",
+          "evidence": "700 FT. has no associated spot-height mark, benchmark or distinctly identified summit in the source context. Preserve the wording without a site coordinate or present elevation claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
       "id": "F19-JUD-091",
       "geometry": {
         "type": "Point",
@@ -13215,6 +15502,1475 @@
           "scene_sha256": "774f1aa3cd95a8736331f2acf4d1c308844c5a1d851fe61520cbb8a839c2a008",
           "evidence": "Gold Mine 094 remains west of the curving road and Glendale Brook. The user corroborated this source feature in the earlier pilot; this new fit is not newly user-validated. Plumbago 103 remains in the western tributary corridor; Red Bridge 117 remains at the main valley crossing. Current road, rail and stream alignments differ locally; no current opening or modern bridge identity is asserted.",
           "limits": "Source correspondence and approximate locality review only. Fit targets are not uniformly satisfied; no surveyed position, present condition, access or ownership claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-109",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.31003126950323,
+            45.810643051004185
+          ],
+          [
+            -61.30980566112082,
+            45.81061947371777
+          ],
+          [
+            -61.3095800877443,
+            45.81059587628519
+          ],
+          [
+            -61.30935245713092,
+            45.81052428775237
+          ],
+          [
+            -61.3091249054658,
+            45.81045266573318
+          ],
+          [
+            -61.30889913531612,
+            45.810420999145535
+          ],
+          [
+            -61.30867340572042,
+            45.81038931317213
+          ],
+          [
+            -61.30845005508781,
+            45.81041361095176
+          ],
+          [
+            -61.308226699556336,
+            45.81043790969461
+          ],
+          [
+            -61.308007619013146,
+            45.810566252741914
+          ],
+          [
+            -61.307788472174664,
+            45.81069463540083
+          ],
+          [
+            -61.307339637380096,
+            45.81069526662043
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-109",
+        "sheet": 19,
+        "name": "Fall",
+        "source_text": "Fall",
+        "kind": "falls-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-109",
+          "source_text": "Fall",
+          "kind": "falls-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-southeast.json",
+          "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+          "source_label_boxes_xywh": [
+            [
+              7705,
+              4646,
+              70,
+              35
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Separate from nearby numbered falls labels; no modern flow or height inferred."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-109",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Fall is below the small river bend east of the Glendale road crossing and west of Fall 6. Trace the adjacent printed river section, without an exact drop point.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+          "review_batch": "judique-river-falls-20260912",
+          "source_path_xy": [
+            [
+              7720,
+              4644.5
+            ],
+            [
+              7730,
+              4646
+            ],
+            [
+              7740,
+              4650.5
+            ],
+            [
+              7750,
+              4652.5
+            ],
+            [
+              7760,
+              4651
+            ],
+            [
+              7770,
+              4643
+            ],
+            [
+              7780,
+              4643
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              7720.0,
+              4644.5
+            ],
+            [
+              7725.0,
+              4645.25
+            ],
+            [
+              7730.0,
+              4646.0
+            ],
+            [
+              7735.0,
+              4648.25
+            ],
+            [
+              7740.0,
+              4650.5
+            ],
+            [
+              7745.0,
+              4651.5
+            ],
+            [
+              7750.0,
+              4652.5
+            ],
+            [
+              7755.0,
+              4651.75
+            ],
+            [
+              7760.0,
+              4651.0
+            ],
+            [
+              7765.0,
+              4647.0
+            ],
+            [
+              7770.0,
+              4643.0
+            ],
+            [
+              7780,
+              4643
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.31003126950323,
+              45.810643051004185
+            ],
+            [
+              -61.30980566112082,
+              45.81061947371777
+            ],
+            [
+              -61.3095800877443,
+              45.81059587628519
+            ],
+            [
+              -61.30935245713092,
+              45.81052428775237
+            ],
+            [
+              -61.3091249054658,
+              45.81045266573318
+            ],
+            [
+              -61.30889913531612,
+              45.810420999145535
+            ],
+            [
+              -61.30867340572042,
+              45.81038931317213
+            ],
+            [
+              -61.30845005508781,
+              45.81041361095176
+            ],
+            [
+              -61.308226699556336,
+              45.81043790969461
+            ],
+            [
+              -61.308007619013146,
+              45.810566252741914
+            ],
+            [
+              -61.307788472174664,
+              45.81069463540083
+            ],
+            [
+              -61.307339637380096,
+              45.81069526662043
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7410,
+            4438,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7410,4438,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-109",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-glendale-falls-geography.jpg",
+          "scene_sha256": "bdf81e47a38b6428b67ffc454fbb43d7b5e1ef3e55c858aa999801a8a6b466a5",
+          "evidence": "The first labelled river reach remains east of the Glendale road crossing and west of the following two annotations. It projects north of the modern river; the road approaches and eastern drainage sequence support the broad locality, not a precise present falls site.",
+          "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-110",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.30461246727919,
+            45.80968825330934
+          ],
+          [
+            -61.30438777520064,
+            45.809664356727296
+          ],
+          [
+            -61.30416311116003,
+            45.80964045899743
+          ],
+          [
+            -61.303937685048744,
+            45.80959248948957
+          ],
+          [
+            -61.30371230702417,
+            45.80954451376429
+          ],
+          [
+            -61.30348954207122,
+            45.80957679180744
+          ],
+          [
+            -61.3032667623188,
+            45.80960908509368
+          ],
+          [
+            -61.30304045466726,
+            45.80952900557159
+          ],
+          [
+            -61.30281422333175,
+            45.8094489140386
+          ],
+          [
+            -61.302589039687355,
+            45.809400931722905
+          ],
+          [
+            -61.30236390253024,
+            45.80935294774675
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-110",
+        "sheet": 19,
+        "name": "Fall 6",
+        "source_text": "Fall 6",
+        "kind": "falls-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-110",
+          "source_text": "Fall 6",
+          "kind": "falls-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-southeast.json",
+          "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+          "source_label_boxes_xywh": [
+            [
+              7832,
+              4682,
+              78,
+              34
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Printed number retained without inferred unit."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-110",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Fall 6 sits below the next printed river section east of Fall 109 and west of Falls 18. Retain this source reach; the printed 6 does not establish current height or the falls extent.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+          "review_batch": "judique-river-falls-20260912",
+          "source_path_xy": [
+            [
+              7840,
+              4674.5
+            ],
+            [
+              7850,
+              4676
+            ],
+            [
+              7860,
+              4679
+            ],
+            [
+              7870,
+              4677
+            ],
+            [
+              7880,
+              4682
+            ],
+            [
+              7890,
+              4685
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              7840.0,
+              4674.5
+            ],
+            [
+              7845.0,
+              4675.25
+            ],
+            [
+              7850.0,
+              4676.0
+            ],
+            [
+              7855.0,
+              4677.5
+            ],
+            [
+              7860.0,
+              4679.0
+            ],
+            [
+              7865.0,
+              4678.0
+            ],
+            [
+              7870.0,
+              4677.0
+            ],
+            [
+              7875.0,
+              4679.5
+            ],
+            [
+              7880.0,
+              4682.0
+            ],
+            [
+              7885.0,
+              4683.5
+            ],
+            [
+              7890,
+              4685
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.30461246727919,
+              45.80968825330934
+            ],
+            [
+              -61.30438777520064,
+              45.809664356727296
+            ],
+            [
+              -61.30416311116003,
+              45.80964045899743
+            ],
+            [
+              -61.303937685048744,
+              45.80959248948957
+            ],
+            [
+              -61.30371230702417,
+              45.80954451376429
+            ],
+            [
+              -61.30348954207122,
+              45.80957679180744
+            ],
+            [
+              -61.3032667623188,
+              45.80960908509368
+            ],
+            [
+              -61.30304045466726,
+              45.80952900557159
+            ],
+            [
+              -61.30281422333175,
+              45.8094489140386
+            ],
+            [
+              -61.302589039687355,
+              45.809400931722905
+            ],
+            [
+              -61.30236390253024,
+              45.80935294774675
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7541,
+            4474,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7541,4474,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-110",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-glendale-falls-geography.jpg",
+          "scene_sha256": "bdf81e47a38b6428b67ffc454fbb43d7b5e1ef3e55c858aa999801a8a6b466a5",
+          "evidence": "The middle source reach preserves its order between Fall 109 and Falls 18. The modern river is south of the projection and has different local bends. This is approximate historical evidence; the printed 6 is not a verified modern measurement.",
+          "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-111",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.29839548450989,
+            45.80790996722701
+          ],
+          [
+            -61.29812609731024,
+            45.80782986841335
+          ],
+          [
+            -61.2978567884878,
+            45.80774978045795
+          ],
+          [
+            -61.2976973772633,
+            45.80758893410859
+          ],
+          [
+            -61.29753806900061,
+            45.807428057392535
+          ],
+          [
+            -61.29757940143852,
+            45.807266797219874
+          ],
+          [
+            -61.297620740180065,
+            45.80710551901521
+          ],
+          [
+            -61.297863184779736,
+            45.806976169008266
+          ],
+          [
+            -61.298105561725464,
+            45.80684685915077
+          ],
+          [
+            -61.29827910009375,
+            45.80662092056104
+          ],
+          [
+            -61.29800810511358,
+            45.80642768966821
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-111",
+        "sheet": 19,
+        "name": "Falls 18",
+        "source_text": "Falls 18",
+        "kind": "falls-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-111",
+          "source_text": "Falls 18",
+          "kind": "falls-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-southeast.json",
+          "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+          "source_label_boxes_xywh": [
+            [
+              8002,
+              4724,
+              96,
+              32
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Printed number retained without inferred unit."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-111",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Falls 18 is beside the following river bend east of Fall 6 and west of the eastern road crossing. Retain the adjacent printed reach without turning historical height wording into a present measurement.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+          "review_batch": "judique-river-falls-20260912",
+          "source_path_xy": [
+            [
+              7978,
+              4730
+            ],
+            [
+              7990,
+              4735
+            ],
+            [
+              7997,
+              4745
+            ],
+            [
+              7995,
+              4755
+            ],
+            [
+              7984,
+              4763
+            ],
+            [
+              7980,
+              4770
+            ],
+            [
+              7986,
+              4776
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              7978.0,
+              4730.0
+            ],
+            [
+              7984.0,
+              4732.5
+            ],
+            [
+              7990.0,
+              4735.0
+            ],
+            [
+              7993.5,
+              4740.0
+            ],
+            [
+              7997.0,
+              4745.0
+            ],
+            [
+              7996.0,
+              4750.0
+            ],
+            [
+              7995.0,
+              4755.0
+            ],
+            [
+              7989.5,
+              4759.0
+            ],
+            [
+              7984.0,
+              4763.0
+            ],
+            [
+              7980.0,
+              4770.0
+            ],
+            [
+              7986,
+              4776
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.29839548450989,
+              45.80790996722701
+            ],
+            [
+              -61.29812609731024,
+              45.80782986841335
+            ],
+            [
+              -61.2978567884878,
+              45.80774978045795
+            ],
+            [
+              -61.2976973772633,
+              45.80758893410859
+            ],
+            [
+              -61.29753806900061,
+              45.807428057392535
+            ],
+            [
+              -61.29757940143852,
+              45.807266797219874
+            ],
+            [
+              -61.297620740180065,
+              45.80710551901521
+            ],
+            [
+              -61.297863184779736,
+              45.806976169008266
+            ],
+            [
+              -61.298105561725464,
+              45.80684685915077
+            ],
+            [
+              -61.29827910009375,
+              45.80662092056104
+            ],
+            [
+              -61.29800810511358,
+              45.80642768966821
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7720,
+            4515,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7720,4515,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-111",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-glendale-falls-geography.jpg",
+          "scene_sha256": "bdf81e47a38b6428b67ffc454fbb43d7b5e1ef3e55c858aa999801a8a6b466a5",
+          "evidence": "The eastern bend remains after Fall 6 and before the eastern road/valley crossing. Modern river direction and tributary context support locality, with differing bend detail. Retain the source reach and historical 18 wording without asserting a present drop height or falls extent.",
+          "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-112",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -61.275415505062696,
+                45.80546425021009
+              ],
+              [
+                -61.27541717456864,
+                45.80519455906994
+              ],
+              [
+                -61.27541883574314,
+                45.804924776036415
+              ],
+              [
+                -61.27542048888994,
+                45.804654901122674
+              ],
+              [
+                -61.27503868639312,
+                45.804661728000404
+              ],
+              [
+                -61.274656881647715,
+                45.80466866630207
+              ],
+              [
+                -61.27427507455952,
+                45.80467571530936
+              ],
+              [
+                -61.273893265026274,
+                45.80468287427699
+              ],
+              [
+                -61.27351145293697,
+                45.80469014243371
+              ],
+              [
+                -61.273509396742696,
+                45.804959943163915
+              ],
+              [
+                -61.27350732635513,
+                45.805229653717305
+              ],
+              [
+                -61.27350524159289,
+                45.80549927391804
+              ],
+              [
+                -61.273887294591404,
+                45.80549205008726
+              ],
+              [
+                -61.274269347295444,
+                45.80548493511064
+              ],
+              [
+                -61.274651399851805,
+                45.805477929692216
+              ],
+              [
+                -61.2750334523981,
+                45.80547103450895
+              ],
+              [
+                -61.275415505062696,
+                45.80546425021009
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -61.27336760999774,
+                45.80605155370163
+              ],
+              [
+                -61.27336979649444,
+                45.80577673363312
+              ],
+              [
+                -61.273371967193285,
+                45.80550181933447
+              ],
+              [
+                -61.27292771870861,
+                45.80551039867127
+              ],
+              [
+                -61.27248346926821,
+                45.805519122637804
+              ],
+              [
+                -61.2724811061249,
+                45.80579400302164
+              ],
+              [
+                -61.27247872451637,
+                45.80606878980717
+              ],
+              [
+                -61.27292316669057,
+                45.806060099505046
+              ],
+              [
+                -61.27336760999774,
+                45.80605155370163
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -61.27211523083047,
+                45.80694803303145
+              ],
+              [
+                -61.272118195255636,
+                45.80662511111368
+              ],
+              [
+                -61.272121131982594,
+                45.806302059019934
+              ],
+              [
+                -61.27212404131032,
+                45.805978877109965
+              ],
+              [
+                -61.27172407479903,
+                45.80598692865157
+              ],
+              [
+                -61.271324108161544,
+                45.805995094543505
+              ],
+              [
+                -61.27092414112367,
+                45.80600337382128
+              ],
+              [
+                -61.27052417339697,
+                45.80601176549122
+              ],
+              [
+                -61.27012420467853,
+                45.80602026853053
+              ],
+              [
+                -61.270120795735075,
+                45.80634336367019
+              ],
+              [
+                -61.27011735195719,
+                45.80666633063082
+              ],
+              [
+                -61.27011387328676,
+                45.8069891687799
+              ],
+              [
+                -61.27051414048233,
+                45.806980716381766
+              ],
+              [
+                -61.27091440948286,
+                45.80697237567627
+              ],
+              [
+                -61.27131468064753,
+                45.80696414761008
+              ],
+              [
+                -61.27171495432028,
+                45.80695603309975
+              ],
+              [
+                -61.27211523083047,
+                45.80694803303145
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-112",
+        "sheet": 19,
+        "name": "Coal",
+        "source_text": "Coal",
+        "kind": "mineral-annotation",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-112",
+          "source_text": "Coal",
+          "kind": "mineral-annotation",
+          "reading_status": "clear",
+          "source_record_file": "../judique-southeast.json",
+          "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+          "source_label_boxes_xywh": [
+            [
+              8441,
+              4768,
+              74,
+              35
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Mineral wording only; no mine or deposit extent inferred."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-112",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              8494,
+              4812,
+              43,
+              25
+            ],
+            [
+              8540,
+              4795,
+              20,
+              17
+            ],
+            [
+              8568,
+              4768,
+              45,
+              30
+            ]
+          ],
+          "note": "Three bold coal-related source strokes cross the stream corridor beside Coal. Keep their separated source regions, including gaps. They do not define a continuous coal deposit, mine opening, property or modern resource extent.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and line/ink inspection, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges, x right/y down. No crop offset or rotation.",
+          "review_batch": "judique-river-falls-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "MultiPolygon",
+          "coordinates": [
+            [
+              [
+                [
+                  8494.0,
+                  4812.0
+                ],
+                [
+                  8502.6,
+                  4812.0
+                ],
+                [
+                  8511.2,
+                  4812.0
+                ],
+                [
+                  8519.8,
+                  4812.0
+                ],
+                [
+                  8528.4,
+                  4812.0
+                ],
+                [
+                  8537.0,
+                  4812.0
+                ],
+                [
+                  8537.0,
+                  4820.333333333333
+                ],
+                [
+                  8537.0,
+                  4828.666666666667
+                ],
+                [
+                  8537.0,
+                  4837.0
+                ],
+                [
+                  8528.4,
+                  4837.0
+                ],
+                [
+                  8519.8,
+                  4837.0
+                ],
+                [
+                  8511.2,
+                  4837.0
+                ],
+                [
+                  8502.6,
+                  4837.0
+                ],
+                [
+                  8494.0,
+                  4837.0
+                ],
+                [
+                  8494.0,
+                  4828.666666666667
+                ],
+                [
+                  8494.0,
+                  4820.333333333333
+                ],
+                [
+                  8494.0,
+                  4812.0
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  8540.0,
+                  4795.0
+                ],
+                [
+                  8550.0,
+                  4795.0
+                ],
+                [
+                  8560.0,
+                  4795.0
+                ],
+                [
+                  8560.0,
+                  4803.5
+                ],
+                [
+                  8560.0,
+                  4812.0
+                ],
+                [
+                  8550.0,
+                  4812.0
+                ],
+                [
+                  8540.0,
+                  4812.0
+                ],
+                [
+                  8540.0,
+                  4803.5
+                ],
+                [
+                  8540.0,
+                  4795.0
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  8568.0,
+                  4768.0
+                ],
+                [
+                  8577.0,
+                  4768.0
+                ],
+                [
+                  8586.0,
+                  4768.0
+                ],
+                [
+                  8595.0,
+                  4768.0
+                ],
+                [
+                  8604.0,
+                  4768.0
+                ],
+                [
+                  8613.0,
+                  4768.0
+                ],
+                [
+                  8613.0,
+                  4778.0
+                ],
+                [
+                  8613.0,
+                  4788.0
+                ],
+                [
+                  8613.0,
+                  4798.0
+                ],
+                [
+                  8604.0,
+                  4798.0
+                ],
+                [
+                  8595.0,
+                  4798.0
+                ],
+                [
+                  8586.0,
+                  4798.0
+                ],
+                [
+                  8577.0,
+                  4798.0
+                ],
+                [
+                  8568.0,
+                  4798.0
+                ],
+                [
+                  8568.0,
+                  4788.0
+                ],
+                [
+                  8568.0,
+                  4778.0
+                ],
+                [
+                  8568.0,
+                  4768.0
+                ]
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "MultiPolygon",
+          "coordinates": [
+            [
+              [
+                [
+                  -61.275415505062696,
+                  45.80546425021009
+                ],
+                [
+                  -61.27541717456864,
+                  45.80519455906994
+                ],
+                [
+                  -61.27541883574314,
+                  45.804924776036415
+                ],
+                [
+                  -61.27542048888994,
+                  45.804654901122674
+                ],
+                [
+                  -61.27503868639312,
+                  45.804661728000404
+                ],
+                [
+                  -61.274656881647715,
+                  45.80466866630207
+                ],
+                [
+                  -61.27427507455952,
+                  45.80467571530936
+                ],
+                [
+                  -61.273893265026274,
+                  45.80468287427699
+                ],
+                [
+                  -61.27351145293697,
+                  45.80469014243371
+                ],
+                [
+                  -61.273509396742696,
+                  45.804959943163915
+                ],
+                [
+                  -61.27350732635513,
+                  45.805229653717305
+                ],
+                [
+                  -61.27350524159289,
+                  45.80549927391804
+                ],
+                [
+                  -61.273887294591404,
+                  45.80549205008726
+                ],
+                [
+                  -61.274269347295444,
+                  45.80548493511064
+                ],
+                [
+                  -61.274651399851805,
+                  45.805477929692216
+                ],
+                [
+                  -61.2750334523981,
+                  45.80547103450895
+                ],
+                [
+                  -61.275415505062696,
+                  45.80546425021009
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  -61.27336760999774,
+                  45.80605155370163
+                ],
+                [
+                  -61.27336979649444,
+                  45.80577673363312
+                ],
+                [
+                  -61.273371967193285,
+                  45.80550181933447
+                ],
+                [
+                  -61.27292771870861,
+                  45.80551039867127
+                ],
+                [
+                  -61.27248346926821,
+                  45.805519122637804
+                ],
+                [
+                  -61.2724811061249,
+                  45.80579400302164
+                ],
+                [
+                  -61.27247872451637,
+                  45.80606878980717
+                ],
+                [
+                  -61.27292316669057,
+                  45.806060099505046
+                ],
+                [
+                  -61.27336760999774,
+                  45.80605155370163
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  -61.27211523083047,
+                  45.80694803303145
+                ],
+                [
+                  -61.272118195255636,
+                  45.80662511111368
+                ],
+                [
+                  -61.272121131982594,
+                  45.806302059019934
+                ],
+                [
+                  -61.27212404131032,
+                  45.805978877109965
+                ],
+                [
+                  -61.27172407479903,
+                  45.80598692865157
+                ],
+                [
+                  -61.271324108161544,
+                  45.805995094543505
+                ],
+                [
+                  -61.27092414112367,
+                  45.80600337382128
+                ],
+                [
+                  -61.27052417339697,
+                  45.80601176549122
+                ],
+                [
+                  -61.27012420467853,
+                  45.80602026853053
+                ],
+                [
+                  -61.270120795735075,
+                  45.80634336367019
+                ],
+                [
+                  -61.27011735195719,
+                  45.80666633063082
+                ],
+                [
+                  -61.27011387328676,
+                  45.8069891687799
+                ],
+                [
+                  -61.27051414048233,
+                  45.806980716381766
+                ],
+                [
+                  -61.27091440948286,
+                  45.80697237567627
+                ],
+                [
+                  -61.27131468064753,
+                  45.80696414761008
+                ],
+                [
+                  -61.27171495432028,
+                  45.80695603309975
+                ],
+                [
+                  -61.27211523083047,
+                  45.80694803303145
+                ]
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8148,
+            4560,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8148,4560,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-112",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-coal-marks-geography.jpg",
+          "scene_sha256": "b7467bf223c1c03dac3cd3e2050aa8920b568519b9bdfa49b1da0b054db0e37c",
+          "evidence": "The three bold source strokes retain their southwest-to-northeast order around the tributary junction north of the larger southern river. Modern drainage supports the approximate locality while bank detail differs. Separate polygons describe the printed strokes, not a continuous coal deposit, mine opening or resource boundary.",
+          "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
         }
       }
     },
@@ -14570,6 +18326,1291 @@
     },
     {
       "type": "Feature",
+      "id": "F19-JUD-129",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F19-JUD-129",
+        "sheet": 19,
+        "name": "Fine outcrops of\nblack shale full\nof fossils",
+        "source_text": "Fine outcrops of\nblack shale full\nof fossils",
+        "kind": "descriptive-geology",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-129",
+          "source_text": "Fine outcrops of\nblack shale full\nof fossils",
+          "kind": "descriptive-geology",
+          "reading_status": "clear",
+          "source_record_file": "../judique-southeast.json",
+          "source_record_sha256": "cb4f79ba42904e7c7dda45c6ae72b0fe31f61dc08189558616cad02f49c07c2e",
+          "source_label_boxes_xywh": [
+            [
+              8618,
+              4652,
+              270,
+              39
+            ],
+            [
+              8611,
+              4686,
+              238,
+              37
+            ],
+            [
+              8680,
+              4720,
+              150,
+              38
+            ]
+          ],
+          "review_status": "source-reviewed-in-prior-pilot",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Three-line wording completed east of I06; line breaks preserved."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-129",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Fine outcrops of black shale full of fossils is a descriptive geological annotation above the river. The source does not identify a distinct outcrop mark or defensible extent. Neither the river bank nor the coloured geological unit is promoted into an outcrop, fossil locality or modern site boundary.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-eastern-falls-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": null,
+        "map_derived_geometry": null,
+        "placement_status": "source-location-unresolved",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "unlocated-source-feature",
+        "geometry_meaning": "Source label reviewed, but no distinct feature mark or defensible group identified. No feature location is asserted.",
+        "geographic_review_status": "source-location-unresolved",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8423,
+            4446,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8423,4446,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-129",
+          "status": "source-location-unresolved",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-eastern-falls-20260912.jpg",
+          "scene_sha256": "3bcc7bfd42390155cf117084fe57d48cc02fd63d6669f81731e8502ba4b3008b",
+          "evidence": "The descriptive shale/fossil wording has no distinct outcrop mark or defensible extent in the inspected source. The river and geological unit are not outcrop boundaries."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-134",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F19-JUD-134",
+        "sheet": 19,
+        "name": "Falls",
+        "source_text": "Falls",
+        "kind": "falls",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-134",
+          "source_text": "Falls",
+          "kind": "falls",
+          "reading_status": "clear",
+          "crop_id": "F19-R01C07",
+          "raw_candidate_ids": [
+            "F19-R01C07-01",
+            "F19-DETAIL-EAST-FALLS-01"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8919,
+              1300,
+              80,
+              40
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Northern occurrence; distinct from the next Falls below."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-134",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              8914,
+              1326,
+              48,
+              30
+            ]
+          ],
+          "note": "Falls lies over the main river and southern tributary junction immediately below the horizontal graticule. Both source arms remain candidates; retain their small junction group without selecting a precise fall point. The straight graticule is not a watercourse.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-eastern-falls-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                8914.0,
+                1326.0
+              ],
+              [
+                8923.6,
+                1326.0
+              ],
+              [
+                8933.2,
+                1326.0
+              ],
+              [
+                8942.8,
+                1326.0
+              ],
+              [
+                8952.4,
+                1326.0
+              ],
+              [
+                8962.0,
+                1326.0
+              ],
+              [
+                8962.0,
+                1336.0
+              ],
+              [
+                8962.0,
+                1346.0
+              ],
+              [
+                8962.0,
+                1356.0
+              ],
+              [
+                8952.4,
+                1356.0
+              ],
+              [
+                8942.8,
+                1356.0
+              ],
+              [
+                8933.2,
+                1356.0
+              ],
+              [
+                8923.6,
+                1356.0
+              ],
+              [
+                8914.0,
+                1356.0
+              ],
+              [
+                8914.0,
+                1346.0
+              ],
+              [
+                8914.0,
+                1336.0
+              ],
+              [
+                8914.0,
+                1326.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8629,
+            1095,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8629,1095,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-134",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-eastern-falls-20260912.jpg",
+          "scene_sha256": "3bcc7bfd42390155cf117084fe57d48cc02fd63d6669f81731e8502ba4b3008b",
+          "evidence": "The complete native falls-junction group extends outside the conservative source-control hull. Preserve its source geometry and withhold modern placement; do not shrink the group to pass."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-135",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.256114217470845,
+            45.9127642640264
+          ],
+          [
+            -61.25627016966769,
+            45.912639667948234
+          ],
+          [
+            -61.25642610939887,
+            45.91251509447595
+          ],
+          [
+            -61.25637116015758,
+            45.912324480626594
+          ],
+          [
+            -61.256639713349806,
+            45.91213812303696
+          ],
+          [
+            -61.256672813533726,
+            45.9118537445423
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-135",
+        "sheet": 19,
+        "name": "Falls",
+        "source_text": "Falls",
+        "kind": "falls",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-135",
+          "source_text": "Falls",
+          "kind": "falls",
+          "reading_status": "clear",
+          "crop_id": "F19-R01C07",
+          "raw_candidate_ids": [
+            "F19-R01C07-02",
+            "F19-DETAIL-EAST-FALLS-02"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8896,
+              1422,
+              87,
+              43
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": ""
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-135",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Falls labels the south-running tributary below the previous river junction. Trace the visible bend immediately left of the lettering; it is separate from the eastern main stem and the vertical graticule.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-eastern-falls-20260912",
+          "source_path_xy": [
+            [
+              8896,
+              1436
+            ],
+            [
+              8889,
+              1444
+            ],
+            [
+              8890,
+              1450
+            ],
+            [
+              8884,
+              1456
+            ],
+            [
+              8883,
+              1465
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              8896.0,
+              1436.0
+            ],
+            [
+              8892.5,
+              1440.0
+            ],
+            [
+              8889.0,
+              1444.0
+            ],
+            [
+              8890.0,
+              1450.0
+            ],
+            [
+              8884.0,
+              1456.0
+            ],
+            [
+              8883,
+              1465
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.256114217470845,
+              45.9127642640264
+            ],
+            [
+              -61.25627016966769,
+              45.912639667948234
+            ],
+            [
+              -61.25642610939887,
+              45.91251509447595
+            ],
+            [
+              -61.25637116015758,
+              45.912324480626594
+            ],
+            [
+              -61.256639713349806,
+              45.91213812303696
+            ],
+            [
+              -61.256672813533726,
+              45.9118537445423
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8609,
+            1218,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8609,1218,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-135",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-northeast-falls-reaches-geography.jpg",
+          "scene_sha256": "8b2fc3f8256a324720fa61a3dc76d055fd44e9252517d41a8cb104915916e2b9",
+          "evidence": "The short source tributary is south of the northern river and west of its eastern main stem. Modern drainage supports the broad northern junction district but does not preserve the small southern arm in the same shape. Retain the historical reach with that difference, not a current falls point.",
+          "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-136",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.26453941245824,
+            45.90824506425947
+          ],
+          [
+            -61.264531320278834,
+            45.908055258811515
+          ],
+          [
+            -61.26429117364666,
+            45.90782968952228
+          ],
+          [
+            -61.264329273050635,
+            45.90764069465167
+          ],
+          [
+            -61.26441222337824,
+            45.90742088952277
+          ],
+          [
+            -61.26449389659776,
+            45.90716945037295
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-136",
+        "sheet": 19,
+        "name": "Fall",
+        "source_text": "Fall",
+        "kind": "falls",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-136",
+          "source_text": "Fall",
+          "kind": "falls",
+          "reading_status": "clear",
+          "crop_id": "F19-R01C06",
+          "raw_candidate_ids": [
+            "F19-DETAIL-OVERPRINTED-FALL-01"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8707,
+              1540,
+              77,
+              43
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Printed black Fall over red report reference; reject detail Fau. and retain singular form."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-136",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Fall sits beside the small tributary partly crossed by red report text. The stored path follows the visible stroke below that overprint to its western tributary junction. No exact drop position is invented under the report lettering.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-eastern-falls-20260912",
+          "source_path_xy": [
+            [
+              8709,
+              1583
+            ],
+            [
+              8709,
+              1589
+            ],
+            [
+              8714,
+              1596
+            ],
+            [
+              8713,
+              1602
+            ],
+            [
+              8711,
+              1609
+            ],
+            [
+              8709,
+              1617
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              8709.0,
+              1583.0
+            ],
+            [
+              8709.0,
+              1589.0
+            ],
+            [
+              8714.0,
+              1596.0
+            ],
+            [
+              8713.0,
+              1602.0
+            ],
+            [
+              8711.0,
+              1609.0
+            ],
+            [
+              8709,
+              1617
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.26453941245824,
+              45.90824506425947
+            ],
+            [
+              -61.264531320278834,
+              45.908055258811515
+            ],
+            [
+              -61.26429117364666,
+              45.90782968952228
+            ],
+            [
+              -61.264329273050635,
+              45.90764069465167
+            ],
+            [
+              -61.26441222337824,
+              45.90742088952277
+            ],
+            [
+              -61.26449389659776,
+              45.90716945037295
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8415,
+            1336,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8415,1336,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-136",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-northeast-falls-reaches-geography.jpg",
+          "scene_sha256": "8b2fc3f8256a324720fa61a3dc76d055fd44e9252517d41a8cb104915916e2b9",
+          "evidence": "The visible tributary stroke meets the western branch below the red report text. Modern drainage supports the broad junction and downstream sequence; the source stroke is locally offset. The report overprint is not reconstructed into a hidden exact falls position.",
+          "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-137",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.26582744082854,
+            45.90096305717168
+          ],
+          [
+            -61.26552855769008,
+            45.900862306838484
+          ],
+          [
+            -61.265372998675076,
+            45.90062503438887
+          ],
+          [
+            -61.26521711663539,
+            45.90037507819857
+          ],
+          [
+            -61.265006664645696,
+            45.900149401306486
+          ],
+          [
+            -61.26462399232122,
+            45.90002814410335
+          ],
+          [
+            -61.26421374974991,
+            45.89991277313122
+          ],
+          [
+            -61.26391247629869,
+            45.89973614816952
+          ],
+          [
+            -61.26381178398722,
+            45.89946821987887
+          ],
+          [
+            -61.26363742079591,
+            45.899205250934244
+          ],
+          [
+            -61.263365563555055,
+            45.89907988966836
+          ],
+          [
+            -61.26327480789504,
+            45.89882477800571
+          ],
+          [
+            -61.26333256725914,
+            45.89858502419885
+          ],
+          [
+            -61.26318818008295,
+            45.89838593456864
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-137",
+        "sheet": 19,
+        "name": "Fall 8'",
+        "source_text": "Fall 8'",
+        "kind": "falls",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-137",
+          "source_text": "Fall 8'",
+          "kind": "falls",
+          "reading_status": "clear",
+          "crop_id": "F19-R01C07",
+          "raw_candidate_ids": [
+            "F19-R01C07-03",
+            "F19-R01C06-10",
+            "F19-DETAIL-EAST-FALLS-06"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8737,
+              1780,
+              108,
+              43
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Complete native height at crop overlap."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-137",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "The curved stream associated with Fall 8 crosses straight geological strike marks. Enlarged native pixels distinguish the curved watercourse from the diagonal strokes; only the watercourse is traced. The exact drop and extent are unresolved, and the printed 8 is not a modern measurement.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-eastern-falls-20260912",
+          "source_path_xy": [
+            [
+              8675,
+              1814
+            ],
+            [
+              8681.4,
+              1817
+            ],
+            [
+              8684.6,
+              1824.4
+            ],
+            [
+              8687.8,
+              1832.2
+            ],
+            [
+              8692.2,
+              1839.2
+            ],
+            [
+              8700.4,
+              1842.8
+            ],
+            [
+              8709.2,
+              1846.2
+            ],
+            [
+              8715.6,
+              1851.6
+            ],
+            [
+              8717.6,
+              1860
+            ],
+            [
+              8721.2,
+              1868.2
+            ],
+            [
+              8727,
+              1872
+            ],
+            [
+              8728.8,
+              1880
+            ],
+            [
+              8727.4,
+              1887.6
+            ],
+            [
+              8730.4,
+              1893.8
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              8675.0,
+              1814.0
+            ],
+            [
+              8681.4,
+              1817.0
+            ],
+            [
+              8684.6,
+              1824.4
+            ],
+            [
+              8687.8,
+              1832.2
+            ],
+            [
+              8692.2,
+              1839.2
+            ],
+            [
+              8700.4,
+              1842.8
+            ],
+            [
+              8709.2,
+              1846.2
+            ],
+            [
+              8715.6,
+              1851.6
+            ],
+            [
+              8717.6,
+              1860.0
+            ],
+            [
+              8721.2,
+              1868.2
+            ],
+            [
+              8727.0,
+              1872.0
+            ],
+            [
+              8728.8,
+              1880.0
+            ],
+            [
+              8727.4,
+              1887.6
+            ],
+            [
+              8730.4,
+              1893.8
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.26582744082854,
+              45.90096305717168
+            ],
+            [
+              -61.26552855769008,
+              45.900862306838484
+            ],
+            [
+              -61.265372998675076,
+              45.90062503438887
+            ],
+            [
+              -61.26521711663539,
+              45.90037507819857
+            ],
+            [
+              -61.265006664645696,
+              45.900149401306486
+            ],
+            [
+              -61.26462399232122,
+              45.90002814410335
+            ],
+            [
+              -61.26421374974991,
+              45.89991277313122
+            ],
+            [
+              -61.26391247629869,
+              45.89973614816952
+            ],
+            [
+              -61.26381178398722,
+              45.89946821987887
+            ],
+            [
+              -61.26363742079591,
+              45.899205250934244
+            ],
+            [
+              -61.263365563555055,
+              45.89907988966836
+            ],
+            [
+              -61.26327480789504,
+              45.89882477800571
+            ],
+            [
+              -61.26333256725914,
+              45.89858502419885
+            ],
+            [
+              -61.26318818008295,
+              45.89838593456864
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8461,
+            1576,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8461,1576,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-137",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-northeast-falls-reaches-geography.jpg",
+          "scene_sha256": "8b2fc3f8256a324720fa61a3dc76d055fd44e9252517d41a8cb104915916e2b9",
+          "evidence": "The curved source stream below Fall 8 follows the same broad southwest tributary corridor in the modern reference, with different bend detail. Its path through geological strike marks was checked in enlarged native pixels. No strike line becomes hydrography and no modern height is inferred.",
+          "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-138",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.25333392357474,
+            45.902916329906084
+          ],
+          [
+            -61.25307544674149,
+            45.90281813800345
+          ],
+          [
+            -61.2528169722425,
+            45.90271998084055
+          ],
+          [
+            -61.25248329970282,
+            45.90265263254703
+          ],
+          [
+            -61.252149620692464,
+            45.9025853464504
+          ],
+          [
+            -61.251884811680675,
+            45.90250308141013
+          ],
+          [
+            -61.25162000548815,
+            45.902420854466314
+          ],
+          [
+            -61.25138513291954,
+            45.90233425195956
+          ],
+          [
+            -61.25115026721818,
+            45.90224767907753
+          ],
+          [
+            -61.250778791809104,
+            45.90222140545055
+          ],
+          [
+            -61.250380987012356,
+            45.902353314575166
+          ],
+          [
+            -61.24993455980256,
+            45.90242462923418
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-138",
+        "sheet": 19,
+        "name": "Fall 30'",
+        "source_text": "Fall 30'",
+        "kind": "falls",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-138",
+          "source_text": "Fall 30'",
+          "kind": "falls",
+          "reading_status": "clear",
+          "crop_id": "F19-R01C07",
+          "raw_candidate_ids": [
+            "F19-R01C07-04",
+            "F19-DETAIL-EAST-FALLS-05",
+            "F19-DETAIL-EAST-NAMES-02"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8946,
+              1759,
+              109,
+              38
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Distinct from existing F19-JUD-034; retain the printed height mark."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-138",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Fall 30 lies below the West Branch bend crossing the vertical graticule. Trace the curved river above the lettering; the graticule and geological arrows are separate. The source height remains historical wording.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-eastern-falls-20260912",
+          "source_path_xy": [
+            [
+              8946.7,
+              1746
+            ],
+            [
+              8957.7,
+              1752
+            ],
+            [
+              8972,
+              1756
+            ],
+            [
+              8983.3,
+              1761
+            ],
+            [
+              8993.3,
+              1766.3
+            ],
+            [
+              9001.3,
+              1767
+            ],
+            [
+              9010,
+              1762.7
+            ],
+            [
+              9019.7,
+              1760.3
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              8946.7,
+              1746.0
+            ],
+            [
+              8952.2,
+              1749.0
+            ],
+            [
+              8957.7,
+              1752.0
+            ],
+            [
+              8964.85,
+              1754.0
+            ],
+            [
+              8972.0,
+              1756.0
+            ],
+            [
+              8977.65,
+              1758.5
+            ],
+            [
+              8983.3,
+              1761.0
+            ],
+            [
+              8988.3,
+              1763.65
+            ],
+            [
+              8993.3,
+              1766.3
+            ],
+            [
+              9001.3,
+              1767.0
+            ],
+            [
+              9010.0,
+              1762.7
+            ],
+            [
+              9019.7,
+              1760.3
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.25333392357474,
+              45.902916329906084
+            ],
+            [
+              -61.25307544674149,
+              45.90281813800345
+            ],
+            [
+              -61.2528169722425,
+              45.90271998084055
+            ],
+            [
+              -61.25248329970282,
+              45.90265263254703
+            ],
+            [
+              -61.252149620692464,
+              45.9025853464504
+            ],
+            [
+              -61.251884811680675,
+              45.90250308141013
+            ],
+            [
+              -61.25162000548815,
+              45.902420854466314
+            ],
+            [
+              -61.25138513291954,
+              45.90233425195956
+            ],
+            [
+              -61.25115026721818,
+              45.90224767907753
+            ],
+            [
+              -61.250778791809104,
+              45.90222140545055
+            ],
+            [
+              -61.250380987012356,
+              45.902353314575166
+            ],
+            [
+              -61.24993455980256,
+              45.90242462923418
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8670,
+            1553,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8670,1553,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-138",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-northeast-falls-reaches-geography.jpg",
+          "scene_sha256": "8b2fc3f8256a324720fa61a3dc76d055fd44e9252517d41a8cb104915916e2b9",
+          "evidence": "The West Branch reach remains east of the western tributary junction and above the southern stream/railway district. The projected bend is south of the modern channel. Preserve the approximate historical reach, graticule distinction and original Fall 30 wording without a modern height claim.",
+          "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
       "id": "F19-JUD-143",
       "geometry": null,
       "properties": {
@@ -15747,6 +20788,452 @@
     },
     {
       "type": "Feature",
+      "id": "F19-JUD-151",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.25676498232509,
+            45.84369984602828
+          ],
+          [
+            -61.25654688913882,
+            45.84345309308531
+          ],
+          [
+            -61.25660064875718,
+            45.84317028827246
+          ],
+          [
+            -61.25665058541777,
+            45.8430128313516
+          ],
+          [
+            -61.25670052574871,
+            45.8428553825409
+          ],
+          [
+            -61.25675238930386,
+            45.84263529221103
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-151",
+        "sheet": 19,
+        "name": "Falls",
+        "source_text": "Falls",
+        "kind": "falls",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-151",
+          "source_text": "Falls",
+          "kind": "falls",
+          "reading_status": "clear",
+          "crop_id": "F19-R02C07",
+          "raw_candidate_ids": [
+            "F19-R02C07-13"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8910,
+              3604,
+              89,
+              44
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Complete in a native lower-edge excerpt; excerpt does not count as whole-row-three coverage."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-151",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Falls is beside the small south-running tributary east of the mill district and north of the road. Trace the printed stroke immediately left of the lettering after the upper bend; no exact drop point is shown.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-southern-natural-20260912",
+          "source_path_xy": [
+            [
+              8891,
+              3615
+            ],
+            [
+              8896,
+              3623
+            ],
+            [
+              8895,
+              3632
+            ],
+            [
+              8893,
+              3642
+            ],
+            [
+              8892,
+              3649
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              8891.0,
+              3615.0
+            ],
+            [
+              8896.0,
+              3623.0
+            ],
+            [
+              8895.0,
+              3632.0
+            ],
+            [
+              8894.0,
+              3637.0
+            ],
+            [
+              8893.0,
+              3642.0
+            ],
+            [
+              8892,
+              3649
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.25676498232509,
+              45.84369984602828
+            ],
+            [
+              -61.25654688913882,
+              45.84345309308531
+            ],
+            [
+              -61.25660064875718,
+              45.84317028827246
+            ],
+            [
+              -61.25665058541777,
+              45.8430128313516
+            ],
+            [
+              -61.25670052574871,
+              45.8428553825409
+            ],
+            [
+              -61.25675238930386,
+              45.84263529221103
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8624,
+            3401,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8624,3401,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-151",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-mclennan-tributary-falls-geography.jpg",
+          "scene_sha256": "9d0e089dee0bb0c0c6870d242792409e77d8a6bc3ee2fe9ca94d29325469fc62",
+          "evidence": "The source tributary runs south from the northern brook and crosses the east-west road below the falls annotation. The projected stroke lies east of the modern channel near a local road approach, so exact channel alignment is unresolved. The northern junction and southern crossing support approximate locality only.",
+          "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-154",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.23844877495187,
+            45.784741237530156
+          ],
+          [
+            -61.238228762615435,
+            45.78484418300171
+          ],
+          [
+            -61.238008707149724,
+            45.78494710951117
+          ],
+          [
+            -61.23771962265067,
+            45.784924765798266
+          ],
+          [
+            -61.23743049977758,
+            45.784902412211075
+          ],
+          [
+            -61.2371632218003,
+            45.7848634002255
+          ],
+          [
+            -61.23689590049621,
+            45.78482438964649
+          ],
+          [
+            -61.23663322024964,
+            45.78502412306795
+          ],
+          [
+            -61.23648050348199,
+            45.785172488945676
+          ],
+          [
+            -61.236327693231615,
+            45.78532087478634
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-154",
+        "sheet": 19,
+        "name": "Falls 15",
+        "source_text": "Falls 15",
+        "kind": "falls",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-154",
+          "source_text": "Falls 15",
+          "kind": "falls",
+          "reading_status": "clear",
+          "crop_id": "F19-R04C07",
+          "raw_candidate_ids": [
+            "F19-R04C07-03"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              9262,
+              5446,
+              112,
+              36
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred. Numeral preserved without adding an unprinted unit."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-154",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Falls 15 is above the small tributary bend west of Big Brook and the eastern road. Trace the adjacent source stroke below/right of the wording, keeping the geological angle arrows separate. No present height or exact falls extent is asserted.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-southern-natural-20260912",
+          "source_path_xy": [
+            [
+              9330,
+              5485
+            ],
+            [
+              9340,
+              5479
+            ],
+            [
+              9353,
+              5481
+            ],
+            [
+              9365,
+              5484
+            ],
+            [
+              9371,
+              5478
+            ],
+            [
+              9378,
+              5469
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              9330.0,
+              5485.0
+            ],
+            [
+              9335.0,
+              5482.0
+            ],
+            [
+              9340.0,
+              5479.0
+            ],
+            [
+              9346.5,
+              5480.0
+            ],
+            [
+              9353.0,
+              5481.0
+            ],
+            [
+              9359.0,
+              5482.5
+            ],
+            [
+              9365.0,
+              5484.0
+            ],
+            [
+              9371.0,
+              5478.0
+            ],
+            [
+              9374.5,
+              5473.5
+            ],
+            [
+              9378,
+              5469
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.23844877495187,
+              45.784741237530156
+            ],
+            [
+              -61.238228762615435,
+              45.78484418300171
+            ],
+            [
+              -61.238008707149724,
+              45.78494710951117
+            ],
+            [
+              -61.23771962265067,
+              45.784924765798266
+            ],
+            [
+              -61.23743049977758,
+              45.784902412211075
+            ],
+            [
+              -61.2371632218003,
+              45.7848634002255
+            ],
+            [
+              -61.23689590049621,
+              45.78482438964649
+            ],
+            [
+              -61.23663322024964,
+              45.78502412306795
+            ],
+            [
+              -61.23648050348199,
+              45.785172488945676
+            ],
+            [
+              -61.236327693231615,
+              45.78532087478634
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8988,
+            5239,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8988,5239,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-154",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-big-brook-falls-geography.jpg",
+          "scene_sha256": "c680218b7c35ec7cb74e2fd193f3bc3e48b0144e564489fb3aeace6fe1266a4e",
+          "evidence": "The source reach is west of the eastern Big Brook valley and road, before the smaller brook joins the main valley. Its projection is south of the modern tributary bend. The district is supported, while exact channel, drop position and printed height remain unverified.",
+          "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
       "id": "F19-JUD-156",
       "geometry": null,
       "properties": {
@@ -16018,6 +21505,329 @@
           "scene_sha256": "58b4f06e561b2f613884a3cc2065ad0cfb6a20e9e013a36cb0a3bb309497a7ff",
           "evidence": "The school remains east of the main meandering river and north of the next southern tributary/road sequence. It is east of the historical road, whereas the current projection is west of the modern road. Keep this road-side disagreement explicit; the point represents approximate historical locality only.",
           "limits": "Approximate source evidence only. Local road, stream and bank disagreements remain explicit. No current site identity, surveyed footprint, ownership or access claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-159",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F19-JUD-159",
+        "sheet": 19,
+        "name": "850 Fᵀ.",
+        "source_text": "850 Fᵀ.",
+        "kind": "printed-height",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-159",
+          "source_text": "850 Fᵀ.",
+          "kind": "printed-height",
+          "reading_status": "clear",
+          "crop_id": "F19-R05C03",
+          "raw_candidate_ids": [
+            "F19-R05C03-01"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              4536,
+              6496,
+              143,
+              43
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred. Literal printed height only; no modern elevation or datum inferred."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-159",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "850 FT. is printed near the southern map border without an associated spot-height mark, benchmark or distinct summit. No feature coordinate is supplied from the label or the geological colour boundary. The original height wording remains preserved.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-southern-natural-20260912"
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": null,
+        "map_derived_geometry": null,
+        "placement_status": "source-location-unresolved",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "unlocated-source-feature",
+        "geometry_meaning": "Source label reviewed, but no distinct feature mark or defensible group identified. No feature location is asserted.",
+        "geographic_review_status": "source-location-unresolved",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            4277,
+            6292,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4277,6292,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-159",
+          "status": "source-location-unresolved",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-southern-natural-20260912.jpg",
+          "scene_sha256": "412cf6a8aa04086f02d8d8285a4a9147e43ff5f56f8a1e2d1798b79e644e9210",
+          "evidence": "850 FT. has no associated spot-height mark, benchmark or distinct summit near the southern border. Lettering and colour boundaries cannot supply a terrain point."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-162",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -61.28534574464782,
+            45.7547866238404
+          ],
+          [
+            -61.285529524882115,
+            45.75459468220415
+          ],
+          [
+            -61.28571328286254,
+            45.75440284007182
+          ],
+          [
+            -61.285759865267764,
+            45.75423646676895
+          ],
+          [
+            -61.28580640539944,
+            45.75407019146208
+          ],
+          [
+            -61.285898605429175,
+            45.753900990719636
+          ],
+          [
+            -61.28599077123811,
+            45.75373188399825
+          ],
+          [
+            -61.28612853850143,
+            45.753576140523315
+          ],
+          [
+            -61.28626627829165,
+            45.75342047887662
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-162",
+        "sheet": 19,
+        "name": "Fall 20",
+        "source_text": "Fall 20",
+        "kind": "falls",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F19-JUD-162",
+          "source_text": "Fall 20",
+          "kind": "falls",
+          "reading_status": "clear",
+          "crop_id": "F19-R05C06",
+          "raw_candidate_ids": [
+            "F19-R05C06-06"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8173,
+              6328,
+              101,
+              36
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Whole native crop and independent DeepSeek detail inspected; lettering boxes checked against the original pixels. No geographic location inferred. Numeral preserved without adding an unprinted unit."
+        },
+        "source_review": {
+          "annotation_id": "F19-JUD-162",
+          "status": "supported-source-line",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "note": "Fall 20 is immediately left of the stream south of the Old Road crossing and north of Princeville. Trace that visible stroke; it is not the road line or the printed text. Twenty remains historical source wording.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, full native context and enlarged stroke review, 2026-09-12",
+          "pixel_convention": "Original continuous pixel edges x right/y down. Enlarged detail frames documented externally; no crop offset or rotation in stored paths.",
+          "review_batch": "judique-southern-natural-20260912",
+          "source_path_xy": [
+            [
+              8280,
+              6333
+            ],
+            [
+              8272,
+              6344
+            ],
+            [
+              8270,
+              6354
+            ],
+            [
+              8266,
+              6364
+            ],
+            [
+              8260,
+              6373
+            ]
+          ]
+        },
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              8280.0,
+              6333.0
+            ],
+            [
+              8276.0,
+              6338.5
+            ],
+            [
+              8272.0,
+              6344.0
+            ],
+            [
+              8271.0,
+              6349.0
+            ],
+            [
+              8270.0,
+              6354.0
+            ],
+            [
+              8268.0,
+              6359.0
+            ],
+            [
+              8266.0,
+              6364.0
+            ],
+            [
+              8263.0,
+              6368.5
+            ],
+            [
+              8260,
+              6373
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              -61.28534574464782,
+              45.7547866238404
+            ],
+            [
+              -61.285529524882115,
+              45.75459468220415
+            ],
+            [
+              -61.28571328286254,
+              45.75440284007182
+            ],
+            [
+              -61.285759865267764,
+              45.75423646676895
+            ],
+            [
+              -61.28580640539944,
+              45.75407019146208
+            ],
+            [
+              -61.285898605429175,
+              45.753900990719636
+            ],
+            [
+              -61.28599077123811,
+              45.75373188399825
+            ],
+            [
+              -61.28612853850143,
+              45.753576140523315
+            ],
+            [
+              -61.28626627829165,
+              45.75342047887662
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "fit_path": "reports/fletcher/judique-full-sheet/revised-fit.json",
+        "geographic_role": "reviewed-source-line",
+        "geometry_meaning": "Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7893,
+            6121,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/7893,6121,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F19-JUD-162",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "judique-princeville-fall-geography.jpg",
+          "scene_sha256": "99ce6ed5dfc0affa3b1813d924a5c79ea946ee1d8df94914916a5473f8c526c8",
+          "evidence": "The reach lies below the historical Old Road crossing and above the southern Princeville river junction. Modern roads differ and cross the projected reach locally, but the northern tributary and southern main-river sequence are recognizable. Retain approximate historical evidence; no current falls height or exact road-side site is asserted.",
+          "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
         }
       }
     },

@@ -1,0 +1,259 @@
+{
+  "reviewed_at": "2026-09-12",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 70,
+  "export_sha256": "301f67ab27a707452e6ddef8f24eb0eaa4debd5268da69dbe389960d9a4e9658",
+  "checks": [
+    {
+      "count": 63,
+      "checks": [
+        {
+          "id": "F19-JUD-041",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "Polygon",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-042",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-043",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-044",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-051",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-069",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "Polygon",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-070",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-109",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-110",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-111",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-112",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "MultiPolygon",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        }
+      ],
+      "holdbacks": [
+        "F19-JUD-026",
+        "F19-JUD-034",
+        "F19-JUD-060",
+        "F19-JUD-085",
+        "F19-JUD-101",
+        "F19-JUD-124",
+        "F19-JUD-125",
+        "F19-JUD-143",
+        "F19-JUD-156",
+        "F19-JUD-165"
+      ],
+      "errors": []
+    },
+    {
+      "count": 70,
+      "checks": [
+        {
+          "id": "F19-JUD-135",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-136",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-137",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-138",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-151",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-154",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        },
+        {
+          "id": "F19-JUD-162",
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "geometry": "LineString",
+          "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+        }
+      ],
+      "holdbacks": [
+        "F19-JUD-031",
+        "F19-JUD-045",
+        "F19-JUD-090",
+        "F19-JUD-129",
+        "F19-JUD-134",
+        "F19-JUD-159",
+        "F19-JUD-026",
+        "F19-JUD-034",
+        "F19-JUD-060",
+        "F19-JUD-085",
+        "F19-JUD-101",
+        "F19-JUD-124",
+        "F19-JUD-125",
+        "F19-JUD-143",
+        "F19-JUD-156",
+        "F19-JUD-165"
+      ],
+      "errors": []
+    }
+  ],
+  "local_checks": {
+    "python": "21 focused placement/projection/export tests pass, including GDAL replay",
+    "browser": "All 18 additions selected at alternating desktop/phone widths; source excerpts decode to 660px, matching annotation and placement note confirmed, final console clean. Pointer used for lines and keyboard for groups."
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-river-falls-review.json",
+      "sha256": "2e0c9d2ae943890a4d065026fbb66e61de47ccf78de375d5a649275e1245ce06"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-last-natural-review.json",
+      "sha256": "0b184467ecba32f12cb05d7aaa7a0befd698259623af1678fa513fae34baff09"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-river-falls-41.png",
+      "sha256": "4efd17470e122e6e914420c904964272c0e72019961a7fd67951e7cf07aa6bec"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-river-falls-70.png",
+      "sha256": "1973d803cf8bc6f92ab200a17e155f8b41bc1db2e9c70e41cd6784c2d243744c"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-river-falls-112.png",
+      "sha256": "a91dbe97d89fb90b6228775323fbca0769ed28cda7c60676f1283973b75cdb50"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-last-natural-137.png",
+      "sha256": "07ec4af8fb31a09c8b1531ea3f329b3fd1e15123f94fe826510de2af7a88169c"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-last-natural-151.png",
+      "sha256": "ee5318a7b01acacc679ec3498f2c9b25d9ead930ffc610ffee51a7635759240b"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-last-natural-162.png",
+      "sha256": "38f50bf1820bc0fe42764919237d6787dba570c33b478ab5104418bcf1272712"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-70-export/reviewed.geojson",
+      "sha256": "301f67ab27a707452e6ddef8f24eb0eaa4debd5268da69dbe389960d9a4e9658"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-70-export/source.json",
+      "sha256": "cdcd663c2d92214ab0862be1903069e9ff51b13061eb131a05e3df52eb0a371a"
+    }
+  ],
+  "limits": "Historical source statements and approximate reaches only; no present heights, deposit extents or flow/access claims. Sixteen holdbacks excluded. Production publication is separate."
+}
