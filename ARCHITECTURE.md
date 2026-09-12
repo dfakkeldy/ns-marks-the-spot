@@ -265,11 +265,15 @@ movement, and deduplicates returned records. Occurrences begin at zoom 8; the
 denser mine-opening inventory waits until zoom 11. Each feature service reports
 loading, visible-record count, zoom, and failure state independently.
 
-`layers/contextLayerCatalog.ts` adds 37 default-off web-only research controls,
-composed from the NSTDB infrastructure/place and land/environment catalogues.
-Thirty-two reuse the ArcGIS image adapter; four use `ContextFeatureLayer` with
-bounded, cancellable viewport queries and source-class legends; radon uses
-`ContextImageLayer` with a reproducible source-derived raster. Licence gates,
+`layers/contextLayerCatalog.ts` adds 38 default-off web-only research controls,
+composed from the NSTDB infrastructure/place catalogue, the land/environment
+catalogues, and the EOX Sentinel-2 2016 mosaic. Fifteen infrastructure/place
+overlays now query identified OGL-NS open datasets for the viewport; the
+complete provincial topographic cartography and sixteen land/environment image
+entries still reuse the ArcGIS image adapter; four use `ContextFeatureLayer`
+with bounded, cancellable viewport queries and source-class legends; radon uses
+`ContextImageLayer` with a reproducible source-derived raster; Sentinel-2 uses
+`ContextTileLayer` for WMTS tiles through native zoom 14. Licence gates,
 source dates, coverage and scale caveats remain descriptor-specific. The
 catalogue participates in categories, share state, custom themes and browser
 print without extending the native parity/offline catalogue. See the

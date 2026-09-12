@@ -199,14 +199,21 @@ collapsible categories: **Background Maps**, **Land & Property**,
 **Forestry & Ecology**, **Geology & Resources**, **Historical Maps**,
 **Tax Sale**, and **My Maps**.
 
-The web-only `contextLayerCatalog` adds 37 research controls across these
-categories: provincial topography, infrastructure and mapped places, water and
-forest context, geology, environmental screens, and historical coal workings
-under **Historical Maps**. All start off. Source-specific legends, dates,
-coverage, scale caveats and licence acknowledgement remain visible; the native
-offline catalogue is unchanged. The [GeoNova source inventory](../docs/geonova-layer-expansion.md)
-lists every control, official service and licence, including the reproducible
-radon image and its source receipt.
+The web-only `contextLayerCatalog` adds 38 default-off research controls across
+these categories: provincial topography, 15 OGL-NS infrastructure and
+mapped-place overlays, water and forest context, geology, environmental
+screens, historical coal workings under **Historical Maps**, and the
+default-off Sentinel-2 2016–2017 background (EOX CC BY 4.0 `s2cloudless_3857`).
+All start off. Source-specific legends, dates, coverage, scale caveats and
+licence acknowledgement remain visible; the native offline catalogue is
+unchanged. Browser **Print / Save PDF** supports all 38, subject to fitted
+zoom and source readiness; generated PDF supports their 33 MapServer,
+open-data and tile entries (four feature-query layers and the static radon
+image are omitted and named as not included). The
+[GeoNova source inventory](../docs/geonova-layer-expansion.md) lists every
+control, official source, delivery path and licence, including the open-data
+replacements, Sentinel-2 WMTS identifier, and the reproducible radon image
+and its source receipt.
 
 The six built-in map setups are **Explore Nova Scotia**,
 **Tax Sale Research**, **Forestry & Field Access**, **Historical Maps**,
