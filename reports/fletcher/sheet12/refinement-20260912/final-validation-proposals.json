@@ -1,0 +1,56 @@
+{
+  "fit_sha256": "b84997485c0836ac598429f63167199ae1e600b1c623a87b5c2747b3a57a2cc2",
+  "collected_at_utc": "2026-09-12T11:56:53.167638+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.7653101,
+        46.2505744
+      ],
+      "source_guide_xy": [
+        3219.6402097998653,
+        1412.1062912000343
+      ],
+      "objectids": [
+        177282,
+        272594,
+        272595
+      ],
+      "id": "F06",
+      "modern_node_id": "J0298",
+      "pixel_xy": [
+        3324,
+        1479
+      ],
+      "role": "check",
+      "identity_evidence": "Southern of two consecutive eastern marsh branches on upper Sam Brook; distinct from fitted northern branch",
+      "status": "Fresh candidate collected after final 17-control freeze, unscored and awaiting personal native review",
+      "source_uncertainty_px": 20
+    },
+    {
+      "lonlat": [
+        -60.7926161,
+        46.2622627
+      ],
+      "source_guide_xy": [
+        2627.0453977999277,
+        1047.9923695998732
+      ],
+      "objectids": [
+        184744,
+        272616,
+        272617
+      ],
+      "id": "F07",
+      "modern_node_id": "J0238",
+      "pixel_xy": [
+        2815,
+        943
+      ],
+      "role": "check",
+      "identity_evidence": "Western tributary to North Branch Baddeck immediately upstream of fitted eastern tributary and eastward bend",
+      "status": "Fresh candidate collected after final 17-control freeze, unscored and awaiting personal native review",
+      "source_uncertainty_px": 20
+    }
+  ]
+}

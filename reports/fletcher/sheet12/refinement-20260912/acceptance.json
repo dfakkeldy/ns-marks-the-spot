@@ -1,0 +1,57 @@
+{
+  "sheet": 12,
+  "geographic_acceptance": false,
+  "status": "Draft: local northern improvement; whole-sheet geographic repair incomplete",
+  "fit_sha256": "b84997485c0836ac598429f63167199ae1e600b1c623a87b5c2747b3a57a2cc2",
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/refinement-20260912/17-control/sheet-12-full-sheet.tif",
+    "sha256": "48e70f98e72ad23fafb00c5437e476ad693727e09a46d1ae1a3145907550a40d",
+    "size": [
+      8528,
+      6547
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.8535392,
+            46.274297
+          ],
+          [
+            -60.8535392,
+            46.0706614
+          ],
+          [
+            -60.4704976,
+            46.0706614
+          ],
+          [
+            -60.4704976,
+            46.274297
+          ],
+          [
+            -60.8535392,
+            46.274297
+          ]
+        ]
+      ]
+    }
+  },
+  "fresh_checks": {
+    "count": 2,
+    "median_ground_m": 75.55327037274084,
+    "worst_ground_m": 84.2403283504075,
+    "limitation": "Both near new northern controls; inadequate whole-sheet distribution."
+  },
+  "reused_diagnostic_worst_ground_m": 305.5896066407884,
+  "remaining_blockers": [
+    "Fraser Point reused check exceeds 200 m; changed neck/island geometry unresolved.",
+    "Christopher/Big Glen and other inland reaches remain displaced; some worsen relative to fourteen controls.",
+    "Port Bevis and southern shoreline shapes remain unresolved.",
+    "Sheet 13 western stream continuity and Sheet 10 northern coverage/seams remain unaccepted.",
+    "Only two northern fresh checks; no distributed whole-sheet acceptance."
+  ],
+  "merged": false,
+  "deployed": false
+}
