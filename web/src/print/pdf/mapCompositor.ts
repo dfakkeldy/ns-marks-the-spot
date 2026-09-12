@@ -1,3 +1,4 @@
+import type { OpenDataSource } from "../../layers/openDataSources";
 import type { AtlasMode } from "../../atlas/palette";
 import { buildSrcMesh, drawWarpedImage } from "../../userMaps/render/mesh";
 import type { LatLngPoint } from "../../userMaps/transform/projection";
@@ -71,6 +72,7 @@ export type CompositorAtlasLayer = {
 };
 
 export type CompositorLayer =
+  | { kind: "open-data"; id: string; name: string; source: OpenDataSource; opacity: number }
   | CompositorAtlasLayer
   | CompositorTileLayer
   | CompositorImageLayer
@@ -355,7 +357,13 @@ export async function composeMapImage(
       currentLayer: layer.name,
     });
     try {
-      if (layer.kind === "atlas") {
+      if (layer.kind === "open-data") {
+        const { renderOpenData } = await import("../../services/renderOpenData");
+        const result = await renderOpenData(layer.source, bounds, { width: size.widthPx, height: size.heightPx }, zoomForOutput(bounds, size.widthPx, 23), options.signal);
+        ctx.save(); ctx.globalAlpha = layer.opacity;
+        try { ctx.drawImage(result.canvas, 0, 0); } finally { ctx.restore(); result.canvas.width = 0; }
+        statuses.push({ id: layer.id, name: layer.name, status: result.count ? "rendered" : "empty", detail: `${result.count} open-data features; project-rendered cartography` });
+      } else if (layer.kind === "atlas") {
         const { renderAtlasImage } = await import("../../atlas/renderAtlasImage");
         const result = await renderAtlasImage(bounds, size, layer.mode, options.signal);
         ctx.drawImage(result.canvas, 0, 0, size.widthPx, size.heightPx);

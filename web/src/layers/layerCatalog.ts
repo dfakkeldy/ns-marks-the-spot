@@ -1,3 +1,4 @@
+import { openSourceMetadata, openProvinceSources, type OpenDataSource } from "./openDataSources";
 import { OPEN_GOVERNMENT_LICENCE_TERMS_URL } from "../licensing/provinceLicense";
 
 export type ChurchCountyLayerId =
@@ -293,7 +294,11 @@ export type WebLayerDescriptor = {
    */
   maxNativeZoom?: number;
   opacity: number;
-  licence: "province-restricted" | "rumsey-reference";
+  licence: "province-restricted" | "province-open" | "rumsey-reference";
+  openData?: OpenDataSource;
+  sourceUrl?: string;
+  licenceUrl?: string;
+  attribution?: string;
   webAvailability: "available" | "rights-pending" | "hosting-pending";
   webCaveat: string;
   sourceDate: string;
@@ -902,7 +907,7 @@ export const webOnlyProvinceLayerCatalog: readonly (
   ...georeferenceAidLayerCatalog,
 ] as const;
 
-export const provinceLayerCatalog: readonly (
+export const nativeProvinceLayerCatalog: readonly (
   WebLayerDescriptor & { id: ProvinceLayerId }
 )[] = [
   ...nativeLayerCatalog.filter(
@@ -912,6 +917,8 @@ export const provinceLayerCatalog: readonly (
   ),
   ...webOnlyProvinceLayerCatalog,
 ];
+
+export const provinceLayerCatalog = nativeProvinceLayerCatalog.map((layer) => openSourceMetadata(layer, openProvinceSources[layer.id]));
 
 const CHURCH_COUNTY_LAYER_IDS: readonly ChurchCountyLayerId[] = [
   "church-inverness",

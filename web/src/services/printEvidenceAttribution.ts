@@ -1,7 +1,7 @@
 import {
   COASTAL_HAZARD_ATTRIBUTION,
   floodHazardLayerCatalog,
-  provinceLayerCatalog,
+  nativeProvinceLayerCatalog as provinceLayerCatalog,
   resourceLayerCatalog,
 } from "../layers/layerCatalog";
 import {

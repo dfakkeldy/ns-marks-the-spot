@@ -13,7 +13,7 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
   onChange: (checked: boolean) => void;
   onReviewLicence: () => void;
 }) {
-  const enabled = layer.licence === "province-open" || licenceAccepted;
+  const enabled = layer.licence !== "province-restricted" || licenceAccepted;
   return (
     <div className="context-layer-control">
       <label className="layer-row">
@@ -24,7 +24,7 @@ export const ContextLayerToggle = memo(function ContextLayerToggle({
         <span>
           <strong>{layer.name}</strong>
           <small>{layer.webCaveat}</small>
-          <LayerMetadata sourceDate={layer.sourceDate} scale={layer.scale}
+          <LayerMetadata openData={layer.openData} sourceDate={layer.sourceDate} scale={layer.scale}
             coverage={layer.coverage} minZoom={layer.minZoom} maxZoom={layer.maxZoom}
             checked={enabled && checked} status={status} />
         </span>

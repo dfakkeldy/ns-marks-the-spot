@@ -1,3 +1,4 @@
+import { openDataSourceLinks, type OpenDataSource } from "../layers/openDataSources";
 import { memo } from "react";
 import { useState } from "react";
 import type {
@@ -55,6 +56,7 @@ function layerRuntimeLabel(
 
 export const LayerMetadata = memo(function LayerMetadata({
   sourceDate,
+  openData,
   scale,
   coverage,
   minZoom,
@@ -63,6 +65,7 @@ export const LayerMetadata = memo(function LayerMetadata({
   status,
 }: {
   sourceDate: string;
+  openData?: OpenDataSource;
   scale: string;
   coverage: string;
   minZoom: number;
@@ -87,6 +90,7 @@ export const LayerMetadata = memo(function LayerMetadata({
         >
           Source &amp; scale
         </summary>
+        {openData ? openDataSourceLinks(openData).map(({ url, name }) => <small key={url}><a href={url} target="_blank" rel="noreferrer" onClick={(event) => event.stopPropagation()}>{name}</a></small>) : null}
         <small>Source date: {sourceDate}</small>
         <small>Scale: {scale}</small>
         <small>Coverage: {coverage}</small>
@@ -111,35 +115,37 @@ export const LayerToggle = memo(function LayerToggle({
   onChange: (checked: boolean) => void;
   onReviewLicence: () => void;
 }) {
+  const enabled = layer.licence === "province-open" || licenceAccepted;
   return (
     <label className="layer-row">
       <input
         type="checkbox"
         aria-label={layer.name}
-        checked={licenceAccepted && checked}
-        disabled={!licenceAccepted}
+        checked={enabled && checked}
+        disabled={!enabled}
         onChange={(event) => onChange(event.target.checked)}
       />
       <span className="switch" aria-hidden="true" />
       <span>
         <strong>{layer.name}</strong>
         <small>
-          {licenceAccepted ? layer.webCaveat : "Province licence required"}
+          {enabled ? layer.webCaveat : "Province licence required"}
         </small>
         <LayerMetadata
+          openData={layer.openData}
           sourceDate={layer.sourceDate}
           scale={layer.scale}
           coverage={layer.coverage}
           minZoom={layer.minZoom}
           maxZoom={layer.maxZoom}
-          checked={licenceAccepted && checked}
+          checked={enabled && checked}
           status={status}
         />
       </span>
       {/* Every province-restricted row used to disable the switch with no
           in-row accept path except NSPRD. Aerial (and the rest) left phone
           users hunting a footer control the open layer sheet can cover. */}
-      {!licenceAccepted ? (
+      {!enabled ? (
         <button
           aria-label={`Review Province licence for ${layer.name}`}
           className="text-button"
@@ -707,25 +713,10 @@ export function WellLogAccuracyLegend() {
 }
 
 export function RoadLegend() {
-  return (
-    <ul className="road-legend" aria-label="Road type legend">
-      <li>
-        <span className="road-swatch highway" />Highway
-      </li>
-      <li>
-        <span className="road-swatch local" />Local road
-      </li>
-      <li>
-        <span className="road-swatch resource" />Resource road
-      </li>
-      <li>
-        <span className="road-swatch trail" />Trail / track
-      </li>
-      <li>
-        <span className="road-swatch culvert" />Culvert
-      </li>
-    </ul>
-  );
+  return <ul className="road-legend" aria-label="Road type legend">
+    <li><span className="road-swatch open-road" />Mapped road or transport feature</li>
+    <li><span className="road-swatch open-minor" />Trail, track, driveway or unpaved feature</li>
+  </ul>;
 }
 
 export function HydroPotentialLegend() {

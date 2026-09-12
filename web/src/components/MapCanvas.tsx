@@ -1,3 +1,5 @@
+import { ContextTileLayer } from "./ContextTileLayer";
+import { OpenDataLayer } from "./OpenDataLayer";
 import { ContextImageLayer } from "./ContextImageLayer";
 import { ContextFeatureLayer } from "./ContextFeatureLayer";
 import { contextLayerCatalog, hiddenContextLayers, type ContextLayerId, type ContextMapLayer } from "../layers/contextLayerCatalog";
@@ -27,6 +29,7 @@ import {
   Pane,
   Polyline,
   ScaleControl,
+  AttributionControl,
   TileLayer,
   useMap,
   useMapEvents,
@@ -2495,6 +2498,7 @@ export function MapCanvas({
             onContinue={onExportFrameContinue!}
           />
         ) : null}
+        {!isPrintMode && contextLayers["sentinel-2"] ? <AttributionControl prefix={false} position="bottomright" /> : null}
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode ? <ApproximateScaleReadout /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
@@ -2546,7 +2550,9 @@ export function MapCanvas({
           renderMode={renderMode}
           onStatusChange={reportFletcherStatus}
         />
-        {provinceLayerCatalog.map((layer) => (
+        {provinceLayerCatalog.map((layer) => layer.openData ? (
+          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
+        ) : (
           <ArcGISMapLayer
             key={layer.id}
             layer={layer}
@@ -2569,7 +2575,11 @@ export function MapCanvas({
             renderMode={renderMode}
             />
           ))}
-        {contextLayerCatalog.map((layer) => layer.delivery === "static-image" ? (
+        {contextLayerCatalog.map((layer) => layer.openData ? (
+          <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
+        ) : layer.delivery === "tile" ? (
+          <ContextTileLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
+        ) : layer.delivery === "static-image" ? (
           <ContextImageLayer key={layer.id} layer={layer}
             visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} />
         ) : layer.delivery === "feature-query" ? (

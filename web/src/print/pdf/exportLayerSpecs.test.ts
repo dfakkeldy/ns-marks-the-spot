@@ -40,7 +40,7 @@ describe("buildExportLayers", () => {
   });
 
   it("names unsupported feature and static sources distinctly from below-scale sources", () => {
-    const unsupported = contextLayerCatalog.filter(({ delivery }) => delivery !== undefined);
+    const unsupported = contextLayerCatalog.filter(({ delivery }) => delivery !== undefined && delivery !== "tile");
     expect(unsupported.some(({ delivery }) => delivery === "static-image")).toBe(true);
     for (const layer of unsupported) {
       expect(contextExportOmission(layer, layer.minZoom)).toBe("PDF export does not support this source format");
@@ -74,6 +74,10 @@ describe("buildExportLayers", () => {
     const layers = buildExportLayers(inputs({ arcgisLayers: [...imageContextLayers] }));
     for (const source of imageContextLayers) {
       const layer = layers.find(({ id }) => id === source.id);
+      if (source.openData) {
+        expect(layer).toMatchObject({ kind: "open-data", source: source.openData });
+        continue;
+      }
       expect(layer?.kind).toBe("image");
       if (layer?.kind !== "image") throw new Error(`Missing context image ${source.id}`);
       const url = new URL(layer.url({ bounds, widthPx: 900, heightPx: 600 })!);

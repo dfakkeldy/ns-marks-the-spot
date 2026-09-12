@@ -15,7 +15,7 @@ import {
   initialResourceLayerVisibility,
   initialWellLogLayerVisibility,
   initialZoningLayerVisibility,
-  provinceLayerCatalog,
+  nativeProvinceLayerCatalog as provinceLayerCatalog,
   topographyLayerCatalog,
   wellLogLayerCatalog,
   zoningLayerCatalog,
@@ -39,7 +39,8 @@ import {
 } from "./layerCategories";
 
 /**
- * The parity fixture the native iOS catalog is tested against.
+ * The retained native-service contract the iOS catalog is tested against.
+ * Web open-data replacements are deliberately outside this service parity.
  *
  * The iOS app keeps its own hand-written Swift catalog rather than decoding
  * this file at runtime: Swift is where the caveat prose and style closures

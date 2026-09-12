@@ -7230,3 +7230,8 @@ a {
     --compact-tools-bottom: calc(80px + env(safe-area-inset-bottom));
   }
 }
+
+.road-swatch.open-road, .road-swatch.open-minor { border-color: #654735; border-top-width: 2px; }
+.road-swatch.open-minor { border-top-style: dashed; }
+
+.leaflet-control-attribution { max-width: min(540px, calc(100vw - 64px)); }
