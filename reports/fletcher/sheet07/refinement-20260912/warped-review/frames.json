@@ -1,0 +1,107 @@
+[
+  {
+    "image": "northern-interior.jpg",
+    "lonlat_bounds": [
+      -60.45,
+      46.595,
+      -60.355,
+      46.635
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/refinement-20260912/sheet-07-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet07/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "pathend-morrison.jpg",
+    "lonlat_bounds": [
+      -60.445,
+      46.56,
+      -60.365,
+      46.598
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/refinement-20260912/sheet-07-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet07/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "mcleod-ferry.jpg",
+    "lonlat_bounds": [
+      -60.485,
+      46.54,
+      -60.385,
+      46.573
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/refinement-20260912/sheet-07-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet07/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "mill-wreck-cove.jpg",
+    "lonlat_bounds": [
+      -60.49,
+      46.5,
+      -60.41,
+      46.54
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/refinement-20260912/sheet-07-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet07/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "north-shore-french.jpg",
+    "lonlat_bounds": [
+      -60.49,
+      46.47,
+      -60.42,
+      46.51
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/refinement-20260912/sheet-07-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet07/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "breeding-cove.jpg",
+    "lonlat_bounds": [
+      -60.485,
+      46.445,
+      -60.43,
+      46.475
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/refinement-20260912/sheet-07-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet07/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "full-sheet.jpg",
+    "lonlat_bounds": [
+      -60.5,
+      46.43,
+      -60.02,
+      46.65
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet07/refinement-20260912/sheet-07-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet07/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

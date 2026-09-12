@@ -1,0 +1,7 @@
+{
+  "script": "reports/fletcher/full-sheets/render.py",
+  "script_sha256": "7d08b133fd344d44ad30014510f361ccd3da22d0875a96f772a71d8bccc19067",
+  "source_sha256": "a75274bc0f1849bc024c1013d84d0904845c3893b9599827ed1521948fec3b61",
+  "cutline_sha256": "94229dd808a8ff59ccf942fcf50e1c866ff9f8d460e61334b3ba1d69d75c3c95",
+  "transform": "One exact GDAL TPS -et 0; EPSG:3857; cubic; 5 projected m; RGBA; unchanged complete boundary."
+}
