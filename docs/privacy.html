@@ -133,7 +133,14 @@
             already queries. If you turn on the optional live-conditions layers
             in the browser map, your browser also requests camera imagery from
             511 Nova Scotia and radar tiles from Environment and Climate Change
-            Canada's MSC GeoMet. NS Marks The Spot does not operate its own
+            Canada's MSC GeoMet. If you turn on the optional Sentinel-2
+            satellite background, your browser requests historical 2016–2017
+            cloudless mosaic tiles from EOX at https://tiles.maps.eox.at/; that
+            imagery is dated landscape context, not current site conditions, and
+            the app sends no credentials with those requests. If you turn on
+            open-data context overlays, the browser queries the identified Nova
+            Scotia open-data and feature endpoints for the current map viewport
+            only. NS Marks The Spot does not operate its own
             tracking server.
           </p>
         </section>
