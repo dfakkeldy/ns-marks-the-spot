@@ -1,0 +1,622 @@
+{
+  "points": [
+    {
+      "id": "B01",
+      "role": "check",
+      "pixel_xy": [
+        5025,
+        1485
+      ],
+      "lonlat": [
+        -61.4336896,
+        45.9119107
+      ],
+      "modern_node": "J0939",
+      "modern_objectids": [
+        195559,
+        195560,
+        211150
+      ],
+      "label": "North: Ben Noah eastern tributary",
+      "identity_evidence": "Long east tributary joins north-south stem, north of SW fork and road crossing.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4880,
+          1395,
+          5170,
+          1575
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      }
+    },
+    {
+      "id": "B02",
+      "role": "check",
+      "pixel_xy": [
+        5034,
+        1544
+      ],
+      "lonlat": [
+        -61.4338214,
+        45.9100665
+      ],
+      "modern_node": "J0944",
+      "modern_objectids": [
+        195558,
+        195559,
+        196001
+      ],
+      "label": "North: Ben Noah southwest tributary",
+      "identity_evidence": "Next fork south of B01; southwest arm joins stem before road crossing. Correlated with B01.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          4889,
+          1454,
+          5179,
+          1634
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      }
+    },
+    {
+      "id": "B03",
+      "role": "check",
+      "pixel_xy": [
+        8369,
+        2252
+      ],
+      "lonlat": [
+        -61.2792543,
+        45.8882963
+      ],
+      "modern_node": "J1030",
+      "modern_objectids": [
+        195863,
+        262648,
+        262649
+      ],
+      "label": "Northeast: fork below Falls",
+      "identity_evidence": "North tributary descends past two Falls labels to east-west stream; west of next northern tributary and road crossing.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          8224,
+          2162,
+          8514,
+          2342
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      },
+      "crosshair_audit_correction": {
+        "initial_pixel_xy": [
+          8345,
+          2245
+        ],
+        "reason": "Corrected to the visible branch intersection/outlet after native crosshair inspection, before scoring."
+      }
+    },
+    {
+      "id": "B04",
+      "role": "check",
+      "pixel_xy": [
+        7979,
+        3208
+      ],
+      "lonlat": [
+        -61.2988619,
+        45.8571812
+      ],
+      "modern_node": "J1168",
+      "modern_objectids": [
+        198128,
+        198248,
+        198249
+      ],
+      "label": "Inland: East Branch upper fork",
+      "identity_evidence": "Long west arm joins north stem; downstream next north tributary is B05.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          7834,
+          3118,
+          8124,
+          3298
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      }
+    },
+    {
+      "id": "B05",
+      "role": "check",
+      "pixel_xy": [
+        8050,
+        3286
+      ],
+      "lonlat": [
+        -61.2963714,
+        45.8549182
+      ],
+      "modern_node": "J1174",
+      "modern_objectids": [
+        196740,
+        198248,
+        198250
+      ],
+      "label": "Inland: East Branch next fork",
+      "identity_evidence": "Next north tributary downstream from B04 joins NW-SE main stem. Correlated with B04.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          7905,
+          3196,
+          8195,
+          3376
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      },
+      "crosshair_audit_correction": {
+        "initial_pixel_xy": [
+          8042,
+          3286
+        ],
+        "reason": "Corrected to the visible branch intersection/outlet after native crosshair inspection, before scoring."
+      }
+    },
+    {
+      "id": "B06",
+      "role": "check",
+      "pixel_xy": [
+        6091,
+        5756
+      ],
+      "lonlat": [
+        -61.383053,
+        45.7725279
+      ],
+      "modern_node": "J1442",
+      "modern_objectids": [
+        202365,
+        284102,
+        284103
+      ],
+      "label": "South: Rough Brook western branch",
+      "identity_evidence": "Large western looping tributary joins main stem, before next northern tributary.",
+      "source_uncertainty_px": 5,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          5946,
+          5666,
+          6236,
+          5846
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      },
+      "crosshair_audit_correction": {
+        "initial_pixel_xy": [
+          6085,
+          5758
+        ],
+        "reason": "Corrected to the visible branch intersection/outlet after native crosshair inspection, before scoring."
+      }
+    },
+    {
+      "id": "B07",
+      "role": "check",
+      "pixel_xy": [
+        6034,
+        6461
+      ],
+      "lonlat": [
+        -61.388864,
+        45.7533672
+      ],
+      "modern_node": "J1488",
+      "modern_objectids": [
+        123842,
+        123927,
+        269013
+      ],
+      "label": "South edge: narrow lake outlet",
+      "identity_evidence": "Southern lake banks converge at outlet just before nearby road crossing; lake bank/centreline generalization adds uncertainty.",
+      "source_uncertainty_px": 10,
+      "review": "agent native crosshair and branch topology; not user-reviewed",
+      "source_crop": {
+        "native_box": [
+          5889,
+          6371,
+          6179,
+          6551
+        ],
+        "display_size": [
+          580,
+          360
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "zero-based native image edge coordinates, as existing controls"
+      },
+      "crosshair_audit_correction": {
+        "initial_pixel_xy": [
+          6032,
+          6461
+        ],
+        "reason": "Corrected to the visible branch intersection/outlet after native crosshair inspection, before scoring."
+      }
+    },
+    {
+      "id": "L01",
+      "role": "check",
+      "pixel_xy": [
+        6032,
+        6290
+      ],
+      "lonlat": [
+        -61.3889847,
+        45.7577946
+      ],
+      "modern_objectids": [
+        123842,
+        123927,
+        269115
+      ],
+      "label": "Long lake northern inlet",
+      "source_uncertainty_px": 8,
+      "identity_evidence": "Northern convergence of lake banks at incoming west stream, downstream of new road-crossing control; weak independence, separate physical position. Crosshair corrected from [6017,6288] on native inspection before scoring."
+    },
+    {
+      "id": "L02",
+      "role": "check",
+      "pixel_xy": [
+        5720,
+        6492
+      ],
+      "lonlat": [
+        -61.4038423,
+        45.7510059
+      ],
+      "modern_objectids": [
+        124540,
+        124541,
+        212551
+      ],
+      "label": "Lobed pond southwest outlet",
+      "source_uncertainty_px": 10,
+      "identity_evidence": "Separate western pond, distinctive lobes and southern outlet bends west then south; red overprint adds uncertainty. Crosshair corrected from [5704,6495] to bank convergence before scoring."
+    },
+    {
+      "id": "E01",
+      "role": "check",
+      "pixel_xy": [
+        8458,
+        1300
+      ],
+      "lonlat": [
+        -61.2764878,
+        45.9163464
+      ],
+      "modern_node": "J0923",
+      "modern_objectids": [
+        195971,
+        274528,
+        274668
+      ],
+      "identity_evidence": "Northeast: northwest descending stem merges with west-flowing-to-east main river immediately east of the southern tributary J0925. Northern stem follows and then leaves the paired road before the Fall 30 label; distinct from downstream O05 falls junction.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          8368,
+          1220,
+          8548,
+          1380
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "native_audit": {
+        "preliminary_xy": [
+          8446,
+          1287
+        ],
+        "final_xy": [
+          8458,
+          1300
+        ],
+        "reason": "Observed junction centre on enlarged source, before score; no fitted prediction used"
+      },
+      "review": "Same-agent topology and crosshair review; not independently user audited"
+    },
+    {
+      "id": "E02",
+      "role": "check",
+      "pixel_xy": [
+        9559,
+        5692
+      ],
+      "lonlat": [
+        -61.2291948,
+        45.7773155
+      ],
+      "modern_node": "J1423",
+      "modern_objectids": [
+        198321,
+        268578,
+        268579
+      ],
+      "identity_evidence": "Southeast: large east tributary joins main stem from northeast, crosses the railway southeast of the junction. Above small western tributaries and downstream from O09; nearby smaller west arm is not chosen.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          9469,
+          5612,
+          9649,
+          5772
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "native_audit": {
+        "preliminary_xy": [
+          9505,
+          5683
+        ],
+        "final_xy": [
+          9559,
+          5692
+        ],
+        "reason": "Observed junction centre on enlarged source, before score; no fitted prediction used"
+      },
+      "review": "Same-agent topology and crosshair review; not independently user audited"
+    },
+    {
+      "id": "E03",
+      "role": "check",
+      "pixel_xy": [
+        6819,
+        4447
+      ],
+      "lonlat": [
+        -61.3512545,
+        45.8163112
+      ],
+      "modern_node": "J1277",
+      "modern_objectids": [
+        222450,
+        273924,
+        273926
+      ],
+      "identity_evidence": "Interior: McPhersons Brook descending from northwest joins long western tributary immediately before eastward stretch to Glendale Brook. Western arm crosses north-south road farther west. Separate upstream fork J1291 not selected.",
+      "source_uncertainty_px": 6,
+      "source_crop": {
+        "native_box": [
+          6729,
+          4367,
+          6909,
+          4527
+        ],
+        "display_size": [
+          720,
+          640
+        ],
+        "rotation_degrees": 0,
+        "coordinate_convention": "native image-edge xy"
+      },
+      "native_audit": {
+        "preliminary_xy": [
+          6830,
+          4455
+        ],
+        "final_xy": [
+          6819,
+          4447
+        ],
+        "reason": "Observed junction centre on enlarged source, before score; no fitted prediction used"
+      },
+      "review": "Same-agent topology and crosshair review; not independently user audited"
+    },
+    {
+      "id": "Q01",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        5508,
+        3614
+      ],
+      "lonlat": [
+        -61.4105328,
+        45.8433669
+      ],
+      "modern_objectids": [
+        195892,
+        196003,
+        211313
+      ],
+      "description": "V02 tributary forks at the geological colour boundary."
+    },
+    {
+      "id": "Q02",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        5901,
+        3389
+      ],
+      "lonlat": [
+        -61.3929069,
+        45.8508564
+      ],
+      "modern_objectids": [
+        195811,
+        262950,
+        263092
+      ],
+      "description": "Northern tributary enters the stream upstream of the falls junction V03."
+    },
+    {
+      "id": "Q03",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        6301,
+        3747
+      ],
+      "lonlat": [
+        -61.3738234,
+        45.8397333
+      ],
+      "modern_objectids": [
+        223254,
+        262458,
+        263094
+      ],
+      "description": "Southern tributary joins Graham River west of V04, north of the old road."
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        6244,
+        4163
+      ],
+      "lonlat": [
+        -61.3774867,
+        45.824639
+      ],
+      "modern_objectids": [
+        196031,
+        212059,
+        223139
+      ],
+      "description": "Southern tributary joins the east-west stream just west of the lake outlet V05."
+    },
+    {
+      "id": "Q05",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        3942,
+        1547
+      ],
+      "lonlat": [
+        -61.4807797,
+        45.9092469
+      ],
+      "modern_objectids": [
+        168464,
+        168465,
+        196008
+      ],
+      "description": "Eastern tributary meets northwestern stream beside the forge."
+    },
+    {
+      "id": "Q06",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        9258,
+        2094
+      ],
+      "lonlat": [
+        -61.2385824,
+        45.8926196
+      ],
+      "modern_objectids": [
+        253731,
+        254538,
+        286862
+      ],
+      "description": "Western tributary enters West Branch upstream of its confluence with East Branch."
+    },
+    {
+      "id": "Q07",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        5839,
+        5404
+      ],
+      "lonlat": [
+        -61.3962751,
+        45.784373
+      ],
+      "modern_objectids": [
+        196154,
+        196155,
+        284099,
+        284100
+      ],
+      "description": "Western An Riv tributary joins Rough Brook near the school road."
+    },
+    {
+      "id": "Q08",
+      "role": "check",
+      "review": "agent-proposed",
+      "pixel_xy": [
+        6829,
+        5222
+      ],
+      "lonlat": [
+        -61.3491807,
+        45.7932286
+      ],
+      "modern_objectids": [
+        197565,
+        197719,
+        224047
+      ],
+      "description": "Northern tributary joins the western branch before its crossing and meeting with River Inhabit."
+    }
+  ],
+  "status": "Frozen same-coordinate diagnostics for all three rounds. None may become fitting controls.",
+  "sources": [
+    "judique-boundary/additional-checks.json",
+    "judique-full-sheet/lake-checks.json",
+    "judique-full-sheet/fresh-checks.json",
+    "visual-expansion/sheet-observations.json"
+  ]
+}

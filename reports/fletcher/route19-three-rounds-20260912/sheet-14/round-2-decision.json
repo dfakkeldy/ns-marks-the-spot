@@ -1,0 +1,11 @@
+{
+  "sheet": "14",
+  "round": 2,
+  "before_rms_ground_m": 129.28560964034577,
+  "after_rms_ground_m": 129.28560964034577,
+  "proposal": "round-2-proposal.json",
+  "accepted_pending_render": false,
+  "note": "Reviewed southwest/interior F04,C13,C17,C12,Q08. Added a distinct NE/SE fork on the eastern tributary above F04; source and reference branch sequence agrees. Check G01 stays excluded.",
+  "trial_rms_ground_m": 129.5623743278457,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}

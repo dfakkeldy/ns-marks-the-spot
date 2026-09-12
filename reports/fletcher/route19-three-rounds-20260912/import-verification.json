@@ -1,0 +1,33 @@
+{
+  "results": [
+    {
+      "sheet": "14",
+      "controls": 27,
+      "excluded_checks": 13,
+      "semantic_roundtrip": true,
+      "maximum_web_gdal_difference_projected_m": 9.17246360499049e-9
+    },
+    {
+      "sheet": "16",
+      "controls": 37,
+      "excluded_checks": 14,
+      "semantic_roundtrip": true,
+      "maximum_web_gdal_difference_projected_m": 9.313225746154785e-9
+    },
+    {
+      "sheet": "22",
+      "controls": 28,
+      "excluded_checks": 17,
+      "semantic_roundtrip": true,
+      "maximum_web_gdal_difference_projected_m": 8.011539715381923e-9
+    },
+    {
+      "sheet": "19",
+      "controls": 44,
+      "excluded_checks": 20,
+      "semantic_roundtrip": true,
+      "maximum_web_gdal_difference_projected_m": 1.028679406008428e-8
+    }
+  ],
+  "scope": "Actual application CSV parser and TPS solver; does not test native-scan browser mesh or geographic accuracy."
+}

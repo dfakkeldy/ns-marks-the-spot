@@ -1,0 +1,11 @@
+{
+  "sheet": "16",
+  "round": 1,
+  "before_rms_ground_m": 102.02835627859604,
+  "after_rms_ground_m": 102.02835627859604,
+  "proposal": "round-1-proposal.json",
+  "accepted_pending_render": false,
+  "note": "Reviewed N01/N03 and proposed the distinct split in N03 eastern tributary. Native NE arm and east arm join at the observed crosshair; paired vector junction is unambiguous. All 32 hand controls and all 14 checks are preserved.",
+  "trial_rms_ground_m": 102.62921880081984,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}

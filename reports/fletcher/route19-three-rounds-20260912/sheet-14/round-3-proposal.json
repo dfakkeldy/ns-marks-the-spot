@@ -1,0 +1,24 @@
+{
+  "points": [
+    {
+      "id": "R3-A",
+      "role": "control",
+      "pixel_xy": [
+        7443,
+        3486
+      ],
+      "lonlat": [
+        -61.32788781454067,
+        46.188633497454596
+      ],
+      "modern_objectids": [
+        192282,
+        269070,
+        269071
+      ],
+      "source_uncertainty_px": 6,
+      "identity_evidence": "Northern tributary enters MacIsaacs Brook at northeastern corner of the large upper loop east/north of C07. Main turns southeast toward T04; upstream main loops west then south to C07. Tributary is continuously traced north, separate from the dip arrow inside the loop.",
+      "review": "Agent enlarged native crosshair and modern topology checked before scoring. Northern water line joins the loop exactly at7443,3486; dip arrow lies farther southwest."
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+[
+  {
+    "image": "O09.jpg",
+    "record": "route19-three-rounds-20260912/sheet-19/baseline-fit.json",
+    "record_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+    "id": "O09",
+    "native_box": [
+      9443,
+      5329,
+      9763,
+      5649
+    ],
+    "pixel_xy": [
+      9603,
+      5489
+    ],
+    "lonlat": [
+      -61.2262765,
+      45.785011
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "O10.jpg",
+    "record": "route19-three-rounds-20260912/sheet-19/baseline-fit.json",
+    "record_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+    "id": "O10",
+    "native_box": [
+      6346,
+      5984,
+      6666,
+      6304
+    ],
+    "pixel_xy": [
+      6506,
+      6144
+    ],
+    "lonlat": [
+      -61.3632546,
+      45.7609166
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "O11.jpg",
+    "record": "route19-three-rounds-20260912/sheet-19/baseline-fit.json",
+    "record_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+    "id": "O11",
+    "native_box": [
+      7831,
+      6257,
+      8151,
+      6577
+    ],
+    "pixel_xy": [
+      7991,
+      6417
+    ],
+    "lonlat": [
+      -61.2984324,
+      45.7513367
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "D04.jpg",
+    "record": "route19-three-rounds-20260912/sheet-19/baseline-fit.json",
+    "record_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+    "id": "D04",
+    "native_box": [
+      9056,
+      6341,
+      9376,
+      6661
+    ],
+    "pixel_xy": [
+      9216,
+      6501
+    ],
+    "lonlat": [
+      -61.2419871,
+      45.7527618
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "reviewer": "Codex agent, not a user or survey audit",
+  "native_crosshairs": "Reviewed proposal images before trial scoring; individual decisions and records retain evidence and superseded coordinates.",
+  "rasters": {
+    "14": {
+      "areas": [
+        "area-1.jpg",
+        "area-2.jpg"
+      ],
+      "observation": "MacIsaacs loop and northern junction align more closely; Hays eastern residual persists."
+    },
+    "16": {
+      "areas": [
+        "area-1.jpg",
+        "area-2.jpg"
+      ],
+      "observation": "Upper River Denys junction aligns more closely; Elgin northern discrepancy persists."
+    },
+    "22": {
+      "areas": [
+        "area-1.jpg",
+        "area-2.jpg"
+      ],
+      "observation": "Tracadie three-way junction and adjoining southern reach align more closely after outlet/confluence correction; remaining channel and road offsets persist."
+    },
+    "19": {
+      "areas": [
+        "area-1.jpg",
+        "area-2.jpg"
+      ],
+      "observation": "Small V07 source correction; broad overall shape offsets persist, including Big Brook."
+    }
+  },
+  "browser": "Inspected desktop1440x1000 and mobile390x844 reloaded GeoTIFF screenshots for all four sheets. Map content renders with transparent exterior; no visible framework overlay. Raw-scan TPS mesh not tested.",
+  "acceptance": "Four provisional full-sheet improvements on fixed diagnostics; no claim of fresh or uniform full-sheet validation."
+}
