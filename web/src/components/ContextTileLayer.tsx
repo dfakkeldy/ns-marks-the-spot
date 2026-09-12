@@ -16,7 +16,7 @@ export function ContextTileLayer({ layer, visible, onStatusChange, renderMode }:
       minZoom: layer.minZoom, maxZoom: layer.maxZoom, maxNativeZoom: layer.maxNativeZoom,
       opacity: layer.opacity, zIndex: layer.zIndex, crossOrigin: "anonymous",
       className: renderMode === "print" ? `print-layer-${layer.id}` : `map-layer-${layer.id}`,
-      attribution: '<a href="https://cloudless.eox.at">EOxCloudless</a> by <a href="https://eox.at">EOX</a> · modified Copernicus Sentinel data 2016 &amp; 2017 · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>',
+      attribution: '<a href="https://cloudless.eox.at">EOxCloudless</a> by <a href="https://eox.at">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2016 &amp; 2017) · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>',
     });
     tiles.on("loading", () => {
       if (renderMode !== "print") failed = false;

@@ -53,6 +53,7 @@ for (const width of [390, 1440]) {
     await expect(page.locator(".map-layer-crown-lands")).toBeVisible();
     await expect(page.locator(".map-layer-sentinel-2 img").first()).toBeVisible();
     await expect(page.locator(".leaflet-control-attribution")).toContainText("CC BY 4.0");
+    await expect(page.locator(".leaflet-control-attribution")).toContainText("EOX IT Services GmbH");
     if (width < 860) await page.getByRole("button", { name: "Search & layers", exact: true }).click();
     await page.getByRole("button", { name: /^Background Maps/ }).click();
     const satellite = page.getByRole("checkbox", { name: "Sentinel-2 satellite · 2016–2017" });

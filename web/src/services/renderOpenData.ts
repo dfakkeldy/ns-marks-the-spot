@@ -32,6 +32,7 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
       case "MultiPolygon": geometry.coordinates.forEach((p) => p.forEach((r) => line(r, true))); return true;
       case "GeometryCollection": throw new Error("Unsupported open source geometry collection");
     }
+    throw new Error("Unsupported open source geometry type");
   };
   const labels: { text: string; p: { x: number; y: number } }[] = [];
   for (const f of collection.features) {
