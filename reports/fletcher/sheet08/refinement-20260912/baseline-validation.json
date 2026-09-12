@@ -1,0 +1,110 @@
+{
+  "fit_sha256": "ba667e84c9379252c3a444ae64c47a2ab209813dd4961eff17500bfee0a81ca3",
+  "collected_at_utc": "2026-09-12T12:57:05.132320+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.8526952,
+        46.5400875
+      ],
+      "source_guide_xy": [
+        1311.799873919459,
+        3427.8338295202702
+      ],
+      "objectids": [
+        182745,
+        182746,
+        223729
+      ],
+      "id": "F01",
+      "modern_node": "J1848",
+      "role": "check",
+      "pixel_xy": [
+        1601,
+        3478
+      ],
+      "identity_evidence": "Northeast Margaree short eastern tributary below Marsh Pool western tributary and above the large eastward then westward main-channel bends.",
+      "status": "Personally inspected native close/wide and marked modern topology before first score; never fitted",
+      "source_uncertainty_px": 20,
+      "correction": "Before first score: move western-bank proposal to the eastern tributary mouth on the east bank.",
+      "original_proposal": {
+        "lonlat": [
+          -60.8526952,
+          46.5400875
+        ],
+        "source_guide_xy": [
+          1311.799873919459,
+          3427.8338295202702
+        ],
+        "objectids": [
+          182745,
+          182746,
+          223729
+        ],
+        "id": "F01",
+        "modern_node": "J1848",
+        "role": "check",
+        "pixel_xy": [
+          1592,
+          3475
+        ],
+        "identity_evidence": "Northeast Margaree short eastern tributary below Marsh Pool western tributary and above the large eastward then westward main-channel bends.",
+        "status": "Fresh proposal collected after eleven-control freeze; native close/wide review pending; unscored",
+        "source_uncertainty_px": 20
+      }
+    },
+    {
+      "lonlat": [
+        -60.5070043,
+        46.4664434
+      ],
+      "source_guide_xy": [
+        8776.818648000015,
+        5750.459032640327
+      ],
+      "objectids": [
+        190541,
+        190542,
+        190547
+      ],
+      "id": "F02",
+      "modern_node": "J3053",
+      "role": "check",
+      "pixel_xy": [
+        8630,
+        5748
+      ],
+      "identity_evidence": "Northern tributary to the large western Little River arm above fitted C11; western arm continues northwest through falls, northern arm is separate from next upstream north tributary.",
+      "status": "Personally inspected native close/wide and marked modern topology before first score; never fitted",
+      "source_uncertainty_px": 20,
+      "original_proposal": {
+        "lonlat": [
+          -60.5070043,
+          46.4664434
+        ],
+        "source_guide_xy": [
+          8776.818648000015,
+          5750.459032640327
+        ],
+        "objectids": [
+          190541,
+          190542,
+          190547
+        ],
+        "id": "F02",
+        "modern_node": "J3053",
+        "role": "check",
+        "pixel_xy": [
+          8630,
+          5748
+        ],
+        "identity_evidence": "Northern tributary to the large western Little River arm above fitted C11; western arm continues northwest through falls, northern arm is separate from next upstream north tributary.",
+        "status": "Fresh proposal collected after eleven-control freeze; native close/wide review pending; unscored",
+        "source_uncertainty_px": 20
+      }
+    }
+  ],
+  "corrected_at_utc": "2026-09-12T13:01:49.731901+00:00",
+  "review_completed_at_utc": "2026-09-12T13:02:49.090467+00:00",
+  "purpose": "Same fresh points scored against preserved prior ten-control fit for comparison"
+}

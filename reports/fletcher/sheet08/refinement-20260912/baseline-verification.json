@@ -1,0 +1,22 @@
+{
+  "at_utc": "2026-09-12T12:46:29.241453+00:00",
+  "base_commit": "98a34ae2ab2bdec0846a475fc63985d45436a6bf",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/native/sheet08.png",
+      "sha256": "aa324565b0b25bdd1ae102f14e4bad8b542547d6e5bba76dd620a52dafa1d4aa"
+    },
+    {
+      "path": "reports/fletcher/sheet08/repaired-fit.json",
+      "sha256": "ba667e84c9379252c3a444ae64c47a2ab209813dd4961eff17500bfee0a81ca3"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/regional-ten/sheet-08-full-sheet.tif",
+      "sha256": "e5bcdd37da6e814297d3b432f3549ecf81bbc5b1f558b2f78c3fc600e98006a9"
+    },
+    {
+      "path": "reports/fletcher/sheet08/boundary.json",
+      "sha256": "1fabe8fc6eecd9a4ce4529280e7b51f0e6ccffa6da5f5ccd3999725575c31025"
+    }
+  ]
+}

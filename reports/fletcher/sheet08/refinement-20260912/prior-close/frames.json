@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-08-V01.jpg",
+    "point_record": "sheet08/refinement-20260912/prior-check-review.json",
+    "point_id": "V01",
+    "native_box": [
+      8022,
+      1117,
+      8242,
+      1337
+    ],
+    "native_coordinates": [
+      8132,
+      1227
+    ],
+    "modern_lonlat": [
+      -60.5453039,
+      46.6133825
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-08-V03.jpg",
+    "point_record": "sheet08/refinement-20260912/prior-check-review.json",
+    "point_id": "V03",
+    "native_box": [
+      2250,
+      4488,
+      2470,
+      4708
+    ],
+    "native_coordinates": [
+      2360,
+      4598
+    ],
+    "modern_lonlat": [
+      -60.7898218,
+      46.503375
+    ],
+    "rotation_degrees": 0
+  }
+]

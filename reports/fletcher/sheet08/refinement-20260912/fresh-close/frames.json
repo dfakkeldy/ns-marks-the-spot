@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-08-F01.jpg",
+    "point_record": "sheet08/refinement-20260912/fresh-proposals.json",
+    "point_id": "F01",
+    "native_box": [
+      1482,
+      3365,
+      1702,
+      3585
+    ],
+    "native_coordinates": [
+      1592,
+      3475
+    ],
+    "modern_lonlat": [
+      -60.8526952,
+      46.5400875
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-08-F02.jpg",
+    "point_record": "sheet08/refinement-20260912/fresh-proposals.json",
+    "point_id": "F02",
+    "native_box": [
+      8520,
+      5638,
+      8740,
+      5858
+    ],
+    "native_coordinates": [
+      8630,
+      5748
+    ],
+    "modern_lonlat": [
+      -60.5070043,
+      46.4664434
+    ],
+    "rotation_degrees": 0
+  }
+]
