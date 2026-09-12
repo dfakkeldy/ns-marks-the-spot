@@ -40,6 +40,7 @@ export default defineConfig(({ mode }) => ({
       ...configDefaults.exclude,
       "e2e/**",
       "scripts/checkPdfAssets.test.mjs",
+      "scripts/checkMailingAddresses.test.mjs",
       "scripts/checkProvincialAtlas.test.mjs",
       "scripts/exportSharedData.test.mjs",
       "scripts/probeGeoPdfFrames.test.mjs",

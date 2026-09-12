@@ -7231,6 +7231,16 @@ a {
   }
 }
 
+/* Mailing records retain their own source and never replace civic labels. */
+.mailing-search-label { display: block; margin-top: .25rem; font-size: .85em; font-weight: normal; }
+.mailing-source { font-size: .8rem; margin-block: .5rem; overflow-wrap: anywhere; }
+.mailing-source summary { cursor: pointer; }
+.mailing-source p { margin-block: .4rem; }
+.mailing-addresses { margin-block: .75rem; padding-top: .5rem; border-top: 1px solid var(--border-color, #8885); }
+.mailing-addresses h4 { margin-block: .25rem; }
+.mailing-addresses li > span { display: block; overflow-wrap: anywhere; }
+.mailing-addresses li { margin-bottom: .5rem; }
+@media print { .mailing-addresses, .mailing-source { display: none !important; } }
 .road-swatch.open-road, .road-swatch.open-minor { border-color: #654735; border-top-width: 2px; }
 .road-swatch.open-minor { border-top-style: dashed; }
 

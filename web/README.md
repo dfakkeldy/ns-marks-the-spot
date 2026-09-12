@@ -939,6 +939,31 @@ so no septic overlay is manufactured here.
 
 ## Mapped civic addresses
 
+The web map also offers a separate **mailing address** from Statistics Canada's
+free National Address Register (June 2026). `services/mailingAddresses.ts` keeps
+these dated records distinct from the live provincial civic address. Matching
+requires exact normalized civic number, suffix, unit and road, plus coordinates
+within 50 metres; ambiguous, unmatched and source-error readings stay distinct.
+The inspector shows the postal community, postal code, additional delivery
+information and source address ID. It does not identify residents or ownership.
+
+Search recognizes mailing communities alongside civic names. Postal candidates
+must resolve to one matching live provincial civic point before becoming
+selectable; map positions, directions and parcel lookups retain that point's
+published coordinate. The search inspects at most six matching road keys and
+six postal candidates, alongside the existing civic results; broader queries
+show a refinement notice. Source failures are disclosed without hiding valid
+civic results. Cancelling a search cancels its dependent requests.
+
+The self-hosted compressed lookup loads by street shard and retains a bounded
+browser cache. Its source receipt, coverage exclusions, separate Statistics
+Canada licence and reproduction instructions are in
+[`public/mailing-addresses/README.md`](public/mailing-addresses/README.md).
+No paid API or external mailing lookup is called. Mailing evidence is currently
+on screen only; the existing print/PDF/evidence-note civic sections continue to
+contain provincial civic evidence alone.
+
+
 The authoritative source is the [Nova Scotia Civic Address File — Civic
 Points](https://data.novascotia.ca/Municipalities/Nova-Scotia-Civic-Address-File-Civic-Points/tntn-er5g).
 `services/civicAddresses.ts` calculates a bounding box for each selected
