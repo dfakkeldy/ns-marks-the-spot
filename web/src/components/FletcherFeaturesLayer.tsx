@@ -28,7 +28,13 @@ function featureIcon(kind: string) {
   return ICONS.get(kind)!;
 }
 
-function accessibleGeometry(title: string, layer: L.Layer, isLine: boolean) {
+function lineName(properties: HistoricalProperties) {
+  if (properties.kind.includes('road')) return 'road segment';
+  if (properties.kind.includes('railway') && properties.source_text.toUpperCase().includes('PROPOSED')) return 'railway proposal';
+  return 'reach';
+}
+
+function accessibleGeometry(title: string, layer: L.Layer, description: string) {
   let element: Element | undefined;
   const activate = (event: Event) => {
     const key = (event as KeyboardEvent).key;
@@ -43,7 +49,7 @@ function accessibleGeometry(title: string, layer: L.Layer, isLine: boolean) {
     element = (layer as L.Path).getElement();
     element?.setAttribute('tabindex', '0');
     element?.setAttribute('role', 'button');
-    element?.setAttribute('aria-label', `${title} · approximate Fletcher ${isLine ? 'reach' : 'group'}`);
+    element?.setAttribute('aria-label', `${title} · approximate Fletcher ${description}`);
     element?.addEventListener('keydown', activate);
   });
   layer.on('remove', () => element?.removeEventListener('keydown', activate));
@@ -54,7 +60,7 @@ function Evidence({ feature }: { feature: HistoricalFeature }) {
   return <article className="fletcher-feature-evidence">
     <h3>{p.source_text}</h3>
     <p className="fletcher-feature-id">Fletcher · sheet {p.sheet} · {p.annotation_id}</p>
-    <p><strong>{p.geographic_role === 'reviewed-source-line' ? 'Approximate historical reach' : p.geographic_role === 'reviewed-source-group' ? 'Approximate group · individual feature unresolved' : p.placement_status === 'locally-reviewed-approximate' ? 'Approximate location · locally corrected' : 'Approximate historical location'}</strong></p>
+    <p><strong>{p.geographic_role === 'reviewed-source-line' ? `Approximate historical ${lineName(p)}` : p.geographic_role === 'reviewed-source-group' ? 'Approximate group · individual feature unresolved' : p.placement_status === 'locally-reviewed-approximate' ? 'Approximate location · locally corrected' : 'Approximate historical location'}</strong></p>
     <p>Reading: {p.reading_status.replaceAll('-', ' ')}. Placement is separate from reading confidence.</p>
     <img src={`${ROOT}${p.source_excerpt}`} alt={`Original Fletcher lettering and surrounding source marks: ${p.source_text}`} width="660" height="450" loading="lazy" />
     <p>{p.source_note}</p>
@@ -108,7 +114,7 @@ export const FletcherFeaturesLayer = memo(function FletcherFeaturesLayer({ onSta
       const contents = <><Tooltip pane="tooltipPane" permanent={zoom >= 15} direction="top" offset={[0, -12]} className="fletcher-feature-label">{title}</Tooltip><Popup pane="fletcher-feature-popups" className="fletcher-feature-popup" maxWidth={360} minWidth={240} maxHeight={Math.max(140, Math.min(420, height - 220))} autoPanPaddingTopLeft={[20, 100]} autoPanPaddingBottomRight={[20, 80]}>{group.map(f => <Evidence key={f.properties.annotation_id} feature={f} />)}</Popup></>;
       return feature.geometry?.type === 'Point'
         ? <Marker key={feature.properties.annotation_id} position={[feature.geometry.coordinates[1], feature.geometry.coordinates[0]]} icon={featureIcon(feature.properties.kind)} title={`${title} · approximate Fletcher location`} alt={`${title} · approximate Fletcher location`} bubblingMouseEvents={false}>{contents}</Marker>
-        : <GeoJSON key={feature.properties.annotation_id} data={feature} onEachFeature={(_feature, layer) => accessibleGeometry(title, layer, isLine)} style={{ color: '#79431f', weight: isLine ? 5 : 2, dashArray: isLine ? '8 8' : '5 4', fill: !isLine, fillColor: '#e9af60', fillOpacity: 0.14, bubblingMouseEvents: false }}>{contents}</GeoJSON>;
+        : <GeoJSON key={feature.properties.annotation_id} data={feature} onEachFeature={(_feature, layer) => accessibleGeometry(title, layer, isLine ? lineName(feature.properties) : 'group')} style={{ color: '#79431f', weight: isLine ? 5 : 2, dashArray: isLine ? '8 8' : '5 4', fill: !isLine, fillColor: '#e9af60', fillOpacity: 0.14, bubblingMouseEvents: false }}>{contents}</GeoJSON>;
     })}
   </Pane></>;
 });

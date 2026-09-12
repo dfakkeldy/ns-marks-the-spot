@@ -1,10 +1,10 @@
 # Reviewed Fletcher features
 
-The current export integrates **70 Judique annotations: 27 approximate points,
-25 source-group records and 18 traced reaches**. Three pairs deliberately share geometry, so
-67 geometries are selectable. Source association has been reviewed for 86 of
-166 annotations: 79 have source marks/groups/lines and seven remain unlocated.
-80 annotations await this stage. Sixteen records are withheld for the
+The current export integrates **82 Judique annotations: 27 approximate points,
+25 source-group records and 30 traced reaches/road sections**. Three pairs deliberately share geometry, so
+79 geometries are selectable. Source association has been reviewed for 102 of
+166 annotations: 95 have source marks/groups/lines and seven remain unlocated.
+64 annotations await this stage. Twenty records are withheld for the
 specific source, coverage or geographic reasons below. Lettering geography
 remains separate from feature geometry.
 
@@ -90,12 +90,36 @@ strokes as a MultiPolygon, not a continuous resource boundary. Enlarged source
 review follows the curved stream through the straight geological strokes at
 137. Descriptive geology, Barrens and unmarked height text remain unlocated.
 
+The road figures cover every road-caption and railway-proposal occurrence:
+
+- [First road sections](judique-roads-first-20260912.jpg): 022,027,037,052,053,055.
+- [Middle road sections](judique-roads-middle-20260912.jpg): 067,086,092,093,104,131.
+- [Roads and proposals](judique-roads-and-proposals-20260912.jpg): 149,163,133,141.
+
+Twelve road sections are exported. Victoria Road 131 and proposal 133 retain
+unresolved surrounding river/crossing geography; road 149 and proposal 141 extend
+outside support. Their full source traces and predictions/holdbacks are preserved.
+The app distinguishes historical road sections and railway proposals from reaches;
+both proposals remain withheld in this revision. A bounded DeepSeek road candidate
+was drawn against native pixels and rejected; [adjudication](road-candidate-adjudication.json)
+retains the attempt. Accepted road axes were traced and checked directly.
+
 ## Geographic review
 
 [Placement decisions](sheet-19-placement-review.json) record the inspected scenes
 and limitations. The figures compare the actual hash-verified current raster
 against separately projected NSTDB vectors at identical EPSG:3857 extents:
 
+- [Western named roads and Highway 19](judique-western-named-roads-geography.jpg)
+- [Northern inland road](judique-northern-inland-road-geography.jpg)
+- [Dennistown road captions](judique-dennistown-named-roads-geography.jpg)
+- [Old Road alternative](judique-old-road-alternative-geography.jpg)
+- [Northern Victoria Road](judique-north-victoria-road-geography.jpg)
+- [Coastal inland roads](judique-coastal-inland-roads-geography.jpg)
+- [Wood Road](judique-wood-road-geography.jpg)
+- [Glendale road caption](judique-glendale-road-caption-geography.jpg)
+- [Southern Victoria Road and proposal](judique-southern-victoria-proposal-geography.jpg)
+- [Princeville Old Road](judique-princeville-old-road-geography.jpg)
 - [Upper Diogenes falls](judique-upper-diogenes-falls-geography.jpg)
 - [Diogenes fall](judique-diogenes-fall-geography.jpg)
 - [Dennistown falls](judique-dennistown-falls-geography.jpg)
@@ -149,7 +173,7 @@ conservative control hull; its map geometry is null. It must not be shrunk to
 circumvent the coverage gate. Accepted local controls or an independently
 supported correspondence are needed before either withheld record can advance.
 
-The full holdback list now contains sixteen annotations:
+The full holdback list now contains twenty annotations:
 
 | Annotation | Remaining requirement |
 | --- | --- |
@@ -164,8 +188,12 @@ The full holdback list now contains sixteen annotations:
 | 124 P.O. | Resolve the prediction in the modern river corridor and mismatched crossing. |
 | 125 Blue Bridge | Establish the historical crossing locality; do not substitute the modern highway bridge northwest of it. |
 | 129 Shale/fossil description | A distinct outcrop mark or defensible extent. |
+| 131 Victoria Road | Resolve the surrounding river/road crossings and the existing Blue Bridge mismatch. |
+| 133 Railway proposal | Reconcile the proposal’s surrounding river/road geography; no built-railway match is assumed. |
 | 134 Falls | Accepted support for the complete source junction group. |
+| 141 Railway proposal | Accepted support for the complete native proposal trace. |
 | 143 Shop | Accepted support beyond the current control hull. |
+| 149 River Denys Road | Accepted support for the complete native road trace. |
 | 156 P.O. | Accepted support beyond the current control hull. |
 | 159 850 FT. | An actual spot-height mark, benchmark or identified summit. |
 | 165 P.O. | Supported treatment of the source group crossing the frozen native neatline. |
@@ -209,6 +237,12 @@ source evidence, and the final separated dashed line style on desktop and phone.
 The [all-falls browser receipt](browser-all-falls-verification.json) records
 all 18 later additions, including the separated coal regions and traced stream
 segments, with source excerpts, placement notes and clean final consoles.
+
+The [road browser receipt](browser-roads-verification.json) records all twelve
+new road selections with a ready basemap, source excerpts and distinct road
+wording. Local Chromium range-cache failures were reproduced and isolated to
+HTTP caching; only Vite dev/preview archive responses now disable HTTP storage.
+Production hosting and the existing client error handling are unchanged.
 
 ## Reproduce
 

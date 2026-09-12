@@ -65,6 +65,20 @@ describe('reviewed Fletcher features', () => {
     await waitFor(() => expect(status).toHaveBeenLastCalledWith('Historical features unavailable. Toggle off and on to retry.'));
     expect(document.querySelector('.fletcher-feature-marker')).toBeNull();
   });
+  it('keeps a printed railway proposal distinct from a built railway', async () => {
+    const data = structuredClone(fixture);
+    const proposal = structuredClone(data.features[0]);
+    proposal.id = 'test-railway-proposal';
+    proposal.geometry = { type: 'LineString', coordinates: [[-61.49, 45.88], [-61.485, 45.878]] };
+    Object.assign(proposal.properties, { annotation_id: proposal.id, source_text: 'PROPOSED TEST RAILWAY', kind: 'railway-annotation', geographic_role: 'reviewed-source-line' });
+    data.features.push(proposal);
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ok:true,json:async()=>data}));
+    render(layer());
+    const line = await screen.findByRole('button', { name: 'PROPOSED TEST RAILWAY · approximate Fletcher railway proposal' });
+    fireEvent.keyDown(line, { key: 'Enter' });
+    expect(await screen.findByText('Approximate historical railway proposal')).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'PROPOSED TEST RAILWAY' })).toBeVisible();
+  });
   it('rejects lettering or unreviewed placement instead of drawing a site', async () => {
     const unreviewed=structuredClone(fixture);unreviewed.features[0].properties.placement_status='deferred';
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ok:true,json:async()=>unreviewed}));

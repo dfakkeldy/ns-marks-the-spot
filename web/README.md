@@ -67,7 +67,7 @@ strokes come from the procedural sprite in `public/atlas/sprite`
 unlocated specimens for future historical site symbols and lettering.
 
 The Fletcher style also enables a separately identified reviewed historical-feature
-layer: currently 70 Judique annotations, with approximate points, traced reaches and
+layer: currently 82 Judique annotations, with approximate points, traced reaches and
 unresolved group outlines. Its checkbox is below the style selector. Select a
 mark from zoom 12 for original source pixels, reading/placement uncertainty,
 fit provenance and prior-coordinate evidence; persistent labels appear at zoom
@@ -75,7 +75,9 @@ fit provenance and prior-coordinate evidence; persistent labels appear at zoom
 retains its explicit east-of-Highway-19 correction. Native excerpts and licence
 receipts live in `public/fletcher-features/`. This on-screen research layer is
 excluded from print/PDF exports. See the [feature review](../reports/fletcher/feature-geography/README.md)
-for coverage, limitations and reproduction. The remaining inventories are not
+for coverage, limitations and reproduction. Local dev/preview PMTiles responses disable HTTP storage to avoid reproduced
+Chromium range-cache failures; production hosting retains its configured policy.
+The remaining inventories are not
 automatically promoted from lettering centres to historical sites.
 
 **Background Maps → Basemap style** offers Day, Night, Fletcher,

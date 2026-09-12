@@ -1,12 +1,27 @@
 import { configDefaults, defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
-import { loadEnv } from "vite";
+import { loadEnv, type PreviewServer, type ViteDevServer } from "vite";
 import { rm } from "node:fs/promises";
 import { resolve } from "node:path";
+import type { IncomingMessage, ServerResponse } from "node:http";
 import provincialReceipt from "./public/atlas/provincial/source.json";
+
+function localArchiveHeaders(request: IncomingMessage, response: ServerResponse, next: () => void) {
+  if ((request.url ?? "").split("?")[0]?.endsWith(".pmtiles")) {
+    // Local ranged responses can fail in Chromium's HTTP cache despite valid bytes.
+    // Keep local range reads reliable; production hosting and PMTiles' own cache
+    // retain their existing policies.
+    response.setHeader("Cache-Control", "no-store");
+  }
+  next();
+}
 
 export default defineConfig(({ mode }) => ({
   plugins: [react(), {
+    name: "local-pmtiles-range-cache",
+    configureServer(server: ViteDevServer) { server.middlewares.use(localArchiveHeaders); },
+    configurePreviewServer(server: PreviewServer) { server.middlewares.use(localArchiveHeaders); },
+  }, {
     name: "omit-r2-provincial-archive",
     apply: "build",
     async closeBundle() {
