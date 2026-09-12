@@ -1,0 +1,30 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.7507397,
+        46.7340642
+      ],
+      "source_guide_xy": [
+        3386.602886439534,
+        2894.201650719857
+      ],
+      "objectids": [
+        159964,
+        159965,
+        179691
+      ],
+      "id": "F06",
+      "role": "check",
+      "modern_node_id": "J1055",
+      "pixel_xy": [
+        3450,
+        3150
+      ],
+      "identity_evidence": "MacKenzies River major eastern tributary in the western interior",
+      "source_uncertainty_px": 20,
+      "status": "Fresh candidate pending close/wide native and modern inspection before scoring",
+      "decision": "Rejected unscored: native tributary comes from northeast with a long northern branch; modern J1055 comes from east/southeast with southern tributary. Nearby modern larger northeastern branch is a different network segment; identity not established."
+    }
+  ]
+}
