@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "unchanged_prior_controls": 11,
+  "verified_native_frames": 6,
+  "viewed_figures": 28,
+  "coverage_and_sampled_orientation": "pass",
+  "web_csv_and_solver": "pass",
+  "actual_browser_import_desktop_mobile_reload": "pass",
+  "fresh_check_scope": "Two new coastal/island checks near prior controls; no fresh independent central inland validation.",
+  "whole_sheet_geographically_accepted": false
+}

@@ -1,0 +1,53 @@
+{
+  "fit_sha256": "abc9f6ba93d9196051f573a42e1aeeb872c5eda76e9229ab7b6116444cefd41e",
+  "selected_at": "2026-09-12T15:59:04.996060+00:00",
+  "points": [
+    {
+      "id": "F01",
+      "role": "check",
+      "pixel_xy": [
+        7712,
+        2957
+      ],
+      "lonlat": [
+        -60.941262989823514,
+        46.03494782006191
+      ],
+      "modern_objectid": 22090,
+      "modern_part": 0,
+      "modern_vertex": 14,
+      "identity_evidence": "Bell Rock easternmost extent; distinct small island southeast of larger western island and south of Hume. Complete closed island line selected, not a mainland fragment.",
+      "source_uncertainty_px": 15,
+      "status": "Personally inspected exact unrotated native close/wide and direct modern geometry before scoring; accepted as conditional local physical check.",
+      "identity_limitation": "Historical island shape and coast/channel generalization differ. Bell Rock is a different island near repair C14; McPhedran mouth belongs to the same drainage as C04. Neither provides independent central-headwater evidence."
+    },
+    {
+      "lonlat": [
+        -60.9730923,
+        46.0169159
+      ],
+      "source_guide_xy": [
+        6920.557001759764,
+        3604.7104096801486
+      ],
+      "objectids": [
+        10397,
+        10398,
+        298547
+      ],
+      "id": "F02",
+      "modern_node_id": "J0547",
+      "role": "check",
+      "pixel_xy": [
+        7025,
+        3529
+      ],
+      "identity_evidence": "McPhedran Brook coastline mouth downstream of Lake McPhedran; lake-to-coast drainage and surrounding south cove order require review.",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected exact unrotated native close/wide and direct modern geometry before scoring; accepted as conditional local physical check.",
+      "identity_limitation": "Historical island shape and coast/channel generalization differ. Bell Rock is a different island near repair C14; McPhedran mouth belongs to the same drainage as C04. Neither provides independent central-headwater evidence."
+    }
+  ],
+  "reviewed_at": "2026-09-12T16:00:24.218695+00:00",
+  "status": "Same new checks replayed on old eleven-control fit; not additional independent evidence."
+}

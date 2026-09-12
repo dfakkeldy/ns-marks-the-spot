@@ -1,0 +1,14 @@
+{
+  "initial_error": "Sheet14 was incorrectly selected as eastern neighbor without checking its bounds. Two empty comparison panels are preserved as rejected setup evidence, not geographic join gaps.",
+  "sheet14_verified_bounds": [
+    -61.62096997675531,
+    46.09362246437377,
+    -61.20918225051492,
+    46.27050928856906
+  ],
+  "corrected_scope": "Sheets12 and17 meet only northeastern and southeastern corners; eastern interval between their extents has no adjacent sheet among available raster packets. No invented eastern continuation.",
+  "rejected_frames": [
+    "rejected-neighbor-review/14-northeastern-channel.jpg",
+    "rejected-neighbor-review/14-southeastern-interior.jpg"
+  ]
+}
