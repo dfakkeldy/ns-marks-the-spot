@@ -1,0 +1,56 @@
+{
+  "sheet": "sheet-06",
+  "collected_at_utc": "2026-09-12T14:22:51.288348+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.8703199,
+        46.6372877
+      ],
+      "source_guide_xy": [
+        8932.906664559385,
+        5922.220252400031
+      ],
+      "objectids": [
+        156110,
+        156111,
+        189669
+      ],
+      "id": "F05",
+      "modern_node_id": "J0474",
+      "role": "check",
+      "pixel_xy": [
+        8948,
+        5787
+      ],
+      "identity_evidence": "Cheticamp River northern tributary near the Roch gorge label",
+      "source_uncertainty_px": 20,
+      "status": "Candidate awaiting exact close and wide review, unscored."
+    },
+    {
+      "lonlat": [
+        -60.9009572,
+        46.6222748
+      ],
+      "source_guide_xy": [
+        8271.125260479283,
+        6387.605326399906
+      ],
+      "objectids": [
+        265795,
+        265796,
+        294300
+      ],
+      "id": "F06",
+      "modern_node_id": "J0533",
+      "role": "check",
+      "pixel_xy": [
+        8323,
+        6243
+      ],
+      "identity_evidence": "Daphine southeastern twig on second southern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Candidate awaiting exact close and wide review, unscored."
+    }
+  ]
+}

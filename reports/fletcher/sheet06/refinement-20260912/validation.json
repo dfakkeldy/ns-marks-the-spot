@@ -1,0 +1,63 @@
+{
+  "sheet": "sheet-06",
+  "fit_sha256": "d2b8b479d734472aec08440df074f0e0184938a46a7871f0dd9545e98daafbe4",
+  "collected_at_utc": "2026-09-12T14:21:31.923484+00:00",
+  "review_completed_at_utc": "2026-09-12T14:23:56.172404+00:00",
+  "history_identity_checked": true,
+  "scope": "Two distinct unfitted junctions in one Daphine tributary system. Local validation only, not distributed whole-sheet coverage.",
+  "points": [
+    {
+      "lonlat": [
+        -60.901163,
+        46.6237779
+      ],
+      "source_guide_xy": [
+        8266.934902299428,
+        6340.529546899954
+      ],
+      "objectids": [
+        184697,
+        265794,
+        265795
+      ],
+      "id": "F04",
+      "modern_node_id": "J0524",
+      "role": "check",
+      "pixel_xy": [
+        8308,
+        6224
+      ],
+      "identity_evidence": "Daphine second southern tributary east of fitted first southern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Exact corrected native and modern crosshairs personally reviewed close/wide before first score; never fitted.",
+      "review_note": "Moved before first score from below junction on southern arm to native tributary origin.",
+      "limitation": "Near fitted C16 and F06, local Daphine coverage only."
+    },
+    {
+      "lonlat": [
+        -60.9009572,
+        46.6222748
+      ],
+      "source_guide_xy": [
+        8271.125260479283,
+        6387.605326399906
+      ],
+      "objectids": [
+        265795,
+        265796,
+        294300
+      ],
+      "id": "F06",
+      "modern_node_id": "J0533",
+      "role": "check",
+      "pixel_xy": [
+        8323,
+        6243
+      ],
+      "identity_evidence": "Daphine southeastern twig on second southern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern crosshairs personally reviewed close/wide before first score; never fitted.",
+      "limitation": "Same tributary system as F04, not independent geographic coverage; historical and modern branch lengths differ."
+    }
+  ]
+}
