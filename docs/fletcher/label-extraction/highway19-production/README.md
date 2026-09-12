@@ -10,7 +10,10 @@ Sheets 22, 19, 16 and 14 now also have a separate
 using the explicitly pinned per-sheet full-sheet fits (PR #380 for 19/22 and
 PR #385 for 14/16). It preserves these source-only inventories and
 records original pixels and fit revisions alongside derived lettering centres.
-Feature/site placement remains deferred.
+These inventories remain source-only. Ongoing feature association and map
+integration are tracked separately in the
+[feature review](../../../../reports/fletcher/feature-geography/README.md) and
+[per-annotation queue](../../../../reports/fletcher/digitization/README.md).
 
 ## Production state
 

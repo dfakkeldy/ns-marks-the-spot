@@ -1,7 +1,7 @@
 {
   "sheet": 19,
   "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
-  "source_review_sha256": "81009f24e706d2ffdb785e2875b09a0b57be004a22105632e78863867c5e36ee",
+  "source_review_sha256": "0916ba4616eccfcdb802208e9360455196c6ee4b80346fe068e97e784d6d3828",
   "raster_sha256": "adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4",
   "reviews": [
     {
@@ -616,6 +616,240 @@
       "scene": "judique-natural-features-20260912.jpg",
       "scene_sha256": "ee6ea7d0a9879cb7a798871a6982891c2f56ce26d15a7e344406643d4cce444d",
       "evidence": "The complete native reach associated with Fall 30 extends outside the current conservative source-control hull. Keep its source path and historical wording, with no map geometry or web export. Do not trim the reach to make it pass."
+    },
+    {
+      "annotation_id": "F19-JUD-041",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-upper-diogenes-falls-geography.jpg",
+      "scene_sha256": "0dd140d3e61eeb3196e95f2a56904a02dafee03b2fdb3ae3e90c0447e1ce98e2",
+      "evidence": "The western tributary and northern main stream join inside the projected source group. Falls 041 stays distinct from the two southern labelled reaches. Modern junction topology supports the approximate group; the source does not select an exact fall point or arm.",
+      "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-042",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-upper-diogenes-falls-geography.jpg",
+      "scene_sha256": "0dd140d3e61eeb3196e95f2a56904a02dafee03b2fdb3ae3e90c0447e1ce98e2",
+      "evidence": "The short main-stream reach lies immediately south of the western junction and north of the next eastern tributary. Modern stream order and orientation agree broadly, with a local offset. Retain the historical reach without an exact drop site.",
+      "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-043",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-upper-diogenes-falls-geography.jpg",
+      "scene_sha256": "0dd140d3e61eeb3196e95f2a56904a02dafee03b2fdb3ae3e90c0447e1ce98e2",
+      "evidence": "The labelled reach lies south of Fall 042 near the next eastern tributary and above the mill district. Its projection is west of the modern channel, so exact channel-side agreement is unresolved. The stream sequence supports approximate historical locality only.",
+      "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-044",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-diogenes-fall-geography.jpg",
+      "scene_sha256": "88982f55539481d307538e7c20f7d0cec0dda63cb0e62c75b2cb42d956fd0e72",
+      "evidence": "The reach remains east of the western tributary junction and west of the Diogenes Brook confluence. Modern stream order and orientation support the district, with differing bend detail. Geological strike strokes are not mapped as falls, and no precise drop is asserted.",
+      "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-051",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-dennistown-falls-geography.jpg",
+      "scene_sha256": "0ab190b1b6c9de56a1b28c068bf6f49975d87b0d497490933578545ed5c41458",
+      "evidence": "The curved main reach south of the Dennistown tributary junction and north of Old River Denys Road is recognizable in the modern stream network. The projected bend follows the same broad location, but neither an exact falls point nor a current height is established.",
+      "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-069",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-west-branch-fall-geography.jpg",
+      "scene_sha256": "efb73abf9512329b1f34f0d6ebdcf813df6e18e26b98a750da0a936bb5e4420f",
+      "evidence": "The West Branch enters the projected group from the north and turns toward the southeastern valley junction. Modern topology supports this approximate reach region; the historical railway/road positions and local bend differ. Geological overprint obscures the exact source fall position. The group is not a waterfall footprint, and 25 remains historical wording.",
+      "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-070",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-quartz-falls-geography.jpg",
+      "scene_sha256": "57225827145e05f3d63feb0e0674a28260ba2bbb61436fcd516386894379f821",
+      "evidence": "The lower small historical tributary approaches the main valley above the mill district. The modern reference does not resolve this small tributary, and the projected trace crosses the modern main channel near its eastern end. Retain approximate historical evidence only; no current tributary, exact drop or upgraded reading is claimed.",
+      "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-109",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-glendale-falls-geography.jpg",
+      "scene_sha256": "bdf81e47a38b6428b67ffc454fbb43d7b5e1ef3e55c858aa999801a8a6b466a5",
+      "evidence": "The first labelled river reach remains east of the Glendale road crossing and west of the following two annotations. It projects north of the modern river; the road approaches and eastern drainage sequence support the broad locality, not a precise present falls site.",
+      "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-110",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-glendale-falls-geography.jpg",
+      "scene_sha256": "bdf81e47a38b6428b67ffc454fbb43d7b5e1ef3e55c858aa999801a8a6b466a5",
+      "evidence": "The middle source reach preserves its order between Fall 109 and Falls 18. The modern river is south of the projection and has different local bends. This is approximate historical evidence; the printed 6 is not a verified modern measurement.",
+      "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-111",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-glendale-falls-geography.jpg",
+      "scene_sha256": "bdf81e47a38b6428b67ffc454fbb43d7b5e1ef3e55c858aa999801a8a6b466a5",
+      "evidence": "The eastern bend remains after Fall 6 and before the eastern road/valley crossing. Modern river direction and tributary context support locality, with differing bend detail. Retain the source reach and historical 18 wording without asserting a present drop height or falls extent.",
+      "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-112",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-coal-marks-geography.jpg",
+      "scene_sha256": "b7467bf223c1c03dac3cd3e2050aa8920b568519b9bdfa49b1da0b054db0e37c",
+      "evidence": "The three bold source strokes retain their southwest-to-northeast order around the tributary junction north of the larger southern river. Modern drainage supports the approximate locality while bank detail differs. Separate polygons describe the printed strokes, not a continuous coal deposit, mine opening or resource boundary.",
+      "limits": "Approximate source geography only. No modern height, flow, mine opening, deposit extent, property or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-045",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-middle-falls-20260912.jpg",
+      "scene_sha256": "40ff1fb4689af66df6c23c9b3446e5099c12b8cae77031a6cb87b25d8b67b3d6",
+      "evidence": "Iron Ore has no distinct native ore mark or defensible deposit boundary in the inspected context. Preserve the wording unlocated; a geological unit, letter O or mill mark cannot supply an ore-site geometry."
+    },
+    {
+      "annotation_id": "F19-JUD-135",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-northeast-falls-reaches-geography.jpg",
+      "scene_sha256": "8b2fc3f8256a324720fa61a3dc76d055fd44e9252517d41a8cb104915916e2b9",
+      "evidence": "The short source tributary is south of the northern river and west of its eastern main stem. Modern drainage supports the broad northern junction district but does not preserve the small southern arm in the same shape. Retain the historical reach with that difference, not a current falls point.",
+      "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-136",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-northeast-falls-reaches-geography.jpg",
+      "scene_sha256": "8b2fc3f8256a324720fa61a3dc76d055fd44e9252517d41a8cb104915916e2b9",
+      "evidence": "The visible tributary stroke meets the western branch below the red report text. Modern drainage supports the broad junction and downstream sequence; the source stroke is locally offset. The report overprint is not reconstructed into a hidden exact falls position.",
+      "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-137",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-northeast-falls-reaches-geography.jpg",
+      "scene_sha256": "8b2fc3f8256a324720fa61a3dc76d055fd44e9252517d41a8cb104915916e2b9",
+      "evidence": "The curved source stream below Fall 8 follows the same broad southwest tributary corridor in the modern reference, with different bend detail. Its path through geological strike marks was checked in enlarged native pixels. No strike line becomes hydrography and no modern height is inferred.",
+      "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-138",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-northeast-falls-reaches-geography.jpg",
+      "scene_sha256": "8b2fc3f8256a324720fa61a3dc76d055fd44e9252517d41a8cb104915916e2b9",
+      "evidence": "The West Branch reach remains east of the western tributary junction and above the southern stream/railway district. The projected bend is south of the modern channel. Preserve the approximate historical reach, graticule distinction and original Fall 30 wording without a modern height claim.",
+      "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-151",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-mclennan-tributary-falls-geography.jpg",
+      "scene_sha256": "9d0e089dee0bb0c0c6870d242792409e77d8a6bc3ee2fe9ca94d29325469fc62",
+      "evidence": "The source tributary runs south from the northern brook and crosses the east-west road below the falls annotation. The projected stroke lies east of the modern channel near a local road approach, so exact channel alignment is unresolved. The northern junction and southern crossing support approximate locality only.",
+      "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-154",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-big-brook-falls-geography.jpg",
+      "scene_sha256": "c680218b7c35ec7cb74e2fd193f3bc3e48b0144e564489fb3aeace6fe1266a4e",
+      "evidence": "The source reach is west of the eastern Big Brook valley and road, before the smaller brook joins the main valley. Its projection is south of the modern tributary bend. The district is supported, while exact channel, drop position and printed height remain unverified.",
+      "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-162",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-princeville-fall-geography.jpg",
+      "scene_sha256": "99ce6ed5dfc0affa3b1813d924a5c79ea946ee1d8df94914916a5473f8c526c8",
+      "evidence": "The reach lies below the historical Old Road crossing and above the southern Princeville river junction. Modern roads differ and cross the projected reach locally, but the northern tributary and southern main-river sequence are recognizable. Retain approximate historical evidence; no current falls height or exact road-side site is asserted.",
+      "limits": "Source reach and approximate locality only. No present waterfall height, exact drop, current flow, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-129",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-eastern-falls-20260912.jpg",
+      "scene_sha256": "3bcc7bfd42390155cf117084fe57d48cc02fd63d6669f81731e8502ba4b3008b",
+      "evidence": "The descriptive shale/fossil wording has no distinct outcrop mark or defensible extent in the inspected source. The river and geological unit are not outcrop boundaries."
+    },
+    {
+      "annotation_id": "F19-JUD-134",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-eastern-falls-20260912.jpg",
+      "scene_sha256": "3bcc7bfd42390155cf117084fe57d48cc02fd63d6669f81731e8502ba4b3008b",
+      "evidence": "The complete native falls-junction group extends outside the conservative source-control hull. Preserve its source geometry and withhold modern placement; do not shrink the group to pass."
+    },
+    {
+      "annotation_id": "F19-JUD-090",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-southern-natural-20260912.jpg",
+      "scene_sha256": "412cf6a8aa04086f02d8d8285a4a9147e43ff5f56f8a1e2d1798b79e644e9210",
+      "evidence": "700 FT. has no associated spot-height mark, benchmark or distinctly identified summit in the source context. Preserve the wording without a site coordinate or present elevation claim."
+    },
+    {
+      "annotation_id": "F19-JUD-159",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-southern-natural-20260912.jpg",
+      "scene_sha256": "412cf6a8aa04086f02d8d8285a4a9147e43ff5f56f8a1e2d1798b79e644e9210",
+      "evidence": "850 FT. has no associated spot-height mark, benchmark or distinct summit near the southern border. Lettering and colour boundaries cannot supply a terrain point."
+    },
+    {
+      "annotation_id": "F19-JUD-031",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-southern-natural-20260912.jpg",
+      "scene_sha256": "412cf6a8aa04086f02d8d8285a4a9147e43ff5f56f8a1e2d1798b79e644e9210",
+      "evidence": "Full native context contains the spaced Barrens descriptor and road but no boundary for the described land cover. Geological hatching is not a barrens boundary. No point or polygon is invented."
     }
   ]
 }

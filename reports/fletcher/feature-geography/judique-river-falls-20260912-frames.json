@@ -1,13 +1,13 @@
 {
   "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
   "source_review_sha256": "0916ba4616eccfcdb802208e9360455196c6ee4b80346fe068e97e784d6d3828",
-  "image_sha256": "ee6ea7d0a9879cb7a798871a6982891c2f56ce26d15a7e344406643d4cce444d",
+  "image_sha256": "f1f0b1e32977ecdecf86b47648813510fb75bf5630243a9988c6885992bde697",
   "frames": [
     {
-      "annotation_id": "F19-JUD-017",
+      "annotation_id": "F19-JUD-069",
       "native_xywh": [
-        4002,
-        2281,
+        7729,
+        3438,
         660,
         450
       ],
@@ -23,18 +23,18 @@
       "source_anchor_xy": null,
       "source_group_xywh": [
         [
-          4333,
-          2463,
-          32,
-          34
+          7955,
+          3635,
+          52,
+          80
         ]
       ]
     },
     {
-      "annotation_id": "F19-JUD-026",
+      "annotation_id": "F19-JUD-070",
       "native_xywh": [
-        4515,
-        2855,
+        8307,
+        2660,
         660,
         450
       ],
@@ -48,13 +48,39 @@
       ],
       "rotation_degrees": 0,
       "source_anchor_xy": null,
-      "source_group_xywh": []
+      "source_group_xywh": [],
+      "source_path_xy": [
+        [
+          8596,
+          2866
+        ],
+        [
+          8615,
+          2869
+        ],
+        [
+          8632,
+          2865
+        ],
+        [
+          8648,
+          2863
+        ],
+        [
+          8665,
+          2868
+        ],
+        [
+          8685,
+          2872
+        ]
+      ]
     },
     {
-      "annotation_id": "F19-JUD-034",
+      "annotation_id": "F19-JUD-109",
       "native_xywh": [
-        8061,
-        1068,
+        7410,
+        4438,
         660,
         450
       ],
@@ -71,128 +97,136 @@
       "source_group_xywh": [],
       "source_path_xy": [
         [
-          8380,
-          1325
+          7720,
+          4644.5
         ],
         [
-          8400,
-          1318
+          7730,
+          4646
         ],
         [
-          8415,
-          1308
+          7740,
+          4650.5
         ],
         [
-          8430,
-          1301
-        ],
-        [
-          8455,
-          1299
-        ]
-      ]
-    },
-    {
-      "annotation_id": "F19-JUD-035",
-      "native_xywh": [
-        8157,
-        1162,
-        660,
-        450
-      ],
-      "display_xy": [
-        660,
-        590
-      ],
-      "display_size": [
-        660,
-        450
-      ],
-      "rotation_degrees": 0,
-      "source_anchor_xy": null,
-      "source_group_xywh": [],
-      "source_path_xy": [
-        [
-          8440,
-          1351
-        ],
-        [
-          8447,
-          1366
-        ],
-        [
-          8439,
-          1376
-        ],
-        [
-          8442,
-          1390
-        ],
-        [
-          8443,
-          1402
-        ],
-        [
-          8434,
-          1414
-        ]
-      ]
-    },
-    {
-      "annotation_id": "F19-JUD-036",
-      "native_xywh": [
-        7480,
-        1607,
-        660,
-        450
-      ],
-      "display_xy": [
-        0,
-        1120
-      ],
-      "display_size": [
-        660,
-        450
-      ],
-      "rotation_degrees": 0,
-      "source_anchor_xy": null,
-      "source_group_xywh": [],
-      "source_path_xy": [
-        [
-          7779,
-          1782
-        ],
-        [
-          7765,
-          1787
-        ],
-        [
-          7759,
-          1798
-        ],
-        [
-          7757,
-          1811
-        ],
-        [
-          7761,
-          1823
+          7750,
+          4652.5
         ],
         [
           7760,
-          1835
+          4651
         ],
         [
-          7749,
-          1843
+          7770,
+          4643
+        ],
+        [
+          7780,
+          4643
         ]
       ]
     },
     {
-      "annotation_id": "F19-JUD-040",
+      "annotation_id": "F19-JUD-110",
       "native_xywh": [
-        7185,
-        2369,
+        7541,
+        4474,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        590
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [],
+      "source_path_xy": [
+        [
+          7840,
+          4674.5
+        ],
+        [
+          7850,
+          4676
+        ],
+        [
+          7860,
+          4679
+        ],
+        [
+          7870,
+          4677
+        ],
+        [
+          7880,
+          4682
+        ],
+        [
+          7890,
+          4685
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-111",
+      "native_xywh": [
+        7720,
+        4515,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        1120
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [],
+      "source_path_xy": [
+        [
+          7978,
+          4730
+        ],
+        [
+          7990,
+          4735
+        ],
+        [
+          7997,
+          4745
+        ],
+        [
+          7995,
+          4755
+        ],
+        [
+          7984,
+          4763
+        ],
+        [
+          7980,
+          4770
+        ],
+        [
+          7986,
+          4776
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-112",
+      "native_xywh": [
+        8148,
+        4560,
         660,
         450
       ],
@@ -206,31 +240,24 @@
       ],
       "rotation_degrees": 0,
       "source_anchor_xy": null,
-      "source_group_xywh": [],
-      "source_path_xy": [
+      "source_group_xywh": [
         [
-          7593,
-          2622
+          8494,
+          4812,
+          43,
+          25
         ],
         [
-          7599,
-          2616
+          8540,
+          4795,
+          20,
+          17
         ],
         [
-          7605,
-          2612
-        ],
-        [
-          7613,
-          2609
-        ],
-        [
-          7616,
-          2606
-        ],
-        [
-          7618,
-          2602
+          8568,
+          4768,
+          45,
+          30
         ]
       ]
     }

@@ -1,10 +1,10 @@
 # Reviewed Fletcher features
 
-The current export integrates **52 Judique annotations: 27 approximate points,
-22 source-group records and three traced reaches**. Three pairs deliberately share geometry, so
-49 geometries are selectable. Source association has been reviewed for 62 of
-166 annotations: 60 have source marks/groups/lines; Mills 101 and Quarries 026
-remain unlocated. 104 annotations await this stage. Ten records are withheld for the
+The current export integrates **70 Judique annotations: 27 approximate points,
+25 source-group records and 18 traced reaches**. Three pairs deliberately share geometry, so
+67 geometries are selectable. Source association has been reviewed for 86 of
+166 annotations: 79 have source marks/groups/lines and seven remain unlocated.
+80 annotations await this stage. Sixteen records are withheld for the
 specific source, coverage or geographic reasons below. Lettering geography
 remains separate from feature geometry.
 
@@ -77,12 +77,36 @@ geological boundary. That rejected trace and evidence are retained in the source
 review. The replacement follows only the visible brook stroke beside the text;
 no subsurface route, flow direction, entrance or exit is inferred.
 
+The subsequent native figures complete the falls/mineral/landscape review:
+
+- [Middle falls](judique-middle-falls-20260912.jpg): 041–045,051.
+- [River falls and coal](judique-river-falls-20260912.jpg): 069,070,109–112.
+- [Eastern falls](judique-eastern-falls-20260912.jpg): 129,134–138.
+- [Southern natural annotations](judique-southern-natural-20260912.jpg): 151,154,162,090,159,031.
+
+The tentative Falls 070 remains separate from Quartz Mill; wider source context
+identifies the adjacent tributary. Coal 112 preserves three separate printed
+strokes as a MultiPolygon, not a continuous resource boundary. Enlarged source
+review follows the curved stream through the straight geological strokes at
+137. Descriptive geology, Barrens and unmarked height text remain unlocated.
+
 ## Geographic review
 
 [Placement decisions](sheet-19-placement-review.json) record the inspected scenes
 and limitations. The figures compare the actual hash-verified current raster
 against separately projected NSTDB vectors at identical EPSG:3857 extents:
 
+- [Upper Diogenes falls](judique-upper-diogenes-falls-geography.jpg)
+- [Diogenes fall](judique-diogenes-fall-geography.jpg)
+- [Dennistown falls](judique-dennistown-falls-geography.jpg)
+- [West Branch fall](judique-west-branch-fall-geography.jpg)
+- [Quartz district falls](judique-quartz-falls-geography.jpg)
+- [Glendale falls](judique-glendale-falls-geography.jpg)
+- [Coal marks](judique-coal-marks-geography.jpg)
+- [Northeastern reaches](judique-northeast-falls-reaches-geography.jpg)
+- [McLennan tributary falls](judique-mclennan-tributary-falls-geography.jpg)
+- [Big Brook falls](judique-big-brook-falls-geography.jpg)
+- [Princeville fall](judique-princeville-fall-geography.jpg)
 - [Barytes group](judique-barytes-geography.jpg)
 - [Northern falls reach](judique-northern-falls-geography.jpg)
 - [Western falls reach](judique-western-falls-geography.jpg)
@@ -125,19 +149,25 @@ conservative control hull; its map geometry is null. It must not be shrunk to
 circumvent the coverage gate. Accepted local controls or an independently
 supported correspondence are needed before either withheld record can advance.
 
-The full holdback list now contains ten annotations:
+The full holdback list now contains sixteen annotations:
 
 | Annotation | Remaining requirement |
 | --- | --- |
 | 026 Quarries | A distinct extraction mark or defensible quarry boundary. |
+| 031 Barrens | A defensible landscape boundary; geological hatching is not vegetation. |
 | 034 Fall 30 | Accepted support covering the complete associated stream reach. |
+| 045 Iron Ore | A distinct ore mark or defensible extent. |
 | 060 Forge | Resolve the projected terminal-road versus modern-stream conflict. |
 | 085 Forge | Accepted support covering the complete native candidate group. |
+| 090 700 FT. | An actual spot-height mark, benchmark or identified summit. |
 | 101 Mills | Identify a distinct source feature; a road/river junction is not a building. |
 | 124 P.O. | Resolve the prediction in the modern river corridor and mismatched crossing. |
 | 125 Blue Bridge | Establish the historical crossing locality; do not substitute the modern highway bridge northwest of it. |
+| 129 Shale/fossil description | A distinct outcrop mark or defensible extent. |
+| 134 Falls | Accepted support for the complete source junction group. |
 | 143 Shop | Accepted support beyond the current control hull. |
 | 156 P.O. | Accepted support beyond the current control hull. |
+| 159 850 FT. | An actual spot-height mark, benchmark or identified summit. |
 | 165 P.O. | Supported treatment of the source group crossing the frozen native neatline. |
 
 Each remains in the evidence and annotation queue, excluded from the web export.
@@ -175,6 +205,10 @@ with decoded excerpts, placement notes and a clean final console.
 The [natural-feature browser receipt](browser-natural-verification.json) records
 pointer selection of both falls reaches, keyboard selection of the brook note,
 source evidence, and the final separated dashed line style on desktop and phone.
+
+The [all-falls browser receipt](browser-all-falls-verification.json) records
+all 18 later additions, including the separated coal regions and traced stream
+segments, with source excerpts, placement notes and clean final consoles.
 
 ## Reproduce
 
