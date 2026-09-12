@@ -1,0 +1,229 @@
+{
+  "reviewed_at": "2026-09-12",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_sha256": "d4708c6c71b595f0522b71f005e0e3eee95fe27da518b9c6c6ff7b4b58defdeb",
+  "source_sha256": "de49e8bc211392087f6f86f64736f58cf7ebeda3e8d74ae87c42674367506ae7",
+  "new_annotation_checks": {
+    "count": 34,
+    "checks": [
+      {
+        "id": "F19-JUD-018",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-019",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-024",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-050",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-057",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-058",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-062",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-068",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-071",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-072",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-073",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-074",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-082",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-087",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-089",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-091",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      }
+    ],
+    "holdbacks": [
+      "F19-JUD-060",
+      "F19-JUD-085"
+    ],
+    "errors": []
+  },
+  "interaction_checks": {
+    "url": "http://127.0.0.1:4182/?basemap=fletcher&taxSale=off&mode=current&layers=modern&position=45.88308%2C-61.49061%2C15",
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "checks": [
+      "keyboard shared-group selection exposes both records",
+      "toggle removes/restores geometry",
+      "mobile heading unobscured",
+      "source popup temporarily hides overlapping map tools and restores them on close",
+      "no framework overlay",
+      "clean console"
+    ],
+    "errors": []
+  },
+  "regression": {
+    "trigger": "On a phone, select School 019 while map viewport/tile state updates.",
+    "observed": "React maximum update depth warnings; stack links Popup.update -> _adjustPan -> stop -> moveend -> App state -> new popup children.",
+    "correction": "Memoize FletcherFeaturesLayer across parent-only updates with unchanged stable status callback. Map zoom/resize and source changes still update the layer.",
+    "test": "Real React/Leaflet popup update spy: parent rerender triggered an update before fix; no update after fix. All 5 focused component tests pass.",
+    "browser": "All 16 new features selected at alternating 1440x1000 and 390x844 viewports, local 660px excerpts decoded, distinct placement notes inspected, final console clean. Corrected church, shared keyboard group, toggle and mobile control restoration also pass.",
+    "interrupted_replay": "An early replay after the fix lost its Vite server. Confirmed missing process/port before restarting. The final full replay completed against the restarted server."
+  },
+  "local_checks": {
+    "python": "292 tests, 8 skipped, suite success; 9 feature evidence tests include GDAL replay and both holdbacks",
+    "web": "5 component tests pass, lint and production build pass; pre-existing chunk-size warning remains"
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-batch-review.json",
+      "sha256": "bf77eac5f51e6bfce19ba0bc0be1aa576f1508169191699627af715706a2dbfd"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-batch-19.png",
+      "sha256": "85bcee62e57bf25de1416f23e5f4c6d181c48e9094542ead817ed364fa733350"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-batch-62.png",
+      "sha256": "5ed7a5ae5eeba9ca14371c82692d3624faf1ecbd51d76c3e825046e296146d67"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-batch-91.png",
+      "sha256": "93106fe80e275dfc9d716cb32977e7b7036d0f5d857f7a9d935bd53f0dd466ef"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-services-interaction-review.json",
+      "sha256": "dc954521fcca03166f9b19c058cdd2e17f20b98bc95921be7aefed2043a1255e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-services-mobile-final.png",
+      "sha256": "f58f825d43d9e46259b9c9a9b01a14f75d18ebbd92c00111bf087e6ad396d185"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-services-shared-group.png",
+      "sha256": "09ad4c375eab516cc73f978314b8b7b34428c9bf6acceceed18cbcf37592853d"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-loop-diagnostic.json",
+      "sha256": "f970190e9fbc4d2ef9d214b1eefdd1a6ed1be2fcd0d0d559bfcdef0f540532e9"
+    }
+  ],
+  "limits": "Local web/source integration and specific geographic decisions only; no production deployment or all-sheet completion claim."
+}

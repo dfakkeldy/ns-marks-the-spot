@@ -1,0 +1,21 @@
+{
+  "previous_source_review_sha256": "72eea74f1c9a8c9d8b227adff1a694dd845c3d3b1631e52f9965d822d13241ba",
+  "source_review_sha256": "65667a7eb4287db7683a5796430534fc409229ade4ce01a5680e118b3fbedf3d",
+  "unchanged_previously_reviewed_ids": [
+    "F19-JUD-006",
+    "F19-JUD-007",
+    "F19-JUD-009",
+    "F19-JUD-010",
+    "F19-JUD-011",
+    "F19-JUD-013"
+  ],
+  "new_ids": [
+    "F19-JUD-018",
+    "F19-JUD-019",
+    "F19-JUD-024",
+    "F19-JUD-050",
+    "F19-JUD-057",
+    "F19-JUD-058"
+  ],
+  "scope": "Append six newly inspected source associations. Existing source associations are field-for-field unchanged; prior geographic reviews retained, new geographic reviews pending."
+}

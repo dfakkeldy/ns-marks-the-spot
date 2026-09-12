@@ -45,7 +45,7 @@ class FeatureEvidenceTests(unittest.TestCase):
         self.assertIn('user explicitly identified',gold['prior_locality_review']['evidence'])
         for f in self.rows.values():
             p=f['properties']; geometry=p['source_geometry_native']
-            if geometry['type']=='Point':
+            if geometry and geometry['type']=='Point':
                 self.assertNotIn(geometry['coordinates'],[labels.box_center(b,p['source_dimensions_px']) for b in p['source_annotation']['source_label_boxes_xywh']])
 
     def test_export_excludes_pending_geographic_reviews(self):
@@ -53,8 +53,40 @@ class FeatureEvidenceTests(unittest.TestCase):
         pending['features'][0]['properties']['geographic_review_status']='pending-current-fit-review'
         with tempfile.TemporaryDirectory() as tmp,patch.object(labels,'read',return_value=pending):
             exported=export_features.export([19],Path(tmp))
-            self.assertEqual(len(exported),len(pending['features'])-1)
+            expected={f['id'] for f in pending['features'] if f['geometry'] is not None and f['properties']['geographic_review_status']=='approximate-placement-reviewed'}
+            self.assertEqual({f['id'] for f in exported},expected)
             self.assertNotIn(pending['features'][0]['id'],{f['id'] for f in exported})
+
+    def test_reviewed_source_holdbacks_remain_out_of_web_export(self):
+        self.assertIsNone(self.rows['F19-JUD-085']['geometry'])
+        self.assertEqual(self.rows['F19-JUD-085']['properties']['placement_status'],'outside-supported-coverage')
+        self.assertIsNotNone(self.rows['F19-JUD-060']['geometry'])
+        self.assertEqual(self.rows['F19-JUD-060']['properties']['geographic_review_status'],'locality-unresolved')
+        with tempfile.TemporaryDirectory() as tmp:
+            exported=export_features.export([19],Path(tmp))
+            self.assertTrue({'F19-JUD-060','F19-JUD-085'}.isdisjoint(f['id'] for f in exported))
+
+    def test_label_without_identifiable_source_feature_is_not_a_group(self):
+        mill=self.rows['F19-JUD-101']
+        self.assertIsNone(mill['geometry'])
+        self.assertIsNone(mill['properties']['source_geometry_native'])
+        self.assertEqual(mill['properties']['placement_status'],'source-location-unresolved')
+        self.assertEqual(mill['properties']['geographic_role'],'unlocated-source-feature')
+
+    def test_historical_reaches_preserve_source_paths_without_inventing_sites(self):
+        for aid in ['F19-JUD-035','F19-JUD-036','F19-JUD-040']:
+            feature=self.rows[aid]
+            self.assertEqual(feature['geometry']['type'],'LineString')
+            self.assertEqual(feature['properties']['geographic_role'],'reviewed-source-line')
+            native=feature['properties']['source_geometry_native']['coordinates']
+            path=feature['properties']['source_review']['source_path_xy']
+            self.assertEqual(native[0],path[0])
+            self.assertEqual(native[-1],path[-1])
+            self.assertNotEqual(native[0],native[-1])
+        self.assertIsNone(self.rows['F19-JUD-034']['geometry'])
+        brook=self.rows['F19-JUD-040']['properties']['source_review']
+        self.assertIn('geological',brook['rejected_source_paths'][0]['reason'])
+        self.assertNotEqual(brook['source_path_xy'],brook['rejected_source_paths'][0]['source_path_xy'])
 
     def test_committed_placement_review_images_and_fits_match(self):
         review=labels.read(labels.ROOT/features.REPORT/'sheet-19-placement-review.json')

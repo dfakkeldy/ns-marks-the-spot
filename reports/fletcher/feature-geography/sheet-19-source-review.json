@@ -101,6 +101,833 @@
       "reviewer": "Codex coordinator, native pixels and topology, 2026-09-12",
       "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Display detail 2×, crop origin recorded; no rotation.",
       "review_batch": "judique-north-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-018",
+      "source_anchor_xy": [
+        3712,
+        2608
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Isolated mark east of coastal road, opposite Shop and south of east-west cross-road.",
+      "status": "supported-source-association",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-019",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4090,
+          2610,
+          60,
+          70
+        ]
+      ],
+      "note": "School beside four compact marks straddling the road; individual mark not yet resolved.",
+      "status": "unresolved",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-024",
+      "source_anchor_xy": [
+        3721,
+        2997
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Mark immediately above-left of Shop east of coastal road and north of Graham River.",
+      "status": "supported-source-association",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-050",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5900,
+          3180,
+          125,
+          60
+        ]
+      ],
+      "note": "School lettering near northwest pair of marks and southeast crossing mark; keep source group pending final review.",
+      "status": "unresolved",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-057",
+      "source_anchor_xy": [
+        7629,
+        2910
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Filled mark immediately right of School west of main road, just south of western branch crossing.",
+      "status": "supported-source-association",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-058",
+      "source_anchor_xy": [
+        7672,
+        2874
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Cross-like church symbol south of diagonal road and east of main road, above Church lettering.",
+      "status": "supported-source-association",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context/enlarged detail and stored crosshair review, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Enlarged detail 2× from recorded native crops; no rotation.",
+      "review_batch": "judique-central-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-060",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7973,
+          2918,
+          42,
+          52
+        ]
+      ],
+      "note": "Forge lies beside the terminal road bend and four nearby compact marks, on both sides of the bend. The lettering does not uniquely assign the forge to one mark; retain the group.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-062",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8584,
+          2927,
+          18,
+          14
+        ]
+      ],
+      "note": "Quartz Mill lettering is above two adjacent compact marks on the north side of the east-west road, west of the railway. Both remain candidate mill marks; no precise individual building is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-068",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8466,
+          3592,
+          35,
+          29
+        ]
+      ],
+      "note": "McLennan’s Mill lettering follows the road bend and watercourse crossing. A rounded mark west of the crossing and an adjacent mark near the watercourse form the immediate candidate group. The source does not establish one unique mill building.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-071",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4974,
+        3788
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated filled building mark directly below School lies north of the road, east of the western watercourse crossing, and west of School 073. The two marks northeast of the lettering are separate.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-072",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5325,
+          3776,
+          110,
+          29
+        ]
+      ],
+      "note": "School is north of the road just west of a south-running junction. A faint possible mark below the lettering and a clearer mark southeast of that junction cannot be uniquely assigned. Keep their candidate region; neither the faint mark nor an exact school site is confirmed.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-073",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5107,
+        3847
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact filled mark immediately below School lies north of the curving road and east of School 071. It is distinct from the northwestern pair of building marks.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-eastern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-074",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3960,
+          3808,
+          45,
+          99
+        ]
+      ],
+      "note": "Forge lettering is among several marks west of the coastal road around the eastern road junction. Marks above and below the lettering remain candidates; no individual forge building can be selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-082",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4034,
+          4537,
+          20,
+          27
+        ]
+      ],
+      "note": "P.O. lettering is immediately east of a pair of compact marks, east of the coastal road and south of the Chisholm mills road. The service cannot be uniquely assigned to one of the pair.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-085",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3855,
+          4796,
+          49,
+          22
+        ]
+      ],
+      "note": "Forge is printed east of the coastal road below the crossing watercourse, opposite two marks west of the road. Both marks remain candidates; the label does not establish an individual building.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-087",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4233,
+        5157
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Single filled mark immediately left of School, east of the rising road bend and inland from the coastal road junction. The other small mark at the road bend is farther west.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-089",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4078,
+        5344
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Compact mark directly left of Shop, east of the coastal road. The two marks farther north and the one southeast below the lettering are separate.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-091",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5571,
+        5389
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Single filled mark directly beneath School and north of the road, between the small western tributary and the larger northeastern stream junction. It is not the lettering centre.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Detail displayed at 2× from recorded crops; no rotation.",
+      "review_batch": "judique-southern-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-046",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8453,
+          2234,
+          44,
+          29
+        ]
+      ],
+      "note": "Two compact marks immediately below the Colin Chisholm mill lettering lie beside the road and stream crossing. Keep the immediate candidate group; the rounded shape farther west is not assumed to be a mill building.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-glendale-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-048",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7680,
+          2787,
+          39,
+          22
+        ]
+      ],
+      "note": "P.O. lettering is above two nearby compact marks east of the north-south road, north of the church junction. The two marks cannot be assigned uniquely to the service.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-glendale-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-099",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7561,
+        4505.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Single compact mark immediately right of P.O., north of the road approaching Glendale from the west. It is distinct from the school mark farther southwest.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-glendale-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-100",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7502,
+        4534.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact mark above-right of School lies north of the road, southwest of the P.O. mark and east of the river crossing. Use the mark rather than the lettering centre.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-glendale-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-101",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Mills lettering is beside the Glendale road and river junction, but this native crop does not identify a distinct mill mark or defensible building group. The river/road crossing and rounded watercourse shape are not substituted for a mill building. Source location remains unresolved and no geometry is exported.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-glendale-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-102",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7404.5,
+        4677.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The cross immediately right of R.C.Ch. lies east of the road and west of the main river and railway, south of Glendale Mills. This is the printed church symbol, without assuming a continuing modern church identity.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-glendale-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-118",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7245,
+        5086
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Isolated compact mark immediately left of Shop, east of the north-south road and east of the railway, south of Red Bridge.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-kingsville-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-119",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7249,
+        5288
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Single filled mark immediately left of Forge, west of the curving road and east of the railway and river. The shop mark farther south is distinct.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-kingsville-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-120",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7324,
+        5403
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Single compact mark directly right of Shop, west of the diagonal road and north of the river approach to Blue Bridge.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-kingsville-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-122",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7510,
+          5550,
+          45,
+          30
+        ]
+      ],
+      "note": "McIntosh’s Shop and the nearby Shop lettering face two compact marks south of the Kingsville road junction. Both labels retain the shared candidate group because the source does not uniquely assign either shop to one building.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-kingsville-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-123",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7510,
+          5550,
+          45,
+          30
+        ]
+      ],
+      "note": "McIntosh’s Shop and the nearby Shop lettering face two compact marks south of the Kingsville road junction. Both labels retain the shared candidate group because the source does not uniquely assign either shop to one building.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-kingsville-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-124",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7438,
+        5590.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Compact mark immediately left of P.O., west of the road and north of Blue Bridge. The two shop candidates are separately northeast of this mark.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-kingsville-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-125",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7450,
+        5637
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Blue Bridge names the crossing of the double-line road and main river southwest of the Kingsville junction. The point is the visible road/river intersection, not the lettering or an assumed modern bridge.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-crossroads-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-143",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9414,
+          1786,
+          48,
+          48
+        ]
+      ],
+      "note": "Shop lies beside several compact marks on both sides of the road/stream junction east of the railway. Preserve the candidate group; the source does not select an individual shop building.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-crossroads-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-146",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8782,
+          2754,
+          55,
+          29
+        ]
+      ],
+      "note": "Tannery and P.O. lie west of the River Denys crossroads. The rounded western mark and two marks north of the road are nearby candidates for the services, without unique assignment. Both annotations share the source group, separate from the school marks south of the road.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-crossroads-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-147",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8782,
+          2754,
+          55,
+          29
+        ]
+      ],
+      "note": "Tannery and P.O. lie west of the River Denys crossroads. The rounded western mark and two marks north of the road are nearby candidates for the services, without unique assignment. Both annotations share the source group, separate from the school marks south of the road.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-crossroads-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-148",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8807,
+          2778,
+          35,
+          23
+        ]
+      ],
+      "note": "Three compact marks south of the east-west road and east of the north-south road precede School. Their shared region is retained; the lettering does not uniquely establish the school building.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-crossroads-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-156",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9583,
+          5497,
+          35,
+          29
+        ]
+      ],
+      "note": "P.O. is printed east of a compact group of marks north of the road at Big Brook. Several marks remain candidates near the watercourse bend; no individual postal building is identified.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-crossroads-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-158",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7907,
+        6026
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Single compact mark directly below-left of School, east of the diagonal road at its small western spur. It is distinct from the southern cluster of marks.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-last-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-165",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8280,
+          6527,
+          32,
+          20
+        ]
+      ],
+      "note": "Three compact marks immediately right of P.O. sit just above the southern map border and west of the road. Retain their source group; location must still pass the neatline and supported-control gates.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged pixel-grid detail, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native crops viewed at 1× and 2× with coordinate grid; no rotation.",
+      "review_batch": "judique-last-services-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-017",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4333,
+          2463,
+          32,
+          34
+        ]
+      ],
+      "note": "Two dark rounded source marks immediately above Barytes sit south of the road at the stream bend. Retain their group, without selecting an exact mineral opening or claiming a current deposit.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native source and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native source path, no crop offset or rotation.",
+      "review_batch": "judique-natural-features-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-026",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Quarries of grey and red sandstone is printed beside the river south of the northern road. No quarry outline, distinct extraction mark or uniquely bounded site group is identifiable in this source excerpt. The river bank and geological notation are not substituted for quarry geometry.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native source and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native source path, no crop offset or rotation.",
+      "review_batch": "judique-natural-features-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-034",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Fall 30 sits beside the western stream reach approaching the northern tributary junction. Trace the visible associated reach only; the source does not mark a unique drop point. The printed 30 is historical wording, not a measured modern waterfall height.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native source and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native source path, no crop offset or rotation.",
+      "review_batch": "judique-natural-features-20260912",
+      "source_path_xy": [
+        [
+          8380,
+          1325
+        ],
+        [
+          8400,
+          1318
+        ],
+        [
+          8415,
+          1308
+        ],
+        [
+          8430,
+          1301
+        ],
+        [
+          8455,
+          1299
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-035",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Falls is beside the separate south-running tributary below the junction associated with Fall 30. Trace the adjacent visible stream reach without inventing a precise fall point or extent.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native source and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native source path, no crop offset or rotation.",
+      "review_batch": "judique-natural-features-20260912",
+      "source_path_xy": [
+        [
+          8440,
+          1351
+        ],
+        [
+          8447,
+          1366
+        ],
+        [
+          8439,
+          1376
+        ],
+        [
+          8442,
+          1390
+        ],
+        [
+          8443,
+          1402
+        ],
+        [
+          8434,
+          1414
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-036",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Falls is immediately east of the small tributary bend. The source supports this adjacent stream reach, but no separate symbol fixes the exact falls position. Endpoints delimit reviewed linework, not the waterfall extent.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native source and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native source path, no crop offset or rotation.",
+      "review_batch": "judique-natural-features-20260912",
+      "source_path_xy": [
+        [
+          7779,
+          1782
+        ],
+        [
+          7765,
+          1787
+        ],
+        [
+          7759,
+          1798
+        ],
+        [
+          7757,
+          1811
+        ],
+        [
+          7761,
+          1823
+        ],
+        [
+          7760,
+          1835
+        ],
+        [
+          7749,
+          1843
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-040",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "The short visible brook stroke immediately east of the road lies beside Brook runs underground. Only that printed stroke is traced. The diagonal dotted geological boundary is explicitly rejected as a brook path. No subsurface route, modern flow, direction, entrance or exit is inferred.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native source and topology, 2026-09-12",
+      "pixel_convention": "Original 10815 × 7549 scan, continuous pixel edges, x right/y down. Native source path, no crop offset or rotation.",
+      "review_batch": "judique-natural-features-20260912",
+      "source_path_xy": [
+        [
+          7593,
+          2622
+        ],
+        [
+          7599,
+          2616
+        ],
+        [
+          7605,
+          2612
+        ],
+        [
+          7613,
+          2609
+        ],
+        [
+          7616,
+          2606
+        ],
+        [
+          7618,
+          2602
+        ]
+      ],
+      "rejected_source_paths": [
+        {
+          "source_path_xy": [
+            [
+              7480,
+              2655
+            ],
+            [
+              7510,
+              2634
+            ],
+            [
+              7540,
+              2610
+            ],
+            [
+              7570,
+              2585
+            ],
+            [
+              7600,
+              2564
+            ],
+            [
+              7630,
+              2540
+            ],
+            [
+              7657,
+              2520
+            ]
+          ],
+          "reason": "Wider native context shows the dotted diagonal delimiting the horizontally striped geological unit and continuing beyond the brook. It is not accepted as an underground brook path.",
+          "evidence": [
+            {
+              "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/underground-brook-wide.png",
+              "sha256": "ca717e45015bc0b21631d850b1420db2065d3b112660fe3efe802e670ec4494d"
+            },
+            {
+              "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/brook-termination-detail.png",
+              "sha256": "5f6e3ec9b0f53d84cb1c6092e534b52213a04c956713e3ffe82df3b46912176e"
+            }
+          ]
+        }
+      ]
     }
   ],
   "limits": "Source mark association only. Group outlines retain individual-building ambiguity. Geographic coordinates require the frozen fit and separate placement review."

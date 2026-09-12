@@ -33,6 +33,32 @@ describe('reviewed Fletcher features', () => {
     expect(screen.getByRole('heading', { name: 'Shop' })).toBeVisible();
     expect(screen.getByRole('heading', { name: 'P.O.' })).toBeVisible();
   });
+  it('does not restart popup auto-pan when the parent reports an unchanged viewport', async () => {
+    const status = vi.fn();
+    const view = render(layer(status));
+    fireEvent.click(await screen.findByTitle('R.C. Church · approximate Fletcher location'));
+    await screen.findByText('Approximate location · locally corrected');
+    const update = vi.spyOn(L.Popup.prototype, 'update');
+    try {
+      view.rerender(layer(status));
+      expect(update).not.toHaveBeenCalled();
+    } finally { update.mockRestore(); }
+  });
+  it('selects a traced reach as a line without calling it an exact falls site or group', async () => {
+    const data = structuredClone(fixture);
+    const reach = structuredClone(data.features[0]);
+    reach.id = 'test-stream-reach';
+    reach.geometry = { type: 'LineString', coordinates: [[-61.49, 45.88], [-61.485, 45.878]] };
+    Object.assign(reach.properties, { annotation_id: reach.id, source_text: 'Falls on reviewed stream reach', geographic_role: 'reviewed-source-line' });
+    data.features.push(reach);
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ok:true,json:async()=>data}));
+    render(layer());
+    const line = await screen.findByRole('button', { name: 'Falls on reviewed stream reach · approximate Fletcher reach' });
+    expect(line).toHaveAttribute('fill', 'none');
+    fireEvent.keyDown(line, { key: 'Enter' });
+    expect(await screen.findByText('Approximate historical reach')).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Falls on reviewed stream reach' })).toBeVisible();
+  });
   it('keeps source failure distinct from empty coverage', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false }));
     const status=vi.fn(); render(layer(status));

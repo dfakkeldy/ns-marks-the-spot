@@ -1,0 +1,171 @@
+{
+  "reviewed_at": "2026-09-12",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_sha256": "66d446da31689ff125d50734e28c00413ee796752947005913066239c9512540",
+  "export_count": 48,
+  "checks": {
+    "count": 48,
+    "checks": [
+      {
+        "id": "F19-JUD-046",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-048",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-099",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-100",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-102",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-118",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-119",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-120",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-122",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-123",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-146",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-147",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-148",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-158",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      }
+    ],
+    "holdbacks": [
+      "F19-JUD-060",
+      "F19-JUD-085",
+      "F19-JUD-101",
+      "F19-JUD-124",
+      "F19-JUD-125",
+      "F19-JUD-143",
+      "F19-JUD-156",
+      "F19-JUD-165"
+    ],
+    "errors": []
+  },
+  "local_checks": {
+    "python": "293 tests, 8 skipped, suite success including GDAL replay and unlocated-source regression",
+    "web": "5 component tests pass; 14 additions selected, original 660px excerpts decoded, correct placement notes exposed, alternating desktop and phone, final console clean"
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-last-services-review.json",
+      "sha256": "40662336b7bdd055035cffd20d2606a80d500380abc74d8fc147b426a27a72dd"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-last-services-99.png",
+      "sha256": "c77c0a6a24104341cd573ae51913820f5d8bb2fc255def2c827d33fc3d7eed4c"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-last-services-122.png",
+      "sha256": "500ef4cb58b7395214a7cc0dee41dd3959f41e90788c8f0ceef94d186388f050"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-last-services-158.png",
+      "sha256": "7f456bfb8b80c74106345ae10cf809fd12e3c4f4042acb37cf9975de85592e4e"
+    }
+  ],
+  "limits": "Local repository integration only; eight source/coverage/geographic holdbacks remain excluded. Whole-sheet and production acceptance are separate."
+}

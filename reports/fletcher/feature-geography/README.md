@@ -1,19 +1,35 @@
 # Reviewed Fletcher features
 
-This batch integrates **18 Judique annotations: 11 approximate points and seven
-source-group records**. Shop 009 and P.O. 010 deliberately share one group, so
-17 geometries are selectable. The full Judique inventory has 166 annotations;
-148 still await source-feature association. Lettering centres remain separate.
+The current export integrates **52 Judique annotations: 27 approximate points,
+22 source-group records and three traced reaches**. Three pairs deliberately share geometry, so
+49 geometries are selectable. Source association has been reviewed for 62 of
+166 annotations: 60 have source marks/groups/lines; Mills 101 and Quarries 026
+remain unlocated. 104 annotations await this stage. Ten records are withheld for the
+specific source, coverage or geographic reasons below. Lettering geography
+remains separate from feature geometry.
 
 ## Source review and placement
 
-The six new records are Sh. Mill 006, School 007, Shop 009, P.O. 010, Shop 011 and
-Forge 013. [Source review](sheet-19-source-review.json) records original pixels,
+The initial six additions were Sh. Mill 006, School 007, Shop 009, P.O. 010,
+Shop 011 and Forge 013. [Source review](sheet-19-source-review.json) records original pixels,
 qualified associations and group ambiguity. The [source figure](judique-north-services-20260912.jpg)
 was inspected after drawing the actual stored points/groups; [frames](judique-north-services-20260912-frames.json)
 record the native origin, display size and image hash. School 007 lies between
 the road and watercourse, not between two road lines. Mill 006 and the three-mark
 Shop/P.O. row do not support selecting individual buildings.
+
+Three further source figures record the 18 subsequent reviews:
+
+- [Central services](judique-central-services-20260912.jpg): 018,019,024,050,057,058.
+- [Eastern services](judique-eastern-services-20260912.jpg): 060,062,068,071,072,073.
+- [Southern services](judique-southern-services-20260912.jpg): 074,082,085,087,089,091.
+
+Each figure has a matching `-frames.json` receipt. Stored source points were
+checked against enlarged native pixels and final crosshairs; preliminary school
+points 071,073,091 were corrected before geographic review. School 072 retains
+both a faint possible mark and a clearer candidate in a group, without claiming
+that the faint mark is a confirmed building. Earlier source rows are unchanged,
+with append receipts recording the old/new source-review hashes.
 
 The 12 existing pilot source geometries are reused unchanged. All map-derived
 coordinates are explicitly reprojected through the merged **44-control Judique
@@ -33,12 +49,60 @@ Mine 061 moves about **151 ground metres** from its earlier pilot prediction;
 its modern road/tributary context was rechecked, and both revisions remain
 explicit. No modern opening or exact historical footprint is established.
 
+The last service pass adds 20 source reviews:
+
+- [Glendale services](judique-glendale-services-20260912.jpg): 046,048,099–102.
+- [Kingsville services](judique-kingsville-services-20260912.jpg): 118–120,122–124.
+- [Crossroads services](judique-crossroads-services-20260912.jpg): 125,143,146–148,156.
+- [Southern border services](judique-last-services-20260912.jpg): 158,165.
+
+Mills 101 has no distinct source mark or defensible building group; it is
+explicitly `unlocated-source-feature`, with null native and map geometry.
+The pipeline no longer describes such a record as a reviewed group. Shop
+122/123 and Tannery/P.O.146/147 each retain shared candidate geometry. Final
+point centres were measured from native ink and checked on the stored-coordinate
+figures; an ink component is only a measurement aid, not automatic identification.
+
+[Natural-feature source review](judique-natural-features-20260912.jpg) covers
+Barytes 017, Quarries 026, Fall 30 034, Falls 035/036 and underground-brook note
+040. Four reviewed source paths are stored as native `source_path_xy`; the full
+034 path is withheld outside coverage. A path is sampled at no more than ten
+native pixels before transformation, preserving bends and open endpoints. It
+is never replaced with a label centre, closed into an area, or snapped to a
+modern stream. Bounds mark reviewed evidence, not a complete waterway or exact
+waterfall extent. The height wording remains historical source text.
+
+Wider native context showed that the first candidate for 040 followed a dotted
+geological boundary. That rejected trace and evidence are retained in the source
+review. The replacement follows only the visible brook stroke beside the text;
+no subsurface route, flow direction, entrance or exit is inferred.
+
 ## Geographic review
 
 [Placement decisions](sheet-19-placement-review.json) record the inspected scenes
 and limitations. The figures compare the actual hash-verified current raster
 against separately projected NSTDB vectors at identical EPSG:3857 extents:
 
+- [Barytes group](judique-barytes-geography.jpg)
+- [Northern falls reach](judique-northern-falls-geography.jpg)
+- [Western falls reach](judique-western-falls-geography.jpg)
+- [Underground-brook note](judique-underground-brook-note-geography.jpg)
+- [Colin Chisholm mill](judique-colin-chisholm-mill-geography.jpg)
+- [River Denys postal group](judique-river-denys-post-geography.jpg)
+- [Glendale services](judique-glendale-services-geography.jpg)
+- [Kingsville approach](judique-kingsville-approach-geography.jpg)
+- [Kingsville crossing](judique-kingsville-crossing-geography.jpg)
+- [River Denys crossroads](judique-river-denys-crossroads-geography.jpg)
+- [Southern school](judique-southern-school-geography.jpg)
+- [Central coastal services](judique-central-coastal-services-geography.jpg)
+- [Dennistown school](judique-dennistown-school-geography.jpg)
+- [River Denys services](judique-river-denys-services-geography.jpg)
+- [Eastern forge and quartz mill](judique-eastern-forge-mill-geography.jpg)
+- [McLennan mill group](judique-mclennan-mill-geography.jpg)
+- [Central school sequence](judique-central-schools-geography.jpg)
+- [Long Point north](judique-long-point-north-geography.jpg)
+- [Long Point south](judique-long-point-south-geography.jpg)
+- [Western school](judique-western-school-geography.jpg)
 - [Northern services](judique-north-services-geography.jpg)
 - [Church and Rory Chisholm brook](judique-church-brook-geography.jpg)
 - [Chisholm mill groups](judique-chisholm-mills-geography.jpg)
@@ -51,12 +115,42 @@ labels. NSTDB Highways 7, Roads 8 and Bridges 5 are all included. Context IDs ar
 not accepted correspondences. Local offsets and imperfect joins remain visible;
 this review supports approximate locality, not whole-sheet geographic acceptance.
 
+Shop 018 projects west of Highway 19 despite lying east of the historical road;
+that disagreement remains explicit, without a speculative coordinate correction.
+Shop 089 is beside the separate narrow coastal road west of the highway, which
+must not be conflated with Highway 19. Forge 060 projects onto a modern stream
+without the matching terminal road bend: its geographic review is unresolved,
+so the projection remains evidence only. Forge 085's source group crosses the
+conservative control hull; its map geometry is null. It must not be shrunk to
+circumvent the coverage gate. Accepted local controls or an independently
+supported correspondence are needed before either withheld record can advance.
+
+The full holdback list now contains ten annotations:
+
+| Annotation | Remaining requirement |
+| --- | --- |
+| 026 Quarries | A distinct extraction mark or defensible quarry boundary. |
+| 034 Fall 30 | Accepted support covering the complete associated stream reach. |
+| 060 Forge | Resolve the projected terminal-road versus modern-stream conflict. |
+| 085 Forge | Accepted support covering the complete native candidate group. |
+| 101 Mills | Identify a distinct source feature; a road/river junction is not a building. |
+| 124 P.O. | Resolve the prediction in the modern river corridor and mismatched crossing. |
+| 125 Blue Bridge | Establish the historical crossing locality; do not substitute the modern highway bridge northwest of it. |
+| 143 Shop | Accepted support beyond the current control hull. |
+| 156 P.O. | Accepted support beyond the current control hull. |
+| 165 P.O. | Supported treatment of the source group crossing the frozen native neatline. |
+
+Each remains in the evidence and annotation queue, excluded from the web export.
+School 158 and Forge 119 retain explicit modern road-side disagreements even
+where the broader approximate locality is supported.
+
 ## Web integration
 
 Selecting **Atlas · Fletcher** enables the reviewed-feature overlay. Its checkbox
 is beneath the basemap selector. Features appear from zoom 12; labels become
 persistent at zoom 15. Hollow symbols identify approximate points; dashed,
-lightly filled outlines identify unresolved groups. Select a mark or keyboard
+lightly filled outlines identify unresolved groups. Separate dashed lines carry
+reviewed historical reaches, with pointer and keyboard selection. Select a mark or keyboard
 focus a group to open its original scan and evidence. Shared geometry exposes
 both annotations in the same popup. Reading and placement uncertainty are
 separate. Source excerpts are local derivatives of the verified native scan.
@@ -66,6 +160,21 @@ export and excerpt hashes, native crop frames, source provenance and licences.
 The live layer is explicitly excluded from print/PDF exports. The map footer and
 selection retain source credit. This is source integration; no production
 publication or custom-domain acceptance is claimed.
+
+The [service-batch browser receipt](browser-services-verification.json) records
+selection of all 16 additions at alternating desktop/phone widths, decoded
+native excerpts, placement notes and a clean final console. That pass exposed
+a popup auto-pan feedback loop during parent viewport updates. The layer now
+preserves its children across unchanged parent updates; a real React/Leaflet
+regression test and the complete browser replay verify the fix.
+
+The [final service browser receipt](browser-final-services-verification.json)
+records all 14 later additions, including shared shop and tannery/postal groups,
+with decoded excerpts, placement notes and a clean final console.
+
+The [natural-feature browser receipt](browser-natural-verification.json) records
+pointer selection of both falls reaches, keyboard selection of the brook note,
+source evidence, and the final separated dashed line style on desktop and phone.
 
 ## Reproduce
 

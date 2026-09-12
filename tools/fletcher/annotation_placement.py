@@ -16,6 +16,7 @@ def source_geometry(review: dict, dimensions: Sequence[int]) -> dict | None:
     """Return geometry in the original scan frame, with sampled group edges."""
     anchor = review.get("source_anchor_xy")
     regions = review.get("candidate_symbol_regions_xywh", [])
+    path = review.get("source_path_xy")
 
     def checked(point):
         if len(point) != 2 or not all(math.isfinite(v) for v in point):
@@ -24,6 +25,19 @@ def source_geometry(review: dict, dimensions: Sequence[int]) -> dict | None:
             raise ValueError("Native coordinate outside original scan")
         return list(point)
 
+    if path is not None:
+        if review.get('status') != 'supported-source-line' or anchor is not None or regions:
+            raise ValueError('A line requires a separate reviewed source path')
+        vertices = [checked(point) for point in path]
+        if len(vertices) < 2 or any(a == b for a, b in zip(vertices, vertices[1:])):
+            raise ValueError('A source path requires distinct consecutive vertices')
+        points = []
+        for start, end in zip(vertices, vertices[1:]):
+            steps = max(1, math.ceil(math.dist(start, end) / 10))
+            points.extend([start[j] + (end[j] - start[j]) * i / steps for j in (0, 1)]
+                          for i in range(steps))
+        points.append(vertices[-1])
+        return {'type': 'LineString', 'coordinates': points}
     if anchor is not None:
         if review.get("status") != "supported-source-association" or regions:
             raise ValueError("A point requires an unambiguous reviewed source association")
@@ -67,6 +81,7 @@ def place_review(review: dict, dimensions: Sequence[int], supported_hull: Sequen
         return result
     kind = native["type"]
     rings = ([[native["coordinates"]]] if kind == "Point" else
+             [native['coordinates']] if kind == 'LineString' else
              native["coordinates"] if kind == "Polygon" else
              [p[0] for p in native["coordinates"]])
     points = [point for ring in rings for point in ring]
@@ -84,7 +99,7 @@ def place_review(review: dict, dimensions: Sequence[int], supported_hull: Sequen
     for ring in rings:
         mapped = [list(p) for p in projected[offset:offset + len(ring)]]
         offset += len(ring)
-        if kind != "Point":
+        if kind in ('Polygon', 'MultiPolygon'):
             mapped[-1] = mapped[0][:]
             area = sum(a[0] * b[1] - b[0] * a[1] for a, b in zip(mapped, mapped[1:]))
             if abs(area) < 1e-15:
@@ -92,7 +107,7 @@ def place_review(review: dict, dimensions: Sequence[int], supported_hull: Sequen
             if area < 0:
                 mapped.reverse()  # GeoJSON exterior rings are counterclockwise.
         output_rings.append(mapped)
-    coordinates = (output_rings[0][0] if kind == "Point" else output_rings if kind == "Polygon"
+    coordinates = (output_rings[0][0] if kind == "Point" else output_rings[0] if kind == 'LineString' else output_rings if kind == "Polygon"
                    else [[ring] for ring in output_rings])
     result["geometry"] = {"type": kind, "coordinates": coordinates}
     result["placement_status"] = "map-derived-approximate"

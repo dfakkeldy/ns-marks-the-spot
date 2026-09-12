@@ -1,0 +1,58 @@
+{
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "source_review_sha256": "81009f24e706d2ffdb785e2875b09a0b57be004a22105632e78863867c5e36ee",
+  "image_sha256": "b0746c48601ad00e9065b76fd8ec04744013fd6beb6421e45a8367923f196be0",
+  "frames": [
+    {
+      "annotation_id": "F19-JUD-158",
+      "native_xywh": [
+        7625,
+        5780,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        60
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": [
+        7907,
+        6026
+      ],
+      "source_group_xywh": []
+    },
+    {
+      "annotation_id": "F19-JUD-165",
+      "native_xywh": [
+        7921,
+        6307,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        60
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          8280,
+          6527,
+          32,
+          20
+        ]
+      ]
+    }
+  ],
+  "scope": "Source-mark crosshair/group review, not geographic validation. Original scans remain unchanged."
+}

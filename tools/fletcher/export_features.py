@@ -26,8 +26,8 @@ def export(sheets, out):
                                  'feature_count':len(features),'sources':sources,'derivative_sha256':labels.digest(out/'reviewed.geojson'),
                                  'credit':'David Rumsey Map Collection / David Rumsey Map Center, Stanford University Libraries',
                                  'imagery_licence_url':'https://creativecommons.org/licenses/by-nc-sa/3.0/',
-                                 'changes':'Historical annotations transcribed, source symbols/groups reviewed, projected with frozen TPS fits; one explicit church correction from local review and OpenStreetMap (ODbL 1.0).',
-                                 'accuracy':'Approximate historical information, not surveyed sites or current conditions. Group areas do not imply properties or site footprints.'})
+                                 'changes':'Historical annotations transcribed, source symbols/groups/linear reaches reviewed, projected with frozen TPS fits; one explicit church correction from local review and OpenStreetMap (ODbL 1.0).',
+                                 'accuracy':'Approximate historical information, not surveyed sites or current conditions. Group areas do not imply properties or site footprints. Line endpoints delimit reviewed source evidence, not exact falls or complete waterway extents.'})
     return features
 
 

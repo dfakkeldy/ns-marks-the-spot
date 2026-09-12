@@ -1,0 +1,34 @@
+{
+  "previous_source_review_sha256": "65667a7eb4287db7683a5796430534fc409229ade4ce01a5680e118b3fbedf3d",
+  "current_source_review_sha256": "8b64dc20d5a52fc3308463bc1180df28f7b0b7a028b0a411ed065d45e527204b",
+  "unchanged_prior_source_associations": [
+    "F19-JUD-006",
+    "F19-JUD-007",
+    "F19-JUD-009",
+    "F19-JUD-010",
+    "F19-JUD-011",
+    "F19-JUD-013",
+    "F19-JUD-018",
+    "F19-JUD-019",
+    "F19-JUD-024",
+    "F19-JUD-050",
+    "F19-JUD-057",
+    "F19-JUD-058"
+  ],
+  "new_associations": [
+    "F19-JUD-060",
+    "F19-JUD-062",
+    "F19-JUD-068",
+    "F19-JUD-071",
+    "F19-JUD-072",
+    "F19-JUD-073",
+    "F19-JUD-074",
+    "F19-JUD-082",
+    "F19-JUD-085",
+    "F19-JUD-087",
+    "F19-JUD-089",
+    "F19-JUD-091"
+  ],
+  "scope": "Prior source rows are exactly unchanged. New rows require stored crosshair and independent current-fit geographic review before export.",
+  "coordinate_review": "Enlarged stored-coordinate crosshair audit corrected preliminary points 071,073,091 before projection/export; final points centred on native marks. Original prior twelve source associations unchanged."
+}

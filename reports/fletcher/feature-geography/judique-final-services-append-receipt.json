@@ -1,0 +1,98 @@
+{
+  "previous_source_review_sha256": "8b64dc20d5a52fc3308463bc1180df28f7b0b7a028b0a411ed065d45e527204b",
+  "current_source_review_sha256": "479e453c074a658a2e7404794317c648283f2f62dfa686b0b7309abd9f853849",
+  "unchanged_prior_source_associations": [
+    "F19-JUD-006",
+    "F19-JUD-007",
+    "F19-JUD-009",
+    "F19-JUD-010",
+    "F19-JUD-011",
+    "F19-JUD-013",
+    "F19-JUD-018",
+    "F19-JUD-019",
+    "F19-JUD-024",
+    "F19-JUD-050",
+    "F19-JUD-057",
+    "F19-JUD-058",
+    "F19-JUD-060",
+    "F19-JUD-062",
+    "F19-JUD-068",
+    "F19-JUD-071",
+    "F19-JUD-072",
+    "F19-JUD-073",
+    "F19-JUD-074",
+    "F19-JUD-082",
+    "F19-JUD-085",
+    "F19-JUD-087",
+    "F19-JUD-089",
+    "F19-JUD-091"
+  ],
+  "new_associations": [
+    "F19-JUD-046",
+    "F19-JUD-048",
+    "F19-JUD-099",
+    "F19-JUD-100",
+    "F19-JUD-101",
+    "F19-JUD-102",
+    "F19-JUD-118",
+    "F19-JUD-119",
+    "F19-JUD-120",
+    "F19-JUD-122",
+    "F19-JUD-123",
+    "F19-JUD-124",
+    "F19-JUD-125",
+    "F19-JUD-143",
+    "F19-JUD-146",
+    "F19-JUD-147",
+    "F19-JUD-148",
+    "F19-JUD-156",
+    "F19-JUD-158",
+    "F19-JUD-165"
+  ],
+  "scope": "Prior source rows are exactly unchanged. New rows require final stored-coordinate and geographic review before export.",
+  "coordinate_review": "Native connected dark-ink component boxes aid pixel measurement only; coordinator visually distinguished marks/cross from lettering, road and scan noise before choosing the listed point centres. Stored crosshair review corrected preliminary points before projection.",
+  "point_refinements": {
+    "99": [
+      7561,
+      4505.5
+    ],
+    "100": [
+      7502,
+      4534.5
+    ],
+    "102": [
+      7404.5,
+      4677.5
+    ],
+    "118": [
+      7245,
+      5086
+    ],
+    "119": [
+      7249,
+      5288
+    ],
+    "120": [
+      7324,
+      5403
+    ],
+    "124": [
+      7438,
+      5590.5
+    ],
+    "158": [
+      7907,
+      6026
+    ]
+  },
+  "measurement_evidence": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/final-point-candidates.jpg",
+      "sha256": "515fef3854fb8bbbfe33089e2fc53ca5902412cb107695fae7f2d156de1b77dd"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/final-point-candidates.json",
+      "sha256": "4284474bcd4f475731ff79da9b4a5b39e103ebecf96b413adac16e49a95edaab"
+    }
+  ]
+}

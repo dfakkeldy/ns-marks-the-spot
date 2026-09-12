@@ -41,11 +41,15 @@ def main():
                     ink.line((cx+dx*4,cy+dy*4,cx+dx*18,cy+dy*18),fill='#d900ad',width=1)
             for x,y,w,h in row['candidate_symbol_regions_xywh']:
                 ink.rectangle((x-left,y-top,x+w-left,y+h-top),outline='#d900ad',width=2)
+            if row.get('source_path_xy'):
+                ink.line([(x-left,y-top) for x,y in row['source_path_xy']],fill='#d900ad',width=2)
             dx,dy = (i%2)*660,(i//2)*530
             draw.text((dx+8,dy+5),f"{row['annotation_id']} {annotation['source_text'].replace(chr(10),' ')}",font=font,fill='black')
             draw.text((dx+8,dy+30),f'Native crop ({left},{top},660,450), display 1:1',font=font,fill='black')
             canvas.paste(crop,(dx,dy+60))
             frames.append({'annotation_id':row['annotation_id'],'native_xywh':[left,top,660,450],'display_xy':[dx,dy+60],'display_size':[660,450],'rotation_degrees':0,'source_anchor_xy':point,'source_group_xywh':row['candidate_symbol_regions_xywh']})
+            if row.get('source_path_xy'):
+                frames[-1]['source_path_xy'] = row['source_path_xy']
         image = directory / f'{batch}.jpg'
         canvas.save(image,quality=94)
         write(directory / f'{batch}-frames.json',{'source_sha256':review['source_sha256'],'source_review_sha256':digest(directory/f'sheet-{args.sheet}-source-review.json'),'image_sha256':digest(image),'frames':frames,'scope':'Source-mark crosshair/group review, not geographic validation. Original scans remain unchanged.'})

@@ -1,0 +1,99 @@
+{
+  "reviewed_at": "2026-09-12",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_sha256": "1cc75b4bccd4af2ab27de881807d3909df3ffa2b6227dff6b839fb728e1374b5",
+  "export_count": 52,
+  "checks": {
+    "count": 52,
+    "checks": [
+      {
+        "id": "F19-JUD-017",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-035",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-036",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F19-JUD-040",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      }
+    ],
+    "holdbacks": [
+      "F19-JUD-026",
+      "F19-JUD-034",
+      "F19-JUD-060",
+      "F19-JUD-085",
+      "F19-JUD-101",
+      "F19-JUD-124",
+      "F19-JUD-125",
+      "F19-JUD-143",
+      "F19-JUD-156",
+      "F19-JUD-165"
+    ],
+    "errors": []
+  },
+  "pointer_checks": [
+    "F19-JUD-035: pointer selects the rendered source line",
+    "F19-JUD-036: pointer selects the rendered source line"
+  ],
+  "keyboard_checks": [
+    "F19-JUD-017: group selection",
+    "F19-JUD-040: line selection"
+  ],
+  "local_checks": {
+    "python": "297 tests, 8 skipped, suite success; includes open source paths, bend sampling, unsupported reaches, and rejected geological-boundary preservation",
+    "web": "6 React/Leaflet component tests pass; lint and production build pass. Final browser shows separated ochre dashes, source excerpts and placement notes without console errors."
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-natural-review.json",
+      "sha256": "fee2f7332a0ccb3cbcac2914a5a2da31f3d6db8e3d4dbe1fe14631b10c766d8a"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-natural-35.png",
+      "sha256": "aab311f0e0099434f4c9dfa9b92a24bc6b921557edd6b31206413cea27189d01"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-natural-36.png",
+      "sha256": "0cf4bcfbf57f4440909f49e69cdc8ffc6c1e7eb1e5cba79cdba77dd8f5db9b7c"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-natural-40.png",
+      "sha256": "1c6614522c3d6170f6156b6a1d3f6a5e6318f860b241bfd323294ac5d54585f1"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-52-export/reviewed.geojson",
+      "sha256": "1cc75b4bccd4af2ab27de881807d3909df3ffa2b6227dff6b839fb728e1374b5"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-52-export/source.json",
+      "sha256": "c11c3f795b9c7336b1268d92e05557c81bac71dc81867959f1e38fd3b8803b03"
+    }
+  ],
+  "limits": "Only approximate reviewed source reaches are drawn. No exact falls site, modern waterfall height, subsurface flow path or production deployment is established."
+}
