@@ -1,0 +1,97 @@
+{
+  "fit_sha256": "3d4a6d192eb87a343b649941518538f2ca108a25e20182055eadccfba2ff7981",
+  "collected_at_utc": "2026-09-12T12:13:16.923608+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -61.0690351,
+        46.1249105
+      ],
+      "source_guide_xy": [
+        4829.386197760003,
+        5710.067456240067
+      ],
+      "objectids": [
+        191077,
+        281172,
+        281281
+      ],
+      "modern_node": "J0872",
+      "id": "F01",
+      "role": "check",
+      "pixel_xy": [
+        4907,
+        5714
+      ],
+      "identity_evidence": "Upper North Brook major north/east fork above the Mountain Road crossing, with two successive eastern-arm northern tributaries; distinct from lower fitted C13.",
+      "source_uncertainty_px": 15,
+      "status": "Personally inspected original unrotated native crosshair close and wide and matching modern topology before first score. Never fitted.",
+      "pre_review_pixel_xy": [
+        4900,
+        5716
+      ],
+      "correction": "Move 7 px east and 2 px north to centre of visible north/east confluence; previous mark on western edge."
+    },
+    {
+      "lonlat": [
+        -61.0036712,
+        46.1485688
+      ],
+      "source_guide_xy": [
+        6244.757345919963,
+        4974.1006044801325
+      ],
+      "objectids": [
+        191563,
+        269304,
+        269417
+      ],
+      "modern_node": "J0782",
+      "id": "F02",
+      "role": "check",
+      "pixel_xy": [
+        6420,
+        4957
+      ],
+      "identity_evidence": "McKenzie Brook southwestern tributary below the western mill-stream fork and before the smaller downstream southern stub; broad eastward reach toward eastern river supports network identity.",
+      "source_uncertainty_px": 15,
+      "status": "Personally inspected original unrotated native crosshair close and wide and matching modern topology before first score. Never fitted.",
+      "pre_review_pixel_xy": [
+        6390,
+        4950
+      ],
+      "correction": "Initial mark lay on land west of fork; place at actual visible southwestern tributary entry."
+    },
+    {
+      "lonlat": [
+        -61.1729235,
+        46.2613027
+      ],
+      "source_guide_xy": [
+        2575.640708799474,
+        1461.0961778007913
+      ],
+      "objectids": [
+        186636,
+        260908,
+        261149
+      ],
+      "modern_node": "J0168",
+      "id": "F03",
+      "role": "check",
+      "pixel_xy": [
+        2652,
+        1378
+      ],
+      "identity_evidence": "Small western tributary on Allan Brook immediately above Ball Brook control C03; northeast main reach and major western fork below corroborate. Close to C03, so limited spatial independence.",
+      "source_uncertainty_px": 15,
+      "status": "Personally inspected original unrotated native crosshair close and wide and matching modern topology before first score. Never fitted.",
+      "pre_review_pixel_xy": [
+        2652,
+        1378
+      ]
+    }
+  ],
+  "review_completed_at_utc": "2026-09-12T12:16:16.480937+00:00",
+  "status": "Same newly collected points scored on old eleven-control baseline for like-for-like comparison."
+}
