@@ -73,8 +73,14 @@ tiles still pending—see
 [docs/CHURCH_MAPS.md](docs/CHURCH_MAPS.md). Its municipal tax-sale catalog is
 a set of dated snapshots—catalogued events, each pinned to its notice date, as
 listed in [web/README.md](web/README.md)—mapped against live NSPRD parcel
-geometry. It supports PID and civic-address search plus tap-to-identify parcel
-selection, keeps
+geometry. It supports PID, civic-address, and postal-community search plus
+tap-to-identify parcel selection. Separately labelled mailing-address evidence
+comes from Statistics Canada's National Address Register (June 2026): matching
+requires a normalized civic number, suffix, unit, and road within 50 m; a postal
+candidate must resolve to one live provincial civic point; NAR coordinates never
+become the selected geometry; mailing evidence is on-screen only (print/PDF and
+evidence-note civic sections are unchanged); there is no Canada Post or paid
+mailing API; and the records do not identify residents or ownership. It keeps
 browser location local, and puts verified Halifax 2022–2025 and Lunenburg
 District 2021–2026 outcomes in an unmistakably separate historical mode. Parcel selection collapses long event
 lists, and share links preserve the PID, event, layers, and map position. The
