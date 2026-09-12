@@ -1,0 +1,499 @@
+{
+  "sheet": "sheet-13",
+  "source_sha256": "48474fe1e8762d5c07c79cf05b59918e429bd41a6cc2a6fe1a568dd89b84c72f",
+  "source_dimensions": [
+    10872,
+    7682
+  ],
+  "points": [
+    {
+      "id": "C01",
+      "role": "control",
+      "pixel_xy": [
+        8695,
+        2442
+      ],
+      "lonlat": [
+        -60.8928464,
+        46.2320951
+      ],
+      "modern_node": "J0353",
+      "modern_objectids": [
+        176767,
+        269265,
+        269372
+      ],
+      "identity_evidence": "McLean Brook major interior fork: west downstream, northeastern and southeastern long arms; northern-arm tributary C02 corroborates the junction order.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        8690,
+        2440
+      ]
+    },
+    {
+      "id": "C02",
+      "role": "control",
+      "pixel_xy": [
+        8787,
+        2376
+      ],
+      "lonlat": [
+        -60.8882613,
+        46.2340679
+      ],
+      "modern_node": "J0338",
+      "modern_objectids": [
+        176774,
+        269265,
+        269373
+      ],
+      "identity_evidence": "First substantial northern tributary on the northeastern arm above C01, before the paired eastern forks.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        8798,
+        2374
+      ]
+    },
+    {
+      "id": "C03",
+      "role": "control",
+      "pixel_xy": [
+        2612,
+        1437
+      ],
+      "lonlat": [
+        -61.1745557,
+        46.259508
+      ],
+      "modern_node": "J0180",
+      "modern_objectids": [
+        186434,
+        261149,
+        261150
+      ],
+      "identity_evidence": "Ball Brook central fork: downstream northeast to the next western tributary, upstream west and south arms; paired eastern tributaries on the south arm corroborate.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        2590,
+        1437
+      ]
+    },
+    {
+      "id": "C04",
+      "role": "control",
+      "pixel_xy": [
+        3483,
+        6148
+      ],
+      "lonlat": [
+        -61.1366662,
+        46.1100839
+      ],
+      "modern_node": "J0930",
+      "modern_objectids": [
+        130541,
+        130542,
+        275399
+      ],
+      "identity_evidence": "Lake Ainslie eastern-shore tributary mouth at the southern road bend, south of the mill brook and north of Trout Pool; exact shoreline junction.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        3377,
+        6187
+      ]
+    },
+    {
+      "id": "C05",
+      "role": "control",
+      "pixel_xy": [
+        9356,
+        4614
+      ],
+      "lonlat": [
+        -60.8633288,
+        46.1588858
+      ],
+      "modern_node": "J0741",
+      "modern_objectids": [
+        192866,
+        192867,
+        287110
+      ],
+      "identity_evidence": "McDonald Brook first northwestern small tributary on the northeastern rising reach, below the larger fork beside the road crossing. The initial proposal on a southern tributary contradicted the modern branch directions and was rejected; source moved to the physically matching upstream fork before any fit.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        9276,
+        4699
+      ]
+    },
+    {
+      "id": "C07",
+      "role": "control",
+      "pixel_xy": [
+        5500,
+        2935
+      ],
+      "lonlat": [
+        -61.0374896,
+        46.2143643
+      ],
+      "modern_node": "J0430",
+      "modern_objectids": [
+        192935,
+        279493,
+        279494
+      ],
+      "identity_evidence": "Mount Pleasant Brook major northeastern fork: west downstream, northeast main arm and southeast tributary; northern tributary immediately upstream corroborates.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        5500,
+        2935
+      ]
+    },
+    {
+      "id": "C08",
+      "role": "control",
+      "pixel_xy": [
+        5215,
+        4095
+      ],
+      "lonlat": [
+        -61.0568465,
+        46.1765718
+      ],
+      "modern_node": "J0658",
+      "modern_objectids": [
+        192688,
+        260997,
+        260998
+      ],
+      "identity_evidence": "Coopers Brook interior fork: west downstream, northern headwater arm, southeast arm continuing through nearby large upstream junction.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        5210,
+        4104
+      ]
+    },
+    {
+      "id": "C09",
+      "role": "control",
+      "pixel_xy": [
+        6228,
+        3100
+      ],
+      "lonlat": [
+        -61.0127492,
+        46.2112555
+      ],
+      "modern_node": "J0458",
+      "modern_objectids": [
+        185525,
+        191298,
+        192814
+      ],
+      "identity_evidence": "Central eastern drainage fork west of Murdock Brook: east downstream, northern headwater arm with distinctive hook and long southwestern arm.",
+      "source_uncertainty_px": 10,
+      "review": "Initial and corrected native crosshairs inspected alongside modern topology, before fitting. No user point audit.",
+      "pre_review_pixel_xy": [
+        6207,
+        3097
+      ]
+    },
+    {
+      "id": "C10",
+      "role": "control",
+      "pixel_xy": [
+        4622,
+        2995
+      ],
+      "lonlat": [
+        -61.0793835,
+        46.2120159
+      ],
+      "modern_node": "J0449",
+      "modern_objectids": [
+        191420,
+        279724,
+        279727
+      ],
+      "identity_evidence": "Mount Pleasant Brook large northern arm at westward bend, west of the long eastern reach and its southern branch.",
+      "source_uncertainty_px": 10,
+      "review": "Corrected native crosshair and modern topology inspected before scoring. Separate from all fitting controls; used for affine/TPS diagnostic comparison.",
+      "pre_review_pixel_xy": [
+        4595,
+        2990
+      ],
+      "former_check_id": "Q02",
+      "revision_reason": "Promoted after failed independent/model-comparison residual; original failure retained. Not a validation point."
+    },
+    {
+      "id": "C11",
+      "role": "control",
+      "pixel_xy": [
+        3805,
+        5747
+      ],
+      "lonlat": [
+        -61.1190319,
+        46.1234773
+      ],
+      "modern_node": "J0880",
+      "modern_objectids": [
+        191280,
+        269340,
+        269341
+      ],
+      "identity_evidence": "Mill brook east of Lake Ainslie: fork into northern looping headwater arm and eastern/southeastern tributary; main drains west to mill and lake.",
+      "source_uncertainty_px": 10,
+      "review": "Corrected native crosshair and modern topology inspected before scoring. Separate from all fitting controls; used for affine/TPS diagnostic comparison.",
+      "pre_review_pixel_xy": [
+        3850,
+        5748
+      ],
+      "former_check_id": "Q05",
+      "revision_reason": "Promoted after failed independent/model-comparison residual; original failure retained. Not a validation point."
+    },
+    {
+      "id": "C12",
+      "role": "control",
+      "pixel_xy": [
+        5145,
+        6355
+      ],
+      "lonlat": [
+        -61.06265,
+        46.1061528
+      ],
+      "modern_node": "J0965",
+      "modern_objectids": [
+        223648,
+        265467,
+        265468
+      ],
+      "identity_evidence": "North Brook major eastern-arm fork in southern interior: downstream west to the western main confluence, northeastern arm and southeastern long arm along lower neatline.",
+      "source_uncertainty_px": 10,
+      "review": "Corrected native crosshair and modern topology inspected before scoring. Separate from all fitting controls; used for affine/TPS diagnostic comparison.",
+      "pre_review_pixel_xy": [
+        5145,
+        6355
+      ],
+      "former_check_id": "Q06",
+      "revision_reason": "Promoted after failed independent/model-comparison residual; original failure retained. Not a validation point."
+    },
+    {
+      "id": "C13",
+      "role": "control",
+      "pixel_xy": [
+        4950,
+        6090
+      ],
+      "lonlat": [
+        -61.0689392,
+        46.1123579
+      ],
+      "modern_node": "J0921",
+      "modern_objectids": [
+        191154,
+        281284,
+        281285
+      ],
+      "identity_evidence": "North Brook northern arm small northeastern tributary, above the tight southern bend and downstream of the preceding western branch; distinct from Q07 and C12.",
+      "source_uncertainty_px": 10,
+      "review": "Personally re-inspected original unrotated native crosshair close and wide, with marked modern context before repair; coordinates unchanged.",
+      "pre_review_pixel_xy": [
+        4950,
+        6090
+      ],
+      "promotion": {
+        "old_point": {
+          "id": "V02",
+          "role": "check",
+          "pixel_xy": [
+            4950,
+            6090
+          ],
+          "lonlat": [
+            -61.0689392,
+            46.1123579
+          ],
+          "modern_node": "J0921",
+          "modern_objectids": [
+            191154,
+            281284,
+            281285
+          ],
+          "identity_evidence": "North Brook northern arm small northeastern tributary, above the tight southern bend and downstream of the preceding western branch; distinct from Q07 and C12.",
+          "source_uncertainty_px": 10,
+          "review": "Selected after regional freeze; native crosshair and modern topology inspected before scoring. V01 corrected from main reach to the southern tributary junction.",
+          "pre_review_pixel_xy": [
+            4950,
+            6090
+          ]
+        },
+        "old_result": {
+          "id": "V02",
+          "error_ground_m": 245.5728954265504,
+          "predicted_lonlat": [
+            -61.07043237917762,
+            46.114308780809885
+          ]
+        },
+        "old_fit_sha256": "3d4a6d192eb87a343b649941518538f2ca108a25e20182055eadccfba2ff7981",
+        "reason": "North Brook northern-arm northeastern tributary lies between preceding western tributary and tight southern bend; lower eastern main fork supports network identity. Extra modern downstream parallel branch remains an explicit limitation.",
+        "status": "Permanently diagnostic after promotion; never fresh again."
+      }
+    },
+    {
+      "id": "C14",
+      "role": "control",
+      "pixel_xy": [
+        9437,
+        4552
+      ],
+      "lonlat": [
+        -60.8602622,
+        46.159877
+      ],
+      "modern_node": "J0732",
+      "modern_objectids": [
+        192593,
+        192599,
+        192866
+      ],
+      "identity_evidence": "McDonald Brook larger upstream fork beside the road crossing, northeast of small northwestern tributary C05; eastern arm and northward reach corroborate.",
+      "source_uncertainty_px": 10,
+      "review": "Personally re-inspected original unrotated native crosshair close and wide, with marked modern context before repair; coordinates unchanged.",
+      "pre_review_pixel_xy": [
+        9437,
+        4552
+      ],
+      "promotion": {
+        "old_point": {
+          "id": "V03",
+          "role": "check",
+          "pixel_xy": [
+            9437,
+            4552
+          ],
+          "lonlat": [
+            -60.8602622,
+            46.159877
+          ],
+          "modern_node": "J0732",
+          "modern_objectids": [
+            192593,
+            192599,
+            192866
+          ],
+          "identity_evidence": "McDonald Brook larger upstream fork beside the road crossing, northeast of small northwestern tributary C05; eastern arm and northward reach corroborate.",
+          "source_uncertainty_px": 10,
+          "review": "Selected after regional freeze; native crosshair and modern topology inspected before scoring. V01 corrected from main reach to the southern tributary junction.",
+          "pre_review_pixel_xy": [
+            9437,
+            4552
+          ]
+        },
+        "old_result": {
+          "id": "V03",
+          "error_ground_m": 131.29424603518748,
+          "predicted_lonlat": [
+            -60.859251971685495,
+            46.160828087050554
+          ]
+        },
+        "old_fit_sha256": "3d4a6d192eb87a343b649941518538f2ca108a25e20182055eadccfba2ff7981",
+        "reason": "McDonald Brook north/east upstream fork lies northeast of the preceding northwestern tributary; long northern reach, east branch ending near road and western downstream bend support identity.",
+        "status": "Permanently diagnostic after promotion; never fresh again."
+      }
+    },
+    {
+      "lonlat": [
+        -61.0036712,
+        46.1485688
+      ],
+      "source_guide_xy": [
+        6244.757345919963,
+        4974.1006044801325
+      ],
+      "objectids": [
+        191563,
+        269304,
+        269417
+      ],
+      "modern_node": "J0782",
+      "id": "C15",
+      "role": "control",
+      "pixel_xy": [
+        6420,
+        4957
+      ],
+      "identity_evidence": "McKenzie Brook southwestern tributary below the western mill-stream fork and before the smaller downstream southern stub; broad eastward reach toward eastern river supports network identity.",
+      "source_uncertainty_px": 15,
+      "status": "Promoted unchanged after thirteen-control failure; permanently diagnostic.",
+      "pre_review_pixel_xy": [
+        6390,
+        4950
+      ],
+      "correction": "Initial mark lay on land west of fork; place at actual visible southwestern tributary entry.",
+      "promotion": {
+        "old_point": {
+          "lonlat": [
+            -61.0036712,
+            46.1485688
+          ],
+          "source_guide_xy": [
+            6244.757345919963,
+            4974.1006044801325
+          ],
+          "objectids": [
+            191563,
+            269304,
+            269417
+          ],
+          "modern_node": "J0782",
+          "id": "F02",
+          "role": "check",
+          "pixel_xy": [
+            6420,
+            4957
+          ],
+          "identity_evidence": "McKenzie Brook southwestern tributary below the western mill-stream fork and before the smaller downstream southern stub; broad eastward reach toward eastern river supports network identity.",
+          "source_uncertainty_px": 15,
+          "status": "Personally inspected original unrotated native crosshair close and wide and matching modern topology before first score. Never fitted.",
+          "pre_review_pixel_xy": [
+            6390,
+            4950
+          ],
+          "correction": "Initial mark lay on land west of fork; place at actual visible southwestern tributary entry."
+        },
+        "old_result": {
+          "id": "F02",
+          "error_ground_m": 332.5778439511317,
+          "predicted_lonlat": [
+            -61.00466454720015,
+            46.15147949658588
+          ]
+        },
+        "baseline_result": {
+          "id": "F02",
+          "error_ground_m": 291.41931678829985,
+          "predicted_lonlat": [
+            -61.0059456623076,
+            46.15066301530252
+          ]
+        },
+        "old_fit_sha256": "d1c2b2c7c6d6b7227afbce48293e06d7fc9a79a16937e19ff2d943337b43c198",
+        "reason": "Independently supported southwest tributary sequence below mill fork, before smaller southern stub and broad downstream eastern reach. Southern interior visibly displaced and lacks nearby support."
+      }
+    }
+  ],
+  "revision": "Added three regionally separated physical supports at failed Q02, Q05, Q06; original eight controls unchanged.",
+  "status": "Provisional fourteen-control TPS; previous eleven/thirteen fits and all failed evidence remain. Geographic acceptance false."
+}

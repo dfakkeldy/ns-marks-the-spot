@@ -1,0 +1,20 @@
+{
+  "whole_sheet_accepted": false,
+  "draft_required": true,
+  "final_controls": 14,
+  "fresh_checks": 3,
+  "fresh_median_ground_m": 99.7536845489,
+  "fresh_worst_ground_m": 215.3813855961,
+  "median_limit_ground_m": 100,
+  "worst_limit_ground_m": 200,
+  "numeric_gate_passed": false,
+  "reused_worst_ground_m": 256.3745050455,
+  "blockers": [
+    "F06 Mount Pleasant fresh check exceeds worst-point limit",
+    "Q04 and Q07 physical identities remain insufficiently established",
+    "Whole-sheet coast, interior reach and adjacent-sheet discontinuities remain",
+    "Fresh checks are sparse and often near controls; not distributed whole-sheet acceptance"
+  ],
+  "merge_authorized": false,
+  "deployment_authorized": false
+}

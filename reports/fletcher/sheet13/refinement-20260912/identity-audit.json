@@ -1,0 +1,17 @@
+{
+  "reviewed_before_repair": [
+    "prior-close/sheet-13-Q04.jpg",
+    "prior-wide/sheet-13-Q04.jpg",
+    "prior-close/sheet-13-Q07.jpg",
+    "prior-wide/sheet-13-Q07.jpg",
+    "prior-close/sheet-13-V02.jpg",
+    "prior-wide/sheet-13-V02.jpg",
+    "prior-close/sheet-13-V03.jpg",
+    "prior-wide/sheet-13-V03.jpg"
+  ],
+  "Q04": "Retained unchanged as ambiguous reused diagnostic; not promoted. Historical short eastern branch versus modern branching hierarchy not sufficiently established. Error alone cannot resolve identity.",
+  "Q07": "Retained unchanged reused diagnostic; not promoted. Modern additional downstream parallel branch remains unexplained.",
+  "V02": "Promoted unchanged to C13 after direct close/wide topology review; old failure preserved.",
+  "V03": "Promoted unchanged to C14 after direct close/wide topology review; old failure preserved.",
+  "boundary": "Original full-scan boundary overview personally viewed. Complete mapped rectangle retained, no new crop or control hull."
+}

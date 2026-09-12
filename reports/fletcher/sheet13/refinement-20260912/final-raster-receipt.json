@@ -1,0 +1,119 @@
+{
+  "fit_sha256": "2ae5ef8d16c4ab1209367778466dc4720f04727e093768ffa1f716f4465277a1",
+  "boundary_sha256": "f7cd2eca10af9fb59a12d66abc02926d57f739f0da11b01f6eddc2822023f746",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Supplied frozen check set; see check file for independence and revision history",
+  "checks_sha256": "843b34cf51d25437e0b7bbba1dcf0c764585828b3f33e35d4a41c9136f607967",
+  "median_ground_m": 99.87811524580265,
+  "worst_ground_m": 256.3745050455264,
+  "points": [
+    {
+      "id": "Q01",
+      "error_ground_m": 2.705586504418733,
+      "predicted_lonlat": [
+        -61.17037383376621,
+        46.256425016347904
+      ]
+    },
+    {
+      "id": "Q03",
+      "error_ground_m": 92.2395735205882,
+      "predicted_lonlat": [
+        -60.89106178660162,
+        46.228406507951384
+      ]
+    },
+    {
+      "id": "Q04",
+      "error_ground_m": 256.3745050455264,
+      "predicted_lonlat": [
+        -61.04503916272608,
+        46.17624634987139
+      ]
+    },
+    {
+      "id": "Q07",
+      "error_ground_m": 217.52473515459675,
+      "predicted_lonlat": [
+        -61.07618868475282,
+        46.10711648446603
+      ]
+    },
+    {
+      "id": "V01",
+      "error_ground_m": 101.0108007405467,
+      "predicted_lonlat": [
+        -61.066667426911025,
+        46.21111682197885
+      ]
+    },
+    {
+      "id": "V04",
+      "error_ground_m": 98.7454297510586,
+      "predicted_lonlat": [
+        -61.11543276793849,
+        46.1277207435862
+      ]
+    },
+    {
+      "id": "F01",
+      "error_ground_m": 154.07300490965125,
+      "predicted_lonlat": [
+        -61.06961557858213,
+        46.12358458631246
+      ]
+    },
+    {
+      "id": "F03",
+      "error_ground_m": 29.900806159998126,
+      "predicted_lonlat": [
+        -61.17257689607015,
+        46.26142470875262
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71721,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -29.76524298618211,
+      -18.28362640872746
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet13/refinement-20260912/14-control/sheet-13-full-sheet.tif",
+    "sha256": "cd28de67764371a68388446a23a9b8442de1af253d2e95fbeeeacd00b91dc2e2",
+    "size": [
+      8678,
+      5773
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.2311011,
+            46.2751353
+          ],
+          [
+            -61.2311011,
+            46.0956159
+          ],
+          [
+            -60.8413221,
+            46.0956159
+          ],
+          [
+            -60.8413221,
+            46.2751353
+          ],
+          [
+            -61.2311011,
+            46.2751353
+          ]
+        ]
+      ]
+    }
+  }
+}
