@@ -1,0 +1,63 @@
+{
+  "fit_sha256": "41f3defeab5ada5b71e1ec2493cb5955fb1f5787cf85969a32f28e586e8043b8",
+  "boundary_sha256": "5585bf075453859428c58bd66e64066f58a1274aad08f89eb97954809b21f910",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Personally inspected exact corrected unrotated native close/wide and direct NSTDB node. One new mouth; nearby C11 repair creates local spatial correlation. No independent inland validation.",
+  "checks_sha256": "05c0c20645688bbc9bb4f7fd406c711c9d53cc998fe439d69032db88e7e052a4",
+  "median_ground_m": 199.69554425805913,
+  "worst_ground_m": 199.69554425805913,
+  "points": [
+    {
+      "id": "F01",
+      "error_ground_m": 199.69554425805913,
+      "predicted_lonlat": [
+        -60.640683011396014,
+        47.00624348625895
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71625,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -27.88804043114753,
+      -10.397907695915244
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/refinement-20260912/sheet-01-full-sheet.tif",
+    "sha256": "3b2d00f843c7b1251ead26598fb3c19fe3100472cd79c90b4bbc95cb6066cf81",
+    "size": [
+      8500,
+      5512
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.7331201,
+            47.1303101
+          ],
+          [
+            -60.7331201,
+            46.9616094
+          ],
+          [
+            -60.3513361,
+            46.9616094
+          ],
+          [
+            -60.3513361,
+            47.1303101
+          ],
+          [
+            -60.7331201,
+            47.1303101
+          ]
+        ]
+      ]
+    }
+  }
+}
