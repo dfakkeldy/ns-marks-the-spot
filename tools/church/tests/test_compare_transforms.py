@@ -1,4 +1,5 @@
 import unittest
+from dataclasses import replace
 
 from tools.church.compare_transforms import (
     GATES,
@@ -39,6 +40,16 @@ class GateTests(unittest.TestCase):
                 )
             )
         )
+
+    def test_rejects_fewer_than_six_checks_even_with_small_errors(self) -> None:
+        for count in range(1, 6):
+            with self.subTest(check_count=count):
+                measured = replace(report(100.0, 150.0, 200.0), check_count=count)
+                self.assertFalse(passes_gates(measured))
+                self.assertIsNone(select_simplest([comparison_result("affine", measured)]))
+
+    def test_six_checks_can_meet_the_fixed_gate(self) -> None:
+        self.assertTrue(passes_gates(replace(report(400.0, 900.0, 1500.0), check_count=6)))
 
 
 class SelectionTests(unittest.TestCase):

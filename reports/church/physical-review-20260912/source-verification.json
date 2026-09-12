@@ -1,0 +1,47 @@
+{
+  "verified_on": "2026-09-12",
+  "sources": [
+    {
+      "county": "inverness",
+      "path": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+      "sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+      "dimensions": [
+        34427,
+        34543
+      ]
+    },
+    {
+      "county": "richmond",
+      "path": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+      "sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+      "dimensions": [
+        35735,
+        30429
+      ]
+    },
+    {
+      "county": "victoria",
+      "path": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+      "dimensions": [
+        33711,
+        31468
+      ]
+    },
+    {
+      "county": "cape-breton",
+      "path": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+      "sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+      "dimensions": [
+        36223,
+        35027
+      ]
+    }
+  ],
+  "inverness_working_tiff_sha256": "64354868fb4a1d3bc7a8e71378e06ea15b5e691241fd1a0595e6c4b8c9bdd932",
+  "nstdb_major_water_sha256": "02bbd4c7a583e3f9156ca93ed9dc9617659d4d53b72b81bb74971c75c561740f",
+  "original_receipt": "reports/church/four-county-freeze-2026-07-26.json",
+  "all_source_hashes_match": true,
+  "boundary": "Direct Rumsey images and official NSTDB geometry; no OldMapsOnline data; original licensing retained",
+  "live_rumsey_probe": "Native region HTTP request timed out; preserved verified direct-source raster used. No fresh provider availability claim."
+}

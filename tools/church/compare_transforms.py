@@ -25,12 +25,14 @@ from tools.church.residuals import AccuracyReport, summarise
 
 GATES = {"rms": 400.0, "p95": 900.0, "max": 1500.0}
 """Fixed county acceptance gates in ground metres."""
+MINIMUM_HELD_OUT_CHECKS = 6
+"""Fixed per-panel evidence minimum from the four-county freeze."""
 
 
 def passes_gates(report: AccuracyReport) -> bool:
     """Whether a model has complete held-out evidence inside every fixed gate."""
     return (
-        report.check_count > 0
+        report.check_count >= MINIMUM_HELD_OUT_CHECKS
         and report.check_rms_m is not None
         and report.check_p95_m is not None
         and report.check_max_m is not None
@@ -46,6 +48,7 @@ def comparison_result(transform: str, report: AccuracyReport) -> dict:
         "transform": transform,
         "passes": passes_gates(report),
         "gates_m": GATES,
+        "minimum_held_out_checks": MINIMUM_HELD_OUT_CHECKS,
         "accuracy": report.as_dict(),
     }
 

@@ -1,0 +1,199 @@
+{
+  "id": "supply-02-corrected",
+  "alias_of": "supply-02",
+  "old_pixel_xy": [
+    17130.2,
+    14122.3
+  ],
+  "old_status": "rejected: land peninsula, not the island",
+  "pixel_xy": [
+    16936.40369379732,
+    14324.590263822867
+  ],
+  "lonlat": [
+    -60.840538,
+    45.675997
+  ],
+  "role": "check",
+  "status": "post-fit diagnostic correction; not fresh validation",
+  "fit_csv_sha256": "35a42079afca0341fcfb61d42bcb6792879c722bca89a4e21db7e22ac42fb347",
+  "identity_evidence": "Elongated Blake Island inside Double Cove; small western islet and surrounding northern/southern peninsulas agree with the identified modern water polygon. The original point lies on the north peninsula.",
+  "source_frame": {
+    "origin": [
+      16550,
+      14120
+    ],
+    "extent": [
+      1000,
+      600
+    ],
+    "display": [
+      1000,
+      600
+    ],
+    "rotation": 0
+  },
+  "source_outline_in_crop_pixels": [
+    [
+      188,
+      143
+    ],
+    [
+      208,
+      149
+    ],
+    [
+      249,
+      164
+    ],
+    [
+      281,
+      173
+    ],
+    [
+      322,
+      176
+    ],
+    [
+      369,
+      173
+    ],
+    [
+      413,
+      164
+    ],
+    [
+      453,
+      155
+    ],
+    [
+      486,
+      152
+    ],
+    [
+      524,
+      152
+    ],
+    [
+      554,
+      156
+    ],
+    [
+      579,
+      163
+    ],
+    [
+      598,
+      176
+    ],
+    [
+      606,
+      193
+    ],
+    [
+      605,
+      203
+    ],
+    [
+      614,
+      217
+    ],
+    [
+      625,
+      225
+    ],
+    [
+      631,
+      246
+    ],
+    [
+      612,
+      239
+    ],
+    [
+      573,
+      236
+    ],
+    [
+      529,
+      236
+    ],
+    [
+      486,
+      238
+    ],
+    [
+      440,
+      241
+    ],
+    [
+      394,
+      243
+    ],
+    [
+      350,
+      247
+    ],
+    [
+      311,
+      260
+    ],
+    [
+      287,
+      271
+    ],
+    [
+      270,
+      263
+    ],
+    [
+      250,
+      253
+    ],
+    [
+      212,
+      251
+    ],
+    [
+      177,
+      257
+    ],
+    [
+      184,
+      239
+    ],
+    [
+      191,
+      221
+    ],
+    [
+      185,
+      205
+    ],
+    [
+      177,
+      191
+    ],
+    [
+      177,
+      166
+    ],
+    [
+      183,
+      149
+    ]
+  ],
+  "measurement": "Manual shoreline polygon in a native 1:1 crop; shoelace area centroid. Engraved graticule and lettering excluded from outline.",
+  "placement_uncertainty_ground_m": 40,
+  "affine_diagnostic": {
+    "points": [
+      {
+        "label": "Blake Island corrected centroid",
+        "error_ground_m": 99.39199181827486
+      }
+    ],
+    "rms_ground_m": 99.39199181827486,
+    "max_ground_m": 99.39199181827486
+  },
+  "reviewer": "Codex native outline and modern context review; no user point audit claimed"
+}

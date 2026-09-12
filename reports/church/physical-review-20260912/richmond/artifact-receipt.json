@@ -1,0 +1,54 @@
+{
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "controls_csv_sha256": "35a42079afca0341fcfb61d42bcb6792879c722bca89a4e21db7e22ac42fb347",
+  "boundary_sha256": "16ed6c04e00aa9af7cc4527d509d5292c91812744fe17c6220def3ece973b00d",
+  "transform": "affine, GDAL polynomial order 1",
+  "crs": "EPSG:3857",
+  "cell_size_projected_m": 5,
+  "fit_control_count": 4,
+  "diagnostic_check_count": 4,
+  "fresh_validation_check_count": 0,
+  "geographic_acceptance": false,
+  "publication_eligible": false,
+  "orientation_determinant": -14.911406717790287,
+  "coverage": "Expanded mapped-content draft; all areas outside the control hull extrapolated and geographically unsupported",
+  "output": "/var/home/dan/nsmarks-church-20260912/richmond-draft/richmond-physical-draft.tif",
+  "sha256": "f828262e8871422aa7aab6a4866ddba5f7d7694c01760137bac8fa6e73592c7b",
+  "size": [
+    26007,
+    17753
+  ],
+  "bounds": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -61.3977386,
+          45.9616142
+        ],
+        [
+          -61.3977386,
+          45.4045434
+        ],
+        [
+          -60.2296143,
+          45.4045434
+        ],
+        [
+          -60.2296143,
+          45.9616142
+        ],
+        [
+          -61.3977386,
+          45.9616142
+        ]
+      ]
+    ]
+  },
+  "gdal_version": "GDAL 3.12.4 \"Chicoutimi\", released 2026/04/22",
+  "attribution": "David Rumsey Map Collection, David Rumsey Map Center, Stanford Libraries",
+  "licence_url": "https://www.davidrumsey.com/about/copyright-and-permissions",
+  "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~373669~90140407/manifest",
+  "changes": "Four physical-island affine controls; expanded crop excluding insets; bilinear resampling; provisional geography"
+}

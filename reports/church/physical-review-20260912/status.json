@@ -1,0 +1,52 @@
+{
+  "date": "2026-09-12",
+  "requested_counties": [
+    "inverness",
+    "victoria",
+    "richmond",
+    "cape-breton"
+  ],
+  "task_complete": false,
+  "geographic_publication_eligible": false,
+  "existing_accepted_work_preserved": [
+    "inverness south July 2026 fit and checks"
+  ],
+  "new_artifact": {
+    "county": "richmond",
+    "status": "provisional physical affine draft",
+    "controls": 4,
+    "retained_diagnostic_checks": 4,
+    "corrected_post_fit_diagnostics": 1,
+    "fresh_validation_checks": 0,
+    "source_frame": [
+      35735,
+      30429
+    ],
+    "csv": "richmond/physical-draft-with-blake-diagnostic.csv",
+    "transform": "affine",
+    "full_raster_receipt": "richmond/artifact-receipt.json",
+    "browser_receipt": "browser-verification.json",
+    "coverage_receipt": "richmond/coverage.json"
+  },
+  "unfinished": {
+    "richmond": [
+      "Distributed northern/edge physical controls and fresh checks",
+      "Barque region offset remains",
+      "Provisional expanded boundary edge refinement"
+    ],
+    "inverness-north": [
+      "Replace graticule-only geography with distributed physical controls",
+      "Independent panel-wide checks; preserve the three failed diagnostic river-mouth results"
+    ],
+    "victoria": [
+      "Separate northwest and main correspondence/control/check sets; existing two northwest checks occupy one pond"
+    ],
+    "cape-breton": [
+      "Exclude Sydney inset and retain southern mapped extensions",
+      "Establish physical controls and independent checks; township mesh has no geographic anchor"
+    ]
+  },
+  "no_tiles_generated": true,
+  "no_catalog_activation": true,
+  "no_deployment": true
+}

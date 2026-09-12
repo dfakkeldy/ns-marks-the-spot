@@ -1,0 +1,67 @@
+{
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "source_dimensions": [
+    35735,
+    30429
+  ],
+  "ring_pixel_xy": [
+    [
+      12280,
+      2640
+    ],
+    [
+      17930,
+      2640
+    ],
+    [
+      17930,
+      2970
+    ],
+    [
+      21760,
+      2970
+    ],
+    [
+      21760,
+      8390
+    ],
+    [
+      34700,
+      8390
+    ],
+    [
+      34770,
+      22570
+    ],
+    [
+      17000,
+      22490
+    ],
+    [
+      16960,
+      25370
+    ],
+    [
+      880,
+      25320
+    ],
+    [
+      820,
+      13900
+    ],
+    [
+      4260,
+      13900
+    ],
+    [
+      4260,
+      9910
+    ],
+    [
+      12280,
+      9830
+    ]
+  ],
+  "status": "provisional expanded content boundary; not geographic acceptance",
+  "evidence": "Native north-content region and full-sheet overview; heavy-rule detection on exact source. Insets and title excluded, Bras d\u2019Or northern extension and southwestern islands retained. Edge placement still provisional."
+}
