@@ -1,0 +1,26 @@
+{
+  "rasters": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/regional-eleven/sheet-05-full-sheet.tif",
+      "sha256": "edda68be62add08f293ec6fba64bad9dc40678e12f97114aaa92271e9598269b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/regional-eleven/sheet-07-full-sheet.tif",
+      "sha256": "49263f0abb5bfb5bd5a12edecd908fbcf12f24ee88c3e1c18a5d470eda71c5dd"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif",
+      "sha256": "72e71a885c26a3b675de77d0d4c5dd9c8ad50637806621d4cc97c619128c59c4"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/completion-20260911/sheet-09-full-sheet.tif",
+      "sha256": "4b6057df3d3ad73269cce9cbf43dedf72a0cb73a5f9974a794b31c70d3722180"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/regional-twelve/sheet-10-full-sheet.tif",
+      "sha256": "990434356bf80c3c5a9fd310b220d3da9fa6b0dff61177286c5f5c90092b6c8a"
+    }
+  ],
+  "neighbor_choice": "Sheet 10 preserved 12-control baseline used; its September 12 thirteen-control experiment was rejected as a replacement. All neighbors remain provisional.",
+  "reference_limit": "Sheet 08 reference bbox is [-60.89,46.43,-60.43,46.65]; westernmost 0.01 degree of Sheet 09 windows and southern 0.005 degree of Sheet 10 windows have no modern reference coverage."
+}

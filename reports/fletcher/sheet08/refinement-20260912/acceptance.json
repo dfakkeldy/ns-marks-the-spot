@@ -1,0 +1,21 @@
+{
+  "geographic_acceptance": false,
+  "ready_for_merge": false,
+  "recommended_as_accepted_replacement": false,
+  "status": "Local Margaree improvement; failed eleven-control whole-sheet experiment",
+  "fresh_thresholds_pass": false,
+  "fresh_median_ground_m": 427.1707415288647,
+  "fresh_worst_ground_m": 619.2929940079981,
+  "criteria": {
+    "median_ground_m_max": 100,
+    "worst_ground_m_max": 200,
+    "distributed_whole_raster_and_seams_required": true
+  },
+  "limitations": [
+    "Only two fresh checks, insufficient distributed coverage even if thresholds passed.",
+    "Original C12 and V01 identities have unresolved branch topology; no silent repair or promotion.",
+    "Interior and all four neighboring joins remain unaccepted.",
+    "Reservoir outline changes cannot be interpreted as old-map positional errors alone."
+  ],
+  "mechanical_verification_passed": true
+}

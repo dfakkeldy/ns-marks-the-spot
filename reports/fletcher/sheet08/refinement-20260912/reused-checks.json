@@ -1,0 +1,159 @@
+{
+  "sheet": "sheet-08",
+  "fit_sha256": "481c261616e91ec2c254b30c0b47273001e1367968a26443ab7e4680d6ed1114",
+  "points": [
+    {
+      "lonlat": [
+        -60.5663559,
+        46.4737903
+      ],
+      "source_guide_xy": [
+        7495.252802880015,
+        5517.197194160661
+      ],
+      "objectids": [
+        170720,
+        170721,
+        201994
+      ],
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        7737,
+        5774
+      ],
+      "modern_node_id": "J2950",
+      "identity_evidence": "Indian Brook smaller eastern tributary below the fitted major eastern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Close and wide native/modern identity reviewed; separate diagnostic, never part of initial nine-control fit."
+    },
+    {
+      "lonlat": [
+        -60.5453039,
+        46.6133825
+      ],
+      "source_guide_xy": [
+        7947.093733439455,
+        1156.8687946405262
+      ],
+      "objectids": [
+        185615,
+        281365,
+        281366
+      ],
+      "id": "V01",
+      "role": "check",
+      "pixel_xy": [
+        8132,
+        1227
+      ],
+      "modern_node_id": "J0592",
+      "identity_evidence": "Short northern tributary to Ingonish River near fitted southern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Fresh never-fit check. Native close and wide context personally inspected before first scoring; frozen ten-control fit unchanged."
+    },
+    {
+      "lonlat": [
+        -60.4944953,
+        46.603258
+      ],
+      "source_guide_xy": [
+        9044.266121279681,
+        1476.3853284805082
+      ],
+      "objectids": [
+        185297,
+        191213,
+        191214
+      ],
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        9157,
+        1308
+      ],
+      "modern_node_id": "J0745",
+      "identity_evidence": "Fork on southern McKinnon tributary below its fitted mouth",
+      "source_uncertainty_px": 20,
+      "status": "Fresh never-fit check. Native close and wide context personally inspected before first scoring; frozen ten-control fit unchanged."
+    },
+    {
+      "lonlat": [
+        -60.7898218,
+        46.503375
+      ],
+      "source_guide_xy": [
+        2669.966609279625,
+        4578.861219680402
+      ],
+      "objectids": [
+        190147,
+        260365,
+        260370
+      ],
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        2360,
+        4598
+      ],
+      "modern_node_id": "J2501",
+      "identity_evidence": "Southern tributary on Coulmeach Brook downstream of fitted northern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Fresh never-fit check. Native close and wide context personally inspected before first scoring; frozen ten-control fit unchanged."
+    },
+    {
+      "lonlat": [
+        -60.841518,
+        46.5273826
+      ],
+      "source_guide_xy": [
+        1553.364026879426,
+        3825.5035102402326
+      ],
+      "objectids": [
+        189514,
+        279459,
+        279460
+      ],
+      "id": "R02",
+      "modern_node": "J2124",
+      "pixel_xy": [
+        1932,
+        3854
+      ],
+      "role": "check",
+      "identity_evidence": "Carmruadh northern branch joins South Branch above their shared main-river mouth; southern arm first bends north then east.",
+      "status": "Corrected candidate awaiting final native close/wide inspection.",
+      "source_uncertainty_px": 20,
+      "original_proposal": {
+        "lonlat": [
+          -60.841518,
+          46.5273826
+        ],
+        "source_guide_xy": [
+          1553.364026879426,
+          3825.5035102402326
+        ],
+        "objectids": [
+          189514,
+          279459,
+          279460
+        ],
+        "id": "R02",
+        "modern_node": "J2124",
+        "pixel_xy": [
+          1920,
+          3844
+        ],
+        "role": "control",
+        "identity_evidence": "Carmruadh northern branch joins South Branch above their shared main-river mouth; southern arm first bends north then east.",
+        "status": "Unscored identity proposal only; not accepted into fit",
+        "source_uncertainty_px": 20
+      },
+      "correction": "Moved from original crosshair to actual native channel merger by close inspection before any fit or score.",
+      "scope": "Pre-freeze diagnostic only, not fresh validation; not a fitting control."
+    }
+  ],
+  "purpose": "Four reused old checks plus R02 collected before freeze. None is fresh validation. V01 and Coulmeach C12/V03 retain identity concerns."
+}

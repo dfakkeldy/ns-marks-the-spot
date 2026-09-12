@@ -1,0 +1,14 @@
+{
+  "at_utc": "2026-09-12T12:55:23.446949+00:00",
+  "fit_sha256": "481c261616e91ec2c254b30c0b47273001e1367968a26443ab7e4680d6ed1114",
+  "prior_fit_sha256": "ba667e84c9379252c3a444ae64c47a2ab209813dd4961eff17500bfee0a81ca3",
+  "source_sha256": "aa324565b0b25bdd1ae102f14e4bad8b542547d6e5bba76dd620a52dafa1d4aa",
+  "boundary_sha256": "1fabe8fc6eecd9a4ce4529280e7b51f0e6ccffa6da5f5ccd3999725575c31025",
+  "control_count": 11,
+  "fresh_validation_collected": false,
+  "criteria": {
+    "median_ground_m_max": 100,
+    "worst_ground_m_max": 200,
+    "distributed_whole_raster_and_seams_required": true
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "fit_sha256": "481c261616e91ec2c254b30c0b47273001e1367968a26443ab7e4680d6ed1114",
+  "collected_at_utc": "2026-09-12T12:57:05.132320+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.8526952,
+        46.5400875
+      ],
+      "source_guide_xy": [
+        1311.799873919459,
+        3427.8338295202702
+      ],
+      "objectids": [
+        182745,
+        182746,
+        223729
+      ],
+      "id": "F01",
+      "modern_node": "J1848",
+      "role": "check",
+      "pixel_xy": [
+        1601,
+        3478
+      ],
+      "identity_evidence": "Northeast Margaree short eastern tributary below Marsh Pool western tributary and above the large eastward then westward main-channel bends.",
+      "status": "Unscored; corrected native close/wide review pending",
+      "source_uncertainty_px": 20,
+      "correction": "Before first score: move western-bank proposal to the eastern tributary mouth on the east bank."
+    },
+    {
+      "lonlat": [
+        -60.5070043,
+        46.4664434
+      ],
+      "source_guide_xy": [
+        8776.818648000015,
+        5750.459032640327
+      ],
+      "objectids": [
+        190541,
+        190542,
+        190547
+      ],
+      "id": "F02",
+      "modern_node": "J3053",
+      "role": "check",
+      "pixel_xy": [
+        8630,
+        5748
+      ],
+      "identity_evidence": "Northern tributary to the large western Little River arm above fitted C11; western arm continues northwest through falls, northern arm is separate from next upstream north tributary.",
+      "status": "Unscored; corrected native close/wide review pending",
+      "source_uncertainty_px": 20
+    }
+  ],
+  "corrected_at_utc": "2026-09-12T13:01:49.731901+00:00"
+}

@@ -1,0 +1,215 @@
+{
+  "passed": true,
+  "controls": 11,
+  "reused_checks": 5,
+  "collected_fresh_checks": 2,
+  "old_ten_controls_unchanged": true,
+  "new_control_matches_reviewed_corrected_proposal": true,
+  "figure_count": 42,
+  "figures": [
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/adjacent-sheet-review/09-west-north.jpg",
+      "sha256": "a1142433b293c462114e27cf3811256c7d8ddd1365b2ca244d90965331ee70a9"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/adjacent-sheet-review/09-west-south.jpg",
+      "sha256": "ecda038744f063fb2edd0d4691893361119d5f116871630cbaeabcf03dc098c8"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/adjacent-sheet-review/10-south-west.jpg",
+      "sha256": "b4d9606bdd18855e13e27cf93503aff23550a922f4d84e1140bc3260f3e8cfc8"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/adjacent-sheet-review/10-south-east.jpg",
+      "sha256": "edaec23395fc2df96ab94e92505af5d7208edd9a2ec47d0d40321b37dca22c4c"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/adjacent-sheet-review/05-north-west.jpg",
+      "sha256": "590e1299ce05a520ceb47730c7091a6982256b49f12faf1a104973ab269dee66"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/adjacent-sheet-review/05-north-east.jpg",
+      "sha256": "b345d470624ba044398b278b043b60a4020da96a4083bbadbbd49f566c5a3368"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/adjacent-sheet-review/07-east-north.jpg",
+      "sha256": "781a70c4a1e0bc70fc07f8643992b832c573234353736d5dff80280d50950551"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/adjacent-sheet-review/07-east-south.jpg",
+      "sha256": "0e4ea4a79f4d6aae22f3609b83175ee57d6b32f145966c570e4789289b2530f8"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/fresh-close/sheet-08-F01.jpg",
+      "sha256": "cb3de51c72f95f91c19f30b421d742405ee0286e7e0be285760718551b3235bd"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/fresh-close/sheet-08-F02.jpg",
+      "sha256": "f4e9a6d77120aa4366fff383447b50aaf03baf79797fb5f240c33094e46b6449"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/fresh-corrected-close/sheet-08-F01.jpg",
+      "sha256": "d7b57f4f0639edaf69603aee66f3abaa13c26f3d3c1a720175ca2b70db5727ee"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/fresh-corrected-wide/sheet-08-F01.jpg",
+      "sha256": "c5a655091f8936c2f0db97234e60006a08f5d430b4d36e63430af9c0a703bc9f"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/fresh-wide/sheet-08-F01.jpg",
+      "sha256": "940dbbf6670e0c67b8a474103fac35f0ea36cf2c1043e71d9cffb7d611819216"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/fresh-wide/sheet-08-F02.jpg",
+      "sha256": "a4eafa1806ea51e2e8c192ba92b660d367111640bd5a15b85b45d7cd39071133"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/prior-close/sheet-08-V01.jpg",
+      "sha256": "d2de4a897a2849fb2714f6eca126f9136fe91f55b9cbd274d4dfcb9fb9ce3c47"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/prior-close/sheet-08-V03.jpg",
+      "sha256": "a06fb837851c8154f24521c4fad2e609ce0f23fba22ec78ed686ce75e4ed21a9"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/prior-control-close/sheet-08-C12.jpg",
+      "sha256": "226cc5575b9ffb5631ceb101f4ccb08a011cbe2b2b7c02f5e19fbda0f88c868d"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/prior-control-wide/sheet-08-C12.jpg",
+      "sha256": "a68952d8ad5ef552399584372161a33d208877e0dd883eb177d8ce58cc311614"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/prior-wide/sheet-08-V01.jpg",
+      "sha256": "925db82ce441936ff68b4a48a1dd94756df3274372a9281df620440e2e6ffca4"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/prior-wide/sheet-08-V03.jpg",
+      "sha256": "0bf6d3647fb03aa54978671333a99b67166ceff3e970693b9ee45ad7152a783c"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/repair-close/sheet-08-R01.jpg",
+      "sha256": "d57a69b1b71faf9cd250c7eadf4b4e7df9ca97ee0f79fab18e4092fd8cf07d8b"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/repair-close/sheet-08-R02.jpg",
+      "sha256": "cfcb67378ab114bef4f38c2ac28dca5c6a29a0e1b7509947e33cecd4e2c8170f"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/repair-corrected-close/sheet-08-R01.jpg",
+      "sha256": "7a7684ad3b1144898f9bb17fb9e144b5329a4d5ae3c4cce6d453e579831cc4bd"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/repair-corrected-close/sheet-08-R02.jpg",
+      "sha256": "44bd9838785ee6f6078539bd8768e96937f8f672b77c41b193f4ec9910bf7687"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/repair-corrected-wide/sheet-08-R01.jpg",
+      "sha256": "d9528add3d839d59ff0ee9ed01f1b2245495368077758eb0675d0abaac9cdeca"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/repair-corrected-wide/sheet-08-R02.jpg",
+      "sha256": "37d0e9158379e9e425febaca3ccf1d3bceda8972b17c7367c37f2332dfad32db"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/repair-wide/sheet-08-R01.jpg",
+      "sha256": "3dbcef60695fea07c72f92b1e3eddcc0994c2d66e64a3c6a9b12b06fc3fa6df9"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/repair-wide/sheet-08-R02.jpg",
+      "sha256": "01f1d94e48ec37b3ca58d6a8bd326ed5126c7e230c55339a9ade779771730458"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/warped-review/north-branch.jpg",
+      "sha256": "e19247b59e586c9006b574ec31d4112ab3ff0315a434e3b4c51a2517692191d6"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/warped-review/northeast-margaree.jpg",
+      "sha256": "b1fee92f8b58e23c258f63263e534e5d59c220ce24b95d5d8dbeb81775b25c54"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/warped-review/coulmeach.jpg",
+      "sha256": "2dd2a3c6781f86678a7e7f049c261a29faded073d8657f12c8b7c8104b0054c3"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/warped-review/first-second-forks.jpg",
+      "sha256": "f38ee0faa2ff7aaf7dc02b7630a40529003cda80ce26de2501d01eb7dedbbc25"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/warped-review/upper-ingonish.jpg",
+      "sha256": "c790dcf75261f9d4f5b775ea3125d9226a06b61aeb0871404bd8956fb6c9796e"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/warped-review/ingonish-mckinnon.jpg",
+      "sha256": "d2974fe8ec40b60d88e518da7d6090c719cbba71aadc010d9472b0b5c4cd5d89"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/warped-review/reservoir-interior.jpg",
+      "sha256": "27a8c9dd595d6290176484f9c59e5e58f38a7631b51921078959c9a2c67ceca6"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/warped-review/indian-brook.jpg",
+      "sha256": "fd9b6efda767550d3b1bd98d17c5ab47180b1438376ccaada5a644cd996bb745"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/warped-review/french-little-rivers.jpg",
+      "sha256": "fbfdb3afbd586b749a9046d1ee5e74d6bc60477b798daec98bf36c5e67fa68d7"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/warped-review/gisborne-lake.jpg",
+      "sha256": "95e5c961888f82fc83160beaf0e7fb9309a825662b8aeaebdc1cb5662a80a012"
+    },
+    {
+      "path": "reports/fletcher/sheet08/refinement-20260912/warped-review/full-sheet.jpg",
+      "sha256": "80564d5b69517048f957056aeac93ee8f48752294237bb89ea57c01034297d8b"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/browser/import-desktop.png",
+      "sha256": "f4cb1d448e21537d8147e3a73eb2d27321529de7239d4c997cc871d9cc69448f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/browser/reload-desktop.png",
+      "sha256": "185c98a906fcb3664d6c7b4a6f6cfbd485011b843a1e8d278c56eeadcdb7c0eb"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/browser/reload-mobile.png",
+      "sha256": "dc1ed058908559029e109f52eed110a915e769dd7e6b4d8c2cb5cdbc123985d9"
+    }
+  ],
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet08/refinement-20260912/sheet-08-full-sheet.tif",
+    "sha256": "72e71a885c26a3b675de77d0d4c5dd9c8ad50637806621d4cc97c619128c59c4",
+    "size": [
+      9495,
+      5847
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.8798599,
+            46.62054
+          ],
+          [
+            -60.8798599,
+            46.4398633
+          ],
+          [
+            -60.4533847,
+            46.4398633
+          ],
+          [
+            -60.4533847,
+            46.62054
+          ],
+          [
+            -60.8798599,
+            46.62054
+          ]
+        ]
+      ]
+    }
+  },
+  "scope": "Computational, provenance and import verification only. Fresh thresholds and whole-sheet geography fail. Local Margaree improvement only; original C12 and V01 topology concerns remain."
+}

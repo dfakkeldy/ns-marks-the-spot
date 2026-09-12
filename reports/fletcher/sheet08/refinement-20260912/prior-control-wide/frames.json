@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-08-C12.jpg",
+    "point_record": "sheet08/repaired-fit.json",
+    "point_id": "C12",
+    "native_box": [
+      1262,
+      3486,
+      3262,
+      5486
+    ],
+    "native_coordinates": [
+      2262,
+      4486
+    ],
+    "modern_lonlat": [
+      -60.792662,
+      46.504338
+    ],
+    "rotation_degrees": 0
+  }
+]
