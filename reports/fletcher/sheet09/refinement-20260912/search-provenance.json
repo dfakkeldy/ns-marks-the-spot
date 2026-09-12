@@ -1,0 +1,9 @@
+{
+  "path": "/Users/dfakkeldy/Downloads/fletcher-sheet09/refinement-20260912/search/all-modern-nodes-anchored.json",
+  "sha256": "ea8f166c072f23508207d921081931fb468e3318993d3e4e617499fe6770108a",
+  "guide": {
+    "path": "tools/fletcher/observations/sheet-09.json",
+    "sha256": "22367a91a2214ee22afa13e35a1b6cf2a9fa36843ae54e93036349aaaf970911"
+  },
+  "method": "Printed-graticule affine search guide only; modern coordinates anchored to original NSTDB line endpoints; not a physical control or scoring transform."
+}

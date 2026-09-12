@@ -1,0 +1,83 @@
+{
+  "fit_sha256": "3ca430d2f637410bec54e0381e0629d2c73e357d0ef981dc26f4f40842be82ec",
+  "collected_at_utc": "2026-09-12T13:35:47.001129+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -60.8846796,
+        46.521442
+      ],
+      "source_guide_xy": [
+        8762.65059743938,
+        4309.123381600482
+      ],
+      "objectids": [
+        188781,
+        188782,
+        189218
+      ],
+      "modern_node": "J1025",
+      "id": "F04",
+      "role": "check",
+      "pixel_xy": [
+        8865,
+        4430
+      ],
+      "identity_evidence": "Rocky Brook western arm northern tributary upstream of C23 and downstream of smaller southern forks; distinct long northwest arm and another northern spur nearer main Rocky confluence.",
+      "status": "Corrected before scoring; final close/wide review pending",
+      "source_uncertainty_px": 15,
+      "original_proposal": {
+        "lonlat": [
+          -60.8866274,
+          46.5208409
+        ],
+        "source_guide_xy": [
+          8720.874823559308,
+          4327.872066100361
+        ],
+        "objectids": [
+          188782,
+          189234,
+          189376
+        ],
+        "modern_node": "J1033",
+        "id": "F04",
+        "role": "check",
+        "pixel_xy": [
+          8855,
+          4435
+        ],
+        "identity_evidence": "Rocky Brook western arm northern tributary upstream of C23 and downstream of smaller southern forks; distinct long northwest arm and another northern spur nearer main Rocky confluence.",
+        "status": "Fresh after 25-control freeze; close/wide review pending; unscored",
+        "source_uncertainty_px": 15
+      },
+      "correction": "Before first score: original modern J1033 marks southern spur, while proposed native feature is the distinct northern arm farther downstream. Select J1025 and move native crosshair ten pixels east/five north to northern junction. Original proposal retained."
+    },
+    {
+      "lonlat": [
+        -61.073643,
+        46.4658284
+      ],
+      "source_guide_xy": [
+        4710.036440399475,
+        6043.404920200352
+      ],
+      "objectids": [
+        186448,
+        186858,
+        186859
+      ],
+      "modern_node": "J1397",
+      "id": "F05",
+      "pixel_xy": [
+        4610,
+        5920
+      ],
+      "role": "check",
+      "identity_evidence": "Eastern tributary of long coastal-parallel creek south of Murphys, below two shorter eastern spurs and above the separate southern branch near western coastal bend; main comes from north and runs south through a wet basin.",
+      "status": "Fresh after freeze; close/wide native review pending; unscored",
+      "source_uncertainty_px": 20
+    }
+  ],
+  "corrected_at_utc": "2026-09-12T13:37:00.864358+00:00"
+}
