@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "unchanged_prior_controls": 14,
+  "verified_native_frames": 8,
+  "viewed_figures": 29,
+  "coverage_and_sampled_orientation": "pass",
+  "web_csv_and_solver": "pass",
+  "actual_browser_import_desktop_mobile_reload": "pass",
+  "fresh_check_scope": "Two local checks after Hadley Beach and McPherson Lake repairs; median fails and coverage remains limited.",
+  "whole_sheet_geographically_accepted": false
+}

@@ -1,0 +1,9 @@
+{
+  "frozen_at": "2026-09-12T17:37:16.408048+00:00",
+  "fit_sha256": "50d24f32cdf37a1d369fcdd4bc840b3e7e2355fe71e7b4c238d09f455e13db53",
+  "prior_fit_sha256": "709a307b37d27bcfbabaa2c68e2d961d26f2b9bdcde35c305e4bb1d6ae5d3456",
+  "boundary_sha256": "c3cca43241928adf83e93120b8dac5840e02829dfc57b43d6c7e619c4c66d4ce",
+  "prior_control_count": 14,
+  "control_count": 16,
+  "repairs_complete_before_new_selection": true
+}
