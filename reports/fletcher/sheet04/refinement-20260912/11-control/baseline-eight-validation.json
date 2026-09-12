@@ -1,0 +1,62 @@
+{
+  "sheet": "sheet-04",
+  "fit_sha256": "36e898f50cd6980892c46d66ca41e61de8142f248a7b66c44e30844454daf877",
+  "collected_at_utc": "2026-09-12T14:37:05.058582+00:00",
+  "review_completed_at_utc": "2026-09-12T14:51:29.348343+00:00",
+  "history_identity_checked": true,
+  "points": [
+    {
+      "lonlat": [
+        -60.3352516,
+        46.7732684
+      ],
+      "source_guide_xy": [
+        4072.299701759359,
+        1596.7207248003688
+      ],
+      "objectids": [
+        165104,
+        170606,
+        181060
+      ],
+      "id": "F08",
+      "modern_node_id": "J0226",
+      "role": "check",
+      "pixel_xy": [
+        4310,
+        1406
+      ],
+      "identity_evidence": "Black Brook mouth southern bank/coast junction",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern crosshairs personally reviewed close and wide before first score; never fitted.",
+      "limitation": "Both checks are local to the Black Brook mouth system, not distributed whole-sheet evidence. Historical bank shape and omitted branch detail limit precision."
+    },
+    {
+      "lonlat": [
+        -60.3407161,
+        46.7682226
+      ],
+      "source_guide_xy": [
+        3953.794368959265,
+        1755.3001272003166
+      ],
+      "objectids": [
+        156654,
+        156656,
+        181057
+      ],
+      "id": "F09",
+      "modern_node_id": "J0245",
+      "role": "check",
+      "pixel_xy": [
+        4250,
+        1457
+      ],
+      "identity_evidence": "Black Brook southwestern tributary upstream of the separate southeastern branch near the mouth",
+      "source_uncertainty_px": 20,
+      "status": "Exact native and modern crosshairs personally reviewed close and wide before first score; never fitted.",
+      "review_note": "Original J0244 was the separate southeastern tributary; corrected to J0245 southwestern bank tributary, and native crosshair moved from land onto southern-bank junction. Modern extra SE tributary is not clearly shown historically.",
+      "limitation": "Both checks are local to the Black Brook mouth system, not distributed whole-sheet evidence. Historical bank shape and omitted branch detail limit precision."
+    }
+  ]
+}

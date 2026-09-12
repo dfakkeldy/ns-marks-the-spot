@@ -1,0 +1,157 @@
+{
+  "sheet": "sheet-04",
+  "fit_sha256": "8e45b6e7baab15a47cf5944295e46c60a6d1495ab268a2e7e833e3d1da3fe16c",
+  "scope": "Previously scored diagnostics only.",
+  "points": [
+    {
+      "lonlat": [
+        -60.430528,
+        46.6878138
+      ],
+      "source_guide_xy": [
+        2006.0975807991344,
+        4282.387893600389
+      ],
+      "objectids": [
+        191511,
+        261648,
+        261766
+      ],
+      "id": "Q01",
+      "role": "check",
+      "pixel_xy": [
+        2155,
+        4237
+      ],
+      "modern_node_id": "J0602",
+      "identity_evidence": "Cameron Brook southern tributary just east of C05",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact corrected crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        2155,
+        4245
+      ],
+      "limitation": "Historical tributary length differs; local tributary order supports identity."
+    },
+    {
+      "lonlat": [
+        -60.4054141,
+        46.7168695
+      ],
+      "source_guide_xy": [
+        2550.727661759127,
+        3369.2253540002275
+      ],
+      "objectids": [
+        141321,
+        141322,
+        282122
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        2629,
+        3353
+      ],
+      "modern_node_id": "J0470",
+      "identity_evidence": "Warren Brook inlet at Warren Lake northwestern lobe",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact corrected crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        2626,
+        3346
+      ],
+      "limitation": "Historical lake shoreline and upstream meanders differ; named inlet is supported."
+    },
+    {
+      "lonlat": [
+        -60.34065358161873,
+        46.68132471304055
+      ],
+      "guide_xy": [
+        3955.1501675830223,
+        4486.32691856171
+      ],
+      "modern_objectid": 17819,
+      "modern_part": 0,
+      "modern_vertex": 144,
+      "modern_properties": {
+        "OBJECTID": 17819,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.5,
+        "FID": null,
+        "SHAPE_Length": 1329.3762826399097
+      },
+      "id": "V02",
+      "role": "check",
+      "pixel_xy": [
+        3987,
+        4407
+      ],
+      "identity_evidence": "Ingonish Island southernmost shoreline",
+      "source_uncertainty_px": 20,
+      "status": "Physical identity and wide context reviewed; exact final crosshair pending inspection before scoring.",
+      "initial_pixel_xy": [
+        3970,
+        4405
+      ],
+      "limitation": "Broad historical island outline differs from detailed modern shoreline."
+    },
+    {
+      "lonlat": [
+        -60.4236749,
+        46.7753844
+      ],
+      "source_guide_xy": [
+        2154.716648638947,
+        1530.219076800393
+      ],
+      "objectids": [
+        178996,
+        179000,
+        180024
+      ],
+      "id": "F05",
+      "modern_node_id": "J0217",
+      "role": "check",
+      "pixel_xy": [
+        2335,
+        1378
+      ],
+      "identity_evidence": "Pine Brook western tributary below the northern stem",
+      "source_uncertainty_px": 20,
+      "status": "Final exact native and modern crosshairs personally reviewed close and wide before first score; never fitted.",
+      "review_note": "Second prescore placement correction: center onto the northern-stem/Pine junction; previous corrected crosshair was slightly east on the adjoining bank.",
+      "limitation": "Historical branch length and bank/generalization differences remain; evidence is local to this junction."
+    },
+    {
+      "lonlat": [
+        -60.4496182,
+        46.68701
+      ],
+      "source_guide_xy": [
+        1592.099867519224,
+        4307.649720000336
+      ],
+      "objectids": [
+        191123,
+        191124,
+        191252
+      ],
+      "id": "F07",
+      "modern_node_id": "J0611",
+      "role": "check",
+      "pixel_xy": [
+        1821,
+        4264
+      ],
+      "identity_evidence": "Cameron western southern tributary upstream of northern branch and fitted C12",
+      "source_uncertainty_px": 20,
+      "status": "Final exact native and modern crosshairs personally reviewed close and wide before first score; never fitted.",
+      "limitation": "Historical branch length and bank/generalization differences remain; evidence is local to this junction."
+    }
+  ]
+}

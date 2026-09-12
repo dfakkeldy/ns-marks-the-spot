@@ -1,0 +1,62 @@
+{
+  "history_paths": [
+    "reports/fletcher/sheet04/candidate-controls.json",
+    "reports/fletcher/sheet04/island-component-review.json",
+    "reports/fletcher/sheet04/csv-web-verification.json",
+    "reports/fletcher/sheet04/guide-audit.json",
+    "reports/fletcher/sheet04/frame-verification.json",
+    "reports/fletcher/sheet04/preservation-verification.json",
+    "reports/fletcher/sheet04/join-provenance.json",
+    "reports/fletcher/sheet04/acceptance.json",
+    "reports/fletcher/sheet04/boundary-review-frame.json",
+    "reports/fletcher/sheet04/browser-verification.json",
+    "reports/fletcher/sheet04/corrected-candidates.json",
+    "reports/fletcher/sheet04/validation-scores.json",
+    "reports/fletcher/sheet04/visual-review.json",
+    "reports/fletcher/sheet04/rejected-controls.json",
+    "reports/fletcher/sheet04/rejected-validation.json",
+    "reports/fletcher/sheet04/reference-receipts.json",
+    "reports/fletcher/sheet04/search-guide.json",
+    "reports/fletcher/sheet04/candidate-diagnostics.json",
+    "reports/fletcher/sheet04/reused-diagnostic-scores.json",
+    "reports/fletcher/sheet04/initial-tps-scores.json",
+    "reports/fletcher/sheet04/diagnostic.json",
+    "reports/fletcher/sheet04/raster-receipt.json",
+    "reports/fletcher/sheet04/reviewed-fit.json",
+    "reports/fletcher/sheet04/final-fit.json",
+    "reports/fletcher/sheet04/validation.json",
+    "reports/fletcher/sheet04/final-freeze.json",
+    "reports/fletcher/sheet04/coverage.json",
+    "reports/fletcher/sheet04/rejected-diagnostics.json",
+    "reports/fletcher/sheet04/reused-diagnostic.json",
+    "reports/fletcher/sheet04/source-receipt.json",
+    "reports/fletcher/sheet04/initial-affine-scores.json",
+    "reports/fletcher/sheet04/boundary.json",
+    "reports/fletcher/sheet04/prior-state.json",
+    "reports/fletcher/sheet04/validation-candidates.json",
+    "reports/fletcher/sheet04/render-provenance.json",
+    "reports/fletcher/sheet04/initial-freeze.json",
+    "reports/fletcher/sheet04/refinement-20260912/repaired-fit.json",
+    "reports/fletcher/sheet04/refinement-20260912/reused-checks.json",
+    "reports/fletcher/sheet04/refinement-20260912/validation.json",
+    "reports/fletcher/sheet04/refinement-20260912/repair-proposals.json",
+    "reports/fletcher/sheet04/refinement-20260912/fresh-proposals.json",
+    "reports/fletcher/sheet04/refinement-20260912/fresh-corrected.json",
+    "reports/fletcher/sheet04/refinement-20260912/fresh-final-placement.json",
+    "reports/fletcher/sheet04/refinement-20260912/fresh-additional.json",
+    "reports/fletcher/sheet04/refinement-20260912/11-control/repaired-fit.json"
+  ],
+  "points": [
+    {
+      "id": "F08",
+      "modern_node_id": "J0226",
+      "prior_identity_matches": []
+    },
+    {
+      "id": "F09",
+      "modern_node_id": "J0245",
+      "prior_identity_matches": []
+    }
+  ],
+  "review": "F08 southern-bank mouth and corrected F09 southwestern tributary supported locally. Original F09 southeastern branch rejected before scoring; both versions retained."
+}

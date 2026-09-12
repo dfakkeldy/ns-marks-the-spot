@@ -1,0 +1,122 @@
+[
+  {
+    "image": "black-pine.jpg",
+    "lonlat_bounds": [
+      -60.49,
+      46.745,
+      -60.35,
+      46.795
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/sheet-04-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet04/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "black-cove-mary.jpg",
+    "lonlat_bounds": [
+      -60.395,
+      46.73,
+      -60.31,
+      46.785
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/sheet-04-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet04/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "warren-interior.jpg",
+    "lonlat_bounds": [
+      -60.49,
+      46.69,
+      -60.345,
+      46.74
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/sheet-04-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet04/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "ingonish-island.jpg",
+    "lonlat_bounds": [
+      -60.395,
+      46.665,
+      -60.315,
+      46.72
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/sheet-04-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet04/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "clyburn-middle.jpg",
+    "lonlat_bounds": [
+      -60.49,
+      46.645,
+      -60.315,
+      46.675
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/sheet-04-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet04/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "freshwater-harbour.jpg",
+    "lonlat_bounds": [
+      -60.45,
+      46.61,
+      -60.33,
+      46.655
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/sheet-04-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet04/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "smoky-cape.jpg",
+    "lonlat_bounds": [
+      -60.39,
+      46.6,
+      -60.315,
+      46.65
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/sheet-04-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet04/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "full-sheet.jpg",
+    "lonlat_bounds": [
+      -60.51,
+      46.59,
+      -60.015,
+      46.84
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/regional-eight/sheet-04-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet04/refinement-20260912/sheet-04-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet04/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]
