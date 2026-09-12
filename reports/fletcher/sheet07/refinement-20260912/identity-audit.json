@@ -1,0 +1,17 @@
+{
+  "reviewed_at_utc": "2026-09-12T13:51:24.842158+00:00",
+  "native_orientation": "Original unrotated native axes",
+  "reviews": [
+    {
+      "id": "V04",
+      "decision": "Promote unchanged to C14",
+      "evidence": "Long northern tributary enters the western Morrison main arm upstream of the distinct southwestern tributary; coast and neighboring Pathend/McLeod drainage confirm wider identity. Crosshair lies at native junction; short extra western native spur is not separately represented in modern reference."
+    },
+    {
+      "id": "V05",
+      "decision": "Retain diagnostic only",
+      "evidence": "Historical brook terminates directly at coast; modern looping and branching coastal water differs. Do not add a coast control on this uncertain channel."
+    }
+  ],
+  "boundary": "Complete mapped frame and offshore legend personally viewed; original full boundary retained."
+}

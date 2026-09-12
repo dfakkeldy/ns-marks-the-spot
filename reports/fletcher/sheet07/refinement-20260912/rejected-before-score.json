@@ -1,0 +1,56 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.4038861,
+        46.6068524
+      ],
+      "source_guide_xy": [
+        2734.443656999385,
+        1418.253916800255
+      ],
+      "objectids": [
+        191090,
+        283812,
+        284812
+      ],
+      "id": "F06",
+      "role": "check",
+      "modern_node_id": "J0205",
+      "pixel_xy": [
+        2718,
+        1333
+      ],
+      "identity_evidence": "Northern interior brook western arm tributary upstream of C13",
+      "source_uncertainty_px": 20,
+      "status": "Fresh proposal pending close/wide native and modern identity review; unscored",
+      "decision": "Rejected before scoring: native northern spur cannot be identified with proposed modern southwestern branch; branching directions disagree."
+    },
+    {
+      "lonlat": [
+        -60.4165824,
+        46.5671624
+      ],
+      "source_guide_xy": [
+        2459.8226879993454,
+        2663.2498368001543
+      ],
+      "objectids": [
+        190468,
+        269446,
+        269447
+      ],
+      "id": "F09",
+      "role": "check",
+      "modern_node_id": "J0322",
+      "pixel_xy": [
+        2440,
+        2620
+      ],
+      "identity_evidence": "McLeod Brook northern tributary upstream of mouth",
+      "source_uncertainty_px": 20,
+      "status": "New candidate pending native physical identity review; never scored.",
+      "decision": "Rejected before scoring: native crosshair is a stream bend beside a printed meridian, with no tributary visible. Modern northern tributary has no established native counterpart."
+    }
+  ]
+}
