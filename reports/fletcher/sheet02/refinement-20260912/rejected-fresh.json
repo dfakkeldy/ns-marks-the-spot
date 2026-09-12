@@ -1,0 +1,30 @@
+{
+  "points": [
+    {
+      "lonlat": [
+        -60.37564,
+        46.8245474
+      ],
+      "source_guide_xy": [
+        3253.2603587997146,
+        5433.236009800341
+      ],
+      "objectids": [
+        177326,
+        284933,
+        285078
+      ],
+      "id": "F03",
+      "modern_node_id": "J0301",
+      "role": "check",
+      "pixel_xy": [
+        3180,
+        5195
+      ],
+      "identity_evidence": "Rachel Brook southern tributary upstream of R02 northern junction. Native short southern twig vs modern longer southwest drainage requires close/wide examination before score.",
+      "source_uncertainty_px": 25,
+      "status": "Rejected unscored",
+      "rejection_reason": "Two neighboring modern southwest forks J0299/J0301 compete with one historical short southern twig. Upstream order and major southwest drainage are not distinguishable securely; no fitted or scored point."
+    }
+  ]
+}

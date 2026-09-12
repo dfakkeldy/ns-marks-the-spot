@@ -1,0 +1,71 @@
+{
+  "fit_sha256": "415f7fe86b9861b0648a79e01d9a9d839e0d696468b0b6cbd9c0517f06eec8c8",
+  "boundary_sha256": "615e4edbf4593f906f996a9b7a5ebff3d8b78d5fcbd3055d00f11883e02268a1",
+  "scope": "Complete inner neatline, no corridor or control-hull clipping",
+  "check_status": "Two prior coastal checks reused as diagnostics, not fresh validation.",
+  "checks_sha256": "d0a8b81dfb35e916a788e8c5091d29ca06905d32453980374be3504365869d3c",
+  "median_ground_m": 88.57924632863383,
+  "worst_ground_m": 115.79488602792198,
+  "points": [
+    {
+      "id": "V01",
+      "error_ground_m": 115.79488602792198,
+      "predicted_lonlat": [
+        -60.351350457548435,
+        46.88870512262568
+      ]
+    },
+    {
+      "id": "V02",
+      "error_ground_m": 61.36360662934568,
+      "predicted_lonlat": [
+        -60.405750455236685,
+        46.87302608337449
+      ]
+    }
+  ],
+  "orientation": {
+    "samples": 71200,
+    "native_grid_step_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -37.60352088413351,
+      -12.634212771015854
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/refinement-20260912/sheet-02-full-sheet.tif",
+    "sha256": "532d42312d7e9fb6e41ae881d94919d8f06ff2b5978c7eb8b48e6d595c5eee0a",
+    "size": [
+      9083,
+      6121
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -60.4778189,
+            46.971326
+          ],
+          [
+            -60.4778189,
+            46.7833949
+          ],
+          [
+            -60.069849,
+            46.7833949
+          ],
+          [
+            -60.069849,
+            46.971326
+          ],
+          [
+            -60.4778189,
+            46.971326
+          ]
+        ]
+      ]
+    }
+  }
+}

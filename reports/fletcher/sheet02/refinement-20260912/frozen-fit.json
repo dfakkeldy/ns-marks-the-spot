@@ -1,0 +1,9 @@
+{
+  "frozen_at": "2026-09-12T15:26:26.721185+00:00",
+  "fit_sha256": "415f7fe86b9861b0648a79e01d9a9d839e0d696468b0b6cbd9c0517f06eec8c8",
+  "prior_fit_sha256": "3094eec05b4adec75eaaea85a19c3349f2ab9d2d45963359533d7d86a2917c6a",
+  "prior_controls_unchanged": true,
+  "controls": 10,
+  "fresh_validation_selected": false,
+  "boundary_sha256": "615e4edbf4593f906f996a9b7a5ebff3d8b78d5fcbd3055d00f11883e02268a1"
+}

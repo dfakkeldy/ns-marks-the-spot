@@ -1,0 +1,27 @@
+{
+  "points": [
+    {
+      "id": "R01",
+      "role": "candidate-control",
+      "pixel_xy": [
+        1393,
+        3275
+      ],
+      "lonlat": [
+        -60.45939168237563,
+        46.890064988992265
+      ],
+      "modern_objectid": 27683,
+      "modern_part": 0,
+      "modern_vertex": 0,
+      "modern_component_ids": [
+        27682,
+        27683
+      ],
+      "identity_evidence": "Westernmost tip of the largest interior Middle Pond island, east-west two-lobed form with small island to its east and southwest. Entire two-segment closed modern coast-river-island shoreline checked. Pond entrances and barrier geometry are not this control.",
+      "source_uncertainty_px": 20,
+      "status": "Rejected unscored",
+      "rejection_reason": "Large island locality plausible, but the two historical southwest islands are absent in modern context, the shore orientation/proportions differ, and nearby banks have changed. Exact historical-to-modern island correspondence remains uncertain; original off-shore pixel is preserved, not promoted."
+    }
+  ]
+}
