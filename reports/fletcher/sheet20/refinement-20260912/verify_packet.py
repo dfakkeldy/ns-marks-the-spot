@@ -13,9 +13,21 @@ def j(p):
     return json.loads(p.read_text())
 def sha(p):
     return hashlib.sha256(p.read_bytes()).hexdigest()
+RECORDED_ROOT = Path('/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot')
+
+def resolve_recorded_path(value, root=R):
+    path = Path(value)
+    if path.is_absolute():
+        try:
+            relative = path.relative_to(RECORDED_ROOT)
+        except ValueError:
+            return path  # External source, reference and raster locations stay exact.
+        return R / relative
+    return root / path
+
 def verify(rows, root=R):
     for row in rows:
-        assert sha(root / row['path']) == row['sha256'], row['path']
+        assert sha(resolve_recorded_path(row['path'], root)) == row['sha256'], row['path']
 
 base = j(D / 'baseline-verification.json')
 subprocess.run(['git','merge-base','--is-ancestor',base['base_commit'],'origin/nightly'],cwd=R,check=True)
@@ -24,7 +36,7 @@ provenance = j(D / 'render-provenance.json')
 verify(provenance['files'])
 verify(provenance['rasters'])
 for row in provenance['files']:
-    path = Path(row['path'])
+    path = resolve_recorded_path(row['path'])
     if path.parent == P:
         original = subprocess.check_output(['git','show',base['base_commit']+':'+str(path.relative_to(R))],cwd=R)
         assert hashlib.sha256(original).hexdigest() == row['sha256']
