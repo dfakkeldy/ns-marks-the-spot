@@ -1,0 +1,31 @@
+{
+  "sheet": "sheet-06",
+  "points": [
+    {
+      "lonlat": [
+        -60.901163,
+        46.6237779
+      ],
+      "source_guide_xy": [
+        8266.934902299428,
+        6340.529546899954
+      ],
+      "objectids": [
+        184697,
+        265794,
+        265795
+      ],
+      "id": "F04",
+      "modern_node_id": "J0524",
+      "role": "check",
+      "pixel_xy": [
+        8308,
+        6224
+      ],
+      "identity_evidence": "Daphine second southern tributary east of fitted first southern tributary",
+      "source_uncertainty_px": 20,
+      "status": "Candidate awaiting exact native/modern close and wider review; unscored.",
+      "review_note": "Moved before first score from below junction on southern arm to native tributary origin."
+    }
+  ]
+}

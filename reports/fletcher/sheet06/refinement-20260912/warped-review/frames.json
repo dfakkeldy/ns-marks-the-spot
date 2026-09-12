@@ -1,0 +1,122 @@
+[
+  {
+    "image": "north-coast.jpg",
+    "lonlat_bounds": [
+      -60.94,
+      46.75,
+      -60.855,
+      46.8
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/refinement-20260912/sheet-06-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet06/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "jumping-corney.jpg",
+    "lonlat_bounds": [
+      -60.965,
+      46.7,
+      -60.85,
+      46.76
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/refinement-20260912/sheet-06-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet06/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "trout-robert.jpg",
+    "lonlat_bounds": [
+      -60.99,
+      46.64,
+      -60.865,
+      46.73
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/refinement-20260912/sheet-06-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet06/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "jerome-coast.jpg",
+    "lonlat_bounds": [
+      -61.0,
+      46.655,
+      -60.94,
+      46.71
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/refinement-20260912/sheet-06-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet06/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "island-harbour.jpg",
+    "lonlat_bounds": [
+      -61.05,
+      46.615,
+      -60.97,
+      46.665
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/refinement-20260912/sheet-06-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet06/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "cheticamp-faribault.jpg",
+    "lonlat_bounds": [
+      -60.985,
+      46.605,
+      -60.855,
+      46.655
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/refinement-20260912/sheet-06-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet06/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "daphine-repair.jpg",
+    "lonlat_bounds": [
+      -60.928,
+      46.611,
+      -60.866,
+      46.643
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/refinement-20260912/sheet-06-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet06/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "full-sheet.jpg",
+    "lonlat_bounds": [
+      -61.25,
+      46.6,
+      -60.8,
+      46.82
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/regional-ten/sheet-06-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet06/refinement-20260912/sheet-06-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet06/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

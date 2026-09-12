@@ -1,0 +1,62 @@
+{
+  "sheet": "sheet-06",
+  "fit_sha256": "d2b8b479d734472aec08440df074f0e0184938a46a7871f0dd9545e98daafbe4",
+  "points": [
+    {
+      "lonlat": [
+        -60.9275657,
+        46.6251279
+      ],
+      "source_guide_xy": [
+        7698.894801279297,
+        6294.394700000063
+      ],
+      "objectids": [
+        190203,
+        263446,
+        263447
+      ],
+      "id": "Q02",
+      "role": "check",
+      "pixel_xy": [
+        7751,
+        6144
+      ],
+      "modern_node_id": "J0521",
+      "identity_evidence": "Faribault Brook main southeastern arm and western tributary junction; corrected from downstream western tributary fork J0534 to J0521 before scoring.",
+      "source_uncertainty_px": 20,
+      "status": "Corrected diagnostic pending exact crosshair inspection before first score."
+    },
+    {
+      "lonlat": [
+        -60.912404,
+        46.7433752
+      ],
+      "source_guide_xy": [
+        8044.015326399123,
+        2595.6012272003572
+      ],
+      "objectids": [
+        185689,
+        275538,
+        275539
+      ],
+      "id": "V03",
+      "role": "check",
+      "pixel_xy": [
+        8310,
+        2306
+      ],
+      "modern_node_id": "J0153",
+      "identity_evidence": "Jumping Brook southern tributary upstream of the first coastal tributary",
+      "source_uncertainty_px": 20,
+      "status": "Exact native crosshair and wide modern topology reviewed before scoring.",
+      "initial_pixel_xy": [
+        8280,
+        2305
+      ],
+      "review_note": "Move east onto the southern tributary at the Fall label. This follows the lower coastal tributary and precedes the next upstream fork. Later tributary orientations and lengths differ; this is a local fork correspondence only."
+    }
+  ],
+  "scope": "Previously scored diagnostics; no fresh evidence."
+}
