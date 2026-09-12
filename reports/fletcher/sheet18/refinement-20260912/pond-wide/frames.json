@@ -1,0 +1,42 @@
+[
+  {
+    "image": "sheet-18-F03.jpg",
+    "point_record": "sheet18/refinement-20260912/fresh-pond-proposals.json",
+    "point_id": "F03",
+    "native_box": [
+      2425,
+      1478,
+      3125,
+      2178
+    ],
+    "native_coordinates": [
+      2775,
+      1828
+    ],
+    "modern_lonlat": [
+      -61.164722,
+      45.900813
+    ],
+    "rotation_degrees": 0
+  },
+  {
+    "image": "sheet-18-F04.jpg",
+    "point_record": "sheet18/refinement-20260912/fresh-pond-proposals.json",
+    "point_id": "F04",
+    "native_box": [
+      2340,
+      2886,
+      3040,
+      3586
+    ],
+    "native_coordinates": [
+      2690,
+      3236
+    ],
+    "modern_lonlat": [
+      -61.1697131,
+      45.8547673
+    ],
+    "rotation_degrees": 0
+  }
+]

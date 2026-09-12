@@ -1,0 +1,62 @@
+{
+  "fit_sha256": "72159382b2724fcbdaba9bfc52ba095248355cbe15e5618b56ba8d0f8e61f342",
+  "selected_at": "2026-09-12T16:32:53.333056+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -61.164722,
+        45.900813
+      ],
+      "source_guide_xy": [
+        2870.8893862564582,
+        1792.4114469112828
+      ],
+      "objectids": [
+        63540,
+        63541,
+        198050
+      ],
+      "id": "F03",
+      "modern_node_id": "J0326",
+      "role": "check",
+      "pixel_xy": [
+        2775,
+        1828
+      ],
+      "identity_evidence": "Ashfield repaired pond northern inlet; same pond as C16, explicitly correlated local shape check.",
+      "source_uncertainty_px": 15,
+      "status": "Final exact native/modern close/wide review complete before first score. No post-score adjustment."
+    },
+    {
+      "lonlat": [
+        -61.1697131,
+        45.8547673
+      ],
+      "source_guide_xy": [
+        2744.5505004981533,
+        3235.1452832215
+      ],
+      "objectids": [
+        62589,
+        62590,
+        195769
+      ],
+      "id": "F04",
+      "modern_node_id": "J0563",
+      "role": "check",
+      "pixel_xy": [
+        2716,
+        3259
+      ],
+      "identity_evidence": "Small isolated pond southwest outlet east of road south of A. Cumming; separate southern drainage from repaired Ashfield pond.",
+      "source_uncertainty_px": 15,
+      "status": "Final exact native/modern close/wide review complete before first score. No post-score adjustment.",
+      "pre_review_pixel_xy": [
+        2690,
+        3236
+      ]
+    }
+  ],
+  "reviewed_at": "2026-09-12T16:35:00.442299+00:00",
+  "status": "Two final exact native/modern pond checks personally reviewed before first score. F03 same pond as C16 is correlated local evidence; F04 separate southern pond drainage."
+}

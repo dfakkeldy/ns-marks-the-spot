@@ -1,0 +1,56 @@
+{
+  "fit_sha256": "72159382b2724fcbdaba9bfc52ba095248355cbe15e5618b56ba8d0f8e61f342",
+  "selected_at": "2026-09-12T16:31:20.883153+00:00",
+  "points": [
+    {
+      "lonlat": [
+        -61.2002617,
+        45.9040876
+      ],
+      "source_guide_xy": [
+        2104.7216014803853,
+        1690.1444209099282
+      ],
+      "objectids": [
+        198290,
+        266191,
+        266192
+      ],
+      "id": "F01",
+      "modern_node_id": "J0318",
+      "role": "check",
+      "pixel_xy": [
+        2135,
+        1690
+      ],
+      "identity_evidence": "Ashfield western brook eastern tributary joins north-south main branch above road crossing; distinct drainage west of repaired pond.",
+      "source_uncertainty_px": 20,
+      "status": "Fresh post-freeze proposal; exact native/modern review pending."
+    },
+    {
+      "lonlat": [
+        -61.1365131,
+        45.8906221
+      ],
+      "source_guide_xy": [
+        3475.959932568716,
+        2111.445882438449
+      ],
+      "objectids": [
+        199206,
+        269642,
+        298795
+      ],
+      "id": "F02",
+      "modern_node_id": "J0383",
+      "role": "check",
+      "pixel_xy": [
+        3450,
+        2210
+      ],
+      "identity_evidence": "Eastern Ashfield brook major northern tributary joins east-flowing southern main channel, east of repaired pond system.",
+      "source_uncertainty_px": 20,
+      "status": "Fresh post-freeze proposal; exact native/modern review pending."
+    }
+  ]
+}

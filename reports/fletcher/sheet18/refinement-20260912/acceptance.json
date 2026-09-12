@@ -1,0 +1,18 @@
+{
+  "whole_sheet_geographically_accepted": false,
+  "status": "draft; failed geographic acceptance",
+  "preferred_whole_sheet": "Retain preserved fourteen-control provisional fit; neither experiment is a demonstrated whole-sheet replacement.",
+  "fifteen_control_fresh_median_ground_m": 545.0013528874099,
+  "sixteen_control_fresh_median_ground_m": 255.78590684689001,
+  "limitations": [
+    "F03 is correlated with C16 on the same pond.",
+    "F05 and F06 share the newly controlled C17 drainage.",
+    "No new independent coverage of the entire sheet interior.",
+    "Warped northwest and adjacent continuations remain inadequate."
+  ],
+  "thresholds": {
+    "median_ground_m_max": 100,
+    "worst_ground_m_max": 250
+  },
+  "next_action": "Preserve experiments and continue queue with Sheet 20; any further repair requires new geographic evidence and fresh checks after a new freeze."
+}
