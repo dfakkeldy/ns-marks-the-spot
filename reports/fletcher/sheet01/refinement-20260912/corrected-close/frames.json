@@ -1,0 +1,22 @@
+[
+  {
+    "image": "sheet-01-F01.jpg",
+    "point_record": "sheet01/refinement-20260912/corrected-fresh.json",
+    "point_id": "F01",
+    "native_box": [
+      3279,
+      5060,
+      3499,
+      5280
+    ],
+    "native_coordinates": [
+      3389,
+      5170
+    ],
+    "modern_lonlat": [
+      -60.6386215,
+      47.0051259
+    ],
+    "rotation_degrees": 0
+  }
+]

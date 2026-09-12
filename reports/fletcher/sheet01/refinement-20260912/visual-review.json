@@ -1,0 +1,116 @@
+{
+  "reviewed_at": "2026-09-12T15:52:47.057861+00:00",
+  "reviewer": "Codex personally viewed each listed image",
+  "native": "Ten exact unrotated close/wide frames personally inspected before relevant promotion or score. F02 rejected without score; F01 corrected before score.",
+  "regions": {
+    "lowland-west": "Local coast alignment improves near C11; southern mouth F01 still 199.696m; inland channel extent/order differs.",
+    "gulch-east": "C10 mouth and adjacent coast improve, while farther southern coast remains displaced and historical channel simplification lacks inland support.",
+    "salmon-southwest": "Large unsupported inland network differences persist; rejected Q01 remains excluded.",
+    "bay-mcdougall": "Central inland Wreck Cove and Salmon geometry remain mismatched; McDougall shoreline identity C08 stays rejected.",
+    "st-lawrence-french": "Existing cape and local river support preserved; coastline east of cape and southern tributaries still differ.",
+    "meat-blackpoint": "Control vicinity remains locally close but intervening northern coast and inland tributaries remain unsupported.",
+    "cape-north-money": "Main cape/Money control locations preserved; Gulch coast improves, no independent interior check.",
+    "full-sheet": "Complete northern sea, legend, coastline, rocks, inland terrain and labels remain present. Whole sheet unaccepted."
+  },
+  "joins": "Three actual same-window comparisons against Sheet03 ten-control and Sheet02 ten-control experimental rasters show gaps and displaced stream/coast continuations; neither neighbor is accepted.",
+  "browser": "Desktop import and reload, mobile reload viewed; complete raster visible with transparency around boundary, persisted bytes/enabled state, no errors.",
+  "count": 24,
+  "figures": [
+    {
+      "path": "adjacent-sheet-review/02-southeast-coast.jpg",
+      "sha256": "01eda967706bce65e6b03557f429630043af11f2b9468721e74b92b2be7e1832"
+    },
+    {
+      "path": "adjacent-sheet-review/03-south-east.jpg",
+      "sha256": "8b5f5e9d5e1ec9b822621aaa955b34112d2a4240f7f6e44fa204936588288b5e"
+    },
+    {
+      "path": "adjacent-sheet-review/03-south-west.jpg",
+      "sha256": "4a490534cb0adaa5bba8ace47604cb10b1f8d9336805288629d9bceac15886df"
+    },
+    {
+      "path": "browser/import-desktop.png",
+      "sha256": "7d6cd2bb6adf246c2b7a32681378d402bd45494df75b81b799022e6d6a0ac526"
+    },
+    {
+      "path": "browser/reload-desktop.png",
+      "sha256": "4c051d10920cbec8c0bfa854d069bce6e3569d40500a1fa36a3f69a196d38126"
+    },
+    {
+      "path": "browser/reload-mobile.png",
+      "sha256": "10c15a079c7a87872ddc95e6b080b83ea0d032ee13b8b749ebecc6744b4fb63c"
+    },
+    {
+      "path": "corrected-close/sheet-01-F01.jpg",
+      "sha256": "e49034bda957c84595e92b233158d6cbf2dd29a019f9f8003b35092eac7c8b5b"
+    },
+    {
+      "path": "corrected-wide/sheet-01-F01.jpg",
+      "sha256": "92f877de2d75238ffb747b3736719ed36e4c46e9dd2d13c5300d8ef2a3ab207c"
+    },
+    {
+      "path": "fresh-close/sheet-01-F01.jpg",
+      "sha256": "d7495b17a13e6b690f21bdce212dd3506960c311f466ee503358bea71d8cb398"
+    },
+    {
+      "path": "fresh-close/sheet-01-F02.jpg",
+      "sha256": "697dec35b9cb0b7bf043f90fe7ed857448bae7484c239589a285157367a84ed8"
+    },
+    {
+      "path": "fresh-wide/sheet-01-F01.jpg",
+      "sha256": "f851b2ef0b9fd045f2fd576ca2f3a35ec145c4b2477fb7ebe5b06d434f56fb44"
+    },
+    {
+      "path": "fresh-wide/sheet-01-F02.jpg",
+      "sha256": "038725b30f89acaa7d6bfdadc2ed0301f07169a5eca720bd8e754249835ed760"
+    },
+    {
+      "path": "repair-close/sheet-01-V02.jpg",
+      "sha256": "d604a0e7514c8c339420d51948ec0f7d38a14d6ed5e110990e5e89ae4ec17e7c"
+    },
+    {
+      "path": "repair-close/sheet-01-V03.jpg",
+      "sha256": "3cc2f60d4f4a58e2774679eb51e1bde2577f45cfb06baca63bb5ecfddd5ed672"
+    },
+    {
+      "path": "repair-wide/sheet-01-V02.jpg",
+      "sha256": "996af70d326bcd7dbdd25a39ba2e0f7c4865c7c04331069e92a2c540fa3f9300"
+    },
+    {
+      "path": "repair-wide/sheet-01-V03.jpg",
+      "sha256": "337f023e4e833201df1180decd4815705ef117e74483ef6ffa0692e71d720251"
+    },
+    {
+      "path": "warped-review/bay-mcdougall.jpg",
+      "sha256": "df8448ee0b5ab40175ee201fec3a82a006f4913f11e360d7e52cb23522950614"
+    },
+    {
+      "path": "warped-review/cape-north-money.jpg",
+      "sha256": "1aed2522566ad59e5e2248d3785d951a949bab5bf05a36adeb9fa8bc252d0ff9"
+    },
+    {
+      "path": "warped-review/full-sheet.jpg",
+      "sha256": "891b7e8f23f4cedf1c147c9be5160fc523459a48d0c519cd51ad5f34342faa55"
+    },
+    {
+      "path": "warped-review/gulch-east.jpg",
+      "sha256": "178f42f4db5958a38ce344864bdd67a8af088e4d1e7c0382ed36cc922c2386dc"
+    },
+    {
+      "path": "warped-review/lowland-west.jpg",
+      "sha256": "5b1cdd344e66be131b9e528bc08dd7ed45d7959c1b8c1caf26adcc3341320332"
+    },
+    {
+      "path": "warped-review/meat-blackpoint.jpg",
+      "sha256": "a6c4db90169fa6ea6584c9909cb6c31679fc8ee236295eb91ae95a104112a439"
+    },
+    {
+      "path": "warped-review/salmon-southwest.jpg",
+      "sha256": "4f65e9f39fd4daa1ea589977244e0609c276d15c8a5c7c517d674ab2055dce76"
+    },
+    {
+      "path": "warped-review/st-lawrence-french.jpg",
+      "sha256": "e8de31e0de45087068581656607ad345c57f442c17fa9185db50c89292019dbf"
+    }
+  ]
+}
