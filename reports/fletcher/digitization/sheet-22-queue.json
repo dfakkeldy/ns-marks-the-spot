@@ -1,0 +1,3018 @@
+{
+  "sheet": 22,
+  "inventory_path": "docs/fletcher/label-extraction/highway19-production/sheet-22-reviewed.json",
+  "inventory_sha256": "a17c32b6ad4d8d735fd4eed5098fef8d0798e41e16a0ee2600dfd5c22ec45572",
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "annotations": [
+    {
+      "annotation_id": "F22-HAW-001",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-002",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-003",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-004",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-005",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-006",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-007",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-008",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-009",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-010",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-011",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-012",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-013",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-014",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-015",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-016",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-017",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-018",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-019",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-020",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-021",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-022",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-023",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-024",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-025",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-026",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-027",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-028",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-029",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-030",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-031",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-032",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-033",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-034",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-035",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-036",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-037",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-038",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-039",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-040",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-041",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-042",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-043",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-044",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-045",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-046",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-047",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-048",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-049",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-050",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-051",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-052",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-053",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-054",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-055",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-056",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-057",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-058",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-059",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-060",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-061",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-062",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-063",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-064",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-065",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-066",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-067",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-068",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-069",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-070",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-071",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-072",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-073",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-074",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-075",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-076",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-077",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-078",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-079",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-080",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-081",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-082",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-083",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-084",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-085",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-086",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-087",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-088",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-089",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-090",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-091",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-092",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-093",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-094",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-095",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-096",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-097",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-098",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-099",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-100",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-101",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-102",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-103",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-104",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-105",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-106",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-107",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-108",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-109",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-110",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-111",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-112",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-113",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-114",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-115",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-116",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-117",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-118",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-119",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-120",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-121",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-122",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-123",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-124",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-125",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-126",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-127",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-128",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-129",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-130",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-131",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-132",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-133",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-134",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-135",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-136",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-137",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-138",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-139",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-140",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-141",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-142",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-143",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-144",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-145",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-146",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-147",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-148",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-149",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-150",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-151",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-152",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-153",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-154",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-155",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-156",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-157",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-158",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-159",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-160",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-161",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-162",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-163",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-164",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-165",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-166",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-167",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-168",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-169",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-170",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-171",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-172",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-173",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-174",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-175",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-176",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-177",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-178",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-179",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-180",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-181",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-182",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-183",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-184",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-185",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-186",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-187",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-188",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-189",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-190",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-191",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-192",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-193",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-194",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-195",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-196",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-197",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-198",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-199",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-200",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-201",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-202",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-203",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-204",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-205",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-206",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-207",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-208",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-209",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-210",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-211",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-212",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-213",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-214",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-215",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-216",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-217",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-218",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-219",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-220",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-221",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-222",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-223",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-224",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-225",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-226",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-227",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-228",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-229",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-230",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-231",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-232",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-233",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-234",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-235",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-236",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-237",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-238",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-239",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-240",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-241",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-242",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-243",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-244",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-245",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-246",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-247",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-248",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-249",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-250",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-251",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-252",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-253",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-254",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-255",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-256",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-257",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-258",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-259",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-260",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-261",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-262",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-263",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-264",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-265",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-266",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-267",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-268",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-269",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-270",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-271",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-272",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-273",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-274",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-275",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-276",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-277",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-278",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-279",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-280",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-281",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-282",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-283",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-284",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-285",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-286",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-287",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-288",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-289",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-290",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-291",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-292",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-293",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-294",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-295",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-296",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-297",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-298",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-299",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-300",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F22-HAW-301",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    }
+  ]
+}

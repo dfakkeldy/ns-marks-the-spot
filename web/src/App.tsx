@@ -1578,6 +1578,8 @@ export function App() {
     fletcherLayerCatalog.opacity,
   );
   const [fletcherRetryToken, setFletcherRetryToken] = useState(0);
+  const [fletcherFeaturesVisible, setFletcherFeaturesVisible] = useState(true);
+  const [fletcherFeaturesStatus, setFletcherFeaturesStatus] = useState('Reviewed historical annotations');
   const intendedInitialProvinceLayers = useRef(
     visibilityRecordFor(
       provinceLayerCatalog.map(({ id }) => id),
@@ -4751,6 +4753,13 @@ export function App() {
                         <option value="osm">OpenStreetMap</option>
                       </select>
                     </label>
+                    {basemapStyle === 'fletcher' ? <>
+                      <label className="fletcher-features-toggle">
+                        <input type="checkbox" checked={fletcherFeaturesVisible} onChange={event => setFletcherFeaturesVisible(event.target.checked)} />
+                        Reviewed Fletcher features
+                      </label>
+                      <p className="resource-source-note" role="status">{fletcherFeaturesVisible ? fletcherFeaturesStatus : 'Historical features hidden'}. Zoom to level 12 or closer; select a mark for its original scan and evidence. Points are approximate; dashed areas retain unresolved groups. On-screen research layer, excluded from exports.</p>
+                    </> : null}
                     </div>
                   ) : null}
 
@@ -5487,6 +5496,8 @@ export function App() {
             liveConditionsLayers={liveConditionsLayers}
             wellLogAccuracyFilter={wellLogAccuracyFilter}
             fletcherVisible={fletcherVisible}
+            fletcherFeaturesVisible={basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode}
+            onFletcherFeaturesStatus={setFletcherFeaturesStatus}
             fletcherOpacity={fletcherOpacity}
             fletcherTileBaseUrl={fletcherTileConfiguration.baseUrl}
             fletcherRetryToken={fletcherRetryToken}
@@ -5795,6 +5806,9 @@ export function App() {
               <span key={id}>{attribution}</span>
             ))}
           {fletcherVisible ? <span>{RUMSEY_ATTRIBUTION}</span> : null}
+          {basemapStyle === 'fletcher' && fletcherFeaturesVisible && !pokerMode ? <span>
+            Historical annotations: {RUMSEY_ATTRIBUTION} · <a href={RUMSEY_LICENCE_URL} target="_blank" rel="noreferrer">CC BY-NC-SA 3.0</a> · transcribed and georeferenced · <a href={`${import.meta.env.BASE_URL}fletcher-features/source.json`} target="_blank" rel="noreferrer">Feature sources</a>
+          </span> : null}
           <span>Boundaries are not a survey</span>
           <button type="button" onClick={() => setDataSourcesOpen(true)}>
             Data &amp; licences

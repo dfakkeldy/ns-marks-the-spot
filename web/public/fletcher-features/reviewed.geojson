@@ -1,0 +1,2849 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "F19-JUD-004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.476598261391864,
+          45.91713322204572
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-004",
+        "sheet": 19,
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            4022,
+            1338
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3742,
+            1127,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3742,1127,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The single compact black building mark immediately above-left of School, below the road.",
+        "placement_note": "The northern coastal road, elongated inlet and two eastern tributary sequence match the modern corridor. Sh. Mill group spans the inland road/stream crossing; School 007 is beside the next southeastern road/stream crossing. Shop 011 remains near the southern road junction, with visible local stream/road offset. Exact building sites are not resolved. Shop 009/P.O.010 share three printed marks and cannot be assigned individually.",
+        "source_excerpt": "excerpts/F19-JUD-004.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-005",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.47836972196032,
+          45.90941281484245
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-005",
+        "sheet": 19,
+        "source_text": "Forge",
+        "kind": "forge",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3986,
+            1567
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3707,
+            1331,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3707,1331,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The isolated building mark directly left of Forge, south of the stream; other buildings lie north of that stream.",
+        "placement_note": "The northern coastal road, elongated inlet and two eastern tributary sequence match the modern corridor. Sh. Mill group spans the inland road/stream crossing; School 007 is beside the next southeastern road/stream crossing. Shop 011 remains near the southern road junction, with visible local stream/road offset. Exact building sites are not resolved. Shop 009/P.O.010 share three printed marks and cannot be assigned individually.",
+        "source_excerpt": "excerpts/F19-JUD-005.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-006",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.46413581865607,
+              45.911526931598026
+            ],
+            [
+              -61.46413975546009,
+              45.91119546514743
+            ],
+            [
+              -61.464143736116824,
+              45.910863944698804
+            ],
+            [
+              -61.46414775055254,
+              45.91053238238894
+            ],
+            [
+              -61.4641517891922,
+              45.910200789853675
+            ],
+            [
+              -61.46415584293667,
+              45.909869178245316
+            ],
+            [
+              -61.464159903140384,
+              45.9095375582508
+            ],
+            [
+              -61.46416396159013,
+              45.909205940108585
+            ],
+            [
+              -61.46416801048424,
+              45.90887433362517
+            ],
+            [
+              -61.46417204241249,
+              45.90854274819104
+            ],
+            [
+              -61.4637422355864,
+              45.90855353950599
+            ],
+            [
+              -61.46331286909838,
+              45.90856371819455
+            ],
+            [
+              -61.46288392754601,
+              45.908573294635495
+            ],
+            [
+              -61.46245539530282,
+              45.90858227940451
+            ],
+            [
+              -61.46202725655004,
+              45.90859068324494
+            ],
+            [
+              -61.461599495305876,
+              45.90859851704132
+            ],
+            [
+              -61.46117209545352,
+              45.90860579179354
+            ],
+            [
+              -61.46074504076676,
+              45.908612518594076
+            ],
+            [
+              -61.4603183149333,
+              45.908618708606696
+            ],
+            [
+              -61.45989190157683,
+              45.90862437304652
+            ],
+            [
+              -61.45946578427722,
+              45.908629523162666
+            ],
+            [
+              -61.459464629259095,
+              45.908959777398735
+            ],
+            [
+              -61.45946349537005,
+              45.90929000573557
+            ],
+            [
+              -61.45946238879869,
+              45.9096201992349
+            ],
+            [
+              -61.45946131596968,
+              45.90995034867851
+            ],
+            [
+              -61.45946028354814,
+              45.910280444566084
+            ],
+            [
+              -61.45945929844356,
+              45.910610477113956
+            ],
+            [
+              -61.45945836781354,
+              45.910940436254904
+            ],
+            [
+              -61.45945749906523,
+              45.9112703116392
+            ],
+            [
+              -61.459456699856304,
+              45.911600092636924
+            ],
+            [
+              -61.45988022256724,
+              45.911596241300025
+            ],
+            [
+              -61.460304059011094,
+              45.911591870670634
+            ],
+            [
+              -61.460728227868536,
+              45.91158696741495
+            ],
+            [
+              -61.46115274793841,
+              45.91158151807064
+            ],
+            [
+              -61.46157763812496,
+              45.91157550905911
+            ],
+            [
+              -61.46200291742082,
+              45.91156892670118
+            ],
+            [
+              -61.46242860488797,
+              45.91156175723588
+            ],
+            [
+              -61.4628547196333,
+              45.91155398684297
+            ],
+            [
+              -61.463281280780514,
+              45.91154560166967
+            ],
+            [
+              -61.46370830743714,
+              45.91153658786143
+            ],
+            [
+              -61.46413581865607,
+              45.911526931598026
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-006",
+        "sheet": 19,
+        "source_text": "Sh. Mill",
+        "kind": "mill",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4310.0,
+                1525.0
+              ],
+              [
+                4320.0,
+                1525.0
+              ],
+              [
+                4330.0,
+                1525.0
+              ],
+              [
+                4340.0,
+                1525.0
+              ],
+              [
+                4350.0,
+                1525.0
+              ],
+              [
+                4360.0,
+                1525.0
+              ],
+              [
+                4370.0,
+                1525.0
+              ],
+              [
+                4380.0,
+                1525.0
+              ],
+              [
+                4390.0,
+                1525.0
+              ],
+              [
+                4400.0,
+                1525.0
+              ],
+              [
+                4410.0,
+                1525.0
+              ],
+              [
+                4420.0,
+                1525.0
+              ],
+              [
+                4420.0,
+                1535.0
+              ],
+              [
+                4420.0,
+                1545.0
+              ],
+              [
+                4420.0,
+                1555.0
+              ],
+              [
+                4420.0,
+                1565.0
+              ],
+              [
+                4420.0,
+                1575.0
+              ],
+              [
+                4420.0,
+                1585.0
+              ],
+              [
+                4420.0,
+                1595.0
+              ],
+              [
+                4420.0,
+                1605.0
+              ],
+              [
+                4420.0,
+                1615.0
+              ],
+              [
+                4410.0,
+                1615.0
+              ],
+              [
+                4400.0,
+                1615.0
+              ],
+              [
+                4390.0,
+                1615.0
+              ],
+              [
+                4380.0,
+                1615.0
+              ],
+              [
+                4370.0,
+                1615.0
+              ],
+              [
+                4360.0,
+                1615.0
+              ],
+              [
+                4350.0,
+                1615.0
+              ],
+              [
+                4340.0,
+                1615.0
+              ],
+              [
+                4330.0,
+                1615.0
+              ],
+              [
+                4320.0,
+                1615.0
+              ],
+              [
+                4310.0,
+                1615.0
+              ],
+              [
+                4310.0,
+                1605.0
+              ],
+              [
+                4310.0,
+                1595.0
+              ],
+              [
+                4310.0,
+                1585.0
+              ],
+              [
+                4310.0,
+                1575.0
+              ],
+              [
+                4310.0,
+                1565.0
+              ],
+              [
+                4310.0,
+                1555.0
+              ],
+              [
+                4310.0,
+                1545.0
+              ],
+              [
+                4310.0,
+                1535.0
+              ],
+              [
+                4310.0,
+                1525.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3955,
+            1325,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3955,1325,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Sh. Mill lettering lies west of the road/stream crossing. Two printed marks southwest of the road and two on the eastern stream bank form the immediate candidate group. Lettering does not uniquely select one mill building. Retain the group; its rectangle is neither a site footprint nor positional uncertainty.",
+        "placement_note": "The northern coastal road, elongated inlet and two eastern tributary sequence match the modern corridor. Sh. Mill group spans the inland road/stream crossing; School 007 is beside the next southeastern road/stream crossing. Shop 011 remains near the southern road junction, with visible local stream/road offset. Exact building sites are not resolved. Shop 009/P.O.010 share three printed marks and cannot be assigned individually.",
+        "source_excerpt": "excerpts/F19-JUD-006.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-007",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.44681986983314,
+          45.90212723398293
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-007",
+        "sheet": 19,
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            4715,
+            1813
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            4342,
+            1588,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4342,1588,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The isolated compact building mark immediately right of School lies west of the double-line road and east of the south-running watercourse, just south of the crossing. The upstream western stream bend and the southward road junction distinguish this mark from houses farther northeast.",
+        "placement_note": "The northern coastal road, elongated inlet and two eastern tributary sequence match the modern corridor. Sh. Mill group spans the inland road/stream crossing; School 007 is beside the next southeastern road/stream crossing. Shop 011 remains near the southern road junction, with visible local stream/road offset. Exact building sites are not resolved. Shop 009/P.O.010 share three printed marks and cannot be assigned individually.",
+        "source_excerpt": "excerpts/F19-JUD-007.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-008",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.483630260036776,
+          45.89959201626559
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-008",
+        "sheet": 19,
+        "source_text": "Stage\nStables",
+        "kind": "stables",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3873,
+            1854
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3491,
+            1627,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3491,1627,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The isolated building mark immediately right of Stage Stables, west of the main road. This is a symbol association, not a footprint.",
+        "placement_note": "The northern coastal road, elongated inlet and two eastern tributary sequence match the modern corridor. Sh. Mill group spans the inland road/stream crossing; School 007 is beside the next southeastern road/stream crossing. Shop 011 remains near the southern road junction, with visible local stream/road offset. Exact building sites are not resolved. Shop 009/P.O.010 share three printed marks and cannot be assigned individually.",
+        "source_excerpt": "excerpts/F19-JUD-008.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-009",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.483046158495284,
+              45.89915064711234
+            ],
+            [
+              -61.48304844459854,
+              45.8988784507672
+            ],
+            [
+              -61.48305061645198,
+              45.89860641349613
+            ],
+            [
+              -61.48305267424752,
+              45.89833453422467
+            ],
+            [
+              -61.48305461826791,
+              45.898062811773215
+            ],
+            [
+              -61.4830564488839,
+              45.89779124486066
+            ],
+            [
+              -61.48260479199047,
+              45.89782418133084
+            ],
+            [
+              -61.482153516188966,
+              45.8978567144271
+            ],
+            [
+              -61.48170262607383,
+              45.897888835826556
+            ],
+            [
+              -61.48170057033474,
+              45.89816095422706
+            ],
+            [
+              -61.48169839925868,
+              45.89843322771385
+            ],
+            [
+              -61.48169611254449,
+              45.89870565740176
+            ],
+            [
+              -61.48169370997852,
+              45.89897824430306
+            ],
+            [
+              -61.481691191437086,
+              45.89925098932342
+            ],
+            [
+              -61.48214244276202,
+              45.8992179703721
+            ],
+            [
+              -61.48259410013343,
+              45.89918452005135
+            ],
+            [
+              -61.483046158495284,
+              45.89915064711234
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-009",
+        "sheet": 19,
+        "source_text": "Shop",
+        "kind": "shop",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                3886.0,
+                1869.0
+              ],
+              [
+                3896.0,
+                1869.0
+              ],
+              [
+                3906.0,
+                1869.0
+              ],
+              [
+                3916.0,
+                1869.0
+              ],
+              [
+                3916.0,
+                1877.4
+              ],
+              [
+                3916.0,
+                1885.8
+              ],
+              [
+                3916.0,
+                1894.2
+              ],
+              [
+                3916.0,
+                1902.6
+              ],
+              [
+                3916.0,
+                1911.0
+              ],
+              [
+                3906.0,
+                1911.0
+              ],
+              [
+                3896.0,
+                1911.0
+              ],
+              [
+                3886.0,
+                1911.0
+              ],
+              [
+                3886.0,
+                1902.6
+              ],
+              [
+                3886.0,
+                1894.2
+              ],
+              [
+                3886.0,
+                1885.8
+              ],
+              [
+                3886.0,
+                1877.4
+              ],
+              [
+                3886.0,
+                1869.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3609,
+            1632,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3609,1632,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Shop and P.O. sit beside a row of three compact marks east of the coastal road, southeast of Stage Stables and north of the brook. The source supports the shared service cluster but does not unambiguously assign each service to one of those three marks. Both annotations deliberately share this group.",
+        "placement_note": "The northern coastal road, elongated inlet and two eastern tributary sequence match the modern corridor. Sh. Mill group spans the inland road/stream crossing; School 007 is beside the next southeastern road/stream crossing. Shop 011 remains near the southern road junction, with visible local stream/road offset. Exact building sites are not resolved. Shop 009/P.O.010 share three printed marks and cannot be assigned individually.",
+        "source_excerpt": "excerpts/F19-JUD-009.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-010",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.483046158495284,
+              45.89915064711234
+            ],
+            [
+              -61.48304844459854,
+              45.8988784507672
+            ],
+            [
+              -61.48305061645198,
+              45.89860641349613
+            ],
+            [
+              -61.48305267424752,
+              45.89833453422467
+            ],
+            [
+              -61.48305461826791,
+              45.898062811773215
+            ],
+            [
+              -61.4830564488839,
+              45.89779124486066
+            ],
+            [
+              -61.48260479199047,
+              45.89782418133084
+            ],
+            [
+              -61.482153516188966,
+              45.8978567144271
+            ],
+            [
+              -61.48170262607383,
+              45.897888835826556
+            ],
+            [
+              -61.48170057033474,
+              45.89816095422706
+            ],
+            [
+              -61.48169839925868,
+              45.89843322771385
+            ],
+            [
+              -61.48169611254449,
+              45.89870565740176
+            ],
+            [
+              -61.48169370997852,
+              45.89897824430306
+            ],
+            [
+              -61.481691191437086,
+              45.89925098932342
+            ],
+            [
+              -61.48214244276202,
+              45.8992179703721
+            ],
+            [
+              -61.48259410013343,
+              45.89918452005135
+            ],
+            [
+              -61.483046158495284,
+              45.89915064711234
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-010",
+        "sheet": 19,
+        "source_text": "P.O.",
+        "kind": "post-office",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                3886.0,
+                1869.0
+              ],
+              [
+                3896.0,
+                1869.0
+              ],
+              [
+                3906.0,
+                1869.0
+              ],
+              [
+                3916.0,
+                1869.0
+              ],
+              [
+                3916.0,
+                1877.4
+              ],
+              [
+                3916.0,
+                1885.8
+              ],
+              [
+                3916.0,
+                1894.2
+              ],
+              [
+                3916.0,
+                1902.6
+              ],
+              [
+                3916.0,
+                1911.0
+              ],
+              [
+                3906.0,
+                1911.0
+              ],
+              [
+                3896.0,
+                1911.0
+              ],
+              [
+                3886.0,
+                1911.0
+              ],
+              [
+                3886.0,
+                1902.6
+              ],
+              [
+                3886.0,
+                1894.2
+              ],
+              [
+                3886.0,
+                1885.8
+              ],
+              [
+                3886.0,
+                1877.4
+              ],
+              [
+                3886.0,
+                1869.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3605,
+            1661,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3605,1661,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Shop and P.O. sit beside a row of three compact marks east of the coastal road, southeast of Stage Stables and north of the brook. The source supports the shared service cluster but does not unambiguously assign each service to one of those three marks. Both annotations deliberately share this group.",
+        "placement_note": "The northern coastal road, elongated inlet and two eastern tributary sequence match the modern corridor. Sh. Mill group spans the inland road/stream crossing; School 007 is beside the next southeastern road/stream crossing. Shop 011 remains near the southern road junction, with visible local stream/road offset. Exact building sites are not resolved. Shop 009/P.O.010 share three printed marks and cannot be assigned individually.",
+        "source_excerpt": "excerpts/F19-JUD-010.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-011",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.463391774116516,
+          45.89807120772254
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-011",
+        "sheet": 19,
+        "source_text": "Shop",
+        "kind": "shop",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            4330,
+            1933
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3999,
+            1731,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3999,1731,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Single building mark immediately above Shop, on the south side of the east-west road just west of its stream crossing. Distinct from the four marks north of the junction.",
+        "placement_note": "The northern coastal road, elongated inlet and two eastern tributary sequence match the modern corridor. Sh. Mill group spans the inland road/stream crossing; School 007 is beside the next southeastern road/stream crossing. Shop 011 remains near the southern road junction, with visible local stream/road offset. Exact building sites are not resolved. Shop 009/P.O.010 share three printed marks and cannot be assigned individually.",
+        "source_excerpt": "excerpts/F19-JUD-011.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-013",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.48896166342427,
+          45.88720711858138
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-013",
+        "sheet": 19,
+        "source_text": "Forge",
+        "kind": "forge",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3755,
+            2230
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3360,
+            2003,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3360,2003,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact rectangular mark immediately east of the coastal road and opposite Forge is the closest aligned mark; the two marks farther south and the eastern house column are separate. The coast and southern cross-road provide broader context.",
+        "placement_note": "The coastal road, southern inlet, small northern brook and Rory Chisholm brook sequence constrain the district. Forge 013 remains east of the coastal road, though nearby cross-road placement differs. Mill 021 remains a source group beside the eastern brook/crossing; no individual mill building is selected. Church 015 uses the explicit corrected modern coordinate east of Highway 19, not either TPS prediction.",
+        "source_excerpt": "excerpts/F19-JUD-013.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-015",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.4906198,
+          45.8787475
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-015",
+        "sheet": 19,
+        "source_text": "R.C. Church",
+        "kind": "church",
+        "reading_status": "clear",
+        "placement_status": "locally-reviewed-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3701,
+            2537
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3445,
+            2269,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3445,2269,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Distinct cross-like church symbol below the R.C. Church lettering beside the stream and coastal road.",
+        "placement_note": "The coastal road, southern inlet, small northern brook and Rory Chisholm brook sequence constrain the district. Forge 013 remains east of the coastal road, though nearby cross-road placement differs. Mill 021 remains a source group beside the eastern brook/crossing; no individual mill building is selected. Church 015 uses the explicit corrected modern coordinate east of Highway 19, not either TPS prediction.",
+        "source_excerpt": "excerpts/F19-JUD-015.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b",
+        "placement_correction": {
+          "reviewed_at": "2026-09-06",
+          "status": "locally-reviewed-approximate",
+          "reason": "User identifies the church as east of Highway 19; the frozen map-derived point is on the wrong side. Use the mapped modern church as an approximate preview location, supported by the recorded historical site-continuity account.",
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+              -61.4906198,
+              45.8787475
+            ]
+          },
+          "modern_reference": {
+            "provider": "OpenStreetMap",
+            "type": "node",
+            "id": 1325630467,
+            "version": 2,
+            "timestamp": "2019-10-24T20:40:42Z",
+            "name": "St Andrew's Catholic Parish Church",
+            "geometry_lonlat": [
+              -61.4906198,
+              45.8787475
+            ],
+            "url": "https://www.openstreetmap.org/node/1325630467",
+            "version_url": "https://www.openstreetmap.org/api/0.6/node/1325630467/2.json",
+            "retrieved_at": "2026-09-06",
+            "raw_response_sha256": "94013cf5584f56708bed956ec1185f8c90133d2053e214e76c139d0bf8ada865",
+            "attribution": "© OpenStreetMap contributors",
+            "license": "ODbL 1.0",
+            "rights_url": "https://www.openstreetmap.org/copyright"
+          },
+          "highway_side_check": {
+            "provider": "Province of Nova Scotia NSTDB",
+            "layer": "highways",
+            "object_id": 156236,
+            "route_number": 19,
+            "segment_lonlat": [
+              [
+                -61.49115754203206,
+                45.87871005089895
+              ],
+              [
+                -61.49115806672944,
+                45.87888106978337
+              ]
+            ],
+            "side": "east",
+            "meaning": "Longitude comparison at the church latitude against the recorded Route 19 segment; does not establish a surveyed setback."
+          },
+          "historical_footprint_status": "unresolved"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-021",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.45863847096889,
+              45.870465073251715
+            ],
+            [
+              -61.45863697174302,
+              45.87018064691189
+            ],
+            [
+              -61.45863591944321,
+              45.86989576221791
+            ],
+            [
+              -61.458635329277726,
+              45.86961040700147
+            ],
+            [
+              -61.45826080200419,
+              45.8696218761103
+            ],
+            [
+              -61.4578862243258,
+              45.86963334731061
+            ],
+            [
+              -61.45751159624519,
+              45.86964482065462
+            ],
+            [
+              -61.45751282632232,
+              45.86992985597397
+            ],
+            [
+              -61.457514544749515,
+              45.87021439564917
+            ],
+            [
+              -61.457516734478716,
+              45.870498453325915
+            ],
+            [
+              -61.457890677697414,
+              45.87048734653623
+            ],
+            [
+              -61.45826459000372,
+              45.87047621966895
+            ],
+            [
+              -61.45863847096889,
+              45.870465073251715
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-021",
+        "sheet": 19,
+        "source_text": "Mill",
+        "kind": "mill",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4430.0,
+                2790.0
+              ],
+              [
+                4438.333333333333,
+                2790.0
+              ],
+              [
+                4446.666666666667,
+                2790.0
+              ],
+              [
+                4455.0,
+                2790.0
+              ],
+              [
+                4455.0,
+                2798.6666666666665
+              ],
+              [
+                4455.0,
+                2807.3333333333335
+              ],
+              [
+                4455.0,
+                2816.0
+              ],
+              [
+                4446.666666666667,
+                2816.0
+              ],
+              [
+                4438.333333333333,
+                2816.0
+              ],
+              [
+                4430.0,
+                2816.0
+              ],
+              [
+                4430.0,
+                2807.3333333333335
+              ],
+              [
+                4430.0,
+                2798.6666666666665
+              ],
+              [
+                4430.0,
+                2790.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            4044,
+            2577,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4044,2577,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Multiple printed marks between the road and brook. The worker junction proposal is not an individual mill mark and is not adopted.",
+        "placement_note": "The coastal road, southern inlet, small northern brook and Rory Chisholm brook sequence constrain the district. Forge 013 remains east of the coastal road, though nearby cross-road placement differs. Mill 021 remains a source group beside the eastern brook/crossing; no individual mill building is selected. Church 015 uses the explicit corrected modern coordinate east of Highway 19, not either TPS prediction.",
+        "source_excerpt": "excerpts/F19-JUD-021.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-061",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.2794706455747,
+          45.86719835371861
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-061",
+        "sheet": 19,
+        "source_text": "Gold Mine",
+        "kind": "mine-annotation",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            8379,
+            2878
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            8064,
+            2636,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/8064,2636,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Coordinator native 4x review identifies the compact dark oval beneath Gold at the brook/road, despite geological overprinting. Its centre is approximate printed-symbol placement, not a surveyed mine entrance. The worker alternative regions omitted this mark.",
+        "placement_note": "Gold Mine 061 remains north of the east-west road and beside the northern tributary junction, west of the major eastern valley. Modern road and watercourses support locality only; no mine footprint or present opening is established. Reprojection moves this annotation approximately 151 ground metres from the earlier 39-control pilot coordinate. Both revisions are retained; this is not a newly verified mine opening.",
+        "source_excerpt": "excerpts/F19-JUD-061.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-077",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.445894578699345,
+              45.82244809670875
+            ],
+            [
+              -61.44587509697828,
+              45.82212533012914
+            ],
+            [
+              -61.44585468022515,
+              45.82180356062966
+            ],
+            [
+              -61.44583338479896,
+              45.82148275536724
+            ],
+            [
+              -61.445811277076025,
+              45.8211628739452
+            ],
+            [
+              -61.445788433968026,
+              45.82084386798141
+            ],
+            [
+              -61.4457649433357,
+              45.82052568076034
+            ],
+            [
+              -61.445740904272895,
+              45.820208246989495
+            ],
+            [
+              -61.44571642723478,
+              45.819891492682885
+            ],
+            [
+              -61.44525391733383,
+              45.81989012309263
+            ],
+            [
+              -61.444791455106035,
+              45.81988890382434
+            ],
+            [
+              -61.44432896872001,
+              45.81988789583354
+            ],
+            [
+              -61.44386638881112,
+              45.81988715834288
+            ],
+            [
+              -61.443403648483944,
+              45.81988674888489
+            ],
+            [
+              -61.44294068325159,
+              45.819886723394546
+            ],
+            [
+              -61.44247743091238,
+              45.81988713635273
+            ],
+            [
+              -61.44201383136613,
+              45.819888040983166
+            ],
+            [
+              -61.44203920656512,
+              45.820202318543174
+            ],
+            [
+              -61.44206391075879,
+              45.820517677919135
+            ],
+            [
+              -61.44208784009912,
+              45.820834189559264
+            ],
+            [
+              -61.44211090790469,
+              45.82115190849521
+            ],
+            [
+              -61.44213304370609,
+              45.8214708753482
+            ],
+            [
+              -61.44215419200136,
+              45.82179111759176
+            ],
+            [
+              -61.44217431082156,
+              45.822112650974155
+            ],
+            [
+              -61.44219337020168,
+              45.82243548101535
+            ],
+            [
+              -61.44265625827692,
+              45.82243616433652
+            ],
+            [
+              -61.44311895586099,
+              45.82243721753907
+            ],
+            [
+              -61.44358152649443,
+              45.822438581124004
+            ],
+            [
+              -61.444044031790874,
+              45.822440197621326
+            ],
+            [
+              -61.44450653173867,
+              45.82244201123559
+            ],
+            [
+              -61.44496908490688,
+              45.82244396757187
+            ],
+            [
+              -61.445431748562214,
+              45.822446013436625
+            ],
+            [
+              -61.445894578699345,
+              45.82244809670875
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-077",
+        "sheet": 19,
+        "source_text": "Mill",
+        "kind": "mill",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4760.0,
+                4170.0
+              ],
+              [
+                4770.0,
+                4170.0
+              ],
+              [
+                4780.0,
+                4170.0
+              ],
+              [
+                4790.0,
+                4170.0
+              ],
+              [
+                4800.0,
+                4170.0
+              ],
+              [
+                4810.0,
+                4170.0
+              ],
+              [
+                4820.0,
+                4170.0
+              ],
+              [
+                4830.0,
+                4170.0
+              ],
+              [
+                4840.0,
+                4170.0
+              ],
+              [
+                4840.0,
+                4180.0
+              ],
+              [
+                4840.0,
+                4190.0
+              ],
+              [
+                4840.0,
+                4200.0
+              ],
+              [
+                4840.0,
+                4210.0
+              ],
+              [
+                4840.0,
+                4220.0
+              ],
+              [
+                4840.0,
+                4230.0
+              ],
+              [
+                4840.0,
+                4240.0
+              ],
+              [
+                4840.0,
+                4250.0
+              ],
+              [
+                4830.0,
+                4250.0
+              ],
+              [
+                4820.0,
+                4250.0
+              ],
+              [
+                4810.0,
+                4250.0
+              ],
+              [
+                4800.0,
+                4250.0
+              ],
+              [
+                4790.0,
+                4250.0
+              ],
+              [
+                4780.0,
+                4250.0
+              ],
+              [
+                4770.0,
+                4250.0
+              ],
+              [
+                4760.0,
+                4250.0
+              ],
+              [
+                4760.0,
+                4240.0
+              ],
+              [
+                4760.0,
+                4230.0
+              ],
+              [
+                4760.0,
+                4220.0
+              ],
+              [
+                4760.0,
+                4210.0
+              ],
+              [
+                4760.0,
+                4200.0
+              ],
+              [
+                4760.0,
+                4190.0
+              ],
+              [
+                4760.0,
+                4180.0
+              ],
+              [
+                4760.0,
+                4170.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            4398,
+            3980,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4398,3980,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The singular Mill label points toward a brook bend, but the reviewed native pixels do not separate a facility mark from the stream line. A marks this ambiguous bend only.",
+        "placement_note": "Western crossing 078, separate eastern crossing 079 and northeastern stream bend 077 retain their relative order. Current stream geometry visibly differs within the group rectangles. These remain approximate bounded source groups; neither individual buildings nor private residences are identified.",
+        "source_excerpt": "excerpts/F19-JUD-077.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-078",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.47752057751618,
+              45.815253192053476
+            ],
+            [
+              -61.47751188473865,
+              45.81493493178636
+            ],
+            [
+              -61.47750320909314,
+              45.814617066020034
+            ],
+            [
+              -61.4774946241022,
+              45.81429960333003
+            ],
+            [
+              -61.477486207016085,
+              45.81398255421142
+            ],
+            [
+              -61.477478038984295,
+              45.81366593130128
+            ],
+            [
+              -61.477470205138985,
+              45.813349749551
+            ],
+            [
+              -61.477462794433244,
+              45.813034026278494
+            ],
+            [
+              -61.47745589896252,
+              45.812718780978216
+            ],
+            [
+              -61.47744961235481,
+              45.812404034705516
+            ],
+            [
+              -61.4774440267184,
+              45.8120898088082
+            ],
+            [
+              -61.47743922776651,
+              45.81177612283668
+            ],
+            [
+              -61.47698923383183,
+              45.811777928713674
+            ],
+            [
+              -61.47653932229798,
+              45.811780237543786
+            ],
+            [
+              -61.47608954880429,
+              45.811783095193135
+            ],
+            [
+              -61.47563999341507,
+              45.81178655902601
+            ],
+            [
+              -61.47519077829558,
+              45.8117907057444
+            ],
+            [
+              -61.47474209592311,
+              45.81179564389123
+            ],
+            [
+              -61.47429416810145,
+              45.81180149567779
+            ],
+            [
+              -61.47384696286869,
+              45.81180827149619
+            ],
+            [
+              -61.47340018313933,
+              45.811815864858595
+            ],
+            [
+              -61.47295355460756,
+              45.81182417995949
+            ],
+            [
+              -61.47250687437012,
+              45.8118331531694
+            ],
+            [
+              -61.47205998285116,
+              45.81184274051466
+            ],
+            [
+              -61.47161274577259,
+              45.81185290958563
+            ],
+            [
+              -61.471165044938395,
+              45.811863635325
+            ],
+            [
+              -61.470716773279825,
+              45.81187489767063
+            ],
+            [
+              -61.47026783202727,
+              45.811886680105665
+            ],
+            [
+              -61.469818129048726,
+              45.81189896868217
+            ],
+            [
+              -61.46936757789265,
+              45.81191175131141
+            ],
+            [
+              -61.468916097293864,
+              45.81192501720818
+            ],
+            [
+              -61.468928950810174,
+              45.81223706671403
+            ],
+            [
+              -61.468942887366914,
+              45.81254931151643
+            ],
+            [
+              -61.46895784292086,
+              45.81286174780066
+            ],
+            [
+              -61.4689737428203,
+              45.813174372287826
+            ],
+            [
+              -61.468990502508994,
+              45.813487182787185
+            ],
+            [
+              -61.46900802825255,
+              45.813800178730396
+            ],
+            [
+              -61.46902621782031,
+              45.81411336165009
+            ],
+            [
+              -61.46904496109065,
+              45.81442673557711
+            ],
+            [
+              -61.469064140580016,
+              45.814740307345026
+            ],
+            [
+              -61.46908363192502,
+              45.815054086793836
+            ],
+            [
+              -61.46910330436615,
+              45.81536808687279
+            ],
+            [
+              -61.469549975275314,
+              45.815357222931986
+            ],
+            [
+              -61.46999569469692,
+              45.81534688461451
+            ],
+            [
+              -61.47044057957591,
+              45.81533707257645
+            ],
+            [
+              -61.470884743240035,
+              45.81532778886827
+            ],
+            [
+              -61.47132829519791,
+              45.815319036745066
+            ],
+            [
+              -61.47177134082216,
+              45.815310820378464
+            ],
+            [
+              -61.472213980852835,
+              45.81530314446502
+            ],
+            [
+              -61.47265631068177,
+              45.8152960137273
+            ],
+            [
+              -61.47309841941475,
+              45.81528943231885
+            ],
+            [
+              -61.473540388761435,
+              45.81528340315856
+            ],
+            [
+              -61.473982291861425,
+              45.815277927246825
+            ],
+            [
+              -61.47442419220366,
+              45.81527300303576
+            ],
+            [
+              -61.4748661428275,
+              45.815268625934934
+            ],
+            [
+              -61.47530818596971,
+              45.81526478802817
+            ],
+            [
+              -61.47575035325738,
+              45.81526147804334
+            ],
+            [
+              -61.47619266644675,
+              45.81525868157427
+            ],
+            [
+              -61.4766351386052,
+              45.815256381510686
+            ],
+            [
+              -61.47707777557271,
+              45.815254558598845
+            ],
+            [
+              -61.47752057751618,
+              45.815253192053476
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-078",
+        "sheet": 19,
+        "source_text": "Mills",
+        "kind": "mill",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4065.0,
+                4375.0
+              ],
+              [
+                4075.0,
+                4375.0
+              ],
+              [
+                4085.0,
+                4375.0
+              ],
+              [
+                4095.0,
+                4375.0
+              ],
+              [
+                4105.0,
+                4375.0
+              ],
+              [
+                4115.0,
+                4375.0
+              ],
+              [
+                4125.0,
+                4375.0
+              ],
+              [
+                4135.0,
+                4375.0
+              ],
+              [
+                4145.0,
+                4375.0
+              ],
+              [
+                4155.0,
+                4375.0
+              ],
+              [
+                4165.0,
+                4375.0
+              ],
+              [
+                4175.0,
+                4375.0
+              ],
+              [
+                4185.0,
+                4375.0
+              ],
+              [
+                4195.0,
+                4375.0
+              ],
+              [
+                4205.0,
+                4375.0
+              ],
+              [
+                4215.0,
+                4375.0
+              ],
+              [
+                4225.0,
+                4375.0
+              ],
+              [
+                4235.0,
+                4375.0
+              ],
+              [
+                4245.0,
+                4375.0
+              ],
+              [
+                4255.0,
+                4375.0
+              ],
+              [
+                4255.0,
+                4384.545454545455
+              ],
+              [
+                4255.0,
+                4394.090909090909
+              ],
+              [
+                4255.0,
+                4403.636363636364
+              ],
+              [
+                4255.0,
+                4413.181818181818
+              ],
+              [
+                4255.0,
+                4422.727272727273
+              ],
+              [
+                4255.0,
+                4432.272727272727
+              ],
+              [
+                4255.0,
+                4441.818181818182
+              ],
+              [
+                4255.0,
+                4451.363636363636
+              ],
+              [
+                4255.0,
+                4460.909090909091
+              ],
+              [
+                4255.0,
+                4470.454545454545
+              ],
+              [
+                4255.0,
+                4480.0
+              ],
+              [
+                4245.0,
+                4480.0
+              ],
+              [
+                4235.0,
+                4480.0
+              ],
+              [
+                4225.0,
+                4480.0
+              ],
+              [
+                4215.0,
+                4480.0
+              ],
+              [
+                4205.0,
+                4480.0
+              ],
+              [
+                4195.0,
+                4480.0
+              ],
+              [
+                4185.0,
+                4480.0
+              ],
+              [
+                4175.0,
+                4480.0
+              ],
+              [
+                4165.0,
+                4480.0
+              ],
+              [
+                4155.0,
+                4480.0
+              ],
+              [
+                4145.0,
+                4480.0
+              ],
+              [
+                4135.0,
+                4480.0
+              ],
+              [
+                4125.0,
+                4480.0
+              ],
+              [
+                4115.0,
+                4480.0
+              ],
+              [
+                4105.0,
+                4480.0
+              ],
+              [
+                4095.0,
+                4480.0
+              ],
+              [
+                4085.0,
+                4480.0
+              ],
+              [
+                4075.0,
+                4480.0
+              ],
+              [
+                4065.0,
+                4480.0
+              ],
+              [
+                4065.0,
+                4470.454545454545
+              ],
+              [
+                4065.0,
+                4460.909090909091
+              ],
+              [
+                4065.0,
+                4451.363636363636
+              ],
+              [
+                4065.0,
+                4441.818181818182
+              ],
+              [
+                4065.0,
+                4432.272727272727
+              ],
+              [
+                4065.0,
+                4422.727272727273
+              ],
+              [
+                4065.0,
+                4413.181818181818
+              ],
+              [
+                4065.0,
+                4403.636363636364
+              ],
+              [
+                4065.0,
+                4394.090909090909
+              ],
+              [
+                4065.0,
+                4384.545454545455
+              ],
+              [
+                4065.0,
+                4375.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3831,
+            4182,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/3831,4182,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Plural Mills lies among several building-like dots and branching lines. Region B bounds the candidate cluster; no unique printed mill symbol is supported.",
+        "placement_note": "Western crossing 078, separate eastern crossing 079 and northeastern stream bend 077 retain their relative order. Current stream geometry visibly differs within the group rectangles. These remain approximate bounded source groups; neither individual buildings nor private residences are identified.",
+        "source_excerpt": "excerpts/F19-JUD-078.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-079",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.464189433504444,
+              45.816660513882475
+            ],
+            [
+              -61.4641611968566,
+              45.81633556311093
+            ],
+            [
+              -61.464133158618296,
+              45.81601063858159
+            ],
+            [
+              -61.46410553186634,
+              45.815685683700366
+            ],
+            [
+              -61.46407850829393,
+              45.81536064905719
+            ],
+            [
+              -61.464052260158596,
+              45.815035492169095
+            ],
+            [
+              -61.464026941556874,
+              45.814710177343784
+            ],
+            [
+              -61.46400268928811,
+              45.81438467559145
+            ],
+            [
+              -61.46397962348381,
+              45.814058964531164
+            ],
+            [
+              -61.463957848125226,
+              45.813733028258675
+            ],
+            [
+              -61.46393745153255,
+              45.81340685715074
+            ],
+            [
+              -61.46346979039721,
+              45.81342529808701
+            ],
+            [
+              -61.46300046467807,
+              45.813444117621195
+            ],
+            [
+              -61.462529507829224,
+              45.813463286195244
+            ],
+            [
+              -61.46205696956441,
+              45.813482769888246
+            ],
+            [
+              -61.46158291558497,
+              45.81350253030358
+            ],
+            [
+              -61.46110742703922,
+              45.81352252449831
+            ],
+            [
+              -61.46063059979907,
+              45.8135427049266
+            ],
+            [
+              -61.460152543667384,
+              45.8135630193615
+            ],
+            [
+              -61.459673381632136,
+              45.81358341075456
+            ],
+            [
+              -61.45969033178405,
+              45.81390992348544
+            ],
+            [
+              -61.45970919375059,
+              45.81423571633173
+            ],
+            [
+              -61.459729880166364,
+              45.81456080169572
+            ],
+            [
+              -61.459752272014654,
+              45.81488520875589
+            ],
+            [
+              -61.45977621883656,
+              45.81520898308694
+            ],
+            [
+              -61.45980154002218,
+              45.81553218555467
+            ],
+            [
+              -61.45982802692828,
+              45.81585489065957
+            ],
+            [
+              -61.45985544551535,
+              45.81617718454713
+            ],
+            [
+              -61.459883539247976,
+              45.81649916289414
+            ],
+            [
+              -61.459912032146526,
+              45.816820928818395
+            ],
+            [
+              -61.4603945322134,
+              45.8168021063839
+            ],
+            [
+              -61.46087577597824,
+              45.81678332602281
+            ],
+            [
+              -61.4613555091962,
+              45.81676468367153
+            ],
+            [
+              -61.46183347934123,
+              45.81674627272155
+            ],
+            [
+              -61.46230944300413,
+              45.816728182566116
+            ],
+            [
+              -61.46278317774398,
+              45.81671049605289
+            ],
+            [
+              -61.46325449787468,
+              45.81669328597159
+            ],
+            [
+              -61.46372327144414,
+              45.81667661122845
+            ],
+            [
+              -61.464189433504444,
+              45.816660513882475
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-079",
+        "sheet": 19,
+        "source_text": "Mills",
+        "kind": "mill",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4365.0,
+                4340.0
+              ],
+              [
+                4375.0,
+                4340.0
+              ],
+              [
+                4385.0,
+                4340.0
+              ],
+              [
+                4395.0,
+                4340.0
+              ],
+              [
+                4405.0,
+                4340.0
+              ],
+              [
+                4415.0,
+                4340.0
+              ],
+              [
+                4425.0,
+                4340.0
+              ],
+              [
+                4435.0,
+                4340.0
+              ],
+              [
+                4445.0,
+                4340.0
+              ],
+              [
+                4455.0,
+                4340.0
+              ],
+              [
+                4455.0,
+                4350.0
+              ],
+              [
+                4455.0,
+                4360.0
+              ],
+              [
+                4455.0,
+                4370.0
+              ],
+              [
+                4455.0,
+                4380.0
+              ],
+              [
+                4455.0,
+                4390.0
+              ],
+              [
+                4455.0,
+                4400.0
+              ],
+              [
+                4455.0,
+                4410.0
+              ],
+              [
+                4455.0,
+                4420.0
+              ],
+              [
+                4455.0,
+                4430.0
+              ],
+              [
+                4455.0,
+                4440.0
+              ],
+              [
+                4445.0,
+                4440.0
+              ],
+              [
+                4435.0,
+                4440.0
+              ],
+              [
+                4425.0,
+                4440.0
+              ],
+              [
+                4415.0,
+                4440.0
+              ],
+              [
+                4405.0,
+                4440.0
+              ],
+              [
+                4395.0,
+                4440.0
+              ],
+              [
+                4385.0,
+                4440.0
+              ],
+              [
+                4375.0,
+                4440.0
+              ],
+              [
+                4365.0,
+                4440.0
+              ],
+              [
+                4365.0,
+                4430.0
+              ],
+              [
+                4365.0,
+                4420.0
+              ],
+              [
+                4365.0,
+                4410.0
+              ],
+              [
+                4365.0,
+                4400.0
+              ],
+              [
+                4365.0,
+                4390.0
+              ],
+              [
+                4365.0,
+                4380.0
+              ],
+              [
+                4365.0,
+                4370.0
+              ],
+              [
+                4365.0,
+                4360.0
+              ],
+              [
+                4365.0,
+                4350.0
+              ],
+              [
+                4365.0,
+                4340.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            4050,
+            4182,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/4050,4182,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Plural Mills lies beside a dense group of four building-like dots near a junction. Region C bounds that cluster; the source does not identify one dot as the anchor.",
+        "placement_note": "Western crossing 078, separate eastern crossing 079 and northeastern stream bend 077 retain their relative order. Current stream geometry visibly differs within the group rectangles. These remain approximate bounded source groups; neither individual buildings nor private residences are identified.",
+        "source_excerpt": "excerpts/F19-JUD-079.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-094",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.34549608916363,
+          45.83391640739757
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-094",
+        "sheet": 19,
+        "source_text": "Gold Mine",
+        "kind": "mine-annotation",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6955,
+            3930
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6727,
+            3704,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6727,3704,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Coordinator native 4x review confirms the oval mine mark west of the road, immediately before Gold Mine. Initial worker crosshair was about 20 native pixels north; corrected before use.",
+        "placement_note": "Gold Mine 094 remains west of the curving road and Glendale Brook. The user corroborated this source feature in the earlier pilot; this new fit is not newly user-validated. Plumbago 103 remains in the western tributary corridor; Red Bridge 117 remains at the main valley crossing. Current road, rail and stream alignments differ locally; no current opening or modern bridge identity is asserted.",
+        "source_excerpt": "excerpts/F19-JUD-094.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-103",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.34656877581893,
+          45.80931819038785
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-103",
+        "sheet": 19,
+        "source_text": "Plumbago Mine",
+        "kind": "mine-annotation",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6917,
+            4665
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6556,
+            4425,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6556,4425,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Coordinator native 4x review identifies the isolated filled mark immediately under Mine and above C. The separate southeastern building cluster proposed by the worker is not adopted as the annotation anchor.",
+        "placement_note": "Gold Mine 094 remains west of the curving road and Glendale Brook. The user corroborated this source feature in the earlier pilot; this new fit is not newly user-validated. Plumbago 103 remains in the western tributary corridor; Red Bridge 117 remains at the main valley crossing. Current road, rail and stream alignments differ locally; no current opening or modern bridge identity is asserted.",
+        "source_excerpt": "excerpts/F19-JUD-103.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F19-JUD-117",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.332310191707755,
+          45.80300843198399
+        ]
+      },
+      "properties": {
+        "annotation_id": "F19-JUD-117",
+        "sheet": 19,
+        "source_text": "Red Bridge",
+        "kind": "bridge",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
+        "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+        "source_dimensions_px": [
+          10815,
+          7549
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            7219,
+            4888
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6994,
+            4688,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2644~290012/6994,4688,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2644~290012/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Coordinator native 4x review selects the road-centre/river crossing west of the railway and label. This locates the printed crossing, not a proven modern bridge. Worker crosshair was refined within the width of the printed linework.",
+        "placement_note": "Gold Mine 094 remains west of the curving road and Glendale Brook. The user corroborated this source feature in the earlier pilot; this new fit is not newly user-validated. Plumbago 103 remains in the western tributary corridor; Red Bridge 117 remains at the main valley crossing. Current road, rail and stream alignments differ locally; no current opening or modern bridge identity is asserted.",
+        "source_excerpt": "excerpts/F19-JUD-117.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-19-features.geojson",
+        "evidence_sha256": "91c9f17ff9b4e54387613a724c5390f034e8e6e2e12f746d12e381695ca8f79b"
+      }
+    }
+  ]
+}

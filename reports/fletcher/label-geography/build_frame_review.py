@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 from tools.fletcher.project_labels import ROOT, REPORT, read, write, digest, require
 
 SELECTED = {
+    14: [1, 15, 29, 43, 57, 71, 85, 99, 113, 127, 141, 155],
     19: [1, 6, 15, 46, 61, 62, 78, 79, 94, 130, 156, 166],
     16: [1, 42, 125, 140, 146, 147, 149, 193, 197, 200, 234, 256],
     22: [1, 4, 25, 104, 165, 181, 194, 205, 246, 261, 280, 301],

@@ -1,0 +1,115 @@
+{
+  "nightly_revision": "c32c85e917aa8746fa0b98f928f76a366127b7ee",
+  "active_full_sheet_inputs_sha256": "db9c9880406df01602a406115ed0383ead03dee90409d9212dd23d8cd53d418c",
+  "open_refinement_prs_not_adopted": [
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "d13928df565b5c0d534e6e5642375505dc354846",
+      "isDraft": true,
+      "number": 431,
+      "title": "docs(fletcher): preserve Sheet 17 lake-mouth repair experiment"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "b066fd270d24351bfb0d40537f49afd86296d0c9",
+      "isDraft": true,
+      "number": 430,
+      "title": "docs(fletcher): preserve Sheet 15 Hume Island repair"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "cefb79606f788260bfe2a4b7d692011602520b71",
+      "isDraft": true,
+      "number": 429,
+      "title": "docs(fletcher): preserve Sheet 1 coastal repair trial"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "26a38f10cb5d4a627be2a724b90245b75d0c11c1",
+      "isDraft": true,
+      "number": 427,
+      "title": "docs(fletcher): retain Sheet 2 inland refinement trial"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "39321b946a08b0968525837d67ae1a248eb37736",
+      "isDraft": true,
+      "number": 426,
+      "title": "docs(fletcher): audit Sheet 3 whole-sheet refinement trials"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "0673b55df29ba615783c381367ad363ebaa9b421",
+      "isDraft": true,
+      "number": 425,
+      "title": "docs(fletcher): preserve Sheet 4 refinement experiments"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "e498a3b061832a3a3557332dae0acc520d55900c",
+      "isDraft": true,
+      "number": 424,
+      "title": "docs(fletcher): preserve Sheet 6 Daphiné experiment"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "de5ab45777c3be29035e318ed6bbc93e454e423c",
+      "isDraft": true,
+      "number": 423,
+      "title": "docs(fletcher): preserve Sheet 5 Sunday Lake refinement"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "a3f4888aa64ef7d983330eac5880057fc3e4ab56",
+      "isDraft": true,
+      "number": 422,
+      "title": "docs(fletcher): preserve rejected Sheet 7 refinement experiment"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "9e6617af5768a441ff6f59878ff4dbd41702c36f",
+      "isDraft": true,
+      "number": 421,
+      "title": "docs(fletcher): preserve provisional Sheet 9 coastal refinement"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "516bcc424dc34b632b3f9f4589012aecf6edaee7",
+      "isDraft": true,
+      "number": 420,
+      "title": "docs(fletcher): preserve provisional Sheet 11 western refinements"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "4fe23c5988188072e2f885f58bc2c1b3e81f7df0",
+      "isDraft": true,
+      "number": 419,
+      "title": "Fletcher Sheet 08: preserve Three Brooks improvement and failed whole-sheet validation"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "a7bee4454343b263f3d7c17fbd231bf3933aa26a",
+      "isDraft": true,
+      "number": 418,
+      "title": "Preserve failed Fletcher Sheet 10 refinement and seam evidence"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "f93f325c6d709dcbe4d1e33f8e2b1fd5424e2e7d",
+      "isDraft": true,
+      "number": 417,
+      "title": "Refine Fletcher Sheet 13 with preserved geographic failures"
+    },
+    {
+      "baseRefName": "nightly",
+      "headRefOid": "30634801758cf658cd59d502350eac975017f596",
+      "isDraft": true,
+      "number": 416,
+      "title": "Refine Fletcher Sheet 12 northern alignment; retain geographic blockers"
+    }
+  ],
+  "external_delivery_index": "/Users/dfakkeldy/Downloads/fletcher-queue-20260911/delivery-index.json",
+  "external_delivery_index_sha256": "bfb47f022dc2be55439e473d7c0bd9e6db341833137ec95d80ca3d19a8b7ed57",
+  "pilot_preserved_sha256": "b3b4ea2ffb7540bc537bab69e2000050197de636246d91e6b6299df2bcf144db",
+  "limitations": "The 20 remaining sheets have merged georeferencing evidence, not production acceptance. Extraction has not yet been reconciled outside the finalized corridor inventories."
+}

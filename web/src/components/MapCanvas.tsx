@@ -158,6 +158,7 @@ import { ConversionPreviewLayer } from "../userMaps/vector/edit/ConversionPrevie
 import type { PopupPhotoUi } from "../userMaps/vector/render/popup";
 
 const AtlasBasemapLayer = lazy(() => import("../atlas/AtlasBasemapLayer"));
+const FletcherFeaturesLayer = lazy(() => import("./FletcherFeaturesLayer").then(module => ({ default: module.FletcherFeaturesLayer })));
 
 // Lazy like EditableVectorLayer: both exist only inside an edit session.
 const ParcelSnapTargetsLayer = lazy(() =>
@@ -206,6 +207,8 @@ type MapCanvasProps = {
   liveConditionsLayers?: Record<LiveConditionsLayerId, boolean>;
   wellLogAccuracyFilter?: WellLogAccuracyFilter;
   fletcherVisible?: boolean;
+  fletcherFeaturesVisible?: boolean;
+  onFletcherFeaturesStatus?: (status: string) => void;
   fletcherOpacity?: number;
   fletcherTileBaseUrl?: string | null;
   fletcherRetryToken?: number;
@@ -1849,6 +1852,8 @@ export function MapCanvas({
   liveConditionsLayers = HIDDEN_LIVE_CONDITIONS_LAYERS,
   wellLogAccuracyFilter = "surveyed",
   fletcherVisible = false,
+  fletcherFeaturesVisible = false,
+  onFletcherFeaturesStatus,
   fletcherOpacity = 0.72,
   fletcherTileBaseUrl = null,
   fletcherRetryToken = 0,
@@ -2542,6 +2547,9 @@ export function MapCanvas({
           <MapStatusController id="modern" visible={false} onStatusChange={reportLayerStatus} />
         )}
         <FletcherFullSheetsPreview renderMode={renderMode} />
+        {!isPrintMode && fletcherFeaturesVisible && onFletcherFeaturesStatus ? (
+          <Suspense fallback={null}><FletcherFeaturesLayer onStatus={onFletcherFeaturesStatus} /></Suspense>
+        ) : null}
         <FletcherTileLayer
           visible={fletcherVisible}
           opacity={fletcherOpacity}

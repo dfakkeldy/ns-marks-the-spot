@@ -66,6 +66,18 @@ strokes come from the procedural sprite in `public/atlas/sprite`
 (`npm run build:atlas-sprite`). In the Fletcher style `/atlas.html` also shows
 unlocated specimens for future historical site symbols and lettering.
 
+The Fletcher style also enables a separately identified reviewed historical-feature
+layer: currently 18 Judique annotations, with approximate point symbols and
+unresolved group outlines. Its checkbox is below the style selector. Select a
+mark from zoom 12 for original source pixels, reading/placement uncertainty,
+fit provenance and prior-coordinate evidence; persistent labels appear at zoom
+15. Group selections expose every annotation sharing the geometry. The church
+retains its explicit east-of-Highway-19 correction. Native excerpts and licence
+receipts live in `public/fletcher-features/`. This on-screen research layer is
+excluded from print/PDF exports. See the [feature review](../reports/fletcher/feature-geography/README.md)
+for coverage, limitations and reproduction. The remaining inventories are not
+automatically promoted from lettering centres to historical sites.
+
 **Background Maps → Basemap style** offers Day, Night, Fletcher,
 System appearance (the default), and standard OpenStreetMap. Explicit choices
 stay in this browser; shared links carry the resolved style. Leaflet still owns

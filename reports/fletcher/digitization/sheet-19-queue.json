@@ -1,0 +1,1668 @@
+{
+  "sheet": 19,
+  "inventory_path": "docs/fletcher/label-extraction/highway19-production/sheet-19-reviewed.json",
+  "inventory_sha256": "5f4e15eb4dfb1998866245e716a9d41dc0a7f57191a3779959386c370817d5de",
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "annotations": [
+    {
+      "annotation_id": "F19-JUD-001",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-002",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-003",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-004",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-005",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-006",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-007",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-008",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-009",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-010",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-011",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-012",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-013",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-014",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-015",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-016",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-017",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-018",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-019",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-020",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-021",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-022",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-023",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-024",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-025",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-026",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-027",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-028",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-029",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-030",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-031",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-032",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-033",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-034",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-035",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-036",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-037",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-038",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-039",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-040",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-041",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-042",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-043",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-044",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-045",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-046",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-047",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-048",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-049",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-050",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-051",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-052",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-053",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-054",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-055",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-056",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-057",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-058",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-059",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-060",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-061",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-062",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-063",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-064",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-065",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-066",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-067",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-068",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-069",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-070",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-071",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-072",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-073",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-074",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-075",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-076",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-077",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-078",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-079",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-080",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-081",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-082",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-083",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-084",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-085",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-086",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-087",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-088",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-089",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-090",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-091",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-092",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-093",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-094",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-095",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-096",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-097",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-098",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-099",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-100",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-101",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-102",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-103",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-104",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-105",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-106",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-107",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-108",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-109",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-110",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-111",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-112",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-113",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-114",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-115",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-116",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-117",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-19-features.geojson",
+      "remaining_question": "Exact historical footprint remains unresolved"
+    },
+    {
+      "annotation_id": "F19-JUD-118",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-119",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-120",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-121",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-122",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-123",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-124",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-125",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-126",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-127",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-128",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-129",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-130",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-131",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-132",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-133",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-134",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-135",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-136",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-137",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-138",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-139",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-140",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-141",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-142",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-143",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-144",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-145",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-146",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-147",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-148",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-149",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-150",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-151",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-152",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-153",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-154",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-155",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-156",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-157",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-158",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-159",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-160",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-161",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-162",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-163",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-164",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-165",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    },
+    {
+      "annotation_id": "F19-JUD-166",
+      "source_review": "reviewed",
+      "lettering": "processed",
+      "source_association": "pending",
+      "approximate_placement": "pending",
+      "integration": "pending",
+      "evidence": null,
+      "remaining_question": null
+    }
+  ]
+}
