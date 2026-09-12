@@ -51,6 +51,14 @@ class ProvincialAtlasTests(unittest.TestCase):
         self.assertLess(WOODLAND_TOLERANCE_DEGREES * 111_320, 2.01)
         self.assertIn('degree', WOODLAND_TRANSFORM)
 
+    def test_crown_empty_polygon_is_quarantined_without_hiding_malformed_geometry(self):
+        row = {'source_row_id': 'empty-1', 'dnr_id': '6195',
+               'the_geom': {'type': 'MultiPolygon', 'coordinates': []}}
+        self.assertEqual(record_row('crown', row)['rejectionReason'], 'source-empty-geometry')
+        row['the_geom'] = {'type': 'MultiPolygon'}
+        with self.assertRaises(ValueError):
+            record_row('crown', row)
+
     @unittest.skipUnless(ogr, 'GDAL bindings not installed')
     def test_invalid_source_polygon_is_repaired_without_losing_area(self):
         bowtie = ogr.CreateGeometryFromWkt('POLYGON((0 0,2 2,2 0,0 2,0 0))')

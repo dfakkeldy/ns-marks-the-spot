@@ -1753,6 +1753,22 @@ a {
   list-style: none;
 }
 
+.crown-land-key {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.crown-land-key > span:first-child {
+  flex: 0 0 1rem;
+  height: 1rem;
+  margin-top: 0.15rem;
+  border: 1px solid;
+}
+
 .road-legend li {
   display: flex;
   align-items: center;

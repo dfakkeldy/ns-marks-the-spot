@@ -42,6 +42,7 @@ export default defineConfig(({ mode }) => ({
       "scripts/checkPdfAssets.test.mjs",
       "scripts/checkMailingAddresses.test.mjs",
       "scripts/checkProvincialAtlas.test.mjs",
+      "scripts/checkCrownAtlas.test.mjs",
       "scripts/exportSharedData.test.mjs",
       "scripts/probeGeoPdfFrames.test.mjs",
     ],

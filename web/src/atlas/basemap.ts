@@ -1,4 +1,5 @@
 import { provincialReceipt, provincialReceiptUrl, provincialSourceDates, provincialExportProvenance, PROVINCIAL_ATTRIBUTION, PROVINCIAL_LICENCE_URL } from './provincial';
+import { crownProvenance, crownReceipt } from './crown';
 
 export type BasemapStyle = 'day' | 'night' | 'fletcher' | 'osm';
 export type BasemapPreference = BasemapStyle | 'system';
@@ -27,8 +28,8 @@ export function basemapSource(style: BasemapStyle) {
     id: 'modern' as const,
     name: `NS Marks Atlas · ${atlasStyleLabels[style]}`,
     sourceUrl: provincialReceiptUrl(),
-    sourceDate: `Provincial snapshot built ${provincialReceipt.generatedAt.slice(0, 10)}. ${provincialSourceDates}. Supplemental OSM context is live.${style === 'fletcher' ? ` ${FLETCHER_STYLE_NOTE}` : ''}`,
-    attribution: `NS Marks Atlas · ${PROVINCIAL_ATTRIBUTION} (${PROVINCIAL_LICENCE_URL}) · Supplemental geography: OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors. ${provincialExportProvenance()}${style === 'fletcher' ? ` ${FLETCHER_STYLE_NOTE}` : ''}`,
+    sourceDate: `Provincial snapshot built ${provincialReceipt.generatedAt.slice(0, 10)}. ${provincialSourceDates}. Crown Land: ${crownReceipt.source.released.slice(0, 10)}. Supplemental OSM context is live.${style === 'fletcher' ? ` ${FLETCHER_STYLE_NOTE}` : ''}`,
+    attribution: `NS Marks Atlas · ${PROVINCIAL_ATTRIBUTION} (${PROVINCIAL_LICENCE_URL}) · Supplemental geography: OpenFreeMap · © OpenMapTiles · © OpenStreetMap contributors. ${provincialExportProvenance()} ${crownProvenance()}${style === 'fletcher' ? ` ${FLETCHER_STYLE_NOTE}` : ''}`,
     licenceUrl: 'https://www.openstreetmap.org/copyright',
   };
 }
