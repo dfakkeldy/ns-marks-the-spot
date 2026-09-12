@@ -131,9 +131,10 @@ native pixel controls to the resampled GeoTIFF.
 
 `parser-verification.json` records real web-parser round trips and affine/GDAL
 agreement within 0.001 projected metre. `browser-verification.json` records the
-actual 20-projected-metre review GeoTIFF file-chooser import, visible transparency,
-correct dimensions and enabled state after reload, and an empty observed error
-log. The full-resolution TIFF and raw-scan browser mesh are separate paths.
+actual 20-projected-metre review and full 5-projected-metre GeoTIFF file-chooser
+imports, visible transparency, correct dimensions and enabled state after reload,
+and empty observed error logs. The full TIFF also rendered at zoom 12 after
+reload. The raw-scan browser mesh was not exercised.
 
 ## Remaining counties and completion boundary
 
@@ -178,3 +179,7 @@ any Church catalog layer.
 The georeferencing skill received a Church-specific reference explaining the
 closed-region false positives, same-point comparison, and along-shore diagnostic
 limitation. Live sheet state remains in this report.
+
+CSV byte identities retain the original CRLF format where emitted by Python
+`csv.writer`. Whitespace verification uses `git -c core.whitespace=cr-at-eol
+diff --check` so those frozen input hashes remain unchanged.

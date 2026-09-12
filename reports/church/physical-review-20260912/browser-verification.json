@@ -29,5 +29,25 @@
   ],
   "console_errors_observed": [],
   "browser_downsample_notice": "Large file \u2014 displayed at reduced resolution.",
-  "scope": "Embedded 20-projected-metre GeoTIFF importer/render/save/reload path only. Full 5-metre GeoTIFF and raw native-scan affine browser mesh not yet exercised. Stored blob SHA was not independently read from IndexedDB. No geographic acceptance."
+  "scope": "Embedded 20-projected-metre and full 5-projected-metre GeoTIFF importer/render/save/reload paths. Both large files display at reduced browser resolution. Raw native-scan affine browser mesh not exercised. Stored blob SHA was not independently read from IndexedDB. No geographic acceptance.",
+  "full_resolution_follow_up": {
+    "artifact_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/richmond-draft/richmond-physical-draft.tif",
+    "artifact_sha256": "f828262e8871422aa7aab6a4866ddba5f7d7694c01760137bac8fa6e73592c7b",
+    "artifact_bytes": 398433079,
+    "dimensions_after_import_and_reload": [
+      26007,
+      17753
+    ],
+    "file_chooser_import_passed": true,
+    "enabled_after_reload": true,
+    "preview_disabled_during_full_raster_test": true,
+    "transparent_cutouts_visually_retained": true,
+    "visible_render_after_reload": true,
+    "zoom_levels_visually_inspected": [
+      10,
+      12
+    ],
+    "background": "OpenStreetMap",
+    "console_errors_observed": []
+  }
 }
