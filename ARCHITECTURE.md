@@ -543,6 +543,13 @@ search or a map tap. Address search and map-point lookup have independent
 cancellation controllers so stale requests cannot replace newer selection
 state.
 
+`services/mailingAddresses.ts` owns a separate, dated National Address Register
+(June 2026) mailing lookup. Sidebar postal-community search and inspector
+mailing evidence stay distinct from `civicAddresses.ts`; matching requires a
+normalized civic number, suffix, unit and road within 50 m, a postal candidate
+must resolve to one live provincial civic point, and NAR coordinates never
+become the selected geometry. See `web/README.md`.
+
 For a selected PID, the civic service reuses every Polygon or MultiPolygon part
 already returned by NSPRD. It calculates one bounding box per part, requests
 only address fields through Socrata `within_box` queries, follows stable

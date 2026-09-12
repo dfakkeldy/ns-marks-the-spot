@@ -37,7 +37,7 @@
       <article class="content-shell">
         <p class="eyebrow">Privacy Policy</p>
         <h1>NS Marks The Spot</h1>
-        <p class="content-lede">Last updated September 5, 2026.</p>
+        <p class="content-lede">Last updated September 12, 2026.</p>
 
         <section>
           <h2>Summary</h2>
@@ -127,7 +127,12 @@
             services are also displayed. Those map providers may receive
             standard network requests for the tiles or layers you view.
             Searching by PID or civic address sends the search text to the
-            provincial services that answer it. If you turn on parcel snapping
+            provincial services that answer it. In the browser map, searching by
+            postal community or mailing address also loads self-hosted National
+            Address Register shards from this app's own origin; the browser does
+            not query Canada Post, a paid mailing API, or Statistics Canada live
+            for that lookup. Those mailing records are addresses, not residents
+            or ownership. If you turn on parcel snapping
             while drawing, the native app sends only a licence-gated viewport
             rectangle to the same provincial parcel service the identify tool
             already queries. If you turn on the optional live-conditions layers
