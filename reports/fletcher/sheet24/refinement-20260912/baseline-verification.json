@@ -1,0 +1,22 @@
+{
+  "base_commit": "84b37f934305d5599922d215b051a57aacb6249d",
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet24/repaired-fit.json",
+      "sha256": "709a307b37d27bcfbabaa2c68e2d961d26f2b9bdcde35c305e4bb1d6ae5d3456"
+    },
+    {
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet24/boundary.json",
+      "sha256": "c3cca43241928adf83e93120b8dac5840e02829dfc57b43d6c7e619c4c66d4ce"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet24/native/sheet24.png",
+      "sha256": "916cf84b046656412ddfcfc88c0d0fef6c4a3b1ea8bba69c9f5e24ebd085eee8"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet24/regional-fourteen/sheet-24-full-sheet.tif",
+      "sha256": "977633cdaff7a3a71b11b796c9d014d1ed8876f4c780c6ef9155d104fb47926c"
+    }
+  ],
+  "reference_hashes_verified": true
+}

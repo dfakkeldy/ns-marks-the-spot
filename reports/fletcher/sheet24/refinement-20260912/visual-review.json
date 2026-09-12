@@ -1,0 +1,131 @@
+{
+  "reviewed_at": "2026-09-12T17:53:30.307162+00:00",
+  "reviewer": "Primary Codex agent personally viewed every figure",
+  "count": 29,
+  "figures": [
+    {
+      "path": "adjacent-sheet-review/22-northeast.jpg",
+      "sha256": "c192f6a7d2c973c5c1eafad08d0b04e7ff616e5635e8dc0abb4c6332948d29a9"
+    },
+    {
+      "path": "adjacent-sheet-review/22-northwest.jpg",
+      "sha256": "bf4fc27e76e581eb75dd56c8ad4f2ff29bf6ac1cbe42ca9f8226f700a81c42d0"
+    },
+    {
+      "path": "adjacent-sheet-review/23-east-north.jpg",
+      "sha256": "1bd1410287b466e870e689e718b9d83e51f07501f7f32728c5614a893e362695"
+    },
+    {
+      "path": "adjacent-sheet-review/23-east-south.jpg",
+      "sha256": "f142b1a345fc7a5b9237268be054824b788add18567f124ae52d387bff6576c5"
+    },
+    {
+      "path": "boundary-corners.jpg",
+      "sha256": "25115bcb42fd689230d2d3af95c7a460e1f0f45794e6908e60db721366afb01d"
+    },
+    {
+      "path": "boundary-overview.jpg",
+      "sha256": "589f3ebee0c1f303bc4d7a07b9445c3376aaff9a8207abdb51f6d66a43696520"
+    },
+    {
+      "path": "browser/import-desktop.png",
+      "sha256": "a6cfdf3d1265caf7e185670a61aa94527536d7089d725c9ceec5577686921524"
+    },
+    {
+      "path": "browser/reload-desktop.png",
+      "sha256": "505e713cab2d45ee21a4c193f103709ff73a7172796a6403305cdeab09de750f"
+    },
+    {
+      "path": "browser/reload-mobile.png",
+      "sha256": "ff637b4de8804ff1983c39bee7d3afc8584c5cc1fedf1bd782d96967857a40bd"
+    },
+    {
+      "path": "fresh-close/sheet-24-F01.jpg",
+      "sha256": "384710464ce699ecb15a4fe2c408b7cf9a70233fbfe977cdcfe5b9f0fe6d7db5"
+    },
+    {
+      "path": "fresh-close/sheet-24-F02.jpg",
+      "sha256": "e062f7df45302a2dcac794875419c5f064a2f32fb227b19e6ae0ef7fefbb006d"
+    },
+    {
+      "path": "fresh-wide/sheet-24-F01.jpg",
+      "sha256": "04800f3ee5e50485f63bea949ea35aa35eafc31c4207fa1ae386b2af83c959d8"
+    },
+    {
+      "path": "fresh-wide/sheet-24-F02.jpg",
+      "sha256": "3c5e6d223a8331070caa79f6d43f97587c58d20893f2f7de837514d98c238d81"
+    },
+    {
+      "path": "guysborough-extension.jpg",
+      "sha256": "35426ec2dbd93c82e469b5d357fe39029ef9b6db70574e6503eafb38a2299a71"
+    },
+    {
+      "path": "repair-close/sheet-24-V02.jpg",
+      "sha256": "f1eb7306c6e1cf0505a5771df56e84fbd8dc7ac0f13ff437a94447f51552794a"
+    },
+    {
+      "path": "repair-close/sheet-24-V04.jpg",
+      "sha256": "dd025bb0e14de5791de5e02bccf69c18699b2170384fe3573f2a5bd85a722e46"
+    },
+    {
+      "path": "repair-wide/sheet-24-V02.jpg",
+      "sha256": "730ab350bfdbe0438d08e4b788abc2e326373f316db081bbd4274600838daa1b"
+    },
+    {
+      "path": "repair-wide/sheet-24-V04.jpg",
+      "sha256": "c74901e396d11708473a2bc789c06f0445bf9abc0ad9b748565e184721c65679"
+    },
+    {
+      "path": "warped-review/eddy-knight.jpg",
+      "sha256": "f06ae3938cee2658819d19190c619708be3dedcbb0b8b79c1018784fede2a163"
+    },
+    {
+      "path": "warped-review/goose-grady.jpg",
+      "sha256": "e4419f39f5a76b9501e20855d349618d0496714349c4090e150d3d40e32147c7"
+    },
+    {
+      "path": "warped-review/goose-harbour-lakes.jpg",
+      "sha256": "6d7ee3062f95a65563c24e95378f3d3a00b545bf5f0e8139ffe86827839b02e5"
+    },
+    {
+      "path": "warped-review/guysborough-extension.jpg",
+      "sha256": "36f9dba075357b399f62240f4b7fd727dfa242f6c26fbfecd8e7039c4f68ddc8"
+    },
+    {
+      "path": "warped-review/guysborough-harbour.jpg",
+      "sha256": "3dca7da9936718c6d0c614996e00e665597a9f199606b9f313c8b967262964c4"
+    },
+    {
+      "path": "warped-review/mcpherson-ragged.jpg",
+      "sha256": "4736908a369200e8674deb84011b6a42777bdebfff576133b2f1880ed43e859f"
+    },
+    {
+      "path": "warped-review/northwest-tracadie.jpg",
+      "sha256": "e82d048e07933391dbcfdff097fb1b1fc2fdf5e365df0aeed575ac0c7058dd82"
+    },
+    {
+      "path": "warped-review/shepherd-clam.jpg",
+      "sha256": "327d40ea1f914add73dabe74a767e266f2af70dee3876e9ccdaab6b1c519122c"
+    },
+    {
+      "path": "warped-review/southern-full-frame.jpg",
+      "sha256": "0d17d03ee763cd65e927afa6780a82d35bcb4c00cecdd4ae8f9c46785c81683e"
+    },
+    {
+      "path": "warped-review/strait-bear-head.jpg",
+      "sha256": "f8201b94be9d3d5d661030dff689dc1f44165884e2e4c53f6e0e26e50e93273c"
+    },
+    {
+      "path": "warped-review/sundown.jpg",
+      "sha256": "1cea89e30804111aae51c5ef379471c27bef6a1c34376576853a6f62e768cd72"
+    }
+  ],
+  "findings": [
+    "Eight original native close/wide frames personally reviewed before promotions or fresh scores; no coordinates changed.",
+    "Three native boundary/extension views preserve the full source footprint.",
+    "Eleven actual old/new warp panels: northern rivers and Goose Harbour basin shapes remain displaced; Clam/Five Mile and Sundown tributaries unsupported. Eddy/Knight and Strait anchors largely unchanged.",
+    "McPherson outlet moves onto control while northern inlet barely improves. Hadley spit aligns at control but Guysborough extension bends, town/Byron positions worsen and other shores remain off. Full southern sea survives and remains extrapolation.",
+    "Four adjacent-sheet views with Sheet22 28-control and preferred Sheet23 12-control show gaps and discontinuities; southern eastern join is predominantly sea and does not validate physical continuity.",
+    "Actual desktop import and desktop/mobile reload screenshots show raster with extension; stored hash, dimensions and enabled state persist."
+  ]
+}

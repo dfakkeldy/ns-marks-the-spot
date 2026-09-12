@@ -1,0 +1,147 @@
+{
+  "sheet": "sheet-24",
+  "fit_sha256": "50d24f32cdf37a1d369fcdd4bc840b3e7e2355fe71e7b4c238d09f455e13db53",
+  "points": [
+    {
+      "lonlat": [
+        -61.2645943,
+        45.5078578
+      ],
+      "source_guide_xy": [
+        8553.394364139996,
+        3184.8029101602733
+      ],
+      "objectids": [
+        135748,
+        135750,
+        293281
+      ],
+      "id": "Q02",
+      "role": "check",
+      "modern_node_id": "J0669",
+      "pixel_xy": [
+        8596,
+        3107
+      ],
+      "identity_evidence": "Knight Lake western tributary/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern topology personally inspected before score."
+    },
+    {
+      "lonlat": [
+        -61.5503315,
+        45.4403133
+      ],
+      "source_guide_xy": [
+        2308.6944074204657,
+        5262.0183352003805
+      ],
+      "objectids": [
+        127433,
+        127435,
+        223474
+      ],
+      "id": "Q03",
+      "role": "check",
+      "modern_node_id": "J1129",
+      "pixel_xy": [
+        2366,
+        5088
+      ],
+      "identity_evidence": "Fraser Lake southwestern tributary/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern topology personally inspected before score."
+    },
+    {
+      "lonlat": [
+        -61.49514132519521,
+        45.396519103790745
+      ],
+      "guide_xy": [
+        3508.583777902415,
+        6641.728106741793
+      ],
+      "modern_objectid": 18114,
+      "modern_part": 0,
+      "modern_vertex": 29,
+      "modern_properties": {
+        "OBJECTID": 18114,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 346.38038708987983
+      },
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        3553,
+        6525
+      ],
+      "identity_evidence": "Byron Island northernmost coast",
+      "source_uncertainty_px": 20,
+      "status": "Native crosshair and modern topology personally inspected before score."
+    },
+    {
+      "lonlat": [
+        -61.5503352,
+        45.4445601
+      ],
+      "source_guide_xy": [
+        2309.082488320535,
+        5128.957091440447
+      ],
+      "objectids": [
+        127433,
+        127434,
+        211975
+      ],
+      "id": "V03",
+      "role": "check",
+      "modern_node_id": "J1084",
+      "pixel_xy": [
+        2388,
+        4951
+      ],
+      "identity_evidence": "Fraser Lake northern stream/shore connection",
+      "source_uncertainty_px": 20,
+      "status": "Original native crosshair and modern physical context personally inspected before scoring."
+    },
+    {
+      "lonlat": [
+        -61.28188878963612,
+        45.5533698853498
+      ],
+      "guide_xy": [
+        8180.904401891865,
+        1756.4523657981772
+      ],
+      "modern_objectid": 4978,
+      "modern_part": 0,
+      "modern_vertex": 2,
+      "modern_properties": {
+        "OBJECTID": 4978,
+        "FEAT_CODE": "WACO20",
+        "FEAT_DESC": "Coast - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.7,
+        "FID": null,
+        "SHAPE_Length": 183.78535073389037
+      },
+      "id": "V06",
+      "role": "check",
+      "pixel_xy": [
+        8298,
+        1688
+      ],
+      "identity_evidence": "Flat Head southernmost outer coast, north side of Strait",
+      "source_uncertainty_px": 20,
+      "status": "Original native crosshair and modern physical context personally inspected before scoring.",
+      "correction": "Expanded selection window to include complete Flat Head tip; initial minimum was clipped at window boundary."
+    }
+  ],
+  "status": "Reused diagnostics, not fresh validation"
+}
