@@ -13,7 +13,7 @@ The fourteen-control fit, original four rounded UI controls, all prior proposals
 
 Exact original close/wide native crosshairs and modern geometry were personally inspected before promotion or first score. Repairs were frozen before each new check selection. F01/F02 were rejected unscored for unsupported native junction identities. F04's original [2690,3236] road/pond approach was corrected to the actual southwest outlet [2716,3259] before scoring; both frames and the correction survive. After its 944 m failure it was promoted unchanged for the second experiment. F05/F06 were accepted unchanged before scoring; the historical eastern headwater is shorter than the modern one, recorded as an identity limitation rather than silently tuned.
 
-F03 shares C16's pond. F05/F06 share C17's drainage. These are correlated local observations, not independent whole-sheet proof. Reused diagnostics are separate CSVs: six for fifteen controls and seven for sixteen. The 100 m median / 250 m worst limits fail at both stages. All earlier losses and failed values remain evidence.
+F03 shares C16's pond. F05/F06 share C17's drainage. These are correlated local observations, not independent whole-sheet proof. Reused diagnostics are separate CSVs: six for fifteen controls and seven for sixteen. The 100 m median / 200 m worst limits fail at both stages. All earlier losses and failed values remain evidence.
 
 ## Full-sheet and browser evidence
 

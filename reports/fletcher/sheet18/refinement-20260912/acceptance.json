@@ -12,7 +12,7 @@
   ],
   "thresholds": {
     "median_ground_m_max": 100,
-    "worst_ground_m_max": 250
+    "worst_ground_m_max": 200
   },
   "next_action": "Preserve experiments and continue queue with Sheet 20; any further repair requires new geographic evidence and fresh checks after a new freeze."
 }
