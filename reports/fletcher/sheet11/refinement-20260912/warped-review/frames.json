@@ -1,0 +1,152 @@
+[
+  {
+    "image": "tompkins-central.jpg",
+    "lonlat_bounds": [
+      -61.102,
+      46.34,
+      -61.047,
+      46.377
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "grey-point.jpg",
+    "lonlat_bounds": [
+      -61.153,
+      46.394,
+      -61.105,
+      46.448
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "sea-wolf.jpg",
+    "lonlat_bounds": [
+      -61.28,
+      46.345,
+      -61.241,
+      46.376
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "western-extension.jpg",
+    "lonlat_bounds": [
+      -61.278,
+      46.272,
+      -61.217,
+      46.323
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "mink-gallant.jpg",
+    "lonlat_bounds": [
+      -61.065,
+      46.405,
+      -61.006,
+      46.45
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "martha-ranalds.jpg",
+    "lonlat_bounds": [
+      -60.925,
+      46.37,
+      -60.856,
+      46.412
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "cameron.jpg",
+    "lonlat_bounds": [
+      -61.164,
+      46.27,
+      -61.105,
+      46.305
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "middle-river.jpg",
+    "lonlat_bounds": [
+      -60.926,
+      46.272,
+      -60.855,
+      46.325
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "full-sheet.jpg",
+    "lonlat_bounds": [
+      -61.29,
+      46.25,
+      -60.83,
+      46.46
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "marsh-black.jpg",
+    "lonlat_bounds": [
+      -61.07,
+      46.34,
+      -60.99,
+      46.4
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/completion-20260911/sheet-11-exact.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif"
+    ],
+    "reference": "reports/fletcher/sheet11/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]

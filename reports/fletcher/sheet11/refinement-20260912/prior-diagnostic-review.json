@@ -1,0 +1,57 @@
+{
+  "fit_sha256": "18157a6f3361eeb1a9be31c476769796d4ea0705bdb82ea87645289634b7264f",
+  "points": [
+    {
+      "id": "Q03",
+      "role": "check",
+      "pixel_xy": [
+        3662,
+        1877
+      ],
+      "lonlat": [
+        -61.1249697,
+        46.4182353
+      ],
+      "modern_node": "J0311",
+      "modern_objectids": [
+        200550,
+        200551,
+        269305
+      ],
+      "identity_evidence": "Grey interior stream southwestern fork below east tributary C11.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        3662,
+        1877
+      ]
+    },
+    {
+      "id": "Q04",
+      "role": "check",
+      "pixel_xy": [
+        3400,
+        2330
+      ],
+      "lonlat": [
+        -61.1388306,
+        46.4034616
+      ],
+      "modern_node": "J0408",
+      "modern_objectids": [
+        186701,
+        186702,
+        186849
+      ],
+      "identity_evidence": "Western coastal creek upper northeast fork; long downstream reach follows coast road crossing.",
+      "source_uncertainty_px": 10,
+      "review": "Agent original-pixel crosshair and modern topology audit before any fit or check score. No user point audit.",
+      "pre_review_pixel_xy": [
+        3400,
+        2330
+      ]
+    }
+  ],
+  "status": "Ten reused diagnostics after validation-informed western repair; not fresh validation. T01 and W03/V05 excluded as fitting controls.",
+  "purpose": "Old diagnostic topology reinspection, never fresh"
+}

@@ -1,0 +1,101 @@
+{
+  "source_sha256": "1613a37c74f65f6f09a4fb3a7eaad32f72eca540da4af2a3ab9835af6ce8a916",
+  "fit_sha256": "4f05ff0c0d63c823d31e664a72e02c221c1fd03d9c1f8e025364c7f861e4ec2a",
+  "script_sha256": "454e7722a4ca3cd5c54c063cf6e58a975bc32d59390740dd7ac8d5a807224f56",
+  "boundaries": [
+    {
+      "component": "mainland",
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet11/boundary-mainland.json",
+      "sha256": "c4f19abbac51325f1492174adbb522719fdb615a73e2517261d845649019eafb"
+    },
+    {
+      "component": "island",
+      "path": "/Users/dfakkeldy/.codex/worktrees/8d5b/ns-marks-the-spot/reports/fletcher/sheet11/boundary-island.json",
+      "sha256": "f4fb41dcc790c8d3520fafaa28cc5b88192bdf2c85135b093d94cef4e121eb6c"
+    }
+  ],
+  "cutline_sha256": "0b46fb98207654c6fef066d10a7263f5e9331dc14a2bfd4f83768a4167c18232",
+  "orientation": [
+    {
+      "component": "mainland",
+      "samples": 72604,
+      "native_grid_step_px": 25,
+      "nonnegative_determinants": 0,
+      "determinant_range": [
+        -45.624321083351425,
+        -20.04160574722906
+      ]
+    },
+    {
+      "component": "island",
+      "samples": 814,
+      "native_grid_step_px": 25,
+      "nonnegative_determinants": 0,
+      "determinant_range": [
+        -25.007523686609083,
+        -22.98620829856147
+      ]
+    }
+  ],
+  "command": [
+    "gdalwarp",
+    "-overwrite",
+    "-tps",
+    "-et",
+    "0",
+    "-t_srs",
+    "EPSG:3857",
+    "-r",
+    "cubic",
+    "-tr",
+    "5",
+    "5",
+    "-tap",
+    "-cutline",
+    "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/cutline.geojson",
+    "-crop_to_cutline",
+    "-dstalpha",
+    "-co",
+    "COMPRESS=DEFLATE",
+    "-co",
+    "TILED=YES",
+    "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/controls.vrt",
+    "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif"
+  ],
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet11/refinement-20260912/sheet-11-exact.tif",
+    "sha256": "89ce10ceca225e79aaccaa0fd9c0b9a0655e0e7102d534e7858d5d0fe1084e1a",
+    "size": [
+      9369,
+      5975
+    ],
+    "bounds": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -61.2702228,
+            46.4529235
+          ],
+          [
+            -61.2702228,
+            46.2677149
+          ],
+          [
+            -60.849407,
+            46.2677149
+          ],
+          [
+            -60.849407,
+            46.4529235
+          ],
+          [
+            -61.2702228,
+            46.4529235
+          ]
+        ]
+      ]
+    }
+  },
+  "geographic_status": "Provisional; fresh validation failed. Full mainland extension and Sea Wolf Island retained."
+}

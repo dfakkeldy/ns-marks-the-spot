@@ -1,0 +1,33 @@
+{
+  "at_utc": "2026-09-12T13:28:42.732703+00:00",
+  "geographic_acceptance": false,
+  "latest_round": "30-control",
+  "criteria": {
+    "median_ground_m_max": 100,
+    "worst_ground_m_max": 200,
+    "distributed_whole_raster_and_seams_required": true
+  },
+  "rounds": [
+    {
+      "controls": 28,
+      "median_ground_m": 333.08735201647966,
+      "worst_ground_m": 449.1929122203836,
+      "fresh_thresholds_passed": false
+    },
+    {
+      "controls": 30,
+      "median_ground_m": 100.42943795282864,
+      "worst_ground_m": 216.09413918260088,
+      "fresh_thresholds_passed": false
+    }
+  ],
+  "whole_sheet_accepted": false,
+  "neighbor_seams_accepted": false,
+  "local_import_and_coverage_passed": true,
+  "visual_review": {
+    "personally_inspected_figures": 68,
+    "unrotated_native_crosshairs_before_scoring": true,
+    "actual_warped_rasters_and_modern_vectors": true,
+    "limitations": "Fresh checks concentrated in west and near new controls. Southwestern coast, intervening streams, altered Margaree channel and all four joins remain unresolved."
+  }
+}
