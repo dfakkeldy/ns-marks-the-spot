@@ -18,7 +18,8 @@ attribution, but no tiles have been produced, so:
 - the iOS catalog carries `sourceURL: nil` and installs no layer.
 
 A user-directed resumption on **2026-09-12** produced a separate provisional
-Richmond affine draft, reviewed its physical island correspondences, corrected
+Richmond affine draft followed by a six-control TPS refinement, reviewed its
+physical island correspondences, corrected
 Blake Island's earlier peninsula match, and measured large north Inverness
 river-mouth discrepancies. The four-county task remains incomplete and no new
 county is accepted or activated. See the

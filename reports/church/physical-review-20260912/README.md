@@ -1,5 +1,10 @@
 # Church physical-feature resumption — 12 September 2026
 
+**Latest draft:** [Richmond refinement 01](richmond/refinement-01/README.md) adds
+two reviewed physical controls and a TPS fit. RMS on the unchanged four checks
+is now 178 m, and the expanded six-check diagnostic RMS is 158 m. The initial
+affine experiment below remains preserved; county-wide acceptance is still pending.
+
 The four-county task remains incomplete. Richmond has a new, reversible affine
 GeoTIFF draft with reviewed physical controls and a larger content boundary.
 No county has new geographic acceptance or publication clearance. No tiles or
