@@ -2,6 +2,10 @@ import { ElectoralFeatureLayer } from "./ElectoralFeatureLayer";
 import { initialElectoralModes, electoralLayerById, isElectoralLayerId, type ElectoralLayerId, type ElectoralMode } from "../layers/electoralLayers";
 import type { ElectoralSelection } from "../elections/electoralData";
 import { ContextTileLayer } from "./ContextTileLayer";
+import "../terrain/researchTerrain.css";
+import { isTerrainCameraUpdate } from "../terrain/terrainViewport";
+import { ReliefControls } from "../terrain/ReliefControls";
+import { DEFAULT_RELIEF } from "../terrain/reliefMath";
 import { OpenDataLayer } from "./OpenDataLayer";
 import { ContextImageLayer } from "./ContextImageLayer";
 import { ContextFeatureLayer } from "./ContextFeatureLayer";
@@ -161,6 +165,7 @@ import { ConversionPreviewLayer } from "../userMaps/vector/edit/ConversionPrevie
 import type { PopupPhotoUi } from "../userMaps/vector/render/popup";
 
 const AtlasBasemapLayer = lazy(() => import("../atlas/AtlasBasemapLayer"));
+const ResearchTerrainLayer = lazy(() => import("../terrain/ResearchTerrainLayer"));
 const FletcherFeaturesLayer = lazy(() => import("./FletcherFeaturesLayer").then(module => ({ default: module.FletcherFeaturesLayer })));
 
 // Lazy like EditableVectorLayer: both exist only inside an edit session.
@@ -457,7 +462,7 @@ type PrintableViewportGuardRef = {
 
 const VIEWPORT_COMPARISON_EPSILON = 1e-9;
 
-function samePrintMapViewport(
+function samePrintMapPosition(
   left: PrintMapViewport,
   right: PrintMapViewport,
 ): boolean {
@@ -465,19 +470,11 @@ function samePrintMapViewport(
     left.position.latitude,
     left.position.longitude,
     left.position.zoom,
-    left.bounds.north,
-    left.bounds.east,
-    left.bounds.south,
-    left.bounds.west,
   ];
   const rightValues = [
     right.position.latitude,
     right.position.longitude,
     right.position.zoom,
-    right.bounds.north,
-    right.bounds.east,
-    right.bounds.south,
-    right.bounds.west,
   ];
   return leftValues.every(
     (value, index) =>
@@ -1142,6 +1139,13 @@ function MapPositionController({
       };
 
       const guard = printableViewportGuard.current;
+      if (isTerrainCameraUpdate(map) && (guard.suppressBrowserLocation || guard.lastSuppressed !== null)) {
+        // Changing renderer, relief or perspective does not authorize sharing
+        // the location-centred camera. Retain the newly projected private view.
+        guard.lastSuppressed = viewport;
+        if (event?.type === "moveend") guard.suppressBrowserLocation = false;
+        return;
+      }
       if (guard.suppressBrowserLocation) {
         guard.lastSuppressed = viewport;
         if (event?.type === "moveend") {
@@ -1151,7 +1155,7 @@ function MapPositionController({
       }
       if (
         guard.lastSuppressed !== null &&
-        samePrintMapViewport(guard.lastSuppressed, viewport)
+        samePrintMapPosition(guard.lastSuppressed, viewport)
       ) {
         return;
       }
@@ -1986,6 +1990,11 @@ export function MapCanvas({
   const [modernMapFailed, setModernMapFailed] = useState(false);
   const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
   const measuring = poker !== null || measureMode !== "off";
+  const [terrainRequested, setTerrainRequested] = useState(false);
+  const [terrainRelief, setTerrainRelief] = useState(DEFAULT_RELIEF);
+  const [terrainStatus, setTerrainStatus] = useState("Loading 3D terrain…");
+  const terrainBlocked = Boolean(isPrintMode || measuring || georeference || userVectorEdit || exportFrame);
+  const terrainActive = terrainRequested && !terrainBlocked;
   const measuringRef = useRef(false);
   useLayoutEffect(() => {
     measuringRef.current = measuring;
@@ -2516,7 +2525,7 @@ export function MapCanvas({
         {!isPrintMode ? <ScaleControl position="bottomleft" /> : null}
         {!isPrintMode ? <ApproximateScaleReadout /> : null}
         {!isPrintMode ? <PositionReadout /> : null}
-        {showModernMap && basemapStyle !== "osm" ? (
+        {terrainActive ? null : showModernMap && basemapStyle !== "osm" ? (
           <Suspense fallback={null}>
             <AtlasBasemapLayer
               key={`atlas-${basemapStyle}-${modernMapRetry}`}
@@ -2877,6 +2886,7 @@ export function MapCanvas({
             </div> : <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
           )}
         </>}
+        {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer basemap={basemapStyle} modern={showModernMap} relief={terrainRelief} onStatus={setTerrainStatus} /></Suspense> : null}
         <MapPositionController
           onPositionChange={onPositionChange}
           onViewportChange={onViewportChange}
@@ -2885,6 +2895,15 @@ export function MapCanvas({
       </MapContainer>
 
       {!isPrintMode ? <>
+      <div className="research-terrain-controls" aria-label="Map dimension">
+        <button type="button" aria-pressed={terrainActive} disabled={terrainBlocked}
+          title={terrainBlocked ? "Editing, measuring and print framing use the 2D map" : "Switch between 2D and 3D terrain"}
+          onClick={() => { setTerrainStatus("Loading 3D terrain…"); setTerrainRequested(value => !value); }}>
+          {terrainActive ? "Return to 2D" : "3D terrain"}
+        </button>
+        {terrainActive ? <><ReliefControls value={terrainRelief} onChange={setTerrainRelief} /><small>Right-drag to tilt/rotate. Mapzen terrain; source detail varies.</small></> : null}
+      </div>
+      {terrainActive && terrainStatus !== "Ready" ? <p className="research-terrain-status" role="status">{terrainStatus}</p> : null}
       <button
         className="location-button"
         type="button"
@@ -3053,7 +3072,7 @@ export function MapCanvas({
           }}
         />
       ) : null}
-      {showModernMap && modernMapFailed ? (
+      {showModernMap && modernMapFailed && !terrainActive ? (
         <div className="modern-map-error" role="status">
           <span>Modern map did not load.</span>
           {basemapStyle !== "osm" && onUseOsmBasemap ? (

@@ -67,8 +67,8 @@ describe("parcel pane ordering", () => {
     );
   });
 
-  it("keeps property boundaries below water and road context", () => {
-    expect(PROVINCE_LAYER_Z_INDEXES.nsprd).toBeLessThan(
+  it("keeps property boundaries above water, with roads and bridges legible", () => {
+    expect(PROVINCE_LAYER_Z_INDEXES.nsprd).toBeGreaterThan(
       PROVINCE_LAYER_Z_INDEXES["water-features"],
     );
     expect(PROVINCE_LAYER_Z_INDEXES.nsprd).toBeLessThan(

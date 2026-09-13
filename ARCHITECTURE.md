@@ -130,8 +130,8 @@ nothing is persisted through SwiftData.
 
 The `web/` React + Vite app is a separate online-only delivery surface. It does
 not change the native app's offline contract or its `MapSurface` boundary.
-Leaflet owns navigation, GeoJSON parcel highlights, and the web catalog's
-image overlays. `atlas/AtlasBasemapLayer.tsx` draws the modern Day and Night
+Leaflet owns research state, GeoJSON parcel highlights, source queries and the
+web catalog's image overlays. In 2D it also owns direct map navigation. `atlas/AtlasBasemapLayer.tsx` draws the modern Day and Night
 themes and the explicitly chosen Fletcher style (`atlas/palette.ts`,
 `atlas/style.ts`; Fletcher is modern geography in the colours and lettering of
 the 1884 sheets, not a historical map) over the
@@ -155,6 +155,57 @@ paths, spherical-excess areas on Leaflet's sphere). While a measurement is
 active, `MapCanvas` suspends parcel identify/selection and double-click zoom;
 a 250 ms deferred click in `ParcelIdentifyController` keeps double-tap zoom
 from selecting parcels the rest of the time.
+
+### Web terrain views
+
+`components/MapCanvas.tsx` offers an in-place 2D/3D switch.
+`terrain/ResearchTerrainLayer.tsx` synchronizes the terrain camera with the
+Leaflet map and forwards parcel interaction by geographic position.
+`terrain/leafletScene.ts` reads mounted Leaflet tile/image layers, local warped
+raster canvases, paths and markers into the MapLibre scene. The mounted layers
+continue to own source queries, consent, visibility and selection; changing
+renderers does not create a separate evidence or licensing path. User imports
+remain local browser inputs. Remote raster draping still depends on source CORS
+permission.
+
+`terrain/researchStyle.ts` adds a Terrarium raster DEM from
+[Mapzen Terrain Tiles on AWS](https://registry.opendata.aws/terrain-tiles/), with
+[upstream source licences](https://github.com/tilezen/joerd/blob/master/docs/attribution.md).
+This provides province-wide display relief with varying source detail and age,
+not provincial LiDAR or hydrologically conditioned terrain. The view preserves
+the current centre and layers; tilt, bearing and dimension choice are not
+URL-persisted. Height exaggeration changes display only. `terrain/reliefMath.ts`
+defines the 1–10× controls and continuous low-ground transform. For a selected
+threshold t (20 or 100 m), positive source height h displays as
+`lowScale * min(h, t) + overallScale * max(0, h - t)`. Nonpositive elevations
+retain the overall scale. `terrain/terrainRelief.ts` rewrites temporary browser
+DEM tiles, normalized by the overall MapLibre exaggeration, preserving original
+sources and alpha/no-data. The same controls work with the main view's Terrarium
+tiles and Judique's Mapbox-encoded tiles. Editing, measurement,
+print mode and export framing suspend terrain and use the 2D contracts below.
+
+Display stacking is distinct from terrain construction. Roads, bridges and
+property outlines draw above water in both dimensions. The NSPRD boundary pane
+is 218, above water at 210; the terrain scene preserves mounted layer order and
+places source-classified basemap roads and bridges above water.
+
+The separate `terrain/TerrainStudy.tsx` entry at `/terrain.html` remains the
+Judique experiment. `web/scripts/buildJudiqueTerrain.py` interpolates open NSTDB
+contours onto a 30 m grid, smooths the display, and conditions supported lake
+interiors using dissolved NSTDB lake/reservoir polygons and estimated median
+contour-shoreline levels. Unsupported or sub-grid lakes remain references;
+ocean polygons use display zero, and river polygons remain unflattened. Source
+water/NSHN Z is excluded because its vertical frame has not been reconciled
+with the contours. The method does not enforce drainage or establish vertical
+accuracy. Its receipt at `web/public/terrain/judique/source.json` records input
+and artifact hashes, per-lake support and estimates, and the separate ocean
+convention. It also records the pinned historical draft and its approximate
+alignment. Open NSRN road/bridge vectors and licence-gated property boundaries
+appear above water; aerial imagery keeps its own acceptance gate.
+
+KinNoKi Labs publishes a separately pinned generated copy. Source changes here,
+local builds, hosted CI and repository merges do not themselves prove that pin
+was updated or that the public deployment serves these terrain views.
 
 ### Web print/export boundary
 
