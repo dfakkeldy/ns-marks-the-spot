@@ -582,7 +582,7 @@
     },
     {
       "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/name-label-zoom-after.png",
-      "sha256": "3c0eb9a0edc6b5e2a666d8775f824a8c0556296ee26871e9852388132eccdee0"
+      "sha256": "4354caf3ec8c8ed963c3906b4e7555cb6c0cc12c03a8fd4eac16ec523d7e6dee"
     },
     {
       "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-271-export/source.json",
@@ -593,5 +593,10 @@
       "sha256": "7b873f424dbef569eed6a21f663a86d0b4b0371cf74b40cf920c5e0e97ec5ea9"
     }
   ],
-  "limits": "Approximate historical marks, crossings and bounded groups/banks. No residence, current address, ownership, parcel or municipal boundary is inferred. No production publication claim."
+  "limits": "Approximate historical marks, crossings and bounded groups/banks. No residence, current address, ownership, parcel or municipal boundary is inferred. No production publication claim.",
+  "base_reverification": {
+    "nightly_revision": "a8c1d6878cf679ddf2af25c2b725414b70005723",
+    "combined_revision": "a65ddcb7949e7a1e643e8791a64a256d1c9dbf7d",
+    "checks": "After merging PR466, all thirty label selections, real zoom threshold controls, prior Judique Coal selection, ten component tests, lint and build passed. Source geometry and export bytes are unchanged."
+  }
 }

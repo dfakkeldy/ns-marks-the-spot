@@ -381,3 +381,7 @@ component tests, web script tests, lint and build pass.
 Base reconciliation preserves PR465's terrain-control work. PR435's sheet21 handoff
 retains the fifteen-control provisional baseline and rejects its seventeen-control
 experiment; no new priority-corridor fit or whole-sheet acceptance is adopted.
+
+The final branch also preserves PR466’s mobile terrain and Crown Land loading changes.
+All thirty browser cases, the real label zoom threshold, prior Coal selection,
+component tests, lint and build passed again with that nightly base.
