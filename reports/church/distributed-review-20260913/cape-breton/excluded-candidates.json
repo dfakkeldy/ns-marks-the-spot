@@ -1,0 +1,23 @@
+{
+  "candidates": [
+    {
+      "id": "CB05",
+      "name": "Dark East Bay mark",
+      "status": "withheld",
+      "reason": "Native crop shows a dense irregular ink mark without an independently traceable shoreline. No physical island identity was established; nearest guide polygon is not evidence."
+    },
+    {
+      "id": "CB06",
+      "name": "Waterford/Kilkenny whole-basins",
+      "status": "withheld",
+      "reason": "Waterford modern dam/storage history and Kilkenny transfer/drawdown history do not support an unchanged historical whole-basin definition. Source/modern shape differences are substantial.",
+      "corroboration": "https://cbrm.ns.ca/wp-content/uploads/2025/11/New-Waterford-Source-Water-Protection-Plan-prepared-by-ADI-Limited-2007.pdf"
+    },
+    {
+      "id": "CB07-centroid",
+      "name": "Gillis Lake whole-basin centroid",
+      "status": "not measured",
+      "reason": "East-shore label/road overprint complicates a complete outer-ring trace. The separately reviewed southern lake/stream junction is used instead, with original uncertainty retained."
+    }
+  ]
+}

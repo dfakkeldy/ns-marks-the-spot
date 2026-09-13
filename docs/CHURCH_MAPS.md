@@ -29,6 +29,13 @@ and remaining geographic coverage.
 
 The [13 September sequential physical review](../reports/church/physical-review-20260913/README.md) adds inland checks and separate panel trials. A native printed-label audit corrected Victoria main's 10-minute longitude anchor-index error; that coordinate-frame repair does not establish physical accuracy or activate the layer.
 
+The subsequent [distributed correspondence review](../reports/church/distributed-review-20260913/README.md)
+adds five physical checks, corrects Inverness north's First Fork source placement,
+and records Cape Breton's first three-control physical affine trial and a separate
+south diagnostic audit. Sparse validation and failed checks prevent new whole-panel
+acceptance; previous baselines, observations and raster artifacts remain preserved.
+Its `status.json` records the current unresolved work.
+
 The full four-county run was **frozen and rejected on 2026-07-26**. Inverness
 south passed, but Inverness north was unmeasurable; Richmond failed its fixed
 held-out RMS and P95 gates; Victoria could not supply enough accepted held-out

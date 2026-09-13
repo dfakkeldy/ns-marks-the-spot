@@ -1,4 +1,4 @@
-import { expect, test, type Locator } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createCanvas } from 'canvas';
 
 function tile(color: string) {
@@ -67,6 +67,10 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
     await expectReadable(page.locator('.research-terrain-controls'));
     await expectReadable(page.getByRole('button', { name: 'Return to 2D', exact: true }));
     await expect.poll(async () => ({ status: await page.locator('.research-terrain-status').allTextContents(), errors }), { timeout: 25000 }).toEqual({ status: [], errors: [] });
+    const settings = page.getByRole('button', { name: '3D settings', exact: true });
+    await expect(page.getByRole('slider', { name: 'Map tilt', exact: true })).toBeHidden();
+    expect((await page.locator('.research-terrain-controls').boundingBox())!.height).toBeLessThanOrEqual(60);
+    await activate(settings);
     await test.step('Tilt, direction, touch gestures and appearance', async () => {
       const tilt = page.getByRole('slider', { name: 'Map tilt', exact: true });
       await expect(tilt).toHaveValue('50');
@@ -112,6 +116,8 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
       await expect(page.locator('.research-terrain-status')).toHaveCount(0, { timeout: 15000 });
       await page.getByText('Terrain height', { exact: true }).click();
     });
+    await activate(settings);
+    await expect(page.getByRole('slider', { name: 'Map tilt', exact: true })).toBeHidden();
     await test.step('Parcel selection, short screens and return to 2D', async () => {
       const box = (await canvas.boundingBox())!;
       expect(box.height).toBeGreaterThan(200);
@@ -128,11 +134,13 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
       if (width === 390) {
         for (const size of [{ width: 320, height: 568 }, { width: 844, height: 390 }]) {
           await page.setViewportSize(size);
+          await activate(settings);
           await page.getByText('Terrain height', { exact: true }).click();
           await page.getByRole('slider', { name: /^Low-ground exaggeration/ }).scrollIntoViewIfNeeded();
           await expect(page.getByRole('button', { name: 'Return to 2D', exact: true })).toBeInViewport({ ratio: 1 });
           await page.screenshot({ path: testInfo.outputPath(`terrain-${size.width}x${size.height}.png`), scale: 'css' });
           await page.getByText('Terrain height', { exact: true }).click();
+          await activate(settings);
         }
       }
       await page.getByRole('button', { name: 'Return to 2D', exact: true }).click();
@@ -144,21 +152,110 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
   });
 });
 
-test('3D source failure stays readable in dark and light appearance', async ({ page }) => {
+test('3D names the failed source and recovers with one retry', async ({ page }) => {
+  let unavailable = true;
   await page.setViewportSize({ width: 390, height: 700 });
   await page.route('https://**/*', route => {
-    if (route.request().url().includes('elevation-tiles-prod')) return route.fulfill({ status: 503, body: 'Unavailable' });
+    if (route.request().url().includes('elevation-tiles-prod')) return unavailable ? route.fulfill({ status: 503, body: 'Unavailable' }) : route.fulfill({ contentType: 'image/png', body: dem });
     if (route.request().resourceType() === 'image') return route.fulfill({ contentType: 'image/png', body: background });
     return route.fulfill({ contentType: 'text/css', body: '' });
   });
   await page.goto('/?basemap=osm&layers=modern&taxSale=off');
   await page.getByRole('button', { name: '3D terrain', exact: true }).tap();
   const status = page.locator('.research-terrain-status');
-  await expect(status).toContainText('A 3D layer failed to load');
+  await expect(status).toContainText('Mapzen terrain');
+  await expect(status).toContainText('503');
   await expectReadable(status);
+  await page.getByRole('button', { name: '3D settings', exact: true }).tap();
+  await page.getByText('Terrain height', { exact: true }).click();
+  await page.getByRole('slider', { name: /^Height exaggeration/ }).press('End');
+  // A display-setting update cannot clear an unresolved source failure.
+  await expect(status).toContainText('Mapzen terrain');
+  await page.getByRole('button', { name: '3D settings', exact: true }).tap();
   await page.emulateMedia({ colorScheme: 'light' });
   await expectReadable(status);
+  unavailable = false;
+  await page.getByRole('button', { name: 'Retry 3D', exact: true }).tap();
+  await expect(status).toHaveCount(0, { timeout: 25000 });
+  await expect(page.locator('.research-terrain-map canvas')).toBeVisible();
   await page.getByRole('button', { name: 'Return to 2D', exact: true }).tap();
   await expect(status).toHaveCount(0);
   await expect(page.locator('vite-error-overlay')).toHaveCount(0);
+});
+
+async function openHistoricalTerrain(page: Page, elevation = dem) {
+  await page.addInitScript(() => localStorage.setItem('ns-marks-the-spot:province-license:v1', 'accepted'));
+  await page.setViewportSize({ width: 390, height: 740 });
+  await page.route('https://**/*', route => {
+    if (route.request().url().includes('elevation-tiles-prod')) return route.fulfill({ contentType: 'image/png', body: elevation });
+    if (route.request().url().includes('/export')) return route.fulfill({ contentType: 'image/png', body: background });
+    if (route.request().resourceType() === 'stylesheet') return route.fulfill({ contentType: 'text/css', body: '' });
+    return route.fulfill({ json: { type: 'FeatureCollection', features: [] } });
+  });
+  // Keep the real historical-feature component while omitting remote basemaps.
+  await page.goto('/?basemap=fletcher&layers=ns-topographic&taxSale=off&position=45.8787475,-61.4906198,15');
+  await page.getByRole('button', { name: '3D terrain', exact: true }).tap();
+}
+
+test('historical evidence stays visible without pulling a 3D drag back', async ({ page }, testInfo) => {
+  test.setTimeout(60000);
+  await openHistoricalTerrain(page);
+  const marker = page.locator('.research-terrain-map .fletcher-feature-marker[title^="R.C. Church"]');
+  await expect(marker).toBeVisible();
+  await marker.tap();
+  await expect(page.locator('.research-terrain-map .maplibregl-popup')).toContainText('Approximate location');
+  const position = () => new URL(page.url()).searchParams.get('position')!.split(',').map(Number);
+  const before = position();
+  const touch = await page.context().newCDPSession(page);
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 85, y: 480, id: 1 }] });
+  for (let step = 1; step <= 10; step++) {
+    await touch.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: 85 + step * 10, y: 480 + step * 6, id: 1 }] });
+  }
+  await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await touch.detach();
+  await expect.poll(() => Math.hypot(position()[0] - before[0], position()[1] - before[1])).toBeGreaterThan(.0005);
+  await page.waitForTimeout(1000); // let touch inertia finish before checking the resting camera
+  const resting = position();
+  // Reflow updates the React popup. Its hidden Leaflet owner must not auto-pan.
+  await page.setViewportSize({ width: 390, height: 741 });
+  await page.waitForTimeout(700);
+  expect(Math.hypot(position()[0] - resting[0], position()[1] - resting[1])).toBeLessThan(.0001);
+  await expect(page.locator('.research-terrain-map .maplibregl-popup')).toContainText('Approximate location');
+  await expectReadable(page.locator('.research-terrain-map .maplibregl-popup-close-button'));
+  await expect(page.locator('.research-terrain-map .maplibregl-popup-close-button')).toBeInViewport({ ratio: 1 });
+  const popupBox = (await page.locator('.research-terrain-map .maplibregl-popup').boundingBox())!;
+  expect(popupBox.x).toBeGreaterThanOrEqual(8);
+  expect(popupBox.x + popupBox.width).toBeLessThanOrEqual(382);
+  await page.screenshot({ path: testInfo.outputPath('historical-evidence-after-drag.png'), scale: 'css' });
+  await page.locator('.research-terrain-map .maplibregl-popup-close-button').tap();
+  await expect(page.getByRole('button', { name: '3D settings', exact: true })).toBeVisible();
+  await expect(page.locator('.leaflet-popup')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Return to 2D', exact: true }).tap();
+  await page.locator('.leaflet-map-pane .fletcher-feature-marker[title^="R.C. Church"]').tap();
+  await expect(page.locator('.leaflet-popup')).toContainText('Approximate location');
+});
+
+
+test('research markers retain source opacity behind exaggerated terrain', async ({ page }, testInfo) => {
+  test.setTimeout(60000);
+  // A synthetic repeating ridge gives a deterministic occlusion case. These
+  // pixels exercise rendering only and are not a geographic accuracy fixture.
+  const canvas = createCanvas(256, 256), context = canvas.getContext('2d');
+  const pixels = context.createImageData(256, 256);
+  for (let y = 0; y < 256; y++) for (let x = 0; x < 256; x++) {
+    const height = Math.round(1200 * Math.max(0, 1 - Math.abs(y - 128) / 50));
+    const offset = (y * 256 + x) * 4;
+    pixels.data.set([128 + (height >> 8), height & 255, 0, 255], offset);
+  }
+  context.putImageData(pixels, 0, 0);
+  await openHistoricalTerrain(page, canvas.toBuffer('image/png'));
+  await page.getByRole('button', { name: '3D settings', exact: true }).tap();
+  await page.getByRole('slider', { name: 'Map tilt', exact: true }).press('End');
+  await page.getByText('Terrain height', { exact: true }).click();
+  await page.getByRole('slider', { name: /^Height exaggeration/ }).press('End');
+  await page.getByRole('button', { name: '3D settings', exact: true }).tap();
+  const covered = page.locator('.research-terrain-map .fletcher-feature-marker.maplibregl-marker-covered');
+  await expect.poll(() => covered.count()).toBeGreaterThan(0);
+  await expect.poll(() => covered.evaluateAll(elements => elements.every(element => getComputedStyle(element).opacity === '1'))).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('research-markers-over-ridge.png'), scale: 'css' });
 });

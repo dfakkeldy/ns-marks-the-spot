@@ -1,0 +1,51 @@
+{
+  "points": [
+    {
+      "id": "I13",
+      "label": "Second Fork Brook mouth at eastern bank of Northeast Margaree River",
+      "role": "check",
+      "pixel_xy": [
+        8098.333333333333,
+        24993.333333333332
+      ],
+      "lonlat": [
+        -60.887602294371135,
+        46.48394956195481
+      ],
+      "source_display_pixel_xy": [
+        238,
+        292
+      ],
+      "source_frame": {
+        "county": "inverness",
+        "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+        "origin": [
+          7900,
+          24750
+        ],
+        "extent": [
+          1000,
+          800
+        ],
+        "display": [
+          1200,
+          960
+        ],
+        "rotation": 0
+      },
+      "source_crop_sha256": "fc90e28d207dc52b3986b04127410255bb53d5ad0d07d77030e3e9f77bab8471",
+      "reference_feature_ids": [
+        277200,
+        183240,
+        183241
+      ],
+      "reference_vertex": {
+        "feature_id": 277200,
+        "vertex": 9
+      },
+      "uncertainty_ground_m": 100,
+      "identity_evidence": "Second Fork Brook traced from its long eastern main branch via northwest elbow, the fall and southern side tributary to the eastern bank of the Northeast Margaree. First Fork lies downstream after the paired main-river bends and MacLeods Pool; small intervening tributaries are not selected. Modern named Second Fork Brook 277200 terminates at bank segments 183240/183241.",
+      "validation_phase": "fresh after corrected-I10 affine freeze; southern-interior region only"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "points": [
+    {
+      "id": "CB07",
+      "label": "Gillis Lake southern outlet to Gillis Brook",
+      "role": "control",
+      "pixel_xy": [
+        13580,
+        16979
+      ],
+      "lonlat": [
+        -60.397628550104415,
+        46.05528327844839
+      ],
+      "source_display_pixel_xy": [
+        600,
+        958
+      ],
+      "source_frame": {
+        "county": "cape-breton",
+        "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+        "origin": [
+          13280,
+          16500
+        ],
+        "extent": [
+          500,
+          600
+        ],
+        "display": [
+          1000,
+          1200
+        ],
+        "rotation": 0
+      },
+      "source_crop_sha256": "705ec1437a952439e4afed275268dfe93376b35ed40f076ad3e3d312bf954fbe",
+      "reference_feature_ids": [
+        141500,
+        141585,
+        280039
+      ],
+      "reference_vertex": {
+        "feature_id": 280039,
+        "vertex": 0
+      },
+      "uncertainty_ground_m": 150,
+      "identity_evidence": "Large southern member of the three-basin group with two smaller northern basins east of the north-south road; broad lake label reads Gillis Lake at native resolution. Lake tapers south to a stream past Frasers Mill, while another stream enters southwest. The modern Gillis Brook 280039 begins at the shared end of shoreline segments 141500/141585; the small middle and larger northern basins corroborate identity. Source outlet neck is generalized and the exact end of shoreline engraving is uncertain; placement uncertainty remains 150 m. Whole-basin centroid is not used because label/road overprint affects the east shore.",
+      "validation_phase": "prospective physical control; never previously scored as check"
+    },
+    {
+      "id": "CB08",
+      "label": "Scotch Lake northeastern neck meeting Johnstons Brook",
+      "role": "control",
+      "pixel_xy": [
+        14948.0,
+        11651.333333333334
+      ],
+      "lonlat": [
+        -60.35159354502209,
+        46.18429616824849
+      ],
+      "source_display_pixel_xy": [
+        822,
+        152
+      ],
+      "source_frame": {
+        "county": "cape-breton",
+        "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+        "origin": [
+          14400,
+          11550
+        ],
+        "extent": [
+          800,
+          750
+        ],
+        "display": [
+          1200,
+          1125
+        ],
+        "rotation": 0
+      },
+      "source_crop_sha256": "201d1cc3873e53bf3234a797f1479a45b5e494d25c233a2a90a9b1a782cdd66f",
+      "reference_feature_ids": [
+        141899,
+        141900,
+        275270
+      ],
+      "reference_vertex": {
+        "feature_id": 141899,
+        "vertex": 0
+      },
+      "uncertainty_ground_m": 130,
+      "identity_evidence": "The elongated southwest-northeast lake south of Georges River has a distinct bifid northern outline: broad north lobe, deep notch, then narrow northeast neck. Both source and modern geometry preserve this shape, the southwest stream and the northeast stream continuation (flow direction not inferred). An elongated mainland water arm and settlement lie northwest, with a larger separate basin east/southeast. NRCan Scotch Lake record CBHPK corroborates locality only; fitting coordinate is the original NSTDB shoreline endpoint. No approximate search coordinate enters the fit.",
+      "validation_phase": "prospective physical control; never previously scored as check"
+    }
+  ],
+  "source_identity": "../../physical-review-20260912/source-verification.json",
+  "reference_receipt": "../../physical-review-20260913/cape-breton/reference-receipt.json"
+}

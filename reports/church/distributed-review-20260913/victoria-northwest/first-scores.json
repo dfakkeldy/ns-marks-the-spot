@@ -1,0 +1,29 @@
+{
+  "phase": "fresh northeastern coastal check against unchanged four-control affine; no tuning",
+  "method": "affine",
+  "csv_sha256": "1a6cf0b340311c3822652e3438e11aa77d7b79b5667dfa793ba1977d3abcf701",
+  "metrics": {
+    "count": 1,
+    "points": [
+      {
+        "label": "VN08",
+        "east_ground_m": -441.5436789720609,
+        "north_ground_m": 16.804665899212623,
+        "error_ground_m": 441.8633467896681
+      }
+    ],
+    "rms_ground_m": 441.8633467896681,
+    "median_ground_m": 441.8633467896681,
+    "p95_ground_m": 441.8633467896681,
+    "max_ground_m": 441.8633467896681,
+    "mean_east_ground_m": -441.5436789720609,
+    "mean_north_ground_m": 16.804665899212623,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "source_hull": {
+    "VN08": false
+  },
+  "geographic_acceptance": false
+}

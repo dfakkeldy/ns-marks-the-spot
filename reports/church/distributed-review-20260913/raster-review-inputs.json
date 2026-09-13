@@ -1,0 +1,56 @@
+[
+  {
+    "panel": "richmond",
+    "raster": "/Users/dfakkeldy/Downloads/church-refinement-04/rendered/richmond-refined-v4-tps-5m.tif",
+    "sha256": "32ca1073e47b9b3d7f03dc1eb0e6d4f2d51d3012f34640d15e6bb2b3b205d2a8",
+    "references": [
+      {
+        "path": "/Users/dfakkeldy/Downloads/church-refinement-04/review-water-lines.geojson",
+        "sha256": "0cc3aabf4c4d5befd266a031c9d39ee2191d188ef56fe87bcb4defdbfe43f6b6"
+      }
+    ],
+    "regions": {
+      "mcdonald-rocky-lakes": [
+        -60.99,
+        45.701,
+        -60.945,
+        45.731
+      ]
+    }
+  },
+  {
+    "panel": "inverness-south",
+    "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-explicit-affine-20m.tif",
+    "sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+    "references": [
+      {
+        "path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+        "sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332"
+      },
+      {
+        "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18/reference-full/water-lines.geojson",
+        "sha256": "ef6b5f30178a1eb5aafb2b125785ddc84c4555d9b9d0caa669540254c9d05abb"
+      }
+    ],
+    "regions": {
+      "cow-island": [
+        -61.065,
+        45.785,
+        -61.02,
+        45.815
+      ],
+      "mabou-mainland": [
+        -61.45,
+        46.035,
+        -61.355,
+        46.095
+      ],
+      "whyco-river-context": [
+        -61.18,
+        45.968,
+        -61.105,
+        46.02
+      ]
+    }
+  }
+]
