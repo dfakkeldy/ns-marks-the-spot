@@ -1,0 +1,77 @@
+{
+  "baseline": "unchanged 30 printed-graticule controls tools/church/gcps/inverness-north.csv",
+  "control_sha256": "f38cddd943a59b5428cd00f087638ccac5c8d53bba575dfce1d0f767508aba98",
+  "gate": {
+    "rms_m": 400,
+    "p95_m": 900,
+    "max_m": 1500,
+    "min_checks": 6
+  },
+  "models": {
+    "affine": {
+      "points": [
+        {
+          "id": "N02",
+          "predicted_lonlat": [
+            -60.674430883751775,
+            46.93079869734153
+          ],
+          "error_ground_m": 2268.2123991287103
+        },
+        {
+          "id": "N03",
+          "predicted_lonlat": [
+            -60.76221426679984,
+            46.86300687660658
+          ],
+          "error_ground_m": 1959.0930890987624
+        },
+        {
+          "id": "N04",
+          "predicted_lonlat": [
+            -60.869884998656566,
+            46.80792277892249
+          ],
+          "error_ground_m": 1399.5616284846951
+        }
+      ],
+      "rms_ground_m": 1909.7649044880266,
+      "max_ground_m": 2268.2123991287103,
+      "check_count": 3,
+      "acceptance": false
+    },
+    "tps": {
+      "points": [
+        {
+          "id": "N02",
+          "predicted_lonlat": [
+            -60.67358185672537,
+            46.930637477834885
+          ],
+          "error_ground_m": 2292.975757995479
+        },
+        {
+          "id": "N03",
+          "predicted_lonlat": [
+            -60.76073672001295,
+            46.86288630956931
+          ],
+          "error_ground_m": 2012.5478956936577
+        },
+        {
+          "id": "N04",
+          "predicted_lonlat": [
+            -60.87173766418225,
+            46.80789396494602
+          ],
+          "error_ground_m": 1350.906179855041
+        }
+      ],
+      "rms_ground_m": 1926.3985712538351,
+      "max_ground_m": 2292.975757995479,
+      "check_count": 3,
+      "acceptance": false
+    }
+  },
+  "scope": "Three diagnostic coast mouths, not distributed panel validation; outlet migration included in uncertainty; no model selected"
+}

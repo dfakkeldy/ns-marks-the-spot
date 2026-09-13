@@ -1,0 +1,65 @@
+{
+  "fit_csv_sha256": "5f69f487670fcb30835e2a7cb861f4eeab99c5c383e81ace1774deae72314f89",
+  "fresh_observations_sha256": "bdb618fd5230df3096036f2c3c89918916caa04038b54b5af9e60194bb76ce95",
+  "validation_status": "Fresh checks on frozen eight-control TPS; no subsequent tuning",
+  "fresh_checks_used_for_fitting_or_model_selection": false,
+  "metrics": {
+    "count": 6,
+    "points": [
+      {
+        "label": "G01",
+        "east_ground_m": 199.41219115234406,
+        "north_ground_m": 25.628532026177425,
+        "error_ground_m": 201.05234053349344
+      },
+      {
+        "label": "G02",
+        "east_ground_m": 111.3299114601241,
+        "north_ground_m": -53.95649640700758,
+        "error_ground_m": 123.71601630443203
+      },
+      {
+        "label": "G03",
+        "east_ground_m": -27.43061002163115,
+        "north_ground_m": -142.82235836121086,
+        "error_ground_m": 145.43268000699481
+      },
+      {
+        "label": "G04",
+        "east_ground_m": -678.9143147185017,
+        "north_ground_m": -479.5197362943236,
+        "error_ground_m": 831.1821847377809
+      },
+      {
+        "label": "G05",
+        "east_ground_m": -640.1395285943426,
+        "north_ground_m": -376.371324268632,
+        "error_ground_m": 742.5860150855999
+      },
+      {
+        "label": "G06",
+        "east_ground_m": 41.58915786290588,
+        "north_ground_m": -109.07622604610674,
+        "error_ground_m": 116.73594622140637
+      }
+    ],
+    "rms_ground_m": 471.31084150212365,
+    "median_ground_m": 173.2425102702441,
+    "p95_ground_m": 809.0331423247356,
+    "max_ground_m": 831.1821847377809,
+    "mean_east_ground_m": -165.69219880985025,
+    "mean_north_ground_m": -189.35293489185054,
+    "scatter_rms_ground_m": 398.5291339649331,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "source_hull": {
+    "G01": false,
+    "G02": false,
+    "G03": false,
+    "G04": false,
+    "G05": false,
+    "G06": false
+  },
+  "geographic_acceptance": false
+}

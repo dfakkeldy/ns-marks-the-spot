@@ -555,7 +555,7 @@ _VICTORIA_NORTHWEST_GRATICULE = GraticuleSettings(
 
 _VICTORIA_MAIN_GRATICULE = GraticuleSettings(
     anchor=GraticuleAnchor(
-        meridian_index=0,
+        meridian_index=1,
         meridian_lon=-(60.0 + 40.0 / 60.0),
         parallel_index=0,
         parallel_lat=46.0 + 30.0 / 60.0,
@@ -564,8 +564,9 @@ _VICTORIA_MAIN_GRATICULE = GraticuleSettings(
     tolerance_px=160.0,
     min_extent_px=(7000.0, 6000.0),
     anchor_evidence=(
-        "engraved 60d40'W and 60d30'W at the top and 46d30'N, 46d20'N, "
-        "46d10'N beside the ruled parallels on RUMSEY~8~1~374820~90141224"
+        "engraved 60d40'W on meridian index 1 at native x=23595 on the southern "
+        "neatline; 46d30'N, 46d20'N and 46d10'N beside the parallels on "
+        "RUMSEY~8~1~374820~90141224; native audit physical-review-20260913"
     ),
 )
 
@@ -585,27 +586,35 @@ _VICTORIA_DRAWN_CHECKS = DrawnCheckSettings(
     search_radius_px=500.0,
 )
 
-# Cape Breton is one geographic field wrapped around five independent frames:
-# the upper-left regional locator, the title/cartouche, Little Glace Bay and
-# Cow Bay harbour plans, and the bottom row of town plans. The diagonal
-# northwest edge follows the locator-map rule; the two side notches follow the
-# harbour-plan rules. Coordinates were measured on the exact 36,223x35,027
-# archival source frame.
+# Cape Breton's main field wraps around independent locator and town plans.
+# The source-content audit excludes the complete Sydney Town/Harbour plan and
+# upper inset strip while retaining the sloping southern Cape Chameau extension.
+# Evidence: reports/church/physical-review-20260912/cape-breton/.
+# A correct crop does not supply geographic controls or accept this panel.
 _CAPE_BRETON_MAIN_CUTLINE = Cutline(
     (
-        (18400.0, 4100.0),
-        (27000.0, 4100.0),
-        (27000.0, 9000.0),
-        (35700.0, 9000.0),
-        (35700.0, 10800.0),
-        (31800.0, 10800.0),
-        (31800.0, 16300.0),
-        (35700.0, 16300.0),
-        (35700.0, 27800.0),
-        (900.0, 27800.0),
+        (18000.0, 3700.0),
+        (18150.0, 3700.0),
+        (18150.0, 7900.0),
+        (26800.0, 7900.0),
+        (26800.0, 9300.0),
+        (35450.0, 9300.0),
+        (35450.0, 11200.0),
+        (31600.0, 11200.0),
+        (31600.0, 16200.0),
+        (35450.0, 16200.0),
+        (35450.0, 23800.0),
+        (28600.0, 23800.0),
+        (28600.0, 28000.0),
+        (20700.0, 28000.0),
+        (20700.0, 30600.0),
+        (18400.0, 30600.0),
+        (5500.0, 27750.0),
+        (900.0, 27750.0),
         (900.0, 17300.0),
         (5200.0, 17300.0),
-        (5200.0, 10800.0),
+        (5200.0, 10550.0),
+        (6500.0, 10550.0),
     )
 )
 

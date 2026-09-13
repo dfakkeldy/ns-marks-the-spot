@@ -1,0 +1,102 @@
+{
+  "points": [
+    {
+      "id": "IS15",
+      "label": "Lake Ainslie northern outlet",
+      "pixel_xy": [
+        25405,
+        9390
+      ],
+      "lonlat": [
+        -61.155741795771256,
+        46.18461876811554
+      ],
+      "role": "check",
+      "source_frame": {
+        "county": "inverness",
+        "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+        "origin": [
+          25000,
+          9000
+        ],
+        "extent": [
+          1500,
+          1500
+        ],
+        "display": [
+          1500,
+          1500
+        ],
+        "rotation": 0
+      },
+      "source_crop_sha256": "a0c6e6789e8aa890c0196cac84e22283b51aabfcecef0bf111653aa88ebbed74",
+      "source_bank_pixels": [
+        [
+          25375,
+          9375
+        ],
+        [
+          25435,
+          9405
+        ]
+      ],
+      "source_point_definition": "Midpoint across lake outlet water neck just south of the historical bridge; bridge only contextual, banks define point.",
+      "reference_banks": [
+        {
+          "index": 128,
+          "feature_id": 131157,
+          "part": 0,
+          "vertex": 0,
+          "lonlat": [
+            -61.155605691672264,
+            46.184658872795225
+          ],
+          "guide_pixel": [
+            25470.24116980619,
+            9476.064300437685
+          ],
+          "properties": {
+            "OBJECTID": 131157,
+            "FEAT_CODE": "WALK20",
+            "FEAT_DESC": "Lake - Water to the right line",
+            "RIVNAME_1": " ",
+            "RIVNAME_2": " ",
+            "ZVALUE": 57.4,
+            "FID": null,
+            "SHAPE_Length": 513.4056948112045
+          }
+        },
+        {
+          "index": 137,
+          "feature_id": 131346,
+          "part": 0,
+          "vertex": 146,
+          "lonlat": [
+            -61.15587789987025,
+            46.18457866343586
+          ],
+          "guide_pixel": [
+            25462.50039718915,
+            9479.36297270284
+          ],
+          "properties": {
+            "OBJECTID": 131346,
+            "FEAT_CODE": "WALK20",
+            "FEAT_DESC": "Lake - Water to the right line",
+            "RIVNAME_1": " ",
+            "RIVNAME_2": " ",
+            "ZVALUE": 57.4,
+            "FID": null,
+            "SHAPE_Length": 722.6955305449032
+          }
+        }
+      ],
+      "reference_point_definition": "Midpoint of lake shore/river bank transition endpoints 131157:0 and 131346:146",
+      "uncertainty_ground_m": 180,
+      "identity_evidence": "Northern outlet of the connected Lake Ainslie/Loch Ban waterbody into Southwest Margaree River. Whole-lake and upstream river/road context reviewed, then native banks inspected. Historical mouth is much wider/generalized relative to modern geometry. No whole-lake centroid or separate Loch Ban check inferred.",
+      "frozen_fit_sha256": "4db2d28d0bddfded9d7942a7b337c1ea5c324c6c9269835d8c355ab3f232bc11",
+      "validation_status": "Fresh inland feature after affine selection; source point measured before this residual, excluded from every fitting input."
+    }
+  ],
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8"
+}

@@ -1,0 +1,190 @@
+{
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_dimensions": [
+    34427,
+    34543
+  ],
+  "points": [
+    {
+      "id": "N02",
+      "label": "Polletts Cove River",
+      "pixel_xy": [
+        12438,
+        6062
+      ],
+      "lonlat": [
+        -60.69218351706861,
+        46.914394796294225
+      ],
+      "role": "control",
+      "check_status": "diagnostic physical correspondence; never fit; no whole-panel acceptance claim",
+      "feature_definition": "North bank entry to coast, after the east/south tributary junction and historical road crossing.",
+      "feature_id": 9818,
+      "part": 0,
+      "vertex": 50,
+      "source_frame": {
+        "origin": [
+          11820,
+          5520
+        ],
+        "extent": [
+          1200,
+          1200
+        ],
+        "display": [
+          1200,
+          1200
+        ],
+        "rotation": 0,
+        "pixel_convention": "continuous original-image pixel coordinates; integer identifies displayed pixel; placement uncertainty far exceeds half-pixel"
+      },
+      "uncertainty_ground_m": 150,
+      "reviewer": "Codex visual topology and native placement review; no user verification claimed",
+      "status": "promoted unchanged from preserved failed diagnostic"
+    },
+    {
+      "id": "N03",
+      "label": "Red River at Pleasant Bay",
+      "pixel_xy": [
+        10185,
+        9021
+      ],
+      "lonlat": [
+        -60.77645231881043,
+        46.84832313189785
+      ],
+      "role": "check",
+      "check_status": "diagnostic physical correspondence; never fit; no whole-panel acceptance claim",
+      "feature_definition": "Ocean end of the river estuary immediately south of Red Cape; a migrating outlet makes this diagnostic rather than a precise control.",
+      "feature_id": 9780,
+      "part": 0,
+      "vertex": 0,
+      "source_frame": {
+        "origin": [
+          9660,
+          8470
+        ],
+        "extent": [
+          1200,
+          1200
+        ],
+        "display": [
+          1200,
+          1200
+        ],
+        "rotation": 0,
+        "pixel_convention": "continuous original-image pixel coordinates; integer identifies displayed pixel; placement uncertainty far exceeds half-pixel"
+      },
+      "uncertainty_ground_m": 200,
+      "reviewer": "Codex visual topology and native placement review; no user verification claimed",
+      "status": "retained migratory-estuary diagnostic, not used for fit"
+    },
+    {
+      "id": "N04",
+      "label": "Fishing Cove River",
+      "pixel_xy": [
+        7343,
+        11495
+      ],
+      "lonlat": [
+        -60.87665740853486,
+        46.796221073671845
+      ],
+      "role": "control",
+      "check_status": "diagnostic physical correspondence; never fit; no whole-panel acceptance claim",
+      "feature_definition": "North bank entry to coast south of the distinctive headland; distinct from the smaller mouths to the north. Historical road doubles back at the river crossing.",
+      "feature_id": 4943,
+      "part": 0,
+      "vertex": 28,
+      "source_frame": {
+        "origin": [
+          6750,
+          10920
+        ],
+        "extent": [
+          1200,
+          1200
+        ],
+        "display": [
+          1200,
+          1200
+        ],
+        "rotation": 0,
+        "pixel_convention": "continuous original-image pixel coordinates; integer identifies displayed pixel; placement uncertainty far exceeds half-pixel"
+      },
+      "uncertainty_ground_m": 200,
+      "reviewer": "Codex visual topology and native placement review; no user verification claimed",
+      "status": "promoted unchanged from preserved failed diagnostic"
+    },
+    {
+      "id": "I10",
+      "pixel_xy": [
+        7347,
+        25733
+      ],
+      "lonlat": [
+        -60.895167054464686,
+        46.4699988456567
+      ],
+      "role": "control",
+      "feature_id": 182427,
+      "vertex": 0,
+      "source_frame": {
+        "county": "inverness",
+        "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+        "origin": [
+          7000,
+          25100
+        ],
+        "extent": [
+          1600,
+          1500
+        ],
+        "display": [
+          1600,
+          1500
+        ],
+        "rotation": 0
+      },
+      "source_crop_sha256": "8f060c607b3f99137a28b24bc0f257e7b7d6d31b7b0cb6af176f6fa6bf0a2f88",
+      "feature_definition": "Northern bank apex between northward main channel and incoming eastern First Fork branch",
+      "identity_evidence": "First Fork east tributary entering Northeast Margaree River; distinct upstream bend/Second Fork, northward main branch, eastern branch and downstream meanders traced in broad and native views. Modern bank segment explicitly names First Brook Pool.",
+      "uncertainty_ground_m": 180
+    },
+    {
+      "id": "I11",
+      "pixel_xy": [
+        2858,
+        20168
+      ],
+      "lonlat": [
+        -61.05592939352159,
+        46.6012181791636
+      ],
+      "role": "control",
+      "feature_id": 3808,
+      "vertex": 41,
+      "source_frame": {
+        "county": "inverness",
+        "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+        "origin": [
+          2220,
+          19430
+        ],
+        "extent": [
+          1200,
+          1200
+        ],
+        "display": [
+          1200,
+          1200
+        ],
+        "rotation": 0
+      },
+      "source_crop_sha256": "4591fe5e56a97e8c4ec1b8994b53798d6305ed9c29147db8045f052bb367681f",
+      "feature_definition": "Southernmost coastline on the distinct terminal lobe; broad historical tip carries along-shore uncertainty",
+      "identity_evidence": "Southern rounded lobe of Cheticamp Island, below the labelled light and west of the harbour; traced broad island/harbour context and native coastline. Modern extremum is restricted to the physically identified tip arc, not a box cut through a trending coast.",
+      "uncertainty_ground_m": 130
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/inverness-south-physical-review-20m.tif",
+  "raster_sha256": "c0eac784812489786bf682c988756e337f1abd6c1a9f791f0f3d90331806d248",
+  "cutline_sha256": "e3ca0f7d081e48e6eec9005eced5dec969a33299f43270855f37f95e481cb2e0",
+  "expected_interior_cells": 22718783,
+  "transparent_interior_cells": 411163,
+  "passed": false,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

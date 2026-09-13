@@ -1,0 +1,90 @@
+[
+  {
+    "id": "supply-02",
+    "status": "rejected-original-pixel",
+    "identity_evidence": "Original pixel is on the land peninsula north of Blake Island. Corrected island outline and post-fit diagnostic are in blake-correction.json.",
+    "review": "Codex native crosshair and directly projected NSTDB polygon context; no user point review claimed",
+    "source_image": "R-supply-02.jpg",
+    "reference_image": "R-supply-02-reference.jpg"
+  },
+  {
+    "id": "supply-09",
+    "status": "rejected",
+    "identity_evidence": "Road loop on the mainland near Brule Point; no island outline at the stored pixel.",
+    "review": "Codex native crosshair and directly projected NSTDB polygon context; no user point review claimed",
+    "source_image": "R-supply-09.jpg",
+    "reference_image": "R-supply-09-reference.jpg"
+  },
+  {
+    "id": "supply-21",
+    "status": "rejected",
+    "identity_evidence": "Small enclosure formed by roads and a graticule near Port Hawkesbury; no island at the stored pixel.",
+    "review": "Codex native crosshair and directly projected NSTDB polygon context; no user point review claimed",
+    "source_image": "R-supply-21.jpg",
+    "reference_image": "R-supply-21-reference.jpg"
+  },
+  {
+    "id": "supply-06",
+    "status": "control",
+    "identity_evidence": "Elongated Mionas Island between Chapel Island and the southern Hook Island; western small islets and eastern harbour shore corroborate.",
+    "review": "Codex native crosshair and directly projected NSTDB polygon context; no user point review claimed",
+    "source_image": "R-supply-06.jpg",
+    "reference_image": "R-supply-06-reference.jpg"
+  },
+  {
+    "id": "supply-10",
+    "status": "control",
+    "identity_evidence": "Campbell Island north of Strawberry Point on Janvrin Island, west of Thorn Island; unique outline and coastal arrangement agree.",
+    "review": "Codex native crosshair and directly projected NSTDB polygon context; no user point review claimed",
+    "source_image": "R-supply-10.jpg",
+    "reference_image": "R-supply-10-reference.jpg"
+  },
+  {
+    "id": "supply-13",
+    "status": "control",
+    "identity_evidence": "Isolated lighthouse-bearing Saint Esprit island offshore from Saint Esprit Lake outlet; outline generalized, unique offshore identity retained.",
+    "review": "Codex native crosshair and directly projected NSTDB polygon context; no user point review claimed",
+    "source_image": "R-supply-13.jpg",
+    "reference_image": "R-supply-13-reference.jpg"
+  },
+  {
+    "id": "supply-17",
+    "status": "control",
+    "identity_evidence": "Knife Island inside the narrows, between Welch Cove to northwest and Birch Island to southeast; triangular footprint agrees.",
+    "review": "Codex native crosshair and directly projected NSTDB polygon context; no user point review claimed",
+    "source_image": "R-supply-17.jpg",
+    "reference_image": "R-supply-17-reference.jpg"
+  },
+  {
+    "id": "supply-08",
+    "status": "diagnostic-check",
+    "identity_evidence": "Hook Island south of Mionas Island; hooked outline and nearby shores agree.",
+    "review": "Codex native crosshair and directly projected NSTDB polygon context; no user point review claimed",
+    "source_image": "R-supply-08.jpg",
+    "reference_image": "R-supply-08-reference.jpg"
+  },
+  {
+    "id": "supply-15",
+    "status": "diagnostic-check",
+    "identity_evidence": "Large island in Saint Esprit Lake, north of the barrier outlet; neighbouring small island and basin arrangement agree.",
+    "review": "Codex native crosshair and directly projected NSTDB polygon context; no user point review claimed",
+    "source_image": "R-supply-15.jpg",
+    "reference_image": "R-supply-15-reference.jpg"
+  },
+  {
+    "id": "supply-18",
+    "status": "diagnostic-check",
+    "identity_evidence": "Quetique Island in Lennox Passage, triangular isolated island with northern rocks and western shore.",
+    "review": "Codex native crosshair and directly projected NSTDB polygon context; no user point review claimed",
+    "source_image": "R-supply-18.jpg",
+    "reference_image": "R-supply-18-reference.jpg"
+  },
+  {
+    "id": "supply-23",
+    "status": "diagnostic-check",
+    "identity_evidence": "Southernmost Barque island in the group of three. Individual engraved outlines and orientations are generalized; neighbourhood fixes the southern member.",
+    "review": "Codex native crosshair and directly projected NSTDB polygon context; no user point review claimed",
+    "source_image": "R-supply-23.jpg",
+    "reference_image": "R-supply-23-reference.jpg"
+  }
+]

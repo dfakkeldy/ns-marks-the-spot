@@ -1,0 +1,966 @@
+{
+  "fit_csv_sha256": "a38b2074b7c5e525b684b02a8d848b7be6f8299bdcc53647afdb1dce09d800be",
+  "scope": "Diagnostic leave-one-out stability, not fresh validation. No control removed from the delivered fit.",
+  "trials": [
+    {
+      "omitted": "supply-06",
+      "solved": true,
+      "diagnostics": {
+        "count": 13,
+        "points": [
+          {
+            "label": "supply-08",
+            "east_ground_m": -405.0242288490206,
+            "north_ground_m": -401.76466710862456,
+            "error_ground_m": 570.4905553045096
+          },
+          {
+            "label": "supply-15",
+            "east_ground_m": -20.298971279371425,
+            "north_ground_m": -57.96169179578606,
+            "error_ground_m": 61.41340204572972
+          },
+          {
+            "label": "supply-18",
+            "east_ground_m": -34.63249310112414,
+            "north_ground_m": -41.378420685522734,
+            "error_ground_m": 53.959088917693066
+          },
+          {
+            "label": "supply-23",
+            "east_ground_m": 157.39738606902094,
+            "north_ground_m": 166.0081081694395,
+            "error_ground_m": 228.7632599858569
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "east_ground_m": -308.42774845045375,
+            "north_ground_m": -324.65803310439566,
+            "error_ground_m": 447.806335901393
+          },
+          {
+            "label": "D01",
+            "east_ground_m": -20.591327734682764,
+            "north_ground_m": -102.54637024192796,
+            "error_ground_m": 104.59331158191561
+          },
+          {
+            "label": "F01",
+            "east_ground_m": -127.36461705638196,
+            "north_ground_m": -97.67821914942228,
+            "error_ground_m": 160.50788196883474
+          },
+          {
+            "label": "F03",
+            "east_ground_m": -81.80740921099172,
+            "north_ground_m": 219.64566772317227,
+            "error_ground_m": 234.38573239720213
+          },
+          {
+            "label": "F04",
+            "east_ground_m": 198.45248194499058,
+            "north_ground_m": -62.74546481664638,
+            "error_ground_m": 208.13548699148788
+          },
+          {
+            "label": "G01",
+            "east_ground_m": 326.41309949456587,
+            "north_ground_m": 149.3587591840047,
+            "error_ground_m": 358.9617674163014
+          },
+          {
+            "label": "G02",
+            "east_ground_m": 187.05661033210396,
+            "north_ground_m": 18.100283073446356,
+            "error_ground_m": 187.9302948336842
+          },
+          {
+            "label": "G03",
+            "east_ground_m": -188.3738969846304,
+            "north_ground_m": -369.8692519011926,
+            "error_ground_m": 415.0758829023002
+          },
+          {
+            "label": "G06",
+            "east_ground_m": -6.222966117600668,
+            "north_ground_m": -180.53827811015233,
+            "error_ground_m": 180.6454958483037
+          }
+        ],
+        "rms_ground_m": 289.4367912835543,
+        "median_ground_m": 208.13548699148788,
+        "p95_ground_m": 496.8800236626395,
+        "max_ground_m": 570.4905553045096,
+        "mean_east_ground_m": -24.878775457198152,
+        "mean_north_ground_m": -83.54058298181597,
+        "scatter_rms_ground_m": 275.9994088314836,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "omitted": "supply-10",
+      "solved": true,
+      "diagnostics": {
+        "count": 13,
+        "points": [
+          {
+            "label": "supply-08",
+            "east_ground_m": -56.26488173741953,
+            "north_ground_m": 4.044605971104905,
+            "error_ground_m": 56.41006784597323
+          },
+          {
+            "label": "supply-15",
+            "east_ground_m": -4.1678836024429025,
+            "north_ground_m": -41.8834946508111,
+            "error_ground_m": 42.09035967876771
+          },
+          {
+            "label": "supply-18",
+            "east_ground_m": -7.904524245967522,
+            "north_ground_m": 0.5735093643969289,
+            "error_ground_m": 7.925302299984486
+          },
+          {
+            "label": "supply-23",
+            "east_ground_m": 125.35316359393774,
+            "north_ground_m": 138.5760785925648,
+            "error_ground_m": 186.8602289977758
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "east_ground_m": -47.252444814971724,
+            "north_ground_m": -35.85858373041129,
+            "error_ground_m": 59.31805431858723
+          },
+          {
+            "label": "D01",
+            "east_ground_m": -3.998356776566888,
+            "north_ground_m": -73.1151002548944,
+            "error_ground_m": 73.22434528349146
+          },
+          {
+            "label": "F01",
+            "east_ground_m": 14.473276064489646,
+            "north_ground_m": 46.72357760843407,
+            "error_ground_m": 48.913887849672
+          },
+          {
+            "label": "F03",
+            "east_ground_m": -91.85453881186744,
+            "north_ground_m": 217.11145794420435,
+            "error_ground_m": 235.74274425949758
+          },
+          {
+            "label": "F04",
+            "east_ground_m": 41.57966257592962,
+            "north_ground_m": -110.84153752296909,
+            "error_ground_m": 118.38376062781553
+          },
+          {
+            "label": "G01",
+            "east_ground_m": 6.649938830649307,
+            "north_ground_m": 12.020516305550302,
+            "error_ground_m": 13.73733957880412
+          },
+          {
+            "label": "G02",
+            "east_ground_m": -41.91387102287121,
+            "north_ground_m": -68.80158657324058,
+            "error_ground_m": 80.56321058099039
+          },
+          {
+            "label": "G03",
+            "east_ground_m": -12.260441625966696,
+            "north_ground_m": -132.8234616699104,
+            "error_ground_m": 133.3881194066469
+          },
+          {
+            "label": "G06",
+            "east_ground_m": 28.407451781839267,
+            "north_ground_m": -112.34051834406795,
+            "error_ground_m": 115.87655232423594
+          }
+        ],
+        "rms_ground_m": 110.48651915381014,
+        "median_ground_m": 73.22434528349146,
+        "p95_ground_m": 206.41323510246445,
+        "max_ground_m": 235.74274425949758,
+        "mean_east_ground_m": -3.781034599325257,
+        "mean_north_ground_m": -12.047272073849955,
+        "scatter_rms_ground_m": 109.7626435890763,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "omitted": "supply-13",
+      "solved": true,
+      "diagnostics": {
+        "count": 13,
+        "points": [
+          {
+            "label": "supply-08",
+            "east_ground_m": -51.940688915381145,
+            "north_ground_m": 11.265170472401204,
+            "error_ground_m": 53.14827589655809
+          },
+          {
+            "label": "supply-15",
+            "east_ground_m": -81.65906063971487,
+            "north_ground_m": -162.0449559902323,
+            "error_ground_m": 181.45735021331308
+          },
+          {
+            "label": "supply-18",
+            "east_ground_m": 2.6346451854200645,
+            "north_ground_m": 1.544636298207909,
+            "error_ground_m": 3.0540557537148136
+          },
+          {
+            "label": "supply-23",
+            "east_ground_m": 113.07313212987793,
+            "north_ground_m": 104.40964189640431,
+            "error_ground_m": 153.9055116966128
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "east_ground_m": -72.01751029731656,
+            "north_ground_m": -53.1368397728475,
+            "error_ground_m": 89.49885770482976
+          },
+          {
+            "label": "D01",
+            "east_ground_m": 12.831270352660527,
+            "north_ground_m": -61.00748413162413,
+            "error_ground_m": 62.34223784027515
+          },
+          {
+            "label": "F01",
+            "east_ground_m": -31.75830439669505,
+            "north_ground_m": 3.091382036493889,
+            "error_ground_m": 31.908408626076877
+          },
+          {
+            "label": "F03",
+            "east_ground_m": -83.02413845333261,
+            "north_ground_m": 217.8034588951673,
+            "error_ground_m": 233.09087127688414
+          },
+          {
+            "label": "F04",
+            "east_ground_m": 187.3558944011868,
+            "north_ground_m": -74.86144049805286,
+            "error_ground_m": 201.75843585910394
+          },
+          {
+            "label": "G01",
+            "east_ground_m": 182.52726875624515,
+            "north_ground_m": -51.186186019388806,
+            "error_ground_m": 189.56853504425786
+          },
+          {
+            "label": "G02",
+            "east_ground_m": 113.88358136548855,
+            "north_ground_m": -83.03093079369935,
+            "error_ground_m": 140.93830413729953
+          },
+          {
+            "label": "G03",
+            "east_ground_m": 155.05810357929977,
+            "north_ground_m": 88.18144546000138,
+            "error_ground_m": 178.37876221407092
+          },
+          {
+            "label": "G06",
+            "east_ground_m": 112.83243673946825,
+            "north_ground_m": -18.043119094399685,
+            "error_ground_m": 114.26597449468846
+          }
+        ],
+        "rms_ground_m": 143.6009002424926,
+        "median_ground_m": 140.93830413729953,
+        "p95_ground_m": 214.29141002621597,
+        "max_ground_m": 233.09087127688414,
+        "mean_east_ground_m": 43.06127921593898,
+        "mean_north_ground_m": -5.924247787812974,
+        "scatter_rms_ground_m": 136.86434185312785,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "omitted": "supply-17",
+      "solved": true,
+      "diagnostics": {
+        "count": 13,
+        "points": [
+          {
+            "label": "supply-08",
+            "east_ground_m": -56.658808813613064,
+            "north_ground_m": 3.923315239808231,
+            "error_ground_m": 56.794480529788004
+          },
+          {
+            "label": "supply-15",
+            "east_ground_m": -8.719229615275802,
+            "north_ground_m": -43.21368025083884,
+            "error_ground_m": 44.08454520470458
+          },
+          {
+            "label": "supply-18",
+            "east_ground_m": 137.71170304729424,
+            "north_ground_m": 57.023948951330674,
+            "error_ground_m": 149.05114528305415
+          },
+          {
+            "label": "supply-23",
+            "east_ground_m": 139.4005658283317,
+            "north_ground_m": 142.3992063800823,
+            "error_ground_m": 199.27381095100358
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "east_ground_m": -7.103737655930148,
+            "north_ground_m": -16.942043688571008,
+            "error_ground_m": 18.371062381629667
+          },
+          {
+            "label": "D01",
+            "east_ground_m": 3.522941573505145,
+            "north_ground_m": -71.95556032261396,
+            "error_ground_m": 72.04175024714257
+          },
+          {
+            "label": "F01",
+            "east_ground_m": 19.247817072967337,
+            "north_ground_m": 52.44828875229512,
+            "error_ground_m": 55.86860885254384
+          },
+          {
+            "label": "F03",
+            "east_ground_m": -90.91080886124044,
+            "north_ground_m": 215.8061355401011,
+            "error_ground_m": 234.17314812880977
+          },
+          {
+            "label": "F04",
+            "east_ground_m": 262.01452646746134,
+            "north_ground_m": -47.09852369471408,
+            "error_ground_m": 266.2139797497298
+          },
+          {
+            "label": "G01",
+            "east_ground_m": 310.0180564482563,
+            "north_ground_m": 90.59506995642006,
+            "error_ground_m": 322.9839965452822
+          },
+          {
+            "label": "G02",
+            "east_ground_m": 224.58985190792438,
+            "north_ground_m": 5.1356823747536104,
+            "error_ground_m": 224.64856290098487
+          },
+          {
+            "label": "G03",
+            "east_ground_m": -13.248964777093596,
+            "north_ground_m": -139.10562817188162,
+            "error_ground_m": 139.7351453885473
+          },
+          {
+            "label": "G06",
+            "east_ground_m": 37.078574108624814,
+            "north_ground_m": -113.985335193143,
+            "error_ground_m": 119.86441213730599
+          }
+        ],
+        "rms_ground_m": 173.2339770063928,
+        "median_ground_m": 139.7351453885473,
+        "p95_ground_m": 288.92198646795066,
+        "max_ground_m": 322.9839965452822,
+        "mean_east_ground_m": 73.61096051778556,
+        "mean_north_ground_m": 10.386990451771432,
+        "scatter_rms_ground_m": 156.47219468792292,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "omitted": "C01",
+      "solved": true,
+      "diagnostics": {
+        "count": 13,
+        "points": [
+          {
+            "label": "supply-08",
+            "east_ground_m": -50.68626266627633,
+            "north_ground_m": 7.374422907632453,
+            "error_ground_m": 51.21991152174486
+          },
+          {
+            "label": "supply-15",
+            "east_ground_m": -11.161865315234266,
+            "north_ground_m": -44.94077962834895,
+            "error_ground_m": 46.30616493426392
+          },
+          {
+            "label": "supply-18",
+            "east_ground_m": 23.245182698681017,
+            "north_ground_m": 14.641698517048946,
+            "error_ground_m": 27.472128679066945
+          },
+          {
+            "label": "supply-23",
+            "east_ground_m": 141.60959215621426,
+            "north_ground_m": 144.3216839959217,
+            "error_ground_m": 202.19303910389203
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "east_ground_m": -52.5554067277813,
+            "north_ground_m": -33.17979249798893,
+            "error_ground_m": 62.152790818531415
+          },
+          {
+            "label": "D01",
+            "east_ground_m": -531.1167117169009,
+            "north_ground_m": -384.4153026702598,
+            "error_ground_m": 655.6371606247171
+          },
+          {
+            "label": "F01",
+            "east_ground_m": -350.4547356651328,
+            "north_ground_m": -158.29709177474865,
+            "error_ground_m": 384.5471245692279
+          },
+          {
+            "label": "F03",
+            "east_ground_m": -78.28135155294414,
+            "north_ground_m": 221.56074901813977,
+            "error_ground_m": 234.98326643919722
+          },
+          {
+            "label": "F04",
+            "east_ground_m": 187.21827673138955,
+            "north_ground_m": -76.80934642540349,
+            "error_ground_m": 202.36195008095964
+          },
+          {
+            "label": "G01",
+            "east_ground_m": 338.6798832462285,
+            "north_ground_m": 116.7779851492698,
+            "error_ground_m": 358.247346300293
+          },
+          {
+            "label": "G02",
+            "east_ground_m": 214.85862801554072,
+            "north_ground_m": 12.974740993200912,
+            "error_ground_m": 215.25002656576177
+          },
+          {
+            "label": "G03",
+            "east_ground_m": -344.4714128061846,
+            "north_ground_m": -338.7247268864439,
+            "error_ground_m": 483.109713051792
+          },
+          {
+            "label": "G06",
+            "east_ground_m": -496.37872752646666,
+            "north_ground_m": -429.0069779005475,
+            "error_ground_m": 656.0783704925465
+          }
+        ],
+        "rms_ground_m": 346.70748948716266,
+        "median_ground_m": 215.25002656576177,
+        "p95_ground_m": 655.8136445718488,
+        "max_ground_m": 656.0783704925465,
+        "mean_east_ground_m": -77.65345470222054,
+        "mean_north_ground_m": -72.90174901557906,
+        "scatter_rms_ground_m": 329.94144818402356,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "omitted": "C02",
+      "solved": true,
+      "diagnostics": {
+        "count": 13,
+        "points": [
+          {
+            "label": "supply-08",
+            "east_ground_m": -49.085464225853144,
+            "north_ground_m": 24.81317519225424,
+            "error_ground_m": 55.00069509914407
+          },
+          {
+            "label": "supply-15",
+            "east_ground_m": -3.517837494615176,
+            "north_ground_m": -32.57934075877157,
+            "error_ground_m": 32.76871411750353
+          },
+          {
+            "label": "supply-18",
+            "east_ground_m": 29.98034101893483,
+            "north_ground_m": 77.25958910467884,
+            "error_ground_m": 82.87258265696464
+          },
+          {
+            "label": "supply-23",
+            "east_ground_m": 346.36305201354884,
+            "north_ground_m": 733.5559347864623,
+            "error_ground_m": 811.2161692548916
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "east_ground_m": -40.74945911582529,
+            "north_ground_m": 24.6473887248299,
+            "error_ground_m": 47.623651573406136
+          },
+          {
+            "label": "D01",
+            "east_ground_m": 3.404896658578867,
+            "north_ground_m": -80.25661181668701,
+            "error_ground_m": 80.32880592632998
+          },
+          {
+            "label": "F01",
+            "east_ground_m": -28.75975392243461,
+            "north_ground_m": -17.672955230903813,
+            "error_ground_m": 33.7558408615831
+          },
+          {
+            "label": "F03",
+            "east_ground_m": -80.44411184189723,
+            "north_ground_m": 223.88679234960173,
+            "error_ground_m": 237.9002961717899
+          },
+          {
+            "label": "F04",
+            "east_ground_m": 186.87619974431945,
+            "north_ground_m": -73.98631615521984,
+            "error_ground_m": 200.98927585594942
+          },
+          {
+            "label": "G01",
+            "east_ground_m": 393.75697143674734,
+            "north_ground_m": 451.9680278150205,
+            "error_ground_m": 599.4327741473923
+          },
+          {
+            "label": "G02",
+            "east_ground_m": 261.37919118201876,
+            "north_ground_m": 288.0571870219105,
+            "error_ground_m": 388.96789659037705
+          },
+          {
+            "label": "G03",
+            "east_ground_m": -5.237298917504167,
+            "north_ground_m": -201.64658931418126,
+            "error_ground_m": 201.71459114797167
+          },
+          {
+            "label": "G06",
+            "east_ground_m": 49.827984056645484,
+            "north_ground_m": -129.1772963398219,
+            "error_ground_m": 138.4543314050358
+          }
+        ],
+        "rms_ground_m": 321.81766011930534,
+        "median_ground_m": 138.4543314050358,
+        "p95_ground_m": 684.1461321903917,
+        "max_ground_m": 811.2161692548916,
+        "mean_east_ground_m": 81.83036235328184,
+        "mean_north_ground_m": 99.1437681060902,
+        "scatter_rms_ground_m": 295.02696725472595,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "omitted": "C03",
+      "solved": true,
+      "diagnostics": {
+        "count": 13,
+        "points": [
+          {
+            "label": "supply-08",
+            "east_ground_m": -51.40694359532393,
+            "north_ground_m": 9.539417970719393,
+            "error_ground_m": 52.284551686257196
+          },
+          {
+            "label": "supply-15",
+            "east_ground_m": 237.66765769262426,
+            "north_ground_m": 224.94391155577222,
+            "error_ground_m": 327.2394824270285
+          },
+          {
+            "label": "supply-18",
+            "east_ground_m": -18.709385910712367,
+            "north_ground_m": -21.247884418013854,
+            "error_ground_m": 28.311017526702187
+          },
+          {
+            "label": "supply-23",
+            "east_ground_m": 92.20384738368384,
+            "north_ground_m": 93.22202034064308,
+            "error_ground_m": 131.11786510138478
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "east_ground_m": -105.68378915422723,
+            "north_ground_m": -85.63620582422965,
+            "error_ground_m": 136.0243472249177
+          },
+          {
+            "label": "D01",
+            "east_ground_m": 16.028739185573755,
+            "north_ground_m": -60.56932950321105,
+            "error_ground_m": 62.65432272674967
+          },
+          {
+            "label": "F01",
+            "east_ground_m": -36.51062525821787,
+            "north_ground_m": 10.139810467515957,
+            "error_ground_m": 37.892499430140035
+          },
+          {
+            "label": "F03",
+            "east_ground_m": -84.22611743929716,
+            "north_ground_m": 216.98468839905905,
+            "error_ground_m": 232.75823048505723
+          },
+          {
+            "label": "F04",
+            "east_ground_m": 188.67240231275633,
+            "north_ground_m": -74.35542084968797,
+            "error_ground_m": 202.79547333261854
+          },
+          {
+            "label": "G01",
+            "east_ground_m": 99.5868376220621,
+            "north_ground_m": -103.4379042652171,
+            "error_ground_m": 143.58599606627098
+          },
+          {
+            "label": "G02",
+            "east_ground_m": 47.07153985191734,
+            "north_ground_m": -137.52253548367761,
+            "error_ground_m": 145.35534950558238
+          },
+          {
+            "label": "G03",
+            "east_ground_m": 220.20297952164037,
+            "north_ground_m": 91.68513550574687,
+            "error_ground_m": 238.5278102505348
+          },
+          {
+            "label": "G06",
+            "east_ground_m": 133.85487469577444,
+            "north_ground_m": -22.842263593268648,
+            "error_ground_m": 135.78989832047833
+          }
+        ],
+        "rms_ground_m": 167.34550088903595,
+        "median_ground_m": 136.0243472249177,
+        "p95_ground_m": 274.0124791211322,
+        "max_ground_m": 327.2394824270285,
+        "mean_east_ground_m": 56.827078223711844,
+        "mean_north_ground_m": 10.838726177088516,
+        "scatter_rms_ground_m": 157.02777417774402,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "omitted": "F02",
+      "solved": true,
+      "diagnostics": {
+        "count": 13,
+        "points": [
+          {
+            "label": "supply-08",
+            "east_ground_m": -56.10073842754285,
+            "north_ground_m": 4.074253199116343,
+            "error_ground_m": 56.24848790186358
+          },
+          {
+            "label": "supply-15",
+            "east_ground_m": -4.301372400907252,
+            "north_ground_m": -41.97264962636437,
+            "error_ground_m": 42.19247706865327
+          },
+          {
+            "label": "supply-18",
+            "east_ground_m": -35.231224254679894,
+            "north_ground_m": -4.87326970655765,
+            "error_ground_m": 35.56666866767813
+          },
+          {
+            "label": "supply-23",
+            "east_ground_m": 125.87057723797759,
+            "north_ground_m": 138.9080930684081,
+            "error_ground_m": 187.45362235529942
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "east_ground_m": -69.31472271680988,
+            "north_ground_m": -40.80111486419128,
+            "error_ground_m": 80.43172110224404
+          },
+          {
+            "label": "D01",
+            "east_ground_m": -10.599871644127736,
+            "north_ground_m": -74.26066862363989,
+            "error_ground_m": 75.0133600320772
+          },
+          {
+            "label": "F01",
+            "east_ground_m": 7.33524492581493,
+            "north_ground_m": 44.76595557169439,
+            "error_ground_m": 45.36294298619315
+          },
+          {
+            "label": "F03",
+            "east_ground_m": 213.8726406953009,
+            "north_ground_m": 281.0096042503328,
+            "error_ground_m": 353.14006303294155
+          },
+          {
+            "label": "F04",
+            "east_ground_m": 148.79315876444764,
+            "north_ground_m": -85.45038265232725,
+            "error_ground_m": 171.58429995349596
+          },
+          {
+            "label": "G01",
+            "east_ground_m": 60.200298624595966,
+            "north_ground_m": 28.511968996401137,
+            "error_ground_m": 66.61087246495327
+          },
+          {
+            "label": "G02",
+            "east_ground_m": -13.922102321626182,
+            "north_ground_m": -58.88972255714372,
+            "error_ground_m": 60.5130098070753
+          },
+          {
+            "label": "G03",
+            "east_ground_m": -33.607671163417564,
+            "north_ground_m": -136.54350402032696,
+            "error_ground_m": 140.61864759404227
+          },
+          {
+            "label": "G06",
+            "east_ground_m": 10.435460335592872,
+            "north_ground_m": -115.45136039149531,
+            "error_ground_m": 115.92202313910272
+          }
+        ],
+        "rms_ground_m": 138.94144776779703,
+        "median_ground_m": 75.0133600320772,
+        "p95_ground_m": 253.72819862635603,
+        "max_ground_m": 353.14006303294155,
+        "mean_east_ground_m": 26.417667511893736,
+        "mean_north_ground_m": -4.690215181237975,
+        "scatter_rms_ground_m": 136.32620669774462,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "omitted": "G04",
+      "solved": true,
+      "diagnostics": {
+        "count": 13,
+        "points": [
+          {
+            "label": "supply-08",
+            "east_ground_m": -55.06797053230316,
+            "north_ground_m": 5.07554248762198,
+            "error_ground_m": 55.30137891671658
+          },
+          {
+            "label": "supply-15",
+            "east_ground_m": 35.33853028490302,
+            "north_ground_m": -10.096315226859014,
+            "error_ground_m": 36.752514252185705
+          },
+          {
+            "label": "supply-18",
+            "east_ground_m": -3.6393426569176204,
+            "north_ground_m": -2.374830428100499,
+            "error_ground_m": 4.345645468361656
+          },
+          {
+            "label": "supply-23",
+            "east_ground_m": 122.50107791246938,
+            "north_ground_m": 130.73267113387348,
+            "error_ground_m": 179.1578783964423
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "east_ground_m": -74.47561159816405,
+            "north_ground_m": -47.9520201563258,
+            "error_ground_m": 88.57772270719802
+          },
+          {
+            "label": "D01",
+            "east_ground_m": 10.459074438801155,
+            "north_ground_m": -67.84819149517521,
+            "error_ground_m": 68.6496127249262
+          },
+          {
+            "label": "F01",
+            "east_ground_m": -20.88021773253793,
+            "north_ground_m": 31.543373885045686,
+            "error_ground_m": 37.82813673193505
+          },
+          {
+            "label": "F03",
+            "east_ground_m": -83.76518278994155,
+            "north_ground_m": 218.04997621713153,
+            "error_ground_m": 233.58595414991018
+          },
+          {
+            "label": "F04",
+            "east_ground_m": 187.28083354827214,
+            "north_ground_m": -76.45261191531344,
+            "error_ground_m": 202.2847312161972
+          },
+          {
+            "label": "G01",
+            "east_ground_m": 203.68569732710358,
+            "north_ground_m": 28.14281850760969,
+            "error_ground_m": 205.62072251886653
+          },
+          {
+            "label": "G02",
+            "east_ground_m": 114.47678583292121,
+            "north_ground_m": -52.10505147923031,
+            "error_ground_m": 125.77706819722644
+          },
+          {
+            "label": "G03",
+            "east_ground_m": 85.3520704490853,
+            "north_ground_m": -76.46728791707254,
+            "error_ground_m": 114.59590765528274
+          },
+          {
+            "label": "G06",
+            "east_ground_m": 93.32381301507255,
+            "north_ground_m": -78.63840855655708,
+            "error_ground_m": 122.03824554614104
+          }
+        ],
+        "rms_ground_m": 133.62461437118017,
+        "median_ground_m": 114.59590765528274,
+        "p95_ground_m": 216.80681517128394,
+        "max_ground_m": 233.58595414991018,
+        "mean_east_ground_m": 47.27611980759723,
+        "mean_north_ground_m": 0.12382038897296227,
+        "scatter_rms_ground_m": 124.98196161964972,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    },
+    {
+      "omitted": "G05",
+      "solved": true,
+      "diagnostics": {
+        "count": 13,
+        "points": [
+          {
+            "label": "supply-08",
+            "east_ground_m": -56.66409586246993,
+            "north_ground_m": 3.8421668297823914,
+            "error_ground_m": 56.794207502693986
+          },
+          {
+            "label": "supply-15",
+            "east_ground_m": -2.417228848253821,
+            "north_ground_m": -38.701434604789185,
+            "error_ground_m": 38.77684922442261
+          },
+          {
+            "label": "supply-18",
+            "east_ground_m": -0.41734762310056606,
+            "north_ground_m": -0.16843590301330588,
+            "error_ground_m": 0.45005520987052233
+          },
+          {
+            "label": "supply-23",
+            "east_ground_m": 133.6334178531139,
+            "north_ground_m": 139.109028856862,
+            "error_ground_m": 192.89689545610685
+          },
+          {
+            "label": "Blake Island corrected centroid",
+            "east_ground_m": -72.20515759630159,
+            "north_ground_m": -46.760328494291336,
+            "error_ground_m": 86.0239100738904
+          },
+          {
+            "label": "D01",
+            "east_ground_m": 16.687710077867443,
+            "north_ground_m": -62.456920922795916,
+            "error_ground_m": 64.64786646749714
+          },
+          {
+            "label": "F01",
+            "east_ground_m": -21.606401396973837,
+            "north_ground_m": 30.107885473840103,
+            "error_ground_m": 37.05835059784805
+          },
+          {
+            "label": "F03",
+            "east_ground_m": -84.69997159356039,
+            "north_ground_m": 217.16700225512403,
+            "error_ground_m": 233.0999615109942
+          },
+          {
+            "label": "F04",
+            "east_ground_m": 188.5991421278507,
+            "north_ground_m": -75.24896995119768,
+            "error_ground_m": 203.0567504174079
+          },
+          {
+            "label": "G01",
+            "east_ground_m": 235.88460760691427,
+            "north_ground_m": 51.38937394818678,
+            "error_ground_m": 241.41751357483264
+          },
+          {
+            "label": "G02",
+            "east_ground_m": 136.03547341637827,
+            "north_ground_m": -36.50668011163349,
+            "error_ground_m": 140.84881156897026
+          },
+          {
+            "label": "G03",
+            "east_ground_m": 161.35167587842065,
+            "north_ground_m": -9.483385882822269,
+            "error_ground_m": 161.63012688412215
+          },
+          {
+            "label": "G06",
+            "east_ground_m": 125.07252961965686,
+            "north_ground_m": -50.11094418361888,
+            "error_ground_m": 134.7376873500273
+          }
+        ],
+        "rms_ground_m": 144.87618156330367,
+        "median_ground_m": 134.7376873500273,
+        "p95_ground_m": 236.42698233652956,
+        "max_ground_m": 241.41751357483264,
+        "mean_east_ground_m": 58.404181050734,
+        "mean_north_ground_m": 9.398335177664093,
+        "scatter_rms_ground_m": 132.24874636851837,
+        "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+        "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+      }
+    }
+  ]
+}

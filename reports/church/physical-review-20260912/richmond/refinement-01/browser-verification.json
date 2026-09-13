@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-12",
+  "tool": "Codex in-app browser through cua_repl",
+  "origin": "http://127.0.0.1:4197",
+  "artifact_path": "/Users/dfakkeldy/Downloads/church-refinement-01/richmond-refined-tps-5m.tif",
+  "artifact_sha256": "ad536a23a47b0616e5477a052ff131b0b24be9e3a03a3ee81d25c283259f40f0",
+  "file_chooser_import": true,
+  "prior_drafts_disabled": true,
+  "dimensions_after_import_and_reload": [
+    25949,
+    18159
+  ],
+  "enabled_after_reload": true,
+  "transparent_cutouts_visually_retained": true,
+  "zoom_levels_inspected": [
+    10,
+    11,
+    12
+  ],
+  "console_errors_observed": [],
+  "scope": "Embedded full-resolution GeoTIFF importer/render/save/reload path. Displayed at reduced browser resolution. Stored blob hash not independently read from IndexedDB; raw native-scan TPS mesh not exercised. No geographic acceptance."
+}

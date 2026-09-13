@@ -1,0 +1,10 @@
+{
+  "raster": "/var/home/dan/nsmarks-church-20260912/richmond-draft/richmond-physical-draft.tif",
+  "raster_sha256": "f828262e8871422aa7aab6a4866ddba5f7d7694c01760137bac8fa6e73592c7b",
+  "cutline_sha256": "02e69d54d891a49bcaf22c3e8fe9167f233e919deda20c34150bfc96330120da",
+  "expected_interior_cells": 326248745,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

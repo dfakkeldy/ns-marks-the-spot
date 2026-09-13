@@ -1,0 +1,64 @@
+{
+  "replays": [
+    {
+      "name": "Richmond expanded nine diagnostics",
+      "controls": 10,
+      "checks": 9,
+      "method": "tps",
+      "rms_ground_m": 275.4766938432058,
+      "replayed": true
+    },
+    {
+      "name": "Inverness north fresh I12",
+      "controls": 4,
+      "checks": 1,
+      "method": "affine",
+      "rms_ground_m": 1813.6297491885398,
+      "replayed": true
+    },
+    {
+      "name": "Victoria northwest four-control diagnostics",
+      "controls": 4,
+      "checks": 2,
+      "method": "affine",
+      "rms_ground_m": 360.16592258951687,
+      "replayed": true
+    },
+    {
+      "name": "Victoria main physical diagnostics",
+      "controls": 4,
+      "checks": 4,
+      "method": "affine",
+      "rms_ground_m": 603.4643693403465,
+      "replayed": true
+    },
+    {
+      "name": "Inverness south accepted-baseline replay",
+      "controls": 12,
+      "checks": 11,
+      "method": "tps",
+      "rms_ground_m": 332.9119874668139,
+      "replayed": true
+    },
+    {
+      "name": "Inverness south physical diagnostics",
+      "controls": 4,
+      "checks": 7,
+      "method": "affine",
+      "rms_ground_m": 131.0511808590996,
+      "replayed": true
+    },
+    {
+      "name": "Inverness south fresh inland outlet",
+      "controls": 4,
+      "checks": 1,
+      "method": "affine",
+      "rms_ground_m": 290.6961065377491,
+      "replayed": true
+    }
+  ],
+  "original_accepted_south_inputs_unchanged": true,
+  "cape_breton_no_transform": true,
+  "geographic_acceptance": false,
+  "scope": "Numerical/input integrity only; does not replace correspondence, rendered geography or coverage assessment"
+}

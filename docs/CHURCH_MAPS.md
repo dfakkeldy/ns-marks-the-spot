@@ -17,6 +17,18 @@ attribution, but no tiles have been produced, so:
 - the web rail shows them as disabled rows under "Church (1860s–80s)";
 - the iOS catalog carries `sourceURL: nil` and installs no layer.
 
+A user-directed resumption on **2026-09-12** produced a separate provisional
+Richmond affine draft followed by six- and seven-control TPS refinements, reviewed its
+physical island correspondences, corrected
+Blake Island's earlier peninsula match, and measured large north Inverness
+river-mouth discrepancies. The four-county task remains incomplete and no new
+county is accepted or activated. See the
+[physical-feature resumption report](../reports/church/physical-review-20260912/README.md)
+for exact inputs, rejected matches, editable controls, raster/browser evidence,
+and remaining geographic coverage.
+
+The [13 September sequential physical review](../reports/church/physical-review-20260913/README.md) adds inland checks and separate panel trials. A native printed-label audit corrected Victoria main's 10-minute longitude anchor-index error; that coordinate-frame repair does not establish physical accuracy or activate the layer.
+
 The full four-county run was **frozen and rejected on 2026-07-26**. Inverness
 south passed, but Inverness north was unmeasurable; Richmond failed its fixed
 held-out RMS and P95 gates; Victoria could not supply enough accepted held-out

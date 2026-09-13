@@ -1,0 +1,22 @@
+{
+  "controls_changed": false,
+  "cutline_changed": false,
+  "source_changed": false,
+  "cell_size_changed": false,
+  "resampling_changed": false,
+  "initial_gcp_raster": {
+    "receipt": "artifact-receipt.json",
+    "coverage": "coverage.json",
+    "transparent_interior_cells": 411163,
+    "usable": false
+  },
+  "explicit_affine_raster": {
+    "receipt": "final-artifact-receipt.json",
+    "coverage": "explicit-affine-coverage.json",
+    "transparent_interior_cells": 0
+  },
+  "separate_inverse_gcp_disagreement_max_native_px": 2.862905117289707,
+  "causal_scope": "Changing the raster georeferencing representation from GCP polynomial to the explicit frozen affine removed a northern triangular clipping defect. The smaller separately measured forward/inverse GCP disagreement is not established as the clipping cause.",
+  "native_level_gcp_probe": "Aborted after more than ten minutes without completion; partial output is not a completed coverage experiment.",
+  "geographic_acceptance": false
+}

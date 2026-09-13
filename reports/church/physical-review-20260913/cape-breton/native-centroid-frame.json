@@ -1,0 +1,17 @@
+{
+  "county": "cape-breton",
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+  "origin": [
+    32416,
+    18454
+  ],
+  "extent": [
+    800,
+    800
+  ],
+  "display": [
+    800,
+    800
+  ],
+  "rotation": 0
+}

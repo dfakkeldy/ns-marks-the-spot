@@ -1,0 +1,98 @@
+[
+  {
+    "name": "north-tip",
+    "origin": [
+      9500,
+      800
+    ],
+    "extent": [
+      6000,
+      5500
+    ],
+    "display": [
+      1500,
+      1375
+    ],
+    "rotation": 0
+  },
+  {
+    "name": "polletts",
+    "origin": [
+      6000,
+      5000
+    ],
+    "extent": [
+      6500,
+      6500
+    ],
+    "display": [
+      1500,
+      1500
+    ],
+    "rotation": 0
+  },
+  {
+    "name": "pleasant",
+    "origin": [
+      3500,
+      10000
+    ],
+    "extent": [
+      6500,
+      6500
+    ],
+    "display": [
+      1500,
+      1500
+    ],
+    "rotation": 0
+  },
+  {
+    "name": "fishing",
+    "origin": [
+      2000,
+      14500
+    ],
+    "extent": [
+      7000,
+      6500
+    ],
+    "display": [
+      1500,
+      1393
+    ],
+    "rotation": 0
+  },
+  {
+    "name": "cheticamp",
+    "origin": [
+      1000,
+      19000
+    ],
+    "extent": [
+      7000,
+      6500
+    ],
+    "display": [
+      1500,
+      1393
+    ],
+    "rotation": 0
+  },
+  {
+    "name": "margaree",
+    "origin": [
+      1000,
+      24500
+    ],
+    "extent": [
+      9000,
+      4800
+    ],
+    "display": [
+      1500,
+      800
+    ],
+    "rotation": 0
+  }
+]

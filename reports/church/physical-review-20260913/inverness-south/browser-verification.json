@@ -1,0 +1,30 @@
+{
+  "url": "http://127.0.0.1:5198/?basemap=osm&taxSale=off&mode=current&layers=&position=46.1847%2C-61.15574%2C12",
+  "title": "NS Marks The Spot \u2014 Nova Scotia parcel & tax-sale map",
+  "pageErrors": [],
+  "consoleMessages": [],
+  "reloaded": true,
+  "enabledAfterReload": true,
+  "detailURL": "http://127.0.0.1:5198/?basemap=osm&taxSale=off&mode=current&layers=&position=46.1847%2C-61.15574%2C12",
+  "browser": "Isolated Playwright Chromium context; Browser plugin unavailable",
+  "artifact": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-explicit-affine-20m.tif",
+  "artifact_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+  "pixel_dimensions": [
+    4757,
+    6466
+  ],
+  "flow": "My Maps -> actual file input -> completed import -> reload -> reopen My Maps -> enabled checkbox -> detail zoom",
+  "scope": "Embedded GeoTIFF importer, persistence, alpha display and rendering; not raw-source GCP mesh or geographic acceptance.",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "overview_zoom": 9,
+  "detail_zoom": 12,
+  "default_atlas_note": "Default-Atlas initial probe reported source unavailable. Artifact test used OSM; detail navigation rendered the historical layer with basemap off.",
+  "test_script": "/Users/dfakkeldy/Downloads/church-review-20260913/browser-import.mjs",
+  "probe_notes": [
+    "Initial test reloaded before import completion; corrected to wait for Reading to finish.",
+    "Reload collapses My Maps; corrected test reopens it. No application change needed."
+  ]
+}
