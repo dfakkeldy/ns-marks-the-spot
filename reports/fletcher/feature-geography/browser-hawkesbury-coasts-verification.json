@@ -327,5 +327,10 @@
       "sha256": "833134d1c66770356555fa61b35c76cbba319381e78f4e664eab19577da16127"
     }
   ],
-  "limits": "Bounded historical banks and one withheld shoal-symbol group. No current shoreline, whole waterbody extent, full island perimeter, tidal condition, navigation route or access claim. No production publication claim."
+  "limits": "Bounded historical banks and one withheld shoal-symbol group. No current shoreline, whole waterbody extent, full island perimeter, tidal condition, navigation route or access claim. No production publication claim.",
+  "base_reverification": {
+    "nightly_revision": "f8e130d2015c240632d46682b30f5276cbaec6f5",
+    "combined_revision": "4727de91101721f3077b9c563ae23a437311b9ad",
+    "checks": "After merging PR467/470/471, all eighteen label selections, ten Fletcher component tests, lint and build passed. Source geometry and export bytes remain unchanged. Church review changes are preserved without changing Fletcher fit pins."
+  }
 }

@@ -412,3 +412,7 @@ annotations on the shared bank, native excerpts, placement notes and clean conso
 All 271 earlier export records keep their geometry/content apart from the updated
 Hawkesbury evidence hash. Local checks: 301 Python tests (eight existing skips), ten
 Fletcher component tests, web script tests and build pass. No web code changed.
+
+Final base reconciliation preserves PR467/471 terrain controls, retries and popup
+fixes, plus PR470’s separate Church-map evidence. All 18 coastal browser cases,
+component tests, lint and build passed again on that combined base.
