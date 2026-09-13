@@ -72,7 +72,7 @@ strokes come from the procedural sprite in `public/atlas/sprite`
 unlocated specimens for future historical site symbols and lettering.
 
 The Fletcher style also enables a separately identified reviewed historical-feature
-layer: currently 82 Judique annotations, with approximate points, traced reaches and
+layer: currently 98 Judique annotations, with approximate points, traced reaches and
 unresolved group outlines. Its checkbox is below the style selector. Select a
 mark from zoom 12 for original source pixels, reading/placement uncertainty,
 fit provenance and prior-coordinate evidence; persistent labels appear at zoom

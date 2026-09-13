@@ -1,8 +1,8 @@
 {
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-12",
-  "nightly_revision": "c32c85e917aa8746fa0b98f928f76a366127b7ee",
-  "next_action": "Continue Judique waterways (22 source occurrences), then places and historical name annotations. All service, falls/mineral/landscape and road/proposal source reviews are recorded: 102 reviews, 82 local integrations, 20 explicit holdbacks, 64 pending. PR446 merged on green CI; next 12 road additions and local preview range-cache fix are verified. Priority sheets 22/16/14 and remaining-sheet extraction/reconciliation stay open.",
+  "nightly_revision": "17d7f1aa630a97bfce35749cbfa110461a804c35",
+  "next_action": "Continue Judique places (14) and historical name inscriptions (28). All 22 waterway occurrences now have source and placement decisions: 124 total reviews, 98 local integrations, 26 explicit holdbacks, 42 pending. PR447 merged on green CI; sixteen additional waterway traces are verified locally. Priority sheets 22/16/14 and remaining-sheet extraction/reconciliation stay open.",
   "sheets": [
     {
       "sheet": 22,
@@ -21,9 +21,9 @@
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 166,
       "lettering_status": "processed",
-      "source_associated_count": 95,
-      "approximate_placement_reviewed_count": 82,
-      "integrated_count": 82,
+      "source_associated_count": 116,
+      "approximate_placement_reviewed_count": 98,
+      "integrated_count": 98,
       "blockers": [
         {
           "annotation_id": "F19-JUD-026",
@@ -44,6 +44,11 @@
           "annotation_id": "F19-JUD-045",
           "stage": "source-location-unresolved",
           "reason": "Iron Ore has no distinct native ore mark or defensible deposit boundary in the inspected context. Preserve the wording unlocated; a geological unit, letter O or mill mark cannot supply an ore-site geometry."
+        },
+        {
+          "annotation_id": "F19-JUD-056",
+          "stage": "source-location-unresolved",
+          "reason": "The caption beside the parallel north-south linework cannot be uniquely associated with a distinct watercourse in the inspected source, including the wider context. Preserve the inventory reading/classification as original evidence, but do not substitute a road axis, geological boundary or label centre."
         },
         {
           "annotation_id": "F19-JUD-060",
@@ -86,6 +91,11 @@
           "reason": "The source Victoria Road axis is clear, but its northern Blue Bridge approach retains the previously unresolved crossing mismatch. The current fit also places parts of the road/rail junction district against modern river channels in relationships not reconciled with the source. Preserve the full prediction as evidence and withhold web placement pending a supported local comparison; do not replace it with a convenient modern road."
         },
         {
+          "annotation_id": "F19-JUD-132",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+        },
+        {
           "annotation_id": "F19-JUD-133",
           "stage": "locality-unresolved",
           "reason": "The printed proposal axis is clear, but its surrounding river and road-crossing relationships under this fit are not reconciled with the modern channel/wetland network. A present railway match is not required for a proposal; the unresolved issue is the geographic context. Preserve the proposal and prediction as evidence, withholding web placement until that context is supported. No construction or operation is inferred."
@@ -96,6 +106,16 @@
           "reason": "The complete native falls-junction group extends outside the conservative source-control hull. Preserve its source geometry and withhold modern placement; do not shrink the group to pass."
         },
         {
+          "annotation_id": "F19-JUD-139",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+        },
+        {
+          "annotation_id": "F19-JUD-140",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+        },
+        {
           "annotation_id": "F19-JUD-141",
           "stage": "outside-supported-coverage",
           "reason": "The complete northeastern proposed-railway axis extends beyond the conservative source-control hull. Preserve the proposal and native trace without map geometry; no constructed railway or modern route is inferred."
@@ -104,6 +124,11 @@
           "annotation_id": "F19-JUD-143",
           "stage": "outside-supported-coverage",
           "reason": "The complete shop candidate group extends outside the current conservative source-control hull. Keep source geometry and withhold map placement pending accepted local support."
+        },
+        {
+          "annotation_id": "F19-JUD-144",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
         },
         {
           "annotation_id": "F19-JUD-149",
@@ -121,6 +146,11 @@
           "reason": "850 FT. has no associated spot-height mark, benchmark or distinct summit near the southern border. Lettering and colour boundaries cannot supply a terrain point."
         },
         {
+          "annotation_id": "F19-JUD-161",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+        },
+        {
           "annotation_id": "F19-JUD-165",
           "stage": "outside-fit-neatline",
           "reason": "The Princeville P.O. candidate group crosses the frozen fit’s native neatline near the printed southern border. Preserve the actual source group and withhold map placement; do not trim it to force acceptance."
@@ -128,9 +158,9 @@
       ],
       "annotation_queue": "sheet-19-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-19-labels.geojson",
-      "integration_status": "70 merged via PR436/439/446; 12 road additions pass local source/geographic/browser checks and await next PR.",
-      "source_association_reviewed_count": 102,
-      "merged_integrated_count": 70
+      "integration_status": "82 merged via PR436/439/446/447; 16 waterway additions pass local source/geographic/browser checks and await next PR.",
+      "source_association_reviewed_count": 124,
+      "merged_integrated_count": 82
     },
     {
       "sheet": 16,
@@ -397,23 +427,6 @@
       "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
     }
   ],
-  "deliveries": [
-    {
-      "pr": 432,
-      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/432",
-      "state": "merged",
-      "merge_revision": "84b37f934305d5599922d215b051a57aacb6249d",
-      "ci": "Build gate + tests passed",
-      "scope": "Sheet 14 lettering geography and 24-sheet queue; feature integration follows separately."
-    },
-    {
-      "pr": 436,
-      "url": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/436",
-      "state": "ready-CI-running",
-      "head_revision": "0b7360478667c7956c7af47cde5d7774e567b25f",
-      "scope": "First 18 reviewed Judique features and web integration; six further source/placement records developed locally while CI runs."
-    }
-  ],
   "delivery": [
     {
       "pr": 432,
@@ -439,6 +452,18 @@
       "head": "eaabb9b2998b24d86b1e3cf5e20f3fbf467a4093",
       "merge_commit": "9d6f982785b251ead63cb66560072cd29530252b",
       "ci": "All required checks passed"
+    },
+    {
+      "pr": 447,
+      "status": "merged",
+      "head": "d33487450258366ae050944116861b3b91dfced1",
+      "merge_commit": "84a9d73658f1ebcd1b4781ab5ac59b1dc120a5af",
+      "ci": "All required checks passed"
     }
-  ]
+  ],
+  "fit_reconciliation": {
+    "reviewed_merge": "e007dd64c4a066741688bafff69b8df2b4113a48",
+    "evidence": "reports/fletcher/route19-three-rounds-20260912/README.md",
+    "decision": "PR448 labels the newer selected fits reversible full-sheet drafts and explicitly retains downstream pins. Keep supported, previously reviewed feature/lettering pins. No rejected trial or new draft is silently adopted; future adoption requires preserving predictions and renewed placement review."
+  }
 }

@@ -10,6 +10,7 @@ type HistoricalProperties = {
   reading_status: string; placement_status: string; geographic_role: string;
   geometry_meaning: string; source_note: string; placement_note: string;
   source_excerpt: string; source_context_url: string; source_url: string;
+  source_crop: { display_size: [number, number] };
   evidence_url: string; fit_revision: string; fit_sha256: string;
   imagery_licence_url: string; credit: string;
   placement_correction?: { modern_reference: { url: string; rights_url: string; attribution: string } };
@@ -62,7 +63,7 @@ function Evidence({ feature }: { feature: HistoricalFeature }) {
     <p className="fletcher-feature-id">Fletcher · sheet {p.sheet} · {p.annotation_id}</p>
     <p><strong>{p.geographic_role === 'reviewed-source-line' ? `Approximate historical ${lineName(p)}` : p.geographic_role === 'reviewed-source-group' ? 'Approximate group · individual feature unresolved' : p.placement_status === 'locally-reviewed-approximate' ? 'Approximate location · locally corrected' : 'Approximate historical location'}</strong></p>
     <p>Reading: {p.reading_status.replaceAll('-', ' ')}. Placement is separate from reading confidence.</p>
-    <img src={`${ROOT}${p.source_excerpt}`} alt={`Original Fletcher lettering and surrounding source marks: ${p.source_text}`} width="660" height="450" loading="lazy" />
+    <img src={`${ROOT}${p.source_excerpt}`} alt={`Original Fletcher lettering and surrounding source marks: ${p.source_text}`} width={p.source_crop.display_size[0]} height={p.source_crop.display_size[1]} loading="lazy" />
     <p>{p.source_note}</p>
     <details><summary>Placement and source evidence</summary>
       <p>{p.placement_note}</p><p>{p.geometry_meaning}</p>
