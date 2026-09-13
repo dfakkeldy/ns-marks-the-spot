@@ -2,6 +2,7 @@
 .has-research-terrain > .leaflet-map-pane, .has-research-terrain > .atlas-basemap { visibility: hidden; }
 .has-research-terrain > .leaflet-control-container { position: relative; z-index: 490; }
 .research-terrain-map .maplibregl-ctrl-top-left { top: 250px; left: 2px; }
+.research-terrain-map .maplibregl-popup { z-index: 1100; }
 .research-terrain-map .maplibregl-popup-content { max-height: 50dvh; overflow: auto; color: #263b3d; }
 .research-terrain-map .maplibregl-marker { cursor: pointer; }
 .research-terrain-controls { --terrain-controls-top: 12px; position: absolute; z-index: 500; top: var(--terrain-controls-top); right: 12px; display: flex; flex-direction: column; gap: 6px; padding: 6px; border-radius: 8px; background: var(--paper, #faf8f0); color: var(--chart-ink, #12343b); box-shadow: 0 1px 8px #12343b35; max-width: 240px; font-size: 12px; }
@@ -37,5 +38,17 @@
   /* Clear Poker's 44px Layers pill, including the phone's safe-area inset. */
   .poker-mode .research-terrain-controls { --terrain-controls-top: max(138px, calc(env(safe-area-inset-top) + 126px)); }
   .research-terrain-map .maplibregl-ctrl-bottom-right { bottom: 76px; }
+  /* Wide evidence cannot fit beside a moving anchor on a phone. Keep the
+     panel on screen without moving the camera to accommodate it. */
+  .research-terrain-map .maplibregl-popup.fletcher-feature-popup {
+    top: max(68px, calc(env(safe-area-inset-top) + 56px)); left: 8px; right: 8px;
+    max-width: none !important; transform: none !important;
+  }
+  .map-canvas:has(.maplibregl-popup.fletcher-feature-popup) .leaflet-control-zoom { visibility: hidden; }
+  .research-terrain-map .fletcher-feature-popup .maplibregl-popup-tip { display: none; }
+  .research-terrain-map .fletcher-feature-popup .leaflet-popup-content { width: auto !important; max-width: none; }
+  .research-terrain-map .fletcher-feature-popup .maplibregl-popup-close-button {
+    position: sticky; top: 0; float: right; width: 44px; min-height: 44px; background: white; color: #263b3d; z-index: 1;
+  }
 }
 @media print { .research-terrain-controls, .research-terrain-status, .research-terrain-map { display: none; } }
