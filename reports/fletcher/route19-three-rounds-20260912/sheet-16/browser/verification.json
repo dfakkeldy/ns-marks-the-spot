@@ -1,0 +1,70 @@
+{
+  "tooling": "Playwright; Browser plugin not available",
+  "before": {
+    "record": {
+      "id": "00fe65e0-5e8b-433c-a044-5460eb058a03",
+      "name": "sheet-16-full-sheet",
+      "source": "geotiff",
+      "createdAt": "2026-09-12T23:43:10.343Z",
+      "pixelSize": {
+        "width": 8497,
+        "height": 5572
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6857485,
+          5,
+          0,
+          5795535,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      4096,
+      2686
+    ],
+    "storedRasterSha256": "def907701bc11cf35181447a7c1e522bb92f267e94d5da49e99efc973b9848ce",
+    "rasterBytes": 106668223,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 618315,
+    "opaquePixels": 10383541
+  },
+  "after": {
+    "record": {
+      "id": "00fe65e0-5e8b-433c-a044-5460eb058a03",
+      "name": "sheet-16-full-sheet",
+      "source": "geotiff",
+      "createdAt": "2026-09-12T23:43:10.343Z",
+      "pixelSize": {
+        "width": 8497,
+        "height": 5572
+      },
+      "georef": {
+        "kind": "embedded",
+        "crs": "EPSG:3857",
+        "geotransform": [
+          -6857485,
+          5,
+          0,
+          5795535,
+          0,
+          -5
+        ]
+      }
+    },
+    "previewSize": [
+      4096,
+      2686
+    ],
+    "storedRasterSha256": "def907701bc11cf35181447a7c1e522bb92f267e94d5da49e99efc973b9848ce",
+    "rasterBytes": 106668223,
+    "rasterMime": "image/tiff",
+    "transparentPixels": 618315,
+    "opaquePixels": 10383541
+  },
+  "enabledStateSurvived": true
+}

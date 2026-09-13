@@ -1,0 +1,11 @@
+{
+  "sheet": "22",
+  "round": 1,
+  "before_rms_ground_m": 95.60847718179303,
+  "after_rms_ground_m": 94.86910746561365,
+  "proposal": "round-1-proposal.json",
+  "accepted_pending_render": true,
+  "note": "Q03 modern target was a WALK20 lake outlet, not the historical three-way stream junction. Corrected modern identity 181m downstream from the outlet through feature 264843, preserving native pixel. Q04/Q06 source placements remain supported.",
+  "trial_rms_ground_m": 94.86910746561365,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}

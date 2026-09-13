@@ -1,0 +1,71 @@
+[
+  {
+    "image": "Q04.jpg",
+    "record": "route19-three-rounds-20260912/sheet-22/baseline-fit.json",
+    "record_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+    "id": "Q04",
+    "native_box": [
+      2347,
+      4094,
+      2667,
+      4414
+    ],
+    "pixel_xy": [
+      2507,
+      4254
+    ],
+    "lonlat": [
+      -61.5485589,
+      45.638176
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "Q03.jpg",
+    "record": "route19-three-rounds-20260912/sheet-22/baseline-fit.json",
+    "record_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+    "id": "Q03",
+    "native_box": [
+      2434,
+      5547,
+      2754,
+      5867
+    ],
+    "pixel_xy": [
+      2594,
+      5707
+    ],
+    "lonlat": [
+      -61.5475419,
+      45.5933497
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  },
+  {
+    "image": "Q06.jpg",
+    "record": "route19-three-rounds-20260912/sheet-22/baseline-fit.json",
+    "record_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+    "id": "Q06",
+    "native_box": [
+      2357,
+      3818,
+      2677,
+      4138
+    ],
+    "pixel_xy": [
+      2517,
+      3978
+    ],
+    "lonlat": [
+      -61.55143,
+      45.6495464
+    ],
+    "rotation": 0,
+    "native_image_edge_coordinates": true,
+    "modern_half_ground_m": 650
+  }
+]

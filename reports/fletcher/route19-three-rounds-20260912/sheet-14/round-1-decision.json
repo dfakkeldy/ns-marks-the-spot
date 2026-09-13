@@ -1,0 +1,11 @@
+{
+  "sheet": "14",
+  "round": 1,
+  "before_rms_ground_m": 129.28560964034577,
+  "after_rms_ground_m": 129.28560964034577,
+  "proposal": null,
+  "accepted_pending_render": false,
+  "note": "Re-audited C14, F05 and B01 at native resolution against modern topology. Crosshairs already follow the confluences. Broad northwest B01 search found closely spaced tributaries around Boyle; source rendering did not resolve the exact sequence confidently, so no new correspondence was fitted. The 13 checks remain unchanged.",
+  "trial_rms_ground_m": null,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}

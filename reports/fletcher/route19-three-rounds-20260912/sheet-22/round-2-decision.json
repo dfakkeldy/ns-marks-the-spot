@@ -1,0 +1,11 @@
+{
+  "sheet": "22",
+  "round": 2,
+  "before_rms_ground_m": 94.86910746561365,
+  "after_rms_ground_m": 94.82593594242041,
+  "proposal": "round-2-proposal.json",
+  "accepted_pending_render": true,
+  "note": "Northern review Q01/J22-C01/N01/N02. Q01 source crosshair lay on its incoming northwest arm; corrected six pixels east and three south to the observed junction, without changing the modern target. Other reviewed points retained.",
+  "trial_rms_ground_m": 94.82593594242041,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}

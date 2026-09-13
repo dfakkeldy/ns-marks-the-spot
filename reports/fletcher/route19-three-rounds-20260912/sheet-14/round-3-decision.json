@@ -1,0 +1,11 @@
+{
+  "sheet": "14",
+  "round": 3,
+  "before_rms_ground_m": 129.28560964034577,
+  "after_rms_ground_m": 126.23562873029756,
+  "proposal": "round-3-proposal.json",
+  "accepted_pending_render": true,
+  "note": "Northern and central audit C01,C03,C05,C06,C07,R03. Added northern tributary at MacIsaacs Brook upper loop; the next west-branch junction visible in modern geometry is not mistaken for this northern arm. All 13 diagnostic features remain excluded.",
+  "trial_rms_ground_m": 126.23562873029756,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}

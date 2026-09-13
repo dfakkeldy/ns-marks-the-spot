@@ -1,5 +1,10 @@
 # Fletcher full-sheet review tiles
 
+**12 September follow-up:** [Three Route 19 RMS rounds](../route19-three-rounds-20260912/README.md)
+provide newer reversible full-sheet fits, editable CSVs and GeoTIFFs for all four
+sheets. The mosaic, tile revision and input receipts below remain the frozen
+9 September delivery; the follow-up does not replace published layers or label pins.
+
 This revision renders the complete cropped map content of Cape Mabou / Broad Cove (14), Judique (19), Mabou
 (16) and Hawkesbury (22), including the eastern interior and southern mainland.
 It replaces the local Route 19 strip preview. It is an approximate, reversible
