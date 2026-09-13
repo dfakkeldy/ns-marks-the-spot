@@ -95,6 +95,7 @@ export function AtlasStudy() {
         <p className="atlas-note">Printed wordings from the sheet 19 transcription, set in the map's serif as lettering examples only. A reading is about the ink; it never establishes a position. Every specimen has no geometry and is not a mapped feature.</p>
       </section>}
       <footer className="atlas-sidebar-footer">
+        <a href="./terrain.html">Inspect Judique in 3D ↗</a>
         <p>Provincial-first Atlas. A mapped road or path does not establish access permission.</p>
         <a href={researchUrl} target="_blank" rel="noreferrer">Open this area in the research map ↗</a>
         <details><summary>Sources & scope</summary>

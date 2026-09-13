@@ -1,0 +1,22 @@
+.terrain-range { display: block; margin: 18px 0; font-size: 12px; line-height: 1.7; }
+.terrain-range output { float: right; font-variant-numeric: tabular-nums; }
+.terrain-range input { display: block; width: 100%; margin: 10px 0 0; accent-color: #244e4b; }
+.terrain-water-key { display: flex; align-items: center; gap: 7px; min-height: 42px; font-size: 12px; }
+.terrain-water-key i { width: 20px; height: 3px; background: #087aab; outline: 2px solid #d6edf0; }
+.terrain-water-key span { margin-left: auto; color: #61706a; font-size: 10px; }
+.terrain-reset { color: var(--ink); background: var(--soft); border: 1px solid var(--line); border-radius: 4px; min-height: 42px; width: 100%; }
+.terrain-view-caption { position: absolute; bottom: 30px; left: 20px; max-width: calc(100% - 40px); padding: 7px 10px; border-radius: 3px; background: #faf8f0e8; color: #304746; font-size: 11px; pointer-events: none; }
+.terrain-study .atlas-map-title { top: 16px; left: 16px; }
+.terrain-study .atlas-map-title strong { font-size: 20px; }
+@media (max-width: 700px) {
+  .terrain-study { display: flex; flex-direction: column; height: auto; min-height: 100dvh; }
+  .terrain-study .atlas-stage { order: -1; position: sticky; top: 0; z-index: 3; flex: none; height: 55dvh; min-height: 300px; }
+  .terrain-study .atlas-sidebar { overflow: visible; padding: 20px; border-right: 0; }
+  .terrain-study .atlas-intro { margin: 20px 0; }
+  .terrain-study .atlas-intro h1 { font-size: 30px; }
+  .terrain-study .atlas-map-title { max-width: calc(100% - 76px); }
+  .terrain-study .atlas-status { left: 12px; bottom: 65px; max-width: calc(100% - 24px); }
+  .terrain-study .atlas-map-title strong { font-size: 17px; }
+  .terrain-view-caption { left: 16px; top: 82px; bottom: auto; font-size: 10px; }
+}
+.terrain-study .atlas-map { position: absolute; inset: 0; }
