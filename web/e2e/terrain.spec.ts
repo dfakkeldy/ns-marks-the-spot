@@ -25,113 +25,123 @@ async function expectReadable(locator: Locator) {
   expect(ratio).toBeGreaterThanOrEqual(4.5);
 }
 
-for (const width of [390, 1440]) test(`3D parcel identify and return to 2D at ${width}px`, async ({ page }, testInfo) => {
-  // Hosted software rendering is substantially slower than a desktop GPU;
-  // keep individual assertions bounded while allowing the full gesture flow.
-  test.setTimeout(120000);
-  await page.setViewportSize({ width, height: 900 });
-  await page.addInitScript(() => localStorage.setItem('ns-marks-the-spot:province-license:v1', 'accepted'));
-  const errors: string[] = [], identified: number[][] = [];
-  page.on('pageerror', error => errors.push(error.message));
-  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-  let center = [-61.405, 45.835];
-  await page.route('https://**/*', route => {
-    const url = new URL(route.request().url());
-    if (url.hostname === 's3.amazonaws.com') return route.fulfill({ contentType: 'image/png', body: dem });
-    if (url.hostname.endsWith('tile.openstreetmap.org')) return route.fulfill({ contentType: 'image/png', body: background });
-    if (url.pathname.includes('NSPRD') && url.pathname.endsWith('/query')) {
-      if (url.searchParams.get('geometryType') === 'esriGeometryPoint') {
-        center = url.searchParams.get('geometry')!.split(',').map(Number);
-        identified.push(center);
+for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
+  test.use({ deviceScaleFactor: width === 390 ? 3 : 1, hasTouch: width === 390 });
+  test(`3D parcel identify and return to 2D at ${width}px`, async ({ page }, testInfo) => {
+    // Hosted software rendering is substantially slower than a desktop GPU;
+    // keep individual assertions bounded while allowing the full gesture flow.
+    test.setTimeout(120000);
+    await page.setViewportSize({ width, height: 900 });
+    const activate = (locator: Locator) => width === 390 ? locator.tap() : locator.click();
+    await page.addInitScript(() => localStorage.setItem('ns-marks-the-spot:province-license:v1', 'accepted'));
+    const errors: string[] = [], identified: number[][] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    let center = [-61.405, 45.835];
+    await page.route('https://**/*', route => {
+      const url = new URL(route.request().url());
+      if (url.hostname === 's3.amazonaws.com') return route.fulfill({ contentType: 'image/png', body: dem });
+      if (url.hostname.endsWith('tile.openstreetmap.org')) return route.fulfill({ contentType: 'image/png', body: background });
+      if (url.pathname.includes('NSPRD') && url.pathname.endsWith('/query')) {
+        if (url.searchParams.get('geometryType') === 'esriGeometryPoint') {
+          center = url.searchParams.get('geometry')!.split(',').map(Number);
+          identified.push(center);
+        }
+        const [x, y] = center;
+        return route.fulfill({ json: { type: 'FeatureCollection', features: [{ type: 'Feature', properties: { PID: '12345678' },
+          geometry: { type: 'Polygon', coordinates: [[[x - .001, y - .001], [x + .001, y - .001], [x + .001, y + .001], [x - .001, y + .001], [x - .001, y - .001]]] } }] } });
       }
-      const [x, y] = center;
-      return route.fulfill({ json: { type: 'FeatureCollection', features: [{ type: 'Feature', properties: { PID: '12345678' },
-        geometry: { type: 'Polygon', coordinates: [[[x - .001, y - .001], [x + .001, y - .001], [x + .001, y + .001], [x - .001, y + .001], [x - .001, y - .001]]] } }] } });
-    }
-    if (url.pathname.includes('/export')) return route.fulfill({ contentType: 'image/png', body: transparent });
-    if (route.request().resourceType() === 'stylesheet') return route.fulfill({ contentType: 'text/css', body: '' });
-    return route.fulfill({ json: { type: 'FeatureCollection', features: [] } });
-  });
-  await page.goto('/?position=45.835,-61.405,15&layers=modern,nsprd&taxSale=off&basemap=osm');
-  await page.getByRole('button', { name: '3D terrain', exact: true }).click();
-  const canvas = page.locator('.research-terrain-map canvas');
-  await expect(canvas).toBeVisible();
-  const pixels = await canvas.evaluate(element => {
-    const image = element as HTMLCanvasElement;
-    return image.width * image.height / (image.clientWidth * image.clientHeight);
-  });
-  expect(pixels).toBeLessThanOrEqual(2.25);
-  await expectReadable(page.locator('.research-terrain-controls'));
-  await expectReadable(page.getByRole('button', { name: 'Return to 2D', exact: true }));
-  await expect.poll(async () => ({ status: await page.locator('.research-terrain-status').allTextContents(), errors }), { timeout: 25000 }).toEqual({ status: [], errors: [] });
-  const tilt = page.getByRole('slider', { name: 'Map tilt', exact: true });
-  await expect(tilt).toHaveValue('50');
-  const compass = page.locator('.research-terrain-map .maplibregl-ctrl-compass .maplibregl-ctrl-icon');
-  const tilted = await compass.getAttribute('style');
-  await tilt.press('Home');
-  await expect(tilt).toHaveValue('0');
-  await expect(compass).not.toHaveAttribute('style', tilted!);
-  await page.getByRole('button', { name: 'Rotate right', exact: true }).tap();
-  await expect(page.locator('.terrain-bearing output')).toHaveText('30°');
-  await page.getByRole('button', { name: 'North up', exact: true }).tap();
-  await expect(page.locator('.terrain-bearing output')).toHaveText('0°');
-  await tilt.press('End');
-  await expect(tilt).toHaveValue('65');
-  if (width === 390) {
-    // Exercise the real two-finger handler, rather than dispatching a DOM
-    // event that might never reach MapLibre's gesture machinery.
-    const touch = await page.context().newCDPSession(page);
-    const points = (y: number) => [{ x: 95, y, id: 1 }, { x: 165, y, id: 2 }];
-    await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: points(500) });
-    for (let y = 508; y <= 580; y += 8) {
-      await touch.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: points(y) });
-    }
-    await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-    await expect(tilt).not.toHaveValue('65');
-    await touch.detach();
-  }
-  await expect(page.locator('.terrain-touch-help')).toBeVisible();
-  await page.screenshot({ path: testInfo.outputPath('terrain-dark-controls.png') });
-  await page.emulateMedia({ colorScheme: 'light' });
-  await expectReadable(page.locator('.research-terrain-controls'));
-  await expectReadable(page.getByRole('button', { name: 'Return to 2D', exact: true }));
-  await page.getByText('Terrain height', { exact: true }).click();
-  const height = page.getByRole('slider', { name: /^Height exaggeration/ });
-  await height.press('End'); await expect(height).toHaveValue('10');
-  await height.press('Home');
-  await page.getByRole('checkbox', { name: 'Separate low-ground scale' }).check();
-  const low = page.getByRole('slider', { name: /^Low-ground exaggeration/ });
-  await low.press('End'); await expect(low).toHaveValue('10');
-  await page.getByRole('combobox', { name: 'Low-ground band' }).selectOption('100');
-  await expect(page.locator('.research-terrain-status')).toHaveCount(0, { timeout: 15000 });
-  await page.getByText('Terrain height', { exact: true }).click();
-  const box = (await canvas.boundingBox())!;
-  expect(box.height).toBeGreaterThan(200);
-  await page.mouse.dblclick(box.x + box.width * .5, box.y + box.height * .5);
-  await page.waitForTimeout(500);
-  expect(identified).toHaveLength(0);
-  // Offset from centre so a duplicate flat-map click would identify elsewhere.
-  await page.mouse.click(box.x + box.width * .45, box.y + box.height * .55);
-  await expect.poll(() => identified.length).toBe(1);
-  expect(identified[0].every(Number.isFinite)).toBe(true);
-  await expect(page.locator('.parcel-inspector')).toBeVisible();
-  await expect(page.locator('.parcel-inspector')).toContainText('12345678');
-  await page.getByRole('button', { name: 'Close parcel details', exact: true }).click();
-  if (width === 390) {
-    for (const size of [{ width: 320, height: 568 }, { width: 844, height: 390 }]) {
-      await page.setViewportSize(size);
+      if (url.pathname.includes('/export')) return route.fulfill({ contentType: 'image/png', body: transparent });
+      if (route.request().resourceType() === 'stylesheet') return route.fulfill({ contentType: 'text/css', body: '' });
+      return route.fulfill({ json: { type: 'FeatureCollection', features: [] } });
+    });
+    await page.goto('/?position=45.835,-61.405,15&layers=modern,nsprd&taxSale=off&basemap=osm');
+    await page.getByRole('button', { name: '3D terrain', exact: true }).click();
+    const canvas = page.locator('.research-terrain-map canvas');
+    await expect(canvas).toBeVisible();
+    const pixels = await canvas.evaluate(element => {
+      const image = element as HTMLCanvasElement;
+      return image.width * image.height / (image.clientWidth * image.clientHeight);
+    });
+    expect(pixels).toBeLessThanOrEqual(2.25);
+    await expectReadable(page.locator('.research-terrain-controls'));
+    await expectReadable(page.getByRole('button', { name: 'Return to 2D', exact: true }));
+    await expect.poll(async () => ({ status: await page.locator('.research-terrain-status').allTextContents(), errors }), { timeout: 25000 }).toEqual({ status: [], errors: [] });
+    await test.step('Tilt, direction, touch gestures and appearance', async () => {
+      const tilt = page.getByRole('slider', { name: 'Map tilt', exact: true });
+      await expect(tilt).toHaveValue('50');
+      const compass = page.locator('.research-terrain-map .maplibregl-ctrl-compass .maplibregl-ctrl-icon');
+      const tilted = await compass.getAttribute('style');
+      await tilt.press('Home');
+      await expect(tilt).toHaveValue('0');
+      await expect(compass).not.toHaveAttribute('style', tilted!);
+      await activate(page.getByRole('button', { name: 'Rotate right', exact: true }));
+      await expect(page.locator('.terrain-bearing output')).toHaveText('30°');
+      await activate(page.getByRole('button', { name: 'North up', exact: true }));
+      await expect(page.locator('.terrain-bearing output')).toHaveText('0°');
+      await tilt.press('End');
+      await expect(tilt).toHaveValue('65');
+      if (width === 390) {
+        // Exercise the real two-finger handler, rather than dispatching a DOM
+        // event that might never reach MapLibre's gesture machinery.
+        const touch = await page.context().newCDPSession(page);
+        const points = (y: number) => [{ x: 95, y, id: 1 }, { x: 165, y, id: 2 }];
+        await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: points(500) });
+        for (let y = 508; y <= 580; y += 8) {
+          await touch.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: points(y) });
+        }
+        await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+        await expect(tilt).not.toHaveValue('65');
+        await touch.detach();
+      }
+      await expect(page.locator(width === 390 ? '.terrain-touch-help' : '.terrain-mouse-help')).toBeVisible();
+      await page.screenshot({ path: testInfo.outputPath('terrain-dark-controls.png'), scale: 'css' });
+      await page.emulateMedia({ colorScheme: 'light' });
+      await expectReadable(page.locator('.research-terrain-controls'));
+      await expectReadable(page.getByRole('button', { name: 'Return to 2D', exact: true }));
+    });
+    await test.step('Height and low-ground relief', async () => {
       await page.getByText('Terrain height', { exact: true }).click();
-      await page.getByRole('slider', { name: /^Low-ground exaggeration/ }).scrollIntoViewIfNeeded();
-      await expect(page.getByRole('button', { name: 'Return to 2D', exact: true })).toBeInViewport({ ratio: 1 });
-      await page.screenshot({ path: testInfo.outputPath(`terrain-${size.width}x${size.height}.png`) });
+      const height = page.getByRole('slider', { name: /^Height exaggeration/ });
+      await height.press('End'); await expect(height).toHaveValue('10');
+      await height.press('Home');
+      await page.getByRole('checkbox', { name: 'Separate low-ground scale' }).check();
+      const low = page.getByRole('slider', { name: /^Low-ground exaggeration/ });
+      await low.press('End'); await expect(low).toHaveValue('10');
+      await page.getByRole('combobox', { name: 'Low-ground band' }).selectOption('100');
+      await expect(page.locator('.research-terrain-status')).toHaveCount(0, { timeout: 15000 });
       await page.getByText('Terrain height', { exact: true }).click();
-    }
-  }
-  await page.getByRole('button', { name: 'Return to 2D', exact: true }).click();
-  await expect(page.locator('.research-terrain-map')).toHaveCount(0);
-  expect(await page.locator('.leaflet-map-pane').evaluate(el => getComputedStyle(el).visibility)).toBe('visible');
-  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
-  expect(errors).toEqual([]);
+    });
+    await test.step('Parcel selection, short screens and return to 2D', async () => {
+      const box = (await canvas.boundingBox())!;
+      expect(box.height).toBeGreaterThan(200);
+      await page.mouse.dblclick(box.x + box.width * .5, box.y + box.height * .5);
+      await page.waitForTimeout(500);
+      expect(identified).toHaveLength(0);
+      // Offset from centre so a duplicate flat-map click would identify elsewhere.
+      await page.mouse.click(box.x + box.width * .45, box.y + box.height * .55);
+      await expect.poll(() => identified.length).toBe(1);
+      expect(identified[0].every(Number.isFinite)).toBe(true);
+      await expect(page.locator('.parcel-inspector')).toBeVisible();
+      await expect(page.locator('.parcel-inspector')).toContainText('12345678');
+      await page.getByRole('button', { name: 'Close parcel details', exact: true }).click();
+      if (width === 390) {
+        for (const size of [{ width: 320, height: 568 }, { width: 844, height: 390 }]) {
+          await page.setViewportSize(size);
+          await page.getByText('Terrain height', { exact: true }).click();
+          await page.getByRole('slider', { name: /^Low-ground exaggeration/ }).scrollIntoViewIfNeeded();
+          await expect(page.getByRole('button', { name: 'Return to 2D', exact: true })).toBeInViewport({ ratio: 1 });
+          await page.screenshot({ path: testInfo.outputPath(`terrain-${size.width}x${size.height}.png`), scale: 'css' });
+          await page.getByText('Terrain height', { exact: true }).click();
+        }
+      }
+      await page.getByRole('button', { name: 'Return to 2D', exact: true }).click();
+      await expect(page.locator('.research-terrain-map')).toHaveCount(0);
+      expect(await page.locator('.leaflet-map-pane').evaluate(el => getComputedStyle(el).visibility)).toBe('visible');
+      expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
+      expect(errors).toEqual([]);
+    });
+  });
 });
 
 test('3D source failure stays readable in dark and light appearance', async ({ page }) => {
