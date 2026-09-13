@@ -1,0 +1,29 @@
+{
+  "phase": "Fresh physical checks against frozen fit; no subsequent tuning; sparse set does not establish whole-panel accuracy",
+  "method": "affine",
+  "csv_sha256": "ff0ca98ffe9a5ed8b123fc2df891fa2e6842c0830dad78782bff9b08afa6dfbd",
+  "metrics": {
+    "count": 1,
+    "points": [
+      {
+        "label": "VM15",
+        "east_ground_m": -0.7707572590461612,
+        "north_ground_m": 235.92161721832306,
+        "error_ground_m": 235.9228762491279
+      }
+    ],
+    "rms_ground_m": 235.9228762491279,
+    "median_ground_m": 235.9228762491279,
+    "p95_ground_m": 235.9228762491279,
+    "max_ground_m": 235.9228762491279,
+    "mean_east_ground_m": -0.7707572590461612,
+    "mean_north_ground_m": 235.92161721832306,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "source_hull": {
+    "VM15": false
+  },
+  "geographic_acceptance": false
+}

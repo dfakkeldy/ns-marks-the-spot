@@ -1,0 +1,25 @@
+{
+  "candidates": [
+    {
+      "id": "R25",
+      "name": "Landrie Lake",
+      "status": "withheld; changed basin",
+      "reason": "Historical elongated basin drains south via Goose Brook; modern area is an engineered reservoir. Whole-basin centroid would compare different boundaries. No coordinate was measured or scored.",
+      "source": "landrie-native.jpg",
+      "corroboration": "https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf"
+    },
+    {
+      "id": "R28",
+      "name": "Little River basin",
+      "status": "withheld; changed basin",
+      "reason": "Reservoir transformation also affects the adjacent southwestern Little River network. Do not infer a historical whole-basin centroid from its current impoundment.",
+      "corroboration": "https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/"
+    },
+    {
+      "id": "R29",
+      "name": "Marsh Lake",
+      "status": "withheld; engraving occlusion",
+      "reason": "Dark symbol/lettering covers part of the northern shoreline in R26 context. Basin definition is not precise enough for a new centroid check."
+    }
+  ]
+}

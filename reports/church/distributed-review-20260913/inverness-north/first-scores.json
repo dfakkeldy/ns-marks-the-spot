@@ -1,0 +1,29 @@
+{
+  "phase": "fresh Second Fork bank-entry check after corrected I10 affine freeze; no subsequent tuning",
+  "method": "affine",
+  "csv_sha256": "b3735b5c5753473f1f802a4bf1a51de255732414288dc049cff0502f5a4b6abb",
+  "metrics": {
+    "count": 1,
+    "points": [
+      {
+        "label": "I13",
+        "east_ground_m": -116.66629894458694,
+        "north_ground_m": -333.2316098843704,
+        "error_ground_m": 353.0642025688203
+      }
+    ],
+    "rms_ground_m": 353.0642025688203,
+    "median_ground_m": 353.0642025688203,
+    "p95_ground_m": 353.0642025688203,
+    "max_ground_m": 353.0642025688203,
+    "mean_east_ground_m": -116.66629894458694,
+    "mean_north_ground_m": -333.2316098843704,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "source_hull": {
+    "I13": false
+  },
+  "geographic_acceptance": false
+}

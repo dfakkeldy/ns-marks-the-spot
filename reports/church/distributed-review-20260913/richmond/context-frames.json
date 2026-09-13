@@ -1,0 +1,53 @@
+{
+  "R25": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      2850,
+      17100
+    ],
+    "extent": [
+      1200,
+      1500
+    ],
+    "display": [
+      1200,
+      1500
+    ],
+    "rotation": 0
+  },
+  "R26": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      11700,
+      11700
+    ],
+    "extent": [
+      2000,
+      1600
+    ],
+    "display": [
+      1600,
+      1280
+    ],
+    "rotation": 0
+  },
+  "richmond-sw": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      900,
+      14300
+    ],
+    "extent": [
+      7500,
+      4200
+    ],
+    "display": [
+      1800,
+      1008
+    ],
+    "rotation": 0
+  }
+}

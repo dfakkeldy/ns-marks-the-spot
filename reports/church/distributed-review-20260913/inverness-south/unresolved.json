@@ -1,0 +1,24 @@
+{
+  "candidates": [
+    {
+      "id": "IS06",
+      "status": "withheld from separate audited comparison; original remains unchanged",
+      "reason": "Native enlargement depicts one continuous northern island with a western hook. Modern reference has a detached western islet beside the larger island. A new centroid for the main modern island would require inventing a source division. Original hand point is also near the northern engraved shore. Exclusion is for definition uncertainty, not its relatively small 107.55 m affine discrepancy."
+    },
+    {
+      "id": "IS16",
+      "region": "Mabou mainland/estuary and Southwest Mabou",
+      "status": "no point adopted",
+      "reason": "Broad view contains repeated tributary junctions, estuary braids and road crossings. Exact persistent bank/centreline correspondence was not established; the guide is not substituted for identity evidence."
+    },
+    {
+      "id": "IS17",
+      "region": "Whycocomagh Skye/Indian River vicinity",
+      "status": "no point adopted",
+      "reason": "Mullach Brook is a separate drainage. Around the Skye/Indian River confluence, road/bridge and river ink merge; current bank junction cannot be placed precisely in the inspected historic engraving. Avoid the same downstream road-junction error found at I10."
+    }
+  ],
+  "fresh_check_count": 0,
+  "accepted_july_inputs_unchanged": true,
+  "selected_review_affine_unchanged": true
+}
