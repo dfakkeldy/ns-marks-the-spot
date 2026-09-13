@@ -1,17 +1,17 @@
 {
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-13",
-  "nightly_revision": "a8c1d6878cf679ddf2af25c2b725414b70005723",
-  "next_action": "Continue the 70 Hawkesbury annotations still needing initial source association: coastal/landscape features, geology/minerals, and remaining transport/administrative notes. All 231 initial source/geographic decisions are recorded: 145 local integrations and 86 explicit holdbacks. PR464 merged 115 Hawkesbury features; thirty name/lake interpretations pass local checks and await PR. Judique retains 126 merged placements and all 166 initial decisions, with 40 holdbacks. Priority sheets 16/14 and remaining 20 sheets stay open.",
+  "nightly_revision": "f8e130d2015c240632d46682b30f5276cbaec6f5",
+  "next_action": "Continue the 40 Hawkesbury annotations still needing initial source association: landscape/geology/minerals, quarries/pits, cable and railway notes, and administrative labels. All 261 initial source/geographic decisions are recorded: 163 local integrations and 98 explicit holdbacks. PR469 merged 145 Hawkesbury features; eighteen coastal interpretations pass local checks and await PR. Judique retains 126 merged placements and all 166 initial decisions, with 40 holdbacks. Priority sheets 16/14 and remaining 20 sheets stay open.",
   "sheets": [
     {
       "sheet": 22,
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 301,
       "lettering_status": "processed",
-      "source_associated_count": 186,
-      "approximate_placement_reviewed_count": 145,
-      "integrated_count": 145,
+      "source_associated_count": 216,
+      "approximate_placement_reviewed_count": 163,
+      "integrated_count": 163,
       "blockers": [
         {
           "annotation_id": "F22-HAW-001",
@@ -22,6 +22,11 @@
           "annotation_id": "F22-HAW-002",
           "stage": "outside-supported-coverage",
           "reason": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        },
+        {
+          "annotation_id": "F22-HAW-010",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
         },
         {
           "annotation_id": "F22-HAW-012",
@@ -74,6 +79,11 @@
           "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
         },
         {
+          "annotation_id": "F22-HAW-037",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
           "annotation_id": "F22-HAW-038",
           "stage": "source-location-unresolved",
           "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
@@ -87,6 +97,11 @@
           "annotation_id": "F22-HAW-043",
           "stage": "source-location-unresolved",
           "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-048",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
         },
         {
           "annotation_id": "F22-HAW-049",
@@ -269,9 +284,19 @@
           "reason": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
         },
         {
+          "annotation_id": "F22-HAW-180",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
           "annotation_id": "F22-HAW-181",
           "stage": "outside-supported-coverage",
           "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+        },
+        {
+          "annotation_id": "F22-HAW-183",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
         },
         {
           "annotation_id": "F22-HAW-184",
@@ -339,6 +364,11 @@
           "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
         },
         {
+          "annotation_id": "F22-HAW-244",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
           "annotation_id": "F22-HAW-245",
           "stage": "outside-supported-coverage",
           "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
@@ -377,6 +407,21 @@
           "annotation_id": "F22-HAW-253",
           "stage": "outside-supported-coverage",
           "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        },
+        {
+          "annotation_id": "F22-HAW-254",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-255",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-256",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
         },
         {
           "annotation_id": "F22-HAW-260",
@@ -434,6 +479,21 @@
           "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
         },
         {
+          "annotation_id": "F22-HAW-286",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-287",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
+          "annotation_id": "F22-HAW-288",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+        },
+        {
           "annotation_id": "F22-HAW-289",
           "stage": "source-location-unresolved",
           "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
@@ -446,9 +506,9 @@
       ],
       "annotation_queue": "sheet-22-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-22-labels.geojson",
-      "source_association_reviewed_count": 231,
-      "merged_integrated_count": 115,
-      "integration_status": "115 merged through PR464; thirty further placements pass local checks and await PR. All 231 initial source/geographic decisions are recorded."
+      "source_association_reviewed_count": 261,
+      "merged_integrated_count": 145,
+      "integration_status": "145 merged through PR469; eighteen coastal placements pass local checks and await PR. All 261 initial source/geographic decisions are recorded."
     },
     {
       "sheet": 19,
@@ -1034,6 +1094,13 @@
       "status": "merged",
       "head": "1876e3c43630c92bc31670669f65afee46452897",
       "merge_commit": "17c92b745568111eca551cfed14302b5ef805926",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 469,
+      "status": "merged",
+      "head": "992c5c11fc4b93d38e0176959444601f2850fefb",
+      "merge_commit": "769a47acb874e3231606329043643a36c4f61e7c",
       "ci": "All required checks passed"
     }
   ],

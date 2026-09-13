@@ -1,0 +1,336 @@
+{
+  "reviewed_at": "2026-09-13",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 289,
+  "export_sha256": "833134d1c66770356555fa61b35c76cbba319381e78f4e664eab19577da16127",
+  "checks": {
+    "count": 289,
+    "checks": [
+      {
+        "id": "F22-HAW-006",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-096",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-101",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-126",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-139",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-142",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-143",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-144",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-149",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-211",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-213",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-215",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-222",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-228",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-270",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-274",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-276",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-277",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-010",
+      "F22-HAW-012",
+      "F22-HAW-017",
+      "F22-HAW-019",
+      "F22-HAW-020",
+      "F22-HAW-024",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F22-HAW-033",
+      "F22-HAW-034",
+      "F22-HAW-036",
+      "F22-HAW-037",
+      "F22-HAW-038",
+      "F22-HAW-040",
+      "F22-HAW-043",
+      "F22-HAW-048",
+      "F22-HAW-049",
+      "F22-HAW-051",
+      "F22-HAW-052",
+      "F22-HAW-060",
+      "F22-HAW-062",
+      "F22-HAW-063",
+      "F22-HAW-065",
+      "F22-HAW-069",
+      "F22-HAW-075",
+      "F22-HAW-093",
+      "F22-HAW-094",
+      "F22-HAW-095",
+      "F22-HAW-098",
+      "F22-HAW-099",
+      "F22-HAW-103",
+      "F22-HAW-110",
+      "F22-HAW-111",
+      "F22-HAW-115",
+      "F22-HAW-119",
+      "F22-HAW-125",
+      "F22-HAW-130",
+      "F22-HAW-132",
+      "F22-HAW-148",
+      "F22-HAW-151",
+      "F22-HAW-152",
+      "F22-HAW-157",
+      "F22-HAW-158",
+      "F22-HAW-162",
+      "F22-HAW-164",
+      "F22-HAW-173",
+      "F22-HAW-174",
+      "F22-HAW-175",
+      "F22-HAW-176",
+      "F22-HAW-177",
+      "F22-HAW-178",
+      "F22-HAW-179",
+      "F22-HAW-180",
+      "F22-HAW-181",
+      "F22-HAW-183",
+      "F22-HAW-184",
+      "F22-HAW-185",
+      "F22-HAW-190",
+      "F22-HAW-192",
+      "F22-HAW-201",
+      "F22-HAW-203",
+      "F22-HAW-204",
+      "F22-HAW-218",
+      "F22-HAW-225",
+      "F22-HAW-229",
+      "F22-HAW-230",
+      "F22-HAW-236",
+      "F22-HAW-239",
+      "F22-HAW-244",
+      "F22-HAW-245",
+      "F22-HAW-247",
+      "F22-HAW-248",
+      "F22-HAW-249",
+      "F22-HAW-250",
+      "F22-HAW-251",
+      "F22-HAW-252",
+      "F22-HAW-253",
+      "F22-HAW-254",
+      "F22-HAW-255",
+      "F22-HAW-256",
+      "F22-HAW-260",
+      "F22-HAW-261",
+      "F22-HAW-262",
+      "F22-HAW-265",
+      "F22-HAW-266",
+      "F22-HAW-272",
+      "F22-HAW-273",
+      "F22-HAW-275",
+      "F22-HAW-283",
+      "F22-HAW-284",
+      "F22-HAW-285",
+      "F22-HAW-286",
+      "F22-HAW-287",
+      "F22-HAW-288",
+      "F22-HAW-289",
+      "F22-HAW-290"
+    ],
+    "errors": []
+  },
+  "additional_assertions": [
+    "All eighteen additions open their own evidence through visible label pointer clicks at alternating desktop/phone widths, with decoded native excerpts, distinct source/placement notes, a ready basemap and clean consoles.",
+    "The shared Strait of Canso / Cape Porcupine geometry opens both retained annotations; the broad Strait source context remains a native excerpt.",
+    "All 271 earlier exported records preserve geometry/content apart from the current Hawkesbury evidence bundle hash.",
+    "All 231 earlier source-association records remain byte-equivalent as JSON objects, including the L. Murray correction history and all previous holdbacks."
+  ],
+  "local_checks": {
+    "python": "301 tests pass, eight existing skips",
+    "web": "10 Fletcher component tests and web script tests pass; build passes. No web code change; lint passed on unchanged code in PR469."
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-coasts-review.json",
+      "sha256": "06bc08a05c01799d80f665ab31cfcbda8343bbe9c375e5db2591656aacd44ef1"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-coasts-126.png",
+      "sha256": "a61dbb20b1c2d28d65f1011b5ff11bb7854c5c0f4b19d2a3a1ad5aff2347540e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-coasts-139.png",
+      "sha256": "de7bd73ee570395c67bf405afad5a2ad4fec645a13050cc288d20b193f90af68"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-coasts-143.png",
+      "sha256": "35608837a972bdfe48f251596cbb9db40e32362c6ce045468890fd0e27337f13"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-coasts-213.png",
+      "sha256": "658a0f383aedd11896b8fc66a9e7e4b72f73faed3c703a04aacf8e96ff58df39"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-coasts-270.png",
+      "sha256": "94cdb962807eedd41d038252f2dc7f83950b818216b4a2b2e66b56049c71edfa"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-coasts-274.png",
+      "sha256": "ccbd4a95a676e7ebe60b1d73f2d5b8ede37aae09fa9829798ca5a5ff918ba7f8"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-coasts-6.png",
+      "sha256": "8f74facf25e853874bd7957c6c01ac954e5707382c8040dd77ee2597289188ea"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-coasts-96.png",
+      "sha256": "1ef78adfb398d8bafa40b6061d5864c2faf508b4d3418d5c2f4d55d2f6296fca"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-289-export/source.json",
+      "sha256": "003d28013179d110cde6a382fde58f4b27339c1a42db929cb8d2b1be810e768b"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-289-export/reviewed.geojson",
+      "sha256": "833134d1c66770356555fa61b35c76cbba319381e78f4e664eab19577da16127"
+    }
+  ],
+  "limits": "Bounded historical banks and one withheld shoal-symbol group. No current shoreline, whole waterbody extent, full island perimeter, tidal condition, navigation route or access claim. No production publication claim.",
+  "base_reverification": {
+    "nightly_revision": "f8e130d2015c240632d46682b30f5276cbaec6f5",
+    "combined_revision": "4727de91101721f3077b9c563ae23a437311b9ad",
+    "checks": "After merging PR467/470/471, all eighteen label selections, ten Fletcher component tests, lint and build passed. Source geometry and export bytes remain unchanged. Church review changes are preserved without changing Fletcher fit pins."
+  }
+}

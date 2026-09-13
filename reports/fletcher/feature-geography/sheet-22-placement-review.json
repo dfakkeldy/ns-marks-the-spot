@@ -1,7 +1,7 @@
 {
   "sheet": 22,
   "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
-  "source_review_sha256": "84093eb7ecdd4e0329038da7ddb479ce9febb960bf6306edaa3a59e3c4a08996",
+  "source_review_sha256": "d96b10259bf6f92d347072fba4bebfe345f5e3ba304d2cf5ad6bfda660802dbf",
   "reviews": [
     {
       "annotation_id": "F22-HAW-001",
@@ -2138,6 +2138,276 @@
       "scene": "hawkesbury-names-7-20260913.jpg",
       "scene_sha256": "bb192ed2f2571353dad16a9d806a1a74798cf1b07aa09c67ab3ddbac93fd98a3",
       "evidence": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-006",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-6-geography.jpg",
+      "scene_sha256": "3f50d2dfe1eb224c7bdaa20cd26434e3c03ea60c9cad0380e0153218e5a8d4ef",
+      "evidence": "The full bounded trace follows the same western coastal bulge west of Highway19 and the north-south road corridor. Its southern section remains seaward of the modern shore, while the northern turn is slightly inland. The broad shape supports approximate locality; it is not the present shoreline."
+    },
+    {
+      "annotation_id": "F22-HAW-010",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-1-20260913.jpg",
+      "scene_sha256": "37891e9f13e6214ccae6a8f7d1ea3ba74b70134b8c0fb2b45c53b486507f4459",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-037",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-1-20260913.jpg",
+      "scene_sha256": "37891e9f13e6214ccae6a8f7d1ea3ba74b70134b8c0fb2b45c53b486507f4459",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-048",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-1-20260913.jpg",
+      "scene_sha256": "37891e9f13e6214ccae6a8f7d1ea3ba74b70134b8c0fb2b45c53b486507f4459",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-096",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-96-geography.jpg",
+      "scene_sha256": "150dc2cf7b0c3e24915468ad178f31563dd2e0ff08311310fa6229cdcef3c9f2",
+      "evidence": "The selected western-bank reach lies south of the present cross-strait transport link, in the same Cape Porcupine coastal corridor. Its northern portion is landward of the modern shore and the southern portion approaches the same coastal bend. This supports one approximate historical shore reference for the Strait of Canso, not its centreline, whole extent or current navigation geometry."
+    },
+    {
+      "annotation_id": "F22-HAW-101",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-101-geography.jpg",
+      "scene_sha256": "6740e75d00e17ac7ba46ef91b054070c1c7f77fc6220d96fb1e4f5d73685c37d",
+      "evidence": "The trace follows the same eastern Little Tracadie Harbour bank between the northern inlet and southern road district. Its central section is displaced west of the modern bank and its southern hook extends inland relative to the modern inlet. Neighbouring shoreline shape and the road/water relationships support broad historical locality with those offsets retained."
+    },
+    {
+      "annotation_id": "F22-HAW-126",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-126-geography.jpg",
+      "scene_sha256": "d810f7898fc197a8a2b82c05c8dd7ca6f004090deb78cac0c48ee65903355266",
+      "evidence": "The full Ghost Beach seaward trace follows the same long barrier west of Long Pond and Highway19. It remains consistently west/seaward of the modern narrow coastal strip, including the southern hook. Pond, barrier and northern/southern connection order support approximate historical locality; the source-derived offset is retained without claiming current beach width or condition."
+    },
+    {
+      "annotation_id": "F22-HAW-139",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-139-geography.jpg",
+      "scene_sha256": "6489a303bf9656310a7eec16cb902c65336ce7528721ea0e26db62d0a77cd88d",
+      "evidence": "The historical McMillan projection lies in the northern landing district of the present cross-strait transport corridor. The modern shore and road arrangement differ substantially around that crossing, while the northern coast, narrows and neighbouring McKeen Point establish the locality. Keep the printed projection as approximate historical evidence; it is not the present land boundary or a surveyed pre-construction footprint."
+    },
+    {
+      "annotation_id": "F22-HAW-142",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-142-geography.jpg",
+      "scene_sha256": "c4dccc2891d6a19683aa7479b9e99e8065f49ac9ddd8d40fabd2431dcc6e1690",
+      "evidence": "The trace follows the recognizable McKeen coastal bulge below the modern Highway19 junction district. The southern hook is slightly seaward and its eastern return differs from the modern bank; neighbouring inlet and cross-strait approach support broad locality with original geometry retained."
+    },
+    {
+      "annotation_id": "F22-HAW-143",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-143-geography.jpg",
+      "scene_sha256": "6bee9da454a2914fb2f07069f8b0f1b80cfb82a74c38d5aac65b315b67b79869",
+      "evidence": "The Cape Porcupine trace follows the same western coast south of the present cross-strait transport link. Its northern portion is displaced landward and its southern part approaches the modern coastal bend near the drainage outlet. The paired shoreline context supports approximate locality, not an exact current shore or explanation for the offset."
+    },
+    {
+      "annotation_id": "F22-HAW-144",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-144-geography.jpg",
+      "scene_sha256": "90cf84540eedaaa26197059dfa5369ec2683bc009e471e20f3b642a9be0e48ca",
+      "evidence": "The full reach follows the eastern Plaster Cove coastal corridor south of the Hastings inlet district. The northern inlet/transport crossing and broad southeast coastal sweep agree in locality, with minor lateral offsets and differing roads. Retain the source bank rather than replacing it with the modern coast."
+    },
+    {
+      "annotation_id": "F22-HAW-149",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-149-geography.jpg",
+      "scene_sha256": "efe1f10679afe0fcbbba613c107fcbf63202fb8237747623b8c1b7fb77394fb3",
+      "evidence": "The bounded Keaton Point reach follows the same northern shoulder and south-running coast beside the western drainage outlet. The broad corner is recognizable; smaller bank bends and the southern endpoint remain offset. This supports approximate historical locality without snapping the source trace."
+    },
+    {
+      "annotation_id": "F22-HAW-180",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-3-20260913.jpg",
+      "scene_sha256": "05df1117288690db5b41dc834f0307fae96d04e24765dc0da5ae7b0a0c771d16",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-183",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-3-20260913.jpg",
+      "scene_sha256": "05df1117288690db5b41dc834f0307fae96d04e24765dc0da5ae7b0a0c771d16",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-211",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-211-geography.jpg",
+      "scene_sha256": "360d3afb99f742aeb7c653d1244dd1a8c8d54d21abe7885dae72b68583c7d664",
+      "evidence": "The historical Grant Point bulge remains in the Hawkesbury waterfront district south of Emery Pond. Most of the trace lies landward of the modern outer shoreline and within the present street district; the pond, adjoining coast and southern wharf district establish the broad locality. Current shore geometry and the cause of the difference are not inferred from this comparison."
+    },
+    {
+      "annotation_id": "F22-HAW-213",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-213-geography.jpg",
+      "scene_sha256": "2dea531b14b03b8a9e4def8e39cb74c64b435d98186364235e66e27b460955a3",
+      "evidence": "The Point Tupper trace lies at the same northern headland opposite the Hawkesbury shore. The modern outline has additional projections, and the historical tip/western bank lie inland of that outline. Headland and harbour orientation support approximate historical locality, without equating the old trace to a current boundary or dating shoreline changes."
+    },
+    {
+      "annotation_id": "F22-HAW-215",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-215-geography.jpg",
+      "scene_sha256": "261d32d8ea940ef6718d55a48e014fe436f8cf47df8c93b69be5b1935a9088bc",
+      "evidence": "The Wylde’s Cove reach occupies the same coastal recess immediately south of Port Mulgrave. Its northern end approaches the modern shore/stream district, while the southern portion lies landward of the present outer coastal strip. The neighbouring road and broader shore arrangement support approximate historical locality; the terminal structure is separate."
+    },
+    {
+      "annotation_id": "F22-HAW-222",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-222-geography.jpg",
+      "scene_sha256": "215e0d7b0dd9bd3810b839f1e0495390b505a20f3bfd7424ee4e3de61983651d",
+      "evidence": "The Madden Point reach follows the same broad western headland below Point Tupper and above Madden Cove. It is consistently seaward of the modern smaller shoreline bends. Point/cove order and the inland transport corridor support approximate historical locality with that offset retained."
+    },
+    {
+      "annotation_id": "F22-HAW-228",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-228-geography.jpg",
+      "scene_sha256": "2c29e1d4d90e71d97dff20555dd750472219dc5329ce2fbc90557d2e1b9a554e",
+      "evidence": "The Ship Harbour reach follows the northern waterfront between the Hawkesbury wharf district and the eastern harbour/transport narrowing. Much of the trace is inland of the modern outer coast, especially toward its eastern end. Opposing Point Tupper and the harbour orientation establish broad locality; the comparison does not establish the timing or cause of shoreline differences."
+    },
+    {
+      "annotation_id": "F22-HAW-244",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-4-20260913.jpg",
+      "scene_sha256": "49f49af48b285bb4a197eb3199d98be5ac14c02eace0a97c4c72058a64d859c4",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-254",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-4-20260913.jpg",
+      "scene_sha256": "49f49af48b285bb4a197eb3199d98be5ac14c02eace0a97c4c72058a64d859c4",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-255",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-4-20260913.jpg",
+      "scene_sha256": "49f49af48b285bb4a197eb3199d98be5ac14c02eace0a97c4c72058a64d859c4",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-256",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-4-20260913.jpg",
+      "scene_sha256": "49f49af48b285bb4a197eb3199d98be5ac14c02eace0a97c4c72058a64d859c4",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-270",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-270-geography.jpg",
+      "scene_sha256": "43dcf228a1be424e091d148b7f52d276de91664eea88fc657c42cfdc5ae461f2",
+      "evidence": "The Pirate Harbour reach follows the same hooked eastern projection and southeast bank beside the East Brook inlet. The two small source projections have recognizable modern coastal counterparts, with local offsets at their tips and the bank between them. The current highway differs from the historical road; no harbour access or navigable route is inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-274",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-274-geography.jpg",
+      "scene_sha256": "48e9321ab37c7c2c4821f4af67b95e555cedaa8f72410cc51a068da851d13d1b",
+      "evidence": "The Madden Cove reach remains in the recess between Madden and Peebles Points beside the small coastal waterbody and inland transport corridor. The northern segment is seaward and the southern segment landward of the modern outer bank; the indentation and neighbouring point order support only broad historical locality with all offsets retained."
+    },
+    {
+      "annotation_id": "F22-HAW-276",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-276-geography.jpg",
+      "scene_sha256": "73cce31a6193e8fe124a9a5e90aebc5c9b9acea7eac61b25868507d42f2323a0",
+      "evidence": "The Peebles Point reach lies below Madden Cove and follows the same west-to-southeast turn of the coastal corridor. The northern segment is inland and the southern portion seaward of the modern outline. Neighbouring inlet and transport geometry support approximate locality; the source pond and present water polygons are not equated."
+    },
+    {
+      "annotation_id": "F22-HAW-277",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coast-277-geography.jpg",
+      "scene_sha256": "faef0f2e107000f98c14bfa5fa627ba4a000b8bd4165462638a2f2a09a78b5dd",
+      "evidence": "The Roger Point reach follows the same eastern coastal bulge below Pirate Harbour. The central turn and southern drainage district are recognizable, with small lateral differences near the northern bank and southern endpoint. The source coast remains separate from the modern highway and is not a current shoreline claim."
+    },
+    {
+      "annotation_id": "F22-HAW-286",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-5-20260913.jpg",
+      "scene_sha256": "a9c4c9a0343c1a24cb50d74437dc818bd4eb97555075fe8110ee7f84bf3b9810",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-287",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-5-20260913.jpg",
+      "scene_sha256": "a9c4c9a0343c1a24cb50d74437dc818bd4eb97555075fe8110ee7f84bf3b9810",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-288",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coasts-5-20260913.jpg",
+      "scene_sha256": "a9c4c9a0343c1a24cb50d74437dc818bd4eb97555075fe8110ee7f84bf3b9810",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
     }
   ]
 }
