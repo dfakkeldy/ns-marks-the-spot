@@ -1,7 +1,7 @@
 {
   "sheet": 22,
   "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
-  "source_review_sha256": "d96b10259bf6f92d347072fba4bebfe345f5e3ba304d2cf5ad6bfda660802dbf",
+  "source_review_sha256": "5918e83f04d5d9c8731f22e1e01b9f92e5820305dc277781077c35eaf1659498",
   "reviews": [
     {
       "annotation_id": "F22-HAW-001",
@@ -2408,6 +2408,366 @@
       "scene": "hawkesbury-coasts-5-20260913.jpg",
       "scene_sha256": "a9c4c9a0343c1a24cb50d74437dc818bd4eb97555075fe8110ee7f84bf3b9810",
       "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve the actual native bank trace or shoal-symbol group without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-016",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-16-geography.jpg",
+      "scene_sha256": "930812947b17a125627e8672d076ce2c6c0f2f911b4fd7bb5cc945d5902dfbf2",
+      "evidence": "The mark remains between the General Line road corridor and Northwest Arm drainage, northwest of the eastern crossing and north of the southern tributary district. Modern roads and stream relationships support broad locality, with local offsets retained. This is approximate placement of a historical ice-groove annotation, not confirmation of a surviving exposure or measured direction."
+    },
+    {
+      "annotation_id": "F22-HAW-021",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-1-20260913.jpg",
+      "scene_sha256": "b4b93042f6f865259eee220bdcd640706231fdb285d248ad2a7380b6e58ae0e9",
+      "evidence": "Coal said to have been found here is a qualified historical statement beside the Lainey Brook/fault district. No unique coal, pit or mine mark is attached to this caption. Keep its wording and unlocated status; nearby dots, fault boundaries and the lettering centre do not establish a coal site. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-080",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-1-20260913.jpg",
+      "scene_sha256": "b4b93042f6f865259eee220bdcd640706231fdb285d248ad2a7380b6e58ae0e9",
+      "evidence": "Barrens names a broad landscape without a distinct vegetation boundary or associated site glyph. Geological colour, streams, road and dip arrows are separate evidence. Do not invent a barren-area polygon or a feature point from the caption. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-091",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-91-geography.jpg",
+      "scene_sha256": "696667a482fe7166dc65117f1c58763381536f4576e453f9cbaa6879f8f524e4",
+      "evidence": "The complete bounded proposal remains east of the western road/drainage corridor and crosses the same sequence of northern tributary, Sugar Camp/Northwest Arm and southern drainage districts. Local channel and road offsets remain visible. These surroundings support approximate projection of the historical proposal; no modern rail correspondence, constructed route or operational status is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-092",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-92-geography.jpg",
+      "scene_sha256": "718c1ad97a1b4748020295ec4556beb236b2f2609e39876d105e3133e2f42219",
+      "evidence": "The survey wording is geographically attached to the same bounded historical railway proposal as annotation91. The surrounding road and drainage sequence supports approximate locality with the same offsets; the source survey date is retained as a historical statement, not verification that the proposed railway was built."
+    },
+    {
+      "annotation_id": "F22-HAW-122",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-1-20260913.jpg",
+      "scene_sha256": "b4b93042f6f865259eee220bdcd640706231fdb285d248ad2a7380b6e58ae0e9",
+      "evidence": "The distributed ANTIGONISH caption is an administrative-region label, not a point or a closed region boundary. Its lettering and context are retained; the separately reviewed county-line segment cannot establish a complete county polygon. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-133",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-133-geography.jpg",
+      "scene_sha256": "f781b2771315e4143fe251d2174446797ed1a9a39444763ce2e1799abf685da5",
+      "evidence": "The western Cable mark lies in the coastal strip south of the narrows and east of Auld Cove. The shoreline and inland road arrangement support broad locality, though the point is landward of the present coast and the modern cross-strait road differs from the source. No current cable facility or route is matched."
+    },
+    {
+      "annotation_id": "F22-HAW-140",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-140-geography.jpg",
+      "scene_sha256": "c742809a9c9fd1cb8326a7a3c3af06cf97a0a4e125746f2ea8a48ae92f190d59",
+      "evidence": "The mark remains in the McMillan Point/northern narrows landing district, near the modern coastal transport crossing. Source and modern shore/road layouts differ, but neighbouring coast and Hastings context establish broad locality. The point represents only the historical printed mark, not a current cable facility."
+    },
+    {
+      "annotation_id": "F22-HAW-141",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-141-geography.jpg",
+      "scene_sha256": "d83b7a1208ac0dce0104204a07a387012cdc25dd3814761d50425c706117ee69",
+      "evidence": "The eastern Cable mark remains south of the narrows and east of the separately retained western mark. The point is inland of the present shoreline; coastal orientation and neighbouring road district support approximate locality. No current cable line, connection between marks or facility identity is inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-146",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-146-geography.jpg",
+      "scene_sha256": "9d884d641d0e25bbba45ebbcdf2be22fc5b8855b24ac08bfdcb974e59aa436c2",
+      "evidence": "The quarry mark lies north of the modern highway bend in the Victoria Road/Hastings inland district, beside the northern stream/road corridor. The source road junction and modern transport layout differ locally. The surrounding drainage and road context support approximate historical locality without identifying a current quarry footprint or condition."
+    },
+    {
+      "annotation_id": "F22-HAW-150",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-150-geography.jpg",
+      "scene_sha256": "cdb2a61f58174578f98f4e5d9fc16ad61cb9340ad2cbd8043d35689ce4a303d2",
+      "evidence": "Old Cable remains beside the western coastal drainage outlet at the northern shoulder of Keaton Point. The coastal bend and outlet district support approximate locality, with the source point retained slightly inland. No surviving cable installation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-154",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-2-20260913.jpg",
+      "scene_sha256": "48e484a54a3f83af02187a6378f36491ee5e0357f92a0e9cd83757ed10ccbb08",
+      "evidence": "Barren is a broad landscape caption above the road district, without a distinct associated site mark or land-cover boundary. The diagonal geological stripes and dotted contact cannot be treated as barren-land extent. Retain the unlocated annotation. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-169",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-169-geography.jpg",
+      "scene_sha256": "73484deb6ea016c8de4d6b92d62f2d0964bf6710f7d83855e979e6d5a76a8709",
+      "evidence": "The proposal follows the same broad northeast corridor east of Beaver Dam Lake and south/east of the McIntyre Lake district, with the eastern road/stream crossings in the same order. The proposed alignment does not require a matching modern rail line. Local source-fit and lake/road offsets remain; it is historical route-planning evidence only."
+    },
+    {
+      "annotation_id": "F22-HAW-170",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-170-geography.jpg",
+      "scene_sha256": "6422dd8f0393700a3883f2e4d05898a9d0c0b46e5689d6235af9703c99af6d66",
+      "evidence": "The printed county-line segment crosses the same broad district from the eastern McIntyre Lake road area toward the northeastern river/road approach. The surrounding waterways and crossings support approximate projection, while the current road configuration differs. No modern county or parcel-boundary correspondence is claimed."
+    },
+    {
+      "annotation_id": "F22-HAW-194",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-194-geography.jpg",
+      "scene_sha256": "8fd94b7ad66a5bb70f0f01122884959429c5ee50fd690abb889f49e710fc8813",
+      "evidence": "The small source loop projects near the same tributary/confluence district at the southern end of the northern Tracadie reach. The modern channel skirts the source group and roads differ locally, so this supports only approximate historical locality. The group is not a current pool footprint, depth or fishing-condition claim."
+    },
+    {
+      "annotation_id": "F22-HAW-216",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-216-geography.jpg",
+      "scene_sha256": "3ba4285db0fb97ab3bb8eda7d64dc9075eb950661b2e28fa024632aadfc98bea",
+      "evidence": "The terminal projection remains immediately south of Port Mulgrave along the Wylde’s Cove waterfront. Its group straddles the present outer shore in the same road/coastal recess district. This supports approximate historical locality without matching a current structure or access route."
+    },
+    {
+      "annotation_id": "F22-HAW-219",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-3-20260913.jpg",
+      "scene_sha256": "240f540ff8e38704d60873875cfa1d854e3b7239da697b1604eb665ebbde5cdd",
+      "evidence": "The apparent small mark below Quarry was inspected at 6x and rejected: it is the hooked descender of the italic y. No separate individual quarry symbol is resolved among the adjacent geological/contact hatching and watercourse. Preserve the rejected point candidate and retain the annotation as unlocated. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-224",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-3-20260913.jpg",
+      "scene_sha256": "240f540ff8e38704d60873875cfa1d854e3b7239da697b1604eb665ebbde5cdd",
+      "evidence": "Black shale follows the roadside geological district, but the scan does not distinguish a bounded shale exposure from the parallel road strokes or provide a separate outcrop mark. Retain the wording unlocated; do not turn a road, stripe, caption centre or broad geological unit into an exposure footprint. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-232",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-4-20260913.jpg",
+      "scene_sha256": "df88a54680e534753a49a927c138daaec34c8e5726a56c1d313eb6e082b5d933",
+      "evidence": "Rocky Barrens spans the railway/road district without a discrete site mark or boundary defining its full landscape extent. The rail curves and geological stripes are separate. Retain the unlocated caption rather than inventing a polygon. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-237",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-237-geography.jpg",
+      "scene_sha256": "f7650af317537a98095f704c2e918275ce3550a58af0f593d003e6f1848a00f3",
+      "evidence": "The pit mark remains south of the Mines Road corridor and north of the Little River water district. The surrounding road/tributary arrangement supports broad locality despite the differing modern water extent. No current excavation, subsurface material quantity or site condition is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-238",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-4-20260913.jpg",
+      "scene_sha256": "df88a54680e534753a49a927c138daaec34c8e5726a56c1d313eb6e082b5d933",
+      "evidence": "Shales with small pieces of coal is a geological observation below the Pit district. No separate outcrop mark or exposure boundary is attached to the observation. The neighbouring pit is preserved as annotation237, but its point is not silently promoted to the exact extent/location of this broader material statement. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-240",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-4-20260913.jpg",
+      "scene_sha256": "df88a54680e534753a49a927c138daaec34c8e5726a56c1d313eb6e082b5d933",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve its native point or line without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-242",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-4-20260913.jpg",
+      "scene_sha256": "df88a54680e534753a49a927c138daaec34c8e5726a56c1d313eb6e082b5d933",
+      "evidence": "Barren is printed within the broad geological district between the railway and pond, without an associated site symbol or vegetation boundary. Preserve the unlocated caption; the geological stripes and stream network do not define barren-land extent. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-257",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-4-20260913.jpg",
+      "scene_sha256": "df88a54680e534753a49a927c138daaec34c8e5726a56c1d313eb6e082b5d933",
+      "evidence": "Barren lies within the broad River Point/Richmond district with no distinct site glyph or vegetation boundary. The nearby compact mark belongs to separate site evidence and is not assigned to this landscape caption. Retain the annotation unlocated. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-258",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-5-20260913.jpg",
+      "scene_sha256": "aec921a44af9372bb433e596cebc007265731c7fd483c4f088c6f5e7b395e1dd",
+      "evidence": "The retained R I lettering is an incomplete distributed administrative-region caption. Preserve those exact letters and source boxes without expanding them into a guessed name, point or county polygon. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-259",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-5-20260913.jpg",
+      "scene_sha256": "aec921a44af9372bb433e596cebc007265731c7fd483c4f088c6f5e7b395e1dd",
+      "evidence": "The distributed GUYSBOROUGH caption identifies a broad administrative region without defining a closed region geometry. Preserve the source lettering and context; no label centre, modern boundary or arbitrary whole-sheet area is substituted. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-263",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-5-20260913.jpg",
+      "scene_sha256": "aec921a44af9372bb433e596cebc007265731c7fd483c4f088c6f5e7b395e1dd",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve its native point or line without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-264",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-5-20260913.jpg",
+      "scene_sha256": "aec921a44af9372bb433e596cebc007265731c7fd483c4f088c6f5e7b395e1dd",
+      "evidence": "Q. veins in slate is printed near the lower sheet edge, without a distinct attached vein trace or exposure boundary. The neighbouring Pit mark is separate annotation263. Preserve the abbreviation and statement without converting the pit, road, dip arrow or lettering centre into a quartz-vein location. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-267",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-5-20260913.jpg",
+      "scene_sha256": "aec921a44af9372bb433e596cebc007265731c7fd483c4f088c6f5e7b395e1dd",
+      "evidence": "The apparent small mark below Quarry was inspected at 6x and rejected because it is the hooked descender of the italic y. Adjacent geological/contact hatching does not resolve an individual quarry site. Preserve the rejected candidate and keep this annotation unlocated. No map feature is exported; the original lettering evidence remains retained separately."
+    },
+    {
+      "annotation_id": "F22-HAW-291",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-5-20260913.jpg",
+      "scene_sha256": "aec921a44af9372bb433e596cebc007265731c7fd483c4f088c6f5e7b395e1dd",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve its native point or line without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-292",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-292-geography.jpg",
+      "scene_sha256": "11a4ef6becaa34f2641f7cbcfcac3562250c3beb3226a6f142c5bb71cdab7a61",
+      "evidence": "The printed fault band remains in the road/river district north of Askilton; the eastern channel and adjoining transport corridor support approximate regional placement. The western source-road crossing differs locally. This review checks the historical map’s locality, not a modern fault trace or geological activity."
+    },
+    {
+      "annotation_id": "F22-HAW-293",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-293-geography.jpg",
+      "scene_sha256": "87250b3925197cafd1918c144d273fe413773118ffa886c9017cfe67547bdcf0",
+      "evidence": "The fault band projects west of the Long Stretch Bridge river/road corridor and east of the western water district, with the same northern tributary and southern crossing order. Local road and stream offsets remain. It is a historical geological interpretation, not a present fault-location or activity claim."
+    },
+    {
+      "annotation_id": "F22-HAW-294",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-294-geography.jpg",
+      "scene_sha256": "47e99e3e9ebc642a1e6e0e3d1ab7ba09741f55e76f8542ec135a58667efa33fe",
+      "evidence": "The fault band remains east of the western road and west of the proposed-railway/Black Brook district. Northern drainage and southern road/tributary context support approximate regional placement with offsets retained. No independent geological verification or current fault activity is inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-295",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-295-geography.jpg",
+      "scene_sha256": "82c257eb9d602198c6990e32368ca9205c206ef2c71e2f64e3e007f55d3ac8cc",
+      "evidence": "The fault band remains between the northern Little River branch junction and the southern Saint Peter’s Road corridor. The stream crossing is displaced and the modern highway differs from the source road. These features support broad map locality only; the historical fault interpretation is not promoted to current geological evidence."
+    },
+    {
+      "annotation_id": "F22-HAW-296",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-296-geography.jpg",
+      "scene_sha256": "1d41620cd7b9b97d0e58411058d908d4694ed430d5cfe6a222769aef855a979e",
+      "evidence": "The fault band projects through the Richmond Mine/Mines Road district north of the Little River water area. The adjoining tributaries and east-west road corridor support approximate regional placement, with road and water-layout differences retained. The source line is not a modern fault survey or resource assessment."
+    },
+    {
+      "annotation_id": "F22-HAW-297",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-6-20260913.jpg",
+      "scene_sha256": "1dc1d4e767255f8ced93329923c164c8e1a847d5f4491898953daf639fc8bb3e",
+      "evidence": "The complete source geometry extends outside the current conservative control hull. Preserve its native point or line without public placement until local geographic support is established. No trimming, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-298",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-298-geography.jpg",
+      "scene_sha256": "57bad98ba709e1747992b4066371b2f692cb8806e4f9e60ae45b715775d9894c",
+      "evidence": "The fault band remains west of the Richmond coastal district and southeast of the northern pond. The coastline, tributary sequence and inland road district support approximate regional placement despite local offsets. This does not establish current fault activity, subsurface geometry or modern geological classification."
+    },
+    {
+      "annotation_id": "F22-HAW-299",
+      "status": "outside-fit-neatline",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-7-20260913.jpg",
+      "scene_sha256": "ea60b54a5cc7097b1c207e9962710ebf8dce805d6dfaaf5fc2761abd0ea68797",
+      "evidence": "The complete printed fault segment extends outside the current fit neatline. Preserve its exact native trace with no public placement. Do not trim the eastern portion or extrapolate beyond supported source coverage."
+    },
+    {
+      "annotation_id": "F22-HAW-300",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-300-geography.jpg",
+      "scene_sha256": "26ca0e9c09d138f44ed9190e9d8e8ad5ebbcc6be411b20ff22cb9e525492f3ea",
+      "evidence": "The red source patch remains on the coast north of the McDonald Brook mouth and east of the inland road corridor. The group straddles the modern coastal edge, with small shoreline and mouth offsets. This supports approximate placement of the printed dyke patch, not a surveyed current outcrop or access conclusion."
+    },
+    {
+      "annotation_id": "F22-HAW-301",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-final-301-geography.jpg",
+      "scene_sha256": "b876b0c3ff89a0ca6e3d5110f86f8cad1aed20ccecc8f131ec6c7abbb0c92e9e",
+      "evidence": "The red source patch remains at the broad Cape Porcupine inland transport bend between the western drainage and eastern water district. The surrounding routes and streams support approximate locality while the source railway/modern transport alignment differs. No current dyke exposure, facility or geological condition is asserted."
     }
   ]
 }
