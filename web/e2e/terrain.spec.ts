@@ -12,7 +12,9 @@ const transparent = createCanvas(256, 256).toBuffer('image/png');
 test.use({ launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] } });
 
 for (const width of [390, 1440]) test(`3D parcel identify and return to 2D at ${width}px`, async ({ page }) => {
-  test.setTimeout(45000);
+  // Hosted software rendering is substantially slower than a desktop GPU;
+  // keep individual assertions bounded while allowing the full gesture flow.
+  test.setTimeout(120000);
   await page.setViewportSize({ width, height: 900 });
   await page.addInitScript(() => localStorage.setItem('ns-marks-the-spot:province-license:v1', 'accepted'));
   const errors: string[] = [], identified: number[][] = [];
