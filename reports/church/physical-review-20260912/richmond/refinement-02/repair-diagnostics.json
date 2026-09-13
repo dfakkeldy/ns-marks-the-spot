@@ -1,0 +1,100 @@
+{
+  "baseline_csv_sha256": "8c53529c500f96a362bb7c9a316a0194f77a862b01355d6cc353185e428289af",
+  "new_control_sha256": "56a6044fa7a16d1e12783e0cf979e45a768455570368ee6953b8693f99b72459",
+  "check_status": "Same six diagnostic coordinates; no check moved or fitted. Fresh check identities are selected only after this fit is frozen.",
+  "models": {
+    "baseline-six-tps": {
+      "points": [
+        {
+          "label": "supply-08",
+          "error_ground_m": 52.43292179142793
+        },
+        {
+          "label": "supply-15",
+          "error_ground_m": 322.689285562847
+        },
+        {
+          "label": "supply-18",
+          "error_ground_m": 67.70323417452053
+        },
+        {
+          "label": "supply-23",
+          "error_ground_m": 122.88543722703747
+        },
+        {
+          "label": "Blake Island corrected centroid",
+          "error_ground_m": 144.52252642056936
+        },
+        {
+          "label": "D01",
+          "error_ground_m": 53.34315165269294
+        }
+      ],
+      "rms_ground_m": 158.26896799227737,
+      "max_ground_m": 322.689285562847
+    },
+    "seven-affine": {
+      "points": [
+        {
+          "label": "supply-08",
+          "error_ground_m": 198.13562935450065
+        },
+        {
+          "label": "supply-15",
+          "error_ground_m": 114.9879484671068
+        },
+        {
+          "label": "supply-18",
+          "error_ground_m": 68.4644526425952
+        },
+        {
+          "label": "supply-23",
+          "error_ground_m": 356.599684370301
+        },
+        {
+          "label": "Blake Island corrected centroid",
+          "error_ground_m": 183.2782861945586
+        },
+        {
+          "label": "D01",
+          "error_ground_m": 80.23122941312178
+        }
+      ],
+      "rms_ground_m": 193.3729783107342,
+      "max_ground_m": 356.599684370301
+    },
+    "seven-tps": {
+      "points": [
+        {
+          "label": "supply-08",
+          "error_ground_m": 53.94766439360085
+        },
+        {
+          "label": "supply-15",
+          "error_ground_m": 56.86908765546922
+        },
+        {
+          "label": "supply-18",
+          "error_ground_m": 47.06790560063676
+        },
+        {
+          "label": "supply-23",
+          "error_ground_m": 164.62554112094435
+        },
+        {
+          "label": "Blake Island corrected centroid",
+          "error_ground_m": 90.21626607796031
+        },
+        {
+          "label": "D01",
+          "error_ground_m": 79.63409565606248
+        }
+      ],
+      "rms_ground_m": 91.23409816445864,
+      "max_ground_m": 164.62554112094435
+    }
+  },
+  "frozen_fit_csv_sha256": "b7dc6719747a32d2fc4c64cc65df45514cac20ab7a9b7bad69768710035da7f6",
+  "selected_model": "tps",
+  "geographic_acceptance": false
+}

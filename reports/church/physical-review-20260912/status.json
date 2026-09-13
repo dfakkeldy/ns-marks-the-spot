@@ -13,27 +13,30 @@
   ],
   "new_artifact": {
     "county": "richmond",
-    "status": "provisional refined physical TPS",
-    "controls": 6,
+    "status": "provisional seven-control TPS with four fresh regional checks",
+    "controls": 7,
     "diagnostic_checks": 6,
-    "fresh_validation_checks": 0,
+    "fresh_validation_checks": 4,
     "source_frame": [
       35735,
       30429
     ],
-    "csv": "richmond/refinement-01/richmond-refined.csv",
+    "csv": "richmond/refinement-02/richmond-refined-v2.csv",
+    "diagnostic_review_csv": "richmond/refinement-02/frozen-fit.csv",
+    "fresh_validation_review_csv": "richmond/refinement-02/fresh-validation-review.csv",
     "transform": "TPS",
-    "same_four_diagnostic_rms_ground_m": 177.87786884883735,
-    "six_diagnostic_rms_ground_m": 158.26896799227737,
-    "full_raster_receipt": "richmond/refinement-01/artifact-receipt.json",
-    "browser_receipt": "richmond/refinement-01/browser-verification.json",
-    "coverage_receipt": "richmond/refinement-01/coverage.json"
+    "six_diagnostic_rms_ground_m": 91.23409816445864,
+    "fresh_rms_ground_m": 265.3758441801879,
+    "fresh_max_ground_m": 382.03591467060266,
+    "full_raster_receipt": "richmond/refinement-02/artifact-receipt.json",
+    "browser_receipt": "richmond/refinement-02/browser-verification.json",
+    "coverage_receipt": "richmond/refinement-02/coverage.json"
   },
   "unfinished": {
     "richmond": [
-      "Fresh geographically distributed validation beyond the six diagnostic checks",
-      "Saint Esprit Lake check remains at 323 m; Barque improved to 123 m",
-      "Northern and edge geographic coverage and provisional boundary review"
+      "Western support: fresh F02/F03 outside the control hull score 325/382 m; retain first fresh results before using them diagnostically in any later repair",
+      "Fresh coverage near Grand Narrows and far eastern/southern edges; four fresh checks remain below the per-panel minimum",
+      "Provisional content-boundary edge review"
     ],
     "inverness-north": [
       "Replace graticule-only geography with distributed physical controls",
@@ -66,5 +69,25 @@
     "full_raster_receipt": "richmond/artifact-receipt.json",
     "browser_receipt": "browser-verification.json",
     "coverage_receipt": "richmond/coverage.json"
-  }
+  },
+  "artifact_history": [
+    {
+      "county": "richmond",
+      "status": "provisional refined physical TPS",
+      "controls": 6,
+      "diagnostic_checks": 6,
+      "fresh_validation_checks": 0,
+      "source_frame": [
+        35735,
+        30429
+      ],
+      "csv": "richmond/refinement-01/richmond-refined.csv",
+      "transform": "TPS",
+      "same_four_diagnostic_rms_ground_m": 177.87786884883735,
+      "six_diagnostic_rms_ground_m": 158.26896799227737,
+      "full_raster_receipt": "richmond/refinement-01/artifact-receipt.json",
+      "browser_receipt": "richmond/refinement-01/browser-verification.json",
+      "coverage_receipt": "richmond/refinement-01/coverage.json"
+    }
+  ]
 }

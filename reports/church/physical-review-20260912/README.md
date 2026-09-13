@@ -1,9 +1,10 @@
 # Church physical-feature resumption — 12 September 2026
 
-**Latest draft:** [Richmond refinement 01](richmond/refinement-01/README.md) adds
-two reviewed physical controls and a TPS fit. RMS on the unchanged four checks
-is now 178 m, and the expanded six-check diagnostic RMS is 158 m. The initial
-affine experiment below remains preserved; county-wide acceptance is still pending.
+**Latest draft:** [Richmond refinement 02](richmond/refinement-02/README.md)
+adds the Blue Lake outlet as a seventh control. Saint Esprit falls from 323 m to
+57 m, and the same six diagnostic checks fall from 158 m RMS to 91 m. Four fresh
+northern/western checks score 265 m RMS and reveal weaker western extrapolation.
+Earlier experiments below remain preserved; county-wide acceptance is pending.
 
 The four-county task remains incomplete. Richmond has a new, reversible affine
 GeoTIFF draft with reviewed physical controls and a larger content boundary.

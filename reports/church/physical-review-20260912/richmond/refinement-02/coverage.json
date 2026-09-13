@@ -1,0 +1,10 @@
+{
+  "raster": "/var/home/dan/nsmarks-church-20260912/refined-tps-v2/richmond-refined-v2-tps-5m.tif",
+  "raster_sha256": "b0bf1c8dfb7fa8e255498731e9848a940fb0aa60710c81839710f366ab5c3702",
+  "cutline_sha256": "79c400443a0bf859fda2abd537f2051c7f16765ee989d85a7cee25a58ef5bc80",
+  "expected_interior_cells": 327156332,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}
