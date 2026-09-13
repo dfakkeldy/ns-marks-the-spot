@@ -1,0 +1,606 @@
+{
+  "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+  "raster_sha256": "b49f81d7a6533e753def1c698e20b25e5fa8134ed2b67bf17bf0c73b7817bec1",
+  "reference_receipts": [
+    {
+      "name": "water-lines",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4/query",
+      "bbox": "-61.63,45.54,-61.18,45.78",
+      "count": 3223,
+      "sha256": "9441acf248cdc6c1cdd238cd44233cf37a4732c80ae138106d3ff8c2e1ffd31e",
+      "retrieved_utc": "2026-09-06T13:10:08.550872+00:00"
+    },
+    {
+      "name": "roads",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/8/query",
+      "bbox": "-61.63,45.54,-61.18,45.78",
+      "count": 4146,
+      "sha256": "47790c23c04c173db32d16bb0994e0793b702551179affcc5f0e182f05b51507",
+      "retrieved_utc": "2026-09-06T13:10:20.837730+00:00"
+    },
+    {
+      "name": "rail",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/6/query",
+      "bbox": "-61.63,45.54,-61.18,45.78",
+      "count": 328,
+      "sha256": "0a259c6d3d31f708fa96a643141aaae82e04ff903d9df165581719c46439803f",
+      "retrieved_utc": "2026-09-06T13:10:22.894079+00:00"
+    },
+    {
+      "name": "water-polygons",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/8/query",
+      "bbox": "-61.63,45.54,-61.18,45.78",
+      "count": 1687,
+      "sha256": "88e5f560eddf452c93c7a054e6fb929734ae4364ebee362d70f5203e8f591144",
+      "retrieved_utc": "2026-09-06T13:10:30.280695+00:00"
+    },
+    {
+      "name": "highways",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/7/query",
+      "bbox": "-61.63,45.54,-61.18,45.78",
+      "count": 288,
+      "sha256": "dca2e3686d0a331b9b3f725c0f82dfd1322cdb7e158bee10632a1337c79a6612",
+      "retrieved_utc": "2026-09-13T01:47:51.137542+00:00",
+      "outSR": 4326,
+      "outFields": "*",
+      "pagination": "1000 records per page; exceededTransferLimit honored; unique OBJECTIDs verified",
+      "highway19_object_ids": [
+        3684,
+        3718,
+        3839,
+        4542,
+        6513,
+        41903,
+        41905,
+        43169,
+        44638,
+        48684,
+        48721,
+        54194,
+        54498,
+        57762,
+        60495,
+        61245,
+        61246,
+        148738,
+        157124,
+        157125,
+        157126,
+        157139,
+        157163,
+        157164,
+        157165,
+        259837,
+        259838,
+        277418,
+        277419,
+        277420,
+        314139,
+        314140,
+        314681,
+        314682,
+        314699,
+        314701
+      ]
+    },
+    {
+      "name": "bridges",
+      "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Roads_UT83/MapServer/5/query",
+      "bbox": "-61.63,45.54,-61.18,45.78",
+      "count": 103,
+      "sha256": "78ddd46c42fd307ecbac0a98bc7730e89ad4729a82e3412d10bd54a564248745",
+      "retrieved_utc": "2026-09-13T01:47:51.558430+00:00",
+      "outSR": 4326,
+      "outFields": "*",
+      "pagination": "1000 records per page; exceededTransferLimit honored; unique OBJECTIDs verified",
+      "highway19_object_ids": [
+        41904
+      ]
+    }
+  ],
+  "coordinate_convention": "North up; identical EPSG:3857 extent in raster and independent-vector panels. Extent is in projected metres, not ground metres.",
+  "scenes": [
+    {
+      "name": "craignish-church",
+      "annotation_ids": [
+        "F22-HAW-004"
+      ],
+      "extent_epsg3857": [
+        -6842853.4954083,
+        5736408.51978996,
+        -6840253.4954083,
+        5739008.51978996
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "hawkesbury-craignish-church-geography.jpg",
+      "image_sha256": "d966636118ca4d6e79f0eb14b72b22d92ea250763fbfae727cde3bd0db19c7b2",
+      "context_object_ids": {
+        "water-lines": [
+          10130,
+          10131,
+          10132,
+          10153,
+          10154,
+          210055,
+          212064,
+          212065,
+          212066,
+          212067,
+          212068,
+          212203,
+          212208,
+          286475,
+          286476
+        ],
+        "roads": [
+          24899,
+          35521,
+          35562,
+          35615,
+          38317,
+          51817,
+          54797,
+          54834,
+          55248,
+          57384,
+          59357,
+          59374,
+          59407,
+          88118,
+          117348,
+          118207,
+          132918,
+          132920,
+          132921,
+          132922,
+          132923,
+          132924,
+          132926,
+          132927,
+          132928,
+          133308,
+          133309,
+          133310,
+          133311,
+          137289,
+          137290,
+          142158,
+          142441,
+          142463,
+          157148,
+          157149,
+          157537
+        ],
+        "rail": [],
+        "water-polygons": [
+          2,
+          1363,
+          86124
+        ],
+        "highways": [
+          3718,
+          157139,
+          259837
+        ],
+        "bridges": []
+      },
+      "highway19_label_drawn": true,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "craignish-school",
+      "annotation_ids": [
+        "F22-HAW-008"
+      ],
+      "extent_epsg3857": [
+        -6839812.87661879,
+        5737399.12428495,
+        -6837212.87661879,
+        5739999.12428495
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "hawkesbury-craignish-school-geography.jpg",
+      "image_sha256": "2753ee162f6677d0feb8740532dc041bc00c98acb14f0cdef9195e5a348cb0d1",
+      "context_object_ids": {
+        "water-lines": [
+          211516,
+          211517,
+          212206,
+          212404,
+          254516,
+          270728,
+          270729,
+          291981,
+          316146
+        ],
+        "roads": [
+          88118,
+          88119,
+          117378,
+          117379,
+          117863,
+          132919,
+          133317,
+          157134,
+          157138,
+          157147,
+          157149,
+          220035,
+          220041,
+          313640,
+          321995
+        ],
+        "rail": [],
+        "water-polygons": [
+          1363,
+          34079,
+          58494,
+          60993,
+          61074,
+          68821,
+          70210,
+          73348,
+          84072,
+          90865,
+          94989
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "denys-north-services",
+      "annotation_ids": [
+        "F22-HAW-023",
+        "F22-HAW-025"
+      ],
+      "extent_epsg3857": [
+        -6830422.852516885,
+        5736741.038185988,
+        -6827822.852516885,
+        5739341.038185988
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "hawkesbury-denys-north-services-geography.jpg",
+      "image_sha256": "33a1d7667e50912e160fe72e10e7f84087008ecdc045947a0bba54bd57e03f05",
+      "context_object_ids": {
+        "water-lines": [
+          168931,
+          223702,
+          224046,
+          268878,
+          268879,
+          269114,
+          270730,
+          270731,
+          270732
+        ],
+        "roads": [
+          246,
+          51698,
+          85534,
+          85653,
+          88327,
+          88328,
+          88331,
+          88338,
+          88947,
+          112320,
+          112323,
+          112324,
+          112397,
+          117968,
+          117971,
+          133634,
+          133641,
+          149272,
+          157140
+        ],
+        "rail": [],
+        "water-polygons": [
+          1363,
+          1940,
+          13632,
+          33628,
+          40534,
+          44885,
+          54544,
+          61970,
+          95669,
+          100945
+        ],
+        "highways": [
+          13630,
+          157132,
+          157134
+        ],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "mcinnes-hill-school",
+      "annotation_ids": [
+        "F22-HAW-026"
+      ],
+      "extent_epsg3857": [
+        -6832501.68850049,
+        5734691.66007889,
+        -6829901.68850049,
+        5737291.66007889
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "hawkesbury-mcinnes-hill-school-geography.jpg",
+      "image_sha256": "3968a44be6887f362963ff2cf5016801b6665c4e4d05755d46150cbc1db253eb",
+      "context_object_ids": {
+        "water-lines": [
+          223583,
+          223703,
+          254517,
+          268878
+        ],
+        "roads": [
+          246,
+          7905,
+          19584,
+          35946,
+          36368,
+          37190,
+          37191,
+          37192,
+          51698,
+          85653,
+          88325,
+          88333,
+          88947,
+          117973,
+          133638,
+          134607,
+          134609,
+          134610,
+          137302,
+          137389,
+          142442
+        ],
+        "rail": [],
+        "water-polygons": [
+          153,
+          1363
+        ],
+        "highways": [
+          13630,
+          35945,
+          36905,
+          45573,
+          157132
+        ],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "askilton-services",
+      "annotation_ids": [
+        "F22-HAW-031",
+        "F22-HAW-032"
+      ],
+      "extent_epsg3857": [
+        -6821491.931463695,
+        5734673.162745446,
+        -6818891.931463695,
+        5737273.162745446
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "hawkesbury-askilton-services-geography.jpg",
+      "image_sha256": "65d621426b210529d96dfaf6fda962f9432dea1aa4a0b2f372602ae62ef24b72",
+      "context_object_ids": {
+        "water-lines": [
+          168757,
+          196402,
+          197909,
+          197910,
+          197911,
+          197917,
+          269271,
+          269272,
+          269378,
+          269379
+        ],
+        "roads": [
+          23316,
+          59581,
+          61243,
+          86002,
+          86004,
+          86006,
+          86008,
+          86253,
+          86256,
+          86260,
+          86261,
+          86638,
+          87025,
+          117323,
+          117327,
+          117698,
+          117699,
+          117700,
+          118062,
+          118063,
+          135534,
+          135537,
+          135539,
+          135543,
+          135544,
+          135545,
+          135546,
+          135547,
+          136843,
+          146347,
+          155680,
+          157315,
+          157316,
+          228327,
+          228332,
+          228333,
+          286646,
+          286648,
+          315098,
+          315100,
+          315101
+        ],
+        "rail": [
+          25053,
+          25054
+        ],
+        "water-polygons": [
+          1363,
+          1940,
+          42989,
+          74117
+        ],
+        "highways": [],
+        "bridges": [
+          157310
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "cape-jack-services",
+      "annotation_ids": [
+        "F22-HAW-041",
+        "F22-HAW-042"
+      ],
+      "extent_epsg3857": [
+        -6854370.837810845,
+        5728111.58850142,
+        -6851770.837810845,
+        5730711.58850142
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "hawkesbury-cape-jack-services-geography.jpg",
+      "image_sha256": "1632e4ff1448595085f850b3fc0b76f5d77be45e5cb3678d3676b46c260873cb",
+      "context_object_ids": {
+        "water-lines": [
+          10087,
+          10088,
+          10126,
+          10127,
+          10128,
+          62952,
+          62953,
+          62954,
+          62955,
+          63357,
+          63358,
+          63359,
+          63360,
+          124987,
+          124988,
+          124989,
+          125441,
+          125442,
+          125443,
+          125444,
+          203158,
+          209174,
+          211505,
+          211638,
+          211776,
+          211777,
+          286336,
+          286760,
+          286761,
+          293310,
+          293311
+        ],
+        "roads": [
+          12723,
+          36906,
+          39496,
+          39498,
+          53747,
+          56549,
+          58441,
+          60821,
+          64259,
+          66928,
+          70018,
+          118879,
+          119248,
+          119388,
+          119413,
+          119514,
+          121076,
+          121906,
+          123822,
+          123833,
+          135364,
+          136296,
+          138123,
+          139782,
+          142786,
+          157495,
+          157498,
+          157501,
+          205948,
+          313458,
+          315353,
+          315354,
+          315355
+        ],
+        "rail": [
+          16990,
+          18156,
+          21390,
+          21793,
+          24797,
+          27187
+        ],
+        "water-polygons": [
+          44,
+          1280,
+          3214,
+          7517,
+          69483,
+          75325,
+          95171,
+          98754,
+          111876,
+          117928,
+          153306
+        ],
+        "highways": [],
+        "bridges": [
+          39496
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    }
+  ]
+}

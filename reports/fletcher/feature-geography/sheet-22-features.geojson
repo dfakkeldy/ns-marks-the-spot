@@ -1,0 +1,2408 @@
+{
+  "type": "FeatureCollection",
+  "sheet": 22,
+  "provenance": {
+    "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+    "fit_pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/380",
+    "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+    "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+    "input_sha256": {
+      "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+      "reports/fletcher/sheet22/boundary.json": "2e58a9529f5dbb238e8739d468a74a3f9c771b2574f1b19c46bf43697c3124fc",
+      "docs/fletcher/label-extraction/highway19-production/sheet-22-reviewed.json": "a17c32b6ad4d8d735fd4eed5098fef8d0798e41e16a0ee2600dfd5c22ec45572",
+      "docs/fletcher/label-extraction/highway19-production/sheet-22-manifest.json": "d2572a87f462c659c0fb60cf04fd71d6042ed7ce99e7a4e184b8761fb42ebe7c",
+      "reports/fletcher/full-sheets/sheet-22-controls.csv": "1e7c4ef6a74e9cc0cba026ac88d4abd69c47dd272845c47d8448568146a60eaa",
+      "reports/fletcher/full-sheets/hawkesbury-boundary-render-receipt.json": "94eb7d2cf08274061d63771b3c58aa740109692ba2c687ce566a6836f340156c",
+      "reports/fletcher/hawkesbury-full-sheet/boundary-diagnostic-checks.json": "baf52a32736f73d3b91e7472dc6aadcd3277184954123b99e2c26f4d03c3a544"
+    },
+    "source_review_inputs_sha256": {
+      "reports/fletcher/feature-geography/sheet-22-source-review.json": "6c1758f5ac0612a5b290efa6fca3dbd8d73068c3cebba63530bacfe48aebfd37",
+      "reports/fletcher/feature-geography/sheet-22-placement-review.json": "1d61770cab3e9f33a74544b8cece1b0d557d066308761abba5ebb942f0298850"
+    }
+  },
+  "coordinate_convention": "Original scan continuous pixel edges x right/y down. No crop offset, resize or half-pixel shift applied. GDAL TPS EPSG:3857 -> OGC:CRS84 longitude/latitude.",
+  "coverage": "Conservative source-control hull and native neatline. Outside records retain null map-derived geometry.",
+  "accuracy": "Approximate historical map projection; fit checks and joins remain uneven. Source review does not prove modern site identity.",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "F22-HAW-001",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F22-HAW-001",
+        "sheet": 22,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-001",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "crop_id": "F22-R01C03",
+          "raw_candidate_id": "F22-R01C03-01",
+          "source_label_boxes_xywh": [
+            [
+              4460,
+              1052,
+              80,
+              30
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred"
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-001",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            4471.5,
+            1085
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The distinct compact school mark is immediately below School, east of the north-south road and north of the crossing watercourse. The shop mark is separate on the western road side; lettering is not used as geometry.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-1-20260912"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            4471.5,
+            1085
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            4170,
+            842,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/4170,842,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-001",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-services-1-20260912.jpg",
+          "scene_sha256": "c61e965293ada93c04dde97b6e6e13db4985da74e43ecc2011d9dad2ac5da051",
+          "evidence": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-002",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F22-HAW-002",
+        "sheet": 22,
+        "name": "Shop",
+        "source_text": "Shop",
+        "kind": "shop",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-002",
+          "source_text": "Shop",
+          "kind": "shop",
+          "reading_status": "clear",
+          "crop_id": "F22-R01C03",
+          "raw_candidate_id": "F22-R01C03-02",
+          "source_label_boxes_xywh": [
+            [
+              4360,
+              1050,
+              61,
+              33
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred"
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-002",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            4445,
+            1075.5
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The distinct compact shop mark is right of Shop and west of the north-south road, opposite the separately marked school. Geological arrows and the road/stream intersection are not the shop site.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-1-20260912"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            4445,
+            1075.5
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            4060,
+            841,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/4060,841,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-002",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-services-1-20260912.jpg",
+          "scene_sha256": "c61e965293ada93c04dde97b6e6e13db4985da74e43ecc2011d9dad2ac5da051",
+          "evidence": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-004",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.458720720466125,
+          45.73327266309684
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-004",
+        "sheet": 22,
+        "name": "R.C.Church",
+        "source_text": "R.C.Church",
+        "kind": "church",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-004",
+          "source_text": "R.C.Church",
+          "kind": "church",
+          "reading_status": "clear",
+          "crop_id": "F22-R01C03",
+          "raw_candidate_id": "F22-R01C03-04",
+          "source_label_boxes_xywh": [
+            [
+              4532,
+              1422,
+              155,
+              33
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred"
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-004",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            4525,
+            1452.5
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The printed church cross is directly left of R.C.Church, east of the main road at Craignish and below the small crossing stream. Its source position is measured independently; the corrected Judique church is a different annotation and supplies no coordinate correction here.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-1-20260912"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            4525,
+            1452.5
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.458720720466125,
+            45.73327266309684
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            4279,
+            1213,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/4279,1213,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-004",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-craignish-church-geography.jpg",
+          "scene_sha256": "d966636118ca4d6e79f0eb14b72b22d92ea250763fbfae727cde3bd0db19c7b2",
+          "evidence": "The source cross remains east of the main coastal road at Craignish, between the northern small tributary and the southern road/stream district. Modern Highway 19, the coast and tributaries support this approximate locality. No current church building or independent coordinate correction is established."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-008",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.43140637714815,
+          45.73948364231093
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-008",
+        "sheet": 22,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-008",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "crop_id": "F22-R01C03",
+          "raw_candidate_id": "F22-R01C03-08",
+          "source_label_boxes_xywh": [
+            [
+              5035,
+              1246,
+              91,
+              34
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred"
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-008",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            5128.5,
+            1265.5
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The isolated school mark immediately right of School is west of the diagonal road and the adjacent thick watercourse. The four-mark group farther east and the lower roadside row are separate candidates for other features.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-1-20260912"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            5128.5,
+            1265.5
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.43140637714815,
+            45.73948364231093
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            4750,
+            1038,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/4750,1038,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-008",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-craignish-school-geography.jpg",
+          "scene_sha256": "2753ee162f6677d0feb8740532dc041bc00c98acb14f0cdef9195e5a348cb0d1",
+          "evidence": "The school mark stays west of the road and watercourse between the northern and southern road junctions. The modern road/stream corridor supports the broad locality; offsets in bends and side roads prevent an exact building match."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-023",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.351594474418924,
+          45.73515267234302
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-023",
+        "sheet": 22,
+        "name": "P.O.",
+        "source_text": "P.O.",
+        "kind": "post-office",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-023",
+          "source_text": "P.O.",
+          "kind": "post-office",
+          "reading_status": "clear",
+          "crop_id": "F22-R01C05",
+          "raw_candidate_ids": [
+            "F22-R01C05-08"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              6865,
+              1410,
+              62,
+              35
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred"
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-023",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            6869.5,
+            1414.5
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The compact postal mark immediately above-left of P.O. lies within the road-junction district north of the main watercourse. McMaster’s Mill and the eastern crossing remain separate. The actual ink mark is measured; lettering and the triangular road enclosure are not substituted for it.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-1-20260912"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6869.5,
+            1414.5
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.351594474418924,
+            45.73515267234302
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            6566,
+            1202,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/6566,1202,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-023",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-denys-north-services-geography.jpg",
+          "scene_sha256": "33a1d7667e50912e160fe72e10e7f84087008ecdc045947a0bba54bd57e03f05",
+          "evidence": "The postal mark remains in the western road-junction district north of the east-west watercourse, west of the larger eastern brook. The source mark is east of its historical road but projects west of the modern main highway. Retain that road-side disagreement; the wider road and drainage arrangement supports approximate locality only."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-025",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.34526452988683,
+              45.73620551700515
+            ],
+            [
+              -61.345246916588614,
+              45.73592618659233
+            ],
+            [
+              -61.34522927163779,
+              45.73564689979743
+            ],
+            [
+              -61.34521159640891,
+              45.73536765721764
+            ],
+            [
+              -61.34519389229738,
+              45.73508845945575
+            ],
+            [
+              -61.34517616071915,
+              45.73480930712137
+            ],
+            [
+              -61.34515840311044,
+              45.73453020083107
+            ],
+            [
+              -61.34471768349259,
+              45.73452668286243
+            ],
+            [
+              -61.34427697338801,
+              45.734523200901265
+            ],
+            [
+              -61.343836273218976,
+              45.73451975609172
+            ],
+            [
+              -61.343395583404366,
+              45.73451634961362
+            ],
+            [
+              -61.34295490435975,
+              45.73451298268248
+            ],
+            [
+              -61.34251423649753,
+              45.73450965655037
+            ],
+            [
+              -61.34253178105667,
+              45.73478791662131
+            ],
+            [
+              -61.34254930778409,
+              45.73506623112474
+            ],
+            [
+              -61.34256681528314,
+              45.735344599787034
+            ],
+            [
+              -61.3425843021743,
+              45.73562302233805
+            ],
+            [
+              -61.34260176709572,
+              45.73590149851043
+            ],
+            [
+              -61.34261920870346,
+              45.73618002803841
+            ],
+            [
+              -61.34306006317476,
+              45.736184169343424
+            ],
+            [
+              -61.3435009311772,
+              45.73618835490562
+            ],
+            [
+              -61.343941812282495,
+              45.73619258356208
+            ],
+            [
+              -61.34438270605922,
+              45.73619685418598
+            ],
+            [
+              -61.344823612073256,
+              45.736201165685905
+            ],
+            [
+              -61.34526452988683,
+              45.73620551700515
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-025",
+        "sheet": 22,
+        "name": "McMaster's Mill",
+        "source_text": "McMaster's Mill",
+        "kind": "mill",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-025",
+          "source_text": "McMaster's Mill",
+          "kind": "mill",
+          "reading_status": "clear",
+          "crop_id": "F22-R01C05",
+          "raw_candidate_ids": [
+            "F22-R01C05-10",
+            "F22-R01C05-13"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              7052,
+              1441,
+              218,
+              39
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Native close-up confirms McMaster, not first-pass McMinisters. No additional standalone Mill label exists here."
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-025",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              7005,
+              1380,
+              56,
+              52
+            ]
+          ],
+          "note": "Two compact marks west of the brook and north of the road crossing lie between the Spring and McMaster’s Mill captions. The source does not uniquely establish an individual mill mark; retain both nearby candidates without declaring a spring mark to be a confirmed mill. The group is not a mill footprint or water-power claim.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-1-20260912"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                7005.0,
+                1380.0
+              ],
+              [
+                7014.333333333333,
+                1380.0
+              ],
+              [
+                7023.666666666667,
+                1380.0
+              ],
+              [
+                7033.0,
+                1380.0
+              ],
+              [
+                7042.333333333333,
+                1380.0
+              ],
+              [
+                7051.666666666667,
+                1380.0
+              ],
+              [
+                7061.0,
+                1380.0
+              ],
+              [
+                7061.0,
+                1388.6666666666667
+              ],
+              [
+                7061.0,
+                1397.3333333333333
+              ],
+              [
+                7061.0,
+                1406.0
+              ],
+              [
+                7061.0,
+                1414.6666666666667
+              ],
+              [
+                7061.0,
+                1423.3333333333333
+              ],
+              [
+                7061.0,
+                1432.0
+              ],
+              [
+                7051.666666666667,
+                1432.0
+              ],
+              [
+                7042.333333333333,
+                1432.0
+              ],
+              [
+                7033.0,
+                1432.0
+              ],
+              [
+                7023.666666666667,
+                1432.0
+              ],
+              [
+                7014.333333333333,
+                1432.0
+              ],
+              [
+                7005.0,
+                1432.0
+              ],
+              [
+                7005.0,
+                1423.3333333333333
+              ],
+              [
+                7005.0,
+                1414.6666666666667
+              ],
+              [
+                7005.0,
+                1406.0
+              ],
+              [
+                7005.0,
+                1397.3333333333333
+              ],
+              [
+                7005.0,
+                1388.6666666666667
+              ],
+              [
+                7005.0,
+                1380.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.34526452988683,
+                45.73620551700515
+              ],
+              [
+                -61.345246916588614,
+                45.73592618659233
+              ],
+              [
+                -61.34522927163779,
+                45.73564689979743
+              ],
+              [
+                -61.34521159640891,
+                45.73536765721764
+              ],
+              [
+                -61.34519389229738,
+                45.73508845945575
+              ],
+              [
+                -61.34517616071915,
+                45.73480930712137
+              ],
+              [
+                -61.34515840311044,
+                45.73453020083107
+              ],
+              [
+                -61.34471768349259,
+                45.73452668286243
+              ],
+              [
+                -61.34427697338801,
+                45.734523200901265
+              ],
+              [
+                -61.343836273218976,
+                45.73451975609172
+              ],
+              [
+                -61.343395583404366,
+                45.73451634961362
+              ],
+              [
+                -61.34295490435975,
+                45.73451298268248
+              ],
+              [
+                -61.34251423649753,
+                45.73450965655037
+              ],
+              [
+                -61.34253178105667,
+                45.73478791662131
+              ],
+              [
+                -61.34254930778409,
+                45.73506623112474
+              ],
+              [
+                -61.34256681528314,
+                45.735344599787034
+              ],
+              [
+                -61.3425843021743,
+                45.73562302233805
+              ],
+              [
+                -61.34260176709572,
+                45.73590149851043
+              ],
+              [
+                -61.34261920870346,
+                45.73618002803841
+              ],
+              [
+                -61.34306006317476,
+                45.736184169343424
+              ],
+              [
+                -61.3435009311772,
+                45.73618835490562
+              ],
+              [
+                -61.343941812282495,
+                45.73619258356208
+              ],
+              [
+                -61.34438270605922,
+                45.73619685418598
+              ],
+              [
+                -61.344823612073256,
+                45.736201165685905
+              ],
+              [
+                -61.34526452988683,
+                45.73620551700515
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "locality-unresolved",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            6831,
+            1235,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/6831,1235,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-025",
+          "status": "locality-unresolved",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-denys-north-services-geography.jpg",
+          "scene_sha256": "33a1d7667e50912e160fe72e10e7f84087008ecdc045947a0bba54bd57e03f05",
+          "evidence": "The source candidate group touches the brook just north of its road crossing, but the prediction falls west of the modern channel and does not reconcile the nearby confluence/crossing geometry. Retain the full source group and computed prediction as evidence; withhold web placement pending supported local correspondence. Neither the spring nor a modern channel may be substituted for the mill site."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-026",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.36572885683072,
+          45.72250650885559
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-026",
+        "sheet": 22,
+        "name": "McInnesHill\nSchool",
+        "source_text": "McInnesHill\nSchool",
+        "kind": "school",
+        "reading_status": "tentative",
+        "source_annotation": {
+          "id": "F22-HAW-026",
+          "source_text": "McInnesHill\nSchool",
+          "kind": "school",
+          "reading_status": "tentative",
+          "crop_id": "F22-R01C05",
+          "raw_candidate_ids": [
+            "F22-R01C05-11"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              6400,
+              1775,
+              165,
+              118
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Rotated source excerpt and independent close-up support McInnesHill; word division/capitalization remains tentative. First-pass McIlreath's rejected."
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-026",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            6550,
+            1801
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The conspicuous compact mark beside the slanted McInnesHill School caption lies in the narrow road-and-watercourse corridor, immediately west of the short crossing. It is retained as an approximate school mark, not a location or boundary for the entire named hill.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-2-20260912",
+          "note_revision": {
+            "previous_note": "The conspicuous compact mark beside the slanted McInnesHill School caption lies between the paired road lines, west of the short crossing. It is retained as an approximate school mark, not a location or boundary for the entire named hill.",
+            "reason": "Full native context distinguishes the adjacent watercourse from road linework; avoid calling the entire narrow corridor paired road lines. Source coordinates are unchanged.",
+            "reviewed_at": "2026-09-12"
+          }
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6550,
+            1801
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.36572885683072,
+            45.72250650885559
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            6152,
+            1609,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/6152,1609,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-026",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-mcinnes-hill-school-geography.jpg",
+          "scene_sha256": "3968a44be6887f362963ff2cf5016801b6665c4e4d05755d46150cbc1db253eb",
+          "evidence": "The school prediction remains south of the northwest-southeast road/water corridor and west of the eastern main junction. Modern drainage and roads support the district, but the small source crossing and the narrow school corridor are offset. Keep an approximate historical mark, not a confirmed modern school or crossing location."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-028",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F22-HAW-028",
+        "sheet": 22,
+        "name": "Church",
+        "source_text": "Church",
+        "kind": "church",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-028",
+          "source_text": "Church",
+          "kind": "church",
+          "reading_status": "clear",
+          "crop_id": "F22-R01C06",
+          "raw_candidate_ids": [
+            "F22-R01C06-02"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8375,
+              1045,
+              100,
+              32
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred"
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-028",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            8372,
+            1054
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The church cross immediately left of Church sits just below the northern neatline and east of the curved road. The compact marks farther south are separate from the cross. Full source geometry must still pass coverage and boundary checks.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-2-20260912"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            8372,
+            1054
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8095,
+            836,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/8095,836,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-028",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-services-2-20260912.jpg",
+          "scene_sha256": "4225f1f535636014d59d449a064ac1db68e6c0e5841d3b24fe8efe072d1c1eb3",
+          "evidence": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-031",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.26756500996285,
+              45.72293127089641
+            ],
+            [
+              -61.26755823024014,
+              45.72264922256071
+            ],
+            [
+              -61.267551847386294,
+              45.72236706030042
+            ],
+            [
+              -61.26754584347696,
+              45.72208480484613
+            ],
+            [
+              -61.26718095819524,
+              45.72208508416972
+            ],
+            [
+              -61.26681635649934,
+              45.72208504523113
+            ],
+            [
+              -61.266452048477156,
+              45.72208467576767
+            ],
+            [
+              -61.266088043286686,
+              45.72208396476546
+            ],
+            [
+              -61.26609382189638,
+              45.7223664503513
+            ],
+            [
+              -61.26609997013687,
+              45.72264886702078
+            ],
+            [
+              -61.26610650603904,
+              45.72293119413734
+            ],
+            [
+              -61.266470659858285,
+              45.72293175005445
+            ],
+            [
+              -61.26683513929599,
+              45.722931934645345
+            ],
+            [
+              -61.26719992803147,
+              45.722931768230914
+            ],
+            [
+              -61.26756500996285,
+              45.72293127089641
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-031",
+        "sheet": 22,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-031",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "crop_id": "F22-R01C06",
+          "raw_candidate_ids": [
+            "F22-R01C06-07"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8574,
+              1823,
+              80,
+              27
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred"
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-031",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              8650,
+              1828,
+              32,
+              27
+            ]
+          ],
+          "note": "Three compact marks immediately right of School sit above the separate church cross at Askilton. The caption does not distinguish one school building among them; retain the candidate group without absorbing the lower church cross.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-2-20260912"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                8650.0,
+                1828.0
+              ],
+              [
+                8658.0,
+                1828.0
+              ],
+              [
+                8666.0,
+                1828.0
+              ],
+              [
+                8674.0,
+                1828.0
+              ],
+              [
+                8682.0,
+                1828.0
+              ],
+              [
+                8682.0,
+                1837.0
+              ],
+              [
+                8682.0,
+                1846.0
+              ],
+              [
+                8682.0,
+                1855.0
+              ],
+              [
+                8674.0,
+                1855.0
+              ],
+              [
+                8666.0,
+                1855.0
+              ],
+              [
+                8658.0,
+                1855.0
+              ],
+              [
+                8650.0,
+                1855.0
+              ],
+              [
+                8650.0,
+                1846.0
+              ],
+              [
+                8650.0,
+                1837.0
+              ],
+              [
+                8650.0,
+                1828.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.26756500996285,
+                45.72293127089641
+              ],
+              [
+                -61.26755823024014,
+                45.72264922256071
+              ],
+              [
+                -61.267551847386294,
+                45.72236706030042
+              ],
+              [
+                -61.26754584347696,
+                45.72208480484613
+              ],
+              [
+                -61.26718095819524,
+                45.72208508416972
+              ],
+              [
+                -61.26681635649934,
+                45.72208504523113
+              ],
+              [
+                -61.266452048477156,
+                45.72208467576767
+              ],
+              [
+                -61.266088043286686,
+                45.72208396476546
+              ],
+              [
+                -61.26609382189638,
+                45.7223664503513
+              ],
+              [
+                -61.26609997013687,
+                45.72264886702078
+              ],
+              [
+                -61.26610650603904,
+                45.72293119413734
+              ],
+              [
+                -61.266470659858285,
+                45.72293175005445
+              ],
+              [
+                -61.26683513929599,
+                45.722931934645345
+              ],
+              [
+                -61.26719992803147,
+                45.722931768230914
+              ],
+              [
+                -61.26756500996285,
+                45.72293127089641
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8284,
+            1611,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/8284,1611,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-031",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-askilton-services-geography.jpg",
+          "scene_sha256": "65d621426b210529d96dfaf6fda962f9432dea1aa4a0b2f372602ae62ef24b72",
+          "evidence": "The three school candidates remain south of the northern road junction and west of the broad brook bend, above the church mark. Modern roads and water support the district, while local road arms and bank positions differ. No individual school building is identified."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-032",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.26633369474139,
+          45.721849067547716
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-032",
+        "sheet": 22,
+        "name": "R.C. Ch.",
+        "source_text": "R.C. Ch.",
+        "kind": "church",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-032",
+          "source_text": "R.C. Ch.",
+          "kind": "church",
+          "reading_status": "clear",
+          "crop_id": "F22-R01C06",
+          "raw_candidate_ids": [
+            "F22-R01C06-08"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8590,
+              1855,
+              94,
+              30
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred"
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-032",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            8676.5,
+            1862.5
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The distinct cross below the three school candidates and right of R.C. Ch. identifies the source church mark. Road, brook and the rectilinear geological pattern are separate; no modern church identity is asserted.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-2-20260912"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            8676.5,
+            1862.5
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.26633369474139,
+            45.721849067547716
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8307,
+            1645,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/8307,1645,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-032",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-askilton-services-geography.jpg",
+          "scene_sha256": "65d621426b210529d96dfaf6fda962f9432dea1aa4a0b2f372602ae62ef24b72",
+          "evidence": "The church cross remains immediately south of the school group and west of the main brook bend/crossing district. The modern road and drainage arrangement supports approximate locality. Bank and minor-road offsets remain; no current church identity or footprint is asserted."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-041",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.56601782093751,
+              45.68229890615757
+            ],
+            [
+              -61.566039993152025,
+              45.68202174902649
+            ],
+            [
+              -61.566062040506836,
+              45.681744788294
+            ],
+            [
+              -61.56608395189264,
+              45.68146802124693
+            ],
+            [
+              -61.56610571638385,
+              45.68119144491381
+            ],
+            [
+              -61.566127323227754,
+              45.680915056062936
+            ],
+            [
+              -61.56614876183381,
+              45.680638851200285
+            ],
+            [
+              -61.56617002176362,
+              45.680362826568214
+            ],
+            [
+              -61.56619109272166,
+              45.680086978144544
+            ],
+            [
+              -61.56574294912988,
+              45.68009533860819
+            ],
+            [
+              -61.565294897570396,
+              45.680103439185935
+            ],
+            [
+              -61.56484692990036,
+              45.68011127880871
+            ],
+            [
+              -61.56439903762135,
+              45.680118856649955
+            ],
+            [
+              -61.563951211908844,
+              45.68012617213424
+            ],
+            [
+              -61.56350344364163,
+              45.680133224946815
+            ],
+            [
+              -61.563055723432754,
+              45.6801400150423
+            ],
+            [
+              -61.563035082393405,
+              45.68041484688054
+            ],
+            [
+              -61.563014256855816,
+              45.680689898465516
+            ],
+            [
+              -61.562993257295055,
+              45.680965173715975
+            ],
+            [
+              -61.562972094365705,
+              45.681240676232896
+            ],
+            [
+              -61.5629507789113,
+              45.6815164093008
+            ],
+            [
+              -61.56292932197458,
+              45.681792375889195
+            ],
+            [
+              -61.56290773480756,
+              45.68206857865505
+            ],
+            [
+              -61.56288602888254,
+              45.68234501994543
+            ],
+            [
+              -61.56333308323416,
+              45.682339144956345
+            ],
+            [
+              -61.56378023430093,
+              45.68233303348554
+            ],
+            [
+              -61.56422749330342,
+              45.6823266846294
+            ],
+            [
+              -61.56467487114638,
+              45.68232009774195
+            ],
+            [
+              -61.56512237836677,
+              45.68231327242822
+            ],
+            [
+              -61.56557002508187,
+              45.68230620853764
+            ],
+            [
+              -61.56601782093751,
+              45.68229890615757
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-041",
+        "sheet": 22,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-041",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "crop_id": "F22-R02C01",
+          "raw_candidate_ids": [
+            "F22-R02C01-07"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              2227,
+              2951,
+              80,
+              29
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred"
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-041",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              2222,
+              2920,
+              69,
+              72
+            ]
+          ],
+          "note": "The school caption at Cape Jack overlaps the compact-mark cluster around the road junction, with candidates above the word and farther down its western side. The source does not uniquely select an individual building. Retain the complete nearby candidate region; its outline is not a school site or property boundary.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-2-20260912"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                2222.0,
+                2920.0
+              ],
+              [
+                2231.8571428571427,
+                2920.0
+              ],
+              [
+                2241.714285714286,
+                2920.0
+              ],
+              [
+                2251.5714285714284,
+                2920.0
+              ],
+              [
+                2261.4285714285716,
+                2920.0
+              ],
+              [
+                2271.285714285714,
+                2920.0
+              ],
+              [
+                2281.1428571428573,
+                2920.0
+              ],
+              [
+                2291.0,
+                2920.0
+              ],
+              [
+                2291.0,
+                2929.0
+              ],
+              [
+                2291.0,
+                2938.0
+              ],
+              [
+                2291.0,
+                2947.0
+              ],
+              [
+                2291.0,
+                2956.0
+              ],
+              [
+                2291.0,
+                2965.0
+              ],
+              [
+                2291.0,
+                2974.0
+              ],
+              [
+                2291.0,
+                2983.0
+              ],
+              [
+                2291.0,
+                2992.0
+              ],
+              [
+                2281.1428571428573,
+                2992.0
+              ],
+              [
+                2271.285714285714,
+                2992.0
+              ],
+              [
+                2261.4285714285716,
+                2992.0
+              ],
+              [
+                2251.5714285714284,
+                2992.0
+              ],
+              [
+                2241.714285714286,
+                2992.0
+              ],
+              [
+                2231.8571428571427,
+                2992.0
+              ],
+              [
+                2222.0,
+                2992.0
+              ],
+              [
+                2222.0,
+                2983.0
+              ],
+              [
+                2222.0,
+                2974.0
+              ],
+              [
+                2222.0,
+                2965.0
+              ],
+              [
+                2222.0,
+                2956.0
+              ],
+              [
+                2222.0,
+                2947.0
+              ],
+              [
+                2222.0,
+                2938.0
+              ],
+              [
+                2222.0,
+                2929.0
+              ],
+              [
+                2222.0,
+                2920.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.56601782093751,
+                45.68229890615757
+              ],
+              [
+                -61.566039993152025,
+                45.68202174902649
+              ],
+              [
+                -61.566062040506836,
+                45.681744788294
+              ],
+              [
+                -61.56608395189264,
+                45.68146802124693
+              ],
+              [
+                -61.56610571638385,
+                45.68119144491381
+              ],
+              [
+                -61.566127323227754,
+                45.680915056062936
+              ],
+              [
+                -61.56614876183381,
+                45.680638851200285
+              ],
+              [
+                -61.56617002176362,
+                45.680362826568214
+              ],
+              [
+                -61.56619109272166,
+                45.680086978144544
+              ],
+              [
+                -61.56574294912988,
+                45.68009533860819
+              ],
+              [
+                -61.565294897570396,
+                45.680103439185935
+              ],
+              [
+                -61.56484692990036,
+                45.68011127880871
+              ],
+              [
+                -61.56439903762135,
+                45.680118856649955
+              ],
+              [
+                -61.563951211908844,
+                45.68012617213424
+              ],
+              [
+                -61.56350344364163,
+                45.680133224946815
+              ],
+              [
+                -61.563055723432754,
+                45.6801400150423
+              ],
+              [
+                -61.563035082393405,
+                45.68041484688054
+              ],
+              [
+                -61.563014256855816,
+                45.680689898465516
+              ],
+              [
+                -61.562993257295055,
+                45.680965173715975
+              ],
+              [
+                -61.562972094365705,
+                45.681240676232896
+              ],
+              [
+                -61.5629507789113,
+                45.6815164093008
+              ],
+              [
+                -61.56292932197458,
+                45.681792375889195
+              ],
+              [
+                -61.56290773480756,
+                45.68206857865505
+              ],
+              [
+                -61.56288602888254,
+                45.68234501994543
+              ],
+              [
+                -61.56333308323416,
+                45.682339144956345
+              ],
+              [
+                -61.56378023430093,
+                45.68233303348554
+              ],
+              [
+                -61.56422749330342,
+                45.6823266846294
+              ],
+              [
+                -61.56467487114638,
+                45.68232009774195
+              ],
+              [
+                -61.56512237836677,
+                45.68231327242822
+              ],
+              [
+                -61.56557002508187,
+                45.68230620853764
+              ],
+              [
+                -61.56601782093751,
+                45.68229890615757
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            1937,
+            2740,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/1937,2740,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-041",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-cape-jack-services-geography.jpg",
+          "scene_sha256": "1632e4ff1448595085f850b3fc0b76f5d77be45e5cb3678d3676b46c260873cb",
+          "evidence": "The source school candidates occupy the road-fork district south of Cape Pond and northeast of Beach Pond. The modern coastline, pond outlet and road junction support that broader locality. The projected group overlaps the modern outlet channel, so individual banks/buildings cannot be assigned; retain the whole ambiguous source group without treating its outline as a site boundary."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-042",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.56066710867216,
+              45.68234008033379
+            ],
+            [
+              -61.56068985975872,
+              45.682043637305725
+            ],
+            [
+              -61.5607124753124,
+              45.681747505913044
+            ],
+            [
+              -61.560734941074784,
+              45.68145168352702
+            ],
+            [
+              -61.56031915285046,
+              45.68145611056495
+            ],
+            [
+              -61.559903364976385,
+              45.681460332857064
+            ],
+            [
+              -61.55948756832542,
+              45.68146435269061
+            ],
+            [
+              -61.559071753774795,
+              45.6814681726066
+            ],
+            [
+              -61.55865591222359,
+              45.68147179540688
+            ],
+            [
+              -61.55824003460764,
+              45.681475224161616
+            ],
+            [
+              -61.55821831541443,
+              45.68177060065043
+            ],
+            [
+              -61.558196446668134,
+              45.68206633090952
+            ],
+            [
+              -61.55817444246347,
+              45.6823624170895
+            ],
+            [
+              -61.55858992113392,
+              45.68235915771633
+            ],
+            [
+              -61.5590053732251,
+              45.68235571714845
+            ],
+            [
+              -61.55942080833903,
+              45.682352092062295
+            ],
+            [
+              -61.559836236139596,
+              45.68234827939537
+            ],
+            [
+              -61.5602516663374,
+              45.682344276339585
+            ],
+            [
+              -61.56066710867216,
+              45.68234008033379
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-042",
+        "sheet": 22,
+        "name": "P.O.",
+        "source_text": "P.O.",
+        "kind": "post-office",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-042",
+          "source_text": "P.O.",
+          "kind": "post-office",
+          "reading_status": "clear",
+          "crop_id": "F22-R02C01",
+          "raw_candidate_ids": [
+            "F22-R02C01-08"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              2383,
+              2919,
+              59,
+              36
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred"
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-042",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              2340,
+              2921,
+              55,
+              29
+            ]
+          ],
+          "note": "Two compact marks south of the road immediately left of P.O. form the postal candidates at Cape Jack. The source lettering does not uniquely select one; neighbouring rows north of the road are separate. Retain the group without a current postal address or property claim.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+          "review_batch": "hawkesbury-services-2-20260912"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                2340.0,
+                2921.0
+              ],
+              [
+                2349.1666666666665,
+                2921.0
+              ],
+              [
+                2358.3333333333335,
+                2921.0
+              ],
+              [
+                2367.5,
+                2921.0
+              ],
+              [
+                2376.6666666666665,
+                2921.0
+              ],
+              [
+                2385.8333333333335,
+                2921.0
+              ],
+              [
+                2395.0,
+                2921.0
+              ],
+              [
+                2395.0,
+                2930.6666666666665
+              ],
+              [
+                2395.0,
+                2940.3333333333335
+              ],
+              [
+                2395.0,
+                2950.0
+              ],
+              [
+                2385.8333333333335,
+                2950.0
+              ],
+              [
+                2376.6666666666665,
+                2950.0
+              ],
+              [
+                2367.5,
+                2950.0
+              ],
+              [
+                2358.3333333333335,
+                2950.0
+              ],
+              [
+                2349.1666666666665,
+                2950.0
+              ],
+              [
+                2340.0,
+                2950.0
+              ],
+              [
+                2340.0,
+                2940.3333333333335
+              ],
+              [
+                2340.0,
+                2930.6666666666665
+              ],
+              [
+                2340.0,
+                2921.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.56066710867216,
+                45.68234008033379
+              ],
+              [
+                -61.56068985975872,
+                45.682043637305725
+              ],
+              [
+                -61.5607124753124,
+                45.681747505913044
+              ],
+              [
+                -61.560734941074784,
+                45.68145168352702
+              ],
+              [
+                -61.56031915285046,
+                45.68145611056495
+              ],
+              [
+                -61.559903364976385,
+                45.681460332857064
+              ],
+              [
+                -61.55948756832542,
+                45.68146435269061
+              ],
+              [
+                -61.559071753774795,
+                45.6814681726066
+              ],
+              [
+                -61.55865591222359,
+                45.68147179540688
+              ],
+              [
+                -61.55824003460764,
+                45.681475224161616
+              ],
+              [
+                -61.55821831541443,
+                45.68177060065043
+              ],
+              [
+                -61.558196446668134,
+                45.68206633090952
+              ],
+              [
+                -61.55817444246347,
+                45.6823624170895
+              ],
+              [
+                -61.55858992113392,
+                45.68235915771633
+              ],
+              [
+                -61.5590053732251,
+                45.68235571714845
+              ],
+              [
+                -61.55942080833903,
+                45.682352092062295
+              ],
+              [
+                -61.559836236139596,
+                45.68234827939537
+              ],
+              [
+                -61.5602516663374,
+                45.682344276339585
+              ],
+              [
+                -61.56066710867216,
+                45.68234008033379
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            2082,
+            2712,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/2082,2712,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-042",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-12",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-cape-jack-services-geography.jpg",
+          "scene_sha256": "1632e4ff1448595085f850b3fc0b76f5d77be45e5cb3678d3676b46c260873cb",
+          "evidence": "The postal candidates remain south of the east-west coastal road, east of the Cape Pond outlet and school district. Modern roads, pond and coastline support the approximate locality with local bank/road offsets. The pair remains unresolved and supplies no current postal address."
+        }
+      }
+    }
+  ]
+}

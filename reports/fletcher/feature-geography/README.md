@@ -1,6 +1,9 @@
 # Reviewed Fletcher features
 
-The current export integrates **126 Judique annotations: 27 approximate points,
+The combined export contains **134 annotations**: 126 from Judique and eight
+from [Port Hawkesbury](HAWKESBURY.md). Source and fit identities stay separate.
+
+Judique contributes **126 annotations: 27 approximate points,
 53 source-group records and 46 traced reaches/road sections**. Shared groups
 leave 122 selectable geometries. All **166 annotations** have source-feature
 and geographic review decisions: 156 retain native feature geometry and ten

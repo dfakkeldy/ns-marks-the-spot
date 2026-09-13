@@ -1,0 +1,54 @@
+{
+  "reviewed_at": "2026-09-12",
+  "source": {
+    "path": "/Users/dfakkeldy/Downloads/fletcher-sheet22/native/sheet22.png",
+    "sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+    "dimensions_px": [
+      10790,
+      7687
+    ]
+  },
+  "raster": {
+    "path": "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif",
+    "sha256": "b49f81d7a6533e753def1c698e20b25e5fa8134ed2b67bf17bf0c73b7817bec1"
+  },
+  "fit": {
+    "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+    "fit_pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/380",
+    "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+    "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+    "input_sha256": {
+      "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+      "reports/fletcher/sheet22/boundary.json": "2e58a9529f5dbb238e8739d468a74a3f9c771b2574f1b19c46bf43697c3124fc",
+      "docs/fletcher/label-extraction/highway19-production/sheet-22-reviewed.json": "a17c32b6ad4d8d735fd4eed5098fef8d0798e41e16a0ee2600dfd5c22ec45572",
+      "docs/fletcher/label-extraction/highway19-production/sheet-22-manifest.json": "d2572a87f462c659c0fb60cf04fd71d6042ed7ce99e7a4e184b8761fb42ebe7c",
+      "reports/fletcher/full-sheets/sheet-22-controls.csv": "1e7c4ef6a74e9cc0cba026ac88d4abd69c47dd272845c47d8448568146a60eaa",
+      "reports/fletcher/full-sheets/hawkesbury-boundary-render-receipt.json": "94eb7d2cf08274061d63771b3c58aa740109692ba2c687ce566a6836f340156c",
+      "reports/fletcher/hawkesbury-full-sheet/boundary-diagnostic-checks.json": "baf52a32736f73d3b91e7472dc6aadcd3277184954123b99e2c26f4d03c3a544"
+    }
+  },
+  "reference_receipts": "hawkesbury-reference-receipts.json",
+  "reference_sha256": "65f8ce0b4437fbcfcedd1e0ec8e3ed5430222aa7d6ea3d2df568843d79455860",
+  "reference_directory": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/sheet22-reference",
+  "reference_coverage": "-61.63,45.54,-61.18,45.78; full sheet22 plus margin. The northern Judique reference bbox is not reused.",
+  "current_draft_reconciliation": "PR448 preserves downstream pins and supplies reversible drafts. This source-feature pass uses the existing supported 28-control boundary fit, preserving its revision and all explicit limitations; no experimental fit is adopted.",
+  "source_review_evidence": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-final-points.json",
+      "sha256": "2b98db2d506e1106ffccc3cd852c03248b2955fd42e97b6a0542c862ba19d5c7"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-final-points.jpg",
+      "sha256": "fd3139b7f7921a0da1d6ed2508a1423a95a94a2ee585caca0ce010077cd8f3e9"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-group-proposals.json",
+      "sha256": "7b234ebb63dbc91e6d451e20837e8a3f199ee1d1170b18e933d7d694aed38b42"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-services-detail-frames.json",
+      "sha256": "5a3200c52a2dafcf9b390204a491db37db3c3700b0ba74d9ffb7c7766af2c542"
+    }
+  ],
+  "measurement_note": "Ink components aided only measurement. Automatic candidates missed the larger postal/school marks and the church cross connected to lettering; these were measured directly and checked with final native crosshairs. Candidate output itself is not accepted geometry."
+}
