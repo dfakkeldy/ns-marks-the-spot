@@ -1,15 +1,14 @@
 # Port Hawkesbury source-feature review
 
-All **231 of 301 annotations** now have initial source-feature and geographic
-decisions. **145** are integrated locally, while **86** remain withheld. The other
-**70** annotations still need initial source association. The completed initial
-categories now include settlement and personal-name captions; one of those retained
-entries, L. Murray, has an evidenced lake interpretation. All original inventory
-wording, pixel boxes and kinds remain preserved.
+All **261 of 301 annotations** now have initial source-feature and geographic
+decisions. **163** are integrated locally, while **98** remain withheld. The other
+**40** annotations still need initial source association. The completed initial
+categories now include coastal names. Original inventory wording, pixel boxes and
+kinds remain preserved, including the explicit derived L. Murray lake interpretation.
 
-One hundred fifteen Hawkesbury features merged through PR464; thirty further
-placements pass local checks. The combined 271-record export retains all 126
-Judique annotations.
+One hundred forty-five Hawkesbury features merged through PR469; eighteen further
+coastal placements pass local checks. The combined 289-record export retains all
+126 Judique annotations.
 
 ## Source and geography
 
@@ -385,3 +384,31 @@ experiment; no new priority-corridor fit or whole-sheet acceptance is adopted.
 The final branch also preserves PR466’s mobile terrain and Crown Land loading changes.
 All thirty browser cases, the real label zoom threshold, prior Coal selection,
 component tests, lint and build passed again with that nightly base.
+
+## Coastal review
+
+[The append receipt](hawkesbury-coasts-append-receipt.json) records 30 retained
+coastal entries: 29 bounded source-bank traces and the complete Jack Shoal symbol
+group. Five native figures preserve the source associations:
+
+- [Coasts 1](hawkesbury-coasts-1-20260913.jpg), [2](hawkesbury-coasts-2-20260913.jpg), [3](hawkesbury-coasts-3-20260913.jpg), [4](hawkesbury-coasts-4-20260913.jpg), [5](hawkesbury-coasts-5-20260913.jpg).
+
+Ghost Beach’s earlier westward and inner-tip candidates remain in the proposal
+history; the retained seaward trace was checked in enlarged native detail. Keaton
+Point and Wylde’s Cove use the coastal edge distinguished from parallel road/rail
+lines. The Strait of Canso has one bounded western-bank reference shared with
+Cape Porcupine; it is not a whole-strait outline or centreline. The visible Evans
+or Macnamara Island trace stays open where the source does not show the perimeter.
+
+Eighteen traces pass approximate-locality review against the actual current raster
+and NSTDB Highways7, Roads8, Bridges5, rail and water. Their notes preserve inland
+and seaward offsets and distinguish historical banks from present shores. Twelve
+complete source geometries exceed conservative support and remain withheld:
+10,37,48,180,183,244,254,255,256,286,287,288. They are not trimmed to gain acceptance.
+
+The [browser receipt](browser-hawkesbury-coasts-verification.json) verifies all
+18 additions by visible-label selection at desktop/phone widths, including both
+annotations on the shared bank, native excerpts, placement notes and clean consoles.
+All 271 earlier export records keep their geometry/content apart from the updated
+Hawkesbury evidence hash. Local checks: 301 Python tests (eight existing skips), ten
+Fletcher component tests, web script tests and build pass. No web code changed.

@@ -28629,6 +28629,2409 @@
       "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
       "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
       "review_batch": "hawkesbury-names-7-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-006",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          4373,
+          1754
+        ],
+        [
+          4357,
+          1766
+        ],
+        [
+          4344,
+          1789
+        ],
+        [
+          4339,
+          1812
+        ],
+        [
+          4341,
+          1850
+        ],
+        [
+          4345,
+          1870
+        ],
+        [
+          4339,
+          1890
+        ],
+        [
+          4339,
+          1931
+        ],
+        [
+          4344,
+          1955
+        ],
+        [
+          4357,
+          1973
+        ],
+        [
+          4384,
+          1997
+        ],
+        [
+          4404,
+          2017
+        ],
+        [
+          4423,
+          2041
+        ],
+        [
+          4430,
+          2060
+        ],
+        [
+          4432,
+          2084
+        ],
+        [
+          4447,
+          2111
+        ],
+        [
+          4453,
+          2136
+        ],
+        [
+          4454,
+          2164
+        ]
+      ],
+      "source_context_xywh": [
+        3697,
+        1533,
+        1000,
+        800
+      ],
+      "note": "The actual coastal outline immediately east of Flat Point supplies this bounded bank trace, from the northern bend to the southeastern coast below the nearby compact marks. The geological dashes and dip arrows are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-010",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2143,
+          2194,
+          174,
+          179
+        ]
+      ],
+      "source_context_xywh": [
+        1733,
+        1752,
+        1000,
+        800
+      ],
+      "note": "The complete dotted and cross-marked Jack Shoal graphic below the name supplies one bounded group region. The two internal oval rock marks remain inside that group; no individual reef point or current drying/tidal condition is inferred. The adjacent Rock dries at half tide wording remains separate historical annotation evidence.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-037",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          2069,
+          2800
+        ],
+        [
+          2077,
+          2775
+        ],
+        [
+          2076,
+          2758
+        ],
+        [
+          2089,
+          2738
+        ],
+        [
+          2090,
+          2722
+        ],
+        [
+          2087,
+          2705
+        ],
+        [
+          2093,
+          2687
+        ],
+        [
+          2091,
+          2668
+        ],
+        [
+          2097,
+          2649
+        ],
+        [
+          2104,
+          2632
+        ],
+        [
+          2115,
+          2620
+        ],
+        [
+          2133,
+          2610
+        ],
+        [
+          2149,
+          2603
+        ],
+        [
+          2166,
+          2606
+        ],
+        [
+          2175,
+          2618
+        ],
+        [
+          2181,
+          2637
+        ],
+        [
+          2181,
+          2657
+        ],
+        [
+          2188,
+          2671
+        ],
+        [
+          2211,
+          2682
+        ],
+        [
+          2239,
+          2694
+        ],
+        [
+          2267,
+          2706
+        ],
+        [
+          2292,
+          2720
+        ],
+        [
+          2322,
+          2733
+        ]
+      ],
+      "source_context_xywh": [
+        1489,
+        2218,
+        1000,
+        800
+      ],
+      "note": "The western and northern coastal outline of Cape Jack supplies this bounded headland reach. The 45ft lettering, geological stripes and Cape Pond banks are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-048",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          1751,
+          3097
+        ],
+        [
+          1724,
+          3112
+        ],
+        [
+          1694,
+          3125
+        ],
+        [
+          1666,
+          3141
+        ],
+        [
+          1638,
+          3161
+        ],
+        [
+          1621,
+          3184
+        ],
+        [
+          1605,
+          3207
+        ],
+        [
+          1592,
+          3229
+        ],
+        [
+          1586,
+          3240
+        ],
+        [
+          1592,
+          3246
+        ],
+        [
+          1610,
+          3250
+        ],
+        [
+          1614,
+          3262
+        ],
+        [
+          1627,
+          3268
+        ],
+        [
+          1640,
+          3268
+        ],
+        [
+          1650,
+          3277
+        ],
+        [
+          1649,
+          3299
+        ],
+        [
+          1645,
+          3323
+        ],
+        [
+          1644,
+          3345
+        ],
+        [
+          1648,
+          3371
+        ]
+      ],
+      "source_context_xywh": [
+        1124,
+        2708,
+        1000,
+        800
+      ],
+      "note": "The actual western coastal outline of Cape Blue supplies this bounded headland reach. The source extends beyond the inner neatline; preserve the entire trace and let the recorded fit boundary gate it. The geological hatch, caption and parallel road are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-096",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5400,
+          4370
+        ],
+        [
+          5422,
+          4376
+        ],
+        [
+          5442,
+          4385
+        ],
+        [
+          5467,
+          4410
+        ],
+        [
+          5492,
+          4433
+        ],
+        [
+          5518,
+          4452
+        ],
+        [
+          5542,
+          4475
+        ],
+        [
+          5552,
+          4496
+        ],
+        [
+          5572,
+          4514
+        ],
+        [
+          5596,
+          4528
+        ],
+        [
+          5618,
+          4544
+        ],
+        [
+          5637,
+          4554
+        ]
+      ],
+      "source_context_xywh": [
+        3870,
+        2195,
+        3043,
+        4176
+      ],
+      "note": "The Strait of Canso is represented by a bounded section of its actual western bank at Cape Porcupine, reusing the independently inspected native bank from annotation143. The full source context records the distributed STRAIT OF CANSO lettering and opposing banks. This is one locational shore reach, not the whole strait, a centreline, a water-area boundary or a navigation route.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-101",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          1842,
+          3844
+        ],
+        [
+          1841,
+          3865
+        ],
+        [
+          1834,
+          3890
+        ],
+        [
+          1824,
+          3909
+        ],
+        [
+          1811,
+          3921
+        ],
+        [
+          1800,
+          3923
+        ],
+        [
+          1797,
+          3929
+        ],
+        [
+          1804,
+          3939
+        ],
+        [
+          1812,
+          3948
+        ],
+        [
+          1812,
+          3974
+        ],
+        [
+          1817,
+          3993
+        ],
+        [
+          1825,
+          4010
+        ],
+        [
+          1824,
+          4023
+        ],
+        [
+          1819,
+          4034
+        ],
+        [
+          1819,
+          4053
+        ],
+        [
+          1813,
+          4073
+        ],
+        [
+          1800,
+          4085
+        ],
+        [
+          1800,
+          4097
+        ],
+        [
+          1811,
+          4095
+        ],
+        [
+          1825,
+          4084
+        ],
+        [
+          1836,
+          4084
+        ],
+        [
+          1846,
+          4089
+        ],
+        [
+          1853,
+          4102
+        ],
+        [
+          1859,
+          4118
+        ],
+        [
+          1864,
+          4133
+        ]
+      ],
+      "source_context_xywh": [
+        1192,
+        3604,
+        1000,
+        823
+      ],
+      "note": "The eastern Little Tracadie Harbour bank immediately beside the distributed caption supplies this bounded reach. The offshore islands, dotted shoal marks, church glyph and large administrative A are separate. The trace does not delineate the complete harbour.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-126",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          4992,
+          3260
+        ],
+        [
+          5000,
+          3296
+        ],
+        [
+          5018,
+          3331
+        ],
+        [
+          5034,
+          3371
+        ],
+        [
+          5052,
+          3413
+        ],
+        [
+          5069,
+          3455
+        ],
+        [
+          5087,
+          3502
+        ],
+        [
+          5103,
+          3547
+        ],
+        [
+          5125,
+          3590
+        ],
+        [
+          5146,
+          3633
+        ],
+        [
+          5172,
+          3683
+        ],
+        [
+          5194,
+          3729
+        ],
+        [
+          5215,
+          3774
+        ],
+        [
+          5218,
+          3794
+        ],
+        [
+          5234,
+          3816
+        ],
+        [
+          5249,
+          3835
+        ],
+        [
+          5261,
+          3852
+        ],
+        [
+          5270,
+          3870
+        ],
+        [
+          5285,
+          3882
+        ],
+        [
+          5297,
+          3890
+        ],
+        [
+          5309,
+          3893
+        ],
+        [
+          5317,
+          3892
+        ],
+        [
+          5323,
+          3887
+        ]
+      ],
+      "source_context_xywh": [
+        4547,
+        3194,
+        1000,
+        800
+      ],
+      "note": "The seaward edge of the printed Ghost Beach barrier supplies this bounded coastal trace. The initial candidate lay west of the actual edge; the second followed the inner edge near the southern tip. Native 4x tip detail supports the retained outer-edge correction. Long Pond banks and its islands remain separate; no present beach width or access is inferred.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-139",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5440,
+          4088
+        ],
+        [
+          5440,
+          4097
+        ],
+        [
+          5445,
+          4107
+        ],
+        [
+          5455,
+          4111
+        ],
+        [
+          5465,
+          4116
+        ],
+        [
+          5467,
+          4126
+        ],
+        [
+          5461,
+          4139
+        ],
+        [
+          5455,
+          4148
+        ],
+        [
+          5456,
+          4155
+        ],
+        [
+          5462,
+          4155
+        ],
+        [
+          5469,
+          4148
+        ],
+        [
+          5478,
+          4131
+        ],
+        [
+          5488,
+          4117
+        ],
+        [
+          5496,
+          4116
+        ],
+        [
+          5512,
+          4121
+        ]
+      ],
+      "source_context_xywh": [
+        4802,
+        3755,
+        1000,
+        800
+      ],
+      "note": "The narrow McMillan Point projection below the Cable caption is traced along its actual coastal edge. The nearby hollow cable/site mark, road and lettering are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-142",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5638,
+          4158
+        ],
+        [
+          5656,
+          4171
+        ],
+        [
+          5672,
+          4187
+        ],
+        [
+          5685,
+          4206
+        ],
+        [
+          5691,
+          4223
+        ],
+        [
+          5695,
+          4238
+        ],
+        [
+          5701,
+          4250
+        ],
+        [
+          5712,
+          4256
+        ],
+        [
+          5723,
+          4255
+        ],
+        [
+          5732,
+          4250
+        ],
+        [
+          5736,
+          4242
+        ],
+        [
+          5745,
+          4233
+        ],
+        [
+          5754,
+          4233
+        ],
+        [
+          5762,
+          4238
+        ]
+      ],
+      "source_context_xywh": [
+        5073,
+        3848,
+        1000,
+        800
+      ],
+      "note": "The southern McKeen Point coastal bulge below the Hastings street grid supplies this bounded bank trace. The dip arrows, 85-degree label, street lines and more eastern hatched shoreline are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-143",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5400,
+          4370
+        ],
+        [
+          5422,
+          4376
+        ],
+        [
+          5442,
+          4385
+        ],
+        [
+          5467,
+          4410
+        ],
+        [
+          5492,
+          4433
+        ],
+        [
+          5518,
+          4452
+        ],
+        [
+          5542,
+          4475
+        ],
+        [
+          5552,
+          4496
+        ],
+        [
+          5572,
+          4514
+        ],
+        [
+          5596,
+          4528
+        ],
+        [
+          5618,
+          4544
+        ],
+        [
+          5637,
+          4554
+        ]
+      ],
+      "source_context_xywh": [
+        5075,
+        3974,
+        1000,
+        800
+      ],
+      "note": "The actual Cape Porcupine shoreline south of the narrows supplies this bounded source reach. The red report lettering overprints the line but the coastal outline is continuously distinguishable; inland geological boundaries and the old cable mark are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-144",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5854,
+          4239
+        ],
+        [
+          5862,
+          4268
+        ],
+        [
+          5876,
+          4296
+        ],
+        [
+          5893,
+          4318
+        ],
+        [
+          5916,
+          4341
+        ],
+        [
+          5940,
+          4363
+        ],
+        [
+          5966,
+          4384
+        ],
+        [
+          5991,
+          4402
+        ],
+        [
+          6016,
+          4417
+        ],
+        [
+          6040,
+          4429
+        ],
+        [
+          6067,
+          4435
+        ],
+        [
+          6084,
+          4443
+        ],
+        [
+          6101,
+          4458
+        ]
+      ],
+      "source_context_xywh": [
+        5260,
+        3933,
+        1000,
+        800
+      ],
+      "note": "The eastern bank of Plaster Cove south of the historical Hastings district supplies this bounded source reach. The road crosses the coastal corridor but is not used as the bank geometry. This is not the full cove extent.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-149",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5627,
+          4555
+        ],
+        [
+          5646,
+          4562
+        ],
+        [
+          5666,
+          4565
+        ],
+        [
+          5689,
+          4563
+        ],
+        [
+          5707,
+          4567
+        ],
+        [
+          5728,
+          4579
+        ],
+        [
+          5742,
+          4586
+        ],
+        [
+          5753,
+          4597
+        ],
+        [
+          5762,
+          4615
+        ],
+        [
+          5768,
+          4634
+        ],
+        [
+          5782,
+          4655
+        ],
+        [
+          5795,
+          4674
+        ],
+        [
+          5802,
+          4695
+        ],
+        [
+          5808,
+          4714
+        ]
+      ],
+      "source_context_xywh": [
+        5385,
+        4204,
+        1000,
+        800
+      ],
+      "note": "The outer coastal edge at Keaton Point supplies this bounded trace. Native 4x detail distinguishes that edge from the parallel road line; the first inner-road candidate is retained in the proposal history and the outward correction follows the printed coast.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-180",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9413,
+          4207
+        ],
+        [
+          9384,
+          4215
+        ],
+        [
+          9357,
+          4225
+        ],
+        [
+          9333,
+          4228
+        ],
+        [
+          9316,
+          4232
+        ],
+        [
+          9310,
+          4239
+        ],
+        [
+          9312,
+          4251
+        ],
+        [
+          9319,
+          4261
+        ],
+        [
+          9333,
+          4268
+        ],
+        [
+          9353,
+          4272
+        ],
+        [
+          9372,
+          4284
+        ],
+        [
+          9390,
+          4301
+        ]
+      ],
+      "source_context_xywh": [
+        8929,
+        3851,
+        1000,
+        800
+      ],
+      "note": "The actual Grant Point river-bank projection beneath the name supplies this bounded source reach on River Inhabitants. The southern railway proposal and northern cemetery marks are separate; this Grant Point is distinct from annotation211 at Hawkesbury.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-183",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9457,
+          4460
+        ],
+        [
+          9475,
+          4473
+        ],
+        [
+          9486,
+          4487
+        ],
+        [
+          9494,
+          4503
+        ],
+        [
+          9503,
+          4518
+        ],
+        [
+          9503,
+          4530
+        ],
+        [
+          9513,
+          4546
+        ],
+        [
+          9519,
+          4557
+        ],
+        [
+          9517,
+          4564
+        ],
+        [
+          9511,
+          4565
+        ],
+        [
+          9502,
+          4560
+        ],
+        [
+          9492,
+          4561
+        ],
+        [
+          9476,
+          4566
+        ],
+        [
+          9460,
+          4570
+        ],
+        [
+          9443,
+          4571
+        ],
+        [
+          9432,
+          4580
+        ],
+        [
+          9424,
+          4591
+        ]
+      ],
+      "source_context_xywh": [
+        8913,
+        4136,
+        1000,
+        800
+      ],
+      "note": "The actual Long Point river-bank projection beneath the name supplies this bounded source reach. The road crossing farther north, geological hatching and opposite-bank 70ft caption are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-211",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6514,
+          4963
+        ],
+        [
+          6493,
+          4967
+        ],
+        [
+          6471,
+          4968
+        ],
+        [
+          6455,
+          4974
+        ],
+        [
+          6443,
+          4986
+        ],
+        [
+          6436,
+          5002
+        ],
+        [
+          6433,
+          5020
+        ],
+        [
+          6434,
+          5036
+        ],
+        [
+          6441,
+          5053
+        ],
+        [
+          6453,
+          5070
+        ],
+        [
+          6464,
+          5091
+        ]
+      ],
+      "source_context_xywh": [
+        5824,
+        4614,
+        1000,
+        800
+      ],
+      "note": "The actual Hawkesbury Grant Point coastal bulge supplies this bounded bank trace. The parallel inland road, Emery Pond and wharf marks remain separate; this feature is distinct from annotation180 on River Inhabitants.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-213",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6385,
+          5435
+        ],
+        [
+          6375,
+          5413
+        ],
+        [
+          6363,
+          5391
+        ],
+        [
+          6351,
+          5370
+        ],
+        [
+          6344,
+          5356
+        ],
+        [
+          6346,
+          5348
+        ],
+        [
+          6353,
+          5345
+        ],
+        [
+          6367,
+          5345
+        ],
+        [
+          6385,
+          5349
+        ],
+        [
+          6407,
+          5356
+        ],
+        [
+          6429,
+          5361
+        ],
+        [
+          6456,
+          5364
+        ]
+      ],
+      "source_context_xywh": [
+        5719,
+        4925,
+        1000,
+        800
+      ],
+      "note": "The actual Point Tupper headland outline surrounding the northern tip supplies this bounded coastal reach. The light glyph and Marine Slip lettering are separate, and no current structure or access is inferred.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-215",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5985,
+          5289
+        ],
+        [
+          5975,
+          5298
+        ],
+        [
+          5959,
+          5305
+        ],
+        [
+          5957,
+          5321
+        ],
+        [
+          5954,
+          5338
+        ],
+        [
+          5957,
+          5355
+        ],
+        [
+          5967,
+          5374
+        ],
+        [
+          5980,
+          5394
+        ],
+        [
+          5992,
+          5415
+        ]
+      ],
+      "source_context_xywh": [
+        5285,
+        4994,
+        1000,
+        800
+      ],
+      "note": "The shore of Wylde’s Cove immediately north of the printed railway-terminus projection supplies this bounded source reach. Native 4x detail distinguishes the outside coastal line from the parallel road and railway; the long projecting terminal mark remains a separate transport feature.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-222",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6470,
+          5656
+        ],
+        [
+          6489,
+          5684
+        ],
+        [
+          6508,
+          5710
+        ],
+        [
+          6523,
+          5738
+        ],
+        [
+          6541,
+          5759
+        ],
+        [
+          6560,
+          5772
+        ],
+        [
+          6583,
+          5781
+        ],
+        [
+          6614,
+          5790
+        ],
+        [
+          6639,
+          5802
+        ],
+        [
+          6665,
+          5818
+        ],
+        [
+          6689,
+          5826
+        ],
+        [
+          6710,
+          5828
+        ]
+      ],
+      "source_context_xywh": [
+        5965,
+        5387,
+        1000,
+        800
+      ],
+      "note": "The western Madden Point coastal bulge supplies this bounded source reach above Madden Cove. Geological stripes and dip arrows do not define the shoreline.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-228",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6517,
+          5181
+        ],
+        [
+          6537,
+          5199
+        ],
+        [
+          6553,
+          5219
+        ],
+        [
+          6577,
+          5242
+        ],
+        [
+          6598,
+          5261
+        ],
+        [
+          6625,
+          5278
+        ],
+        [
+          6650,
+          5297
+        ],
+        [
+          6682,
+          5313
+        ],
+        [
+          6710,
+          5330
+        ],
+        [
+          6740,
+          5346
+        ],
+        [
+          6769,
+          5362
+        ],
+        [
+          6795,
+          5375
+        ],
+        [
+          6819,
+          5386
+        ]
+      ],
+      "source_context_xywh": [
+        6098,
+        4915,
+        1000,
+        800
+      ],
+      "note": "The northern Ship Harbour bank beneath Hawkesbury supplies this bounded shore reach. The line follows the bank between projecting wharf marks and remains separate from the inland railway; it does not define the full harbour, current waterfront or a navigation route.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-244",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9407,
+          4767
+        ],
+        [
+          9392,
+          4786
+        ],
+        [
+          9375,
+          4804
+        ],
+        [
+          9362,
+          4824
+        ],
+        [
+          9348,
+          4844
+        ],
+        [
+          9338,
+          4857
+        ],
+        [
+          9336,
+          4865
+        ],
+        [
+          9344,
+          4869
+        ],
+        [
+          9356,
+          4864
+        ],
+        [
+          9377,
+          4852
+        ],
+        [
+          9403,
+          4840
+        ],
+        [
+          9428,
+          4825
+        ],
+        [
+          9451,
+          4816
+        ],
+        [
+          9471,
+          4813
+        ]
+      ],
+      "source_context_xywh": [
+        9006,
+        4373,
+        1000,
+        800
+      ],
+      "note": "The southwest-facing Brule Point river-bank projection supplies this bounded source reach. Macmillan Creek, the southern island and geological lettering remain separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-254",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9437,
+          5314
+        ],
+        [
+          9457,
+          5318
+        ],
+        [
+          9475,
+          5313
+        ],
+        [
+          9488,
+          5316
+        ],
+        [
+          9507,
+          5324
+        ],
+        [
+          9528,
+          5332
+        ],
+        [
+          9543,
+          5336
+        ],
+        [
+          9546,
+          5344
+        ],
+        [
+          9539,
+          5353
+        ],
+        [
+          9530,
+          5366
+        ],
+        [
+          9524,
+          5388
+        ],
+        [
+          9520,
+          5405
+        ],
+        [
+          9508,
+          5424
+        ],
+        [
+          9504,
+          5443
+        ]
+      ],
+      "source_context_xywh": [
+        8917,
+        4963,
+        1000,
+        800
+      ],
+      "note": "The northern and eastern Mussel Point river-bank projection supplies this bounded source reach beneath the name. The Ferry district, school and FAULT notation remain separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-255",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9625,
+          5507
+        ],
+        [
+          9608,
+          5514
+        ],
+        [
+          9599,
+          5519
+        ],
+        [
+          9595,
+          5528
+        ],
+        [
+          9592,
+          5541
+        ],
+        [
+          9585,
+          5540
+        ],
+        [
+          9576,
+          5530
+        ],
+        [
+          9566,
+          5523
+        ],
+        [
+          9562,
+          5526
+        ],
+        [
+          9563,
+          5537
+        ],
+        [
+          9569,
+          5553
+        ],
+        [
+          9577,
+          5570
+        ],
+        [
+          9588,
+          5583
+        ],
+        [
+          9601,
+          5589
+        ],
+        [
+          9618,
+          5590
+        ],
+        [
+          9629,
+          5595
+        ]
+      ],
+      "source_context_xywh": [
+        9127,
+        5167,
+        1000,
+        800
+      ],
+      "note": "The hooked Whale Point river-bank projection on the eastern shore supplies this bounded source reach. The caption and inland road are separate; retain its complete native shape near the sheet edge.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-256",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9492,
+          5619
+        ],
+        [
+          9502,
+          5641
+        ],
+        [
+          9516,
+          5661
+        ],
+        [
+          9529,
+          5674
+        ],
+        [
+          9544,
+          5684
+        ],
+        [
+          9553,
+          5692
+        ],
+        [
+          9555,
+          5697
+        ],
+        [
+          9546,
+          5700
+        ],
+        [
+          9530,
+          5702
+        ],
+        [
+          9515,
+          5707
+        ],
+        [
+          9492,
+          5712
+        ],
+        [
+          9472,
+          5723
+        ],
+        [
+          9453,
+          5736
+        ]
+      ],
+      "source_context_xywh": [
+        9121,
+        5318,
+        1000,
+        800
+      ],
+      "note": "The southeast-facing River Point river-bank projection supplies this bounded source reach. The inland road approaching the tip and the broader Richmond district are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-270",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6205,
+          6020
+        ],
+        [
+          6215,
+          6022
+        ],
+        [
+          6221,
+          6027
+        ],
+        [
+          6220,
+          6035
+        ],
+        [
+          6212,
+          6035
+        ],
+        [
+          6205,
+          6031
+        ],
+        [
+          6199,
+          6035
+        ],
+        [
+          6198,
+          6046
+        ],
+        [
+          6204,
+          6054
+        ],
+        [
+          6218,
+          6058
+        ],
+        [
+          6238,
+          6059
+        ],
+        [
+          6260,
+          6062
+        ],
+        [
+          6279,
+          6068
+        ],
+        [
+          6286,
+          6072
+        ],
+        [
+          6297,
+          6064
+        ],
+        [
+          6307,
+          6069
+        ],
+        [
+          6308,
+          6076
+        ],
+        [
+          6304,
+          6081
+        ],
+        [
+          6311,
+          6092
+        ],
+        [
+          6326,
+          6105
+        ]
+      ],
+      "source_context_xywh": [
+        5700,
+        5606,
+        1000,
+        800
+      ],
+      "note": "The actual eastern/southern Pirate Harbour bank, including the small hooked projection and nearby coastal indentations, supplies this bounded source reach. The railway terminus and East Brook crossing remain separate; no whole harbour footprint or route is reconstructed.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-274",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6714,
+          5830
+        ],
+        [
+          6730,
+          5842
+        ],
+        [
+          6754,
+          5857
+        ],
+        [
+          6777,
+          5870
+        ],
+        [
+          6797,
+          5885
+        ],
+        [
+          6811,
+          5901
+        ],
+        [
+          6816,
+          5915
+        ],
+        [
+          6817,
+          5932
+        ],
+        [
+          6815,
+          5950
+        ],
+        [
+          6808,
+          5968
+        ],
+        [
+          6802,
+          5988
+        ],
+        [
+          6800,
+          6009
+        ],
+        [
+          6802,
+          6033
+        ]
+      ],
+      "source_context_xywh": [
+        6180,
+        5525,
+        1000,
+        800
+      ],
+      "note": "The recessed coastal bank of Madden Cove between Madden and Peebles Points supplies this bounded source reach. The small inner pond, road and 83ft caption are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-276",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6801,
+          6022
+        ],
+        [
+          6804,
+          6052
+        ],
+        [
+          6810,
+          6081
+        ],
+        [
+          6822,
+          6101
+        ],
+        [
+          6840,
+          6114
+        ],
+        [
+          6862,
+          6124
+        ],
+        [
+          6885,
+          6131
+        ],
+        [
+          6900,
+          6145
+        ],
+        [
+          6915,
+          6165
+        ],
+        [
+          6928,
+          6188
+        ]
+      ],
+      "source_context_xywh": [
+        6192,
+        5696,
+        1000,
+        800
+      ],
+      "note": "The western Peebles Point coastal bulge supplies this bounded source reach below Madden Cove. The small eastern pond, geological stripes and neighbouring road are separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-277",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          6336,
+          6115
+        ],
+        [
+          6356,
+          6128
+        ],
+        [
+          6378,
+          6139
+        ],
+        [
+          6397,
+          6153
+        ],
+        [
+          6411,
+          6172
+        ],
+        [
+          6419,
+          6193
+        ],
+        [
+          6428,
+          6210
+        ],
+        [
+          6428,
+          6225
+        ],
+        [
+          6433,
+          6236
+        ],
+        [
+          6446,
+          6241
+        ],
+        [
+          6461,
+          6247
+        ],
+        [
+          6475,
+          6260
+        ],
+        [
+          6493,
+          6278
+        ]
+      ],
+      "source_context_xywh": [
+        5999,
+        5750,
+        1000,
+        800
+      ],
+      "note": "The eastern Roger Point coastal bulge supplies this bounded source reach below Pirate Harbour. The parallel inland road and geological boundaries remain separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-286",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9485,
+          5994
+        ],
+        [
+          9505,
+          5990
+        ],
+        [
+          9516,
+          5986
+        ],
+        [
+          9524,
+          5976
+        ],
+        [
+          9534,
+          5971
+        ],
+        [
+          9552,
+          5967
+        ],
+        [
+          9568,
+          5971
+        ],
+        [
+          9584,
+          5978
+        ],
+        [
+          9599,
+          5990
+        ],
+        [
+          9613,
+          6003
+        ],
+        [
+          9619,
+          6013
+        ],
+        [
+          9615,
+          6020
+        ],
+        [
+          9599,
+          6027
+        ],
+        [
+          9578,
+          6034
+        ],
+        [
+          9556,
+          6041
+        ],
+        [
+          9535,
+          6049
+        ],
+        [
+          9514,
+          6063
+        ],
+        [
+          9498,
+          6076
+        ],
+        [
+          9487,
+          6084
+        ]
+      ],
+      "source_context_xywh": [
+        9117,
+        5554,
+        1000,
+        800
+      ],
+      "note": "The eastern Indian Point headland, including its dotted coastal tip, supplies this bounded source reach. The internal small oval, western rectilinear marks and separate southern island remain separate; no current shoreline condition is asserted.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-287",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          8776,
+          6277
+        ],
+        [
+          8773,
+          6296
+        ],
+        [
+          8766,
+          6311
+        ],
+        [
+          8753,
+          6323
+        ],
+        [
+          8735,
+          6330
+        ],
+        [
+          8710,
+          6336
+        ],
+        [
+          8690,
+          6342
+        ],
+        [
+          8669,
+          6344
+        ],
+        [
+          8648,
+          6339
+        ],
+        [
+          8631,
+          6338
+        ],
+        [
+          8614,
+          6342
+        ],
+        [
+          8597,
+          6340
+        ],
+        [
+          8578,
+          6333
+        ],
+        [
+          8558,
+          6325
+        ],
+        [
+          8537,
+          6314
+        ]
+      ],
+      "source_context_xywh": [
+        8457,
+        5895,
+        1000,
+        800
+      ],
+      "note": "The southern Carleton Head coastal outline supplies this bounded source reach beneath the name. The rectilinear marks on land, 54/26-degree arrows and graticule remain separate.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-288",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          9354,
+          6388
+        ],
+        [
+          9347,
+          6363
+        ],
+        [
+          9345,
+          6343
+        ],
+        [
+          9348,
+          6331
+        ],
+        [
+          9359,
+          6321
+        ],
+        [
+          9377,
+          6310
+        ],
+        [
+          9386,
+          6295
+        ],
+        [
+          9389,
+          6273
+        ],
+        [
+          9395,
+          6261
+        ],
+        [
+          9413,
+          6253
+        ],
+        [
+          9435,
+          6245
+        ],
+        [
+          9459,
+          6235
+        ],
+        [
+          9479,
+          6225
+        ],
+        [
+          9503,
+          6221
+        ],
+        [
+          9523,
+          6223
+        ],
+        [
+          9535,
+          6230
+        ],
+        [
+          9545,
+          6240
+        ],
+        [
+          9548,
+          6246
+        ],
+        [
+          9538,
+          6245
+        ],
+        [
+          9530,
+          6241
+        ],
+        [
+          9518,
+          6245
+        ],
+        [
+          9506,
+          6257
+        ],
+        [
+          9498,
+          6271
+        ],
+        [
+          9497,
+          6285
+        ],
+        [
+          9504,
+          6298
+        ],
+        [
+          9519,
+          6308
+        ],
+        [
+          9533,
+          6318
+        ],
+        [
+          9537,
+          6316
+        ],
+        [
+          9532,
+          6306
+        ],
+        [
+          9535,
+          6302
+        ],
+        [
+          9551,
+          6302
+        ],
+        [
+          9574,
+          6305
+        ],
+        [
+          9597,
+          6308
+        ],
+        [
+          9621,
+          6312
+        ],
+        [
+          9648,
+          6313
+        ],
+        [
+          9672,
+          6322
+        ]
+      ],
+      "source_context_xywh": [
+        9028,
+        5984,
+        1000,
+        800
+      ],
+      "note": "The visible northern Evans or Macnamara Island shoreline supplies this bounded source reach around its hooked northern indentation. The separate small northern island, fault line, graticule and inner neatline remain separate. The source shows only part of the island; the trace is deliberately open and does not invent the unseen perimeter.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native coastal contexts, enlarged roadside/tip detail and final source overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x scales and origins. Strait overview is scaled from its full recorded context. No rotation.",
+      "review_batch": "hawkesbury-coasts-5-20260913"
     }
   ]
 }
