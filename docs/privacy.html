@@ -37,7 +37,7 @@
       <article class="content-shell">
         <p class="eyebrow">Privacy Policy</p>
         <h1>NS Marks The Spot</h1>
-        <p class="content-lede">Last updated September 12, 2026.</p>
+        <p class="content-lede">Last updated September 13, 2026.</p>
 
         <section>
           <h2>Summary</h2>
@@ -104,9 +104,18 @@
             and woodland; and municipal boundaries. Production builds load that
             archive from https://tiles.kinnokilabs.com/provincial-atlas/ with
             public HTTP range requests and no app credentials. The archive is a
-            dated snapshot, not a claim of live physical conditions. Provincial
-            geography is licensed under the Open Government Licence – Nova
-            Scotia. OpenFreeMap still supplies only supplemental geography
+            dated snapshot, not a claim of live physical conditions. A separate
+            pinned Crown Land display archive also ships with the browser app
+            under atlas/crown/: a public dated snapshot of Nova Scotia Open Data
+            Crown Land (3nka-59nz), licensed under the Open Government Licence –
+            Nova Scotia, drawn as a fill-only display union of adjoining and
+            overlapping polygons (holes, gaps, and disconnected pieces kept).
+            Those fills include full and partial provincial interest; display
+            union IDs are not PIDs or owners, and the fill is not a survey or
+            access permission. That Crown Land archive is independent of the
+            provincial tiles and of the optional live Crown Lands overlay.
+            Provincial geography is licensed under the Open Government Licence –
+            Nova Scotia. OpenFreeMap still supplies only supplemental geography
             (ocean context, non-tree land use, and building footprints) from
             https://tiles.openfreemap.org/ (planet tiles). Map lettering is drawn
             from glyph ranges served with the app, so no font host is contacted
@@ -115,14 +124,14 @@
             provincial. An explicit OpenStreetMap raster basemap remains
             available as a choice and as a fallback if the Atlas source fails.
             The native app uses Apple MapKit. Its default NS Marks Atlas base
-            map (Day, Night, or Fletcher) is drawn from raster tiles of the same
-            cartography, rendered ahead of time from the same provincial archive
-            and OpenFreeMap context and published at
+            map (Day, Night, or Fletcher) is drawn from raster tiles published at
             https://tiles.kinnokilabs.com/atlas-raster/ (public HTTP requests,
-            no app credentials), so the phone does not contact OpenFreeMap or
-            the provincial archive directly; Apple's standard, satellite and
-            hybrid maps and the OpenStreetMap raster remain available as
-            choices. Hugh Fletcher
+            no app credentials). Those tiles were pre-rendered from the prior
+            provincial archive and OpenFreeMap context; they do not yet include
+            the browser Atlas Crown Land fills. The phone does not contact
+            OpenFreeMap or the provincial archive directly; Apple's standard,
+            satellite and hybrid maps and the OpenStreetMap raster remain
+            available as choices. Hugh Fletcher
             historical overlay tiles and Nova Scotia provincial geographic
             services are also displayed. Those map providers may receive
             standard network requests for the tiles or layers you view.
