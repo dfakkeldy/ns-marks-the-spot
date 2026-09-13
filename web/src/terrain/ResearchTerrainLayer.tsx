@@ -11,10 +11,10 @@ import { withTerrainCameraUpdate } from './terrainViewport';
 import type { ReliefSettings } from './reliefMath';
 import { configureTerrainRelief, registerTerrainReliefProtocol } from './terrainRelief';
 
-type Props = { basemap: BasemapStyle; modern: boolean; relief: ReliefSettings; onStatus: (status: string) => void };
+type Props = { basemap: BasemapStyle; modern: boolean; relief: ReliefSettings; onStatus: (status: string) => void; onMapReady: (map: GLMap | null) => void };
 const TRANSPARENT = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==';
 
-export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus }: Props) {
+export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus, onMapReady }: Props) {
   const leaflet = useMap();
   const mapRef = useRef<GLMap | null>(null);
   const readyRef = useRef(false);
@@ -69,6 +69,9 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
       const style = researchTerrainStyle(basemap, modern, currentRelief.current);
       gl = new GLMap({ container: node, style, center: [center.lng, center.lat], zoom: leaflet.getZoom() - 1,
         pitch: 50, maxPitch: 65, minZoom: 6, maxZoom: 22, attributionControl: false,
+        // High-density phones otherwise shade up to nine pixels per CSS pixel.
+        // Keep the UI sharp while bounding the terrain canvas's GPU workload.
+        pixelRatio: matchMedia('(pointer: coarse)').matches ? Math.min(devicePixelRatio, 1.5) : devicePixelRatio,
         maxBounds: [[-66.6, 43.2], [-59.5, 47.5]],
       });
     } catch {
@@ -261,8 +264,12 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     for (const pane of Object.values(leaflet.getPanes())) if (pane.classList.contains('leaflet-map-pane')) observer.observe(pane, { subtree: true, attributes: true, childList: true });
     const resize = new ResizeObserver(() => gl.resize()); resize.observe(container);
     report('Loading 3D terrain…');
-    gl.on('load', () => { loaded = true; readyRef.current = true; configureTerrainRelief(gl, 'research-elevation', RESEARCH_TERRAIN_TILES, 'terrarium', currentRelief.current); syncScene(); fromGL(); });
-    gl.on('error', () => { failed = true; report('A 3D layer failed to load. Return to 2D or retry 3D; the view may be incomplete.'); });
+    gl.on('load', () => { loaded = true; readyRef.current = true; onMapReady(gl); configureTerrainRelief(gl, 'research-elevation', RESEARCH_TERRAIN_TILES, 'terrarium', currentRelief.current); syncScene(); fromGL(); });
+    gl.on('error', event => {
+      if ('name' in event.error && event.error.name === 'AbortError') return;
+      console.warn('3D layer failed', event.error);
+      failed = true; report('A 3D layer failed to load. Return to 2D or retry 3D; the view may be incomplete.');
+    });
     gl.on('webglcontextlost', () => { failed = true; report('3D graphics connection lost. Return to 2D to continue.'); });
     gl.on('idle', () => { if (!failed) report('Ready'); });
     timeout = window.setTimeout(() => { if (!failed && !gl.areTilesLoaded()) report('3D layers are still loading.'); }, 25000);
@@ -272,10 +279,10 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
       for (const layer of terrainSubscriptions) layer.off('terrainchange', schedule);
       restoreViewport();
       popup?.remove(); for (const { marker } of markers.values()) marker.remove();
-      gl.remove(); mapRef.current = null; readyRef.current = false; removeProtocol(protocol); node.remove(); container.classList.remove('has-research-terrain');
+      onMapReady(null); gl.remove(); mapRef.current = null; readyRef.current = false; removeProtocol(protocol); node.remove(); container.classList.remove('has-research-terrain');
       // Refresh the flat view's data extent after restoring its camera footprint.
       withTerrainCameraUpdate(leaflet, () => leaflet.fire('moveend'));
     };
-  }, [leaflet, basemap, modern, onStatus]);
+  }, [leaflet, basemap, modern, onStatus, onMapReady]);
   return null;
 }

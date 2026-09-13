@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Locator } from '@playwright/test';
 import { createCanvas } from 'canvas';
 
 function tile(color: string) {
@@ -9,9 +9,23 @@ function tile(color: string) {
 // Synthetic level terrain isolates camera/selection mechanics from DEM accuracy.
 const dem = tile('rgb(128,0,0)'), background = tile('#d7dec7');
 const transparent = createCanvas(256, 256).toBuffer('image/png');
-test.use({ launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] } });
+test.use({ deviceScaleFactor: 3, hasTouch: true, colorScheme: 'dark', launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] } });
 
-for (const width of [390, 1440]) test(`3D parcel identify and return to 2D at ${width}px`, async ({ page }) => {
+async function expectReadable(locator: Locator) {
+  const ratio = await locator.evaluate(element => {
+    const style = getComputedStyle(element);
+    const luminance = (color: string) => {
+      const channels = color.match(/[\d.]+/g)!.slice(0, 3).map(Number).map(v => v / 255)
+        .map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+      return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
+    };
+    const a = luminance(style.color), b = luminance(style.backgroundColor);
+    return (Math.max(a, b) + .05) / (Math.min(a, b) + .05);
+  });
+  expect(ratio).toBeGreaterThanOrEqual(4.5);
+}
+
+for (const width of [390, 1440]) test(`3D parcel identify and return to 2D at ${width}px`, async ({ page }, testInfo) => {
   // Hosted software rendering is substantially slower than a desktop GPU;
   // keep individual assertions bounded while allowing the full gesture flow.
   test.setTimeout(120000);
@@ -42,7 +56,46 @@ for (const width of [390, 1440]) test(`3D parcel identify and return to 2D at ${
   await page.getByRole('button', { name: '3D terrain', exact: true }).click();
   const canvas = page.locator('.research-terrain-map canvas');
   await expect(canvas).toBeVisible();
+  const pixels = await canvas.evaluate(element => {
+    const image = element as HTMLCanvasElement;
+    return image.width * image.height / (image.clientWidth * image.clientHeight);
+  });
+  expect(pixels).toBeLessThanOrEqual(2.25);
+  await expectReadable(page.locator('.research-terrain-controls'));
+  await expectReadable(page.getByRole('button', { name: 'Return to 2D', exact: true }));
   await expect.poll(async () => ({ status: await page.locator('.research-terrain-status').allTextContents(), errors }), { timeout: 25000 }).toEqual({ status: [], errors: [] });
+  const tilt = page.getByRole('slider', { name: 'Map tilt', exact: true });
+  await expect(tilt).toHaveValue('50');
+  const compass = page.locator('.research-terrain-map .maplibregl-ctrl-compass .maplibregl-ctrl-icon');
+  const tilted = await compass.getAttribute('style');
+  await tilt.press('Home');
+  await expect(tilt).toHaveValue('0');
+  await expect(compass).not.toHaveAttribute('style', tilted!);
+  await page.getByRole('button', { name: 'Rotate right', exact: true }).tap();
+  await expect(page.locator('.terrain-bearing output')).toHaveText('30°');
+  await page.getByRole('button', { name: 'North up', exact: true }).tap();
+  await expect(page.locator('.terrain-bearing output')).toHaveText('0°');
+  await tilt.press('End');
+  await expect(tilt).toHaveValue('65');
+  if (width === 390) {
+    // Exercise the real two-finger handler, rather than dispatching a DOM
+    // event that might never reach MapLibre's gesture machinery.
+    const touch = await page.context().newCDPSession(page);
+    const points = (y: number) => [{ x: 95, y, id: 1 }, { x: 165, y, id: 2 }];
+    await touch.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: points(500) });
+    for (let y = 508; y <= 580; y += 8) {
+      await touch.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: points(y) });
+    }
+    await touch.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await expect(tilt).not.toHaveValue('65');
+    await touch.detach();
+  }
+  await expect(page.locator('.terrain-touch-help')).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath('terrain-dark-controls.png') });
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expectReadable(page.locator('.research-terrain-controls'));
+  await expectReadable(page.getByRole('button', { name: 'Return to 2D', exact: true }));
+  await page.getByText('Terrain height', { exact: true }).click();
   const height = page.getByRole('slider', { name: /^Height exaggeration/ });
   await height.press('End'); await expect(height).toHaveValue('10');
   await height.press('Home');
@@ -51,6 +104,7 @@ for (const width of [390, 1440]) test(`3D parcel identify and return to 2D at ${
   await low.press('End'); await expect(low).toHaveValue('10');
   await page.getByRole('combobox', { name: 'Low-ground band' }).selectOption('100');
   await expect(page.locator('.research-terrain-status')).toHaveCount(0, { timeout: 15000 });
+  await page.getByText('Terrain height', { exact: true }).click();
   const box = (await canvas.boundingBox())!;
   expect(box.height).toBeGreaterThan(200);
   await page.mouse.dblclick(box.x + box.width * .5, box.y + box.height * .5);
@@ -63,9 +117,38 @@ for (const width of [390, 1440]) test(`3D parcel identify and return to 2D at ${
   await expect(page.locator('.parcel-inspector')).toBeVisible();
   await expect(page.locator('.parcel-inspector')).toContainText('12345678');
   await page.getByRole('button', { name: 'Close parcel details', exact: true }).click();
+  if (width === 390) {
+    for (const size of [{ width: 320, height: 568 }, { width: 844, height: 390 }]) {
+      await page.setViewportSize(size);
+      await page.getByText('Terrain height', { exact: true }).click();
+      await page.getByRole('slider', { name: /^Low-ground exaggeration/ }).scrollIntoViewIfNeeded();
+      await expect(page.getByRole('button', { name: 'Return to 2D', exact: true })).toBeInViewport({ ratio: 1 });
+      await page.screenshot({ path: testInfo.outputPath(`terrain-${size.width}x${size.height}.png`) });
+      await page.getByText('Terrain height', { exact: true }).click();
+    }
+  }
   await page.getByRole('button', { name: 'Return to 2D', exact: true }).click();
   await expect(page.locator('.research-terrain-map')).toHaveCount(0);
   expect(await page.locator('.leaflet-map-pane').evaluate(el => getComputedStyle(el).visibility)).toBe('visible');
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
   expect(errors).toEqual([]);
+});
+
+test('3D source failure stays readable in dark and light appearance', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 700 });
+  await page.route('https://**/*', route => {
+    if (route.request().url().includes('elevation-tiles-prod')) return route.fulfill({ status: 503, body: 'Unavailable' });
+    if (route.request().resourceType() === 'image') return route.fulfill({ contentType: 'image/png', body: background });
+    return route.fulfill({ contentType: 'text/css', body: '' });
+  });
+  await page.goto('/?basemap=osm&layers=modern&taxSale=off');
+  await page.getByRole('button', { name: '3D terrain', exact: true }).tap();
+  const status = page.locator('.research-terrain-status');
+  await expect(status).toContainText('A 3D layer failed to load');
+  await expectReadable(status);
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expectReadable(status);
+  await page.getByRole('button', { name: 'Return to 2D', exact: true }).tap();
+  await expect(status).toHaveCount(0);
+  await expect(page.locator('vite-error-overlay')).toHaveCount(0);
 });

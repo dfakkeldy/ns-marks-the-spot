@@ -32,7 +32,9 @@ export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
       if (failed) return;
       report({ status: 'loading' });
       window.clearTimeout(watchdog);
-      watchdog = window.setTimeout(fail, 25_000);
+      // A slow load can still recover. Only a source/graphics error latches
+      // failure; an eventual idle event clears this timeout warning.
+      watchdog = window.setTimeout(() => report({ status: 'error' }), 25_000);
     };
     const sizeNode = () => {
       const size = leaflet.getSize();
@@ -55,7 +57,7 @@ export default function AtlasBasemapLayer({ mode, print = false, onStatus }: {
       return;
     }
     loading();
-    atlas.on('error', fail);
+    atlas.on('error', event => { if (!('name' in event.error) || event.error.name !== 'AbortError') fail(); });
     atlas.on('webglcontextlost', fail);
     atlas.on('dataloading', () => { if (!watchdog) loading(); });
     atlas.on('idle', () => {
