@@ -1,7 +1,7 @@
 {
   "sheet": 22,
   "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
-  "source_review_sha256": "cdbef43b47b202a11f4e1602ea144d23338b5ee22ecc51aca6645272d163788f",
+  "source_review_sha256": "9a0e935d10cf581d68c77f0dadc1b5d50c87e31f312af78f4089b2e1754b2f8c",
   "reviews": [
     {
       "annotation_id": "F22-HAW-001",
@@ -434,6 +434,168 @@
       "scene": "hawkesbury-services-8-20260913.jpg",
       "scene_sha256": "11db35a5078dd0db42869913a945367f1306ec573a5b7a2b92a939856ec55d7f",
       "evidence": "The complete source geometry lies outside the current conservative source-control hull in the eastern McLeods Bridge district. Retain its native mark/group without map placement; do not shrink the group or substitute a nearby supported point. Accepted local coverage is required."
+    },
+    {
+      "annotation_id": "F22-HAW-175",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-9-20260913.jpg",
+      "scene_sha256": "29cce5cd83386b46a3b748bc68e1c22f7b958459b8823371a934b0eae7f3ea3f",
+      "evidence": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
+    },
+    {
+      "annotation_id": "F22-HAW-176",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-9-20260913.jpg",
+      "scene_sha256": "29cce5cd83386b46a3b748bc68e1c22f7b958459b8823371a934b0eae7f3ea3f",
+      "evidence": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
+    },
+    {
+      "annotation_id": "F22-HAW-179",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-9-20260913.jpg",
+      "scene_sha256": "29cce5cd83386b46a3b748bc68e1c22f7b958459b8823371a934b0eae7f3ea3f",
+      "evidence": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
+    },
+    {
+      "annotation_id": "F22-HAW-182",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-long-point-school-geography.jpg",
+      "scene_sha256": "fdba99e6dbe5947fc070b9a5f828100535ecf7da43b82d1ebdc48252dea72c0c",
+      "evidence": "The school stays beside the north-south road, above the eastern road junction inland of Long Point. Modern road, drainage and coastline context supports approximate locality. The smaller stream and junction arms remain offset, with no individual current school match."
+    },
+    {
+      "annotation_id": "F22-HAW-189",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-new-glasgow-school-mill-geography.jpg",
+      "scene_sha256": "a048244ff841a3ff6453858a279f49b56fc8d4c4f991fa0276f22e5d790ca2c2",
+      "evidence": "The school pair remains north of the upper east-west road and above the southern mill/river district. Modern road and water geometry supports that broad locality; the pairs and detailed road-side positions are not matched to present buildings."
+    },
+    {
+      "annotation_id": "F22-HAW-191",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-new-glasgow-school-mill-geography.jpg",
+      "scene_sha256": "a048244ff841a3ff6453858a279f49b56fc8d4c4f991fa0276f22e5d790ca2c2",
+      "evidence": "The mill candidates remain at the southern road/river bend, below the upper road and school district. The modern channel and neighbouring roads support approximate locality, while the predicted group overlaps the current channel edge. Retain both candidates without identifying individual mills or a current millrace."
+    },
+    {
+      "annotation_id": "F22-HAW-197",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-grosvenor-post-geography.jpg",
+      "scene_sha256": "b0f536352c517876c50a674c5807bce9c5ed5c17d19858b1fa8f67d6282f44c6",
+      "evidence": "The postal pair remains at the bend of the northeast-running road between western and eastern drainage corridors. The modern road and tributary arrangement supports broad locality, with offsets in the small junction and channel. No individual current postal building or address is inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-201",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-10-20260913.jpg",
+      "scene_sha256": "a6feb2c34f05186166c3b356aba871a10dc1926374391d9d183071ba7f8970b0",
+      "evidence": "Mill is printed beside small watercourse loops at the railway/road crossing. Native enlargement does not identify a distinct mill symbol separate from those strokes. Retain the inscription unlocated; the loops and crossing are not substituted for a mill site."
+    },
+    {
+      "annotation_id": "F22-HAW-205",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-mulgrave-north-services-geography.jpg",
+      "scene_sha256": "265e62bd72591fb90b65678720a361f2513eb5a21acd9797b23c91686db616a5",
+      "evidence": "The church mark remains along the coastal road north of the tannery and southern bay district. Modern coast, road and drainage support approximate locality. Its prediction is close to the current highway; the crossed source strokes do not establish a present church or precise road-side building."
+    },
+    {
+      "annotation_id": "F22-HAW-206",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-mulgrave-north-services-geography.jpg",
+      "scene_sha256": "265e62bd72591fb90b65678720a361f2513eb5a21acd9797b23c91686db616a5",
+      "evidence": "The tannery mark stays on the seaward side of the road above the southern coastal inlet and drainage crossing. Modern road, coast and stream context supports the district, with bank and road offsets. No current tannery, footprint or site condition is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-207",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-mulgrave-town-services-geography.jpg",
+      "scene_sha256": "ab23e0a026944d5cbea28f5c894467fe23bdb7b7402e3b44c7dd185b8eb30250",
+      "evidence": "The postal mark remains in the northern road-bend district above the town grid and inland of the harbour. The modern coast and road layout support broad locality, while smaller streets differ. The historical mark supplies no current postal address."
+    },
+    {
+      "annotation_id": "F22-HAW-208",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-mulgrave-town-services-geography.jpg",
+      "scene_sha256": "ab23e0a026944d5cbea28f5c894467fe23bdb7b7402e3b44c7dd185b8eb30250",
+      "evidence": "The hotel mark remains just south/east of the postal mark near the northern harbour road bend. Its prediction is at the modern shoreline; retain that shore uncertainty and the historical relation between the two marks, without identifying a current hotel or precise land parcel."
+    },
+    {
+      "annotation_id": "F22-HAW-210",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-mulgrave-town-services-geography.jpg",
+      "scene_sha256": "ab23e0a026944d5cbea28f5c894467fe23bdb7b7402e3b44c7dd185b8eb30250",
+      "evidence": "The mill mark remains south of the northern town grid and north of the southern coastal transport approach. Modern shore, stream and road context supports the district, though the detailed old rail/road arrangement differs. No present mill, water-control structure or usable power is inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-212",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-emery-wharf-geography.jpg",
+      "scene_sha256": "c4541cefebfecb559d933d4e4219eef4cc1436aa9aefaeab746f72566166e144",
+      "evidence": "The candidate structures remain on the western waterfront of the Hawkesbury town grid facing Ship Harbour. The modern town/coast arrangement supports approximate locality despite changed shoreline and waterfront roads. The complete group spans land and water; it does not identify one extant wharf or a continuous structure or access boundary."
+    },
+    {
+      "annotation_id": "F22-HAW-214",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-point-tupper-services-geography.jpg",
+      "scene_sha256": "4bcafa9a2c548b5a8a1c5fd096bb0b9d0f7cc4dae1d1273355c8969ddd6d4025",
+      "evidence": "The light mark remains in the northern Point Tupper promontory district opposite Ship Harbour. The modern headland and harbour support approximate locality, but the present shoreline and roads differ and the prediction is inland of the current shore. The 44 ft. and visibility wording remain historical; no current light or navigation aid is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-217",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-point-tupper-services-geography.jpg",
+      "scene_sha256": "4bcafa9a2c548b5a8a1c5fd096bb0b9d0f7cc4dae1d1273355c8969ddd6d4025",
+      "evidence": "The marine-slip candidate remains along the northern side of Point Tupper, east of the source light symbol. Modern headland and harbour geometry support the district, with changed shore and road/rail alignments. The small source region is not an operating slip, launch permission or current footprint."
+    },
+    {
+      "annotation_id": "F22-HAW-220",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-southern-coastal-school-station-geography.jpg",
+      "scene_sha256": "68cfa2c4baff92648ab35dff52e185f7b6d0e789985fb69dfda80a79aff39d55",
+      "evidence": "The school mark remains in the narrow western Strait coastal transport corridor, above the southern station and drainage crossing. Modern roads, rail and shoreline support broad locality. The source mark and current shore/road sides are not exact present-site matches."
+    },
+    {
+      "annotation_id": "F22-HAW-221",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-southern-coastal-school-station-geography.jpg",
+      "scene_sha256": "68cfa2c4baff92648ab35dff52e185f7b6d0e789985fb69dfda80a79aff39d55",
+      "evidence": "The station symbol remains on the coastal transport corridor below the school and above the lower drainage crossing. Its prediction falls slightly seaward of the modern shore; retain that shore/transport uncertainty without snapping it inland. The original symbol does not identify a current station, platform or train service."
     }
   ]
 }

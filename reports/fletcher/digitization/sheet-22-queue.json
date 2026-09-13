@@ -1748,21 +1748,21 @@
       "annotation_id": "F22-HAW-175",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
     },
     {
       "annotation_id": "F22-HAW-176",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
     },
     {
       "annotation_id": "F22-HAW-177",
@@ -1788,11 +1788,11 @@
       "annotation_id": "F22-HAW-179",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
     },
     {
       "annotation_id": "F22-HAW-180",
@@ -1818,11 +1818,11 @@
       "annotation_id": "F22-HAW-182",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-183",
@@ -1888,11 +1888,11 @@
       "annotation_id": "F22-HAW-189",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F22-HAW-190",
@@ -1908,11 +1908,11 @@
       "annotation_id": "F22-HAW-191",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F22-HAW-192",
@@ -1968,11 +1968,11 @@
       "annotation_id": "F22-HAW-197",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F22-HAW-198",
@@ -2008,11 +2008,11 @@
       "annotation_id": "F22-HAW-201",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Mill is printed beside small watercourse loops at the railway/road crossing. Native enlargement does not identify a distinct mill symbol separate from those strokes. Retain the inscription unlocated; the loops and crossing are not substituted for a mill site."
     },
     {
       "annotation_id": "F22-HAW-202",
@@ -2048,41 +2048,41 @@
       "annotation_id": "F22-HAW-205",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-206",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-207",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-208",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-209",
@@ -2098,11 +2098,11 @@
       "annotation_id": "F22-HAW-210",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-211",
@@ -2118,11 +2118,11 @@
       "annotation_id": "F22-HAW-212",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F22-HAW-213",
@@ -2138,11 +2138,11 @@
       "annotation_id": "F22-HAW-214",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-215",
@@ -2168,11 +2168,11 @@
       "annotation_id": "F22-HAW-217",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F22-HAW-218",
@@ -2198,21 +2198,21 @@
       "annotation_id": "F22-HAW-220",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-221",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-222",
