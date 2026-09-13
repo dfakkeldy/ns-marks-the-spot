@@ -1,3 +1,6 @@
+import { ElectoralFeatureLayer } from "./ElectoralFeatureLayer";
+import { initialElectoralModes, electoralLayerById, isElectoralLayerId, type ElectoralLayerId, type ElectoralMode } from "../layers/electoralLayers";
+import type { ElectoralSelection } from "../elections/electoralData";
 import { ContextTileLayer } from "./ContextTileLayer";
 import { OpenDataLayer } from "./OpenDataLayer";
 import { ContextImageLayer } from "./ContextImageLayer";
@@ -201,6 +204,9 @@ type MapCanvasProps = {
   floodHazardLayers?: Record<FloodHazardLayerId, boolean>;
   environmentalHealthLayers?: Record<EnvironmentalHealthLayerId, boolean>;
   contextLayers?: Record<ContextLayerId, boolean>;
+  electoralModes?: Record<ElectoralLayerId, ElectoralMode>;
+  electoralLicenceAccepted?: boolean;
+  onElectoralSelect?: (selection: ElectoralSelection) => void;
   forestryLayers?: Record<ForestryLayerId, boolean>;
   zoningLayers?: Record<ZoningLayerId, boolean>;
   wellLogLayers?: Record<WellLogLayerId, boolean>;
@@ -319,7 +325,7 @@ export type MapLayerId =
   | ContextLayerId;
 
 export type MapLayerStatus =
-  | { status: "idle" | "loading" | "error" }
+  | { status: "idle" | "loading" | "error" | "source-error" | "returned-empty" | "outside-coverage" | "licence-blocked" }
   | { status: "zoom"; minZoom: number }
   /** `observedAt`: ISO observation time of a live frame, when the source states one. */
   | { status: "ready"; count?: number; observedAt?: string };
@@ -1846,6 +1852,9 @@ export function MapCanvas({
   floodHazardLayers = HIDDEN_FLOOD_HAZARD_LAYERS,
   environmentalHealthLayers = HIDDEN_ENVIRONMENTAL_HEALTH_LAYERS,
   contextLayers = hiddenContextLayers,
+  electoralModes = initialElectoralModes,
+  electoralLicenceAccepted = false,
+  onElectoralSelect,
   forestryLayers = HIDDEN_FORESTRY_LAYERS,
   zoningLayers = HIDDEN_ZONING_LAYERS,
   wellLogLayers = HIDDEN_WELL_LOG_LAYERS,
@@ -2583,7 +2592,9 @@ export function MapCanvas({
             renderMode={renderMode}
             />
           ))}
-        {contextLayerCatalog.map((layer) => layer.openData ? (
+        {contextLayerCatalog.map((layer) => isElectoralLayerId(layer.id) ? (
+          <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
+        ) : layer.openData ? (
           <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
         ) : layer.delivery === "tile" ? (
           <ContextTileLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} />

@@ -1,0 +1,88 @@
+{
+  "source": "https://www.ourcommons.ca/members/en/search/xml?province=NS",
+  "sourcePage": "https://www.ourcommons.ca/members/en/search?province=NS",
+  "sourceSha256": "786b77d6aa8dbc7b15d110a633fe3986a658c3f12a70ab108cc4f9db4eced199",
+  "pageSha256": "f08afa1c03a79b524a399190db6872880971881bee1ee13872a0be333d308644",
+  "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+  "boundaryVintage": "2023 Representation Order",
+  "attribution": "House of Commons, current members open data. Names and current caucus; not party at election.",
+  "records": {
+    "12002": {
+      "name": "Jaime Battiste",
+      "constituency": "Cape Breton—Canso—Antigonish",
+      "officialPage": "https://www.ourcommons.ca/members/en/jaime-battiste(104571)",
+      "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+      "currentCaucus": "Liberal"
+    },
+    "12008": {
+      "name": "Kody Blois",
+      "constituency": "Kings—Hants",
+      "officialPage": "https://www.ourcommons.ca/members/en/kody-blois(104555)",
+      "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+      "currentCaucus": "Liberal"
+    },
+    "12009": {
+      "name": "Braedon Clark",
+      "constituency": "Sackville—Bedford—Preston",
+      "officialPage": "https://www.ourcommons.ca/members/en/braedon-clark(122437)",
+      "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+      "currentCaucus": "Liberal"
+    },
+    "12001": {
+      "name": "Chris d'Entremont",
+      "constituency": "Acadie—Annapolis",
+      "officialPage": "https://www.ourcommons.ca/members/en/chris-dentremont(49344)",
+      "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+      "currentCaucus": "Liberal"
+    },
+    "12007": {
+      "name": "Lena Metlege Diab",
+      "constituency": "Halifax West",
+      "officialPage": "https://www.ourcommons.ca/members/en/lena-metlege-diab(109915)",
+      "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+      "currentCaucus": "Liberal"
+    },
+    "12010": {
+      "name": "Jessica Fancy",
+      "constituency": "South Shore—St. Margarets",
+      "officialPage": "https://www.ourcommons.ca/members/en/jessica-fancy(122443)",
+      "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+      "currentCaucus": "Liberal"
+    },
+    "12005": {
+      "name": "Darren Fisher",
+      "constituency": "Dartmouth—Cole Harbour",
+      "officialPage": "https://www.ourcommons.ca/members/en/darren-fisher(88323)",
+      "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+      "currentCaucus": "Liberal"
+    },
+    "12003": {
+      "name": "Sean Fraser",
+      "constituency": "Central Nova",
+      "officialPage": "https://www.ourcommons.ca/members/en/sean-fraser(88316)",
+      "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+      "currentCaucus": "Liberal"
+    },
+    "12004": {
+      "name": "Alana Hirtle",
+      "constituency": "Cumberland—Colchester",
+      "officialPage": "https://www.ourcommons.ca/members/en/alana-hirtle(122419)",
+      "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+      "currentCaucus": "Liberal"
+    },
+    "12011": {
+      "name": "Mike Kelloway",
+      "constituency": "Sydney—Glace Bay",
+      "officialPage": "https://www.ourcommons.ca/members/en/mike-kelloway(104531)",
+      "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+      "currentCaucus": "Liberal"
+    },
+    "12006": {
+      "name": "Shannon Miedema",
+      "constituency": "Halifax",
+      "officialPage": "https://www.ourcommons.ca/members/en/shannon-miedema(122428)",
+      "checkedAt": "2026-09-13T01:36:48.656409+00:00",
+      "currentCaucus": "Liberal"
+    }
+  }
+}

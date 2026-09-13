@@ -197,9 +197,9 @@ fitBounds padding, and bounds its GPU canvas to 2048 pixels per edge. Its source
 receipt discloses resampling. Source errors remain failures and require the
 existing incomplete-export consent; the renderer never substitutes another
 basemap. Legacy snapshots without a basemap style continue to use OSM.
-Browser print supports all 38 context controls subject to fitted zoom and source
+Browser print supports all 46 context controls subject to fitted zoom and source
 readiness. Generated PDF supports their 33 MapServer, open-data and tile entries; the four
-feature-query entries and static radon image are omitted and named as not
+feature-query entries, eight electoral feature entries and static radon image are omitted and named as not
 included. It preserves the on-screen image order and selected-parcel authority.
 
 The exact receipt is derived only after the print map resolves. It uses the

@@ -1,0 +1,11 @@
+{
+  "sourceUrl": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BND/BND_DistributionOfSeats_UT83/MapServer/0",
+  "checkedAt": "2026-09-13T01:47:52.678959+00:00",
+  "attributeFields": [
+    "ED_NO",
+    "ED_NAME",
+    "MLA",
+    "Party"
+  ],
+  "sha256": "749569acb12eb097262110319dd6712514b9aea313c7c33bd5ab258e456dd913"
+}

@@ -7261,3 +7261,32 @@ a {
 .road-swatch.open-minor { border-top-style: dashed; }
 
 .leaflet-control-attribution { max-width: min(540px, calc(100vw - 64px)); }
+
+/* Electoral canvas: existing ink, survey blue, paper and lichen tokens. */
+.electoral-controls h3 { margin: 1.2rem 0 .35rem; font-size: .88rem; }
+.electoral-controls h3 small { font-weight: 400; }
+.electoral-modes { margin: .4rem .3rem .8rem; font-size: .8rem; }
+.electoral-modes select { max-width: 100%; padding: .4rem; margin-left: .4rem; color: inherit; background: rgb(var(--surface-rgb)); border: 1px solid var(--line); border-radius: 5px; }
+.electoral-legend { display: flex; flex-wrap: wrap; gap: .5rem .7rem; padding: .6rem 0; }
+.electoral-legend strong { width: 100%; }
+.electoral-legend span { display: inline-flex; align-items: center; gap: .3rem; }
+.electoral-legend i { width: 14px; height: 11px; border: 1px solid #718087; }
+.district-inspector { position: absolute; right: 1rem; top: 4rem; width: min(350px, calc(100% - 2rem)); max-height: calc(100% - 6rem); overflow: auto; z-index: 1100; padding: 1.2rem; box-sizing: border-box; color: var(--ink); background: rgb(var(--surface-rgb)); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); font-size: .85rem; line-height: 1.45; }
+.district-inspector h2 { font-family: 'Fraunces', Georgia, serif; font-size: 1.6rem; line-height: 1.2; margin: .5rem 0; }
+.district-close { float: right; }
+.electoral-eyebrow { font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; font-size: .7rem; }
+.electoral-metrics { display: grid; gap: .6rem; }
+.electoral-metrics dd { margin: 0; font-weight: 600; }
+.electoral-vote-bars > div { display: grid; grid-template-columns: 5.8rem 1fr 3.5rem; gap: .35rem; align-items: center; margin: .6rem 0; }
+.electoral-vote-bars small { grid-column: 2 / 4; }
+.electoral-bar-track { background: rgba(113,128,135,.14); height: .7rem; }
+.electoral-bar-track > span { display: block; height: 100%; }
+.electoral-evidence { border-top: 1px solid var(--line); margin-top: 1rem; }
+.electoral-map-label { font-size: 11px; background: rgba(255,255,255,.9); color: #12343b; white-space: normal; max-width: 180px; text-align: center; }
+@media (max-width: 640px) { .district-inspector { top: auto; bottom: .6rem; right: .6rem; width: calc(100% - 1.2rem); max-height: 58%; } }
+.print-electoral-legends { position: absolute; z-index: 1200; bottom: 0; left: 0; right: 0; background: white; color: #12343b; padding: 0 .6rem; font-size: .65rem; }
+.electoral-map-label { min-width: 7rem; border: 0; box-shadow: none; background: transparent; font-weight: 600; text-shadow: 1px 1px #fbf6ea, -1px -1px #fbf6ea, 1px -1px #fbf6ea, -1px 1px #fbf6ea; }
+.electoral-map-label-night { color: #e8f1f0; text-shadow: 1px 1px #152b31, -1px -1px #152b31, 1px -1px #152b31, -1px 1px #152b31; }
+.electoral-map-legends { position: absolute; left: 4.5rem; bottom: 2rem; z-index: 1000; max-width: min(28rem, calc(100% - 6rem)); background: rgb(var(--surface-rgb)); color: var(--ink); border-radius: 8px; font-size: .7rem; padding: 0 .6rem; }
+.electoral-map-legends:empty { display: none; }
+@media (max-width:640px) { .electoral-map-legends { left: .6rem; bottom: 2rem; max-width: calc(100% - 1.2rem); } }

@@ -101,6 +101,7 @@ export type PrintEvidence = {
 };
 
 export type PrintCaptureBase = {
+  electoralModes?: Record<import("../layers/electoralLayers").ElectoralLayerId, import("../layers/electoralLayers").ElectoralMode>;
   basemapStyle?: BasemapStyle;
   token: string;
   capturedAt: string;
@@ -263,6 +264,7 @@ export function buildPrintMapShareUrl(
 ): string {
   return buildMapShareUrl(baseUrl, {
     basemapStyle: snapshot.basemapStyle ?? "osm",
+    electoralModes: snapshot.electoralModes,
     taxSaleEnabled: snapshot.taxSaleEnabled,
     mode: snapshot.mode,
     pid: snapshot.pid,
