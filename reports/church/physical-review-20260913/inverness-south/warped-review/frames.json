@@ -1,0 +1,98 @@
+[
+  {
+    "name": "margaree-island",
+    "lonlat_bounds": [
+      -61.28,
+      46.345,
+      -61.245,
+      46.375
+    ],
+    "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-explicit-affine-20m.tif",
+    "reference": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+    "geotransform": [
+      -6821660.0,
+      3.9000000000000004,
+      0.0,
+      5840660.0,
+      0.0,
+      -3.9000805801772764
+    ],
+    "window_size": [
+      1000,
+      1241
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "whyco-islands",
+    "lonlat_bounds": [
+      -61.14,
+      45.935,
+      -61.075,
+      45.97
+    ],
+    "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-explicit-affine-20m.tif",
+    "reference": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+    "geotransform": [
+      -6806080.0,
+      7.24,
+      0.0,
+      5775560.0,
+      0.0,
+      -7.244501940491591
+    ],
+    "window_size": [
+      1000,
+      773
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "malagawatch",
+    "lonlat_bounds": [
+      -61.115,
+      45.74,
+      -60.99,
+      45.83
+    ],
+    "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-explicit-affine-20m.tif",
+    "reference": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+    "geotransform": [
+      -6803300.0,
+      13.919999999999998,
+      0.0,
+      5753160.0,
+      0.0,
+      -13.914728682170542
+    ],
+    "window_size": [
+      1000,
+      1032
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  },
+  {
+    "name": "ainslie-outlet",
+    "lonlat_bounds": [
+      -61.18,
+      46.17,
+      -61.13,
+      46.205
+    ],
+    "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-explicit-affine-20m.tif",
+    "reference": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+    "geotransform": [
+      -6810540.0,
+      5.5600000000000005,
+      0.0,
+      5813280.0,
+      0.0,
+      -5.55885262116716
+    ],
+    "window_size": [
+      1000,
+      1011
+    ],
+    "method": "actual warped raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide"
+  }
+]

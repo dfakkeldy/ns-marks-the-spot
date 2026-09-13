@@ -1,6 +1,6 @@
 {
   "date": "2026-09-13",
-  "pass_complete": false,
+  "pass_complete": true,
   "geographic_acceptance": false,
   "working_target_rms_ground_m": 250,
   "stretch_target_rms_ground_m": 200,
@@ -17,16 +17,30 @@
     "richmond",
     "inverness-north",
     "victoria-northwest",
-    "victoria-main"
-  ],
-  "active": "cape-breton",
-  "remaining": [
+    "victoria-main",
     "cape-breton",
     "inverness-south"
   ],
+  "active": null,
+  "remaining": [],
   "existing_richmond_artifact_preserved": true,
   "existing_inverness_south_acceptance_preserved": true,
   "no_catalog_activation": true,
   "no_tiles_generated": true,
-  "no_deployment": true
+  "no_deployment": true,
+  "full_georeferencing_complete": false,
+  "unresolved_geographic_work": {
+    "richmond": "richmond/README.md",
+    "inverness-north": "inverness-north/README.md",
+    "victoria-northwest": "victoria-northwest/README.md",
+    "victoria-main": "victoria-main/README.md",
+    "cape-breton": "cape-breton/README.md",
+    "inverness-south": "inverness-south/README.md"
+  },
+  "whole_panel_working_target_met": [],
+  "new_accepted_panels": [],
+  "review_artifact": "inverness-south/final-artifact-receipt.json",
+  "numerical_verification": "verification-summary.json",
+  "parser_verification": "parser-verification.json",
+  "browser_verification": "inverness-south/browser-verification.json"
 }

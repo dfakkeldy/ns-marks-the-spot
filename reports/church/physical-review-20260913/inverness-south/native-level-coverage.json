@@ -1,0 +1,12 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-review-20260913/south-rendered/south-review-native-level.tif",
+  "raster_sha256": "2d916bed78a286e8b5f0f35205dd325c05420e88050e87cf9a9c13d302cf5eef",
+  "cutline_sha256": "e3ca0f7d081e48e6eec9005eced5dec969a33299f43270855f37f95e481cb2e0",
+  "expected_interior_cells": 22718783,
+  "transparent_interior_cells": 22718783,
+  "passed": false,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance.",
+  "probe_status": "aborted after >10 minutes, partial output only",
+  "usable_as_completed_render_experiment": false
+}

@@ -1,0 +1,49 @@
+{
+  "semantic_csv_roundtrips": [
+    {
+      "file": "richmond/diagnostic-review.csv",
+      "controls": 10,
+      "checks": 22
+    },
+    {
+      "file": "inverness-north/affine-review.csv",
+      "controls": 4,
+      "checks": 2
+    },
+    {
+      "file": "victoria-northwest/four-control-trial.csv",
+      "controls": 4,
+      "checks": 2
+    },
+    {
+      "file": "victoria-main/physical-trial.csv",
+      "controls": 4,
+      "checks": 4
+    },
+    {
+      "file": "cape-breton/island-observations.csv",
+      "controls": 1,
+      "checks": 1
+    },
+    {
+      "file": "inverness-south/physical-trial.csv",
+      "controls": 4,
+      "checks": 7
+    },
+    {
+      "file": "inverness-south/fresh-validation-review.csv",
+      "controls": 4,
+      "checks": 1
+    }
+  ],
+  "south_web_gdal_affine_max_difference_projected_m": 6.71586259354649e-9,
+  "south_affine_params": [
+    3.9184482876287072,
+    0.009015511326506158,
+    -6907700.139213536,
+    -0.004823336577419112,
+    -3.920984134042068,
+    5847268.824899885
+  ],
+  "scope": "Production CSV parser and affine computation. A single Cape Breton control is parsed as an inventory only; no usable transform is asserted. No raw-scan browser mesh acceptance."
+}
