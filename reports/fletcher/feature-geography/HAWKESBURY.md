@@ -1,7 +1,7 @@
 # Port Hawkesbury source-feature review
 
 All **301 retained annotations** now have initial source-feature and geographic
-decisions. **184** are integrated locally, while **117** remain withheld. No
+decisions. **184** have merged into nightly, while **117** remain withheld. No
 Hawkesbury annotation remains without an initial decision. The
 [closeout receipt](hawkesbury-initial-review-closeout.json) lists every holdback:
 59 source locations unresolved, 49 outside conservative coverage, 2 outside the fit

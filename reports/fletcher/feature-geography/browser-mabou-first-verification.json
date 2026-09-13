@@ -217,5 +217,10 @@
       "sha256": "bff7924a6a86f815674d01f6eb16ee2641f3d1a0cad898dc35852d7d43f3e8c9"
     }
   ],
-  "limits": "Approximate historical glyph anchors and bounded groups. Fourteen whole native geometries remain withheld outside support/neatline; no current property, individual group building, site condition or production publication is inferred."
+  "limits": "Approximate historical glyph anchors and bounded groups. Fourteen whole native geometries remain withheld outside support/neatline; no current property, individual group building, site condition or production publication is inferred.",
+  "base_reconciliation": {
+    "nightly_revision": "a96063b663028395cf3ee54c23c51a6ebd03bc01",
+    "merged_revision": "e51ac3ffacff8a790706445ad43ee124b2cdfe1a",
+    "note": "Includes the merged PR473 one-worker CI configuration; no app component or stored geometry changed during reconciliation. All310 prior public records remain byte-equivalent JSON objects. The separate Hawkesbury CI worktree preserves its original branch history."
+  }
 }
