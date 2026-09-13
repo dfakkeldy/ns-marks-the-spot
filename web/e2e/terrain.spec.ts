@@ -67,6 +67,10 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
     await expectReadable(page.locator('.research-terrain-controls'));
     await expectReadable(page.getByRole('button', { name: 'Return to 2D', exact: true }));
     await expect.poll(async () => ({ status: await page.locator('.research-terrain-status').allTextContents(), errors }), { timeout: 25000 }).toEqual({ status: [], errors: [] });
+    const settings = page.getByRole('button', { name: '3D settings', exact: true });
+    await expect(page.getByRole('slider', { name: 'Map tilt', exact: true })).toBeHidden();
+    expect((await page.locator('.research-terrain-controls').boundingBox())!.height).toBeLessThanOrEqual(60);
+    await activate(settings);
     await test.step('Tilt, direction, touch gestures and appearance', async () => {
       const tilt = page.getByRole('slider', { name: 'Map tilt', exact: true });
       await expect(tilt).toHaveValue('50');
@@ -112,6 +116,8 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
       await expect(page.locator('.research-terrain-status')).toHaveCount(0, { timeout: 15000 });
       await page.getByText('Terrain height', { exact: true }).click();
     });
+    await activate(settings);
+    await expect(page.getByRole('slider', { name: 'Map tilt', exact: true })).toBeHidden();
     await test.step('Parcel selection, short screens and return to 2D', async () => {
       const box = (await canvas.boundingBox())!;
       expect(box.height).toBeGreaterThan(200);
@@ -128,11 +134,13 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
       if (width === 390) {
         for (const size of [{ width: 320, height: 568 }, { width: 844, height: 390 }]) {
           await page.setViewportSize(size);
+          await activate(settings);
           await page.getByText('Terrain height', { exact: true }).click();
           await page.getByRole('slider', { name: /^Low-ground exaggeration/ }).scrollIntoViewIfNeeded();
           await expect(page.getByRole('button', { name: 'Return to 2D', exact: true })).toBeInViewport({ ratio: 1 });
           await page.screenshot({ path: testInfo.outputPath(`terrain-${size.width}x${size.height}.png`), scale: 'css' });
           await page.getByText('Terrain height', { exact: true }).click();
+          await activate(settings);
         }
       }
       await page.getByRole('button', { name: 'Return to 2D', exact: true }).click();
@@ -144,20 +152,32 @@ for (const width of [390, 1440]) test.describe(`${width}px profile`, () => {
   });
 });
 
-test('3D source failure stays readable in dark and light appearance', async ({ page }) => {
+test('3D names the failed source and recovers with one retry', async ({ page }) => {
+  let unavailable = true;
   await page.setViewportSize({ width: 390, height: 700 });
   await page.route('https://**/*', route => {
-    if (route.request().url().includes('elevation-tiles-prod')) return route.fulfill({ status: 503, body: 'Unavailable' });
+    if (route.request().url().includes('elevation-tiles-prod')) return unavailable ? route.fulfill({ status: 503, body: 'Unavailable' }) : route.fulfill({ contentType: 'image/png', body: dem });
     if (route.request().resourceType() === 'image') return route.fulfill({ contentType: 'image/png', body: background });
     return route.fulfill({ contentType: 'text/css', body: '' });
   });
   await page.goto('/?basemap=osm&layers=modern&taxSale=off');
   await page.getByRole('button', { name: '3D terrain', exact: true }).tap();
   const status = page.locator('.research-terrain-status');
-  await expect(status).toContainText('A 3D layer failed to load');
+  await expect(status).toContainText('Mapzen terrain');
+  await expect(status).toContainText('503');
   await expectReadable(status);
+  await page.getByRole('button', { name: '3D settings', exact: true }).tap();
+  await page.getByText('Terrain height', { exact: true }).click();
+  await page.getByRole('slider', { name: /^Height exaggeration/ }).press('End');
+  // A display-setting update cannot clear an unresolved source failure.
+  await expect(status).toContainText('Mapzen terrain');
+  await page.getByRole('button', { name: '3D settings', exact: true }).tap();
   await page.emulateMedia({ colorScheme: 'light' });
   await expectReadable(status);
+  unavailable = false;
+  await page.getByRole('button', { name: 'Retry 3D', exact: true }).tap();
+  await expect(status).toHaveCount(0, { timeout: 25000 });
+  await expect(page.locator('.research-terrain-map canvas')).toBeVisible();
   await page.getByRole('button', { name: 'Return to 2D', exact: true }).tap();
   await expect(status).toHaveCount(0);
   await expect(page.locator('vite-error-overlay')).toHaveCount(0);

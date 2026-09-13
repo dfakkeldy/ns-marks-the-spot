@@ -9,26 +9,29 @@ import { collectScene, installTerrainViewport, layerOrder, readGridTile, type Sc
 import './researchTerrain.css';
 import { withTerrainCameraUpdate } from './terrainViewport';
 import type { ReliefSettings } from './reliefMath';
+import { terrainFailureMessage, type TerrainStatus } from './terrainStatus';
 import { configureTerrainRelief, registerTerrainReliefProtocol } from './terrainRelief';
 
-type Props = { basemap: BasemapStyle; modern: boolean; relief: ReliefSettings; onStatus: (status: string) => void; onMapReady: (map: GLMap | null) => void };
+type Props = { basemap: BasemapStyle; modern: boolean; relief: ReliefSettings; onStatus: (status: TerrainStatus) => void; onMapReady: (map: GLMap | null) => void };
 const TRANSPARENT = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==';
 
 export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus, onMapReady }: Props) {
   const leaflet = useMap();
   const mapRef = useRef<GLMap | null>(null);
   const readyRef = useRef(false);
+  const failedRef = useRef(false);
   const currentRelief = useRef(relief);
   useEffect(() => {
     currentRelief.current = relief;
     if (readyRef.current && mapRef.current) {
       configureTerrainRelief(mapRef.current, 'research-elevation', RESEARCH_TERRAIN_TILES, 'terrarium', relief);
-      if (!mapRef.current.areTilesLoaded()) onStatus('Updating terrain relief…');
+      if (!failedRef.current && !mapRef.current.areTilesLoaded()) onStatus({ kind: 'loading', message: 'Updating terrain relief…' });
     }
   }, [relief, onStatus]);
 
   useEffect(() => {
     registerTerrainReliefProtocol();
+    failedRef.current = false;
     const container = leaflet.getContainer();
     const node = document.createElement('div');
     node.className = 'research-terrain-map';
@@ -45,7 +48,7 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     container.classList.add('has-research-terrain');
     const protocol = `research${L.stamp(node)}`;
     const originalBounds = leaflet.getBounds;
-    let disposed = false, syncing = false, loaded = false, failed = false;
+    let disposed = false, syncing = false, loaded = false;
     let cameraGesture = false;
     let frame = 0, timeout = 0;
     let gl: GLMap;
@@ -56,7 +59,11 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     const rasterEntries = new Map<string, RasterEntry>();
     const terrainSubscriptions = new Set<L.Layer>();
     let popup: Popup | undefined;
-    const report = (message: string) => { if (!disposed) onStatus(message); };
+    const report = (message: string, kind: TerrainStatus['kind'] = 'loading') => {
+      if (disposed) return;
+      if (kind === 'error') failedRef.current = true;
+      onStatus({ kind, message });
+    };
     addProtocol(protocol, async (request, controller) => {
       const url = new URL(request.url);
       const entry = rasterEntries.get(url.hostname);
@@ -75,7 +82,7 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
         maxBounds: [[-66.6, 43.2], [-59.5, 47.5]],
       });
     } catch {
-      report('3D could not start. Return to 2D or try another browser.');
+      report('3D graphics could not start. Return to 2D or retry.', 'error');
       container.classList.remove('has-research-terrain'); node.remove(); removeProtocol(protocol);
       return;
     }
@@ -267,12 +274,12 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     gl.on('load', () => { loaded = true; readyRef.current = true; onMapReady(gl); configureTerrainRelief(gl, 'research-elevation', RESEARCH_TERRAIN_TILES, 'terrarium', currentRelief.current); syncScene(); fromGL(); });
     gl.on('error', event => {
       if ('name' in event.error && event.error.name === 'AbortError') return;
-      console.warn('3D layer failed', event.error);
-      failed = true; report('A 3D layer failed to load. Return to 2D or retry 3D; the view may be incomplete.');
+      console.warn('3D layer failed', 'sourceId' in event ? event.sourceId : undefined, event.error);
+      report(terrainFailureMessage(event), 'error');
     });
-    gl.on('webglcontextlost', () => { failed = true; report('3D graphics connection lost. Return to 2D to continue.'); });
-    gl.on('idle', () => { if (!failed) report('Ready'); });
-    timeout = window.setTimeout(() => { if (!failed && !gl.areTilesLoaded()) report('3D layers are still loading.'); }, 25000);
+    gl.on('webglcontextlost', () => { report('3D graphics connection lost. Return to 2D or retry.', 'error'); });
+    gl.on('idle', () => { if (!failedRef.current) report('Ready', 'ready'); });
+    timeout = window.setTimeout(() => { if (!failedRef.current && !gl.areTilesLoaded()) report('3D layers are still loading.'); }, 25000);
     return () => {
       disposed = true; clearTimeout(frame); clearTimeout(timeout); observer.disconnect(); resize.disconnect();
       leaflet.off('moveend', fromLeaflet); leaflet.off('layeradd layerremove', schedule);

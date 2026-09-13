@@ -5,6 +5,7 @@ import { ContextTileLayer } from "./ContextTileLayer";
 import "../terrain/researchTerrain.css";
 import { isTerrainCameraUpdate } from "../terrain/terrainViewport";
 import { ReliefControls } from "../terrain/ReliefControls";
+import type { TerrainStatus } from "../terrain/terrainStatus";
 import { TerrainCameraControls } from "../terrain/TerrainCameraControls";
 import type { Map as TerrainMap } from "maplibre-gl";
 import { DEFAULT_RELIEF } from "../terrain/reliefMath";
@@ -1994,7 +1995,12 @@ export function MapCanvas({
   const measuring = poker !== null || measureMode !== "off";
   const [terrainRequested, setTerrainRequested] = useState(false);
   const [terrainRelief, setTerrainRelief] = useState(DEFAULT_RELIEF);
-  const [terrainStatus, setTerrainStatus] = useState("Loading 3D terrain…");
+  const [terrainStatus, setTerrainStatus] = useState<TerrainStatus>({ kind: "loading", message: "Loading 3D terrain…" });
+  const reportTerrainStatus = useCallback((status: TerrainStatus) => {
+    setTerrainStatus(previous => previous.kind === status.kind && previous.message === status.message ? previous : status);
+  }, []);
+  const [terrainSettingsOpen, setTerrainSettingsOpen] = useState(false);
+  const [terrainRetry, setTerrainRetry] = useState(0);
   const [terrainMap, setTerrainMap] = useState<TerrainMap | null>(null);
   const terrainBlocked = Boolean(isPrintMode || measuring || georeference || userVectorEdit || exportFrame);
   const terrainActive = terrainRequested && !terrainBlocked;
@@ -2889,7 +2895,7 @@ export function MapCanvas({
             </div> : <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
           )}
         </>}
-        {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer basemap={basemapStyle} modern={showModernMap} relief={terrainRelief} onStatus={setTerrainStatus} onMapReady={setTerrainMap} /></Suspense> : null}
+        {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer key={terrainRetry} basemap={basemapStyle} modern={showModernMap} relief={terrainRelief} onStatus={reportTerrainStatus} onMapReady={setTerrainMap} /></Suspense> : null}
         <MapPositionController
           onPositionChange={onPositionChange}
           onViewportChange={onViewportChange}
@@ -2899,20 +2905,29 @@ export function MapCanvas({
 
       {!isPrintMode ? <>
       <div className="research-terrain-controls" aria-label="Map dimension">
-        <button type="button" aria-pressed={terrainActive} disabled={terrainBlocked}
-          title={terrainBlocked ? "Editing, measuring and print framing use the 2D map" : "Switch between 2D and 3D terrain"}
-          onClick={() => { setTerrainStatus("Loading 3D terrain…"); setTerrainRequested(value => !value); }}>
-          {terrainActive ? "Return to 2D" : "3D terrain"}
-        </button>
-        {terrainActive ? <>
+        <div className="terrain-control-bar">
+          <button type="button" aria-label={terrainActive ? "Return to 2D" : "3D terrain"} aria-pressed={terrainActive} disabled={terrainBlocked}
+            title={terrainBlocked ? "Editing, measuring and print framing use the 2D map" : "Switch between 2D and 3D terrain"}
+            onClick={() => { setTerrainStatus({ kind: "loading", message: "Loading 3D terrain…" }); setTerrainSettingsOpen(false); setTerrainRequested(value => !value); }}>
+            {terrainActive ? "2D" : "3D terrain"}
+          </button>
+          {terrainActive ? <button type="button" aria-expanded={terrainSettingsOpen} aria-controls="terrain-settings" onClick={() => setTerrainSettingsOpen(value => !value)}>3D settings</button> : null}
+        </div>
+        {terrainActive && terrainSettingsOpen ? <div id="terrain-settings" className="terrain-settings-body">
           {terrainMap ? <TerrainCameraControls map={terrainMap} /> : null}
           <details className="terrain-height-settings"><summary>Terrain height</summary><ReliefControls value={terrainRelief} onChange={setTerrainRelief} /></details>
           <small className="terrain-touch-help">One finger moves. Pinch to zoom; twist to rotate. Slide two fingers up/down to tilt.</small>
           <small className="terrain-mouse-help">Right-drag to tilt/rotate. Scroll to zoom.</small>
           <small>Mapzen terrain; source detail varies.</small>
-        </> : null}
+        </div> : null}
       </div>
-      {terrainActive && terrainStatus !== "Ready" ? <p className="research-terrain-status" role="status">{terrainStatus}</p> : null}
+      {terrainActive && terrainStatus.kind !== "ready" ? <div className="research-terrain-status" role="status">
+        <span>{terrainStatus.message}</span>
+        {terrainStatus.kind === "error" ? <button type="button" onClick={() => {
+          setTerrainStatus({ kind: "loading", message: "Loading 3D terrain…" });
+          setTerrainRetry(value => value + 1);
+        }}>Retry 3D</button> : null}
+      </div> : null}
       <button
         className="location-button"
         type="button"
