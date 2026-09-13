@@ -748,6 +748,296 @@
       "reviewer": "Codex coordinator, native source context and verified symbol/group overlays, 2026-09-13",
       "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at1x, detail grids/groups at2x, symbol crosshairs at4x; station microgrids at16x with recorded origins. No rotation.",
       "review_batch": "hawkesbury-services-8-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-175",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9432,
+          3576,
+          30,
+          23
+        ]
+      ],
+      "note": "The two compact marks immediately above P.O. are east of the north-south road and south of the east-west road at McLeods Bridge. Keep their candidate group; the source does not choose one postal building. The forge pair north of the road is separate.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-9-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-176",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9442,
+          3536,
+          19,
+          33
+        ]
+      ],
+      "note": "The two compact marks immediately left of Forge lie east of the north-south road and north of the east-west road. Their group remains separate from the postal candidates to the south; no individual forge building is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-9-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-179",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        9265.25,
+        4188.25
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The small striped rectangular cemetery symbol is directly left of Cemetery above the Grant Point shoreline. Its centre locates the printed symbol only; it is not the full cemetery extent, a burial location or a current property boundary.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-9-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-182",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        9162,
+        4496
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated compact school mark is immediately right of School, east of the north-south road and above the eastern road junction near Long Point. The adjacent road and stream strokes are separate.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-9-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-189",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2598,
+          5413,
+          13,
+          26
+        ]
+      ],
+      "note": "Two compact marks immediately left of School sit north of the New Glasgow road. The separate mark south of the road is excluded. Preserve the pair as candidates without choosing an individual school building.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-9-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-191",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2545,
+          5658,
+          35,
+          18
+        ]
+      ],
+      "note": "The two compact marks directly below S. Mill flank the narrow road/watercourse corridor at the bend. The larger southwestern settlement cluster is separate. Retain the pair and original abbreviation without inventing individual mill buildings or usable power.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-9-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-197",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3254,
+          5084,
+          31,
+          31
+        ]
+      ],
+      "note": "The compact pair immediately above P.O. lies below the road bend at Grosvenor. The separate mark north of the road and the western cluster are not silently joined to this group. No current postal address is asserted.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-10-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-201",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Mill is printed beside small watercourse loops at the railway/road crossing. Native enlargement does not identify a distinct mill symbol separate from those strokes. Retain the inscription unlocated; the loops and crossing are not substituted for a mill site.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-10-20260913",
+      "rejected_source_candidates": [
+        {
+          "native_xywh": [
+            4720,
+            4750,
+            110,
+            100
+          ],
+          "reason": "Mill is printed beside small watercourse loops at the railway/road crossing. Native enlargement does not identify a distinct mill symbol separate from those strokes. Retain the inscription unlocated; the loops and crossing are not substituted for a mill site.",
+          "evidence": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-201-feature-question.png",
+          "evidence_sha256": "3f9a5123b7deec1ead00ebe1344cb83cf7c058e5ae5ecaab9cdb018ffbcc7c75"
+        }
+      ]
+    },
+    {
+      "annotation_id": "F22-HAW-205",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6288.5,
+        4704.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The small oblique church cross touches the western road edge beside the Church caption north of the tannery. Native enlargement distinguishes its crossed strokes from the longer road and drainage lines. Retain the approximate symbol centre without a current church identity.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-10-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-206",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6335,
+        4780
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact tannery mark is directly right of Tannery and west of the shoreline road, above the small southern bay. The road junction and geological arrow are separate; no current tannery or operating facility is inferred.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-10-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-207",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5880,
+        5116.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated compact postal mark is below P.O. and above the east-west road in the northern Port Mulgrave junction. The separate hotel mark lies below the road farther east. The source point establishes no current postal address.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-10-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-208",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5924.75,
+        5133.75
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact hotel mark is directly below Hotel on the lower side of the road loop. It remains distinct from the postal mark above the road and the projecting waterfront structures farther south. No current establishment is identified.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-10-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-210",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5918.5,
+        5290.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact mill mark is right of Mill between the railway and shoreline road south of the town grid. Its point is taken from the mark, not the track crossing, town label or nearby crosses; no present mill or footprint is claimed.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-11-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-212",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6495,
+          5162,
+          68,
+          66
+        ]
+      ],
+      "note": "Three projecting dark shoreline structures lie beside the two-part Emery’s Wharf caption. The lettering does not confidently identify one of these as the named wharf. Retain their complete nearby candidate region; the rectangle is not a continuous wharf, harbour boundary or present access claim.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-11-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-214",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6358.5,
+        5363.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The radiating light symbol at Point Tupper supplies its own source centre. Enlarged native lettering confirms the retained 44 ft. reading. Height, colour and visibility abbreviations remain historical source wording, not a current aid, range or navigation instruction.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-11-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-217",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6453,
+          5351,
+          23,
+          20
+        ]
+      ],
+      "note": "The small outlined shoreline structure above Marine Slip is the source candidate beside the coastal road. Its region preserves that mark without asserting the full slip extent or identifying an operating launch/repair facility. The adjacent light symbol is separate.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-11-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-220",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6029.5,
+        5721
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact school mark immediately left of School lies in the narrow coastal road/rail corridor. The short shore projections and ordinary rail ties are separate. Retain the actual mark with source uncertainty, not the lettering centre or a current school identity.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-11-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-221",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6069.5,
+        5821
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The elongated striped station symbol lies on the coastal transport corridor immediately right/above STA. Its body is distinguishable from the ordinary rail ties and shore projections. The approximate symbol centre does not establish a current station, platform or service.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
+      "review_batch": "hawkesbury-services-11-20260913"
     }
   ]
 }

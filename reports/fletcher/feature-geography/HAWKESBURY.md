@@ -1,12 +1,12 @@
 # Port Hawkesbury source-feature review
 
-The first **48 of 301** annotations have source and geographic decisions. **41**
-are integrated locally: 29 approximate marks and twelve unresolved source groups.
-Five source records are outside supported coverage, McMaster's Mill retains an
-unresolved geographic prediction, and the Auld Cove mill remains unlocated.
-The remaining 253 initial source associations are pending. Twenty-six Hawkesbury
-features merged through PR458; fifteen further placements are locally verified.
-The combined 167-record export retains all 126 Judique annotations.
+The first **66 of 301** annotations have source and geographic decisions. **55**
+are integrated locally: 38 approximate marks and seventeen unresolved source groups.
+Eight source records are outside supported coverage, McMaster's Mill retains an
+unresolved geographic prediction, and two mill captions remain unlocated.
+The remaining 235 initial source associations are pending. Forty-one Hawkesbury
+features merged through PR459; fourteen harbour placements are locally verified.
+The combined 181-record export retains all 126 Judique annotations.
 
 ## Source and geography
 
@@ -130,6 +130,38 @@ is retained, with no trimming to force coverage. The accepted groups and points
 still carry explicit road, rail, bank and shoreline differences; no current
 station, building, service or property is inferred.
 
+The harbour pass reviews eighteen more source annotations:
+
+- [Services 9](hawkesbury-services-9-20260913.jpg): 175,176,179,182,189,191.
+- [Services 10](hawkesbury-services-10-20260913.jpg): 197,201,205,206,207,208.
+- [Services 11](hawkesbury-services-11-20260913.jpg): 210,212,214,217,220,221.
+
+[Native candidate history](hawkesbury-harbour-append-receipt.json) records the
+final centres and groups. The Point Tupper caption was enlarged and confirms
+**44 ft.**; its original reading is unchanged. Emery's Wharf retains three
+nearby shoreline structures as one candidate region, without inventing a
+continuous wharf or choosing one structure. The cemetery is a small source
+symbol, not a traced cemetery boundary. The railway-side Mill 201 has no distinct
+site mark separable from the crossing/loops and remains unlocated.
+
+Eight more geographic scenes support fourteen additions:
+
+- [Long Point school](hawkesbury-long-point-school-geography.jpg)
+- [New Glasgow road school and mill](hawkesbury-new-glasgow-school-mill-geography.jpg)
+- [Grosvenor postal group](hawkesbury-grosvenor-post-geography.jpg)
+- [Northern Mulgrave church and tannery](hawkesbury-mulgrave-north-services-geography.jpg)
+- [Mulgrave town services](hawkesbury-mulgrave-town-services-geography.jpg)
+- [Emery's Wharf candidates](hawkesbury-emery-wharf-geography.jpg)
+- [Point Tupper light and marine slip](hawkesbury-point-tupper-services-geography.jpg)
+- [Southern coastal school and station](hawkesbury-southern-coastal-school-station-geography.jpg)
+
+The four new holdbacks are **175 P.O.**, **176 Forge**, **179 Cemetery**
+(outside supported coverage), and **201 Mill** (source location unresolved).
+All eleven held records retain their source evidence. Accepted waterfront
+features keep explicit shoreline and road/rail differences; the southern
+station's prediction is slightly seaward of the modern shore and is not
+snapped inland or identified with a current station.
+
 ## Integration and verification
 
 The [browser receipt](browser-hawkesbury-first-verification.json) records selection
@@ -151,6 +183,10 @@ after closing, with a settled final screenshot and clean console.
 The [station/mill browser receipt](browser-hawkesbury-stations-verification.json)
 records all fifteen later additions against the 167-record export, with decoded
 source images, visible placement notes and clean desktop/phone consoles.
+
+The [harbour browser receipt](browser-hawkesbury-harbour-verification.json)
+records all fourteen additions against the 181-record export, with source images,
+visible placement evidence and clean desktop/phone consoles.
 
 Local checks: 299 Fletcher Python tests passed, with eight existing skips; seven
 Fletcher component tests and web script tests passed; lint and build passed.

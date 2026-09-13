@@ -1,0 +1,227 @@
+{
+  "reviewed_at": "2026-09-13",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 181,
+  "export_sha256": "872c7db6f099a288882eb2f92ddae5a564cb8451efcfaf6d4de02168aa2e4976",
+  "checks": {
+    "count": 181,
+    "checks": [
+      {
+        "id": "F22-HAW-182",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-189",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-191",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-197",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-205",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-206",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-207",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-208",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-210",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-212",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-214",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-217",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-220",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-221",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-175",
+      "F22-HAW-176",
+      "F22-HAW-179",
+      "F22-HAW-201",
+      "F22-HAW-132",
+      "F22-HAW-173",
+      "F22-HAW-174",
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F19-JUD-001",
+      "F19-JUD-012",
+      "F19-JUD-029",
+      "F19-JUD-083",
+      "F19-JUD-084",
+      "F19-JUD-130",
+      "F19-JUD-155",
+      "F19-JUD-164",
+      "F19-JUD-056",
+      "F19-JUD-132",
+      "F19-JUD-139",
+      "F19-JUD-140",
+      "F19-JUD-144",
+      "F19-JUD-161",
+      "F19-JUD-026",
+      "F19-JUD-034",
+      "F19-JUD-060",
+      "F19-JUD-085",
+      "F19-JUD-101",
+      "F19-JUD-124",
+      "F19-JUD-125",
+      "F19-JUD-143",
+      "F19-JUD-156",
+      "F19-JUD-165"
+    ],
+    "errors": []
+  },
+  "additional_assertions": [
+    "All fourteen additions selected across desktop/phone widths with decoded native excerpts, visible placement notes, a ready basemap and clean console.",
+    "All previous forty-eight Hawkesbury feature records are unchanged.",
+    "Eleven Hawkesbury holdbacks remain excluded, including the eastern postal/forge/cemetery features and the unlocated railway-side mill."
+  ],
+  "local_checks": {
+    "python": "299 tests pass, eight existing skips",
+    "web": "7 Fletcher component tests and web script tests pass; lint and build pass"
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-harbour-review.json",
+      "sha256": "1f2be4918e8a2d9afc71de3f123ffe6d1dc33cef954b9d6e8ce4a9edb72503a1"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-harbour-182.png",
+      "sha256": "6f03143287107a2588f0eec40651fdd8077d2a58c2ab3a2e6d4e09e53538ae4d"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-harbour-221.png",
+      "sha256": "7a5d8d068149df419a65f908c25f264ceec5b22ab54d6403bae8e7566ac1ddfb"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-harbour-208.png",
+      "sha256": "1493d2571c2d248079386ba8cdd3b764a0065945fc941197dfb02d9506846d42"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-harbour-191.png",
+      "sha256": "34208d41516cb09a5e99333c9c2a1a54da03e582b0854d5cdf9c66eb8a513f8e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-harbour-217.png",
+      "sha256": "922131c7f87afa905b6dc67652629d63c9b103f75618cce4d8ed07509d0f9675"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-harbour-214.png",
+      "sha256": "c958fa9328e7b056a5a8a0f9df8ee23e5285483d06a3c283de6600b43e4ff373"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-harbour-212.png",
+      "sha256": "89133aacc2165d8c538899743c87906029fc01b33c0ae954a4ddb991d3121914"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-181-export/source.json",
+      "sha256": "f5ce5255cc9e22594f9749c063dc6d772bc52d196e760e1e9492a47273f00a1e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-181-export/reviewed.geojson",
+      "sha256": "872c7db6f099a288882eb2f92ddae5a564cb8451efcfaf6d4de02168aa2e4976"
+    }
+  ],
+  "limits": "Historical shoreline and structure evidence only; no current navigation, operating facility, property or production publication claim."
+}
