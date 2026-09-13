@@ -3,7 +3,7 @@ import type { ProvinceLayerId } from "../layers/layerCatalog";
 export const PROVINCE_LAYER_Z_INDEXES: Record<ProvinceLayerId, number> = {
   "ns-aerial": 150,
   contours: 180,
-  nsprd: 200,
+  nsprd: 218,
   "water-features": 210,
   "crown-lands": 220,
   buildings: 225,

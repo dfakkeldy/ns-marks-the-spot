@@ -5,12 +5,21 @@ const receipt: TerrainReceipt = { bounds: [-61.6, 45.74, -61.21, 45.93], terrain
   historical: { coordinates: [[-61.6, 45.93], [-61.21, 45.93], [-61.21, 45.74], [-61.6, 45.74]] } };
 
 describe('Judique reference layer contract', () => {
-  it.each([false, true])('keeps the complete water stroke above imagery and contours (aerial accepted: %s)', accepted => {
-    const style = buildTerrainStyle(receipt, accepted);
+  it.each([false, true])('draws roads, bridges and accepted parcels above water (aerial accepted: %s)', accepted => {
+    const style = buildTerrainStyle(receipt, accepted, 'historical', 1, true);
     const ids = style.layers.map(layer => layer.id);
-    expect(ids.slice(-2)).toEqual(['hydro-halo', 'hydro']);
+    expect(ids.indexOf('water')).toBeGreaterThan(ids.indexOf('contours'));
+    expect(ids.indexOf('surface-road-edge')).toBeGreaterThan(ids.indexOf('hydro'));
+    expect(ids.indexOf('bridge-road-edge')).toBeGreaterThan(ids.indexOf('surface-roads'));
+    expect(ids.at(-1)).toBe('parcels');
     expect(ids.indexOf('contours')).toBeGreaterThan(ids.indexOf('historical'));
     if (accepted) expect(ids.indexOf('contours')).toBeGreaterThan(ids.indexOf('aerial'));
+  });
+  it('creates no property-boundary requests without separate licence acceptance', () => {
+    const style = buildTerrainStyle(receipt, true);
+    expect(style.sources).not.toHaveProperty('parcels');
+    expect(JSON.stringify(style)).not.toContain('PLAN_NSPRD');
+    expect(style.sources.water).toMatchObject({ type: 'geojson', data: './terrain/judique/water.geojson' });
   });
   it('does not create any aerial source until the provincial terms are accepted', () => {
     const style = buildTerrainStyle(receipt, false);

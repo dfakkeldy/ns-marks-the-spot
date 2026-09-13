@@ -2127,6 +2127,17 @@ describe("MapCanvas viewport reporting", () => {
     });
     expect(onViewportChange).not.toHaveBeenCalled();
 
+    // Renderer/terrain changes may slightly recentre the camera and change
+    // its bounds; neither is permission to publish the browser-location view.
+    mapMock.getCenter.mockReturnValue({ lat: 46.12001, lng: -60.91001 });
+    mapMock.getBounds.mockReturnValue({ getWest: () => -61.1, getSouth: () => 46.05, getEast: () => -60.8, getNorth: () => 46.4 });
+    act(() => withTerrainCameraUpdate(mapMock as unknown as L.Map, () => moveendHandler?.({ type: "moveend" })));
+    expect(onViewportChange).not.toHaveBeenCalled();
+    // Rotating or returning to overhead at that same position stays private.
+    mapMock.getBounds.mockReturnValue({ getWest: () => -61.05, getSouth: () => 46.08, getEast: () => -60.85, getNorth: () => 46.3 });
+    act(() => moveendHandler?.({ type: "moveend" }));
+    expect(onViewportChange).not.toHaveBeenCalled();
+
     mapMock.getCenter.mockReturnValue({ lat: 46.2, lng: -61 });
     mapMock.getZoom.mockReturnValue(15);
     mapMock.getBounds.mockReturnValue({
@@ -4592,3 +4603,4 @@ describe("MapCanvas live conditions overlays", () => {
     expect(cameraGeoJsonCall()).toBeUndefined();
   });
 });
+import { withTerrainCameraUpdate } from "../terrain/terrainViewport";

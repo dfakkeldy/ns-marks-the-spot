@@ -19,13 +19,15 @@ from pyproj import Transformer
 import requests
 from scipy.interpolate import LinearNDInterpolator, NearestNDInterpolator
 from scipy.ndimage import gaussian_filter, map_coordinates
+from shapely import contains_xy
 from shapely.geometry import box, mapping, shape
-from shapely.ops import transform
+from shapely.ops import transform, unary_union
 
 BOUNDS = [-61.60, 45.74, -61.21, 45.93]
 BUFFER = [-61.65, 45.70, -61.16, 45.97]
 HYDRO = 'https://nsgiwa.novascotia.ca/arcgis/rest/services/WTR/WTR_NSHN_UT83/MapServer'
 CONTOURS = 'https://data.novascotia.ca/resource/bhx9-mpui.geojson'
+WATER = 'https://data.novascotia.ca/resource/h8jb-hzrm.geojson'
 
 
 def digest(path):
@@ -89,7 +91,88 @@ def cached_inputs(cache):
                 features.extend(page)
             print(f'NSHN: {len(features)}', flush=True)
         write_json(hydro_path, {'type': 'FeatureCollection', 'features': features})
-    return contours_path, hydro_path
+    water_path = cache / 'water-polygons-v2.json'
+    if not water_path.exists():
+        features = []
+        west, south, east, north = BUFFER
+        envelope = f'POLYGON (({west} {south},{east} {south},{east} {north},{west} {north},{west} {south}))'
+        for offset in range(0, 100000, 500):
+            page = fetch(WATER, {'$where': f"intersects(the_geom, '{envelope}')",
+                                '$select': ':id AS source_row_id,the_geom,feat_desc,zvalue,feat_code,shape_area,shape_len', '$limit': 500,
+                                '$offset': offset, '$order': ':id'})['features']
+            features.extend(page)
+            if len(page) < 500:
+                break
+        else:
+            raise ValueError('Water polygon pagination exceeded limit')
+        write_json(water_path, {'type': 'FeatureCollection', 'features': features})
+    return contours_path, hydro_path, water_path
+
+
+def condition_water(surface, xx, yy, water, project, interpolation):
+    """Lake estimates share the contour model's unresolved datum; source Z is unused.
+
+    Dissolve sheet seams before sampling real shorelines. Reject incomplete or
+    inconsistent shoreline support. Rivers/wetlands never receive a constant Z.
+    """
+    lake_classes = {'Lake Water polygon', 'Reservoir Water polygon'}
+    lakes, oceans = [], []
+    reference = []
+    for feature in water['features']:
+        description = feature['properties']['feat_desc']
+        if description not in lake_classes | {'Coast Water Area polygon', 'River Water Area polygon', 'Coast River Water polygon'}:
+            continue
+        geometry = transform(project.transform, shape(feature['geometry']))
+        if not geometry.is_valid:
+            raise ValueError('Invalid source water polygon; review before conditioning')
+        reference.append(feature)
+        if description in lake_classes:
+            lakes.append((geometry, feature['properties']['source_row_id']))
+        elif description == 'Coast Water Area polygon':
+            oceans.append(geometry)
+    ocean = unary_union(oceans)
+    ocean_mask = contains_xy(ocean, xx, yy)
+    surface[ocean_mask] = 0  # Display convention, not a tide/datum observation.
+    lake_union = unary_union([geometry for geometry, _ in lakes])
+    parts = list(lake_union.geoms) if lake_union.geom_type == 'MultiPolygon' else [lake_union]
+    records = []
+    grid = box(xx.min(), yy.min(), xx.max(), yy.max())
+    for index, lake in enumerate(parts):
+        mask = contains_xy(lake, xx, yy)
+        record = {'modelId': index, 'sourceRowIds': [source_id for geometry, source_id in lakes if geometry.intersection(lake).area > 0],
+                  'areaSquareMetres': lake.area, 'gridCells': int(mask.sum()), 'status': 'reference-only'}
+        if not grid.contains(lake):
+            record['reason'] = 'shoreline-outside-input-grid'
+        elif not mask.any():
+            record['reason'] = 'smaller-than-grid-sampling'
+        else:
+            rings = [lake.exterior, *lake.interiors]
+            samples = [ring.interpolate(distance) for ring in rings
+                       for distance in np.linspace(0, ring.length, max(8, math.ceil(ring.length / 30)), endpoint=False)]
+            z = interpolation([point.x for point in samples], [point.y for point in samples])
+            if not np.isfinite(z).all():
+                record['reason'] = 'shoreline-outside-contour-hull'
+            else:
+                p10, p90 = np.percentile(z, [10, 90])
+                record.update({'shorelineSamples': len(z), 'shorelineP10Metres': float(p10), 'shorelineP90Metres': float(p90),
+                               'shorelineRangeMetres': float(np.ptp(z))})
+                if p90 - p10 > 10 or np.ptp(z) > 20:
+                    record['reason'] = 'inconsistent-shoreline-estimates'
+                else:
+                    level = float(np.median(z))
+                    before = surface[mask].copy()
+                    surface[mask] = level
+                    record.update({'status': 'estimated-flat-lake', 'estimatedElevationMetres': level,
+                                   'maxGridAdjustmentMetres': float(np.max(np.abs(before - level))),
+                                   'conditionedGridRangeMetres': float(np.ptp(surface[mask]))})
+        records.append(record)
+    return reference, {'method': 'Dissolve touching lake/reservoir polygons; sample complete shoreline every <=30 m from unsmoothed contour triangulation; median estimated level. Require finite support, P90-P10 <=10 m and full range <=20 m. Burn constant lake cells after display smoothing; islands remain excluded.',
+                       'domain': 'Buffered input grid; counts include features outside the smaller displayed Judique bounds.',
+                       'resolutionCaveat': 'Flat grid interiors are resampled into RGB tiles; shore transitions and sub-grid water bodies are not exact polygon breaklines.',
+                       'lakeLevelsAre': 'Model estimates in the contour source vertical frame, not surveyed water levels; spread gates are screening heuristics, not accuracy claims.',
+                       'sourceWaterZUsed': False, 'ocean': {'method': 'Explicit Coast Water Area polygons set to display zero; islands excluded.', 'gridCells': int(ocean_mask.sum()), 'verticalMeaning': 'Display-zero convention only; not sea-level, tidal, or bathymetric evidence.'},
+                       'rivers': 'Draped references only; no constant elevation, flow direction or drainage enforcement.',
+                       'lakes': records}
 
 
 def terrain_rgb(elevation):
@@ -105,9 +188,10 @@ def main():
     args = parser.parse_args()
     args.cache.mkdir(parents=True, exist_ok=True)
     args.output.mkdir(parents=True, exist_ok=True)
-    contours_path, hydro_path = cached_inputs(args.cache)
+    contours_path, hydro_path, water_path = cached_inputs(args.cache)
     contours = json.loads(contours_path.read_text())
     hydro = json.loads(hydro_path.read_text())
+    water = json.loads(water_path.read_text())
     project = Transformer.from_crs(4326, 32620, always_xy=True)
     unproject = Transformer.from_crs(32620, 4326, always_xy=True)
     clip = box(*BOUNDS)
@@ -161,6 +245,7 @@ def main():
     surface[missing] = nearest(xx[missing], yy[missing])
     # This mild display smoothing is explicitly not drainage enforcement.
     surface = gaussian_filter(surface, sigma=1)
+    water_reference, water_conditioning = condition_water(surface, xx, yy, water, project, interpolation)
     # Record support and contour agreement; this is not independent validation.
     fitted = map_coordinates(surface, [(unique[:, 1] - y0) / cell, (unique[:, 0] - x0) / cell], order=1, mode='nearest')
     inside = (unique[:, 0] >= xs[0]) & (unique[:, 0] <= xs[-1]) & (unique[:, 1] >= ys[0]) & (unique[:, 1] <= ys[-1])
@@ -197,6 +282,10 @@ def main():
         feature['geometry'] = display_geometry(feature)
     hydro['features'] = [feature for feature in hydro['features'] if not shape(feature['geometry']).is_empty]
     write_json(args.output / 'hydro.geojson', hydro)
+    for feature in water_reference:
+        feature['geometry'] = display_geometry(feature)
+    water_reference = [feature for feature in water_reference if not shape(feature['geometry']).is_empty]
+    write_json(args.output / 'water.geojson', {'type': 'FeatureCollection', 'features': water_reference})
     historical_info = json.loads(subprocess.check_output(['gdalinfo', '-json', str(args.historical)]))
     if digest(args.historical) != 'adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4':
         raise ValueError('Unexpected Judique historical raster; review its provenance before replacing')
@@ -209,13 +298,15 @@ def main():
     receipt = {
         'name': 'Judique · Fletcher sheet 19', 'bounds': supported, 'inputBuffer': BUFFER,
         'generatedAt': datetime.now(timezone.utc).isoformat(), 'displaySimplificationMetres': 5,
-        'method': 'NSTDB contour elevations; linear triangulation sampled at 30 m in UTM 20N, followed by a one-cell Gaussian display smoothing. NSHN is a draped reference, not a drainage constraint.',
+        'method': 'NSTDB contour elevations; linear triangulation sampled at 30 m in UTM 20N, one-cell Gaussian display smoothing, then supported lakes flattened to contour-shoreline estimates and explicit ocean polygons set to display zero. Rivers and NSHN remain draped references, not drainage constraints.',
         'purpose': 'Provisional 3D inspection; not a watershed-ready or vertically validated DEM.',
         'verticalDatum': 'Contour source ZVALUE in metres; vertical datum and epoch not independently reconciled. NSHN heights are not used.',
         'sources': {'contours': CONTOURS, 'hydro': HYDRO, 'hydroLayers': [9, 11],
                     'licence': 'https://novascotia.ca/opendata/licence.asp',
                     'hydroCatalogue': 'https://open.canada.ca/data/en/dataset/2ed55c68-b7f8-4db0-15d9-bef40797a4c4'},
-        'inputs': {p.name: digest(p) for p in [contours_path, hydro_path]},
+        'inputs': {p.name: digest(p) for p in [contours_path, hydro_path, water_path]},
+        'waterSource': {'url': WATER, 'catalogue': 'https://data.novascotia.ca/d/h8jb-hzrm', 'licence': 'https://novascotia.ca/opendata/licence.asp', 'sourceWaterZUsed': False},
+        'waterConditioning': water_conditioning, 'waterPolygonFeatures': len(water_reference),
         'contourFeatures': len(display), 'hydroFeatures': len(hydro['features']),
         'terrainCellMetres': cell, 'terrainMinZoom': 8, 'terrainMaxZoom': 12, 'tileCount': tile_count,
         'contourAgreement': {'rmsMetres': float(np.sqrt(np.mean(errors ** 2))), 'maxMetres': float(np.max(np.abs(errors))), 'independent': False},

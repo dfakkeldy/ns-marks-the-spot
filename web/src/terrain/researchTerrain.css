@@ -1,0 +1,21 @@
+.leaflet-container > .research-terrain-map { position: absolute; inset: 0; z-index: 450; }
+.has-research-terrain > .leaflet-map-pane, .has-research-terrain > .atlas-basemap { visibility: hidden; }
+.has-research-terrain > .leaflet-control-container { position: relative; z-index: 490; }
+.research-terrain-map .maplibregl-ctrl-top-right { top: 180px; }
+.research-terrain-map .maplibregl-popup-content { max-height: 50dvh; overflow: auto; color: #263b3d; }
+.research-terrain-map .maplibregl-marker { cursor: pointer; }
+.research-terrain-controls { position: absolute; z-index: 500; top: 12px; right: 12px; display: grid; gap: 6px; padding: 8px; border-radius: 8px; background: var(--paper, #faf8f0); color: var(--ink, #263b3d); box-shadow: 0 1px 8px #12343b35; max-width: 190px; font-size: 12px; }
+.research-terrain-controls button { min-height: 38px; border: 1px solid var(--muted, #61706a); border-radius: 5px; background: transparent; color: inherit; cursor: pointer; }
+.research-terrain-controls button[aria-pressed=true] { background: var(--survey-blue, #244e4b); color: #fff; }
+.research-terrain-controls label { display: grid; grid-template-columns: 1fr auto; gap: 4px; }
+.research-terrain-controls input { grid-column: 1 / -1; width: 100%; }
+.research-terrain-controls small { line-height: 1.4; }
+.research-terrain-status { position: absolute; z-index: 500; bottom: 70px; left: 72px; max-width: min(380px, calc(100% - 95px)); padding: 9px; background: var(--paper, #faf8f0); color: var(--ink, #263b3d); border-radius: 5px; font-size: 12px; }
+.research-terrain-map .maplibregl-ctrl-attrib { max-width: min(550px, calc(100vw - 30px)); }
+.map-region.has-inspector .research-terrain-controls { visibility: hidden; }
+@media (max-width: 860px) {
+  .research-terrain-controls { right: 8px; top: 68px; max-width: 155px; padding: 6px; }
+  .research-terrain-map .maplibregl-ctrl-top-right { top: 240px; }
+  .research-terrain-map .maplibregl-ctrl-bottom-right { bottom: 76px; }
+}
+@media print { .research-terrain-controls, .research-terrain-status, .research-terrain-map { display: none; } }

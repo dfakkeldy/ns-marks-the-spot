@@ -82,8 +82,9 @@ automatically promoted from lettering centres to historical sites.
 
 **Background Maps → Basemap style** offers Day, Night, Fletcher,
 System appearance (the default), and standard OpenStreetMap. Explicit choices
-stay in this browser; shared links carry the resolved style. Leaflet still owns
-navigation, parcel selection, historical imagery, and every research overlay.
+stay in this browser; shared links carry the resolved style. Leaflet owns the
+research layers, data queries and parcel selection; the 3D view below mirrors
+that same map state.
 A failed atlas source offers retry or a switch to OpenStreetMap.
 
 Browser print captures the selected style and applies the existing monochrome
@@ -99,26 +100,56 @@ on both surfaces. Builds default to `https://tiles.kinnokilabs.com`; an explicit
 empty override disables the historical control.
 Property boundaries retain the Province licence gate and attribution.
 
+### Main-map 3D terrain
+
+The research map's **3D terrain / Return to 2D** control changes the current map
+in place, keeping its centre and selected layers. The 3D view uses
+[Mapzen Terrain Tiles on AWS](https://registry.opendata.aws/terrain-tiles/)
+([source attribution and licences](https://github.com/tilezen/joerd/blob/master/docs/attribution.md))
+for province-wide relief. Source detail and age vary; this is neither a provincial
+LiDAR surface nor a watershed model. Height exaggeration is a display control.
+Tilt, bearing and dimension choice are not persisted in shared URLs.
+
+MapLibre mirrors the mounted Leaflet image and tile layers, local warped
+rasters, paths and markers. The existing data queries and licence gates still
+own these layers, and parcel clicks are forwarded by geographic position.
+User-loaded raster and vector inputs remain in the browser. Roads, bridges
+and property outlines draw above water. Editing, measurement and print framing
+use the 2D map; print/export does not capture a tilted terrain scene. Remote
+imagery used in WebGL must permit browser cross-origin access.
+
 ### Judique terrain inspection
 
-`/terrain.html`, linked from the Atlas study, drapes the reviewed full-sheet
-Judique draft or provincial aerial imagery over a bounded contour-derived
-surface. The NS Hydrographic Network is always topmost, above contours and
-imagery. Controls switch overhead/3D views, sheet opacity, contours, and labelled
-height exaggeration. Aerial imagery retains its provincial licence gate.
+`/terrain.html`, linked from the Atlas study, is a separate bounded experiment.
+It drapes the reviewed full-sheet Judique draft or provincial aerial imagery
+over a contour-derived surface. Controls switch overhead/3D views, sheet
+opacity, contours, roads and bridges, property boundaries, and labelled height
+exaggeration. Open NSRN road and bridge vectors and optional property outlines
+draw above the water polygons and NS Hydrographic Network. Aerial imagery and
+property boundaries retain explicit provincial licence gates; parcel detail
+starts at zoom 14.
 
-The bundled 30 m terrain grid is a project-derived inspection model, not the
-provincial LiDAR DEM or a watershed-ready surface. It uses open NSTDB contour
-elevations, linear triangulation and one-cell Gaussian smoothing. NSHN is a
-draped reference; its heights are not mixed with the contours and drainage is
-not enforced. No independent vertical accuracy is claimed. Source contour
-intervals vary. Browser line geometry is simplified within 5 m; original
-contours feed the interpolation. Terrain outside the inspection extent is masked.
-The historical image is a downsampled draft with approximate alignment, not a
-replacement for the published Fletcher layer.
+The bundled 30 m terrain grid uses open NSTDB contour elevations, linear
+triangulation and one-cell Gaussian smoothing, then uses NSTDB water polygons
+to condition lake interiors. Touching lake/reservoir pieces are dissolved before
+sampling their complete shoreline against the contour interpolation. Lakes with
+finite, consistent support receive the median estimated shoreline level; those
+outside support or below grid sampling remain reference-only. Ocean polygons
+use a separate display-zero convention. Rivers are not flattened, and neither
+water-source Z nor NSHN heights are mixed into the unresolved contour vertical
+frame. These are model estimates, not surveyed lake levels or tidal evidence.
+
+This inspection model is not provincial LiDAR or a watershed-ready surface:
+drainage is not enforced and no independent vertical accuracy is claimed.
+Source contour intervals vary. Browser reference geometry is simplified within
+5 m; original contours and water polygons feed the model. Tile resampling means
+shore transitions are not exact polygon breaklines. Terrain outside the
+inspection extent is masked. The historical image is a downsampled draft with
+approximate alignment, not a replacement for the published Fletcher layer.
 
 `public/terrain/judique/source.json` records source hashes, processing, geographic
-bounds, the pinned historical raster, and artifact checksums; `LICENCE.txt`
+bounds, per-lake estimates and rejection reasons, the pinned historical raster,
+and artifact checksums; `LICENCE.txt`
 separates provincial data and historical-image terms from MIT code. Regenerate
 with `web/scripts/buildJudiqueTerrain.py --cache <external-cache> --output
 web/public/terrain/judique --historical <reviewed-judique-full-sheet.tif>` from the
@@ -132,7 +163,9 @@ but the inspection generator does not implement ANUDEM or claim its hydrological
 guarantees. Future watershed work requires separate drainage and elevation checks.
 
 All three HTML entry points are included in `npm run build`. The MapLibre 6 worker
-is bundled with Vite's `?worker&url` import for hosting beneath a subpath.
+is bundled with Vite's `?worker&url` import for hosting beneath a subpath. KinNoKi
+Labs publishes a separately pinned copy; a source change or merge here does not
+update that pin or establish production deployment.
 
 ### Raster tiles for the native app
 
