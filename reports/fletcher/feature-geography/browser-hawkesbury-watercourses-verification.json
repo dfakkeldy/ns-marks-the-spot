@@ -1,0 +1,368 @@
+{
+  "reviewed_at": "2026-09-13",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 218,
+  "export_sha256": "c5fd599f65ce7f68816e43c500a4abaa7a726b7009409b734bf85ac235f6d691",
+  "checks": {
+    "count": 218,
+    "checks": [
+      {
+        "id": "F22-HAW-011",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-013",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-018",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-071",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-076",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-079",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-081",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-088",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-090",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-100",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-107",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-120",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-123",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-155",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-156",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-168",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-246",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-012",
+      "F22-HAW-020",
+      "F22-HAW-157",
+      "F22-HAW-185",
+      "F22-HAW-192",
+      "F22-HAW-239",
+      "F22-HAW-272",
+      "F22-HAW-273",
+      "F22-HAW-278",
+      "F22-HAW-019",
+      "F22-HAW-236",
+      "F22-HAW-243",
+      "F22-HAW-265",
+      "F22-HAW-250",
+      "F22-HAW-251",
+      "F22-HAW-253",
+      "F22-HAW-260",
+      "F22-HAW-261",
+      "F22-HAW-283",
+      "F22-HAW-284",
+      "F22-HAW-175",
+      "F22-HAW-176",
+      "F22-HAW-179",
+      "F22-HAW-201",
+      "F22-HAW-132",
+      "F22-HAW-173",
+      "F22-HAW-174",
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F19-JUD-001",
+      "F19-JUD-012",
+      "F19-JUD-029",
+      "F19-JUD-083",
+      "F19-JUD-084",
+      "F19-JUD-130",
+      "F19-JUD-155",
+      "F19-JUD-164",
+      "F19-JUD-056",
+      "F19-JUD-132",
+      "F19-JUD-139",
+      "F19-JUD-140",
+      "F19-JUD-144",
+      "F19-JUD-161",
+      "F19-JUD-026",
+      "F19-JUD-034",
+      "F19-JUD-060",
+      "F19-JUD-085",
+      "F19-JUD-101",
+      "F19-JUD-124",
+      "F19-JUD-125",
+      "F19-JUD-143",
+      "F19-JUD-156",
+      "F19-JUD-165"
+    ],
+    "errors": []
+  },
+  "popup_controls": {
+    "count": 218,
+    "checks": [
+      {
+        "id": "F22-HAW-107",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-246",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-012",
+      "F22-HAW-020",
+      "F22-HAW-157",
+      "F22-HAW-185",
+      "F22-HAW-192",
+      "F22-HAW-239",
+      "F22-HAW-272",
+      "F22-HAW-273",
+      "F22-HAW-278",
+      "F22-HAW-019",
+      "F22-HAW-236",
+      "F22-HAW-243",
+      "F22-HAW-265",
+      "F22-HAW-250",
+      "F22-HAW-251",
+      "F22-HAW-253",
+      "F22-HAW-260",
+      "F22-HAW-261",
+      "F22-HAW-283",
+      "F22-HAW-284",
+      "F22-HAW-175",
+      "F22-HAW-176",
+      "F22-HAW-179",
+      "F22-HAW-201",
+      "F22-HAW-132",
+      "F22-HAW-173",
+      "F22-HAW-174",
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F19-JUD-001",
+      "F19-JUD-012",
+      "F19-JUD-029",
+      "F19-JUD-083",
+      "F19-JUD-084",
+      "F19-JUD-130",
+      "F19-JUD-155",
+      "F19-JUD-164",
+      "F19-JUD-056",
+      "F19-JUD-132",
+      "F19-JUD-139",
+      "F19-JUD-140",
+      "F19-JUD-144",
+      "F19-JUD-161",
+      "F19-JUD-026",
+      "F19-JUD-034",
+      "F19-JUD-060",
+      "F19-JUD-085",
+      "F19-JUD-101",
+      "F19-JUD-124",
+      "F19-JUD-125",
+      "F19-JUD-143",
+      "F19-JUD-156",
+      "F19-JUD-165"
+    ],
+    "errors": []
+  },
+  "additional_assertions": [
+    "All seventeen additions selected through visible painted reach dashes at alternating desktop/phone widths, with native excerpts, visible placement notes, ready basemaps and clean console.",
+    "The first 97 source and placement records retain their geometry and evidence content. Prior export content is unchanged except current evidence bundle hashes.",
+    "Six new coverage failures and three geographic discrepancies remain excluded with complete native/provisional evidence preserved.",
+    "Desktop overlap was reproduced before the CSS change: location-button and measure-control intersected the source popup. Desktop and phone checks now find no floating-control overlap, and location/measurement tools return after a real close click."
+  ],
+  "local_checks": {
+    "python": "299 tests pass, eight existing skips",
+    "web": "7 Fletcher component tests and web script tests pass; lint and build pass; component tests/lint/build repeated after CSS change"
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-watercourses-review.json",
+      "sha256": "d24237b003d0a4ee1c611a30e33b82f0c816422bd26b68afc39d72a4e90f7f65"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-popup-controls-review.json",
+      "sha256": "b3c12236786f1cf003ac7412d3331d140b4ed81040e7c2dec6b9790f66b2d31e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-watercourses-107.png",
+      "sha256": "83b3866b752a893b594c3ca662a2a0d90cc31b2aa300a73be8b4fa6d37c2cbf2"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-watercourses-11.png",
+      "sha256": "b4e62034f126804c3bfeaea2d6a06292d721359909862525a94942d3e46a8aa5"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-watercourses-246.png",
+      "sha256": "e0265ad84f4e1458f4c9c36bf386e6c483c926c97de28ef14301a3270360a2b7"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-watercourses-79.png",
+      "sha256": "0d008d95e4da3244d5b8010c47adb972fe78a9f7c1e51bdf34fbaa26f0ff022e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-watercourses-168.png",
+      "sha256": "bf77830db512152e1fb44fb9643b056b6089e064e1ff8dd74d6c0b7b38127fae"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-watercourses-90.png",
+      "sha256": "0dc971787df7da03a66c7994b9aa68deb2eed9b09dadf0ddc55afc1e4e52d2e6"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-popup-controls-246.png",
+      "sha256": "c35b076a0ebe8d4d15275ce3c0b9a3bbd44a5ec651de29751591e7d923da334b"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-popup-controls-107.png",
+      "sha256": "83b3866b752a893b594c3ca662a2a0d90cc31b2aa300a73be8b4fa6d37c2cbf2"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-218-export/source.json",
+      "sha256": "ef5e17694f943c35c548624af90d6c12f10ed463bb45c2b5e5139b47f80073fb"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-218-export/reviewed.geojson",
+      "sha256": "c5fd599f65ce7f68816e43c500a4abaa7a726b7009409b734bf85ac235f6d691"
+    }
+  ],
+  "regression_log": {
+    "local_path": "/tmp/fletcher-hawkesbury-popup-occlusion-before.log",
+    "sha256": "2a1aa9377d4a3eef6a94b3e4cdf9dbd723a2d865d2f3e4491443702a6b955e03"
+  },
+  "limits": "Bounded historical watercourse and bank evidence only; no current channel, flow, power, water condition, private residence or access claim. No production publication claim."
+}

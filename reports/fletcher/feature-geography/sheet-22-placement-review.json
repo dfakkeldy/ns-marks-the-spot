@@ -1,7 +1,7 @@
 {
   "sheet": 22,
   "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
-  "source_review_sha256": "a59d9406a8020c2461200533f66c751d30dcbb033051143a6b3199ac0cc1882c",
+  "source_review_sha256": "bb4611a60f9994e14822c5dfbc6c0e6a349a4847e7272fd7cea8bc5d2fb03e47",
   "reviews": [
     {
       "annotation_id": "F22-HAW-001",
@@ -875,6 +875,240 @@
       "scene": "hawkesbury-roads-3-20260913.jpg",
       "scene_sha256": "3bd0e67103212c2722bcb7fc9b45e5bcd9007436add0b2a1ce41a4f8fe4d743f",
       "evidence": "The complete source trace extends outside the current conservative control hull. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
+    },
+    {
+      "annotation_id": "F22-HAW-011",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-11-geography.jpg",
+      "scene_sha256": "1683699c0296d8f28b23db2dbfd402262a10b1a796fe8cdf36655089c54cca5f",
+      "evidence": "The full bounded reach follows the same southeast drainage corridor north of the Queensville road district. Modern stream bends and tributaries support approximate locality with offsets along the middle and lower reach."
+    },
+    {
+      "annotation_id": "F22-HAW-012",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourses-1-20260913.jpg",
+      "scene_sha256": "07739b2a79f302d946a7451ccc59a84adc9bc22776304850f5dbc5f6aed13ed9",
+      "evidence": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+    },
+    {
+      "annotation_id": "F22-HAW-013",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-13-geography.jpg",
+      "scene_sha256": "c773e4455b2bbe3e923a9d2146bd9e789721bc39eb28fa68f2b0dade3cb43d9a",
+      "evidence": "The interrupted source reach remains in the Northwest Arm drainage east of General Line Road. Modern channel and wet-area context support broad locality; the middle bend and southern junction remain offset."
+    },
+    {
+      "annotation_id": "F22-HAW-018",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-18-geography.jpg",
+      "scene_sha256": "d76f9b419c8b2e9252ceed5ee1d7ab996166c16a87a9ab452bac02ce27e34bca",
+      "evidence": "The bounded reach follows the modern drainage corridor north of the L.Murray lake district and reaches the eastern transport crossing. Historical bends and road-crossing positions remain approximate."
+    },
+    {
+      "annotation_id": "F22-HAW-020",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourses-1-20260913.jpg",
+      "scene_sha256": "07739b2a79f302d946a7451ccc59a84adc9bc22776304850f5dbc5f6aed13ed9",
+      "evidence": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+    },
+    {
+      "annotation_id": "F22-HAW-071",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-71-geography.jpg",
+      "scene_sha256": "2a6e3b17c89932d56f405606d5fc1a8e7b86a742dae8ddfdcff9afca020641ef",
+      "evidence": "The reach follows the same northwest-southeast drainage corridor through the northern wetland district and toward the eastern confluence. Modern channel bends differ locally; no flow or wetland condition is inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-076",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-76-geography.jpg",
+      "scene_sha256": "68c7f757471dedf358add645bb3bd76a09f4770b809e4de0ad3b180ae6816c3c",
+      "evidence": "The reach follows the western Horton drainage toward the northwestern lake district. Its southern endpoint is offset from the modern lake inlet and shore; retain that source-derived offset without snapping."
+    },
+    {
+      "annotation_id": "F22-HAW-079",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-79-geography.jpg",
+      "scene_sha256": "7054d3debba1dd665a9ed8214ef279ff2afd2c61d2739f3f450fcf962b32a14f",
+      "evidence": "The reach remains in the Horton drainage corridor east of the Highway 19 district and south of Horton Lake. The broad eastern bend is recognizable; the western crossing and smaller meanders remain displaced."
+    },
+    {
+      "annotation_id": "F22-HAW-081",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-81-geography.jpg",
+      "scene_sha256": "e1ccb674b0ea8b9cceaf8404a0c7c9c0a3d73ea17c42f33a502f597e3a649736",
+      "evidence": "The reach remains west/south of Beaver Dam Lake and crosses the southern outlet district. The broad drainage relationship supports locality with displaced meanders. Intersected polygon OBJECTID6476 is a Swamp Area polygon (WASW40), not evidence that the entire reach is open water."
+    },
+    {
+      "annotation_id": "F22-HAW-088",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-88-geography.jpg",
+      "scene_sha256": "a5683b042d059adcebad27e39399f3989bfc6885ab18c3871983f42e1e2e7a8f",
+      "evidence": "The reach remains in the eastern Northwest Arm drainage corridor west of the larger river. Broad bends and the eastern confluence district support locality with local offsets. Intersected polygon OBJECTID4276 is a Swamp Area polygon (WASW40); the comparison does not establish an open-water extent."
+    },
+    {
+      "annotation_id": "F22-HAW-090",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-90-geography.jpg",
+      "scene_sha256": "e084a5602989c1a841427af99e94fdb399e6f6da67ae47967849aaacace23e54",
+      "evidence": "The hooked reach follows the same broad south-to-east drainage arrangement toward the eastern river/road junction. The northern bend and central meanders are offset; the original Black reading and source geometry remain unchanged."
+    },
+    {
+      "annotation_id": "F22-HAW-100",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-100-geography.jpg",
+      "scene_sha256": "1d505ca7a4c6e066c0cd6213e0478f94da01de0ef6dec177153d3c608798bce7",
+      "evidence": "The reach remains east of the Little Tracadie coastal inlet and follows the same north-south drainage before turning east near the G.Mill district. Modern highways and road crossings differ; local tributary and channel offsets remain."
+    },
+    {
+      "annotation_id": "F22-HAW-107",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-107-geography.jpg",
+      "scene_sha256": "8c3a27e4dcbd47f6d7106bb87ba13f2388632ba9dcd65974c94d984fc8707b06",
+      "evidence": "The reach follows the same broad drainage east of the coastal district, through the railway/road crossing and toward the southeast. The northern meanders and middle fork are offset from modern hydrography; no private residence, ownership or exact channel match is inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-120",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-120-geography.jpg",
+      "scene_sha256": "d371ca0b9af84e00b17f1cb6ee3716cfdad8d695080b62854df28a5fb4aa6d4e",
+      "evidence": "The reach remains in the southeast-running Havre Bouché drainage alongside the road corridor. Modern channel bends and the southern road crossing support approximate locality with persistent local offsets."
+    },
+    {
+      "annotation_id": "F22-HAW-123",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-123-geography.jpg",
+      "scene_sha256": "a6d5325481c8cdb30a379454fbe20514f12f1c9984e960e2b796c570e64dab01",
+      "evidence": "The reach follows the same east-west coastal drainage to the sea. Modern stream and coastline context support broad locality, while the modern highways and coastal transport arrangement differ from the historical road."
+    },
+    {
+      "annotation_id": "F22-HAW-155",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-155-geography.jpg",
+      "scene_sha256": "e349c00aff20a8f09ab01efc8adc09a5f5376459018e79f92fee1436fe0a6827",
+      "evidence": "The reach remains in the northern branch drainage, through the northern wet-area district toward Little River. Its lower half is consistently offset east of the modern channel. This supports only a broad historical locality, not the current channel."
+    },
+    {
+      "annotation_id": "F22-HAW-156",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-156-geography.jpg",
+      "scene_sha256": "e054eefae6adfad464cfec29a039dbdb7ce43965ab227bed406faf24eac033bc",
+      "evidence": "The reach remains in the southern branch drainage west of Little River. The northern bulge and eastern junction district are recognizable, with source-derived north/east offsets and changed minor tributaries."
+    },
+    {
+      "annotation_id": "F22-HAW-157",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-157-geography.jpg",
+      "scene_sha256": "944671eb6a31670b97b885a01f8267c9437b14c365e8c7103bc493fae8ceda4d",
+      "evidence": "The southern reach lies near modern drainage, but the source connection from the northern pond to the central Emery branch does not reconcile with the modern branch arrangement: the modern pond outlet continues toward a more western channel while the central branch begins separately. Historical change versus local fit error remains unresolved. Preserve the entire native/provisional line and withhold map placement; do not snap or discard the conflicting northern reach."
+    },
+    {
+      "annotation_id": "F22-HAW-168",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-168-geography.jpg",
+      "scene_sha256": "325d6e410c5d5fcf36691aae3341d2cc77a7009f8ff9da9f7aa7f7da16c577b6",
+      "evidence": "The source reach remains in the Little River drainage between the two branch district and eastern lake/transport corridor. The northern junction and broad bend are displaced from modern channels, so the placement represents only approximate historical locality."
+    },
+    {
+      "annotation_id": "F22-HAW-185",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourses-4-20260913.jpg",
+      "scene_sha256": "37e32dd1777ad38a522b6fb44cff98f256323a20f7642b5a5508a754a524f459",
+      "evidence": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+    },
+    {
+      "annotation_id": "F22-HAW-192",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-192-geography.jpg",
+      "scene_sha256": "974cd04b88ecb874407a9a53eb9f90aed24b393f412b09f18a3d9a6f6745f433",
+      "evidence": "The eastern reach and wide-water transition project noticeably north of the modern Tracadie channel, and the western road/stream relationships do not resolve the full offset. Historical channel change versus local fit error remains unresolved. Preserve the entire native/provisional trace but withhold public placement until the corridor is reconciled."
+    },
+    {
+      "annotation_id": "F22-HAW-239",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourses-4-20260913.jpg",
+      "scene_sha256": "37e32dd1777ad38a522b6fb44cff98f256323a20f7642b5a5508a754a524f459",
+      "evidence": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+    },
+    {
+      "annotation_id": "F22-HAW-246",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-246-geography.jpg",
+      "scene_sha256": "afdedbed0336c75819fcb15b05eb2ce83082b85e7ffd2872a844d74aab2e1cb1",
+      "evidence": "The short source tributary remains in the road-crossing and river-mouth district west of the inlet. The modern channel lies farther south in the western portion, but the mouth district and broad approach support approximate locality; it is not an exact inlet footprint."
+    },
+    {
+      "annotation_id": "F22-HAW-272",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourses-4-20260913.jpg",
+      "scene_sha256": "37e32dd1777ad38a522b6fb44cff98f256323a20f7642b5a5508a754a524f459",
+      "evidence": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+    },
+    {
+      "annotation_id": "F22-HAW-273",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourses-5-20260913.jpg",
+      "scene_sha256": "1e72dff17f695f016aa336dcd89ed342c60b88aa98f3e12c8e146f6f0d6ddf08",
+      "evidence": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+    },
+    {
+      "annotation_id": "F22-HAW-278",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-watercourse-278-geography.jpg",
+      "scene_sha256": "991231add5c47f3d6ddb8f9414789408f63147a9b10840e9e1525036d0f627f6",
+      "evidence": "Much of the projected historical reach lies within modern NSTDB Reservoir Water polygon OBJECTID434 (WARS40), near the Landrie district. The eastern drainage/transport setting is recognizable, but available evidence does not reconcile the full historical channel and present reservoir extent with local fit uncertainty. Preserve the complete native/provisional reach and withhold public placement; no present channel or inundation history is asserted."
     }
   ]
 }
