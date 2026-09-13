@@ -1,3 +1,7 @@
+import { ElectoralLayerControls, ElectoralLegend } from "./components/ElectoralLayerControls";
+import { DistrictInspector } from "./components/DistrictInspector";
+import { initialElectoralModes } from "./layers/electoralLayers";
+import type { ElectoralSelection } from "./elections/electoralData";
 import { openDataPrintCredit } from "./layers/openDataSources";
 import { contextLayerCatalog, type ContextLayerId } from "./layers/contextLayerCatalog";
 import { ContextLayerToggle } from "./components/ContextLayerToggle";
@@ -1617,6 +1621,8 @@ export function App() {
       initialCatalogueLayerIds,
     ),
   );
+  const [electoralModes, setElectoralModes] = useState(() => ({ ...initialElectoralModes, ...initialShareState.electoralModes }));
+  const [electoralSelection, setElectoralSelection] = useState<ElectoralSelection | null>(null);
   const [contextLayers, setContextLayers] = useState(
     () => visibilityRecordFor(
       contextLayerCatalog.map(({ id }) => id),
@@ -4039,6 +4045,7 @@ export function App() {
   const shareUrl = useMemo(
     () => buildMapShareUrl(window.location.href, {
       basemapStyle,
+      electoralModes,
       taxSaleEnabled,
       mode: mapMode,
       pid: selectedPid,
@@ -4056,6 +4063,7 @@ export function App() {
     [
       activeLayerIds,
       basemapStyle,
+      electoralModes,
       mapMode,
       mapViewport.position,
       selectedEventIds,
@@ -4119,6 +4127,7 @@ export function App() {
     printCaptureSequence.current += 1;
     setPrintCapture(startPrintCapture({
       basemapStyle,
+      electoralModes,
       token: `print-${printCaptureSequence.current}`,
       capturedAt: new Date().toISOString(),
       pid: selectedPid,
@@ -4915,7 +4924,8 @@ export function App() {
                     </p>
                   ) : null}
 
-                  {contextCategoryLayers.map((layer) => (
+                  {category.id === "elections-districts" ? <ElectoralLayerControls visibility={contextLayers} statuses={layerStatuses} licenceAccepted={licenceAccepted} modes={electoralModes} onModeChange={(id, mode) => setElectoralModes(current => ({...current, [id]: mode}))} onChange={setContextLayerVisibility} onReviewLicence={reviewProvinceLicence} night={basemapStyle === "night"} /> : null}
+                  {contextCategoryLayers.filter(layer => layer.category !== "elections-districts").map((layer) => (
                     <ContextLayerToggle
                       key={layer.id}
                       layer={layer}
@@ -5486,6 +5496,8 @@ export function App() {
             </button>
           </div>
           {pokerMode && searchForm}
+          <div className="electoral-map-legends">{(['provincial-results-2024','provincial-seats-2026'] as const).filter(id => effectiveContextLayers[id] && electoralModes[id] !== 'boundaries').map(id => <ElectoralLegend key={id} mode={electoralModes[id]} night={basemapStyle === 'night'} />)}</div>
+          {electoralSelection && effectiveContextLayers[electoralSelection.layer.id] ? <DistrictInspector selection={electoralSelection} night={basemapStyle === "night"} onClose={() => setElectoralSelection(null)} /> : null}
           <MapCanvas
             poker={pokerMode ? {
               address: pokerAddress,
@@ -5504,6 +5516,9 @@ export function App() {
             floodHazardLayers={effectiveFloodHazardLayers}
             environmentalHealthLayers={effectiveEnvironmentalHealthLayers}
             contextLayers={effectiveContextLayers}
+            electoralModes={electoralModes}
+            electoralLicenceAccepted={licenceAccepted}
+            onElectoralSelect={setElectoralSelection}
             forestryLayers={forestryLayers}
             zoningLayers={zoningLayers}
             wellLogLayers={wellLogLayers}

@@ -47,6 +47,10 @@ function layerRuntimeLabel(
     }
     case "zoom":
       return `Zoom to ${status.minZoom}+ to load`;
+    case "returned-empty": return "Source returned no records";
+    case "outside-coverage": return "Outside this source’s mapped coverage";
+    case "licence-blocked": return "Province licence required";
+    case "source-error":
     case "error":
       return "Source temporarily unavailable";
     case "idle":

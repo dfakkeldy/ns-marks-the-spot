@@ -45,7 +45,7 @@ export default defineConfig(({ mode }) => ({
       input: {
         app: "index.html", atlas: "atlas.html", terrain: "terrain.html",
         // Exercise print components in preview without shipping the synthetic fixture.
-        ...(mode === "browser-test" ? { print: "e2e/print.html" } : {}),
+        ...(mode === "browser-test" ? { print: "e2e/print.html", electoral: "e2e/electoral.html" } : {}),
       },
     },
   },

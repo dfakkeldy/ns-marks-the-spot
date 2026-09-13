@@ -31,6 +31,47 @@ Archived GeoPDF browser evidence has its own documentation check:
 `python3 tools/validate_browser_evidence.py` from the repository root. It checks
 the saved receipt and screenshots, not the current application's behavior.
 
+## Electoral Districts
+
+The default-off **Elections & Districts** category groups provincial, federal,
+and municipal sources. The **Electoral Districts** setup starts with the 2026
+provincial districts and 2023-order federal ridings. Provincial boundaries,
+polling divisions (zoom 12+), 2024 results and seats are separate sources; the
+2024 results always use their own 55-district geometry. Results offer party,
+margin and turnout modes with text labels, legends and a district inspector.
+Party shares and margin points use valid votes; turnout uses the source's
+listed-elector figure. The June 23 seats claim is checked against a reviewed
+attribute digest and fails closed if the publisher changes those records.
+
+Provincial sources remain behind the Province licence gate. They are loaded
+in full from GeoNOVA without a point or viewport query and are never bundled.
+Federal and municipal geometry is an NS-only project-derived extract with
+its own redistribution licence and receipt at `public/elections/source.json`.
+Federal multipart placemarks and polygon holes are preserved. Municipal
+regulation dates vary; parity with current municipal boundary reviews remains
+unverified and the control states this. Institutional polls have no identifying
+poll label or count. Browser navigation filters the downloaded geometry locally.
+
+Regenerate the open boundaries with
+`python3 scripts/buildElectoralBoundaries.py --cache /tmp/ns-electoral-boundaries`.
+`npm run check:electoral-boundaries` verifies hashes and feature counts during
+prebuild. `python3 scripts/buildElectoralMembers.py` refreshes the dated Commons
+name/caucus snapshot, joining exactly to the 2023-order riding names. These are
+current-caucus facts, not election-party records. Provincial district selections
+obtain the MLA from the separately dated seats source, while result selections
+show the MLA elected in 2024. `python3 scripts/checkElectoralSeats.py` prints
+only a source-attribute digest for review; it does not store an extract or
+establish a new as-of date.
+
+Shared links and browser print preserve the selected electoral display modes.
+Browser print credits each rendered source. The generated-PDF compositor
+explicitly lists these feature overlays as omitted, following its existing
+unsupported-format contract. The web-only category, theme and layers stay out
+of the native parity fixtures. `/e2e/electoral.html` is a development-only
+component verification page using live sources with fixture-supplied licence
+state; it never changes saved licence acceptance and is absent from normal
+production builds.
+
 ## Atlas basemap
 
 The research map uses original NS Marks Atlas cartography over a pinned

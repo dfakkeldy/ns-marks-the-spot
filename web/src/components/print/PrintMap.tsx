@@ -1,3 +1,5 @@
+import { ElectoralLegend } from "../ElectoralLayerControls";
+import { initialElectoralModes } from "../../layers/electoralLayers";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   environmentalHealthLayerCatalog,
@@ -102,7 +104,7 @@ export function PrintMap({
   useEffect(() => {
     const values = layerIds.map((id) => statuses[id]);
     const renderedLayerIds = layerIds.filter((id) => statuses[id]?.status === "ready");
-    const failedLayerIds = layerIds.filter((id) => statuses[id]?.status === "error");
+    const failedLayerIds = layerIds.filter((id) => ["error", "source-error", "licence-blocked", "returned-empty"].includes(statuses[id]?.status));
     const belowZoomLayerIds = layerIds.filter((id) => statuses[id]?.status === "zoom");
     if (failedLayerIds.length > 0) {
       onReadinessChange({
@@ -113,7 +115,7 @@ export function PrintMap({
         timedOutLayerIds: [],
       });
     } else if (values.every((value) =>
-      value?.status === "ready" || value?.status === "zoom"
+      value?.status === "ready" || value?.status === "zoom" || value?.status === "outside-coverage"
     )) {
       onReadinessChange({ status: "ready", renderedLayerIds, belowZoomLayerIds });
     } else {
@@ -136,6 +138,11 @@ export function PrintMap({
       role="region"
       aria-label={`Printable map for PID ${snapshot.pid}`}
     >
+      <div className="print-electoral-legends">{contextLayerCatalog.filter(layer => layer.electoral && layerIds.includes(layer.id)).map(layer => {
+        const state = statuses[layer.id]?.status;
+        const messages = { 'returned-empty': 'Source returned no records', 'outside-coverage': 'Outside this source’s mapped coverage', 'source-error': 'Source request failed', 'licence-blocked': 'Province licence blocked this source' };
+        return state && state in messages ? <p key={layer.id}>{layer.name}: {messages[state as keyof typeof messages]}</p> : null;
+      })}{Object.entries(snapshot.electoralModes ?? initialElectoralModes).filter(([id,mode]) => layerIds.includes(id as ShareLayerId) && mode !== 'boundaries').map(([id,mode]) => <ElectoralLegend key={id} mode={mode} night={snapshot.basemapStyle === "night"} />)}</div>
       <MapCanvas
         basemapStyle={snapshot.basemapStyle ?? "osm"}
         parcels={parcels}
@@ -150,6 +157,8 @@ export function PrintMap({
         zoningLayers={visibilityFor(zoningLayerCatalog, layerIds)}
         wellLogLayers={visibilityFor(wellLogLayerCatalog, layerIds)}
         contextLayers={visibilityFor(contextLayerCatalog, layerIds)}
+        electoralModes={snapshot.electoralModes}
+        electoralLicenceAccepted={snapshot.licenceAccepted}
         wellLogAccuracyFilter={snapshot.wellLogAccuracyFilter}
         fletcherVisible={
           Boolean(fletcherTileBaseUrl) && layerIds.includes("fletcher")

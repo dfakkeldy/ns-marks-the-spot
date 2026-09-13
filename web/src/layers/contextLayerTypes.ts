@@ -5,13 +5,13 @@ import type { ArcGISExportOptions } from "./layerCatalog";
 export interface ContextLayerDescriptor {
   id: string;
   name: string;
-  category: "background-maps" | "land-property" | "roads-places" | "water-terrain" | "environment-hazards" | "forestry-ecology" | "geology-resources" | "historical-maps";
+  category: "elections-districts" | "background-maps" | "land-property" | "roads-places" | "water-terrain" | "environment-hazards" | "forestry-ecology" | "geology-resources" | "historical-maps";
   serviceUrl: string;
   openData?: OpenDataSource;
   tileUrl?: string;
   sourceUrl: string;
   licenceUrl: string;
-  licence: "province-open" | "province-restricted" | "cc-by";
+  licence: "province-open" | "province-restricted" | "cc-by" | "canada-open" | "halifax-open";
   attribution?: string;
   sourceDate: string;
   scale: string;
@@ -23,8 +23,9 @@ export interface ContextLayerDescriptor {
   opacity: number;
   zIndex: number;
   exportOptions: ArcGISExportOptions;
-  delivery?: "feature-query" | "static-image" | "tile";
+  delivery?: "electoral" | "feature-query" | "static-image" | "tile";
   imageBounds?: readonly [readonly [number, number], readonly [number, number]];
+  electoral?: import("./electoralLayers").ElectoralSource;
   idField?: string;
   outFields?: readonly string[];
   featureRenderer?: {

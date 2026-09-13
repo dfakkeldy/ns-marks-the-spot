@@ -1,3 +1,4 @@
+import { initialElectoralModes, isElectoralLayerId, type ElectoralLayerId, type ElectoralMode } from "../layers/electoralLayers";
 import { contextLayerCatalog, type ContextLayerId } from "../layers/contextLayerCatalog";
 import { isBasemapStyle, type BasemapStyle } from "../atlas/basemap";
 import { taxSaleEvents } from "../data/taxSaleCatalog";
@@ -48,6 +49,7 @@ export type MapPosition = {
 };
 
 export type MapShareState = {
+  electoralModes?: Partial<Record<ElectoralLayerId, ElectoralMode>>;
   basemapStyle?: BasemapStyle;
   taxSaleEnabled: boolean;
   mode: MapMode;
@@ -142,11 +144,18 @@ export function parseMapShareState(value: string): MapShareState {
     .split(",")
     .filter(isShareLayerId);
   const themeId = url.searchParams.get("theme")?.trim();
+  const electoralModes: Partial<Record<ElectoralLayerId, ElectoralMode>> = {};
+  for (const entry of (url.searchParams.get("electoral") ?? "").split(",")) {
+    const [id, value] = entry.split(":");
+    if (isElectoralLayerId(id) && ["boundaries", "winner", "margin", "turnout"].includes(value)
+        && (id === "provincial-results-2024" || id === "provincial-seats-2026" && ["boundaries", "winner"].includes(value))) electoralModes[id] = value as ElectoralMode;
+  }
 
   return {
     ...(isBasemapStyle(basemap) ? { basemapStyle: basemap } : {}),
     taxSaleEnabled,
     mode,
+    ...(Object.keys(electoralModes).length ? { electoralModes } : {}),
     pid: normalizePid(url.searchParams.get("pid") ?? ""),
     eventIds,
     layerIds,
@@ -198,6 +207,8 @@ export function buildMapShareUrl(
     url.searchParams.set("event", state.eventIds.join(","));
   }
   url.searchParams.set("layers", state.layerIds.join(","));
+  const modes = Object.entries(state.electoralModes ?? {}).filter(([id,mode]) => isElectoralLayerId(id) && state.layerIds.includes(id) && mode !== initialElectoralModes[id]);
+  if (modes.length) url.searchParams.set("electoral", modes.map(([id,mode]) => `${id}:${mode}`).join(","));
   url.searchParams.set(
     "position",
     [
