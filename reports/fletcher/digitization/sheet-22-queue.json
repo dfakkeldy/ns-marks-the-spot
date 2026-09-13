@@ -68,11 +68,11 @@
       "annotation_id": "F22-HAW-007",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-008",
@@ -138,21 +138,21 @@
       "annotation_id": "F22-HAW-014",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-015",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-016",
@@ -188,11 +188,11 @@
       "annotation_id": "F22-HAW-019",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-fit-neatline",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete source trace extends beyond the current supported fit neatline. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
     },
     {
       "annotation_id": "F22-HAW-020",
@@ -268,11 +268,11 @@
       "annotation_id": "F22-HAW-027",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-028",
@@ -848,11 +848,11 @@
       "annotation_id": "F22-HAW-085",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-086",
@@ -1078,11 +1078,11 @@
       "annotation_id": "F22-HAW-108",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-109",
@@ -1208,11 +1208,11 @@
       "annotation_id": "F22-HAW-121",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-122",
@@ -1468,11 +1468,11 @@
       "annotation_id": "F22-HAW-147",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-148",
@@ -1588,21 +1588,21 @@
       "annotation_id": "F22-HAW-159",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-160",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-161",
@@ -1878,11 +1878,11 @@
       "annotation_id": "F22-HAW-188",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-189",
@@ -1978,11 +1978,11 @@
       "annotation_id": "F22-HAW-198",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-199",
@@ -2308,11 +2308,11 @@
       "annotation_id": "F22-HAW-231",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-232",
@@ -2358,11 +2358,11 @@
       "annotation_id": "F22-HAW-236",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete source trace extends outside the current conservative control hull. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
     },
     {
       "annotation_id": "F22-HAW-237",
@@ -2428,11 +2428,11 @@
       "annotation_id": "F22-HAW-243",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The source trace is clear, but its projection crosses a substantial part of modern Landrie Lake water geometry and lacks a continuous corresponding road. Available evidence does not resolve historical shoreline change versus local fit error. Retain the complete native and provisional projected line for review, but withhold it from the public map until the discrepancy is reconciled."
     },
     {
       "annotation_id": "F22-HAW-244",
@@ -2648,11 +2648,11 @@
       "annotation_id": "F22-HAW-265",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete source trace extends outside the current conservative control hull. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
     },
     {
       "annotation_id": "F22-HAW-266",

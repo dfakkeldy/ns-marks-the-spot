@@ -1,7 +1,7 @@
 {
   "sheet": 22,
   "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
-  "source_review_sha256": "3c7475e36c1c1b002fada407efad16bb57dafb0f5a618fe4f5487f77b983a3e1",
+  "source_review_sha256": "a59d9406a8020c2461200533f66c751d30dcbb033051143a6b3199ac0cc1882c",
   "reviews": [
     {
       "annotation_id": "F22-HAW-001",
@@ -722,6 +722,159 @@
       "scene": "hawkesbury-services-14-20260913.jpg",
       "scene_sha256": "d73390df3c6f1e0ab47fa34a01e60af7d628a2dafbb9d576d48976988b919462",
       "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+    },
+    {
+      "annotation_id": "F22-HAW-007",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-7-geography.jpg",
+      "scene_sha256": "3718fd2a9a20c801d4cd58c18ecdde2c483bd0244efb36e31faaca621726be88",
+      "evidence": "The southwest curve and northeast junction remain in the same road district. Modern road bends support approximate locality, with a noticeable offset on the northern cross-road."
+    },
+    {
+      "annotation_id": "F22-HAW-014",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-14-geography.jpg",
+      "scene_sha256": "30e0f167c4800de49c77426257d2a9e353a007642765fbb09cc7d88cbf7d7123",
+      "evidence": "The long diagonal trace follows the modern road corridor between the western drainage and Northwest Arm/Brown’s Brook district. The northern junction and southern bends differ locally."
+    },
+    {
+      "annotation_id": "F22-HAW-015",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-15-geography.jpg",
+      "scene_sha256": "1c1b97a2be3d4193f8ab08be2d2a3736ce4f5b4cba19a6fba970cdda629740c6",
+      "evidence": "No continuous modern road counterpart is drawn. The southwestern Lamey drainage crossing and northern Queensville road district support only broad historical locality; the northeastern junction remains offset. The old road is not represented as extant."
+    },
+    {
+      "annotation_id": "F22-HAW-019",
+      "status": "outside-fit-neatline",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-roads-1-20260913.jpg",
+      "scene_sha256": "5689cfcbe8d894d28d018bfaf59db66dfc97d55b6d5f03efa98c6cd0d86ecb38",
+      "evidence": "The complete source trace extends beyond the current supported fit neatline. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
+    },
+    {
+      "annotation_id": "F22-HAW-027",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-27-geography.jpg",
+      "scene_sha256": "2d85287fa92b928f7ce3c23eb68a5b1810ed2f24e5e2149270c3ae971deeab96",
+      "evidence": "The north-south road district and central stream crossing support approximate locality. Northern and southern sections are offset from modern road strokes; no modern alignment is substituted."
+    },
+    {
+      "annotation_id": "F22-HAW-085",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-85-geography.jpg",
+      "scene_sha256": "f60e9314a6e5b684427f7a116c150d428dbdadaac99b2676de4cf0c71a963ee4",
+      "evidence": "The diagonal route, southern junction district and northeastern brook crossing align broadly with modern roads and drainage. Local road/stream offsets remain."
+    },
+    {
+      "annotation_id": "F22-HAW-108",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-108-geography.jpg",
+      "scene_sha256": "0b3577171e57d9b10bbc7beb76f5a1fece2a3037ba9a852c28c2dae6d43215a1",
+      "evidence": "The trace remains in the road corridor east of Chisholm’s Brook and crosses the railway district. Modern road curvature and drainage support locality with offsets at the railway and southern tributary."
+    },
+    {
+      "annotation_id": "F22-HAW-121",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-121-geography.jpg",
+      "scene_sha256": "476e7bfd6eca322ce15bea5e623b01c7df071a12ee448d9527094d9d1841cae2",
+      "evidence": "The repeated road elbows and southern reach remain recognizable in modern road context. The northern start and central bends are displaced; the trace retains its historical source position."
+    },
+    {
+      "annotation_id": "F22-HAW-147",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-147-geography.jpg",
+      "scene_sha256": "9e6655f927ff762e44dfa1d914c69e3734eb70ed5ccd83ad2acd467de9df68ef",
+      "evidence": "The source road remains south/east of Long Lake and turns north in the same broad transport corridor. The modern highway bypass curve differs from the historical Victoria Road bend and is not substituted."
+    },
+    {
+      "annotation_id": "F22-HAW-159",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-159-geography.jpg",
+      "scene_sha256": "a3843672a1090318301a5881eb5ad48e5c1a4be0c593caaba0bd7d3851b0dd35",
+      "evidence": "The diagonal Saint Peter’s Road trace follows the broad modern highway corridor, with the historical eastern kink and changed western junction retained. Nearby drainage supports approximate locality."
+    },
+    {
+      "annotation_id": "F22-HAW-160",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-160-geography.jpg",
+      "scene_sha256": "1784acf85db287b1e0172e2b7e57821fc48c64edeabd47fd285140b4cfddb5a7",
+      "evidence": "The trace remains east of the main brook and north of Emery Pond. Modern roads support the general southwest curve but are offset along much of the segment; local uncertainty remains."
+    },
+    {
+      "annotation_id": "F22-HAW-188",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-188-geography.jpg",
+      "scene_sha256": "b1ad87a9c074773c1338684b583207b48dc6ef9c3a0174615a16422f38aaf448",
+      "evidence": "The entire bounded road follows the same broad west-east road/drainage corridor north of the Tracadie north branch, including the eastern Grosvenor bend. Multiple local offsets and changed stream/pond shapes remain. It is not a reconstruction of the entire New Glasgow-to-Mulgrave route."
+    },
+    {
+      "annotation_id": "F22-HAW-198",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-198-geography.jpg",
+      "scene_sha256": "7b70633835e224b68afaaa5081c6008677e0c9d8931d9a1ee993bc044d1427b9",
+      "evidence": "The bounded east-west route follows the road corridor north of the southern lake/river district. Modern road bends and the eastern watercourse support approximate locality with local offsets."
+    },
+    {
+      "annotation_id": "F22-HAW-231",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-231-geography.jpg",
+      "scene_sha256": "effe368624f14645a53bf5df3e0c18695806a2e737ec7cbedd38327798ac8a7f",
+      "evidence": "The trace follows the modern east-west road corridor through the Royal Barrens district. The western elbow and eastern reach differ locally; historic railway loops do not establish a current rail crossing."
+    },
+    {
+      "annotation_id": "F22-HAW-236",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-roads-3-20260913.jpg",
+      "scene_sha256": "3bd0e67103212c2722bcb7fc9b45e5bcd9007436add0b2a1ce41a4f8fe4d743f",
+      "evidence": "The complete source trace extends outside the current conservative control hull. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
+    },
+    {
+      "annotation_id": "F22-HAW-243",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-road-243-geography.jpg",
+      "scene_sha256": "f40825856a599339755f7561690fb30d08e86a8361fa9f55828a11486393f5f3",
+      "evidence": "The source trace is clear, but its projection crosses a substantial part of modern Landrie Lake water geometry and lacks a continuous corresponding road. Available evidence does not resolve historical shoreline change versus local fit error. Retain the complete native and provisional projected line for review, but withhold it from the public map until the discrepancy is reconciled."
+    },
+    {
+      "annotation_id": "F22-HAW-265",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-roads-3-20260913.jpg",
+      "scene_sha256": "3bd0e67103212c2722bcb7fc9b45e5bcd9007436add0b2a1ce41a4f8fe4d743f",
+      "evidence": "The complete source trace extends outside the current conservative control hull. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
     }
   ]
 }

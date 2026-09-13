@@ -1,17 +1,17 @@
 {
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-13",
-  "nightly_revision": "3c0fa79f068bfc3ace10fc415661e288c0d2b73c",
-  "next_action": "Continue sheet 22 with all 17 road-caption occurrences, then waterways and remaining retained annotations. All 80 service/industrial/transport source and placement decisions are recorded: 62 local integrations, 18 explicit holdbacks. There are 221 initial source associations remaining. PR460 merged 55 Hawkesbury features; the final seven service additions are locally verified. Judique has 126 merged placements and 166 initial decisions, with 40 holdbacks. Priority sheets 16/14 and remaining 20 sheets stay open.",
+  "nightly_revision": "ad8affa880dcf05dc3046f82e2adb0b7da6bf898",
+  "next_action": "Continue Hawkesbury waterways and remaining annotations. All 80 service/industrial/transport and 17 road-caption initial decisions are recorded: 75 local integrations and 22 explicit holdbacks. There are 204 initial source associations remaining. PR461 merged 62 Hawkesbury features; thirteen road additions pass local checks and await PR. Judique retains 126 merged placements and 166 initial decisions, with 40 holdbacks. Priority sheets 16/14 and the remaining 20 sheets stay open.",
   "sheets": [
     {
       "sheet": 22,
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 301,
       "lettering_status": "processed",
-      "source_associated_count": 78,
-      "approximate_placement_reviewed_count": 62,
-      "integrated_count": 62,
+      "source_associated_count": 95,
+      "approximate_placement_reviewed_count": 75,
+      "integrated_count": 75,
       "blockers": [
         {
           "annotation_id": "F22-HAW-001",
@@ -22,6 +22,11 @@
           "annotation_id": "F22-HAW-002",
           "stage": "outside-supported-coverage",
           "reason": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        },
+        {
+          "annotation_id": "F22-HAW-019",
+          "stage": "outside-fit-neatline",
+          "reason": "The complete source trace extends beyond the current supported fit neatline. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
         },
         {
           "annotation_id": "F22-HAW-025",
@@ -69,6 +74,16 @@
           "reason": "Mill is printed beside small watercourse loops at the railway/road crossing. Native enlargement does not identify a distinct mill symbol separate from those strokes. Retain the inscription unlocated; the loops and crossing are not substituted for a mill site."
         },
         {
+          "annotation_id": "F22-HAW-236",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source trace extends outside the current conservative control hull. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
+        },
+        {
+          "annotation_id": "F22-HAW-243",
+          "stage": "locality-unresolved",
+          "reason": "The source trace is clear, but its projection crosses a substantial part of modern Landrie Lake water geometry and lacks a continuous corresponding road. Available evidence does not resolve historical shoreline change versus local fit error. Retain the complete native and provisional projected line for review, but withhold it from the public map until the discrepancy is reconciled."
+        },
+        {
           "annotation_id": "F22-HAW-250",
           "stage": "outside-supported-coverage",
           "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
@@ -94,6 +109,11 @@
           "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
         },
         {
+          "annotation_id": "F22-HAW-265",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source trace extends outside the current conservative control hull. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
+        },
+        {
           "annotation_id": "F22-HAW-283",
           "stage": "outside-supported-coverage",
           "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
@@ -106,9 +126,9 @@
       ],
       "annotation_queue": "sheet-22-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-22-labels.geojson",
-      "source_association_reviewed_count": 80,
-      "merged_integrated_count": 55,
-      "integration_status": "55 merged through PR460; seven final service placements pass local checks and await PR. All 80 initial service/industrial/transport decisions are recorded."
+      "source_association_reviewed_count": 97,
+      "merged_integrated_count": 62,
+      "integration_status": "62 merged through PR461; thirteen road placements pass local checks and await PR. All 97 initial service and road decisions are recorded."
     },
     {
       "sheet": 19,
@@ -664,6 +684,13 @@
       "status": "merged",
       "head": "3d913f312b9f0c30f98470f5166c663fd457f440",
       "merge_commit": "3c0fa79f068bfc3ace10fc415661e288c0d2b73c",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 461,
+      "status": "merged",
+      "head": "293891747de1b8825024b161122d4e7a9ce59803",
+      "merge_commit": "ad8affa880dcf05dc3046f82e2adb0b7da6bf898",
       "ci": "All required checks passed"
     }
   ],

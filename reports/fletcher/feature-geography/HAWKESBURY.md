@@ -1,13 +1,12 @@
 # Port Hawkesbury source-feature review
 
-All **80 service, industrial and transport annotations** now have initial source
-and geographic decisions. **62** are integrated locally: 44 approximate marks
-and eighteen source groups. Fifteen records are outside supported coverage,
-McMaster's Mill retains unresolved geographic placement, and two mill captions
-remain unlocated. The other **221 of 301** annotations still need initial source
-association, starting with the seventeen road-caption occurrences. Fifty-five
-Hawkesbury features merged through PR460; seven further placements are verified.
-The combined 188-record export retains all 126 Judique annotations.
+All **80 service, industrial and transport annotations** and **17 road captions**
+now have initial source and geographic decisions. **75** are integrated locally:
+44 approximate marks, eighteen source groups and thirteen bounded road segments.
+Twenty-two records remain explicitly withheld. The other **204 of 301** annotations
+still need initial source association. Sixty-two Hawkesbury features merged through
+PR461; thirteen further road placements pass local checks. The combined 201-record
+export retains all 126 Judique annotations.
 
 ## Source and geography
 
@@ -20,7 +19,7 @@ The later PR448 packet describes reversible drafts and preserves downstream pins
 no experimental or rejected fit is adopted here.
 
 [Source associations](sheet-22-source-review.json) retain actual native points
-or candidate regions, separate from the unlocated original lettering inventory.
+candidate regions or bounded source lines, separate from the unlocated original lettering inventory.
 The [first source figure](hawkesbury-services-1-20260912.jpg) covers
 001,002,004,008,023,025; the [second](hawkesbury-services-2-20260912.jpg) covers
 026,028,031,032,041,042. Their frame receipts record native crop origins and display
@@ -242,3 +241,31 @@ Source imagery: David Rumsey Map Collection / David Rumsey Map Center, Stanford
 University Libraries, CC BY-NC-SA 3.0; existing scoped permissions remain separate.
 Modern vectors: Province of Nova Scotia NSTDB. No current building, parcel,
 ownership, access or site condition is established by these approximate features.
+
+## Road captions
+
+Three source figures record all seventeen bounded traces:
+
+- [Roads 1](hawkesbury-roads-1-20260913.jpg): 007,014,015,019,027,085.
+- [Roads 2](hawkesbury-roads-2-20260913.jpg): 108,121,147,159,160,188.
+- [Roads 3](hawkesbury-roads-3-20260913.jpg): 198,231,236,243,265.
+
+[Candidate history](hawkesbury-roads-append-receipt.json) preserves native contexts
+and the rejected long-road candidates. Old Post Road 188 required native detail to
+separate two thin road strokes from a parallel stream that changes sides. Victoria
+Road 147 turns north at Big Brook Road, and Saint Peter's Road 159 excludes the
+southeastern Kiln branch. No trace is trimmed to fit coverage.
+
+Fourteen paired raster/NSTDB scenes are recorded in the geographic frame receipt.
+Thirteen support approximate historical placement. Old Road 015 has no continuous
+modern road counterpart; its note retains that limitation and the offset northern
+junction. [New Road 243](hawkesbury-road-243-geography.jpg) remains withheld because
+its projection crosses substantial modern Landrie Lake water and the evidence does
+not resolve shoreline change versus local fit error. Three other whole traces are
+withheld: 019 exceeds the fit neatline, and 236/265 exceed conservative control support.
+
+The [road browser receipt](browser-hawkesbury-roads-verification.json) records real
+selection of all thirteen additions at alternating desktop/phone widths, decoded
+native excerpts, visible placement evidence and clean consoles. All previous eighty
+Hawkesbury evidence records are unchanged. Local checks: 299 Python tests (eight
+existing skips), seven Fletcher component tests, web script tests, lint and build pass.
