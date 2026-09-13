@@ -1853,10 +1853,10 @@ describe("MapCanvas browser location", () => {
     await user.click(
       screen.getByRole("button", { name: "Simulate modern map error" }),
     );
-    expect(screen.getByText("Modern map did not load.")).toBeInTheDocument();
+    expect(screen.getByText("Some modern-map data did not load. The map may be incomplete.")).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Retry" }));
-    expect(screen.queryByText("Modern map did not load.")).not.toBeInTheDocument();
+    expect(screen.queryByText("Some modern-map data did not load. The map may be incomplete.")).not.toBeInTheDocument();
   });
 
   it("dismisses the successful location message after four seconds", async () => {

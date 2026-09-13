@@ -2,14 +2,17 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { Map, setWorkerUrl, addProtocol } from 'maplibre-gl';
 import { PMTiles, Protocol } from 'pmtiles';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
+import { crownArchiveSource, crownTileUrl } from './crown';
 
 // MapLibre 6 needs a bundled worker URL, including its shared imports.
 setWorkerUrl(workerUrl);
 const protocol = new Protocol({ errorOnMissingTile: false });
+const archiveFor = (url: string) => new PMTiles(url === crownTileUrl().slice('pmtiles://'.length) ? crownArchiveSource(url) : url);
 addProtocol('pmtiles', async (params, controller) => {
   const url = params.type === 'json'
     ? params.url.slice('pmtiles://'.length)
     : params.url.slice('pmtiles://'.length).replace(/\/\d+\/\d+\/\d+$/, '');
+  if (!protocol.get(url)) protocol.add(archiveFor(url));
   const request = protocol.tilev4(params, controller);
   const instance = protocol.get(url);
   try {
@@ -19,7 +22,7 @@ addProtocol('pmtiles', async (params, controller) => {
     // but give a subsequent Retry or PDF export a fresh cache for this archive.
     // An older concurrent failure must not replace a newer instance.
     if (!controller.signal.aborted && protocol.get(url) === instance) {
-      protocol.add(new PMTiles(url));
+      protocol.add(archiveFor(url));
     }
     throw error;
   }

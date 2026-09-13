@@ -5,6 +5,8 @@ import { ContextTileLayer } from "./ContextTileLayer";
 import "../terrain/researchTerrain.css";
 import { isTerrainCameraUpdate } from "../terrain/terrainViewport";
 import { ReliefControls } from "../terrain/ReliefControls";
+import { TerrainCameraControls } from "../terrain/TerrainCameraControls";
+import type { Map as TerrainMap } from "maplibre-gl";
 import { DEFAULT_RELIEF } from "../terrain/reliefMath";
 import { OpenDataLayer } from "./OpenDataLayer";
 import { ContextImageLayer } from "./ContextImageLayer";
@@ -1993,6 +1995,7 @@ export function MapCanvas({
   const [terrainRequested, setTerrainRequested] = useState(false);
   const [terrainRelief, setTerrainRelief] = useState(DEFAULT_RELIEF);
   const [terrainStatus, setTerrainStatus] = useState("Loading 3D terrain…");
+  const [terrainMap, setTerrainMap] = useState<TerrainMap | null>(null);
   const terrainBlocked = Boolean(isPrintMode || measuring || georeference || userVectorEdit || exportFrame);
   const terrainActive = terrainRequested && !terrainBlocked;
   const measuringRef = useRef(false);
@@ -2886,7 +2889,7 @@ export function MapCanvas({
             </div> : <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
           )}
         </>}
-        {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer basemap={basemapStyle} modern={showModernMap} relief={terrainRelief} onStatus={setTerrainStatus} /></Suspense> : null}
+        {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer basemap={basemapStyle} modern={showModernMap} relief={terrainRelief} onStatus={setTerrainStatus} onMapReady={setTerrainMap} /></Suspense> : null}
         <MapPositionController
           onPositionChange={onPositionChange}
           onViewportChange={onViewportChange}
@@ -2901,7 +2904,13 @@ export function MapCanvas({
           onClick={() => { setTerrainStatus("Loading 3D terrain…"); setTerrainRequested(value => !value); }}>
           {terrainActive ? "Return to 2D" : "3D terrain"}
         </button>
-        {terrainActive ? <><ReliefControls value={terrainRelief} onChange={setTerrainRelief} /><small>Right-drag to tilt/rotate. Mapzen terrain; source detail varies.</small></> : null}
+        {terrainActive ? <>
+          {terrainMap ? <TerrainCameraControls map={terrainMap} /> : null}
+          <details className="terrain-height-settings"><summary>Terrain height</summary><ReliefControls value={terrainRelief} onChange={setTerrainRelief} /></details>
+          <small className="terrain-touch-help">One finger moves. Pinch to zoom; twist to rotate. Slide two fingers up/down to tilt.</small>
+          <small className="terrain-mouse-help">Right-drag to tilt/rotate. Scroll to zoom.</small>
+          <small>Mapzen terrain; source detail varies.</small>
+        </> : null}
       </div>
       {terrainActive && terrainStatus !== "Ready" ? <p className="research-terrain-status" role="status">{terrainStatus}</p> : null}
       <button
@@ -3074,7 +3083,7 @@ export function MapCanvas({
       ) : null}
       {showModernMap && modernMapFailed && !terrainActive ? (
         <div className="modern-map-error" role="status">
-          <span>Modern map did not load.</span>
+          <span>Some modern-map data did not load. The map may be incomplete.</span>
           {basemapStyle !== "osm" && onUseOsmBasemap ? (
             <button type="button" onClick={onUseOsmBasemap}>Use OpenStreetMap</button>
           ) : null}

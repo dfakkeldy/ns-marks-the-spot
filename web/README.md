@@ -81,6 +81,9 @@ A separate pinned archive adds [Crown Land](https://data.novascotia.ca/d/3nka-59
 to all three Atlas styles. Adjoining and overlapping polygons are dissolved
 before tiling and rendered as fills without boundary lines. Holes and disconnected areas remain. This includes
 full or partial provincial interest, not a survey or permission to enter.
+The small Crown Land archive is downloaded once per browser page and checked
+against its receipt before use; it also works on static hosts without byte-range
+responses. The larger provincial archive continues to use remote byte ranges.
 OpenFreeMap's OSM tiles supplement ocean context, grass, farmland, settlement
 areas and building footprints. Atlas covers Nova Scotia; choose OpenStreetMap
 for worldwide detail.
@@ -159,6 +162,11 @@ between 0–20 m or 0–100 m. Higher terrain retains the overall relief scale a
 is offset to join the lower band continuously. Sea level stays fixed; underwater
 elevations retain the overall scale. These are display controls: source rasters,
 recorded elevations and measurements are unchanged.
+The 3D panel offers a Tilt slider (0° looks straight down), rotation buttons,
+and North up. On touch screens, use one finger to pan, pinch to zoom, twist to
+rotate, or slide two fingers up/down together to tilt. **Terrain height** opens
+the exaggeration settings. Touch-screen terrain rendering caps pixel density
+at 1.5 to reduce GPU work; interface text keeps the screen's native resolution.
 Tilt, bearing and dimension choice are not persisted in shared URLs.
 
 MapLibre mirrors the mounted Leaflet image and tile layers, local warped
