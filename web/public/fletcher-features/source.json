@@ -1,6 +1,6 @@
 {
   "scope": "Reviewed approximate Fletcher historical features; ongoing digitization, incomplete sheet inventory.",
-  "feature_count": 188,
+  "feature_count": 201,
   "sources": [
     {
       "sheet": 19,
@@ -33,7 +33,7 @@
     {
       "sheet": 22,
       "path": "reports/fletcher/feature-geography/sheet-22-features.geojson",
-      "sha256": "94d26fb6d96719fac3cae706cbbb1929fef4bcd7348775e18ae26ee0cfb3c10c",
+      "sha256": "9982cf79cf0f03ca1f88fb547820b96b88514801ef16491be18a3b60280a27a5",
       "provenance": {
         "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
         "fit_pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/380",
@@ -49,13 +49,13 @@
           "reports/fletcher/hawkesbury-full-sheet/boundary-diagnostic-checks.json": "baf52a32736f73d3b91e7472dc6aadcd3277184954123b99e2c26f4d03c3a544"
         },
         "source_review_inputs_sha256": {
-          "reports/fletcher/feature-geography/sheet-22-source-review.json": "3c7475e36c1c1b002fada407efad16bb57dafb0f5a618fe4f5487f77b983a3e1",
-          "reports/fletcher/feature-geography/sheet-22-placement-review.json": "a36a81dbb97e2eb123080e9fc572e3834f7586b189980b47bbd50683f0f27154"
+          "reports/fletcher/feature-geography/sheet-22-source-review.json": "a59d9406a8020c2461200533f66c751d30dcbb033051143a6b3199ac0cc1882c",
+          "reports/fletcher/feature-geography/sheet-22-placement-review.json": "2ad21a26297f6b5e73507ce9cffea6794acb28a1696aa0b2d185c701d7ae55d8"
         }
       }
     }
   ],
-  "derivative_sha256": "7fb6cfb8b8e96fc27799c859c43d6c90f329fce52ac59646e8e09b369737f64e",
+  "derivative_sha256": "49ac01a08eb7f515806569b5af3760ebe04106c85bca99856e664cfaa711a44e",
   "credit": "David Rumsey Map Collection / David Rumsey Map Center, Stanford University Libraries",
   "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
   "changes": "Historical annotations transcribed, source symbols/groups/linear reaches reviewed, projected with frozen TPS fits; one explicit church correction from local review and OpenStreetMap (ODbL 1.0).",
@@ -2494,6 +2494,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-007",
+      "path": "excerpts/F22-HAW-007.jpg",
+      "sha256": "e9a17df2ac0cb010fe3e13e1f4bfd1a29e7f2024b99bde8cfe4e69c2a75e91cc",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          4446,
+          930,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-008",
       "path": "excerpts/F22-HAW-008.jpg",
       "sha256": "9b12a08320ae57775a27fec0a24dfa87eb771425c49325d310150f9e3dbb8d7e",
@@ -2508,6 +2527,44 @@
         "display_size": [
           660,
           450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-014",
+      "path": "excerpts/F22-HAW-014.jpg",
+      "sha256": "0c633d7786fa92028579a8782ae561372c9a24f5175c9754d95b2c604186e015",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          5409,
+          1881,
+          900,
+          818
+        ],
+        "display_size": [
+          900,
+          818
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-015",
+      "path": "excerpts/F22-HAW-015.jpg",
+      "sha256": "7976744ab2e750856dfbf5d57b8c7627207a163a176ac64f6992568772ad795a",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          5767,
+          1555,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
         ],
         "rotation_degrees": 0
       }
@@ -2546,6 +2603,25 @@
         "display_size": [
           660,
           450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-027",
+      "path": "excerpts/F22-HAW-027.jpg",
+      "sha256": "e3738ae060f4af6a5c11b1a512f9d376942a6d90279529898f52769a3315f4f1",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          6686,
+          1615,
+          900,
+          731
+        ],
+        "display_size": [
+          900,
+          731
         ],
         "rotation_degrees": 0
       }
@@ -2950,6 +3026,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-085",
+      "path": "excerpts/F22-HAW-085.jpg",
+      "sha256": "9d308b1ed3058990ee52c813afdb6185bf04766ab2b1d342d0324ff5fbbd5838",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          6098,
+          3066,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-089",
       "path": "excerpts/F22-HAW-089.jpg",
       "sha256": "85c201981ef071d53e49d3dbde3fc8e9d9b2f1fb7ed3516de56d66c32bc76bda",
@@ -3021,6 +3116,25 @@
         "display_size": [
           660,
           450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-108",
+      "path": "excerpts/F22-HAW-108.jpg",
+      "sha256": "ae0599c6d37aa343300f3cbf5d692df3b70ff2c28cc296c22cc050028cd4879c",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          1879,
+          4301,
+          900,
+          675
+        ],
+        "display_size": [
+          900,
+          675
         ],
         "rotation_degrees": 0
       }
@@ -3102,6 +3216,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-121",
+      "path": "excerpts/F22-HAW-121.jpg",
+      "sha256": "f24a328079712d8ed7f91e544340b53b36f6a7e821d71bf97f6e0b2d1ebd1b91",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          2960,
+          4137,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-129",
       "path": "excerpts/F22-HAW-129.jpg",
       "sha256": "ab1e53ec5ec7c9b42da6255879e713bb4f987bc44aa751eaa548d789661412de",
@@ -3173,6 +3306,63 @@
         "display_size": [
           660,
           450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-147",
+      "path": "excerpts/F22-HAW-147.jpg",
+      "sha256": "e636a2a5edecb22741951bfcc19146c982272426d599b5dd11400bc5744ca137",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          5702,
+          3284,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-159",
+      "path": "excerpts/F22-HAW-159.jpg",
+      "sha256": "b9c8a6caf0440afced6bf6c99bfeee7a8f3d0b08216312f9c71d0939e59b32e7",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          7050,
+          4287,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-160",
+      "path": "excerpts/F22-HAW-160.jpg",
+      "sha256": "0135de73970724a81a306c18cd8ac261891b895dec116bdb550a6850762920d2",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          6495,
+          4357,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
         ],
         "rotation_degrees": 0
       }
@@ -3254,6 +3444,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-188",
+      "path": "excerpts/F22-HAW-188.jpg",
+      "sha256": "75ef138e8a52f877e82851147cc73681903eba7839ae401a44bd9808b3e8dd27",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          1742,
+          5024,
+          1647,
+          765
+        ],
+        "display_size": [
+          1647,
+          765
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-189",
       "path": "excerpts/F22-HAW-189.jpg",
       "sha256": "efc00cd3e918e476eafdd60cc428d53ed7b611d21194b12d45f6a5fee142f268",
@@ -3306,6 +3515,25 @@
         "display_size": [
           660,
           450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-198",
+      "path": "excerpts/F22-HAW-198.jpg",
+      "sha256": "6f0455db3dddd2cbd9aaf012fdab2b11be25953a77afea1dfe125da226ef4a32",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          3485,
+          4594,
+          936,
+          650
+        ],
+        "display_size": [
+          936,
+          650
         ],
         "rotation_degrees": 0
       }
@@ -3515,6 +3743,25 @@
         "display_size": [
           660,
           450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-231",
+      "path": "excerpts/F22-HAW-231.jpg",
+      "sha256": "5c40b00db628b8d9d0156b3e0f18bc0f48694ca3c524711f70192ed1716ce8cd",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          7158,
+          4879,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
         ],
         "rotation_degrees": 0
       }
