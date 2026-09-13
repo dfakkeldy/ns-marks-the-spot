@@ -41,7 +41,18 @@ for (const viewport of [{ width: 390, height: 700 }, { width: 360, height: 640 }
     await expect(input).toBeInViewport({ ratio: 1 });
     const searchBox = await box(input);
     const zoom = await box(page.locator(".leaflet-control-zoom"));
+    const terrain = page.locator(".research-terrain-controls");
+    await expect(terrain).toBeInViewport({ ratio: 1 });
+    const terrainBox = await box(terrain);
+    const searchPanel = await box(page.locator(".poker-search"));
+    expect(terrainBox.y).toBeGreaterThanOrEqual(searchPanel.y + searchPanel.height + 8);
     if (viewport.width <= 860) {
+      const layers = page.getByRole("button", { name: "Layers", exact: true });
+      const layersBox = await box(layers);
+      expect(terrainBox.y).toBeGreaterThanOrEqual(layersBox.y + layersBox.height + 8);
+      await activate(layers);
+      await expect(page.getByRole("combobox", { name: "Map setup", exact: true })).toBeVisible();
+      await page.getByRole("button", { name: "Close map controls", exact: true }).click();
       expect(searchBox.y + searchBox.height).toBeLessThanOrEqual(zoom.y);
       const locate = await box(page.getByRole("button", { name: "Use my location", exact: true }));
       expect(locate.y).toBeGreaterThanOrEqual(zoom.y + zoom.height);

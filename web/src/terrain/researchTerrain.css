@@ -14,8 +14,12 @@
 .research-terrain-status { position: absolute; z-index: 500; bottom: 70px; left: 72px; max-width: min(380px, calc(100% - 95px)); padding: 9px; background: var(--paper, #faf8f0); color: var(--ink, #263b3d); border-radius: 5px; font-size: 12px; }
 .research-terrain-map .maplibregl-ctrl-attrib { max-width: min(550px, calc(100vw - 30px)); }
 .map-region.has-inspector .research-terrain-controls { visibility: hidden; }
+/* Poker adds a search row above the map controls. */
+.poker-mode .research-terrain-controls { top: 82px; }
 @media (max-width: 860px) {
-  .research-terrain-controls { right: 8px; top: 68px; max-width: 155px; padding: 6px; }
+  .research-terrain-controls { right: 8px; top: max(68px, calc(env(safe-area-inset-top) + 56px)); max-width: 155px; padding: 6px; }
+  /* Clear Poker's 44px Layers pill, including the phone's safe-area inset. */
+  .poker-mode .research-terrain-controls { top: max(138px, calc(env(safe-area-inset-top) + 126px)); }
   .research-terrain-map .maplibregl-ctrl-bottom-right { bottom: 76px; }
 }
 @media print { .research-terrain-controls, .research-terrain-status, .research-terrain-map { display: none; } }
