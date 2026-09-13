@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => ({
     manifest: true,
     rollupOptions: {
       input: {
-        app: "index.html", atlas: "atlas.html",
+        app: "index.html", atlas: "atlas.html", terrain: "terrain.html",
         // Exercise print components in preview without shipping the synthetic fixture.
         ...(mode === "browser-test" ? { print: "e2e/print.html" } : {}),
       },
