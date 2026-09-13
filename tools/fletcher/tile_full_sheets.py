@@ -17,7 +17,8 @@ REVISION = "fletcher-full-sheets-20260909.3"
 
 
 def digest(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    with path.open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
 def write(path, value):
@@ -36,8 +37,12 @@ def main():
     )
     p.add_argument("--gdal", default="gdal", help="GDAL 3.11+ command-line interface")
     p.add_argument("--gdalinfo", default="gdalinfo")
+    p.add_argument("--inputs", type=Path, default=ACCEPTANCE)
+    p.add_argument("--revision", default=REVISION)
+    p.add_argument("--name", default="Fletcher complete sheets — Cape Mabou, Judique, Mabou and Hawkesbury")
+    p.add_argument("--status", choices=["local-preview", "provisional-review"], default="local-preview")
     a = p.parse_args()
-    acceptance = json.loads(ACCEPTANCE.read_text())
+    acceptance = json.loads(a.inputs.read_text())
     accepted = acceptance["composite"]
     if digest(a.source) != accepted["sha256"]:
         raise ValueError("Source does not match the recorded full-sheet composite")
@@ -106,9 +111,9 @@ def main():
     ]
     write(a.out / "tile-inventory.json", inventory)
     source = {
-        "revision": REVISION,
-        "name": "Fletcher complete sheets — Cape Mabou, Judique, Mabou and Hawkesbury",
-        "status": "local-preview",
+        "revision": a.revision,
+        "name": a.name,
+        "status": a.status,
         "scheme": "xyz",
         "format": "png",
         "tileSize": 256,
@@ -119,7 +124,7 @@ def main():
         "licence": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
         "modifications": "Georeferenced, cropped and tiled; original printed colours preserved.",
         "sourceRasterSha256": accepted["sha256"],
-        "provenanceSha256": digest(ACCEPTANCE),
+        "provenanceSha256": digest(a.inputs),
         "provenance": acceptance,
         "gdalVersion": run(a.gdal, "--version").strip(),
         "resampling": "bilinear at zoom 15; average for overviews",

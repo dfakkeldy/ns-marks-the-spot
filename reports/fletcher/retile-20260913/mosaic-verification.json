@@ -1,0 +1,127 @@
+{
+  "sheets": [
+    {
+      "sheet": "01",
+      "source_coverage_cells": 44285172,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "02",
+      "source_coverage_cells": 51849893,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "03",
+      "source_coverage_cells": 50405027,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "04",
+      "source_coverage_cells": 47337673,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "05",
+      "source_coverage_cells": 45365808,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "06",
+      "source_coverage_cells": 45563008,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "07",
+      "source_coverage_cells": 39530483,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "08",
+      "source_coverage_cells": 45187046,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "09",
+      "source_coverage_cells": 42846381,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "10",
+      "source_coverage_cells": 50093850,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "11",
+      "source_coverage_cells": 48646061,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "12",
+      "source_coverage_cells": 52643355,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "13",
+      "source_coverage_cells": 47723120,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "14",
+      "source_coverage_cells": 47352741,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "15",
+      "source_coverage_cells": 46670823,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "16",
+      "source_coverage_cells": 44685053,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "17",
+      "source_coverage_cells": 47871689,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "18",
+      "source_coverage_cells": 46908704,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "19",
+      "source_coverage_cells": 46343148,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "20",
+      "source_coverage_cells": 45387700,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "21",
+      "source_coverage_cells": 46467337,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "22",
+      "source_coverage_cells": 46373383,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "23",
+      "source_coverage_cells": 46242185,
+      "lost_coverage_cells": 0
+    },
+    {
+      "sheet": "24",
+      "source_coverage_cells": 46822677,
+      "lost_coverage_cells": 0
+    }
+  ],
+  "all_24_sheets_preserved": true,
+  "lost_coverage_cells": 0,
+  "scope": "Composite coverage mechanics, including input islands/extensions. Overlaps may use the higher-priority sheet; geographic gaps and acceptance remain unchanged."
+}
