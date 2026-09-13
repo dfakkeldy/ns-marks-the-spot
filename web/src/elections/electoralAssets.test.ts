@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
-import { electoralLayers } from '../layers/electoralLayers';
+import { electoralLayers, electoralLayerById, electoralPaneOrder, initialElectoralModes, withElectoralMode } from '../layers/electoralLayers';
 import { loadElectoralCollection, isInstitution, electoralFill } from './electoralData';
 import { buildMapShareUrl, parseMapShareState, DEFAULT_MAP_POSITION } from '../services/mapShareState';
 
@@ -26,6 +26,16 @@ describe('electoral assets and disclosure', () => {
     const url=buildMapShareUrl('https://example.test/',{ mode:'current',taxSaleEnabled:false,pid:null,eventIds:[],layerIds:['provincial-results-2024'],position:DEFAULT_MAP_POSITION,electoralModes:{'provincial-results-2024':'turnout'} });
     expect(parseMapShareState(url).electoralModes).toEqual({'provincial-results-2024':'turnout'});
     expect(parseMapShareState('https://example.test/?electoral=provincial-seats-2026:turnout').electoralModes).toBeUndefined();
+  });
+  it('gives detailed electoral evidence priority over transparent reference interiors', () => {
+    const federal=electoralLayerById['federal-ridings-2025'];
+    const provincial=electoralLayerById['provincial-districts-2026'];
+    const results=electoralLayerById['provincial-results-2024'];
+    expect(electoralPaneOrder(provincial,'boundaries')).toBeGreaterThan(electoralPaneOrder(federal,'boundaries'));
+    expect(electoralPaneOrder(results,'winner')).toBeGreaterThan(electoralPaneOrder(provincial,'boundaries'));
+    const modes=withElectoralMode(initialElectoralModes,'provincial-seats-2026','winner');
+    expect(modes['provincial-results-2024']).toBe('boundaries');
+    expect(electoralPaneOrder(electoralLayerById['provincial-seats-2026'],'winner')).toBeGreaterThan(electoralPaneOrder(results,'boundaries'));
   });
   it('never assigns a party fill to institutional polls', () => {
     const layer=electoralLayers.find(l=>l.id==='federal-polls-2025')!;

@@ -1,3 +1,4 @@
+import { electoralLayerById } from "./layers/electoralLayers";
 import { contextLayerCatalog } from "./layers/contextLayerCatalog";
 import {
   act,
@@ -187,6 +188,7 @@ vi.mock("./components/MapCanvas", () => ({
     focusRequest,
     onViewportChange,
     onLayerStatusChange,
+    onElectoralSelect,
     renderMode,
     fitBounds,
     georeference,
@@ -224,7 +226,8 @@ vi.mock("./components/MapCanvas", () => ({
       position: { latitude: number; longitude: number; zoom: number };
       bounds: { north: number; east: number; south: number; west: number };
     }) => void;
-    onLayerStatusChange?: (id: string, status: { status: "ready" }) => void;
+    onLayerStatusChange?: (id: string, status: import("./components/MapCanvas").MapLayerStatus) => void;
+    onElectoralSelect?: (selection: import("./elections/electoralData").ElectoralSelection) => void;
     renderMode?: "interactive" | "print";
     fitBounds?: unknown;
     georeference?: {
@@ -301,6 +304,15 @@ vi.mock("./components/MapCanvas", () => ({
 
     return (
     <div data-testid="map-canvas">
+      {contextLayers?.['federal-ridings-2025'] ? <>
+        <button data-testid="select-electoral-fixture" onClick={() => {
+          onLayerStatusChange?.('federal-ridings-2025',{status:'ready'});
+          onElectoralSelect?.({layer:electoralLayerById['federal-ridings-2025'],feature:{type:'Feature',properties:{FED_NUM:'12001',ED_NAMEE:'Acadie—Annapolis'},geometry:{type:'Polygon',coordinates:[[[-65,44],[-64,44],[-64,45],[-65,44]]]}}});
+        }}>Select electoral fixture</button>
+        <button data-testid="fail-electoral-fixture" onClick={()=>onLayerStatusChange?.('federal-ridings-2025',{status:'source-error'})}>Fail electoral source</button>
+        <button data-testid="ready-electoral-fixture" onClick={()=>onLayerStatusChange?.('federal-ridings-2025',{status:'ready'})}>Reload electoral source</button>
+      </> : null}
+
       {poker && <div data-testid="poker-session">
         <span>{poker.address?.label ?? "No Poker address"}</span>
         <span>Revision {poker.revision}</span>
@@ -1623,6 +1635,27 @@ describe("NS Marks The Spot Online", () => {
     render(<App />);
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("modern map: off");
     expect(screen.getByTestId("map-canvas")).toHaveTextContent("context layers: ns-topographic");
+  });
+
+  it("clears electoral evidence when its source fails and does not resurrect it on retry", () => {
+    window.history.replaceState(null, "", "/?taxSale=off&layers=federal-ridings-2025");
+    render(<App />);
+    fireEvent.click(screen.getByTestId("select-electoral-fixture"));
+    expect(screen.getByRole("complementary", {name:"District inspector"})).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("fail-electoral-fixture"));
+    expect(screen.queryByRole("complementary", {name:"District inspector"})).not.toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("ready-electoral-fixture"));
+    expect(screen.queryByRole("complementary", {name:"District inspector"})).not.toBeInTheDocument();
+  });
+
+  it("clears electoral evidence when its layer is disabled and re-enabled", () => {
+    window.history.replaceState(null, "", "/?taxSale=off&layers=federal-ridings-2025");
+    render(<App />);
+    fireEvent.click(screen.getByTestId("select-electoral-fixture"));
+    fireEvent.click(screen.getByRole("button", {name:/^Elections & Districts/}));
+    fireEvent.click(screen.getByRole("checkbox", {name:"Federal ridings · 2023 order"}));
+    fireEvent.click(screen.getByRole("checkbox", {name:"Federal ridings · 2023 order"}));
+    expect(screen.queryByRole("complementary", {name:"District inspector"})).not.toBeInTheDocument();
   });
 
   it("renders every current catalogue entry in exactly one expected category region", async () => {

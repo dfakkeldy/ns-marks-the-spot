@@ -38,6 +38,6 @@ export function ElectoralLayerControls({ visibility, statuses, licenceAccepted, 
         </div>;
       })}
     </section>)}
-    <p className="resource-source-note">Data loads for the whole province. Taps and map bounds stay in this browser. These records do not tell you where to vote.</p>
+    <p className="resource-source-note">Data loads for the whole province. Taps and map bounds stay in this browser. Overlapping layers select polls and results first, then municipal, provincial and federal boundaries. Turn off layers to inspect beneath. One results wash is shown at a time. These records do not tell you where to vote.</p>
   </div>;
 }

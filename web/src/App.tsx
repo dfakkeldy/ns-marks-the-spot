@@ -1,6 +1,6 @@
 import { ElectoralLayerControls, ElectoralLegend } from "./components/ElectoralLayerControls";
 import { DistrictInspector } from "./components/DistrictInspector";
-import { initialElectoralModes } from "./layers/electoralLayers";
+import { initialElectoralModes, withElectoralMode, type ElectoralLayerId } from "./layers/electoralLayers";
 import type { ElectoralSelection } from "./elections/electoralData";
 import { openDataPrintCredit } from "./layers/openDataSources";
 import { contextLayerCatalog, type ContextLayerId } from "./layers/contextLayerCatalog";
@@ -1621,7 +1621,7 @@ export function App() {
       initialCatalogueLayerIds,
     ),
   );
-  const [electoralModes, setElectoralModes] = useState(() => ({ ...initialElectoralModes, ...initialShareState.electoralModes }));
+  const [electoralModes, setElectoralModes] = useState(() => Object.entries(initialShareState.electoralModes ?? {}).reduce((modes,[id,mode]) => withElectoralMode(modes,id as ElectoralLayerId,mode), initialElectoralModes));
   const [electoralSelection, setElectoralSelection] = useState<ElectoralSelection | null>(null);
   const [contextLayers, setContextLayers] = useState(
     () => visibilityRecordFor(
@@ -3175,6 +3175,7 @@ export function App() {
   );
   const setContextLayerVisibility = useCallback(
     (id: ContextLayerId, visible: boolean) => {
+    if (!visible) setElectoralSelection(current => current?.layer.id === id ? null : current);
     setContextLayers((current) => ({ ...current, [id]: visible }));
     if ((id === "ns-topographic" || id === "sentinel-2") && visible) {
       setContextLayers((current) => ({ ...current, "ns-topographic": id === "ns-topographic", "sentinel-2": id === "sentinel-2" }));
@@ -3220,6 +3221,7 @@ export function App() {
 
   const setLayerStatus = useCallback(
     (id: MapLayerId, status: MapLayerStatus) => {
+      if (status.status !== "ready") setElectoralSelection(current => current?.layer.id === id ? null : current);
       setLayerStatuses((current) => {
         // Tile layers report loading/load cycles on every pan, and each
         // report used to build a fresh record — re-rendering the entire App
@@ -4924,7 +4926,7 @@ export function App() {
                     </p>
                   ) : null}
 
-                  {category.id === "elections-districts" ? <ElectoralLayerControls visibility={contextLayers} statuses={layerStatuses} licenceAccepted={licenceAccepted} modes={electoralModes} onModeChange={(id, mode) => setElectoralModes(current => ({...current, [id]: mode}))} onChange={setContextLayerVisibility} onReviewLicence={reviewProvinceLicence} night={basemapStyle === "night"} /> : null}
+                  {category.id === "elections-districts" ? <ElectoralLayerControls visibility={contextLayers} statuses={layerStatuses} licenceAccepted={licenceAccepted} modes={electoralModes} onModeChange={(id, mode) => setElectoralModes(current => withElectoralMode(current,id,mode))} onChange={setContextLayerVisibility} onReviewLicence={reviewProvinceLicence} night={basemapStyle === "night"} /> : null}
                   {contextCategoryLayers.filter(layer => layer.category !== "elections-districts").map((layer) => (
                     <ContextLayerToggle
                       key={layer.id}
@@ -5497,7 +5499,7 @@ export function App() {
           </div>
           {pokerMode && searchForm}
           <div className="electoral-map-legends">{(['provincial-results-2024','provincial-seats-2026'] as const).filter(id => effectiveContextLayers[id] && electoralModes[id] !== 'boundaries').map(id => <ElectoralLegend key={id} mode={electoralModes[id]} night={basemapStyle === 'night'} />)}</div>
-          {electoralSelection && effectiveContextLayers[electoralSelection.layer.id] ? <DistrictInspector selection={electoralSelection} night={basemapStyle === "night"} onClose={() => setElectoralSelection(null)} /> : null}
+          {electoralSelection && effectiveContextLayers[electoralSelection.layer.id] && layerStatuses[electoralSelection.layer.id]?.status === "ready" ? <DistrictInspector selection={electoralSelection} night={basemapStyle === "night"} onClose={() => setElectoralSelection(null)} /> : null}
           <MapCanvas
             poker={pokerMode ? {
               address: pokerAddress,

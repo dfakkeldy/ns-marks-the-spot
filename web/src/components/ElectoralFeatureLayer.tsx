@@ -1,3 +1,4 @@
+import { electoralPaneOrder } from "../layers/electoralLayers";
 import { useEffect, useState } from 'react';
 import L, { type PathOptions } from 'leaflet';
 import { useMap } from 'react-leaflet';
@@ -36,7 +37,7 @@ export function ElectoralFeatureLayer({ layer, visible, licenceAccepted, mode, n
     if (!visible) { onStatusChange?.(layer.id, { status: 'idle' }); return; }
     const paneName = `electoral-${layer.id}`;
     const pane = map.getPane(paneName) ?? map.createPane(paneName);
-    pane.style.zIndex = String(layer.zIndex);
+    pane.style.zIndex = String(electoralPaneOrder(layer,mode));
     pane.style.pointerEvents = renderMode === 'print' ? 'none' : 'auto';
     let drawn: L.GeoJSON | undefined;
     const indexed = loaded?.status === 'ready' ? loaded.collection.features.map(feature => {

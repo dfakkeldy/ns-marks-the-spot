@@ -82,3 +82,17 @@ export type ElectoralLayer = ContextLayerDescriptor & { id: ElectoralLayerId; el
 export const electoralLayerById = Object.fromEntries<ElectoralLayer>(electoralLayers.map(layer => [layer.id, layer])) as Record<ElectoralLayerId, ElectoralLayer>;
 export function isElectoralLayerId(id: string): id is ElectoralLayerId { return Object.hasOwn(electoralLayerById, id); }
 export const initialElectoralModes: Record<ElectoralLayerId, ElectoralMode> = Object.fromEntries(electoralLayers.map(l => [l.id, l.electoral.kind === 'results' ? 'winner' : 'boundaries'])) as Record<ElectoralLayerId, ElectoralMode>;
+
+/** Detailed evidence receives interior taps before broad reference polygons. */
+export function electoralPaneOrder(layer: ElectoralLayer, mode: ElectoralMode): number {
+  if (layer.electoral.kind === 'polls') return layer.electoral.level === 'Provincial' ? 239 : 238;
+  if (mode !== 'boundaries' && ['results','seats'].includes(layer.electoral.kind)) return 237;
+  return layer.electoral.level === 'Federal' ? 233 : layer.electoral.level === 'Provincial' ? 234 : 235;
+}
+
+export function withElectoralMode(modes: Record<ElectoralLayerId, ElectoralMode>, id: ElectoralLayerId, mode: ElectoralMode): Record<ElectoralLayerId, ElectoralMode> {
+  const next = {...modes, [id]: mode};
+  if (mode !== 'boundaries' && id === 'provincial-results-2024') next['provincial-seats-2026'] = 'boundaries';
+  if (mode !== 'boundaries' && id === 'provincial-seats-2026') next['provincial-results-2024'] = 'boundaries';
+  return next;
+}
