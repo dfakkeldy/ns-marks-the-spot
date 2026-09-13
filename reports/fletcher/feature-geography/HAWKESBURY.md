@@ -1,12 +1,15 @@
 # Port Hawkesbury source-feature review
 
-All **194 reviewed source associations/holdbacks** now have initial geographic
-decisions: 80 service/industrial/transport annotations, 17 roads, 26 stream/river
-captions, 14 lake/pond shorelines, 16 water notes and 41 heights. **115** are integrated
-locally, while **79** remain withheld. The other **107 of 301** annotations still
-need initial source association. Ninety-two Hawkesbury features merged through
-PR463; 23 further placements pass local checks. The combined 241-record export
-retains all 126 Judique annotations.
+All **231 of 301 annotations** now have initial source-feature and geographic
+decisions. **145** are integrated locally, while **86** remain withheld. The other
+**70** annotations still need initial source association. The completed initial
+categories now include settlement and personal-name captions; one of those retained
+entries, L. Murray, has an evidenced lake interpretation. All original inventory
+wording, pixel boxes and kinds remain preserved.
+
+One hundred fifteen Hawkesbury features merged through PR464; thirty further
+placements pass local checks. The combined 271-record export retains all 126
+Judique annotations.
 
 ## Source and geography
 
@@ -339,3 +342,46 @@ links, native excerpts, clean consoles and absence of all 79 Hawkesbury holdback
 Local checks: 300 Python tests (eight existing skips), eight Fletcher component tests,
 web script tests, lint and build pass. PR463's initial simulator-launch timeout passed
 on an unchanged-head rerun before merge; it introduced no native code change.
+
+## Settlement and personal-name review
+
+[The append receipt](hawkesbury-names-append-receipt.json) records all 37 original
+inventory entries, using actual source groups, marks, road/river crossings, a street
+junction and a cove bank. Seven native figures preserve the source associations:
+
+- [Names 1](hawkesbury-names-1-20260913.jpg), [2](hawkesbury-names-2-20260913.jpg), [3](hawkesbury-names-3-20260913.jpg), [4](hawkesbury-names-4-20260913.jpg).
+- [Names 5](hawkesbury-names-5-20260913.jpg), [6](hawkesbury-names-6-20260913.jpg), [7](hawkesbury-names-7-20260913.jpg).
+
+Bounded settlement groups reuse reviewed service marks where appropriate, without
+inventing settlement limits or treating individual marks as current residences or
+properties. Named bridge crossings retain their actual source locations. Auld Cove
+uses a printed bank, and Hastings uses a specific printed street junction as its
+locational anchor. Original categories remain in the source annotations.
+
+[L. Murray reconciliation](lake-murray-identity-reconciliation.json) preserves the
+first unlocated review and raw personal-name category. The source waterbody and
+CGNDB CBAWC record support a derived waterbody classification; the native bank is
+traced without substituting modern coordinates. The pipeline permits this explicit,
+evidenced shoreline correction while leaving the original inventory unchanged.
+
+Ferguson94 remains unlocated. Mathy Settlement190 retains an unresolved road/stream
+relationship and modern-channel overlap. Complete source geometry for 95,245,252,
+262,285 exceeds conservative support. Thirty other entries are integrated.
+
+The [browser receipt](browser-hawkesbury-names-verification.json) records pointer
+selection of every addition, the CGNDB link, native excerpts and clean consoles.
+Visible labels now receive pointer events; multipart-group labels and popups use
+the group bounds centre for presentation so a reused service label does not obscure
+the settlement label. These display anchors do not alter stored feature geometry.
+Labels also remount when crossing the hover/permanent zoom threshold, with real
+zoom-control and unit regressions. The earlier Judique Coal multipart group remains
+selectable. Local checks: 301 Python tests (eight existing skips), ten Fletcher
+component tests, web script tests, lint and build pass.
+
+Base reconciliation preserves PR465's terrain-control work. PR435's sheet21 handoff
+retains the fifteen-control provisional baseline and rejects its seventeen-control
+experiment; no new priority-corridor fit or whole-sheet acceptance is adopted.
+
+The final branch also preserves PR466’s mobile terrain and Crown Land loading changes.
+All thirty browser cases, the real label zoom threshold, prior Coal selection,
+component tests, lint and build passed again with that nightly base.

@@ -35,6 +35,18 @@ class FeatureEvidenceTests(unittest.TestCase):
         self.assertIsNone(settlement['source_review']['source_anchor_xy'])
         self.assertEqual(settlement['source_geometry_native']['type'],'Polygon')  # Printed group, never a lettering-centre point.
 
+    def test_reviewed_lake_interpretation_preserves_original_inventory_kind(self):
+        original={'kind':'personal-name','source_text':'L. Murray'}
+        association={'status':'supported-source-line','source_path_xy':[[10,20],[30,40]],
+                     'kind_correction':{'from':'personal-name','to':'waterbody',
+                                        'reason':'Source lake outline and corroborating gazetteer identity',
+                                        'supporting_sources':[{'title':'CGNDB Lake Murray','url':'https://geonames.nrcan.gc.ca/search-place-names/unique/CBAWC'}]}}
+        before=copy.deepcopy(original)
+        self.assertEqual(features.reviewed_kind(association,original),'waterbody')
+        self.assertEqual(original,before)
+        association['kind_correction']['from']='settlement'
+        with self.assertRaises(ValueError):features.reviewed_kind(association,original)
+
     def test_ambiguous_services_share_group_without_invented_buildings(self):
         for aid in ['F19-JUD-006','F19-JUD-009','F19-JUD-010','F19-JUD-021','F19-JUD-077','F19-JUD-078','F19-JUD-079']:
             self.assertEqual(self.rows[aid]['geometry']['type'],'Polygon')

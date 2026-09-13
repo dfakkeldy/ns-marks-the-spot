@@ -27449,6 +27449,1186 @@
       "reviewer": "Codex coordinator, all 41 native height contexts and targeted 4x details, 2026-09-13",
       "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x; targeted detail frames record their 4x scale and original crop origins. No rotation.",
       "review_batch": "hawkesbury-heights-7-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-003",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4517,
+          1443,
+          18,
+          21
+        ],
+        [
+          4420,
+          1620,
+          43,
+          66
+        ]
+      ],
+      "source_context_xywh": [
+        4178,
+        1061,
+        900,
+        650
+      ],
+      "note": "Craignish is represented by the bounded printed church and postal-symbol groups below the name. These actual service marks provide locational evidence; they do not delineate the whole settlement, and the separately reviewed northern school/shop remain separate.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-009",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4920,
+          2091,
+          25,
+          23
+        ]
+      ],
+      "source_context_xywh": [
+        4435,
+        1749,
+        900,
+        650
+      ],
+      "note": "Three compact marks at the road immediately below D.McDonald form the associated source group. No individual mark is selected as a residence, address or property.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-022",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6603,
+          1478,
+          45,
+          35
+        ],
+        [
+          6619,
+          1532,
+          55,
+          49
+        ]
+      ],
+      "source_context_xywh": [
+        6119,
+        1257,
+        900,
+        650
+      ],
+      "note": "Two clusters of compact marks beside the central north-south road lie immediately above/within the Queensville caption. Keep these bounded roadside groups separate from the geological stripes, lettering and more distant school district; the lower cluster partly overlaps the lettering.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-029",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8401,
+          1708,
+          27,
+          30
+        ],
+        [
+          8648,
+          1824,
+          40,
+          51
+        ]
+      ],
+      "source_context_xywh": [
+        8010,
+        1431,
+        900,
+        650
+      ],
+      "note": "The compact cluster above Askilton and the southeastern school/church group supply two source regions. The rectilinear pattern and river/rail district are separate; this is not a settlement boundary.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-044",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2222,
+          2920,
+          69,
+          72
+        ],
+        [
+          2340,
+          2921,
+          55,
+          29
+        ]
+      ],
+      "source_context_xywh": [
+        1943,
+        2669,
+        900,
+        650
+      ],
+      "note": "The printed school and postal candidate groups below the central Cape Jack road supply the bounded settlement reference. Their prior native group geometry is reused; no whole-town extent or individual property is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-054",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2978,
+          2720,
+          40,
+          50
+        ],
+        [
+          3001,
+          2837,
+          50,
+          24
+        ],
+        [
+          2976,
+          2841,
+          31,
+          47
+        ]
+      ],
+      "source_context_xywh": [
+        2683,
+        2504,
+        900,
+        650
+      ],
+      "note": "The shop, factory and forge groups along the harbour-side road supply the bounded Havre Bouché settlement reference. Existing source group geometry is reused. The name is not placed at its lettering centre or used to outline the entire harbour.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-1-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-059",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3877,
+          2666,
+          29,
+          29
+        ],
+        [
+          3927,
+          3146,
+          13,
+          13
+        ]
+      ],
+      "source_context_xywh": [
+        3376,
+        2543,
+        900,
+        650
+      ],
+      "note": "The actual lighthouse glyph and roadside school mark supply a bounded two-part locational group for North Canso. Their source positions are independently reviewed; this does not define a settlement centre or extent.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-072",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        5853,
+        2118,
+        900,
+        650
+      ],
+      "note": "L. Murray is interpreted as the lake name from its position above the printed pond and the corroborating CGNDB Lake Murray record. Retain this bounded northern/eastern shore from actual source ink. The original text, pixel boxes, inventory category and earlier unlocated review survive; no residence, ownership, current bank or gazetteer-centre coordinate is substituted.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913",
+      "source_path_xy": [
+        [
+          6308,
+          2489
+        ],
+        [
+          6314,
+          2482
+        ],
+        [
+          6329,
+          2475
+        ],
+        [
+          6338,
+          2472
+        ],
+        [
+          6346,
+          2476
+        ],
+        [
+          6353,
+          2483
+        ],
+        [
+          6369,
+          2480
+        ],
+        [
+          6387,
+          2474
+        ],
+        [
+          6405,
+          2466
+        ],
+        [
+          6423,
+          2460
+        ],
+        [
+          6442,
+          2452
+        ],
+        [
+          6455,
+          2449
+        ],
+        [
+          6472,
+          2454
+        ],
+        [
+          6487,
+          2449
+        ],
+        [
+          6494,
+          2451
+        ],
+        [
+          6494,
+          2457
+        ],
+        [
+          6485,
+          2467
+        ],
+        [
+          6482,
+          2478
+        ],
+        [
+          6486,
+          2491
+        ],
+        [
+          6480,
+          2498
+        ],
+        [
+          6466,
+          2490
+        ]
+      ],
+      "previous_source_reviews": [
+        {
+          "annotation_id": "F22-HAW-072",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [],
+          "source_context_xywh": [
+            5853,
+            2118,
+            900,
+            650
+          ],
+          "note": "L. Murray is printed immediately above a small pond without a distinct associated personal/site mark. The initial L. may be an abbreviation connected with the waterbody or a personal initial; the original reading and inventory kind remain preserved. Do not invent a residence or place a feature at the lettering centre.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+          "review_batch": "hawkesbury-names-2-20260913"
+        }
+      ],
+      "kind_correction": {
+        "from": "personal-name",
+        "to": "waterbody",
+        "reason": "The caption lies above a drawn waterbody, with no associated personal/site mark. CGNDB CBAWC identifies Lake Murray in this locality; the reviewed interpretation is L. as Lake, while the original inventory category and wording remain unchanged.",
+        "supporting_sources": [
+          {
+            "title": "CGNDB: Lake Murray (CBAWC)",
+            "url": "https://geonames.nrcan.gc.ca/search-place-names/unique/CBAWC"
+          }
+        ],
+        "reviewed_at": "2026-09-13"
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-074",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5706,
+          2858,
+          23,
+          30
+        ]
+      ],
+      "source_context_xywh": [
+        5301,
+        2502,
+        900,
+        650
+      ],
+      "note": "The two compact marks at the western end of the road directly below Widow Mc Askill form the associated group. The more distant eastern pair is separate. No individual dwelling or ownership is identified.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-082",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6777,
+          3181,
+          40,
+          18
+        ]
+      ],
+      "source_context_xywh": [
+        6352,
+        2838,
+        900,
+        650
+      ],
+      "note": "Two compact marks immediately below McQuarrie form the associated source pair. The horizontal hatch and more distant roadside marks remain separate; no individual residence or property is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-083",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6818,
+        3268
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        6353,
+        2950,
+        900,
+        650
+      ],
+      "note": "The actual printed road/brook crossing at the end of Big Brook Road supplies the locational anchor for Dortons Bridge. Native 6x detail distinguishes the crossing from the overprinted name. It is a source crossing, not a surveyed bridge structure, settlement centre or current road identity.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-087",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8391,
+          2831,
+          29,
+          31
+        ]
+      ],
+      "source_context_xywh": [
+        8052,
+        2534,
+        900,
+        650
+      ],
+      "note": "The two compact marks immediately above/left of J. Dowling and east of the road form the source pair. The lower roadside mark and the stream are separate; no individual property or residence is identified.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-2-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-094",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        9165,
+        3040,
+        900,
+        650
+      ],
+      "note": "Ferguson lies amid the heavy dashed line and nearby stream/road annotation district. No unique associated personal/site mark can be confidently separated from boundary dots, hatching and the separate compact marks near Fall. Retain the unlocated name rather than assigning a boundary, nearby mark or lettering centre as a residence.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-095",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        9424,
+        3571
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        8833,
+        3179,
+        996,
+        650
+      ],
+      "note": "The actual east-west road crossing of River Inhabitants below the two-line alternative-name caption supplies this source anchor. Native 6x detail locates the crossing between the printed river banks. The geological diagonal and the bridge lettering are separate; no bridge footprint or current crossing is asserted.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-097",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2821,
+          3499,
+          68,
+          43
+        ],
+        [
+          2769,
+          3640,
+          111,
+          30
+        ]
+      ],
+      "source_context_xywh": [
+        2349,
+        3219,
+        900,
+        650
+      ],
+      "note": "Two bounded clusters of compact roadside marks immediately beside and below Harbour Bouché supply its settlement reference. The eastern/northern peripheral clusters remain separate; the groups do not delineate the complete settlement or any property.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-106",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          1897,
+          4048,
+          23,
+          23
+        ],
+        [
+          1850,
+          4070,
+          52,
+          60
+        ]
+      ],
+      "source_context_xywh": [
+        1616,
+        3822,
+        900,
+        650
+      ],
+      "note": "The printed episcopal church glyph and postal candidate group beside the coastal road supply the bounded Little Tracadie settlement reference. The river, harbour lettering and southern road network are separate; this is not a settlement boundary.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-112",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2509,
+          4465,
+          31,
+          25
+        ]
+      ],
+      "source_context_xywh": [
+        2155,
+        4150,
+        900,
+        650
+      ],
+      "note": "Two compact marks immediately left/below J. Stuart beside the railway/stream district form the source pair. Railway ties and the nearby crossing are not added as individual site candidates.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-113",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          1904,
+          4673,
+          28,
+          22
+        ]
+      ],
+      "source_context_xywh": [
+        1522,
+        4333,
+        900,
+        650
+      ],
+      "note": "Native 5x detail resolves two compact marks immediately below Gilbert Benoit above the road. Retain both as a group; the caption does not identify an individual structure, residence or ownership.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-3-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-117",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3968,
+          3580,
+          21,
+          30
+        ]
+      ],
+      "source_context_xywh": [
+        3520,
+        3297,
+        900,
+        650
+      ],
+      "note": "The two compact marks below the road bend and directly above D. McDonald form the source pair. The isolated mark farther above the road is separate. No current person, residence or property is matched.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-124",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4348,
+          3724,
+          27,
+          51
+        ]
+      ],
+      "source_context_xywh": [
+        4017,
+        3449,
+        900,
+        650
+      ],
+      "note": "Three compact marks on both sides of the road immediately left of G. Strachan form the associated group. The geological arrow above and the height caption below are separate; no individual dwelling is selected.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-131",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "source_path_xy": [
+        [
+          5025.4,
+          4213.0
+        ],
+        [
+          5029.0,
+          4213.2
+        ],
+        [
+          5033.2,
+          4215.2
+        ],
+        [
+          5036.4,
+          4217.4
+        ],
+        [
+          5042.0,
+          4220.8
+        ],
+        [
+          5048.0,
+          4224.6
+        ],
+        [
+          5053.2,
+          4227.6
+        ],
+        [
+          5058.8,
+          4230.6
+        ],
+        [
+          5064.0,
+          4233.2
+        ],
+        [
+          5068.2,
+          4235.4
+        ],
+        [
+          5073.0,
+          4237.8
+        ],
+        [
+          5079.0,
+          4240.8
+        ],
+        [
+          5084.2,
+          4244.2
+        ],
+        [
+          5088.2,
+          4249.0
+        ],
+        [
+          5091.6,
+          4253.6
+        ],
+        [
+          5095.8,
+          4257.2
+        ],
+        [
+          5101.0,
+          4260.4
+        ],
+        [
+          5106.6,
+          4263.2
+        ],
+        [
+          5114.0,
+          4267.6
+        ],
+        [
+          5120.4,
+          4272.2
+        ],
+        [
+          5126.4,
+          4276.2
+        ],
+        [
+          5133.4,
+          4281.2
+        ],
+        [
+          5142.6,
+          4288.0
+        ],
+        [
+          5149.2,
+          4291.8
+        ],
+        [
+          5156.2,
+          4293.6
+        ]
+      ],
+      "source_context_xywh": [
+        4662,
+        3874,
+        900,
+        650
+      ],
+      "note": "Auld Cove is located by a bounded section of the actual southern embayment bank below its caption. Native 5x detail distinguishes the coastal edge from the paired road lines. The original inventory category is preserved; this bank trace is not a settlement boundary, current shoreline or residence.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-135",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4486,
+          4432,
+          29,
+          22
+        ],
+        [
+          4550,
+          4430,
+          27,
+          77
+        ]
+      ],
+      "source_context_xywh": [
+        3950,
+        4203,
+        900,
+        650
+      ],
+      "note": "The station glyph and adjacent compact roadside marks above Cape Porcupine form the bounded source grouping. The rail ties, dyke mark and geological overprint are separate; no settlement extent or current station is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-138",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5736.5,
+        4197.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        5254,
+        3728,
+        900,
+        650
+      ],
+      "note": "Native 4x detail identifies an actual street junction within the paired-line road grid below Hastings. This chosen printed junction supplies a locational anchor, not a settlement centre, municipal boundary or present intersection.",
+      "source_uncertainty_px": 10,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-153",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6610,
+          3550,
+          40,
+          45
+        ]
+      ],
+      "source_context_xywh": [
+        6286,
+        3240,
+        900,
+        650
+      ],
+      "note": "Three compact marks at the end of the road immediately left/below A.G. Fraser form the source group. No individual mark is selected as a residence or property.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-4-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-161",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7848,
+          3462,
+          17,
+          35
+        ],
+        [
+          7818,
+          3514,
+          17,
+          32
+        ]
+      ],
+      "source_context_xywh": [
+        7519,
+        3209,
+        900,
+        650
+      ],
+      "note": "Two roadside pairs beside Hector McDonald supply separate source regions on the two sides of the road. The dotted geological boundary and farther northern marks remain separate; the name establishes no current ownership or residence.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-163",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7782.5,
+        3849.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        7245,
+        3522,
+        900,
+        650
+      ],
+      "note": "Native 8x detail distinguishes an isolated star-like source mark immediately right of J. McQuarrie from the final lettering and adjacent hatch. Its function is not established; the actual mark is retained without interpreting it as a house, residence or property.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-171",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7751.5,
+        4578.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "source_context_xywh": [
+        7416,
+        4245,
+        900,
+        650
+      ],
+      "note": "Native 8x detail identifies the isolated filled mark between the rectilinear patches and left of J. McVicar. The mark is separate from the J and grid strokes. No current building, residence, parcel or ownership is identified.",
+      "source_uncertainty_px": 8,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-190",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2401,
+          5668,
+          68,
+          38
+        ]
+      ],
+      "source_context_xywh": [
+        1959,
+        5410,
+        900,
+        650
+      ],
+      "note": "The compact central cluster above Mathy Settlement supplies this bounded source group. Peripheral roadside marks and the separately reviewed mill remain separate; no settlement boundary or individual property is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-195",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3538,
+          4963,
+          45,
+          24
+        ]
+      ],
+      "source_context_xywh": [
+        3036,
+        4621,
+        900,
+        650
+      ],
+      "note": "The two compact marks on opposite sides of the road immediately below McIsaac form the source pair. The Old Post Road caption, tributary and boundary line remain separate; no current person or property is matched.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-196",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3115,
+          5197,
+          40,
+          24
+        ],
+        [
+          3180,
+          5198,
+          15,
+          17
+        ]
+      ],
+      "source_context_xywh": [
+        2717,
+        4851,
+        900,
+        650
+      ],
+      "note": "The compact marks on both sides of the road directly beneath Grosvenor provide two bounded groups. The northern postal district and western peripheral marks remain separate; no whole-settlement extent is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-5-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-209",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5874,
+          5110,
+          13,
+          14
+        ],
+        [
+          5918,
+          5128,
+          14,
+          13
+        ],
+        [
+          5912,
+          5284,
+          14,
+          14
+        ]
+      ],
+      "source_context_xywh": [
+        5628,
+        4836,
+        900,
+        650
+      ],
+      "note": "The actual postal, hotel and mill marks provide a bounded three-part source group for Port Mulgrave. Their existing native positions are retained. This is locational evidence from printed services, not a municipal boundary, current property or reconstructed town footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-226",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6495,
+          5162,
+          68,
+          66
+        ],
+        [
+          6784,
+          5240,
+          21,
+          21
+        ]
+      ],
+      "source_context_xywh": [
+        6198,
+        4799,
+        900,
+        683
+      ],
+      "note": "The printed Emery’s Wharf group and church glyph provide a bounded two-part source group for Hawkesbury. Their existing source geometry supplies locational evidence without outlining the city, inferring present access or identifying current properties.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-245",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9233,
+          4788,
+          29,
+          29
+        ]
+      ],
+      "source_context_xywh": [
+        8854,
+        4479,
+        900,
+        650
+      ],
+      "note": "Two compact marks immediately left of J. Mack on the western river headland form the source pair. The 12-degree notation and shoreline are separate; the name is not a current ownership or residence claim.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-252",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9338,
+          5241,
+          29,
+          21
+        ],
+        [
+          9334,
+          5404,
+          15,
+          15
+        ]
+      ],
+      "source_context_xywh": [
+        8673,
+        5022,
+        900,
+        650
+      ],
+      "note": "The printed postal group and school mark near the coastal road provide the bounded reference for Lower River Inhabitants. The ferry landing and shoreline are separately reviewed; no settlement boundary or ferry route is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-262",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          1625,
+          6163,
+          24,
+          17
+        ],
+        [
+          1778,
+          6235,
+          14,
+          14
+        ]
+      ],
+      "source_context_xywh": [
+        1428,
+        5983,
+        900,
+        650
+      ],
+      "note": "The source postal pair and Old Mill mark provide the bounded reference for Upper Big Tracadie. Their complete native geometry is retained near the southern/western margins, without inventing a settlement extent or current property.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-279",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8345,
+          6247,
+          15,
+          15
+        ],
+        [
+          8524,
+          6238,
+          15,
+          15
+        ]
+      ],
+      "source_context_xywh": [
+        7982,
+        5873,
+        900,
+        650
+      ],
+      "note": "The printed postal and school marks below Caribacou provide a bounded two-part settlement reference. Their independent source positions are retained; this does not define a municipal boundary or current addresses.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-6-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-285",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8846,
+          5906,
+          15,
+          15
+        ],
+        [
+          8900,
+          5905,
+          43,
+          49
+        ]
+      ],
+      "source_context_xywh": [
+        8734,
+        5541,
+        900,
+        650
+      ],
+      "note": "The school mark and two distinct projecting shore marks on the western side of the Port Richmond district provide the bounded source reference. Native 5x detail confirms the shore projections as separate marks. Their facility identity and current condition/access are not established; the group does not define the whole settlement.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native name contexts, detail frames and final mark/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x; detail crops at recorded 4x/5x/6x/8x scales and origins. No rotation.",
+      "review_batch": "hawkesbury-names-7-20260913"
     }
   ]
 }

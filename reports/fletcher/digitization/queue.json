@@ -1,17 +1,17 @@
 {
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-13",
-  "nightly_revision": "d0f8f1f01bf64fc6a0fa63779bf39932a7ba7db6",
-  "next_action": "Continue the 107 Hawkesbury annotations still needing initial source association: settlements and personal names, coastal/landscape features, geology/minerals and remaining transport/administrative notes. All 194 initial service, road, stream/river, shoreline, water-note and height decisions are recorded: 115 local integrations, 79 explicit holdbacks. PR463 merged 92 Hawkesbury features; 23 further placements pass local checks and await PR. Judique retains 126 merged placements and all 166 initial decisions, with 40 holdbacks. Priority sheets 16/14 and remaining 20 sheets stay open.",
+  "nightly_revision": "a8c1d6878cf679ddf2af25c2b725414b70005723",
+  "next_action": "Continue the 70 Hawkesbury annotations still needing initial source association: coastal/landscape features, geology/minerals, and remaining transport/administrative notes. All 231 initial source/geographic decisions are recorded: 145 local integrations and 86 explicit holdbacks. PR464 merged 115 Hawkesbury features; thirty name/lake interpretations pass local checks and await PR. Judique retains 126 merged placements and all 166 initial decisions, with 40 holdbacks. Priority sheets 16/14 and remaining 20 sheets stay open.",
   "sheets": [
     {
       "sheet": 22,
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 301,
       "lettering_status": "processed",
-      "source_associated_count": 150,
-      "approximate_placement_reviewed_count": 115,
-      "integrated_count": 115,
+      "source_associated_count": 186,
+      "approximate_placement_reviewed_count": 145,
+      "integrated_count": 145,
       "blockers": [
         {
           "annotation_id": "F22-HAW-001",
@@ -137,6 +137,16 @@
           "annotation_id": "F22-HAW-093",
           "stage": "source-location-unresolved",
           "reason": "Native detail does not resolve an individual falls mark or a unique associated reach. Retain Fall as an unlocated source annotation; the road spur and nearby compact marks are not substitutes."
+        },
+        {
+          "annotation_id": "F22-HAW-094",
+          "stage": "source-location-unresolved",
+          "reason": "Native review does not resolve an associated site mark for Ferguson. Preserve its original text and lettering geography without feature placement; boundary dots, nearby compact marks and a lettering centre are not substitutes."
+        },
+        {
+          "annotation_id": "F22-HAW-095",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
         },
         {
           "annotation_id": "F22-HAW-098",
@@ -274,6 +284,11 @@
           "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
         },
         {
+          "annotation_id": "F22-HAW-190",
+          "stage": "locality-unresolved",
+          "reason": "The source settlement cluster projects across the modern channel, while the source places its principal road/stream relationship north of the cluster. The local road, tributary and channel arrangement does not resolve historical change versus fit error. Preserve the complete native/provisional grouping and withhold public placement; do not shrink the group or assign current sites."
+        },
+        {
           "annotation_id": "F22-HAW-192",
           "stage": "locality-unresolved",
           "reason": "The eastern reach and wide-water transition project noticeably north of the modern Tracadie channel, and the western road/stream relationships do not resolve the full offset. Historical channel change versus local fit error remains unresolved. Preserve the entire native/provisional trace but withhold public placement until the corridor is reconciled."
@@ -324,6 +339,11 @@
           "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
         },
         {
+          "annotation_id": "F22-HAW-245",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+        },
+        {
           "annotation_id": "F22-HAW-247",
           "stage": "source-location-unresolved",
           "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
@@ -349,6 +369,11 @@
           "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
         },
         {
+          "annotation_id": "F22-HAW-252",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+        },
+        {
           "annotation_id": "F22-HAW-253",
           "stage": "outside-supported-coverage",
           "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
@@ -362,6 +387,11 @@
           "annotation_id": "F22-HAW-261",
           "stage": "outside-supported-coverage",
           "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        },
+        {
+          "annotation_id": "F22-HAW-262",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
         },
         {
           "annotation_id": "F22-HAW-265",
@@ -399,6 +429,11 @@
           "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
         },
         {
+          "annotation_id": "F22-HAW-285",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+        },
+        {
           "annotation_id": "F22-HAW-289",
           "stage": "source-location-unresolved",
           "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
@@ -411,9 +446,9 @@
       ],
       "annotation_queue": "sheet-22-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-22-labels.geojson",
-      "source_association_reviewed_count": 194,
-      "merged_integrated_count": 92,
-      "integration_status": "92 merged through PR463; 23 further placements pass local checks and await PR. All 194 initial source/geographic decisions are recorded."
+      "source_association_reviewed_count": 231,
+      "merged_integrated_count": 115,
+      "integration_status": "115 merged through PR464; thirty further placements pass local checks and await PR. All 231 initial source/geographic decisions are recorded."
     },
     {
       "sheet": 19,
@@ -869,7 +904,8 @@
       "integrated_count": 0,
       "blockers": [],
       "georeferencing_evidence": "reports/fletcher/sheet21",
-      "placement_constraint": "Whole-sheet geographic acceptance remains unproven. Reconcile committed per-sheet support before placement; source extraction can proceed."
+      "placement_constraint": "PR435 retains the earlier fifteen-control provisional baseline and rejects the seventeen-control experiment. Whole-sheet geographic acceptance remains unproven; reconcile committed local support before placement. Source extraction can proceed.",
+      "latest_fit_handoff": "reports/fletcher/sheet21/refinement-20260912/README.md"
     },
     {
       "sheet": 23,
@@ -992,11 +1028,26 @@
       "merge_commit": "d0f8f1f01bf64fc6a0fa63779bf39932a7ba7db6",
       "ci": "All required checks passed. Initial native job failed during simulator launch before the test body; failed jobs passed on unchanged-head attempt 2.",
       "ci_run": 34749552074
+    },
+    {
+      "pr": 464,
+      "status": "merged",
+      "head": "1876e3c43630c92bc31670669f65afee46452897",
+      "merge_commit": "17c92b745568111eca551cfed14302b5ef805926",
+      "ci": "All required checks passed"
     }
   ],
   "fit_reconciliation": {
     "reviewed_merge": "e007dd64c4a066741688bafff69b8df2b4113a48",
     "evidence": "reports/fletcher/route19-three-rounds-20260912/README.md",
-    "decision": "PR448 labels the newer selected fits reversible full-sheet drafts and explicitly retains downstream pins. Keep supported, previously reviewed feature/lettering pins. No rejected trial or new draft is silently adopted; future adoption requires preserving predictions and renewed placement review."
+    "decision": "PR448 labels the newer selected fits reversible full-sheet drafts and explicitly retains downstream pins. Keep supported, previously reviewed feature/lettering pins. No rejected trial or new draft is silently adopted; future adoption requires preserving predictions and renewed placement review.",
+    "additional_handoffs": [
+      {
+        "pr": 435,
+        "merge_commit": "f2d25abf2bc86093bbc53f0e62ca4435d20fa8d9",
+        "evidence": "reports/fletcher/sheet21/refinement-20260912/README.md",
+        "decision": "Retain the earlier fifteen-control sheet21 fit as provisional baseline; the seventeen-control experiment regresses a mainland check and lacks whole-sheet acceptance. Priority corridor pins remain unchanged."
+      }
+    ]
   }
 }
