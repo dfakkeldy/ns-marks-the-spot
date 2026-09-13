@@ -1,0 +1,1071 @@
+{
+ "census": {
+  "summary": "Everything needed for a 2021 census theme exists and was verified live. Geometry: StatCan's ArcGIS REST server (geo.statcan.gc.ca, ArcGIS 11.5) serves 2021 Cartographic and Digital boundary files as MapServers with query in geoJSON, outSR=4326, maxAllowableOffset, pagination (maxRecordCount 6000) and reflective CORS; layers DA (12), CSD (9), CT (11), ADA (10), FED-2013-RO (3) carry DAUID/CSDUID/CTUID/ADAUID/FEDUID + DGUID + LANDAREA + PRUID. NS counts: 95 CSD, 1,670 DA, 108 CT (all Halifax CMA; Cape Breton CA has none), 152 ADA, 11 FED. National shapefile zips also exist (DA CBF 197 MB, CSD 156 MB, CT 13 MB, ADA 155 MB). FED 2023 Representation Order is NOT on StatCan's boundary page or geo server; use Elections Canada's FED_CA_2023_EN-SHP.zip (9.4 MB, 343 features, OGL-Canada, no CORS). Values: the Census Profile SDMX REST API works (DF_DA 1.3, DF_CSD 1.3, DF_FED 1.3/2.0), key A5.<DGUID+...>.1.<char+...>.<1|4>, format=csv/jsondata, CORS OK; 88 DAs x 38 characteristics returned in 9 s. Exact characteristic ids verified (1,2,3,4,5,6,7,40,50,51,56,229,379,383,385,1388,1389,1400,1401,1402,1426-1434,2603-2610). Mi'kmaq is not a separate DA-level row (only 'Indigenous languages'). FED 2023-RO dataflow has all characteristics except population/dwelling counts (chars 1-7 empty, '..'). Provincial sources (data.novascotia.ca, GeoNOVA SOC/ECON/BND) have no 2021 DA/CSD/CT product. Suppression: population < 40 -> all characteristics 'x'; income suppressed if private-household population < 250 or households < 40; counts randomly rounded to 5; DA population within 5 of true. Files written: DA polygons (88) + values JSON with nulls/flags, all-NS CSD GeoJSON with 2021/2016 population, and census.md with every URL. Recommended path: live bbox queries to geo.statcan.gc.ca (or pre-cut NS DAs), batched SDMX value fetches cached per DGUID, Elections Canada geometry for 2023 FEDs, ADAs instead of CTs outside Halifax.",
+  "datasets": [
+   {
+    "name": "2021 Cartographic Boundary Files - ArcGIS REST (DA, CSD, CT, ADA, FED 2013 RO, CMA, CD, DB, FSA...)",
+    "publisher": "Statistics Canada, Statistical Geomatics Centre",
+    "url": "https://geo.statcan.gc.ca/geo_wa/rest/services/2021/Cartographic_boundary_files/MapServer",
+    "delivery": "ArcGIS REST MapServer (query f=json|geojson|pbf, outSR=4326, maxAllowableOffset, geometryPrecision, resultOffset paging, maxRecordCount 6000); WMS 1.3.0 at .../services/2021/Cartographic_boundary_files/MapServer/WMSServer; CORS reflects Origin",
+    "licence": "Service metadata: Open Government Licence - Canada; StatCan boundary products otherwise under Statistics Canada Open Licence",
+    "verified": true,
+    "vintage": "2021 Census geography, published 2022-09-21",
+    "geometry_or_shape": "Polygon/MultiPolygon, native EPSG:3347 (NAD83 Statistics Canada Lambert); layer ids 0 PR,1 CAR,2 ER,3 FED,4 CD,5 CCS,6 CMA,7 PC,8 DPL,9 CSD,10 ADA,11 CT,12 DA,13 DB,14 FSA",
+    "key_fields": "DA: DAUID, DGUID, LANDAREA, PRUID | CSD: CSDUID, DGUID, CSDNAME, CSDTYPE, LANDAREA, PRUID | CT: CTUID, DGUID, CTNAME, LANDAREA, PRUID | ADA: ADAUID, DGUID, LANDAREA, PRUID | FED: FEDUID, DGUID, FEDNAME, FEDENAME, FEDFNAME, LANDAREA, PRUID | CMA: CMAUID, CMANAME, CMATYPE, CMAPUID",
+    "caveats": "FED layer is the 2013 Representation Order (DGUID 2013A0004xxxxx). NS has 108 CTs, all in Halifax CMA (205); Cape Breton CA (225) has 0 CTs. DA layer minScale 1,614,972 applies to map export only. Digital_boundary_files twin service has identical ids/fields (a21 files, not clipped to coastline per standard StatCan definition - not re-verified)."
+   },
+   {
+    "name": "2021 Cartographic/Digital Boundary Files - downloadable shapefiles",
+    "publisher": "Statistics Canada",
+    "url": "https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/boundary-limites/index2021-eng.cfm?year=21",
+    "delivery": "POST form -> interstitial -> zip; direct URLs .../boundary-limites/files-fichiers/lda_000b21a_e.zip (197,042,003 B), lcsd000b21a_e.zip (155,981,521 B), lct_000b21a_e.zip (13,403,271 B), lada000b21a_e.zip (154,789,922 B), lfed000b21a_e.zip (139,449,505 B), lda_000a21a_e.zip DBF (97,683,595 B), lcsd000a21a_e.zip DBF (40,389,252 B)",
+    "licence": "Statistics Canada Open Licence (https://www.statcan.gc.ca/en/terms-conditions/open-licence)",
+    "verified": true,
+    "vintage": "2021 Census; CBF zips Last-Modified 2022-01-05, DBF 2021-10-21",
+    "geometry_or_shape": "National shapefiles, EPSG:3347",
+    "key_fields": "same as REST layers",
+    "caveats": "National files only (no per-province cut). GML (g) and file-GDB (f) variants offered in the form but their URLs were NOT verified. Only FED 2013 RO offered; lfed000*23* names do not exist (302 to not-found)."
+   },
+   {
+    "name": "Federal Electoral Districts - Canada 2023 (2023 Representation Order)",
+    "publisher": "Elections Canada (via open.canada.ca dataset 18bf3ea7-1940-46ec-af52-9ba3f77ed708 / NRCan ftp)",
+    "url": "https://ftp.maps.canada.ca/pub/elections_elections/Electoral-districts_Circonscription-electorale/federal_electoral_districts_boundaries_2023/FED_CA_2023_EN-SHP.zip",
+    "delivery": "zip download (SHP 9,388,965 B; also -GDB.zip, -KMZ.zip, French CF_CA_2023_FR-*.zip, Data Dictionary.pdf); no CORS headers",
+    "licence": "Open Government Licence - Canada (open.canada.ca license_id ca-ogl-lgo)",
+    "verified": true,
+    "vintage": "2023 Representation Order; file Last-Modified 2024-12-17, DBF date 2024-12-09",
+    "geometry_or_shape": "Shapefile FED_CA_2023_EN, 343 polygons, NAD83 Lambert Conformal Conic (StatCan Lambert parameters, unnamed PCS)",
+    "key_fields": "FED_NUM (int), ED_NAMEE, ED_NAMEF, REP_ORDER ('2023'), SHAPE_AREA, SHAPE_LEN; NS = 12001 Acadie—Annapolis, 12002 Cape Breton—Canso—Antigonish, 12003 Central Nova, 12004 Cumberland—Colchester, 12005 Dartmouth—Cole Harbour, 12006 Halifax, 12007 Halifax West, 12008 Kings—Hants, 12009 Sackville—Bedford—Preston, 12010 South Shore—St. Margarets, 12011 Sydney—Glace Bay",
+    "caveats": "Convert once server-side (no CORS). Census profile DGUID for these is 2023A0004+FED_NUM in dataflow DF_FED 2.0, which lacks population counts (see below)."
+   },
+   {
+    "name": "Census Profile, 2021 Census of Population - SDMX REST web data service",
+    "publisher": "Statistics Canada",
+    "url": "https://api.statcan.gc.ca/census-recensement/profile/sdmx/rest/",
+    "delivery": "GET .../data/STC_CP,DF_DA/A5.<DGUID+DGUID>.1.<CHAR+CHAR>.<1|4>?format=csv (or jsondata; default SDMX-ML XML); '+' = OR, empty = wildcard; detail=full|dataonly|serieskeysonly|nodata; CORS reflects Origin, GET only; cache-control no-store",
+    "licence": "Statistics Canada Open Licence",
+    "verified": true,
+    "vintage": "2021 Census; dataflows DF_DA(1.3), DF_CSD(1.3), DF_FED(1.3)=2013 RO, DF_FED(2.0)=2023 RO; release dates 2022-02-09 to 2022-11-30 by topic",
+    "geometry_or_shape": "n/a (tabular); dimensions FREQ(A5).REF_AREA(DGUID).GENDER(1,2,3).CHARACTERISTIC(1-2631).STATISTIC(1 counts,4 rates)",
+    "key_fields": "CSV columns DATAFLOW,FREQ,TIME_PERIOD,REF_AREA,GENDER,CHARACTERISTIC,STATISTIC,OBS_VALUE,DECIMALS,FLAG,TOPIC,NOTE,RELEASE_DATE,GEO_LEVEL,ALT_GEO_CODE,GEO_DESC,PROV_TERR,DATA_QUALITY_FLAG,TNR_LF,TNR_SF,CI_LOW,CI_HIGH",
+    "caveats": "Suppressed cells = empty OBS_VALUE with FLAG 6 (x); FLAG 2 (...) not applicable; FLAG 1 (..) not available. Guide asks not to bulk-download whole dataflows. DF_FED 2.0 is annotated NonProductionDataflow=true and returns '..' for characteristics 1-7 (population/dwellings/density/land area) while other characteristics are populated. User guide: https://www12.statcan.gc.ca/wds-sdw/2021profile-profil2021-eng.cfm"
+   },
+   {
+    "name": "Census Profile 2021 - Atlantic provinces CSV (Canada, PR, CD, CSD, DA) 98-401-X2021006",
+    "publisher": "Statistics Canada",
+    "url": "https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/details/download-telecharger/comp/GetFile.cfm?Lang=E&FILETYPE=CSV&GEONO=006_Atlantic_Atlantique",
+    "delivery": "zip 98-401-X2021006_Atlantic_Atlantique_eng_CSV.zip, 189,830,329 B (no Content-Length/Range support); contains 2,289,341,657-byte latin-1 CSV, meta.txt (240 KB), Geo_starting_row CSV (DGUID -> first line), README",
+    "licence": "Statistics Canada Open Licence; cite as Statistics Canada Catalogue no. 98-316-X2021001, released December 15, 2022",
+    "verified": true,
+    "vintage": "2021 Census, release 2022-12-15",
+    "geometry_or_shape": "n/a (tabular)",
+    "key_fields": "CENSUS_YEAR,DGUID,ALT_GEO_CODE,GEO_LEVEL,GEO_NAME,TNR_SF,TNR_LF,DATA_QUALITY_FLAG,CHARACTERISTIC_ID,CHARACTERISTIC_NAME,CHARACTERISTIC_NOTE,C1_COUNT_TOTAL,SYMBOL,C2_COUNT_MEN+,SYMBOL,C3_COUNT_WOMEN+,SYMBOL,C10_RATE_TOTAL,SYMBOL,C11_RATE_MEN+,SYMBOL,C12_RATE_WOMEN+,SYMBOL",
+    "caveats": "2.3 GB uncompressed; use Geo_starting_row offsets. Symbols: .. not available, ... not applicable, E, F, r, x suppressed, rE. DATA_QUALITY_FLAG five digits (incomplete enumeration / SF quality / SF income suppression / LF quality / LF income suppression)."
+   },
+   {
+    "name": "data.novascotia.ca census datasets",
+    "publisher": "Government of Nova Scotia (Socrata)",
+    "url": "https://api.us.socrata.com/api/catalog/v1?domains=data.novascotia.ca&q=census&limit=100",
+    "delivery": "Socrata datasets (155 hits)",
+    "licence": "Nova Scotia Open Government Licence",
+    "verified": true,
+    "vintage": "All census items are [ARCHIVED] Community Counts 1991-2011 (e.g. s6f2-3jrq Census Population Density, columns _1991.._2011, updated 2020-01-06); 4qqi-i6zp community clusters 2011/2016",
+    "geometry_or_shape": "tabular, county/community geography; boundary files only for Self-contained Labour Areas (p3ve-n8ge 2021, agxn-dwx7 2016) and Functional Economic Regions (jk9s-dhfu)",
+    "key_fields": "comid, geogname, datagroup1, datagroup2, _1991.._2011",
+    "caveats": "No 2021 Census DA/CSD/CT product; do not use for the theme."
+   },
+   {
+    "name": "GeoNOVA nsgiwa folders SOC, ECON, BND",
+    "publisher": "Government of Nova Scotia (GeoNOVA)",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BND?f=json",
+    "delivery": "ArcGIS REST",
+    "licence": "per service (BND_SelfcontainedLabourAreas_2021_UT83 copyright Office of Priorities and Planning; BND_NS_Community_Bndys Service Nova Scotia)",
+    "verified": true,
+    "vintage": "SOC and ECON folders are empty ({\"services\":[]}); BND has 10 services",
+    "geometry_or_shape": "BND_SelfcontainedLabourAreas_2021_UT83 layer 0 'Self-contained Labour Areas - 2021' (census-commuting-derived); BND_NS_Community_Bndys_WM84 layer 0; BND_ElectoralBoundaries_UT83 layers IP_ED2026, ED2026_Line, PD_ED2026_Line, PD_ED2026_Carto, ED2026_Analysis",
+    "key_fields": "not enumerated",
+    "caveats": "No census DA/CSD/CT/ADA boundaries or profile values on GeoNOVA."
+   }
+  ],
+  "files_written": [
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/census_da_annapolis.geojson",
+    "size_kb": 175,
+    "what": "88 DA polygons intersecting bbox -65.75,44.55,-64.95,45.05 (features extend to -66.13..-64.57, 44.08..45.14), WGS84, server-simplified (maxAllowableOffset 0.0002 deg, 5 decimals), 85 Polygon + 3 MultiPolygon, props DAUID, DGUID, landarea (km2), PRUID; top-level 'source' block with query, licence, attribution"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/census_da_values.json",
+    "size_kb": 109,
+    "what": "'_meta' (endpoint, characteristic ids, flag legend, suppression rules, attribution) + DAUID -> {population_2021, population_2016, pop_change_pct_2016_2021, pop_density_per_km2, land_area_km2, dwellings_total, dwellings_usual, median_age, households_total, one_person_households, one_person_share, avg_household_size, median_hh_income_2020, tenure_total, owner_households, renter_households, owner_share, period_of_construction_total, period_of_construction{8 bands}, prebuilt_1960_share, mother_tongue_total, french_mt, french_mt_share, indigenous_languages_mt, indigenous_identity_total, indigenous_identity, indigenous_identity_share, commute_total/car/transit/walk/bike/other, data_quality_flag, tnr_sf, tnr_lf, flags{char id -> x/.../..}} for the 88 DAs; nulls where not published (3 DAs fully suppressed, 1 income-only)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/census_csd_ns.geojson",
+    "size_kb": 1128,
+    "what": "All 95 NS census subdivisions, WGS84, server-simplified (maxAllowableOffset 0.0005 deg), props CSDUID, DGUID, name, CSDTYPE, landarea, pop_2021, pop_2016, pop_change_pct, dwellings_total, dwellings_usual, pop_density_per_km2, data_quality_flag, flags; 'source' block with CSDTYPE legend (IRI 27, MD 11, RGM 3, RM 1, SC 28, T 25), licence, attribution"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/research/census.md",
+    "size_kb": 29,
+    "what": "Full write-up: REST service/layer/field inventory, verified queries, download URLs and sizes, FED 2023 RO source, NS sources checked, SDMX request shape and characteristic ids, CSV file layout, suppression/rounding/quality-flag rules with observed examples, licence text and required attribution wording, recommended path, every URL touched (including 404s)"
+   }
+  ],
+  "facts": [
+   "StatCan geo REST root https://geo.statcan.gc.ca/geo_wa/rest/services?f=json: ArcGIS Server 11.5; folders 2019-2025, NRN-RRN, Utilities",
+   "2021/Cartographic_boundary_files/MapServer: wkid 3347, maxRecordCount 6000, formats JSON/geoJSON/PBF, supportsPagination true, publication date 2022-09-21, copyright 'Government of Canada; Statistics Canada; Statistical Geomatics Centre', use limitation 'Open Government Licence - Canada'",
+   "Layer ids: 3 FED (2013 RO), 6 CMA, 9 CSD, 10 ADA, 11 CT, 12 DA, 13 DB; DA layer minScale 1,614,972",
+   "Verified DA bbox query (-65.6,44.65,-65.2,44.85, outSR=4326, f=geojson): 23 features, 1,086,856 bytes, 0.72 s; first DAUID 12050060, DGUID 2021S051212050060, LANDAREA 59.5657",
+   "NS counts on the CBF service: CSD 95, DA 1,670, CT 108, ADA 152, FED(2013 RO) 11; NS CMA/CA: 205 Halifax (CMA), 210 Kentville, 215 Truro, 220 New Glasgow, 225 Cape Breton (CAs); CTUID LIKE '225%' count = 0",
+   "Both geo.statcan.gc.ca and api.statcan.gc.ca reflect the request Origin in Access-Control-Allow-Origin (credentials true); ftp.maps.canada.ca sends no CORS headers",
+   "National shapefile sizes: lda_000b21a_e.zip 197,042,003 B; lcsd000b21a_e.zip 155,981,521 B; lct_000b21a_e.zip 13,403,271 B; lada000b21a_e.zip 154,789,922 B; lfed000b21a_e.zip 139,449,505 B; DBF lda_000a21a_e.zip 97,683,595 B; lcsd000a21a_e.zip 40,389,252 B (Last-Modified 2022-01-05 CBF / 2021-10-21 DBF)",
+   "Elections Canada FED_CA_2023_EN-SHP.zip: 9,388,965 B, Last-Modified 2024-12-17; 343 polygons; fields FED_NUM, ED_NAMEE, ED_NAMEF, REP_ORDER, SHAPE_AREA, SHAPE_LEN; NS FED_NUM 12001-12011 (12001 Acadie—Annapolis ... 12011 Sydney—Glace Bay)",
+   "SDMX key order: FREQ(A5).REF_AREA(DGUID).GENDER(1 Total,2 Men+,3 Women+).CHARACTERISTIC.STATISTIC(1 Counts,4 Rates); dataflow versions DF_DA 1.3, DF_CSD 1.3, DF_FED 1.3 (2013 RO) and 2.0 (2023 RO)",
+   "CL_FLAG: 1 '..' not available, 2 '...' not applicable, 3 E, 4 F, 5 r revised, 6 x suppressed (Statistics Act), 7 rE; CL_GEO_LEVEL 4 CSD, 11 FED 2013, 12 CT, 13 DA, 21 ADA (51 observed for FED 2023)",
+   "Characteristic ids: 1 Population 2021; 2 Population 2016; 3 Population percentage change 2016 to 2021; 4 Total private dwellings; 5 Private dwellings occupied by usual residents; 6 Population density per square kilometre; 7 Land area in square kilometres; 40 Median age of the population; 50 Total private households by household size; 51 1 person; 56 Average household size; 229 Median total income of household in 2020 ($) (parent 228); 379 Total mother tongue; 383 French (single response, parent 381 Official languages); 385 Indigenous languages (parent 384); 1388 Total Indigenous identity (25% sample); 1389 Indigenous identity; 1400 Total private households by tenure; 1401 Owner; 1402 Renter; 1426 Total occupied private dwellings by period of construction; 1427 1960 or before; 1428 1961 to 1980; 1429 1981 to 1990; 1430 1991 to 2000; 1431 2001 to 2005; 1432 2006 to 2010; 1433 2011 to 2015; 1434 2016 to 2021; 2603 Total main mode of commuting; 2604 Car, truck or van; 2605 as driver; 2606 as passenger; 2607 Public transit; 2608 Walked; 2609 Bicycle; 2610 Other method",
+   "Annapolis Royal (CSD 1205008, DGUID 2021A00051205008): Population 2021 530, 2016 491, change 7.9%, density 268.3/km2 (release 2022-02-09)",
+   "DA 12050060: population 2021 349, land area 59.57 km2, density 5.9, total private dwellings 171, occupied by usual residents 159, median age 55.2, median household income 70,000, owner 150 / renter 0 of 150, 45 of 150 dwellings built 1960 or before, French mother tongue 0, Indigenous identity 0; Population 2016 and change flagged '...'",
+   "FED 2013 RO 12001 Cape Breton--Canso: population 2021 71,380, 2016 71,913",
+   "Batch fetch of 88 DAs x 38 characteristics x both statistics: 843,446-byte CSV, 6,688 rows, 8.99 s; FLAG counts: 5,710 blank, 792 '...', 186 'x'",
+   "Suppression (Guide 98-304 ch.10): no characteristics released if area population < 40; income suppressed where private-household population < 250 or households < 40; all counts randomly rounded; DA population counts within 5 of true value (CL_NOTE 1)",
+   "DATA_QUALITY_FLAG digits: 1 incomplete enumeration (0/1 suppressed/2 excludes reserves), 2 short-form TNR class 0-5 or 9 suppressed, 3 short-form income suppression 0/9, 4 long-form TNR class 0-5 or 9, 5 long-form income suppression 0/9",
+   "Atlantic profile CSV zip 98-401-X2021006_Atlantic_Atlantique_eng_CSV.zip = 189,830,329 B; inner CSV 2,289,341,657 B; release 2022-12-15; Geo_starting_row example '2021S051212050080','12050080',5401445",
+   "Required attribution (Statistics Canada Open Licence): 'Adapted from Statistics Canada, name of product, reference date. This does not constitute an endorsement by Statistics Canada of this product.'",
+   "Census Dictionary Table 1.5 NS CSD types: IRI Indian reserve 27, MD Municipal district 11, RGM Regional municipality 3, RM Rural municipality 1, SC Subdivision of county municipality 28, T Town 25 (total 95)"
+  ],
+  "gaps": [
+   "No 2023-Representation-Order federal electoral district boundary is published by Statistics Canada (boundary page and geo server only carry 2013 RO); Elections Canada's shapefile is the source and has no CORS, so it must be converted offline.",
+   "Census Profile dataflow DF_FED 2.0 (2023 RO) returns '..' (not available) for population 2021/2016, percentage change, dwellings, density and land area for every FED tested (12001, 12005, 10001); other characteristics are populated; dataflow annotated NonProductionDataflow=true.",
+   "Cape Breton CA has no census tracts in the 2021 Cartographic Boundary File; CT coverage in NS is Halifax CMA only (108 CTs).",
+   "Mi'kmaq is not a separate Census Profile characteristic at DA/CSD level; only the 'Indigenous languages' aggregate (id 385, plus n.i.e./n.o.s. 474/475) exists.",
+   "GML and file-geodatabase download URLs (…21g_e / …21f_e) and the WMS GetMap behaviour were not exercised; the Open Government Licence - Canada page text was not fetched.",
+   "The CBF-vs-DBF 'clipped to coastline' distinction is the standard StatCan definition and was not re-verified from the service descriptions in this session.",
+   "The written DA/CSD geometries are server-simplified pulls (maxAllowableOffset 0.0002 and 0.0005 degrees), not the authoritative shapefiles; re-pull with a smaller offset for parcel-scale display.",
+   "Values file covers only the 88 DAs intersecting the wide Annapolis bbox; province-wide DA values need either batched SDMX calls (about 1,670 DAs, roughly 19 calls of 88) or an offline extract from the 2.3 GB Atlantic CSV.",
+   "No Nova Scotia provincial source (data.novascotia.ca, GeoNOVA SOC/ECON/BND) offers 2021 census boundaries or profile values; the archived Community Counts datasets end at 2011."
+  ]
+ },
+ "representatives": {
+  "summary": "Verified live on 2026-09-12. Open North Represent (represent.opennorth.ca) is the only single API that returns MP+MLA+(HRM/CBRM) council for a point, with name/party/district_name/email/url/photo_url/offices[type,postal,tel,fax]; CORS open; 60 req/min; NO published data licence and NO per-set last_updated. It is stale where it matters: its NS set is bound to the 2019 boundary set (55 districts) so the new 56th district Chéticamp-Margarees-Pleasant Bay (ED_NO 56, released April 9, 2026; MLA Claude Bourgeois, by-election June 23, 2026) is absent; it lists Chris d'Entremont as Conservative while ourcommons.ca shows Liberal caucus from 2025-11-04; MLA postal fields are a scraper artefact. Municipal coverage in NS is HRM and CBRM only. Authoritative sources: ourcommons.ca search XML/CSV (no contact fields; contact only on member HTML pages), nslegislature.ca /members/profiles (56 rows, Drupal, per-profile civic/mailing address, phone, email; Crawl-delay 10, no feed), halifax.ca district pages (email+phone) and the HRM ArcGIS Who_Is_My_Councillor layer (DIST_ID/DISTNAME/COUNCILLOR only, no contact), cbrm.ns.ca district pages (email+phone). No province-wide municipal officials dataset exists on data.novascotia.ca or Municipal Affairs; NSFM regional directory pages give warden/mayor names + websites only. CSAP publishes 13 members with circonscription name, @csap.ca email and phone, but no circonscription polygons exist anywhere found. The province's ArcGIS service nsgiwa BND_ElectoralBoundaries_UT83/4 has the current 56 districts (ED_NO/ED_NAME/Release_Date), licence unstated. Recommended path: a static, dated directory snapshot keyed by district id (FED 2023-RO id, ED_NO, HRM DIST_ID, CBRM district no.), generated by a repo script from the official sources, with checked_date and official-page link on every card; never call Represent from the browser (privacy + staleness + no licence).",
+  "datasets": [
+   {
+    "name": "Open North Represent API — representatives (House of Commons, NS House of Assembly, Halifax Regional Council, Cape Breton Regional Council) and point lookup",
+    "publisher": "Open North",
+    "url": "https://represent.opennorth.ca/api/",
+    "delivery": "REST JSON; /representatives/?point=lat,lon; /representatives/<set>/?limit=1000; /boundaries/?contains=lat,lon; CORS *",
+    "licence": "Not stated for representative data (API page, home, privacy checked; /terms and /about 404). Code MIT. Rate limit: free up to 60 requests/minute. Boundary shapefiles: per-set licence, some not redistributable.",
+    "verified": true,
+    "vintage": "No last_updated on representative sets. Observed stale: d'Entremont party (Conservative vs Liberal since 2025-11-04), Kingston office address, missing NS ED 56 (2026). Boundary sets: NS 2019 last_updated 2020-03-01; federal 2023 RO 2024-12-17; halifax-districts 2024-11-06; other NS municipal districts 2017-02-06.",
+    "geometry_or_shape": "Representative objects (no geometry); boundaries endpoints return polygons via /boundaries/<set>/<slug>/shape",
+    "key_fields": "name, district_name, elected_office, party_name, email, url, personal_url, photo_url, gender, offices[{type: legislature|constituency, postal, tel, fax}], extra, source_url, related.boundary_url; boundary external_id (FED id e.g. 12001; NS ED no e.g. 1; HRM DIST_ID)",
+    "caveats": "NS MLA offices[].postal is literally 'Phone:\\n\\nE-mail:'; CBRM url points at retired site pattern; sending browser coordinates to this API violates the app's privacy contract; only HRM and CBRM councils in NS."
+   },
+   {
+    "name": "House of Commons — Current Members search XML/CSV",
+    "publisher": "House of Commons of Canada",
+    "url": "https://www.ourcommons.ca/members/en/search/xml",
+    "delivery": "XML and CSV (also ?province=NS); per-member roles XML at /Members/en/<slug>(<PersonId>)/xml; contact details only on member HTML page",
+    "licence": "Open Data page: 'structured data that is machine-readable, freely shared, used and built on without restrictions'; site content under Copyright Act (Important Notices); no formal OGL",
+    "verified": true,
+    "vintage": "Live; 338 members on 2026-09-12 (5 vacancies); all NS members FromDateTime 2025-04-28",
+    "geometry_or_shape": "none (join to 2023 Representation Order FED polygons by ConstituencyName or PersonId)",
+    "key_fields": "PersonId, PersonShortHonorific, PersonOfficialFirstName, PersonOfficialLastName, ConstituencyName, ConstituencyProvinceTerritoryName, CaucusShortName, FromDateTime, ToDateTime",
+    "caveats": "No email/phone/office fields; no FED numeric id; CSV dates locale-formatted with U+202F; robots.txt disallows /Search/ but not /members/en/search/xml"
+   },
+   {
+    "name": "Nova Scotia House of Assembly — MLA profiles listing and profile pages",
+    "publisher": "Nova Scotia Legislature",
+    "url": "https://nslegislature.ca/members/profiles",
+    "delivery": "HTML (Drupal view rows: views-field-field-last-name link, party, constituency); per-profile HTML with 'Contact details' block (civic address, mailing address, tel:, mailto:, fax), caucus office, photo",
+    "licence": "No licence page found (unverified); robots.txt: User-agent * Crawl-delay 10, /members/ not disallowed",
+    "verified": true,
+    "vintage": "Live; 56 rows on 2026-09-12 incl. Bourgeois (Chéticamp-Margarees-Pleasant Bay) and Bowlby (Annapolis)",
+    "geometry_or_shape": "none (join by constituency name to ED2026 ED_NAME)",
+    "key_fields": "profile slug, 'Last, First', party (PC/NDP/Lib), constituency, constituency office civic/mailing address, phone, e-mail, caucus office phone/fax/e-mail, first-elected year",
+    "caveats": "No JSON/XML feed; names have double/trailing spaces and HTML entities; several MLAs publish gmail/outlook constituency e-mails; Bourgeois has e-mail only (no office yet)"
+   },
+   {
+    "name": "Nova Scotia provincial electoral districts 2026 (ED2026_Analysis) — the layer behind Elections NS' district lookup",
+    "publisher": "Province of Nova Scotia (GeoNOVA nsgiwa) / used by Elections Nova Scotia enstools edinfo",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BND/BND_ElectoralBoundaries_UT83/MapServer/4",
+    "delivery": "ArcGIS MapServer query (f=pjson/geojson); layers 0 IP_ED2026, 1 ED2026_Line, 2 PD_ED2026_Line, 3 PD_ED2026_Carto, 4 ED2026_Analysis",
+    "licence": "copyrightText empty; licence not stated in service metadata",
+    "verified": true,
+    "vintage": "56 districts; Release_Date 'April 9, 2026' for ED 34 Inverness and ED 56 Chéticamp-Margarees-Pleasant Bay, 'October 30, 2019' for the other 54",
+    "geometry_or_shape": "polygon (UT83 service; query with inSR=4326 works)",
+    "key_fields": "ED_NO (string '01'..'56'), ED_NAME, Release_Date, electorcount, OBJECTID",
+    "caveats": "Licence must be confirmed before redistribution; point tests: 44.74,-65.51→ED 01 Annapolis; 44.66,-63.60→ED 30 Halifax Needham; 46.63,-61.02→ED 56"
+   },
+   {
+    "name": "HRM Who Is My Councillor (adm_polling_district)",
+    "publisher": "Halifax Regional Municipality (halifax_agol)",
+    "url": "https://services2.arcgis.com/11XBiaBYA9Ep0yNJ/arcgis/rest/services/Who_Is_My_Councillor_WFL1/FeatureServer/0",
+    "delivery": "ArcGIS FeatureServer query",
+    "licence": "AGOL item licenseInfo empty (internal web layer); the open-data 'Polling Districts' item 04c5bee564f84b4a8f1c8dd305896079 links HRM Open Data Licence (https://data-hrm.hub.arcgis.com/pages/open-data-licence; text not captured)",
+    "verified": true,
+    "vintage": "SDATE 2024-01-20 (NSUARB); lastEditDate 2024-10-29; 16 districts",
+    "geometry_or_shape": "polygon",
+    "key_fields": "FID, DIST_ID (int 1-16), DISTNAME, COUNCILLOR, FCODE, SOURCE, SACC, SDATE, OPERATOR, School_Boa (all 'N/A'), GLOBALID",
+    "caveats": "No contact info in the layer; contact comes from https://www.halifax.ca/city-hall/districts-councillors/district-<n> (Call: [phone on official page] Email: virginia.hinch@halifax.ca pattern) and mayor page [phone on official page], mayor@halifax.ca)"
+   },
+   {
+    "name": "CBRM councillors and Who Is My Councillor tool",
+    "publisher": "Cape Breton Regional Municipality",
+    "url": "https://cbrm.ns.ca/city-hall/councillors/",
+    "delivery": "HTML list (12 districts) + per-district pages https://cbrm.ns.ca/city-hall/councillors/district-<n>/ with Email/Phone; address lookup iframe https://services.cbrm.ns.ca/WhoIsMyCouncillor.aspx (ASP.NET form)",
+    "licence": "Website copyright; no reuse licence",
+    "verified": true,
+    "vintage": "Live 2026-09-12 (© 2026)",
+    "geometry_or_shape": "none (polygons: Represent cape-breton-districts 2017 / data.novascotia.ca gcep-xeci)",
+    "key_fields": "name, district number, email (e.g. gdmacdonald@cbrm.ns.ca), phone (e.g. [phone on official page]), district description; mayor@cbrm.ns.ca",
+    "caveats": "Represent's CBRM URLs point at the retired www.cbrm.ns.ca/district-<n>.html pattern"
+   },
+   {
+    "name": "NSFM Membership Directory (regional pages)",
+    "publisher": "Nova Scotia Federation of Municipalities",
+    "url": "https://nsfm.ca/membership-directory.html",
+    "delivery": "HTML; regional pages /cape-breton-regional-municipality.html, /cape-breton-strait.html, /colchester-cumberland-pictou-east-hants.html, /halifax-regional-municipality.html, /south-shore.html, /southwestern-shore.html, /valley-region.html",
+    "licence": "© NSFM, accuracy disclaimer; no reuse licence",
+    "verified": true,
+    "vintage": "Live 2026-09-12",
+    "geometry_or_shape": "none",
+    "key_fields": "Municipal unit name, 'Warden:'/'Mayor:' name, Website URL; NSFM board members' e-mails only",
+    "caveats": "Names and websites only (no phone/e-mail for heads of council); some URL variants (/valley.html, /members, /municipalities) return HTTP 500"
+   },
+   {
+    "name": "Municipality of the County of Annapolis — Meet Your Council",
+    "publisher": "Municipality of the County of Annapolis",
+    "url": "https://www.annapoliscounty.ca/council/meet-your-council",
+    "delivery": "HTML",
+    "licence": "Website copyright",
+    "verified": true,
+    "vintage": "2024-2028 council",
+    "geometry_or_shape": "none (Represent annapolis-districts 2017, 11 districts)",
+    "key_fields": "Warden Diane LeBlanc (District 11, elected 2013, directory phone [phone on official page]), Deputy Warden Dustin Enslow (D3), councillors D1-D10; office 752 St. George Street, PO Box 100, Annapolis Royal B0S 1A0, [phone on official page] / [phone on official page]",
+    "caveats": "No councillor e-mails; phone line type unlabelled; Annapolis Royal is a separate town (Mayor Amery Boyer, [phone on official page], admin@annapolisroyal.com, https://annapolisroyal.com/government/mayor-council/)"
+   },
+   {
+    "name": "CSAP — Conseil (elected board members)",
+    "publisher": "Conseil scolaire acadien provincial",
+    "url": "https://csap.ca/le-csap/gouvernance/conseil",
+    "delivery": "HTML (Joomla; items /le-csap/gouvernance/conseil/item/<slug>)",
+    "licence": "Website copyright",
+    "verified": true,
+    "vintage": "Live 2026-09-12; 13 members from 10 circonscriptions (NSUARB 2024 decision); next election October 2028",
+    "geometry_or_shape": "none found anywhere (province's School Board Zones datasets 76iu-75v2 / v69y-jn74 are 2020 board-zone polygons, OGL-NS, not circonscriptions)",
+    "key_fields": "name, role (Présidente/Vice-présidente), circonscription (Rive-Sud, Truro, Halifax x2, Argyle x2, Clare x2, Victoria-Cap Breton, Antigonish, Inverness, Vallée d'Annapolis, Richmond), First.Last@csap.ca, phone",
+    "caveats": "Point→member lookup impossible without polygons; any assignment is name-based and must be labelled approximate"
+   },
+   {
+    "name": "data.novascotia.ca catalog — municipal officials / electoral districts search",
+    "publisher": "Province of Nova Scotia (Socrata)",
+    "url": "https://api.us.socrata.com/api/catalog/v1?domains=data.novascotia.ca&q=municipal%20contacts",
+    "delivery": "Socrata catalog API",
+    "licence": "Nova Scotia Open Government Licence ('Contains information licensed under the Open Government Licence – Nova Scotia'; excludes Personal Information)",
+    "verified": true,
+    "vintage": "Searched 2026-09-12",
+    "geometry_or_shape": "n/a",
+    "key_fields": "n/a",
+    "caveats": "NEGATIVE result: no municipal officials/contacts dataset and no current provincial electoral district dataset surfaced for 'municipal contacts', 'mayor warden', 'electoral', 'provincial electoral district'; Municipal Affairs /dma/directory/ is 404"
+   }
+  ],
+  "files_written": [
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/research/representatives.md",
+    "size_kb": 30.5,
+    "what": "Full research note: Represent API sets/fields/point lookup/terms, HoC open data, nslegislature structure, HRM/CBRM/county/town/NSFM municipal sources, CSAP, licence table, data-quality traps, sample records, recommended static-snapshot architecture, gaps"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/reps_point_sample.json",
+    "size_kb": 2.1,
+    "what": "Raw Represent API response for /representatives/?point=44.74,-65.51 (MLA Bowlby + MP d'Entremont; no municipal level)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/reps_directory_sample.json",
+    "size_kb": 10.9,
+    "what": "12 hand-verified official office contact records (MP Acadie—Annapolis, MLA Annapolis, MLA Chéticamp-Margarees-Pleasant Bay, Annapolis County Warden + District 6 councillor, Town of Annapolis Royal Mayor, MLA Halifax Needham, MP Halifax, HRM District 8 councillor, HRM Mayor, CSAP Vallée d'Annapolis) with source_url, checked_date 2026-09-12 and caveats"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/ns_ed2026_districts.json",
+    "size_kb": 7.2,
+    "what": "The 56 current NS provincial electoral districts (ED_NO, ED_NAME, Release_Date, electorcount) from nsgiwa BND_ElectoralBoundaries_UT83/4"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/research/",
+    "what": "Raw fetched evidence (JSON/HTML/XML/CSV) for every claim: repsets.json, boundarysets*.json, reps_nsleg.json, reps_hoc.json, reps_hfx.json, reps_cbrm.json, api_docs.html, hoc_search*.xml/csv, nsleg_*.html, hrm_wimc_*.json, cbrm_*.html, annapolis_*.html, annapolisroyal_*.html, nsfm_*.html, csap_*.html, nsgiwa_bnd_*.json, socrata_*.json, ens_byelection.html, electionsns_mainjs.js"
+   }
+  ],
+  "facts": [
+   "Represent API rate limit (verbatim): 'Represent is free up to 60 requests per minute (86,400 queries/day)'; responses carry Access-Control-Allow-Origin: *",
+   "Represent NS-relevant representative sets: house-of-commons, nova-scotia-legislature (boundary set nova-scotia-electoral-districts-2019, last_updated 2020-03-01), halifax-regional-council (halifax-districts, 2024-11-06), cape-breton-regional-council (cape-breton-districts, 2017-02-06); 121 sets total, 524 boundary sets total",
+   "Represent point 44.74,-65.51 returns exactly 2 objects: MLA David Bowlby (Annapolis) and MP Chris d'Entremont (Acadie—Annapolis); boundaries containing it: FED 12001 Acadie—Annapolis (2023 RO), FED 12011 West Nova (2013/2003 RO), NS ED 'annapolis' external_id 1 (2012 and 2019 sets), census division 1205, census subdivision 1205008 Annapolis Royal",
+   "Represent point 44.66,-63.60 returns MLA Suzy Hansen (Halifax Needham), MP Shannon Miedema (Halifax), Councillor Virginia Hinch (Halifax Peninsula North, DIST 8), Mayor Andy Fillmore",
+   "Represent field list per representative: name, district_name, elected_office, source_url, first_name, last_name, party_name, email, url, personal_url, photo_url, gender, offices[{type,postal,tel,fax}], extra, representative_set_name, related{representative_set_url, boundary_url}",
+   "Represent NS legislature set: 55 objects, 55 districts of the 2019 map, no Chéticamp-Margarees-Pleasant Bay; every MLA offices[0].postal is the artefact 'Phone:\\n\\nE-mail:' (sometimes with 'Fax: …' or 'Toll free: …')",
+   "Nova Scotia now has 56 provincial electoral districts: nsgiwa BND_ElectoralBoundaries_UT83/4 (ED2026_Analysis) count=56; ED_NO '56' = 'Chéticamp-Margarees-Pleasant Bay', Release_Date 'April 9, 2026', electorcount 3889; ED '34' Inverness also re-released April 9, 2026; all others 'October 30, 2019'; ED '01' Annapolis electorcount 16018; ED '30' Halifax Needham",
+   "Elections NS site text: 'A by-election was held in the electoral district of Chéticamp-Margarees-Pleasant Bay on Tuesday, June 23, 2026.'; results page header 'Provincial By-election 2026-06-23 Chéticamp-Margarees-Pleasant Bay'",
+   "nslegislature.ca/members/profiles lists 56 MLAs on 2026-09-12 including 'Bourgeois, Claude — PC — Chéticamp-Margarees-Pleasant Bay' and 'Bowlby, David — PC — Annapolis'; profile says Bourgeois 'was first elected … in a by-election in 2026'; Bourgeois contact = [personal-domain e-mail on official profile] only (no office yet) + PC Caucus Office 1601 Lower Water Street, Suite 201, Halifax B3J 3P6, [phone on official page], fax [phone on official page], PCcaucus@novascotia.ca",
+   "David Bowlby (MLA Annapolis, PC, first elected 2024): constituency office civic 10 Bridge Street, Middleton NS B0S 1P0; mailing P.O. Box 214, Middleton B0S 1P0; phone [phone on official page]; e-mail [personal-domain e-mail on official profile]; profile https://nslegislature.ca/members/profiles/david-bowlby",
+   "Suzy Hansen (MLA Halifax Needham, NDP, elected 2021, re-elected 2024): Suite 1000 - 6080 Young St., Halifax B3K 3B5; [phone on official page]; suzyhansen@nsmla.ca; NDP Caucus Office 5151 George Street Suite 1402, [phone on official page], fax [phone on official page]",
+   "nslegislature.ca robots.txt: 'User-agent: *' 'Crawl-delay: 10'; no disallow on /members/; no machine-readable member feed found",
+   "House of Commons search XML fields: PersonId, PersonShortHonorific, PersonOfficialFirstName, PersonOfficialLastName, ConstituencyName, ConstituencyProvinceTerritoryName, CaucusShortName, FromDateTime, ToDateTime; 338 members on 2026-09-12; ?province=NS returns 11; no contact fields",
+   "NS MPs (2026-09-12, all Liberal caucus, FromDateTime 2025-04-28): Jaime Battiste 104571 Cape Breton—Canso—Antigonish; Kody Blois 104555 Kings—Hants; Braedon Clark 122437 Sackville—Bedford—Preston; Chris d'Entremont 49344 Acadie—Annapolis; Lena Metlege Diab 109915 Halifax West; Jessica Fancy 122443 South Shore—St. Margarets; Darren Fisher 88323 Dartmouth—Cole Harbour; Sean Fraser 88316 Central Nova; Alana Hirtle 122419 Cumberland—Colchester; Mike Kelloway 104531 Sydney—Glace Bay; Shannon Miedema 122428 Halifax",
+   "Chris d'Entremont per-member XML: CaucusMemberRole Liberal FromDateTime 2025-11-04T18:56:01 (Parliament 45); Represent still says Conservative",
+   "Chris d'Entremont contact (ourcommons.ca page): Chris.dEntremont@parl.gc.ca; Hill Office tel [phone on official page] fax [phone on official page]; Main office - Yarmouth 223-368 Main street, Yarmouth NS B5A 1E9, tel [phone on official page] fax [phone on official page]; Kingston 1-1529 Bridge Street, Kingston NS B0P 1R0, tel [phone on official page] fax [phone on official page] (Represent shows stale '2-778 Main street')",
+   "Shannon Miedema contact: shannon.miedema@parl.gc.ca; Hill tel [phone on official page] fax [phone on official page]; Main office - Halifax 1003-1809 Barrington Street, Halifax NS B3J 3K8, tel [phone on official page]; FED 12006",
+   "HoC Open Data page: 'Open data is defined as structured data that is machine-readable, freely shared, used and built on without restrictions.'; Important Notices Copyrights: 'Permission to reproduce—in whole or in part—or to otherwise use the content of this website may be sought from' the House; Speaker's Permission for proceedings excludes 'commercial purpose of financial gain'",
+   "HRM ArcGIS Who_Is_My_Councillor_WFL1/0 = layer 'adm_polling_district', 16 polygons, fields FID, DIST_ID, DISTNAME, COUNCILLOR, FCODE, SOURCE ('NSUARB'), SACC, SDATE (2024-01-20), OPERATOR, School_Boa ('N/A'), GLOBALID, Shape__Area, Shape__Length; NO contact fields; lastEditDate 2024-10-29; e.g. DIST_ID 8 'Halifax Peninsula North' Virginia Hinch, 7 'Halifax South Downtown' Laura White",
+   "halifax.ca district-8 page: 'Contact Information Call: [phone on official page] Email: virginia.hinch@halifax.ca'; district-7: laura.white@halifax.ca [phone on official page]; Mayor Andy Fillmore: Phone [phone on official page], mayor@halifax.ca, 1841 Argyle Street / PO Box 1749 Halifax",
+   "CBRM: https://cbrm.ns.ca/city-hall/councillors/ lists 12 districts (Gordon MacDonald D1 … Kim Sheppard-Campbell D12; Glenn Paruch D6 = Deputy Mayor); district-1 page: 'Email: gdmacdonald@cbrm.ns.ca Phone: [phone on official page]'; mayor@cbrm.ns.ca; lookup iframe https://services.cbrm.ns.ca/WhoIsMyCouncillor.aspx",
+   "Municipality of the County of Annapolis 2024-2028 council: Warden Diane LeBlanc (District 11, Elected 2013, directory phone [phone on official page]), Deputy Warden Dustin Enslow (D3), Councillor Jonathan Welch (D6, Elected 2024, directory phone [phone on official page]); main office 752 St. George Street, PO Box 100, Annapolis Royal NS B0S 1A0, [phone on official page] or [phone on official page]; no councillor e-mails published",
+   "Town of Annapolis Royal (separate municipal unit, CSD 1205008): Mayor Amery Boyer, Deputy Mayor Sybil Skinner-Robertson, Councillors Heather Sadkowski, Adele MacDonald, Lynn Myers; 285 St. George Street, Box 310, B0S 1A0; [phone on official page]; admin@annapolisroyal.com; NSFM lists mayorboyer@annapolisroyal.com",
+   "NSFM Valley Region page: 'County of Annapolis Warden: Diane LeBlanc', 'Town of Annapolis Royal Mayor: Amery Boyer', Kings Mayor Dave Corkum, West Hants Mayor Abraham Zebian, Kentville Mayor Andrew Zebian, Wolfville Mayor Jodi Mackay, Middleton Mayor Gail Smith, Berwick Mayor Mike Trinacty (names + websites only)",
+   "CSAP: 13 elected members from 10 circonscriptions (NSUARB 2024); members: Diane Racette (Présidente, Rive-Sud, Diane.Racette@csap.ca), Jessica Hinton (Vice-présidente, Truro), Jeff Arsenault & Katherine Howlett (Halifax), Denise Babin & Clyde deViller (Argyle), Andrea Burke-Saulnier & Michel P. Comeau (Clare), Clermont Charland (Victoria-Cap Breton), Francine Clément-Fraser (Antigonish), Philippe Haché (Inverness), Hélène Lavigne (Vallée d'Annapolis, Helene.Lavigne@csap.ca, [phone on official page]), Blair Samson (Richmond); next election October 2028",
+   "Nova Scotia Open Government Licence attribution string: 'Contains information licensed under the Open Government Licence – Nova Scotia'; licence excludes Personal Information",
+   "data.novascotia.ca 'Nova Scotia School Board Zones - French' 76iu-75v2 and '- English' v69y-jn74: fields the_geom, BRDCODE, BRDNAME, CIVIC1, CIVIC2, CPOSTCODE, PHONE, FAX, WEB, SCHLYR; rows updated 2020-11-20; OGL-NS — board zones, not CSAP electoral circonscriptions",
+   "Municipal Affairs directory https://novascotia.ca/dma/directory/ → 404; https://novascotia.ca/dma/ redirects to https://www.novascotia.ca/government/municipal-affairs (no directory); NSFM /valley.html, /members, /municipalities → HTTP 500 (use /valley-region.html etc.)"
+  ],
+  "gaps": [
+   "No data licence published for Open North Represent representative records; usage terms limited to the 60 req/min statement — treat as unlicensed convenience data, not a redistribution source",
+   "Represent exposes no last_updated per representative set; freshness can only be inferred (observed stale: d'Entremont party since 2025-11-04, Kingston office address, missing NS ED 56)",
+   "No province-wide machine-readable directory of municipal mayors/wardens/councillors/CAOs exists on data.novascotia.ca or Municipal Affairs; NSFM regional pages give names + websites only, so ~49 municipal units outside HRM/CBRM require per-site scraping or manual entry",
+   "No public polygon layer for CSAP electoral circonscriptions was found (csap.ca, data.novascotia.ca); point→CSAP member lookup is not possible from open data; NSUARB 2024 decision document not retrieved",
+   "Licence of the nsgiwa BND_ElectoralBoundaries_UT83 service (the only source found with the 56-district 2026 map) is not stated (copyrightText empty) — confirm with GeoNOVA/Elections NS before redistributing polygons",
+   "HRM Open Data Licence text not captured (ArcGIS Hub page is JS-rendered); only the link is verified",
+   "nslegislature.ca has no licence page found and was tested only with a Chrome user agent (200); behaviour for non-browser UAs unknown",
+   "Post-2020/2024 municipal polling-district boundaries for the 27 non-HRM/CBRM municipalities: Represent/data.novascotia.ca polygons are 2017 vintage; parity with current councils (e.g. Annapolis County 2024-2028, 11 districts) not verified",
+   "Municipal directories (Annapolis County, CSAP) publish one phone per member without labelling office vs home; recorded as directory_listed_phone with caveat, and the municipal office number given as office_phone",
+   "Represent CSV download list (JS-rendered /data/ page) not captured",
+   "Federal riding polygons: task assumes the app already holds them; this note only verified that the 2023 Representation Order FED id (e.g. 12001 Acadie—Annapolis, 12006 Halifax) is the right join key"
+  ]
+ },
+ "provincialPolls": {
+  "summary": "Elections NS publishes final 2024 poll-by-poll results as one xlsx (55 sheets ED01-ED55; header row 2: Poll, Polling Location, Electors on Final List, Total Votes* incl. rejected+declined, one column per candidate 'First LAST\\nParty', Rejected, Declined; footer Total/Turnout/% valid/Elected). Advance (ADV#), RO-CP, WI and out-of-district rows are separate rows with no elector base; mobile care-home polls are separate rows that can span several PD numbers ('038,039 Mobile2'); combined polls appear as '016/017'. Arithmetic is internally consistent and district totals match the province's GIS results layer exactly.\n\nThe current provincial PD layer (PD_ED2026_Carto, 1,817 polygons, 56 districts) is the 2020 release for 54 districts (RELEASE_DATE 'September 1, 2020'), so the 2024 poll numbers join cleanly there: Annapolis 37/37 numbers match, polygon electorcount matches 2021 electors within ~10/poll, locations stable 2021-2024. Inverness and the new ED 56 Chéticamp-Margarees-Pleasant Bay were redrawn and renumbered April 9, 2026 (legislation Feb 2026 implementing the 2025 Boundaries Commission); 2026 PD 001 is Port Hawkesbury while 2024 poll 001 was Pleasant Bay (now ED 56 PD 009). Zero genuine matches for Inverness.\n\nVerdict: a 2024-poll-on-current-division map is defensible for the 54 unchanged districts with a caveat that unmapped advance/RO-CP/write-in votes (45% in Annapolis, and they net favoured the loser there) are excluded. For Inverness it is not; the fix is the still-live but unlinked January 2021 PD shapefile (12.5 MB, not downloaded, contents unverified) or district-level fallback. Files: prov_polls_01/34.json, prov_pd_01/34/56.geojson, prov-polls.md with caveat text.",
+  "datasets": [
+   {
+    "name": "42nd PGE Poll-by-Poll results with turnout (2024)",
+    "publisher": "Elections Nova Scotia",
+    "url": "https://electionsnovascotia.ca/files/GeneralElection_42nd/42PGE_PollbyPoll_AllEDs_TurnOut_FINAL.xlsx",
+    "delivery": "Direct xlsx download (220,609 bytes, HTTP 200); linked from the SPA route /generalElection_42nd via Office web viewer",
+    "licence": "Not stated in the file or page (UNVERIFIED); public election record",
+    "verified": true,
+    "vintage": "Final results, election day 2024-11-26",
+    "geometry_or_shape": "Tabular only; 55 sheets ED01-ED55; polls identified by a text label in column A (001, 016/017, 038,039 Mobile2, ADV1, RO-CP, WI, CP Out-of-District)",
+    "key_fields": "Poll | Polling Location | Electors on Final List | Total Votes* (incl. rejected+declined) | one column per candidate ('First LAST' newline party: Green Party, PC Party, NSNDP, Liberal, Independent) | Rejected Ballots** | Declined Ballots; footer rows Total, Turnout (fraction), % of Valid Votes Cast, Elected:",
+    "caveats": "Advance/RO-CP/WI/out-of-district rows have no elector count; mobile rows may cover 2-3 PD numbers; Inverness mobile polls print 0 electors/0 votes; sheet titles have inconsistent spacing ('02-Antigonish')"
+   },
+   {
+    "name": "41st PGE Poll-by-Poll results with turnout (2021)",
+    "publisher": "Elections Nova Scotia",
+    "url": "https://electionsnovascotia.ca/files/GeneralElection_41st/41PGE_PollbyPoll_AllEDs_TurnOut_FINAL.xlsx",
+    "delivery": "Direct xlsx download (847,839 bytes, HTTP 200); linked from /generalElection_41st",
+    "licence": "Not stated (UNVERIFIED)",
+    "verified": true,
+    "vintage": "Final results, 2021 election",
+    "geometry_or_shape": "Tabular print layout: 40-48 columns, 220-455 merged ranges per sheet; header on row 8 with cells scattered (Poll col B, Location col J, Electors col T, Total col U, candidates at irregular columns, Rejected/Declined columns differ per sheet)",
+    "key_fields": "Same concepts as 2024 but candidate headers carry NO party label (party only in the Elected: line); title '01-Annapolis' in cell Y3",
+    "caveats": "Structure only inspected (ED01, ED34); parser must locate headers per sheet"
+   },
+   {
+    "name": "PD_ED2026_Carto (provincial polling-division polygons), layer 3",
+    "publisher": "Government of Nova Scotia GIS (nsgiwa), service BND/BND_ElectoralBoundaries_UT83",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BND/BND_ElectoralBoundaries_UT83/MapServer/3",
+    "delivery": "ArcGIS REST query, f=geojson, outSR=4326, maxRecordCount 1000 with pagination",
+    "licence": "copyrightText empty on service and layer (UNVERIFIED)",
+    "verified": true,
+    "vintage": "RELEASE_DATE 'September 1, 2020' for 54 districts; 'April 9, 2026' for ED 34 Inverness and ED 56 Chéticamp-Margarees-Pleasant Bay",
+    "geometry_or_shape": "Polygon/MultiPolygon; 1,817 features, 56 districts; ED 01 = 37 PDs (001-037), ED 34 = 26 (001-026), ED 56 = 10 (001-010)",
+    "key_fields": "electorcount (double), ED_NO (string '01'), ED_NAME, PD_NO (string '001'), IND_POLL ('Y'/null), RES_CARE ('Y'/'N'), SERVICE_AREA ('Main'), RELEASE_DATE (string), Shape_Area (m2)",
+    "caveats": "electorcount is a register snapshot at release (matches 2021 electors within ~10 per poll in ED 01), not the 2024 final list; care-home polls are tiny polygons (ED01 037 = 2,496 m2)"
+   },
+   {
+    "name": "ED2026_Analysis (district polygons), layer 4",
+    "publisher": "Government of Nova Scotia GIS (nsgiwa)",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BND/BND_ElectoralBoundaries_UT83/MapServer/4",
+    "delivery": "ArcGIS REST query",
+    "licence": "copyrightText empty (UNVERIFIED)",
+    "verified": true,
+    "vintage": "Release_Date 'October 30, 2019' for 54 districts; 'April 9, 2026' for ED 34 and ED 56",
+    "geometry_or_shape": "56 district polygons",
+    "key_fields": "electorcount, ED_NO, ED_NAME, Release_Date (ED 34 = 10,609 electors; ED 56 = 3,889; ED 01 = 16,018)",
+    "caveats": "Attribute-only query used here; geometry not fetched"
+   },
+   {
+    "name": "2024_General_Election_Results (district totals), layer 7",
+    "publisher": "Government of Nova Scotia GIS (nsgiwa), service BND/BND_GeneralElectionResults_UT83",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BND/BND_GeneralElectionResults_UT83/MapServer/7",
+    "delivery": "ArcGIS REST query",
+    "licence": "copyrightText empty (UNVERIFIED)",
+    "verified": true,
+    "vintage": "2024 general election; sibling layers 1-6 cover 2003-2021",
+    "geometry_or_shape": "District polygons only (no poll level)",
+    "key_fields": "ED_NO, ED_NAME, MLA, PARTY, PC_Votes, Liberal_Votes, NDP_Votes, Green_Votes, Independent_Votes, Rejected, Declined, Total, PctVoterTurnout",
+    "caveats": "District level only; totals match the xlsx exactly for ED 01 and ED 34"
+   },
+   {
+    "name": "ProvincialPollingDivisionPolygons_January_2021.zip (pre-2026 PD shapefile)",
+    "publisher": "Elections Nova Scotia",
+    "url": "https://electionsnovascotia.ca/files/ElectoralDistrictMapInformation/ProvincialPollingDivisionPolygons_January_2021.zip",
+    "delivery": "Direct zip download, still live (HTTP 200, 12,533,444 bytes, application/x-zip-compressed) though no longer linked from the site; byte-identical copy at http://web.archive.org/web/20250801222415id_/ same URL",
+    "licence": "Not stated (UNVERIFIED)",
+    "verified": true,
+    "vintage": "January 2021 release (presumed the divisions used in 2021 and 2024; UNVERIFIED, not downloaded)",
+    "geometry_or_shape": "Shapefile zip (contents not inspected)",
+    "key_fields": "Unknown (not downloaded; exceeds 3 MB task limit)",
+    "caveats": "Existence and size verified only; field names and Inverness numbering unverified"
+   },
+   {
+    "name": "ProvincialPollingDivisionPolygons_March_2026.zip (current PD shapefile)",
+    "publisher": "Elections Nova Scotia",
+    "url": "https://electionsnovascotia.ca/files/ElectoralDistrictMapInformation/ProvincialPollingDivisionPolygons_March_2026.zip",
+    "delivery": "Direct zip download (HTTP 200, 13,504,190 bytes, last-modified 2026-06-25); also .kmz",
+    "licence": "Not stated (UNVERIFIED)",
+    "verified": true,
+    "vintage": "March 2026 per file name; the GIS layer stamps changed districts April 9, 2026",
+    "geometry_or_shape": "Shapefile zip (not downloaded)",
+    "key_fields": "Unknown (not downloaded)",
+    "caveats": "Linked from the site's map-information page; likely the same content as the nsgiwa layer (UNVERIFIED)"
+   },
+   {
+    "name": "NS_2019ED_Bnds.zip (55-district boundaries used in 2021/2024)",
+    "publisher": "Elections Nova Scotia",
+    "url": "https://electionsnovascotia.ca/files/ElectoralDistrictMapInformation/NS_2019ED_Bnds.zip",
+    "delivery": "Direct zip download, still live (HTTP 200, 1,261,759 bytes), unlinked",
+    "licence": "Not stated (UNVERIFIED)",
+    "verified": true,
+    "vintage": "2019 boundaries",
+    "geometry_or_shape": "Shapefile zip (not downloaded)",
+    "key_fields": "Unknown",
+    "caveats": "Existence verified only"
+   }
+  ],
+  "files_written": [
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/research/prov-polls.md",
+    "size_kb": 28.7,
+    "what": "Findings, structure notes, join test, verdict, recommended path, caveat text, 2021 structure differences"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/prov_polls_01.json",
+    "size_kb": 46.8,
+    "what": "ED 01 Annapolis: 43 poll rows with votes by candidate/party, totals, electors, turnout, winner, margin_pct, matched_polygon/join_status, plus district totals and join summary"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/prov_polls_34.json",
+    "size_kb": 44.2,
+    "what": "ED 34 Inverness: 41 poll rows, same schema; matched_polygon false for every row"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/prov_pd_01.geojson",
+    "size_kb": 58.5,
+    "what": "37 current polling-division polygons for ED 01 (WGS84, simplified 0.0008, 5 dp)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/prov_pd_34.geojson",
+    "size_kb": 65.4,
+    "what": "26 current polling-division polygons for ED 34 (2026 release)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/prov_pd_56.geojson",
+    "size_kb": 24.7,
+    "what": "10 polygons for the new ED 56 Chéticamp-Margarees-Pleasant Bay (explains the Inverness split)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/42pge_pollbypoll.xlsx",
+    "size_kb": 220.6,
+    "what": "2024 poll-by-poll workbook as downloaded"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/41pge_pollbypoll.xlsx",
+    "size_kb": 847.8,
+    "what": "2021 poll-by-poll workbook as downloaded (structure only)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/xlsx_reader.py",
+    "size_kb": 2.6,
+    "what": "Stdlib xlsx reader (zipfile + ElementTree) used because openpyxl is not importable"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/build_prov_polls.py",
+    "size_kb": 8,
+    "what": "Builds prov_polls_01/34.json from the xlsx and the geojson"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/analyze_polls.py",
+    "size_kb": 8,
+    "what": "Centroid, arithmetic, title, 2021-structure and 2021-vs-2024 comparison script"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/_ens_main.js",
+    "size_kb": 1458,
+    "what": "Elections NS SPA bundle (main.fd9baab1.js) kept as provenance for the file links and the district-split news text; other geo/_*.json files are raw service metadata and query responses. Multi-MB files in geo/ (pd_kmz.zip, fed_kmz.zip, census_csd_ns.geojson, results_2021.geojson, electionsns_mainjs.js) were written by another agent sharing this scratchpad, not by this task"
+   }
+  ],
+  "facts": [
+   "2024 xlsx: 55 sheets ED01-ED55; header on row 2; title in cell C1 as '01 - Annapolis' (some sheets '02-Antigonish'); all 55 titles match the GIS ED_NAME",
+   "2024 party strings across all sheets: 'Green Party', 'Independent', 'Liberal', 'NSNDP', 'PC Party'",
+   "2024 poll-label patterns (digits->#): ###, ###A, ###B, ###/###, ### Mobile#, ###,### Mobile#, ###,###,### Mobile#, ADV#, CPoll#, RO-CP, WI, WI Out-of-District, CP Out-of-District, CP/WI Out-of-district",
+   "ED 01 Annapolis 2024: electors 16,038; total votes 7,446; Green (Sara ADAMS) 138, PC (David BOWLBY) 3,289, NDP (Cheryl BURBIDGE) 689, Liberal (Carman KERR) 3,281; rejected 42, declined 7; turnout 0.464272; elected David Bowlby (PC Party); PC margin 8 votes",
+   "ED 01 2024 rows: 36 ordinary polls 001-036, '037 Mobile1' Mountain Lea Lodge (122 electors), '038,039 Mobile2' (48 electors), ADV1 1,174 votes, RO-CP 1,617, WI 116, WI Out-of-District 32, CP Out-of-District 390",
+   "ED 01: ordinary polls split 24 PC / 10 Liberal / 2 ties (polls 008 and 031); ordinary+mobile rows PC 1,962 vs Liberal 1,625; unmapped rows Liberal 1,656 vs PC 1,327 (RO-CP Liberal 986 vs PC 464); 3,329 of 7,446 votes (45%) have no poll location",
+   "ED 34 Inverness 2024: electors 14,534; total votes 7,111; Liberal (Jaime BEATON) 2,099, NDP (Joanna CLARK) 884, PC (Kyle MACQUARRIE) 4,058; rejected 70, declined 0; turnout 0.489267; elected Kyle MacQuarrie (PC Party)",
+   "ED 34 2024 rows: 33 ordinary rows covering 001-034 ('016/017' combined), '035 Mobile1' and '036,037 Mobile2' both printed 0 electors/0 votes, ADV1 526, ADV2 284, ADV3 588, RO-CP 683, WI 158, CP/WI Out-of-district 88; PC won 30 of 33 ordinary polls; 2,327 of 7,111 votes (33%) unmapped",
+   "Province's GIS 2024 results layer matches the xlsx district totals exactly for ED 01 and ED 34",
+   "PD layer 3 PD_ED2026_Carto: 1,817 polygons, 56 districts, electorcount sum 769,131; fields electorcount, OBJECTID, ED_NO, ED_NAME, PD_NO, IND_POLL, RES_CARE, SERVICE_AREA, RELEASE_DATE, Shape_Length, Shape_Area; maxRecordCount 1000",
+   "RELEASE_DATE: 54 districts 'September 1, 2020'; ED 34 Inverness and ED 56 Chéticamp-Margarees-Pleasant Bay 'April 9, 2026'. Layer 4 ED2026_Analysis: 'October 30, 2019' for the 54, 'April 9, 2026' for 34 and 56",
+   "ED 01 polygons: 37 (PD 001-037), electorcount sum 14,889 (min 100, max 549); PD 037 IND_POLL=Y RES_CARE=Y area 2,496 m2",
+   "ED 34 polygons: 26 (PD 001-026), electorcount sum 10,844; PD 001-006 all inside Port Hawkesbury (centroids 45.61-45.63 N); PD 023 Inverness town; PD 024 northernmost at 46.27 N; PD 025 (71 electors, care home, Inverness) and 026 (66 electors, Port Hawkesbury)",
+   "ED 56 polygons: 10 (PD 001-010), electorcount sum 3,921; PD 001 Margaree Forks area, 005-007 Chéticamp, 009 Pleasant Bay (132 electors, 634 km2), 010 care home (37 electors)",
+   "Point checks (approx. coords): Port Hawkesbury -> ED 34 PD 002; Inverness town -> ED 34 PD 023; Mabou -> ED 34 PD 019; Margaree Forks -> ED 56 PD 001; Pleasant Bay -> ED 56 PD 009",
+   "Join ED 01: 37 of 37 polygon numbers match xlsx numbers; only 038 and 039 (second mobile poll) lack a polygon; 37 matched rows, 1 no-polygon, 5 non-geographic",
+   "Numbering stability ED 01 (n=37): polygon electorcount minus 2021 electors mean +1.3, mean abs 9.6, max 48; 2024 minus polygon mean +29.8, mean abs 32.1, max 73; polling-location community identical 2021 vs 2024 for 37 of 38 rows",
+   "Join ED 34: numbers 001-026 exist in both but every match is false; 027-037 have no polygon; 0 genuine matches (25 rows 'number-exists-but-divisions-renumbered-after-election', 10 no-polygon, 6 non-geographic); by-number elector differences mean abs 107, max 372",
+   "2024 ED 34 polls 001-009 (Pleasant Bay to Margaree Forks) sum 3,944 electors vs new ED 56 3,921 (layer 3) / 3,889 (layer 4); polls 010-037 sum 10,590 vs new ED 34 10,844 / 10,609",
+   "Elections NS news (release date May 24, 2026): legislation introduced February 2026 created the exceptional district Chéticamp-Margarees-Pleasant Bay out of Inverness, implementing the 2025 Electoral Boundaries Commission final report of January 30, 2026; by-election held June 23, 2026; province now has 56 districts",
+   "Elections NS site is a React SPA on Azure blob storage; page HTML is a 1,138-byte shell; the bundle main.fd9baab1.js (1,458,025 bytes) carries the file links: 42PGE xlsx from /generalElection_42nd, 41PGE from /generalElection_41st, and ProvincialPollingDivisionPolygons_March_2026.zip/.kmz, NS_2026ED_Bnds.zip, NS2026_ED_Bnds.kmz, ED2026ofNS.pdf, 2024ResultsMap.pdf, DistributionOfSeatsByParty_2026_06.pdf",
+   "Still live but unlinked: ProvincialPollingDivisionPolygons_January_2021.zip (HTTP 200, 12,533,444 bytes; Wayback capture 20250801222415 same size) and NS_2019ED_Bnds.zip (1,261,759 bytes)",
+   "ProvincialPollingDivisionPolygons_March_2026.zip: 13,504,190 bytes, last-modified 2026-06-25; ED2026ofNS.pdf 13,464,988 bytes; Volume1_Statistics_May2025.pdf 96,892,271 bytes",
+   "2021 xlsx: 55 sheets; print layout with 40-48 columns and 220-455 merged ranges per sheet; header row 8 (Poll B, Location J, Electors T, Total U; candidates at X, Z, AC, AE, AG in ED01 and X, Z, AC in ED34; Rejected/Declined at AJ/AL in ED01 but AD/AF in ED34); candidate headers have no party label; Total row 52, Turnout and % valid share row 53, Elected row 54",
+   "2021 ED34 has a 'CPoll1' row and '016/018' combined poll and no mobile rows; 2021 ED01 has a single 'CP/WI Out-of-district' row",
+   "openpyxl is not importable (Python 3.14.7); files parsed with stdlib zipfile + ElementTree",
+   "data.novascotia.ca catalogue search for 'polling division' returns no Nova Scotia dataset (only federated GeoNB, Edmonton, Colorado items); no 2019/2020-vintage PD service remains in the nsgiwa BND folder",
+   "BND folder services: BND_DistributionOfSeats_UT83, BND_Electoral_District_Profiles_UT83 (no layers), BND_ElectoralBoundaries_UT83, BND_GeneralElectionResults_UT83 (district-level 2003-2024), BND_Housing_Authority_Boundaries_UT83, BND_Municipal_Village_Boundaries_UT83, BND_NS_Community_Bndys_UT83/WM84, BND_OpportunitiesSocialDevelopment_Admin_Bndys_UT83, BND_SelfcontainedLabourAreas_2021_UT83"
+  ],
+  "gaps": [
+   "Licence terms for the Elections NS workbooks and the nsgiwa GIS service are not stated in any fetched metadata (copyrightText empty); confirm before publication",
+   "ProvincialPollingDivisionPolygons_January_2021.zip (12.5 MB) was not downloaded (over the 3 MB per-file limit and not in the task); its field names and whether its Inverness PD numbering equals the 2024 workbook are unverified, though the January 2021 date and 2021-to-2024 stability make it likely",
+   "The 2020-release polygons are assumed unchanged through the 2024 election on the strength of RELEASE_DATE, the electorcount match to 2021 and stable 2024 poll numbers/locations; minor edits without a RELEASE_DATE change cannot be excluded",
+   "The two Inverness mobile polls print 0 electors and 0 votes; no explanation is available in the workbook",
+   "ED 56 has no 2024 general-election result; its June 23, 2026 by-election results (results.electionsnovascotia.ca/By-election_Multi.aspx) were not fetched",
+   "Point-in-polygon checks used approximate community coordinates from general knowledge, not a gazetteer; they identify which 2026 PD covers each town but are not survey-grade",
+   "Only ED 01 and ED 34 were parsed fully; the other 53 sheets were checked for title, party strings and label patterns only. Label variants '###A', '###B' and 'CPoll#' appear in other districts and are not exercised by the JSON builder",
+   "Elections NS web pages could not be read with curl (React SPA); provenance statements come from strings in the JS bundle, and the 2025 Electoral Boundaries Commission site and Bill text were not fetched",
+   "display_name for candidates other than the winner is derived by title-casing an upper-case surname with a Mac/Mc heuristic and should be checked before printing"
+  ]
+ },
+ "federalPolls": {
+  "summary": "Elections Canada publishes 2025 polling-division polygons (regional KMZs inside one 37.9 MB zip; NS is in KMZ/PD_PE-NS-NB_2025_EN.kmz, attributes in each Placemark's description HTML table: PD_NUM, PD_NBR_SFX, PD_TYPE N/S/M, FED_NUM, ADV_POLL_NUM, PD_NUM_SFX_CO; no name field) and per-riding Format 2 result CSVs (18 bilingual columns, one row per candidate per poll). Join key PD_NUM-PD_NBR_SFX works perfectly: 203/203 polygons in 12001 and 179/179 in 12006 match CSV polls, and every ordinary CSV poll has a polygon. Letter sub-polls (121A/121B etc.) share one polygon; \"Combined with\" polls carry electors but zero votes, so turnout must use electors_counted (own + received). All per-poll figures match Format 1, and riding totals match EC Table 11 exactly (12001: 67,446 electors, 48,609 ballots, 72.1%, d'Entremont CPC by 533; 12006: 72,377, 52,525, 72.6%, Miedema LPC by 22,947). What does not exist: PD polygons for advance polls (26 in 12001, 15 in 12006) or SVR groups, which together hold 47% (12001) and 53% (12006) of valid votes; advance results can only be mapped by dissolving PDs on ADV_POLL_NUM. Recommended path: use fed_pd_<fed>.geojson joined by `key` to fed_polls_<fed>.json `pd`, style by `status` (reported / combined_elsewhere hatched / void), colour by winner_party with margin_pct buckets, and print the caveat block from research/fed-polls.md section 6. Unverified: EC's textual definition of S/R Group 1 vs Group 2, and reuse licence terms.",
+  "datasets": [
+   {
+    "name": "Polling Division Boundaries 2025 (KMZ)",
+    "publisher": "Elections Canada",
+    "url": "https://www.elections.ca/res/cir/mapsCorner/vector/PollingDivisionBoundaries_2025_KMZ.zip",
+    "delivery": "zip (37,892,967 B) of 15 regional KMZ files + Data Dictionary.pdf; NS in KMZ/PD_PE-NS-NB_2025_EN.kmz (doc.kml 17.4 MB, 4,531 placemarks PE+NS+NB)",
+    "licence": "UNVERIFIED (EC terms not fetched in this pass)",
+    "verified": true,
+    "vintage": "Polling divisions at the issue of the writ, 45th GE; KMZ dated 2025-05-16, dictionary May 2025",
+    "geometry_or_shape": "KML Placemark > MultiGeometry > Polygon (one polygon per PD, outer + optional inner rings), lon/lat; document name PD_CA_2025_EN_SimplifyPolygo (pre-simplified by EC)",
+    "key_fields": "PD_NUM, PD_NBR_SFX, PD_TYPE (N/S/M), FED_NUM, ADV_POLL_NUM, PD_NUM_SFX_CO (=PD_NUM-PD_NBR_SFX), SHAPE_Length, SHAPE_Area; attributes in <description> HTML <td>FIELD</td><td>value</td>, no ExtendedData, no name",
+    "caveats": "S/M polls are 150-1,500 m2 placeholder squares at institutions; data dictionary mis-pastes the FED_NUM/ADV_POLL_NUM descriptions; 12006 PD 1-0 is Sable Island (void)"
+   },
+   {
+    "name": "45th GE Official Voting Results, Format 2 pollresults_resultatsbureau12001/12006.csv",
+    "publisher": "Elections Canada",
+    "url": "https://www.elections.ca/res/rep/off/ovrGE45/62/data_donnees/pollresults_resultatsbureau12001.csv",
+    "delivery": "CSV, UTF-8 BOM, 18 bilingual columns, one row per candidate per poll (1,165 rows 12001; 995 rows 12006); read locally from ec/pollresults12.zip",
+    "licence": "UNVERIFIED",
+    "verified": true,
+    "vintage": "Election 2025-04-28; EC page date modified 2025-11-05",
+    "geometry_or_shape": "tabular; Polling Division Number has leading space; ids N, N-1, NA/NB, 600+ advance, S/R 1, S/R 2",
+    "key_fields": "Polling Division Number, Polling Division Name, Void Poll Indicator, No Poll Held Indicator, Combined with No., Rejected Ballots for poll, Electors for poll, Candidate Family/Middle/First Name, Political Affiliation Name_English/_French, Incumbent Indicator, Elected Candidate Indicator, Candidate Vote Count",
+    "caveats": "Combined-with rows have electors but zero votes; target electors exclude them. Incumbent Indicator is N for all candidates in both ridings despite Table 12 marking d'Entremont **. Advance polls have 0 electors."
+   },
+   {
+    "name": "45th GE Official Voting Results, Format 1 pollbypoll_bureauparbureau12001/12006.csv",
+    "publisher": "Elections Canada",
+    "url": "https://www.elections.ca/res/rep/off/ovrGE45/62/data_donnees/pollbypoll_bureauparbureau12001.csv",
+    "delivery": "CSV, one row per poll, candidate columns in ballot order, Rejected, Total Votes (valid+rejected), Electors; read locally from ec/pollbypoll12.zip",
+    "licence": "UNVERIFIED",
+    "verified": true,
+    "vintage": "Election 2025-04-28",
+    "geometry_or_shape": "tabular",
+    "key_fields": "Polling Division Number, Polling Division Name, <candidate name> x5, Rejected Ballots, Total Votes, Electors",
+    "caveats": "Combined rows carry text 'Combined with No.../n°N' in first candidate column; void rows 'Void/Supprimé'; SVR rows have blank PD number ('Group 1/Groupe 1', 'Group 2/Groupe 2')"
+   },
+   {
+    "name": "45th GE summary tables 3, 6, 11, 12",
+    "publisher": "Elections Canada",
+    "url": "https://www.elections.ca/res/rep/off/ovrGE45/62/data_donnees/table_tableau11.csv",
+    "delivery": "CSV (tableau03 1.3 KB, tableau06 0.7 KB, tableau11 48 KB, tableau12 351 KB), saved under research/ec45_table_tableau*.csv",
+    "licence": "UNVERIFIED",
+    "verified": true,
+    "vintage": "2025 official results",
+    "geometry_or_shape": "tabular",
+    "key_fields": "Table 11: Electors, Voting desks, Valid/Rejected/Total Ballots, Turnout %, Elected Candidate per ED; Table 12: candidate votes, %, majority",
+    "caveats": "The older ovr2025app/53 path returns 404; use ovrGE45/62"
+   },
+   {
+    "name": "EC Format 1 / Format 2 description pages",
+    "publisher": "Elections Canada",
+    "url": "https://www.elections.ca/content.aspx?section=res&dir=rep/off/45gedata&document=pollresults&lang=e",
+    "delivery": "HTML, saved as research/ec45_format_pollresults.html and ec45_format_pollbypoll.html",
+    "licence": "UNVERIFIED",
+    "verified": true,
+    "vintage": "2025",
+    "geometry_or_shape": "documentation",
+    "key_fields": "defines Void Poll, No Poll Held, Combined with No., Electors for Poll; id examples 3, 45A, 48-3, 601",
+    "caveats": "Does not define S/R Group 1 vs Group 2; glossary URLs return HTTP 500"
+   }
+  ],
+  "files_written": [
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/pd_kmz.zip",
+    "size_kb": 37005.8,
+    "what": "Raw EC PollingDivisionBoundaries_2025_KMZ.zip download (task-specified path; exceeds the 3 MB write guideline because the task asked for the full download); sha256 97b47ed5...9ebf"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/fed_pd_12001.geojson",
+    "size_kb": 311.4,
+    "what": "203 PD polygons for Acadie--Annapolis; properties fed_num, pd_num, pd_suffix, key, pd_type, adv_poll, name, csv_polls, shape_area_m2; rings <= 250 pts, 6 dp"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/fed_pd_12006.geojson",
+    "size_kb": 116.4,
+    "what": "179 PD polygons for Halifax, same schema (includes Sable Island void PD 1-0)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/fed_polls_12001.json",
+    "size_kb": 199.6,
+    "what": "Per-polygon results (pd, name, pd_type, adv_poll, csv_polls, status, electors, electors_counted, receives_from, counted_in, votes[], total_valid, rejected, total_ballots, winner, winner_party, margin_votes, margin_pct, tie, turnout_pct), candidates[], riding_totals (with official Table 11 cross-check), join_stats, unmapped_polls (26 advance + 2 SVR, advance entries list pd_keys_in_advance_district)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/fed_polls_12006.json",
+    "size_kb": 168.3,
+    "what": "Same schema for Halifax (15 advance + 2 SVR unmapped)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/pd_data_dictionary.pdf",
+    "size_kb": 167.6,
+    "what": "EC Electoral Geography Files Technical Guide (May 2025) extracted from the zip; .txt sibling is the pdftotext output"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/build_fed_pd_geojson.py",
+    "size_kb": 6.2,
+    "what": "Reproducible stdlib-only KML->GeoJSON builder (regex parse, Douglas-Peucker decimation)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/build_fed_polls.py",
+    "size_kb": 13,
+    "what": "Reproducible builder for fed_polls_<fed>.json incl. Format 1 and Table 11 cross-checks"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/research/fed-polls.md",
+    "size_kb": 13.8,
+    "what": "Designer report: file structure, exact 18-column list, Format 1 columns, join method, statistics table for both FEDs, candidates and riding totals, ready-to-print caveat text, unverified items"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/research/ec45_table_tableau11.csv",
+    "size_kb": 47.1,
+    "what": "EC official Table 11 (voting results by ED) used for cross-check; siblings ec45_table_tableau03/06/12.csv, ec45_byed.html, ec45_index.html, ec45_summary.html, ec45_format_pollresults.html, ec45_format_pollbypoll.html, ec_svr_faq.html (unused, removable)"
+   }
+  ],
+  "facts": [
+   "KMZ zip: 37,892,967 bytes, HTTP 200, content-type application/x-zip-compressed, sha256 97b47ed516e271d9cce4ca96384f54c1c86a7eb2b2828e85d3335e8e9cda9ebf",
+   "Nova Scotia PDs live in KMZ/PD_PE-NS-NB_2025_EN.kmz (3,636,762 B, dated 2025-05-16); doc.kml is 17,439,611 B with 4,531 Placemarks; KML Document name PD_CA_2025_EN_SimplifyPolygo",
+   "KML attribute fields (description HTML table): SHAPE, PD_NUM, PD_TYPE, FED_NUM, ADV_POLL_NUM, PD_NUM_SFX_CO, PD_NBR_SFX, SHAPE_Length, SHAPE_Area; no name field; no ExtendedData",
+   "NS placemark counts by FED: 12001=203, 12002=215, 12003=212, 12004=206, 12005=208, 12006=179, 12007=191, 12008=232, 12009=202, 12010=220, 12011=201",
+   "12001 polygons: 186 type N + 17 type M; suffix polygons 70-1, 78-1, 145-1; 10 with holes; largest ring 508 pts before decimation, 249 after; adv poll numbers 600-625",
+   "12006 polygons: 156 N + 12 S + 11 M; no suffix polygons; largest ring 115 pts (no decimation needed); adv poll numbers 600-614; PD 1-0 is Sable Island, 621,826,335.7 m2, void poll with 0 electors",
+   "Data dictionary: PD_TYPE N=Normal, S=Single Building Polling Division, M=Mobile Poll; PD_NUM_SFX_CO = PDNUM-PDNUMSFX; shapefile CRS NAD83 CNT Lambert Conformal (49/77, CM -91 52 0, origin 63 23 26.43, FE 6,200,000, FN 3,000,000)",
+   "Format 2 CSV: 18 columns, UTF-8 BOM, Polling Division Number has a leading space, exactly 5 rows per poll (one per candidate); 12001 has 1,165 data rows / 233 poll ids; 12006 has 995 / 199",
+   "EC definition: Void Poll = poll exists but has no electors; No Poll Held = returning officer intended to hold it but unforeseen circumstances prevented it; Combined = electors from different polling divisions placed ballots in the same box (also two boxes counted together, or secrecy protection)",
+   "Combined-with rows: 0 votes, 0 rejected, own electors retained; target poll's Electors excludes them (12001 poll 507: 32 electors, 88 valid votes, receives 121B 99 + 508 23 + 509 50 electors)",
+   "12001 candidates (ballot order): Chris d'Entremont Conservative 23,024 (47.7%, elected); Ingrid Deon NDP 1,768; Ronnie LeBlanc Liberal 22,491 (46.6%); Matthew Piggott Green 583; James Strange PPC 432",
+   "12001 riding totals: electors 67,446; valid 48,298; rejected 311; total ballots 48,609; turnout 72.07% (Table 11: 72.1); majority 533 (1.1%); population 76,252; 211 voting desks; ordinary polls 25,614 valid, advance 18,865, SVR 3,819 (S/R 1 896 with 165 electors, S/R 2 2,923)",
+   "12006 candidates: Maricar Aliasut PPC 271; Mark Boudreau Conservative 9,939; Amethyste Hamel-Gregory Green 422; Shannon Miedema Liberal 32,886 (63.0%, elected); Lisa Roberts NDP 8,642",
+   "12006 riding totals: electors 72,377; valid 52,160; rejected 365; ballots 52,525; turnout 72.57% (Table 11: 72.6); majority 22,947 (44.0%); ordinary 24,407 valid, advance 19,549, SVR 8,204 (S/R 1 1,924 with 684 electors, S/R 2 6,280)",
+   "Join: 12001 203/203 polygons matched, 205/205 ordinary CSV ids have polygons; 12006 179/179 and 182/182; Format 1 cross-check 233/233 and 199/199 polls match on votes, rejected, electors",
+   "12001 status: reported 186, combined_elsewhere 15, partial_combined 2 (121-0, 147-0); 20 combined pairs incl. advance 608->609, 611->609, 621->619; no void, no no-poll-held",
+   "12006 status: reported 157, combined_elsewhere 20, partial_combined 1 (104-0), void 1 (PD 1); 23 combined pairs; 72A->54 and 72B->53 split one polygon two ways",
+   "Mapped share: 12001 polygons hold 99.8% of electors but 53.0% of valid votes; 12006 99.1% of electors, 46.8% of valid votes; advance = 39.1% / 37.5% of valid votes, SVR = 7.9% / 15.7%",
+   "Polygon winners: 12001 Conservative 135, Liberal 51, ties 80-0 and 84-0; 12006 Liberal 147, Conservative 9, NDP 1, tie 146-0",
+   "Election-day polygon turnout ranges: 12001 17.4% to 67.8%; 12006 20.5% to 106.0% (507-0 mobile poll, 124 ballots on 117 counted electors)",
+   "Incumbent Indicator is N for all 10 candidates in 12001/12006 even though Table 12 marks Chris d'Entremont with **; do not print incumbency from Format 2",
+   "Official tables URL root is https://www.elections.ca/res/rep/off/ovrGE45/62/data_donnees/ (table_tableau01..13.csv, pollresults_resultatsbureau<FED>.csv); the ovr2025app/53 path returns 404; EC results pages show Date Modified November 05, 2025"
+  ],
+  "gaps": [
+   "S/R Group 1 vs Group 2 definitions were not found in any fetched EC page (format pages, Table 6, summary index; glossary URLs return HTTP 500); the reading 'Group 1 = special ballots inside the riding, Group 2 = outside/national' is general knowledge, UNVERIFIED",
+   "Reuse licence / terms for EC KMZ and CSV data were not fetched; verify before publishing attribution text",
+   "Advance-poll results have no PD polygon; they can only be mapped by dissolving PD polygons on adv_poll (ADV_POLL_NUM) or by downloading EC's separate ADVPD_CA_2025_EN layer, which was not fetched",
+   "Advance polls have 0 electors in Format 2, so advance-poll turnout is not computable from these files",
+   "No unsimplified NS geometry was compared; S/M poll squares and coastline detail are as EC's simplified export delivered them, and my Douglas-Peucker pass added up to about 45 m tolerance on 7 rings in 12001",
+   "geo/pd_kmz.zip is 37.9 MB, above the 3 MB per-file guideline, because the task specified downloading it to that path; other outputs are all under 320 KB",
+   "research/ec_svr_faq.html (28 KB) was fetched but unused and can be deleted; research/ also contains files from other stages that were left untouched"
+  ]
+ },
+ "history": {
+  "summary": "All seven general elections (2003–2024) exist as polygon layers with results attributes on the Elections NS service via nsgiwa.novascotia.ca, and every fetch succeeded with no transfer-limit truncation. Feature counts: 52/52/52 (2003–2009, byte-identical geometry), 51/51 (2013, 2017), 55/55 (2021, 2024). PARTY uses exactly four spellings across all years, and the winner always equals the argmax of the *_Votes columns. Province-wide turnout comes from table 0 (65.79, 59.6, 57.9, 58.2, 53.4, 55.1, 44.9). Files for six years, the turnout table, both Profiles tables, history_summary.json and swing_2021_2024.json were written under scratchpad/geo; verification notes are in scratchpad/research/history.md. Recommended path: use the 0.006-offset GeoJSONs as-is (generalisation is honoured server-side; raw layers are 34 MB), join years within a boundary block on ED_NAME (ED_NO is reused across blocks), take vote shares over sum(*_Votes) because the Total field's meaning changes by year, strip MLA whitespace, and treat 2003 minor-party columns as unreliable. Watch three traps: 2013 and 2017 are separate digitisations of the same boundaries (Shape_Area differs up to 9%); the Profiles tables carry a 56th district (Chéticamp-Margarees-Pleasant Bay, by-election June 23, 2026) absent from every results layer; and the Profiles table labels Lunenburg West \"Becky Druhan (Liberal)\" because she is now Liberal (legislature site: PC 2021–2025, Independent 2025–2026, Liberal 2026) while the 2024 layer correctly records a PC win. Licence text is not present in the REST metadata (copyright \"Elections Nova Scotia\" only). The scratchpad is shared with other agents; only my own named files were written or removed.",
+  "datasets": [
+   {
+    "name": "BND_GeneralElectionResults_UT83 layers 1-7 (2003, 2006, 2009, 2013, 2017, 2021, 2024 General Election Results)",
+    "publisher": "Elections Nova Scotia via Nova Scotia GeoNOVA ArcGIS (nsgiwa.novascotia.ca)",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BND/BND_GeneralElectionResults_UT83/MapServer",
+    "delivery": "ArcGIS REST MapServer query, f=geojson (also JSON, PBF); native SR wkid 2038 / latest 2961 (NAD83 CSRS UTM 20N), reprojected to 4326 in the query; maxRecordCount 2000; maxAllowableOffset honoured (layer 1: 157053 raw vertices -> 5231 at 0.006 -> 1832 at 0.05; layer 6 raw 1.84M vertices / 34.6 MB)",
+    "licence": "Not stated in REST metadata; service copyrightText = \"Elections Nova Scotia\". Licence NOT verified.",
+    "verified": true,
+    "vintage": "Service documentInfo Version 3.5.0; fetched 2026-09-12",
+    "geometry_or_shape": "Polygon/MultiPolygon per electoral district (e.g. 2021: 38 MultiPolygon, 17 Polygon); bbox lon -66.395..-59.661, lat 43.388..47.228; 2003/2006/2009 identical 52 polygons; 2013 (7193 vertices) and 2017 (5182) differ in digitisation; 2021 and 2024 identical Shape_Area",
+    "key_fields": "OBJECTID, ED_NO (zero-padded string 01..55, reused across boundary blocks), ED_NAME, MLA, PARTY, PC_Votes, Liberal_Votes, NDP_Votes, Green_Votes (2006+), Independent_Votes, NS_Party_Votes + MP_Votes (2003 only), Atlantica_Votes (2017, 2021), Rejected, Declined (null before 2021), Total, PctVoterTurnout, Shape_Length, Shape_Area. Field aliases embed party hex colours.",
+    "caveats": "Total = sum(*_Votes) in 2006/2009 (and mostly 2003/2017) but = sum + Rejected + Declined in 2013/2021/2024; 2003 has 9 rows with column/Total mismatches incl. duplicated Independent/MP columns; 2006 Queens Liberal_Votes null; 2017 MLA surnames upper-cased with trailing space; stray whitespace in 6 (2021) / 5 (2024) MLA values; 2021 PctVoterTurnout mixes int and float."
+   },
+   {
+    "name": "Historical_Voter_Turnout (table 0)",
+    "publisher": "Elections Nova Scotia via GeoNOVA",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BND/BND_GeneralElectionResults_UT83/MapServer/0/query?where=1%3D1&outFields=*&f=json",
+    "delivery": "ArcGIS REST table query, JSON",
+    "licence": "Not stated in REST metadata; copyright Elections Nova Scotia (unverified)",
+    "verified": true,
+    "vintage": "7 rows, 2003-2024; fetched 2026-09-12",
+    "geometry_or_shape": "none (table)",
+    "key_fields": "OBJECTID, Year (smallint), Turnout (double)",
+    "caveats": "Province-wide only; 2024 value 44.9 reconciles with Profiles table (356371 / 793913 = 44.89%)."
+   },
+   {
+    "name": "BND_Electoral_District_Profiles_UT83 table 1 Latest_Election_Information",
+    "publisher": "Elections Nova Scotia via GeoNOVA",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BND/BND_Electoral_District_Profiles_UT83/MapServer/1/query?where=1%3D1&outFields=*&f=json",
+    "delivery": "ArcGIS REST table query, JSON (service has no spatial layers, two tables)",
+    "licence": "Not stated; copyright Elections Nova Scotia (unverified)",
+    "verified": true,
+    "vintage": "56 rows: 55 General Election November 26, 2024 + ED 56 By-Election June 23, 2026; fetched 2026-09-12",
+    "geometry_or_shape": "none (table)",
+    "key_fields": "ED_NO, ED_NAME, Last_Election_Event, Last_Election_Date, Total_Voting_Locations, WIB, ROCP, Community_Poll, Adv_Poll, Mobile, Election_Day, Final_List_of_Electors, Total_Votes_Cast, Out_of_District_Voting, Total_Early_Voting, Rejected_Ballots, Declined_Ballots, MLA (with party suffix '(PC Party)'/'(NDP)'/'(Liberal)'/'(Independent)'), MLA_Link, RO",
+    "caveats": "MLA suffix is current affiliation, not the election result (Lunenburg West shows '(Liberal)' for Becky Druhan, elected PC in 2024). Name spellings differ from results layer for Hants East and Victoria-The Lakes. ED 56 Chéticamp-Margarees-Pleasant Bay is absent from all results layers."
+   },
+   {
+    "name": "BND_Electoral_District_Profiles_UT83 table 0 Electoral_Districts_Census_Demographics",
+    "publisher": "Elections Nova Scotia via GeoNOVA (Statistics Canada 2021 Census derived)",
+    "url": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BND/BND_Electoral_District_Profiles_UT83/MapServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
+    "delivery": "ArcGIS REST table query, JSON",
+    "licence": "Not stated; copyright Elections Nova Scotia (unverified)",
+    "verified": true,
+    "vintage": "2021 Census figures; 56 rows; fetched 2026-09-12",
+    "geometry_or_shape": "none (table)",
+    "key_fields": "ED_NO, ED_NAME, Population_2021, Total_private_dwellings_2021, Private_dwellings_occupied_by_usual_residents_2021, Total_Gender, Gender_Men, Gender_Women, 17 mother-tongue x knowledge-of-official-language cells (MT_*), Census2021_ForEBT_Population_18andOver, Census2021_ForEBT_Women_18andOver, Census2021_ForEBT_Men_18andOver",
+    "caveats": "56 rows sum to Population_2021 = 969,399 (964,840 excluding ED 56), suggesting rows are cut to the 56-district map rather than the 2024 55-district map; interpretation unverified. Field names contain typos (MT_Non_Offical, MT_Indeginous) and one truncated name."
+   },
+   {
+    "name": "nslegislature.ca member profile, Becky Druhan (used only to resolve the Lunenburg West party discrepancy)",
+    "publisher": "Nova Scotia House of Assembly",
+    "url": "https://nslegislature.ca/members/profiles/becky-druhan",
+    "delivery": "HTML page, HTTP 200 with browser UA",
+    "licence": "not checked",
+    "verified": true,
+    "vintage": "fetched 2026-09-12",
+    "geometry_or_shape": "none",
+    "key_fields": "Constituency/Party/Start Date table: Lunenburg West PC 2021-2025, Independent 2025-2026, Liberal 2026; 'currently the Liberal Caucus Chair'",
+    "caveats": "Reason for affiliation changes not stated on the page."
+   },
+   {
+    "name": "Elections Nova Scotia website (official results pages)",
+    "publisher": "Elections Nova Scotia",
+    "url": "https://electionsnovascotia.ca/",
+    "delivery": "JavaScript SPA (1138-byte shell, Cloudflare Turnstile); not readable with curl",
+    "licence": "not checked",
+    "verified": false,
+    "vintage": "n/a",
+    "geometry_or_shape": "n/a",
+    "key_fields": "n/a",
+    "caveats": "Could not cross-check seat totals against the official site; totals are verified against the service data only."
+   }
+  ],
+  "files_written": [
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/results_2003.geojson",
+    "size_kb": 121,
+    "what": "Layer 1, 52 districts, EPSG:4326, offset 0.006, 4-dp, 5231 vertices"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/results_2006.geojson",
+    "size_kb": 120,
+    "what": "Layer 2, 52 districts, geometry byte-identical to 2003"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/results_2009.geojson",
+    "size_kb": 120,
+    "what": "Layer 3, 52 districts, geometry byte-identical to 2003; ED 04 renamed Bedford - Birch Cove"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/results_2013.geojson",
+    "size_kb": 157,
+    "what": "Layer 4, 51 districts, 7193 vertices"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/results_2017.geojson",
+    "size_kb": 120,
+    "what": "Layer 5, 51 districts, 5182 vertices (different digitisation from 2013)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/results_2021.geojson",
+    "size_kb": 542,
+    "what": "Layer 6, 55 districts, 26963 vertices"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/turnout_history.json",
+    "size_kb": 0.8,
+    "what": "Table 0 Historical_Voter_Turnout, 7 rows (Year, Turnout), raw ArcGIS JSON"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/history_summary.json",
+    "size_kb": 13.4,
+    "what": "Per-year summary: year, layer_id, districts, seats_by_party (PC/Liberal/NDP/Independent/Other), party_values_raw, turnout_pct, field_list, vote_fields, boundary_block, geometry_vertices, province vote totals and share %, total_field_semantics, null_counts; _meta holds party colours from field aliases and normalisation map"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/swing_2021_2024.json",
+    "size_kb": 26.2,
+    "what": "55 districts joined on ED_NAME: ed_no, name, pc_share_2021, pc_share_2024, delta_pc_points, winner_2021, winner_2024, changed_hands, plus mla_2021/2024, valid votes, 2024 margin (votes, %), district turnout both years"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/latest_election_info.json",
+    "size_kb": 31.9,
+    "what": "Profiles table 1 Latest_Election_Information, 56 rows, raw ArcGIS JSON"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/geo/ed_census_2021.json",
+    "size_kb": 74.6,
+    "what": "Profiles table 0 Electoral_Districts_Census_Demographics, 56 rows, raw ArcGIS JSON"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/research/history.md",
+    "size_kb": 12.6,
+    "what": "Verification notes: counts, party-name variants, colours, boundary blocks, rename lists, anomalies, swing stats, Druhan affiliation check"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/research/results_2024_refetch.geojson",
+    "size_kb": 541,
+    "what": "Fresh layer-7 fetch with the same query (attributes identical to pre-existing geo/results2024.geojson, geometry 26963 vertices vs 29153); results2024.geojson left untouched"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/research/results_service.json",
+    "size_kb": 5.5,
+    "what": "Results MapServer metadata (plus results_layer_0.json .. results_layer_7.json, 2-14 KB each, with field lists and aliases)"
+   },
+   {
+    "path": "/private/tmp/claude-501/-Users-dfakkeldy-Developer-ns-marks-the-spot--claude-worktrees-electoral-theme-web-map-bc7f6f/5600e5e4-a2c0-4129-97f4-217d69f3ddd2/scratchpad/research/profiles_service.json",
+    "size_kb": 3,
+    "what": "Profiles MapServer metadata (plus profiles_layer_0.json 6.5 KB and profiles_layer_1.json 4.3 KB)"
+   }
+  ],
+  "facts": [
+   "Feature counts: 2003=52, 2006=52, 2009=52, 2013=51, 2017=51, 2021=55, 2024=55; no exceededTransferLimit on any response",
+   "Seats (PC/Liberal/NDP/Ind): 2003 25/12/15/0; 2006 23/9/20/0; 2009 10/11/31/0; 2013 11/33/7/0; 2017 17/27/7/0; 2021 31/17/6/1; 2024 43/2/9/1",
+   "Province turnout % (table 0): 2003 65.79, 2006 59.6, 2009 57.9, 2013 58.2, 2017 53.4, 2021 55.1, 2024 44.9",
+   "Province valid-vote share % PC/Liberal/NDP: 2003 36.28/31.44/30.96; 2006 39.57/23.44/34.63; 2009 24.54/27.20/45.24; 2013 26.31/45.71/26.84; 2017 35.73/39.47/21.51; 2021 38.59/36.82/21.02; 2024 52.82/22.83/22.33",
+   "PARTY strings (only four ever): 'Progressive Conservative Party of Nova Scotia', 'Nova Scotia Liberal Party', 'Nova Scotia New Democratic Party', 'Independent'",
+   "Party colours from field aliases: PC #507DB8, Liberal #FF0000, NDP #FAAD30, Green #2B753B, Independent #9C9C9C, Atlantica #7D93BA, NS Party #800080, Marijuana Party #D2B48C",
+   "Independent winner 2021 and 2024: ED 15 Cumberland North, Elizabeth Smith-McCrossin (4235/7906 in 2021; 3567/6488 in 2024)",
+   "2024 electors 793,913; votes cast 356,371 (Profiles table) = 44.89%",
+   "Swing 2021->2024: PC share up in all 55 districts, mean +14.67 pts, min +0.45 (Sackville-Cobequid), max +37.84 (Halifax Atlantic); 16 seats changed hands: 13 Liberal->PC, 2 Liberal->NDP, 1 PC->NDP",
+   "2024 closest margins: Annapolis PC by 8 votes (3289 vs 3281), Yarmouth PC by 16, Sackville-Cobequid NDP by 63; lowest 2024 PC share Halifax Needham 16.97%",
+   "Total field: 2006/2009 Total = sum(*_Votes); 2013/2021/2024 Total = sum(*_Votes)+Rejected+Declined; 2003 (9 rows) and 2017 (Hants West) deviate",
+   "2003 duplicated Independent_Votes == MP_Votes in Dartmouth East (101), Dartmouth North (75), Halifax Citadel - Sable Island (59), Hants West (148); Waverley-Fall River-Beaver Bank sum exceeds Total by exactly 1014",
+   "2006 Queens (ED 44) Liberal_Votes is null; PC 2998, NDP 3053, Green 119, Total 6170",
+   "Declined is null in every row 2003-2017; populated 2021 and 2024",
+   "2017 MLA values are 'First SURNAME ' (all 51 upper-cased, 47 with trailing space); 2021/2024 stray whitespace: ' Tom Taggart ', 'Melissa Sheehy-Richard ', 'Trevor Boudreau ', 'Iain Rankin ', 'Dave Ritcey ', 2021 also 'Keith L. Bain '",
+   "ED_NAME punctuation: 2003-2009 use spaced hyphens in 5-6 names (e.g. 'Halifax Citadel - Sable Island'); 2013+ always tight hyphens",
+   "ED 04 'Bedford' (2003, 2006) -> 'Bedford - Birch Cove' (2009), same polygon; 2009->2013 dropped 22 / added 21 names; 2017->2021 dropped 14 / added 18; 2021->2024 no change",
+   "2003/2006/2009 geometry byte-identical (5231 vertices at 0.006); 2013 vs 2017 only 10/51 identical, Shape_Area differs >0.5% in 27/51 (max +9.05% Halifax Armdale, +8.06% Dartmouth East, +7.23% Dartmouth South); 2021 vs 2024 Shape_Area identical (0.0%) in 55/55",
+   "Raw vertex counts without maxAllowableOffset: layer 1 = 157,053 (2.96 MB), layer 6 = 1,842,991 (34.6 MB); at 0.05 layer 1 = 1,832",
+   "Bbox all years: lon -66.395 to -59.661, lat 43.388 to 47.228",
+   "Profiles tables: 56 rows each; ED_NO '56' 'Chéticamp-Margarees-Pleasant Bay' (OBJECTID 9): By-Election June 23, 2026, MLA 'Claude Bourgeois (PC Party)', 3976 electors, 2729 votes cast, Population_2021 4559, 18+ 3871; not in any results layer; present in pre-existing ed2026.geojson (56 features)",
+   "Profiles table MLA suffixes: '(PC Party)' 43, '(NDP)' 9, '(Liberal)' 3, '(Independent)' 1; Lunenburg West 'Becky Druhan (Liberal)' vs 2024 layer PC win (PC 4239, Lib 2302, NDP 846); nslegislature.ca affiliation table: PC 2021-2025, Independent 2025-2026, Liberal 2026",
+   "Name spelling differences between the two Elections NS tables: Hants East 'John A. MacDonald' vs 'John A MacDonald'; Victoria-The Lakes 'Dianne Timmons' vs 'Dianne L. Timmins'",
+   "Census table 56-row Population_2021 sum 969,399; 964,840 excluding ED 56",
+   "Pre-existing results2024.geojson: attributes identical to fresh fetch, geometry 29,153 vertices vs 26,963 fresh"
+  ],
+  "gaps": [
+   "Licence: the REST metadata carries only copyrightText 'Elections Nova Scotia'; no open-data licence text was found on the service, so redistribution terms are unverified",
+   "Official Elections NS results pages could not be read with curl (SPA shell + Cloudflare Turnstile); seat totals are verified against the service data only, not against the official site",
+   "2003 minor-party columns are unreliable (duplicated Independent/MP values, sums not matching Total in 9 of 52 rows); the underlying correct figures were not obtained",
+   "2006 Queens: whether a Liberal candidate ran (null cell) is unverified",
+   "2013 vs 2017 geometry differences (same legal boundaries) are unexplained; the water-clipping hypothesis is unverified",
+   "Census table: whether its 55 non-ED-56 rows are cut to the 2024 or the 2026 boundaries is unverified (row sum suggests the 56-district map)",
+   "ED 56 Chéticamp-Margarees-Pleasant Bay: the legislation creating it and its geometry were not fetched here (ed2026.geojson in the scratchpad pre-dates this task and was not verified by me)",
+   "Parameters used to produce the pre-existing results2024.geojson are unknown; a same-query refetch is stored under research/ for comparison but the original was not overwritten",
+   "Reason and exact dates for Becky Druhan's PC -> Independent -> Liberal changes are not stated on the legislature page",
+   "The scratchpad geo/ and research/ directories are being written by other agents concurrently; I created and removed only my own named files and did not read or rely on theirs"
+  ]
+ },
+ "censusIdeas": {
+  "ranked": [
+   {
+    "rank": 1,
+    "title": "Neighbourhood profile (inspector section, no wash)",
+    "merged_from": "Neighbourhood profile card (15) + Household Profile card (4); absorbs the inspector cards proposed by 1, 7, 8 and 3 as the single home for census numbers",
+    "form": "No map fill. Selected DA outlined in survey red 1.5 px, neighbour DAs as boundary-grey hairlines. Inspector gains a 'People and homes / 2021 Census' section using the existing dl row pattern: one row per measure, a fog track with three ticks (DA filled ink, CSD hollow, province hairline) and the DA value printed right; below, the 8-bin period-of-construction strip with the county outline behind. District card gets the ED version from the Elections NS table with electors in a separate row and a not-comparable note. Each map layer below has a 'Compare on map' link back from its row.",
+    "variables": "Population, density (1, 6); median age (40); average household size (56); one-person households (50/51); tenure (1400-1402, 25% sample); private dwellings total and usual-resident (4/5); French and Indigenous mother tongue (379/383/385); walked to work (2603/2608); median household income (229) rendered only as a state ('suppressed, fewer than 250 people or 40 households') or a value with the 2020-pandemic note; period of construction (1426-1434). ED card: population, dwellings, usual-resident dwellings, 18+, mother tongue from Elections NS.",
+    "geography": "DA for a parcel (point-in-polygon on parcel centroid, both DAs shown when a parcel straddles a boundary), CSD rung, province rung (one DF_PR pull, DGUID 2021A000212); ED (56) for the district card.",
+    "why_top": "This is the actual research use: every parcel gets neighbourhood context without leaving the inspector, every figure tied to a DGUID and release date, suppression and rounding rendered as explicit states, and it composes with parcels, flood zones and imagery because nothing is painted. It is the only concept that works at all three zooms without any cartographic compromise, and it is drawable now except the province rung.",
+    "caveats": "One DA per parcel is a geographic assignment, not a statement about the parcel or its occupants. Rounded to 5, 25% sample rows tagged, 'x' rendered as 'suppressed' never blank. Income is 2020 tax year (pandemic benefits) and should stay a row, never a wash. Electors (2024 roll) and census 18+ (2021, rounded) are different definitions. The Elections NS ED aggregation is undocumented and unlicensed: the ED card sits behind the same licence gate as other GeoNOVA layers. Never write a census value into a parcel evidence note as a parcel fact; PVSC year built stays separate. Attribution footer with both release dates (2022-02-09 counts, 2022-12-15 long form).",
+    "mockup_plan": "Draw the parcel-inspector panel at neighbourhood zoom with DA 12030040 selected (outline red, neighbours hairline) over census_da_annapolis.geojson. Fill rows from census_da_values.json (pop 512, 32/km2, median age 50.4, hh 2.2, one-person 24%, owners 80% of 225, non-usual 8%, income $68,500, French 2.9%, walked from commute_walk/commute_total, era strip 80/65/35/20/0/0/10/0) against CSD Annapolis Royal from census_csd_ns.geojson; province tick drawn as hairline labelled 'pending'. Second artboard: the district card for Annapolis from ed_census_2021.json (18,285 / 9,805 / 8,432 / 15,377 / 334 French) plus 16,018 electors from ed2026.geojson with the not-comparable note. Third artboard: the same DA card for suppressed DA 12050076 to show the 'not published' states."
+   },
+   {
+    "rank": 2,
+    "title": "Dwellings not occupied by usual residents",
+    "merged_from": "Quiet Houses (1) + Year-round and seasonal homes (11); ledger and ladder from 1, fixed deep-water ramp and ED/CSD province wash from 11; the dot-density mechanics of 11 are dropped",
+    "form": "Single-hue choropleth on the deep-water ramp already used in the electoral mockups (#e6eff1, #c3d8dd, #93b9c3, #5f92a0, #316d7c), five fixed classes (0-5, 5-10, 10-20, 20-35, 35%+) so the legend never shifts, fills ~55% over paper, hairline ink edges at 35%. Suppressed or dwelling-less units in neutral grey with a diagonal SVG hatch. Inspector 'dwelling ledger': one bar (usual-resident in deep-water, remainder in peach) captioned with counts, and a four-rung ladder DA / CSD / ED / NS.",
+    "variables": "Characteristics 4 and 5, STATISTIC=1; share = (4 - 5) / 4. ED rung from Elections NS Total_private_dwellings_2021 and Private_dwellings_occupied_by_usual_residents_2021.",
+    "geography": "Province zoom: 56 EDs in the electoral theme, otherwise 95 CSDs. County zoom: DAs (min scale 1,614,972) or ADA once a dataflow is confirmed. Neighbourhood zoom: DAs with hairlines.",
+    "why_top": "The one census signal that maps directly onto tax-sale and absentee-owner research (cottage country versus thinning settlement), and the only property-relevant variable drawable at all three geographies today including the Elections NS ED table. The ramp and hatch already exist in the theme, so it is cheap to build.",
+    "caveats": "Never label 'vacancy': the complement of 5 bundles seasonal, vacant on 11 May 2021, under renovation, for sale and temporary or foreign residents. Counts rounded to 5, so a 171-dwelling DA carries roughly plus or minus 3 points; print counts under the share. Census Day fell during pandemic in-migration to cottages, pushing the share down. Rural DAs are huge, so the choropleth over-weights land; the ladder is the honest reading. The ED rung is an Elections NS derivation on 2026 boundaries with no stated licence, gated and labelled with its own provenance. StatCan attribution with the 2022-02-09 release date.",
+    "mockup_plan": "Three artboards. Province: all 56 EDs from ed2026.geojson coloured from ed_census_2021.json (1.6% Cole Harbour to 26.0% Queens; Annapolis 14.0%). County: 86 of 88 DAs from census_da_annapolis.geojson and census_da_values.json (0-63%, median 7.9%), two dwelling-less DAs hatched, CSD outlines from census_csd_ns.geojson. Neighbourhood: DA 12050060 selected with the ledger (159 of 171) and ladder (DA 93% / Annapolis Subd. D 30% from census_csd_ns.geojson / Annapolis ED 14% / NS 'pending')."
+   },
+   {
+    "rank": 3,
+    "title": "Population change 2016 to 2021",
+    "merged_from": "Filling or Emptying (2) + Between Two Censuses (6) + Growing, holding, thinning (12); choropleth form and dumbbell from 6, grey noise band and 'r' badge from 2 and 6, polylabel placement and the 'not comparable' hatch for incompletely enumerated reserves from 12",
+    "form": "Diverging choropleth at CSD level: growth in survey blue #1e66cc (three steps), fewer residents in peach #e7a86b deepening to a muted ochre (three steps), neutral paper-grey band for -2 to +2 percent; fixed province-wide breaks (<= -5, -5 to -2, grey, +2 to +5, +5 to +10, > +10). CSDs with 2016 population under 250 drawn grey regardless. Incompletely enumerated reserves (DATA_QUALITY_FLAG digit 1 not 0) hatched 'not comparable'; '...' CSDs dotted 'not applicable'. CSD name labels at county zoom placed at the pole of inaccessibility. Inspector: type badge (T, MD, SC, RGM, IRI), a 2016-to-2021 dumbbell with counts, percentage in small type, 'r' badge, dwellings and density.",
+    "variables": "Characteristics 1, 2, 3 (Population 2021, 2016, percent change) with CL_FLAG and DATA_QUALITY_FLAG; 4, 5, 6, 7 for the card.",
+    "geography": "CSD (95) at province and county zoom. At neighbourhood zoom the CSD outline stays and the legend states 'change not published at dissemination-area scale'. Not DA (all '...' for 2016), not ED (no 2016 field).",
+    "why_top": "Direction of demand frames vacancy, resale liquidity, service trajectories and the tax base under a parcel. Fully drawable province-wide today in one verified SDMX call, and the grey band plus counts make it one of the most honest layers in the set. The choropleth beat the circle variant because the paper basemap wants quiet fills and fixed breaks, and the area-bias objection is handled by the legend saying 'fewer residents than in 2016' and the inspector showing counts.",
+    "caveats": "Rounding to 5 makes rates on tiny CSDs noise (Bear River 6B 16 to 15 prints -6.3%); hence the sub-250 mute and always-visible counts. Eight CSDs have revised 2016 counts. Indian Brook 14's +1,650 and Annapolis Valley First Nation's +430.7% are enumeration artefacts and must never headline. Reference dates on the legend; the 2021-2024 rural in-migration is not in it. Population is residents, not dwellings, prices or seasonal occupancy.",
+    "mockup_plan": "Province artboard: all 95 CSDs from census_csd_ns.geojson using pop_change_pct with the fixed breaks, grey band, sub-250 mute and data_quality_flag hatch (Halifax blue, Colchester Subd. C peach, Wolfville +20.5 dark blue). County artboard: Annapolis area (Annapolis Royal +7.9, Subd. C +5.5, Subd. B +3.1, Middleton +2.2, Subd. A and D grey, Digby T -2.9, Clare -4.2) with polylabel name labels. Inspector artboard: Annapolis Royal dumbbell 491 to 530. Neighbourhood artboard: CSD outline only with the 'not published at DA scale' legend line."
+   },
+   {
+    "rank": 4,
+    "title": "Period of construction",
+    "merged_from": "Age of the Stock (3) + Eight eras (14); choropleth and period ruler from 3, fixed cross-era break set and the county-outline-behind-bars idea from 14; the 4x2 filmstrip flyout is dropped in favour of an era selector in the row",
+    "form": "Single-hue choropleth of DAs in ink #12343b tints, default measure share of occupied dwellings built 1960 or before (fixed classes 0-15, 15-30, 30-45, 45-60, 60%+), with an era selector in the layer row that swaps the numerator to any of the eight bins under one fixed break set. Suppressed DAs hatched. Inspector 'period ruler': one stacked strip of eight bins oldest to newest in ink tints fading toward paper, ticks at 1960/1980/1990/2000/2005/2010/2015/2021, counts inside bins of 15 or more, the 88-DA county distribution as a hairline outline behind; footer line pointing to the parcel's own PVSC year built when the parcel inspector has one.",
+    "variables": "Characteristics 1426-1434 (occupied private dwellings by period of construction), 25% sample, STATISTIC=1; DATA_QUALITY_FLAG digits 2 and 4.",
+    "geography": "DA at county and neighbourhood zoom; CSD wash at province zoom after one DF_CSD pull; not ED.",
+    "why_top": "Stock age is the strongest predictor of what a rural buyer will find (wiring, oil tanks, foundations, well and septic era) and where trades are active. Drawable for 85 of 88 DAs now. The ruler keeps the eight rounded bins visible instead of hiding them behind one number.",
+    "caveats": "25% sample rounded to 5, so bins in a 150-dwelling DA legitimately print 0, 5, 10. Occupied dwellings with usual residents only, so seasonal cottages, often the oldest stock, are outside the universe. Eras are unequal in length, so 'pre-1961' is always darkest; legend says 'share of homes', never 'building activity'. Respondent-reported original build, not renovations. A DA share never dates a house; PVSC year built by AAN is the parcel fact and keeps its own provenance. Attribution with the 2022-12-15 release.",
+    "mockup_plan": "County artboard: 85 DAs from census_da_annapolis.geojson coloured by the pre-1961 share from census_da_values.json (0-72%, median 36.5%), three hatched. Row chrome showing the era selector with '1960 or before' active. Inspector artboard: ruler for DA 12030040 (80/65/35/20/0/0/10/0 of 225) with the 88-DA sum as outline and a 'PVSC year built: see parcel' footer. Province artboard: CSD outlines only, labelled 'CSD values not yet pulled'."
+   },
+   {
+    "rank": 5,
+    "title": "Median age",
+    "merged_from": "The Age of a Place (7); the median-age rail from Household Profile (4) and the age axis of Owners and age (13)",
+    "form": "Sequential deep-water #0a4f5c choropleth at DA level, fixed breaks (< 40, 40-45, 45-50, 50-55, 55-60, >= 60), hairline DA edges at 30%, suppressed DAs hatched with no fill. Inspector: DA id and DGUID, population and households, and an age line from 25 to 70 with a solid tick for this DA and faint ticks for every other loaded DA. Legend reads 'Median age (years)' and nothing else.",
+    "variables": "Characteristic 40 (100% data), plus 1 and 50 for the card. Optional 0-14 / 15-64 / 65+ strip once ids are read from CL_CHARACTERISTIC.",
+    "geography": "DA at county and neighbourhood zoom; ADA fallback zoomed out; CSD wash at province zoom after one pull; not ED.",
+    "why_top": "100% data, not a sample, so it is the cleanest DA-level layer in the set; drawable for 85 of 88 DAs; and age structure is what drives turnover, accessible-stock demand and the estate listings that supply rural markets. The single-hue, number-only legend keeps it impersonal.",
+    "caveats": "No characteristics for DAs under 40 people (three in the Annapolis set) hatched, never lightest class. Includes institutional residents, so a care home or campus DA can sit at either extreme; the card says so. No 'aging', 'elderly' or 'young family' wording. Province median needs a DF_PR pull before printing.",
+    "mockup_plan": "County artboard: 85 DAs from census_da_annapolis.geojson coloured by median_age in census_da_values.json (27.8 to 65.5), three hatched. Inspector artboard: DA 12050060 (55.2) on the 25-70 line with 84 faint ticks. Province artboard: ADA/CSD placeholder labelled 'values not yet pulled'."
+   },
+   {
+    "rank": 6,
+    "title": "One-person households",
+    "merged_from": "Households of One (8); the one-person rail from Household Profile (4)",
+    "form": "Sequential ink #12343b choropleth at DA level, five lightness steps that read as survey-sheet stipple on the paper basemap, fixed breaks (< 20, 20-25, 25-30, 30-35, 35-40, >= 40%). Share drawn only where private households >= 100; smaller DAs get the lightest class plus outline with counts in the card; suppressed DAs hatched. Inspector: ten-dot household row (one dot per tenth, ink for one-person), both counts marked 'rounded to 5', average household size, and owner/renter as a separate row tagged '25% sample'. Legend: 'One-person households, share of private households'.",
+    "variables": "Characteristics 50, 51, 56 (100% data); 1400-1402 for the related tenure row (25% sample).",
+    "geography": "DA, viewport-loaded; ADA fallback; not ED.",
+    "why_top": "Tells a researcher what a dwelling competes with or serves (small units, suites, rentals versus owner houses), it is 100% data, and it is drawable for 85 of 88 DAs. The ten-dot row makes the rounding noise visible instead of hiding it in a percentage.",
+    "caveats": "Numerator and denominator both rounded to 5, so a 55-household DA can be off by nine points; the >= 100 gate exists for that. Tenure is a 25% sample with 'E'/'F' flags. Household type only: no 'living alone', 'lonely' or 'vulnerable' wording, no ranking. Owner share should live here as the related row rather than as its own wash, given rounding on 100-200 household denominators.",
+    "mockup_plan": "County artboard: 85 DAs from census_da_annapolis.geojson coloured by one-person share from census_da_values.json (10-54%, median 30%), three hatched, sub-100-household DAs in the lightest class with outline. Inspector artboard: DA 12050060 ten-dot row (40 of 155), average size, owners 150 of 150 tagged 25% sample."
+   },
+   {
+    "rank": 7,
+    "title": "Mother tongue (French; Indigenous languages)",
+    "merged_from": "Mother Tongues (9); the mother-tongue rows of the Neighbourhood profile card (15)",
+    "form": "Proportional circles, one sublayer at a time: French mother tongue in survey blue #1e66cc, Indigenous languages in lichen #5a7343, area proportional to count, placed at the client-computed pole of inaccessibility, 60% fill with hairline ink edge, four size classes with counts printed in the two largest. Zero draws nothing; 5/10/15 draw a small hollow ring ('fewer than 20 reported'); suppressed DAs hatched. Inspector: the Census row label verbatim, count, share of mother-tongue total, a CSD roll-up line with CSD type so reserves (IRI) are named as communities, and a one-line note on what the row measures.",
+    "variables": "Characteristics 379, 383, 385 (100% data) at DA and CSD; Elections NS ED table French and Indigenous mother-tongue counts for the province view.",
+    "geography": "Province zoom: 56 EDs (Elections NS) or 95 CSDs. County and neighbourhood zoom: DA symbols with CSD roll-up.",
+    "why_top": "The one theme besides dwellings that the Elections NS ED table supports province-wide, so it is drawable at all three zooms today; symbols rather than fills stop a 60 km2 DA being flooded with colour for 15 people; and the CSD-type roll-up quietly tells a parcel researcher that IRI land is federal and outside the provincial parcel and tax-sale market. Ranked below the housing layers because its property relevance is context (school boards, bilingual services) rather than a buying signal.",
+    "caveats": "The profile has only the 'Indigenous languages' aggregate, not Mi'kmaw; carry the Census label and say aggregate. Mother tongue is not identity, not language at home, not 'Acadian'; none may be swapped in the card. Rounded counts of 5-15 are within noise and get the hollow ring. Incompletely enumerated reserves flagged. Shown as counts of people with a source, never as a boundary of where a group lives. Annapolis-area Indigenous-language DA counts are all 0, so the mockup can only show 'none reported' there; real Mi'kmaw-community symbols need one CSD-level SDMX call. The ED figures are Elections NS derivations, gated and labelled.",
+    "mockup_plan": "Province artboard: French mother-tongue circles at ED polylabels from ed2026.geojson sized from ed_census_2021.json (Annapolis 334; Clare-area EDs largest) with the licence-gate label. County artboard: French circles for the 17 Annapolis DAs with counts >= 20 (max 70) from census_da_values.json over census_da_annapolis.geojson, hollow rings for the 60 DAs at 5-15. Inspector artboard: a DA card with CSD roll-up 'Annapolis Subd. A (SC)'. A fourth small artboard shows the Indigenous-languages sublayer in its 'none reported in view' state with the legend note."
+   },
+   {
+    "rank": 8,
+    "title": "Commuting on foot, by bicycle or transit",
+    "merged_from": "Car Country (5); the walked-to-work row of the Neighbourhood profile card (15)",
+    "form": "Single-hue lichen #5a7343 choropleth at DA level of the combined walk, bicycle and transit share of commuters, fixed classes 0, 1-5, 5-15, 15-30, 30%+; zero gets bare paper with a thin ink edge so 'all by car' is a visible state. Inspector 'commute bar': car as driver and passenger in two ink tints, transit, walked and bicycle in lichen tints, other in grey, with counts and 'commuting residents, 25% sample'. Existing place-name labels stay on top so lichen cores align with named villages.",
+    "variables": "Characteristics 2603-2610, 25% sample, STATISTIC=1; share = (2607 + 2608 + 2609) / 2603. Commute duration and destination ids unverified and not used.",
+    "geography": "DA for the village-core reading; ADA at province scale; CSD too coarse; not ED.",
+    "why_top": "Separates functioning village cores from drive-everywhere settlement, which matters for winter driving costs, older buyers or tenants without a car, and whether a road is a commuter belt or a retirement shore. Drawable for 85 of 88 DAs and the intended reading (lichen only in Annapolis Royal, Bridgetown, Middleton) is visible on the mockup. Last of the eight because the May 2021 reference week is the least typical of any variable here and the county median is 0%.",
+    "caveats": "Universe is employed labour force 15+ with a usual or no fixed workplace; work-from-home, retirees and unemployed are excluded, so 100 commuters in a 349-person DA is normal. 25% sample rounded to 5: rural walk and transit print 0 when the true count is a few people, and a class boundary moves on one rounding. Pandemic reference week depressed commuting and shifted modes; say so on the legend. Legend wording 'all commuters by car', never 'car-dependent'. Long-form non-response flags apply.",
+    "mockup_plan": "County artboard: 85 DAs from census_da_annapolis.geojson with the lichen share computed from commute_* fields in census_da_values.json (0-38.5%, median 0%), bare paper with ink edge for the zero class, three hatched, place-name labels on top. Inspector artboard: commute bar for an Annapolis Royal DA (highest share) beside the rural case DA 12050060 (95 of 100 by car). Province artboard: ADA placeholder labelled 'values not yet pulled'."
+   }
+  ],
+  "theme_structure": "Rail category: 'People & Housing' with the subtitle 'Census 2021' and a category footer carrying the two StatCan attribution lines (2022-02-09 counts, 2022-12-15 long form) and the licence-gate notice for any Elections NS ED rung. Category-level control, not a layer: 'Show census context in the inspector' (on by default) which adds the Neighbourhood profile section to parcel, town and district cards. Layer rows are washes and are mutually exclusive (radio behaviour within the category), because two choropleths cannot stack on a paper basemap; the mother-tongue symbol row is the one layer allowed over a wash. Every row shows its geography chip (DA / CSD / ED), its data basis chip (100% or 25% sample) and its release date on hover.\n\nSub-group 'Homes':\n  1. Dwellings not occupied by usual residents — chips ED | CSD | DA, 100%\n  2. Period of construction — chips DA (CSD at province after pull), 25% sample; row carries an era selector defaulting to '1960 or before'\n  3. One-person households — chips DA, 100%; owner/renter appears only as a related row in the card\n\nSub-group 'People':\n  4. Population change 2016 to 2021 — chips CSD only, 100%; legend at neighbourhood zoom states 'not published at DA scale'\n  5. Median age — chips DA, 100%\n  6. Mother tongue — chips ED | CSD | DA, 100%; sub-radio French / Indigenous languages (Census label), symbols not fills\n  7. Commuting on foot, by bicycle or transit — chips DA, 25% sample, with the pandemic reference-week note in the legend\n\nSub-group 'Reference' (unfilled, stackable):\n  8. Census boundaries — DA hairlines at z >= 11, CSD outlines, ADA when a dataflow is confirmed; used by the profile section for the selected-DA outline\n\nZoom behaviour is uniform: province zoom draws ED (electoral theme on) or CSD; county zoom draws DA where the DA minScale allows and otherwise ADA/CSD; neighbourhood zoom draws DA with hairlines. Suppressed ('x'), not-applicable ('...') and not-comparable (incomplete enumeration) render as three distinct hatch or dot patterns shared across every row, with a single legend key at the category level so 'no data' never reads as the lowest class. Parked rows, shown greyed with a 'values not yet fetched' tag rather than omitted: 'Arrivals since 2016' (mobility and immigration ids unverified) and 'Median household income' (row in the profile card only; no wash).",
+  "rejected": [
+   "Owners and age (13), bivariate 3x3: unreadable at province zoom by its own admission, terciles hide the absolute spread, the tenure axis is 25% sample on 100-200 household denominators so cells flip on rounding, and pairing age with tenure invites the 'market to target' reading the evidence guide forbids; both variables survive as single-hue rows and as card rows.",
+   "Year-round and seasonal homes (11) as dot density: dots seeded uniformly inside a DA are a placeholder the concept itself labels as such, dasymetric seeding against building footprints implies that a peach dot is near a real empty house, and the 1-dot-per-5 rule does not stop a viewer reading dots as addresses; merged into rank 2 as a choropleth, keeping its ramp and ED/CSD province wash.",
+   "Growing, holding, thinning (12) as proportional circles: the symbol form fights the quiet paper basemap, Halifax's circle swamps the province view, and the rate-in-label/size-by-count split is harder to read than counts in the card; merged into rank 3, keeping polylabel label placement and the 'not comparable' hatch rule for incompletely enumerated reserves.",
+   "Eight eras (14) filmstrip flyout: eight 150 px minimaps of the same DA set is rail real estate spent on a comparison the era selector plus the inspector ruler already gives, and unequal era lengths make seven of the eight panels nearly blank; merged into rank 4.",
+   "Household Profile (4) as a standalone card and as an income wash: the four-rail card duplicates the Neighbourhood profile section (rank 1), its reference distribution is currently the 88 Annapolis DAs only, and a median-income choropleth is 2020 pandemic-benefit income suppressed in 4 of 88 DAs, which is the layer most likely to be read as a verdict on a place; income stays as a suppression-aware card row with no map fill.",
+   "Arrivals Since 2016 (10): parked, not rejected on merit. Neither the mobility nor the immigration characteristic ids are verified and no values are fetched, so nothing honest can be drawn; the on-hand dwellings-built stand-in is 0 in 53 of 85 DAs. Revisit after resolving ids from CL_CHARACTERISTIC and applying the 250-denominator gate.",
+   "Quiet Houses (1) and Between Two Censuses (6) and Filling or Emptying (2), The Age of a Place (7) and Households of One (8) are not rejected: they are the surviving forms inside ranks 2, 3, 5 and 6 and their inspector cards fold into rank 1."
+  ]
+ },
+ "critic": {
+  "contradictions": [
+   "GeoNOVA copyright: History reports BND_GeneralElectionResults_UT83 copyrightText = 'Elections Nova Scotia'; Provincial-polls reports copyrightText empty on the same service and layer 7. Neither found licence text; one description is wrong.",
+   "FED id reuse across representation orders: 12001 = Cape Breton--Canso in 2013 RO (Census DF_FED 1.3, StatCan CBF layer 3, Represent) but Acadie--Annapolis in 2023 RO (EC, fed_polls_12001). Any join on bare FED_NUM without the RO prefix mis-assigns; census DGUIDs must be 2023A0004xxxxx.",
+   "Party-at-election vs current caucus: fed_polls_12001 records d'Entremont as Conservative (elected 2025-04-28); ourcommons shows Liberal caucus from 2025-11-04; Represent still says Conservative. Druhan: 2024 layer PC, Profiles table '(Liberal)', legislature PC->Ind->Lib. The rep card and the results layer will disagree unless both fields carry dates.",
+   "Elector counts for one district differ by source with no date label: ED 01 = 16,038 (2024 xlsx final list), 16,018 (layer 4), 14,889 (sum of layer 3 PDs); ED 56 = 3,889 (layer 4), 3,921 (layer 3 sum), 3,976 (Profiles by-election); province 793,913 (Profiles 2024) vs 769,131 (layer 3 sum). Census-ideas rank 1 prints 16,018 as 'electors' for the Annapolis district card; the 2024 election figure is 16,038.",
+   "ed2026.geojson (56 ED polygons) underpins census-ideas ranks 1, 2, 7 and History's ED 56 note, but no agent fetched or verified it (History: pre-existing, not verified; Provincial-polls pulled layer 4 attributes only). Same for pre-existing results2024.geojson (29,153 vertices vs 26,963 refetch, query parameters unknown).",
+   "ed_census_2021.json boundary vintage: History says the 969,399 row sum implies the 56-district 2026 map; census-ideas uses it as the ED rung and district card without saying which boundaries. If rows are 2026-cut, the Inverness row does not describe the 2024 Inverness district.",
+   "Census-ideas rank 1 mockup pairs DA 12030040 (CD 1203 = Digby County by DAUID prefix) with CSD Annapolis Royal (1205008) as its CSD rung; a Digby DA cannot sit in an Annapolis County CSD. Rank 4 uses the same DA with era bins summing to 210 against a stated 225 total (rounding may explain; must be shown as such).",
+   "DA counts in census-ideas: rank 2 says '86 of 88, two dwelling-less DAs hatched'; ranks 4-8 say '85 of 88, three hatched'; census research says 3 fully suppressed + 1 income-only. Whether dwelling counts exist for population<40 DAs is not stated.",
+   "DA minScale 1,614,972: census research says it applies to map export only; census-ideas treats it as a display gate ('DA where the DA minScale allows'). Client-side rendering has no such gate; only payload size matters.",
+   "DF_PR (province rung, DGUID 2021A000212) and DF_ADA dataflows are assumed by census-ideas but were never listed or verified by the census agent (only DF_DA 1.3, DF_CSD 1.3, DF_FED 1.3/2.0 verified).",
+   "Reps report sizes the municipal gap as '~49 municipal units outside HRM/CBRM' in one place and '27 non-HRM/CBRM municipalities' in another; NS has 49 units in total (47 outside HRM/CBRM).",
+   "Provincial-polls treats the RELEASE_DATE 2020-09-01 PD polygons as the 2024 divisions on the strength of ED 01 only (37/37 numbers, electorcount ~2021 electors); the other 53 districts were not join-tested, and the January 2021 shapefile that would settle it was not downloaded.",
+   "ED 56 by-election figures in the Profiles table (3,976 electors, 2,729 votes = 68.6% turnout) are far above the 2024 provincial 44.9% and were not cross-checked; the by-election results page was never fetched.",
+   "EC Format 2 Incumbent Indicator is N for every candidate although Table 12 marks d'Entremont incumbent; Elections NS Profiles vs results-layer MLA spellings differ for Hants East and Victoria-The Lakes, so name joins between the two Elections NS tables fail on those rows.",
+   "History says official Elections NS results cannot be read (SPA + Turnstile), yet Provincial-polls cites results.electionsnovascotia.ca/By-election_Multi.aspx, a separate ASP.NET results host nobody probed; the 'no official cross-check possible' claim is unproven.",
+   "StatCan licence wording: service metadata says Open Government Licence - Canada, the products say Statistics Canada Open Licence; census-ideas prescribes only the StatCan attribution string. The footer must match the source actually used (REST service vs profile API vs CSV).",
+   "2024 results layer (55 districts) vs current ED layer (56): Inverness and ED 56 in the 2026 geometry have no 2024 result; painting 2024 results onto ed2026.geojson silently mis-maps ED 34. No agent states which geometry each year's result must use."
+  ],
+  "missing": [
+   "Census: CSD values for every characteristic except population/dwellings (median age, one-person, tenure, period of construction, mother tongue, commute). census_csd_ns.geojson holds pop/dwellings only, so rank 1's CSD rung and the province-zoom washes of ranks 4-8 cannot be drawn.",
+   "Census: province rung values (DF_PR pull, dataflow existence unverified) for every rank-1 row.",
+   "Census: DA polygons and values for the ~1,580 NS DAs outside the Annapolis bbox (only 88 on disk); no pre-cut NS DA file exists, and the live-bbox alternative has a privacy problem (see red flags).",
+   "Census: ADA polygons and values (DF_ADA unverified) for the county-zoom fallback outside Halifax.",
+   "Census: 2023-RO FED polygons for all 11 NS ridings are not on disk (EC shapefile not downloaded or converted); only 12001 and 12006 can be dissolved from PDs. EC Table 11 population (e.g. 76,252 for 12001) can fill the DF_FED 2.0 population gap but was not joined.",
+   "Census: characteristic ids for age bands (0-14/15-64/65+), mobility and immigration are unverified; the parked rows cannot be drawn.",
+   "Census: OGL-Canada text and exact attribution for the geo REST service not fetched; which boundary vintage ed_census_2021.json rows use (55 vs 56) unresolved.",
+   "Provincial polls: prov_polls_XX.json for the other 53 districts and prov_pd_XX.geojson for the other 53 (only 01, 34, 56 fetched; the 1,817-polygon layer needs two paged pulls). Builder untested against '###A', '###B', 'CPoll#' labels present in other sheets.",
+   "Provincial polls: ProvincialPollingDivisionPolygons_January_2021.zip (12.5 MB) not downloaded; field names unknown. Required for Inverness 2024 and any 2021 poll map.",
+   "Provincial polls: no 2021 poll-by-poll parser (print layout, per-sheet header hunting) and no 2021 poll JSON; ED 56 June 2026 by-election poll results not fetched.",
+   "Provincial polls: advance/RO-CP/WI/out-of-district votes (33-45% of votes) have no geography; no advance-poll polygon layer or voting-location coordinates exist, and the xlsx 'Polling Location' text is not geocoded.",
+   "Federal polls: PD geojson and polls JSON for the other 9 NS FEDs (12002-12005, 12007-12011) not built; the raw KMZ is on disk but the pollresults/pollbypoll zips are cited as 'ec/pollresults12.zip' and 'ec/pollbypoll12.zip' without appearing in files_written - confirm they exist in the scratchpad.",
+   "Federal polls: advance-poll polygons (ADVPD_CA_2025_EN) not fetched; the adv_poll dissolve is possible from fed_pd properties but unbuilt.",
+   "Federal history: no 2021 (44th GE) poll results or PD_2021 polygons, no 2013-RO riding polygons (StatCan layer 3 is live) for 2015/2019/2021 riding results, no EC transposition of 2021 votes onto 2023 boundaries.",
+   "Federal polls: S/R Group 1 vs Group 2 definitions and EC reuse terms unverified.",
+   "Both poll levels: care-home/mobile/S-type polls are 150-2,500 m2 squares; no centroid/point file or symbol rule exists, so they vanish under a fill.",
+   "Reps: the directory itself. Only 12 sample records exist; need 11 MPs (contacts captured for 2), 56 MLAs (3 captured), 16 HRM councillors + mayor, 12 CBRM + mayor, and heads of council for 47 other municipal units (none captured beyond Annapolis County and Annapolis Royal).",
+   "Reps: the repo generator script (nslegislature Crawl-delay 10, ourcommons member HTML pages, halifax.ca/cbrm pages) and the checked_date/refresh policy are not written.",
+   "Reps: point-to-district polygons on disk - FED 2023 (none), ED 2026 (ed2026.geojson, unverified), HRM DIST (Who_Is_My_Councillor identified, not downloaded), CBRM districts (2017 gcep-xeci, not downloaded), municipal-unit boundaries (BND_Municipal_Village_Boundaries_UT83 seen, not fetched) needed to name the municipality of any point.",
+   "Reps: polling-district polygons for the rural municipalities and towns outside HRM/CBRM are 2017 vintage and parity with 2024-2028 councils (e.g. Annapolis County 11 districts) is unverified; councillor-by-district is impossible there without them.",
+   "Reps: CSAP circonscription polygons do not exist anywhere; a list-only presentation must be decided. 'All levels' scope is undecided for NS senators (10), band councils for the 27 IRI CSDs, and village commissions.",
+   "Reps: HRM Open Data Licence text, nslegislature/halifax.ca/cbrm reuse terms not captured.",
+   "Cross-cutting: no crosswalk between the 2003-2009, 2013-2017 and 2021-2024 boundary blocks for district-level trends (ED_NO reused, 21-22 names change per block); parcel-level history can use point-in-polygon per layer instead."
+  ],
+  "unexploited": [
+   "Parcel electoral history in the inspector: point-in-polygon across the seven results layers gives district, winner, party, margin and turnout for 2003-2024 for any parcel with no crosswalk; add 2025 federal via fed_pd polygons.",
+   "Small-multiple province maps 2003 to 2024 (seven panels with a seats-by-party bar under each) from results_20xx.geojson + history_summary.json, plus a vote-share vs seat-share disproportionality chart across the seven elections.",
+   "'Held since' / party-tenure map: consecutive wins by the same party within each boundary block, with a break marker at 2013 and 2021.",
+   "Swing map 2021 to 2024 (delta_pc_points, all 55 positive, +0.45 to +37.84) and the 16 changed-hands seats from swing_2021_2024.json; margin classes (Annapolis 8, Yarmouth 16, Sackville-Cobequid 63).",
+   "Turnout: district choropleth for 2021 and 2024 (PctVoterTurnout), province sparkline from turnout_history.json (65.8 to 44.9), district-minus-province delta.",
+   "Early-voting share and voting-location mix per district from latest_election_info.json (Total_Early_Voting/Total_Votes_Cast, Out_of_District_Voting, counts of WIB/ROCP/Community/Adv/Mobile/Election_Day locations, electors or km2 per voting location) - this is the visual explanation for the 45%-unmapped caveat.",
+   "Rejected and declined ballot share per district (declined 2021 and 2024; rejected back to 2003).",
+   "Registration-coverage proxy per ED: Final_List_of_Electors divided by Census2021_ForEBT_Population_18andOver from ed_census_2021.json, with a citizenship caveat; gender split of electors vs 18+ population.",
+   "Poll-level beyond winner fill: election-day turnout by poll (electors per poll exist at both levels), winner's share by poll, runner-up map, polls won by the district loser (Annapolis: 10 Liberal + 2 ties), tie and landslide polls, proportional circles at polylabel sized by votes to defeat rural area bias, a sortable 'votes to flip' list against the district margin.",
+   "Federal advance-poll districts: dissolve PDs on adv_poll (600-625) and paint advance results (39% of votes) as a second layer; state in the legend that no provincial equivalent exists.",
+   "Split-ticket geography: 2025 federal PD winner vs 2024 provincial PD winner where both exist (Annapolis is covered by 12001 and ED 01) as a side-by-side or diff layer.",
+   "Elector density (electorcount / Shape_Area from the PD layer) and PD-vs-DA alignment of electors against census 18+ where a PD nests in a DA.",
+   "Party colour tokens from the field aliases (PC #507DB8, Liberal #FF0000, NDP #FAAD30, Green #2B753B, Independent #9C9C9C) are on disk, but the census-ideas palette (survey blue, peach, deep-water, lichen) reserves nothing for parties; resolve the collision before mockups.",
+   "Historical boundary edges (2003/2013/2021 blocks) as a reference layer under any year's results; use one representative per block because 2013 vs 2017 digitisations differ by up to 9% in Shape_Area.",
+   "Combined-poll linkage: draw 'counted in' ties between combined_elsewhere PDs and their target (20 pairs in 12001, 23 in 12006) instead of hatching alone.",
+   "results.electionsnovascotia.ca (ASP.NET, not the SPA) may expose 2021, 2024 and by-election poll tables in HTML, avoiding the print-layout 2021 xlsx; unprobed.",
+   "EC Table 12 majority/percent and voting desks per riding; EC's transposed 2021 results on 2023 boundaries for a federal 2021-to-2025 swing."
+  ],
+  "red_flags": [
+   "Represent API: no data licence, no freshness, demonstrably stale; calling it with browser coordinates ships user location to a third party, which the app's privacy contract forbids; it also returns gender and photo_url - do not store or display.",
+   "Any live point or viewport query leaks location: StatCan bbox queries after 'locate me', nsgiwa point queries, HRM Who_Is_My_Councillor. The census recommendation 'live bbox queries to geo.statcan.gc.ca' conflicts with the privacy contract; do point-in-polygon client-side against static pre-cut files.",
+   "GeoNOVA nsgiwa BND services (ED and PD polygons, 2003-2024 results, Profiles, census-by-ED) carry no licence text (copyrightText 'Elections Nova Scotia' or empty). Every electoral layer and the census ED rung depend on them; written clearance is needed before polygons or tables are redistributed or committed.",
+   "Elections NS xlsx and shapefiles have no stated licence; the January 2021 PD zip is delisted (live, Wayback copy). Using a withdrawn file needs a provenance note and ideally confirmation from Elections NS.",
+   "Elections Canada KMZ and CSV reuse terms were not fetched (EC's own terms, not OGL); only the FED 2023 boundary dataset is confirmed OGL-Canada via open.canada.ca.",
+   "Institutional polls: S/M/mobile/care-home polls with 37-117 electors map a named institution's residents' votes; a pin on a care home reading 'PC 30 / Lib 5' is a disclosure the publishers make only in tables. Roll them into the host PD or show unlabelled points with counts suppressed below a threshold.",
+   "Personal contact data: several MLAs publish gmail/outlook addresses; county councillor and CSAP 'directory phone' entries may be home numbers; NS OGL excludes personal information. Publish office channels only, link to the official page, never compile home numbers, carry checked_date.",
+   "Copyright of scraped directories: HoC content is under the Copyright Act with Speaker's Permission excluding commercial use; halifax.ca, cbrm.ns.ca, nslegislature.ca, annapoliscounty.ca and NSFM have website copyright only. Keep to facts (names, office contacts, links), no photos, and honour nslegislature Crawl-delay 10.",
+   "StatCan SDMX responses are cache-control no-store and the guide asks not to bulk-download dataflows, yet the plan caches per DGUID and pulls all 1,670 DAs in 19 calls; prefer the licensed 2.3 GB CSV offline and ship a pre-cut file with attribution and both release dates.",
+   "Census disclosure rules must be hard-coded: never back out suppressed 'x' cells by subtraction (CSD minus visible DAs), never write a DA value into a parcel note as a parcel fact, never paint income as a wash.",
+   "Party-affiliation drift (d'Entremont, Druhan): printing current caucus beside election results without dates misstates the record; store party_at_election and current_caucus with as-of dates.",
+   "HRM Who_Is_My_Councillor is an internal web layer with empty licenseInfo; use the open-data Polling Districts item (HRM Open Data Licence, text not yet captured) instead.",
+   "Repository licence boundary: the 37.9 MB KMZ, 12.5 MB PD zip and multi-MB GeoJSONs cannot enter the public repo without per-source clearance and a build step; AGENTS.md treats repository licensing separately from source permission.",
+   "Elections NS site sits behind Cloudflare Turnstile; any refresh script must use only the direct blob-storage file URLs and never automate the protected SPA.",
+   "PD electorcounts are register snapshots and fine to show, but no script may ever fetch elector lists or names."
+  ]
+ }
+}
