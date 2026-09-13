@@ -1,13 +1,13 @@
 {
   "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
   "source_review_sha256": "3c7475e36c1c1b002fada407efad16bb57dafb0f5a618fe4f5487f77b983a3e1",
-  "image_sha256": "c61e965293ada93c04dde97b6e6e13db4985da74e43ecc2011d9dad2ac5da051",
+  "image_sha256": "c07924f4479ea216997b5daad71290e2185a1b570c8ac73ec2ea45b59f6855fb",
   "frames": [
     {
-      "annotation_id": "F22-HAW-001",
+      "annotation_id": "F22-HAW-227",
       "native_xywh": [
-        4170,
-        842,
+        6424,
+        5009,
         660,
         450
       ],
@@ -21,16 +21,16 @@
       ],
       "rotation_degrees": 0,
       "source_anchor_xy": [
-        4471.5,
-        1085
+        6794,
+        5250
       ],
       "source_group_xywh": []
     },
     {
-      "annotation_id": "F22-HAW-002",
+      "annotation_id": "F22-HAW-235",
       "native_xywh": [
-        4060,
-        841,
+        8166,
+        4932,
         660,
         450
       ],
@@ -43,17 +43,21 @@
         450
       ],
       "rotation_degrees": 0,
-      "source_anchor_xy": [
-        4445,
-        1075.5
-      ],
-      "source_group_xywh": []
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          8280,
+          5128,
+          108,
+          89
+        ]
+      ]
     },
     {
-      "annotation_id": "F22-HAW-004",
+      "annotation_id": "F22-HAW-250",
       "native_xywh": [
-        4279,
-        1213,
+        8987,
+        4989,
         660,
         450
       ],
@@ -67,16 +71,16 @@
       ],
       "rotation_degrees": 0,
       "source_anchor_xy": [
-        4525,
-        1452.5
+        9383,
+        5245
       ],
       "source_group_xywh": []
     },
     {
-      "annotation_id": "F22-HAW-008",
+      "annotation_id": "F22-HAW-251",
       "native_xywh": [
-        4750,
-        1038,
+        9052,
+        5038,
         660,
         450
       ],
@@ -89,17 +93,21 @@
         450
       ],
       "rotation_degrees": 0,
-      "source_anchor_xy": [
-        5128.5,
-        1265.5
-      ],
-      "source_group_xywh": []
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          9338,
+          5241,
+          29,
+          21
+        ]
+      ]
     },
     {
-      "annotation_id": "F22-HAW-023",
+      "annotation_id": "F22-HAW-253",
       "native_xywh": [
-        6566,
-        1202,
+        8960,
+        5195,
         660,
         450
       ],
@@ -113,16 +121,16 @@
       ],
       "rotation_degrees": 0,
       "source_anchor_xy": [
-        6869.5,
-        1414.5
+        9341,
+        5410.5
       ],
       "source_group_xywh": []
     },
     {
-      "annotation_id": "F22-HAW-025",
+      "annotation_id": "F22-HAW-260",
       "native_xywh": [
-        6831,
-        1235,
+        1301,
+        5969,
         660,
         450
       ],
@@ -138,10 +146,10 @@
       "source_anchor_xy": null,
       "source_group_xywh": [
         [
-          7005,
-          1380,
-          56,
-          52
+          1625,
+          6163,
+          24,
+          17
         ]
       ]
     }

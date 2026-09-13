@@ -127,5 +127,20 @@
   "southern-coastal-school-station": [
     220,
     221
+  ],
+  "hawkesbury-church": [
+    227
+  ],
+  "richmond-mine": [
+    235
+  ],
+  "pirate-harbour-services": [
+    268,
+    269
+  ],
+  "caribacou-services": [
+    280,
+    281,
+    282
   ]
 }

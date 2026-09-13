@@ -1,0 +1,163 @@
+{
+  "reviewed_at": "2026-09-13",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 188,
+  "export_sha256": "7fb6cfb8b8e96fc27799c859c43d6c90f329fce52ac59646e8e09b369737f64e",
+  "checks": {
+    "count": 188,
+    "checks": [
+      {
+        "id": "F22-HAW-227",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-235",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-268",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-269",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-280",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-281",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-282",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-250",
+      "F22-HAW-251",
+      "F22-HAW-253",
+      "F22-HAW-260",
+      "F22-HAW-261",
+      "F22-HAW-283",
+      "F22-HAW-284",
+      "F22-HAW-175",
+      "F22-HAW-176",
+      "F22-HAW-179",
+      "F22-HAW-201",
+      "F22-HAW-132",
+      "F22-HAW-173",
+      "F22-HAW-174",
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F19-JUD-001",
+      "F19-JUD-012",
+      "F19-JUD-029",
+      "F19-JUD-083",
+      "F19-JUD-084",
+      "F19-JUD-130",
+      "F19-JUD-155",
+      "F19-JUD-164",
+      "F19-JUD-056",
+      "F19-JUD-132",
+      "F19-JUD-139",
+      "F19-JUD-140",
+      "F19-JUD-144",
+      "F19-JUD-161",
+      "F19-JUD-026",
+      "F19-JUD-034",
+      "F19-JUD-060",
+      "F19-JUD-085",
+      "F19-JUD-101",
+      "F19-JUD-124",
+      "F19-JUD-125",
+      "F19-JUD-143",
+      "F19-JUD-156",
+      "F19-JUD-165"
+    ],
+    "errors": []
+  },
+  "additional_assertions": [
+    "All seven additions selected at desktop/phone widths with native excerpts, visible placement notes, a ready basemap and clean console.",
+    "All previous sixty-six Hawkesbury feature records remain unchanged.",
+    "Eighteen Hawkesbury holdbacks remain excluded, including the full ferry landing/associated postal-school records and the southwestern/southern border marks outside support."
+  ],
+  "local_checks": {
+    "python": "299 tests pass, eight existing skips",
+    "web": "7 Fletcher component tests and web script tests pass; lint and build pass"
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-services-review.json",
+      "sha256": "9ad31b247dc2c59414428200a003e55baf321966574ecda082131ea6f1bf7a6d"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-services-282.png",
+      "sha256": "1470583a8d3a296eac9a757d57f266f14f616ed5d5e00fb29e2bf5399f2d8c6e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-services-268.png",
+      "sha256": "b1c67cc376b035af2e6c6d8f7dd3f5aebce18f7f9e99a24caa00160760308eef"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-services-280.png",
+      "sha256": "54d965d64ae67448b8585b0c4b8810cdee252de4f0f1a13b103e2f6f463cce39"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-services-227.png",
+      "sha256": "6c9bee67e198d8d693e555f51eb9544e3061b3bb93ae4b9288c620b5bcc51234"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-services-235.png",
+      "sha256": "ad020acadbc3f1bdd5d52c13e1ca34fdc5a281d72fbf2d13b7b4c5c35bc092c3"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-188-export/source.json",
+      "sha256": "1849723b6e7fd9aefa931434fb9a622c2c12e3a41440df70b01de72d5254f085"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-188-export/reviewed.geojson",
+      "sha256": "7fb6cfb8b8e96fc27799c859c43d6c90f329fce52ac59646e8e09b369737f64e"
+    }
+  ],
+  "limits": "Historical source features only. No mine opening, ferry route or opposite landing, operating service, current property or production publication claim."
+}

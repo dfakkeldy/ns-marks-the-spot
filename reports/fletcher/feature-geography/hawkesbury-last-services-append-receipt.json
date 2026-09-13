@@ -1,0 +1,128 @@
+{
+  "reviewed_at": "2026-09-13",
+  "previous_source_review_sha256": "9a0e935d10cf581d68c77f0dadc1b5d50c87e31f312af78f4089b2e1754b2f8c",
+  "current_source_review_sha256": "3c7475e36c1c1b002fada407efad16bb57dafb0f5a618fe4f5487f77b983a3e1",
+  "unchanged_prior_source_associations": [
+    "F22-HAW-001",
+    "F22-HAW-002",
+    "F22-HAW-004",
+    "F22-HAW-008",
+    "F22-HAW-023",
+    "F22-HAW-025",
+    "F22-HAW-026",
+    "F22-HAW-028",
+    "F22-HAW-031",
+    "F22-HAW-032",
+    "F22-HAW-041",
+    "F22-HAW-042",
+    "F22-HAW-005",
+    "F22-HAW-030",
+    "F22-HAW-045",
+    "F22-HAW-046",
+    "F22-HAW-053",
+    "F22-HAW-055",
+    "F22-HAW-056",
+    "F22-HAW-057",
+    "F22-HAW-058",
+    "F22-HAW-061",
+    "F22-HAW-064",
+    "F22-HAW-067",
+    "F22-HAW-047",
+    "F22-HAW-068",
+    "F22-HAW-070",
+    "F22-HAW-073",
+    "F22-HAW-077",
+    "F22-HAW-084",
+    "F22-HAW-089",
+    "F22-HAW-102",
+    "F22-HAW-104",
+    "F22-HAW-105",
+    "F22-HAW-109",
+    "F22-HAW-114",
+    "F22-HAW-116",
+    "F22-HAW-118",
+    "F22-HAW-129",
+    "F22-HAW-132",
+    "F22-HAW-134",
+    "F22-HAW-137",
+    "F22-HAW-145",
+    "F22-HAW-165",
+    "F22-HAW-166",
+    "F22-HAW-172",
+    "F22-HAW-173",
+    "F22-HAW-174",
+    "F22-HAW-175",
+    "F22-HAW-176",
+    "F22-HAW-179",
+    "F22-HAW-182",
+    "F22-HAW-189",
+    "F22-HAW-191",
+    "F22-HAW-197",
+    "F22-HAW-201",
+    "F22-HAW-205",
+    "F22-HAW-206",
+    "F22-HAW-207",
+    "F22-HAW-208",
+    "F22-HAW-210",
+    "F22-HAW-212",
+    "F22-HAW-214",
+    "F22-HAW-217",
+    "F22-HAW-220",
+    "F22-HAW-221"
+  ],
+  "appended_annotation_ids": [
+    "F22-HAW-227",
+    "F22-HAW-235",
+    "F22-HAW-250",
+    "F22-HAW-251",
+    "F22-HAW-253",
+    "F22-HAW-260",
+    "F22-HAW-261",
+    "F22-HAW-268",
+    "F22-HAW-269",
+    "F22-HAW-280",
+    "F22-HAW-281",
+    "F22-HAW-282",
+    "F22-HAW-283",
+    "F22-HAW-284"
+  ],
+  "candidate_history": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-last-service-initial-candidates.json",
+      "sha256": "56cc4214bd1979f8137d1f0947258e9dfbc4841524c10d5eaf62324b3b44e7d6"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-last-service-final-candidates.json",
+      "sha256": "de544aa3bd99246d5814f5e41d6e7487f81c7b74c52f7e0354f3ae757f174324"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-last-service-final-point-frames.json",
+      "sha256": "0e0f60d61f9e520c8170c633d707469047a81d6b499ea875657618df18fb1ccb"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-last-service-final-crosshairs.jpg",
+      "sha256": "bb3817b9a0bced4bc4a81a28c6e0a7b78f318cefd70d2ed7e1fe09cbe6c4fa4a"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-last-service-final-groups.jpg",
+      "sha256": "db655fe2f25fc7560fa4ee658738272d6ede86acefc5442791043b0c1cb48a70"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-268-feature-question.png",
+      "sha256": "3b3bc154e129c23cb5b88ba34bcb8af10c7e5b495a7ab3dec7c296bd49b032ca"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-284-wide-detail.png",
+      "sha256": "cc56d9b12501ed87b4eecee39f45aa3edffa72a3a9b9bc238e6ea3d0b5987bfe"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-251-pair-detail.png",
+      "sha256": "97082ef95c89c95d8d08fd623c8bb793c3d848486cf59f544a72f879338b4e2e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-richmond-mine-detail.png",
+      "sha256": "0596216624da57a13aa3b060713f807a1f8e44d251719a36fb57c8d11f6ba324"
+    }
+  ],
+  "note": "Final native marks/groups were inspected before projection. Wider context resolved the school beside the railway and the postal block beside transport ink. The ferry retains only its western landing mark, with no inferred route or opposite landing. Previous source and placement rows remain unchanged; geographic review follows."
+}

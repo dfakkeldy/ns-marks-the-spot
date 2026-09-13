@@ -16,8 +16,8 @@
       "reports/fletcher/hawkesbury-full-sheet/boundary-diagnostic-checks.json": "baf52a32736f73d3b91e7472dc6aadcd3277184954123b99e2c26f4d03c3a544"
     },
     "source_review_inputs_sha256": {
-      "reports/fletcher/feature-geography/sheet-22-source-review.json": "9a0e935d10cf581d68c77f0dadc1b5d50c87e31f312af78f4089b2e1754b2f8c",
-      "reports/fletcher/feature-geography/sheet-22-placement-review.json": "67b7461f1960adcdcd0f7fd71bdce179e140e5c4cb4429fa4efa64cb55403853"
+      "reports/fletcher/feature-geography/sheet-22-source-review.json": "3c7475e36c1c1b002fada407efad16bb57dafb0f5a618fe4f5487f77b983a3e1",
+      "reports/fletcher/feature-geography/sheet-22-placement-review.json": "a36a81dbb97e2eb123080e9fc572e3834f7586b189980b47bbd50683f0f27154"
     }
   },
   "coordinate_convention": "Original scan continuous pixel edges x right/y down. No crop offset, resize or half-pixel shift applied. GDAL TPS EPSG:3857 -> OGC:CRS84 longitude/latitude.",
@@ -11731,6 +11731,2090 @@
           "scene": "hawkesbury-southern-coastal-school-station-geography.jpg",
           "scene_sha256": "68cfa2c4baff92648ab35dff52e185f7b6d0e789985fb69dfda80a79aff39d55",
           "evidence": "The station symbol remains on the coastal transport corridor below the school and above the lower drainage crossing. Its prediction falls slightly seaward of the modern shore; retain that shore/transport uncertainty without snapping it inland. The original symbol does not identify a current station, platform or train service."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-227",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.351058791863636,
+          45.61196627673625
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-227",
+        "sheet": 22,
+        "name": "R.C.Ch.",
+        "source_text": "R.C.Ch.",
+        "kind": "church",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-227",
+          "source_text": "R.C.Ch.",
+          "kind": "church",
+          "reading_status": "clear",
+          "crop_id": "F22-R04C05",
+          "raw_candidate_ids": [],
+          "source_label_boxes_xywh": [
+            [
+              6708,
+              5215,
+              92,
+              38
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Omitted from first-pass candidates; small text beside Hawkesbury."
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-227",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            6794,
+            5250
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The church cross is below/right of R.C.Ch. within the Hawkesbury street grid, north of the railway. The adjacent compact mark and road intersection are separate; the actual crossed strokes supply this point.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-12-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6794,
+            5250
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.351058791863636,
+            45.61196627673625
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            6424,
+            5009,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/6424,5009,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-227",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-hawkesbury-church-geography.jpg",
+          "scene_sha256": "c1f048e55a3459662509c7989a44a8dfaa5617cb2b2f856be3925079dced738e",
+          "evidence": "The church cross remains within the Hawkesbury street district north of Ship Harbour and the coastal railway corridor. Modern street and harbour geometry supports approximate locality, with changed junctions and transport alignments. No current church building or independent local correction is identified."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-235",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.28430380466566,
+              45.617051435302756
+            ],
+            [
+              -61.2842993074039,
+              45.61672707191409
+            ],
+            [
+              -61.28429482507699,
+              45.61640273150079
+            ],
+            [
+              -61.28429035822274,
+              45.616078414417906
+            ],
+            [
+              -61.284285907375754,
+              45.615754121011825
+            ],
+            [
+              -61.284281473067296,
+              45.61542985162006
+            ],
+            [
+              -61.28427705582511,
+              45.61510560657187
+            ],
+            [
+              -61.28427265617302,
+              45.61478138618808
+            ],
+            [
+              -61.28426827463088,
+              45.61445719078122
+            ],
+            [
+              -61.28426391171441,
+              45.61413302065596
+            ],
+            [
+              -61.28382577564712,
+              45.6141384873818
+            ],
+            [
+              -61.28338765618491,
+              45.614143933205156
+            ],
+            [
+              -61.2829495527781,
+              45.614149358249264
+            ],
+            [
+              -61.282511464874425,
+              45.614154762641114
+            ],
+            [
+              -61.28207339191879,
+              45.61416014651136
+            ],
+            [
+              -61.28163533335329,
+              45.61416550999443
+            ],
+            [
+              -61.281197288616895,
+              45.61417085322882
+            ],
+            [
+              -61.28075925714575,
+              45.614176176356835
+            ],
+            [
+              -61.280321238373006,
+              45.61418147952501
+            ],
+            [
+              -61.279883231728405,
+              45.61418676288395
+            ],
+            [
+              -61.27944523663848,
+              45.61419202658865
+            ],
+            [
+              -61.27944969018141,
+              45.614516155626916
+            ],
+            [
+              -61.279454156488576,
+              45.614840310658124
+            ],
+            [
+              -61.27945863502406,
+              45.61516449143552
+            ],
+            [
+              -61.279463125249514,
+              45.61548869770437
+            ],
+            [
+              -61.27946762662466,
+              45.61581292920154
+            ],
+            [
+              -61.27947213860695,
+              45.61613718565545
+            ],
+            [
+              -61.2794766606527,
+              45.61646146678565
+            ],
+            [
+              -61.27948119221663,
+              45.61678577230285
+            ],
+            [
+              -61.279485732752576,
+              45.617110101908466
+            ],
+            [
+              -61.279923666814106,
+              45.61710487852784
+            ],
+            [
+              -61.28036161362012,
+              45.61709963349959
+            ],
+            [
+              -61.280799573759914,
+              45.61709436670136
+            ],
+            [
+              -61.28123754781983,
+              45.61708907801524
+            ],
+            [
+              -61.28167553638304,
+              45.61708376732752
+            ],
+            [
+              -61.2821135400304,
+              45.61707843452859
+            ],
+            [
+              -61.282551559339716,
+              45.617073079512764
+            ],
+            [
+              -61.28298959488642,
+              45.617067702178375
+            ],
+            [
+              -61.28342764724324,
+              45.61706230242747
+            ],
+            [
+              -61.283865716980365,
+              45.61705688016586
+            ],
+            [
+              -61.28430380466566,
+              45.617051435302756
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-235",
+        "sheet": 22,
+        "name": "Richmond Mine",
+        "source_text": "Richmond Mine",
+        "kind": "mine",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-235",
+          "source_text": "Richmond Mine",
+          "kind": "mine",
+          "reading_status": "clear",
+          "crop_id": "F22-R04C06",
+          "raw_candidate_ids": [
+            "F22-R04C06-11",
+            "F22-DETAIL-MINE-SHALES-01"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8334,
+              5134,
+              324,
+              46
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": ""
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-235",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              8280,
+              5128,
+              108,
+              89
+            ]
+          ],
+          "note": "Four bold circular source marks cluster beside Richmond Mine around the stream and railway spur. Preserve their complete nearby candidate group, separate from the circled fossil notation, fault line and more distant pit. No individual entrance, current opening, resource extent, ownership or operating condition is inferred.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-12-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                8280.0,
+                5128.0
+              ],
+              [
+                8289.818181818182,
+                5128.0
+              ],
+              [
+                8299.636363636364,
+                5128.0
+              ],
+              [
+                8309.454545454546,
+                5128.0
+              ],
+              [
+                8319.272727272728,
+                5128.0
+              ],
+              [
+                8329.09090909091,
+                5128.0
+              ],
+              [
+                8338.90909090909,
+                5128.0
+              ],
+              [
+                8348.727272727272,
+                5128.0
+              ],
+              [
+                8358.545454545454,
+                5128.0
+              ],
+              [
+                8368.363636363636,
+                5128.0
+              ],
+              [
+                8378.181818181818,
+                5128.0
+              ],
+              [
+                8388.0,
+                5128.0
+              ],
+              [
+                8388.0,
+                5137.888888888889
+              ],
+              [
+                8388.0,
+                5147.777777777777
+              ],
+              [
+                8388.0,
+                5157.666666666667
+              ],
+              [
+                8388.0,
+                5167.555555555556
+              ],
+              [
+                8388.0,
+                5177.444444444444
+              ],
+              [
+                8388.0,
+                5187.333333333333
+              ],
+              [
+                8388.0,
+                5197.222222222223
+              ],
+              [
+                8388.0,
+                5207.111111111111
+              ],
+              [
+                8388.0,
+                5217.0
+              ],
+              [
+                8378.181818181818,
+                5217.0
+              ],
+              [
+                8368.363636363636,
+                5217.0
+              ],
+              [
+                8358.545454545454,
+                5217.0
+              ],
+              [
+                8348.727272727272,
+                5217.0
+              ],
+              [
+                8338.90909090909,
+                5217.0
+              ],
+              [
+                8329.09090909091,
+                5217.0
+              ],
+              [
+                8319.272727272728,
+                5217.0
+              ],
+              [
+                8309.454545454546,
+                5217.0
+              ],
+              [
+                8299.636363636364,
+                5217.0
+              ],
+              [
+                8289.818181818182,
+                5217.0
+              ],
+              [
+                8280.0,
+                5217.0
+              ],
+              [
+                8280.0,
+                5207.111111111111
+              ],
+              [
+                8280.0,
+                5197.222222222223
+              ],
+              [
+                8280.0,
+                5187.333333333333
+              ],
+              [
+                8280.0,
+                5177.444444444444
+              ],
+              [
+                8280.0,
+                5167.555555555556
+              ],
+              [
+                8280.0,
+                5157.666666666667
+              ],
+              [
+                8280.0,
+                5147.777777777777
+              ],
+              [
+                8280.0,
+                5137.888888888889
+              ],
+              [
+                8280.0,
+                5128.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.28430380466566,
+                45.617051435302756
+              ],
+              [
+                -61.2842993074039,
+                45.61672707191409
+              ],
+              [
+                -61.28429482507699,
+                45.61640273150079
+              ],
+              [
+                -61.28429035822274,
+                45.616078414417906
+              ],
+              [
+                -61.284285907375754,
+                45.615754121011825
+              ],
+              [
+                -61.284281473067296,
+                45.61542985162006
+              ],
+              [
+                -61.28427705582511,
+                45.61510560657187
+              ],
+              [
+                -61.28427265617302,
+                45.61478138618808
+              ],
+              [
+                -61.28426827463088,
+                45.61445719078122
+              ],
+              [
+                -61.28426391171441,
+                45.61413302065596
+              ],
+              [
+                -61.28382577564712,
+                45.6141384873818
+              ],
+              [
+                -61.28338765618491,
+                45.614143933205156
+              ],
+              [
+                -61.2829495527781,
+                45.614149358249264
+              ],
+              [
+                -61.282511464874425,
+                45.614154762641114
+              ],
+              [
+                -61.28207339191879,
+                45.61416014651136
+              ],
+              [
+                -61.28163533335329,
+                45.61416550999443
+              ],
+              [
+                -61.281197288616895,
+                45.61417085322882
+              ],
+              [
+                -61.28075925714575,
+                45.614176176356835
+              ],
+              [
+                -61.280321238373006,
+                45.61418147952501
+              ],
+              [
+                -61.279883231728405,
+                45.61418676288395
+              ],
+              [
+                -61.27944523663848,
+                45.61419202658865
+              ],
+              [
+                -61.27944969018141,
+                45.614516155626916
+              ],
+              [
+                -61.279454156488576,
+                45.614840310658124
+              ],
+              [
+                -61.27945863502406,
+                45.61516449143552
+              ],
+              [
+                -61.279463125249514,
+                45.61548869770437
+              ],
+              [
+                -61.27946762662466,
+                45.61581292920154
+              ],
+              [
+                -61.27947213860695,
+                45.61613718565545
+              ],
+              [
+                -61.2794766606527,
+                45.61646146678565
+              ],
+              [
+                -61.27948119221663,
+                45.61678577230285
+              ],
+              [
+                -61.279485732752576,
+                45.617110101908466
+              ],
+              [
+                -61.279923666814106,
+                45.61710487852784
+              ],
+              [
+                -61.28036161362012,
+                45.61709963349959
+              ],
+              [
+                -61.280799573759914,
+                45.61709436670136
+              ],
+              [
+                -61.28123754781983,
+                45.61708907801524
+              ],
+              [
+                -61.28167553638304,
+                45.61708376732752
+              ],
+              [
+                -61.2821135400304,
+                45.61707843452859
+              ],
+              [
+                -61.282551559339716,
+                45.617073079512764
+              ],
+              [
+                -61.28298959488642,
+                45.617067702178375
+              ],
+              [
+                -61.28342764724324,
+                45.61706230242747
+              ],
+              [
+                -61.283865716980365,
+                45.61705688016586
+              ],
+              [
+                -61.28430380466566,
+                45.617051435302756
+              ]
+            ]
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8166,
+            4932,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/8166,4932,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-235",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-richmond-mine-geography.jpg",
+          "scene_sha256": "a5795cc2bfecfbea23329f2f0d320c5a4aaa4a51e942df655c5c964bc85c0dbf",
+          "evidence": "The candidate group remains beside the north-south stream above the southern river/road district. Modern drainage supports this broad locality, while the printed rail spur and individual mine marks are not current-site matches. The whole group is retained with no entrance, opening, resource boundary, ownership or operating-condition claim."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-250",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F22-HAW-250",
+        "sheet": 22,
+        "name": "McCarthy's\nFerry",
+        "source_text": "McCarthy's\nFerry",
+        "kind": "ferry",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-250",
+          "source_text": "McCarthy's\nFerry",
+          "kind": "ferry",
+          "reading_status": "clear",
+          "crop_id": "F22-R04C07",
+          "raw_candidate_ids": [
+            "F22-R04C07-11",
+            "F22-R04C07-12",
+            "F22-DETAIL-CREEK-FERRY-09",
+            "F22-DETAIL-MINE-SHALES-03"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              9240,
+              5184,
+              155,
+              61
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Native source and dedicated ferry context support McCarthy’s; reject Bartlett’s, McGarity and M. Carthy’s readings. Printed superscript c represented as ASCII."
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-250",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            9383,
+            5245
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The bold terminal structure at the end of the western shoreline road is directly beside the McCarthy’s Ferry caption. Retain the approximate centre of this source landing mark only. No cross-channel route, opposite landing, present ferry operation or access is inferred.",
+          "source_uncertainty_px": 7,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-12-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            9383,
+            5245
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8987,
+            4989,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/8987,4989,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-250",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-services-12-20260913.jpg",
+          "scene_sha256": "c07924f4479ea216997b5daad71290e2185a1b570c8ac73ec2ea45b59f6855fb",
+          "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-251",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F22-HAW-251",
+        "sheet": 22,
+        "name": "P.O.",
+        "source_text": "P.O.",
+        "kind": "post-office",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-251",
+          "source_text": "P.O.",
+          "kind": "post-office",
+          "reading_status": "clear",
+          "crop_id": "F22-R04C07",
+          "raw_candidate_ids": [
+            "F22-DETAIL-CREEK-FERRY-10",
+            "F22-DETAIL-MINE-SHALES-04"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              9350,
+              5244,
+              65,
+              39
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Separate post-office label below the ferry; preserve source punctuation over model Po."
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-251",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              9338,
+              5241,
+              29,
+              21
+            ]
+          ],
+          "note": "Two compact marks immediately below the ferry approach and left of P.O. form the postal candidates. Retain the pair separately from the ferry landing structure and geological arrow; the source does not identify an individual postal building or current address.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-12-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                9338.0,
+                5241.0
+              ],
+              [
+                9347.666666666666,
+                5241.0
+              ],
+              [
+                9357.333333333334,
+                5241.0
+              ],
+              [
+                9367.0,
+                5241.0
+              ],
+              [
+                9367.0,
+                5248.0
+              ],
+              [
+                9367.0,
+                5255.0
+              ],
+              [
+                9367.0,
+                5262.0
+              ],
+              [
+                9357.333333333334,
+                5262.0
+              ],
+              [
+                9347.666666666666,
+                5262.0
+              ],
+              [
+                9338.0,
+                5262.0
+              ],
+              [
+                9338.0,
+                5255.0
+              ],
+              [
+                9338.0,
+                5248.0
+              ],
+              [
+                9338.0,
+                5241.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            9052,
+            5038,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/9052,5038,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-251",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-services-12-20260913.jpg",
+          "scene_sha256": "c07924f4479ea216997b5daad71290e2185a1b570c8ac73ec2ea45b59f6855fb",
+          "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-253",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F22-HAW-253",
+        "sheet": 22,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-253",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "crop_id": "F22-R04C07",
+          "raw_candidate_ids": [
+            "F22-R04C07-14",
+            "F22-DETAIL-CREEK-FERRY-14",
+            "F22-DETAIL-MINE-SHALES-07"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              9241,
+              5401,
+              99,
+              39
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": ""
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-253",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            9341,
+            5410.5
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The isolated compact school mark is above/right of School on the western side of the road above Mussel Point. The nearby fault overprint and lettering centre are separate from the mark.",
+          "source_uncertainty_px": 7,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-12-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            9341,
+            5410.5
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8960,
+            5195,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/8960,5195,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-253",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-services-12-20260913.jpg",
+          "scene_sha256": "c07924f4479ea216997b5daad71290e2185a1b570c8ac73ec2ea45b59f6855fb",
+          "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-260",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F22-HAW-260",
+        "sheet": 22,
+        "name": "P.O.",
+        "source_text": "P.O.",
+        "kind": "post-office",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-260",
+          "source_text": "P.O.",
+          "kind": "post-office",
+          "reading_status": "clear",
+          "crop_id": "F22-R05C01",
+          "raw_candidate_ids": [
+            "F22-R05C01-05",
+            "F22-DETAIL-SOUTHWEST-MINERALS-01"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              1602,
+              6177,
+              59,
+              34
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": ""
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-260",
+          "status": "unresolved",
+          "source_anchor_xy": null,
+          "candidate_symbol_regions_xywh": [
+            [
+              1625,
+              6163,
+              24,
+              17
+            ]
+          ],
+          "note": "The two compact marks directly above P.O. lie west of the road and below the horizontal graticule near the southwestern border. Retain the pair as postal candidates; the northern roadside pair, river, pit and latitude notation are separate.",
+          "source_uncertainty_px": null,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-12-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                1625.0,
+                6163.0
+              ],
+              [
+                1633.0,
+                6163.0
+              ],
+              [
+                1641.0,
+                6163.0
+              ],
+              [
+                1649.0,
+                6163.0
+              ],
+              [
+                1649.0,
+                6171.5
+              ],
+              [
+                1649.0,
+                6180.0
+              ],
+              [
+                1641.0,
+                6180.0
+              ],
+              [
+                1633.0,
+                6180.0
+              ],
+              [
+                1625.0,
+                6180.0
+              ],
+              [
+                1625.0,
+                6171.5
+              ],
+              [
+                1625.0,
+                6163.0
+              ]
+            ]
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            1301,
+            5969,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/1301,5969,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-260",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-services-12-20260913.jpg",
+          "scene_sha256": "c07924f4479ea216997b5daad71290e2185a1b570c8ac73ec2ea45b59f6855fb",
+          "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-261",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F22-HAW-261",
+        "sheet": 22,
+        "name": "Old Mill",
+        "source_text": "Old Mill",
+        "kind": "mill",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-261",
+          "source_text": "Old Mill",
+          "kind": "mill",
+          "reading_status": "clear",
+          "crop_id": "F22-R05C01",
+          "raw_candidate_ids": [
+            "F22-R05C01-04",
+            "F22-DETAIL-SOUTHWEST-MINERALS-02"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              1792,
+              6206,
+              137,
+              36
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": ""
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-261",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            1784,
+            6241.5
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The isolated filled mark left/below Old Mill lies beside the road/stream district at Upper Big Tracadie. Retain the actual mark and the historical qualifier Old, without asserting the condition or existence of a present mill.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-13-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            1784,
+            6241.5
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            1530,
+            5999,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/1530,5999,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-261",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-services-13-20260913.jpg",
+          "scene_sha256": "8b10301eeb0c6550e2091c7855de95c24af53a911dc34568a8758742564c0dd4",
+          "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-268",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.38332174771357,
+          45.58809278119143
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-268",
+        "sheet": 22,
+        "name": "P.O.",
+        "source_text": "P.O.",
+        "kind": "post-office",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-268",
+          "source_text": "P.O.",
+          "kind": "post-office",
+          "reading_status": "clear",
+          "crop_id": "F22-R05C04",
+          "raw_candidate_ids": [
+            "F22-R05C04-06",
+            "F22-DETAIL-PIRATE-WATERFALL-02"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              6121,
+              5962,
+              56,
+              30
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": ""
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-268",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            6102.5,
+            5972
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The compact postal block immediately left of P.O. is within the narrow coastal transport strip, below the two projecting waterfront marks and above the separate forge mark. Native enlargement distinguishes its body from the road/rail lines. No current address or postal facility is identified.",
+          "source_uncertainty_px": 7,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-13-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6102.5,
+            5972
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.38332174771357,
+            45.58809278119143
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            5819,
+            5752,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/5819,5752,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-268",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-pirate-harbour-services-geography.jpg",
+          "scene_sha256": "b97868a282dbc58407aca3d115672b241019a30f2368af303e1e31c551a695f3",
+          "evidence": "The postal mark remains on the coastal transport strip north of the forge and Pirate Harbour mouth. Modern shore, road and drainage context supports approximate locality, with local road/shore offsets. The source block establishes no current postal building or address."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-269",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.3842406812025,
+          45.587022628661714
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-269",
+        "sheet": 22,
+        "name": "Forge",
+        "source_text": "Forge",
+        "kind": "forge",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-269",
+          "source_text": "Forge",
+          "kind": "forge",
+          "reading_status": "clear",
+          "crop_id": "F22-R05C04",
+          "raw_candidate_ids": [
+            "F22-R05C04-07",
+            "F22-DETAIL-PIRATE-WATERFALL-03"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              6106,
+              5993,
+              61,
+              28
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Separate from nearby Pirate Harbour; reject combined Forge Harbour."
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-269",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            6083.5,
+            6005
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The isolated forge mark lies west of the coastal road below the P.O. caption at Pirate Harbour. It is separate from the postal block and nearby quarry/shore projections; no operating forge or current site condition is asserted.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-13-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6083.5,
+            6005
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.3842406812025,
+            45.587022628661714
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            5806,
+            5782,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/5806,5782,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-269",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-pirate-harbour-services-geography.jpg",
+          "scene_sha256": "b97868a282dbc58407aca3d115672b241019a30f2368af303e1e31c551a695f3",
+          "evidence": "The forge mark remains west of the coastal road north of the harbour mouth and below the postal mark. Modern coastline and drainage support the broad locality. The small stream/road relationship and exact building site remain approximate, with no operating facility inferred."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-280",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.28074048057667,
+          45.580353676962375
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-280",
+        "sheet": 22,
+        "name": "P.O.",
+        "source_text": "P.O.",
+        "kind": "post-office",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-280",
+          "source_text": "P.O.",
+          "kind": "post-office",
+          "reading_status": "clear",
+          "crop_id": "F22-R05C06",
+          "raw_candidate_ids": [
+            "F22-R05C06-07",
+            "F22-DETAIL-CARIBACOU-02"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8280,
+              6219,
+              66,
+              39
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": ""
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-280",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            8352,
+            6254
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The isolated compact mark right of P.O. lies below the Caribacou caption and north of the diagonal road. Preserve the actual mark rather than the settlement lettering or graticule; it supplies no current postal address.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-13-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            8352,
+            6254
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.28074048057667,
+            45.580353676962375
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7983,
+            6013,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/7983,6013,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-280",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-caribacou-services-geography.jpg",
+          "scene_sha256": "fe27032b9560500fabae29ebd39c25ae2717717c37d22b8aeb0c91d0b74eb651",
+          "evidence": "The postal mark remains north of the coastal road in the Caribacou district, west of the eastern school. Modern coast and road geometry supports approximate locality while minor roads and tributaries differ. No current postal address or property is identified."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-281",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.27270387576079,
+          45.58074516388099
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-281",
+        "sheet": 22,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-281",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "crop_id": "F22-R05C06",
+          "raw_candidate_ids": [
+            "F22-R05C06-09",
+            "F22-DETAIL-CARIBACOU-03"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8541,
+              6239,
+              81,
+              39
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": ""
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-281",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            8531,
+            6245
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The compact school mark is left of School and south of the road at Caribacou. The nearby circled fossil notation and geological angles are separate; no current school building is identified.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-13-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            8531,
+            6245
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.27270387576079,
+            45.58074516388099
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8251,
+            6033,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/8251,6033,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-281",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-caribacou-services-geography.jpg",
+          "scene_sha256": "fe27032b9560500fabae29ebd39c25ae2717717c37d22b8aeb0c91d0b74eb651",
+          "evidence": "The school mark remains south of the coastal road and west of the eastern shore bend. The modern road/coast arrangement supports the broad locality; the original source point is not matched to an individual current school building."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-282",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.285836519569,
+          45.57782773091683
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-282",
+        "sheet": 22,
+        "name": "Shop",
+        "source_text": "Shop",
+        "kind": "shop",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-282",
+          "source_text": "Shop",
+          "kind": "shop",
+          "reading_status": "clear",
+          "crop_id": "F22-R05C06",
+          "raw_candidate_ids": [
+            "F22-R05C06-11",
+            "F22-DETAIL-CARIBACOU-04"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8164,
+              6320,
+              74,
+              39
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Complete lettering in whole crop; reject Slop."
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-282",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            8238.5,
+            6330
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The compact shop mark is above/right of Shop and below the coastal road west of Malcolm’s Wharf. It remains distinct from the wharf structure and geological symbols.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-13-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            8238.5,
+            6330
+          ]
+        },
+        "map_derived_geometry": {
+          "type": "Point",
+          "coordinates": [
+            -61.285836519569,
+            45.57782773091683
+          ]
+        },
+        "placement_status": "map-derived-approximate",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "approximate-placement-reviewed",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7871,
+            6114,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/7871,6114,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-282",
+          "status": "approximate-placement-reviewed",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-caribacou-services-geography.jpg",
+          "scene_sha256": "fe27032b9560500fabae29ebd39c25ae2717717c37d22b8aeb0c91d0b74eb651",
+          "evidence": "The shop mark remains south of the road and inland of the western coastal point, west of the postal/school district. Modern road and shoreline context supports approximate locality. It does not identify a current shop or resolve the separately unsupported Malcolm’s Wharf position."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-283",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F22-HAW-283",
+        "sheet": 22,
+        "name": "Malcolm's\nWharf",
+        "source_text": "Malcolm's\nWharf",
+        "kind": "wharf",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-283",
+          "source_text": "Malcolm's\nWharf",
+          "kind": "wharf",
+          "reading_status": "clear",
+          "crop_id": "F22-R05C06",
+          "raw_candidate_ids": [
+            "F22-R05C06-10",
+            "F22-DETAIL-CARIBACOU-05"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8229,
+              6367,
+              180,
+              63
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": ""
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-283",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            8274,
+            6363
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "The projecting dark shoreline structure immediately above Malcolm’s Wharf supplies its source point. Its centre locates the printed mark, not a reconstructed wharf footprint, existing structure or current public access.",
+          "source_uncertainty_px": 5,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-14-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            8274,
+            6363
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            7989,
+            6173,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/7989,6173,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-283",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-services-14-20260913.jpg",
+          "scene_sha256": "d73390df3c6f1e0ab47fa34a01e60af7d628a2dafbb9d576d48976988b919462",
+          "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-284",
+      "geometry": null,
+      "properties": {
+        "annotation_id": "F22-HAW-284",
+        "sheet": 22,
+        "name": "School",
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "source_annotation": {
+          "id": "F22-HAW-284",
+          "source_text": "School",
+          "kind": "school",
+          "reading_status": "clear",
+          "crop_id": "F22-R05C07",
+          "raw_candidate_ids": [
+            "F22-R05C07-02",
+            "F22-R05C06-08"
+          ],
+          "source_label_boxes_xywh": [
+            [
+              8760,
+              5873,
+              96,
+              40
+            ]
+          ],
+          "review_status": "source-reviewed",
+          "geometry": null,
+          "placement_status": "deferred",
+          "review_note": "Distinct from school beside Caribacou."
+        },
+        "source_review": {
+          "annotation_id": "F22-HAW-284",
+          "status": "supported-source-association",
+          "source_anchor_xy": [
+            8853,
+            5913
+          ],
+          "candidate_symbol_regions_xywh": [],
+          "note": "A distinct small school mark sits west of the railway bend, below/right of School. Wider native context separates it from the lettering and ordinary rail ties; its position retains increased source-pixel uncertainty because of the nearby linework.",
+          "source_uncertainty_px": 7,
+          "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+          "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+          "review_batch": "hawkesbury-services-14-20260913"
+        },
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            8853,
+            5913
+          ]
+        },
+        "map_derived_geometry": null,
+        "placement_status": "outside-supported-coverage",
+        "alignment_status": "draft-supported-area",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "fit_path": "reports/fletcher/hawkesbury-full-sheet/boundary-fit.json",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "geographic_review_status": "outside-supported-coverage",
+        "prior_locality_review": null,
+        "source_crop": {
+          "native_xywh": [
+            8478,
+            5668,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/8478,5668,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "publication_status": "research-preview-only",
+        "previous_placements": [],
+        "placement_review": {
+          "annotation_id": "F22-HAW-284",
+          "status": "outside-supported-coverage",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-services-14-20260913.jpg",
+          "scene_sha256": "d73390df3c6f1e0ab47fa34a01e60af7d628a2dafbb9d576d48976988b919462",
+          "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
         }
       }
     }

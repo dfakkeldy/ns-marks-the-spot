@@ -2268,11 +2268,11 @@
       "annotation_id": "F22-HAW-227",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-228",
@@ -2348,11 +2348,11 @@
       "annotation_id": "F22-HAW-235",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Individual feature within source group remains unresolved"
     },
     {
       "annotation_id": "F22-HAW-236",
@@ -2498,21 +2498,21 @@
       "annotation_id": "F22-HAW-250",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
     },
     {
       "annotation_id": "F22-HAW-251",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
     },
     {
       "annotation_id": "F22-HAW-252",
@@ -2528,11 +2528,11 @@
       "annotation_id": "F22-HAW-253",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
     },
     {
       "annotation_id": "F22-HAW-254",
@@ -2598,21 +2598,21 @@
       "annotation_id": "F22-HAW-260",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
     },
     {
       "annotation_id": "F22-HAW-261",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
     },
     {
       "annotation_id": "F22-HAW-262",
@@ -2678,21 +2678,21 @@
       "annotation_id": "F22-HAW-268",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-269",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-270",
@@ -2798,51 +2798,51 @@
       "annotation_id": "F22-HAW-280",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-281",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-282",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-283",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
     },
     {
       "annotation_id": "F22-HAW-284",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
     },
     {
       "annotation_id": "F22-HAW-285",

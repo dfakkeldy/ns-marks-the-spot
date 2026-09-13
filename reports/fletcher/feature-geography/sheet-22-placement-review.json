@@ -1,7 +1,7 @@
 {
   "sheet": 22,
   "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
-  "source_review_sha256": "9a0e935d10cf581d68c77f0dadc1b5d50c87e31f312af78f4089b2e1754b2f8c",
+  "source_review_sha256": "3c7475e36c1c1b002fada407efad16bb57dafb0f5a618fe4f5487f77b983a3e1",
   "reviews": [
     {
       "annotation_id": "F22-HAW-001",
@@ -596,6 +596,132 @@
       "scene": "hawkesbury-southern-coastal-school-station-geography.jpg",
       "scene_sha256": "68cfa2c4baff92648ab35dff52e185f7b6d0e789985fb69dfda80a79aff39d55",
       "evidence": "The station symbol remains on the coastal transport corridor below the school and above the lower drainage crossing. Its prediction falls slightly seaward of the modern shore; retain that shore/transport uncertainty without snapping it inland. The original symbol does not identify a current station, platform or train service."
+    },
+    {
+      "annotation_id": "F22-HAW-227",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-hawkesbury-church-geography.jpg",
+      "scene_sha256": "c1f048e55a3459662509c7989a44a8dfaa5617cb2b2f856be3925079dced738e",
+      "evidence": "The church cross remains within the Hawkesbury street district north of Ship Harbour and the coastal railway corridor. Modern street and harbour geometry supports approximate locality, with changed junctions and transport alignments. No current church building or independent local correction is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-235",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-richmond-mine-geography.jpg",
+      "scene_sha256": "a5795cc2bfecfbea23329f2f0d320c5a4aaa4a51e942df655c5c964bc85c0dbf",
+      "evidence": "The candidate group remains beside the north-south stream above the southern river/road district. Modern drainage supports this broad locality, while the printed rail spur and individual mine marks are not current-site matches. The whole group is retained with no entrance, opening, resource boundary, ownership or operating-condition claim."
+    },
+    {
+      "annotation_id": "F22-HAW-250",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-12-20260913.jpg",
+      "scene_sha256": "c07924f4479ea216997b5daad71290e2185a1b570c8ac73ec2ea45b59f6855fb",
+      "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+    },
+    {
+      "annotation_id": "F22-HAW-251",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-12-20260913.jpg",
+      "scene_sha256": "c07924f4479ea216997b5daad71290e2185a1b570c8ac73ec2ea45b59f6855fb",
+      "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+    },
+    {
+      "annotation_id": "F22-HAW-253",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-12-20260913.jpg",
+      "scene_sha256": "c07924f4479ea216997b5daad71290e2185a1b570c8ac73ec2ea45b59f6855fb",
+      "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+    },
+    {
+      "annotation_id": "F22-HAW-260",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-12-20260913.jpg",
+      "scene_sha256": "c07924f4479ea216997b5daad71290e2185a1b570c8ac73ec2ea45b59f6855fb",
+      "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+    },
+    {
+      "annotation_id": "F22-HAW-261",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-13-20260913.jpg",
+      "scene_sha256": "8b10301eeb0c6550e2091c7855de95c24af53a911dc34568a8758742564c0dd4",
+      "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+    },
+    {
+      "annotation_id": "F22-HAW-268",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-pirate-harbour-services-geography.jpg",
+      "scene_sha256": "b97868a282dbc58407aca3d115672b241019a30f2368af303e1e31c551a695f3",
+      "evidence": "The postal mark remains on the coastal transport strip north of the forge and Pirate Harbour mouth. Modern shore, road and drainage context supports approximate locality, with local road/shore offsets. The source block establishes no current postal building or address."
+    },
+    {
+      "annotation_id": "F22-HAW-269",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-pirate-harbour-services-geography.jpg",
+      "scene_sha256": "b97868a282dbc58407aca3d115672b241019a30f2368af303e1e31c551a695f3",
+      "evidence": "The forge mark remains west of the coastal road north of the harbour mouth and below the postal mark. Modern coastline and drainage support the broad locality. The small stream/road relationship and exact building site remain approximate, with no operating facility inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-280",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-caribacou-services-geography.jpg",
+      "scene_sha256": "fe27032b9560500fabae29ebd39c25ae2717717c37d22b8aeb0c91d0b74eb651",
+      "evidence": "The postal mark remains north of the coastal road in the Caribacou district, west of the eastern school. Modern coast and road geometry supports approximate locality while minor roads and tributaries differ. No current postal address or property is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-281",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-caribacou-services-geography.jpg",
+      "scene_sha256": "fe27032b9560500fabae29ebd39c25ae2717717c37d22b8aeb0c91d0b74eb651",
+      "evidence": "The school mark remains south of the coastal road and west of the eastern shore bend. The modern road/coast arrangement supports the broad locality; the original source point is not matched to an individual current school building."
+    },
+    {
+      "annotation_id": "F22-HAW-282",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-caribacou-services-geography.jpg",
+      "scene_sha256": "fe27032b9560500fabae29ebd39c25ae2717717c37d22b8aeb0c91d0b74eb651",
+      "evidence": "The shop mark remains south of the road and inland of the western coastal point, west of the postal/school district. Modern road and shoreline context supports approximate locality. It does not identify a current shop or resolve the separately unsupported Malcolm’s Wharf position."
+    },
+    {
+      "annotation_id": "F22-HAW-283",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-14-20260913.jpg",
+      "scene_sha256": "d73390df3c6f1e0ab47fa34a01e60af7d628a2dafbb9d576d48976988b919462",
+      "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+    },
+    {
+      "annotation_id": "F22-HAW-284",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-14-20260913.jpg",
+      "scene_sha256": "d73390df3c6f1e0ab47fa34a01e60af7d628a2dafbb9d576d48976988b919462",
+      "evidence": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
     }
   ]
 }

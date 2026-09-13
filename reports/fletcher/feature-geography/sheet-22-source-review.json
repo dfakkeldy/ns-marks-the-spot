@@ -1038,6 +1038,214 @@
       "reviewer": "Codex coordinator, native context and final symbol/group overlays, 2026-09-13",
       "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x, final crosshairs at 4x; selected microgrids at 8x, with crop origins recorded. No rotation.",
       "review_batch": "hawkesbury-services-11-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-227",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6794,
+        5250
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The church cross is below/right of R.C.Ch. within the Hawkesbury street grid, north of the railway. The adjacent compact mark and road intersection are separate; the actual crossed strokes supply this point.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-12-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-235",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8280,
+          5128,
+          108,
+          89
+        ]
+      ],
+      "note": "Four bold circular source marks cluster beside Richmond Mine around the stream and railway spur. Preserve their complete nearby candidate group, separate from the circled fossil notation, fault line and more distant pit. No individual entrance, current opening, resource extent, ownership or operating condition is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-12-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-250",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        9383,
+        5245
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The bold terminal structure at the end of the western shoreline road is directly beside the McCarthy’s Ferry caption. Retain the approximate centre of this source landing mark only. No cross-channel route, opposite landing, present ferry operation or access is inferred.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-12-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-251",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9338,
+          5241,
+          29,
+          21
+        ]
+      ],
+      "note": "Two compact marks immediately below the ferry approach and left of P.O. form the postal candidates. Retain the pair separately from the ferry landing structure and geological arrow; the source does not identify an individual postal building or current address.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-12-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-253",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        9341,
+        5410.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated compact school mark is above/right of School on the western side of the road above Mussel Point. The nearby fault overprint and lettering centre are separate from the mark.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-12-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-260",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          1625,
+          6163,
+          24,
+          17
+        ]
+      ],
+      "note": "The two compact marks directly above P.O. lie west of the road and below the horizontal graticule near the southwestern border. Retain the pair as postal candidates; the northern roadside pair, river, pit and latitude notation are separate.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-12-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-261",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        1784,
+        6241.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated filled mark left/below Old Mill lies beside the road/stream district at Upper Big Tracadie. Retain the actual mark and the historical qualifier Old, without asserting the condition or existence of a present mill.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-13-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-268",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6102.5,
+        5972
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact postal block immediately left of P.O. is within the narrow coastal transport strip, below the two projecting waterfront marks and above the separate forge mark. Native enlargement distinguishes its body from the road/rail lines. No current address or postal facility is identified.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-13-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-269",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6083.5,
+        6005
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated forge mark lies west of the coastal road below the P.O. caption at Pirate Harbour. It is separate from the postal block and nearby quarry/shore projections; no operating forge or current site condition is asserted.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-13-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-280",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        8352,
+        6254
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated compact mark right of P.O. lies below the Caribacou caption and north of the diagonal road. Preserve the actual mark rather than the settlement lettering or graticule; it supplies no current postal address.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-13-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-281",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        8531,
+        6245
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact school mark is left of School and south of the road at Caribacou. The nearby circled fossil notation and geological angles are separate; no current school building is identified.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-13-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-282",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        8238.5,
+        6330
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact shop mark is above/right of Shop and below the coastal road west of Malcolm’s Wharf. It remains distinct from the wharf structure and geological symbols.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-13-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-283",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        8274,
+        6363
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The projecting dark shoreline structure immediately above Malcolm’s Wharf supplies its source point. Its centre locates the printed mark, not a reconstructed wharf footprint, existing structure or current public access.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-14-20260913"
+    },
+    {
+      "annotation_id": "F22-HAW-284",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        8853,
+        5913
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "A distinct small school mark sits west of the railway bend, below/right of School. Wider native context separates it from the lettering and ordinary rail ties; its position retains increased source-pixel uncertainty because of the nearby linework.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native context and final source-symbol/group overlays, 2026-09-13",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native context at 1x, detail grids/groups at 2x and final crosshairs at 4x, with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-14-20260913"
     }
   ]
 }
