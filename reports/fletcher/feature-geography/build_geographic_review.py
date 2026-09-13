@@ -20,18 +20,18 @@ def paths(geometry):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--sheet',type=int,choices=(19,22),default=19)
+    parser.add_argument('--sheet',type=int,choices=(16,19,22),default=19)
     parser.add_argument('--scenes',type=Path,help='JSON object mapping scene names to source annotation numbers; required outside Judique')
     parser.add_argument('--raster',type=Path,required=True)
     parser.add_argument('--references',type=Path,required=True)
     args=parser.parse_args()
     directory=ROOT/'reports/fletcher/feature-geography'
-    prefix,title=('judique','Judique') if args.sheet==19 else ('hawkesbury','Hawkesbury')
+    prefix,title={16:('mabou','Port Hood/Mabou'),19:('judique','Judique'),22:('hawkesbury','Hawkesbury')}[args.sheet]
     data=read(directory/f'sheet-{args.sheet}-features.geojson')
     active=next(s for s in read(ROOT/'reports/fletcher/full-sheets/inputs.json')['sheets'] if s['sheet']==str(args.sheet))
     require(digest(args.raster)==active['raster_sha256'],'Wrong current raster')
     require(data['provenance']['fit_sha256']==active['fit_sha256'],'Feature/raster fit mismatch')
-    refs=(read(ROOT/'reports/fletcher/matching-benchmark/reference-receipts.json')+read(ROOT/'reports/fletcher/placement-pilot/road-context-receipts.json')) if args.sheet==19 else read(directory/'hawkesbury-reference-receipts.json')
+    refs=(read(ROOT/'reports/fletcher/matching-benchmark/reference-receipts.json')+read(ROOT/'reports/fletcher/placement-pilot/road-context-receipts.json')) if args.sheet==19 else read(directory/f'{prefix}-reference-receipts.json')
     vectors={}
     for ref in refs:
         file=args.references/(ref['name']+'.geojson')

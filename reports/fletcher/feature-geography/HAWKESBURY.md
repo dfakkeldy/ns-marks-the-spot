@@ -8,8 +8,8 @@ Hawkesbury annotation remains without an initial decision. The
 neatline and 7 local geographic relationships unresolved. This is not acceptance of
 the whole-sheet fit or completion of the 24-sheet project.
 
-One hundred sixty-three Hawkesbury features merged through PR472 ; 21 final placements
-pass local checks. The combined 310-record export retains all 126 Judique annotations.
+All 184 Hawkesbury placements merged through PR473 after all required CI passed.
+The initial review retains the 126 earlier Judique annotations.
 Original wording, source boxes, qualified readings and correction histories remain
 preserved. Work continues with sheet 16 Port Hood/Mabou and its recorded 36-control fit.
 
@@ -451,3 +451,8 @@ up to a viewport-based maximum and wrap, preserving the full text. No source or
 map geometry is changed by this presentation fix. Native excerpts, placement notes
 and clean consoles were checked. Local checks: 301 Python tests (eight existing
 skips), ten Fletcher component tests, web script tests, lint and build pass.
+
+PR473 merged as `a96063b663028395cf3ee54c23c51a6ebd03bc01`. Its final hosted run
+passed all required checks, including all 36 browser tests with one worker. Earlier
+two-worker terrain timing failures and the isolated local pass informed that
+configuration change; every assertion and timeout was retained.

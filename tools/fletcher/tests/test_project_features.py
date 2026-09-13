@@ -64,10 +64,11 @@ class FeatureEvidenceTests(unittest.TestCase):
 
     def test_combined_export_preserves_independent_sheet_evidence(self):
         hawkesbury=labels.read(labels.ROOT/features.REPORT/'sheet-22-features.geojson')
-        expected={f['id']:f for sheet in [self.data,hawkesbury] for f in sheet['features']
+        mabou=labels.read(labels.ROOT/features.REPORT/'sheet-16-features.geojson')
+        expected={f['id']:f for sheet in [self.data,hawkesbury,mabou] for f in sheet['features']
                   if f['geometry'] is not None and f['properties']['geographic_review_status']=='approximate-placement-reviewed'}
         with tempfile.TemporaryDirectory() as tmp:
-            exported=export_features.export([19,22],Path(tmp))
+            exported=export_features.export([19,22,16],Path(tmp))
             self.assertEqual({f['id'] for f in exported},set(expected))
             self.assertEqual(len(exported),len(expected))
             for f in exported:
@@ -78,7 +79,7 @@ class FeatureEvidenceTests(unittest.TestCase):
             corrected=[f['id'] for f in exported if f['properties'].get('placement_correction')]
             self.assertEqual(corrected,['F19-JUD-015'])
             receipt=labels.read(Path(tmp)/'source.json')
-            self.assertEqual([s['sheet'] for s in receipt['sources']],[19,22])
+            self.assertEqual([s['sheet'] for s in receipt['sources']],[19,22,16])
             self.assertNotIn('F22-HAW-001',expected)
             export_features.export([22],Path(tmp))
             self.assertNotIn('church correction',labels.read(Path(tmp)/'source.json')['changes'])
@@ -86,6 +87,26 @@ class FeatureEvidenceTests(unittest.TestCase):
             for previous in f['properties']['previous_placements']:
                 self.assertEqual(previous['feature']['properties']['sheet'],22)
             self.assertNotIn('placement_correction',f['properties'])
+
+    def test_mabou_preserves_glendyer_fit_and_original_source_records(self):
+        data=labels.read(labels.ROOT/features.REPORT/'sheet-16-features.geojson')
+        inventory=labels.read(labels.ROOT/labels.INVENTORIES/'sheet-16-reviewed.json')
+        originals={a['id']:a for a in inventory['annotations']}
+        self.assertEqual(data['provenance']['fit_revision'],'249b2be0b378adec894abc34520f83b009dbf8fd')
+        self.assertEqual(data['provenance']['fit_sha256'],'21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e')
+        self.assertEqual(len(labels.load_inputs(16)[4]),36)
+        for feature in data['features']:
+            props=feature['properties']
+            self.assertEqual(props['source_annotation'],originals[feature['id']])
+            self.assertIsNone(props['source_annotation']['geometry'])
+            self.assertEqual(props['source_sha256'],inventory['source_sha256'])
+            self.assertNotIn('placement_correction',props)
+            for previous in props['previous_placements']:
+                self.assertEqual(previous['feature']['properties']['sheet'],16)
+        station=next(f for f in data['features'] if f['id']=='F16-PHM-001')
+        self.assertIsNone(station['geometry'])
+        self.assertIsNotNone(station['properties']['source_geometry_native'])
+        self.assertEqual(station['properties']['placement_status'],'outside-fit-neatline')
 
     def test_export_excludes_pending_geographic_reviews(self):
         pending=copy.deepcopy(self.data)

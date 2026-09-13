@@ -113966,6 +113966,3114 @@
         "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
         "evidence_sha256": "ab0829c6f2ec3c5a9d844f97c62e78db4186f0485181670664a8c74e7e26c717"
       }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-024",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.40100907817671,
+          46.076829627888635
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-024",
+        "sheet": 16,
+        "source_text": "R.C. Ch.",
+        "kind": "church",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            5948,
+            1486.5
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            5451,
+            1139,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/5451,1139,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Native 6x detail confirms the church cross immediately right of R.C.Ch. beside the road. Its cross centre supplies the source anchor, separate from the nearby compact marks and caption. No modern church identity or property claim is inferred.",
+        "placement_note": "The church glyph remains in the northern Mabou roadside district west of the eastern drainage and northeast of the harbour bank. Modern road and stream relationships support approximate locality with the source-derived offset retained. No current church identity or property is matched.",
+        "source_excerpt": "excerpts/F16-PHM-024.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-042",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.3480364248004,
+              46.089730754289846
+            ],
+            [
+              -61.34798320853694,
+              46.089434955689164
+            ],
+            [
+              -61.347939856825434,
+              46.08914166702989
+            ],
+            [
+              -61.347549455288025,
+              46.089115284571115
+            ],
+            [
+              -61.34716591627247,
+              46.089090705056456
+            ],
+            [
+              -61.34678841697949,
+              46.08906769533412
+            ],
+            [
+              -61.34683267259829,
+              46.08936042583054
+            ],
+            [
+              -61.346886499199805,
+              46.08965559208732
+            ],
+            [
+              -61.34726357807574,
+              46.089679025963974
+            ],
+            [
+              -61.34764645596197,
+              46.08970395632562
+            ],
+            [
+              -61.3480364248004,
+              46.089730754289846
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-042",
+        "sheet": 16,
+        "source_text": "Weaving\nMills",
+        "kind": "mill",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                7060.0,
+                1106.0
+              ],
+              [
+                7067.0,
+                1106.0
+              ],
+              [
+                7074.0,
+                1106.0
+              ],
+              [
+                7081.0,
+                1106.0
+              ],
+              [
+                7081.0,
+                1114.5
+              ],
+              [
+                7081.0,
+                1123.0
+              ],
+              [
+                7074.0,
+                1123.0
+              ],
+              [
+                7067.0,
+                1123.0
+              ],
+              [
+                7060.0,
+                1123.0
+              ],
+              [
+                7060.0,
+                1114.5
+              ],
+              [
+                7060.0,
+                1106.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6552,
+            732,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/6552,732,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Native 6x detail resolves two compact marks east of the road/river crossing below Weaving Mills, distinct from the thick river line, caption and nearby 25-degree note. Retain the pair as a bounded source group without inventing individual mill buildings or moving it to a fit control.",
+        "placement_note": "The weaving-mill pair projects beside the road/stream junction in the Glendyer corridor. The northern main drainage, eastern tributary and adjoining roads support approximate locality under the recorded 36-control fit. The group remains source-derived and is not moved to a control or split into individual mill buildings.",
+        "source_excerpt": "excerpts/F16-PHM-042.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-044",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.355251230090445,
+              46.080046308476696
+            ],
+            [
+              -61.35526944394136,
+              46.07973419147901
+            ],
+            [
+              -61.35528825289958,
+              46.079422690434214
+            ],
+            [
+              -61.35530750014887,
+              46.0791117934284
+            ],
+            [
+              -61.35532702467475,
+              46.07880148977387
+            ],
+            [
+              -61.355346659411445,
+              46.07849177005846
+            ],
+            [
+              -61.35536622881797,
+              46.078182626236355
+            ],
+            [
+              -61.35494659350176,
+              46.07817108765548
+            ],
+            [
+              -61.354526168776154,
+              46.07815959590736
+            ],
+            [
+              -61.35450394346967,
+              46.0784677430077
+            ],
+            [
+              -61.35448156506431,
+              46.078776442352236
+            ],
+            [
+              -61.354459209117195,
+              46.0790857011339
+            ],
+            [
+              -61.35443704192642,
+              46.0793955279255
+            ],
+            [
+              -61.354415223183686,
+              46.0797059325735
+            ],
+            [
+              -61.35439390797147,
+              46.08001692614032
+            ],
+            [
+              -61.354822738655116,
+              46.08003162169906
+            ],
+            [
+              -61.355251230090445,
+              46.080046308476696
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-044",
+        "sheet": 16,
+        "source_text": "Cheese Factory",
+        "kind": "factory",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                6931.0,
+                1407.0
+              ],
+              [
+                6939.0,
+                1407.0
+              ],
+              [
+                6947.0,
+                1407.0
+              ],
+              [
+                6947.0,
+                1416.5
+              ],
+              [
+                6947.0,
+                1426.0
+              ],
+              [
+                6947.0,
+                1435.5
+              ],
+              [
+                6947.0,
+                1445.0
+              ],
+              [
+                6947.0,
+                1454.5
+              ],
+              [
+                6947.0,
+                1464.0
+              ],
+              [
+                6939.0,
+                1464.0
+              ],
+              [
+                6931.0,
+                1464.0
+              ],
+              [
+                6931.0,
+                1454.5
+              ],
+              [
+                6931.0,
+                1445.0
+              ],
+              [
+                6931.0,
+                1435.5
+              ],
+              [
+                6931.0,
+                1426.0
+              ],
+              [
+                6931.0,
+                1416.5
+              ],
+              [
+                6931.0,
+                1407.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6597,
+            1050,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/6597,1050,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The vertical cluster of compact marks immediately below the Cheese Factory caption and east of the river supplies this bounded source group. The nearby rectilinear pattern and isolated eastern mark remain separate. No individual factory building or current footprint is selected.",
+        "placement_note": "The cheese-factory group remains east of the north-south road/channel corridor above the southern junction. Modern tributary and road order support approximate locality; the source group straddles a small drainage approach and individual buildings remain unresolved.",
+        "source_excerpt": "excerpts/F16-PHM-044.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-045",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.357891331793894,
+          46.07497413807631
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-045",
+        "sheet": 16,
+        "source_text": "Church",
+        "kind": "church",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6883.5,
+            1565
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6412,
+            1192,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/6412,1192,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Native 6x detail confirms the church cross below Church beside the road at the western side of the river bend. Its cross centre supplies the source anchor; nearby hatching, the river and the separate eastern church remain distinct.",
+        "placement_note": "The western church glyph remains north of the east-west road/lowland corridor and west of the northern main channel. The source road is displaced from its modern counterpart, but the broader road/drainage setting supports approximate historical locality. No current church is identified.",
+        "source_excerpt": "excerpts/F16-PHM-045.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-046",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.35735499142344,
+              46.07400547002641
+            ],
+            [
+              -61.35734900283361,
+              46.07368678936887
+            ],
+            [
+              -61.35734208055814,
+              46.07336859955733
+            ],
+            [
+              -61.35733431906622,
+              46.07305088111309
+            ],
+            [
+              -61.35732579758743,
+              46.07273361592355
+            ],
+            [
+              -61.35683032029152,
+              46.07272782056657
+            ],
+            [
+              -61.356333589098384,
+              46.07272206940877
+            ],
+            [
+              -61.35583560763112,
+              46.0727163856213
+            ],
+            [
+              -61.35533640104597,
+              46.07271079109889
+            ],
+            [
+              -61.354836019023715,
+              46.072705306191125
+            ],
+            [
+              -61.354839362871026,
+              46.073020460087605
+            ],
+            [
+              -61.35484185726557,
+              46.0733360096843
+            ],
+            [
+              -61.354843429745536,
+              46.07365197131984
+            ],
+            [
+              -61.354843994606725,
+              46.0739683625311
+            ],
+            [
+              -61.355349357879405,
+              46.07397558642569
+            ],
+            [
+              -61.355853151248304,
+              46.07398293591654
+            ],
+            [
+              -61.356355334401144,
+              46.073990385962304
+            ],
+            [
+              -61.35685592704932,
+              46.07399790777411
+            ],
+            [
+              -61.35735499142344,
+              46.07400547002641
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-046",
+        "sheet": 16,
+        "source_text": "Tannery",
+        "kind": "tannery",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                6894.0,
+                1595.0
+              ],
+              [
+                6904.0,
+                1595.0
+              ],
+              [
+                6914.0,
+                1595.0
+              ],
+              [
+                6924.0,
+                1595.0
+              ],
+              [
+                6934.0,
+                1595.0
+              ],
+              [
+                6944.0,
+                1595.0
+              ],
+              [
+                6944.0,
+                1605.0
+              ],
+              [
+                6944.0,
+                1615.0
+              ],
+              [
+                6944.0,
+                1625.0
+              ],
+              [
+                6944.0,
+                1635.0
+              ],
+              [
+                6934.0,
+                1635.0
+              ],
+              [
+                6924.0,
+                1635.0
+              ],
+              [
+                6914.0,
+                1635.0
+              ],
+              [
+                6904.0,
+                1635.0
+              ],
+              [
+                6894.0,
+                1635.0
+              ],
+              [
+                6894.0,
+                1625.0
+              ],
+              [
+                6894.0,
+                1615.0
+              ],
+              [
+                6894.0,
+                1605.0
+              ],
+              [
+                6894.0,
+                1595.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6552,
+            1236,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/6552,1236,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact cluster at the road/river bend beside Tannery and Shop supplies a shared bounded source group for both captions. The source does not distinguish their individual buildings. The nearby church cross and surrounding hatching remain separate.",
+        "placement_note": "The shared tannery/shop group remains at the southern end of the northern drainage corridor beside the east-west road. Its overlap with frozen NSTDB polygon 4216 is a Swamp Area polygon (WASW40), not proof of open water or a present site condition. Modern road and channel layout differ locally; the broad junction context supports an approximate group without identifying individual buildings.",
+        "source_excerpt": "excerpts/F16-PHM-046.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-047",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.35735499142344,
+              46.07400547002641
+            ],
+            [
+              -61.35734900283361,
+              46.07368678936887
+            ],
+            [
+              -61.35734208055814,
+              46.07336859955733
+            ],
+            [
+              -61.35733431906622,
+              46.07305088111309
+            ],
+            [
+              -61.35732579758743,
+              46.07273361592355
+            ],
+            [
+              -61.35683032029152,
+              46.07272782056657
+            ],
+            [
+              -61.356333589098384,
+              46.07272206940877
+            ],
+            [
+              -61.35583560763112,
+              46.0727163856213
+            ],
+            [
+              -61.35533640104597,
+              46.07271079109889
+            ],
+            [
+              -61.354836019023715,
+              46.072705306191125
+            ],
+            [
+              -61.354839362871026,
+              46.073020460087605
+            ],
+            [
+              -61.35484185726557,
+              46.0733360096843
+            ],
+            [
+              -61.354843429745536,
+              46.07365197131984
+            ],
+            [
+              -61.354843994606725,
+              46.0739683625311
+            ],
+            [
+              -61.355349357879405,
+              46.07397558642569
+            ],
+            [
+              -61.355853151248304,
+              46.07398293591654
+            ],
+            [
+              -61.356355334401144,
+              46.073990385962304
+            ],
+            [
+              -61.35685592704932,
+              46.07399790777411
+            ],
+            [
+              -61.35735499142344,
+              46.07400547002641
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-047",
+        "sheet": 16,
+        "source_text": "Shop",
+        "kind": "shop",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                6894.0,
+                1595.0
+              ],
+              [
+                6904.0,
+                1595.0
+              ],
+              [
+                6914.0,
+                1595.0
+              ],
+              [
+                6924.0,
+                1595.0
+              ],
+              [
+                6934.0,
+                1595.0
+              ],
+              [
+                6944.0,
+                1595.0
+              ],
+              [
+                6944.0,
+                1605.0
+              ],
+              [
+                6944.0,
+                1615.0
+              ],
+              [
+                6944.0,
+                1625.0
+              ],
+              [
+                6944.0,
+                1635.0
+              ],
+              [
+                6934.0,
+                1635.0
+              ],
+              [
+                6924.0,
+                1635.0
+              ],
+              [
+                6914.0,
+                1635.0
+              ],
+              [
+                6904.0,
+                1635.0
+              ],
+              [
+                6894.0,
+                1635.0
+              ],
+              [
+                6894.0,
+                1625.0
+              ],
+              [
+                6894.0,
+                1615.0
+              ],
+              [
+                6894.0,
+                1605.0
+              ],
+              [
+                6894.0,
+                1595.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6524,
+            1267,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/6524,1267,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact cluster beside Shop and Tannery is shared with annotation46 as one bounded source group. Individual shop and tannery buildings cannot be distinguished from the caption arrangement; do not invent separate point sites or current property identities.",
+        "placement_note": "This shop shares the tannery source group and its approximate southern drainage/road-junction locality. Polygon 4216 is a Swamp Area polygon (WASW40); overlap does not establish open water or the historical site’s condition. The individual shop and tannery remain unresolved and the complete group is retained.",
+        "source_excerpt": "excerpts/F16-PHM-047.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-048",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.34855591943443,
+          46.0710426942395
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-048",
+        "sheet": 16,
+        "source_text": "Church",
+        "kind": "church",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            7069.5,
+            1687
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6614,
+            1319,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/6614,1319,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Native 6x detail confirms the church cross immediately below Church at the eastern roadside bend. Its actual cross centre supplies the source anchor, separate from the nearby school/roadside marks and the western church.",
+        "placement_note": "The eastern church glyph remains at the road bend north of the main lowland river corridor. Modern roads and tributaries support the same broad locality with a small south/west offset retained. It is not matched to a present church or parcel.",
+        "source_excerpt": "excerpts/F16-PHM-048.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-049",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.3464795339356,
+              46.06971937462549
+            ],
+            [
+              -61.34648531105851,
+              46.06944313558513
+            ],
+            [
+              -61.346490373008905,
+              46.069166995480636
+            ],
+            [
+              -61.34649474239925,
+              46.06889094890943
+            ],
+            [
+              -61.34649844119008,
+              46.0686149906406
+            ],
+            [
+              -61.346501490690905,
+              46.0683391156119
+            ],
+            [
+              -61.34650391156877,
+              46.06806331892598
+            ],
+            [
+              -61.34605043570286,
+              46.06806581483271
+            ],
+            [
+              -61.345597277439005,
+              46.068068512041805
+            ],
+            [
+              -61.34514447295221,
+              46.06807141354136
+            ],
+            [
+              -61.344692056592756,
+              46.068074522022
+            ],
+            [
+              -61.344240060805575,
+              46.06807783987596
+            ],
+            [
+              -61.343788516066276,
+              46.068081369198005
+            ],
+            [
+              -61.34333745083293,
+              46.06808511178507
+            ],
+            [
+              -61.343331286325395,
+              46.06835970101263
+            ],
+            [
+              -61.34332443478049,
+              46.068634333355895
+            ],
+            [
+              -61.343316877824336,
+              46.068909013236954
+            ],
+            [
+              -61.343308597007535,
+              46.069183745232394
+            ],
+            [
+              -61.343299573856854,
+              46.06945853407473
+            ],
+            [
+              -61.343289789936954,
+              46.06973338465381
+            ],
+            [
+              -61.34374366228851,
+              46.06973068049373
+            ],
+            [
+              -61.344198194988394,
+              46.06972821451707
+            ],
+            [
+              -61.3446533557473,
+              46.06972598470362
+            ],
+            [
+              -61.34510910942626,
+              46.06972398868818
+            ],
+            [
+              -61.345565418035,
+              46.06972222376152
+            ],
+            [
+              -61.34602224074681,
+              46.06972068687164
+            ],
+            [
+              -61.3464795339356,
+              46.06971937462549
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-049",
+        "sheet": 16,
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                7112.0,
+                1730.0
+              ],
+              [
+                7121.285714285715,
+                1730.0
+              ],
+              [
+                7130.571428571428,
+                1730.0
+              ],
+              [
+                7139.857142857143,
+                1730.0
+              ],
+              [
+                7149.142857142857,
+                1730.0
+              ],
+              [
+                7158.428571428572,
+                1730.0
+              ],
+              [
+                7167.714285714285,
+                1730.0
+              ],
+              [
+                7177.0,
+                1730.0
+              ],
+              [
+                7177.0,
+                1739.0
+              ],
+              [
+                7177.0,
+                1748.0
+              ],
+              [
+                7177.0,
+                1757.0
+              ],
+              [
+                7177.0,
+                1766.0
+              ],
+              [
+                7177.0,
+                1775.0
+              ],
+              [
+                7177.0,
+                1784.0
+              ],
+              [
+                7167.714285714285,
+                1784.0
+              ],
+              [
+                7158.428571428572,
+                1784.0
+              ],
+              [
+                7149.142857142857,
+                1784.0
+              ],
+              [
+                7139.857142857143,
+                1784.0
+              ],
+              [
+                7130.571428571428,
+                1784.0
+              ],
+              [
+                7121.285714285715,
+                1784.0
+              ],
+              [
+                7112.0,
+                1784.0
+              ],
+              [
+                7112.0,
+                1775.0
+              ],
+              [
+                7112.0,
+                1766.0
+              ],
+              [
+                7112.0,
+                1757.0
+              ],
+              [
+                7112.0,
+                1748.0
+              ],
+              [
+                7112.0,
+                1739.0
+              ],
+              [
+                7112.0,
+                1730.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6697,
+            1369,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/6697,1369,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact cluster immediately below School on the northeast side of the road supplies this bounded source group. The nearby church cross and the three marks farther north/west remain separate. No individual school building is selected.",
+        "placement_note": "The school group remains in the road/tributary district southeast of the eastern church and north of the southern river crossing. The modern road crosses the group rather than passing beside all source marks. This supports approximate locality only; the source group is not split, shifted or interpreted as individual current buildings.",
+        "source_excerpt": "excerpts/F16-PHM-049.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-050",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -61.39059880989709,
+                46.07435425688475
+              ],
+              [
+                -61.390571117888726,
+                46.07408495889981
+              ],
+              [
+                -61.3905436397969,
+                46.07381589457327
+              ],
+              [
+                -61.39051636984877,
+                46.07354706197261
+              ],
+              [
+                -61.39048930231362,
+                46.07327845909937
+              ],
+              [
+                -61.390462431511125,
+                46.07301008389324
+              ],
+              [
+                -61.39007869863842,
+                46.07302197421924
+              ],
+              [
+                -61.389694736741774,
+                46.073033794617615
+              ],
+              [
+                -61.389310531737095,
+                46.073045536882304
+              ],
+              [
+                -61.38892606962984,
+                46.07305719287269
+              ],
+              [
+                -61.3885413365198,
+                46.07306875451625
+              ],
+              [
+                -61.38815631860627,
+                46.073080213811316
+              ],
+              [
+                -61.38777100219246,
+                46.07309156282978
+              ],
+              [
+                -61.387798747983226,
+                46.073361312490405
+              ],
+              [
+                -61.38782669857587,
+                46.07363131139571
+              ],
+              [
+                -61.38785485978221,
+                46.07390156130036
+              ],
+              [
+                -61.387883237451724,
+                46.07417206385619
+              ],
+              [
+                -61.38791183746101,
+                46.07444282060679
+              ],
+              [
+                -61.38829660899396,
+                46.07443049316408
+              ],
+              [
+                -61.3886810495103,
+                46.074418043250375
+              ],
+              [
+                -61.389065173857404,
+                46.074405479373354
+              ],
+              [
+                -61.389448996981685,
+                46.07439281011282
+              ],
+              [
+                -61.38983253392508,
+                46.074380044119586
+              ],
+              [
+                -61.39021579982216,
+                46.074367190114096
+              ],
+              [
+                -61.39059880989709,
+                46.07435425688475
+              ]
+            ]
+          ],
+          [
+            [
+              [
+                -61.3823217246631,
+                46.07600988462867
+              ],
+              [
+                -61.38228895473401,
+                46.07571530995148
+              ],
+              [
+                -61.382256491153505,
+                46.07542108670591
+              ],
+              [
+                -61.38222432455596,
+                46.07512721447511
+              ],
+              [
+                -61.38219244560103,
+                46.074833692556986
+              ],
+              [
+                -61.38216084500309,
+                46.07454051997618
+              ],
+              [
+                -61.38181236171699,
+                46.07454879535897
+              ],
+              [
+                -61.381463437635745,
+                46.07455687243916
+              ],
+              [
+                -61.38111406421377,
+                46.074564746451266
+              ],
+              [
+                -61.380764233048076,
+                46.07457241271551
+              ],
+              [
+                -61.38079567384262,
+                46.074866137048566
+              ],
+              [
+                -61.380827391919894,
+                46.075160225651
+              ],
+              [
+                -61.38085939754572,
+                46.07545467961232
+              ],
+              [
+                -61.38089170110652,
+                46.075749499731394
+              ],
+              [
+                -61.38092431307775,
+                46.07604468650277
+              ],
+              [
+                -61.38127441921669,
+                46.07603632200443
+              ],
+              [
+                -61.38162401670983,
+                46.076027729990884
+              ],
+              [
+                -61.38197311525334,
+                46.07601891574705
+              ],
+              [
+                -61.3823217246631,
+                46.07600988462867
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-050",
+        "sheet": 16,
+        "source_text": "Stage\nStables",
+        "kind": "stage-stables",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "MultiPolygon",
+          "coordinates": [
+            [
+              [
+                [
+                  6180.0,
+                  1576.0
+                ],
+                [
+                  6188.714285714285,
+                  1576.0
+                ],
+                [
+                  6197.428571428572,
+                  1576.0
+                ],
+                [
+                  6206.142857142857,
+                  1576.0
+                ],
+                [
+                  6214.857142857143,
+                  1576.0
+                ],
+                [
+                  6223.571428571428,
+                  1576.0
+                ],
+                [
+                  6232.285714285715,
+                  1576.0
+                ],
+                [
+                  6241.0,
+                  1576.0
+                ],
+                [
+                  6241.0,
+                  1584.4
+                ],
+                [
+                  6241.0,
+                  1592.8
+                ],
+                [
+                  6241.0,
+                  1601.2
+                ],
+                [
+                  6241.0,
+                  1609.6
+                ],
+                [
+                  6241.0,
+                  1618.0
+                ],
+                [
+                  6232.285714285715,
+                  1618.0
+                ],
+                [
+                  6223.571428571428,
+                  1618.0
+                ],
+                [
+                  6214.857142857143,
+                  1618.0
+                ],
+                [
+                  6206.142857142857,
+                  1618.0
+                ],
+                [
+                  6197.428571428572,
+                  1618.0
+                ],
+                [
+                  6188.714285714285,
+                  1618.0
+                ],
+                [
+                  6180.0,
+                  1618.0
+                ],
+                [
+                  6180.0,
+                  1609.6
+                ],
+                [
+                  6180.0,
+                  1601.2
+                ],
+                [
+                  6180.0,
+                  1592.8
+                ],
+                [
+                  6180.0,
+                  1584.4
+                ],
+                [
+                  6180.0,
+                  1576.0
+                ]
+              ]
+            ],
+            [
+              [
+                [
+                  6370.0,
+                  1533.0
+                ],
+                [
+                  6377.75,
+                  1533.0
+                ],
+                [
+                  6385.5,
+                  1533.0
+                ],
+                [
+                  6393.25,
+                  1533.0
+                ],
+                [
+                  6401.0,
+                  1533.0
+                ],
+                [
+                  6401.0,
+                  1542.0
+                ],
+                [
+                  6401.0,
+                  1551.0
+                ],
+                [
+                  6401.0,
+                  1560.0
+                ],
+                [
+                  6401.0,
+                  1569.0
+                ],
+                [
+                  6401.0,
+                  1578.0
+                ],
+                [
+                  6393.25,
+                  1578.0
+                ],
+                [
+                  6385.5,
+                  1578.0
+                ],
+                [
+                  6377.75,
+                  1578.0
+                ],
+                [
+                  6370.0,
+                  1578.0
+                ],
+                [
+                  6370.0,
+                  1569.0
+                ],
+                [
+                  6370.0,
+                  1560.0
+                ],
+                [
+                  6370.0,
+                  1551.0
+                ],
+                [
+                  6370.0,
+                  1542.0
+                ],
+                [
+                  6370.0,
+                  1533.0
+                ]
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            5844,
+            1196,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/5844,1196,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Two bounded clusters of compact roadside marks flank the Stage Stables caption. The exact stable building cannot be selected from those generic marks; retain both candidate groups. The more distant eastern mark and dense postal/school junction cluster remain separate, and no current stable or property is inferred.",
+        "placement_note": "Both stable candidate groups remain along the east-west Mabou road corridor north of the harbour, with the eastern group beside the same tributary-crossing district. The modern highway cuts through their southern edges. Their broad locality is supported while the exact stable building remains unresolved; neither group is a current property or facility claim.",
+        "source_excerpt": "excerpts/F16-PHM-050.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-052",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.39431711193126,
+              46.07323811590894
+            ],
+            [
+              -61.39428741832859,
+              46.07292503011596
+            ],
+            [
+              -61.39425796583382,
+              46.07261221348833
+            ],
+            [
+              -61.394228745430034,
+              46.07229966183464
+            ],
+            [
+              -61.3941997483087,
+              46.07198737097443
+            ],
+            [
+              -61.3941709658727,
+              46.07167533673888
+            ],
+            [
+              -61.39414238973876,
+              46.07136355497059
+            ],
+            [
+              -61.39411401173911,
+              46.071052021523855
+            ],
+            [
+              -61.394085823922964,
+              46.07074073226458
+            ],
+            [
+              -61.393665603758215,
+              46.07075224609011
+            ],
+            [
+              -61.393245305514434,
+              46.07076378211827
+            ],
+            [
+              -61.392824912477636,
+              46.07077533046629
+            ],
+            [
+              -61.392404407945705,
+              46.070786881268305
+            ],
+            [
+              -61.39198377524144,
+              46.07079842468383
+            ],
+            [
+              -61.3915629977249,
+              46.07080995090672
+            ],
+            [
+              -61.39114205880569,
+              46.07082145017316
+            ],
+            [
+              -61.390720941954406,
+              46.070832912769546
+            ],
+            [
+              -61.39029963071415,
+              46.07084432904005
+            ],
+            [
+              -61.3898781087109,
+              46.07085568939383
+            ],
+            [
+              -61.389456359664116,
+              46.07086698431221
+            ],
+            [
+              -61.38948664112038,
+              46.07118086389767
+            ],
+            [
+              -61.389517139237874,
+              46.07149504239073
+            ],
+            [
+              -61.3895478623237,
+              46.07180952371353
+            ],
+            [
+              -61.38957881886091,
+              46.072124311698545
+            ],
+            [
+              -61.389610017498875,
+              46.07243941008157
+            ],
+            [
+              -61.389641467041926,
+              46.07275482249455
+            ],
+            [
+              -61.38967317643689,
+              46.07307055245781
+            ],
+            [
+              -61.38970515475906,
+              46.073386603372
+            ],
+            [
+              -61.39012554763138,
+              46.07337336855183
+            ],
+            [
+              -61.390545657991716,
+              46.073360047188324
+            ],
+            [
+              -61.390965504863615,
+              46.07334665036431
+            ],
+            [
+              -61.39138510738647,
+              46.07333318924988
+            ],
+            [
+              -61.39180448480921,
+              46.07331967509874
+            ],
+            [
+              -61.39222365648192,
+              46.0733061192432
+            ],
+            [
+              -61.392642641848695,
+              46.073292533089614
+            ],
+            [
+              -61.39306146043893,
+              46.073278928113155
+            ],
+            [
+              -61.39348013185835,
+              46.07326531585228
+            ],
+            [
+              -61.39389867577953,
+              46.0732517079023
+            ],
+            [
+              -61.39431711193126,
+              46.07323811590894
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-052",
+        "sheet": 16,
+        "source_text": "T. & P.O.",
+        "kind": "telegraph-and-post-office",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                6093.0,
+                1607.0
+              ],
+              [
+                6102.545454545455,
+                1607.0
+              ],
+              [
+                6112.090909090909,
+                1607.0
+              ],
+              [
+                6121.636363636364,
+                1607.0
+              ],
+              [
+                6131.181818181818,
+                1607.0
+              ],
+              [
+                6140.727272727273,
+                1607.0
+              ],
+              [
+                6150.272727272727,
+                1607.0
+              ],
+              [
+                6159.818181818182,
+                1607.0
+              ],
+              [
+                6169.363636363636,
+                1607.0
+              ],
+              [
+                6178.909090909091,
+                1607.0
+              ],
+              [
+                6188.454545454545,
+                1607.0
+              ],
+              [
+                6198.0,
+                1607.0
+              ],
+              [
+                6198.0,
+                1616.875
+              ],
+              [
+                6198.0,
+                1626.75
+              ],
+              [
+                6198.0,
+                1636.625
+              ],
+              [
+                6198.0,
+                1646.5
+              ],
+              [
+                6198.0,
+                1656.375
+              ],
+              [
+                6198.0,
+                1666.25
+              ],
+              [
+                6198.0,
+                1676.125
+              ],
+              [
+                6198.0,
+                1686.0
+              ],
+              [
+                6188.454545454545,
+                1686.0
+              ],
+              [
+                6178.909090909091,
+                1686.0
+              ],
+              [
+                6169.363636363636,
+                1686.0
+              ],
+              [
+                6159.818181818182,
+                1686.0
+              ],
+              [
+                6150.272727272727,
+                1686.0
+              ],
+              [
+                6140.727272727273,
+                1686.0
+              ],
+              [
+                6131.181818181818,
+                1686.0
+              ],
+              [
+                6121.636363636364,
+                1686.0
+              ],
+              [
+                6112.090909090909,
+                1686.0
+              ],
+              [
+                6102.545454545455,
+                1686.0
+              ],
+              [
+                6093.0,
+                1686.0
+              ],
+              [
+                6093.0,
+                1676.125
+              ],
+              [
+                6093.0,
+                1666.25
+              ],
+              [
+                6093.0,
+                1656.375
+              ],
+              [
+                6093.0,
+                1646.5
+              ],
+              [
+                6093.0,
+                1636.625
+              ],
+              [
+                6093.0,
+                1626.75
+              ],
+              [
+                6093.0,
+                1616.875
+              ],
+              [
+                6093.0,
+                1607.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            5673,
+            1250,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/5673,1250,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The dense compact-mark cluster around the junction below T. & P.O. and beside School supplies a shared bounded source group. The original telegraph/postal wording remains attached, but individual telegraph, postal and school buildings cannot be distinguished. No current address, property or facility is identified.",
+        "placement_note": "The shared telegraph/postal and school cluster remains at the northern approach to the Mabou harbour crossing. Its western/southern edges overlap Coast River Water polygons 254 and 1578 (WACORV40); those bounding-group overlaps do not establish a building footprint or historical inundation. Shore, road and crossing order support approximate locality while individual facilities remain unresolved.",
+        "source_excerpt": "excerpts/F16-PHM-052.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-053",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.39431711193126,
+              46.07323811590894
+            ],
+            [
+              -61.39428741832859,
+              46.07292503011596
+            ],
+            [
+              -61.39425796583382,
+              46.07261221348833
+            ],
+            [
+              -61.394228745430034,
+              46.07229966183464
+            ],
+            [
+              -61.3941997483087,
+              46.07198737097443
+            ],
+            [
+              -61.3941709658727,
+              46.07167533673888
+            ],
+            [
+              -61.39414238973876,
+              46.07136355497059
+            ],
+            [
+              -61.39411401173911,
+              46.071052021523855
+            ],
+            [
+              -61.394085823922964,
+              46.07074073226458
+            ],
+            [
+              -61.393665603758215,
+              46.07075224609011
+            ],
+            [
+              -61.393245305514434,
+              46.07076378211827
+            ],
+            [
+              -61.392824912477636,
+              46.07077533046629
+            ],
+            [
+              -61.392404407945705,
+              46.070786881268305
+            ],
+            [
+              -61.39198377524144,
+              46.07079842468383
+            ],
+            [
+              -61.3915629977249,
+              46.07080995090672
+            ],
+            [
+              -61.39114205880569,
+              46.07082145017316
+            ],
+            [
+              -61.390720941954406,
+              46.070832912769546
+            ],
+            [
+              -61.39029963071415,
+              46.07084432904005
+            ],
+            [
+              -61.3898781087109,
+              46.07085568939383
+            ],
+            [
+              -61.389456359664116,
+              46.07086698431221
+            ],
+            [
+              -61.38948664112038,
+              46.07118086389767
+            ],
+            [
+              -61.389517139237874,
+              46.07149504239073
+            ],
+            [
+              -61.3895478623237,
+              46.07180952371353
+            ],
+            [
+              -61.38957881886091,
+              46.072124311698545
+            ],
+            [
+              -61.389610017498875,
+              46.07243941008157
+            ],
+            [
+              -61.389641467041926,
+              46.07275482249455
+            ],
+            [
+              -61.38967317643689,
+              46.07307055245781
+            ],
+            [
+              -61.38970515475906,
+              46.073386603372
+            ],
+            [
+              -61.39012554763138,
+              46.07337336855183
+            ],
+            [
+              -61.390545657991716,
+              46.073360047188324
+            ],
+            [
+              -61.390965504863615,
+              46.07334665036431
+            ],
+            [
+              -61.39138510738647,
+              46.07333318924988
+            ],
+            [
+              -61.39180448480921,
+              46.07331967509874
+            ],
+            [
+              -61.39222365648192,
+              46.0733061192432
+            ],
+            [
+              -61.392642641848695,
+              46.073292533089614
+            ],
+            [
+              -61.39306146043893,
+              46.073278928113155
+            ],
+            [
+              -61.39348013185835,
+              46.07326531585228
+            ],
+            [
+              -61.39389867577953,
+              46.0732517079023
+            ],
+            [
+              -61.39431711193126,
+              46.07323811590894
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-053",
+        "sheet": 16,
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                6093.0,
+                1607.0
+              ],
+              [
+                6102.545454545455,
+                1607.0
+              ],
+              [
+                6112.090909090909,
+                1607.0
+              ],
+              [
+                6121.636363636364,
+                1607.0
+              ],
+              [
+                6131.181818181818,
+                1607.0
+              ],
+              [
+                6140.727272727273,
+                1607.0
+              ],
+              [
+                6150.272727272727,
+                1607.0
+              ],
+              [
+                6159.818181818182,
+                1607.0
+              ],
+              [
+                6169.363636363636,
+                1607.0
+              ],
+              [
+                6178.909090909091,
+                1607.0
+              ],
+              [
+                6188.454545454545,
+                1607.0
+              ],
+              [
+                6198.0,
+                1607.0
+              ],
+              [
+                6198.0,
+                1616.875
+              ],
+              [
+                6198.0,
+                1626.75
+              ],
+              [
+                6198.0,
+                1636.625
+              ],
+              [
+                6198.0,
+                1646.5
+              ],
+              [
+                6198.0,
+                1656.375
+              ],
+              [
+                6198.0,
+                1666.25
+              ],
+              [
+                6198.0,
+                1676.125
+              ],
+              [
+                6198.0,
+                1686.0
+              ],
+              [
+                6188.454545454545,
+                1686.0
+              ],
+              [
+                6178.909090909091,
+                1686.0
+              ],
+              [
+                6169.363636363636,
+                1686.0
+              ],
+              [
+                6159.818181818182,
+                1686.0
+              ],
+              [
+                6150.272727272727,
+                1686.0
+              ],
+              [
+                6140.727272727273,
+                1686.0
+              ],
+              [
+                6131.181818181818,
+                1686.0
+              ],
+              [
+                6121.636363636364,
+                1686.0
+              ],
+              [
+                6112.090909090909,
+                1686.0
+              ],
+              [
+                6102.545454545455,
+                1686.0
+              ],
+              [
+                6093.0,
+                1686.0
+              ],
+              [
+                6093.0,
+                1676.125
+              ],
+              [
+                6093.0,
+                1666.25
+              ],
+              [
+                6093.0,
+                1656.375
+              ],
+              [
+                6093.0,
+                1646.5
+              ],
+              [
+                6093.0,
+                1636.625
+              ],
+              [
+                6093.0,
+                1626.75
+              ],
+              [
+                6093.0,
+                1616.875
+              ],
+              [
+                6093.0,
+                1607.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            5767,
+            1322,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/5767,1322,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact junction cluster beside School is shared with the T. & P.O. annotation52. The source does not distinguish an individual school building within those marks. Preserve the bounded group rather than a lettering centre or an invented building footprint.",
+        "placement_note": "This school shares the telegraph/postal group at the northern Mabou crossing approach. The complete group partly overlaps Coast River Water polygons 254 and 1578 (WACORV40), with differing shore and road positions. Broad locality is supported; no individual school building or historical water condition is inferred.",
+        "source_excerpt": "excerpts/F16-PHM-053.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-054",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.34287048280811,
+              46.067113910511324
+            ],
+            [
+              -61.34287443431873,
+              46.06681929409332
+            ],
+            [
+              -61.34287770217233,
+              46.06652469634365
+            ],
+            [
+              -61.34288030729663,
+              46.06623011304405
+            ],
+            [
+              -61.34242260615816,
+              46.06623533577104
+            ],
+            [
+              -61.34196530766653,
+              46.06624075832421
+            ],
+            [
+              -61.34196191080064,
+              46.06653507759083
+            ],
+            [
+              -61.34195784122256,
+              46.06682940116226
+            ],
+            [
+              -61.341953078447986,
+              46.06712373310547
+            ],
+            [
+              -61.342411539757656,
+              46.067118715581586
+            ],
+            [
+              -61.34287048280811,
+              46.067113910511324
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-054",
+        "sheet": 16,
+        "source_text": "Forge",
+        "kind": "forge",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                7187.0,
+                1816.0
+              ],
+              [
+                7196.5,
+                1816.0
+              ],
+              [
+                7206.0,
+                1816.0
+              ],
+              [
+                7206.0,
+                1825.6666666666667
+              ],
+              [
+                7206.0,
+                1835.3333333333333
+              ],
+              [
+                7206.0,
+                1845.0
+              ],
+              [
+                7196.5,
+                1845.0
+              ],
+              [
+                7187.0,
+                1845.0
+              ],
+              [
+                7187.0,
+                1835.3333333333333
+              ],
+              [
+                7187.0,
+                1825.6666666666667
+              ],
+              [
+                7187.0,
+                1816.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6800,
+            1483,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/6800,1483,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact pair immediately left of Forge beside the road supplies this bounded source group. The postal marks farther south and the school cluster farther north remain separate. No individual forge building is selected.",
+        "placement_note": "The forge pair remains beside the road corridor north/east of the main river crossing and below the school district. The modern road passes through the group. Retain the approximate source group without selecting a present building or moving it off the road.",
+        "source_excerpt": "excerpts/F16-PHM-054.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-055",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.34090984991889,
+              46.06610199471055
+            ],
+            [
+              -61.34091263908338,
+              46.06584850232941
+            ],
+            [
+              -61.34091495821786,
+              46.065594998275884
+            ],
+            [
+              -61.34091681974866,
+              46.06534148040595
+            ],
+            [
+              -61.34044752784121,
+              46.06534810398972
+            ],
+            [
+              -61.33997865404618,
+              46.06535492718043
+            ],
+            [
+              -61.339510209845436,
+              46.06536194926473
+            ],
+            [
+              -61.33904220503048,
+              46.06536916923886
+            ],
+            [
+              -61.33857464770248,
+              46.06537658580987
+            ],
+            [
+              -61.33857171825178,
+              46.06562968994086
+            ],
+            [
+              -61.338568330729736,
+              46.06588276317955
+            ],
+            [
+              -61.33856447337675,
+              46.06613580741126
+            ],
+            [
+              -61.3390325329892,
+              46.06612862731761
+            ],
+            [
+              -61.33950110971461,
+              46.06612165481203
+            ],
+            [
+              -61.339970195225675,
+              46.06611489123517
+            ],
+            [
+              -61.34043977932158,
+              46.06610833762404
+            ],
+            [
+              -61.34090984991889,
+              46.06610199471055
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-055",
+        "sheet": 16,
+        "source_text": "P.O.",
+        "kind": "post-office",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                7228.0,
+                1850.0
+              ],
+              [
+                7237.8,
+                1850.0
+              ],
+              [
+                7247.6,
+                1850.0
+              ],
+              [
+                7257.4,
+                1850.0
+              ],
+              [
+                7267.2,
+                1850.0
+              ],
+              [
+                7277.0,
+                1850.0
+              ],
+              [
+                7277.0,
+                1858.3333333333333
+              ],
+              [
+                7277.0,
+                1866.6666666666667
+              ],
+              [
+                7277.0,
+                1875.0
+              ],
+              [
+                7267.2,
+                1875.0
+              ],
+              [
+                7257.4,
+                1875.0
+              ],
+              [
+                7247.6,
+                1875.0
+              ],
+              [
+                7237.8,
+                1875.0
+              ],
+              [
+                7228.0,
+                1875.0
+              ],
+              [
+                7228.0,
+                1866.6666666666667
+              ],
+              [
+                7228.0,
+                1858.3333333333333
+              ],
+              [
+                7228.0,
+                1850.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6813,
+            1533,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/6813,1533,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The three compact marks immediately above P.O. supply the bounded postal group. The forge pair, more eastern roadside pair and shops near the river remain separate. No individual postal building or modern facility is identified.",
+        "placement_note": "The postal group remains north of the east-west road and west of the Hillsboro drainage bend. The broader road and stream arrangement supports approximate locality, though minor roads differ. No individual postal building or current facility is identified.",
+        "source_excerpt": "excerpts/F16-PHM-055.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-056",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.33572812161714,
+              46.0648801133241
+            ],
+            [
+              -61.33573020546013,
+              46.06463734278059
+            ],
+            [
+              -61.33573192785508,
+              46.0643945208995
+            ],
+            [
+              -61.33573329843933,
+              46.06415164664731
+            ],
+            [
+              -61.33573432680192,
+              46.06390871904074
+            ],
+            [
+              -61.335284414251895,
+              46.06391743960739
+            ],
+            [
+              -61.334834816310575,
+              46.063926307462374
+            ],
+            [
+              -61.334385528550506,
+              46.06393531940311
+            ],
+            [
+              -61.333936545421736,
+              46.063944472009815
+            ],
+            [
+              -61.33393546442254,
+              46.064187289649276
+            ],
+            [
+              -61.33393406073394,
+              46.06443004481933
+            ],
+            [
+              -61.333932325124316,
+              46.064672738306314
+            ],
+            [
+              -61.333930248320264,
+              46.06491537094036
+            ],
+            [
+              -61.334379153645855,
+              46.064906325750115
+            ],
+            [
+              -61.33482843007314,
+              46.06489743203941
+            ],
+            [
+              -61.33527808426193,
+              46.064888693433154
+            ],
+            [
+              -61.33572812161714,
+              46.0648801133241
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-056",
+        "sheet": 16,
+        "source_text": "Shops",
+        "kind": "shop",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                7337.0,
+                1893.0
+              ],
+              [
+                7346.5,
+                1893.0
+              ],
+              [
+                7356.0,
+                1893.0
+              ],
+              [
+                7365.5,
+                1893.0
+              ],
+              [
+                7375.0,
+                1893.0
+              ],
+              [
+                7375.0,
+                1901.0
+              ],
+              [
+                7375.0,
+                1909.0
+              ],
+              [
+                7375.0,
+                1917.0
+              ],
+              [
+                7375.0,
+                1925.0
+              ],
+              [
+                7365.5,
+                1925.0
+              ],
+              [
+                7356.0,
+                1925.0
+              ],
+              [
+                7346.5,
+                1925.0
+              ],
+              [
+                7337.0,
+                1925.0
+              ],
+              [
+                7337.0,
+                1917.0
+              ],
+              [
+                7337.0,
+                1909.0
+              ],
+              [
+                7337.0,
+                1901.0
+              ],
+              [
+                7337.0,
+                1893.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6941,
+            1545,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/6941,1545,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact marks immediately below Shops on the northern side of the road/river district supply this bounded source group. The separate mill-ring glyph in the river and the more western postal marks are not treated as shops. No individual shop building is selected.",
+        "placement_note": "The shop group remains north of the tributary and beside the road bend west of Hillsboro. Modern road and drainage context support approximate locality with local offsets. The separate mill mark remains distinct; no individual shop or present property is inferred.",
+        "source_excerpt": "excerpts/F16-PHM-056.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-057",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.33440981951062,
+          46.063737487232764
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-057",
+        "sheet": 16,
+        "source_text": "Mill",
+        "kind": "mill",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            7365,
+            1931.5
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6887,
+            1604,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/6887,1604,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Native 6x detail distinguishes the small ring-like mill mark in the thick watercourse below Shops and above Mill. Its actual centre supplies the source anchor; neighbouring shop squares, road lines and lettering are separate. No mill footprint or current operating site is inferred.",
+        "placement_note": "The ring-like mill mark remains in the tributary/road-bend district west of Hillsboro. It projects slightly north of the modern channel, and the nearby crossing supports broad locality. Preserve the source-derived offset without asserting a present mill or surveyed historical footprint.",
+        "source_excerpt": "excerpts/F16-PHM-057.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F16-PHM-061",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.327485271654375,
+              46.06657324110385
+            ],
+            [
+              -61.32748686489046,
+              46.06632124925836
+            ],
+            [
+              -61.32748816900756,
+              46.06606916158858
+            ],
+            [
+              -61.32748919404521,
+              46.06581697805202
+            ],
+            [
+              -61.32714640674409,
+              46.065825275600396
+            ],
+            [
+              -61.32680370272121,
+              46.06583361287846
+            ],
+            [
+              -61.326461069937615,
+              46.06584198635983
+            ],
+            [
+              -61.326460746069884,
+              46.06609416293606
+            ],
+            [
+              -61.32646017395454,
+              46.066346239198694
+            ],
+            [
+              -61.32645934346431,
+              46.066598214961445
+            ],
+            [
+              -61.32680122624285,
+              46.06658985004833
+            ],
+            [
+              -61.32714319787656,
+              46.0665815241847
+            ],
+            [
+              -61.327485271654375,
+              46.06657324110385
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F16-PHM-061",
+        "sheet": 16,
+        "source_text": "Mills",
+        "kind": "mill",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+        "source_dimensions_px": [
+          10822,
+          7531
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                7512.0,
+                1843.0
+              ],
+              [
+                7519.333333333333,
+                1843.0
+              ],
+              [
+                7526.666666666667,
+                1843.0
+              ],
+              [
+                7534.0,
+                1843.0
+              ],
+              [
+                7534.0,
+                1851.3333333333333
+              ],
+              [
+                7534.0,
+                1859.6666666666667
+              ],
+              [
+                7534.0,
+                1868.0
+              ],
+              [
+                7526.666666666667,
+                1868.0
+              ],
+              [
+                7519.333333333333,
+                1868.0
+              ],
+              [
+                7512.0,
+                1868.0
+              ],
+              [
+                7512.0,
+                1859.6666666666667
+              ],
+              [
+                7512.0,
+                1851.3333333333333
+              ],
+              [
+                7512.0,
+                1843.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            7123,
+            1501,
+            900,
+            700
+          ],
+          "display_size": [
+            900,
+            700
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2641~290009/7123,1501,900,700/900,700/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2641~290009/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Native 6x detail confirms two compact marks immediately left of Mills beside the Hillsboro road/river corridor. Retain both as a bounded group, separate from the road strokes and nearby T.E. Fraser caption. No individual mill building, current residence or ownership is inferred.",
+        "placement_note": "The Hillsboro mill pair remains east of the north-south road/drainage corridor below the northern fork. Its source-derived position is displaced east/south of the modern road/stream junction. Neighbouring tributary and road order support approximate locality only; individual mills and current properties remain unresolved.",
+        "source_excerpt": "excerpts/F16-PHM-061.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-16-features.geojson",
+        "evidence_sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11"
+      }
     }
   ]
 }

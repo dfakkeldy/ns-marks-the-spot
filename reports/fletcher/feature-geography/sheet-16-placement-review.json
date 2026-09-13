@@ -1,0 +1,277 @@
+{
+  "sheet": 16,
+  "source_review_sha256": "4c95a9e18f717e7fe6d5aa64062fcc6af29b204a37bbb4e9a8cccc971dc5b3f4",
+  "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+  "reviews": [
+    {
+      "annotation_id": "F16-PHM-001",
+      "status": "outside-fit-neatline",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-1-20260913.jpg",
+      "scene_sha256": "c05c9fad639864d320235a8b46cb653702e61d43a96c83ddf1c9dde5ad34c3f7",
+      "evidence": "The actual observation-station glyph lies outside the current fit neatline. Preserve the whole native point with no map placement; do not move it inward or substitute lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-003",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-1-20260913.jpg",
+      "scene_sha256": "c05c9fad639864d320235a8b46cb653702e61d43a96c83ddf1c9dde5ad34c3f7",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-005",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-1-20260913.jpg",
+      "scene_sha256": "c05c9fad639864d320235a8b46cb653702e61d43a96c83ddf1c9dde5ad34c3f7",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-006",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-1-20260913.jpg",
+      "scene_sha256": "c05c9fad639864d320235a8b46cb653702e61d43a96c83ddf1c9dde5ad34c3f7",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-007",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-1-20260913.jpg",
+      "scene_sha256": "c05c9fad639864d320235a8b46cb653702e61d43a96c83ddf1c9dde5ad34c3f7",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-017",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-1-20260913.jpg",
+      "scene_sha256": "c05c9fad639864d320235a8b46cb653702e61d43a96c83ddf1c9dde5ad34c3f7",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-019",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-2-20260913.jpg",
+      "scene_sha256": "9afd7c8f363da99d4727378a20c36c4b32bf6b70b147cc29465c78697a9e96e6",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-021",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-2-20260913.jpg",
+      "scene_sha256": "9afd7c8f363da99d4727378a20c36c4b32bf6b70b147cc29465c78697a9e96e6",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-022",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-2-20260913.jpg",
+      "scene_sha256": "9afd7c8f363da99d4727378a20c36c4b32bf6b70b147cc29465c78697a9e96e6",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-023",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-2-20260913.jpg",
+      "scene_sha256": "9afd7c8f363da99d4727378a20c36c4b32bf6b70b147cc29465c78697a9e96e6",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-024",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-24-geography.jpg",
+      "scene_sha256": "c9290fb7eb6d5eb47421951ec1a6797c4913dcd960d387895967b54799f3d27b",
+      "evidence": "The church glyph remains in the northern Mabou roadside district west of the eastern drainage and northeast of the harbour bank. Modern road and stream relationships support approximate locality with the source-derived offset retained. No current church identity or property is matched."
+    },
+    {
+      "annotation_id": "F16-PHM-042",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-42-geography.jpg",
+      "scene_sha256": "e633d1f2bc88c8f86e874f9984d83c3eb1826265bbe243c19e05a8f60d81e3bd",
+      "evidence": "The weaving-mill pair projects beside the road/stream junction in the Glendyer corridor. The northern main drainage, eastern tributary and adjoining roads support approximate locality under the recorded 36-control fit. The group remains source-derived and is not moved to a control or split into individual mill buildings."
+    },
+    {
+      "annotation_id": "F16-PHM-044",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-44-geography.jpg",
+      "scene_sha256": "3ae0e8b5c20b3742bebf130fef9c26e762f2ccc751245ba975b480e9e431e029",
+      "evidence": "The cheese-factory group remains east of the north-south road/channel corridor above the southern junction. Modern tributary and road order support approximate locality; the source group straddles a small drainage approach and individual buildings remain unresolved."
+    },
+    {
+      "annotation_id": "F16-PHM-045",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-45-geography.jpg",
+      "scene_sha256": "100bce71987a124222c1c50c9f4f8db4557993ab51e25eeb997920d8edf3a8df",
+      "evidence": "The western church glyph remains north of the east-west road/lowland corridor and west of the northern main channel. The source road is displaced from its modern counterpart, but the broader road/drainage setting supports approximate historical locality. No current church is identified."
+    },
+    {
+      "annotation_id": "F16-PHM-046",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-46-geography.jpg",
+      "scene_sha256": "d707f3d5cc2b6a2167b9373376722e031ffef35e41c6ffc4e13ef984a45ea1c3",
+      "evidence": "The shared tannery/shop group remains at the southern end of the northern drainage corridor beside the east-west road. Its overlap with frozen NSTDB polygon 4216 is a Swamp Area polygon (WASW40), not proof of open water or a present site condition. Modern road and channel layout differ locally; the broad junction context supports an approximate group without identifying individual buildings."
+    },
+    {
+      "annotation_id": "F16-PHM-047",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-47-geography.jpg",
+      "scene_sha256": "555dc66cf7457d80974c86d49acdad216b5df13b31040d9ef38044222cfba5a8",
+      "evidence": "This shop shares the tannery source group and its approximate southern drainage/road-junction locality. Polygon 4216 is a Swamp Area polygon (WASW40); overlap does not establish open water or the historical site’s condition. The individual shop and tannery remain unresolved and the complete group is retained."
+    },
+    {
+      "annotation_id": "F16-PHM-048",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-48-geography.jpg",
+      "scene_sha256": "cc8ac85331b9d5fa0a368721a0b38b3fdeada1d4378799bfad9bc38aa0f651a5",
+      "evidence": "The eastern church glyph remains at the road bend north of the main lowland river corridor. Modern roads and tributaries support the same broad locality with a small south/west offset retained. It is not matched to a present church or parcel."
+    },
+    {
+      "annotation_id": "F16-PHM-049",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-49-geography.jpg",
+      "scene_sha256": "e475b87898f03082aa96f4207fc1a122890d216d8135239de3905abf69044fda",
+      "evidence": "The school group remains in the road/tributary district southeast of the eastern church and north of the southern river crossing. The modern road crosses the group rather than passing beside all source marks. This supports approximate locality only; the source group is not split, shifted or interpreted as individual current buildings."
+    },
+    {
+      "annotation_id": "F16-PHM-050",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-50-geography.jpg",
+      "scene_sha256": "672e8cf7a14e7a483a39f73e4e2b3afb1643bd8806eea0059c2f733d4f71d64a",
+      "evidence": "Both stable candidate groups remain along the east-west Mabou road corridor north of the harbour, with the eastern group beside the same tributary-crossing district. The modern highway cuts through their southern edges. Their broad locality is supported while the exact stable building remains unresolved; neither group is a current property or facility claim."
+    },
+    {
+      "annotation_id": "F16-PHM-052",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-52-geography.jpg",
+      "scene_sha256": "82b275a57e6045aa660d23a03b82574b09bf44a7efe8c86f09a69021870c99f8",
+      "evidence": "The shared telegraph/postal and school cluster remains at the northern approach to the Mabou harbour crossing. Its western/southern edges overlap Coast River Water polygons 254 and 1578 (WACORV40); those bounding-group overlaps do not establish a building footprint or historical inundation. Shore, road and crossing order support approximate locality while individual facilities remain unresolved."
+    },
+    {
+      "annotation_id": "F16-PHM-053",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-53-geography.jpg",
+      "scene_sha256": "103f1563802fed18d1bc43a7022960b0aaa1e59cac1069b826fcbfd1f6cd5f0d",
+      "evidence": "This school shares the telegraph/postal group at the northern Mabou crossing approach. The complete group partly overlaps Coast River Water polygons 254 and 1578 (WACORV40), with differing shore and road positions. Broad locality is supported; no individual school building or historical water condition is inferred."
+    },
+    {
+      "annotation_id": "F16-PHM-054",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-54-geography.jpg",
+      "scene_sha256": "98f386fea14a3bcd7bd6fbfc9b5b93ba15d4950a4f7e4ca7a1a1a4cea85ffa76",
+      "evidence": "The forge pair remains beside the road corridor north/east of the main river crossing and below the school district. The modern road passes through the group. Retain the approximate source group without selecting a present building or moving it off the road."
+    },
+    {
+      "annotation_id": "F16-PHM-055",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-55-geography.jpg",
+      "scene_sha256": "afa181d709b0cb8b96fa99c11471352f01ed66f03460f5db11b5ac525ed0fa83",
+      "evidence": "The postal group remains north of the east-west road and west of the Hillsboro drainage bend. The broader road and stream arrangement supports approximate locality, though minor roads differ. No individual postal building or current facility is identified."
+    },
+    {
+      "annotation_id": "F16-PHM-056",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-56-geography.jpg",
+      "scene_sha256": "6a9baeaf2db62a79cd34a649539f573dfcfa6e68c9f4bd2827e6a9eb65669c10",
+      "evidence": "The shop group remains north of the tributary and beside the road bend west of Hillsboro. Modern road and drainage context support approximate locality with local offsets. The separate mill mark remains distinct; no individual shop or present property is inferred."
+    },
+    {
+      "annotation_id": "F16-PHM-057",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-57-geography.jpg",
+      "scene_sha256": "fbf35de41cf74f7bd0c548195770b4d6ef3844ce1742b639244ea2f079011d54",
+      "evidence": "The ring-like mill mark remains in the tributary/road-bend district west of Hillsboro. It projects slightly north of the modern channel, and the nearby crossing supports broad locality. Preserve the source-derived offset without asserting a present mill or surveyed historical footprint."
+    },
+    {
+      "annotation_id": "F16-PHM-061",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-service-61-geography.jpg",
+      "scene_sha256": "029469a856d39182e0a3d97ea26e69b17efc68d97a3e02b7543f30cd64cd97f4",
+      "evidence": "The Hillsboro mill pair remains east of the north-south road/drainage corridor below the northern fork. Its source-derived position is displaced east/south of the modern road/stream junction. Neighbouring tributary and road order support approximate locality only; individual mills and current properties remain unresolved."
+    },
+    {
+      "annotation_id": "F16-PHM-064",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-5-20260913.jpg",
+      "scene_sha256": "3a63f405342f1b298f39178f4e954cefdd4440e6d326fc208c549ef417eb6f05",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-069",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-5-20260913.jpg",
+      "scene_sha256": "3a63f405342f1b298f39178f4e954cefdd4440e6d326fc208c549ef417eb6f05",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-085",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-5-20260913.jpg",
+      "scene_sha256": "3a63f405342f1b298f39178f4e954cefdd4440e6d326fc208c549ef417eb6f05",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    },
+    {
+      "annotation_id": "F16-PHM-086",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "mabou-services-5-20260913.jpg",
+      "scene_sha256": "3a63f405342f1b298f39178f4e954cefdd4440e6d326fc208c549ef417eb6f05",
+      "evidence": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+    }
+  ]
+}

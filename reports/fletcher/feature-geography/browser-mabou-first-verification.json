@@ -1,0 +1,221 @@
+{
+  "reviewed_at": "2026-09-13",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 326,
+  "export_sha256": "bff7924a6a86f815674d01f6eb16ee2641f3d1a0cad898dc35852d7d43f3e8c9",
+  "checks": {
+    "count": 326,
+    "checks": [
+      {
+        "id": "F16-PHM-024",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-042",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-044",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-045",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-046",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-047",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-048",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-049",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-050",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-052",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-053",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-054",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-055",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-056",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-057",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F16-PHM-061",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      }
+    ],
+    "holdbacks": [
+      "F16-PHM-001",
+      "F16-PHM-003",
+      "F16-PHM-005",
+      "F16-PHM-006",
+      "F16-PHM-007",
+      "F16-PHM-017",
+      "F16-PHM-019",
+      "F16-PHM-021",
+      "F16-PHM-022",
+      "F16-PHM-023",
+      "F16-PHM-064",
+      "F16-PHM-069",
+      "F16-PHM-085",
+      "F16-PHM-086"
+    ],
+    "errors": []
+  },
+  "additional_assertions": [
+    "All sixteen additions open their own evidence through visible label pointer clicks at alternating desktop/phone widths, with decoded native excerpts, distinct source/placement notes, a ready basemap and clean consoles.",
+    "Shared Tannery/Shop and telegraph-postal/School groups retain both annotations; Stage Stables remains a multipart candidate group.",
+    "All 310 earlier public records remain exactly unchanged, including source notes, fit revisions, geometry and the Judique church correction.",
+    "Original sheet 16 inventory geometry remains null; source boxes and wording are preserved. The recorded 36-control Glendyer fit and its revision remain pinned."
+  ],
+  "local_checks": {
+    "python": "302 tests pass, eight existing skips, including independent three-sheet export and frozen Mabou source/fit identity",
+    "web": "10 Fletcher component tests, web script tests and build pass; no web component code change in this batch"
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-mabou-first-review.json",
+      "sha256": "c9f48e10be2047cf054cfefd6b7edf7fc0ed0f6a4cf23dc8522e517f408b9aca"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-mabou-first-24.png",
+      "sha256": "1de007e1c7efb32de1294c864c51c883452916261a8dd65b744b9f789a531533"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-mabou-first-42.png",
+      "sha256": "cb3d0aca9bb311d65815bc075fa298c1dc9de7cd8ae984334e0f09b2a4a84577"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-mabou-first-46.png",
+      "sha256": "4990f503b9f970ac7115403f7ee51cb6343e10e4d875ff04239b9f4048955d83"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-mabou-first-50.png",
+      "sha256": "bf563ce973fef643f84ed3a53125b257e319964bd4243d7af876d670d1b37669"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-mabou-first-52.png",
+      "sha256": "3f65fd771e8a1caf856dcf24fb013ed2edd44390565fdc6c14ba26739b1123ec"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-mabou-first-57.png",
+      "sha256": "9fa037cdd2541523511f82316bf2cf12887e69d70408da6c2faeaeb4d931b525"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-326-export/source.json",
+      "sha256": "5dbe81cae4f975361b0838e0017e44ced468c9609a523ecfb4d0eb02508ff540"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-326-export/reviewed.geojson",
+      "sha256": "bff7924a6a86f815674d01f6eb16ee2641f3d1a0cad898dc35852d7d43f3e8c9"
+    }
+  ],
+  "limits": "Approximate historical glyph anchors and bounded groups. Fourteen whole native geometries remain withheld outside support/neatline; no current property, individual group building, site condition or production publication is inferred."
+}
