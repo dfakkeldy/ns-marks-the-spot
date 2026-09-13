@@ -4,8 +4,11 @@ import { Map } from '../atlas/mapLibreRuntime';
 import { PROVINCE_LICENSE_URL, OPEN_GOVERNMENT_LICENCE_TERMS_URL } from '../licensing/provinceLicense';
 import { RUMSEY_ATTRIBUTION, RUMSEY_LICENCE_URL } from '../licensing/rumseyLicense';
 import { buildTerrainStyle, DATA, type Surface, type TerrainReceipt } from './style';
+import { ReliefControls } from './ReliefControls';
+import { DEFAULT_RELIEF, type ReliefSettings } from './reliefMath';
+import { configureTerrainRelief, registerTerrainReliefProtocol } from './terrainRelief';
 
-type Settings = { surface: Surface; opacity: number; contours: boolean; roads: boolean; parcels: boolean; tilted: boolean; exaggeration: number; reset: number };
+type Settings = ReliefSettings & { surface: Surface; opacity: number; contours: boolean; roads: boolean; parcels: boolean; tilted: boolean; reset: number };
 function applySettings(map: Map, settings: Settings) {
   if (!map.getLayer('hydro')) return;
   map.setPaintProperty('historical', 'raster-opacity', settings.surface === 'historical' ? settings.opacity : 0);
@@ -13,7 +16,7 @@ function applySettings(map: Map, settings: Settings) {
   map.setLayoutProperty('contours', 'visibility', settings.contours ? 'visible' : 'none');
   for (const id of ['surface-road-edge', 'surface-roads', 'bridge-road-edge', 'bridge-roads']) map.setLayoutProperty(id, 'visibility', settings.roads ? 'visible' : 'none');
   if (map.getLayer('parcels')) map.setLayoutProperty('parcels', 'visibility', settings.parcels ? 'visible' : 'none');
-  if (map.getTerrain()?.exaggeration !== settings.exaggeration) map.setTerrain({ source: 'elevation', exaggeration: settings.exaggeration });
+  configureTerrainRelief(map, 'elevation', `${DATA}/dem/{z}/{x}/{y}.png`, 'mapbox', settings);
 }
 
 function TerrainMap({ settings, aerialAccepted, parcelsAccepted, retry, onStatus }: {
@@ -25,6 +28,7 @@ function TerrainMap({ settings, aerialAccepted, parcelsAccepted, retry, onStatus
   const latest = useRef(settings);
   useEffect(() => { latest.current = settings; }, [settings]);
   useEffect(() => {
+    registerTerrainReliefProtocol();
     const abort = new AbortController();
     let map: Map | undefined;
     let resize: ResizeObserver | undefined;
@@ -36,7 +40,7 @@ function TerrainMap({ settings, aerialAccepted, parcelsAccepted, retry, onStatus
       .then(receipt => {
         if (abort.signal.aborted) return;
         const [west, south, east, north] = receipt.bounds;
-        map = new Map({ container: container.current!, style: buildTerrainStyle(receipt, aerialAccepted, latest.current.surface, latest.current.opacity, parcelsAccepted),
+        map = new Map({ container: container.current!, style: buildTerrainStyle(receipt, aerialAccepted, latest.current.surface, latest.current.opacity, parcelsAccepted, latest.current),
           center: [-61.405, 45.835], zoom: 11.5, pitch: latest.current.tilted ? 55 : 0, bearing: -25,
           ...camera.current,
           maxBounds: [[west, south], [east, north]], minZoom: 10, maxZoom: 16,
@@ -77,7 +81,7 @@ function TerrainMap({ settings, aerialAccepted, parcelsAccepted, retry, onStatus
 }
 
 export function TerrainStudy() {
-  const [settings, setSettings] = useState<Settings>({ surface: 'historical', opacity: 0.55, contours: true, roads: true, parcels: false, tilted: true, exaggeration: 1, reset: 0 });
+  const [settings, setSettings] = useState<Settings>({ ...DEFAULT_RELIEF, surface: 'historical', opacity: 0.55, contours: true, roads: true, parcels: false, tilted: true, reset: 0 });
   const [aerialAccepted, setAerialAccepted] = useState(false);
   const [parcelsAccepted, setParcelsAccepted] = useState(false);
   const [status, setStatus] = useState('Loading Judique terrain…');
@@ -106,7 +110,7 @@ export function TerrainStudy() {
         <button aria-pressed={settings.tilted} onClick={() => setSettings(s => ({ ...s, tilted: true }))}>3D terrain</button>
         <button aria-pressed={!settings.tilted} onClick={() => setSettings(s => ({ ...s, tilted: false }))}>Overhead</button>
       </div>
-      <label className="terrain-range" htmlFor="height-exaggeration">Height exaggeration <output>{settings.exaggeration}×</output><input id="height-exaggeration" type="range" min="1" max="3" step="0.5" value={settings.exaggeration} onChange={event => setSettings(s => ({ ...s, exaggeration: Number(event.target.value) }))} /></label>
+      <ReliefControls value={settings} onChange={value => setSettings(s => ({ ...s, ...value }))} />
       <button className="terrain-reset" onClick={() => setSettings(s => ({ ...s, reset: s.reset + 1 }))}>Return to Judique</button>
       <p className="atlas-note">Drag to move; right-drag to rotate and tilt. Height exaggeration changes the view only.</p>
       </section>
@@ -120,7 +124,7 @@ export function TerrainStudy() {
       <TerrainMap settings={settings} aerialAccepted={aerialAccepted} parcelsAccepted={parcelsAccepted && settings.parcels} retry={retry} onStatus={setStatus} />
       <div className="atlas-map-title"><span>JUDIQUE / SHEET 19</span><strong>{settings.surface === 'historical' ? 'Fletcher · 1884' : settings.surface === 'aerial' ? 'Aerial imagery' : 'Contours & water'}</strong></div>
       <div className="atlas-status" role="status" data-ready={status === 'Ready'}><span>{status}</span>{status !== 'Ready' && !status.startsWith('Loading') && <button onClick={() => setRetry(r => r + 1)}>Retry</button>}</div>
-      <div className="terrain-view-caption">{settings.exaggeration}× height · estimated lake levels · roads above water</div>
+      <div className="terrain-view-caption">{settings.exaggeration}× height{settings.lowEnabled ? ` · ${settings.lowExaggeration}× at 0–${settings.lowThreshold} m` : ''} · estimated lake levels</div>
     </section>
   </main>;
 }

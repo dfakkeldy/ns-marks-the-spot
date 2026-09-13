@@ -9,7 +9,7 @@ function tile(color: string) {
 // Synthetic level terrain isolates camera/selection mechanics from DEM accuracy.
 const dem = tile('rgb(128,0,0)'), background = tile('#d7dec7');
 const transparent = createCanvas(256, 256).toBuffer('image/png');
-test.use({ launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
+test.use({ launchOptions: { args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] } });
 
 for (const width of [390, 1440]) test(`3D parcel identify and return to 2D at ${width}px`, async ({ page }) => {
   test.setTimeout(45000);
@@ -40,6 +40,14 @@ for (const width of [390, 1440]) test(`3D parcel identify and return to 2D at ${
   await page.getByRole('button', { name: '3D terrain', exact: true }).click();
   const canvas = page.locator('.research-terrain-map canvas');
   await expect(canvas).toBeVisible();
+  await expect.poll(async () => ({ status: await page.locator('.research-terrain-status').allTextContents(), errors }), { timeout: 25000 }).toEqual({ status: [], errors: [] });
+  const height = page.getByRole('slider', { name: /^Height exaggeration/ });
+  await height.press('End'); await expect(height).toHaveValue('10');
+  await height.press('Home');
+  await page.getByRole('checkbox', { name: 'Separate low-ground scale' }).check();
+  const low = page.getByRole('slider', { name: /^Low-ground exaggeration/ });
+  await low.press('End'); await expect(low).toHaveValue('10');
+  await page.getByRole('combobox', { name: 'Low-ground band' }).selectOption('100');
   await expect(page.locator('.research-terrain-status')).toHaveCount(0, { timeout: 15000 });
   const box = (await canvas.boundingBox())!;
   expect(box.height).toBeGreaterThan(200);

@@ -174,7 +174,14 @@ permission.
 This provides province-wide display relief with varying source detail and age,
 not provincial LiDAR or hydrologically conditioned terrain. The view preserves
 the current centre and layers; tilt, bearing and dimension choice are not
-URL-persisted. Height exaggeration changes display only. Editing, measurement,
+URL-persisted. Height exaggeration changes display only. `terrain/reliefMath.ts`
+defines the 1–10× controls and continuous low-ground transform. For a selected
+threshold t (20 or 100 m), positive source height h displays as
+`lowScale * min(h, t) + overallScale * max(0, h - t)`. Nonpositive elevations
+retain the overall scale. `terrain/terrainRelief.ts` rewrites temporary browser
+DEM tiles, normalized by the overall MapLibre exaggeration, preserving original
+sources and alpha/no-data. The same controls work with the main view's Terrarium
+tiles and Judique's Mapbox-encoded tiles. Editing, measurement,
 print mode and export framing suspend terrain and use the 2D contracts below.
 
 Display stacking is distinct from terrain construction. Roads, bridges and

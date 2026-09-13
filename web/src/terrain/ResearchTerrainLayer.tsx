@@ -4,25 +4,31 @@ import L from 'leaflet';
 import { addProtocol, removeProtocol, AttributionControl, NavigationControl, Marker, Popup, type GeoJSONSource, type ImageSource, type LayerSpecification } from 'maplibre-gl';
 import { Map as GLMap } from '../atlas/mapLibreRuntime';
 import type { BasemapStyle } from '../atlas/basemap';
-import { basemapLayerOrder, researchTerrainStyle } from './researchStyle';
+import { basemapLayerOrder, researchTerrainStyle, RESEARCH_TERRAIN_TILES } from './researchStyle';
 import { collectScene, installTerrainViewport, layerOrder, readGridTile, type Scene, type RasterEntry } from './leafletScene';
 import './researchTerrain.css';
 import { withTerrainCameraUpdate } from './terrainViewport';
+import type { ReliefSettings } from './reliefMath';
+import { configureTerrainRelief, registerTerrainReliefProtocol } from './terrainRelief';
 
-type Props = { basemap: BasemapStyle; modern: boolean; exaggeration: number; onStatus: (status: string) => void };
+type Props = { basemap: BasemapStyle; modern: boolean; relief: ReliefSettings; onStatus: (status: string) => void };
 const TRANSPARENT = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==';
 
-export default function ResearchTerrainLayer({ basemap, modern, exaggeration, onStatus }: Props) {
+export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus }: Props) {
   const leaflet = useMap();
   const mapRef = useRef<GLMap | null>(null);
   const readyRef = useRef(false);
-  const currentExaggeration = useRef(exaggeration);
+  const currentRelief = useRef(relief);
   useEffect(() => {
-    currentExaggeration.current = exaggeration;
-    if (readyRef.current) mapRef.current?.setTerrain({ source: 'research-elevation', exaggeration });
-  }, [exaggeration]);
+    currentRelief.current = relief;
+    if (readyRef.current && mapRef.current) {
+      configureTerrainRelief(mapRef.current, 'research-elevation', RESEARCH_TERRAIN_TILES, 'terrarium', relief);
+      if (!mapRef.current.areTilesLoaded()) onStatus('Updating terrain relief…');
+    }
+  }, [relief, onStatus]);
 
   useEffect(() => {
+    registerTerrainReliefProtocol();
     const container = leaflet.getContainer();
     const node = document.createElement('div');
     node.className = 'research-terrain-map';
@@ -60,8 +66,7 @@ export default function ResearchTerrainLayer({ basemap, modern, exaggeration, on
     });
     try {
       const center = leaflet.getCenter();
-      const style = researchTerrainStyle(basemap, modern);
-      style.terrain!.exaggeration = currentExaggeration.current;
+      const style = researchTerrainStyle(basemap, modern, currentRelief.current);
       gl = new GLMap({ container: node, style, center: [center.lng, center.lat], zoom: leaflet.getZoom() - 1,
         pitch: 50, maxPitch: 65, minZoom: 6, maxZoom: 22, attributionControl: false,
         maxBounds: [[-66.6, 43.2], [-59.5, 47.5]],
@@ -72,7 +77,7 @@ export default function ResearchTerrainLayer({ basemap, modern, exaggeration, on
       return;
     }
     mapRef.current = gl;
-    gl.addControl(new NavigationControl({ showZoom: false, visualizePitch: true }), 'top-right');
+    gl.addControl(new NavigationControl({ showZoom: false, visualizePitch: true }), 'top-left');
     gl.addControl(new AttributionControl({ compact: true }), 'bottom-right');
 
     const showPopup = (layer: L.Layer, latlng: L.LatLng) => {
@@ -256,7 +261,7 @@ export default function ResearchTerrainLayer({ basemap, modern, exaggeration, on
     for (const pane of Object.values(leaflet.getPanes())) if (pane.classList.contains('leaflet-map-pane')) observer.observe(pane, { subtree: true, attributes: true, childList: true });
     const resize = new ResizeObserver(() => gl.resize()); resize.observe(container);
     report('Loading 3D terrain…');
-    gl.on('load', () => { loaded = true; readyRef.current = true; gl.setTerrain({ source: 'research-elevation', exaggeration: currentExaggeration.current }); syncScene(); fromGL(); });
+    gl.on('load', () => { loaded = true; readyRef.current = true; configureTerrainRelief(gl, 'research-elevation', RESEARCH_TERRAIN_TILES, 'terrarium', currentRelief.current); syncScene(); fromGL(); });
     gl.on('error', () => { failed = true; report('A 3D layer failed to load. Return to 2D or retry 3D; the view may be incomplete.'); });
     gl.on('webglcontextlost', () => { failed = true; report('3D graphics connection lost. Return to 2D to continue.'); });
     gl.on('idle', () => { if (!failed) report('Ready'); });

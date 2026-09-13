@@ -1,6 +1,8 @@
 import { ContextTileLayer } from "./ContextTileLayer";
 import "../terrain/researchTerrain.css";
 import { isTerrainCameraUpdate } from "../terrain/terrainViewport";
+import { ReliefControls } from "../terrain/ReliefControls";
+import { DEFAULT_RELIEF } from "../terrain/reliefMath";
 import { OpenDataLayer } from "./OpenDataLayer";
 import { ContextImageLayer } from "./ContextImageLayer";
 import { ContextFeatureLayer } from "./ContextFeatureLayer";
@@ -1980,7 +1982,7 @@ export function MapCanvas({
   const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
   const measuring = poker !== null || measureMode !== "off";
   const [terrainRequested, setTerrainRequested] = useState(false);
-  const [terrainExaggeration, setTerrainExaggeration] = useState(1);
+  const [terrainRelief, setTerrainRelief] = useState(DEFAULT_RELIEF);
   const [terrainStatus, setTerrainStatus] = useState("Loading 3D terrain…");
   const terrainBlocked = Boolean(isPrintMode || measuring || georeference || userVectorEdit || exportFrame);
   const terrainActive = terrainRequested && !terrainBlocked;
@@ -2873,7 +2875,7 @@ export function MapCanvas({
             </div> : <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
           )}
         </>}
-        {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer basemap={basemapStyle} modern={showModernMap} exaggeration={terrainExaggeration} onStatus={setTerrainStatus} /></Suspense> : null}
+        {terrainActive ? <Suspense fallback={null}><ResearchTerrainLayer basemap={basemapStyle} modern={showModernMap} relief={terrainRelief} onStatus={setTerrainStatus} /></Suspense> : null}
         <MapPositionController
           onPositionChange={onPositionChange}
           onViewportChange={onViewportChange}
@@ -2888,7 +2890,7 @@ export function MapCanvas({
           onClick={() => { setTerrainStatus("Loading 3D terrain…"); setTerrainRequested(value => !value); }}>
           {terrainActive ? "Return to 2D" : "3D terrain"}
         </button>
-        {terrainActive ? <><label htmlFor="research-height">Height <output>{terrainExaggeration}×</output><input id="research-height" type="range" min="1" max="3" step="0.5" value={terrainExaggeration} onChange={event => setTerrainExaggeration(Number(event.target.value))} /></label><small>Right-drag to tilt/rotate. Mapzen terrain; source detail varies.</small></> : null}
+        {terrainActive ? <><ReliefControls value={terrainRelief} onChange={setTerrainRelief} /><small>Right-drag to tilt/rotate. Mapzen terrain; source detail varies.</small></> : null}
       </div>
       {terrainActive && terrainStatus !== "Ready" ? <p className="research-terrain-status" role="status">{terrainStatus}</p> : null}
       <button

@@ -107,7 +107,12 @@ in place, keeping its centre and selected layers. The 3D view uses
 [Mapzen Terrain Tiles on AWS](https://registry.opendata.aws/terrain-tiles/)
 ([source attribution and licences](https://github.com/tilezen/joerd/blob/master/docs/attribution.md))
 for province-wide relief. Source detail and age vary; this is neither a provincial
-LiDAR surface nor a watershed model. Height exaggeration is a display control.
+LiDAR surface nor a watershed model. Both terrain views offer 1–10× height
+exaggeration and an optional independent 1–10× scale for source elevations
+between 0–20 m or 0–100 m. Higher terrain retains the overall relief scale and
+is offset to join the lower band continuously. Sea level stays fixed; underwater
+elevations retain the overall scale. These are display controls: source rasters,
+recorded elevations and measurements are unchanged.
 Tilt, bearing and dimension choice are not persisted in shared URLs.
 
 MapLibre mirrors the mounted Leaflet image and tile layers, local warped

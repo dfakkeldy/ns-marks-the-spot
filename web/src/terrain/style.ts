@@ -2,6 +2,7 @@ import type { ExpressionSpecification, LayerSpecification, StyleSpecification } 
 import { nativeLayerCatalog } from '../layers/layerCatalog';
 import { OPEN_GOVERNMENT_ATTRIBUTION, OPEN_GOVERNMENT_LICENCE_TERMS_URL, PROVINCE_ATTRIBUTION } from '../licensing/provinceLicense';
 import { provincialTileUrl, PROVINCIAL_ATTRIBUTION } from '../atlas/provincial';
+import { DEFAULT_RELIEF, reliefTileUrl, type ReliefSettings } from './reliefMath';
 
 export const DATA = './terrain/judique';
 export type Surface = 'terrain' | 'historical' | 'aerial';
@@ -12,13 +13,13 @@ export type TerrainReceipt = {
   historical: { coordinates: [[number, number], [number, number], [number, number], [number, number]] };
 };
 
-export function buildTerrainStyle(receipt: TerrainReceipt, aerialAccepted: boolean, surface: Surface = 'historical', opacity = 0.55, parcelsAccepted = false): StyleSpecification {
+export function buildTerrainStyle(receipt: TerrainReceipt, aerialAccepted: boolean, surface: Surface = 'historical', opacity = 0.55, parcelsAccepted = false, relief: ReliefSettings = DEFAULT_RELIEF): StyleSpecification {
   const attribution = `${OPEN_GOVERNMENT_ATTRIBUTION} <a href="${OPEN_GOVERNMENT_LICENCE_TERMS_URL}">Licence</a>`;
   const [west, south, east, north] = receipt.bounds;
   const style: StyleSpecification = {
     version: 8,
     sources: {
-      elevation: { type: 'raster-dem', tiles: [`${DATA}/dem/{z}/{x}/{y}.png`], tileSize: 256, bounds: receipt.bounds,
+      elevation: { type: 'raster-dem', tiles: [reliefTileUrl(`${DATA}/dem/{z}/{x}/{y}.png`, relief, 'mapbox')], tileSize: 256, bounds: receipt.bounds,
         minzoom: receipt.terrainMinZoom, maxzoom: receipt.terrainMaxZoom, encoding: 'mapbox', attribution },
       historical: { type: 'image', url: `${DATA}/historical.webp`, coordinates: receipt.historical.coordinates },
       contours: { type: 'geojson', data: `${DATA}/contours.geojson`, attribution },
@@ -30,7 +31,7 @@ export function buildTerrainStyle(receipt: TerrainReceipt, aerialAccepted: boole
         [[west, south], [west, north], [east, north], [east, south], [west, south]],
       ] } } },
     },
-    terrain: { source: 'elevation', exaggeration: 1 },
+    terrain: { source: 'elevation', exaggeration: relief.exaggeration },
     layers: [
       { id: 'ground', type: 'background', paint: { 'background-color': '#d9dec9' } },
       { id: 'relief', type: 'hillshade', source: 'elevation', paint: {
