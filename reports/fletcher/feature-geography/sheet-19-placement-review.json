@@ -1,7 +1,7 @@
 {
   "sheet": 19,
   "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
-  "source_review_sha256": "2d11c5c2bdebd23a15e8ad4e88effb83d62eef2881942dae4c6c18965a3709fe",
+  "source_review_sha256": "bf9a0de69b3578c6dd77b377662cf3a86fc12063d498ef8b1992ef646179d157",
   "raster_sha256": "adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4",
   "reviews": [
     {
@@ -1008,6 +1008,220 @@
       "scene": "judique-roads-and-proposals-20260912.jpg",
       "scene_sha256": "da58167428de9e87d344fd88f3457ed4cd04dbb573c2064f020ed0cf641afbd9",
       "evidence": "The complete northeastern proposed-railway axis extends beyond the conservative source-control hull. Preserve the proposal and native trace without map geometry; no constructed railway or modern route is inferred."
+    },
+    {
+      "annotation_id": "F19-JUD-020",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-coastal-named-waterways-geography.jpg",
+      "scene_sha256": "736dd2cfc4c6801fe5dc184a55a1845d4b0755c65150cffcdb2a9464a2f8d8e1",
+      "evidence": "The coastal connection, Highway 19 crossing and inland mill/road district identify this brook corridor. The historical mouth projects west of the modern shoreline and the inland channel differs locally. Preserve the source course and name as approximate historical evidence, without asserting the present mouth, channel or flow. Church 015 remains separately corrected east of Highway 19.",
+      "limits": "Historical channel section only. No present flow, hydrological connectivity beyond the source, flooding, power, condition or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-025",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-coastal-named-waterways-geography.jpg",
+      "scene_sha256": "736dd2cfc4c6801fe5dc184a55a1845d4b0755c65150cffcdb2a9464a2f8d8e1",
+      "evidence": "The named meanders lie south of Rory Chisholm’s Brook and cross the coastal road before the eastern rise. Modern drainage follows the broad corridor but differs at the western termination and bends. No missing source connection to the coast is invented, and no present outlet or flow is asserted.",
+      "limits": "Historical channel section only. No present flow, hydrological connectivity beyond the source, flooding, power, condition or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-038",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-southwest-mabou-waterways-geography.jpg",
+      "scene_sha256": "74ccb664e511b07257b3997377e65b1c84c7e2cd4705e5677d19fcb25b265b39",
+      "evidence": "The western named section follows the same broad curved drainage corridor below the northern road district and toward River Denys Road. Modern tributary order and major bend support approximate locality, with local differences. Its identity is retained as this printed occurrence, without an inferred connection to the other similarly named source section.",
+      "limits": "Historical channel section only. No present flow, hydrological connectivity beyond the source, flooding, power, condition or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-039",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-southwest-mabou-waterways-geography.jpg",
+      "scene_sha256": "74ccb664e511b07257b3997377e65b1c84c7e2cd4705e5677d19fcb25b265b39",
+      "evidence": "The tall eastern caption accompanies a main channel with several western tributary joins and a southern straight reach. The modern drainage and roads support the broad corridor, while branch detail and alignment vary. Keep this occurrence separate and do not infer unseen connectivity or current flow from the name.",
+      "limits": "Historical channel section only. No present flow, hydrological connectivity beyond the source, flooding, power, condition or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-047",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-diogenes-brook-trace-geography.jpg",
+      "scene_sha256": "f1c8d173677dd881b136a2dad4cfe4d4aa52521b5b36c20f58e11fdac0cfcac1",
+      "evidence": "The southwest-to-northeast source course and northern junction occupy the same broad drainage district as the modern stream. The projection is locally southeast of the modern channel, especially through the geological overprint. The source curve is retained without snapping or treating strike strokes as hydrography.",
+      "limits": "Historical channel section only. No present flow, hydrological connectivity beyond the source, flooding, power, condition or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-054",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-graham-inland-trace-geography.jpg",
+      "scene_sha256": "c0dbdb9169269e8a3a18c01295b96aad6e7fa49f3a950062803096cf86dc08c6",
+      "evidence": "The lower junction, long northeast curve and northern road crossing constrain this inland occurrence. The modern stream lies southeast of much of the projected source trace and bends differently. Preserve approximate historical geography, not a verified present channel or an inferred link to the coastal Graham River occurrence.",
+      "limits": "Historical channel section only. No present flow, hydrological connectivity beyond the source, flooding, power, condition or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-064",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-diogenes-east-trace-geography.jpg",
+      "scene_sha256": "bf1efa0c9b623f4302e8b934cc4c227da3ad6064cc57fb76ce09653802f0e7c9",
+      "evidence": "The northern junction, southeast channel and lower road-crossing district match the broad modern drainage corridor. Historical bends, rail/road relations and modern water polygons differ locally. Retain the source channel without snapping or asserting current flow.",
+      "limits": "Approximate historical channel section only; no current flow, flooding, power, condition, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-065",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-middle-branch-traces-geography.jpg",
+      "scene_sha256": "cdba9ff7bf1c402970f21ff348a99adf51e4f15510411ad14d6772552867b95e",
+      "evidence": "This named western tributary approaches the lower valley west of the East Branch occurrence. The modern drainage has a similar course but is southwest of parts of the source projection. Its source identity remains separate from the unlocated West Branch 056 caption.",
+      "limits": "Approximate historical channel section only; no current flow, flooding, power, condition, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-066",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-middle-branch-traces-geography.jpg",
+      "scene_sha256": "cdba9ff7bf1c402970f21ff348a99adf51e4f15510411ad14d6772552867b95e",
+      "evidence": "The eastern tributary’s sequence through the northern joins and lower road/valley district is recognizable in modern drainage. Bends and historical rail/road crossings differ locally. This is approximate historical channel geometry, not current flow or full catchment evidence.",
+      "limits": "Approximate historical channel section only; no current flow, flooding, power, condition, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-081",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-chisholm-brook-trace-geography.jpg",
+      "scene_sha256": "f9c80faf8891594db09a3cdf39f1828578bd17ae7ad478d07dc186dc93125b9c",
+      "evidence": "The brook course passes the eastern mill/road district and follows the same broad southeast drainage as the modern stream. Crossing and bend offsets remain. Existing mill groups 077–079 are unchanged; this trace neither resolves individual buildings nor identifies private residences. Highway 19 remains included in the comparison.",
+      "limits": "Approximate historical channel section only; no current flow, flooding, power, condition, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-095",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-glendale-brook-trace-geography.jpg",
+      "scene_sha256": "a2554324b127eaef6dcb359117c94f71fa8ff0e87656cb8c47b057974054e0c6",
+      "evidence": "The source channel stays east of mine 094 and follows the central valley through the road crossings toward Glendale. The modern stream supports the broad course, with local offsets and different bend detail. The mine’s prior corroboration is retained without claiming new corroboration or a present opening.",
+      "limits": "Approximate historical channel section only; no current flow, flooding, power, condition, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-056",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-waterways-middle-20260912.jpg",
+      "scene_sha256": "051b26151448a05efab5524e55b049660b890e3fd600e93536c5e9627ec4dfeb",
+      "evidence": "The caption beside the parallel north-south linework cannot be uniquely associated with a distinct watercourse in the inspected source, including the wider context. Preserve the inventory reading/classification as original evidence, but do not substitute a road axis, geological boundary or label centre."
+    },
+    {
+      "annotation_id": "F19-JUD-096",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-macpherson-brook-trace-geography.jpg",
+      "scene_sha256": "0fd96546eebd58a3869cceaf0cb82f881f4f2f8cbc9b92ead68d9d27c6b118ea",
+      "evidence": "The western road crossing, main southeast course and eastern tributary district broadly match modern drainage. The upper bend and lower joins differ locally. Preserve the historical source course without snapping it to a modern line or treating the dotted geological boundary as water.",
+      "limits": "Historical channel section only; no present flow, flooding, power, water extent, condition, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-113",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-rough-brook-west-trace-geography.jpg",
+      "scene_sha256": "595fe7d0d661b4313a50ed4c441df94e781d171f0663c61382a648ccf86079ae",
+      "evidence": "The named north-south course and lower junction near the road district follow a recognizable modern drainage corridor, with different bends and small tributaries. This occurrence remains separate from the southern Rough Brook inscription; no unseen connection or present flow is inferred.",
+      "limits": "Historical channel section only; no present flow, flooding, power, water extent, condition, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-126",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-river-inhabitants-east-trace-geography.jpg",
+      "scene_sha256": "ccb2c71707b9d307928b5927611a692afdf5ce0bb8ee07ad541412fda7fbe2fa",
+      "evidence": "The historical course through the falls district, central road crossing and coal/outcrop bend follows the same broad modern river corridor. Local bends, channel edges and tributary details differ. The source’s northern course around the small western island and multipart lettering are preserved; no modern water extent, island change or flow is asserted.",
+      "limits": "Historical channel section only; no present flow, flooding, power, water extent, condition, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-150",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-mclennan-brook-trace-geography.jpg",
+      "scene_sha256": "59c258626a0721c9b35403c56f9c507b949cdef0c62dfd665bbf6e7752d1db0c",
+      "evidence": "The southwestern bend, northeast course and northern road crossings are recognizable in the modern brook district. The projected channel is locally east/south of modern linework. Preserve this named source section without asserting exact banks, full extent or a current connection to other source occurrences.",
+      "limits": "Historical channel section only; no present flow, flooding, power, water extent, condition, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-157",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-big-brook-south-trace-geography.jpg",
+      "scene_sha256": "fb0f6d64a3bdadbe970181a9877bb1f386c0ff1f0b88e62fb4821b86c388c250",
+      "evidence": "The named northwest-to-southeast course approaches the same broad road-and-water-feature district in the modern reference, with a local eastward offset. The source trace stops before complex oval/overprinted linework; no uncertain continuation or waterbody extent is reconstructed.",
+      "limits": "Historical channel section only; no present flow, flooding, power, water extent, condition, ownership or access claim."
+    },
+    {
+      "annotation_id": "F19-JUD-132",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-waterways-south-20260912.jpg",
+      "scene_sha256": "8fdb62a3e42b4024b846ccc3ebc1aa9fc411269494669719d9cb2244f6380d93",
+      "evidence": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+    },
+    {
+      "annotation_id": "F19-JUD-139",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-waterways-south-20260912.jpg",
+      "scene_sha256": "8fdb62a3e42b4024b846ccc3ebc1aa9fc411269494669719d9cb2244f6380d93",
+      "evidence": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+    },
+    {
+      "annotation_id": "F19-JUD-140",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-waterways-south-20260912.jpg",
+      "scene_sha256": "8fdb62a3e42b4024b846ccc3ebc1aa9fc411269494669719d9cb2244f6380d93",
+      "evidence": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+    },
+    {
+      "annotation_id": "F19-JUD-144",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-waterways-last-20260912.jpg",
+      "scene_sha256": "f0f7f98e6ac0858c02144afac3e9142a93c32d73a6171390f8ba6a1882ac3b7e",
+      "evidence": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+    },
+    {
+      "annotation_id": "F19-JUD-161",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-waterways-last-20260912.jpg",
+      "scene_sha256": "f0f7f98e6ac0858c02144afac3e9142a93c32d73a6171390f8ba6a1882ac3b7e",
+      "evidence": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
     }
   ]
 }

@@ -88,6 +88,18 @@ class FeatureEvidenceTests(unittest.TestCase):
         self.assertIn('geological',brook['rejected_source_paths'][0]['reason'])
         self.assertNotEqual(brook['source_path_xy'],brook['rejected_source_paths'][0]['source_path_xy'])
 
+    def test_larger_source_context_does_not_move_native_geometry(self):
+        source=copy.deepcopy(self.rows['F19-JUD-007']['properties'])
+        review=source['source_review']
+        original=features.source_geometry(review,source['source_dimensions_px'])
+        review['source_context_xywh']=[4000,1200,1200,1000]
+        self.assertEqual(features.source_context_rect(review,source['source_annotation'],source['source_dimensions_px']),[4000,1200,1200,1000])
+        self.assertEqual(features.source_geometry(review,source['source_dimensions_px']),original)
+        for bad in [[-1,0,100,100],[0,0,0,100],[10600,7300,500,500],[0.5,0,100,100]]:
+            review['source_context_xywh']=bad
+            with self.assertRaises(ValueError):
+                features.source_context_rect(review,source['source_annotation'],source['source_dimensions_px'])
+
     def test_committed_placement_review_images_and_fits_match(self):
         review=labels.read(labels.ROOT/features.REPORT/'sheet-19-placement-review.json')
         self.assertEqual(review['fit_sha256'],self.data['provenance']['fit_sha256'])

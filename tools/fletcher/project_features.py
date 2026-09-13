@@ -26,6 +26,23 @@ def native_points(geometry):
     return [p for polygon in geometry['coordinates'] for ring in polygon for p in ring]
 
 
+def source_context_rect(review, annotation, dimensions):
+    """Choose image evidence only; this never offsets or clips feature geometry."""
+    override = review.get('source_context_xywh')
+    if override is not None:
+        labels.require(isinstance(override, list) and len(override) == 4 and
+                       all(type(v) is int for v in override), 'Invalid source context rectangle')
+        x,y,w,h = override
+        labels.require(min(x,y) >= 0 and min(w,h) > 0 and
+                       x+w <= dimensions[0] and y+h <= dimensions[1], 'Source context outside native image')
+        return list(override)
+    x,y,w,h = annotation['source_label_boxes_xywh'][0]
+    width,height = min(660,dimensions[0]),min(450,dimensions[1])
+    left = max(0,min(dimensions[0]-width,int(x+w/2-width/2)))
+    top = max(0,min(dimensions[1]-height,int(y+h/2-height/2)))
+    return [left,top,width,height]
+
+
 def project(sheet, executable):
     fit, boundary, inventory, manifest, controls, _, provenance = labels.load_inputs(sheet)
     review_path = REPORT / f'sheet-{sheet}-source-review.json'
@@ -96,9 +113,7 @@ def project(sheet, executable):
             geometry = copy.deepcopy(correction['geometry'])
             status = correction['status']
         a = original[aid]
-        x,y,w,h = a['source_label_boxes_xywh'][0]
-        left,top = max(0,int(x+w/2-330)),max(0,int(y+h/2-225))
-        left,top = min(left,inventory['source_dimensions_px'][0]-660),min(top,inventory['source_dimensions_px'][1]-450)
+        left,top,crop_width,crop_height = source_context_rect(association,a,inventory['source_dimensions_px'])
         properties = {
             'annotation_id': aid, 'sheet': sheet, 'name': a['source_text'],
             'source_text': a['source_text'], 'kind': a['kind'], 'reading_status': a['reading_status'],
@@ -112,8 +127,8 @@ def project(sheet, executable):
             'geometry_meaning': geometry_meaning,
             'geographic_review_status': 'pending-current-fit-review',
             'prior_locality_review': decision or None,
-            'source_crop': {'native_xywh':[left,top,660,450], 'display_size':[660,450], 'rotation_degrees':0},
-            'source_context_url': f"https://www.davidrumsey.com/luna/servlet/iiif/{manifest['rumsey_id']}/{left},{top},660,450/660,450/0/default.jpg",
+            'source_crop': {'native_xywh':[left,top,crop_width,crop_height], 'display_size':[crop_width,crop_height], 'rotation_degrees':0},
+            'source_context_url': f"https://www.davidrumsey.com/luna/servlet/iiif/{manifest['rumsey_id']}/{left},{top},{crop_width},{crop_height}/{crop_width},{crop_height}/0/default.jpg",
             'source_url': manifest['manifest_url'], 'credit': manifest['credit'],
             'imagery_licence_url': manifest['imagery_licence_url'],
             'publication_status': 'research-preview-only',

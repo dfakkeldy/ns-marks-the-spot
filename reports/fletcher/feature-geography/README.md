@@ -1,10 +1,10 @@
 # Reviewed Fletcher features
 
-The current export integrates **82 Judique annotations: 27 approximate points,
-25 source-group records and 30 traced reaches/road sections**. Three pairs deliberately share geometry, so
-79 geometries are selectable. Source association has been reviewed for 102 of
-166 annotations: 95 have source marks/groups/lines and seven remain unlocated.
-64 annotations await this stage. Twenty records are withheld for the
+The current export integrates **98 Judique annotations: 27 approximate points,
+25 source-group records and 46 traced reaches/road sections**. Three pairs deliberately share geometry, so
+95 geometries are selectable. Source association has been reviewed for 124 of
+166 annotations: 116 have source marks/groups/lines and eight remain unlocated.
+42 annotations await this stage. Twenty-six records are withheld for the
 specific source, coverage or geographic reasons below. Lettering geography
 remains separate from feature geometry.
 
@@ -104,12 +104,47 @@ both proposals remain withheld in this revision. A bounded DeepSeek road candida
 was drawn against native pixels and rejected; [adjudication](road-candidate-adjudication.json)
 retains the attempt. Accepted road axes were traced and checked directly.
 
+The waterway figures review all 22 named occurrences:
+
+- [First waterways](judique-waterways-first-20260912.jpg): 020,025,038,039,047,054.
+- [Middle waterways](judique-waterways-middle-20260912.jpg): 056,064–066,081,095.
+- [Southern waterways](judique-waterways-south-20260912.jpg): 096,113,126,132,139,140.
+- [Last waterways](judique-waterways-last-20260912.jpg): 144,150,157,161.
+
+Sixteen traces have reviewed approximate geography and enter the export. West
+Branch 056 lacks a distinguishable source watercourse beside the caption; five
+other full traces extend outside supported coverage. Larger source contexts
+preserve winding captions and the traced reaches. Their native crop frames are
+explicit; review thumbnails record their display scale, while web excerpts keep
+native dimensions. Cropping never changes or clips source feature geometry.
+River Inhabitants 126 follows the northern printed course around the small
+western island, with all three original lettering boxes retained. Same-name
+occurrences remain separate; no unreviewed connection or current flow is inferred.
+
+The later [three-round fit packet](../route19-three-rounds-20260912/README.md),
+merged in PR448, describes reversible drafts and explicitly preserves downstream
+pins. This batch retains its recorded supported fit and geographic evidence.
+Adopting another fit requires preserving these predictions and renewed review.
+
 ## Geographic review
 
 [Placement decisions](sheet-19-placement-review.json) record the inspected scenes
 and limitations. The figures compare the actual hash-verified current raster
 against separately projected NSTDB vectors at identical EPSG:3857 extents:
 
+- [Coastal named waterways](judique-coastal-named-waterways-geography.jpg)
+- [Southwest mabou waterways](judique-southwest-mabou-waterways-geography.jpg)
+- [Diogenes brook trace](judique-diogenes-brook-trace-geography.jpg)
+- [Graham inland trace](judique-graham-inland-trace-geography.jpg)
+- [Diogenes east trace](judique-diogenes-east-trace-geography.jpg)
+- [Middle branch traces](judique-middle-branch-traces-geography.jpg)
+- [Chisholm brook trace](judique-chisholm-brook-trace-geography.jpg)
+- [Glendale brook trace](judique-glendale-brook-trace-geography.jpg)
+- [Macpherson brook trace](judique-macpherson-brook-trace-geography.jpg)
+- [Rough brook west trace](judique-rough-brook-west-trace-geography.jpg)
+- [River inhabitants east trace](judique-river-inhabitants-east-trace-geography.jpg)
+- [Mclennan brook trace](judique-mclennan-brook-trace-geography.jpg)
+- [Big brook south trace](judique-big-brook-south-trace-geography.jpg)
 - [Western named roads and Highway 19](judique-western-named-roads-geography.jpg)
 - [Northern inland road](judique-northern-inland-road-geography.jpg)
 - [Dennistown road captions](judique-dennistown-named-roads-geography.jpg)
@@ -173,7 +208,7 @@ conservative control hull; its map geometry is null. It must not be shrunk to
 circumvent the coverage gate. Accepted local controls or an independently
 supported correspondence are needed before either withheld record can advance.
 
-The full holdback list now contains twenty annotations:
+The full holdback list now contains twenty-six annotations:
 
 | Annotation | Remaining requirement |
 | --- | --- |
@@ -181,6 +216,7 @@ The full holdback list now contains twenty annotations:
 | 031 Barrens | A defensible landscape boundary; geological hatching is not vegetation. |
 | 034 Fall 30 | Accepted support covering the complete associated stream reach. |
 | 045 Iron Ore | A distinct ore mark or defensible extent. |
+| 056 West Branch | Identify the actual printed watercourse; parallel road/geological strokes cannot substitute. |
 | 060 Forge | Resolve the projected terminal-road versus modern-stream conflict. |
 | 085 Forge | Accepted support covering the complete native candidate group. |
 | 090 700 FT. | An actual spot-height mark, benchmark or identified summit. |
@@ -189,13 +225,17 @@ The full holdback list now contains twenty annotations:
 | 125 Blue Bridge | Establish the historical crossing locality; do not substitute the modern highway bridge northwest of it. |
 | 129 Shale/fossil description | A distinct outcrop mark or defensible extent. |
 | 131 Victoria Road | Resolve the surrounding river/road crossings and the existing Blue Bridge mismatch. |
+| 132 River Inhabitants | Accepted support for the complete native river trace. |
 | 133 Railway proposal | Reconcile the proposal’s surrounding river/road geography; no built-railway match is assumed. |
 | 134 Falls | Accepted support for the complete source junction group. |
+| 139 West Branch / 140 East Branch | Accepted support for both complete northeastern traces. |
 | 141 Railway proposal | Accepted support for the complete native proposal trace. |
 | 143 Shop | Accepted support beyond the current control hull. |
+| 144 McPhail Brook | Accepted support for the complete native brook trace. |
 | 149 River Denys Road | Accepted support for the complete native road trace. |
 | 156 P.O. | Accepted support beyond the current control hull. |
 | 159 850 FT. | An actual spot-height mark, benchmark or identified summit. |
+| 161 Rough Brook | Accepted support for the complete southern trace. |
 | 165 P.O. | Supported treatment of the source group crossing the frozen native neatline. |
 
 Each remains in the evidence and annotation queue, excluded from the web export.
@@ -243,6 +283,10 @@ new road selections with a ready basemap, source excerpts and distinct road
 wording. Local Chromium range-cache failures were reproduced and isolated to
 HTTP caching; only Vite dev/preview archive responses now disable HTTP storage.
 Production hosting and the existing client error handling are unchanged.
+
+The [waterway browser receipt](browser-waterways-verification.json) records all
+sixteen new trace selections, varying native excerpt dimensions and placement
+notes, with a ready basemap and clean console on desktop and phone.
 
 ## Reproduce
 
