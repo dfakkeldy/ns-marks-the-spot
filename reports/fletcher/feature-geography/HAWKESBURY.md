@@ -1,12 +1,13 @@
 # Port Hawkesbury source-feature review
 
-All **80 service, industrial and transport annotations** and **17 road captions**
-now have initial source and geographic decisions. **75** are integrated locally:
-44 approximate marks, eighteen source groups and thirteen bounded road segments.
-Twenty-two records remain explicitly withheld. The other **204 of 301** annotations
-still need initial source association. Sixty-two Hawkesbury features merged through
-PR461; thirteen further road placements pass local checks. The combined 201-record
-export retains all 126 Judique annotations.
+All **80 service, industrial and transport annotations**, **17 road captions** and
+**26 stream/river captions** now have initial source and geographic decisions.
+**92** are integrated locally: 44 approximate marks, eighteen source groups,
+thirteen road segments and seventeen watercourse reaches. Thirty-one records
+remain explicitly withheld. The other **178 of 301** annotations still need initial
+source association. Seventy-five Hawkesbury features merged through PR462; seventeen
+further reaches pass local checks. The combined 218-record export retains all 126
+Judique annotations.
 
 ## Source and geography
 
@@ -269,3 +270,40 @@ selection of all thirteen additions at alternating desktop/phone widths, decoded
 native excerpts, visible placement evidence and clean consoles. All previous eighty
 Hawkesbury evidence records are unchanged. Local checks: 299 Python tests (eight
 existing skips), seven Fletcher component tests, web script tests, lint and build pass.
+
+## Stream and river captions
+
+Five source figures record all twenty-six bounded source paths:
+
+- [Watercourses 1](hawkesbury-watercourses-1-20260913.jpg): 011,012,013,018,020,071.
+- [Watercourses 2](hawkesbury-watercourses-2-20260913.jpg): 076,079,081,088,090,100.
+- [Watercourses 3](hawkesbury-watercourses-3-20260913.jpg): 107,120,123,155,156,157.
+- [Watercourses 4](hawkesbury-watercourses-4-20260913.jpg): 168,185,192,239,246,272.
+- [Watercourses 5](hawkesbury-watercourses-5-20260913.jpg): 273,278.
+
+[Candidate history](hawkesbury-watercourses-append-receipt.json) retains manual
+seeds, unreviewed ink candidates and final native paths. Review rejected departures
+onto lettering, roads and a short Chisholm spur. River Inhabitants retains its
+qualified reading and sixteen lettering boxes; its geometry is a bounded actual
+western-bank trace, not a channel centreline or reconstructed river extent.
+
+Twenty paired scenes support seventeen approximate placements. Six complete
+paths remain outside control support: 012,020,185,239,272,273. Three other traces
+retain explicit geographic discrepancies: Emery Brook157's northern pond/branch
+connection, North Branch of Tracadie192's displaced eastern corridor, and
+Seacoal Brook278's overlap with the modern reservoir. These paths are not trimmed,
+snapped or exported.
+
+[Typed water context](hawkesbury-water-context-types.json) distinguishes reservoir
+water from swamp polygons in the source extract. Reservoir OBJECTID434 contains
+84 of Seacoal's 110 projected vertices; this is a containment diagnostic, not an
+accuracy or inundation-history measurement. The same reservoir intersects the
+previously withheld New Road243. Sugar Camp/Northwest Arm intersected polygons
+6476/4276 are swamp areas, not open-water evidence.
+
+The [watercourse browser receipt](browser-hawkesbury-watercourses-verification.json)
+records real selection of every addition with native excerpts and visible placement
+notes. It also records the reproduced desktop popup obstruction and its CSS fix:
+floating tools now stay clear of source evidence at every width and return on close.
+All local Python/component/script checks, lint and build pass; desktop and phone
+browser consoles are clean. No production publication is claimed.

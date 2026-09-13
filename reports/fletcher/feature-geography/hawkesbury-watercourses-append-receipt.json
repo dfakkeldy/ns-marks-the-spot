@@ -1,0 +1,296 @@
+{
+  "reviewed_at": "2026-09-13",
+  "previous_source_review_sha256": "a59d9406a8020c2461200533f66c751d30dcbb033051143a6b3199ac0cc1882c",
+  "current_source_review_sha256": "bb4611a60f9994e14822c5dfbc6c0e6a349a4847e7272fd7cea8bc5d2fb03e47",
+  "unchanged_prior_source_associations": [
+    "F22-HAW-001",
+    "F22-HAW-002",
+    "F22-HAW-004",
+    "F22-HAW-008",
+    "F22-HAW-023",
+    "F22-HAW-025",
+    "F22-HAW-026",
+    "F22-HAW-028",
+    "F22-HAW-031",
+    "F22-HAW-032",
+    "F22-HAW-041",
+    "F22-HAW-042",
+    "F22-HAW-005",
+    "F22-HAW-030",
+    "F22-HAW-045",
+    "F22-HAW-046",
+    "F22-HAW-053",
+    "F22-HAW-055",
+    "F22-HAW-056",
+    "F22-HAW-057",
+    "F22-HAW-058",
+    "F22-HAW-061",
+    "F22-HAW-064",
+    "F22-HAW-067",
+    "F22-HAW-047",
+    "F22-HAW-068",
+    "F22-HAW-070",
+    "F22-HAW-073",
+    "F22-HAW-077",
+    "F22-HAW-084",
+    "F22-HAW-089",
+    "F22-HAW-102",
+    "F22-HAW-104",
+    "F22-HAW-105",
+    "F22-HAW-109",
+    "F22-HAW-114",
+    "F22-HAW-116",
+    "F22-HAW-118",
+    "F22-HAW-129",
+    "F22-HAW-132",
+    "F22-HAW-134",
+    "F22-HAW-137",
+    "F22-HAW-145",
+    "F22-HAW-165",
+    "F22-HAW-166",
+    "F22-HAW-172",
+    "F22-HAW-173",
+    "F22-HAW-174",
+    "F22-HAW-175",
+    "F22-HAW-176",
+    "F22-HAW-179",
+    "F22-HAW-182",
+    "F22-HAW-189",
+    "F22-HAW-191",
+    "F22-HAW-197",
+    "F22-HAW-201",
+    "F22-HAW-205",
+    "F22-HAW-206",
+    "F22-HAW-207",
+    "F22-HAW-208",
+    "F22-HAW-210",
+    "F22-HAW-212",
+    "F22-HAW-214",
+    "F22-HAW-217",
+    "F22-HAW-220",
+    "F22-HAW-221",
+    "F22-HAW-227",
+    "F22-HAW-235",
+    "F22-HAW-250",
+    "F22-HAW-251",
+    "F22-HAW-253",
+    "F22-HAW-260",
+    "F22-HAW-261",
+    "F22-HAW-268",
+    "F22-HAW-269",
+    "F22-HAW-280",
+    "F22-HAW-281",
+    "F22-HAW-282",
+    "F22-HAW-283",
+    "F22-HAW-284",
+    "F22-HAW-007",
+    "F22-HAW-014",
+    "F22-HAW-015",
+    "F22-HAW-019",
+    "F22-HAW-027",
+    "F22-HAW-085",
+    "F22-HAW-108",
+    "F22-HAW-121",
+    "F22-HAW-147",
+    "F22-HAW-159",
+    "F22-HAW-160",
+    "F22-HAW-188",
+    "F22-HAW-198",
+    "F22-HAW-231",
+    "F22-HAW-236",
+    "F22-HAW-243",
+    "F22-HAW-265"
+  ],
+  "appended_annotation_ids": [
+    "F22-HAW-011",
+    "F22-HAW-012",
+    "F22-HAW-013",
+    "F22-HAW-018",
+    "F22-HAW-020",
+    "F22-HAW-071",
+    "F22-HAW-076",
+    "F22-HAW-079",
+    "F22-HAW-081",
+    "F22-HAW-088",
+    "F22-HAW-090",
+    "F22-HAW-100",
+    "F22-HAW-107",
+    "F22-HAW-120",
+    "F22-HAW-123",
+    "F22-HAW-155",
+    "F22-HAW-156",
+    "F22-HAW-157",
+    "F22-HAW-168",
+    "F22-HAW-185",
+    "F22-HAW-192",
+    "F22-HAW-239",
+    "F22-HAW-246",
+    "F22-HAW-272",
+    "F22-HAW-273",
+    "F22-HAW-278"
+  ],
+  "candidate_history": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-contexts.json",
+      "sha256": "2bee8003854e9da10e31c15b134eacbce1f1b34e6be076155ad96d2e05e76edf"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-final-paths.json",
+      "sha256": "3616d7e5e1fa8bbba3088ac9e0030eadf07164b11b361362dc5c9e6af03882bb"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-eighth-proposals.json",
+      "sha256": "858c381f2a4e8a70cf711c484afcc4f3154824b73e0f29648e7cd83af0f534b5"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-fifth-initial-proposals.json",
+      "sha256": "f996ae9eaea64fb2f53d85ab56f4b8d6396e523cb99bb07821c39b5779a72455"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-fifth-proposals.json",
+      "sha256": "6a272637fdb6c57f016833af36969865dbafde1d6992b1b3034d4631455f9623"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-first-proposals.json",
+      "sha256": "db8d272d2159f7248169aa75b8919a3192a1c46c0afe8eaa697439d342faa0e0"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-fourth-proposals.json",
+      "sha256": "c81b19472caacbea1278c83c311e802ab6ba92ab3451671c2b7e950ed258a468"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-ninth-proposals.json",
+      "sha256": "8ee81f95384a7e13dab11aaac9e96b34e49b95cafe2342d67d4cbd6c8a99b5b8"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-second-initial-proposals.json",
+      "sha256": "3cb125ccad9a24744704f43c68f61c42ce87bc0f3fa0cb1e0512765a1228de84"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-second-proposals.json",
+      "sha256": "3fd405ce6485931ac25ca65e15d4ed41568f5f9cc9426da992144a3bb8eda584"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-seventh-proposals.json",
+      "sha256": "882ecd2ad350370bcadd2bc5c314b9ecf2c62487d7471e4055a33337144a72d2"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-sixth-proposals.json",
+      "sha256": "00e32b0774959a8cc65e2d1256070b30b7cc46346343d9cfbfbc7a29f2101458"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-tenth-proposals.json",
+      "sha256": "81fabeb5f8fbc6c6d45a2d67c088dc07560438b3ff1663ee959220f1cc93f38d"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-third-initial-proposals.json",
+      "sha256": "dc4c165e778fce51bf220d02a74afa76b68d5b06e72910eea7a37face478c585"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-third-proposals.json",
+      "sha256": "1db589004b2be5c3b7da8210795dc3c8a2bd77f94cc156172411a3d3ed30a6fb"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-eighth-ink-candidates.json",
+      "sha256": "4e3217e2eb7adb96852fc6d02592f40145b6ecb51f4838a83af8c1d4fbeb391f"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-fifth-initial-ink-candidates.json",
+      "sha256": "a0c76d61afe9fa7337dbfcfa337fd5ca315d0ed87e4162a2429de06cd1f664dc"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-fifth-ink-candidates.json",
+      "sha256": "32b5d756a56b3b6d6bcfa0f139061a9252f889073c8efaa71b2fbb7758c0a3ef"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-first-ink-candidates.json",
+      "sha256": "97cfdb2aa00e27ff20317d03f134df6a5458fc8859fd69c7d2c183cdd7d727fc"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-fourth-ink-candidates.json",
+      "sha256": "7ead013549b70a41e3061cd9432d776287a34d816abfd8c6a6e177dfe823969e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-ninth-ink-candidates.json",
+      "sha256": "d1624c1d461098bdf1621c112b5d01622241320788ffa3006b134ccaf1a6f9e4"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-second-initial-ink-candidates.json",
+      "sha256": "491797a9c0d3ad2f77ff4b04980b964ad6587720a831d51a0e8c1761ddf95a62"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-second-ink-candidates.json",
+      "sha256": "0752dff66c0c207b79d17cd28b61005f94e3697883058eddc0e688974f18b860"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-seventh-ink-candidates.json",
+      "sha256": "31bee5d9a1d20ae6924b0ca10164a1e9f846da58db885a2ef3d13aab21759ae5"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-sixth-ink-candidates.json",
+      "sha256": "77a3c15a5b58f8b412108ac39c5bdc3478e46a49cebef1a326d9b17b712cf7c9"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-tenth-ink-candidates.json",
+      "sha256": "db8927914e1c926572f72318e4f36c4e87c4b2f8d9d83448e8980bd778a6bde4"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-third-initial-ink-candidates.json",
+      "sha256": "557616bd195cd63d3eeced179803b02a02908bb36826e8e747670bfb1a9f5342"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-third-ink-candidates.json",
+      "sha256": "b19979bee02ad7ffc7199c184118c33b18fafd66fd9ee33a73d01b2691ae32d2"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-107-native-fork.png",
+      "sha256": "a55d8383765134a959bfb9df0d1fb5390291e641eed8c12618baa82777d3b6fa"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-107-final-fork.png",
+      "sha256": "9a1d2b654789a2180f1323afaf84cc15432efd024ca27b8393447588e463d901"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-water-185-bank-detail.jpg",
+      "sha256": "4474bccc896057ae2dd94bdd17b378f04bdd394a81a1f07138f1184517f8559e"
+    }
+  ],
+  "detail_frames": [
+    {
+      "annotation_id": "F22-HAW-107",
+      "relative_to": "hawkesbury-water-107-context.png",
+      "crop_xywh": [
+        390,
+        440,
+        85,
+        75
+      ],
+      "display_size": [
+        510,
+        450
+      ],
+      "scale": 6
+    },
+    {
+      "annotation_id": "F22-HAW-185",
+      "relative_to": "hawkesbury-water-185-context.png",
+      "crop_xywh": [
+        150,
+        680,
+        470,
+        470
+      ],
+      "display_size": [
+        940,
+        940
+      ],
+      "scale": 2
+    }
+  ],
+  "note": "Manual source-route seeds and a bounded dark-ink candidate search aided measurement only. Candidate departures onto lettering, roads and the Chisholm spur were rejected or manually corrected before source acceptance. No modern coordinates or fit boundary selected the source path. River Inhabitants uses an actual bounded bank, not an invented mid-channel line. Geographic review follows.",
+  "source_note_refinement": {
+    "annotation_id": "F22-HAW-123",
+    "previous_source_review_sha256": "99a8430039cd652ad1746057956227e9d7523bbcf793c41041c0c55f25b34cea",
+    "reason": "Full raster review identifies the eastern water as the coast; replace provisional lake/pond wording with coastal mouth. Native geometry is unchanged."
+  }
+}
