@@ -1,0 +1,154 @@
+{
+  "reviewed_at": "2026-09-12T17:21:20.457459+00:00",
+  "reviewer": "Codex primary agent; personally viewed images, no delegated visual review",
+  "count": 35,
+  "figures": [
+    {
+      "path": "adjacent-sheet-review/18-northeast.jpg",
+      "sha256": "ed099efcdeaa1d24aafcd1e7226e1827ed6d8fced4d4ebace49ce2a8deb333e8"
+    },
+    {
+      "path": "adjacent-sheet-review/18-northwest.jpg",
+      "sha256": "fc1d8b1fccf074116164b4b1f4d7cd51eab3f87b470db21d6616f704ac2973ea"
+    },
+    {
+      "path": "adjacent-sheet-review/20-east-central.jpg",
+      "sha256": "fcb01d52cabaf2d4e6a5c64f6134409f942c94c1fe0b4ea473247a0c01678854"
+    },
+    {
+      "path": "adjacent-sheet-review/20-east-north.jpg",
+      "sha256": "3d9ac649f5e5db48e458bd3e82d4a5eb637d64eb9a4ecadcf130df9b85f013e1"
+    },
+    {
+      "path": "adjacent-sheet-review/22latest-west-north.jpg",
+      "sha256": "4f534762d465563a0e641f5dcce4b1e0aee5ca623bdffb84abc034734ca49201"
+    },
+    {
+      "path": "adjacent-sheet-review/22latest-west-south.jpg",
+      "sha256": "04d8617b0b5a43885ce2d9305939a019eaff52bf057c4de58fd8f90f7a87a0f2"
+    },
+    {
+      "path": "adjacent-sheet-review/23-southeast.jpg",
+      "sha256": "a8a0b01bfc3c1344f741f895b7d96f823d00758c487de9af7bac1e8286e5533f"
+    },
+    {
+      "path": "adjacent-sheet-review/23-southwest.jpg",
+      "sha256": "e4be85f1509a750aa0c29fa149602c4bacfb01a9cb19303186291f91668def33"
+    },
+    {
+      "path": "adjusted-close/sheet-21-F01.jpg",
+      "sha256": "56ac0b50383a43910e8c0c1388337b80f4027f6568d5a626cb442e965f772bdb"
+    },
+    {
+      "path": "adjusted-close/sheet-21-F02.jpg",
+      "sha256": "bc9c4cc60fba58fa1fd9bb8481bf744292d07b5e68a11401305ccb27cb92bf33"
+    },
+    {
+      "path": "adjusted-wide/sheet-21-F01.jpg",
+      "sha256": "11bfebec7a77b2e0d9fc6472a0deb94349ef2de012797e465581f8dd121b31ec"
+    },
+    {
+      "path": "adjusted-wide/sheet-21-F02.jpg",
+      "sha256": "ab00cebe0e8f39c64c7671c4bf8c2be2c17e9ac1e1981dae29f755d176d494f3"
+    },
+    {
+      "path": "boundary-corners.jpg",
+      "sha256": "12d20f5965a403a0dd5bfbab5c043c21a0736fead989223f425093d25859bdb3"
+    },
+    {
+      "path": "browser/import-desktop.png",
+      "sha256": "c1356048ba775c058f24e256a68b309dc3928476fdf1919b5edb3188aaf3939d"
+    },
+    {
+      "path": "browser/reload-desktop.png",
+      "sha256": "431347e6f92eb541618e53ccbe5f0f4ba5d0922286750ba95cafd88420090e94"
+    },
+    {
+      "path": "browser/reload-mobile.png",
+      "sha256": "db0fac16337bda119c8d08eaaa4b0dbffa2dd85ce6153ae8ee06530057c8001f"
+    },
+    {
+      "path": "fresh-close/sheet-21-F01.jpg",
+      "sha256": "4b83f3bd4151f72809593cfaab6997f346b752112a60416b13b68ed733696c6e"
+    },
+    {
+      "path": "fresh-close/sheet-21-F02.jpg",
+      "sha256": "f1df2ca698f87533d80350eece158e877b66d280b47bcf887eb611e6e1279cf1"
+    },
+    {
+      "path": "fresh-wide/sheet-21-F01.jpg",
+      "sha256": "5b54186ef08b262c252ff2a05cdef6b80de33a2c267ad57ddcceee6d1a1165e4"
+    },
+    {
+      "path": "fresh-wide/sheet-21-F02.jpg",
+      "sha256": "086033d97c897f19cb13bc5fd82cb447ebf07b244aac094ecd63cac36fb4c710"
+    },
+    {
+      "path": "full-boundary-review.jpg",
+      "sha256": "f7c20d5caf56b6c2ae291f6b3a1d8ac7ba7e78a1efafd6bf543ef02c87656431"
+    },
+    {
+      "path": "repair-close/sheet-21-V01.jpg",
+      "sha256": "0adb63f11294275fbd287fec1d63649f0d7eb5cfee4688b55ea6816665aa91d0"
+    },
+    {
+      "path": "repair-close/sheet-21-V05.jpg",
+      "sha256": "1030d6ed26e4845048383bd429e97dc740771c6ffb9b1b03c83a13ae70ded873"
+    },
+    {
+      "path": "repair-wide/sheet-21-V01.jpg",
+      "sha256": "837a3cfcfdec1ad458d927446278211403bf7c262a8584961872ef6e47c7a1a1"
+    },
+    {
+      "path": "repair-wide/sheet-21-V05.jpg",
+      "sha256": "d2450e250dad3fafaee1cc431f745b61e9f6407de9984d4d8dd830e750f1acc5"
+    },
+    {
+      "path": "warped-review/black-river.jpg",
+      "sha256": "23148b5dcdd068864fe4f733562349b5bb6896352c4c1a0929cd690a9b3a1221"
+    },
+    {
+      "path": "warped-review/central-lakes.jpg",
+      "sha256": "653d508def52ab0abaf42af858e80a7686bdb11d7695d097a8a5e26b6c2b4954"
+    },
+    {
+      "path": "warped-review/eastern-lakes.jpg",
+      "sha256": "c8f7e54db141b2524f12fe64325885b1d3625e4b43951aae7c64b4262ada030b"
+    },
+    {
+      "path": "warped-review/isle-madame.jpg",
+      "sha256": "07970b5b869f18c0ff892e8b1f3ffefa4719f7bf528f1d10ebe2a033a0e0416b"
+    },
+    {
+      "path": "warped-review/lennox-passage.jpg",
+      "sha256": "8930284fc088b9c9375b25c95642aab2548c4d67d9719c33a695d49e6a82c714"
+    },
+    {
+      "path": "warped-review/north-central.jpg",
+      "sha256": "ccfe54b6cd9b08427e972ba90dd66c6dd55f131b5e6c99fb2eb7c197207b8732"
+    },
+    {
+      "path": "warped-review/river-bourgeois.jpg",
+      "sha256": "de2d27ddafd37f812167c9efffbbb4468949c67e0968457f59a21ddf063e1781"
+    },
+    {
+      "path": "warped-review/southwest-islands.jpg",
+      "sha256": "c112c50c7eb4287beee1f802770925151f61596e9c509250142779f0ba818551"
+    },
+    {
+      "path": "warped-review/sporting-mountain.jpg",
+      "sha256": "d405e49bf3ebf932ccf84b53ffa76e6180ba1ad963fcff3076b20b9c5103b6d4"
+    },
+    {
+      "path": "warped-review/west-bay.jpg",
+      "sha256": "d8ab005fd27929338605beeb5c4f939f60a420b29ef8f7a33c90d9a22741d887"
+    }
+  ],
+  "findings": [
+    "Twelve native close/wide frames personally viewed; both repair identities unchanged, both fresh corrections reviewed before scoring.",
+    "Ten actual warp comparisons: local Cook alignment improves; West Bay, Sporting Mountain and interior lake/stream shapes remain displaced. Black River tributaries diverge; River Bourgeois and Lennox Passage coast shapes disagree despite anchored locations.",
+    "Eight adjacent-sheet comparisons with Sheets 18, 20, 22 and 23 retain gaps and displaced continuation; southern Isle Madame streams and coast remain inconsistent. Neighbors are themselves provisional.",
+    "Complete boundary and corners retain mapped islands, labels and northern Isle Madame.",
+    "Actual desktop import, desktop reload and mobile reload screenshots show the raster; technical persistence is distinct from geographic acceptance."
+  ]
+}

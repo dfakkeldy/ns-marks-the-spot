@@ -1,0 +1,56 @@
+{
+  "selected_at": "2026-09-12T17:08:23.284007+00:00",
+  "fit_sha256": "f991e956ec4077779168293e494df3bdbf8da342b67208715f96e082ccafee1f",
+  "points": [
+    {
+      "lonlat": [
+        -60.8885288,
+        45.6995878
+      ],
+      "source_guide_xy": [
+        8738.766069759615,
+        2726.2429984002374
+      ],
+      "objectids": [
+        128311,
+        128312,
+        198882
+      ],
+      "id": "F01",
+      "modern_node_id": "J0267",
+      "role": "check",
+      "pixel_xy": [
+        8758,
+        2582
+      ],
+      "identity_evidence": "Cook Lakes northern basin northeastern tributary inlet; same system as new C17, local drainage check.",
+      "source_uncertainty_px": 20,
+      "status": "Post-freeze candidate; exact source and modern review pending."
+    },
+    {
+      "lonlat": [
+        -61.0332446,
+        45.7250331
+      ],
+      "source_guide_xy": [
+        5577.4783619192895,
+        1945.7847568006255
+      ],
+      "objectids": [
+        13504,
+        13505,
+        193490
+      ],
+      "id": "F02",
+      "modern_node_id": "J0127",
+      "role": "check",
+      "pixel_xy": [
+        5567,
+        1764
+      ],
+      "identity_evidence": "Small stream mouth on mainland east of McIntosh Cove island; distinct mainland feature near new C18.",
+      "source_uncertainty_px": 20,
+      "status": "Post-freeze candidate; exact source and modern review pending."
+    }
+  ]
+}

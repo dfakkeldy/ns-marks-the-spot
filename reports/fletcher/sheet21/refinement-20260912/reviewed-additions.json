@@ -1,0 +1,63 @@
+{
+  "points": [
+    {
+      "id": "C17",
+      "role": "control",
+      "pixel_xy": [
+        8798,
+        2950
+      ],
+      "lonlat": [
+        -60.8879165,
+        45.688661
+      ],
+      "modern_node_id": "J0331",
+      "modern_objectids": [
+        128310,
+        128419,
+        198746
+      ],
+      "identity_evidence": "Cook Lakes southern basin southern outlet",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected original exact close/wide native crosshair and direct modern geometry; promoted unchanged before fresh selection.",
+      "review_note": "Native crosshair refined before scoring; original proposal preserved.",
+      "promoted_from": "V01",
+      "prior_error_ground_m": 120.2998245920442
+    },
+    {
+      "lonlat": [
+        -61.04154238429219,
+        45.726768000439456
+      ],
+      "guide_xy": [
+        5396.214923613239,
+        1892.571890521329
+      ],
+      "modern_objectid": 310655,
+      "modern_part": 0,
+      "modern_vertex": 42,
+      "modern_properties": {
+        "OBJECTID": 310655,
+        "FEAT_CODE": "WACOIS10",
+        "FEAT_DESC": "Coastal Island - Water to the right line",
+        "RIVNAME_1": " ",
+        "RIVNAME_2": " ",
+        "ZVALUE": 0.2,
+        "FID": null,
+        "SHAPE_Length": 264.35242770481693
+      },
+      "id": "C18",
+      "role": "control",
+      "pixel_xy": [
+        5436,
+        1689
+      ],
+      "identity_evidence": "Small island at McIntosh Cove northernmost coast, distinct from reused south-tip check",
+      "source_uncertainty_px": 20,
+      "status": "Personally inspected original exact close/wide native crosshair and direct modern geometry; promoted unchanged before fresh selection.",
+      "review_note": "Native crosshair refined before scoring; original proposal preserved.",
+      "promoted_from": "V05",
+      "prior_error_ground_m": 108.75313870174621
+    }
+  ]
+}

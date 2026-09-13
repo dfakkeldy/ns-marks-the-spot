@@ -1,0 +1,122 @@
+[
+  {
+    "image": "22latest-west-north.jpg",
+    "lonlat_bounds": [
+      -61.235,
+      45.67,
+      -61.2,
+      45.733
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/refinement-20260912/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "22latest-west-south.jpg",
+    "lonlat_bounds": [
+      -61.235,
+      45.575,
+      -61.2,
+      45.625
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/refinement-20260912/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/hawkesbury-full-sheet/boundary-result/sheet-22-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "18-northwest.jpg",
+    "lonlat_bounds": [
+      -61.205,
+      45.737,
+      -61.145,
+      45.76
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/refinement-20260912/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "18-northeast.jpg",
+    "lonlat_bounds": [
+      -60.965,
+      45.737,
+      -60.895,
+      45.76
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/refinement-20260912/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet18/regional-fourteen/sheet-18-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "20-east-north.jpg",
+    "lonlat_bounds": [
+      -60.855,
+      45.69,
+      -60.825,
+      45.735
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/refinement-20260912/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/refinement-20260912/sheet-20-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "20-east-central.jpg",
+    "lonlat_bounds": [
+      -60.855,
+      45.63,
+      -60.825,
+      45.675
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/refinement-20260912/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet20/refinement-20260912/sheet-20-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "23-southwest.jpg",
+    "lonlat_bounds": [
+      -61.2,
+      45.56,
+      -61.1,
+      45.59
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/refinement-20260912/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  },
+  {
+    "image": "23-southeast.jpg",
+    "lonlat_bounds": [
+      -60.98,
+      45.56,
+      -60.88,
+      45.59
+    ],
+    "rasters": [
+      "/Users/dfakkeldy/Downloads/fletcher-sheet21/refinement-20260912/sheet-21-full-sheet.tif",
+      "/Users/dfakkeldy/Downloads/fletcher-sheet23/regional-twelve/sheet-23-full-sheet.tif"
+    ],
+    "reference": "reports/fletcher/sheet21/reference-receipts.json",
+    "method": "GDAL raster geographic window; modern vectors projected directly to EPSG:3857, not inverse search guide."
+  }
+]
