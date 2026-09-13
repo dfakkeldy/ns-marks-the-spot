@@ -38867,7 +38867,264 @@
         "placement_note": "The source cross remains east of the main coastal road at Craignish, between the northern small tributary and the southern road/stream district. Modern Highway 19, the coast and tributaries support this approximate locality. No current church building or independent coordinate correction is established.",
         "source_excerpt": "excerpts/F22-HAW-004.jpg",
         "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
-        "evidence_sha256": "4b2de336f4e9f78cf9d16f43a5c84444b53317a4bffc2aeb5aada09ab6881156"
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-005",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.46333021368184,
+              45.727750198939
+            ],
+            [
+              -61.46331055613667,
+              45.72742777005619
+            ],
+            [
+              -61.463290850947,
+              45.727104236114336
+            ],
+            [
+              -61.46327110786594,
+              45.726779675006135
+            ],
+            [
+              -61.46325133643513,
+              45.726454162310354
+            ],
+            [
+              -61.463231545923286,
+              45.726127770599405
+            ],
+            [
+              -61.46321174529787,
+              45.72580056908529
+            ],
+            [
+              -61.46319194321941,
+              45.72547262350186
+            ],
+            [
+              -61.46278714512451,
+              45.72547566206111
+            ],
+            [
+              -61.46238237970743,
+              45.725478019857185
+            ],
+            [
+              -61.461977650478076,
+              45.72547966596153
+            ],
+            [
+              -61.461572961164556,
+              45.725480570006845
+            ],
+            [
+              -61.46116831577803,
+              45.72548070287314
+            ],
+            [
+              -61.46118839836387,
+              45.725810635072605
+            ],
+            [
+              -61.46120847096081,
+              45.72613987274141
+            ],
+            [
+              -61.4612285247879,
+              45.726468347712775
+            ],
+            [
+              -61.461248550507875,
+              45.7267959856756
+            ],
+            [
+              -61.461268538123115,
+              45.727122705183426
+            ],
+            [
+              -61.46128847686003,
+              45.72744841655067
+            ],
+            [
+              -61.461308355050754,
+              45.72777302071488
+            ],
+            [
+              -61.46171270979627,
+              45.72777006083286
+            ],
+            [
+              -61.46211707386529,
+              45.72776623609652
+            ],
+            [
+              -61.46252144658933,
+              45.72776161187583
+            ],
+            [
+              -61.46292582696863,
+              45.727756248019894
+            ],
+            [
+              -61.46333021368184,
+              45.727750198939
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-005",
+        "sheet": 22,
+        "source_text": "P.O.",
+        "kind": "post_office",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                4420.0,
+                1620.0
+              ],
+              [
+                4428.6,
+                1620.0
+              ],
+              [
+                4437.2,
+                1620.0
+              ],
+              [
+                4445.8,
+                1620.0
+              ],
+              [
+                4454.4,
+                1620.0
+              ],
+              [
+                4463.0,
+                1620.0
+              ],
+              [
+                4463.0,
+                1629.4285714285713
+              ],
+              [
+                4463.0,
+                1638.857142857143
+              ],
+              [
+                4463.0,
+                1648.2857142857142
+              ],
+              [
+                4463.0,
+                1657.7142857142858
+              ],
+              [
+                4463.0,
+                1667.142857142857
+              ],
+              [
+                4463.0,
+                1676.5714285714287
+              ],
+              [
+                4463.0,
+                1686.0
+              ],
+              [
+                4454.4,
+                1686.0
+              ],
+              [
+                4445.8,
+                1686.0
+              ],
+              [
+                4437.2,
+                1686.0
+              ],
+              [
+                4428.6,
+                1686.0
+              ],
+              [
+                4420.0,
+                1686.0
+              ],
+              [
+                4420.0,
+                1676.5714285714287
+              ],
+              [
+                4420.0,
+                1667.142857142857
+              ],
+              [
+                4420.0,
+                1657.7142857142858
+              ],
+              [
+                4420.0,
+                1648.2857142857142
+              ],
+              [
+                4420.0,
+                1638.857142857143
+              ],
+              [
+                4420.0,
+                1629.4285714285713
+              ],
+              [
+                4420.0,
+                1620.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            4162,
+            1415,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/4162,1415,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Several compact marks cluster about the coastal road and watercourse immediately left of P.O. below Craignish. The lettering does not uniquely choose an individual postal building. Retain the entire nearby candidate group, not the lettering centre or a current address.",
+        "placement_note": "The printed postal group remains at the coastal road/watercourse district south of Craignish church and west of the main Highway 19 corridor. Modern coastline and drainage support that broad locality. Part of the prediction crosses the modern shoreline; retain that shoreline uncertainty and the whole candidate group, with no individual current land/building or postal-address claim.",
+        "source_excerpt": "excerpts/F22-HAW-005.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
       }
     },
     {
@@ -38924,7 +39181,7 @@
         "placement_note": "The school mark stays west of the road and watercourse between the northern and southern road junctions. The modern road/stream corridor supports the broad locality; offsets in bends and side roads prevent an exact building match.",
         "source_excerpt": "excerpts/F22-HAW-008.jpg",
         "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
-        "evidence_sha256": "4b2de336f4e9f78cf9d16f43a5c84444b53317a4bffc2aeb5aada09ab6881156"
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
       }
     },
     {
@@ -38981,7 +39238,7 @@
         "placement_note": "The postal mark remains in the western road-junction district north of the east-west watercourse, west of the larger eastern brook. The source mark is east of its historical road but projects west of the modern main highway. Retain that road-side disagreement; the wider road and drainage arrangement supports approximate locality only.",
         "source_excerpt": "excerpts/F22-HAW-023.jpg",
         "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
-        "evidence_sha256": "4b2de336f4e9f78cf9d16f43a5c84444b53317a4bffc2aeb5aada09ab6881156"
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
       }
     },
     {
@@ -39038,7 +39295,64 @@
         "placement_note": "The school prediction remains south of the northwest-southeast road/water corridor and west of the eastern main junction. Modern drainage and roads support the district, but the small source crossing and the narrow school corridor are offset. Keep an approximate historical mark, not a confirmed modern school or crossing location.",
         "source_excerpt": "excerpts/F22-HAW-026.jpg",
         "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
-        "evidence_sha256": "4b2de336f4e9f78cf9d16f43a5c84444b53317a4bffc2aeb5aada09ab6881156"
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-030",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.28572455882024,
+          45.72001428448795
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-030",
+        "sheet": 22,
+        "source_text": "Long Stretch Bridge",
+        "kind": "bridge",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            8255,
+            1914
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            8082,
+            1713,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/8082,1713,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "Long Stretch Bridge is associated with the actual road/watercourse crossing immediately left of its caption, just east of the separate railway. The point is the approximate centre of that crossing. The distant rectangular grid patches are not substituted for the bridge, and no current bridge identity or condition is asserted.",
+        "placement_note": "The source crossing falls in the same distinctive river-meander and east-west road district beside the western railway corridor. The modern road crossing is slightly north/west of the prediction. This supports approximate historical crossing locality, not exact bridge structure, continuity, condition or access.",
+        "source_excerpt": "excerpts/F22-HAW-030.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
       }
     },
     {
@@ -39215,7 +39529,7 @@
         "placement_note": "The three school candidates remain south of the northern road junction and west of the broad brook bend, above the church mark. Modern roads and water support the district, while local road arms and bank positions differ. No individual school building is identified.",
         "source_excerpt": "excerpts/F22-HAW-031.jpg",
         "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
-        "evidence_sha256": "4b2de336f4e9f78cf9d16f43a5c84444b53317a4bffc2aeb5aada09ab6881156"
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
       }
     },
     {
@@ -39272,7 +39586,7 @@
         "placement_note": "The church cross remains immediately south of the school group and west of the main brook bend/crossing district. The modern road and drainage arrangement supports approximate locality. Bank and minor-road offsets remain; no current church identity or footprint is asserted.",
         "source_excerpt": "excerpts/F22-HAW-032.jpg",
         "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
-        "evidence_sha256": "4b2de336f4e9f78cf9d16f43a5c84444b53317a4bffc2aeb5aada09ab6881156"
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
       }
     },
     {
@@ -39577,7 +39891,7 @@
         "placement_note": "The source school candidates occupy the road-fork district south of Cape Pond and northeast of Beach Pond. The modern coastline, pond outlet and road junction support that broader locality. The projected group overlaps the modern outlet channel, so individual banks/buildings cannot be assigned; retain the whole ambiguous source group without treating its outline as a site boundary.",
         "source_excerpt": "excerpts/F22-HAW-041.jpg",
         "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
-        "evidence_sha256": "4b2de336f4e9f78cf9d16f43a5c84444b53317a4bffc2aeb5aada09ab6881156"
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
       }
     },
     {
@@ -39786,7 +40100,1759 @@
         "placement_note": "The postal candidates remain south of the east-west coastal road, east of the Cape Pond outlet and school district. Modern roads, pond and coastline support the approximate locality with local bank/road offsets. The pair remains unresolved and supplies no current postal address.",
         "source_excerpt": "excerpts/F22-HAW-042.jpg",
         "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
-        "evidence_sha256": "4b2de336f4e9f78cf9d16f43a5c84444b53317a4bffc2aeb5aada09ab6881156"
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-045",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.5402801476702,
+          45.68114776800784
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-045",
+        "sheet": 22,
+        "source_text": "R.C. Ch.",
+        "kind": "church",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            2788,
+            2963
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            2391,
+            2735,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/2391,2735,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The church cross is immediately right of R.C. Ch. and west of the road at Havre Bouché, below the northern pair of compact marks. Its cross centre is independent of the separate school candidates east of the road.",
+        "placement_note": "The church cross remains west of the local north-south road and north of the east-west service corridor at Havre Bouché. The modern harbour, roads and tributary district support approximate locality. The current main roads have changed alignment; no current church building is identified.",
+        "source_excerpt": "excerpts/F22-HAW-045.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-046",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.539366678010175,
+              45.68079318858637
+            ],
+            [
+              -61.539378257267686,
+              45.68051990321214
+            ],
+            [
+              -61.539389428922455,
+              45.68024756064456
+            ],
+            [
+              -61.53940023293701,
+              45.67997601457347
+            ],
+            [
+              -61.53941069241049,
+              45.679705168602744
+            ],
+            [
+              -61.53942082247344,
+              45.679434949774375
+            ],
+            [
+              -61.53895361081635,
+              45.67944201828599
+            ],
+            [
+              -61.53848583248706,
+              45.6794499302473
+            ],
+            [
+              -61.53801750044477,
+              45.67945865742895
+            ],
+            [
+              -61.53754863636403,
+              45.67946814614498
+            ],
+            [
+              -61.53707926606591,
+              45.67947833082446
+            ],
+            [
+              -61.53660941595623,
+              45.67948914458394
+            ],
+            [
+              -61.53660033950399,
+              45.67976068122935
+            ],
+            [
+              -61.53659091452825,
+              45.68003287164382
+            ],
+            [
+              -61.53658113168922,
+              45.680305770891
+            ],
+            [
+              -61.53657098226119,
+              45.680579431908086
+            ],
+            [
+              -61.53656046008362,
+              45.68085389969569
+            ],
+            [
+              -61.53702948775089,
+              45.68084186375255
+            ],
+            [
+              -61.537498047410295,
+              45.68083042298154
+            ],
+            [
+              -61.53796610672173,
+              45.680819664046425
+            ],
+            [
+              -61.53843362157227,
+              45.68080970909518
+            ],
+            [
+              -61.53890052035871,
+              45.68080076257474
+            ],
+            [
+              -61.539366678010175,
+              45.68079318858637
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-046",
+        "sheet": 22,
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                2808.0,
+                2975.0
+              ],
+              [
+                2818.0,
+                2975.0
+              ],
+              [
+                2828.0,
+                2975.0
+              ],
+              [
+                2838.0,
+                2975.0
+              ],
+              [
+                2848.0,
+                2975.0
+              ],
+              [
+                2858.0,
+                2975.0
+              ],
+              [
+                2868.0,
+                2975.0
+              ],
+              [
+                2868.0,
+                2984.0
+              ],
+              [
+                2868.0,
+                2993.0
+              ],
+              [
+                2868.0,
+                3002.0
+              ],
+              [
+                2868.0,
+                3011.0
+              ],
+              [
+                2868.0,
+                3020.0
+              ],
+              [
+                2858.0,
+                3020.0
+              ],
+              [
+                2848.0,
+                3020.0
+              ],
+              [
+                2838.0,
+                3020.0
+              ],
+              [
+                2828.0,
+                3020.0
+              ],
+              [
+                2818.0,
+                3020.0
+              ],
+              [
+                2808.0,
+                3020.0
+              ],
+              [
+                2808.0,
+                3011.0
+              ],
+              [
+                2808.0,
+                3002.0
+              ],
+              [
+                2808.0,
+                2993.0
+              ],
+              [
+                2808.0,
+                2984.0
+              ],
+              [
+                2808.0,
+                2975.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            2527,
+            2724,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/2527,2724,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The School caption sits above the road and its nearby compact-mark row/column east of the north-south road. Several candidates lie below the caption; preserve their group rather than choosing an individual school building. The church cross farther west and the geological angle notation remain separate.",
+        "placement_note": "The school candidates remain south of the east-west road and east of the western north-south road, west of the harbour-side junction. The modern road and coastline arrangement supports the broad group locality. The individual marks and exact school footprint remain unresolved.",
+        "source_excerpt": "excerpts/F22-HAW-046.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-047",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.528934804008635,
+          45.677860688411364
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-047",
+        "sheet": 22,
+        "source_text": "Lt F. Red 107 ft.",
+        "kind": "light-annotation",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3031,
+            3081
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            2594,
+            2839,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/2594,2839,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The radiating symbol directly right of the red-light inscription lies beside the Havre Bouché shoreline road, south of the white-light symbol. Its centre is retained separately. The printed 107 ft. remains historical wording; no current light height, navigation range or operating status is inferred.",
+        "placement_note": "The red-light mark remains south of the white-light promontory and inland of the harbour shoreline. Modern roads and the harbour shape support that broader district, but the old shoreline-road alignment differs from the current road network. Retain approximate historical symbol geography only; no current navigation aid is identified.",
+        "source_excerpt": "excerpts/F22-HAW-047.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-053",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.53105262348491,
+              45.6890339800991
+            ],
+            [
+              -61.531066817793906,
+              45.688713854282774
+            ],
+            [
+              -61.53108099270271,
+              45.688394065231414
+            ],
+            [
+              -61.531095136731835,
+              45.688074625203285
+            ],
+            [
+              -61.53110923802137,
+              45.687755547021574
+            ],
+            [
+              -61.531123284325474,
+              45.68743684409529
+            ],
+            [
+              -61.53065472050382,
+              45.68745324424468
+            ],
+            [
+              -61.5301858279066,
+              45.68746991158908
+            ],
+            [
+              -61.52971661380897,
+              45.68748683157459
+            ],
+            [
+              -61.52924708540072,
+              45.68750399007635
+            ],
+            [
+              -61.52923392720372,
+              45.687822534542136
+            ],
+            [
+              -61.529220702867356,
+              45.68814145516207
+            ],
+            [
+              -61.52920742409452,
+              45.68846073984396
+            ],
+            [
+              -61.52919410228296,
+              45.6887803768657
+            ],
+            [
+              -61.52918074852173,
+              45.68910035488256
+            ],
+            [
+              -61.52964919907462,
+              45.68908339014154
+            ],
+            [
+              -61.5301173324553,
+              45.68906666478359
+            ],
+            [
+              -61.53058514260533,
+              45.68905019074852
+            ],
+            [
+              -61.53105262348491,
+              45.6890339800991
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-053",
+        "sheet": 22,
+        "source_text": "Shop",
+        "kind": "shop",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                2978.0,
+                2720.0
+              ],
+              [
+                2988.0,
+                2720.0
+              ],
+              [
+                2998.0,
+                2720.0
+              ],
+              [
+                3008.0,
+                2720.0
+              ],
+              [
+                3018.0,
+                2720.0
+              ],
+              [
+                3018.0,
+                2730.0
+              ],
+              [
+                3018.0,
+                2740.0
+              ],
+              [
+                3018.0,
+                2750.0
+              ],
+              [
+                3018.0,
+                2760.0
+              ],
+              [
+                3018.0,
+                2770.0
+              ],
+              [
+                3008.0,
+                2770.0
+              ],
+              [
+                2998.0,
+                2770.0
+              ],
+              [
+                2988.0,
+                2770.0
+              ],
+              [
+                2978.0,
+                2770.0
+              ],
+              [
+                2978.0,
+                2760.0
+              ],
+              [
+                2978.0,
+                2750.0
+              ],
+              [
+                2978.0,
+                2740.0
+              ],
+              [
+                2978.0,
+                2730.0
+              ],
+              [
+                2978.0,
+                2720.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            2660,
+            2488,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/2660,2488,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact cluster below Shop is on the western side of the curved coastal road at northern Havre Bouché. The source caption does not identify a unique shop among these marks. The eastern mark row and solid shoreline projection are separate.",
+        "placement_note": "The shop group remains west of the curved harbour road and south of the northern coastal projection. Modern shoreline and road context supports the district. Its western portion overlaps a modern mapped pond margin; do not assign individual current buildings, ground conditions or a site boundary from this group.",
+        "source_excerpt": "excerpts/F22-HAW-053.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-055",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.530133228423004,
+              45.68535101392352
+            ],
+            [
+              -61.53014334083011,
+              45.685098782240466
+            ],
+            [
+              -61.53015334074002,
+              45.68484687054462
+            ],
+            [
+              -61.53016322075539,
+              45.684595286617984
+            ],
+            [
+              -61.52969181337484,
+              45.68461253431609
+            ],
+            [
+              -61.52922011277034,
+              45.68462998652582
+            ],
+            [
+              -61.52874812714845,
+              45.68464762865931
+            ],
+            [
+              -61.528275864432054,
+              45.684665447096506
+            ],
+            [
+              -61.52780333228117,
+              45.68468342910647
+            ],
+            [
+              -61.527794365075486,
+              45.68493501839755
+            ],
+            [
+              -61.527785279204785,
+              45.68518691064795
+            ],
+            [
+              -61.52777608106568,
+              45.68543910073864
+            ],
+            [
+              -61.5282480788089,
+              45.68542110825526
+            ],
+            [
+              -61.52871980010143,
+              45.685403289829466
+            ],
+            [
+              -61.52919123737837,
+              45.68538565854622
+            ],
+            [
+              -61.52966238283687,
+              45.68536822831463
+            ],
+            [
+              -61.530133228423004,
+              45.68535101392352
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-055",
+        "sheet": 22,
+        "source_text": "Lobster Factory",
+        "kind": "factory",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                3001.0,
+                2837.0
+              ],
+              [
+                3011.0,
+                2837.0
+              ],
+              [
+                3021.0,
+                2837.0
+              ],
+              [
+                3031.0,
+                2837.0
+              ],
+              [
+                3041.0,
+                2837.0
+              ],
+              [
+                3051.0,
+                2837.0
+              ],
+              [
+                3051.0,
+                2845.0
+              ],
+              [
+                3051.0,
+                2853.0
+              ],
+              [
+                3051.0,
+                2861.0
+              ],
+              [
+                3041.0,
+                2861.0
+              ],
+              [
+                3031.0,
+                2861.0
+              ],
+              [
+                3021.0,
+                2861.0
+              ],
+              [
+                3011.0,
+                2861.0
+              ],
+              [
+                3001.0,
+                2861.0
+              ],
+              [
+                3001.0,
+                2853.0
+              ],
+              [
+                3001.0,
+                2845.0
+              ],
+              [
+                3001.0,
+                2837.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            2801,
+            2603,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/2801,2603,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The solid shoreline structure immediately below Lobster Factory supplies a small source candidate region. Its attachment to the road/shore is visible, but the lettering does not resolve an individual factory building versus associated waterfront structure. Preserve the region without claiming an exact factory footprint or an operating modern facility.",
+        "placement_note": "The source structure projects across the shoreline at the northern harbour road approach, in the same broad inlet district shown by the modern coast. The changed waterfront and small road differences prevent an exact current structure match. Retain the candidate region as approximate historical waterfront evidence, not a current factory or footprint.",
+        "source_excerpt": "excerpts/F22-HAW-055.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-056",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.53131428307329,
+              45.68518284473989
+            ],
+            [
+              -61.531326649138926,
+              45.68488663529848
+            ],
+            [
+              -61.53133885387586,
+              45.684590888431885
+            ],
+            [
+              -61.53135088421781,
+              45.68429561941752
+            ],
+            [
+              -61.5313627270015,
+              45.68400084342588
+            ],
+            [
+              -61.53137436903751,
+              45.68370657531253
+            ],
+            [
+              -61.531009149768,
+              45.68371948450726
+            ],
+            [
+              -61.530643744926934,
+              45.68373253417195
+            ],
+            [
+              -61.53027815882122,
+              45.68374571624108
+            ],
+            [
+              -61.52991239561291,
+              45.68375902313577
+            ],
+            [
+              -61.52990144236544,
+              45.68405331464459
+            ],
+            [
+              -61.529890291512416,
+              45.68434808582686
+            ],
+            [
+              -61.52987895480606,
+              45.6846433257533
+            ],
+            [
+              -61.52986744405496,
+              45.68493902294546
+            ],
+            [
+              -61.52985577106643,
+              45.68523516554135
+            ],
+            [
+              -61.530220681234454,
+              45.68522186779973
+            ],
+            [
+              -61.53058540600017,
+              45.68520870980069
+            ],
+            [
+              -61.53094994132801,
+              45.68519569937488
+            ],
+            [
+              -61.53131428307329,
+              45.68518284473989
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-056",
+        "sheet": 22,
+        "source_text": "Forge",
+        "kind": "forge",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                2976.0,
+                2841.0
+              ],
+              [
+                2983.75,
+                2841.0
+              ],
+              [
+                2991.5,
+                2841.0
+              ],
+              [
+                2999.25,
+                2841.0
+              ],
+              [
+                3007.0,
+                2841.0
+              ],
+              [
+                3007.0,
+                2850.4
+              ],
+              [
+                3007.0,
+                2859.8
+              ],
+              [
+                3007.0,
+                2869.2
+              ],
+              [
+                3007.0,
+                2878.6
+              ],
+              [
+                3007.0,
+                2888.0
+              ],
+              [
+                2999.25,
+                2888.0
+              ],
+              [
+                2991.5,
+                2888.0
+              ],
+              [
+                2983.75,
+                2888.0
+              ],
+              [
+                2976.0,
+                2888.0
+              ],
+              [
+                2976.0,
+                2878.6
+              ],
+              [
+                2976.0,
+                2869.2
+              ],
+              [
+                2976.0,
+                2859.8
+              ],
+              [
+                2976.0,
+                2850.4
+              ],
+              [
+                2976.0,
+                2841.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            2628,
+            2655,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/2628,2655,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact western roadside row immediately right of Forge forms its candidate group, just south of the Lobster Factory approach. The eastern row is separate and the source does not choose an individual forge building. No property or operating-facility claim is inferred.",
+        "placement_note": "The forge candidates remain west of the harbour road, below the northern industrial approach and above the southern service junction. Modern roads and coastline support the district, while individual buildings remain unresolved. The rectangular group is not a property or operating-facility boundary.",
+        "source_excerpt": "excerpts/F22-HAW-056.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-057",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.53458923506204,
+              45.68081784054799
+            ],
+            [
+              -61.53459816590257,
+              45.680563225660606
+            ],
+            [
+              -61.53460681149504,
+              45.68030917551577
+            ],
+            [
+              -61.534615170400045,
+              45.680055673560084
+            ],
+            [
+              -61.53414821226091,
+              45.68006922413293
+            ],
+            [
+              -61.53368090665666,
+              45.68008309997039
+            ],
+            [
+              -61.53321326683233,
+              45.680097274450866
+            ],
+            [
+              -61.532745305111085,
+              45.68011172390388
+            ],
+            [
+              -61.53227703304795,
+              45.68012642713221
+            ],
+            [
+              -61.53180846154733,
+              45.68014136503797
+            ],
+            [
+              -61.53133960095608,
+              45.68015652032499
+            ],
+            [
+              -61.53087046113737,
+              45.68017187725876
+            ],
+            [
+              -61.53040105152951,
+              45.680187421469995
+            ],
+            [
+              -61.52993138119489,
+              45.680203139791864
+            ],
+            [
+              -61.52992460026413,
+              45.680458496676835
+            ],
+            [
+              -61.529917574007776,
+              45.68071424069047
+            ],
+            [
+              -61.52991030672939,
+              45.680970378880986
+            ],
+            [
+              -61.53037950141405,
+              45.68095417325463
+            ],
+            [
+              -61.53084843179065,
+              45.680938138564656
+            ],
+            [
+              -61.531317089185215,
+              45.680922287727014
+            ],
+            [
+              -61.53178546458496,
+              45.68090663476961
+            ],
+            [
+              -61.53225354859701,
+              45.68089119497339
+            ],
+            [
+              -61.53272133139875,
+              45.68087598504026
+            ],
+            [
+              -61.533188802675234,
+              45.68086102329718
+            ],
+            [
+              -61.533655951543224,
+              45.680846329945545
+            ],
+            [
+              -61.53412276645282,
+              45.680831927372786
+            ],
+            [
+              -61.53458923506204,
+              45.68081784054799
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-057",
+        "sheet": 22,
+        "source_text": "Hotel",
+        "kind": "hotel",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-group",
+        "geometry_meaning": "Approximate source-symbol group; individual feature unresolved. Outline is not a property, footprint or error bound.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                2910.0,
+                2978.0
+              ],
+              [
+                2919.9,
+                2978.0
+              ],
+              [
+                2929.8,
+                2978.0
+              ],
+              [
+                2939.7,
+                2978.0
+              ],
+              [
+                2949.6,
+                2978.0
+              ],
+              [
+                2959.5,
+                2978.0
+              ],
+              [
+                2969.4,
+                2978.0
+              ],
+              [
+                2979.3,
+                2978.0
+              ],
+              [
+                2989.2,
+                2978.0
+              ],
+              [
+                2999.1,
+                2978.0
+              ],
+              [
+                3009.0,
+                2978.0
+              ],
+              [
+                3009.0,
+                2986.3333333333335
+              ],
+              [
+                3009.0,
+                2994.6666666666665
+              ],
+              [
+                3009.0,
+                3003.0
+              ],
+              [
+                2999.1,
+                3003.0
+              ],
+              [
+                2989.2,
+                3003.0
+              ],
+              [
+                2979.3,
+                3003.0
+              ],
+              [
+                2969.4,
+                3003.0
+              ],
+              [
+                2959.5,
+                3003.0
+              ],
+              [
+                2949.6,
+                3003.0
+              ],
+              [
+                2939.7,
+                3003.0
+              ],
+              [
+                2929.8,
+                3003.0
+              ],
+              [
+                2919.9,
+                3003.0
+              ],
+              [
+                2910.0,
+                3003.0
+              ],
+              [
+                2910.0,
+                2994.6666666666665
+              ],
+              [
+                2910.0,
+                2986.3333333333335
+              ],
+              [
+                2910.0,
+                2978.0
+              ]
+            ]
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            2622,
+            2785,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/2622,2785,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact row immediately above Hotel lies south of the east-west road and west of the main Havre Bouché road junction. Retain the whole nearby row as candidates; the lettering does not uniquely identify an individual hotel building or current establishment.",
+        "placement_note": "The hotel row remains south of the east-west road and west of the harbour-side road junction. The modern road bend and coastline support the broad locality. Road alignments and the individual candidate buildings are not exact modern matches.",
+        "source_excerpt": "excerpts/F22-HAW-057.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-058",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.52737712902617,
+          45.681708560103914
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-058",
+        "sheet": 22,
+        "source_text": "Lt F. white\n36 ft.",
+        "kind": "light",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3062,
+            2957
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            2816,
+            2731,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/2816,2731,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The radiating light symbol beside the white-light inscription is on the shoreward projection north of the red-light mark. The symbol centre supplies the source point. The printed 36 ft. remains historical wording, not a current height, operating status or navigation instruction.",
+        "placement_note": "The white-light symbol remains at the western harbour projection opposite the elongated island/bar complex and north of the red-light mark. Modern harbour geometry supports approximate locality despite changed shore and transport lines. The printed height and light wording are historical, with no current aid or visibility claim.",
+        "source_excerpt": "excerpts/F22-HAW-058.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-061",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.48573431312775,
+          45.67711414707536
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-061",
+        "sheet": 22,
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3933,
+            3152
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3619,
+            2952,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/3619,2952,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "A distinct compact school mark appears below the road, immediately above School, partly overprinted by the dotted geological boundary. Its approximate ink centre was checked at 4x with increased source-pixel uncertainty. Individual boundary dots and the lettering centre are not substituted for the mark.",
+        "placement_note": "The school prediction follows the east-west road corridor at the modern junction district, between the western and eastern road bends. Modern road and drainage context supports approximate locality. The source mark remains partly overprinted by its geological boundary; the boundary and historical height text are not extra geographic controls.",
+        "source_excerpt": "excerpts/F22-HAW-061.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-064",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.48758949666631,
+          45.69198139939343
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-064",
+        "sheet": 22,
+        "source_text": "Lt. F. 110 ft. vis: 18 m.",
+        "kind": "light",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            3891,
+            2680
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            3727,
+            2428,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/3727,2428,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The radiating light symbol below the Lt. F. 110 ft. vis: 18 m. inscription lies at the shoreward end of the short road. Preserve its centre and the original abbreviated wording without interpreting the measurements as current height, visibility range or operating status.",
+        "placement_note": "The light symbol remains at the distinct northern coastline bend above the short inland road approach. The modern coast and adjacent drainage support the broad point locality; the present road endpoint differs. No current lighthouse, height, visibility range or safe route is established.",
+        "source_excerpt": "excerpts/F22-HAW-064.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-067",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.439871842354684,
+          45.691509667046226
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-067",
+        "sheet": 22,
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            4901,
+            2730
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            4639,
+            2502,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/4639,2502,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The distinct compact school mark immediately left of School lies west of the north-south road below Heffernans Pond. The geological arrows and small drainage strokes are separate from the mark.",
+        "placement_note": "The school stays west of Highway 19 and inland of the coast, south of the pond/tributary district and north of the lower forge crossing. The modern road/coast arrangement supports approximate locality, with small tributary and road offsets. No individual present building is matched.",
+        "source_excerpt": "excerpts/F22-HAW-067.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-068",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.43479642858856,
+          45.67950948568579
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-068",
+        "sheet": 22,
+        "source_text": "Forge",
+        "kind": "forge",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            5024,
+            3120
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            4656,
+            2887,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/4656,2887,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact forge mark is below/right of Forge, west of the main road and north of the small stream mouth south of Heffernans Pond. The road-junction mark farther north and the thick stream line are separate.",
+        "placement_note": "The forge mark remains west of Highway 19 and just north of the coastal stream crossing, south of the northern pond district. Modern roads, stream and shoreline support approximate locality. Its proximity to the current channel does not establish a modern forge or exact bank/footprint.",
+        "source_excerpt": "excerpts/F22-HAW-068.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-070",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.4223123673172,
+          45.66958396394929
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-070",
+        "sheet": 22,
+        "source_text": "Mill",
+        "kind": "mill",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            5305.5,
+            3430
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            4928,
+            3224,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/4928,3224,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact mill mark immediately above/right of Mill lies at the road/watercourse district on the eastern side of Long Pond, west of the main north-south road. The actual filled mark supplies the point; no current mill, water-control structure or power is inferred.",
+        "placement_note": "The mill mark remains at the eastern inlet head of Long Pond beside the main road and incoming stream. Modern Highway 19, the bay and the stream support that distinctive broad locality. The prediction is close to the present road/crossing; it does not identify a current mill, control structure or usable power.",
+        "source_excerpt": "excerpts/F22-HAW-070.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-073",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.38407462139654,
+          45.698247794033
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-073",
+        "sheet": 22,
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6120,
+            2536
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            5758,
+            2324,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/5758,2324,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The isolated school mark is immediately above the end of School and west of the diagonal road in the Brown Brook district. The nearby geological arrow and the lettering itself are separate.",
+        "placement_note": "The school mark remains west of the diagonal road between the western Brown Brook district and the eastern meandering drainage, north of the lower crossing. The modern road and tributary arrangement supports approximate locality, with offsets in small channels and junction arms.",
+        "source_excerpt": "excerpts/F22-HAW-073.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-077",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.371594418572755,
+          45.682742774442225
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-077",
+        "sheet": 22,
+        "source_text": "Brown's Mill",
+        "kind": "mill",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            6386.5,
+            3061
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            5938,
+            2829,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/5938,2829,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact mark immediately right of Brown’s Mill lies east of the north-south road and west of the winding brook. Preserve that mark, separate from the nearby junction and geological arrows; it does not establish a current mill footprint or power.",
+        "placement_note": "The mill mark remains east of the main north-south road in the stream-bend district, above the southern road junction. The modern road and drainage support broad locality, but the prediction lies east of the modern brook whereas the source mark is on its western side. Retain that bank disagreement without snapping or claiming an exact mill footprint.",
+        "source_excerpt": "excerpts/F22-HAW-077.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "F22-HAW-084",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -61.32609054839294,
+          45.681869547256944
+        ]
+      },
+      "properties": {
+        "annotation_id": "F22-HAW-084",
+        "sheet": 22,
+        "source_text": "School",
+        "kind": "school",
+        "reading_status": "clear",
+        "placement_status": "map-derived-approximate",
+        "geographic_role": "reviewed-source-mark",
+        "geometry_meaning": "Approximate historical mark location; not a surveyed site, current condition, ownership or access.",
+        "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
+        "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+        "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+        "source_dimensions_px": [
+          10790,
+          7687
+        ],
+        "source_geometry_native": {
+          "type": "Point",
+          "coordinates": [
+            7372,
+            3111
+          ]
+        },
+        "source_crop": {
+          "native_xywh": [
+            6977,
+            2873,
+            660,
+            450
+          ],
+          "display_size": [
+            660,
+            450
+          ],
+          "rotation_degrees": 0
+        },
+        "source_context_url": "https://www.davidrumsey.com/luna/servlet/iiif/RUMSEY~8~1~2647~290015/6977,2873,660,450/660,450/0/default.jpg",
+        "source_url": "https://www.davidrumsey.com/luna/servlet/iiif/m/RUMSEY~8~1~2647~290015/manifest",
+        "credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford University Libraries",
+        "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
+        "source_note": "The compact school mark is right of School and north of the east-west road, west of the brook and circled geological symbol. Its source position is independent of the source lettering and angle marks.",
+        "placement_note": "The school stays north of the east-west road and west of the main brook/junction district. Modern roads and drainage support approximate locality while the bends and minor crossing arms differ. The circled fossil notation and geological angles are not feature positions or modern correspondence evidence.",
+        "source_excerpt": "excerpts/F22-HAW-084.jpg",
+        "evidence_url": "https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/reports/fletcher/feature-geography/sheet-22-features.geojson",
+        "evidence_sha256": "c60a50225d180fc8ac417fbd59d31a0d7e76565c2efbaf2965a7a13871dc16ad"
       }
     }
   ]

@@ -1,17 +1,17 @@
 {
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
-  "reconciled_at": "2026-09-12",
-  "nightly_revision": "31ae83a61bd7fc577062441b77fa06c47bbbaa35",
-  "next_action": "Continue full sheet 22 Port Hawkesbury source-feature review, starting with remaining service annotations. First 12 source/placement decisions yield 8 local map additions and 4 explicit holdbacks; 289 source associations remain. Judique initial review is complete and 126 annotations merged via PR453, with 40 documented residual holdbacks. Priority sheets 16/14 and remaining 20 sheets remain open.",
+  "reconciled_at": "2026-09-13",
+  "nightly_revision": "d9409b8f69af2cca782e7476e088f53515f9d06d",
+  "next_action": "Continue full sheet 22 Port Hawkesbury source-feature review, starting with the remaining 50 service/industrial/transport annotations. Thirty source/placement decisions yield 26 local integrations and four explicit holdbacks; 271 source associations remain. Eight Hawkesbury features merged via PR455, with 18 further additions and a mobile source-popup control fix verified locally. Judique has all 166 initial decisions and 126 merged integrations; its 40 residual holdbacks remain explicit. Priority sheets 16/14 and the remaining 20 sheets stay open.",
   "sheets": [
     {
       "sheet": 22,
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 301,
       "lettering_status": "processed",
-      "source_associated_count": 12,
-      "approximate_placement_reviewed_count": 8,
-      "integrated_count": 8,
+      "source_associated_count": 30,
+      "approximate_placement_reviewed_count": 26,
+      "integrated_count": 26,
       "blockers": [
         {
           "annotation_id": "F22-HAW-001",
@@ -36,9 +36,9 @@
       ],
       "annotation_queue": "sheet-22-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-22-labels.geojson",
-      "source_association_reviewed_count": 12,
-      "merged_integrated_count": 0,
-      "integration_status": "Eight additions verified locally against the sheet22 fit and native source; PR delivery pending."
+      "source_association_reviewed_count": 30,
+      "merged_integrated_count": 8,
+      "integration_status": "Eight merged through PR455; eighteen further additions and the mobile terrain-control overlap fix pass local verification and await PR."
     },
     {
       "sheet": 19,
@@ -566,6 +566,13 @@
       "status": "merged",
       "head": "3f9e50317e475d4bb7cfe0d194805adf89ad5c1b",
       "merge_commit": "31ae83a61bd7fc577062441b77fa06c47bbbaa35",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 455,
+      "status": "merged",
+      "head": "c14d0129131e6cf9dd8ccd459b2cec15c8b8d242",
+      "merge_commit": "727b31233e8ef9b9404e5b7852c6cf2a305abee3",
       "ci": "All required checks passed"
     }
   ],

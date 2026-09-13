@@ -13,6 +13,7 @@
 .fletcher-features-toggle { display: flex; gap: 8px; align-items: center; min-height: 44px; margin-top: 8px; }
 @media (max-width: 860px) {
   /* The source popup is the active task. Restore map tools when it closes. */
+  .map-canvas:has(.fletcher-feature-popup) .research-terrain-controls,
   .map-canvas:has(.fletcher-feature-popup) .location-button,
   .map-canvas:has(.fletcher-feature-popup) .measure-control { visibility: hidden; }
 }

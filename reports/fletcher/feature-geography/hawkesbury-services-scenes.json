@@ -19,5 +19,48 @@
   "cape-jack-services": [
     41,
     42
+  ],
+  "craignish-postal": [
+    4,
+    5
+  ],
+  "long-stretch-bridge": [
+    30,
+    31,
+    32
+  ],
+  "havre-north-industry": [
+    53,
+    55,
+    56
+  ],
+  "havre-south-services": [
+    45,
+    46,
+    47,
+    57,
+    58
+  ],
+  "north-canso-school": [
+    61
+  ],
+  "north-canso-light": [
+    64
+  ],
+  "coastal-school-forge": [
+    67,
+    68
+  ],
+  "horton-mill": [
+    70
+  ],
+  "brown-brook-school": [
+    73
+  ],
+  "browns-mill": [
+    77
+  ],
+  "inland-school": [
+    84
   ]
 }

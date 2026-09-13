@@ -1,0 +1,298 @@
+{
+  "reviewed_at": "2026-09-13",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 152,
+  "export_sha256": "d4709c625f94fb378928d845b6f53312fb03a9a1f18d20cb07a48176a809fc9d",
+  "checks": {
+    "count": 152,
+    "checks": [
+      {
+        "id": "F22-HAW-005",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-030",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-045",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-046",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-047",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-053",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-055",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-056",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-057",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-058",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-061",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-064",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-067",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-068",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-070",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-073",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-077",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-084",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F19-JUD-001",
+      "F19-JUD-012",
+      "F19-JUD-029",
+      "F19-JUD-083",
+      "F19-JUD-084",
+      "F19-JUD-130",
+      "F19-JUD-155",
+      "F19-JUD-164",
+      "F19-JUD-056",
+      "F19-JUD-132",
+      "F19-JUD-139",
+      "F19-JUD-140",
+      "F19-JUD-144",
+      "F19-JUD-161",
+      "F19-JUD-026",
+      "F19-JUD-034",
+      "F19-JUD-060",
+      "F19-JUD-085",
+      "F19-JUD-101",
+      "F19-JUD-124",
+      "F19-JUD-125",
+      "F19-JUD-143",
+      "F19-JUD-156",
+      "F19-JUD-165"
+    ],
+    "errors": []
+  },
+  "additional_assertions": [
+    "All eighteen additions selected across alternating desktop/mobile viewports with decoded source excerpts, visible placement notes, a ready basemap and clean console.",
+    "All previous 134 public feature values are preserved apart from the updated Hawkesbury evidence-file hash; all previous twelve full Hawkesbury feature records are unchanged.",
+    "All four Hawkesbury holdbacks remain excluded; no source geometry was trimmed or moved to improve apparent fit.",
+    "Havre Bouche desktop/phone density previews inspected."
+  ],
+  "mobile_control_regression": {
+    "cause": "The newer 3D terrain control covered the close control of a phone-width Fletcher source popup.",
+    "before": "Real-browser assertion failed because the terrain button remained visible over the popup.",
+    "fix": "The existing mobile source-popup rule now hides the terrain control alongside location/measure controls.",
+    "after": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "source": "F22-HAW-030",
+      "terrainHiddenWhilePopupOpen": true,
+      "closeButtonPointerHit": true,
+      "terrainRestoredAfterClose": true,
+      "errors": []
+    },
+    "image_timing": "Final screenshot waits for popup opacity 1 and settled map movement. Earlier service-selection screenshots precede this control fix."
+  },
+  "local_checks": {
+    "python": "299 tests pass, eight existing skips",
+    "web": "7 Fletcher component tests and web script tests pass; lint/build pass again after the CSS fix"
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-services-review.json",
+      "sha256": "d9c9ce356dd06829cc85f57754ddd65f5c076b33d892e1bd5d111e01ba13a114"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-services-47.png",
+      "sha256": "4281b18bfb742d326045a856b028a610f5f6610b5089741303736f3f90077958"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-services-84.png",
+      "sha256": "19e534a8667fe415d6d761d9616ff01988dab8a390303581ddd6ed7c2840bf06"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-services-55.png",
+      "sha256": "25b357435ee0400ebf0e53815ab045a4baef0caf03c180e32e2e3580c5900951"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-services-30.png",
+      "sha256": "a039f7430ce81140d4e4bd0d02e7bf9bb1dfd1d9101eae21978808aebdbd3039"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-services-64.png",
+      "sha256": "d83b93f3cc9a0ad89589da18287c701710f7e4e5206148097727aedf136e0180"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-services-70.png",
+      "sha256": "9ee892bb8a7598613021bf9147a6ce325f65edd415ef5329bbbb1d40f96415be"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-services-61.png",
+      "sha256": "ccb7dfcb884ac56e80082395c740207f68a53ecefdc4ed8035d32d2d36095fa4"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/havre-density-desktop.png",
+      "sha256": "68ad077d4a2e778d6d578318eb63862dc56c099170284413695bf2fb2ba835d9"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/havre-density-mobile.png",
+      "sha256": "a583659a3dd1e2e41d6714c352339eb344c5bbeea68554edc48d4813e136e722"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/terrain-popup-regression.mjs",
+      "sha256": "6d28a78f42f7b32660c5747ad1a2981ff4a79070892bad2784bdcd4b6cbe4628"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/terrain-popup-regression.json",
+      "sha256": "5865f40c9e7cf61aee8eac958c4b29302a6c6271d35eccd4a68f36fd7c7dab04"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/terrain-popup-fixed-mobile.png",
+      "sha256": "271d5166ba6ed426af26c67d6a24e6efc58ba2e69f4904c20d8f4fa6fcad622f"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/terrain-popup-tools-restored-mobile.png",
+      "sha256": "36d8fa75222898a607136e23db0a30cd0e6f85e85176a9c0fd46dacd998695ee"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-152-export/source.json",
+      "sha256": "0184c42f133bc53d523d31f19df22538e59ea365e465c262c06e4d510ad4a43d"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-152-export/reviewed.geojson",
+      "sha256": "d4709c625f94fb378928d845b6f53312fb03a9a1f18d20cb07a48176a809fc9d"
+    }
+  ],
+  "limits": "Approximate historical features only; bank/shoreline offsets and unresolved groups remain visible. No current navigation aid, building, parcel, ownership or production publication claim."
+}

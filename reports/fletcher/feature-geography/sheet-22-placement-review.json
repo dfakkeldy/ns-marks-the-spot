@@ -1,7 +1,7 @@
 {
   "sheet": 22,
   "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
-  "source_review_sha256": "6c1758f5ac0612a5b290efa6fca3dbd8d73068c3cebba63530bacfe48aebfd37",
+  "source_review_sha256": "fd0d6a4cd4b645133ddb38ac7d87b81d032133c137281a2a836dfa5f402e37d4",
   "reviews": [
     {
       "annotation_id": "F22-HAW-001",
@@ -110,6 +110,168 @@
       "scene": "hawkesbury-cape-jack-services-geography.jpg",
       "scene_sha256": "1632e4ff1448595085f850b3fc0b76f5d77be45e5cb3678d3676b46c260873cb",
       "evidence": "The postal candidates remain south of the east-west coastal road, east of the Cape Pond outlet and school district. Modern roads, pond and coastline support the approximate locality with local bank/road offsets. The pair remains unresolved and supplies no current postal address."
+    },
+    {
+      "annotation_id": "F22-HAW-005",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-craignish-postal-geography.jpg",
+      "scene_sha256": "713ab4c50b45f0d403a09cca6d4aa3277d4184cae4c9d70fe74cd93e5ec35290",
+      "evidence": "The printed postal group remains at the coastal road/watercourse district south of Craignish church and west of the main Highway 19 corridor. Modern coastline and drainage support that broad locality. Part of the prediction crosses the modern shoreline; retain that shoreline uncertainty and the whole candidate group, with no individual current land/building or postal-address claim."
+    },
+    {
+      "annotation_id": "F22-HAW-030",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-long-stretch-bridge-geography.jpg",
+      "scene_sha256": "3483ea4ff6bb85e393c9f6880507e61314f02175e5fcaf1ed0d9fd631ca01065",
+      "evidence": "The source crossing falls in the same distinctive river-meander and east-west road district beside the western railway corridor. The modern road crossing is slightly north/west of the prediction. This supports approximate historical crossing locality, not exact bridge structure, continuity, condition or access."
+    },
+    {
+      "annotation_id": "F22-HAW-045",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-havre-south-services-geography.jpg",
+      "scene_sha256": "cc265677231dc400ac6c229c18421101948782caf294654f667af330cf992a61",
+      "evidence": "The church cross remains west of the local north-south road and north of the east-west service corridor at Havre Bouché. The modern harbour, roads and tributary district support approximate locality. The current main roads have changed alignment; no current church building is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-046",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-havre-south-services-geography.jpg",
+      "scene_sha256": "cc265677231dc400ac6c229c18421101948782caf294654f667af330cf992a61",
+      "evidence": "The school candidates remain south of the east-west road and east of the western north-south road, west of the harbour-side junction. The modern road and coastline arrangement supports the broad group locality. The individual marks and exact school footprint remain unresolved."
+    },
+    {
+      "annotation_id": "F22-HAW-047",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-havre-south-services-geography.jpg",
+      "scene_sha256": "cc265677231dc400ac6c229c18421101948782caf294654f667af330cf992a61",
+      "evidence": "The red-light mark remains south of the white-light promontory and inland of the harbour shoreline. Modern roads and the harbour shape support that broader district, but the old shoreline-road alignment differs from the current road network. Retain approximate historical symbol geography only; no current navigation aid is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-053",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-havre-north-industry-geography.jpg",
+      "scene_sha256": "e8b51d8565ea5a87d7a0f84dbac71dd574d02b434a78d0e2eb41ac9e09be90a1",
+      "evidence": "The shop group remains west of the curved harbour road and south of the northern coastal projection. Modern shoreline and road context supports the district. Its western portion overlaps a modern mapped pond margin; do not assign individual current buildings, ground conditions or a site boundary from this group."
+    },
+    {
+      "annotation_id": "F22-HAW-055",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-havre-north-industry-geography.jpg",
+      "scene_sha256": "e8b51d8565ea5a87d7a0f84dbac71dd574d02b434a78d0e2eb41ac9e09be90a1",
+      "evidence": "The source structure projects across the shoreline at the northern harbour road approach, in the same broad inlet district shown by the modern coast. The changed waterfront and small road differences prevent an exact current structure match. Retain the candidate region as approximate historical waterfront evidence, not a current factory or footprint."
+    },
+    {
+      "annotation_id": "F22-HAW-056",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-havre-north-industry-geography.jpg",
+      "scene_sha256": "e8b51d8565ea5a87d7a0f84dbac71dd574d02b434a78d0e2eb41ac9e09be90a1",
+      "evidence": "The forge candidates remain west of the harbour road, below the northern industrial approach and above the southern service junction. Modern roads and coastline support the district, while individual buildings remain unresolved. The rectangular group is not a property or operating-facility boundary."
+    },
+    {
+      "annotation_id": "F22-HAW-057",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-havre-south-services-geography.jpg",
+      "scene_sha256": "cc265677231dc400ac6c229c18421101948782caf294654f667af330cf992a61",
+      "evidence": "The hotel row remains south of the east-west road and west of the harbour-side road junction. The modern road bend and coastline support the broad locality. Road alignments and the individual candidate buildings are not exact modern matches."
+    },
+    {
+      "annotation_id": "F22-HAW-058",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-havre-south-services-geography.jpg",
+      "scene_sha256": "cc265677231dc400ac6c229c18421101948782caf294654f667af330cf992a61",
+      "evidence": "The white-light symbol remains at the western harbour projection opposite the elongated island/bar complex and north of the red-light mark. Modern harbour geometry supports approximate locality despite changed shore and transport lines. The printed height and light wording are historical, with no current aid or visibility claim."
+    },
+    {
+      "annotation_id": "F22-HAW-061",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-north-canso-school-geography.jpg",
+      "scene_sha256": "e474b7d60355f0c1a8cd3f1d03d360cc0a30a3a4ff99b04afce5788cb7f23dc3",
+      "evidence": "The school prediction follows the east-west road corridor at the modern junction district, between the western and eastern road bends. Modern road and drainage context supports approximate locality. The source mark remains partly overprinted by its geological boundary; the boundary and historical height text are not extra geographic controls."
+    },
+    {
+      "annotation_id": "F22-HAW-064",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-north-canso-light-geography.jpg",
+      "scene_sha256": "6cc4f32f536e42259c25ed9175774905d410ad662c8ffc0fdab50227ac50a794",
+      "evidence": "The light symbol remains at the distinct northern coastline bend above the short inland road approach. The modern coast and adjacent drainage support the broad point locality; the present road endpoint differs. No current lighthouse, height, visibility range or safe route is established."
+    },
+    {
+      "annotation_id": "F22-HAW-067",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coastal-school-forge-geography.jpg",
+      "scene_sha256": "0a99e85087170f1cd01054ffae98638a1f22e8c41d5e62783418721c5a4b6635",
+      "evidence": "The school stays west of Highway 19 and inland of the coast, south of the pond/tributary district and north of the lower forge crossing. The modern road/coast arrangement supports approximate locality, with small tributary and road offsets. No individual present building is matched."
+    },
+    {
+      "annotation_id": "F22-HAW-068",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coastal-school-forge-geography.jpg",
+      "scene_sha256": "0a99e85087170f1cd01054ffae98638a1f22e8c41d5e62783418721c5a4b6635",
+      "evidence": "The forge mark remains west of Highway 19 and just north of the coastal stream crossing, south of the northern pond district. Modern roads, stream and shoreline support approximate locality. Its proximity to the current channel does not establish a modern forge or exact bank/footprint."
+    },
+    {
+      "annotation_id": "F22-HAW-070",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-horton-mill-geography.jpg",
+      "scene_sha256": "cd4390cd3441c1ed1a358770c508d10097a0d6c830dbd3dc193674b07d7aa53b",
+      "evidence": "The mill mark remains at the eastern inlet head of Long Pond beside the main road and incoming stream. Modern Highway 19, the bay and the stream support that distinctive broad locality. The prediction is close to the present road/crossing; it does not identify a current mill, control structure or usable power."
+    },
+    {
+      "annotation_id": "F22-HAW-073",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-brown-brook-school-geography.jpg",
+      "scene_sha256": "b936395d9cbfbb59d75b0a9fc2b49fcf34b34ffe7aa9ea4af8cc37dbb7d1e3db",
+      "evidence": "The school mark remains west of the diagonal road between the western Brown Brook district and the eastern meandering drainage, north of the lower crossing. The modern road and tributary arrangement supports approximate locality, with offsets in small channels and junction arms."
+    },
+    {
+      "annotation_id": "F22-HAW-077",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-browns-mill-geography.jpg",
+      "scene_sha256": "3edbc578a0366df8744c836fefc99b9b050b81b04496ba782087f8c2d900a0a5",
+      "evidence": "The mill mark remains east of the main north-south road in the stream-bend district, above the southern road junction. The modern road and drainage support broad locality, but the prediction lies east of the modern brook whereas the source mark is on its western side. Retain that bank disagreement without snapping or claiming an exact mill footprint."
+    },
+    {
+      "annotation_id": "F22-HAW-084",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-inland-school-geography.jpg",
+      "scene_sha256": "302e5e4388db7f166025fecfa96de3c0d01a6645218ede35c3afba13891d30cd",
+      "evidence": "The school stays north of the east-west road and west of the main brook/junction district. Modern roads and drainage support approximate locality while the bends and minor crossing arms differ. The circled fossil notation and geological angles are not feature positions or modern correspondence evidence."
     }
   ]
 }
