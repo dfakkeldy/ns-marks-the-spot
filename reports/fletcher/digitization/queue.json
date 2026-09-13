@@ -1,8 +1,8 @@
 {
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-12",
-  "nightly_revision": "17d7f1aa630a97bfce35749cbfa110461a804c35",
-  "next_action": "Continue Judique places (14) and historical name inscriptions (28). All 22 waterway occurrences now have source and placement decisions: 124 total reviews, 98 local integrations, 26 explicit holdbacks, 42 pending. PR447 merged on green CI; sixteen additional waterway traces are verified locally. Priority sheets 22/16/14 and remaining-sheet extraction/reconciliation stay open.",
+  "nightly_revision": "da620f6b0eef840f8b8945e9e30d2d0e0fb88985",
+  "next_action": "Deliver the final Judique place/name batch through CI and merge, then continue sheet 22 Port Hawkesbury source-feature association. All 166 Judique annotations have source/placement decisions: 126 local integrations and 40 explicit holdbacks, no pending initial reviews. PR451 merged on green CI with 98 integrations. Priority sheets 22/16/14 and remaining-sheet extraction/reconciliation stay open.",
   "sheets": [
     {
       "sheet": 22,
@@ -21,14 +21,39 @@
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 166,
       "lettering_status": "processed",
-      "source_associated_count": 116,
-      "approximate_placement_reviewed_count": 98,
-      "integrated_count": 98,
+      "source_associated_count": 156,
+      "approximate_placement_reviewed_count": 126,
+      "integrated_count": 126,
       "blockers": [
+        {
+          "annotation_id": "F19-JUD-001",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+        },
+        {
+          "annotation_id": "F19-JUD-002",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+        },
+        {
+          "annotation_id": "F19-JUD-003",
+          "stage": "locality-unresolved",
+          "reason": "The source group is immediately north of an east-west road beside the historical multi-arm junction and stream crossing. Its prediction instead falls in the area between modern road corridors; the relevant crossing and junction spacing are substantially displaced. A supported local comparison is still needed to distinguish historical road changes from fit displacement. Preserve the full source group and prediction as evidence, withholding web placement; do not snap it to a convenient modern road."
+        },
+        {
+          "annotation_id": "F19-JUD-012",
+          "stage": "source-location-unresolved",
+          "reason": "The wider native context shows Ben Noah across patterned ground east of scattered roadside marks, but no distinct summit, spot-height mark or named-feature boundary. The inscription does not uniquely assign itself to one building group or terrain point. Keep its original lettering unlocated; geological mesh is not a mountain boundary."
+        },
         {
           "annotation_id": "F19-JUD-026",
           "stage": "source-location-unresolved",
           "reason": "Original quarry wording is reviewed, but the source crop does not provide a distinct quarry mark or defensible extraction-area boundary. River and lettering geometry must not be promoted into quarry geometry."
+        },
+        {
+          "annotation_id": "F19-JUD-029",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
         },
         {
           "annotation_id": "F19-JUD-031",
@@ -56,6 +81,21 @@
           "reason": "Forge group projects onto a modern stream reach with no matching terminal road bend at that location. The broad western tributary/eastern valley arrangement is recognizable, but the road-versus-stream conflict is substantial. Retain the computed geometry as evidence only and withhold web placement pending a supported local correspondence; do not snap the group to another road."
         },
         {
+          "annotation_id": "F19-JUD-080",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+        },
+        {
+          "annotation_id": "F19-JUD-083",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete printed settlement group extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+        },
+        {
+          "annotation_id": "F19-JUD-084",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+        },
+        {
           "annotation_id": "F19-JUD-085",
           "stage": "outside-supported-coverage",
           "reason": "The inspected source group includes points outside the current fit’s conservative native control hull. Retain source geometry but withhold map geometry and web placement. A supported local fit or newly accepted controls are required; the group must not be shrunk to evade the coverage gate."
@@ -81,9 +121,19 @@
           "reason": "The source road/river intersection is explicit, but its projected point is off the modern watercourse and lacks a matching road crossing. Do not identify it with the modern highway bridge farther northwest. The historical crossing needs a supported local comparison before web placement; retain the prediction as evidence only."
         },
         {
+          "annotation_id": "F19-JUD-128",
+          "stage": "locality-unresolved",
+          "reason": "The prediction overlaps a modern road/tributary crossing, while the source pair is north of the curved road with no corresponding crossing at the marks. The main brook remains farther east, but the local bank/crossing relationship is not reconciled. Preserve the source group and computed geometry as evidence and withhold web placement pending a supported local comparison."
+        },
+        {
           "annotation_id": "F19-JUD-129",
           "stage": "source-location-unresolved",
           "reason": "The descriptive shale/fossil wording has no distinct outcrop mark or defensible extent in the inspected source. The river and geological unit are not outcrop boundaries."
+        },
+        {
+          "annotation_id": "F19-JUD-130",
+          "stage": "source-location-unresolved",
+          "reason": "The full diagonal CRAIGNISH HILLS inscription spans fourteen separate letter boxes across much of the sheet. Wider native review finds no associated summit symbol, contour or defensible landscape boundary. Preserve every original box, with no invented point, envelope or geological-unit boundary promoted to the named hills."
         },
         {
           "annotation_id": "F19-JUD-131",
@@ -121,6 +171,11 @@
           "reason": "The complete northeastern proposed-railway axis extends beyond the conservative source-control hull. Preserve the proposal and native trace without map geometry; no constructed railway or modern route is inferred."
         },
         {
+          "annotation_id": "F19-JUD-142",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+        },
+        {
           "annotation_id": "F19-JUD-143",
           "stage": "outside-supported-coverage",
           "reason": "The complete shop candidate group extends outside the current conservative source-control hull. Keep source geometry and withhold map placement pending accepted local support."
@@ -136,6 +191,11 @@
           "reason": "The complete lower River Denys Road trace extends beyond the conservative native source-control hull. Keep the source axis and withhold map geometry; do not trim the road to force acceptance."
         },
         {
+          "annotation_id": "F19-JUD-155",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete printed settlement group extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+        },
+        {
           "annotation_id": "F19-JUD-156",
           "stage": "outside-supported-coverage",
           "reason": "The Big Brook P.O. candidate group is outside the current conservative source-control hull. Keep source geometry without map placement; do not extrapolate."
@@ -146,9 +206,19 @@
           "reason": "850 FT. has no associated spot-height mark, benchmark or distinct summit near the southern border. Lettering and colour boundaries cannot supply a terrain point."
         },
         {
+          "annotation_id": "F19-JUD-160",
+          "stage": "locality-unresolved",
+          "reason": "The source road curves northeast from the elongated waterbody to end at the name group; the modern road instead continues north well west of the prediction, and the northern waterbody/road relationship differs. The nearby lake supports the wider district but does not resolve this terminal-site correspondence. Retain the full prediction as evidence, withholding web placement until a supported local comparison resolves it."
+        },
+        {
           "annotation_id": "F19-JUD-161",
           "stage": "outside-supported-coverage",
           "reason": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+        },
+        {
+          "annotation_id": "F19-JUD-164",
+          "stage": "outside-fit-neatline",
+          "reason": "The complete Princeville printed group crosses the frozen southern native neatline. Retain its source region without map placement; do not shrink it or replace it with a caption centre to pass the gate."
         },
         {
           "annotation_id": "F19-JUD-165",
@@ -158,9 +228,9 @@
       ],
       "annotation_queue": "sheet-19-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-19-labels.geojson",
-      "integration_status": "82 merged via PR436/439/446/447; 16 waterway additions pass local source/geographic/browser checks and await next PR.",
-      "source_association_reviewed_count": 124,
-      "merged_integrated_count": 82
+      "integration_status": "98 merged via PR436/439/446/447/451; final 28 place/name additions pass local source/geographic/browser checks and await PR. All 166 initial reviews complete;40 explicit residual holdbacks remain.",
+      "source_association_reviewed_count": 166,
+      "merged_integrated_count": 98
     },
     {
       "sheet": 16,
@@ -458,6 +528,13 @@
       "status": "merged",
       "head": "d33487450258366ae050944116861b3b91dfced1",
       "merge_commit": "84a9d73658f1ebcd1b4781ab5ac59b1dc120a5af",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 451,
+      "status": "merged",
+      "head": "52de7ba67fb28fe086da430b54f0108cb214f4f8",
+      "merge_commit": "da620f6b0eef840f8b8945e9e30d2d0e0fb88985",
       "ci": "All required checks passed"
     }
   ],

@@ -98,7 +98,9 @@ def project(sheet, executable):
             geometry_meaning = 'Approximate historical mark location; not a surveyed site, current condition, ownership or access.'
         elif placed['source_geometry_native']['type'] == 'LineString':
             geographic_role = 'reviewed-source-line'
-            if 'road' in original[aid]['kind']:
+            if original[aid]['kind'] == 'cape':
+                geometry_meaning = 'Approximate traced section of the printed historical shoreline beside a named cape. Endpoints delimit reviewed evidence, not a precise named tip, peninsula boundary or current coastline.'
+            elif 'road' in original[aid]['kind']:
                 geometry_meaning = 'Approximate traced axis of a printed historical road section. Endpoints delimit reviewed source evidence, not the complete named route. No present road alignment, condition, destination or access is asserted.'
             elif 'railway' in original[aid]['kind'] and 'PROPOSED' in original[aid]['source_text'].upper():
                 geometry_meaning = 'Approximate traced axis of a printed historical railway proposal. Endpoints delimit reviewed source evidence, not the complete proposal. Construction, operation, a current railway and present access are not established.'

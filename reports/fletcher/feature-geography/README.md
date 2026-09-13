@@ -1,12 +1,12 @@
 # Reviewed Fletcher features
 
-The current export integrates **98 Judique annotations: 27 approximate points,
-25 source-group records and 46 traced reaches/road sections**. Three pairs deliberately share geometry, so
-95 geometries are selectable. Source association has been reviewed for 124 of
-166 annotations: 116 have source marks/groups/lines and eight remain unlocated.
-42 annotations await this stage. Twenty-six records are withheld for the
-specific source, coverage or geographic reasons below. Lettering geography
-remains separate from feature geometry.
+The current export integrates **126 Judique annotations: 27 approximate points,
+53 source-group records and 46 traced reaches/road sections**. Shared groups
+leave 122 selectable geometries. All **166 annotations** have source-feature
+and geographic review decisions: 156 retain native feature geometry and ten
+remain unlocated. Forty records are withheld for explicit source, coverage or
+geographic reasons; none remain pending initial review. Lettering geography is
+separate from feature geometry. Other sheets remain in the digitization queue.
 
 ## Source review and placement
 
@@ -126,12 +126,59 @@ merged in PR448, describes reversible drafts and explicitly preserves downstream
 pins. This batch retains its recorded supported fit and geographic evidence.
 Adopting another fit requires preserving these predictions and renewed review.
 
+The final source figures cover all places and historical name inscriptions:
+
+- [First places](judique-places-first-20260912.jpg): 001,012,014,029,049,059.
+- [Middle places](judique-places-middle-20260912.jpg): 083,084,098,121,130,145.
+- [Southern places](judique-places-last-20260912.jpg): 155,164.
+- [Name groups 1](judique-names-1-20260912.jpg): 002,003,016,023,028,030.
+- [Name groups 2](judique-names-2-20260912.jpg): 032,033,063,075,076,080.
+- [Name groups 3](judique-names-3-20260912.jpg): 088,097,105–108.
+- [Name groups 4](judique-names-4-20260912.jpg): 114–116,127,128,142.
+- [Name groups 5](judique-names-5-20260912.jpg): 152,153,160,166.
+
+Six printed settlement groups and 22 historical name groups enter the map.
+Kingsville shares the actual candidate geometry of shop records 122/123; it is
+not a community boundary or exact centre. Name inscriptions retain nearby
+printed candidates without identifying ownership, current residences, parcels,
+addresses or individual buildings. McIntosh 153 retains its partly overprinted
+upper candidate as uncertain. Initial measurement rectangles that clipped marks
+were expanded before review; the append receipt preserves both candidate files.
+
+The three cape captions have actual shoreline traces, but all three remain
+outside supported coverage. The full diagonal Craignish Hills caption retains
+all fourteen original letter boxes, without inventing a summit or landscape
+boundary. Ben Noah also remains unlocated after wider source review.
+
 ## Geographic review
 
 [Placement decisions](sheet-19-placement-review.json) record the inspected scenes
 and limitations. The figures compare the actual hash-verified current raster
 against separately projected NSTDB vectors at identical EPSG:3857 extents:
 
+- [North inland name](judique-north-inland-name-geography.jpg)
+- [Judique clergy name](judique-judique-clergy-name-geography.jpg)
+- [Rory chisholm name](judique-rory-chisholm-name-geography.jpg)
+- [Allan mcdonald name](judique-allan-mcdonald-name-geography.jpg)
+- [Northern name spurs](judique-northern-name-spurs-geography.jpg)
+- [Squire name](judique-squire-name-geography.jpg)
+- [Doug mcdonald name](judique-doug-mcdonald-name-geography.jpg)
+- [Mcpherson names](judique-mcpherson-names-geography.jpg)
+- [Western mcdougall name](judique-western-mcdougall-name-geography.jpg)
+- [Rough brook names](judique-rough-brook-names-geography.jpg)
+- [Glendale north name](judique-glendale-north-name-geography.jpg)
+- [Smith mctaggart names](judique-smith-mctaggart-names-geography.jpg)
+- [Eastern road names](judique-eastern-road-names-geography.jpg)
+- [Buchanan name](judique-buchanan-name-geography.jpg)
+- [Eastern border names](judique-eastern-border-names-geography.jpg)
+- [Southern mcisaac name](judique-southern-mcisaac-name-geography.jpg)
+- [Southern mcarthur name](judique-southern-mcarthur-name-geography.jpg)
+- [Settlement judique](judique-settlement-judique-geography.jpg)
+- [Settlement dennistown](judique-settlement-dennistown-geography.jpg)
+- [Settlement river denys road](judique-settlement-river-denys-road-geography.jpg)
+- [Settlement glendale](judique-settlement-glendale-geography.jpg)
+- [Settlement kingsville](judique-settlement-kingsville-geography.jpg)
+- [Settlement river denys crossroads](judique-settlement-river-denys-crossroads-geography.jpg)
 - [Coastal named waterways](judique-coastal-named-waterways-geography.jpg)
 - [Southwest mabou waterways](judique-southwest-mabou-waterways-geography.jpg)
 - [Diogenes brook trace](judique-diogenes-brook-trace-geography.jpg)
@@ -208,7 +255,7 @@ conservative control hull; its map geometry is null. It must not be shrunk to
 circumvent the coverage gate. Accepted local controls or an independently
 supported correspondence are needed before either withheld record can advance.
 
-The full holdback list now contains twenty-six annotations:
+The earlier twenty-six holdbacks remain unchanged:
 
 | Annotation | Remaining requirement |
 | --- | --- |
@@ -241,6 +288,24 @@ The full holdback list now contains twenty-six annotations:
 Each remains in the evidence and annotation queue, excluded from the web export.
 School 158 and Forge 119 retain explicit modern road-side disagreements even
 where the broader approximate locality is supported.
+
+The final place/name review adds fourteen holdbacks, for **40 total**:
+
+| Annotation | Remaining requirement |
+| --- | --- |
+| 001 Mackay Point / 029 Campbell Point / 084 Long Point cape | Supported coverage for each complete shoreline section. |
+| 002 John Gillis / 080 J Chisholm / 142 John R. Morrison | Supported coverage for each complete name-associated candidate group. |
+| 003 McEachern | Reconcile the historical junction/stream crossing with the substantially displaced modern corridors. |
+| 012 Ben Noah | A distinct named terrain mark or defensible source feature association. |
+| 083 Long Point settlement / 155 Big Brook settlement | Supported coverage for the full printed settlement groups. |
+| 128 Neil McCuish | Resolve the prediction at a modern tributary/road crossing absent at the source marks. |
+| 130 Craignish Hills | A defensible source feature extent or distinct terrain mark; lettering and geology are not boundaries. |
+| 160 Don. McIsaac | Reconcile the historical terminal road and northern waterbody relationship. |
+| 164 Princeville | Supported treatment of the complete group crossing the southern neatline. |
+
+The [per-annotation queue](../digitization/sheet-19-queue.json) retains each
+remaining question and stage. Computed predictions for unresolved localities
+remain evidence only; no geometry was moved to a convenient modern feature.
 
 ## Web integration
 
@@ -287,6 +352,11 @@ Production hosting and the existing client error handling are unchanged.
 The [waterway browser receipt](browser-waterways-verification.json) records all
 sixteen new trace selections, varying native excerpt dimensions and placement
 notes, with a ready basemap and clean console on desktop and phone.
+
+The [final Judique browser receipt](browser-final-judique-verification.json)
+records all 28 place/name additions at desktop and phone widths against the
+126-record export, including decoded excerpts, visible placement notes and
+clean consoles. All original 166 records retain their source identities.
 
 ## Reproduce
 

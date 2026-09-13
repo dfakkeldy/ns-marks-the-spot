@@ -1,7 +1,7 @@
 {
   "sheet": 19,
   "fit_sha256": "fabbe2df06d4283c3ddbd3f9c259be5d966eb6391fdf6785711d5167891f0ca5",
-  "source_review_sha256": "bf9a0de69b3578c6dd77b377662cf3a86fc12063d498ef8b1992ef646179d157",
+  "source_review_sha256": "893b98d6d8104aba52abbaafca9f25076fe3bdb64395e176e4f03dfd3b5f13ff",
   "raster_sha256": "adf13ce91e0579a6cc1b6462c5f88d93fa97c8516cb2cddabe2e8d55e8344ee4",
   "reviews": [
     {
@@ -1222,6 +1222,384 @@
       "scene": "judique-waterways-last-20260912.jpg",
       "scene_sha256": "f0f7f98e6ac0858c02144afac3e9142a93c32d73a6171390f8ba6a1882ac3b7e",
       "evidence": "The complete inspected native watercourse trace extends beyond the conservative source-control hull. Preserve the source path and full context, with null map geometry and no web export. Do not trim the trace to conceal the coverage failure; accepted local support is required."
+    },
+    {
+      "annotation_id": "F19-JUD-001",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-places-first-20260912.jpg",
+      "scene_sha256": "54f6f14e0fd6656fec9065f8e820f53588bd558e26c7610ff827b662f5642e8a",
+      "evidence": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+    },
+    {
+      "annotation_id": "F19-JUD-012",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-places-first-20260912.jpg",
+      "scene_sha256": "54f6f14e0fd6656fec9065f8e820f53588bd558e26c7610ff827b662f5642e8a",
+      "evidence": "The wider native context shows Ben Noah across patterned ground east of scattered roadside marks, but no distinct summit, spot-height mark or named-feature boundary. The inscription does not uniquely assign itself to one building group or terrain point. Keep its original lettering unlocated; geological mesh is not a mountain boundary."
+    },
+    {
+      "annotation_id": "F19-JUD-014",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-settlement-judique-geography.jpg",
+      "scene_sha256": "34b114997510974ed96bf21043c4a191ff3effb517f5aeffd9bf3c636923b587",
+      "evidence": "The printed group follows the coastal road corridor inland of the lagoon, north of the church district. Modern Highway 19 and the surrounding coast/tributaries support this broad locality. The northern side-road geometry differs locally; the group is not an exact historical footprint or a community boundary. Church 015 remains at its separate corrected east-side coordinate."
+    },
+    {
+      "annotation_id": "F19-JUD-029",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-places-first-20260912.jpg",
+      "scene_sha256": "54f6f14e0fd6656fec9065f8e820f53588bd558e26c7610ff827b662f5642e8a",
+      "evidence": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+    },
+    {
+      "annotation_id": "F19-JUD-049",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-settlement-dennistown-geography.jpg",
+      "scene_sha256": "f1b32abc26e319729704ab9b8c30173023aec1c67333b240f195fadcff4a0754",
+      "evidence": "The group stays north of the east-west road corridor, with the school tributary and larger southern drainage in the same broad arrangement. The northern road forks and smaller watercourse are offset and do not support exact building matches. Retain an approximate printed settlement cluster only."
+    },
+    {
+      "annotation_id": "F19-JUD-059",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-settlement-river-denys-road-geography.jpg",
+      "scene_sha256": "b29003176f7afdf12132ac357cbbaf3d7c70d7110583d1f16557f213a09b1e3b",
+      "evidence": "The source service group sits around the north-south road and east-west junction, above the main southern drainage. The modern road/water network supports the district while the church prediction and individual bends remain offset. This is the printed locality group, not the road axis, current buildings or an administrative area."
+    },
+    {
+      "annotation_id": "F19-JUD-083",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-places-middle-20260912.jpg",
+      "scene_sha256": "a44307b064ec8fca170ceb051dee295821c63db0c6f13df3223601cbf358fb7e",
+      "evidence": "The complete printed settlement group extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+    },
+    {
+      "annotation_id": "F19-JUD-084",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-places-middle-20260912.jpg",
+      "scene_sha256": "a44307b064ec8fca170ceb051dee295821c63db0c6f13df3223601cbf358fb7e",
+      "evidence": "The complete printed shoreline section extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+    },
+    {
+      "annotation_id": "F19-JUD-098",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-settlement-glendale-geography.jpg",
+      "scene_sha256": "24c743b0e675a114dab2bac434cba292506d3cf87429f715baaa524269c6c6a1",
+      "evidence": "The printed group follows the north-south road west of the central watercourse, above the southern crossing district. The modern tributaries and roads support the broad valley locality, with known channel and road offsets. The main modern highway follows a different alignment south/east of the group. No individual current building or community limit is established."
+    },
+    {
+      "annotation_id": "F19-JUD-121",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-settlement-kingsville-geography.jpg",
+      "scene_sha256": "4b6d55c475b1f3092d32b3f6b7c1865b7b408d1829b54d18f1a6460891ee83e6",
+      "evidence": "The printed settlement core reuses the reviewed shop candidate group on the northern/eastern side of the source river bend and beside the minor road junction. Modern roads and the broad river bend support that approximate district. Postal record 124 and Blue Bridge 125 retain their separate unresolved crossing/bank conflicts; this group does not resolve or relocate them."
+    },
+    {
+      "annotation_id": "F19-JUD-130",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-places-middle-20260912.jpg",
+      "scene_sha256": "a44307b064ec8fca170ceb051dee295821c63db0c6f13df3223601cbf358fb7e",
+      "evidence": "The full diagonal CRAIGNISH HILLS inscription spans fourteen separate letter boxes across much of the sheet. Wider native review finds no associated summit symbol, contour or defensible landscape boundary. Preserve every original box, with no invented point, envelope or geological-unit boundary promoted to the named hills."
+    },
+    {
+      "annotation_id": "F19-JUD-145",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-settlement-river-denys-crossroads-geography.jpg",
+      "scene_sha256": "9d76c97976f9f07767dba7dbc558c1feab187c039d8b2fe1c4f9f0e283416eb6",
+      "evidence": "The printed service core remains beside the east-west road at the main north-south corridor, south of the local brook. The modern road/water arrangement supports approximate locality, with offsets in the smaller channels and junction approach. No exact tannery, postal building, school or community boundary is claimed."
+    },
+    {
+      "annotation_id": "F19-JUD-155",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-places-last-20260912.jpg",
+      "scene_sha256": "d662a27515ff7cda28240c8d7bada57931e959202590628810274666c378e40e",
+      "evidence": "The complete printed settlement group extends outside the current conservative source-control hull. Retain the full source geometry and withhold map placement pending supported local coverage. Do not trim or substitute a lettering centre."
+    },
+    {
+      "annotation_id": "F19-JUD-164",
+      "status": "outside-fit-neatline",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-places-last-20260912.jpg",
+      "scene_sha256": "d662a27515ff7cda28240c8d7bada57931e959202590628810274666c378e40e",
+      "evidence": "The complete Princeville printed group crosses the frozen southern native neatline. Retain its source region without map placement; do not shrink it or replace it with a caption centre to pass the gate."
+    },
+    {
+      "annotation_id": "F19-JUD-002",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-names-1-20260912.jpg",
+      "scene_sha256": "293e4d5c3ee3383a95e77806302c7cfddc296f775d76d09acb6ef5345a1e647f",
+      "evidence": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+    },
+    {
+      "annotation_id": "F19-JUD-003",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-north-inland-name-geography.jpg",
+      "scene_sha256": "2a9abe49738dece286b62627250f894cdaf710cd6d039075aea36359dc7791bc",
+      "evidence": "The source group is immediately north of an east-west road beside the historical multi-arm junction and stream crossing. Its prediction instead falls in the area between modern road corridors; the relevant crossing and junction spacing are substantially displaced. A supported local comparison is still needed to distinguish historical road changes from fit displacement. Preserve the full source group and prediction as evidence, withholding web placement; do not snap it to a convenient modern road."
+    },
+    {
+      "annotation_id": "F19-JUD-016",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-judique-clergy-name-geography.jpg",
+      "scene_sha256": "1d0f91fc315cce7f48740a733c107faaa1bdf7cb5dd0acc2de101324d878b2dc",
+      "evidence": "The name-associated mark remains in the coastal road district south of the corrected church and north of the larger southern brook. Its prediction straddles modern Highway 19 although the source mark is east of the historical road. Retain this road-side disagreement and approximate locality; do not copy the church correction onto another mark or infer a rectory, present building or address."
+    },
+    {
+      "annotation_id": "F19-JUD-023",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-rory-chisholm-name-geography.jpg",
+      "scene_sha256": "05a162bb7951f45b49d43ca2d80f0d001d053842659704c07fe7aea7eed25948",
+      "evidence": "The group remains east of the north-south road junction and north of the southern brook. The modern road forks and drainage support the broad district, with offsets in the eastern road arm and small channels. The named brook and other Chisholm inscriptions retain separate identities."
+    },
+    {
+      "annotation_id": "F19-JUD-028",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-allan-mcdonald-name-geography.jpg",
+      "scene_sha256": "9a7479f9dea8a11ba73c7fdded086c8f051450ca611d54999c83dc91ab1d5265",
+      "evidence": "The group remains east of the western tributary below the northern road/confluence district. The modern tributary and northern drainage support that broad position. The short historical spur is not established as a current road, and the geological patches provide no modern-site correspondence."
+    },
+    {
+      "annotation_id": "F19-JUD-030",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-northern-name-spurs-geography.jpg",
+      "scene_sha256": "f825e2d23aa4af51589e4533a0ad3476b5aa555fbe63a42a3e007226a381c5bd",
+      "evidence": "The northern group lies west of the main valley and south of the western tributary near the sheet edge. The larger modern drainage arrangement supports the broad district; the short source road has no exact modern endpoint match. Keep only approximate name-associated source geography, with no current route or building claim."
+    },
+    {
+      "annotation_id": "F19-JUD-032",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-northern-name-spurs-geography.jpg",
+      "scene_sha256": "f825e2d23aa4af51589e4533a0ad3476b5aa555fbe63a42a3e007226a381c5bd",
+      "evidence": "The eastern name group lies beside the short road south of the northeast road corridor, east of the main northern drainage. Modern roads and tributaries retain the broad arrangement, while the terminal bend and channel offset prevent individual-building identification."
+    },
+    {
+      "annotation_id": "F19-JUD-033",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-squire-name-geography.jpg",
+      "scene_sha256": "85095ba0bddea2330b790150dda4c3bfa11f1a8561bb1419fcb17ee580f42ccb",
+      "evidence": "The group remains on the eastern side of the western road corridor, below its northern bend and west of the larger brook. The modern road/tributary district supports approximate locality. The exact spur and minor stream positions differ; the historical title Squire establishes no current identity or property."
+    },
+    {
+      "annotation_id": "F19-JUD-063",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-doug-mcdonald-name-geography.jpg",
+      "scene_sha256": "7c1557881c32d145e30ad0a51a0e7c3359790b50a29ef32b5795d92e3921805e",
+      "evidence": "The source group remains east of the main western road and west of the eastern watercourse. The modern north-south road and drainage support the district, but the short historical spur and its junction are not reproduced exactly. No current road endpoint or building is identified."
+    },
+    {
+      "annotation_id": "F19-JUD-075",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-mcpherson-names-geography.jpg",
+      "scene_sha256": "e7cf6c7792d7c8c27a96d3f35f38c8b4cff4e30976e68da89cd42bb3fb45d666",
+      "evidence": "The eastern McPherson group remains north of the southern road corridor near the western end of an eastward tributary. The modern headwater and road arrangement supports broad locality with substantial local road/tributary offsets; no individual current site is matched."
+    },
+    {
+      "annotation_id": "F19-JUD-076",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-mcpherson-names-geography.jpg",
+      "scene_sha256": "e7cf6c7792d7c8c27a96d3f35f38c8b4cff4e30976e68da89cd42bb3fb45d666",
+      "evidence": "The western McPherson group remains northwest of the eastern pair and north of the southern road corridor. Modern minor-road alignments differ from the source, including a road through the predicted group. Keep the source pair and approximate district, without a present building or shared-property inference."
+    },
+    {
+      "annotation_id": "F19-JUD-080",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-names-2-20260912.jpg",
+      "scene_sha256": "96dd163ab0947a06604f9b706b0b282bf77f124978f5e54aa47ac4a8a115e3d8",
+      "evidence": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+    },
+    {
+      "annotation_id": "F19-JUD-088",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-western-mcdougall-name-geography.jpg",
+      "scene_sha256": "2d219b21ccf0d058dfbfb5f1616918fd5841652cd083ff1009bf0cf6d09bb55e",
+      "evidence": "The group remains north of the southern road/school corridor and southwest of the northern/eastern drainage. Modern roads and drainage support that broad district, but the short historical spur is not matched to a current endpoint. Nearby modern ponds are context only, not source-associated features."
+    },
+    {
+      "annotation_id": "F19-JUD-097",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-glendale-north-name-geography.jpg",
+      "scene_sha256": "d66382f1ea1673c65259d4994194954140081972dde70befd93d6dee21b5e524",
+      "evidence": "The group remains between the western tributary and the main River Inhabitants channel, east of the road. The modern tributary mouths and road support this broad valley locality; bank and road offsets remain explicit and no individual mark is matched to a present building."
+    },
+    {
+      "annotation_id": "F19-JUD-105",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-smith-mctaggart-names-geography.jpg",
+      "scene_sha256": "4f4c919e50b5837f146bdc1bdc60e30e881fc251f100042e4363aa73c8f2960b",
+      "evidence": "The northern pair remains east of the western road corridor and west of the eastern drainage, above the McTaggart group. Modern roads and streams support the broad locality while several road alignments differ. The printed railway is a proposal and supplies no proof of construction or modern route identity."
+    },
+    {
+      "annotation_id": "F19-JUD-106",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-smith-mctaggart-names-geography.jpg",
+      "scene_sha256": "4f4c919e50b5837f146bdc1bdc60e30e881fc251f100042e4363aa73c8f2960b",
+      "evidence": "The southern pair stays beside the western road bend, southwest of the Smith group and west of the eastern drainage. Modern road and stream context supports the district with local crossing offsets. The horizontal graticule and railway proposal are not modern-site evidence."
+    },
+    {
+      "annotation_id": "F19-JUD-107",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-eastern-road-names-geography.jpg",
+      "scene_sha256": "467bb6a5ed70fff589939f28e581c4d9d4b51052ba7ea15c12eae0d26c0cfb30",
+      "evidence": "The northern group remains west of the main eastern brook and above the McVarish and McCuish groups. Modern drainage and surrounding roads support the broad district; the short source road terminus is not an exact modern road match."
+    },
+    {
+      "annotation_id": "F19-JUD-108",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-buchanan-name-geography.jpg",
+      "scene_sha256": "534d614986935ad2965a128efd5eb1b38904393107170723dc8bc8e27363aa0d",
+      "evidence": "The group stays south of the northern east-west road corridor, north of the River Inhabitants falls district and west of the eastern tributary. The modern road loop and drainage retain that broad arrangement. The source terminal spur is not an exact match to the current loop, and the three candidate marks remain unresolved."
+    },
+    {
+      "annotation_id": "F19-JUD-114",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-rough-brook-names-geography.jpg",
+      "scene_sha256": "f6d9184d61a027c06437de2c4e9df6db6e66e866516bbef9b2d583065b52cf86",
+      "evidence": "The northern pair remains along the road corridor east of Rough Brook. Modern roads and the main drainage support this broad position, though the prediction falls west of the current road. No individual road-side building match is asserted."
+    },
+    {
+      "annotation_id": "F19-JUD-115",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-rough-brook-names-geography.jpg",
+      "scene_sha256": "f6d9184d61a027c06437de2c4e9df6db6e66e866516bbef9b2d583065b52cf86",
+      "evidence": "The middle pair remains east of Rough Brook and northwest of the southern road/tributary crossing district. The main drainage supports the broad locality, but the minor tributary and former short road end are offset or differ in the modern network. Keep the pair as approximate historical evidence only."
+    },
+    {
+      "annotation_id": "F19-JUD-116",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-rough-brook-names-geography.jpg",
+      "scene_sha256": "f6d9184d61a027c06437de2c4e9df6db6e66e866516bbef9b2d583065b52cf86",
+      "evidence": "The southern pair remains west of the main brook and south of the road-crossing district, near the terminal road area. Modern road and channel context supports the broad arrangement. The detailed spur, bank and individual marks are not confirmed current features."
+    },
+    {
+      "annotation_id": "F19-JUD-127",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-eastern-road-names-geography.jpg",
+      "scene_sha256": "467bb6a5ed70fff589939f28e581c4d9d4b51052ba7ea15c12eae0d26c0cfb30",
+      "evidence": "The middle pair remains beside the western road arm, northwest of the southern east-west road district and west of the larger brook. Modern road forks support approximate locality with offsets in their joining arms. Individual candidate marks remain unresolved."
+    },
+    {
+      "annotation_id": "F19-JUD-128",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-eastern-road-names-geography.jpg",
+      "scene_sha256": "467bb6a5ed70fff589939f28e581c4d9d4b51052ba7ea15c12eae0d26c0cfb30",
+      "evidence": "The prediction overlaps a modern road/tributary crossing, while the source pair is north of the curved road with no corresponding crossing at the marks. The main brook remains farther east, but the local bank/crossing relationship is not reconciled. Preserve the source group and computed geometry as evidence and withhold web placement pending a supported local comparison."
+    },
+    {
+      "annotation_id": "F19-JUD-142",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-names-4-20260912.jpg",
+      "scene_sha256": "2d560af2906f46f62366ed4cb121670615e9410f77c125a739e1996e98ce8260",
+      "evidence": "The complete name-associated source candidate region extends outside the current conservative source-control hull. Retain its native pixels without map placement; do not shrink it, extrapolate, or replace it with a lettering centre. Supported local coverage is required."
+    },
+    {
+      "annotation_id": "F19-JUD-152",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-eastern-border-names-geography.jpg",
+      "scene_sha256": "4f48f9d3e7360665068f0376613d8a16de7ac65d9b9a42321a24911fb0756d25",
+      "evidence": "The group remains around the eastern north-south road south of the northern tributary crossing. The modern road and eastern drainage support the district, with the small source channel and road bend locally offset. Widow is historical source wording only and does not identify a present family or residence."
+    },
+    {
+      "annotation_id": "F19-JUD-153",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-eastern-border-names-geography.jpg",
+      "scene_sha256": "4f48f9d3e7360665068f0376613d8a16de7ac65d9b9a42321a24911fb0756d25",
+      "evidence": "The group remains southwest of the McLeod group near the southern minor-road district. Modern roads and broader drainage support approximate locality, but the short source road end and minor watercourse are not exact matches. The upper candidate remains partly overprinted by lettering and is not a confirmed building."
+    },
+    {
+      "annotation_id": "F19-JUD-160",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-southern-mcisaac-name-geography.jpg",
+      "scene_sha256": "9818097412f89c13ef975d2e4c868e29f7a409a715283d4476f872ee928102c2",
+      "evidence": "The source road curves northeast from the elongated waterbody to end at the name group; the modern road instead continues north well west of the prediction, and the northern waterbody/road relationship differs. The nearby lake supports the wider district but does not resolve this terminal-site correspondence. Retain the full prediction as evidence, withholding web placement until a supported local comparison resolves it."
+    },
+    {
+      "annotation_id": "F19-JUD-166",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "judique-southern-mcarthur-name-geography.jpg",
+      "scene_sha256": "cfa6d155ad059fc2081856efac7f3eae5b42880f93f2c7c52b7b628380cc72b2",
+      "evidence": "The group remains at the east-west road corridor west of the main southern channel, below the northern pond district. Modern roads and drainage support approximate locality. It projects east of the minor north-south road although the source marks are west of their road; retain that side disagreement without snapping or claiming current buildings."
     }
   ]
 }
