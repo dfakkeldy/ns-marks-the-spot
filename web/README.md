@@ -151,7 +151,7 @@ Property boundaries retain the Province licence gate and attribution.
 
 ### Main-map 3D terrain
 
-The research map's **3D terrain / Return to 2D** control changes the current map
+The research map's **3D terrain / 2D** control changes the current map
 in place, keeping its centre and selected layers. The 3D view uses
 [Mapzen Terrain Tiles on AWS](https://registry.opendata.aws/terrain-tiles/)
 ([source attribution and licences](https://github.com/tilezen/joerd/blob/master/docs/attribution.md))
@@ -162,11 +162,18 @@ between 0–20 m or 0–100 m. Higher terrain retains the overall relief scale a
 is offset to join the lower band continuously. Sea level stays fixed; underwater
 elevations retain the overall scale. These are display controls: source rasters,
 recorded elevations and measurements are unchanged.
-The 3D panel offers a Tilt slider (0° looks straight down), rotation buttons,
+The compact 3D toolbar keeps **2D** and **3D settings** visible. Settings start
+collapsed; opening them offers a Tilt slider (0° looks straight down), rotation buttons,
 and North up. On touch screens, use one finger to pan, pinch to zoom, twist to
 rotate, or slide two fingers up/down together to tilt. **Terrain height** opens
 the exaggeration settings. Touch-screen terrain rendering caps pixel density
 at 1.5 to reduce GPU work; interface text keeps the screen's native resolution.
+The settings body scrolls within a bounded panel, keeping both toolbar buttons
+reachable on short screens. Failed sources are named where available, with
+HTTP status codes and **Retry 3D** to reload the view at the current location
+with its selected layers and height settings. Graphics failures have a separate
+message. An error remains visible until retry or returning to 2D; changing
+height settings cannot conceal it.
 Tilt, bearing and dimension choice are not persisted in shared URLs.
 
 MapLibre mirrors the mounted Leaflet image and tile layers, local warped

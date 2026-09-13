@@ -4,10 +4,14 @@
 .research-terrain-map .maplibregl-ctrl-top-left { top: 250px; left: 2px; }
 .research-terrain-map .maplibregl-popup-content { max-height: 50dvh; overflow: auto; color: #263b3d; }
 .research-terrain-map .maplibregl-marker { cursor: pointer; }
-.research-terrain-controls { --terrain-controls-top: 12px; position: absolute; z-index: 500; top: var(--terrain-controls-top); right: 12px; display: grid; gap: 6px; padding: 8px; border-radius: 8px; background: var(--paper, #faf8f0); color: var(--chart-ink, #12343b); box-shadow: 0 1px 8px #12343b35; max-width: 190px; font-size: 12px; }
+.research-terrain-controls { --terrain-controls-top: 12px; position: absolute; z-index: 500; top: var(--terrain-controls-top); right: 12px; display: flex; flex-direction: column; gap: 6px; padding: 6px; border-radius: 8px; background: var(--paper, #faf8f0); color: var(--chart-ink, #12343b); box-shadow: 0 1px 8px #12343b35; max-width: 240px; font-size: 12px; }
 .research-terrain-controls button { min-height: 38px; border: 1px solid var(--muted, #61706a); border-radius: 5px; background: transparent; color: inherit; cursor: pointer; }
-.research-terrain-controls { max-height: calc(100% - var(--terrain-controls-top) - var(--map-attribution-height, 70px) - 20px); overflow-y: auto; overscroll-behavior: contain; }
-.research-terrain-controls > button { position: sticky; top: 0; z-index: 1; background: var(--paper, #faf8f0); }
+.research-terrain-controls { max-height: calc(100% - var(--terrain-controls-top) - var(--map-attribution-height, 70px) - 20px); overflow: hidden; }
+.terrain-control-bar { display: flex; gap: 6px; flex-shrink: 0; }
+.terrain-control-bar button { padding-inline: 10px; }
+.terrain-control-bar button:last-child { flex: 1; }
+.terrain-settings-body { display: grid; gap: 6px; width: min(220px, calc(100vw - 110px)); max-height: 42dvh; overflow-y: auto; overscroll-behavior: contain; padding: 2px; }
+.research-terrain-status button { display: block; margin-top: 6px; min-height: 44px; padding-inline: 12px; border: 1px solid currentColor; border-radius: 5px; background: transparent; color: inherit; cursor: pointer; }
 .research-terrain-controls button[aria-pressed=true] { background: var(--chart-ink, #12343b); color: var(--paper, #faf8f0); }
 .research-terrain-controls label { display: grid; grid-template-columns: 1fr auto; gap: 4px; }
 .research-terrain-controls input { grid-column: 1 / -1; width: 100%; }
@@ -29,7 +33,7 @@
   .research-terrain-controls button, .research-terrain-controls input[type=range], .terrain-height-settings summary { min-height: 44px; }
 }
 @media (max-width: 860px) {
-  .research-terrain-controls { right: 8px; --terrain-controls-top: max(68px, calc(env(safe-area-inset-top) + 56px)); max-width: 176px; padding: 6px; }
+  .research-terrain-controls { right: 8px; --terrain-controls-top: max(68px, calc(env(safe-area-inset-top) + 56px)); max-width: 240px; padding: 6px; }
   /* Clear Poker's 44px Layers pill, including the phone's safe-area inset. */
   .poker-mode .research-terrain-controls { --terrain-controls-top: max(138px, calc(env(safe-area-inset-top) + 126px)); }
   .research-terrain-map .maplibregl-ctrl-bottom-right { bottom: 76px; }
