@@ -1,0 +1,92 @@
+{
+  "fit_sha256": "69b22bf923edc83e2c73d8b8a7be20dc382c68a33069288c2bc257f1b9492978",
+  "control_count": 3,
+  "check_status": "Two historical North Pond diagnostics + one pre-reserved new Lake of Islands check; combined score is diagnostic model comparison, not fresh validation.",
+  "models": {
+    "graticule-tps": {
+      "count": 3,
+      "points": [
+        {
+          "label": "supply-04",
+          "east_ground_m": 367.01700271624475,
+          "north_ground_m": 758.9939901146896,
+          "error_ground_m": 843.0737555594015
+        },
+        {
+          "label": "supply-06",
+          "east_ground_m": 465.581154985618,
+          "north_ground_m": 770.0742494017777,
+          "error_ground_m": 899.8778591950429
+        },
+        {
+          "label": "VN05",
+          "east_ground_m": 191.041411006379,
+          "north_ground_m": 20.669633496691233,
+          "error_ground_m": 192.15632820231494
+        }
+      ],
+      "rms_ground_m": 720.5270231459476,
+      "median_ground_m": 843.0737555594015,
+      "p95_ground_m": 894.1974488314787,
+      "max_ground_m": 899.8778591950429,
+      "mean_east_ground_m": 341.21318956941394,
+      "mean_north_ground_m": 516.5792910043862,
+      "scatter_rms_ground_m": 368.617127183252,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "physical-affine": {
+      "count": 3,
+      "points": [
+        {
+          "label": "supply-04",
+          "east_ground_m": -130.52189267340847,
+          "north_ground_m": 519.3837021754384,
+          "error_ground_m": 535.5328137028704
+        },
+        {
+          "label": "supply-06",
+          "east_ground_m": -21.67960323059383,
+          "north_ground_m": 452.3932938084697,
+          "error_ground_m": 452.9124611656345
+        },
+        {
+          "label": "VN05",
+          "east_ground_m": -234.9250874369926,
+          "north_ground_m": 377.75841746712734,
+          "error_ground_m": 444.84965850784585
+        }
+      ],
+      "rms_ground_m": 479.5193116396783,
+      "median_ground_m": 452.9124611656345,
+      "p95_ground_m": 527.2707784491467,
+      "max_ground_m": 535.5328137028704,
+      "mean_east_ground_m": -129.0421944469983,
+      "mean_north_ground_m": 449.84513781701185,
+      "scatter_rms_ground_m": 104.5286289496214,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    }
+  },
+  "first_new_check_affine": {
+    "count": 1,
+    "points": [
+      {
+        "label": "VN05",
+        "east_ground_m": -234.9250874369926,
+        "north_ground_m": 377.75841746712734,
+        "error_ground_m": 444.84965850784585
+      }
+    ],
+    "rms_ground_m": 444.84965850784585,
+    "median_ground_m": 444.84965850784585,
+    "p95_ground_m": 444.84965850784585,
+    "max_ground_m": 444.84965850784585,
+    "mean_east_ground_m": -234.9250874369926,
+    "mean_north_ground_m": 377.75841746712734,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "geographic_acceptance": false
+}

@@ -1,6 +1,7 @@
 import unittest
 
 from tools.church.gcps import CHECK_ROLE, GroundControlPoint
+from tools.church.graticule import LatticeIndex
 from tools.church.panels import SourceWindow, get_panel, panels_for_county
 
 
@@ -261,6 +262,16 @@ class GraticuleSettingsTests(unittest.TestCase):
         self.assertEqual(inverness.drawn_checks.reader, "ink-outline")
         self.assertEqual(richmond.drawn_checks.darkness, inverness.drawn_checks.darkness)
         self.assertEqual(richmond.drawn_checks.dilate_px, inverness.drawn_checks.dilate_px)
+
+    def test_victoria_main_60d40_label_belongs_to_second_meridian(self):
+        # Native x=23,595 at the southern neatline reads 60d40 W. The
+        # detected second meridian runs x=23,661..23,637 farther north.
+        # Evidence: physical-review-20260913/victoria-main/longitude-label-native.jpg.
+        settings = get_panel("victoria", "main").graticule
+        assert settings is not None
+        lon, lat = settings.anchor.coordinate(LatticeIndex(1, 0))
+        self.assertAlmostEqual(lon, -(60 + 40 / 60), places=12)
+        self.assertAlmostEqual(lat, 46.5, places=12)
 
     def test_victoria_anchors_both_ten_minute_lattices_from_printed_labels(self):
         northwest = get_panel("victoria", "northwest")

@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-13",
+  "pass_complete": false,
+  "geographic_acceptance": false,
+  "working_target_rms_ground_m": 250,
+  "stretch_target_rms_ground_m": 200,
+  "historical_gates_unchanged": true,
+  "queue": [
+    "richmond",
+    "inverness-north",
+    "victoria-northwest",
+    "victoria-main",
+    "cape-breton",
+    "inverness-south"
+  ],
+  "completed_reviews": [
+    "richmond",
+    "inverness-north",
+    "victoria-northwest",
+    "victoria-main"
+  ],
+  "active": "cape-breton",
+  "remaining": [
+    "cape-breton",
+    "inverness-south"
+  ],
+  "existing_richmond_artifact_preserved": true,
+  "existing_inverness_south_acceptance_preserved": true,
+  "no_catalog_activation": true,
+  "no_tiles_generated": true,
+  "no_deployment": true
+}

@@ -1,0 +1,7 @@
+{
+  "source_csv": "tools/church/gcps/victoria-main.csv",
+  "source_sha256": "80a594d8f5d8cffdf32dc80a309279581c05ff129cb88face65c4f1f9b6c9725",
+  "longitude_shift_degrees": -0.16666666666666666,
+  "reason": "Named Kidston Island, Hume Island and Bird Islands source geometry requires search approximately one 10-minute longitude grid interval west. Hypothesis for correspondence search only, not an accepted graticule correction.",
+  "used_for_physical_fitting": false
+}

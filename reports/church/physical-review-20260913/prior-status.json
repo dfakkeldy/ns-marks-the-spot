@@ -163,9 +163,5 @@
     "Six additional regional validation checks against frozen ten-control fit",
     "Richmond source boundary corner audit, exact TPS raster, alpha coverage and browser import/reload",
     "Cape Breton production crop now excludes complete Sydney Harbour inset and retains southern Cape Chameau extension; regression checks pass"
-  ],
-  "latest_review": "../physical-review-20260913/README.md",
-  "latest_status": "../physical-review-20260913/status.json",
-  "latest_working_target_rms_ground_m": 250,
-  "prior_status_preserved": "../physical-review-20260913/prior-status.json"
+  ]
 }

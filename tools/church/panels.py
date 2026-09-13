@@ -555,7 +555,7 @@ _VICTORIA_NORTHWEST_GRATICULE = GraticuleSettings(
 
 _VICTORIA_MAIN_GRATICULE = GraticuleSettings(
     anchor=GraticuleAnchor(
-        meridian_index=0,
+        meridian_index=1,
         meridian_lon=-(60.0 + 40.0 / 60.0),
         parallel_index=0,
         parallel_lat=46.0 + 30.0 / 60.0,
@@ -564,8 +564,9 @@ _VICTORIA_MAIN_GRATICULE = GraticuleSettings(
     tolerance_px=160.0,
     min_extent_px=(7000.0, 6000.0),
     anchor_evidence=(
-        "engraved 60d40'W and 60d30'W at the top and 46d30'N, 46d20'N, "
-        "46d10'N beside the ruled parallels on RUMSEY~8~1~374820~90141224"
+        "engraved 60d40'W on meridian index 1 at native x=23595 on the southern "
+        "neatline; 46d30'N, 46d20'N and 46d10'N beside the parallels on "
+        "RUMSEY~8~1~374820~90141224; native audit physical-review-20260913"
     ),
 )
 
