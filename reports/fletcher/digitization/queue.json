@@ -1,17 +1,17 @@
 {
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-13",
-  "nightly_revision": "d9409b8f69af2cca782e7476e088f53515f9d06d",
-  "next_action": "Continue full sheet 22 Port Hawkesbury source-feature review, starting with the remaining 50 service/industrial/transport annotations. Thirty source/placement decisions yield 26 local integrations and four explicit holdbacks; 271 source associations remain. Eight Hawkesbury features merged via PR455, with 18 further additions and a mobile source-popup control fix verified locally. Judique has all 166 initial decisions and 126 merged integrations; its 40 residual holdbacks remain explicit. Priority sheets 16/14 and the remaining 20 sheets stay open.",
+  "nightly_revision": "94722930dfa583fcdaaad17f994a2f1cb5726936",
+  "next_action": "Continue full sheet 22 Port Hawkesbury review with the remaining 32 service/industrial/transport annotations. Forty-eight source/placement decisions yield 41 local integrations and seven explicit holdbacks; 253 initial source associations remain. PR458 merged 26 Hawkesbury features and the mobile popup fix; fifteen more placements pass local checks. Judique has 126 merged placements and all 166 initial decisions; its 40 holdbacks remain explicit. Priority sheets 16/14 and the remaining 20 sheets are still open.",
   "sheets": [
     {
       "sheet": 22,
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 301,
       "lettering_status": "processed",
-      "source_associated_count": 30,
-      "approximate_placement_reviewed_count": 26,
-      "integrated_count": 26,
+      "source_associated_count": 47,
+      "approximate_placement_reviewed_count": 41,
+      "integrated_count": 41,
       "blockers": [
         {
           "annotation_id": "F22-HAW-001",
@@ -32,13 +32,28 @@
           "annotation_id": "F22-HAW-028",
           "stage": "outside-supported-coverage",
           "reason": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        },
+        {
+          "annotation_id": "F22-HAW-132",
+          "stage": "source-location-unresolved",
+          "reason": "At Auld Cove the Mill caption is beside a road/watercourse crossing and small loop. Enlarged native pixels do not confidently separate an independent mill symbol from the joining linework. Preserve the caption unlocated; neither the crossing, loop nor circled fossil notation supplies a mill-site coordinate."
+        },
+        {
+          "annotation_id": "F22-HAW-173",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry lies outside the current conservative source-control hull in the eastern McLeods Bridge district. Retain its native mark/group without map placement; do not shrink the group or substitute a nearby supported point. Accepted local coverage is required."
+        },
+        {
+          "annotation_id": "F22-HAW-174",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete source geometry lies outside the current conservative source-control hull in the eastern McLeods Bridge district. Retain its native mark/group without map placement; do not shrink the group or substitute a nearby supported point. Accepted local coverage is required."
         }
       ],
       "annotation_queue": "sheet-22-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-22-labels.geojson",
-      "source_association_reviewed_count": 30,
-      "merged_integrated_count": 8,
-      "integration_status": "Eight merged through PR455; eighteen further additions and the mobile terrain-control overlap fix pass local verification and await PR."
+      "source_association_reviewed_count": 48,
+      "merged_integrated_count": 26,
+      "integration_status": "26 merged through PR458; fifteen further placements pass local source/geographic/browser checks and await PR."
     },
     {
       "sheet": 19,
@@ -573,6 +588,13 @@
       "status": "merged",
       "head": "c14d0129131e6cf9dd8ccd459b2cec15c8b8d242",
       "merge_commit": "727b31233e8ef9b9404e5b7852c6cf2a305abee3",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 458,
+      "status": "merged",
+      "head": "588ad7dfdec1ff448d1b5b1cda92c2553209959c",
+      "merge_commit": "94722930dfa583fcdaaad17f994a2f1cb5726936",
       "ci": "All required checks passed"
     }
   ],
