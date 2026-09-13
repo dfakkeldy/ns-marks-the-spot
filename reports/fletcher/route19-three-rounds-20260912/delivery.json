@@ -1,0 +1,231 @@
+{
+  "status": "Reversible full-sheet drafts; modest diagnostic improvements, not uniform geographic acceptance",
+  "sheets": [
+    {
+      "sheet": "14",
+      "fit": "sheet-14/round-3-fit.json",
+      "fit_sha256": "8b728530b33dfe5bf586a763f6b5fc835d9fc1645f3056729e198069f7fe3bbb",
+      "raster": {
+        "path": "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-14/sheet-14-full-sheet.tif",
+        "sha256": "1a72c3356ee5e7ea3e3dddb916fda949bf12465a7309f3e83ef5e21309fbb1b6",
+        "size": [
+          8731,
+          5726
+        ],
+        "bounds": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.6152657,
+                46.2699194
+              ],
+              [
+                -61.6152657,
+                46.091847
+              ],
+              [
+                -61.2231061,
+                46.091847
+              ],
+              [
+                -61.2231061,
+                46.2699194
+              ],
+              [
+                -61.6152657,
+                46.2699194
+              ]
+            ]
+          ]
+        }
+      },
+      "rms_ground_m": 126.23562873029756,
+      "control_count": 27,
+      "excluded_diagnostics": 13,
+      "sampled_orientation": {
+        "samples": 70997,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -34.11188866901139,
+          -10.25741999087763
+        ]
+      },
+      "interior_alpha_holes": 0,
+      "browser_desktop_mobile_reload": true,
+      "browser_errors": []
+    },
+    {
+      "sheet": "16",
+      "fit": "sheet-16/round-3-fit.json",
+      "fit_sha256": "93e429c37332b3cafbd501fced4d35c8dee210f04534c446367e8a9f95ceb494",
+      "raster": {
+        "path": "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-16/sheet-16-full-sheet.tif",
+        "sha256": "def907701bc11cf35181447a7c1e522bb92f267e94d5da49e99efc973b9848ce",
+        "size": [
+          8497,
+          5572
+        ],
+        "bounds": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.6018359,
+                46.0946815
+              ],
+              [
+                -61.6018359,
+                45.9208535
+              ],
+              [
+                -61.2201866,
+                45.9208535
+              ],
+              [
+                -61.2201866,
+                46.0946815
+              ],
+              [
+                -61.6018359,
+                46.0946815
+              ]
+            ]
+          ]
+        }
+      },
+      "rms_ground_m": 101.24084308656417,
+      "control_count": 37,
+      "excluded_diagnostics": 14,
+      "sampled_orientation": {
+        "samples": 71062,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -40.38440749583045,
+          -20.84767943142383
+        ]
+      },
+      "interior_alpha_holes": 0,
+      "browser_desktop_mobile_reload": true,
+      "browser_errors": []
+    },
+    {
+      "sheet": "22",
+      "fit": "sheet-22/round-3-fit.json",
+      "fit_sha256": "a40cbf8d45bbf03bd009f3ed852a16f8b1551dae50574b1baf1c8bee82996baf",
+      "raster": {
+        "path": "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-22/sheet-22-full-sheet.tif",
+        "sha256": "705cecae97ccaa97499cd3a54db40da715906a365f8f4072da7134a2de4243c3",
+        "size": [
+          8380,
+          5702
+        ],
+        "bounds": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.596446,
+                45.7497389
+              ],
+              [
+                -61.596446,
+                45.570741
+              ],
+              [
+                -61.2200519,
+                45.570741
+              ],
+              [
+                -61.2200519,
+                45.7497389
+              ],
+              [
+                -61.596446,
+                45.7497389
+              ]
+            ]
+          ]
+        }
+      },
+      "rms_ground_m": 94.82593594242041,
+      "control_count": 28,
+      "excluded_diagnostics": 17,
+      "sampled_orientation": {
+        "samples": 70595,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -35.48141234845039,
+          -21.04916086735121
+        ]
+      },
+      "interior_alpha_holes": 0,
+      "browser_desktop_mobile_reload": true,
+      "browser_errors": []
+    },
+    {
+      "sheet": "19",
+      "fit": "sheet-19/round-3-fit.json",
+      "fit_sha256": "cea7bfa9048cf02c40fe90239b73f871d6d2eeb618157887a04f79458ae98dce",
+      "raster": {
+        "path": "/Users/dfakkeldy/Downloads/fletcher-route19-three-rounds-20260912/sheet-19/sheet-19-full-sheet.tif",
+        "sha256": "997d6db53e20a6d3c53258a35d87ce23a34dd93ebf6ffaef77de16bbc698ebee",
+        "size": [
+          8382,
+          5756
+        ],
+        "bounds": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -61.5959519,
+                45.9251653
+              ],
+              [
+                -61.5959519,
+                45.7450374
+              ],
+              [
+                -61.219468,
+                45.7450374
+              ],
+              [
+                -61.219468,
+                45.9251653
+              ],
+              [
+                -61.5959519,
+                45.9251653
+              ]
+            ]
+          ]
+        }
+      },
+      "rms_ground_m": 90.77677156719852,
+      "control_count": 44,
+      "excluded_diagnostics": 20,
+      "sampled_orientation": {
+        "samples": 71285,
+        "native_grid_step_px": 25,
+        "nonnegative_determinants": 0,
+        "determinant_range": [
+          -48.44196138562461,
+          -20.139246630547692
+        ]
+      },
+      "interior_alpha_holes": 0,
+      "browser_desktop_mobile_reload": true,
+      "browser_errors": []
+    }
+  ],
+  "local_tests": {
+    "fletcher_pipeline_tests": 297,
+    "skipped": 8,
+    "result": "passed"
+  },
+  "scope": "No production layer, old mosaic tile revision, downstream label pin, or publication changed."
+}

@@ -99,7 +99,39 @@ on both surfaces. Builds default to `https://tiles.kinnokilabs.com`; an explicit
 empty override disables the historical control.
 Property boundaries retain the Province licence gate and attribution.
 
-Both HTML entry points are included in `npm run build`. The MapLibre 6 worker
+### Judique terrain inspection
+
+`/terrain.html`, linked from the Atlas study, drapes the reviewed full-sheet
+Judique draft or provincial aerial imagery over a bounded contour-derived
+surface. The NS Hydrographic Network is always topmost, above contours and
+imagery. Controls switch overhead/3D views, sheet opacity, contours, and labelled
+height exaggeration. Aerial imagery retains its provincial licence gate.
+
+The bundled 30 m terrain grid is a project-derived inspection model, not the
+provincial LiDAR DEM or a watershed-ready surface. It uses open NSTDB contour
+elevations, linear triangulation and one-cell Gaussian smoothing. NSHN is a
+draped reference; its heights are not mixed with the contours and drainage is
+not enforced. No independent vertical accuracy is claimed. Source contour
+intervals vary. Browser line geometry is simplified within 5 m; original
+contours feed the interpolation. Terrain outside the inspection extent is masked.
+The historical image is a downsampled draft with approximate alignment, not a
+replacement for the published Fletcher layer.
+
+`public/terrain/judique/source.json` records source hashes, processing, geographic
+bounds, the pinned historical raster, and artifact checksums; `LICENCE.txt`
+separates provincial data and historical-image terms from MIT code. Regenerate
+with `web/scripts/buildJudiqueTerrain.py --cache <external-cache> --output
+web/public/terrain/judique --historical <reviewed-judique-full-sheet.tif>` from the
+repository root. Its Python dependencies are listed in the script; GDAL CLI is
+also required. Raw inputs and the full-resolution historical raster stay outside
+Git. Review the pinned source identity before replacing it.
+
+The contour/stream approach follows the motivation described in
+[Topo to Raster](https://doc.esri.com/en/arcgis-pro/latest/tool-reference/spatial-analyst/how-topo-to-raster-works.html),
+but the inspection generator does not implement ANUDEM or claim its hydrological
+guarantees. Future watershed work requires separate drainage and elevation checks.
+
+All three HTML entry points are included in `npm run build`. The MapLibre 6 worker
 is bundled with Vite's `?worker&url` import for hosting beneath a subpath.
 
 ### Raster tiles for the native app

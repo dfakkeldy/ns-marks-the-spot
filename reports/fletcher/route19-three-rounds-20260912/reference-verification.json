@@ -1,0 +1,22 @@
+[
+  {
+    "sheet": "14",
+    "reference_receipt": "sheet14/reference-receipts.json",
+    "recorded_hashes_match_original_receipts": true
+  },
+  {
+    "sheet": "16",
+    "reference_receipt": "sheet16/reference-receipts.json",
+    "recorded_hashes_match_original_receipts": true
+  },
+  {
+    "sheet": "19",
+    "reference_receipt": "matching-benchmark/reference-receipts.json",
+    "recorded_hashes_match_original_receipts": true
+  },
+  {
+    "sheet": "22",
+    "reference_receipt": "sheet22/reference-receipts.json",
+    "recorded_hashes_match_original_receipts": true
+  }
+]

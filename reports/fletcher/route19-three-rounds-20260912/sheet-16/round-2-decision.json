@@ -1,0 +1,11 @@
+{
+  "sheet": "16",
+  "round": 2,
+  "before_rms_ground_m": 102.02835627859604,
+  "after_rms_ground_m": 102.02835627859604,
+  "proposal": null,
+  "accepted_pending_render": false,
+  "note": "Northeast McQueens M01 wide topology and native pixel review. Source shows two smaller eastern tributaries above the large fitted arm, but the modern extract presents only one clear corresponding fork in that reach. Did not choose an upstream control from positional proximity; existing M01 and all diagnostics retained.",
+  "trial_rms_ground_m": null,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}

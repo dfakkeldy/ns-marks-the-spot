@@ -1,0 +1,11 @@
+{
+  "sheet": "22",
+  "round": 3,
+  "before_rms_ground_m": 94.82593594242041,
+  "after_rms_ground_m": 94.82593594242041,
+  "proposal": null,
+  "accepted_pending_render": false,
+  "note": "Eastern and mainland shoreline audit H01/H02/H03 plus western Q07. Black Brook uses actual bank entry, Macmillan uses inlet apex, and Carleton Head/Jack headland use shore extrema. Source crosshairs support these definitions. The small historical Macmillan upstream tributaries lack distinct matches in the current modern water extract, so no new control was justified; retained round2 fit.",
+  "trial_rms_ground_m": null,
+  "criteria": "Evidence-reviewed correspondence; lower same-check RMS and no >10 ground-m increase in worst diagnostic; subsequently require sampled orientation, raster and importer verification."
+}
