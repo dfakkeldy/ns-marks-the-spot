@@ -55,10 +55,11 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     let scene: Scene = { rasters: [], paths: [], markers: [], layers: new Map() };
     const sources = new Set<string>();
     const sceneLayers = new Map<string, number>();
-    const markers = new Map<number, { marker: Marker; html: string }>();
+    const markers = new Map<number, { marker: Marker; html: string; opacity: number }>();
     const rasterEntries = new Map<string, RasterEntry>();
     const terrainSubscriptions = new Set<L.Layer>();
     let popup: Popup | undefined;
+    let popupSource: L.Popup | undefined;
     const report = (message: string, kind: TerrainStatus['kind'] = 'loading') => {
       if (disposed) return;
       if (kind === 'error') failedRef.current = true;
@@ -90,25 +91,47 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     gl.addControl(new NavigationControl({ showZoom: false, visualizePitch: true }), 'top-left');
     gl.addControl(new AttributionControl({ compact: true }), 'bottom-right');
 
-    const showPopup = (layer: L.Layer, latlng: L.LatLng) => {
-      const content = layer.getPopup()?.getContent();
-      const value = typeof content === 'function' ? content(layer) : content;
-      if (!value) return;
+    const showPopup = (layer: L.Layer, source: L.Popup | undefined, latlng: L.LatLng, autoPan: boolean | undefined) => {
+      const content = source?.getContent();
+      // React Leaflet portals into the content node; getContent() is undefined.
+      const value = (typeof content === 'function' ? content(layer) : content)
+        ?? source?.getElement()?.querySelector<HTMLElement>('.leaflet-popup-content');
+      if (!source?.isOpen() || !value) return false;
       popup?.remove();
-      popup = new Popup({ maxWidth: '360px' }).setLngLat([latlng.lng, latlng.lat]);
-      // Content has already passed the existing Leaflet popup builders. Keep
-      // their DOM nodes and event handlers (including local photo actions).
-      if (typeof value === 'string') popup.setHTML(value); else popup.setDOMContent(value);
-      popup.addTo(gl);
+      source.options.autoPan = false;
+      const mirror = new Popup({ maxWidth: '360px', className: source.options.className }).setLngLat([latlng.lng, latlng.lat]);
+      const parent = typeof value === 'string' ? null : value.parentNode;
+      const next = typeof value === 'string' ? null : value.nextSibling;
+      const closeMirror = () => mirror.remove();
+      mirror.on('close', () => {
+        source.off('remove', closeMirror);
+        // Return the portal target before closing so reopening in 2D or 3D
+        // retains React ownership, source evidence and local photo handlers.
+        if (typeof value !== 'string' && parent) parent.insertBefore(value, next?.parentNode === parent ? next : null);
+        source.close();
+        source.options.autoPan = autoPan;
+        if (popup === mirror) { popup = undefined; popupSource = undefined; }
+      });
+      source.on('remove', closeMirror);
+      if (typeof value === 'string') mirror.setHTML(value); else mirror.setDOMContent(value);
+      popup = mirror; popupSource = source;
+      mirror.addTo(gl);
+      // MapLibre appends this after the content; put it first so the phone's
+      // sticky close action remains reachable while source evidence scrolls.
+      const closeButton = mirror.getElement()?.querySelector('.maplibregl-popup-close-button');
+      if (closeButton) closeButton.parentElement?.prepend(closeButton);
+      return true;
     };
     const activate = (layer: L.Layer | undefined, latlng: L.LatLng, originalEvent: MouseEvent | KeyboardEvent) => {
       if (layer && (layer.options as L.InteractiveLayerOptions).interactive !== false && layer.listens('click', true)) {
-        const existing = layer.getPopup();
+        // GeoJSON children propagate selection to the group that owns the popup.
+        const existing = layer.getPopup() ?? [...scene.layers.values()]
+          .find(candidate => candidate instanceof L.LayerGroup && candidate.hasLayer(layer) && candidate.getPopup())?.getPopup();
+        if (existing && existing === popupSource) { popup?.remove(); return; }
         const autoPan = existing?.options.autoPan;
         if (existing) existing.options.autoPan = false;
         layer.fire('click', { latlng, originalEvent }, true);
-        showPopup(layer, latlng);
-        if (existing) existing.options.autoPan = autoPan;
+        if (!showPopup(layer, existing, latlng, autoPan) && existing) existing.options.autoPan = autoPan;
       } else {
         leaflet.fire('click', { latlng, originalEvent, containerPoint: leaflet.latLngToContainerPoint(latlng), layerPoint: leaflet.latLngToLayerPoint(latlng) });
       }
@@ -207,6 +230,7 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
         const id = L.stamp(layer), element = layer.getElement();
         if (!element) continue;
         const html = [element.className, element.innerHTML, element instanceof HTMLImageElement ? element.src : '', element.style.backgroundColor, element.style.borderColor].join('|');
+        const opacity = layer.options.opacity ?? 1;
         let entry = markers.get(id);
         if (!entry || entry.html !== html) {
           entry?.marker.remove();
@@ -219,11 +243,13 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
           clone.addEventListener('keydown', event => {
             if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.stopPropagation(); activate(layer, layer.getLatLng(), event); }
           });
-          const marker = new Marker({ element: clone, offset: [size.x / 2 - anchor.x, size.y / 2 - anchor.y] }).setLngLat([layer.getLatLng().lng, layer.getLatLng().lat]).addTo(gl);
-          entry = { marker, html }; markers.set(id, entry);
+          const marker = new Marker({ element: clone, opacity, opacityWhenCovered: opacity, offset: [size.x / 2 - anchor.x, size.y / 2 - anchor.y] }).setLngLat([layer.getLatLng().lng, layer.getLatLng().lat]).addTo(gl);
+          entry = { marker, html, opacity }; markers.set(id, entry);
         }
         entry.marker.setLngLat([layer.getLatLng().lng, layer.getLatLng().lat]);
-        entry.marker.getElement().style.opacity = String(layer.options.opacity ?? 1);
+        // These are research annotations, not physical 3D objects. Preserve
+        // their source opacity instead of implying uncertainty behind a ridge.
+        if (entry.opacity !== opacity) { entry.marker.setOpacity(opacity, opacity); entry.opacity = opacity; }
       }
       const ordered = (gl.getStyle().layers ?? []).map((layer, index) => ({ id: layer.id, order: sceneLayers.get(layer.id) ?? basemapLayerOrder(layer), index }))
         .sort((a, b) => a.order - b.order || a.index - b.index);

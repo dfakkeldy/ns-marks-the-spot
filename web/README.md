@@ -178,7 +178,10 @@ Tilt, bearing and dimension choice are not persisted in shared URLs.
 
 MapLibre mirrors the mounted Leaflet image and tile layers, local warped
 rasters, paths and markers. The existing data queries and licence gates still
-own these layers, and parcel clicks are forwarded by geographic position.
+own these layers, and parcel clicks are forwarded by geographic position. Research markers retain
+their configured opacity even behind terrain; fading is not used as a confidence
+indicator. Feature evidence opens in the 3D view without a hidden 2D popup
+pulling the camera back after a drag. Closing it restores the map controls.
 User-loaded raster and vector inputs remain in the browser. Roads, bridges
 and property outlines draw above water. Editing, measurement and print framing
 use the 2D map; print/export does not capture a tilted terrain scene. Remote
