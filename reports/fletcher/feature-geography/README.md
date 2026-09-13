@@ -1,6 +1,6 @@
 # Reviewed Fletcher features
 
-The combined export contains **218 annotations**: 126 from Judique and 92
+The combined export contains **241 annotations**: 126 from Judique and 115
 from [Port Hawkesbury](HAWKESBURY.md). Source and fit identities stay separate.
 
 Judique contributes **126 annotations: 27 approximate points,

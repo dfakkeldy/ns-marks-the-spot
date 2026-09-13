@@ -19,6 +19,8 @@ def export(sheets, out):
                          source_excerpt=f"excerpts/{f['id']}.jpg",evidence_url=f"https://github.com/dfakkeldy/ns-marks-the-spot/blob/nightly/{path}",
                          evidence_sha256=sources[-1]['sha256'])
             if p.get('placement_correction'):props['placement_correction']=p['placement_correction']
+            if p['placement_review'].get('supporting_sources'):
+                props['placement_references']=p['placement_review']['supporting_sources']
             features.append({'type':'Feature','id':f['id'],'geometry':f['geometry'],'properties':props})
     labels.require(len({f['id'] for f in features})==len(features),'Duplicate export identity')
     labels.write(out/'reviewed.geojson',{'type':'FeatureCollection','features':features})

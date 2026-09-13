@@ -100,6 +100,8 @@ def project(sheet, executable):
             geographic_role = 'reviewed-source-line'
             if original[aid]['kind'] == 'cape':
                 geometry_meaning = 'Approximate traced section of the printed historical shoreline beside a named cape. Endpoints delimit reviewed evidence, not a precise named tip, peninsula boundary or current coastline.'
+            elif original[aid]['kind'] == 'waterbody':
+                geometry_meaning = 'Approximate traced section of a printed historical lake or pond shoreline. Endpoints delimit reviewed source evidence, not the complete waterbody extent. No current shoreline, water level, condition or access is asserted.'
             elif 'road' in original[aid]['kind']:
                 geometry_meaning = 'Approximate traced axis of a printed historical road section. Endpoints delimit reviewed source evidence, not the complete named route. No present road alignment, condition, destination or access is asserted.'
             elif 'railway' in original[aid]['kind'] and 'PROPOSED' in original[aid]['source_text'].upper():

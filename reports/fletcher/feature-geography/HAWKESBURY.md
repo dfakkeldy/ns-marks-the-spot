@@ -1,13 +1,12 @@
 # Port Hawkesbury source-feature review
 
-All **80 service, industrial and transport annotations**, **17 road captions** and
-**26 stream/river captions** now have initial source and geographic decisions.
-**92** are integrated locally: 44 approximate marks, eighteen source groups,
-thirteen road segments and seventeen watercourse reaches. Thirty-one records
-remain explicitly withheld. The other **178 of 301** annotations still need initial
-source association. Seventy-five Hawkesbury features merged through PR462; seventeen
-further reaches pass local checks. The combined 218-record export retains all 126
-Judique annotations.
+All **194 reviewed source associations/holdbacks** now have initial geographic
+decisions: 80 service/industrial/transport annotations, 17 roads, 26 stream/river
+captions, 14 lake/pond shorelines, 16 water notes and 41 heights. **115** are integrated
+locally, while **79** remain withheld. The other **107 of 301** annotations still
+need initial source association. Ninety-two Hawkesbury features merged through
+PR463; 23 further placements pass local checks. The combined 241-record export
+retains all 126 Judique annotations.
 
 ## Source and geography
 
@@ -260,9 +259,9 @@ southeastern Kiln branch. No trace is trimmed to fit coverage.
 Fourteen paired raster/NSTDB scenes are recorded in the geographic frame receipt.
 Thirteen support approximate historical placement. Old Road 015 has no continuous
 modern road counterpart; its note retains that limitation and the offset northern
-junction. [New Road 243](hawkesbury-road-243-geography.jpg) remains withheld because
-its projection crosses substantial modern Landrie Lake water and the evidence does
-not resolve shoreline change versus local fit error. Three other whole traces are
+junction. [New Road 243](hawkesbury-road-243-geography.jpg) was initially withheld for its
+reservoir overlap; the later documented historical-change review below supersedes
+that decision while preserving it and the unchanged geometry. Three other whole traces are
 withheld: 019 exceeds the fit neatline, and 236/265 exceed conservative control support.
 
 The [road browser receipt](browser-hawkesbury-roads-verification.json) records real
@@ -288,11 +287,10 @@ qualified reading and sixteen lettering boxes; its geometry is a bounded actual
 western-bank trace, not a channel centreline or reconstructed river extent.
 
 Twenty paired scenes support seventeen approximate placements. Six complete
-paths remain outside control support: 012,020,185,239,272,273. Three other traces
-retain explicit geographic discrepancies: Emery Brook157's northern pond/branch
-connection, North Branch of Tracadie192's displaced eastern corridor, and
-Seacoal Brook278's overlap with the modern reservoir. These paths are not trimmed,
-snapped or exported.
+paths remain outside control support: 012,020,185,239,272,273. Emery Brook157's northern pond/branch connection and North Branch of Tracadie192's
+displaced eastern corridor remain unresolved. Seacoal Brook278's reservoir holdback
+was subsequently superseded by the documented review below. No path is trimmed
+or snapped.
 
 [Typed water context](hawkesbury-water-context-types.json) distinguishes reservoir
 water from swamp polygons in the source extract. Reservoir OBJECTID434 contains
@@ -307,3 +305,37 @@ notes. It also records the reproduced desktop popup obstruction and its CSS fix:
 floating tools now stay clear of source evidence at every width and return on close.
 All local Python/component/script checks, lint and build pass; desktop and phone
 browser consoles are clean. No production publication is claimed.
+
+## Shorelines, water notes and heights
+
+The [water-detail append receipt](hawkesbury-water-details-append-receipt.json)
+records fourteen bounded bank traces and sixteen water-note decisions. Three
+shoreline figures and three water-note figures retain native source evidence:
+
+- [Shorelines 1](hawkesbury-shorelines-1-20260913.jpg), [2](hawkesbury-shorelines-2-20260913.jpg), [3](hawkesbury-shorelines-3-20260913.jpg).
+- [Water notes 1](hawkesbury-water-notes-1-20260913.jpg), [2](hawkesbury-water-notes-2-20260913.jpg), [3](hawkesbury-water-notes-3-20260913.jpg).
+
+Spring233 and Ferrug. Spr.241 use actual source glyphs. The tidal-rock note36 retains
+an unresolved candidate cluster. Fall93 remains unlocated; no unique mark or reach
+was identified. Spring24, flow note162 and Mc Intyre Lake164 retain specific geographic
+discrepancies. Complete source paths/clusters for 33,34,36,181,266 exceed control
+support and remain withheld. The other twenty-one new water details are integrated.
+
+[Reservoir-history reconciliation](reservoir-history-reconciliation.json) records
+independent corroboration, exact document/page identity, prior holdback reviews and
+unchanged geometry for New Road243 and Seacoal278. These two additional placements
+are now reviewed; related Landrie bank234 and Spring233 carry the same linked source.
+The assessment corroborates historical change, not exact source coordinates.
+
+[All 41 height captions](hawkesbury-heights-append-receipt.json) were inspected in seven
+native contact plates, with targeted details separating geological dots and roadside
+marks. No separate associated spot-height mark was identified. Values and original
+lettering geography remain intact without terrain points, benchmarks or inferred
+vertical datums.
+
+The [browser receipt](browser-hawkesbury-water-details-verification.json) records all
+23 additions/reconciled placements, shoreline semantics, four visible assessment
+links, native excerpts, clean consoles and absence of all 79 Hawkesbury holdbacks.
+Local checks: 300 Python tests (eight existing skips), eight Fletcher component tests,
+web script tests, lint and build pass. PR463's initial simulator-launch timeout passed
+on an unchanged-head rerun before merge; it introduced no native code change.

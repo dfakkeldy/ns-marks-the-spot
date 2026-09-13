@@ -65,6 +65,23 @@ describe('reviewed Fletcher features', () => {
     await waitFor(() => expect(status).toHaveBeenLastCalledWith('Historical features unavailable. Toggle off and on to retry.'));
     expect(document.querySelector('.fletcher-feature-marker')).toBeNull();
   });
+  it('identifies a historical shoreline and links its corroborating placement source', async () => {
+    const data = structuredClone(fixture);
+    const shoreline = structuredClone(data.features[0]);
+    shoreline.id = 'test-historical-shoreline';
+    shoreline.geometry = { type: 'LineString', coordinates: [[-61.49, 45.88], [-61.485, 45.878]] };
+    const url = 'https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf#page=121';
+    Object.assign(shoreline.properties, { annotation_id: shoreline.id, source_text: 'Historical lake bank', kind: 'waterbody', geographic_role: 'reviewed-source-line', placement_references: [{ title: 'Reservoir history assessment (2026)', url }] });
+    data.features.push(shoreline);
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => data }));
+    render(layer());
+    const line = await screen.findByRole('button', { name: 'Historical lake bank · approximate Fletcher shoreline' });
+    expect(line).toHaveAttribute('fill', 'none');
+    fireEvent.keyDown(line, { key: 'Enter' });
+    expect(await screen.findByText('Approximate historical shoreline')).toBeVisible();
+    fireEvent.click(screen.getByText('Placement and source evidence'));
+    expect(screen.getByRole('link', { name: 'Reservoir history assessment (2026)' })).toHaveAttribute('href', url);
+  });
   it('keeps a printed railway proposal distinct from a built railway', async () => {
     const data = structuredClone(fixture);
     const proposal = structuredClone(data.features[0]);
