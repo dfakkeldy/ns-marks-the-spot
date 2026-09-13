@@ -1,12 +1,13 @@
 # Port Hawkesbury source-feature review
 
-The first **66 of 301** annotations have source and geographic decisions. **55**
-are integrated locally: 38 approximate marks and seventeen unresolved source groups.
-Eight source records are outside supported coverage, McMaster's Mill retains an
-unresolved geographic prediction, and two mill captions remain unlocated.
-The remaining 235 initial source associations are pending. Forty-one Hawkesbury
-features merged through PR459; fourteen harbour placements are locally verified.
-The combined 181-record export retains all 126 Judique annotations.
+All **80 service, industrial and transport annotations** now have initial source
+and geographic decisions. **62** are integrated locally: 44 approximate marks
+and eighteen source groups. Fifteen records are outside supported coverage,
+McMaster's Mill retains unresolved geographic placement, and two mill captions
+remain unlocated. The other **221 of 301** annotations still need initial source
+association, starting with the seventeen road-caption occurrences. Fifty-five
+Hawkesbury features merged through PR460; seven further placements are verified.
+The combined 188-record export retains all 126 Judique annotations.
 
 ## Source and geography
 
@@ -162,6 +163,31 @@ features keep explicit shoreline and road/rail differences; the southern
 station's prediction is slightly seaward of the modern shore and is not
 snapped inland or identified with a current station.
 
+The final service source figures complete this initial category pass:
+
+- [Services 12](hawkesbury-services-12-20260913.jpg): 227,235,250,251,253,260.
+- [Services 13](hawkesbury-services-13-20260913.jpg): 261,268,269,280,281,282.
+- [Services 14](hawkesbury-services-14-20260913.jpg): 283,284.
+
+[Candidate history](hawkesbury-last-services-append-receipt.json) retains native
+measurements and wider detail. Richmond Mine keeps its four bold source marks
+as a candidate group, without choosing an entrance or a resource boundary.
+McCarthy's Ferry retains only its actual western landing mark; no route or
+opposite landing is inferred. Wider context resolves the postal block beside
+the coastal transport ink and the school mark west of the railway bend.
+
+Four geographic scenes support seven additions:
+
+- [Hawkesbury church](hawkesbury-hawkesbury-church-geography.jpg)
+- [Richmond Mine group](hawkesbury-richmond-mine-geography.jpg)
+- [Pirate Harbour postal and forge marks](hawkesbury-pirate-harbour-services-geography.jpg)
+- [Caribacou services](hawkesbury-caribacou-services-geography.jpg)
+
+Seven complete source geometries remain outside support: **250 Ferry landing**,
+**251 P.O.**, **253 School**, **260 P.O.**, **261 Old Mill**, **283 Malcolm's Wharf**
+and **284 School**. No geometry is trimmed or extrapolated. With the earlier
+holdbacks, eighteen service records remain explicitly withheld.
+
 ## Integration and verification
 
 The [browser receipt](browser-hawkesbury-first-verification.json) records selection
@@ -187,6 +213,10 @@ source images, visible placement notes and clean desktop/phone consoles.
 The [harbour browser receipt](browser-hawkesbury-harbour-verification.json)
 records all fourteen additions against the 181-record export, with source images,
 visible placement evidence and clean desktop/phone consoles.
+
+The [final service browser receipt](browser-hawkesbury-final-services-verification.json)
+records all seven additions against the 188-record export, with native excerpts,
+visible placement notes and clean desktop/phone consoles.
 
 Local checks: 299 Fletcher Python tests passed, with eight existing skips; seven
 Fletcher component tests and web script tests passed; lint and build passed.
