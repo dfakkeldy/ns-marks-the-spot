@@ -1,0 +1,588 @@
+{
+  "reviewed_at": "2026-09-13",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 310,
+  "export_sha256": "985f148e48558f90a88b66c2225795938874626485dd9284fa79d84dd9a5698e",
+  "checks": {
+    "count": 310,
+    "checks": [
+      {
+        "id": "F22-HAW-016",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-091",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-092",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-133",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-140",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-141",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-146",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-150",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-169",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-170",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-194",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-216",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-237",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Point",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-292",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-293",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-294",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-295",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-296",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-298",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-300",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      },
+      {
+        "id": "F22-HAW-301",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "Polygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-010",
+      "F22-HAW-012",
+      "F22-HAW-017",
+      "F22-HAW-019",
+      "F22-HAW-020",
+      "F22-HAW-021",
+      "F22-HAW-024",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F22-HAW-033",
+      "F22-HAW-034",
+      "F22-HAW-036",
+      "F22-HAW-037",
+      "F22-HAW-038",
+      "F22-HAW-040",
+      "F22-HAW-043",
+      "F22-HAW-048",
+      "F22-HAW-049",
+      "F22-HAW-051",
+      "F22-HAW-052",
+      "F22-HAW-060",
+      "F22-HAW-062",
+      "F22-HAW-063",
+      "F22-HAW-065",
+      "F22-HAW-069",
+      "F22-HAW-075",
+      "F22-HAW-080",
+      "F22-HAW-093",
+      "F22-HAW-094",
+      "F22-HAW-095",
+      "F22-HAW-098",
+      "F22-HAW-099",
+      "F22-HAW-103",
+      "F22-HAW-110",
+      "F22-HAW-111",
+      "F22-HAW-115",
+      "F22-HAW-119",
+      "F22-HAW-122",
+      "F22-HAW-125",
+      "F22-HAW-130",
+      "F22-HAW-132",
+      "F22-HAW-148",
+      "F22-HAW-151",
+      "F22-HAW-152",
+      "F22-HAW-154",
+      "F22-HAW-157",
+      "F22-HAW-158",
+      "F22-HAW-162",
+      "F22-HAW-164",
+      "F22-HAW-173",
+      "F22-HAW-174",
+      "F22-HAW-175",
+      "F22-HAW-176",
+      "F22-HAW-177",
+      "F22-HAW-178",
+      "F22-HAW-179",
+      "F22-HAW-180",
+      "F22-HAW-181",
+      "F22-HAW-183",
+      "F22-HAW-184",
+      "F22-HAW-185",
+      "F22-HAW-190",
+      "F22-HAW-192",
+      "F22-HAW-201",
+      "F22-HAW-203",
+      "F22-HAW-204",
+      "F22-HAW-218",
+      "F22-HAW-219",
+      "F22-HAW-224",
+      "F22-HAW-225",
+      "F22-HAW-229",
+      "F22-HAW-230",
+      "F22-HAW-232",
+      "F22-HAW-236",
+      "F22-HAW-238",
+      "F22-HAW-239",
+      "F22-HAW-240",
+      "F22-HAW-242",
+      "F22-HAW-244",
+      "F22-HAW-245",
+      "F22-HAW-247",
+      "F22-HAW-248",
+      "F22-HAW-249",
+      "F22-HAW-250",
+      "F22-HAW-251",
+      "F22-HAW-252",
+      "F22-HAW-253",
+      "F22-HAW-254",
+      "F22-HAW-255",
+      "F22-HAW-256",
+      "F22-HAW-257",
+      "F22-HAW-258",
+      "F22-HAW-259",
+      "F22-HAW-260",
+      "F22-HAW-261",
+      "F22-HAW-262",
+      "F22-HAW-263",
+      "F22-HAW-264",
+      "F22-HAW-265",
+      "F22-HAW-266",
+      "F22-HAW-267",
+      "F22-HAW-272",
+      "F22-HAW-273",
+      "F22-HAW-275",
+      "F22-HAW-283",
+      "F22-HAW-284",
+      "F22-HAW-285",
+      "F22-HAW-286",
+      "F22-HAW-287",
+      "F22-HAW-288",
+      "F22-HAW-289",
+      "F22-HAW-290",
+      "F22-HAW-291",
+      "F22-HAW-297",
+      "F22-HAW-299"
+    ],
+    "errors": []
+  },
+  "long_label_after": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "labels": [
+      {
+        "text": "PROPOSED RAILWAY TO WHYCOCOMAGH AND BROAD COVE / Surveyed by W.H. Tremaine, C.E., in 1875",
+        "rect": {
+          "x": 113,
+          "y": 299,
+          "width": 163,
+          "height": 104.9375
+        },
+        "whiteSpace": "normal"
+      }
+    ]
+  },
+  "additional_assertions": [
+    "All twenty-one additions open their own evidence through visible label pointer clicks at alternating desktop/phone widths, with decoded native excerpts, distinct source/placement notes, a ready basemap and clean consoles.",
+    "The shared proposed-railway/survey geometry opens both retained annotations without changing their original wording or survey date.",
+    "A real phone viewport exposed the combined railway label as a 702px nowrap line. Width:max-content plus a viewport-bounded maximum and normal wrapping now displays it in 163px at 390px viewport width. The first wrap-only attempt collapsed intrinsic width and is retained as rejected history.",
+    "Long-line browser checks centre the route at its projected length midpoint, matching Leaflet label placement, instead of its bounding-box centre. This is test navigation only; saved geometry is unchanged.",
+    "All289 earlier exported records preserve geometry/content apart from the current Hawkesbury evidence bundle hash. All261 earlier source-association records remain unchanged, including L.Murray correction history and previous holdbacks.",
+    "Judique church015 retains the exact east-side correction; no prior user corroboration is represented as new review.",
+    "The earlier Judique Coal multipart-group label remains selectable with source evidence after label wrapping."
+  ],
+  "local_checks": {
+    "python": "301 tests pass, eight existing skips",
+    "web": "10 Fletcher component tests, web script tests, lint and build pass; final CSS change receives a fresh lint/build and rendered long-label/21-feature checks."
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-review.json",
+      "sha256": "4da61af885f1f80c9116caff063a6a814bdd5ede5b09a0a9db5097c6f599ba7f"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-140.png",
+      "sha256": "a77d9339eacaee8acec6cd323214970499dcc54ba10b99fc91eddfd309d6ebda"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-16.png",
+      "sha256": "55ce111bd6e8e567383d1feb4080889bc8c15881035e5f190111491666557aaf"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-169.png",
+      "sha256": "c521a874f3c4655a54035ba3a0dc3d123d2501055b13176ab083bc0d598cfc59"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-194.png",
+      "sha256": "3cfdd71f425aa4e052b6a7cd7d6f93eb8120595e653fcbe45260c45722f25f67"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-216.png",
+      "sha256": "be907816cf622c915307b26d3dafd59b5130467ed548ceb250275bd3353edcfc"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-292.png",
+      "sha256": "448f325a7ffb508633c1cbb558e76f3404fce50f477c7d0dcee977e8d92e0f9c"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-300.png",
+      "sha256": "3943c20e3ebeed23fd9c8de96547fc73e9e5ffda92c7d60a236607d44dca659a"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-91.png",
+      "sha256": "edcd356b7cb675d7be0ebdfb30b66778cfa490342ebacc89bff6aab6ef03b819"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-92.png",
+      "sha256": "7735b9cfe22200e04e9c2966464479df512d4aa79c6d2a2a848e3a22b524af9f"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-services-227.png",
+      "sha256": "6c9bee67e198d8d693e555f51eb9544e3061b3bb93ae4b9288c620b5bcc51234"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-services-235.png",
+      "sha256": "ad020acadbc3f1bdd5d52c13e1ca34fdc5a281d72fbf2d13b7b4c5c35bc092c3"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-services-268.png",
+      "sha256": "b1c67cc376b035af2e6c6d8f7dd3f5aebce18f7f9e99a24caa00160760308eef"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-services-280.png",
+      "sha256": "54d965d64ae67448b8585b0c4b8810cdee252de4f0f1a13b103e2f6f463cce39"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-final-services-282.png",
+      "sha256": "1470583a8d3a296eac9a757d57f266f14f616ed5d5e00fb29e2bf5399f2d8c6e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/long-railway-label-before.json",
+      "sha256": "78814085eddf9c0ef2cb87e0b169d194e7fc6da42942913686fc82746c7ffca9"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/long-railway-label-before.png",
+      "sha256": "9dbdd42a56f279779579904daaea72e3d74d23d00e624ae030b6e54bb10cd26e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/long-railway-label-wrap-only.json",
+      "sha256": "d9e106f2d2c89397fb5550ce7a1c59aac6dc7c7875f03d3958b3a0989843ba76"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/long-railway-label-wrap-only.png",
+      "sha256": "911756e376b2b3c98f4437a84808da8131589b38547584037e2c73a3b913b1f9"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/long-railway-label-after.json",
+      "sha256": "2c14b5d9881dd48b7d6955102fa3b6d28b17c001f1ff733e9073818d8083c397"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/long-railway-label-after.png",
+      "sha256": "e7b484622617fa85c5ff9fa98386cf054faacd0dd593289b4dbfd476951b162c"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-310-export/source.json",
+      "sha256": "50fb5f67d42165d463c5027919263040f7eed41f85e7e329ec43eb6ee88a7cfb"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-310-export/reviewed.geojson",
+      "sha256": "985f148e48558f90a88b66c2225795938874626485dd9284fa79d84dd9a5698e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-fletcher-final-coal-label-review.json",
+      "sha256": "13873657ff43f4f5eb334ed702905fac8687da7da9d2400cb5c35efda6311df9"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-fletcher-final-coal-label-112.png",
+      "sha256": "d8b62ec2b4378d670d5ab7bb65a73aadc1e7c917b7a829d45c3c8e5e7f034a99"
+    }
+  ],
+  "limits": "Historical marks, bounded groups and printed lines. Proposed railway status, historical fault interpretations and source question marks stay explicit. No present geological activity, whole region/landscape extent, current infrastructure, ownership or access claim. No production publication claim.",
+  "prior_multipart_group": {
+    "count": 310,
+    "checks": [
+      {
+        "id": "F19-JUD-112",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "MultiPolygon",
+        "evidence": "Visible label selected by pointer; native source excerpt and distinct placement note verified"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-010",
+      "F22-HAW-012",
+      "F22-HAW-017",
+      "F22-HAW-019",
+      "F22-HAW-020",
+      "F22-HAW-021",
+      "F22-HAW-024",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F22-HAW-033",
+      "F22-HAW-034",
+      "F22-HAW-036",
+      "F22-HAW-037",
+      "F22-HAW-038",
+      "F22-HAW-040",
+      "F22-HAW-043",
+      "F22-HAW-048",
+      "F22-HAW-049",
+      "F22-HAW-051",
+      "F22-HAW-052",
+      "F22-HAW-060",
+      "F22-HAW-062",
+      "F22-HAW-063",
+      "F22-HAW-065",
+      "F22-HAW-069",
+      "F22-HAW-075",
+      "F22-HAW-080",
+      "F22-HAW-093",
+      "F22-HAW-094",
+      "F22-HAW-095",
+      "F22-HAW-098",
+      "F22-HAW-099",
+      "F22-HAW-103",
+      "F22-HAW-110",
+      "F22-HAW-111",
+      "F22-HAW-115",
+      "F22-HAW-119",
+      "F22-HAW-122",
+      "F22-HAW-125",
+      "F22-HAW-130",
+      "F22-HAW-132",
+      "F22-HAW-148",
+      "F22-HAW-151",
+      "F22-HAW-152",
+      "F22-HAW-154",
+      "F22-HAW-157",
+      "F22-HAW-158",
+      "F22-HAW-162",
+      "F22-HAW-164",
+      "F22-HAW-173",
+      "F22-HAW-174",
+      "F22-HAW-175",
+      "F22-HAW-176",
+      "F22-HAW-177",
+      "F22-HAW-178",
+      "F22-HAW-179",
+      "F22-HAW-180",
+      "F22-HAW-181",
+      "F22-HAW-183",
+      "F22-HAW-184",
+      "F22-HAW-185",
+      "F22-HAW-190",
+      "F22-HAW-192",
+      "F22-HAW-201",
+      "F22-HAW-203",
+      "F22-HAW-204",
+      "F22-HAW-218",
+      "F22-HAW-219",
+      "F22-HAW-224",
+      "F22-HAW-225",
+      "F22-HAW-229",
+      "F22-HAW-230",
+      "F22-HAW-232",
+      "F22-HAW-236",
+      "F22-HAW-238",
+      "F22-HAW-239",
+      "F22-HAW-240",
+      "F22-HAW-242",
+      "F22-HAW-244",
+      "F22-HAW-245",
+      "F22-HAW-247",
+      "F22-HAW-248",
+      "F22-HAW-249",
+      "F22-HAW-250",
+      "F22-HAW-251",
+      "F22-HAW-252",
+      "F22-HAW-253",
+      "F22-HAW-254",
+      "F22-HAW-255",
+      "F22-HAW-256",
+      "F22-HAW-257",
+      "F22-HAW-258",
+      "F22-HAW-259",
+      "F22-HAW-260",
+      "F22-HAW-261",
+      "F22-HAW-262",
+      "F22-HAW-263",
+      "F22-HAW-264",
+      "F22-HAW-265",
+      "F22-HAW-266",
+      "F22-HAW-267",
+      "F22-HAW-272",
+      "F22-HAW-273",
+      "F22-HAW-275",
+      "F22-HAW-283",
+      "F22-HAW-284",
+      "F22-HAW-285",
+      "F22-HAW-286",
+      "F22-HAW-287",
+      "F22-HAW-288",
+      "F22-HAW-289",
+      "F22-HAW-290",
+      "F22-HAW-291",
+      "F22-HAW-297",
+      "F22-HAW-299"
+    ],
+    "errors": []
+  }
+}
