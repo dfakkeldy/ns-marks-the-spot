@@ -62,5 +62,40 @@
   ],
   "inland-school": [
     84
+  ],
+  "new-bridge": [
+    89
+  ],
+  "little-tracadie-services": [
+    102,
+    104,
+    105
+  ],
+  "tracadie-mill-station": [
+    109,
+    114
+  ],
+  "inland-school-station": [
+    116,
+    118
+  ],
+  "archie-pond-post": [
+    129
+  ],
+  "porcupine-station": [
+    134
+  ],
+  "long-pond-forge": [
+    137
+  ],
+  "coastal-forge": [
+    145
+  ],
+  "mcintyre-mill-school": [
+    165,
+    166
+  ],
+  "peters-road-kiln": [
+    172
   ]
 }

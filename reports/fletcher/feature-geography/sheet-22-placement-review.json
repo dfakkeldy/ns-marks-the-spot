@@ -1,7 +1,7 @@
 {
   "sheet": 22,
   "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
-  "source_review_sha256": "fd0d6a4cd4b645133ddb38ac7d87b81d032133c137281a2a836dfa5f402e37d4",
+  "source_review_sha256": "cdbef43b47b202a11f4e1602ea144d23338b5ee22ecc51aca6645272d163788f",
   "reviews": [
     {
       "annotation_id": "F22-HAW-001",
@@ -272,6 +272,168 @@
       "scene": "hawkesbury-inland-school-geography.jpg",
       "scene_sha256": "302e5e4388db7f166025fecfa96de3c0d01a6645218ede35c3afba13891d30cd",
       "evidence": "The school stays north of the east-west road and west of the main brook/junction district. Modern roads and drainage support approximate locality while the bends and minor crossing arms differ. The circled fossil notation and geological angles are not feature positions or modern correspondence evidence."
+    },
+    {
+      "annotation_id": "F22-HAW-089",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-new-bridge-geography.jpg",
+      "scene_sha256": "0c728a07d5ac8ce5585d44224bd4368bc880f9d6f46f94b176f54aa6af470cb0",
+      "evidence": "The source crossing falls on the same distinctive meandering river reach. The modern map does not retain the complete historical east-west crossing road; the river geometry supports approximate historical locality only. No existing bridge, continuity or safe access is inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-102",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-little-tracadie-services-geography.jpg",
+      "scene_sha256": "31520696634c424045f112e6f81c63e40e4c2121a9b3e7c0b88ea20e23bfcecc",
+      "evidence": "The shop mark remains west of the road-junction district, east of Little Tracadie Harbour and west of the river. Modern coastline, road and drainage support the broad locality, with the main road curve and minor branches offset. No current shop building is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-104",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-little-tracadie-services-geography.jpg",
+      "scene_sha256": "31520696634c424045f112e6f81c63e40e4c2121a9b3e7c0b88ea20e23bfcecc",
+      "evidence": "The church mark remains on the harbour-side road district between the northern shop crossing and the southern coastal bend. Modern coastline and drainage support approximate locality while the road alignment differs. No current church or independent local correction is established."
+    },
+    {
+      "annotation_id": "F22-HAW-105",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-little-tracadie-services-geography.jpg",
+      "scene_sha256": "31520696634c424045f112e6f81c63e40e4c2121a9b3e7c0b88ea20e23bfcecc",
+      "evidence": "The postal group stays beside the coastal bend south of the church district. The modern harbour shape supports the broad locality, but a mapped outlet/channel crosses part of the predicted group. Preserve that bank uncertainty and all candidates without assigning an individual present building or address."
+    },
+    {
+      "annotation_id": "F22-HAW-109",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-tracadie-mill-station-geography.jpg",
+      "scene_sha256": "e41390b1caaf1f08334a8ca44d1ed550e1e9104be57e2d5b1ec962c722c2d928",
+      "evidence": "The mill mark remains east of the main river and north of the southern brook/rail district, near the northern road and tributary bend. Modern drainage supports the broad locality; the small source loop and immediate road alignment are not exact modern matches. No mill footprint, current millrace or power is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-114",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-tracadie-mill-station-geography.jpg",
+      "scene_sha256": "e41390b1caaf1f08334a8ca44d1ed550e1e9104be57e2d5b1ec962c722c2d928",
+      "evidence": "The station symbol remains in the road and brook district south of the mill area, near the southern drainage junctions. Modern transport alignments differ from the printed railway curve. Retain only approximate historical station-symbol geography, with no current station identity, platform or service claim."
+    },
+    {
+      "annotation_id": "F22-HAW-116",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-inland-school-station-geography.jpg",
+      "scene_sha256": "ec4186047196bddd78b9462688bd0806e7254250f87ce5696829f039de499ddf",
+      "evidence": "The school stays south of the northern road/tributary district and northwest of the station area. Its source mark is east of the road but its prediction is west of the modern road. The broader drainage and road arrangement supports approximate locality; retain the road-side disagreement without moving the point."
+    },
+    {
+      "annotation_id": "F22-HAW-118",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-inland-school-station-geography.jpg",
+      "scene_sha256": "ec4186047196bddd78b9462688bd0806e7254250f87ce5696829f039de499ddf",
+      "evidence": "The station symbol remains near the eastern north-south road, south of the small tributary and north of the southern transport corridor. Modern roads and drainage support the district with differing rail/road alignments. The original station symbol is not matched to a current station or operating route."
+    },
+    {
+      "annotation_id": "F22-HAW-129",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-archie-pond-post-geography.jpg",
+      "scene_sha256": "27197c8b68d7cfe2cfc73028a6005782522988872d9cecde5d2f99090f3ebcdc",
+      "evidence": "The small postal candidate remains at the road district south of Archie Pond and west of the shoreline above Auld Cove. The pond, coast and modern road arrangement support approximate locality. The source association of the triangular mark remains qualified and is not a precise postal-building identification."
+    },
+    {
+      "annotation_id": "F22-HAW-132",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-7-20260913.jpg",
+      "scene_sha256": "e65a18847feecb8f53139a5c84d5a5b5344ba7c6d400aaad85acc0f8b7f78070",
+      "evidence": "At Auld Cove the Mill caption is beside a road/watercourse crossing and small loop. Enlarged native pixels do not confidently separate an independent mill symbol from the joining linework. Preserve the caption unlocated; neither the crossing, loop nor circled fossil notation supplies a mill-site coordinate."
+    },
+    {
+      "annotation_id": "F22-HAW-134",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-porcupine-station-geography.jpg",
+      "scene_sha256": "694f6beb593b41a5f42e7a54c59f304576efeb5dc1be0e120c3f55e5037fb34f",
+      "evidence": "The station symbol lies south of the paired northern pond/watercourse district and west of the eastern road corridor. Modern water and road context supports broad locality, but the historical railway curve has no exact present alignment match here. No current station or train service is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-137",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-long-pond-forge-geography.jpg",
+      "scene_sha256": "af9fdd41ea13f736183da83ef56e2a0cac3da82c12a9d15cb7a6a207a323937b",
+      "evidence": "The forge mark remains between Long Pond and Highway 19, north of the lower coastal approach. Modern pond, coast and main road support approximate locality. The smaller historic drainage and road strokes are not exact present-site matches."
+    },
+    {
+      "annotation_id": "F22-HAW-145",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-coastal-forge-geography.jpg",
+      "scene_sha256": "8260dfdae1541064cc39c325db46cc86ec79f66d41231c2896c7763e2d8b058c",
+      "evidence": "The forge mark remains inland of the coastal road bend, northwest of the southern crossing district and west of the diagonal inland road. Modern coast and roads support the broad locality with local junction offsets. No individual present forge building or property is established."
+    },
+    {
+      "annotation_id": "F22-HAW-165",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-mcintyre-mill-school-geography.jpg",
+      "scene_sha256": "61bc3adab1790a04c7286584795a4415d08db270c4c3de1591c8ecc4895c58f2",
+      "evidence": "The mill candidates remain on the southern McIntyre Lake outlet/road district above Beaver Dam Lake. The paired lakes and outlet support this distinct broad locality. The group overlaps the modern lake margin and adjacent channel; retain shoreline/bank uncertainty without choosing individual mills or a property boundary."
+    },
+    {
+      "annotation_id": "F22-HAW-166",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-mcintyre-mill-school-geography.jpg",
+      "scene_sha256": "61bc3adab1790a04c7286584795a4415d08db270c4c3de1591c8ecc4895c58f2",
+      "evidence": "The school mark remains north of the east-west road, west of the paired-lake outlet district. Modern road and water geometry support approximate locality while the printed railway and smaller road/channel shapes differ. No exact present school or building footprint is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-172",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-peters-road-kiln-geography.jpg",
+      "scene_sha256": "07fcdcc8498fbff2aa71052991bc9eec12dcf62f6b6df955f255d95aa80c95a1",
+      "evidence": "The kiln symbol remains south of the northern St Peter’s Road corridor and north of the southern watercourse. Modern roads and drainage support the broad district, but the historical spur continuing past the kiln is not retained as an exact modern road. The source ring establishes no operating kiln, footprint or property."
+    },
+    {
+      "annotation_id": "F22-HAW-173",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-8-20260913.jpg",
+      "scene_sha256": "11db35a5078dd0db42869913a945367f1306ec573a5b7a2b92a939856ec55d7f",
+      "evidence": "The complete source geometry lies outside the current conservative source-control hull in the eastern McLeods Bridge district. Retain its native mark/group without map placement; do not shrink the group or substitute a nearby supported point. Accepted local coverage is required."
+    },
+    {
+      "annotation_id": "F22-HAW-174",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-8-20260913.jpg",
+      "scene_sha256": "11db35a5078dd0db42869913a945367f1306ec573a5b7a2b92a939856ec55d7f",
+      "evidence": "The complete source geometry lies outside the current conservative source-control hull in the eastern McLeods Bridge district. Retain its native mark/group without map placement; do not shrink the group or substitute a nearby supported point. Accepted local coverage is required."
     }
   ]
 }

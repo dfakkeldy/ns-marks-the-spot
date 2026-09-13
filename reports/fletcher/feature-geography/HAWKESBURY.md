@@ -1,11 +1,12 @@
 # Port Hawkesbury source-feature review
 
-The first **30 of 301** annotations have source and geographic decisions. **26**
-are integrated locally: 17 approximate marks and nine unresolved source groups.
-Three northern marks are outside supported coverage; McMaster's Mill retains an
-unresolved geographic prediction. The remaining 271 source associations are pending.
-Eight Hawkesbury features merged in PR455; the next eighteen are locally verified.
-The combined 152-record web export retains all 126 Judique annotations unchanged.
+The first **48 of 301** annotations have source and geographic decisions. **41**
+are integrated locally: 29 approximate marks and twelve unresolved source groups.
+Five source records are outside supported coverage, McMaster's Mill retains an
+unresolved geographic prediction, and the Auld Cove mill remains unlocated.
+The remaining 253 initial source associations are pending. Twenty-six Hawkesbury
+features merged through PR458; fifteen further placements are locally verified.
+The combined 167-record export retains all 126 Judique annotations.
 
 ## Source and geography
 
@@ -94,6 +95,41 @@ and Brown's Mill retains a bank-side disagreement. These remain explicit in the
 placement notes; no source geometry was shifted, snapped or trimmed. The four
 earlier holdbacks remain unchanged.
 
+The next source pass reviews eighteen further annotations:
+
+- [Services 6](hawkesbury-services-6-20260913.jpg): 089,102,104,105,109,114.
+- [Services 7](hawkesbury-services-7-20260913.jpg): 116,118,129,132,134,137.
+- [Services 8](hawkesbury-services-8-20260913.jpg): 145,165,166,172,173,174.
+
+[Candidate history](hawkesbury-services-more-append-receipt.json) retains the
+initial measurements, enlarged ink inspection and final geometry. Three station
+symbols were measured independently of the tracks; connected ink required native
+microgrids for their centres. The kiln is a distinct hollow circle, separate from
+the degree sign and nearby grid patterns. The Archie Pond postal mark remains a
+qualified small candidate region. Auld Cove Mill 132 has no confidently separable
+symbol and stays unlocated; neither its crossing nor circled fossil notation is
+promoted to a mill site.
+
+Ten additional geographic scenes support fifteen approximate placements:
+
+- [New Bridge](hawkesbury-new-bridge-geography.jpg)
+- [Little Tracadie services](hawkesbury-little-tracadie-services-geography.jpg)
+- [Tracadie mill and station](hawkesbury-tracadie-mill-station-geography.jpg)
+- [Inland school and station](hawkesbury-inland-school-station-geography.jpg)
+- [Archie Pond postal candidate](hawkesbury-archie-pond-post-geography.jpg)
+- [Porcupine station](hawkesbury-porcupine-station-geography.jpg)
+- [Long Pond forge](hawkesbury-long-pond-forge-geography.jpg)
+- [Coastal forge](hawkesbury-coastal-forge-geography.jpg)
+- [McIntyre mill group and school](hawkesbury-mcintyre-mill-school-geography.jpg)
+- [St Peter's Road kiln](hawkesbury-peters-road-kiln-geography.jpg)
+
+The original four holdbacks remain. The three new holdbacks are **132 Mill**
+(source location unresolved), **173 School** and **174 Church** (outside supported
+coverage in the eastern McLeods Bridge district). Their complete source evidence
+is retained, with no trimming to force coverage. The accepted groups and points
+still carry explicit road, rail, bank and shoreline differences; no current
+station, building, service or property is inferred.
+
 ## Integration and verification
 
 The [browser receipt](browser-hawkesbury-first-verification.json) records selection
@@ -111,6 +147,10 @@ the source popup's close control. The existing mobile popup rule now hides it
 with the other map tools. A real-browser regression failed before the fix,
 then verified an unobstructed close-button click and restored terrain control
 after closing, with a settled final screenshot and clean console.
+
+The [station/mill browser receipt](browser-hawkesbury-stations-verification.json)
+records all fifteen later additions against the 167-record export, with decoded
+source images, visible placement notes and clean desktop/phone consoles.
 
 Local checks: 299 Fletcher Python tests passed, with eight existing skips; seven
 Fletcher component tests and web script tests passed; lint and build passed.
