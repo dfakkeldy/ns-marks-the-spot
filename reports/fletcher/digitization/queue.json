@@ -1,20 +1,44 @@
 {
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-12",
-  "nightly_revision": "da620f6b0eef840f8b8945e9e30d2d0e0fb88985",
-  "next_action": "Deliver the final Judique place/name batch through CI and merge, then continue sheet 22 Port Hawkesbury source-feature association. All 166 Judique annotations have source/placement decisions: 126 local integrations and 40 explicit holdbacks, no pending initial reviews. PR451 merged on green CI with 98 integrations. Priority sheets 22/16/14 and remaining-sheet extraction/reconciliation stay open.",
+  "nightly_revision": "31ae83a61bd7fc577062441b77fa06c47bbbaa35",
+  "next_action": "Continue full sheet 22 Port Hawkesbury source-feature review, starting with remaining service annotations. First 12 source/placement decisions yield 8 local map additions and 4 explicit holdbacks; 289 source associations remain. Judique initial review is complete and 126 annotations merged via PR453, with 40 documented residual holdbacks. Priority sheets 16/14 and remaining 20 sheets remain open.",
   "sheets": [
     {
       "sheet": 22,
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 301,
       "lettering_status": "processed",
-      "source_associated_count": 0,
-      "approximate_placement_reviewed_count": 0,
-      "integrated_count": 0,
-      "blockers": [],
+      "source_associated_count": 12,
+      "approximate_placement_reviewed_count": 8,
+      "integrated_count": 8,
+      "blockers": [
+        {
+          "annotation_id": "F22-HAW-001",
+          "stage": "outside-supported-coverage",
+          "reason": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        },
+        {
+          "annotation_id": "F22-HAW-002",
+          "stage": "outside-supported-coverage",
+          "reason": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        },
+        {
+          "annotation_id": "F22-HAW-025",
+          "stage": "locality-unresolved",
+          "reason": "The source candidate group touches the brook just north of its road crossing, but the prediction falls west of the modern channel and does not reconcile the nearby confluence/crossing geometry. Retain the full source group and computed prediction as evidence; withhold web placement pending supported local correspondence. Neither the spring nor a modern channel may be substituted for the mill site."
+        },
+        {
+          "annotation_id": "F22-HAW-028",
+          "stage": "outside-supported-coverage",
+          "reason": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+        }
+      ],
       "annotation_queue": "sheet-22-queue.json",
-      "lettering_path": "reports/fletcher/label-geography/sheet-22-labels.geojson"
+      "lettering_path": "reports/fletcher/label-geography/sheet-22-labels.geojson",
+      "source_association_reviewed_count": 12,
+      "merged_integrated_count": 0,
+      "integration_status": "Eight additions verified locally against the sheet22 fit and native source; PR delivery pending."
     },
     {
       "sheet": 19,
@@ -228,9 +252,9 @@
       ],
       "annotation_queue": "sheet-19-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-19-labels.geojson",
-      "integration_status": "98 merged via PR436/439/446/447/451; final 28 place/name additions pass local source/geographic/browser checks and await PR. All 166 initial reviews complete;40 explicit residual holdbacks remain.",
+      "integration_status": "All 126 reviewed placements merged through PR453 with green required CI; all 166 initial decisions complete and 40 residual holdbacks documented.",
       "source_association_reviewed_count": 166,
-      "merged_integrated_count": 98
+      "merged_integrated_count": 126
     },
     {
       "sheet": 16,
@@ -535,6 +559,13 @@
       "status": "merged",
       "head": "52de7ba67fb28fe086da430b54f0108cb214f4f8",
       "merge_commit": "da620f6b0eef840f8b8945e9e30d2d0e0fb88985",
+      "ci": "All required checks passed"
+    },
+    {
+      "pr": 453,
+      "status": "merged",
+      "head": "3f9e50317e475d4bb7cfe0d194805adf89ad5c1b",
+      "merge_commit": "31ae83a61bd7fc577062441b77fa06c47bbbaa35",
       "ci": "All required checks passed"
     }
   ],

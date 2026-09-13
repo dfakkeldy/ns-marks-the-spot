@@ -1,0 +1,115 @@
+{
+  "sheet": 22,
+  "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
+  "source_review_sha256": "6c1758f5ac0612a5b290efa6fca3dbd8d73068c3cebba63530bacfe48aebfd37",
+  "reviews": [
+    {
+      "annotation_id": "F22-HAW-001",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-1-20260912.jpg",
+      "scene_sha256": "c61e965293ada93c04dde97b6e6e13db4985da74e43ecc2011d9dad2ac5da051",
+      "evidence": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+    },
+    {
+      "annotation_id": "F22-HAW-002",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-1-20260912.jpg",
+      "scene_sha256": "c61e965293ada93c04dde97b6e6e13db4985da74e43ecc2011d9dad2ac5da051",
+      "evidence": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+    },
+    {
+      "annotation_id": "F22-HAW-004",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-craignish-church-geography.jpg",
+      "scene_sha256": "d966636118ca4d6e79f0eb14b72b22d92ea250763fbfae727cde3bd0db19c7b2",
+      "evidence": "The source cross remains east of the main coastal road at Craignish, between the northern small tributary and the southern road/stream district. Modern Highway 19, the coast and tributaries support this approximate locality. No current church building or independent coordinate correction is established."
+    },
+    {
+      "annotation_id": "F22-HAW-008",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-craignish-school-geography.jpg",
+      "scene_sha256": "2753ee162f6677d0feb8740532dc041bc00c98acb14f0cdef9195e5a348cb0d1",
+      "evidence": "The school mark stays west of the road and watercourse between the northern and southern road junctions. The modern road/stream corridor supports the broad locality; offsets in bends and side roads prevent an exact building match."
+    },
+    {
+      "annotation_id": "F22-HAW-023",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-denys-north-services-geography.jpg",
+      "scene_sha256": "33a1d7667e50912e160fe72e10e7f84087008ecdc045947a0bba54bd57e03f05",
+      "evidence": "The postal mark remains in the western road-junction district north of the east-west watercourse, west of the larger eastern brook. The source mark is east of its historical road but projects west of the modern main highway. Retain that road-side disagreement; the wider road and drainage arrangement supports approximate locality only."
+    },
+    {
+      "annotation_id": "F22-HAW-025",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-denys-north-services-geography.jpg",
+      "scene_sha256": "33a1d7667e50912e160fe72e10e7f84087008ecdc045947a0bba54bd57e03f05",
+      "evidence": "The source candidate group touches the brook just north of its road crossing, but the prediction falls west of the modern channel and does not reconcile the nearby confluence/crossing geometry. Retain the full source group and computed prediction as evidence; withhold web placement pending supported local correspondence. Neither the spring nor a modern channel may be substituted for the mill site."
+    },
+    {
+      "annotation_id": "F22-HAW-026",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-mcinnes-hill-school-geography.jpg",
+      "scene_sha256": "3968a44be6887f362963ff2cf5016801b6665c4e4d05755d46150cbc1db253eb",
+      "evidence": "The school prediction remains south of the northwest-southeast road/water corridor and west of the eastern main junction. Modern drainage and roads support the district, but the small source crossing and the narrow school corridor are offset. Keep an approximate historical mark, not a confirmed modern school or crossing location."
+    },
+    {
+      "annotation_id": "F22-HAW-028",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-services-2-20260912.jpg",
+      "scene_sha256": "4225f1f535636014d59d449a064ac1db68e6c0e5841d3b24fe8efe072d1c1eb3",
+      "evidence": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
+    },
+    {
+      "annotation_id": "F22-HAW-031",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-askilton-services-geography.jpg",
+      "scene_sha256": "65d621426b210529d96dfaf6fda962f9432dea1aa4a0b2f372602ae62ef24b72",
+      "evidence": "The three school candidates remain south of the northern road junction and west of the broad brook bend, above the church mark. Modern roads and water support the district, while local road arms and bank positions differ. No individual school building is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-032",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-askilton-services-geography.jpg",
+      "scene_sha256": "65d621426b210529d96dfaf6fda962f9432dea1aa4a0b2f372602ae62ef24b72",
+      "evidence": "The church cross remains immediately south of the school group and west of the main brook bend/crossing district. The modern road and drainage arrangement supports approximate locality. Bank and minor-road offsets remain; no current church identity or footprint is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-041",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-cape-jack-services-geography.jpg",
+      "scene_sha256": "1632e4ff1448595085f850b3fc0b76f5d77be45e5cb3678d3676b46c260873cb",
+      "evidence": "The source school candidates occupy the road-fork district south of Cape Pond and northeast of Beach Pond. The modern coastline, pond outlet and road junction support that broader locality. The projected group overlaps the modern outlet channel, so individual banks/buildings cannot be assigned; retain the whole ambiguous source group without treating its outline as a site boundary."
+    },
+    {
+      "annotation_id": "F22-HAW-042",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-12",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-cape-jack-services-geography.jpg",
+      "scene_sha256": "1632e4ff1448595085f850b3fc0b76f5d77be45e5cb3678d3676b46c260873cb",
+      "evidence": "The postal candidates remain south of the east-west coastal road, east of the Cape Pond outlet and school district. Modern roads, pond and coastline support the approximate locality with local bank/road offsets. The pair remains unresolved and supplies no current postal address."
+    }
+  ]
+}

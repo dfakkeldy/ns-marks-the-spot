@@ -22,11 +22,15 @@ def export(sheets, out):
             features.append({'type':'Feature','id':f['id'],'geometry':f['geometry'],'properties':props})
     labels.require(len({f['id'] for f in features})==len(features),'Duplicate export identity')
     labels.write(out/'reviewed.geojson',{'type':'FeatureCollection','features':features})
+    changes='Historical annotations transcribed, source symbols/groups/linear reaches reviewed, projected with frozen TPS fits'
+    if any(f['properties'].get('placement_correction') for f in features):
+        changes+='; one explicit church correction from local review and OpenStreetMap (ODbL 1.0)'
+    changes+='.'
     labels.write(out/'source.json',{'scope':'Reviewed approximate Fletcher historical features; ongoing digitization, incomplete sheet inventory.',
                                  'feature_count':len(features),'sources':sources,'derivative_sha256':labels.digest(out/'reviewed.geojson'),
                                  'credit':'David Rumsey Map Collection / David Rumsey Map Center, Stanford University Libraries',
                                  'imagery_licence_url':'https://creativecommons.org/licenses/by-nc-sa/3.0/',
-                                 'changes':'Historical annotations transcribed, source symbols/groups/linear reaches reviewed, projected with frozen TPS fits; one explicit church correction from local review and OpenStreetMap (ODbL 1.0).',
+                                 'changes':changes,
                                  'accuracy':'Approximate historical information, not surveyed sites or current conditions. Group areas do not imply properties or site footprints. Line endpoints delimit reviewed source evidence, not exact falls or complete waterway extents.'})
     return features
 

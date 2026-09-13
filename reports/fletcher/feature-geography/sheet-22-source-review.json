@@ -1,0 +1,199 @@
+{
+  "sheet": 22,
+  "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+  "source_dimensions_px": [
+    10790,
+    7687
+  ],
+  "associations": [
+    {
+      "annotation_id": "F22-HAW-001",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4471.5,
+        1085
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The distinct compact school mark is immediately below School, east of the north-south road and north of the crossing watercourse. The shop mark is separate on the western road side; lettering is not used as geometry.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-1-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-002",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4445,
+        1075.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The distinct compact shop mark is right of Shop and west of the north-south road, opposite the separately marked school. Geological arrows and the road/stream intersection are not the shop site.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-1-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-004",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4525,
+        1452.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The printed church cross is directly left of R.C.Church, east of the main road at Craignish and below the small crossing stream. Its source position is measured independently; the corrected Judique church is a different annotation and supplies no coordinate correction here.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-1-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-008",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5128.5,
+        1265.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated school mark immediately right of School is west of the diagonal road and the adjacent thick watercourse. The four-mark group farther east and the lower roadside row are separate candidates for other features.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-1-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-023",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6869.5,
+        1414.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact postal mark immediately above-left of P.O. lies within the road-junction district north of the main watercourse. McMaster’s Mill and the eastern crossing remain separate. The actual ink mark is measured; lettering and the triangular road enclosure are not substituted for it.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-1-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-025",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7005,
+          1380,
+          56,
+          52
+        ]
+      ],
+      "note": "Two compact marks west of the brook and north of the road crossing lie between the Spring and McMaster’s Mill captions. The source does not uniquely establish an individual mill mark; retain both nearby candidates without declaring a spring mark to be a confirmed mill. The group is not a mill footprint or water-power claim.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-1-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-026",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6550,
+        1801
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The conspicuous compact mark beside the slanted McInnesHill School caption lies in the narrow road-and-watercourse corridor, immediately west of the short crossing. It is retained as an approximate school mark, not a location or boundary for the entire named hill.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-2-20260912",
+      "note_revision": {
+        "previous_note": "The conspicuous compact mark beside the slanted McInnesHill School caption lies between the paired road lines, west of the short crossing. It is retained as an approximate school mark, not a location or boundary for the entire named hill.",
+        "reason": "Full native context distinguishes the adjacent watercourse from road linework; avoid calling the entire narrow corridor paired road lines. Source coordinates are unchanged.",
+        "reviewed_at": "2026-09-12"
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-028",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        8372,
+        1054
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The church cross immediately left of Church sits just below the northern neatline and east of the curved road. The compact marks farther south are separate from the cross. Full source geometry must still pass coverage and boundary checks.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-2-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-031",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8650,
+          1828,
+          32,
+          27
+        ]
+      ],
+      "note": "Three compact marks immediately right of School sit above the separate church cross at Askilton. The caption does not distinguish one school building among them; retain the candidate group without absorbing the lower church cross.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-2-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-032",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        8676.5,
+        1862.5
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The distinct cross below the three school candidates and right of R.C. Ch. identifies the source church mark. Road, brook and the rectilinear geological pattern are separate; no modern church identity is asserted.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-2-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-041",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2222,
+          2920,
+          69,
+          72
+        ]
+      ],
+      "note": "The school caption at Cape Jack overlaps the compact-mark cluster around the road junction, with candidates above the word and farther down its western side. The source does not uniquely select an individual building. Retain the complete nearby candidate region; its outline is not a school site or property boundary.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-2-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-042",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2340,
+          2921,
+          55,
+          29
+        ]
+      ],
+      "note": "Two compact marks south of the road immediately left of P.O. form the postal candidates at Cape Jack. The source lettering does not uniquely select one; neighbouring rows north of the road are separate. Retain the group without a current postal address or property claim.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
+      "review_batch": "hawkesbury-services-2-20260912"
+    }
+  ]
+}

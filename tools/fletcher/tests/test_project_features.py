@@ -50,6 +50,31 @@ class FeatureEvidenceTests(unittest.TestCase):
             if geometry and geometry['type']=='Point':
                 self.assertNotIn(geometry['coordinates'],[labels.box_center(b,p['source_dimensions_px']) for b in p['source_annotation']['source_label_boxes_xywh']])
 
+    def test_combined_export_preserves_independent_sheet_evidence(self):
+        hawkesbury=labels.read(labels.ROOT/features.REPORT/'sheet-22-features.geojson')
+        expected={f['id']:f for sheet in [self.data,hawkesbury] for f in sheet['features']
+                  if f['geometry'] is not None and f['properties']['geographic_review_status']=='approximate-placement-reviewed'}
+        with tempfile.TemporaryDirectory() as tmp:
+            exported=export_features.export([19,22],Path(tmp))
+            self.assertEqual({f['id'] for f in exported},set(expected))
+            self.assertEqual(len(exported),len(expected))
+            for f in exported:
+                original=expected[f['id']]
+                self.assertEqual(f['geometry'],original['geometry'])
+                for key in ['sheet','fit_revision','fit_sha256','source_sha256','source_geometry_native']:
+                    self.assertEqual(f['properties'][key],original['properties'][key])
+            corrected=[f['id'] for f in exported if f['properties'].get('placement_correction')]
+            self.assertEqual(corrected,['F19-JUD-015'])
+            receipt=labels.read(Path(tmp)/'source.json')
+            self.assertEqual([s['sheet'] for s in receipt['sources']],[19,22])
+            self.assertNotIn('F22-HAW-001',expected)
+            export_features.export([22],Path(tmp))
+            self.assertNotIn('church correction',labels.read(Path(tmp)/'source.json')['changes'])
+        for f in hawkesbury['features']:
+            for previous in f['properties']['previous_placements']:
+                self.assertEqual(previous['feature']['properties']['sheet'],22)
+            self.assertNotIn('placement_correction',f['properties'])
+
     def test_export_excludes_pending_geographic_reviews(self):
         pending=copy.deepcopy(self.data)
         pending['features'][0]['properties']['geographic_review_status']='pending-current-fit-review'
