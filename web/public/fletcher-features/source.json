@@ -1,6 +1,6 @@
 {
   "scope": "Reviewed approximate Fletcher historical features; ongoing digitization, incomplete sheet inventory.",
-  "feature_count": 241,
+  "feature_count": 271,
   "sources": [
     {
       "sheet": 19,
@@ -33,7 +33,7 @@
     {
       "sheet": 22,
       "path": "reports/fletcher/feature-geography/sheet-22-features.geojson",
-      "sha256": "515aead4908d8316858d51e7bda05dff16ee633db95506875c32aac96e43aabd",
+      "sha256": "26dab217390f7d402502b4f6f1c9d0d254260d8dedd51852a3b6f954da91b47a",
       "provenance": {
         "fit_revision": "a6619d96ba8fa8279ea6a8027654a92b15942b9d",
         "fit_pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/380",
@@ -49,13 +49,13 @@
           "reports/fletcher/hawkesbury-full-sheet/boundary-diagnostic-checks.json": "baf52a32736f73d3b91e7472dc6aadcd3277184954123b99e2c26f4d03c3a544"
         },
         "source_review_inputs_sha256": {
-          "reports/fletcher/feature-geography/sheet-22-source-review.json": "615a0528a81758b4f573a89333167c619d6d0f978731fe112e11b7646cbb870c",
-          "reports/fletcher/feature-geography/sheet-22-placement-review.json": "e3e474281fa9e0730c728f062a0d135224ec699309c86f2f0dcae1e85d2444a5"
+          "reports/fletcher/feature-geography/sheet-22-source-review.json": "84093eb7ecdd4e0329038da7ddb479ce9febb960bf6306edaa3a59e3c4a08996",
+          "reports/fletcher/feature-geography/sheet-22-placement-review.json": "4a79ffd63a1125446bccc770207c3eeeb9af2c2a118193a18a9effad5001ac6f"
         }
       }
     }
   ],
-  "derivative_sha256": "5619a33dd0fbd4c373f05100ee33357110b0d7b3f68d7c3e0dc50213a676ed3b",
+  "derivative_sha256": "7b873f424dbef569eed6a21f663a86d0b4b0371cf74b40cf920c5e0e97ec5ea9",
   "credit": "David Rumsey Map Collection / David Rumsey Map Center, Stanford University Libraries",
   "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
   "changes": "Historical annotations transcribed, source symbols/groups/linear reaches reviewed, projected with frozen TPS fits; one explicit church correction from local review and OpenStreetMap (ODbL 1.0).",
@@ -2456,6 +2456,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-003",
+      "path": "excerpts/F22-HAW-003.jpg",
+      "sha256": "de8ad0ffc62cffd7094f48e91032ef2ae787d58b9b30d7d23735a9627b1647b4",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          4178,
+          1061,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-004",
       "path": "excerpts/F22-HAW-004.jpg",
       "sha256": "fb913f37b683a2145f09b79a5bd48868e31f6cd95f0e992846a4f1ce8597daa8",
@@ -2527,6 +2546,25 @@
         "display_size": [
           660,
           450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-009",
+      "path": "excerpts/F22-HAW-009.jpg",
+      "sha256": "817814c180cc1b7fe248ee6eee7e2b5765ffb1d35af9b27c7138502e1190e7ad",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          4435,
+          1749,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
         ],
         "rotation_degrees": 0
       }
@@ -2627,6 +2665,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-022",
+      "path": "excerpts/F22-HAW-022.jpg",
+      "sha256": "07ce3b8d711f1581aac612d270b6bb9bc3022ddb29a1925f4208f52462746a47",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          6119,
+          1257,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-023",
       "path": "excerpts/F22-HAW-023.jpg",
       "sha256": "a4838208af3223c0fc044de43c70058ae972ada6b06e0fbb31a3419b17566433",
@@ -2679,6 +2736,25 @@
         "display_size": [
           900,
           731
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-029",
+      "path": "excerpts/F22-HAW-029.jpg",
+      "sha256": "6f83d6d859a6c629f180cc99917c005fd89baa1c1ab72c4cf294c0f29a931fb6",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          8010,
+          1431,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
         ],
         "rotation_degrees": 0
       }
@@ -2817,6 +2893,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-044",
+      "path": "excerpts/F22-HAW-044.jpg",
+      "sha256": "e2edf0dc0a96b9fdef36d1564859dcac59919f732a3db9e1633bd1d3a1d4443e",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          1943,
+          2669,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-045",
       "path": "excerpts/F22-HAW-045.jpg",
       "sha256": "212e0168ab5d3a93c983c3d5602469d55862c97a3022f891cf38a667df5be0a3",
@@ -2912,6 +3007,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-054",
+      "path": "excerpts/F22-HAW-054.jpg",
+      "sha256": "fd1e1586ac236664c2719cfe68eb37684d746594db9e5937e13c1cf7c3df9438",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          2683,
+          2504,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-055",
       "path": "excerpts/F22-HAW-055.jpg",
       "sha256": "ba80f70bdb7fc8e8df09642649a154cd5172a6fada3060b10964e88f94801596",
@@ -2983,6 +3097,25 @@
         "display_size": [
           660,
           450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-059",
+      "path": "excerpts/F22-HAW-059.jpg",
+      "sha256": "bd65f4c0efe989af82d21e718d932668513916606b5467d59b9a15e0df1edaf6",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          3376,
+          2543,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
         ],
         "rotation_degrees": 0
       }
@@ -3121,6 +3254,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-072",
+      "path": "excerpts/F22-HAW-072.jpg",
+      "sha256": "0dfa3fc427368768d5c99ca5672f9fd46f74c1de07ee103d085e573264060aac",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          5853,
+          2118,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-073",
       "path": "excerpts/F22-HAW-073.jpg",
       "sha256": "0dfde6989ba24e0d34a1b112a43b34c98d36bad5c9bb177efbe4fb1d29db6510",
@@ -3135,6 +3287,25 @@
         "display_size": [
           660,
           450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-074",
+      "path": "excerpts/F22-HAW-074.jpg",
+      "sha256": "e3cfb02e0e9e3772787386e5870294ab35f548e9ade26264d20644f673570fef",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          5301,
+          2502,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
         ],
         "rotation_degrees": 0
       }
@@ -3235,6 +3406,44 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-082",
+      "path": "excerpts/F22-HAW-082.jpg",
+      "sha256": "acf994afd08f9bd82cfa25406cb9d3e1fe19350d7fc2bbc41a649348f50cb700",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          6352,
+          2838,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-083",
+      "path": "excerpts/F22-HAW-083.jpg",
+      "sha256": "d1db0fdcbb8badab8bd16c96689d597bf563fb41bbd8d2884ebe5f5d08fa7c68",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          6353,
+          2950,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-084",
       "path": "excerpts/F22-HAW-084.jpg",
       "sha256": "4b89a2138dfd5c613d5ae369791fdf071e166e803e95be2eed38cd00b49bd14a",
@@ -3292,6 +3501,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-087",
+      "path": "excerpts/F22-HAW-087.jpg",
+      "sha256": "f7f1190be4993430b1f0472b4caaa1178891eb9f1f570e8177797fe86c9647a0",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          8052,
+          2534,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-088",
       "path": "excerpts/F22-HAW-088.jpg",
       "sha256": "67dcee0875e5ccb626036c7a4efd1e7e59cf0ba6fc5d844f3680e699dbc6845a",
@@ -3338,6 +3566,25 @@
         "native_xywh": [
           8204,
           3063,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-097",
+      "path": "excerpts/F22-HAW-097.jpg",
+      "sha256": "7b230e70675c2ee06361c539eb478aad7a041c96bbaf4ceee12fbd6403b4c0c8",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          2349,
+          3219,
           900,
           650
         ],
@@ -3425,6 +3672,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-106",
+      "path": "excerpts/F22-HAW-106.jpg",
+      "sha256": "be5a8fb02f530c0554e66ad47b93cbffdce60f8e53a52e14a5115851beb54ec1",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          1616,
+          3822,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-107",
       "path": "excerpts/F22-HAW-107.jpg",
       "sha256": "6462262422551f1653a0e901b851de954020184e3d61c199c95785efdb7bff7c",
@@ -3482,6 +3748,44 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-112",
+      "path": "excerpts/F22-HAW-112.jpg",
+      "sha256": "687e994ecea8d895af6f96bbcdd4d4f4938d1933fefaac62044b0383e4e14494",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          2155,
+          4150,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-113",
+      "path": "excerpts/F22-HAW-113.jpg",
+      "sha256": "421960720e4a6d0b409502bd7bf499fa28463def14a22d1a75db33312e188016",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          1522,
+          4333,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-114",
       "path": "excerpts/F22-HAW-114.jpg",
       "sha256": "ccd99cd4bc04dfaad8517aa32d13491cd993d81ac6c47c9ecd2e2bc606459769",
@@ -3515,6 +3819,25 @@
         "display_size": [
           660,
           450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-117",
+      "path": "excerpts/F22-HAW-117.jpg",
+      "sha256": "3b796fff987431bcc39a50e699a57198fa74f9990114107811be7ae4da6929e5",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          3520,
+          3297,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
         ],
         "rotation_degrees": 0
       }
@@ -3596,6 +3919,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-124",
+      "path": "excerpts/F22-HAW-124.jpg",
+      "sha256": "082cf2e4ea568ff1105c20ff325b2e13710e1fa407f6f3890c81433f2a030bc0",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          4017,
+          3449,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-127",
       "path": "excerpts/F22-HAW-127.jpg",
       "sha256": "ad6397da6e65e1110680a608c55116e607b78cd6aaa47752abd62ff7242a63b8",
@@ -3653,6 +3995,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-131",
+      "path": "excerpts/F22-HAW-131.jpg",
+      "sha256": "c565719b33adc518cf0feda46086de9c67fce95e51312e0657aed7e35558d690",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          4662,
+          3874,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-134",
       "path": "excerpts/F22-HAW-134.jpg",
       "sha256": "7e261020835f08cdd084e685bb84b43982bfe250c30172a95b2e664dadd64135",
@@ -3667,6 +4028,25 @@
         "display_size": [
           660,
           450
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-135",
+      "path": "excerpts/F22-HAW-135.jpg",
+      "sha256": "c3e4cba7d4535f41700ba03be0e547a51447fbd4f0100d6c366b3280a53c1b49",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          3950,
+          4203,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
         ],
         "rotation_degrees": 0
       }
@@ -3710,6 +4090,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-138",
+      "path": "excerpts/F22-HAW-138.jpg",
+      "sha256": "09e8f7bc0f0f4cf709eac6266ef3a9b21dfae2459f10ed21fddde8dce34162f5",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          5254,
+          3728,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-145",
       "path": "excerpts/F22-HAW-145.jpg",
       "sha256": "f80b70dbe74083617adbda541d1abc502efe4d1a3dc55dbff0bbb2cb6d1e4d04",
@@ -3737,6 +4136,25 @@
         "native_xywh": [
           5702,
           3284,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-153",
+      "path": "excerpts/F22-HAW-153.jpg",
+      "sha256": "141519aff44797345f5e1ba624a6903c30948d908767e37aee00f058c56ecf73",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          6286,
+          3240,
           900,
           650
         ],
@@ -3824,6 +4242,44 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-161",
+      "path": "excerpts/F22-HAW-161.jpg",
+      "sha256": "9f857a0bbc997a314ec22d84f2f8e7b589292f8545117af8d08f6f17391d1466",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          7519,
+          3209,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-163",
+      "path": "excerpts/F22-HAW-163.jpg",
+      "sha256": "99522e42f0dd1d53af070ed4364b962c0bdafd96a5bf2afb5877b29fc591fd4b",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          7245,
+          3522,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-165",
       "path": "excerpts/F22-HAW-165.jpg",
       "sha256": "c6d6d2311dc8c665a2ecc31c49ba482b35270a800e2054932008994747d7ce2b",
@@ -3889,6 +4345,25 @@
         "native_xywh": [
           7352,
           3873,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-171",
+      "path": "excerpts/F22-HAW-171.jpg",
+      "sha256": "ad88ea6c7c7938f568e5daafd15663db69f28be106303addb90752930d52c810",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          7416,
+          4245,
           900,
           650
         ],
@@ -4041,6 +4516,44 @@
         "native_xywh": [
           2106,
           5500,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-195",
+      "path": "excerpts/F22-HAW-195.jpg",
+      "sha256": "48fdb36399077ce4d1ad2a05cb7c8ca209f4674dbfed44420247a4ef149efae2",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          3036,
+          4621,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-196",
+      "path": "excerpts/F22-HAW-196.jpg",
+      "sha256": "090eb1f740a933883fa145fa6e5cf974a2442d763d54059c0d91fc362261f695",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          2717,
+          4851,
           900,
           650
         ],
@@ -4223,6 +4736,25 @@
       }
     },
     {
+      "annotation_id": "F22-HAW-209",
+      "path": "excerpts/F22-HAW-209.jpg",
+      "sha256": "3d7c0afa621e77b4fbd244c671e10e706bf673733f8a4f2797559559c2e8cd54",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          5628,
+          4836,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
       "annotation_id": "F22-HAW-210",
       "path": "excerpts/F22-HAW-210.jpg",
       "sha256": "0c31c5718bfe82a86c5a95c69ae1d3c80b0db674bf872f3013b70c69a25d6ab8",
@@ -4351,6 +4883,25 @@
         "display_size": [
           900,
           650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-226",
+      "path": "excerpts/F22-HAW-226.jpg",
+      "sha256": "9a84333a8925d2aa2514f483d2b7216924efb12b5806b6d71b5bcd6fe7d11d0b",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          6198,
+          4799,
+          900,
+          683
+        ],
+        "display_size": [
+          900,
+          683
         ],
         "rotation_degrees": 0
       }
@@ -4573,6 +5124,25 @@
         "native_xywh": [
           7448,
           5909,
+          900,
+          650
+        ],
+        "display_size": [
+          900,
+          650
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F22-HAW-279",
+      "path": "excerpts/F22-HAW-279.jpg",
+      "sha256": "23ad7c8960c45e5850469f18179a8d174a26aae042042d7c8f07334b6a275fc8",
+      "source_sha256": "b2dd6efed654eba240b0db7077c760577154ed049e86ce001573c1bb41b10ed9",
+      "frame": {
+        "native_xywh": [
+          7982,
+          5873,
           900,
           650
         ],

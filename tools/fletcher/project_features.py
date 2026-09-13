@@ -43,6 +43,19 @@ def source_context_rect(review, annotation, dimensions):
     return [left,top,width,height]
 
 
+def reviewed_kind(association, annotation):
+    """Apply an evidenced lake interpretation without changing its source record."""
+    change = association.get('kind_correction')
+    if change is None:
+        return annotation['kind']
+    labels.require(change.get('from') == annotation['kind'] and
+                   change.get('to') == 'waterbody' and
+                   association.get('status') == 'supported-source-line' and
+                   association.get('source_path_xy') and change.get('reason') and
+                   change.get('supporting_sources'), 'Unsupported source-kind correction')
+    return change['to']
+
+
 def project(sheet, executable):
     fit, boundary, inventory, manifest, controls, _, provenance = labels.load_inputs(sheet)
     review_path = REPORT / f'sheet-{sheet}-source-review.json'
@@ -78,6 +91,8 @@ def project(sheet, executable):
         return [labels.lonlat(p) for p in labels.transform(controls, points, executable)]
     features = []
     for aid, association in sorted(associations.items()):
+        a = original[aid]
+        kind = reviewed_kind(association, a)
         native = source_geometry(association, inventory['source_dimensions_px'])
         if native and not all(labels.inside(p, boundary['ring_pixel_xy']) for p in native_points(native)):
             placed = {'geometry': None, 'source_geometry_native': native,
@@ -98,13 +113,13 @@ def project(sheet, executable):
             geometry_meaning = 'Approximate historical mark location; not a surveyed site, current condition, ownership or access.'
         elif placed['source_geometry_native']['type'] == 'LineString':
             geographic_role = 'reviewed-source-line'
-            if original[aid]['kind'] == 'cape':
+            if kind == 'cape':
                 geometry_meaning = 'Approximate traced section of the printed historical shoreline beside a named cape. Endpoints delimit reviewed evidence, not a precise named tip, peninsula boundary or current coastline.'
-            elif original[aid]['kind'] == 'waterbody':
+            elif kind == 'waterbody':
                 geometry_meaning = 'Approximate traced section of a printed historical lake or pond shoreline. Endpoints delimit reviewed source evidence, not the complete waterbody extent. No current shoreline, water level, condition or access is asserted.'
-            elif 'road' in original[aid]['kind']:
+            elif 'road' in kind:
                 geometry_meaning = 'Approximate traced axis of a printed historical road section. Endpoints delimit reviewed source evidence, not the complete named route. No present road alignment, condition, destination or access is asserted.'
-            elif 'railway' in original[aid]['kind'] and 'PROPOSED' in original[aid]['source_text'].upper():
+            elif 'railway' in kind and 'PROPOSED' in a['source_text'].upper():
                 geometry_meaning = 'Approximate traced axis of a printed historical railway proposal. Endpoints delimit reviewed source evidence, not the complete proposal. Construction, operation, a current railway and present access are not established.'
             else:
                 geometry_meaning = 'Approximate traced portion of a historical linear feature. Endpoints delimit reviewed source evidence, not its full extent or an exact falls site. No current condition or access is asserted.'
@@ -116,11 +131,10 @@ def project(sheet, executable):
                            correction['geometry']['coordinates'] == correction['modern_reference']['geometry_lonlat'], 'Unsupported correction')
             geometry = copy.deepcopy(correction['geometry'])
             status = correction['status']
-        a = original[aid]
         left,top,crop_width,crop_height = source_context_rect(association,a,inventory['source_dimensions_px'])
         properties = {
             'annotation_id': aid, 'sheet': sheet, 'name': a['source_text'],
-            'source_text': a['source_text'], 'kind': a['kind'], 'reading_status': a['reading_status'],
+            'source_text': a['source_text'], 'kind': kind, 'reading_status': a['reading_status'],
             'source_annotation': a, 'source_review': association,
             'source_sha256': inventory['source_sha256'], 'source_dimensions_px': inventory['source_dimensions_px'],
             'source_geometry_native': placed['source_geometry_native'],

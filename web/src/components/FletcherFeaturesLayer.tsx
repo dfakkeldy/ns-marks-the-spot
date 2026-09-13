@@ -109,13 +109,24 @@ export const FletcherFeaturesLayer = memo(function FletcherFeaturesLayer({ onSta
     }
     return [...grouped.values()];
   }, [features]);
+  const groupLabelPositions = useMemo(() => {
+    const positions = new Map<string, L.LatLng>();
+    for (const group of groups) {
+      const feature = group[0];
+      if (feature.geometry?.type !== 'MultiPolygon') continue;
+      const points = feature.geometry.coordinates.flat(2).map(([lon, lat]) => [lat, lon] as L.LatLngTuple);
+      positions.set(feature.properties.annotation_id, L.latLngBounds(points).getCenter());
+    }
+    return positions;
+  }, [groups]);
   if (zoom < 12) return null;
   return <><Pane name="fletcher-feature-popups" style={{ zIndex: 1100 }} /><Pane name="fletcher-features" style={{ zIndex: 404 }}>
     {groups.map(group => {
       const feature = group[0];
       const isLine = feature.geometry?.type === 'LineString';
       const title = group.map(f => f.properties.source_text).join(' / ');
-      const contents = <><Tooltip pane="tooltipPane" permanent={zoom >= 15} direction="top" offset={[0, -12]} className="fletcher-feature-label">{title}</Tooltip><Popup pane="fletcher-feature-popups" className="fletcher-feature-popup" maxWidth={360} minWidth={240} maxHeight={Math.max(140, Math.min(420, height - 220))} autoPanPaddingTopLeft={[20, 100]} autoPanPaddingBottomRight={[20, 80]}>{group.map(f => <Evidence key={f.properties.annotation_id} feature={f} />)}</Popup></>;
+      const labelPosition = groupLabelPositions.get(feature.properties.annotation_id);
+      const contents = <><Tooltip key={zoom >= 15 ? 'permanent' : 'hover'} pane="tooltipPane" position={labelPosition} interactive permanent={zoom >= 15} direction="top" offset={[0, -12]} className="fletcher-feature-label">{title}</Tooltip><Popup pane="fletcher-feature-popups" position={labelPosition} className="fletcher-feature-popup" maxWidth={360} minWidth={240} maxHeight={Math.max(140, Math.min(420, height - 220))} autoPanPaddingTopLeft={[20, 100]} autoPanPaddingBottomRight={[20, 80]}>{group.map(f => <Evidence key={f.properties.annotation_id} feature={f} />)}</Popup></>;
       return feature.geometry?.type === 'Point'
         ? <Marker key={feature.properties.annotation_id} position={[feature.geometry.coordinates[1], feature.geometry.coordinates[0]]} icon={featureIcon(feature.properties.kind)} title={`${title} · approximate Fletcher location`} alt={`${title} · approximate Fletcher location`} bubblingMouseEvents={false}>{contents}</Marker>
         : <GeoJSON key={feature.properties.annotation_id} data={feature} onEachFeature={(_feature, layer) => accessibleGeometry(title, layer, isLine ? lineName(feature.properties) : 'group')} style={{ color: '#79431f', weight: isLine ? 5 : 2, dashArray: isLine ? '8 8' : '5 4', fill: !isLine, fillColor: '#e9af60', fillOpacity: 0.14, bubblingMouseEvents: false }}>{contents}</GeoJSON>;

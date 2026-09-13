@@ -1,7 +1,7 @@
 {
   "sheet": 22,
   "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
-  "source_review_sha256": "615a0528a81758b4f573a89333167c619d6d0f978731fe112e11b7646cbb870c",
+  "source_review_sha256": "84093eb7ecdd4e0329038da7ddb479ce9febb960bf6306edaa3a59e3c4a08996",
   "reviews": [
     {
       "annotation_id": "F22-HAW-001",
@@ -1798,6 +1798,346 @@
       "scene": "hawkesbury-heights-7-20260913.jpg",
       "scene_sha256": "36e924b890b02c71e5a443846da6321decb2324d2b9be55fb101a93605c76d99",
       "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-003",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-3-geography.jpg",
+      "scene_sha256": "0c508b9a82170bfb87338b022ffd7daa1bff68423cbe034d85c23f58c5c7ba34",
+      "evidence": "The church/postal grouping remains in the Craignish coastal-road district beside Highway 19. The postal region retains modern shoreline overlap and local stream/road offsets from its earlier review. This supports a bounded historical locality, not the whole settlement or current properties."
+    },
+    {
+      "annotation_id": "F22-HAW-009",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-9-geography.jpg",
+      "scene_sha256": "112adbfb5d85f021bf627e00c7a086f83f999bd0474c1858ef465a0014d1b90a",
+      "evidence": "The source group remains north of the inland road branch east of Highway 19 and north of the main stream. Modern road/drainage context supports approximate locality, with a changed eastern bend and no individual building match."
+    },
+    {
+      "annotation_id": "F22-HAW-022",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-22-geography.jpg",
+      "scene_sha256": "bc96b1f384c541b9149547dbe10fb3b08c5be180063e61cb613b31af19698162",
+      "evidence": "The two source groups remain in the Queensville road/drainage district, west of the surviving modern north-south road. The historical road segment has no exact modern counterpart here; the groups are approximate historical locational evidence, not current sites or a settlement boundary."
+    },
+    {
+      "annotation_id": "F22-HAW-029",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-29-geography.jpg",
+      "scene_sha256": "16fa273e3ae8e63fb4aa27ebbd418e18476a3b6978359482132b0c31c0591b32",
+      "evidence": "The source groups remain between the western river district and eastern crossing at Askilton. The school/church group retains its prior reviewed locality; minor roads and the central drainage differ. No whole-settlement extent or present structures are identified."
+    },
+    {
+      "annotation_id": "F22-HAW-044",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-44-geography.jpg",
+      "scene_sha256": "ac26ccd0adf8f160bcc45161fd7158b49008c9fa9ce8ba930b93047228c2a0b0",
+      "evidence": "The bounded school/postal groups retain their prior Cape Jack placement south of Cape Pond. Modern coast, pond and road context support the broad settlement locality, with outlet-channel overlap in the western group and changed road alignment."
+    },
+    {
+      "annotation_id": "F22-HAW-054",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-54-geography.jpg",
+      "scene_sha256": "2b054809d000c28785811c7fc7d392818afe681e518e2f0b08784d2bdd56c9b0",
+      "evidence": "The shop/factory/forge grouping remains on the western shore of the Havre Bouché harbour district. Existing road/shore context supports locality while source groups retain coastal/wet-area overlap and local offsets. No current facilities or full harbour/town extent are inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-059",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-59-geography.jpg",
+      "scene_sha256": "a3bf227b43973590309e6d6e9d4d2bdf85393d5dc2beb5637b602aea6f721715",
+      "evidence": "The lighthouse and school groups retain their prior positions within the North Canso coastal district. Modern shore and the southern transport corridor support this broad locality; no settlement centre, modern structures or complete boundary is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-072",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-72-geography.jpg",
+      "scene_sha256": "cf5dc1c0d7cb76cc44c6d9ac3db8ca130652a304a63dfb9ea2c12aded30b1517",
+      "evidence": "The printed pond is in the Lake Murray corridor south of Lamey Brook. CGNDB CBAWC supplies the corroborating lake name, and its name point lies in NSTDB lake polygon10057. The source bank is offset south of the modern shoreline. Preserve the original L. Murray wording and raw inventory category, while reviewing the derived feature as an approximate historical shoreline; no modern coordinate is substituted.",
+      "supporting_sources": [
+        {
+          "title": "CGNDB: Lake Murray (CBAWC)",
+          "url": "https://geonames.nrcan.gc.ca/search-place-names/unique/CBAWC"
+        }
+      ],
+      "reconciliation_receipt": "lake-murray-identity-reconciliation.json"
+    },
+    {
+      "annotation_id": "F22-HAW-074",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-74-geography.jpg",
+      "scene_sha256": "ecfc739352f7aec64a3c20111119e19ddf3193e9a951207a381692908c9499b4",
+      "evidence": "The pair remains east of Horton Brook and south of the modern road in the same inland district. The historical spur endpoint differs from the modern road; only broad locality is supported, without an individual residence or property match."
+    },
+    {
+      "annotation_id": "F22-HAW-082",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-82-geography.jpg",
+      "scene_sha256": "e0e293f92324aebbbc962a510da45b3c8f6a79743795e521e353065b2b391541",
+      "evidence": "The pair remains north of the Dortons Bridge road/stream district. Its projection overlaps modern mapped wet-area/channel context and retains local road and brook offsets. The source marks support approximate historical locality only; no current residence, property or exact site is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-083",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-83-geography.jpg",
+      "scene_sha256": "69c8442fe86cd226d5f29553a666f130f36a0dd4241661f182b9051bc73e5ba0",
+      "evidence": "The printed crossing remains in the Dortons Bridge road-junction/stream district. The modern crossing is locally southwest of the projection, so this is an approximate historical crossing anchor, not the current bridge or a structure footprint."
+    },
+    {
+      "annotation_id": "F22-HAW-087",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-87-geography.jpg",
+      "scene_sha256": "7d8f4c050caa013b15f1fcad6c87a3e1304554ac1307cd89f98be093f6629f5a",
+      "evidence": "The pair remains north of the eastern Northwest Arm and south of the upper drainage in the road-bend district. Modern road branches differ locally; the marks are not matched to individual present structures or properties."
+    },
+    {
+      "annotation_id": "F22-HAW-094",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-names-3-20260913.jpg",
+      "scene_sha256": "1dbff323a7aa546b0a67d630ba8ab3c9e4fb17256641093ad6f1102d37710b6b",
+      "evidence": "Native review does not resolve an associated site mark for Ferguson. Preserve its original text and lettering geography without feature placement; boundary dots, nearby compact marks and a lettering centre are not substitutes."
+    },
+    {
+      "annotation_id": "F22-HAW-095",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-names-3-20260913.jpg",
+      "scene_sha256": "1dbff323a7aa546b0a67d630ba8ab3c9e4fb17256641093ad6f1102d37710b6b",
+      "evidence": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-097",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-97-geography.jpg",
+      "scene_sha256": "9e2a07411c4eedd6ef7f67ccc77ff9130d5a9c71e9c013ba83ad70c203d845dd",
+      "evidence": "The two bounded groups remain in the inland Harbour Bouché road network. The historical central road and southern cross-road are locally displaced from modern alignments. This supports approximate settlement locality, not current buildings or a complete boundary."
+    },
+    {
+      "annotation_id": "F22-HAW-106",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-106-geography.jpg",
+      "scene_sha256": "dec731b49366d0ab05e9a3193c3b8430eaa00cb2a51f2bf1c45c5740d6906508",
+      "evidence": "The church/postal grouping retains its prior Little Tracadie coastal-road locality. Modern inlet and road context support the broad district, while the postal area retains shore/channel overlap and the highway network differs. No current facilities or settlement limits are asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-112",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-112-geography.jpg",
+      "scene_sha256": "1c1f045cb49cf4fd5945bb547c3fb1d405652db283ced0afa09bb1b828c40892",
+      "evidence": "The pair remains beside the stream bend in the former railway district southeast of the G.Mill area. The modern channel touches the edge of the projected group and the rail alignment differs; the source name supplies no current residence or property identification."
+    },
+    {
+      "annotation_id": "F22-HAW-113",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-113-geography.jpg",
+      "scene_sha256": "206bf11cff240fa4cd1fc5be59c502369021bbebb9739652caf60b4893366f10",
+      "evidence": "The pair remains in the road/rail corridor west of the Chisholm drainage. Modern roads and rail differ around the source bend, with local offsets. No individual dwelling, current person or property is matched."
+    },
+    {
+      "annotation_id": "F22-HAW-117",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-117-geography.jpg",
+      "scene_sha256": "64f9fa03544085006a656191cbefde3d4f02868291ef86e0f0edbc8238ba066a",
+      "evidence": "The pair remains in the road-bend district west of Mc Donald Brook. Modern road/drainage relationships support approximate locality, with no individual site or ownership match."
+    },
+    {
+      "annotation_id": "F22-HAW-124",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-124-geography.jpg",
+      "scene_sha256": "57deb145b3b893bac5160e486c97d70dbc07cb6acc84df56573e98c377f8a68d",
+      "evidence": "The group remains on the inland road corridor southwest of its coastal junction. Modern road bends and western drainage support broad locality with local offsets; no individual mark is promoted to a residence or property."
+    },
+    {
+      "annotation_id": "F22-HAW-131",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-131-geography.jpg",
+      "scene_sha256": "9af6162728aa9b3e5b9fc62dc7e87dd6fdd67145c2f5c51d686a55eadeba4a47",
+      "evidence": "The source bank remains in the Auld Cove coastal transport district. The modern shoreline and road network have a substantially different local shape; this is a bounded approximate historical bank, not a current coast or settlement boundary."
+    },
+    {
+      "annotation_id": "F22-HAW-135",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-135-geography.jpg",
+      "scene_sha256": "faaed7039884a300760c31bd210502b4cf5137ac83ef45b1d9793c569deaf3d8",
+      "evidence": "The station/nearby-mark groups retain the Cape Porcupine railway district between the northern pond and southern stream. Modern drainage and roads support broad locality, with changed rail/road alignments. No current station or full settlement extent is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-138",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-138-geography.jpg",
+      "scene_sha256": "2b484d7755eedcbb3d1cd02ae6d72538261bf5897e19d376557070ec0257e64f",
+      "evidence": "The printed street junction remains in the Hastings coastal/transport district southeast of the Highway 19 junction. The present road system and shore differ; the source junction is a historical locational anchor, not the current intersection or town centre."
+    },
+    {
+      "annotation_id": "F22-HAW-153",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-153-geography.jpg",
+      "scene_sha256": "d970d168d097af2e621b3d9b01a93677e3d17fd1a094f8c74b76f8584cb13b07",
+      "evidence": "The group remains on the inland spur corridor southeast of Big Brook Road and north of the southern drainage. Modern road/stream context supports approximate locality, without selecting a current building or property."
+    },
+    {
+      "annotation_id": "F22-HAW-161",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-161-geography.jpg",
+      "scene_sha256": "017bc3e19ddcd472859fb514d459af17d5d5a4fabb103961c85456371d3b5266",
+      "evidence": "The two pairs remain along the north-south inland road between northern and southern stream crossings. Modern road and minor tributary offsets remain; no present residence, person or ownership is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-163",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-163-geography.jpg",
+      "scene_sha256": "53c3892ae8aec00feb7b4f68ed89fb8e47bf555071ea5bb17a1bf981db87746a",
+      "evidence": "The source mark remains west of the road/branch district east of North Branch. Modern drainage and road geometry differ locally, so only broad historical locality is supported. The star-like mark’s function is unknown; no building, residence or property is inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-171",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-171-geography.jpg",
+      "scene_sha256": "153dcff8f8ef2b5e2b7664fde637a3bd1e0d4e0acae5c854c21545354a3ee944",
+      "evidence": "The filled mark remains southeast of the Saint Peter’s Road district and north of the southern drainage. The modern highway and minor road layout differ; the isolated source mark is not matched to a current structure, residence or parcel."
+    },
+    {
+      "annotation_id": "F22-HAW-190",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-190-geography.jpg",
+      "scene_sha256": "01064bf59a380425cae10d21c2be4181dda9538631c0dbd5126ce7c16ea47d61",
+      "evidence": "The source settlement cluster projects across the modern channel, while the source places its principal road/stream relationship north of the cluster. The local road, tributary and channel arrangement does not resolve historical change versus fit error. Preserve the complete native/provisional grouping and withhold public placement; do not shrink the group or assign current sites."
+    },
+    {
+      "annotation_id": "F22-HAW-195",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-195-geography.jpg",
+      "scene_sha256": "aef133c22e9ddcb51d4be22ed0650e80d32fd3f5f10706d10af51cc00bae7196",
+      "evidence": "The pair remains in the Old Post Road junction district north of Summers Lake. Modern road and tributary relationships support approximate locality with a displaced northern branch; no current person, residence or property is identified."
+    },
+    {
+      "annotation_id": "F22-HAW-196",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-196-geography.jpg",
+      "scene_sha256": "4da5bd143716243b5a6782e6067f8ad8af112ff2d80ae99ecda9168458f87c86",
+      "evidence": "The source groups remain beside the Grosvenor road bend west of the northern postal district. Modern road and drainage context supports the broad settlement locality with local offsets, without reconstructing its extent or individual properties."
+    },
+    {
+      "annotation_id": "F22-HAW-209",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-209-geography.jpg",
+      "scene_sha256": "bc8bf5497ea195c59ccb94d31fa7dc57aa48b47931f40e28d614fd3b3a0e932a",
+      "evidence": "The postal/hotel/mill grouping retains its prior Port Mulgrave coastal-road district. Modern coastline and transport context support the broad settlement locality; the individual marks do not establish current facilities, properties or a full town footprint."
+    },
+    {
+      "annotation_id": "F22-HAW-226",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-226-geography.jpg",
+      "scene_sha256": "f8dfe006187c0b7f49fd3b4454e57f27f0b996be803051e5e5851e11a6f41093",
+      "evidence": "The wharf/church grouping retains its prior Hawkesbury street/harbour district north of Ship Harbour. Modern roads and shoreline support the broad locality with source wharf overlap at the coast. No municipal boundary, current structures or public access is inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-245",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-names-6-20260913.jpg",
+      "scene_sha256": "1641e82722b33400cfb7cc1985164ff13e0ad561e31777441c0a8aac72782cc6",
+      "evidence": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-252",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-names-6-20260913.jpg",
+      "scene_sha256": "1641e82722b33400cfb7cc1985164ff13e0ad561e31777441c0a8aac72782cc6",
+      "evidence": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-262",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-names-6-20260913.jpg",
+      "scene_sha256": "1641e82722b33400cfb7cc1985164ff13e0ad561e31777441c0a8aac72782cc6",
+      "evidence": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
+    },
+    {
+      "annotation_id": "F22-HAW-279",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-name-279-geography.jpg",
+      "scene_sha256": "07f90891764b544f6ae51b52137dd3190cd47eaafb762f9bf199e95582ea92cd",
+      "evidence": "The postal/school grouping retains its prior Caribacou coastal-road district. Modern shore and drainage support approximate locality with road-side offsets; no current addresses, properties or settlement boundary are identified."
+    },
+    {
+      "annotation_id": "F22-HAW-285",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-names-7-20260913.jpg",
+      "scene_sha256": "bb192ed2f2571353dad16a9d806a1a74798cf1b07aa09c67ab3ddbac93fd98a3",
+      "evidence": "The complete source crossing or bounded symbol grouping extends outside the conservative control hull. Retain the exact native geometry without public placement until accepted coverage is available; no shrinking, extrapolation or lettering-centre substitution."
     }
   ]
 }
