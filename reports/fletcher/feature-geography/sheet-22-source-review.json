@@ -194,6 +194,282 @@
       "reviewer": "Codex coordinator, native context and measured source overlays, 2026-09-12",
       "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Context at 1x, pixel-grid details at 2x, final point crosshairs at 4x with recorded crop origins. No rotation.",
       "review_batch": "hawkesbury-services-2-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-005",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4420,
+          1620,
+          43,
+          66
+        ]
+      ],
+      "note": "Several compact marks cluster about the coastal road and watercourse immediately left of P.O. below Craignish. The lettering does not uniquely choose an individual postal building. Retain the entire nearby candidate group, not the lettering centre or a current address.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-3-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-030",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        8255,
+        1914
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "Long Stretch Bridge is associated with the actual road/watercourse crossing immediately left of its caption, just east of the separate railway. The point is the approximate centre of that crossing. The distant rectangular grid patches are not substituted for the bridge, and no current bridge identity or condition is asserted.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-3-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-045",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        2788,
+        2963
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The church cross is immediately right of R.C. Ch. and west of the road at Havre Bouché, below the northern pair of compact marks. Its cross centre is independent of the separate school candidates east of the road.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-3-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-046",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2808,
+          2975,
+          60,
+          45
+        ]
+      ],
+      "note": "The School caption sits above the road and its nearby compact-mark row/column east of the north-south road. Several candidates lie below the caption; preserve their group rather than choosing an individual school building. The church cross farther west and the geological angle notation remain separate.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-3-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-053",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2978,
+          2720,
+          40,
+          50
+        ]
+      ],
+      "note": "The compact cluster below Shop is on the western side of the curved coastal road at northern Havre Bouché. The source caption does not identify a unique shop among these marks. The eastern mark row and solid shoreline projection are separate.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-3-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-055",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3001,
+          2837,
+          50,
+          24
+        ]
+      ],
+      "note": "The solid shoreline structure immediately below Lobster Factory supplies a small source candidate region. Its attachment to the road/shore is visible, but the lettering does not resolve an individual factory building versus associated waterfront structure. Preserve the region without claiming an exact factory footprint or an operating modern facility.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-3-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-056",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2976,
+          2841,
+          31,
+          47
+        ]
+      ],
+      "note": "The compact western roadside row immediately right of Forge forms its candidate group, just south of the Lobster Factory approach. The eastern row is separate and the source does not choose an individual forge building. No property or operating-facility claim is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-4-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-057",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          2910,
+          2978,
+          99,
+          25
+        ]
+      ],
+      "note": "The compact row immediately above Hotel lies south of the east-west road and west of the main Havre Bouché road junction. Retain the whole nearby row as candidates; the lettering does not uniquely identify an individual hotel building or current establishment.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-4-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-058",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3062,
+        2957
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The radiating light symbol beside the white-light inscription is on the shoreward projection north of the red-light mark. The symbol centre supplies the source point. The printed 36 ft. remains historical wording, not a current height, operating status or navigation instruction.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-4-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-061",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3933,
+        3152
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "A distinct compact school mark appears below the road, immediately above School, partly overprinted by the dotted geological boundary. Its approximate ink centre was checked at 4x with increased source-pixel uncertainty. Individual boundary dots and the lettering centre are not substituted for the mark.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-4-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-064",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3891,
+        2680
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The radiating light symbol below the Lt. F. 110 ft. vis: 18 m. inscription lies at the shoreward end of the short road. Preserve its centre and the original abbreviated wording without interpreting the measurements as current height, visibility range or operating status.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-4-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-067",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        4901,
+        2730
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The distinct compact school mark immediately left of School lies west of the north-south road below Heffernans Pond. The geological arrows and small drainage strokes are separate from the mark.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-4-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-047",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        3031,
+        3081
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The radiating symbol directly right of the red-light inscription lies beside the Havre Bouché shoreline road, south of the white-light symbol. Its centre is retained separately. The printed 107 ft. remains historical wording; no current light height, navigation range or operating status is inferred.",
+      "source_uncertainty_px": 7,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-5-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-068",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5024,
+        3120
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact forge mark is below/right of Forge, west of the main road and north of the small stream mouth south of Heffernans Pond. The road-junction mark farther north and the thick stream line are separate.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-5-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-070",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        5305.5,
+        3430
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact mill mark immediately above/right of Mill lies at the road/watercourse district on the eastern side of Long Pond, west of the main north-south road. The actual filled mark supplies the point; no current mill, water-control structure or power is inferred.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-5-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-073",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6120,
+        2536
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The isolated school mark is immediately above the end of School and west of the diagonal road in the Brown Brook district. The nearby geological arrow and the lettering itself are separate.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-5-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-077",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        6386.5,
+        3061
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact mark immediately right of Brown’s Mill lies east of the north-south road and west of the winding brook. Preserve that mark, separate from the nearby junction and geological arrows; it does not establish a current mill footprint or power.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-5-20260912"
+    },
+    {
+      "annotation_id": "F22-HAW-084",
+      "status": "supported-source-association",
+      "source_anchor_xy": [
+        7372,
+        3111
+      ],
+      "candidate_symbol_regions_xywh": [],
+      "note": "The compact school mark is right of School and north of the east-west road, west of the brook and circled geological symbol. Its source position is independent of the source lettering and angle marks.",
+      "source_uncertainty_px": 5,
+      "reviewer": "Codex coordinator, native source context and final stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10790 x 7687 scan, continuous pixel edges, x right/y down. Native contexts at 1x, pixel grids and candidate groups at 2x, final point crosshairs at 4x with recorded origins. No rotation.",
+      "review_batch": "hawkesbury-services-5-20260912"
     }
   ]
 }

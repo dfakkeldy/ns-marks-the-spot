@@ -1,0 +1,70 @@
+{
+  "reviewed_at": "2026-09-12",
+  "previous_source_review_sha256": "6c1758f5ac0612a5b290efa6fca3dbd8d73068c3cebba63530bacfe48aebfd37",
+  "current_source_review_sha256": "fd0d6a4cd4b645133ddb38ac7d87b81d032133c137281a2a836dfa5f402e37d4",
+  "unchanged_prior_source_associations": [
+    "F22-HAW-001",
+    "F22-HAW-002",
+    "F22-HAW-004",
+    "F22-HAW-008",
+    "F22-HAW-023",
+    "F22-HAW-025",
+    "F22-HAW-026",
+    "F22-HAW-028",
+    "F22-HAW-031",
+    "F22-HAW-032",
+    "F22-HAW-041",
+    "F22-HAW-042"
+  ],
+  "appended_annotation_ids": [
+    "F22-HAW-005",
+    "F22-HAW-030",
+    "F22-HAW-045",
+    "F22-HAW-046",
+    "F22-HAW-053",
+    "F22-HAW-055",
+    "F22-HAW-056",
+    "F22-HAW-057",
+    "F22-HAW-058",
+    "F22-HAW-061",
+    "F22-HAW-064",
+    "F22-HAW-067",
+    "F22-HAW-047",
+    "F22-HAW-068",
+    "F22-HAW-070",
+    "F22-HAW-073",
+    "F22-HAW-077",
+    "F22-HAW-084"
+  ],
+  "candidate_history": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-services-next-initial.json",
+      "sha256": "eeb7f7b73e9ad41f8b9fd3b2ae78af97a6bdccc4e904fdcd5575600c959c8076"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-services-next-candidates.json",
+      "sha256": "5c3a039079515e64e1d7a0d55e1b7b85d13870a95127583db41c253411a40fe7"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-services-next-point-frames.json",
+      "sha256": "3b6981d693703d52e2036cff0e3bbea0726ca96ecc9933d58dd6bd41c585be15"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-services-next-crosshairs.jpg",
+      "sha256": "386d20bb96f070ce21f3cece26e659e7e6cd64964ffe1cacd43cd32ef28ba261"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-services-next-groups-final-1.jpg",
+      "sha256": "565907cde818deec82b5ea1e2d021104bb4b2fab4989610a51b6a2f4eea63e07"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-long-stretch-wide.png",
+      "sha256": "aa18d20950fdf7f942f8ebf97ac337a3d1fe2b39d542e71c63d61452c607ea3f"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/sheet22-native-overview.jpg",
+      "sha256": "aadb9e75adb004e80b740e7f59977bc3b947a1087ceb29455573dbb20277c09b"
+    }
+  ],
+  "note": "Source marks/groups and final crosshairs inspected before feature projection. Initial candidate measurements are retained. The bridge uses its actual road/water crossing; school061 remains qualified at a dotted-boundary overprint. Old source rows and placement decisions are unchanged. Geographic review follows separately."
+}

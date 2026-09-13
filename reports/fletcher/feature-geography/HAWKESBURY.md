@@ -1,10 +1,11 @@
 # Port Hawkesbury source-feature review
 
-The first **12 of 301** annotations have source and geographic decisions. **Eight**
-are integrated locally: five approximate marks and three unresolved source groups.
+The first **30 of 301** annotations have source and geographic decisions. **26**
+are integrated locally: 17 approximate marks and nine unresolved source groups.
 Three northern marks are outside supported coverage; McMaster's Mill retains an
-unresolved geographic prediction. The remaining 289 source associations are pending.
-The combined web export retains all 126 Judique annotations unchanged.
+unresolved geographic prediction. The remaining 271 source associations are pending.
+Eight Hawkesbury features merged in PR455; the next eighteen are locally verified.
+The combined 152-record web export retains all 126 Judique annotations unchanged.
 
 ## Source and geography
 
@@ -56,6 +57,43 @@ retains outlet-channel overlap. These limitations prevent exact current-site cla
 The Craignish church receives no coordinate correction from the separate Judique
 church. Original readings, identifiers and image pixels remain unchanged.
 
+The next three source figures add eighteen service, bridge and light reviews:
+
+- [Services 3](hawkesbury-services-3-20260912.jpg): 005,030,045,046,053,055.
+- [Services 4](hawkesbury-services-4-20260912.jpg): 056,057,058,061,064,067.
+- [Services 5](hawkesbury-services-5-20260912.jpg): 047,068,070,073,077,084.
+
+Their native source review was completed on September 12; geographic decisions
+were recorded September 13. [The append receipt](hawkesbury-services-next-append-receipt.json)
+retains initial measurements and final crosshair/group evidence. Long Stretch
+Bridge uses the actual road/river crossing beside its caption, separate from
+the railway and grid-patterned areas. School 061's distinct mark is partly
+overprinted by a dotted geological boundary and retains increased source-pixel
+uncertainty. The three lights use their actual radiating symbols; heights and
+abbreviations remain historical source wording, not current navigation data.
+Factory, shop, forge, hotel, postal and school groups preserve individual-feature
+ambiguity and are not property or operating-facility boundaries.
+
+Eleven further geographic comparisons cover these additions:
+
+- [Craignish postal group](hawkesbury-craignish-postal-geography.jpg)
+- [Long Stretch Bridge](hawkesbury-long-stretch-bridge-geography.jpg)
+- [Northern Havre Bouche industry](hawkesbury-havre-north-industry-geography.jpg)
+- [Southern Havre Bouche services](hawkesbury-havre-south-services-geography.jpg)
+- [North Canso school](hawkesbury-north-canso-school-geography.jpg)
+- [North Canso light](hawkesbury-north-canso-light-geography.jpg)
+- [Coastal school and forge](hawkesbury-coastal-school-forge-geography.jpg)
+- [Horton mill](hawkesbury-horton-mill-geography.jpg)
+- [Brown Brook school](hawkesbury-brown-brook-school-geography.jpg)
+- [Brown's Mill](hawkesbury-browns-mill-geography.jpg)
+- [Inland school](hawkesbury-inland-school-geography.jpg)
+
+All eighteen have supported approximate locality. The Craignish group partly
+crosses the modern shore, the northern Havre shop group overlaps a pond margin,
+and Brown's Mill retains a bank-side disagreement. These remain explicit in the
+placement notes; no source geometry was shifted, snapped or trimmed. The four
+earlier holdbacks remain unchanged.
+
 ## Integration and verification
 
 The [browser receipt](browser-hawkesbury-first-verification.json) records selection
@@ -65,6 +103,14 @@ console is clean. The combined-export test verifies each sheet's source and fit
 identity, preserves Judique's single explicit church correction, and prevents that
 correction from appearing in a Hawkesbury-only receipt. The geographic renderer's
 unchanged Judique default reproduces every prior scene hash and its frame receipt.
+
+The [second browser receipt](browser-hawkesbury-services-verification.json)
+records all eighteen additions against the 152-record export and normal-map
+density previews. Mobile review reproduced the new 3D terrain button covering
+the source popup's close control. The existing mobile popup rule now hides it
+with the other map tools. A real-browser regression failed before the fix,
+then verified an unobstructed close-button click and restored terrain control
+after closing, with a settled final screenshot and clean console.
 
 Local checks: 299 Fletcher Python tests passed, with eight existing skips; seven
 Fletcher component tests and web script tests passed; lint and build passed.
