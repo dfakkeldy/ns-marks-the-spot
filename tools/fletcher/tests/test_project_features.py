@@ -31,7 +31,9 @@ class FeatureEvidenceTests(unittest.TestCase):
             self.assertIsNone(a['geometry'])
             if a['id'] in self.rows:
                 self.assertEqual(self.rows[a['id']]['properties']['source_annotation'],a)
-        self.assertNotIn('F19-JUD-014',self.rows)  # Settlement lettering is not a feature point.
+        settlement=self.rows['F19-JUD-014']['properties']
+        self.assertIsNone(settlement['source_review']['source_anchor_xy'])
+        self.assertEqual(settlement['source_geometry_native']['type'],'Polygon')  # Printed group, never a lettering-centre point.
 
     def test_ambiguous_services_share_group_without_invented_buildings(self):
         for aid in ['F19-JUD-006','F19-JUD-009','F19-JUD-010','F19-JUD-021','F19-JUD-077','F19-JUD-078','F19-JUD-079']:

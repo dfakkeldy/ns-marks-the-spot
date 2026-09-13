@@ -175,6 +175,1951 @@
   "coordinate_convention": "North up; identical EPSG:3857 extent in raster and independent-vector panels. Extent is in projected metres, not ground metres.",
   "scenes": [
     {
+      "name": "north-inland-name",
+      "annotation_ids": [
+        "F19-JUD-003"
+      ],
+      "extent_epsg3857": [
+        -6842942.4908315055,
+        5766075.382879927,
+        -6840342.4908315055,
+        5768675.382879927
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-north-inland-name-geography.jpg",
+      "image_sha256": "2a9abe49738dece286b62627250f894cdaf710cd6d039075aea36359dc7791bc",
+      "context_object_ids": {
+        "roads": [
+          3591,
+          9665,
+          37389,
+          37390,
+          37391,
+          37618,
+          58572,
+          58573,
+          58952,
+          61387,
+          87088,
+          116869,
+          116933,
+          117267,
+          117709,
+          133436,
+          134113,
+          147276,
+          147277,
+          147278,
+          147549,
+          147550,
+          293894
+        ],
+        "rail": [],
+        "water-lines": [
+          195935,
+          195936,
+          196008,
+          275409,
+          275411,
+          275412,
+          287047,
+          287050,
+          287051
+        ],
+        "water-polygons": [
+          2,
+          1363,
+          1577
+        ],
+        "highways": [],
+        "bridges": [
+          37392,
+          147275
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "judique-clergy-name",
+      "annotation_ids": [
+        "F19-JUD-015",
+        "F19-JUD-016"
+      ],
+      "extent_epsg3857": [
+        -6846425.437593045,
+        5759436.458895486,
+        -6843825.437593045,
+        5762036.458895486
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-judique-clergy-name-geography.jpg",
+      "image_sha256": "1d0f91fc315cce7f48740a733c107faaa1bdf7cb5dd0acc2de101324d878b2dc",
+      "context_object_ids": {
+        "roads": [
+          5,
+          799,
+          2153,
+          2567,
+          9070,
+          29556,
+          35520,
+          35529,
+          35611,
+          35614,
+          35627,
+          35650,
+          38275,
+          40507,
+          44840,
+          45315,
+          46071,
+          50421,
+          52304,
+          53001,
+          58128,
+          59403,
+          84043,
+          84051,
+          89367,
+          89368,
+          89841,
+          115834,
+          117891,
+          118233,
+          118235,
+          118301,
+          134024,
+          134025,
+          134026,
+          134027,
+          134405,
+          134408,
+          134409,
+          134412,
+          135098,
+          135099,
+          135100,
+          135101,
+          135102,
+          135103,
+          135500,
+          135501,
+          135502,
+          136545,
+          136812,
+          136813,
+          333835
+        ],
+        "rail": [],
+        "water-lines": [
+          10213,
+          10214,
+          10215,
+          13331,
+          13332,
+          61958,
+          62013,
+          62014,
+          62015,
+          62018,
+          62019,
+          62020,
+          62021,
+          62876,
+          62877,
+          62878,
+          62879,
+          62880,
+          62881,
+          62882,
+          62958,
+          62959,
+          62960,
+          62961,
+          62962,
+          62963,
+          62964,
+          62965,
+          62966,
+          62967,
+          63272,
+          63273,
+          196041,
+          196130,
+          196131,
+          196132,
+          196133,
+          196134,
+          196135,
+          196136,
+          196182,
+          212052,
+          212053,
+          212054,
+          212055,
+          283947,
+          283948,
+          283949,
+          283950,
+          283951,
+          284615,
+          284616,
+          286217,
+          286775,
+          286778,
+          312018
+        ],
+        "water-polygons": [
+          2,
+          44,
+          1363,
+          2388,
+          6315,
+          6751,
+          28913,
+          47904,
+          52332,
+          81711,
+          81876,
+          99368,
+          104274,
+          115730,
+          121117,
+          125180,
+          132521,
+          139254,
+          144032,
+          146574,
+          148303
+        ],
+        "highways": [
+          4339,
+          4341,
+          6484,
+          56920,
+          61037,
+          156236
+        ],
+        "bridges": [
+          4340,
+          35612,
+          38274,
+          52305,
+          59402
+        ]
+      },
+      "highway19_label_drawn": true,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "rory-chisholm-name",
+      "annotation_ids": [
+        "F19-JUD-023"
+      ],
+      "extent_epsg3857": [
+        -6840313.486831956,
+        5758323.60139698,
+        -6837713.486831956,
+        5760923.60139698
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-rory-chisholm-name-geography.jpg",
+      "image_sha256": "05a162bb7951f45b49d43ca2d80f0d001d053842659704c07fe7aea7eed25948",
+      "context_object_ids": {
+        "roads": [
+          12301,
+          14046,
+          22751,
+          22752,
+          51819,
+          84049,
+          84053,
+          84130,
+          89360,
+          89362,
+          89674,
+          90005,
+          90006,
+          111967,
+          115832,
+          117895,
+          117896,
+          134406,
+          134407,
+          134414,
+          136546,
+          148594,
+          156251,
+          294323
+        ],
+        "rail": [],
+        "water-lines": [
+          196055,
+          196179,
+          196180,
+          262949,
+          283952,
+          283953,
+          284084,
+          284086,
+          286777
+        ],
+        "water-polygons": [
+          1363
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "allan-mcdonald-name",
+      "annotation_ids": [
+        "F19-JUD-028"
+      ],
+      "extent_epsg3857": [
+        -6839986.671005409,
+        5755241.125678156,
+        -6837386.671005409,
+        5757841.125678156
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-allan-mcdonald-name-geography.jpg",
+      "image_sha256": "9a7479f9dea8a11ba73c7fdded086c8f051450ca611d54999c83dc91ab1d5265",
+      "context_object_ids": {
+        "roads": [
+          4241,
+          84052,
+          84131,
+          89678,
+          115832,
+          118232,
+          148594,
+          156247,
+          156249
+        ],
+        "rail": [],
+        "water-lines": [
+          195887,
+          196178,
+          261127,
+          262949,
+          262951,
+          286237
+        ],
+        "water-polygons": [
+          1363
+        ],
+        "highways": [],
+        "bridges": [
+          156248
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "northern-name-spurs",
+      "annotation_ids": [
+        "F19-JUD-030",
+        "F19-JUD-032"
+      ],
+      "extent_epsg3857": [
+        -6833103.507104909,
+        5764013.957780008,
+        -6826917.246901189,
+        5770200.217983728
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-northern-name-spurs-geography.jpg",
+      "image_sha256": "f825e2d23aa4af51589e4533a0ad3476b5aa555fbe63a42a3e007226a381c5bd",
+      "context_object_ids": {
+        "roads": [
+          523,
+          1734,
+          2303,
+          12305,
+          46546,
+          57065,
+          58361,
+          58854,
+          76845,
+          76846,
+          76858,
+          76859,
+          76860,
+          76862,
+          76863,
+          76864,
+          76865,
+          76866,
+          76867,
+          76868,
+          76869,
+          76870,
+          77359,
+          77360,
+          77362,
+          78900,
+          78901,
+          78902,
+          78904,
+          78910,
+          78913,
+          78916,
+          78918,
+          78919,
+          78920,
+          79874,
+          79877,
+          79879,
+          82657,
+          82667,
+          110754,
+          110755,
+          111023,
+          111025,
+          111026,
+          111027,
+          111293,
+          111294,
+          111296,
+          111346,
+          111347,
+          111349,
+          113720,
+          113767,
+          114248,
+          114249,
+          132701,
+          152565,
+          156232,
+          156234
+        ],
+        "rail": [],
+        "water-lines": [
+          158119,
+          173217,
+          173218,
+          173219,
+          181773,
+          182183,
+          182184,
+          195479,
+          195480,
+          195481,
+          195482,
+          195483,
+          195607,
+          196034,
+          196035,
+          196036,
+          198019,
+          198020,
+          198022,
+          198023,
+          198375,
+          198476,
+          198477,
+          198478,
+          222451,
+          222452,
+          223256,
+          223358,
+          223417,
+          223418,
+          223419,
+          223813,
+          223873,
+          223922,
+          223975,
+          223976,
+          269441,
+          269442,
+          269443,
+          269444,
+          269555,
+          277648,
+          277649,
+          277650,
+          277651,
+          277765,
+          277766,
+          277767,
+          277768,
+          286316,
+          286317,
+          286318,
+          286450,
+          286458,
+          288040,
+          292293,
+          292295,
+          292457,
+          292459,
+          292460,
+          292604,
+          292605,
+          292607,
+          309635
+        ],
+        "water-polygons": [
+          1363,
+          1577,
+          42051,
+          42450,
+          59872,
+          66559,
+          90602,
+          92858,
+          115457,
+          129082
+        ],
+        "highways": [],
+        "bridges": [
+          156231
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "squire-name",
+      "annotation_ids": [
+        "F19-JUD-033"
+      ],
+      "extent_epsg3857": [
+        -6827912.84337579,
+        5763152.272491999,
+        -6825312.84337579,
+        5765752.272491999
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-squire-name-geography.jpg",
+      "image_sha256": "85095ba0bddea2330b790150dda4c3bfa11f1a8561bb1419fcb17ee580f42ccb",
+      "context_object_ids": {
+        "roads": [
+          46546,
+          46547,
+          76863,
+          76867,
+          76868,
+          78910,
+          81905,
+          81909,
+          81911,
+          82395,
+          82401,
+          82402,
+          82656,
+          82659,
+          82660,
+          82661,
+          83136,
+          83137,
+          111023,
+          113720,
+          114248,
+          114311,
+          114314,
+          114622,
+          114623,
+          114625
+        ],
+        "rail": [],
+        "water-lines": [
+          198013,
+          198014,
+          269554,
+          269555,
+          269556,
+          286313,
+          286314,
+          286315,
+          292606
+        ],
+        "water-polygons": [
+          1363,
+          82972,
+          116869,
+          129082
+        ],
+        "highways": [],
+        "bridges": [
+          46545
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "doug-mcdonald-name",
+      "annotation_ids": [
+        "F19-JUD-063"
+      ],
+      "extent_epsg3857": [
+        -6828693.29391989,
+        5755018.016724525,
+        -6826093.29391989,
+        5757618.016724525
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-doug-mcdonald-name-geography.jpg",
+      "image_sha256": "7c1557881c32d145e30ad0a51a0e7c3359790b50a29ef32b5795d92e3921805e",
+      "context_object_ids": {
+        "roads": [
+          3069,
+          22756,
+          87340,
+          112058,
+          112059,
+          114309,
+          114627,
+          118048,
+          118052,
+          312722,
+          312723,
+          312724
+        ],
+        "rail": [],
+        "water-lines": [
+          195348,
+          197564,
+          197587,
+          198252,
+          223415,
+          263046,
+          269478,
+          269479,
+          269480,
+          269481
+        ],
+        "water-polygons": [
+          1363,
+          23548,
+          30627,
+          54291,
+          70958,
+          100819
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "mcpherson-names",
+      "annotation_ids": [
+        "F19-JUD-075",
+        "F19-JUD-076"
+      ],
+      "extent_epsg3857": [
+        -6836859.66433209,
+        5751566.6055719685,
+        -6834259.66433209,
+        5754166.6055719685
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-mcpherson-names-geography.jpg",
+      "image_sha256": "e7cf6c7792d7c8c27a96d3f35f38c8b4cff4e30976e68da89cd42bb3fb45d666",
+      "context_object_ids": {
+        "roads": [
+          2711,
+          9248,
+          49344,
+          51866,
+          51902,
+          51904,
+          51905,
+          52297,
+          52298,
+          58332,
+          86963,
+          86966,
+          87349,
+          95638,
+          109665,
+          150511
+        ],
+        "rail": [],
+        "water-lines": [
+          63278,
+          63279,
+          195891,
+          195892,
+          195920,
+          196030,
+          211312,
+          261010,
+          286236
+        ],
+        "water-polygons": [
+          1363,
+          47222,
+          56884,
+          72313,
+          75343,
+          92602,
+          112376
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "western-mcdougall-name",
+      "annotation_ids": [
+        "F19-JUD-088"
+      ],
+      "extent_epsg3857": [
+        -6838277.063295795,
+        5745594.134482618,
+        -6835677.063295795,
+        5748194.134482618
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-western-mcdougall-name-geography.jpg",
+      "image_sha256": "2d219b21ccf0d058dfbfb5f1616918fd5841652cd083ff1009bf0cf6d09bb55e",
+      "context_object_ids": {
+        "roads": [
+          148,
+          13782,
+          15518,
+          17219,
+          17220,
+          17226,
+          23534,
+          23535,
+          51854,
+          85150,
+          85302,
+          85307,
+          85308,
+          85309,
+          85437,
+          118010,
+          292112,
+          292113,
+          292114,
+          292116,
+          321256
+        ],
+        "rail": [],
+        "water-lines": [
+          195556,
+          196153,
+          202363
+        ],
+        "water-polygons": [
+          1363,
+          38902,
+          89365
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "rough-brook-names",
+      "annotation_ids": [
+        "F19-JUD-114",
+        "F19-JUD-115",
+        "F19-JUD-116"
+      ],
+      "extent_epsg3857": [
+        -6835479.857014671,
+        5744018.11869824,
+        -6832008.556503431,
+        5747489.41920948
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-rough-brook-names-geography.jpg",
+      "image_sha256": "f6d9184d61a027c06437de2c4e9df6db6e66e866516bbef9b2d583065b52cf86",
+      "context_object_ids": {
+        "roads": [
+          5302,
+          17226,
+          23529,
+          23536,
+          23539,
+          45770,
+          51854,
+          85008,
+          85164,
+          87326,
+          87336,
+          117572,
+          117671,
+          117930,
+          118108,
+          131125,
+          148467,
+          292116,
+          292118
+        ],
+        "rail": [],
+        "water-lines": [
+          195556,
+          196153,
+          196154,
+          196155,
+          196159,
+          196160,
+          196161,
+          202828,
+          209856,
+          209857,
+          284098,
+          284099,
+          284100,
+          284101,
+          284102,
+          286614,
+          291982,
+          291983
+        ],
+        "water-polygons": [
+          1363,
+          44109,
+          91774,
+          101263
+        ],
+        "highways": [],
+        "bridges": [
+          292117
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "glendale-north-name",
+      "annotation_ids": [
+        "F19-JUD-097"
+      ],
+      "extent_epsg3857": [
+        -6829571.488506734,
+        5749548.533005675,
+        -6826971.488506734,
+        5752148.533005675
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-glendale-north-name-geography.jpg",
+      "image_sha256": "d66382f1ea1673c65259d4994194954140081972dde70befd93d6dee21b5e524",
+      "context_object_ids": {
+        "roads": [
+          29303,
+          29304,
+          51590,
+          51593,
+          51594,
+          51863,
+          61506,
+          86965,
+          87344,
+          111998,
+          112055,
+          118049,
+          118440,
+          118441,
+          130023,
+          130024,
+          130026,
+          130027,
+          130028,
+          130031,
+          130032,
+          130033,
+          143977,
+          146769,
+          146772,
+          149015,
+          312724
+        ],
+        "rail": [],
+        "water-lines": [
+          168296,
+          196918,
+          196919,
+          196920,
+          197090,
+          197424,
+          197425,
+          197576,
+          197578,
+          198031,
+          262428,
+          273924,
+          273925,
+          286192,
+          286319,
+          286321,
+          286322
+        ],
+        "water-polygons": [
+          1363,
+          1940,
+          89880
+        ],
+        "highways": [
+          44144
+        ],
+        "bridges": [
+          51591,
+          51592
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "smith-mctaggart-names",
+      "annotation_ids": [
+        "F19-JUD-105",
+        "F19-JUD-106"
+      ],
+      "extent_epsg3857": [
+        -6825849.1931015905,
+        5752667.066002324,
+        -6823249.1931015905,
+        5755267.066002324
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-smith-mctaggart-names-geography.jpg",
+      "image_sha256": "4f4c919e50b5837f146bdc1bdc60e30e881fc251f100042e4363aa73c8f2960b",
+      "context_object_ids": {
+        "roads": [
+          3069,
+          3070,
+          80527,
+          112114,
+          112115,
+          114360,
+          114361,
+          114363,
+          130019,
+          130030,
+          143974,
+          146979
+        ],
+        "rail": [],
+        "water-lines": [
+          63292,
+          63293,
+          197091,
+          197581,
+          197584,
+          198024,
+          198025,
+          198026,
+          198027,
+          198028,
+          198029,
+          198030,
+          198032,
+          198142,
+          198143,
+          269481,
+          269482,
+          269483,
+          269484,
+          269585,
+          274386,
+          274502
+        ],
+        "water-polygons": [
+          1363,
+          55280,
+          106750
+        ],
+        "highways": [
+          9622,
+          156262
+        ],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "eastern-road-names",
+      "annotation_ids": [
+        "F19-JUD-107",
+        "F19-JUD-127",
+        "F19-JUD-128"
+      ],
+      "extent_epsg3857": [
+        -6821586.265167488,
+        5750673.081285733,
+        -6818508.259658402,
+        5753751.086794819
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-eastern-road-names-geography.jpg",
+      "image_sha256": "467bb6a5ed70fff589939f28e581c4d9d4b51052ba7ea15c12eae0d26c0cfb30",
+      "context_object_ids": {
+        "roads": [
+          15288,
+          15289,
+          15673,
+          15674,
+          18038,
+          40943,
+          51403,
+          56722,
+          80518,
+          80519,
+          80524,
+          82084,
+          83578,
+          83589,
+          114277,
+          114280,
+          114339,
+          115385,
+          115386,
+          156259,
+          156260,
+          156261
+        ],
+        "rail": [],
+        "water-lines": [
+          195519,
+          196418,
+          196581,
+          196582,
+          197585,
+          197905,
+          198586,
+          274913,
+          274914,
+          274915,
+          274916
+        ],
+        "water-polygons": [
+          1363
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "buchanan-name",
+      "annotation_ids": [
+        "F19-JUD-108"
+      ],
+      "extent_epsg3857": [
+        -6824481.962905405,
+        5749134.263600889,
+        -6821881.962905405,
+        5751734.263600889
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-buchanan-name-geography.jpg",
+      "image_sha256": "534d614986935ad2965a128efd5eb1b38904393107170723dc8bc8e27363aa0d",
+      "context_object_ids": {
+        "roads": [
+          838,
+          10027,
+          22610,
+          46597,
+          56722,
+          80520,
+          82079,
+          82082,
+          112057,
+          112118,
+          115329
+        ],
+        "rail": [],
+        "water-lines": [
+          195338,
+          196419,
+          196579,
+          196580,
+          197430,
+          197431,
+          198129,
+          276071,
+          276072,
+          276073,
+          276074,
+          276075
+        ],
+        "water-polygons": [
+          1363,
+          1940
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "eastern-border-names",
+      "annotation_ids": [
+        "F19-JUD-152",
+        "F19-JUD-153"
+      ],
+      "extent_epsg3857": [
+        -6818653.930419534,
+        5748995.7398036,
+        -6815963.483916274,
+        5751686.18630686
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-eastern-border-names-geography.jpg",
+      "image_sha256": "4f48f9d3e7360665068f0376613d8a16de7ac65d9b9a42321a24911fb0756d25",
+      "context_object_ids": {
+        "roads": [
+          20169,
+          80516,
+          82083,
+          83581,
+          83586,
+          114280,
+          114365,
+          156259,
+          156553
+        ],
+        "rail": [],
+        "water-lines": [
+          62973,
+          62974,
+          195519,
+          197429,
+          197954,
+          197957,
+          197958,
+          198133,
+          198135,
+          198136,
+          286054
+        ],
+        "water-polygons": [
+          1363,
+          1940,
+          44697
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "southern-mcisaac-name",
+      "annotation_ids": [
+        "F19-JUD-160"
+      ],
+      "extent_epsg3857": [
+        -6834169.777686794,
+        5740635.7535452135,
+        -6831569.777686794,
+        5743235.7535452135
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-southern-mcisaac-name-geography.jpg",
+      "image_sha256": "9818097412f89c13ef975d2e4c868e29f7a409a715283d4476f872ee928102c2",
+      "context_object_ids": {
+        "roads": [
+          8278,
+          23540,
+          51855,
+          51874,
+          51875,
+          52342,
+          86365,
+          86371,
+          86374,
+          87323,
+          87325,
+          87328,
+          117673,
+          117678,
+          292111,
+          313893
+        ],
+        "rail": [],
+        "water-lines": [
+          123842,
+          123927,
+          202364,
+          269013,
+          269115,
+          284104
+        ],
+        "water-polygons": [
+          1363,
+          16256,
+          27161,
+          58934
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "southern-mcarthur-name",
+      "annotation_ids": [
+        "F19-JUD-166"
+      ],
+      "extent_epsg3857": [
+        -6820210.103956765,
+        5740489.200161549,
+        -6817610.103956765,
+        5743089.200161549
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-southern-mcarthur-name-geography.jpg",
+      "image_sha256": "cfa6d155ad059fc2081856efac7f3eae5b42880f93f2c7c52b7b628380cc72b2",
+      "context_object_ids": {
+        "roads": [
+          82829,
+          112978,
+          112980,
+          137540,
+          137541,
+          147683,
+          147684,
+          228327
+        ],
+        "rail": [
+          26433,
+          26434,
+          26435,
+          26436,
+          26437,
+          26438,
+          26439,
+          26448
+        ],
+        "water-lines": [
+          132472,
+          132473,
+          195750,
+          195853,
+          195984,
+          268584
+        ],
+        "water-polygons": [
+          1363,
+          1940,
+          26413,
+          35441,
+          73655
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "settlement-judique",
+      "annotation_ids": [
+        "F19-JUD-014",
+        "F19-JUD-015"
+      ],
+      "extent_epsg3857": [
+        -6846402.408464903,
+        5760189.667398204,
+        -6843067.500970141,
+        5763524.574892966
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-settlement-judique-geography.jpg",
+      "image_sha256": "34b114997510974ed96bf21043c4a191ff3effb517f5aeffd9bf3c636923b587",
+      "context_object_ids": {
+        "roads": [
+          5,
+          799,
+          2153,
+          2567,
+          9070,
+          15176,
+          15177,
+          35520,
+          35529,
+          35611,
+          35627,
+          35642,
+          35650,
+          35686,
+          36228,
+          38275,
+          40507,
+          45315,
+          46071,
+          48790,
+          50421,
+          53001,
+          57371,
+          59376,
+          59403,
+          84043,
+          89361,
+          89365,
+          89367,
+          89841,
+          111965,
+          117830,
+          117891,
+          117892,
+          118233,
+          118235,
+          118301,
+          134009,
+          134011,
+          134012,
+          134015,
+          134016,
+          134017,
+          134018,
+          134019,
+          134020,
+          134021,
+          134022,
+          134023,
+          134024,
+          134025,
+          134026,
+          134027,
+          134405,
+          134408,
+          134409,
+          135098,
+          135099,
+          135100,
+          135101,
+          135102,
+          135103,
+          135500,
+          135501,
+          135502,
+          136544,
+          136545,
+          136812,
+          136814,
+          156238,
+          333835
+        ],
+        "rail": [],
+        "water-lines": [
+          10213,
+          10214,
+          13312,
+          13331,
+          13332,
+          22630,
+          22631,
+          61952,
+          61953,
+          61956,
+          61957,
+          62020,
+          62021,
+          62573,
+          62574,
+          62960,
+          62961,
+          62962,
+          62963,
+          62964,
+          62965,
+          62966,
+          62967,
+          63254,
+          63255,
+          195921,
+          196132,
+          196133,
+          196134,
+          196135,
+          196136,
+          286778,
+          286779,
+          311477,
+          312018
+        ],
+        "water-polygons": [
+          2,
+          44,
+          1363,
+          2388,
+          6315,
+          6751,
+          13506,
+          22150,
+          24442,
+          28913,
+          37737,
+          47904,
+          49235,
+          52332,
+          81711,
+          87888,
+          99368,
+          104274,
+          115730,
+          136737,
+          138049,
+          145175
+        ],
+        "highways": [
+          4341,
+          6484,
+          56920,
+          61037,
+          156236,
+          156237,
+          156239
+        ],
+        "bridges": [
+          35687,
+          38274,
+          59402
+        ]
+      },
+      "highway19_label_drawn": true,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "settlement-dennistown",
+      "annotation_ids": [
+        "F19-JUD-049",
+        "F19-JUD-050"
+      ],
+      "extent_epsg3857": [
+        -6835500.088444842,
+        5756149.687905504,
+        -6832863.751945461,
+        5758786.024404885
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-settlement-dennistown-geography.jpg",
+      "image_sha256": "f1b32abc26e319729704ab9b8c30173023aec1c67333b240f195fadcff4a0754",
+      "context_object_ids": {
+        "roads": [
+          114247,
+          114621,
+          132281,
+          156246,
+          156550,
+          158945,
+          158946
+        ],
+        "rail": [],
+        "water-lines": [
+          195687,
+          195688,
+          195689,
+          195810,
+          195811,
+          211314,
+          262457,
+          262950,
+          263091,
+          263092,
+          295501
+        ],
+        "water-polygons": [
+          1363,
+          45867,
+          89818,
+          114275
+        ],
+        "highways": [],
+        "bridges": []
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "settlement-river-denys-road",
+      "annotation_ids": [
+        "F19-JUD-057",
+        "F19-JUD-058",
+        "F19-JUD-059"
+      ],
+      "extent_epsg3857": [
+        -6826663.71510992,
+        5757967.859643335,
+        -6823780.95446875,
+        5760850.620284505
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-settlement-river-denys-road-geography.jpg",
+      "image_sha256": "b29003176f7afdf12132ac357cbbaf3d7c70d7110583d1f16557f213a09b1e3b",
+      "context_object_ids": {
+        "roads": [
+          3069,
+          3848,
+          12274,
+          46546,
+          51561,
+          51562,
+          52618,
+          52619,
+          54858,
+          56825,
+          81904,
+          81907,
+          81908,
+          81910,
+          81912,
+          81918,
+          82666,
+          113721,
+          113763,
+          113764,
+          113765,
+          114620,
+          114624,
+          114628,
+          137559
+        ],
+        "rail": [],
+        "water-lines": [
+          120847,
+          120848,
+          195347,
+          196742,
+          196915,
+          196916,
+          198010,
+          198011,
+          198015,
+          198127,
+          198246,
+          198247,
+          198251,
+          262645,
+          262770,
+          262771,
+          262900
+        ],
+        "water-polygons": [
+          1363,
+          24530,
+          56953,
+          58729,
+          82647,
+          86697,
+          87729,
+          91482,
+          131783
+        ],
+        "highways": [],
+        "bridges": [
+          51560
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "settlement-glendale",
+      "annotation_ids": [
+        "F19-JUD-098",
+        "F19-JUD-099",
+        "F19-JUD-100",
+        "F19-JUD-102"
+      ],
+      "extent_epsg3857": [
+        -6828057.33734728,
+        5749129.15352199,
+        -6824509.848200399,
+        5752676.642668871
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-settlement-glendale-geography.jpg",
+      "image_sha256": "24c743b0e675a114dab2bac434cba292506d3cf87429f715baaa524269c6c6a1",
+      "context_object_ids": {
+        "roads": [
+          838,
+          2340,
+          3636,
+          3638,
+          3932,
+          4125,
+          10024,
+          10027,
+          10028,
+          22758,
+          39122,
+          46402,
+          46597,
+          51590,
+          54439,
+          55385,
+          59453,
+          60572,
+          60574,
+          61504,
+          61505,
+          61506,
+          86965,
+          86971,
+          87344,
+          87348,
+          87350,
+          112055,
+          118049,
+          118105,
+          118438,
+          118442,
+          118443,
+          130020,
+          130022,
+          130025,
+          130026,
+          130027,
+          130028,
+          130032,
+          130033,
+          130034,
+          130035,
+          143975,
+          143977,
+          146770,
+          146772,
+          146979,
+          148720,
+          149015,
+          312724,
+          312725
+        ],
+        "rail": [],
+        "water-lines": [
+          161054,
+          161055,
+          168294,
+          168295,
+          168296,
+          195338,
+          197090,
+          197092,
+          197918,
+          198031,
+          198141,
+          198142,
+          262424,
+          262427,
+          262428,
+          263047,
+          269364,
+          269365,
+          269366,
+          269367,
+          269585,
+          269586,
+          273924,
+          273925,
+          276069,
+          276070,
+          276071,
+          286187,
+          292133,
+          307326
+        ],
+        "water-polygons": [
+          1363,
+          1940,
+          89880
+        ],
+        "highways": [
+          9622,
+          11983,
+          39564,
+          41541,
+          44144,
+          52041
+        ],
+        "bridges": [
+          3637,
+          10025,
+          60573,
+          130021,
+          146771
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "settlement-kingsville",
+      "annotation_ids": [
+        "F19-JUD-121",
+        "F19-JUD-122",
+        "F19-JUD-123",
+        "F19-JUD-124",
+        "F19-JUD-125"
+      ],
+      "extent_epsg3857": [
+        -6827330.23117754,
+        5743814.827759054,
+        -6824730.23117754,
+        5746414.827759054
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-settlement-kingsville-geography.jpg",
+      "image_sha256": "4b6d55c475b1f3092d32b3f6b7c1865b7b408d1829b54d18f1a6460891ee83e6",
+      "context_object_ids": {
+        "roads": [
+          1594,
+          4381,
+          54916,
+          87338,
+          112046,
+          117668,
+          117670,
+          117745,
+          117750,
+          117751,
+          117753,
+          118104,
+          118106,
+          130970,
+          130971,
+          131123,
+          131124,
+          131126,
+          131127,
+          131128,
+          131129,
+          131140,
+          137342,
+          153269,
+          157312,
+          157579,
+          208747,
+          233889,
+          233890,
+          233891
+        ],
+        "rail": [],
+        "water-lines": [
+          29900,
+          161058,
+          161193,
+          161194,
+          162026,
+          167170,
+          167171,
+          168443,
+          168444,
+          168445,
+          168446,
+          168447,
+          168448,
+          168595,
+          168596,
+          168597,
+          168598,
+          196254,
+          198260,
+          198261,
+          198262,
+          198263,
+          198376,
+          198378,
+          198379,
+          198380,
+          198381,
+          309379,
+          309380,
+          309631,
+          309633,
+          311160,
+          311180,
+          311927
+        ],
+        "water-polygons": [
+          1363,
+          1940,
+          3566,
+          11228,
+          33448,
+          87926,
+          89708,
+          97552,
+          100890
+        ],
+        "highways": [
+          198246,
+          198247,
+          198248,
+          198249,
+          198251
+        ],
+        "bridges": [
+          198250
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
+      "name": "settlement-river-denys-crossroads",
+      "annotation_ids": [
+        "F19-JUD-145",
+        "F19-JUD-146",
+        "F19-JUD-147",
+        "F19-JUD-148"
+      ],
+      "extent_epsg3857": [
+        -6820686.052957576,
+        5758274.254907946,
+        -6818086.052957576,
+        5760874.254907946
+      ],
+      "panel_pixels": [
+        800,
+        800
+      ],
+      "image_path": "judique-settlement-river-denys-crossroads-geography.jpg",
+      "image_sha256": "9d76c97976f9f07767dba7dbc558c1feab187c039d8b2fe1c4f9f0e283416eb6",
+      "context_object_ids": {
+        "roads": [
+          19414,
+          57157,
+          76781,
+          82026,
+          114103,
+          114822,
+          115124,
+          131561,
+          131562,
+          131563,
+          131564,
+          132403,
+          132405,
+          132414,
+          132416,
+          137470,
+          198252,
+          198260,
+          312893,
+          312894
+        ],
+        "rail": [],
+        "water-lines": [
+          62659,
+          62660,
+          63669,
+          195627,
+          195628,
+          195755,
+          195860,
+          195861,
+          198254,
+          198374,
+          262769,
+          262772,
+          312176
+        ],
+        "water-polygons": [
+          1363,
+          123366,
+          128297
+        ],
+        "highways": [
+          20008,
+          20010,
+          148289,
+          198255,
+          198256,
+          198257,
+          198258,
+          198259
+        ],
+        "bridges": [
+          20009
+        ]
+      },
+      "highway19_label_drawn": false,
+      "meaning": "Context objects are drawn features, not accepted correspondences. Visual review is recorded separately."
+    },
+    {
       "name": "macpherson-brook-trace",
       "annotation_ids": [
         "F19-JUD-096"

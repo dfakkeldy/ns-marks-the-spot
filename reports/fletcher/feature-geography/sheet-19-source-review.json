@@ -7750,6 +7750,977 @@
       "reviewer": "Codex coordinator, complete native name/channel context and overlay review, 2026-09-12",
       "pixel_convention": "Original continuous pixel edges x right/y down. Crop offsets added once; display scaling is recorded separately.",
       "review_batch": "judique-waterways-last-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-001",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Mackay Point is associated with the printed coastal arc around the small southwest-facing promontory beside its seaward caption. The shoreline, neighbouring inlet and separate geological strike arrow identify the feature. Retain a reviewed shoreline section rather than inventing a precise named tip or peninsula boundary.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-first-20260912",
+      "source_path_xy": [
+        [
+          3246,
+          1520
+        ],
+        [
+          3244,
+          1533
+        ],
+        [
+          3245,
+          1545
+        ],
+        [
+          3249,
+          1560
+        ],
+        [
+          3259,
+          1575
+        ],
+        [
+          3272,
+          1585
+        ],
+        [
+          3289,
+          1590
+        ],
+        [
+          3304,
+          1587
+        ],
+        [
+          3318,
+          1577
+        ],
+        [
+          3331,
+          1568
+        ],
+        [
+          3345,
+          1564
+        ],
+        [
+          3359,
+          1556
+        ],
+        [
+          3370,
+          1550
+        ],
+        [
+          3385,
+          1544
+        ]
+      ],
+      "source_context_xywh": [
+        2790,
+        1330,
+        750,
+        520
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-012",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "The wider native context shows Ben Noah across patterned ground east of scattered roadside marks, but no distinct summit, spot-height mark or named-feature boundary. The inscription does not uniquely assign itself to one building group or terrain point. Keep its original lettering unlocated; geological mesh is not a mountain boundary.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-first-20260912",
+      "source_context_xywh": [
+        4480,
+        1500,
+        1450,
+        1100
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-014",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3730,
+          2145,
+          135,
+          160
+        ]
+      ],
+      "note": "Judique is printed beside the coastal road and the forge district. The reviewed region encloses the adjacent compact roadside marks north of the lower junction. It represents a printed settlement group, not the whole community, its centre, a municipal boundary or a current property. The separately corrected church retains its own evidence.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-first-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-029",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "Campbell Point is associated with the printed coastal arc beside the seaward caption, between the northern mouth and the lower road approach. Its broad curved shore has no uniquely marked named tip. Trace the visible shoreline section; do not use the caption centre or claim a peninsula boundary.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-first-20260912",
+      "source_path_xy": [
+        [
+          3469,
+          3239
+        ],
+        [
+          3464,
+          3272
+        ],
+        [
+          3460,
+          3297
+        ],
+        [
+          3458,
+          3322
+        ],
+        [
+          3455,
+          3343
+        ],
+        [
+          3455,
+          3367
+        ],
+        [
+          3460,
+          3387
+        ],
+        [
+          3469,
+          3404
+        ],
+        [
+          3483,
+          3422
+        ],
+        [
+          3495,
+          3442
+        ],
+        [
+          3511,
+          3459
+        ],
+        [
+          3523,
+          3478
+        ],
+        [
+          3536,
+          3499
+        ],
+        [
+          3550,
+          3523
+        ],
+        [
+          3562,
+          3549
+        ],
+        [
+          3582,
+          3578
+        ],
+        [
+          3600,
+          3599
+        ]
+      ],
+      "source_context_xywh": [
+        2960,
+        3150,
+        800,
+        650
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-049",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5795,
+          3165,
+          230,
+          78
+        ]
+      ],
+      "note": "Dennistown is printed immediately below the road and school district. The group includes the compact marks west of the school and the previously reviewed school candidates, retaining their ambiguity. This is the printed settlement cluster, not an administrative extent or a current owner/resident claim.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-first-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-059",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7550,
+          2772,
+          260,
+          155
+        ]
+      ],
+      "note": "River Denys Road is a large locality caption below the postal/church/school district; it is separate from the smaller road-axis captions. The reviewed group encloses those printed service marks around the junction. No community boundary, exact centre or current address is inferred.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-first-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-083",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3830,
+          4532,
+          228,
+          287
+        ]
+      ],
+      "note": "This Long Point occurrence labels the settlement beside the road, postal marks and forge district. The reviewed group encloses the nearby printed marks along that road. It remains distinct from the seaward cape caption 084 and is not a community boundary or an individual building identification.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-middle-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-084",
+      "status": "supported-source-line",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "The seaward Long Point caption identifies the rounded coastal projection west of the settlement. Trace its actual shoreline arc through the rounded western face toward the southern inlet. It is separate from settlement caption 083; neither a precise named tip nor a modern coastline is asserted.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-middle-20260912",
+      "source_path_xy": [
+        [
+          3719,
+          4620
+        ],
+        [
+          3715,
+          4634
+        ],
+        [
+          3710,
+          4643
+        ],
+        [
+          3705,
+          4655
+        ],
+        [
+          3696,
+          4669
+        ],
+        [
+          3690,
+          4688
+        ],
+        [
+          3684,
+          4697
+        ],
+        [
+          3675,
+          4707
+        ],
+        [
+          3670,
+          4723
+        ],
+        [
+          3668,
+          4734
+        ],
+        [
+          3665,
+          4743
+        ],
+        [
+          3660,
+          4750
+        ],
+        [
+          3660,
+          4762
+        ],
+        [
+          3662,
+          4775
+        ],
+        [
+          3666,
+          4785
+        ],
+        [
+          3673,
+          4799
+        ],
+        [
+          3679,
+          4811
+        ],
+        [
+          3687,
+          4824
+        ],
+        [
+          3693,
+          4832
+        ],
+        [
+          3700,
+          4839
+        ],
+        [
+          3715,
+          4844
+        ],
+        [
+          3726,
+          4847
+        ],
+        [
+          3739,
+          4848
+        ],
+        [
+          3748,
+          4852
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-098",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7380,
+          4280,
+          190,
+          280
+        ]
+      ],
+      "note": "Glendale is printed over the road and river district. The reviewed group includes the nearby northern roadside marks, post office and school; church and mills remain separately reviewed. This is a source settlement cluster, not its complete extent, a boundary or a present address.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-middle-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-121",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7510,
+          5550,
+          45,
+          30
+        ]
+      ],
+      "note": "Kingsville is printed just above the road junction and two shop captions. The same actual compact candidate group already retained for 122/123 represents this printed settlement core, with all individual-shop ambiguity preserved. No exact community centre, footprint, ownership or resolution of the separate Blue Bridge mismatch is implied.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-middle-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-130",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [],
+      "note": "The full diagonal CRAIGNISH HILLS inscription spans fourteen separate letter boxes across much of the sheet. Wider native review finds no associated summit symbol, contour or defensible landscape boundary. Preserve every original box, with no invented point, envelope or geological-unit boundary promoted to the named hills.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-middle-20260912",
+      "source_context_xywh": [
+        4900,
+        1500,
+        3400,
+        4500
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-145",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8782,
+          2754,
+          60,
+          47
+        ]
+      ],
+      "note": "River Denys Cross Roads surrounds the road junction with the tannery/postal and school marks. The reviewed group encloses those previously reviewed service candidates together. It represents the printed settlement core, not the complete locality or a current parcel, address or owner.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-middle-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-155",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9583,
+          5497,
+          35,
+          29
+        ]
+      ],
+      "note": "The Big Brook settlement caption lies beside the road and postal candidate marks. Retain the same actual source group as postal record 156 for the printed settlement core, with individual buildings unresolved. The similarly named watercourse remains a separate annotation; no current residence or settlement boundary is asserted.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-last-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-164",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8236,
+          6435,
+          82,
+          112
+        ]
+      ],
+      "note": "Princeville is printed above the southern road, watercourse and postal district. The group retains the central road/postal marks close to the sheet border. Its complete native extent must pass the coverage and neatline gates; it is not the full community, a boundary or a current address.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and stored-geometry overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Context crops retain native origins; larger review thumbnails record their display scales. No rotation.",
+      "review_batch": "judique-places-last-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-002",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3363,
+          1456,
+          43,
+          39
+        ]
+      ],
+      "note": "Two compact marks above the eastern end of John Gillis, beside the road on the Mackay Point promontory, form the immediate candidate group. The geological arrows and coastal striping are separate. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-1-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-003",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4372,
+          1280,
+          94,
+          39
+        ]
+      ],
+      "note": "The four compact marks immediately below and left of the name sit north of the road junction. Retain their shared candidate region; the lettering does not select an individual mark. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-1-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-016",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3705,
+          2562,
+          14,
+          13
+        ]
+      ],
+      "note": "The small candidate region encloses the compact mark directly left of the inscription, below the church cross and above the separately captioned shop. The name alone does not establish the mark’s building identity or use. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-1-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-023",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          4922,
+          2795,
+          33,
+          15
+        ]
+      ],
+      "note": "The two compact marks immediately left of the name lie east of the road junction, above the southward brook. The lettering does not distinguish an individual site; Rory Chisholm’s named brook is separately retained. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-1-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-028",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5022,
+          3343,
+          22,
+          28
+        ]
+      ],
+      "note": "Two compact marks above the name lie east of the short road spur, southeast of the conspicuous red geological patches. The resource colour patches and strike arrows are separate from this group. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-1-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-030",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6316,
+          1226,
+          45,
+          42
+        ]
+      ],
+      "note": "Three compact marks surround the eastern end of the short road below the northern border, immediately left of the name. Preserve the group without selecting one building or using the lettering as a point. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-1-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-032",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7184,
+          1404,
+          27,
+          28
+        ]
+      ],
+      "note": "Two compact marks below the beginning of the name flank the western end of the short road. The nearby thick stream and geological arrows are separate. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-2-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-033",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7377,
+          1853,
+          39,
+          34
+        ]
+      ],
+      "note": "The three compact marks at the short eastward spur immediately left of the name form one candidate group, north of the lower roadside pair. The adjacent falls and its watercourse are separate annotations. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-2-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-063",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7269,
+          3447,
+          44,
+          42
+        ]
+      ],
+      "note": "Two compact marks above and immediately left of the name sit at the short road end. The arrow below the inscription is a geological direction mark, not a name-associated point. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-2-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-075",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5697,
+          4002,
+          38,
+          12
+        ]
+      ],
+      "note": "The two compact marks immediately below D. McPherson lie north of the road and beside the beginning of a small tributary. They remain distinct from the J. McPherson pair to the southwest. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-2-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-076",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5525,
+          4038,
+          45,
+          30
+        ]
+      ],
+      "note": "The two compact marks below J. McPherson lie north of the road, west of the separate D. McPherson pair. Retain that distinction without inferring a relationship between the people or properties. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-2-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-080",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          3736,
+          4495,
+          14,
+          13
+        ]
+      ],
+      "note": "The compact candidate mark beside the coastal edge, below and left of J Chisholm, is retained in a small source region. The mills upstream along Chisholm Brook have their own reviewed groups; no identity or ownership link is invented. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-2-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-088",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5368,
+          5188,
+          33,
+          23
+        ]
+      ],
+      "note": "The pair of compact marks immediately above and left of the name sits beyond the short road end. Geological letter A and the stream northeast of the caption are separate. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-3-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-097",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7063,
+          4463,
+          31,
+          18
+        ]
+      ],
+      "note": "The two compact marks above the start of the name sit beside the road at the western tributary, west of the main River Inhabitants channel. The name does not identify one building. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-3-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-105",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7864,
+          3805,
+          50,
+          41
+        ]
+      ],
+      "note": "The two compact marks right of Don. Smith lie between the road to the west and the printed railway proposal to the east. They remain separate from the McTaggart group farther south. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-3-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-106",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          7742,
+          3932,
+          26,
+          40
+        ]
+      ],
+      "note": "The two compact marks below the name sit east of the road and west of the printed railway proposal, with the horizontal graticule running between them. Neither the graticule nor the railway supplies a site position. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-3-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-107",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8621,
+          4075,
+          22,
+          50
+        ]
+      ],
+      "note": "The two compact marks immediately right of Donald McMaster lie around the end of a short road, above the separate Angus McVarish group. Retain both marks without selecting an individual building. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-3-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-108",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8047,
+          4548,
+          77,
+          48
+        ]
+      ],
+      "note": "Two marks on the short road end and a third immediately left of D. Buchanan form the nearby candidates. Their source group is retained; the inscription does not uniquely choose one and the falls below are separate. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-3-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-114",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6150,
+          5275,
+          43,
+          41
+        ]
+      ],
+      "note": "The two compact marks on opposite sides of the road immediately left of Mal. McDonald form the candidate group. The lower Norman McIntyre pair stays separate. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-4-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-115",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6017,
+          5367,
+          37,
+          27
+        ]
+      ],
+      "note": "The two compact marks immediately left of Norman McIntyre lie north of the road end near the tributary. The farther southern road/brook pair and the northern Mal. McDonald group are separate. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-4-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-116",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          5811,
+          5581,
+          42,
+          15
+        ]
+      ],
+      "note": "The two compact marks straddling the end of the short curved road are immediately left of Nor. McIsaac and west of the broad brook. Retain the pair without assigning an individual building. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-4-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-127",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8553,
+          4250,
+          30,
+          35
+        ]
+      ],
+      "note": "The two compact marks immediately left of Angus McVarish lie east of the short north-south road. The Donald McMaster pair to the north and Neil McCuish pair to the southeast remain separate. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-4-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-128",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8842,
+          4378,
+          27,
+          16
+        ]
+      ],
+      "note": "The pair of compact marks immediately below/right of Neil McCuish lies north of the curved road. The Angus McVarish group to the northwest is separately retained. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-4-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-142",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9243,
+          1832,
+          31,
+          60
+        ]
+      ],
+      "note": "The two compact marks directly right of John R. Morrison lie on the western side of the curved brook, east of the printed railway proposal. A farther mark across the brook is not silently joined to this source group. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-4-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-152",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9303,
+          4512,
+          62,
+          57
+        ]
+      ],
+      "note": "The four compact marks around the road beside Widow McLeod are retained together. The name and widow descriptor remain historical source wording; no individual building or present family information is derived. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-5-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-153",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          9165,
+          4697,
+          18,
+          39
+        ]
+      ],
+      "note": "One compact candidate overlaps the beginning of Intosh and a clearer compact mark lies directly below it. Retain the small combined region with that overprinting ambiguity; the possible upper mark is not promoted to a confirmed building. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-5-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-160",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          6156,
+          6202,
+          27,
+          25
+        ]
+      ],
+      "note": "The two compact marks immediately left of Don. McIsaac lie at the end of the short road west of Rough Brook. The separate lower pair and geological direction arrows remain outside this source group. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-5-20260912"
+    },
+    {
+      "annotation_id": "F19-JUD-166",
+      "status": "unresolved",
+      "source_anchor_xy": null,
+      "candidate_symbol_regions_xywh": [
+        [
+          8920,
+          6257,
+          25,
+          40
+        ]
+      ],
+      "note": "The two compact marks above the end of Abraham McArthur lie west of the north-south road, with an east-west road between them. Preserve the group near the southern border without selecting an individual building. Historical name association only: no ownership, current residence, parcel, address or individual building identity is asserted. The region encloses printed candidates; it is not a property boundary or footprint.",
+      "source_uncertainty_px": null,
+      "reviewer": "Codex coordinator, native context and enlarged stored-region overlays, 2026-09-12",
+      "pixel_convention": "Original 10815 x 7549 scan, continuous pixel edges, x right/y down. Native context at 1x and measured details at 2x; crop origins recorded. No rotation.",
+      "review_batch": "judique-names-5-20260912"
     }
   ],
   "limits": "Source mark association only. Group outlines retain individual-building ambiguity. Geographic coordinates require the frozen fit and separate placement review."

@@ -1,0 +1,116 @@
+{
+  "source_sha256": "8a6588e2029c433ac85e190c9e10d1b4cda7dbba555f7824cfe6c5960163d724",
+  "source_review_sha256": "893b98d6d8104aba52abbaafca9f25076fe3bdb64395e176e4f03dfd3b5f13ff",
+  "image_sha256": "235da4c33a24bbbd9714e0d1979646936a87e52d5da2730d0c5a047f36b4c1a7",
+  "frames": [
+    {
+      "annotation_id": "F19-JUD-152",
+      "native_xywh": [
+        9125,
+        4332,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        60
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          9303,
+          4512,
+          62,
+          57
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-153",
+      "native_xywh": [
+        8855,
+        4495,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        60
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          9165,
+          4697,
+          18,
+          39
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-160",
+      "native_xywh": [
+        5949,
+        5989,
+        660,
+        450
+      ],
+      "display_xy": [
+        0,
+        590
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          6156,
+          6202,
+          27,
+          25
+        ]
+      ]
+    },
+    {
+      "annotation_id": "F19-JUD-166",
+      "native_xywh": [
+        8552,
+        6084,
+        660,
+        450
+      ],
+      "display_xy": [
+        660,
+        590
+      ],
+      "display_size": [
+        660,
+        450
+      ],
+      "rotation_degrees": 0,
+      "source_anchor_xy": null,
+      "source_group_xywh": [
+        [
+          8920,
+          6257,
+          25,
+          40
+        ]
+      ]
+    }
+  ],
+  "scope": "Source-mark crosshair/group review, not geographic validation. Original scans remain unchanged."
+}
