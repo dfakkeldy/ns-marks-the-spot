@@ -1,17 +1,17 @@
 {
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-13",
-  "nightly_revision": "56ba5570d5bdeab1fbd3fa3304f1e031490250fb",
-  "next_action": "Continue Hawkesbury lakes/ponds, falls and remaining retained annotations. All 80 service/industrial/transport, 17 road-caption and 26 stream/river initial decisions are recorded: 92 local integrations and 31 explicit holdbacks. There are 178 initial source associations remaining. PR462 merged 75 Hawkesbury features; seventeen watercourse additions pass local checks and await PR. Judique retains 126 merged placements and 166 initial decisions, with 40 holdbacks. Priority sheets 16/14 and remaining 20 sheets stay open.",
+  "nightly_revision": "d0f8f1f01bf64fc6a0fa63779bf39932a7ba7db6",
+  "next_action": "Continue the 107 Hawkesbury annotations still needing initial source association: settlements and personal names, coastal/landscape features, geology/minerals and remaining transport/administrative notes. All 194 initial service, road, stream/river, shoreline, water-note and height decisions are recorded: 115 local integrations, 79 explicit holdbacks. PR463 merged 92 Hawkesbury features; 23 further placements pass local checks and await PR. Judique retains 126 merged placements and all 166 initial decisions, with 40 holdbacks. Priority sheets 16/14 and remaining 20 sheets stay open.",
   "sheets": [
     {
       "sheet": 22,
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 301,
       "lettering_status": "processed",
-      "source_associated_count": 121,
-      "approximate_placement_reviewed_count": 92,
-      "integrated_count": 92,
+      "source_associated_count": 150,
+      "approximate_placement_reviewed_count": 115,
+      "integrated_count": 115,
       "blockers": [
         {
           "annotation_id": "F22-HAW-001",
@@ -29,6 +29,11 @@
           "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
         },
         {
+          "annotation_id": "F22-HAW-017",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
           "annotation_id": "F22-HAW-019",
           "stage": "outside-fit-neatline",
           "reason": "The complete source trace extends beyond the current supported fit neatline. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
@@ -37,6 +42,11 @@
           "annotation_id": "F22-HAW-020",
           "stage": "outside-supported-coverage",
           "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
+        },
+        {
+          "annotation_id": "F22-HAW-024",
+          "stage": "locality-unresolved",
+          "reason": "The short source brook bend projects west of the modern channel near the confluence/road district, and the source has no distinct spring-emergence mark. The local channel relationship remains unresolved, consistent with the separately held McMaster’s Mill group. Retain the complete source/provisional reach without public placement; do not snap it to the channel."
         },
         {
           "annotation_id": "F22-HAW-025",
@@ -49,14 +59,169 @@
           "reason": "The actual source mark lies outside the current conservative native control hull near the northern sheet edge. Preserve its exact source pixels without map placement. Supported local coverage is required; do not substitute lettering or extrapolate."
         },
         {
+          "annotation_id": "F22-HAW-033",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+        },
+        {
+          "annotation_id": "F22-HAW-034",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+        },
+        {
+          "annotation_id": "F22-HAW-036",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+        },
+        {
+          "annotation_id": "F22-HAW-038",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-040",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-043",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-049",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-051",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-052",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-060",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-062",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-063",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-065",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-069",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-075",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-093",
+          "stage": "source-location-unresolved",
+          "reason": "Native detail does not resolve an individual falls mark or a unique associated reach. Retain Fall as an unlocated source annotation; the road spur and nearby compact marks are not substitutes."
+        },
+        {
+          "annotation_id": "F22-HAW-098",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-099",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-103",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-110",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-111",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-115",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-119",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-125",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-130",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
           "annotation_id": "F22-HAW-132",
           "stage": "source-location-unresolved",
           "reason": "At Auld Cove the Mill caption is beside a road/watercourse crossing and small loop. Enlarged native pixels do not confidently separate an independent mill symbol from the joining linework. Preserve the caption unlocated; neither the crossing, loop nor circled fossil notation supplies a mill-site coordinate."
         },
         {
+          "annotation_id": "F22-HAW-148",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-151",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-152",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
           "annotation_id": "F22-HAW-157",
           "stage": "locality-unresolved",
           "reason": "The southern reach lies near modern drainage, but the source connection from the northern pond to the central Emery branch does not reconcile with the modern branch arrangement: the modern pond outlet continues toward a more western channel while the central branch begins separately. Historical change versus local fit error remains unresolved. Preserve the entire native/provisional line and withhold map placement; do not snap or discard the conflicting northern reach."
+        },
+        {
+          "annotation_id": "F22-HAW-158",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-162",
+          "stage": "locality-unresolved",
+          "reason": "The source branch/railway corridor at northwestern Mc Intyre Lake does not reconcile with the modern lake entrance and connected channels. The projected reach terminates north/east of the corresponding modern shore and cuts across a different wet-area arrangement. Preserve it and the historical directional wording, but withhold placement pending local correspondence; no current flow direction is inferred."
+        },
+        {
+          "annotation_id": "F22-HAW-164",
+          "stage": "locality-unresolved",
+          "reason": "The lake identity is recognizable, but the projected western bank and northwestern connection do not reconcile with the modern shore/branch arrangement; part of the source western bank falls within the modern lake body. No specific historical alteration has been established here. Preserve the complete source/provisional shoreline and withhold placement until local fit versus shoreline change is resolved."
         },
         {
           "annotation_id": "F22-HAW-173",
@@ -79,9 +244,29 @@
           "reason": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
         },
         {
+          "annotation_id": "F22-HAW-177",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-178",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
           "annotation_id": "F22-HAW-179",
           "stage": "outside-supported-coverage",
           "reason": "The actual source mark/group lies outside the current conservative source-control hull on the eastern sheet. Retain its complete native geometry without map placement; accepted local coverage is required. Do not shrink or relocate it to force support."
+        },
+        {
+          "annotation_id": "F22-HAW-181",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+        },
+        {
+          "annotation_id": "F22-HAW-184",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
         },
         {
           "annotation_id": "F22-HAW-185",
@@ -99,6 +284,36 @@
           "reason": "Mill is printed beside small watercourse loops at the railway/road crossing. Native enlargement does not identify a distinct mill symbol separate from those strokes. Retain the inscription unlocated; the loops and crossing are not substituted for a mill site."
         },
         {
+          "annotation_id": "F22-HAW-203",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-204",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-218",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-225",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-229",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-230",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
           "annotation_id": "F22-HAW-236",
           "stage": "outside-supported-coverage",
           "reason": "The complete source trace extends outside the current conservative control hull. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
@@ -109,9 +324,19 @@
           "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
         },
         {
-          "annotation_id": "F22-HAW-243",
-          "stage": "locality-unresolved",
-          "reason": "The source trace is clear, but its projection crosses a substantial part of modern Landrie Lake water geometry and lacks a continuous corresponding road. Available evidence does not resolve historical shoreline change versus local fit error. Retain the complete native and provisional projected line for review, but withhold it from the public map until the discrepancy is reconciled."
+          "annotation_id": "F22-HAW-247",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-248",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-249",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
         },
         {
           "annotation_id": "F22-HAW-250",
@@ -144,6 +369,11 @@
           "reason": "The complete source trace extends outside the current conservative control hull. Preserve the whole native path without geographic placement; accepted coverage is required. Do not trim endpoints, extrapolate or replace the road with lettering."
         },
         {
+          "annotation_id": "F22-HAW-266",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+        },
+        {
           "annotation_id": "F22-HAW-272",
           "stage": "outside-supported-coverage",
           "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
@@ -154,9 +384,9 @@
           "reason": "The complete bounded source watercourse/bank trace extends outside the current conservative control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not trim, extrapolate, replace it with lettering or infer a channel centreline."
         },
         {
-          "annotation_id": "F22-HAW-278",
-          "stage": "locality-unresolved",
-          "reason": "Much of the projected historical reach lies within modern NSTDB Reservoir Water polygon OBJECTID434 (WARS40), near the Landrie district. The eastern drainage/transport setting is recognizable, but available evidence does not reconcile the full historical channel and present reservoir extent with local fit uncertainty. Preserve the complete native/provisional reach and withhold public placement; no present channel or inundation history is asserted."
+          "annotation_id": "F22-HAW-275",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
         },
         {
           "annotation_id": "F22-HAW-283",
@@ -167,13 +397,23 @@
           "annotation_id": "F22-HAW-284",
           "stage": "outside-supported-coverage",
           "reason": "The complete source mark/group lies outside the current conservative native control hull. Preserve its exact native geometry without map placement; accepted local coverage is required. Do not shrink, extrapolate, relocate or replace it with lettering. The ferry landing, where applicable, does not imply a cross-channel route."
+        },
+        {
+          "annotation_id": "F22-HAW-289",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+        },
+        {
+          "annotation_id": "F22-HAW-290",
+          "stage": "source-location-unresolved",
+          "reason": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
         }
       ],
       "annotation_queue": "sheet-22-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-22-labels.geojson",
-      "source_association_reviewed_count": 123,
-      "merged_integrated_count": 75,
-      "integration_status": "75 merged through PR462; seventeen watercourse placements pass local checks and await PR. All 123 initial service, road and stream/river decisions are recorded."
+      "source_association_reviewed_count": 194,
+      "merged_integrated_count": 92,
+      "integration_status": "92 merged through PR463; 23 further placements pass local checks and await PR. All 194 initial source/geographic decisions are recorded."
     },
     {
       "sheet": 19,
@@ -744,6 +984,14 @@
       "head": "b99d88693fa4c8dc09e3f5b27938133f65d5b08a",
       "merge_commit": "56ba5570d5bdeab1fbd3fa3304f1e031490250fb",
       "ci": "All required checks passed"
+    },
+    {
+      "pr": 463,
+      "status": "merged",
+      "head": "925d6994013a5987639f466b1d4e58083accddbb",
+      "merge_commit": "d0f8f1f01bf64fc6a0fa63779bf39932a7ba7db6",
+      "ci": "All required checks passed. Initial native job failed during simulator launch before the test body; failed jobs passed on unchanged-head attempt 2.",
+      "ci_run": 34749552074
     }
   ],
   "fit_reconciliation": {

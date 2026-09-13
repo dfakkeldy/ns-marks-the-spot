@@ -13,6 +13,7 @@ type HistoricalProperties = {
   source_crop: { display_size: [number, number] };
   evidence_url: string; fit_revision: string; fit_sha256: string;
   imagery_licence_url: string; credit: string;
+  placement_references?: { title: string; url: string }[];
   placement_correction?: { modern_reference: { url: string; rights_url: string; attribution: string } };
 };
 type HistoricalFeature = Feature<Point | Polygon | MultiPolygon | LineString, HistoricalProperties>;
@@ -31,6 +32,7 @@ function featureIcon(kind: string) {
 
 function lineName(properties: HistoricalProperties) {
   if (properties.kind.includes('road')) return 'road segment';
+  if (properties.kind === 'waterbody') return 'shoreline';
   if (properties.kind.includes('railway') && properties.source_text.toUpperCase().includes('PROPOSED')) return 'railway proposal';
   return 'reach';
 }
@@ -68,6 +70,7 @@ function Evidence({ feature }: { feature: HistoricalFeature }) {
     <details><summary>Placement and source evidence</summary>
       <p>{p.placement_note}</p><p>{p.geometry_meaning}</p>
       <p><a href={p.source_context_url} target="_blank" rel="noreferrer">Original scan excerpt</a> · <a href={p.evidence_url} target="_blank" rel="noreferrer">Editable geometry and prior revisions</a></p>
+      {p.placement_references?.map(reference => <p key={reference.url}><a href={reference.url} target="_blank" rel="noreferrer">{reference.title}</a></p>)}
       <p>Fit {p.fit_revision.slice(0, 8)} · SHA256 {p.fit_sha256.slice(0, 12)}.</p>
       {p.placement_correction ? <p><a href={p.placement_correction.modern_reference.url} target="_blank" rel="noreferrer">Corrected church reference</a> · <a href={p.placement_correction.modern_reference.rights_url} target="_blank" rel="noreferrer">{p.placement_correction.modern_reference.attribution}, ODbL</a></p> : null}
     </details>

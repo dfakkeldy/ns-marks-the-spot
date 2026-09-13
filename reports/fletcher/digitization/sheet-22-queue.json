@@ -168,11 +168,11 @@
       "annotation_id": "F22-HAW-017",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-018",
@@ -238,11 +238,11 @@
       "annotation_id": "F22-HAW-024",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The short source brook bend projects west of the modern channel near the confluence/road district, and the source has no distinct spring-emergence mark. The local channel relationship remains unresolved, consistent with the separately held McMaster’s Mill group. Retain the complete source/provisional reach without public placement; do not snap it to the channel."
     },
     {
       "annotation_id": "F22-HAW-025",
@@ -328,41 +328,41 @@
       "annotation_id": "F22-HAW-033",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
     },
     {
       "annotation_id": "F22-HAW-034",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
     },
     {
       "annotation_id": "F22-HAW-035",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-036",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-group",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
     },
     {
       "annotation_id": "F22-HAW-037",
@@ -378,31 +378,31 @@
       "annotation_id": "F22-HAW-038",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-039",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-040",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-041",
@@ -428,11 +428,11 @@
       "annotation_id": "F22-HAW-043",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-044",
@@ -488,41 +488,41 @@
       "annotation_id": "F22-HAW-049",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-050",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-051",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-052",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-053",
@@ -598,11 +598,11 @@
       "annotation_id": "F22-HAW-060",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-061",
@@ -618,21 +618,21 @@
       "annotation_id": "F22-HAW-062",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-063",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-064",
@@ -648,21 +648,21 @@
       "annotation_id": "F22-HAW-065",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-066",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-067",
@@ -688,11 +688,11 @@
       "annotation_id": "F22-HAW-069",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-070",
@@ -748,11 +748,11 @@
       "annotation_id": "F22-HAW-075",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-076",
@@ -778,11 +778,11 @@
       "annotation_id": "F22-HAW-078",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-079",
@@ -858,11 +858,11 @@
       "annotation_id": "F22-HAW-086",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-087",
@@ -928,11 +928,11 @@
       "annotation_id": "F22-HAW-093",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Native detail does not resolve an individual falls mark or a unique associated reach. Retain Fall as an unlocated source annotation; the road spur and nearby compact marks are not substitutes."
     },
     {
       "annotation_id": "F22-HAW-094",
@@ -978,21 +978,21 @@
       "annotation_id": "F22-HAW-098",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-099",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-100",
@@ -1028,11 +1028,11 @@
       "annotation_id": "F22-HAW-103",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-104",
@@ -1098,21 +1098,21 @@
       "annotation_id": "F22-HAW-110",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-111",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-112",
@@ -1148,11 +1148,11 @@
       "annotation_id": "F22-HAW-115",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-116",
@@ -1188,11 +1188,11 @@
       "annotation_id": "F22-HAW-119",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-120",
@@ -1248,11 +1248,11 @@
       "annotation_id": "F22-HAW-125",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-126",
@@ -1268,21 +1268,21 @@
       "annotation_id": "F22-HAW-127",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-128",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-129",
@@ -1298,11 +1298,11 @@
       "annotation_id": "F22-HAW-130",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-131",
@@ -1358,11 +1358,11 @@
       "annotation_id": "F22-HAW-136",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-137",
@@ -1478,11 +1478,11 @@
       "annotation_id": "F22-HAW-148",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-149",
@@ -1508,21 +1508,21 @@
       "annotation_id": "F22-HAW-151",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-152",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-153",
@@ -1578,11 +1578,11 @@
       "annotation_id": "F22-HAW-158",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-159",
@@ -1618,11 +1618,11 @@
       "annotation_id": "F22-HAW-162",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The source branch/railway corridor at northwestern Mc Intyre Lake does not reconcile with the modern lake entrance and connected channels. The projected reach terminates north/east of the corresponding modern shore and cuts across a different wet-area arrangement. Preserve it and the historical directional wording, but withhold placement pending local correspondence; no current flow direction is inferred."
     },
     {
       "annotation_id": "F22-HAW-163",
@@ -1638,11 +1638,11 @@
       "annotation_id": "F22-HAW-164",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "locality-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The lake identity is recognizable, but the projected western bank and northwestern connection do not reconcile with the modern shore/branch arrangement; part of the source western bank falls within the modern lake body. No specific historical alteration has been established here. Preserve the complete source/provisional shoreline and withhold placement until local fit versus shoreline change is resolved."
     },
     {
       "annotation_id": "F22-HAW-165",
@@ -1668,11 +1668,11 @@
       "annotation_id": "F22-HAW-167",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-168",
@@ -1768,21 +1768,21 @@
       "annotation_id": "F22-HAW-177",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-178",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-179",
@@ -1808,11 +1808,11 @@
       "annotation_id": "F22-HAW-181",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
     },
     {
       "annotation_id": "F22-HAW-182",
@@ -1838,11 +1838,11 @@
       "annotation_id": "F22-HAW-184",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-185",
@@ -1858,21 +1858,21 @@
       "annotation_id": "F22-HAW-186",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-187",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-188",
@@ -1928,11 +1928,11 @@
       "annotation_id": "F22-HAW-193",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-194",
@@ -1988,21 +1988,21 @@
       "annotation_id": "F22-HAW-199",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-200",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-201",
@@ -2018,31 +2018,31 @@
       "annotation_id": "F22-HAW-202",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-203",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-204",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-205",
@@ -2178,11 +2178,11 @@
       "annotation_id": "F22-HAW-218",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-219",
@@ -2228,11 +2228,11 @@
       "annotation_id": "F22-HAW-223",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-224",
@@ -2248,11 +2248,11 @@
       "annotation_id": "F22-HAW-225",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-226",
@@ -2288,21 +2288,21 @@
       "annotation_id": "F22-HAW-229",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-230",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-231",
@@ -2328,21 +2328,21 @@
       "annotation_id": "F22-HAW-233",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-234",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-235",
@@ -2408,11 +2408,11 @@
       "annotation_id": "F22-HAW-241",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-symbol",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical footprint and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-242",
@@ -2429,10 +2429,10 @@
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-line",
-      "approximate_placement": "locality-unresolved",
-      "integration": "withheld",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
       "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
-      "remaining_question": "The source trace is clear, but its projection crosses a substantial part of modern Landrie Lake water geometry and lacks a continuous corresponding road. Available evidence does not resolve historical shoreline change versus local fit error. Retain the complete native and provisional projected line for review, but withhold it from the public map until the discrepancy is reconciled."
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-244",
@@ -2468,31 +2468,31 @@
       "annotation_id": "F22-HAW-247",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-248",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-249",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-250",
@@ -2658,11 +2658,11 @@
       "annotation_id": "F22-HAW-266",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "outside-supported-coverage",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
     },
     {
       "annotation_id": "F22-HAW-267",
@@ -2708,11 +2708,11 @@
       "annotation_id": "F22-HAW-271",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "reviewed-line",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-272",
@@ -2748,11 +2748,11 @@
       "annotation_id": "F22-HAW-275",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-276",
@@ -2779,10 +2779,10 @@
       "source_review": "reviewed",
       "lettering": "processed",
       "source_association": "reviewed-line",
-      "approximate_placement": "locality-unresolved",
-      "integration": "withheld",
+      "approximate_placement": "reviewed-current-fit",
+      "integration": "integrated-local",
       "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
-      "remaining_question": "Much of the projected historical reach lies within modern NSTDB Reservoir Water polygon OBJECTID434 (WARS40), near the Landrie district. The eastern drainage/transport setting is recognizable, but available evidence does not reconcile the full historical channel and present reservoir extent with local fit uncertainty. Preserve the complete native/provisional reach and withhold public placement; no present channel or inundation history is asserted."
+      "remaining_question": "Exact historical alignment and local fit uncertainty remain unresolved"
     },
     {
       "annotation_id": "F22-HAW-279",
@@ -2888,21 +2888,21 @@
       "annotation_id": "F22-HAW-289",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-290",
       "source_review": "reviewed",
       "lettering": "processed",
-      "source_association": "pending",
-      "approximate_placement": "pending",
-      "integration": "pending",
-      "evidence": null,
-      "remaining_question": null
+      "source_association": "unresolved-no-source-feature",
+      "approximate_placement": "source-location-unresolved",
+      "integration": "withheld",
+      "evidence": "reports/fletcher/feature-geography/sheet-22-features.geojson",
+      "remaining_question": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     },
     {
       "annotation_id": "F22-HAW-291",

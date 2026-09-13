@@ -84,6 +84,18 @@ class FeatureEvidenceTests(unittest.TestCase):
             self.assertEqual({f['id'] for f in exported},expected)
             self.assertNotIn(pending['features'][0]['id'],{f['id'] for f in exported})
 
+    def test_export_retains_corroborating_placement_sources(self):
+        data=copy.deepcopy(self.data)
+        feature=next(f for f in data['features'] if f['id']=='F19-JUD-007')
+        references=[{'title':'Reservoir history assessment (2026)',
+                     'url':'https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf#page=121'}]
+        feature['properties']['placement_review']['supporting_sources']=references
+        with tempfile.TemporaryDirectory() as tmp,patch.object(labels,'read',return_value=data):
+            exported=export_features.export([19],Path(tmp))
+        actual=next(f for f in exported if f['id']==feature['id'])
+        self.assertEqual(actual['properties']['placement_references'],references)
+        self.assertEqual(actual['geometry'],feature['geometry'])
+
     def test_reviewed_source_holdbacks_remain_out_of_web_export(self):
         self.assertIsNone(self.rows['F19-JUD-085']['geometry'])
         self.assertEqual(self.rows['F19-JUD-085']['properties']['placement_status'],'outside-supported-coverage')

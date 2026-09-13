@@ -1,7 +1,7 @@
 {
   "sheet": 22,
   "fit_sha256": "e96a8934ae42cc6dbc079e69afebb743c05decf0a61f19ac24eb620be48c32ed",
-  "source_review_sha256": "bb4611a60f9994e14822c5dfbc6c0e6a349a4847e7272fd7cea8bc5d2fb03e47",
+  "source_review_sha256": "615a0528a81758b4f573a89333167c619d6d0f978731fe112e11b7646cbb870c",
   "reviews": [
     {
       "annotation_id": "F22-HAW-001",
@@ -860,12 +860,30 @@
     },
     {
       "annotation_id": "F22-HAW-243",
-      "status": "locality-unresolved",
+      "status": "approximate-placement-reviewed",
       "reviewed_at": "2026-09-13",
       "reviewer": "Codex coordinator",
       "scene": "hawkesbury-road-243-geography.jpg",
       "scene_sha256": "f40825856a599339755f7561690fb30d08e86a8361fa9f55828a11486393f5f3",
-      "evidence": "The source trace is clear, but its projection crosses a substantial part of modern Landrie Lake water geometry and lacks a continuous corresponding road. Available evidence does not resolve historical shoreline change versus local fit error. Retain the complete native and provisional projected line for review, but withhold it from the public map until the discrepancy is reconciled."
+      "evidence": "The complete historical road remains in the Landrie basin, with its northern approach and adjacent source railway kept distinct. Documented reservoir changes explain the modern-water overlap. The frozen source projection is retained as approximate historical evidence; present alignment and exact pre-reservoir position are not established.",
+      "previous_reviews": [
+        {
+          "annotation_id": "F22-HAW-243",
+          "status": "locality-unresolved",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-road-243-geography.jpg",
+          "scene_sha256": "f40825856a599339755f7561690fb30d08e86a8361fa9f55828a11486393f5f3",
+          "evidence": "The source trace is clear, but its projection crosses a substantial part of modern Landrie Lake water geometry and lacks a continuous corresponding road. Available evidence does not resolve historical shoreline change versus local fit error. Retain the complete native and provisional projected line for review, but withhold it from the public map until the discrepancy is reconciled."
+        }
+      ],
+      "supporting_sources": [
+        {
+          "title": "Reservoir history assessment (2026)",
+          "url": "https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf#page=121"
+        }
+      ],
+      "reconciliation_receipt": "reservoir-history-reconciliation.json"
     },
     {
       "annotation_id": "F22-HAW-265",
@@ -1103,12 +1121,683 @@
     },
     {
       "annotation_id": "F22-HAW-278",
-      "status": "locality-unresolved",
+      "status": "approximate-placement-reviewed",
       "reviewed_at": "2026-09-13",
       "reviewer": "Codex coordinator",
       "scene": "hawkesbury-watercourse-278-geography.jpg",
       "scene_sha256": "991231add5c47f3d6ddb8f9414789408f63147a9b10840e9e1525036d0f627f6",
-      "evidence": "Much of the projected historical reach lies within modern NSTDB Reservoir Water polygon OBJECTID434 (WARS40), near the Landrie district. The eastern drainage/transport setting is recognizable, but available evidence does not reconcile the full historical channel and present reservoir extent with local fit uncertainty. Preserve the complete native/provisional reach and withhold public placement; no present channel or inundation history is asserted."
+      "evidence": "The complete historical brook remains in the Landrie basin and retains its eastern drainage/transport relationship. Documented reservoir changes explain the modern-water overlap. The frozen source projection is retained as approximate historical evidence; present alignment and exact pre-reservoir position are not established.",
+      "previous_reviews": [
+        {
+          "annotation_id": "F22-HAW-278",
+          "status": "locality-unresolved",
+          "reviewed_at": "2026-09-13",
+          "reviewer": "Codex coordinator",
+          "scene": "hawkesbury-watercourse-278-geography.jpg",
+          "scene_sha256": "991231add5c47f3d6ddb8f9414789408f63147a9b10840e9e1525036d0f627f6",
+          "evidence": "Much of the projected historical reach lies within modern NSTDB Reservoir Water polygon OBJECTID434 (WARS40), near the Landrie district. The eastern drainage/transport setting is recognizable, but available evidence does not reconcile the full historical channel and present reservoir extent with local fit uncertainty. Preserve the complete native/provisional reach and withhold public placement; no present channel or inundation history is asserted."
+        }
+      ],
+      "supporting_sources": [
+        {
+          "title": "Reservoir history assessment (2026)",
+          "url": "https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf#page=121"
+        }
+      ],
+      "reconciliation_receipt": "reservoir-history-reconciliation.json"
+    },
+    {
+      "annotation_id": "F22-HAW-017",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-1-20260913.jpg",
+      "scene_sha256": "d9f25e3fd7441f031010ac62dd02ae8aa83bc18f557be28bed60ec95fcab2743",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-024",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-24-geography.jpg",
+      "scene_sha256": "0877609f475b8b814ab1c7ae564c9852b07993daa65cc6bea2f696c9c2ade795",
+      "evidence": "The short source brook bend projects west of the modern channel near the confluence/road district, and the source has no distinct spring-emergence mark. The local channel relationship remains unresolved, consistent with the separately held McMaster’s Mill group. Retain the complete source/provisional reach without public placement; do not snap it to the channel."
+    },
+    {
+      "annotation_id": "F22-HAW-033",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-notes-1-20260913.jpg",
+      "scene_sha256": "a5e21bdaf2bf73aacc8427668a2149f37b678101c515e4dfe93a8c47f76c265b",
+      "evidence": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+    },
+    {
+      "annotation_id": "F22-HAW-034",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-notes-1-20260913.jpg",
+      "scene_sha256": "a5e21bdaf2bf73aacc8427668a2149f37b678101c515e4dfe93a8c47f76c265b",
+      "evidence": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+    },
+    {
+      "annotation_id": "F22-HAW-035",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-35-geography.jpg",
+      "scene_sha256": "252d8a108f507b1f0f1cdb03d585e92703afb3298eb3327d1df72863df1c8328",
+      "evidence": "The source reach remains on the same tributary corridor south of the northern road and north of the lower crossing. Its short bend is near modern drainage, with local offset. The 35-foot statement is preserved as historical wording, not an exact drop site or current height."
+    },
+    {
+      "annotation_id": "F22-HAW-036",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-notes-1-20260913.jpg",
+      "scene_sha256": "a5e21bdaf2bf73aacc8427668a2149f37b678101c515e4dfe93a8c47f76c265b",
+      "evidence": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+    },
+    {
+      "annotation_id": "F22-HAW-038",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-1-20260913.jpg",
+      "scene_sha256": "d9f25e3fd7441f031010ac62dd02ae8aa83bc18f557be28bed60ec95fcab2743",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-039",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-39-geography.jpg",
+      "scene_sha256": "f2b55a7a8199544eb2794d32b23f09d51e0a9bba191120a4ac8bf32ea1488f03",
+      "evidence": "The source bank remains within the Cape Pond district south of the Cape Jack tip. The modern pond arms and southern outlet support broad locality, but the historical western/southern outline differs markedly from the current water polygon. This is approximate historical shoreline evidence, not a present bank."
+    },
+    {
+      "annotation_id": "F22-HAW-040",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-1-20260913.jpg",
+      "scene_sha256": "d9f25e3fd7441f031010ac62dd02ae8aa83bc18f557be28bed60ec95fcab2743",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-043",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-1-20260913.jpg",
+      "scene_sha256": "d9f25e3fd7441f031010ac62dd02ae8aa83bc18f557be28bed60ec95fcab2743",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-049",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-1-20260913.jpg",
+      "scene_sha256": "d9f25e3fd7441f031010ac62dd02ae8aa83bc18f557be28bed60ec95fcab2743",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-050",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-50-geography.jpg",
+      "scene_sha256": "0edc2059d7bb4c97065e3cac7a311a02a06ac7e69bfb6e0ae811940422595711",
+      "evidence": "The source bank remains along the eastern side of the Beach Pond district behind the coastal barrier. Modern waterbody/road relationships support locality with a displaced northern neck and middle shore. No current shoreline is substituted."
+    },
+    {
+      "annotation_id": "F22-HAW-051",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-1-20260913.jpg",
+      "scene_sha256": "d9f25e3fd7441f031010ac62dd02ae8aa83bc18f557be28bed60ec95fcab2743",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-052",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-2-20260913.jpg",
+      "scene_sha256": "0d5bef6375656f86c4f66cb5e78c31fdba93266cbb677c7dc6103b274fea8649",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-060",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-2-20260913.jpg",
+      "scene_sha256": "0d5bef6375656f86c4f66cb5e78c31fdba93266cbb677c7dc6103b274fea8649",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-062",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-2-20260913.jpg",
+      "scene_sha256": "0d5bef6375656f86c4f66cb5e78c31fdba93266cbb677c7dc6103b274fea8649",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-063",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-2-20260913.jpg",
+      "scene_sha256": "0d5bef6375656f86c4f66cb5e78c31fdba93266cbb677c7dc6103b274fea8649",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-065",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-2-20260913.jpg",
+      "scene_sha256": "0d5bef6375656f86c4f66cb5e78c31fdba93266cbb677c7dc6103b274fea8649",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-066",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-66-geography.jpg",
+      "scene_sha256": "32e9f64ce934afac470087339c146a6a450db2e033046ad12d9041a56d295bc0",
+      "evidence": "The source landward bank remains in the Heffernan coastal-pond district west of Highway 19. Its broad curve and eastern drainage setting support locality, with much of the historical bank projecting into modern mapped water. It is not a current bank or water-level measurement."
+    },
+    {
+      "annotation_id": "F22-HAW-069",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-2-20260913.jpg",
+      "scene_sha256": "0d5bef6375656f86c4f66cb5e78c31fdba93266cbb677c7dc6103b274fea8649",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-075",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-3-20260913.jpg",
+      "scene_sha256": "7fd828b5bd3bca3ab42027b2ef91b853374a2a5ed6ca5e69d2942700916a5a02",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-078",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-78-geography.jpg",
+      "scene_sha256": "fca027ddc6a266bb67719c9b015b72bb2cd3020019447977f96d4cdfc084398e",
+      "evidence": "The source northern/eastern shore remains in the Horton Lake district; the eastern coves and broader lake shape are recognizable. The northern bank is offset south of the modern shore, retained as approximate historical geometry."
+    },
+    {
+      "annotation_id": "F22-HAW-086",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-86-geography.jpg",
+      "scene_sha256": "4a65a40753435a4789ec21ae4211bd6e0ef1ffb79c44e22f4274589b83f499b2",
+      "evidence": "The source shore remains in the northern Beaver Dam Lake/wetland district above Sugar Camp Brook. The eastern bank and southern connection support broad locality; the northern indentation and mapped wet-area extent differ. No current open-water boundary is claimed."
+    },
+    {
+      "annotation_id": "F22-HAW-093",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-notes-1-20260913.jpg",
+      "scene_sha256": "a5e21bdaf2bf73aacc8427668a2149f37b678101c515e4dfe93a8c47f76c265b",
+      "evidence": "Native detail does not resolve an individual falls mark or a unique associated reach. Retain Fall as an unlocated source annotation; the road spur and nearby compact marks are not substitutes."
+    },
+    {
+      "annotation_id": "F22-HAW-098",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-3-20260913.jpg",
+      "scene_sha256": "7fd828b5bd3bca3ab42027b2ef91b853374a2a5ed6ca5e69d2942700916a5a02",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-099",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-3-20260913.jpg",
+      "scene_sha256": "7fd828b5bd3bca3ab42027b2ef91b853374a2a5ed6ca5e69d2942700916a5a02",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-103",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-3-20260913.jpg",
+      "scene_sha256": "7fd828b5bd3bca3ab42027b2ef91b853374a2a5ed6ca5e69d2942700916a5a02",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-110",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-3-20260913.jpg",
+      "scene_sha256": "7fd828b5bd3bca3ab42027b2ef91b853374a2a5ed6ca5e69d2942700916a5a02",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-111",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-3-20260913.jpg",
+      "scene_sha256": "7fd828b5bd3bca3ab42027b2ef91b853374a2a5ed6ca5e69d2942700916a5a02",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-115",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-4-20260913.jpg",
+      "scene_sha256": "2fa426918960dd84413f5ef9aa79ca5912fd4f04c3549d269fb2126dc42d0eff",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-119",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-4-20260913.jpg",
+      "scene_sha256": "2fa426918960dd84413f5ef9aa79ca5912fd4f04c3549d269fb2126dc42d0eff",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-125",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-4-20260913.jpg",
+      "scene_sha256": "2fa426918960dd84413f5ef9aa79ca5912fd4f04c3549d269fb2126dc42d0eff",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-127",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-127-geography.jpg",
+      "scene_sha256": "daa26242de95ffee66441a911909b0dc629a8b3ab68c5a335711594c8fb2d184",
+      "evidence": "The source eastern shore remains along the inland edge of Long Pond behind Ghost Beach and west of Highway 19. Modern elongated pond and island context support locality with local bank and crossing offsets."
+    },
+    {
+      "annotation_id": "F22-HAW-128",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-128-geography.jpg",
+      "scene_sha256": "232eb7e145331522e4626923d718c97bd43b76cfcfde554f064a2b257f053020",
+      "evidence": "The source bank remains on the inland side of Archie Pond north of Auld Cove. The modern pond and coastal-road corridor support broad locality, but the historical bank projects west of much of the current shore. The geometry is retained without road or bank snapping."
+    },
+    {
+      "annotation_id": "F22-HAW-130",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-4-20260913.jpg",
+      "scene_sha256": "2fa426918960dd84413f5ef9aa79ca5912fd4f04c3549d269fb2126dc42d0eff",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-136",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-136-geography.jpg",
+      "scene_sha256": "ff069b6b60fa0250f2652b48c8af6db211e8b694ebefc3f32983ee63765f06b1",
+      "evidence": "The short source reach remains on the same Horton Brook bend south of Horton Lake. Modern drainage and the nearby confluence support approximate locality; the actual drop point and current falls condition remain unresolved."
+    },
+    {
+      "annotation_id": "F22-HAW-148",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-4-20260913.jpg",
+      "scene_sha256": "2fa426918960dd84413f5ef9aa79ca5912fd4f04c3549d269fb2126dc42d0eff",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-151",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-4-20260913.jpg",
+      "scene_sha256": "2fa426918960dd84413f5ef9aa79ca5912fd4f04c3549d269fb2126dc42d0eff",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-152",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-5-20260913.jpg",
+      "scene_sha256": "6c1b1bc4a13bd3004602a63e90abd0aab2fc24e0b2af12720735a0096b07fd74",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-158",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-5-20260913.jpg",
+      "scene_sha256": "6c1b1bc4a13bd3004602a63e90abd0aab2fc24e0b2af12720735a0096b07fd74",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-162",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-162-geography.jpg",
+      "scene_sha256": "54bf251ae938ad339495d7fb3f168ebc7240321930d7336e2bb3ff0f0a4e09c4",
+      "evidence": "The source branch/railway corridor at northwestern Mc Intyre Lake does not reconcile with the modern lake entrance and connected channels. The projected reach terminates north/east of the corresponding modern shore and cuts across a different wet-area arrangement. Preserve it and the historical directional wording, but withhold placement pending local correspondence; no current flow direction is inferred."
+    },
+    {
+      "annotation_id": "F22-HAW-164",
+      "status": "locality-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-164-geography.jpg",
+      "scene_sha256": "20fd3e39a3926d2bf8edcd4975e3dfcfd4c15601cb598df36ee4349fd56a6a4f",
+      "evidence": "The lake identity is recognizable, but the projected western bank and northwestern connection do not reconcile with the modern shore/branch arrangement; part of the source western bank falls within the modern lake body. No specific historical alteration has been established here. Preserve the complete source/provisional shoreline and withhold placement until local fit versus shoreline change is resolved."
+    },
+    {
+      "annotation_id": "F22-HAW-167",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-167-geography.jpg",
+      "scene_sha256": "46b0b1707fbd7f854c95c476e2385414a868ba4db0becd9aa3bc9d670d289151",
+      "evidence": "The source shore remains in the southern Beaver Dam Lake district south of the modern highway. The incoming western drainage and broader lake setting support locality, with a northward offset along the historical northern bank and changed eastern wet-area shapes. This is not the current shore."
+    },
+    {
+      "annotation_id": "F22-HAW-177",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-5-20260913.jpg",
+      "scene_sha256": "6c1b1bc4a13bd3004602a63e90abd0aab2fc24e0b2af12720735a0096b07fd74",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-178",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-5-20260913.jpg",
+      "scene_sha256": "6c1b1bc4a13bd3004602a63e90abd0aab2fc24e0b2af12720735a0096b07fd74",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-181",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-notes-2-20260913.jpg",
+      "scene_sha256": "cf2ffa9ff4651ce2eff7e10a0e36b6cffeb8ea43ec4ec0f34b8954a8ba3ccd57",
+      "evidence": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+    },
+    {
+      "annotation_id": "F22-HAW-184",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-5-20260913.jpg",
+      "scene_sha256": "6c1b1bc4a13bd3004602a63e90abd0aab2fc24e0b2af12720735a0096b07fd74",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-186",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-186-geography.jpg",
+      "scene_sha256": "b9ff44e1888ab50278ec2f2cf503ad88e7e7bc922b61a26d26eaf42b122ec330",
+      "evidence": "The short source bend remains in the same southeast-running stream corridor east of the western road. The source reach is southwest of the modern channel; only approximate historical locality is supported, with no exact 4-foot drop point."
+    },
+    {
+      "annotation_id": "F22-HAW-187",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-187-geography.jpg",
+      "scene_sha256": "0e7e4fa9e5b553803023d0da8050dbcc9bb2f9ba216e1ce0497449ac6c195608",
+      "evidence": "This separate source reach remains farther southeast along the same drainage as Fall 4′. The modern channel is offset northeast; retain the bounded historical reach and 20-foot wording without claiming an exact or current drop."
+    },
+    {
+      "annotation_id": "F22-HAW-193",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-193-geography.jpg",
+      "scene_sha256": "6226987cc8cb03b685704ac4828397a694dc752285fb99b44d7488fadb2716b5",
+      "evidence": "The source cascades reach remains on the south-running tributary below the Tracadie north-branch road district. The modern channel is locally east of the projection; the broader tributary relationship supports approximate locality, not an exact cascade footprint or present drop height."
+    },
+    {
+      "annotation_id": "F22-HAW-199",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-199-geography.jpg",
+      "scene_sha256": "e093a60fdb6183a3c26ff8289fff2c6bcbad9d6fad386f540e276ed7b78f8c75",
+      "evidence": "The source bank remains in the Summers Lake district with its long north-south body and eastern bay. The historical northeastern bank projects within the modern waterbody and retains substantial local shape/position differences. This is an approximate historical shoreline, not the current bank."
+    },
+    {
+      "annotation_id": "F22-HAW-200",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-200-geography.jpg",
+      "scene_sha256": "3bc81746977e3e3e840e99da9d11b5a4bd7aee922716aef73aff73a083ea66f9",
+      "evidence": "The source bank remains in the Auld Lake drainage corridor west of the modern highway and north of the railway. Modern pond/channel and wet-area context support broad locality with altered outlines and local offsets."
+    },
+    {
+      "annotation_id": "F22-HAW-202",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-202-geography.jpg",
+      "scene_sha256": "100dd1e223d745cf5f08c51cafcfcfbcf801fde0745963d6caba97970e73b9bd",
+      "evidence": "The source northern shore remains in the Grant Lake district below the Old Post Road corridor. Its sequence of northern lobes and eastern approach supports approximate locality, while the detailed bank and islands differ from modern mapping."
+    },
+    {
+      "annotation_id": "F22-HAW-203",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-5-20260913.jpg",
+      "scene_sha256": "6c1b1bc4a13bd3004602a63e90abd0aab2fc24e0b2af12720735a0096b07fd74",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-204",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-6-20260913.jpg",
+      "scene_sha256": "f90b462ebad79720c7d8d2fd67c129ed8680dea6a7d9dbaa5bca116c5397a89a",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-218",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-6-20260913.jpg",
+      "scene_sha256": "f90b462ebad79720c7d8d2fd67c129ed8680dea6a7d9dbaa5bca116c5397a89a",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-223",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-223-geography.jpg",
+      "scene_sha256": "a021fbe8a52c9d57a7826b72a6044fb9d8ce338f890c9e2a8657e46f6193f1d4",
+      "evidence": "The source bank follows the same elongated northern arm of Emery Pond near the coast. The western/middle curve is broadly recognizable, while the eastern endpoint projects inland of the modern pond edge. Preserve the source bank without asserting present shoreline or outlet geometry."
+    },
+    {
+      "annotation_id": "F22-HAW-225",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-6-20260913.jpg",
+      "scene_sha256": "f90b462ebad79720c7d8d2fd67c129ed8680dea6a7d9dbaa5bca116c5397a89a",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-229",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-6-20260913.jpg",
+      "scene_sha256": "f90b462ebad79720c7d8d2fd67c129ed8680dea6a7d9dbaa5bca116c5397a89a",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-230",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-6-20260913.jpg",
+      "scene_sha256": "f90b462ebad79720c7d8d2fd67c129ed8680dea6a7d9dbaa5bca116c5397a89a",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-233",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-233-geography.jpg",
+      "scene_sha256": "eecdffb71bb836f063ea22ca6d8e63403d3e952905daf5df349f835da122ba97",
+      "evidence": "The spring glyph remains immediately landward of the printed historical Landrie Lake bank. Documented reservoir changes explain its modern-water overlap. This is an approximate historical symbol location; no current spring, pump or water condition is identified.",
+      "supporting_sources": [
+        {
+          "title": "Reservoir history assessment (2026)",
+          "url": "https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf#page=121"
+        }
+      ],
+      "reconciliation_receipt": "reservoir-history-reconciliation.json"
+    },
+    {
+      "annotation_id": "F22-HAW-234",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-234-geography.jpg",
+      "scene_sha256": "253bc9b604665617bddf84f098f0f9aaad43f8556fc2ac243a901ecb136b6402",
+      "evidence": "The shoreline remains in the Landrie basin and retains the printed lake’s northern/eastern bank geometry. Documented reservoir changes explain its modern-water overlap. The trace is approximate historical evidence, with local fit uncertainty and no present-shoreline claim.",
+      "supporting_sources": [
+        {
+          "title": "Reservoir history assessment (2026)",
+          "url": "https://novascotia.ca/nse/ea/little-river-pumping-transmission-system/little-river-ea-registration-document.pdf#page=121"
+        }
+      ],
+      "reconciliation_receipt": "reservoir-history-reconciliation.json"
+    },
+    {
+      "annotation_id": "F22-HAW-241",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-241-geography.jpg",
+      "scene_sha256": "a698174d4b9aa8aa37079e495c96a60b302caaa150a5fb131ead181171d3fa94",
+      "evidence": "The spring glyph remains west of the Little River bend north of the southern waterbody, within the same drainage district. Modern channels support broad locality with local offset. The source abbreviation does not establish present chemistry, a current spring or an exact modern site."
+    },
+    {
+      "annotation_id": "F22-HAW-247",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-6-20260913.jpg",
+      "scene_sha256": "f90b462ebad79720c7d8d2fd67c129ed8680dea6a7d9dbaa5bca116c5397a89a",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-248",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-7-20260913.jpg",
+      "scene_sha256": "36e924b890b02c71e5a443846da6321decb2324d2b9be55fb101a93605c76d99",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-249",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-7-20260913.jpg",
+      "scene_sha256": "36e924b890b02c71e5a443846da6321decb2324d2b9be55fb101a93605c76d99",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-266",
+      "status": "outside-supported-coverage",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-notes-3-20260913.jpg",
+      "scene_sha256": "cc77628a623404aab020b07bc42c50fc47dd4b1fad311c32989a61b953ded99b",
+      "evidence": "The complete native bank/reach or candidate rock cluster extends outside the current conservative control hull. Preserve it without geographic placement; accepted coverage is required. No cropping, extrapolation or lettering-centre substitution is used."
+    },
+    {
+      "annotation_id": "F22-HAW-271",
+      "status": "approximate-placement-reviewed",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-water-detail-271-geography.jpg",
+      "scene_sha256": "a17a10342d215cc09c613b256386f1a585234249c0f189367b22c7f0b9391e5d",
+      "evidence": "The short historical waterfall reach remains inland of Pirate Harbour in the West Brook district. The modern stream is offset south of the projected bend; coastline and drainage approach support only approximate locality, without a current waterfall or exact drop-site match."
+    },
+    {
+      "annotation_id": "F22-HAW-275",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-7-20260913.jpg",
+      "scene_sha256": "36e924b890b02c71e5a443846da6321decb2324d2b9be55fb101a93605c76d99",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-289",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-7-20260913.jpg",
+      "scene_sha256": "36e924b890b02c71e5a443846da6321decb2324d2b9be55fb101a93605c76d99",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
+    },
+    {
+      "annotation_id": "F22-HAW-290",
+      "status": "source-location-unresolved",
+      "reviewed_at": "2026-09-13",
+      "reviewer": "Codex coordinator",
+      "scene": "hawkesbury-heights-7-20260913.jpg",
+      "scene_sha256": "36e924b890b02c71e5a443846da6321decb2324d2b9be55fb101a93605c76d99",
+      "evidence": "The original height wording and lettering geography are retained, but native review identifies no separate associated spot-height mark. No terrain coordinate, benchmark, vertical datum or current elevation is asserted."
     }
   ]
 }

@@ -1,0 +1,355 @@
+{
+  "reviewed_at": "2026-09-13",
+  "browser": "Repository Playwright Chromium; Browser plugin/skill unavailable",
+  "export_count": 241,
+  "export_sha256": "5619a33dd0fbd4c373f05100ee33357110b0d7b3f68d7c3e0dc50213a676ed3b",
+  "checks": {
+    "count": 241,
+    "checks": [
+      {
+        "id": "F22-HAW-035",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-039",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-050",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-066",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-078",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-086",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-127",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-128",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-136",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-167",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-186",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-187",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-193",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-199",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-200",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-202",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-223",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-233",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-234",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-241",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "Point",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-243",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-271",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      },
+      {
+        "id": "F22-HAW-278",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "geometry": "LineString",
+        "evidence": "Source excerpt loaded, distinct placement note and correct annotation selected"
+      }
+    ],
+    "holdbacks": [
+      "F22-HAW-001",
+      "F22-HAW-002",
+      "F22-HAW-012",
+      "F22-HAW-017",
+      "F22-HAW-019",
+      "F22-HAW-020",
+      "F22-HAW-024",
+      "F22-HAW-025",
+      "F22-HAW-028",
+      "F22-HAW-033",
+      "F22-HAW-034",
+      "F22-HAW-036",
+      "F22-HAW-038",
+      "F22-HAW-040",
+      "F22-HAW-043",
+      "F22-HAW-049",
+      "F22-HAW-051",
+      "F22-HAW-052",
+      "F22-HAW-060",
+      "F22-HAW-062",
+      "F22-HAW-063",
+      "F22-HAW-065",
+      "F22-HAW-069",
+      "F22-HAW-075",
+      "F22-HAW-093",
+      "F22-HAW-098",
+      "F22-HAW-099",
+      "F22-HAW-103",
+      "F22-HAW-110",
+      "F22-HAW-111",
+      "F22-HAW-115",
+      "F22-HAW-119",
+      "F22-HAW-125",
+      "F22-HAW-130",
+      "F22-HAW-132",
+      "F22-HAW-148",
+      "F22-HAW-151",
+      "F22-HAW-152",
+      "F22-HAW-157",
+      "F22-HAW-158",
+      "F22-HAW-162",
+      "F22-HAW-164",
+      "F22-HAW-173",
+      "F22-HAW-174",
+      "F22-HAW-175",
+      "F22-HAW-176",
+      "F22-HAW-177",
+      "F22-HAW-178",
+      "F22-HAW-179",
+      "F22-HAW-181",
+      "F22-HAW-184",
+      "F22-HAW-185",
+      "F22-HAW-192",
+      "F22-HAW-201",
+      "F22-HAW-203",
+      "F22-HAW-204",
+      "F22-HAW-218",
+      "F22-HAW-225",
+      "F22-HAW-229",
+      "F22-HAW-230",
+      "F22-HAW-236",
+      "F22-HAW-239",
+      "F22-HAW-247",
+      "F22-HAW-248",
+      "F22-HAW-249",
+      "F22-HAW-250",
+      "F22-HAW-251",
+      "F22-HAW-253",
+      "F22-HAW-260",
+      "F22-HAW-261",
+      "F22-HAW-265",
+      "F22-HAW-266",
+      "F22-HAW-272",
+      "F22-HAW-273",
+      "F22-HAW-275",
+      "F22-HAW-283",
+      "F22-HAW-284",
+      "F22-HAW-289",
+      "F22-HAW-290"
+    ],
+    "errors": []
+  },
+  "additional_assertions": [
+    "All 23 additions/reconciled placements selected with native excerpts and visible placement evidence at alternating desktop/phone widths, ready basemaps and clean consoles.",
+    "Lake/pond paths identify themselves as historical shorelines and remain unfilled lines; other reaches and spring marks retain their geometry roles.",
+    "Four assessment references render as visible links with the exact verified PDF page URL.",
+    "All 218 previously exported geometry/content records remain unchanged apart from current evidence bundle hashes.",
+    "New Road243 and Seacoal278 retain their complete earlier holdback reviews and unchanged native/projected geometry in the reconciliation record.",
+    "All 41 height captions remain unlocated rather than receiving lettering-centre elevation points."
+  ],
+  "local_checks": {
+    "python": "300 tests pass, eight existing skips",
+    "web": "8 Fletcher component tests and web script tests pass; lint and build pass"
+  },
+  "artifacts": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-water-details-review.json",
+      "sha256": "0f8c78aac86d1a82730b33fbe72d7b9722653a138b5082ae359475af5bc18160"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-water-details-128.png",
+      "sha256": "51d7f7c19dec108d094b31c9468d2dd668d32affd3fb32f8434e195714da44a8"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-water-details-278.png",
+      "sha256": "d6f7cb30ba34a601da4d43715206eb4e58c224abaa95283478c39303769f5545"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-water-details-39.png",
+      "sha256": "339775ec57ec8d5d934441d70a0e991a38bb68e7b6699386deee99ed73b60542"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-water-details-243.png",
+      "sha256": "986e6ff644ffcbf955a4c293685837a59462fd3d9a6336ebb6cb53777062f439"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-water-details-233.png",
+      "sha256": "8bae6ec7140c33b6baddd6f74d20877a4b5cd31e4c34de64821001ecc881e8eb"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-water-details-66.png",
+      "sha256": "2b2653e16658844c487c7c3035dcf9e516ee5f31320683783eb055a61b138c82"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/web-hawkesbury-water-details-234.png",
+      "sha256": "e1238caabe77d10774191230f5d8782aa6bd7a3243cb6a91e63a1fc22454e195"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-241-export/source.json",
+      "sha256": "619757eac0f7ef893b007be352ce8c0f54bc33b05590b876a236e074320bc1f0"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/verified-241-export/reviewed.geojson",
+      "sha256": "5619a33dd0fbd4c373f05100ee33357110b0d7b3f68d7c3e0dc50213a676ed3b"
+    }
+  ],
+  "limits": "Approximate historical source geometry only, with explicit residual holdbacks. No exact current shoreline, elevation, drop height, flow, spring condition, access or ownership claim. No production publication claim."
+}

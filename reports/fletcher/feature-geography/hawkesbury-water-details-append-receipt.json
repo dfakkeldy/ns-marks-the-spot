@@ -1,0 +1,286 @@
+{
+  "reviewed_at": "2026-09-13",
+  "previous_source_review_sha256": "bb4611a60f9994e14822c5dfbc6c0e6a349a4847e7272fd7cea8bc5d2fb03e47",
+  "current_source_review_sha256": "4e9cff7d6318f5297711f3e896705225e5a300a4ac4a8f951ae7e135e3a7498d",
+  "unchanged_prior_source_associations": [
+    "F22-HAW-001",
+    "F22-HAW-002",
+    "F22-HAW-004",
+    "F22-HAW-008",
+    "F22-HAW-023",
+    "F22-HAW-025",
+    "F22-HAW-026",
+    "F22-HAW-028",
+    "F22-HAW-031",
+    "F22-HAW-032",
+    "F22-HAW-041",
+    "F22-HAW-042",
+    "F22-HAW-005",
+    "F22-HAW-030",
+    "F22-HAW-045",
+    "F22-HAW-046",
+    "F22-HAW-053",
+    "F22-HAW-055",
+    "F22-HAW-056",
+    "F22-HAW-057",
+    "F22-HAW-058",
+    "F22-HAW-061",
+    "F22-HAW-064",
+    "F22-HAW-067",
+    "F22-HAW-047",
+    "F22-HAW-068",
+    "F22-HAW-070",
+    "F22-HAW-073",
+    "F22-HAW-077",
+    "F22-HAW-084",
+    "F22-HAW-089",
+    "F22-HAW-102",
+    "F22-HAW-104",
+    "F22-HAW-105",
+    "F22-HAW-109",
+    "F22-HAW-114",
+    "F22-HAW-116",
+    "F22-HAW-118",
+    "F22-HAW-129",
+    "F22-HAW-132",
+    "F22-HAW-134",
+    "F22-HAW-137",
+    "F22-HAW-145",
+    "F22-HAW-165",
+    "F22-HAW-166",
+    "F22-HAW-172",
+    "F22-HAW-173",
+    "F22-HAW-174",
+    "F22-HAW-175",
+    "F22-HAW-176",
+    "F22-HAW-179",
+    "F22-HAW-182",
+    "F22-HAW-189",
+    "F22-HAW-191",
+    "F22-HAW-197",
+    "F22-HAW-201",
+    "F22-HAW-205",
+    "F22-HAW-206",
+    "F22-HAW-207",
+    "F22-HAW-208",
+    "F22-HAW-210",
+    "F22-HAW-212",
+    "F22-HAW-214",
+    "F22-HAW-217",
+    "F22-HAW-220",
+    "F22-HAW-221",
+    "F22-HAW-227",
+    "F22-HAW-235",
+    "F22-HAW-250",
+    "F22-HAW-251",
+    "F22-HAW-253",
+    "F22-HAW-260",
+    "F22-HAW-261",
+    "F22-HAW-268",
+    "F22-HAW-269",
+    "F22-HAW-280",
+    "F22-HAW-281",
+    "F22-HAW-282",
+    "F22-HAW-283",
+    "F22-HAW-284",
+    "F22-HAW-007",
+    "F22-HAW-014",
+    "F22-HAW-015",
+    "F22-HAW-019",
+    "F22-HAW-027",
+    "F22-HAW-085",
+    "F22-HAW-108",
+    "F22-HAW-121",
+    "F22-HAW-147",
+    "F22-HAW-159",
+    "F22-HAW-160",
+    "F22-HAW-188",
+    "F22-HAW-198",
+    "F22-HAW-231",
+    "F22-HAW-236",
+    "F22-HAW-243",
+    "F22-HAW-265",
+    "F22-HAW-011",
+    "F22-HAW-012",
+    "F22-HAW-013",
+    "F22-HAW-018",
+    "F22-HAW-020",
+    "F22-HAW-071",
+    "F22-HAW-076",
+    "F22-HAW-079",
+    "F22-HAW-081",
+    "F22-HAW-088",
+    "F22-HAW-090",
+    "F22-HAW-100",
+    "F22-HAW-107",
+    "F22-HAW-120",
+    "F22-HAW-123",
+    "F22-HAW-155",
+    "F22-HAW-156",
+    "F22-HAW-157",
+    "F22-HAW-168",
+    "F22-HAW-185",
+    "F22-HAW-192",
+    "F22-HAW-239",
+    "F22-HAW-246",
+    "F22-HAW-272",
+    "F22-HAW-273",
+    "F22-HAW-278"
+  ],
+  "appended_annotation_ids": [
+    "F22-HAW-039",
+    "F22-HAW-050",
+    "F22-HAW-066",
+    "F22-HAW-078",
+    "F22-HAW-086",
+    "F22-HAW-127",
+    "F22-HAW-128",
+    "F22-HAW-164",
+    "F22-HAW-167",
+    "F22-HAW-199",
+    "F22-HAW-200",
+    "F22-HAW-202",
+    "F22-HAW-223",
+    "F22-HAW-234",
+    "F22-HAW-024",
+    "F22-HAW-033",
+    "F22-HAW-034",
+    "F22-HAW-035",
+    "F22-HAW-036",
+    "F22-HAW-093",
+    "F22-HAW-136",
+    "F22-HAW-162",
+    "F22-HAW-181",
+    "F22-HAW-186",
+    "F22-HAW-187",
+    "F22-HAW-193",
+    "F22-HAW-233",
+    "F22-HAW-241",
+    "F22-HAW-266",
+    "F22-HAW-271"
+  ],
+  "candidate_history": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-contexts.json",
+      "sha256": "270d40f158a4e94030b4b7ac5764605b2d9d823bb4d7deee4dbf3edf69476ac1"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-final-paths.json",
+      "sha256": "13bd727636c457e732eabe1057fa37e9e25986c7c504c7830fae13532ad58f57"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-before-128-correction.json",
+      "sha256": "5c8cbe2f0d1e601173b2e489b68db4b8c65c3ee71a3d0f1be7b557e57df796e6"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-fifth-proposals.json",
+      "sha256": "85d47642d3393e95ce7c119a2536d98821812d1ba075da0012de7daa70483ac3"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-first-proposals.json",
+      "sha256": "58a27dfac1bf51882019e5aaa053f32d23a0a2c99b189aeccb0291aff1f215d1"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-fourth-proposals.json",
+      "sha256": "f6aa0c5d78ebc88dd2acd0b68d839aa8c8d4c1576a4c2f55fb0c8bfab73ee4b0"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-second-proposals.json",
+      "sha256": "6ba8a47ef8580941ca333d79af413155b32bafcde8daf1e55168ff5f13d3a36f"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-third-proposals.json",
+      "sha256": "7abc561eb9619a8c2ad6982b2f21bb2bc60e8b1f8da7ef3e5610b1e6e02aec98"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-fifth-ink-candidates.json",
+      "sha256": "3b0dafb3c0fc98f6967d4672f09c305f086b1d8ff8460436bf5b480120c2e978"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-first-ink-candidates.json",
+      "sha256": "03a136f9b4de980ac37a242b14be602dd54041652d517139918acea8675935d2"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-fourth-ink-candidates.json",
+      "sha256": "7e5e02663b8bf332fcb9a3c260e9bb6ea22cb74d03d494143c15d463ae23f701"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-second-ink-candidates.json",
+      "sha256": "147e9d86547ff4d68b469e10207f23b01228495e3cecc757d8b6d6234711749e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-third-ink-candidates.json",
+      "sha256": "050be59eb1f5cca72fe06f33b9ad4083840307f2087f3f2aa74ea8d3efb94ed3"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-128-native-detail.png",
+      "sha256": "8ddb2c005f0e54e44ebdcfc7048163a6b49055c9b2c96d9b8c9b7cae975f918b"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-lake-128-final-detail.png",
+      "sha256": "20d71e6f9100fb9e6da3c6cbcb9138531af22d0432f18b72025584eb612611a6"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-waternote-contexts.json",
+      "sha256": "1ba6e2c6f7a159b80999b96bcaf9450610a26b9e5d83209bb0ee62aec98c7dda"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-waternote-final-geometries.json",
+      "sha256": "b7e78f9ec976ebdedf5ede638bbba11600fa8a47b0f371c21d344cca52e528a7"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-waternote-detail-frames.json",
+      "sha256": "34e461b6b5bd8147ac15394ae43443ea19c350208390a414e74d0f70d2bfb44e"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-waternote-first-proposals.json",
+      "sha256": "33ce9e815226472314a845755693fd709e08f084e0db1d4b7bc747162ecb874f"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-waternote-second-proposals.json",
+      "sha256": "c2710636317e9590954ca61abe75973670a089617a64240fd2023740f0f0442b"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-waternote-first-ink-candidates.json",
+      "sha256": "c84563d733c9ed6ba994cafea4017e578afa325c9b690f4d5673567581009550"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-waternote-second-ink-candidates.json",
+      "sha256": "b45354ee709074028714c52234f7528d222ea4edd3ce197218cccd3513933a28"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-waternote-233-point-review.png",
+      "sha256": "16bca90363633d6a5608979a68ad86f952fb6ee1d81798a766bb39390e65ae6d"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-waternote-241-point-review.png",
+      "sha256": "aa543e15573a74b878458cfe360e083ae4f485d8a15e0f3d117799d24b597432"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-waternote-36-group-review.png",
+      "sha256": "211eb161e20a27c74f11427ddb31bff4fa13f76cc46f906207ee3d002022b015"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/hawkesbury-waternote-93-detail.png",
+      "sha256": "5ef94f39d96244d6d6036115211c59ea4681d658f9c0a1788d4720191351de18"
+    }
+  ],
+  "additional_detail_frames": [
+    {
+      "annotation_id": "F22-HAW-128",
+      "relative_to": "hawkesbury-lake-128-context.png",
+      "crop_xywh": [
+        340,
+        300,
+        50,
+        60
+      ],
+      "display_size": [
+        400,
+        480
+      ],
+      "scale": 8
+    }
+  ],
+  "note": "Fourteen bounded shoreline traces and sixteen water-note decisions retain original wording and native evidence. Bank crossings/shortcuts were rejected; shoreline endpoints delimit visible source evidence, not fit coverage. Spring glyphs are actual source marks, the tidal-rock record preserves a candidate cluster, and Fall93 stays unlocated. No current flow, chemistry, tidal drying, waterfall height, shoreline, access or ownership is asserted. Geographic review follows."
+}
