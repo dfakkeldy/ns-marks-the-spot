@@ -2,7 +2,9 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   testDir: "./e2e",
-  workers: 2,
+  // Hosted terrain tests share a software renderer; concurrent maps can starve
+  // camera gestures. Keep every assertion while running those jobs serially.
+  workers: process.env.CI ? 1 : 2,
   use: {
     baseURL: "http://127.0.0.1:4173",
     browserName: "chromium",
