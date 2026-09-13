@@ -36,6 +36,10 @@ the saved receipt and screenshots, not the current application's behavior.
 The research map uses original NS Marks Atlas cartography over a pinned
 provincial vector-tile archive: NSRN roads (including tracks, rail and ferries),
 GeoNAMES labels, NSTDB hydrography and woodland, and municipal boundaries.
+A separate pinned archive adds [Crown Land](https://data.novascotia.ca/d/3nka-59nz)
+to all three Atlas styles. Adjoining and overlapping polygons are dissolved
+before tiling and rendered as fills without boundary lines. Holes and disconnected areas remain. This includes
+full or partial provincial interest, not a survey or permission to enter.
 OpenFreeMap's OSM tiles supplement ocean context, grass, farmland, settlement
 areas and building footprints. Atlas covers Nova Scotia; choose OpenStreetMap
 for worldwide detail.
@@ -49,7 +53,8 @@ University Libraries) applied to the same modern provincial and OSM classes,
 with serif lettering, paper grain, an engraved shore and hand-inked strokes.
 In Fletcher, salmon is the land ground wherever no tree cover is mapped, olive
 is NSTDB tree cover, ochre is farmland, bare paper is water under an ink shore,
-and main routes are a dark rust line. It is modern geography in historical
+and main routes are a dark rust line. Crown Land uses a distinct mustard wash
+above land cover; Day and Night use muted teal. It is modern geography in historical
 colours, not a historical map; nothing depicts geology and the sheets'
 hatching is deliberately omitted. `src/atlas/palette.ts`
 holds the tokens and `src/atlas/style.ts` the cartography. Labels are set in
@@ -174,6 +179,18 @@ tile host is a separate, explicit step, and the native app's pinned revision
 changes only when that step is done and verified.
 
 ### Provincial archive and refresh
+
+The Crown Land display archive ships in `public/atlas/crown/` with its own
+source receipt, source release hash, omitted records and transformation audit.
+It is independent of the existing provincial archive so updating Crown Land
+does not refresh unrelated geography. Regenerate it from the repository root
+with `python3 tools/build_crown_atlas.py --work-dir /tmp/ns-crown-atlas` using
+GDAL with PMTiles and GEOS support. The generator dissolves full-precision
+geometry, then simplifies the union at most 2 m for display. `npm run
+check:crown-atlas` verifies the bundled archive before production builds. Serve
+the archive unchanged with HTTP byte ranges, preserving its filename. The
+map, study, PDF and future native raster generation share these styles and
+source notes; already published native raster revisions are unchanged.
 
 `public/atlas/provincial/source.json` records the archive hash, source releases,
 record counts, licences and rejected records. The code licence does not apply

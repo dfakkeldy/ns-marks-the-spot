@@ -227,6 +227,8 @@ const ExportDialog = lazy(() =>
 import { exportAttributionLines } from "./print/pdf/attributionLines";
 import { buildExportLayers, contextExportOmission } from "./print/pdf/exportLayerSpecs";
 import { basemapSource, type BasemapPreference, type BasemapStyle } from "./atlas/basemap";
+import { atlasPalettes } from "./atlas/palette";
+import { CROWN_SOURCE_URL, CROWN_NOTE, crownReceiptUrl } from "./atlas/crown";
 import { provincialReceipt, provincialReceiptUrl, PROVINCIAL_ATTRIBUTION, PROVINCIAL_LICENCE_URL } from "./atlas/provincial";
 import { useBasemapPreference } from "./atlas/useBasemapPreference";
 import { DEFAULT_FRAME_STATE, type FrameState } from "./print/pdf/frameGeometry";
@@ -4761,6 +4763,10 @@ export function App() {
                         <option value="osm">OpenStreetMap</option>
                       </select>
                     </label>
+                    {basemapStyle !== "osm" && <p className="crown-land-key">
+                      <span aria-hidden="true" style={{ background: atlasPalettes[basemapStyle].crown }} />
+                      <span><a href={CROWN_SOURCE_URL}>Crown Land</a> · {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</span>
+                    </p>}
                     {basemapStyle === 'fletcher' ? <>
                       <label className="fletcher-features-toggle">
                         <input type="checkbox" checked={fletcherFeaturesVisible} onChange={event => setFletcherFeaturesVisible(event.target.checked)} />

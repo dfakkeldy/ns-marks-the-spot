@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { AtlasMap, type Camera, type View } from './AtlasMap';
 import { atlasPlaces } from './places';
 import { atlasPalettes } from './palette';
+import { CROWN_NOTE, CROWN_SOURCE_URL, crownReceipt, crownReceiptUrl } from './crown';
 import { buildReviewStyle, type ReviewMode } from './overlays';
 import { LETTERING_PLACEMENT, historicalLetteringSpecimens, historicalSiteStates, historicalSiteSvg, historicalSiteSymbols } from './historicalSymbols';
 import { fletcherSheets, fletcherSourceReceiptUrl, normalizeFletcherTileBaseUrl } from '../layers/fletcherLayer';
@@ -71,7 +72,7 @@ export function AtlasStudy() {
         </>}
       </section>
       {mode !== 'osm' && <section className="atlas-section atlas-key" aria-label="Map colour key">
-        {[['Water', p.water], ['Woodland', p.wood], ['Land', p.land], ['Farmland', p.farmland], ['Settlement', p.residential], ['Main roads', p.highway]].map(([label, color]) => <span key={label}><i style={{ background: color }} />{label}</span>)}
+        {[['Water', p.water], ['Woodland', p.wood], ['Crown Land', p.crown], ['Land', p.land], ['Farmland', p.farmland], ['Settlement', p.residential], ['Main roads', p.highway]].map(([label, color]) => <span key={label}><i style={{ background: color }} />{label}</span>)}
       </section>}
       {mode === 'fletcher' && <section className="atlas-section" aria-labelledby="specimen-title">
         <h2 id="specimen-title">Historical sites · specimen</h2>
@@ -101,6 +102,7 @@ export function AtlasStudy() {
         <details><summary>Sources & scope</summary>
           <p>Provincial roads, names, hydrography, woodland and municipal boundaries, with supplemental OSM ocean, land use and building footprints via <a href="https://openfreemap.org/">OpenFreeMap</a> and <a href="https://openmaptiles.org/">OpenMapTiles</a>. Atlas covers Nova Scotia; select OpenStreetMap for worldwide detail.</p>
           <p>The research map and PDF export use the same provincial archive and Atlas style.</p>
+          <p><a href={CROWN_SOURCE_URL}>Crown Land</a> · {crownReceipt.source.released.slice(0, 10)}. {CROWN_NOTE} <a href={crownReceiptUrl()}>Source receipt</a>.</p>
           {parcels && provinceAccepted && <p>{PROVINCE_ATTRIBUTION} <a href={PROVINCE_LICENSE_URL}>Licence</a>.</p>}
           {historical && <p>{RUMSEY_ATTRIBUTION}. <a href={RUMSEY_LICENCE_URL}>CC BY-NC-SA 3.0</a> · <a href={RUMSEY_COLLECTION_TERMS_URL}>Collection terms</a> · <a href={fletcherSourceReceiptUrl(historicalHost)!}>Source receipt</a>.</p>}
         </details>

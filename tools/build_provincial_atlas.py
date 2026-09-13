@@ -197,6 +197,13 @@ def record_row(source, row):
         return {'type': 'Feature', 'geometry': None,
                 'properties': {k: v for k, v in row.items() if k != 'the_geom'},
                 'rejectionReason': 'source-null-geometry'}
+    if (source == 'crown' and isinstance(row.get('source_row_id'), str)
+            and isinstance(row.get('the_geom'), dict)
+            and row['the_geom'].get('type') in ('Polygon', 'MultiPolygon')
+            and row['the_geom'].get('coordinates') == []):
+        return {'type': 'Feature', 'geometry': None,
+                'properties': {k: v for k, v in row.items() if k != 'the_geom'},
+                'rejectionReason': 'source-empty-geometry'}
     return validate_row(source, row)
 
 
@@ -205,8 +212,8 @@ def sha256(path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
-def download(source, work):
-    source_id, fields = SOURCES[source]
+def download(source, work, source_definition=None):
+    source_id, fields = source_definition or SOURCES[source]
     metadata_url = f'https://data.novascotia.ca/api/views/{source_id}.json'
     meta = fetch(metadata_url)
     if meta.get('license', {}).get('name') != 'Nova Scotia Open Government Licence':
@@ -245,7 +252,7 @@ def download(source, work):
             stream.truncate(valid_end)
         print(f'{source}: resuming at {count}/{expected}', flush=True)
     # Detailed woodland and shoreline records can be individually very large.
-    page_size = 1000 if source in ('woodland', 'waterways') else 10000
+    page_size = 1000 if source in ('woodland', 'waterways', 'crown') else 10000
     with tmp.open('a') as stream:
         def page(offset):
             return query(source_id, select=f':id as source_row_id,{geometry_expression},{fields}',

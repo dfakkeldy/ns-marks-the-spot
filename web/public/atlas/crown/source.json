@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "archive": "crown-973c8aad9298485e.pmtiles",
+  "sha256": "973c8aad9298485ebe72eac0ffc6676ca06c70f93d5d217f6dd9e9be33a4bc61",
+  "bytes": 8486275,
+  "generatedAt": "2026-09-12T18:19:49.265667+00:00",
+  "generator": "tools/build_crown_atlas.py",
+  "gdalVersion": "GDAL 3.13.3 \"Iowa City\", released 2026/08/13",
+  "minzoom": 5,
+  "maxzoom": 13,
+  "extent": 8192,
+  "attribution": "Contains information licensed under the Open Government Licence – Nova Scotia",
+  "licenceUrl": "https://support.novascotia.ca/services/open-data-portal-licence",
+  "source": {
+    "id": "3nka-59nz",
+    "name": "Crown Land",
+    "url": "https://data.novascotia.ca/d/3nka-59nz",
+    "metadataUrl": "https://data.novascotia.ca/api/views/3nka-59nz.json",
+    "releaseTimestamp": 1788607873,
+    "released": "2026-09-05T11:31:13+00:00",
+    "frequency": "Monthly",
+    "featureCount": 18461,
+    "rejectedRecords": [
+      {
+        "sourceRowId": "row-9ywh~dgah-umx7",
+        "dnrId": "10312",
+        "reason": "source-geometry-outside-expected-provincial-extent",
+        "bounds": [
+          -63.72247848524598,
+          41.74619454429399,
+          -56.21633107388447,
+          44.55877160277701
+        ]
+      },
+      {
+        "sourceRowId": "row-igbb~ub9b_2bfg",
+        "dnrId": "6195",
+        "reason": "source-empty-geometry"
+      },
+      {
+        "sourceRowId": "row-vsvb_4xg2-gxpr",
+        "dnrId": "13046",
+        "reason": "source-empty-geometry"
+      }
+    ],
+    "sha256": "79ae49e2d0b2b880a184f17d91923727d7db348f4b52b37a29d33f92ce92cd51",
+    "licenceUrl": "https://support.novascotia.ca/services/open-data-portal-licence",
+    "geometryTransform": "Raw source download; see archive transform for repair, dissolve and display generalization",
+    "fields": [
+      "source_row_id",
+      "dnr_id",
+      "pgpi",
+      "fcode",
+      "partialown",
+      "hectares",
+      "acres",
+      "symbol",
+      "shape_leng",
+      "shape_area"
+    ],
+    "repairedGeometries": 35
+  },
+  "note": "Project-derived union of mapped Crown Land, including full or partial provincial interest. Fill only, without boundary lines; holes and disconnected areas retained. Not a parcel survey, ownership determination or permission to enter.",
+  "transform": "GEOS MakeValid structure repair; full-precision cascaded union; topology-preserving 0.000018 degree simplification (at most 2 m); unoutlined polygon fill. MVT display quantization at 8192 units per tile; no parcel attributes assigned to union components.",
+  "validation": {
+    "acceptedRecords": 18458,
+    "components": 11189,
+    "holes": 8164,
+    "relativeAreaChange": 3.822919384354867e-06
+  }
+}

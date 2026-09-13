@@ -1,6 +1,7 @@
 import type { ExpressionSpecification, LayerSpecification, StyleSpecification } from 'maplibre-gl';
 import { atlasPalettes, type AtlasMode } from './palette';
 import { provincialTileUrl, PROVINCIAL_ATTRIBUTION } from './provincial';
+import { crownTileUrl, CROWN_SOURCE_URL } from './crown';
 
 /**
  * Label faces. MapLibre draws text from signed-distance-field glyph ranges, not
@@ -111,6 +112,9 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
       filter: ['match', ['get', 'feat_desc'], ['ORCHARD polygon', 'NURSERY polygon'], true, false], paint: { 'fill-color': p.farmland } },
     { id: 'reforestation', type: 'fill', ...province, 'source-layer': 'woodland',
       filter: ['==', ['get', 'feat_desc'], 'REFORESTATION (< 2m high only) polygon'], paint: { 'fill-color': p.grass } },
+    // One merged fill with no boundary stroke or antialiased tile-edge outline.
+    { id: 'crown-land', type: 'fill', source: 'crown', 'source-layer': 'crown',
+      paint: { 'fill-color': p.crown, 'fill-antialias': false } },
     { id: 'ocean-context', type: 'fill', ...osm, 'source-layer': 'water',
       filter: ['==', ['get', 'class'], 'ocean'], paint: { 'fill-color': p.water } },
     { id: 'wetlands', type: 'fill', ...water,
@@ -251,6 +255,8 @@ export function buildAtlasStyle(mode: AtlasMode): StyleSpecification {
     sources: {
       paper: { type: 'geojson', data: paperSheet },
       province: { type: 'vector', url: provincialTileUrl(), attribution: PROVINCIAL_ATTRIBUTION },
+      crown: { type: 'vector', url: crownTileUrl(),
+        attribution: `<a href="${CROWN_SOURCE_URL}">Crown Land · full or partial provincial interest</a>` },
       geography: { type: 'vector', url: 'https://tiles.openfreemap.org/planet',
         attribution: '<a href="https://openfreemap.org/">OpenFreeMap</a> · <a href="https://openmaptiles.org/">© OpenMapTiles</a> · <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>' },
     }, layers };

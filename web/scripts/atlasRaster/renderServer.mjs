@@ -53,6 +53,20 @@ async function sendFile(req, res, file, extraHeaders = {}) {
     return false;
   }
   if (!info.isFile()) return false;
+  if (file.endsWith('.pmtiles') && req.headers.range) {
+    const range = parseRange(req.headers.range, info.size);
+    if (!range) {
+      res.writeHead(416, { 'Content-Range': `bytes */${info.size}` });
+      res.end();
+      return true;
+    }
+    res.writeHead(206, { 'Content-Type': contentType(file), 'Accept-Ranges': 'bytes',
+      'Content-Range': `bytes ${range.start}-${range.end}/${info.size}`,
+      'Content-Length': range.end - range.start + 1, 'Cache-Control': 'no-cache', ...extraHeaders });
+    if (req.method === 'HEAD') res.end();
+    else createReadStream(file, { start: range.start, end: range.end }).pipe(res);
+    return true;
+  }
   res.writeHead(200, { 'Content-Type': contentType(file), 'Content-Length': info.size, 'Cache-Control': 'no-cache', ...extraHeaders });
   if (req.method === 'HEAD') res.end();
   else createReadStream(file).pipe(res);
@@ -185,7 +199,7 @@ export async function startRenderServer({
       if (await sendFile(req, res, path.join(webRoot, 'node_modules/maplibre-gl/dist', match[1]))) return;
     } else if (pathname === '/vendor/pmtiles/pmtiles.js') {
       if (await sendFile(req, res, path.join(webRoot, 'node_modules/pmtiles/dist/pmtiles.js'))) return;
-    } else if ((match = /^\/atlas\/(fonts|sprite)\/(.+)$/.exec(pathname))) {
+    } else if ((match = /^\/atlas\/(fonts|sprite|crown)\/(.+)$/.exec(pathname))) {
       const file = safeJoin(path.join(webRoot, 'public/atlas', match[1]), match[2]);
       if (file && await sendFile(req, res, file)) return;
     } else if ((match = /^\/styles\/([a-z]+)\.json$/.exec(pathname)) && styles.has(match[1])) {

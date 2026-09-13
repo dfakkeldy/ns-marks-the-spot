@@ -28,6 +28,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ATLAS_MODES, bundleAtlasStyle, loadAtlasStyleModule, rewriteStyleForRender, styleJson, styleSha256 } from './atlasStyle.mjs';
 import { readArchiveCoverage, verifyArchive } from './archive.mjs';
+import { checkCrownAtlas } from '../checkCrownAtlas.mjs';
 import { Coverage } from './coverage.mjs';
 import { defaultAngle, launchRenderer } from './renderer.mjs';
 import { MAX_UPSTREAM_IN_FLIGHT, startRenderServer, USER_AGENT } from './renderServer.mjs';
@@ -200,6 +201,7 @@ async function main() {
   const started = performance.now();
   const revisionDir = path.join(options.out, options.revision);
   const provincialReceipt = JSON.parse(await readFile(path.join(webRoot, 'public/atlas/provincial/source.json'), 'utf8'));
+  const crownReceipt = await checkCrownAtlas(path.join(webRoot, 'public/atlas/crown'));
 
   log(`Verifying ${options.archive} against the provincial receipt…`);
   const archive = await verifyArchive(options.archive, provincialReceipt);
@@ -435,6 +437,7 @@ async function main() {
         licenceUrl: provincialReceipt.licenceUrl,
         sources: provincialReceipt.sources,
       },
+      crownLand: crownReceipt,
       supplemental: {
         name: 'OpenFreeMap',
         tileJson: upstreamTileJson,
