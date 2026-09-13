@@ -1,3 +1,5 @@
+Latest pass: [Richmond western/eastern repair and six fresh checks](richmond/refinement-04/README.md) reduces the same-six RMS from 642.5 m to 236.5 m. [Cape Breton crop repair](cape-breton/README.md) preserves the southern extension and excludes the complete Sydney Harbour inset. The four-county task remains incomplete and all unsupported catalog entries remain unavailable. Earlier results below are preserved history.
+
 # Church physical-feature resumption — 12 September 2026
 
 **Latest draft:** [Richmond refinement 02](richmond/refinement-02/README.md)

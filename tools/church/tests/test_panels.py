@@ -104,6 +104,13 @@ class PanelRegistryTests(unittest.TestCase):
         self.assertFalse(panel.draws(3000, 14000), "Little Glace Bay inset")
         self.assertFalse(panel.draws(33800, 14000), "Cow Bay inset")
         self.assertFalse(panel.draws(18000, 32000), "town plans")
+        self.assertFalse(panel.draws(26000, 4400), "bottom of Lingan inset")
+        self.assertFalse(panel.draws(31000, 26000), "upper Sydney Harbour inset")
+        self.assertFalse(panel.draws(24000, 29500), "Louisbourg town plan")
+        self.assertFalse(panel.draws(6500, 10300), "locator diagonal hinge")
+        self.assertTrue(panel.draws(6700, 10650), "main field below locator")
+        self.assertTrue(panel.draws(19400, 29900), "Cape Chameau extension")
+        self.assertTrue(panel.draws(16100, 28900), "southern mainland extension")
         for x, y in panel.cutline.vertices:
             self.assertGreaterEqual(x, 0)
             self.assertGreaterEqual(y, 0)

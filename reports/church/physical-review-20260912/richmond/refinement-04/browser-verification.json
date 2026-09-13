@@ -1,0 +1,22 @@
+{
+  "verified_date": "2026-09-13T02:05:20.923759+00:00",
+  "url": "http://127.0.0.1:4197/?basemap=osm&taxSale=off&mode=current&layers=modern&position=45.71002,-60.27512,13",
+  "browser": "Codex in-app browser",
+  "local_artifact": "/Users/dfakkeldy/Downloads/church-refinement-04/rendered/richmond-refined-v4-tps-5m.tif",
+  "artifact_sha256": "32ca1073e47b9b3d7f03dc1eb0e6d4f2d51d3012f34640d15e6bb2b3b205d2a8",
+  "imported_pixel_dimensions": [
+    26361,
+    17991
+  ],
+  "prior_imports_preserved": true,
+  "only_latest_richmond_enabled": true,
+  "import_success_notice": "richmond-refined-v4-tps-5m.tif added \u2014 Large file \u2014 displayed at reduced resolution.",
+  "reload_persists": true,
+  "zoom_levels_reviewed": [
+    12,
+    13
+  ],
+  "captured_console_errors": [],
+  "observed": "Eastern county coast, Fourchu and Peebles Lake visible over OSM, with transparent outer boundary. Local shape/registration discrepancies remain; geographic eligibility is false.",
+  "scope": "Actual embedded-georeference GeoTIFF import/render/reload. Browser downsamples for display. Stored IndexedDB blob hash and raw-native-scan TPS mesh were not inspected. Numeric web TPS/GDAL parity is recorded separately."
+}

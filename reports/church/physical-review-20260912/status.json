@@ -13,30 +13,78 @@
   ],
   "new_artifact": {
     "county": "richmond",
-    "status": "provisional seven-control TPS with four fresh regional checks",
-    "controls": 7,
-    "diagnostic_checks": 6,
-    "fresh_validation_checks": 4,
+    "status": "provisional ten-control TPS; six fresh regional checks pass coarse numerical gate but not whole-sheet geographic acceptance",
+    "controls": 10,
+    "diagnostic_checks": 13,
+    "fresh_validation_checks": 6,
     "source_frame": [
       35735,
       30429
     ],
-    "csv": "richmond/refinement-02/richmond-refined-v2.csv",
-    "diagnostic_review_csv": "richmond/refinement-02/frozen-fit.csv",
-    "fresh_validation_review_csv": "richmond/refinement-02/fresh-validation-review.csv",
+    "csv": "richmond/refinement-04/richmond-refined-v4.csv",
+    "diagnostic_review_csv": "richmond/refinement-04/frozen-fit.csv",
+    "fresh_validation_review_csv": "richmond/refinement-04/fresh-validation-review.csv",
     "transform": "TPS",
-    "six_diagnostic_rms_ground_m": 91.23409816445864,
-    "fresh_rms_ground_m": 265.3758441801879,
-    "fresh_max_ground_m": 382.03591467060266,
-    "full_raster_receipt": "richmond/refinement-02/artifact-receipt.json",
-    "browser_receipt": "richmond/refinement-02/browser-verification.json",
-    "coverage_receipt": "richmond/refinement-02/coverage.json"
+    "diagnostic_rms_ground_m": 145.82797653362107,
+    "fresh_metrics": {
+      "count": 6,
+      "points": [
+        {
+          "label": "H01",
+          "east_ground_m": -47.257006973639776,
+          "north_ground_m": 95.97553525941072,
+          "error_ground_m": 106.97910111997122
+        },
+        {
+          "label": "H02",
+          "east_ground_m": 239.67479489876663,
+          "north_ground_m": 16.670421104137805,
+          "error_ground_m": 240.25384544176424
+        },
+        {
+          "label": "H03",
+          "east_ground_m": -286.66628268584793,
+          "north_ground_m": 353.60569549350726,
+          "error_ground_m": 455.20824411951224
+        },
+        {
+          "label": "H04",
+          "east_ground_m": 90.40100764442923,
+          "north_ground_m": 44.941769757067604,
+          "error_ground_m": 100.95595501021933
+        },
+        {
+          "label": "H05",
+          "east_ground_m": 77.46249505265853,
+          "north_ground_m": 126.42447876823353,
+          "error_ground_m": 148.26863111124578
+        },
+        {
+          "label": "H06",
+          "east_ground_m": 96.11721449126861,
+          "north_ground_m": 133.8504312481328,
+          "error_ground_m": 164.78609427640325
+        }
+      ],
+      "rms_ground_m": 236.54144546317931,
+      "median_ground_m": 156.5273626938245,
+      "p95_ground_m": 401.46964445007524,
+      "max_ground_m": 455.20824411951224,
+      "mean_east_ground_m": 28.288703737939215,
+      "mean_north_ground_m": 128.5780552717483,
+      "scatter_rms_ground_m": 196.51790851007087,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "full_raster_receipt": "richmond/refinement-04/artifact-receipt.json",
+    "browser_receipt": "richmond/refinement-04/browser-verification.json",
+    "coverage_receipt": "richmond/refinement-04/coverage.json"
   },
   "unfinished": {
     "richmond": [
-      "Western support: fresh F02/F03 outside the control hull score 325/382 m; retain first fresh results before using them diagnostically in any later repair",
-      "Fresh coverage near Grand Narrows and far eastern/southern edges; four fresh checks remain below the per-panel minimum",
-      "Provisional content-boundary edge review"
+      "Framboise southern-peninsula pond H03 is the largest fresh error at 455 m; basin outline is strongly generalized and needs further correspondence/distortion review before any repair. First result preserved.",
+      "Northwest/interior and southwestern mainland geographic coverage; present fresh set covers three eastern basins and three spatially correlated western islands.",
+      "The 200 m RMS refinement objective remains unmet; coarse numerical pass does not imply whole-sheet publication eligibility."
     ],
     "inverness-north": [
       "Replace graticule-only geography with distributed physical controls",
@@ -46,8 +94,7 @@
       "Separate northwest and main correspondence/control/check sets; existing two northwest checks occupy one pond"
     ],
     "cape-breton": [
-      "Exclude Sydney inset and retain southern mapped extensions",
-      "Establish physical controls and independent checks; township mesh has no geographic anchor"
+      "Establish physical controls and independent checks; township mesh has no geographic anchor."
     ]
   },
   "no_tiles_generated": true,
@@ -88,6 +135,33 @@
       "full_raster_receipt": "richmond/refinement-01/artifact-receipt.json",
       "browser_receipt": "richmond/refinement-01/browser-verification.json",
       "coverage_receipt": "richmond/refinement-01/coverage.json"
+    },
+    {
+      "county": "richmond",
+      "status": "provisional seven-control TPS with four fresh regional checks",
+      "controls": 7,
+      "diagnostic_checks": 6,
+      "fresh_validation_checks": 4,
+      "source_frame": [
+        35735,
+        30429
+      ],
+      "csv": "richmond/refinement-02/richmond-refined-v2.csv",
+      "diagnostic_review_csv": "richmond/refinement-02/frozen-fit.csv",
+      "fresh_validation_review_csv": "richmond/refinement-02/fresh-validation-review.csv",
+      "transform": "TPS",
+      "six_diagnostic_rms_ground_m": 91.23409816445864,
+      "fresh_rms_ground_m": 265.3758441801879,
+      "fresh_max_ground_m": 382.03591467060266,
+      "full_raster_receipt": "richmond/refinement-02/artifact-receipt.json",
+      "browser_receipt": "richmond/refinement-02/browser-verification.json",
+      "coverage_receipt": "richmond/refinement-02/coverage.json"
     }
+  ],
+  "completed_this_pass": [
+    "Richmond western control support and eastern physical controls; previous failed fits and role changes preserved",
+    "Six additional regional validation checks against frozen ten-control fit",
+    "Richmond source boundary corner audit, exact TPS raster, alpha coverage and browser import/reload",
+    "Cape Breton production crop now excludes complete Sydney Harbour inset and retains southern Cape Chameau extension; regression checks pass"
   ]
 }

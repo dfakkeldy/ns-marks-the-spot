@@ -1,0 +1,71 @@
+{
+  "source_path": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "csv_sha256": "a38b2074b7c5e525b684b02a8d848b7be6f8299bdcc53647afdb1dce09d800be",
+  "boundary_sha256": "16ed6c04e00aa9af7cc4527d509d5292c91812744fe17c6220def3ece973b00d",
+  "new_controls_sha256": [
+    "081332a627e1a364dc9a758a05ed04de2b7d30fb268e50c3c26ba87ef646dde2",
+    "0944c7e8cf0be4a9aaca6c856531e63890bd0c5b02f4db9c8f68f615a20df4f6"
+  ],
+  "fresh_scores_sha256": "8b7f12b710ac8adef15a968a69d615aeef934148c25ab27971ef23ac950b7460",
+  "transform": "GDAL TPS -et 0",
+  "crs": "EPSG:3857",
+  "control_count": 10,
+  "diagnostic_check_count": 13,
+  "fresh_validation_count": 6,
+  "geographic_acceptance": false,
+  "orientation": {
+    "sample_count": 30435,
+    "coarse_step_native_px": 200,
+    "local_control_step_native_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -16.12910067881479,
+      -13.514462378762673
+    ],
+    "scope": "Finite samples; not a proof of the continuous TPS surface"
+  },
+  "outputs": [
+    {
+      "path": "/var/home/dan/nsmarks-church-20260912/refined-tps-v4/richmond-refined-v4-tps-20m.tif",
+      "sha256": "aa8048e9ba82007a4aaa0cf2484c9559bb22fbc8c90ce8a7e14d891a781e741d",
+      "bytes": 25944681,
+      "size": [
+        6591,
+        4499
+      ],
+      "geotransform": [
+        -6835580.0,
+        20.0,
+        0.0,
+        5775020.0,
+        0.0,
+        -20.0
+      ],
+      "alpha_band": 4
+    },
+    {
+      "path": "/var/home/dan/nsmarks-church-20260912/refined-tps-v4/richmond-refined-v4-tps-5m.tif",
+      "sha256": "32ca1073e47b9b3d7f03dc1eb0e6d4f2d51d3012f34640d15e6bb2b3b205d2a8",
+      "bytes": 402160473,
+      "size": [
+        26361,
+        17991
+      ],
+      "geotransform": [
+        -6835580.0,
+        5.0,
+        0.0,
+        5775005.0,
+        0.0,
+        -5.0
+      ],
+      "alpha_band": 4
+    }
+  ],
+  "new_controls_provenance_files": [
+    "render-control-promotion.json",
+    "second-control-promotion.json"
+  ],
+  "provenance_note": "Render-time G04 promotion receipt preserved separately. Later control-promotion.json updates only the hash of the preceding report after its validation-status description was clarified; source point and fit CSV are identical."
+}

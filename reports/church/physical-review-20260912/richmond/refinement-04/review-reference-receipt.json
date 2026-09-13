@@ -1,0 +1,18 @@
+{
+  "output": "/Users/dfakkeldy/Downloads/church-refinement-04/review-water-lines.geojson",
+  "sha256": "0cc3aabf4c4d5befd266a031c9d39ee2191d188ef56fe87bcb4defdbfe43f6b6",
+  "count": 17257,
+  "source_files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+      "sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-refinement-03/east-water-lines.geojson",
+      "sha256": "a891b4f897d31d007e790ce1c2485aac6e3f7dc4ccad56214ccfb0140b85a53a"
+    }
+  ],
+  "duplicate_id_count": 261,
+  "duplicate_geometry_differences": [],
+  "duplicate_precedence": "fresh eastern query"
+}
