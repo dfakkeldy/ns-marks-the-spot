@@ -1,0 +1,16 @@
+{
+  "candidates": [
+    {
+      "id": "VM13",
+      "name": "Coffin Island",
+      "status": "withheld",
+      "reason": "Engraved meridian overlies eastern shoreline and label touches southern/western shore. Full native outer outline cannot be independently reconstructed without assuming hidden boundaries."
+    },
+    {
+      "id": "VM14",
+      "name": "Double Island",
+      "status": "withheld",
+      "reason": "Source depicts a single closed outline; modern reference resolves two separate islands. The historical whole feature cannot be assigned to either modern centroid or an invented combined ring."
+    }
+  ]
+}

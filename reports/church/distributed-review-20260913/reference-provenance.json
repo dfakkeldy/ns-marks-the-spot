@@ -1,0 +1,92 @@
+{
+  "source_identity_receipt": "../physical-review-20260912/source-verification.json",
+  "source_status": "Original source paths reused for remote GDAL crops. Prior full-source checksums retained; crop hashes and explicit frames accompany new observations.",
+  "reference_crs": "EPSG:4326",
+  "axis_order": "longitude,latitude",
+  "new_query_receipt": "richmond/reference-receipt.json",
+  "reused_inputs": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-refinement-04/review-water-lines.geojson",
+      "sha256": "0cc3aabf4c4d5befd266a031c9d39ee2191d188ef56fe87bcb4defdbfe43f6b6",
+      "feature_count": 17257,
+      "prior_receipt": "../physical-review-20260912/richmond/refinement-04/review-reference-receipt.json",
+      "status": "reused original extract; no fresh query claim",
+      "matches_prior_receipt": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+      "sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+      "feature_count": 62719,
+      "prior_receipt": "../physical-review-20260912/richmond/refinement-04/review-reference-receipt.json",
+      "status": "reused original extract; no fresh query claim",
+      "matches_prior_receipt": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+      "sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+      "feature_count": 30864,
+      "prior_receipt": "../physical-review-20260913/cape-breton/reference-receipt.json",
+      "status": "reused original extract; no fresh query claim",
+      "matches_prior_receipt": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/south-west-water-lines.geojson",
+      "sha256": "5b4fd21278d1c0ed43ebc689fefd4aa498480721384b15cc7bd0fa83ba9d3332",
+      "feature_count": 4435,
+      "prior_receipt": "../physical-review-20260913/inverness-south/fresh-reference-receipt.json",
+      "status": "reused original extract; no fresh query claim",
+      "matches_prior_receipt": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/reference-full/water-lines.geojson",
+      "sha256": "d28790711c5b8af8db64b4a68a41f5937c33fb355b36e113184071fae1bc5f9c",
+      "feature_count": 1750,
+      "prior_receipt": "../physical-review-20260912/reference-receipts.json",
+      "status": "reused original extract; no fresh query claim",
+      "matches_prior_receipt": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet04/reference-full/water-lines.geojson",
+      "sha256": "5e9de8a51eeb813e092ea841423bb26fa543b0fade8de6df55068f9d7c25ffa4",
+      "feature_count": 2462,
+      "prior_receipt": "../physical-review-20260912/reference-receipts.json",
+      "status": "reused original extract; no fresh query claim",
+      "matches_prior_receipt": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet05/reference-full/water-lines.geojson",
+      "sha256": "93623a04337678ae4136d4fa067ef087d673f32baedaf4ea94ed9e1df68fdb7e",
+      "feature_count": 15407,
+      "prior_receipt": "../physical-review-20260912/reference-receipts.json",
+      "status": "reused original extract; no fresh query claim",
+      "matches_prior_receipt": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/reference-full/water-lines.geojson",
+      "sha256": "37ae738e9faddce3ef91b8668f3811dadc6bd174fc1af6bf322ca1390261b696",
+      "feature_count": 6494,
+      "prior_receipt": "../physical-review-20260912/reference-receipts.json",
+      "status": "reused original extract; no fresh query claim",
+      "matches_prior_receipt": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/reference-full/water-lines.geojson",
+      "sha256": "9f124d54d990cec76804663323ecd9780792aab2ac2cd2ecb84e0d759ce7d26e",
+      "feature_count": 4056,
+      "prior_receipt": "../physical-review-20260912/reference-receipts.json",
+      "status": "reused original extract; no fresh query claim",
+      "matches_prior_receipt": true
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet18/reference-full/water-lines.geojson",
+      "sha256": "ef6b5f30178a1eb5aafb2b125785ddc84c4555d9b9d0caa669540254c9d05abb",
+      "feature_count": 2775,
+      "prior_receipt": "../physical-review-20260912/reference-receipts.json",
+      "status": "reused original extract; no fresh query claim",
+      "matches_prior_receipt": true
+    }
+  ],
+  "source_credit": "David Rumsey Map Collection, David Rumsey Map Center, Stanford Libraries",
+  "recorded_scan_terms": "CC BY-NC-SA 3.0; separate from repository licensing",
+  "reference": "Original official NSTDB geometry; feature vertices are not surveyed checkpoints."
+}
