@@ -26,7 +26,18 @@ it('treats the Fletcher style as a light appearance and keeps it as an explicit 
   vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true, addEventListener() {}, removeEventListener() {} })));
   const { result } = renderHook(() => useBasemapPreference('fletcher'));
   expect(result.current.style).toBe('fletcher');
-  expect(document.documentElement.dataset.mapAppearance).toBe('day');
+  expect(document.documentElement.dataset.mapAppearance).toBe('fletcher');
   act(() => result.current.setPreference('system'));
   expect(result.current.style).toBe('night');
+});
+
+it('keeps interface darkness independent of the map and remembers it', () => {
+  const { result, unmount } = renderHook(() => useBasemapPreference('fletcher'));
+  act(() => result.current.setAppearance('night'));
+  expect(result.current.style).toBe('fletcher');
+  expect(document.documentElement.dataset.mapAppearance).toBe('night');
+  unmount();
+  const next = renderHook(() => useBasemapPreference('day'));
+  expect(next.result.current.appearance).toBe('night');
+  expect(document.documentElement.dataset.mapAppearance).toBe('night');
 });

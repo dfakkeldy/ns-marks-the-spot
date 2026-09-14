@@ -91,10 +91,11 @@ for (const width of [390, 1440]) {
         }] : [],
       } }),
     );
-    await page.goto("/?basemap=osm&taxSale=off&layers=roads&position=45.81355,-61.47775,16");
+    await page.goto("/?basemap=osm&taxSale=off&layers=roads,main-roads&position=45.81355,-61.47775,16");
     const roadLayers = page.locator(".map-layer-roads");
     const checkOrder = async () => {
       await expect(roadLayers).toHaveCount(1);
+      await expect(page.locator(".map-layer-main-roads")).toHaveCount(0);
       await expect(roadLayers).toBeVisible();
       const image = await roadLayers.evaluate((element) => ({
         tag: element.tagName,
@@ -112,6 +113,7 @@ for (const width of [390, 1440]) {
     await toggle.press("Space");
     await expect(toggle).not.toBeChecked();
     await expect(roadLayers).toHaveCount(0);
+    await expect(page.locator(".map-layer-main-roads")).toHaveCount(1);
     await toggle.press("Space");
     await expect(toggle).toBeChecked();
     await checkOrder();

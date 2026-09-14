@@ -18,7 +18,7 @@ export function openDataQuery(part: OpenDataPart, bounds: MapEnvelope, offset: n
   const tolerance = Math.max(0.01, Math.min(10, 156543.034 * Math.cos((south + north) / 2 * Math.PI / 180) / 2 ** zoom / 2));
   // Only display geometry is simplified. Filtering always uses original geometry;
   // this path must never supply parcel intersection or distance evidence.
-  const geometry = geometryType && geometryType !== "point" && zoom < 18
+  const geometry = geometryType && geometryType !== "point" && zoom < (part.dataset === "484g-adjn" ? 15 : 18)
     ? `simplify_preserve_topology(the_geom,${tolerance.toFixed(2)}) as the_geom`
     : "the_geom";
   url.searchParams.set("$select", [":id as source_row_id", geometry, ...part.fields].join(","));
@@ -38,8 +38,12 @@ export async function fetchOpenDataOverlay(source: OpenDataSource, bounds: MapEn
     if (part.minZoom !== undefined && zoom < part.minZoom) continue;
     for (let offset = 0; ; offset += PAGE_SIZE) {
       signal?.throwIfAborted();
-      const response = await fetch(openDataQuery(part, bounds, offset, zoom), { signal });
-      if (!response.ok) throw new Error(`Open data unavailable (${response.status})`);
+      const name = sourceReceipt.datasets.find(({ id }) => id === part.dataset)?.name ?? part.dataset;
+      const response = await fetch(openDataQuery(part, bounds, offset, zoom), { signal }).catch(error => {
+        if (signal?.aborted) throw error;
+        throw new Error(`${name} (${part.dataset}) could not be reached. Pan to retry.`);
+      });
+      if (!response.ok) throw new Error(`${name} (${part.dataset}) unavailable (HTTP ${response.status}). Pan to retry.`);
       const reader = response.body?.getReader();
       if (!reader) throw new Error("Open data response is unreadable");
       const chunks: Uint8Array[] = [];

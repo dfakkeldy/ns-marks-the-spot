@@ -47,5 +47,14 @@ it('preserves a real source failure even when the remaining map becomes idle', (
   render(<AtlasBasemapLayer mode="day" onStatus={status} />);
   act(() => renderer.events.get('error')!({ error: new Error('HTTP 503') }));
   act(() => renderer.events.get('idle')!({}));
-  expect(status).toHaveBeenLastCalledWith({ status: 'error' });
+  expect(status).toHaveBeenLastCalledWith({ status: 'error', message: 'A map source failed to load (HTTP 503). View may be incomplete.' });
+});
+
+it('does not overwrite a named failure when the loading watchdog expires', () => {
+  vi.useFakeTimers();
+  const status = vi.fn();
+  render(<AtlasBasemapLayer mode="day" onStatus={status} />);
+  act(() => renderer.events.get('error')!({ sourceId: 'province', error: new Error('HTTP 503') }));
+  act(() => vi.advanceTimersByTime(26000));
+  expect(status).toHaveBeenLastCalledWith({ status: 'error', message: 'Provincial Atlas failed to load (HTTP 503). View may be incomplete.' });
 });

@@ -9,6 +9,8 @@ import { collectScene, installTerrainViewport, layerOrder, readGridTile, type Sc
 import './researchTerrain.css';
 import { withTerrainCameraUpdate } from './terrainViewport';
 import type { ReliefSettings } from './reliefMath';
+import { contextLayerCatalog } from '../layers/contextLayerCatalog';
+import { provinceLayerCatalog, resourceLayerCatalog } from '../layers/layerCatalog';
 import { terrainFailureMessage, type TerrainStatus } from './terrainStatus';
 import { configureTerrainRelief, registerTerrainReliefProtocol } from './terrainRelief';
 
@@ -54,6 +56,8 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     let gl: GLMap;
     let scene: Scene = { rasters: [], paths: [], markers: [], layers: new Map() };
     const sources = new Set<string>();
+    const pathData = new Map<string, string>();
+    let previousOrder = "";
     const sceneLayers = new Map<string, number>();
     const markers = new Map<number, { marker: Marker; html: string; opacity: number }>();
     const rasterEntries = new Map<string, RasterEntry>();
@@ -162,7 +166,7 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
         if (layer && 'source' in layer && layer.source === id) { gl.removeLayer(layerId); sceneLayers.delete(layerId); }
       }
       if (gl.getSource(id)) gl.removeSource(id);
-      sources.delete(id); rasterEntries.delete(id);
+      sources.delete(id); rasterEntries.delete(id); pathData.delete(id);
     };
     const syncScene = () => {
       frame = 0;
@@ -205,9 +209,16 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
       for (const rank of ranks) {
         const id = `paths-${rank}`;
         const data: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: scene.paths.filter(feature => feature.properties!.order === rank) };
-        if (gl.getSource(id)) (gl.getSource(id) as GeoJSONSource).setData(data);
+        const serialized = JSON.stringify(data);
+        if (gl.getSource(id)) {
+          if (pathData.get(id) !== serialized) (gl.getSource(id) as GeoJSONSource).setData(data);
+        }
         else {
           gl.addSource(id, { type: 'geojson', data }); sources.add(id);
+          addLayer({ id: `${id}-labels`, type: 'symbol', source: id, filter: ['!=', ['get', 'label'], ''],
+            layout: { 'text-field': ['get', 'label'], 'text-font': ['Atlas Sans Bold'], 'text-size': 12,
+              'text-anchor': 'bottom', 'text-offset': [0, -0.4], 'text-padding': 4 },
+            paint: { 'text-color': '#173a4a', 'text-halo-color': '#ffffff', 'text-halo-width': 2 } }, rank + 0.1);
           addLayer({ id: `${id}-fill`, type: 'fill', source: id, filter: ['==', ['geometry-type'], 'Polygon'],
             paint: { 'fill-color': ['get', 'fillColor'], 'fill-opacity': ['get', 'fillOpacity'] } }, rank);
           addLayer({ id: `${id}-line`, type: 'line', source: id, filter: ['all', ['!=', ['geometry-type'], 'Point'], ['==', ['get', 'dash'], '']],
@@ -216,6 +227,7 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
             paint: { 'circle-color': ['get', 'fillColor'], 'circle-opacity': ['get', 'fillOpacity'], 'circle-radius': ['get', 'radius'],
               'circle-stroke-color': ['get', 'color'], 'circle-stroke-opacity': ['get', 'opacity'], 'circle-stroke-width': ['get', 'weight'] } }, rank);
         }
+        pathData.set(id, serialized);
         const dashes = [...new Set(data.features.map(feature => String(feature.properties!.dash)).filter(Boolean))];
         for (const dash of dashes) {
           const layerId = `${id}-dash-${dash}`;
@@ -253,7 +265,11 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
       }
       const ordered = (gl.getStyle().layers ?? []).map((layer, index) => ({ id: layer.id, order: sceneLayers.get(layer.id) ?? basemapLayerOrder(layer), index }))
         .sort((a, b) => a.order - b.order || a.index - b.index);
-      for (const { id } of ordered) gl.moveLayer(id);
+      const order = ordered.map(layer => layer.id).join('|');
+      if (order !== previousOrder) {
+        for (const { id } of ordered) gl.moveLayer(id);
+        previousOrder = order;
+      }
       for (const layer of terrainSubscriptions) if (!scene.layers.has(L.stamp(layer))) { layer.off('terrainchange', schedule); terrainSubscriptions.delete(layer); }
       for (const layer of scene.layers.values()) if ('getTerrainDrape' in layer && !terrainSubscriptions.has(layer)) { layer.on('terrainchange', schedule); terrainSubscriptions.add(layer); }
     };
@@ -301,7 +317,12 @@ export default function ResearchTerrainLayer({ basemap, modern, relief, onStatus
     gl.on('error', event => {
       if ('name' in event.error && event.error.name === 'AbortError') return;
       console.warn('3D layer failed', 'sourceId' in event ? event.sourceId : undefined, event.error);
-      report(terrainFailureMessage(event), 'error');
+      const sourceId = 'sourceId' in event ? String(event.sourceId) : '';
+      const entry = rasterEntries.get(sourceId);
+      const classes = entry ? (entry.layer.options as L.TileLayerOptions).className ?? '' : '';
+      const catalog = [...provinceLayerCatalog, ...contextLayerCatalog, ...resourceLayerCatalog];
+      const label = catalog.find(layer => classes.split(' ').includes(`map-layer-${layer.id}`))?.name;
+      report(terrainFailureMessage(event, label), 'error');
     });
     gl.on('webglcontextlost', () => { report('3D graphics connection lost. Return to 2D or retry.', 'error'); });
     gl.on('idle', () => { if (!failedRef.current) report('Ready', 'ready'); });

@@ -259,3 +259,42 @@ test('research markers retain source opacity behind exaggerated terrain', async 
   await expect.poll(() => covered.evaluateAll(elements => elements.every(element => getComputedStyle(element).opacity === '1'))).toBe(true);
   await page.screenshot({ path: testInfo.outputPath('research-markers-over-ridge.png'), scale: 'css' });
 });
+
+test('Poker enters 3D and restores its driveway measurement on return', async ({ page }, testInfo) => {
+  test.setTimeout(60000);
+  await page.setViewportSize({ width: 390, height: 740 });
+  await page.addInitScript(() => localStorage.setItem('ns-marks-the-spot:province-license:v1', 'accepted'));
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.route('https://**/*', route => {
+    const url = route.request().url();
+    if (url.includes('elevation-tiles-prod')) return route.fulfill({ contentType: 'image/png', body: dem });
+    if (url.includes('tntn-er5g')) return route.fulfill({ json: { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: { type: 'Point', coordinates: [-61.405, 45.835] }, properties: { pntid: 'test', civicnum: '117', strname: 'Test Road', comm: 'Test' } }] } });
+    if (url.includes('/export') || route.request().resourceType() === 'image') return route.fulfill({ contentType: 'image/png', body: background });
+    if (route.request().resourceType() === 'stylesheet') return route.fulfill({ contentType: 'text/css', body: '' });
+    return route.fulfill({ json: { type: 'FeatureCollection', features: [] } });
+  });
+  await page.goto('/?basemap=osm&position=45.835,-61.405,18');
+  await page.getByRole('button', { name: 'Search & layers', exact: true }).tap();
+  await page.getByRole('combobox', { name: 'Map setup', exact: true }).selectOption('poker');
+  await expect(page.getByRole('button', { name: '3D terrain', exact: true })).toBeEnabled();
+  await expect(page.locator('.poker-civic-number')).toHaveText('117');
+  const map = page.locator('.map-canvas .leaflet-container');
+  await map.tap({ position: { x: 130, y: 300 } });
+  await map.tap({ position: { x: 200, y: 300 } });
+  await page.getByRole('button', { name: 'Finish', exact: true }).tap();
+  const measurement = await page.locator('.measure-endpoint-label').textContent();
+  const civicGlyphs = page.waitForResponse(response => response.url().includes('/atlas/fonts/Atlas%20Sans%20Bold/0-255.pbf'));
+  await page.getByRole('button', { name: '3D terrain', exact: true }).tap();
+  await expect(page.locator('.research-terrain-map canvas')).toBeVisible();
+  await expect(page.locator('.research-terrain-status')).toHaveCount(0, { timeout: 25000 });
+  await expect(page.getByRole('button', { name: 'Finish', exact: true })).toHaveCount(0);
+  await expect(page.locator('.poker-civic-number')).toHaveText('117');
+  expect((await civicGlyphs).ok()).toBe(true);
+  await page.waitForTimeout(500); // font upload settles before visual evidence
+  await page.screenshot({ path: testInfo.outputPath('poker-3d.png'), scale: 'css' });
+  await page.getByRole('button', { name: 'Return to 2D', exact: true }).tap();
+  await expect(page.locator('.measure-endpoint-label')).toHaveText(measurement!);
+  await expect(page.getByRole('button', { name: 'Finish', exact: true })).toBeVisible();
+  expect(errors).toEqual([]);
+});
