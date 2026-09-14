@@ -1,0 +1,46 @@
+{
+  "phase": "First post-freeze measurement; no tuning",
+  "candidate_sha256": "3beff855f6c99886aabeffdb56c80c613adbe28331f75367ec69d2cae26de4ca",
+  "observation_sha256": "9b6d4336c0bbc0982697fe905bf4ff87c8a3b0931e3ee6a595320c8daca8ccb9",
+  "metrics": {
+    "count": 1,
+    "points": [
+      {
+        "label": "R33",
+        "east_ground_m": 29.415003183469487,
+        "north_ground_m": 8.986228045573718,
+        "error_ground_m": 30.75702694947247
+      }
+    ],
+    "rms_ground_m": 30.75702694947247,
+    "median_ground_m": 30.75702694947247,
+    "p95_ground_m": 30.75702694947247,
+    "max_ground_m": 30.75702694947247,
+    "mean_east_ground_m": 29.415003183469487,
+    "mean_north_ground_m": 8.986228045573718,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "v4_same_feature": {
+    "count": 1,
+    "points": [
+      {
+        "label": "R33",
+        "east_ground_m": 156.96742086008743,
+        "north_ground_m": -8.867800479094027,
+        "error_ground_m": 157.21771241436136
+      }
+    ],
+    "rms_ground_m": 157.21771241436136,
+    "median_ground_m": 157.21771241436136,
+    "p95_ground_m": 157.21771241436136,
+    "max_ground_m": 157.21771241436136,
+    "mean_east_ground_m": 156.96742086008743,
+    "mean_north_ground_m": -8.867800479094027,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "geographic_acceptance": false
+}
