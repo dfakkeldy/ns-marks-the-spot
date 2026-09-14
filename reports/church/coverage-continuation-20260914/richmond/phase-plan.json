@@ -1,0 +1,15 @@
+{
+  "model": "affine14 unchanged",
+  "frozen_input_commit": "8b876cf44f8ab57719bbfcb8167d7ee590d09c58",
+  "controls_path": "../../coverage-20260914/richmond/affine14-controls.csv",
+  "control_csv_sha256": "3beff855f6c99886aabeffdb56c80c613adbe28331f75367ec69d2cae26de4ca",
+  "affine_freeze_sha256": "8932f8d1611d7706450472a2a762897ed5e4b8b4cdd1eadaea1c0d968ec3c417",
+  "phase": "Additional fresh checks after the preserved first six, with no model or coordinate tuning",
+  "selection": "Extend southern mapped mainland, western/intervening interior and coastal/extension intervals. Physical identity and native review determine observations; preserve every first failure and abstention.",
+  "previous_fresh_ids": ["R38", "R39", "R40", "R41", "R42", "R44"],
+  "prior_diagnostics": "28 points remain diagnostic and excluded from fresh counts",
+  "working_rms_target_ground_m": 250,
+  "stretch_rms_target_ground_m": 200,
+  "coverage_ambition": "20–30 identifiable distributed fresh checks where feasible; sparse samples do not establish whole-panel accuracy",
+  "geographic_acceptance": false
+}

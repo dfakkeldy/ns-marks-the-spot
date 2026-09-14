@@ -1,0 +1,102 @@
+{
+  "raster_sha256": "c44fd27bf527f468a779a7b37218ab402b5bf306c9a3b9cae5bb8769eba15fd0",
+  "source": "Actual delivered candidate GeoTIFF, no refit of image",
+  "window_ground_m": 1600,
+  "references": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-refinement-04/review-water-lines.geojson",
+      "sha256": "0cc3aabf4c4d5befd266a031c9d39ee2191d188ef56fe87bcb4defdbfe43f6b6"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-distributed-20260913/richmond-southwest-water.geojson",
+      "sha256": "6659d899c9c8bddd2aa196d61191cf482a26c5a9159df3a0520d01551140774a"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-continuation-20260914/southern-water.geojson",
+      "sha256": "5f869c94c7048dd20b85a7efa01f01975eac66c231942fbdabe5e15812aada17"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "R45",
+      "raster_pixel_xy": [
+        105.89740108561668,
+        4416.878629371601
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R45-affine14.jpg",
+      "figure_sha256": "4662b5b4fa09ab676364881a03773a897575530650addba93da04c2c0236f04d"
+    },
+    {
+      "id": "R46",
+      "raster_pixel_xy": [
+        948.5002241628987,
+        3847.0311285561725
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R46-affine14.jpg",
+      "figure_sha256": "7da603c848b73df6791d772d82512febbd791ed8d3faf2375aa811bc4a4fac3b"
+    },
+    {
+      "id": "R48",
+      "raster_pixel_xy": [
+        2793.8778997655304,
+        2068.9241591156765
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R48-affine14.jpg",
+      "figure_sha256": "e54557fbcd3277bebf6bd951d4abd255eaeb0de79a1f499cf4fd627603e00bae"
+    },
+    {
+      "id": "R49",
+      "raster_pixel_xy": [
+        2995.9294508046282,
+        2126.1577831245336
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R49-affine14.jpg",
+      "figure_sha256": "d541f5eeba6851c5c7492a2e545834f4fed9770703aa9b18ddc11f826052ff4f"
+    },
+    {
+      "id": "R50",
+      "raster_pixel_xy": [
+        2804.532958052195,
+        2166.9937021447654
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R50-affine14.jpg",
+      "figure_sha256": "2741b5a74122ce764ccf3ae6027a5e27c8afb6360a39b5f3f09178129668b736"
+    },
+    {
+      "id": "R51",
+      "raster_pixel_xy": [
+        4051.3894273108617,
+        1639.6230110516613
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R51-affine14.jpg",
+      "figure_sha256": "874c896c6859ba1aa866c87bc42e6b7a35681bf7e24fc890c9be624a12f1fd8c"
+    },
+    {
+      "id": "R52",
+      "raster_pixel_xy": [
+        5021.943778066691,
+        1737.4112273096414
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R52-affine14.jpg",
+      "figure_sha256": "03cda690667093055b8e325c3f68003b049bd664979ff258840b6998417031ea"
+    },
+    {
+      "id": "R53",
+      "raster_pixel_xy": [
+        3459.9493511839582,
+        2913.3404567146517
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R53-affine14.jpg",
+      "figure_sha256": "5ede999bbedc9667e7f6cef6828ac0dbefc5af540a2d86c26ac48060ec682fc8"
+    }
+  ],
+  "geographic_acceptance": false
+}

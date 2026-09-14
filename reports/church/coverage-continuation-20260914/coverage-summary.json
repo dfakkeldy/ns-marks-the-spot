@@ -1,0 +1,32 @@
+{
+  "new_regions": [
+    "Southern Ragged Head extension",
+    "Cape Argos",
+    "Murray / Crawley / horseshoe interior cluster",
+    "Northern kidney basin",
+    "McLeod Lake junction",
+    "L\u2019Ardoise Head"
+  ],
+  "cumulative_count": 14,
+  "spatial_limitations": [
+    "Murray, Crawley and horseshoe checks are clustered and partially correlated",
+    "Other interior and coastal intervals remain sparse",
+    "Adjacent-panel seams not geographically accepted"
+  ],
+  "distortion": {
+    "model": "Nonsingular global affine",
+    "determinant": -15.251538964123515,
+    "constant_anisotropy": 1.032803513449469,
+    "note": "No affine folds; this is not geographic accuracy proof"
+  },
+  "raster": {
+    "sha256": "c44fd27bf527f468a779a7b37218ab402b5bf306c9a3b9cae5bb8769eba15fd0",
+    "full_content_boundary_preserved": true,
+    "prior_expected_interior_cells": 20839213,
+    "prior_transparent_interior_cells": 0,
+    "new_actual_raster_windows": 8,
+    "visual_review": "All eight inspected; coastal offsets and larger interior discrepancies agree with recorded results. Source-observation locations all have nonzero alpha."
+  },
+  "terrain": "Actual app importer and 10\u00d7 terrain verified; 3D assists visual identity, not horizontal coordinate measurement or new control fitting.",
+  "geographic_acceptance": false
+}
