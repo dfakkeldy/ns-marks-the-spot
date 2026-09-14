@@ -1,0 +1,10 @@
+{
+  "raster": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/tps9-rendered/victoria-northwest-tps9-review-20m.tif",
+  "raster_sha256": "3af1fdee304b5cd1362f4aa2239f36d26f7577ce7b30aa5afdc5655bc077768d",
+  "cutline_sha256": "24e89ded5cb5c3d78262ed31c02ae1c478ea76252f9a14fbd97035eda692e538",
+  "expected_interior_cells": 8444010,
+  "transparent_interior_cells": 0,
+  "passed": true,
+  "boundary_tolerance_output_cells": 1,
+  "scope": "Full neatline alpha coverage only; not geographic acceptance."
+}

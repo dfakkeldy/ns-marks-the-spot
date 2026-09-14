@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "file": "controls.csv",
+      "controls": 15,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 7.450580596923828e-9
+    },
+    {
+      "file": "selected-diagnostic-review.csv",
+      "controls": 15,
+      "checks": 4,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 8.33000234328132e-9
+    },
+    {
+      "file": "fresh-validation.csv",
+      "controls": 15,
+      "checks": 2,
+      "semanticRoundtrip": true,
+      "maxTpsDifferenceProjectedMetres": 7.679882693323606e-9
+    }
+  ],
+  "scope": "Production parser and TPS solver at checks and content vertices only; not raw-scan browser mesh acceptance."
+}

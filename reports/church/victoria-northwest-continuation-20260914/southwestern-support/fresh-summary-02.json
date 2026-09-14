@@ -1,0 +1,28 @@
+{
+  "count": 2,
+  "points": [
+    {
+      "label": "VN25",
+      "east_ground_m": 130.77356799193623,
+      "north_ground_m": -59.14742229727316,
+      "error_ground_m": 143.52750137082975
+    },
+    {
+      "label": "VN26",
+      "east_ground_m": 160.99604382693158,
+      "north_ground_m": -148.72015227921707,
+      "error_ground_m": 219.17438222081702
+    }
+  ],
+  "rms_ground_m": 185.25327726066052,
+  "median_ground_m": 181.3509417958234,
+  "p95_ground_m": 215.39203817831765,
+  "max_ground_m": 219.17438222081702,
+  "mean_east_ground_m": 145.8848059094339,
+  "mean_north_ground_m": -103.93378728824511,
+  "scatter_rms_ground_m": 47.266986370021286,
+  "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+  "percentile": "NumPy linear empirical 95th percentile; not a confidence interval",
+  "phase": "Two fresh checks after TPS15 freeze; too sparse for geographic acceptance",
+  "geographic_acceptance": false
+}

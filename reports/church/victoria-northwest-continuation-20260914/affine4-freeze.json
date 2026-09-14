@@ -1,0 +1,9 @@
+{
+  "method": "affine",
+  "control_csv_sha256": "103d8f94c6727a4d0d5d171d54e2ce7447d17f443a0a02d545800abdadca7eb5",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "boundary_sha256": "848770cbdb371abdec736a2af1d79461ed1d0967ebee0fb1fa06b6529f3acad4",
+  "frozen_input_commit": "145197182659eda548ac61a692a573430b2c5dc3",
+  "scope": "Unchanged four-control physical fit; corrected review content boundary only. Prior North Pond diagnostics and VN08 first failure remain unchanged.",
+  "geographic_acceptance": false
+}

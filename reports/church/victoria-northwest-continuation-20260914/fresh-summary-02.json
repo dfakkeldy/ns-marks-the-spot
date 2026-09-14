@@ -1,0 +1,62 @@
+{
+  "scope": "Preserved VN08 plus VN11/VN12; same unchanged four-control affine. No tuning.",
+  "new": {
+    "count": 2,
+    "points": [
+      {
+        "label": "VN11",
+        "east_ground_m": 58.73030830485634,
+        "north_ground_m": 545.8639184900218,
+        "error_ground_m": 549.0142681414251
+      },
+      {
+        "label": "VN12",
+        "east_ground_m": -480.8846941473599,
+        "north_ground_m": 44.86010581899355,
+        "error_ground_m": 482.97258530820477
+      }
+    ],
+    "rms_ground_m": 517.0489264963983,
+    "median_ground_m": 515.993426724815,
+    "p95_ground_m": 545.7121839997641,
+    "max_ground_m": 549.0142681414251,
+    "mean_east_ground_m": -211.07719292125176,
+    "mean_north_ground_m": 295.3620121545077,
+    "scatter_rms_ground_m": 368.167479274858,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "cumulative": {
+    "count": 3,
+    "points": [
+      {
+        "label": "VN08",
+        "east_ground_m": -441.5436789720609,
+        "north_ground_m": 16.804665899212623,
+        "error_ground_m": 441.8633467896681
+      },
+      {
+        "label": "VN11",
+        "east_ground_m": 58.73030830485634,
+        "north_ground_m": 545.8639184900218,
+        "error_ground_m": 549.0142681414251
+      },
+      {
+        "label": "VN12",
+        "east_ground_m": -480.8846941473599,
+        "north_ground_m": 44.86010581899355,
+        "error_ground_m": 482.97258530820477
+      }
+    ],
+    "rms_ground_m": 493.2620676065014,
+    "median_ground_m": 482.97258530820477,
+    "p95_ground_m": 542.4100998581031,
+    "max_ground_m": 549.0142681414251,
+    "mean_east_ground_m": -287.89935493818814,
+    "mean_north_ground_m": 202.50956340274266,
+    "scatter_rms_ground_m": 345.5594095029775,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "geographic_acceptance": false
+}

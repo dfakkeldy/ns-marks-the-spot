@@ -1,0 +1,24 @@
+{
+  "scope": "Native-pixel content-envelope audit only, not geographic validation. Regions are coverage guards, not GCP observations.",
+  "old_inset_overlap_native_px2": 4316800.0,
+  "new_inset_overlap_native_px2": 0.0,
+  "restored_native_px2": 48324800.0,
+  "removed_native_px2": 4419800.0,
+  "regions": {
+    "western_mapped_river_region": {
+      "area_native_px2": 400000.0,
+      "old_covered_native_px2": 0.0,
+      "new_covered_native_px2": 400000.0
+    },
+    "eastern_mapped_coast_interval": {
+      "area_native_px2": 2250000.0,
+      "old_covered_native_px2": 0.0,
+      "new_covered_native_px2": 2250000.0
+    },
+    "southern_smoky_cape_content": {
+      "area_native_px2": 765000.0,
+      "old_covered_native_px2": 0.0,
+      "new_covered_native_px2": 765000.0
+    }
+  }
+}
