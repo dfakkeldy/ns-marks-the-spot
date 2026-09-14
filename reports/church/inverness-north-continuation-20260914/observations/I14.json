@@ -1,0 +1,52 @@
+{
+  "id": "I14",
+  "status": "Adopted after paired native/source reference review, before scoring",
+  "label": "Western of paired northern headland tips north of Lowland Cove",
+  "pixel_xy": [
+    14346,
+    920
+  ],
+  "lonlat": [
+    -60.59836641693324,
+    47.041967210032965
+  ],
+  "source_frame": {
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      14100,
+      850
+    ],
+    "extent": [
+      800,
+      500
+    ],
+    "display": [
+      1600,
+      1000
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    492,
+    140
+  ],
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_detail_path": "/Users/dfakkeldy/Downloads/church-north-continuation-20260914/IN2-head-native-detail.png",
+  "source_detail_sha256": "266fc6cfb048b1e7ab84b43f971a846adc7675585324c16f551fdf60167540d5",
+  "source_derivation": "Crop original native PNG at x650,y0,w800,h500 (parent origin13450,850), enlarge 2x. Parent native arrays exactly match working TIFF in audited2000x2200 window.",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet01/reference-full/water-lines.geojson",
+  "reference_sha256": "5b1725ed4a77195ee24d2d25dcec0f36c03f4a85688c57582da3c2160eb1e59a",
+  "reference_feature_ids": [
+    10488
+  ],
+  "reference_vertex": {
+    "feature_id": 10488,
+    "vertex": 93
+  },
+  "uncertainty_ground_m": 140,
+  "identity_evidence": "Western northern bump on broad plateau-like headland; separate eastern bump retained as context, not another check. Both sources preserve the western steep turn, two northern bumps, descending southeast coast and brook entry southwest below the plateau. Select the western bump only, not the similarly northern eastern bump. Source detail preserves shoreline stroke breaks. Broad context from original JP2 reviewed; no source coordinate derived from guide or terrain screenshot.",
+  "frozen_controls_path": "reports/church/distributed-review-20260913/inverness-north/corrected-I10-frozen.csv",
+  "frozen_controls_sha256": "7a784da6a9afc92965b8294e0ccd153fc61d70152626fe390bbd96ff470e5fa5",
+  "role": "check",
+  "phase": "First new check of unchanged corrected four-control affine"
+}

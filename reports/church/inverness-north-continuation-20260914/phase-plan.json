@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-09-14T10:54:02.436825+00:00",
+  "frozen_input_commit": "ba887a98fad15d4a0764956056943ac57512a686",
+  "controls_path": "reports/church/distributed-review-20260913/inverness-north/corrected-I10-frozen.csv",
+  "controls_sha256": "7a784da6a9afc92965b8294e0ccd153fc61d70152626fe390bbd96ff470e5fa5",
+  "model": "Unchanged corrected four-control affine frozen in prior distributed review",
+  "prior_fresh": "I13 only;353.06m",
+  "prior_diagnostic": "N03 Pleasant Bay125.73m",
+  "withheld": "Original mismatched I12 and first1813.63m retained in predecessors, excluded from valid new comparisons",
+  "working_rms_target_ground_m": 250,
+  "stretch_rms_target_ground_m": 200,
+  "check_ambition": "20\u201330 distinct distributed features where defensible; no manufactured matches",
+  "geographic_acceptance": false
+}
