@@ -1,0 +1,42 @@
+{
+  "objective": "full georeferencing complete",
+  "goal_status": "active",
+  "updated": "2026-09-14T06:35:14.631028+00:00",
+  "previous_goal_turn": "progress: PR 476 merged and independent Richmond failures preserved",
+  "base_commit": "683ec77ce970db6f1a997795008c8694ce305b8d",
+  "active_panel": "richmond",
+  "queue": [
+    "richmond",
+    "inverness-north",
+    "victoria-northwest",
+    "victoria-main",
+    "cape-breton",
+    "inverness-south"
+  ],
+  "full_georeferencing_complete": false,
+  "new_accepted_panels": [],
+  "richmond": {
+    "retained_baseline": "v4 TPS unchanged",
+    "new_tps_checks": {
+      "R36": 71.84596088345901,
+      "R37": 557.7822403306857
+    },
+    "selected_candidate": "affine14",
+    "selected_for": "Further independent validation; not replacement of v4",
+    "controls": 14,
+    "diagnostic_count": 28,
+    "diagnostic_rms_ground_m": 211.9,
+    "diagnostic_phases": "20 earlier diagnostics and 8 subsequent TPS observations now used for model selection; all first results preserved",
+    "fresh_affine_checks": 6,
+    "pending": "Continue toward 20\u201330 distributed identifiable fresh checks where feasible; intervening interior, western mainland and coastal intervals remain sparse. Seams and full browser importer acceptance remain unverified. No tuning after affine freeze.",
+    "fresh_affine_rms_ground_m": 199.86919764869734
+  },
+  "local_source_crop_cache": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913",
+  "local_raster_cache": "/Users/dfakkeldy/Downloads/church-coverage-20260914/richmond-affine14",
+  "remote_workspace": "/var/home/dan/nsmarks-church-20260914",
+  "terrain_preview": "http://127.0.0.1:49370/__church_coverage_assets/index.html",
+  "geographic_acceptance": false,
+  "catalog_activation": false,
+  "tiles_generated": false,
+  "deployment": false
+}

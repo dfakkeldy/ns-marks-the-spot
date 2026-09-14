@@ -1,0 +1,25 @@
+{
+  "frozen_at": "2026-09-14T05:37:39.470885+00:00",
+  "frozen_input_commit": "683ec77ce970db6f1a997795008c8694ce305b8d",
+  "model": "affine",
+  "controls": 14,
+  "control_csv_sha256": "3beff855f6c99886aabeffdb56c80c613adbe28331f75367ec69d2cae26de4ca",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "boundary_sha256": "16ed6c04e00aa9af7cc4527d509d5292c91812744fe17c6220def3ece973b00d",
+  "selection": "Same unchanged fourteen controls. Post-validation audit favours affine on the eight later observations and combined 28 diagnostics, with lower RMS and worst error overall. Old twenty-check RMS increases versus TPS, but stays within the working numerical objective. No observation coordinates changed or extra controls promoted.",
+  "diagnostic_only_labels": "All 28 check features used in supported-model-audit.json, including R30-R37. Original first TPS phases preserved; none will be called fresh validation of this selected affine.",
+  "forward_affine": {
+    "a": 3.843766307055577,
+    "b": -0.03628701554164481,
+    "c": -6837566.715122111,
+    "d": -0.013441827543016687,
+    "e": -3.9677363247406285,
+    "f": 5785598.882940355
+  },
+  "orientation_determinant": -15.251538964123515,
+  "working_rms_target_ground_m": 250,
+  "stretch_rms_target_ground_m": 200,
+  "fresh_coverage_requirement": "New distributed physical identities after this freeze, excluding controls and all 28 diagnostics. Aim for 20\u201330 where feasible; no weak quota matches. Full content, seams and rendered geography still need review.",
+  "geographic_acceptance": false,
+  "retained_baseline": "v4 unchanged"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "R44",
+  "label": "Eastern tip of Fourchu Point",
+  "role": "check",
+  "pixel_xy": [
+    34714.0,
+    12552.0
+  ],
+  "lonlat": [
+    -60.2284963266904,
+    45.71733620650202
+  ],
+  "source_frame": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      34450,
+      12370
+    ],
+    "extent": [
+      300,
+      430
+    ],
+    "display": [
+      900,
+      1290
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    792,
+    546
+  ],
+  "source_crop_sha256": "f87af8f36aa03bfcbd2d467ea2079c1c597b454cc954ddedd9ca46882ae23853",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "reference_feature_ids": [
+    5250
+  ],
+  "reference_vertex": {
+    "feature_id": 5250,
+    "vertex": 31
+  },
+  "uncertainty_ground_m": 110,
+  "identity_evidence": "Easternmost natural shoreline tip of the long Fourchu Point promontory south of the harbour, immediately inside the printed eastern frame. The harbour lies north of its narrow western connection; Peebles Lake and Fourchu village are farther northwest. North and south shores wrap around the same eastern point in both sources. The selected point is the coast tip, not the frame line, town label, wharf or road endpoint. Modern vertex 31 is the eastern extremum of original outer-coast feature 5250. Source simplifies southwestern lobes and omits small offshore rocks; 110 m shore-definition uncertainty is retained. The complete engraved tip closes before the frame.",
+  "phase": "Fresh eastern-edge physical check after affine14 freeze; excluded from controls and diagnostics, no tuning"
+}

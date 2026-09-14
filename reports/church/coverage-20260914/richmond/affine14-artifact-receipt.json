@@ -1,0 +1,28 @@
+{
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "control_csv_sha256": "3beff855f6c99886aabeffdb56c80c613adbe28331f75367ec69d2cae26de4ca",
+  "boundary_sha256": "16ed6c04e00aa9af7cc4527d509d5292c91812744fe17c6220def3ece973b00d",
+  "transform": "Frozen affine encoded as explicit GeoTransform; exact -et 0",
+  "resolution_projected_m": 20,
+  "crs": "EPSG:3857",
+  "output": "/var/home/dan/nsmarks-church-20260914/richmond-affine14/richmond-affine14-20m.tif",
+  "output_sha256": "c44fd27bf527f468a779a7b37218ab402b5bf306c9a3b9cae5bb8769eba15fd0",
+  "size": [
+    6532,
+    4513
+  ],
+  "geotransform": [
+    -6835120.0,
+    20.0,
+    0.0,
+    5774960.0,
+    0.0,
+    -20.0
+  ],
+  "cutline": "/var/home/dan/nsmarks-church-20260914/richmond-affine14/affine14-cutline.geojson",
+  "cutline_sha256": "8d798771e014be65e207a1fb02abc7d7ff0f06e8ab4e17bb1654781d18a47d30",
+  "orientation_determinant": -15.25153896412364,
+  "geographic_acceptance": false,
+  "accepted_baseline_replaced": false
+}
