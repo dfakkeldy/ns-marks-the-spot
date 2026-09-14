@@ -1,0 +1,31 @@
+{
+  "source": "/Users/dfakkeldy/Downloads/church-north-continuation-20260914/tps5-rendered/inverness-north-tps5-review-20m.tif",
+  "sha256": "8856e0fdd99f3ce01774f4ee22d182755728369961de9113f76af4cc047b62e8",
+  "sourceCodeBaseCommit": "ba887a98fad15d4a0764956056943ac57512a686",
+  "pixelSize": {
+    "width": 3310,
+    "height": 5438
+  },
+  "georef": {
+    "kind": "embedded",
+    "crs": "EPSG:3857",
+    "geotransform": [
+      -6806380,
+      20,
+      0,
+      5950480,
+      0,
+      -20
+    ]
+  },
+  "preview": {
+    "width": 2493,
+    "height": 4096,
+    "channels": 4,
+    "transparentPixels": 4481691,
+    "opaquePixels": 5729637
+  },
+  "embeddedMeshNodes": 81,
+  "maxMeshDifferenceProjectedMetres": 2.9451005721170265e-9,
+  "scope": "Real production GeoTIFF decode, alpha extraction and embedded projection lattice. PNG writer stubbed in this Node probe; actual browser import, persistence, 2D overview/regional view and 10x terrain were checked separately through CUA. No raw-scan GCP mesh or geographic acceptance."
+}

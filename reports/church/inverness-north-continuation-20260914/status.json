@@ -1,0 +1,21 @@
+{
+  "full_georeferencing_complete": false,
+  "panel": "Inverness north",
+  "selected": "Provisional five-control TPS",
+  "retained_baseline": "Corrected four-control affine; all predecessor reports and first failures preserved",
+  "working_target_ground_m": 250,
+  "current_fresh_checks": 1,
+  "current_fresh_rms_ground_m": 416.6145203836786,
+  "geographic_acceptance": false,
+  "reason_for_pause": "The northern control supplies needed support, but fresh Presquile remains416.61m off. Interior Blair and Corney identities/precise source locations remain unresolved, leaving coast intervals, interior, edges and seams insufficiently validated. No weaker pairs added to reach a quota.",
+  "next_panel": "Victoria northwest",
+  "remaining_sequence": [
+    "Victoria northwest",
+    "Victoria main",
+    "Cape Breton main",
+    "Inverness south"
+  ],
+  "tiles": false,
+  "catalog_activation": false,
+  "deployment": false
+}

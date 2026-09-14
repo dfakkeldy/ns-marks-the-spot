@@ -1,0 +1,28 @@
+{
+  "recorded_at": "2026-09-14T10:08:42.456570+00:00",
+  "origin": "http://127.0.0.1:49370",
+  "browser": "Codex IAB via CUA, tab 3",
+  "raster_sha256": "b46bdd402b3d5d4bb235c92e0ff82310c2002a48d8c95dda0648cdbc3917deb1",
+  "import_route": "My Maps > Add a map file; local file chooser",
+  "metadata_size": [
+    3212,
+    5355
+  ],
+  "ui_notice": "Large file \u2014 displayed at reduced resolution",
+  "persistence": "Reload restored all three rows. Inverness checked; both Richmond rows unchecked.",
+  "terrain": {
+    "exaggeration": 10,
+    "tilt_degrees": 50,
+    "opacity_percent": 70,
+    "camera_latlon": [
+      46.72,
+      -60.36
+    ],
+    "zoom": 11,
+    "view": "Northern county outline visible draped on exaggerated ridges; preview resolution is insufficient for original scan point measurement."
+  },
+  "capture_limit": "Same padded/clipped IAB capture behavior as prior Richmond QA. clip x320,y0,w960,h720 is usable; x1280,y720 produces padding. Initial camera46.92,-60.67 showed mostly ocean in the captured region; adjusted southeast solely for capture. No screenshot-based source coordinates.",
+  "console_errors": [],
+  "geographic_acceptance": false,
+  "original_jp2_crop": "Still processing separately; no new observation adopted."
+}

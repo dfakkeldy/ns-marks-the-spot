@@ -1,0 +1,45 @@
+{
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness-master.tif",
+  "source_sha256": "64354868fb4a1d3bc7a8e71378e06ea15b5e691241fd1a0595e6c4b8c9bdd932",
+  "source_scope": "Hash-verified working TIFF; original JP2 native parity established only for separately audited windows.",
+  "controls_sha256": "b20145acf800f6b0cf1a2fe146e30937a2450bf7658dc0b54c2bde7b8bcc334d",
+  "freeze_sha256": "a6303d6128ba73b3a7133c80081bf73193b4d210c819b803de597839e261fb0d",
+  "boundary_sha256": "e28de04110de0f2b5e214fbefe952bb19a290a876e720ec69c0a7f4127585da4",
+  "transform": "GDAL TPS -et 0",
+  "cutline_sample_native_px": 250,
+  "resolution_projected_m": 20,
+  "crs": "EPSG:3857",
+  "output": "/var/home/dan/nsmarks-church-20260914/inverness-north-review/tps5-rendered/inverness-north-tps5-review-20m.tif",
+  "output_sha256": "8856e0fdd99f3ce01774f4ee22d182755728369961de9113f76af4cc047b62e8",
+  "size": [
+    3310,
+    5438
+  ],
+  "geotransform": [
+    -6806380.0,
+    20.0,
+    0.0,
+    5950480.0,
+    0.0,
+    -20.0
+  ],
+  "cutline": "/var/home/dan/nsmarks-church-20260914/inverness-north-review/tps5-rendered/north-tps5-cutline.geojson",
+  "cutline_sha256": "7932c6b28436ad24f2787d85b42d41de4d5760a4a0f06473195fb3e4cc439999",
+  "orientation": {
+    "sample_count": 14611,
+    "coarse_spacing_native_px": 200,
+    "near_control_spacing_native_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -16.11390542867284,
+      -13.979970495264544
+    ],
+    "anisotropy_range": [
+      1.0018738847397162,
+      1.149584868348651
+    ],
+    "scope": "Finite one-pixel forward differences only, not a proof of the continuous TPS surface"
+  },
+  "geographic_acceptance": false,
+  "accepted_baseline_replaced": false
+}
