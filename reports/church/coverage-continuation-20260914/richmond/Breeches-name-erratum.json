@@ -1,0 +1,20 @@
+{
+  "correction": "The lake called Peebles in G05 and repeated in R44 context is engraved Breeches Lake.",
+  "scope": "Name-only correction; all original coordinates, roles, first scores and observation files remain byte-identical. No name-search coordinates used for fitting.",
+  "originals": [
+    {
+      "path": "reports/church/physical-review-20260912/richmond/refinement-03/fresh-checks.json",
+      "sha256": "d9a9ccb704ab579741f95de0f7b42d1835819c1462dbcf3b07e2f542cac2e5e7"
+    },
+    {
+      "path": "reports/church/coverage-20260914/richmond/affine14-fresh/R44-observation.json",
+      "sha256": "23c1d07dd042f2dc70364a5cd97bd7616861ec5d0c9c32e11a2421179c7b5c11"
+    }
+  ],
+  "evidence": {
+    "native_crop": "/Users/dfakkeldy/Downloads/church-target-refinement-20260913/R44-point.jpg",
+    "sha256": "9a81163ed672e0abbdbc7cf97c7a6df267b3bbdce79d9471df4de23d9a346f66"
+  },
+  "official_corroboration": "Canadian Geographical Names Database search lists Breeches Lake in Richmond, Nova Scotia; this corroborates spelling, not the measured point.",
+  "official_name_source": "https://novascotia.ca/natr/meb/data/mg/ofm/pdf/ofm_2017-011_d433_dp.pdf"
+}

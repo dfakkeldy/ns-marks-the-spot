@@ -1,0 +1,31 @@
+{
+  "source": "/Users/dfakkeldy/Downloads/church-coverage-20260914/richmond-affine14/richmond-affine14-20m.tif",
+  "sha256": "c44fd27bf527f468a779a7b37218ab402b5bf306c9a3b9cae5bb8769eba15fd0",
+  "sourceCodeBaseCommit": "683ec77ce970db6f1a997795008c8694ce305b8d",
+  "pixelSize": {
+    "width": 6532,
+    "height": 4513
+  },
+  "georef": {
+    "kind": "embedded",
+    "crs": "EPSG:3857",
+    "geotransform": [
+      -6835120,
+      20,
+      0,
+      5774960,
+      0,
+      -20
+    ]
+  },
+  "preview": {
+    "width": 4096,
+    "height": 2830,
+    "channels": 4,
+    "transparentPixels": 3388333,
+    "opaquePixels": 8203347
+  },
+  "embeddedMeshNodes": 81,
+  "maxMeshDifferenceProjectedMetres": 2.9451005721170265e-9,
+  "scope": "Real production GeoTIFF decode, alpha extraction and embedded projection lattice. PNG writer stubbed in this Node probe; actual browser import, persistence, 2D overview/regional view and 10x terrain were checked separately through CUA. No raw-scan GCP mesh or geographic acceptance."
+}

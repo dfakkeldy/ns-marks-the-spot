@@ -1,0 +1,58 @@
+{
+  "method": "Original reference basin shortlist is search only. Predicted coordinates were never adopted as measurements. Being inside the broad content boundary does not imply an individual lake is engraved.",
+  "outcomes": [
+    {
+      "id": "COV2-S01",
+      "outcome": "Blank below locator legend; no basin adopted"
+    },
+    {
+      "id": "COV2-S02",
+      "outcome": "Inset border / blank north of county; no basin adopted"
+    },
+    {
+      "id": "COV2-S03",
+      "outcome": "Port Hawkesbury context; no secure historical basin established"
+    },
+    {
+      "id": "COV2-S04",
+      "outcome": "Compass / blank area; no basin adopted"
+    },
+    {
+      "id": "COV2-S05",
+      "outcome": "Adopted R51 northern kidney basin"
+    },
+    {
+      "id": "COV2-S06",
+      "outcome": "Adopted R52 precise northern junction; whole-basin centroid not used"
+    },
+    {
+      "id": "COV2-S07",
+      "outcome": "Lake and apparent island withheld: shoreline separation ambiguous. Distinct outer headland adopted as R53"
+    },
+    {
+      "id": "COV2-S08",
+      "outcome": "Blank area; no basin adopted"
+    },
+    {
+      "id": "COV2-S09",
+      "outcome": "Frame / blank western interior; no basin adopted"
+    },
+    {
+      "id": "COV2-S10",
+      "outcome": "Blank / frame; no basin adopted"
+    },
+    {
+      "id": "COV2-S11",
+      "outcome": "Ferguson Lake versus road enclosure unresolved; unscored"
+    },
+    {
+      "id": "COV2-S12",
+      "outcome": "Inset border / blank; no basin adopted"
+    }
+  ],
+  "withheld": [
+    "R47 Paddys Lake outline/connectivity mismatch; unscored proposal retained",
+    "COV2-S07 apparent island 149381 not securely separated in engraving; no observation or score created"
+  ],
+  "continuation": "Pause this Richmond refinement as provisional after 14 defensible fresh checks; continue Inverness north. Additional unambiguous interior, coast intervals and cross-panel seams needed. Do not manufacture a 20-check quota."
+}
