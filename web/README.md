@@ -149,6 +149,23 @@ on both surfaces. Builds default to `https://tiles.kinnokilabs.com`; an explicit
 empty override disables the historical control.
 Property boundaries retain the Province licence gate and attribution.
 
+The sidebar's **Appearance** selector offers **Match map**, **System**, **Light**
+and **Dark** independently of the basemap. Match map carries Fletcher's paper and
+ink into the controls. The choice stays in this browser. Property boundaries use
+mustard outlines on Fletcher, bright yellow over Night or aerial imagery, and
+teal on light backgrounds, with no context fill. Crown Land remains fill-only;
+selected and tax-sale parcels retain their distinct evidence symbols.
+
+On-screen road overlays reuse exposed Atlas roads while retaining supplemental
+bridge/structure geometry. When imagery hides Atlas, the separate road overlay
+is retained. Main roads do not redraw the network when Roads is already on.
+Extra road and place-name labels are suppressed over a labelled basemap or
+provincial topographic map. Labels baked into separate raster images cannot be
+removed individually. Standalone NSRN overlays use unsimplified source geometry
+from zoom 15. Completed overlays remain visible during replacement loads;
+failed replacements clear the layer and name the failed dataset and HTTP status
+when available.
+
 ### Main-map 3D terrain
 
 The research map's **3D terrain / 2D** control changes the current map
@@ -162,6 +179,11 @@ between 0–20 m or 0–100 m. Higher terrain retains the overall relief scale a
 is offset to join the lower band continuously. Sea level stays fixed; underwater
 elevations retain the overall scale. These are display controls: source rasters,
 recorded elevations and measurements are unchanged.
+Poker also supports 3D. Switching dimensions suspends driveway measurement
+capture and preserves the measurement for returning to 2D; civic numbers remain
+visible in 3D with label collision handling. The 3D renderer avoids loading a
+second basemap and does not resubmit unchanged path geometry.
+
 The compact 3D toolbar keeps **2D** and **3D settings** visible. Settings start
 collapsed; opening them offers a Tilt slider (0° looks straight down), rotation buttons,
 and North up. On touch screens, use one finger to pan, pinch to zoom, twist to
@@ -427,7 +449,7 @@ keeps its own saved setups locally.
 
 `docs/assets/app-icon.svg` is the source of truth for the app mark: a red
 lobster embracing Cape Breton over the Nova Scotia land mass. The web app
-imports it for the header brand, the `docs/*.html` pages use it as their
+keeps the map full-height without a top bar; the `docs/*.html` pages use it as their
 favicon and header logo, and the iOS `AppIcon.appiconset` SVGs are copies of
 it — the tinted slot is the same artwork in grayscale so iOS can apply the
 user's tint by luminance. The province outline is derived from Natural Earth

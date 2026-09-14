@@ -866,13 +866,16 @@ describe("NS Marks The Spot Online", () => {
     expect(trigger).toHaveFocus();
 
     await user.click(trigger);
-    const outside = screen.getByRole("button", { name: "Collapse header" });
+    const outside = document.createElement("button");
+    outside.textContent = "Outside controls";
+    document.body.append(outside);
     act(() => outside.focus());
     await user.keyboard("{Escape}");
 
     expect(screen.getByRole("complementary", { name: "Map controls" }))
       .not.toHaveClass("mobile-open");
     expect(outside).toHaveFocus();
+    outside.remove();
   });
 
   // The sheet's own Escape listener and every dialog's are all on the
@@ -2852,18 +2855,15 @@ describe("NS Marks The Spot Online", () => {
     );
   });
 
-  it("invites beta interest without claiming the iPhone beta is available", () => {
+  it("keeps launch updates in About without a top bar", async () => {
+    const user = userEvent.setup();
     renderAppWithCategoriesOpen();
+    await user.click(screen.getByRole("button", { name: "About this map" }));
 
     const betaLinks = screen.getAllByRole("link", {
       name: "Get launch updates",
     });
 
-    // One invite in the default render, in the header banner: the rail's
-    // duplicate marketing card was removed so the layer rail stays an
-    // instrument panel. (The About dialog carries a second copy of the same
-    // link — the phone's route, since the header is hidden there — but it
-    // only renders while the dialog is open.)
     expect(betaLinks).toHaveLength(1);
     betaLinks.forEach((link) => {
       expect(link).toHaveAttribute(
@@ -2878,7 +2878,7 @@ describe("NS Marks The Spot Online", () => {
     expect(screen.queryByText("Get the iPhone app")).not.toBeInTheDocument();
   });
 
-  it("opens the About dialog from the header, explains the method, and closes", async () => {
+  it("opens the About dialog from the attribution strip, explains the method, and closes", async () => {
     const user = userEvent.setup();
     renderAppWithCategoriesOpen();
 
@@ -3992,9 +3992,9 @@ describe("NS Marks The Spot Online", () => {
     expect(input.selectionEnd).toBe(result.label.length);
   });
 
-  it("opens Poker directly from its named setup link", () => {
+  it.each(["/?theme=poker", "/?theme=poker&basemap=osm&position=45.835,-61.405,18"])("opens Poker directly from %s", (url) => {
     localStorage.setItem(PROVINCE_LICENSE_ACCEPTANCE_KEY, "accepted");
-    window.history.replaceState(null, "", "/?theme=poker");
+    window.history.replaceState(null, "", url);
 
     render(<App />);
 
@@ -4677,24 +4677,12 @@ describe("NS Marks The Spot Online", () => {
       .toBe("");
   });
 
-  it("collapses and restores the header", async () => {
+  it("removes the top bar and offers independent interface appearance", async () => {
     const user = userEvent.setup();
     renderAppWithCategoriesOpen();
-
-    const collapse = screen.getByRole("button", { name: "Collapse header" });
-    expect(collapse).toHaveAttribute("aria-expanded", "true");
-
-    await user.click(collapse);
-
-    const expand = screen.getByRole("button", { name: "Expand header" });
-    expect(expand).toHaveAttribute("aria-expanded", "false");
-    expect(expand.closest(".app-shell")).toHaveClass("header-collapsed");
-
-    await user.click(expand);
-
-    expect(
-      screen.getByRole("button", { name: "Collapse header" }),
-    ).toHaveAttribute("aria-expanded", "true");
+    expect(document.querySelector('.app-header')).toBeNull();
+    await user.selectOptions(screen.getByRole('combobox', { name: 'Interface appearance' }), 'night');
+    expect(document.documentElement.dataset.mapAppearance).toBe('night');
   });
 
   it("keeps mobile map controls closed until the user opens them", async () => {

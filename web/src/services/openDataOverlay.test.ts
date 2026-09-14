@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fetchOpenDataOverlay } from "./openDataOverlay";
+import { fetchOpenDataOverlay, openDataQuery } from "./openDataOverlay";
 
 const bounds = { west: -61.5, east: -61.4, south: 45.8, north: 45.9 };
 const source = { parts: [{ dataset: "458x-dmz3", fields: ["feat_desc"], where: "feat_desc = 'Falls -  On a single line river point'" }], color: "#0078ff" };
@@ -54,4 +54,15 @@ it("honours cancellation before any source is queried", async () => {
   const controller = new AbortController(); controller.abort();
   await expect(fetchOpenDataOverlay(source, bounds, controller.signal)).rejects.toThrow();
   expect(fetcher).not.toHaveBeenCalled();
+});
+
+it('names the exact failed dataset, including its HTTP status', async () => {
+  vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('unavailable', { status: 503 })));
+  await expect(fetchOpenDataOverlay(source, bounds)).rejects.toThrow(/458x-dmz3.*HTTP 503/);
+});
+
+it('retains original NSRN road geometry from street-level zoom', () => {
+  const road = { dataset: '484g-adjn', fields: ['street'] };
+  expect(new URL(openDataQuery(road, bounds, 0, 15)).searchParams.get('$select')).not.toContain('simplify');
+  expect(new URL(openDataQuery(road, bounds, 0, 14)).searchParams.get('$select')).toContain('simplify_preserve_topology');
 });

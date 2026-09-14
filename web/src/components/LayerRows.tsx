@@ -32,7 +32,7 @@ function layerRuntimeLabel(
     case "loading":
       return "Loading visible area…";
     case "ready": {
-      const parts = ["Ready"];
+      const parts = [status.message ?? "Ready"];
       if (status.count !== undefined) {
         parts.push(`${status.count.toLocaleString("en-CA")} loaded`);
       }
@@ -52,7 +52,7 @@ function layerRuntimeLabel(
     case "licence-blocked": return "Province licence required";
     case "source-error":
     case "error":
-      return "Source temporarily unavailable";
+      return status.message ?? "Source temporarily unavailable";
     case "idle":
       return "Ready to load";
   }

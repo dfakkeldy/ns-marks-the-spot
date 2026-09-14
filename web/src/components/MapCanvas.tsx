@@ -1,3 +1,4 @@
+import { atlasPalettes } from "../atlas/palette";
 import { ElectoralFeatureLayer } from "./ElectoralFeatureLayer";
 import { initialElectoralModes, electoralLayerById, isElectoralLayerId, type ElectoralLayerId, type ElectoralMode } from "../layers/electoralLayers";
 import type { ElectoralSelection } from "../elections/electoralData";
@@ -114,7 +115,7 @@ import {
   representativeParcelPoints,
 } from "../services/parcelMarkers";
 import type { PrintMapBounds, PrintMapViewport } from "../services/printSnapshot";
-import { parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
+import { parcelOutlineColor, parcelBoundaryRenderer, parcelStyleForFeature, type MapRenderMode } from "./parcelStyle";
 import { MineralProximityParcelLayer } from "./MineralProximityParcelLayer";
 import { MeasureTool, type MeasureMode } from "./MeasureTool";
 import { FletcherTileLayer } from "./FletcherTileLayer";
@@ -333,10 +334,10 @@ export type MapLayerId =
   | ContextLayerId;
 
 export type MapLayerStatus =
-  | { status: "idle" | "loading" | "error" | "source-error" | "returned-empty" | "outside-coverage" | "licence-blocked" }
+  | { status: "idle" | "loading" | "error" | "source-error" | "returned-empty" | "outside-coverage" | "licence-blocked"; message?: string }
   | { status: "zoom"; minZoom: number }
   /** `observedAt`: ISO observation time of a live frame, when the source states one. */
-  | { status: "ready"; count?: number; observedAt?: string };
+  | { status: "ready"; count?: number; observedAt?: string; message?: string };
 
 export type ResourceLayerStatus = MapLayerStatus;
 
@@ -490,7 +491,9 @@ function ArcGISMapLayer({
   visible,
   onStatusChange,
   renderMode,
+  outlineColor,
 }: {
+  outlineColor?: string;
   layer: WebLayerDescriptor & { id: ProvinceLayerId };
   visible: boolean;
   onStatusChange?: MapCanvasProps["onLayerStatusChange"];
@@ -514,6 +517,7 @@ function ArcGISMapLayer({
             {
               serviceUrl: layer.serviceUrl,
               ...options,
+              ...(layer.id === "nsprd" && outlineColor && renderMode !== "print" ? { dynamicLayers: parcelBoundaryRenderer(outlineColor) } : {}),
             },
             {
               minZoom: layer.minZoom,
@@ -590,7 +594,7 @@ function ArcGISMapLayer({
       map.off("zoomend", reportZoom);
       tileLayers.forEach((tileLayer) => map.removeLayer(tileLayer));
     };
-  }, [layer, map, onStatusChange, renderMode, visible]);
+  }, [layer, map, onStatusChange, renderMode, visible, outlineColor]);
 
   return null;
 }
@@ -646,7 +650,7 @@ function ResourceArcGISMapLayer({
         updateWhenZooming: false,
         keepBuffer: 2,
         className:
-          renderMode === "print" ? `print-layer-${layer.id}` : undefined,
+          renderMode === "print" ? `print-layer-${layer.id}` : `map-layer-${layer.id}`,
       },
     );
     let loadedTiles = 0;
@@ -1991,6 +1995,7 @@ export function MapCanvas({
   const [locationMessage, setLocationMessage] = useState<string | null>(null);
   const [modernMapRetry, setModernMapRetry] = useState(0);
   const [modernMapFailed, setModernMapFailed] = useState(false);
+  const [modernMapFailure, setModernMapFailure] = useState<string | null>(null);
   const [measureMode, setMeasureMode] = useState<MeasureMode>("off");
   const measuring = poker !== null || measureMode !== "off";
   const [terrainRequested, setTerrainRequested] = useState(false);
@@ -2002,7 +2007,7 @@ export function MapCanvas({
   const [terrainSettingsOpen, setTerrainSettingsOpen] = useState(false);
   const [terrainRetry, setTerrainRetry] = useState(0);
   const [terrainMap, setTerrainMap] = useState<TerrainMap | null>(null);
-  const terrainBlocked = Boolean(isPrintMode || measuring || georeference || userVectorEdit || exportFrame);
+  const terrainBlocked = Boolean(isPrintMode || (!poker && measureMode !== "off") || georeference || userVectorEdit || exportFrame);
   const terrainActive = terrainRequested && !terrainBlocked;
   const measuringRef = useRef(false);
   useLayoutEffect(() => {
@@ -2069,11 +2074,18 @@ export function MapCanvas({
   // every feature sub-layer rewriting SVG attributes. A fresh closure per
   // render restyled every visible parcel on every App render — each map move,
   // keystroke, and tile-status event.
+  // An image above Atlas may hide its roads and names; retain overlays there.
+  const exposedBasemap = showModernMap && !provinceLayers['ns-aerial'] && !fletcherVisible
+    && !contextLayers['sentinel-2'] && !contextLayers['ns-topographic'] && userMaps.length === 0;
+  const atlasRoads = exposedBasemap && basemapStyle !== 'osm' && !modernMapFailed;
+  const backgroundLabels = exposedBasemap || contextLayers['ns-topographic'];
+  const outlineColor = parcelOutlineColor(basemapStyle, Boolean(contextLayers["sentinel-2"] || provinceLayers["ns-aerial"]));
   const parcelStyle = useCallback(
     (
       feature?: GeoJSON.Feature<GeoJSON.Geometry, NsprdFeatureProperties>,
     ): PathOptions =>
       parcelStyleForFeature(feature, {
+        outlineColor,
         selectedPid,
         showTaxSale,
         taxSalePids,
@@ -2082,6 +2094,7 @@ export function MapCanvas({
       }, renderMode),
     [
       historicalTaxSalePids,
+      outlineColor,
       renderMode,
       selectedPid,
       showHistoricalTaxSales,
@@ -2541,12 +2554,15 @@ export function MapCanvas({
               mode={basemapStyle}
               print={isPrintMode}
               onStatus={(status) => {
-                if (!isPrintMode) setModernMapFailed(status.status === "error");
+                if (!isPrintMode) {
+                  setModernMapFailed(status.status === "error");
+                  setModernMapFailure(status.status === "error" ? status.message ?? null : null);
+                }
                 reportModernStatus(status);
               }}
             />
           </Suspense>
-        ) : showModernMap ? (
+        ) : showModernMap && !terrainActive ? (
           <TileLayer
             key={`modern-${modernMapRetry}`}
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -2586,11 +2602,12 @@ export function MapCanvas({
           onStatusChange={reportFletcherStatus}
         />
         {provinceLayerCatalog.map((layer) => layer.openData ? (
-          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
+          <OpenDataLayer key={layer.id} layer={layer} visible={provinceLayers[layer.id]} zIndex={PROVINCE_LAYER_Z_INDEXES[layer.id]} roadsVisible={provinceLayers.roads} crownColor={basemapStyle === "osm" ? undefined : atlasPalettes[basemapStyle].crown} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} backgroundLabels={backgroundLabels} />
         ) : (
           <ArcGISMapLayer
             key={layer.id}
             layer={layer}
+            outlineColor={outlineColor}
             visible={provinceLayers[layer.id]}
             onStatusChange={reportLayerStatus}
             renderMode={renderMode}
@@ -2613,7 +2630,7 @@ export function MapCanvas({
         {contextLayerCatalog.map((layer) => isElectoralLayerId(layer.id) ? (
           <ElectoralFeatureLayer key={layer.id} layer={electoralLayerById[layer.id]} visible={contextLayers[layer.id]} licenceAccepted={electoralLicenceAccepted} mode={electoralModes[layer.id]} night={basemapStyle === "night"} renderMode={renderMode} onSelect={onElectoralSelect} onStatusChange={onLayerStatusChange} />
         ) : layer.openData ? (
-          <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
+          <OpenDataLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} zIndex={layer.zIndex} onStatusChange={onLayerStatusChange} renderMode={renderMode} atlasRoads={atlasRoads} roadsVisible={provinceLayers.roads} backgroundLabels={backgroundLabels} />
         ) : layer.delivery === "tile" ? (
           <ContextTileLayer key={layer.id} layer={layer} visible={contextLayers[layer.id]} onStatusChange={onLayerStatusChange} renderMode={renderMode} />
         ) : layer.delivery === "static-image" ? (
@@ -2891,7 +2908,7 @@ export function MapCanvas({
               node.addEventListener("dblclick", L.DomEvent.stopPropagation);
             }}>
               <PokerMapTools session={poker} />
-              <MeasureTool key={`poker-${poker.revision}`} driveway mode="distance" onModeChange={setMeasureMode} />
+              <MeasureTool key={`poker-${poker.revision}`} driveway suspended={terrainActive} mode="distance" onModeChange={setMeasureMode} />
             </div> : <MeasureTool mode={measureMode} onModeChange={setMeasureMode} />
           )}
         </>}
@@ -3098,7 +3115,7 @@ export function MapCanvas({
       ) : null}
       {showModernMap && modernMapFailed && !terrainActive ? (
         <div className="modern-map-error" role="status">
-          <span>Some modern-map data did not load. The map may be incomplete.</span>
+          <span>{modernMapFailure ?? "Some modern-map data did not load. The map may be incomplete."}</span>
           {basemapStyle !== "osm" && onUseOsmBasemap ? (
             <button type="button" onClick={onUseOsmBasemap}>Use OpenStreetMap</button>
           ) : null}

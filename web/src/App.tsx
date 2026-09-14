@@ -15,7 +15,6 @@ import {
   useState,
   type FormEvent,
 } from "react";
-import appIconUrl from "../../docs/assets/app-icon.svg";
 import { useStablePerIdCallback } from "./components/useStablePerIdCallback";
 import {
   MapCanvas,
@@ -1121,7 +1120,7 @@ export function App() {
   const initialShareState = useRef(
     parseMapShareState(initialUrl.toString()),
   ).current;
-  const { preference: basemapPreference, setPreference: setBasemapPreference, style: basemapStyle } =
+  const { preference: basemapPreference, setPreference: setBasemapPreference, style: basemapStyle, appearance, setAppearance } =
     useBasemapPreference(initialShareState.basemapStyle);
   const hasRecognizedShareState = hasRecognizedMapShareState(initialUrl.href);
   const hasSharedLayers = initialUrl.searchParams.has("layers");
@@ -1134,15 +1133,19 @@ export function App() {
   const requestedTheme = builtInMapThemes.find(
     ({ id }) => id === initialShareState.themeId,
   );
+  // A camera bookmark does not override the layers of a named setup.
+  const hasSharedSetupState = requestedTheme
+    ? ["layers", "taxSale", "mode", "event"].some(key => initialUrl.searchParams.has(key))
+    : hasRecognizedShareState;
   const initialCatalogueLayerIds = useRef(new Set<ShareLayerId>(
-    hasRecognizedShareState
+    hasSharedSetupState
       ? initialShareState.layerIds
       : requestedTheme?.layerIds ?? ["modern"],
   )).current;
-  const initialTaxSaleEnabled = hasRecognizedShareState
+  const initialTaxSaleEnabled = hasSharedSetupState
     ? initialShareState.taxSaleEnabled
     : requestedTheme?.taxSaleEnabled ?? false;
-  const initialMapMode = hasRecognizedShareState
+  const initialMapMode = hasSharedSetupState
     ? initialShareState.mode
     : requestedTheme?.mapMode ?? initialShareState.mode;
   const initialLicenceAccepted = useRef(isLicenceAccepted()).current;
@@ -1242,9 +1245,6 @@ export function App() {
     [customThemes],
   );
   const mapSetupSelectRef = useRef<HTMLSelectElement>(null);
-  const [headerCollapsed, setHeaderCollapsed] = useState(
-    () => window.matchMedia?.("(max-width: 560px)").matches ?? false,
-  );
   const [mobileControlsOpen, setMobileControlsOpen] = useState(false);
   const [phoneCategoryLayout, setPhoneCategoryLayout] = useState(
     () => window.matchMedia?.("(max-width: 860px)").matches ?? false,
@@ -3230,6 +3230,7 @@ export function App() {
         if (
           previous &&
           previous.status === status.status &&
+          ("message" in previous ? previous.message : undefined) === ("message" in status ? status.message : undefined) &&
           ("minZoom" in previous ? previous.minZoom : undefined) ===
             ("minZoom" in status ? status.minZoom : undefined) &&
           ("count" in previous ? previous.count : undefined) ===
@@ -4546,55 +4547,14 @@ export function App() {
   return (
     <>
     <div
-      className={`app-shell${headerCollapsed ? " header-collapsed" : ""}${
+      className={`app-shell${
         editingMap ? " georeferencing" : ""
       }`}
     >
-      {/* The page's one h1, and it can live in neither the header nor the
-          controls rail: below 860px the stylesheet hides both, and display:
-          none takes their headings out of the accessibility tree with them,
-          which left a phone with no page heading at all whenever the search
-          sheet was closed. It is clipped rather than drawn because the phone
-          layout has no room for a title and the desktop header already shows
-          the name, and `.visually-hidden` positions it out of flow, so it
-          claims none of the shell's three grid rows. */}
+      {/* Keep the page heading available to assistive technology. */}
       <h1 className="visually-hidden">
         NS Marks The Spot — Nova Scotia parcel &amp; tax-sale map
       </h1>
-      <header className="app-header">
-        <a className="app-brand" href="../" aria-label="NS Marks The Spot home">
-          <img src={appIconUrl} alt="" />
-          <strong>NS Marks The Spot</strong>
-          <span>Online</span>
-        </a>
-        <div className="offline-nav">
-          <button
-            className="text-button header-about"
-            type="button"
-            onClick={() => setAboutOpen(true)}
-          >
-            About this map
-          </button>
-          <span>iPhone app in development</span>
-          <a
-            className="header-action"
-            href={BETA_SIGNUP_URL}
-            title="map@kinnokilabs.com"
-          >
-            Get launch updates
-          </a>
-        </div>
-        <button
-          className="header-collapse"
-          type="button"
-          aria-label={headerCollapsed ? "Expand header" : "Collapse header"}
-          aria-expanded={!headerCollapsed}
-          onClick={() => setHeaderCollapsed((collapsed) => !collapsed)}
-        >
-          <span aria-hidden="true">{headerCollapsed ? "⌄" : "⌃"}</span>
-        </button>
-      </header>
-
       <main className="map-layout">
         <aside
           ref={mobileControlsRef}
@@ -4619,6 +4579,15 @@ export function App() {
               typography over unchanged. */}
           <h2>{pokerMode ? "Poker" : "Explore Nova Scotia"}</h2>
           {!pokerMode && searchForm}
+          <label className="basemap-style-control interface-appearance-control">
+            Appearance
+            <select aria-label="Interface appearance" value={appearance} onChange={event => setAppearance(event.target.value as typeof appearance)}>
+              <option value="map">Match map</option>
+              <option value="system">System</option>
+              <option value="day">Light</option>
+              <option value="night">Dark</option>
+            </select>
+          </label>
 
           {/* Deliberately NOT gated on `licenceAccepted`. Declining the
               Province licence runs `continueWithoutProvinceLayers`, which

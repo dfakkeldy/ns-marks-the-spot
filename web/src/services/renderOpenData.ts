@@ -47,7 +47,7 @@ export async function renderOpenData(source: OpenDataSource, bounds: MapEnvelope
     ctx.strokeStyle = color; ctx.fillStyle = color;
     ctx.lineWidth = source.roads ? 2 : 1.2;
     if (fill) { ctx.globalAlpha = f.geometry.type.includes("Point") ? 0.85 : source.fillOpacity ?? 0.2; ctx.fill("evenodd"); ctx.globalAlpha = 1; }
-    ctx.stroke();
+    if (source.stroke !== false) ctx.stroke();
     if (source.labelField && zoom >= (source.labelMinZoom ?? 0)) {
       const text = String(f.properties[source.labelField] ?? "").trim();
       const coordinates = f.geometry.type === "Point" ? [f.geometry.coordinates] : f.geometry.type === "LineString" ? f.geometry.coordinates : f.geometry.type === "MultiLineString" ? f.geometry.coordinates[0] : undefined;

@@ -16,6 +16,7 @@ export type OpenDataSource = {
   labelField?: string;
   labelMinZoom?: number;
   roads?: boolean;
+  stroke?: boolean;
 };
 export const openDatasetUrl = (id: string) => `https://data.novascotia.ca/d/${id}`;
 export const openDatasetApi = (id: string) => `https://data.novascotia.ca/resource/${id}.geojson`;
@@ -23,7 +24,7 @@ const part = (dataset: string, fields: readonly string[] = ["feat_code", "feat_d
 
 /** Web replacements. The native service catalogue remains independently licensed. */
 export const openProvinceSources: Readonly<Record<string, OpenDataSource>> = {
-  "crown-lands": { parts: [part("3nka-59nz", ["dnr_id", "partialown", "symbol"])], color: "#268744", fillOpacity: 0.18 },
+  "crown-lands": { parts: [part("3nka-59nz", ["dnr_id", "partialown", "symbol"])], color: "#268744", fillOpacity: 0.18, stroke: false },
   "flood-risk": { parts: [part("569x-2wnq", ["river", "primary_co"]), part("ynkv-x6rx", ["sec_name", "sec_code"]), part("6htv-yzkm", ["sec_name", "tert_code"])], color: "#487f9b", fillOpacity: 0 },
   "waterfalls": { parts: [part("458x-dmz3", ["feat_code", "feat_desc"], "feat_desc = 'Falls -  On a single line river point'")], color: "#0078ff" },
   "water-features": { parts: [part("h8jb-hzrm"), part("fpca-jrmt"), { ...part("458x-dmz3"), minZoom: 14 }], color: "#267cad", fillOpacity: 0.2 },
