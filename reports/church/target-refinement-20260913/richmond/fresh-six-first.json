@@ -1,0 +1,114 @@
+{
+  "phase": "First six post-freeze checks; northwestern network, western mainland, Isle Madame interior, Rocky Bay coast, eastern interior pond and central Barren Lake. Northern extension, southwest mainland and intervening coverage remain insufficient; no tuning.",
+  "candidate_sha256": "3beff855f6c99886aabeffdb56c80c613adbe28331f75367ec69d2cae26de4ca",
+  "observation_sha256": "2e8f13581524f5baa5ebfaa44e4867dfa35ee7ea12a71d5bccbb4322127e72bd",
+  "metrics": {
+    "count": 6,
+    "points": [
+      {
+        "label": "R30",
+        "east_ground_m": 193.72566273439088,
+        "north_ground_m": 211.2913860757355,
+        "error_ground_m": 286.6595231833132
+      },
+      {
+        "label": "R31",
+        "east_ground_m": -290.14026926701234,
+        "north_ground_m": -128.38178932282756,
+        "error_ground_m": 317.27473848396016
+      },
+      {
+        "label": "R32",
+        "east_ground_m": 5.790795811751475,
+        "north_ground_m": 135.21489854291337,
+        "error_ground_m": 135.33884181602767
+      },
+      {
+        "label": "R33",
+        "east_ground_m": 29.415003183469487,
+        "north_ground_m": 8.986228045573718,
+        "error_ground_m": 30.75702694947247
+      },
+      {
+        "label": "R34",
+        "east_ground_m": -14.367608810910701,
+        "north_ground_m": 122.33334471855517,
+        "error_ground_m": 123.17416698712522
+      },
+      {
+        "label": "R35",
+        "east_ground_m": -535.1163586437011,
+        "north_ground_m": -89.19902827251258,
+        "error_ground_m": 542.4997547767691
+      }
+    ],
+    "rms_ground_m": 291.9981158810364,
+    "median_ground_m": 210.99918249967044,
+    "p95_ground_m": 486.1935007035669,
+    "max_ground_m": 542.4997547767691,
+    "mean_east_ground_m": -101.78212916533539,
+    "mean_north_ground_m": 43.37417329790626,
+    "scatter_rms_ground_m": 270.22579253537094,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "v4_same_six": {
+    "count": 6,
+    "points": [
+      {
+        "label": "R30",
+        "east_ground_m": -131.7314226155701,
+        "north_ground_m": 324.9036358016649,
+        "error_ground_m": 350.5931263750943
+      },
+      {
+        "label": "R31",
+        "east_ground_m": 56.30463766305847,
+        "north_ground_m": 219.63696001409005,
+        "error_ground_m": 226.73907123960637
+      },
+      {
+        "label": "R32",
+        "east_ground_m": 82.1678445661935,
+        "north_ground_m": 113.31853626679559,
+        "error_ground_m": 139.9737309008487
+      },
+      {
+        "label": "R33",
+        "east_ground_m": 156.96742086008743,
+        "north_ground_m": -8.867800479094027,
+        "error_ground_m": 157.21771241436136
+      },
+      {
+        "label": "R34",
+        "east_ground_m": 69.19453310999832,
+        "north_ground_m": 19.509084836217212,
+        "error_ground_m": 71.89219570619174
+      },
+      {
+        "label": "R35",
+        "east_ground_m": -403.30577537100856,
+        "north_ground_m": -229.88331067339826,
+        "error_ground_m": 464.22180579306325
+      }
+    ],
+    "rms_ground_m": 270.5878088853968,
+    "median_ground_m": 191.97839182698385,
+    "p95_ground_m": 435.81463593857103,
+    "max_ground_m": 464.22180579306325,
+    "mean_east_ground_m": -28.40046029787349,
+    "mean_north_ground_m": 73.10285096104592,
+    "scatter_rms_ground_m": 258.97325992008524,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "source_hull": {
+    "R30": true,
+    "R31": true,
+    "R32": true,
+    "R33": true,
+    "R34": true,
+    "R35": true
+  },
+  "geographic_acceptance": false
+}

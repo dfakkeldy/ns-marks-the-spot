@@ -1,0 +1,26 @@
+{
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "control_csv_sha256": "3beff855f6c99886aabeffdb56c80c613adbe28331f75367ec69d2cae26de4ca",
+  "boundary_sha256": "16ed6c04e00aa9af7cc4527d509d5292c91812744fe17c6220def3ece973b00d",
+  "transform": "GDAL TPS -et 0",
+  "resolution_projected_m": 20,
+  "crs": "EPSG:3857",
+  "output": "/var/home/dan/nsmarks-church-20260912/target-refinement-20260913/richmond-rendered/richmond-candidate14-tps-20m.tif",
+  "output_sha256": "10e22efaf4d64e93c7ef21594a62c5ae947a7f494f1387a6a158c6d5c852614d",
+  "size": [
+    6637,
+    4522
+  ],
+  "geotransform": [
+    -6835700.0,
+    20.0,
+    0.0,
+    5775220.0,
+    0.0,
+    -20.0
+  ],
+  "cutline": "/var/home/dan/nsmarks-church-20260912/target-refinement-20260913/richmond-rendered/candidate14-cutline.geojson",
+  "candidate_only": true,
+  "geographic_acceptance": false
+}
