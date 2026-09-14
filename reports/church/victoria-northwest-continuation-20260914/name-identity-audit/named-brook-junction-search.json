@@ -1,0 +1,224 @@
+{
+  "Doherty Brook": {
+    "name_record": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.54981748983923,
+          46.76201830342654
+        ]
+      },
+      "properties": {
+        "gaz_map": "011K15",
+        "admin_loc": "Victoria",
+        "concise_ds": "River",
+        "orig_narr": null,
+        "objectid": "2932",
+        "generic_cd": "601",
+        "locn_narr": "Flows SE. into Black Brook",
+        "county": "Victoria",
+        "generic_tm": "Brook",
+        "cgndb_key": "CBPYP",
+        "tmod_date": "20130205",
+        "concise_cd": "RIV",
+        "status_cd": "1348",
+        "ordec_date": "19371102",
+        "jurr_narr": null,
+        "fmod_date": "20151125",
+        "nad83_lon": "-60.54981",
+        "nts_map": "011K15",
+        "status_ds": "Official - Official",
+        "decis_date": "19371102",
+        "nad83_lat": "46.762018",
+        "geoname": "Doherty Brook"
+      }
+    },
+    "candidate_junctions": [
+      {
+        "name_point_distance_ground_m": 5.173793466380148,
+        "lonlat": [
+          -60.54976363193282,
+          46.761989952762434
+        ],
+        "feature_ids": [
+          170895,
+          170896,
+          281426
+        ]
+      },
+      {
+        "name_point_distance_ground_m": 205.54289088815398,
+        "lonlat": [
+          -60.547278400299824,
+          46.7626440573233
+        ],
+        "feature_ids": [
+          156505,
+          156506,
+          179745
+        ]
+      },
+      {
+        "name_point_distance_ground_m": 439.64647506114824,
+        "lonlat": [
+          -60.55448835474914,
+          46.76434097903753
+        ],
+        "feature_ids": [
+          179746,
+          281425,
+          281426
+        ]
+      }
+    ]
+  },
+  "Donovan Brook": {
+    "name_record": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.48095002855899,
+          46.76429531839472
+        ]
+      },
+      "properties": {
+        "gaz_map": "011K16",
+        "admin_loc": "Victoria",
+        "concise_ds": "River",
+        "orig_narr": null,
+        "objectid": "13332",
+        "generic_cd": "601",
+        "locn_narr": "Flows SE. into Black Brook",
+        "county": "Victoria",
+        "generic_tm": "Brook",
+        "cgndb_key": "CBQAN",
+        "tmod_date": "20130205",
+        "concise_cd": "RIV",
+        "status_cd": "1348",
+        "ordec_date": "19371102",
+        "jurr_narr": null,
+        "fmod_date": "20151125",
+        "nad83_lon": "-60.480942",
+        "nts_map": "011K16,011K15",
+        "status_ds": "Official - Official",
+        "decis_date": "19371102",
+        "nad83_lat": "46.764295",
+        "geoname": "Donovan Brook"
+      }
+    },
+    "candidate_junctions": [
+      {
+        "name_point_distance_ground_m": 5.067502139569253,
+        "lonlat": [
+          -60.480951780234356,
+          46.764249761082056
+        ],
+        "feature_ids": [
+          170752,
+          170894,
+          281431
+        ]
+      },
+      {
+        "name_point_distance_ground_m": 18.078386587436416,
+        "lonlat": [
+          -60.48117474107764,
+          46.76424298097289
+        ],
+        "feature_ids": [
+          156364,
+          156503,
+          180786
+        ]
+      },
+      {
+        "name_point_distance_ground_m": 281.4398123076349,
+        "lonlat": [
+          -60.47732041513988,
+          46.76382143618415
+        ],
+        "feature_ids": [
+          156503,
+          156504,
+          180787
+        ]
+      }
+    ]
+  },
+  "Snipe Brook": {
+    "name_record": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -60.5763619057406,
+          46.74258720225121
+        ]
+      },
+      "properties": {
+        "gaz_map": "011K10",
+        "admin_loc": "Victoria",
+        "concise_ds": "River",
+        "orig_narr": null,
+        "objectid": "16126",
+        "generic_cd": "601",
+        "locn_narr": "Flows N. into Black Brook",
+        "county": "Victoria",
+        "generic_tm": "Brook",
+        "cgndb_key": "CBJHH",
+        "tmod_date": "20130205",
+        "concise_cd": "RIV",
+        "status_cd": "1348",
+        "ordec_date": "19371102",
+        "jurr_narr": null,
+        "fmod_date": "20151125",
+        "nad83_lon": "-60.576355",
+        "nts_map": "011K10",
+        "status_ds": "Official - Official",
+        "decis_date": "19371102",
+        "nad83_lat": "46.742587",
+        "geoname": "Snipe Brook"
+      }
+    },
+    "candidate_junctions": [
+      {
+        "name_point_distance_ground_m": 5.2876743838401685,
+        "lonlat": [
+          -60.576408336556845,
+          46.74262254231036
+        ],
+        "feature_ids": [
+          156069,
+          156070,
+          277363
+        ]
+      },
+      {
+        "name_point_distance_ground_m": 171.65939831341063,
+        "lonlat": [
+          -60.578178880671054,
+          46.74167458495824
+        ],
+        "feature_ids": [
+          164938,
+          164939,
+          179081
+        ]
+      },
+      {
+        "name_point_distance_ground_m": 184.87005206262236,
+        "lonlat": [
+          -60.578246433847475,
+          46.74154012061144
+        ],
+        "feature_ids": [
+          156069,
+          164938,
+          267065
+        ]
+      }
+    ]
+  }
+}

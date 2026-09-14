@@ -1,0 +1,20 @@
+{
+  "frozen_at": "2026-09-14T14:09:27.953325+00:00",
+  "method": "affine",
+  "control_csv_sha256": "d212d7fb57210717085f2b1ebbaff934bedeac0d3a69319b5091854e66b7578f",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "boundary_sha256": "848770cbdb371abdec736a2af1d79461ed1d0967ebee0fb1fa06b6529f3acad4",
+  "selection": "Affine7 is simplest and has lower RMS/median on the same three diagnostics than TPS7 and polynomial2; all remain above250m. No fresh checks yet.",
+  "diagnostics": [
+    "supply-04",
+    "supply-06",
+    "VN11"
+  ],
+  "promoted_controls": [
+    "VN08",
+    "VN12",
+    "VN13"
+  ],
+  "fresh_count": 0,
+  "geographic_acceptance": false
+}

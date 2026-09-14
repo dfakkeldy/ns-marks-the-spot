@@ -1,0 +1,20 @@
+{
+  "promoted_unchanged": "VN14",
+  "observation_sha256": "218969311a486dcbbdc921c4439af84b49087872987bf6ed808b7d940de9198c",
+  "preserved_first": "../distributed-trial/VN14-first.json",
+  "previous_tps8_failure": "../interior-trial/model-comparison.json",
+  "excluded_aliases": [
+    "VN14"
+  ],
+  "all_prior_promoted": [
+    "VN08",
+    "VN12",
+    "VN13",
+    "VN15 with former VN10 alias"
+  ],
+  "diagnostics": [
+    "VN16 alias supply-04",
+    "VN17 alias supply-06",
+    "VN11"
+  ]
+}

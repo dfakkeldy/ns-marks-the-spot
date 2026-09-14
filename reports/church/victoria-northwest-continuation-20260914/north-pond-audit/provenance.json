@@ -1,0 +1,35 @@
+{
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "parent_frame": {
+    "origin": [
+      6100,
+      7400
+    ],
+    "extent": [
+      1500,
+      1400
+    ],
+    "display": [
+      1500,
+      1400
+    ],
+    "rotation": 0
+  },
+  "source_crops": {
+    "VN16": [
+      380,
+      590,
+      290,
+      270
+    ],
+    "VN17": [
+      790,
+      450,
+      220,
+      230
+    ]
+  },
+  "display_enlargement": 4,
+  "reference_definition": "Original closed WACOIS10 rings20891/20918, valid polygons. Western area centroid is outside its concave polygon; containment is not a validity criterion.",
+  "originals_preserved": true
+}

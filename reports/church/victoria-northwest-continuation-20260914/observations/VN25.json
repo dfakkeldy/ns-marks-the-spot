@@ -1,0 +1,88 @@
+{
+  "id": "VN25",
+  "role": "check",
+  "label": "Zwicker Brook joins Wilkie Brook",
+  "pixel_xy": [
+    7285.5,
+    6510.75
+  ],
+  "lonlat": [
+    -60.47748297283655,
+    46.9493281811818
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      7120,
+      6380
+    ],
+    "extent": [
+      350,
+      350
+    ],
+    "display": [
+      1400,
+      1400
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    662,
+    523
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN3-zwicker-junction.jpg",
+  "source_crop_sha256": "7c519880c6e35d898dec692820ea91b64efc6639cb70e975879f810288a50c9e",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet02/reference-full/water-lines.geojson",
+  "reference_sha256": "d28790711c5b8af8db64b4a68a41f5937c33fb355b36e113184071fae1bc5f9c",
+  "reference_feature_ids": [
+    280533,
+    280685,
+    280705
+  ],
+  "reference_vertex": {
+    "feature_id": 280705,
+    "vertex": 380
+  },
+  "shared_reference_vertices": [
+    {
+      "feature_id": 280533,
+      "vertex": 71
+    },
+    {
+      "feature_id": 280685,
+      "vertex": 0
+    },
+    {
+      "feature_id": 280705,
+      "vertex": 380
+    }
+  ],
+  "uncertainty_ground_m": 100,
+  "identity_evidence": "The explicitly labelled Zwicker Brook approaches from the southwest and joins Wilkie downstream of its northern bow, before the eastward reach and southern turn to the coast. Original named Zwicker line280705 ends at the shared Wilkie280533/280685 centreline node. The source southern branch has a separate upstream termination, not a loop into Wilkie. Broad drainage, sequence and source label corroborate identity; Gazetteer and frozen-fit predictions were search aids only. The historical single engraved channel centre junction is used, not text or road.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-nw-continuation-20260914/VN2-wilkie-network.jpg",
+    "sha256": "edcd6d0e0fc0a09ff152bba35af6f6b09155cc6ec01a28b68f816a5255ea4f2a",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        4500,
+        4400
+      ],
+      "extent": [
+        5200,
+        4500
+      ],
+      "display": [
+        1820,
+        1575
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh observation after fifteen-control TPS freeze; no fitting or tuning",
+  "recorded_at": "2026-09-14T19:22:00.042665+00:00",
+  "frozen_controls_sha256": "1271335c324a200fbaa3b60a601af1f4de23f0bcc1cec3022b2ef4988158f56b"
+}

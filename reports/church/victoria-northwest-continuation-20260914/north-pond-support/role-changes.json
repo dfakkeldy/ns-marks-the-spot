@@ -1,0 +1,14 @@
+{
+  "promoted": "Audited VN16",
+  "observation_manifest_sha256": "c2dc0b4f30dce5462fb4ab990cc3df81c63a0defdfe1698f579cfc5deee1b986",
+  "excluded_aliases": [
+    "VN16",
+    "supply-04"
+  ],
+  "retained_diagnostics": [
+    "VN17 / supply-06",
+    "VN11",
+    "VN19"
+  ],
+  "note": "Original supply-04 source/reference pair and every earlier result remain unchanged; new audited centroid is used in this trial."
+}
