@@ -1,0 +1,21 @@
+{
+  "recorded_at": "2026-09-14T06:47:25.470247+00:00",
+  "url": "http://127.0.0.1:49370/__church_coverage_assets/index.html",
+  "browser": "Brave via CUA",
+  "tab_id": "1761749343",
+  "source_base_commit": "683ec77ce970db6f1a997795008c8694ce305b8d",
+  "selected_raster": "affine14",
+  "exaggeration": 10,
+  "tilt_degrees": 55,
+  "opacity_percent": 70,
+  "reference_lines": "Two original NSTDB extracts, duplicate geometries checked identical; 18054 unique features",
+  "inspected_regions": [
+    "Barren Lake",
+    "Melford Creek"
+  ],
+  "evidence": "Inline CUA screenshots and visible Ready status; no console errors returned by browser logs",
+  "scope": "Separate exact-raster preview using production terrain modules; native measurements and original reference coordinates define all checks",
+  "main_app_importer_verified_for_affine14": false,
+  "raw_scan_mesh_verified": false,
+  "geographic_acceptance": false
+}

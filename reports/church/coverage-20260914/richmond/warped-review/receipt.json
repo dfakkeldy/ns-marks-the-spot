@@ -1,0 +1,78 @@
+{
+  "raster_sha256": "c44fd27bf527f468a779a7b37218ab402b5bf306c9a3b9cae5bb8769eba15fd0",
+  "source": "Actual delivered candidate GeoTIFF, no refit of image",
+  "window_ground_m": 1600,
+  "references": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-refinement-04/review-water-lines.geojson",
+      "sha256": "0cc3aabf4c4d5befd266a031c9d39ee2191d188ef56fe87bcb4defdbfe43f6b6"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-distributed-20260913/richmond-southwest-water.geojson",
+      "sha256": "6659d899c9c8bddd2aa196d61191cf482a26c5a9159df3a0520d01551140774a"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "R38",
+      "raster_pixel_xy": [
+        512.4370490602494,
+        3458.904055638968
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R38-affine14.jpg",
+      "figure_sha256": "8bc122325f0632fe1ebf7c8755a9109418a7cf75a3d0ee76bf550c3466144e56"
+    },
+    {
+      "id": "R39",
+      "raster_pixel_xy": [
+        2079.3571321557088,
+        3583.231452727581
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R39-affine14.jpg",
+      "figure_sha256": "321e15310554774294be45506fb61be2d124ddd1e201e5a137af917e87c70f8d"
+    },
+    {
+      "id": "R40",
+      "raster_pixel_xy": [
+        2826.618012895556,
+        348.71927769727336
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R40-affine14.jpg",
+      "figure_sha256": "69f3e9fb6844a3a8bde7ae4594b0ccde2dac2fe35afe4f152e583389dc57d026"
+    },
+    {
+      "id": "R41",
+      "raster_pixel_xy": [
+        4023.9440980386735,
+        2416.427325349751
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R41-affine14.jpg",
+      "figure_sha256": "6fc05e3228dd9a3170416db2f261c78d724e49de24272125ee70d8e69f597a54"
+    },
+    {
+      "id": "R42",
+      "raster_pixel_xy": [
+        5400.427603707258,
+        2320.1819079337947
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R42-affine14.jpg",
+      "figure_sha256": "4ec5ddb6bd678649fde9ced61ab1791b6942828c8a21c4917b8d7071b64413ae"
+    },
+    {
+      "id": "R44",
+      "raster_pixel_xy": [
+        6526.515692096837,
+        1981.53815045588
+      ],
+      "observation_pixel_alpha": 255,
+      "figure": "R44-affine14.jpg",
+      "figure_sha256": "45fa2c5a6fa6a8e8adeca85a543cb4837ba12f49e0858ebf49fe5ac1244dba03"
+    }
+  ],
+  "geographic_acceptance": false
+}

@@ -1,0 +1,48 @@
+{
+  "id": "R38",
+  "label": "First main fork inland from Melford Creek",
+  "role": "check",
+  "pixel_xy": [
+    3492.6666666666665,
+    20104.666666666668
+  ],
+  "lonlat": [
+    -61.307531188299244,
+    45.53051544754777
+  ],
+  "source_frame": {
+    "county": "richmond",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/richmond/richmond.tif",
+    "origin": [
+      3330,
+      19890
+    ],
+    "extent": [
+      420,
+      400
+    ],
+    "display": [
+      1260,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    488,
+    644
+  ],
+  "source_crop_sha256": "f12989d8c2f7108cad94e848fb0d3b820415b47e47866bf8eeb7a784e9d7cf81",
+  "source_sha256": "462194ca1ca810d88416d7cd344f17c5f37acf20c8e43381dc3064668010a5f7",
+  "reference_feature_ids": [
+    197305,
+    273245,
+    273246
+  ],
+  "reference_vertex": {
+    "feature_id": 197305,
+    "vertex": 153
+  },
+  "uncertainty_ground_m": 110,
+  "identity_evidence": "Inland from the narrow estuary immediately west of Melford Point and southwest of Bear Head. Follow the paired estuary banks to the southeastern stream, then its first main southern/southeastern fork. Modern Melford Brook segments 273245 vertex 0 and 273246 vertex 31 meet eastern tributary 197305 vertex 153 exactly. The source simplifies the southeastern meanders and omits the separate west-side estuary tributary; that estuary tributary is not confused with the selected fork farther inland. The large coastal head, estuary position and fork order corroborate identity. The selected pixel is on the single-line junction, not the tide-dependent estuary head or shoreline.",
+  "phase": "First fresh physical check selected after affine14 freeze. Excluded from its 14 controls and all 28 model-selection diagnostics; no tuning."
+}
