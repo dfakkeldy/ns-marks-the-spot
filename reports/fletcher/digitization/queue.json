@@ -1,8 +1,8 @@
 {
   "scope": "All 24 Fletcher sheets; complete priority sheets 22,19,16,14 before remaining sheets. Lettering is not feature geometry.",
   "reconciled_at": "2026-09-13",
-  "nightly_revision": "4ceacae50e1f3aa7a97089ff56002a9f6afa77e0",
-  "next_action": "Publish the final Hawkesbury batch and continue sheet 16 Port Hood/Mabou source-feature association using the recorded 36-control Glendyer fit. All 301 Hawkesbury initial source/geographic decisions are complete: 184 local integrations and 117 explicit holdbacks. PR472 merged 163 Hawkesbury features; twenty-one further placements and wrapped-label fix pass local checks and await PR. Judique retains 126 merged placements and all 166 initial decisions, with 40 holdbacks. Sheet 14 and the remaining 20 sheets stay open.",
+  "nightly_revision": "a96063b663028395cf3ee54c23c51a6ebd03bc01",
+  "next_action": "Continue sheet 16 Port Hood/Mabou source association: the first 30 service/industrial annotations have initial source/geographic decisions, with 16 locally integrated placements and 14 coverage/neatline holdbacks. Fifty-four of the 84 service/industrial entries remain; 226 of all 256 sheet annotations still need initial source association. Preserve the recorded 36-control Glendyer fit. Hawkesbury has all 301 initial decisions and 184 merged placements through PR473, with 117 explicit holdbacks; Judique has all 166 initial decisions and 126 merged placements, with 40 holdbacks. Sheet 14 and the remaining 20 sheets stay open.",
   "sheets": [
     {
       "sheet": 22,
@@ -602,8 +602,8 @@
       "annotation_queue": "sheet-22-queue.json",
       "lettering_path": "reports/fletcher/label-geography/sheet-22-labels.geojson",
       "source_association_reviewed_count": 301,
-      "merged_integrated_count": 163,
-      "integration_status": "163 merged through PR472; 21 final placements and wrapped-label fix pass local checks and await PR. All 301 initial source/geographic decisions are complete; 117 holdbacks remain explicit.",
+      "merged_integrated_count": 184,
+      "integration_status": "All 184 supportable placements merged through PR473. All 301 initial source/geographic decisions are complete; 117 explicit holdbacks remain.",
       "initial_feature_review_status": "complete-with-explicit-holdbacks"
     },
     {
@@ -827,12 +827,86 @@
       "extraction_status": "source-reviewed",
       "source_reviewed_count": 256,
       "lettering_status": "processed",
-      "source_associated_count": 0,
-      "approximate_placement_reviewed_count": 0,
-      "integrated_count": 0,
-      "blockers": [],
+      "source_associated_count": 30,
+      "approximate_placement_reviewed_count": 16,
+      "integrated_count": 16,
+      "blockers": [
+        {
+          "annotation_id": "F16-PHM-001",
+          "stage": "outside-fit-neatline",
+          "reason": "The actual observation-station glyph lies outside the current fit neatline. Preserve the whole native point with no map placement; do not move it inward or substitute lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-003",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-005",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-006",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-007",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-017",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-019",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-021",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-022",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-023",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-064",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-069",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-085",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        },
+        {
+          "annotation_id": "F16-PHM-086",
+          "stage": "outside-supported-coverage",
+          "reason": "The complete native source point, group or breakwater trace extends outside the current conservative control hull. Preserve its exact source geometry without public placement until local geographic support is established. Do not trim, extrapolate or move it to lettering."
+        }
+      ],
       "annotation_queue": "sheet-16-queue.json",
-      "lettering_path": "reports/fletcher/label-geography/sheet-16-labels.geojson"
+      "lettering_path": "reports/fletcher/label-geography/sheet-16-labels.geojson",
+      "source_association_reviewed_count": 30,
+      "merged_integrated_count": 0,
+      "integration_status": "First 16 placements pass local checks and await PR; 30 initial source/geographic decisions recorded."
     },
     {
       "sheet": 14,
@@ -1205,6 +1279,13 @@
       "head": "25c754a7005d3dda2ff0478e615b5b60f57ec9bf",
       "merge_commit": "4ceacae50e1f3aa7a97089ff56002a9f6afa77e0",
       "ci": "All required checks passed"
+    },
+    {
+      "pr": 473,
+      "status": "merged",
+      "head": "91de960b36a6963b167d86564b40d809ecff035f",
+      "merge_commit": "a96063b663028395cf3ee54c23c51a6ebd03bc01",
+      "ci": "All required checks passed. Hosted browser checks passed all 36 tests using one worker after two earlier terrain-timing failures with two workers; no assertions or timeouts relaxed."
     }
   ],
   "fit_reconciliation": {

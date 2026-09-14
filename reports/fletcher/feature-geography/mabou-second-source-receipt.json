@@ -1,0 +1,50 @@
+{
+  "reviewed_at": "2026-09-13",
+  "previous_source_review_sha256": "7c0439f7f8627fe3c74807524c5a37d858c592551aef4dc259c91b74b46105af",
+  "current_source_review_sha256": "4c95a9e18f717e7fe6d5aa64062fcc6af29b204a37bbb4e9a8cccc971dc5b3f4",
+  "unchanged_prior_annotation_ids": [
+    "F16-PHM-001",
+    "F16-PHM-003",
+    "F16-PHM-005",
+    "F16-PHM-006",
+    "F16-PHM-007",
+    "F16-PHM-017",
+    "F16-PHM-019",
+    "F16-PHM-021",
+    "F16-PHM-022",
+    "F16-PHM-023",
+    "F16-PHM-024",
+    "F16-PHM-042"
+  ],
+  "appended_annotation_ids": [
+    "F16-PHM-044",
+    "F16-PHM-045",
+    "F16-PHM-046",
+    "F16-PHM-047",
+    "F16-PHM-048",
+    "F16-PHM-049",
+    "F16-PHM-050",
+    "F16-PHM-052",
+    "F16-PHM-053",
+    "F16-PHM-054",
+    "F16-PHM-055",
+    "F16-PHM-056",
+    "F16-PHM-057",
+    "F16-PHM-061",
+    "F16-PHM-064",
+    "F16-PHM-069",
+    "F16-PHM-085",
+    "F16-PHM-086"
+  ],
+  "candidate_history": [
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/mabou-second-service-proposals.json",
+      "sha256": "b1f1189ca78b6e86d803d9de34673bd6a2c782d451d73cfad5429d00a64e9e5d"
+    },
+    {
+      "local_path": "/Users/dfakkeldy/Downloads/fletcher-digitization-20260912/mabou-second-service-detail-frames.json",
+      "sha256": "c82d61d57d8540cea9197b3db9896e798025da44f9480c021d82caace90a1269"
+    }
+  ],
+  "note": "Seven actual glyph anchors and eleven bounded groups. Tannery/Shop and telegraph-postal/School captions share their unresolved source groups. No individual property or current facility is inferred."
+}

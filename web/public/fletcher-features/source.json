@@ -1,6 +1,6 @@
 {
   "scope": "Reviewed approximate Fletcher historical features; ongoing digitization, incomplete sheet inventory.",
-  "feature_count": 310,
+  "feature_count": 326,
   "sources": [
     {
       "sheet": 19,
@@ -53,9 +53,34 @@
           "reports/fletcher/feature-geography/sheet-22-placement-review.json": "9169e20076c15b1dfd1c12209af2a8f5e0d6f4e50eca67d2ede47272f1e7c5f9"
         }
       }
+    },
+    {
+      "sheet": 16,
+      "path": "reports/fletcher/feature-geography/sheet-16-features.geojson",
+      "sha256": "11f2605b3b21ed4b449328123987a0392fa5338ee085042159cbf1a321550b11",
+      "provenance": {
+        "fit_revision": "249b2be0b378adec894abc34520f83b009dbf8fd",
+        "fit_pr": "https://github.com/dfakkeldy/ns-marks-the-spot/pull/385",
+        "fit_path": "reports/fletcher/mabou-full-sheet/north-audit-20260909/candidate36/fit.json",
+        "fit_sha256": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+        "input_sha256": {
+          "reports/fletcher/mabou-full-sheet/north-audit-20260909/candidate36/fit.json": "21c8c1acfbab6cc484af1af4eb0a27e6869579cb1b88aaf58173fbf9757f307e",
+          "reports/fletcher/sheet16/boundary.json": "401fbbd567c67820be00f63b7b42eec5248a48ca289d8ee1df5f9d79d24a08af",
+          "docs/fletcher/label-extraction/highway19-production/sheet-16-reviewed.json": "0d6f46fea0302620c3358e8a0966b488cf3dffb9f882ebd280762bb14b0a5307",
+          "docs/fletcher/label-extraction/highway19-production/sheet-16-manifest.json": "e7986243acf5822e0d44c4559d446ea1e97ac222806845f9a75e2ba7f4370a20",
+          "reports/fletcher/mabou-full-sheet/north-audit-20260909/candidate36/sheet-16-controls.csv": "19448236872e9c591c7259ac1e44b2be9a49dc17a457e82677fe6bc47b8f3d8b",
+          "reports/fletcher/mabou-full-sheet/north-audit-20260909/candidate36/render-receipt.json": "a74e74b1da2c99dbcd439b2f6bb3ae2affcf4ea5977e136a1e426d39b18cf91c",
+          "reports/fletcher/mabou-full-sheet/north-audit-20260909/candidate36/checks.json": "aad350df5e395a5fcb6de5f9f122892d1806e02b67aea1c92f9c6d8d6cf092d9",
+          "reports/fletcher/mabou-full-sheet/north-audit-20260909/candidate36/scores.json": "297becef81947492a8a76f160f814ec8ccfd44a5caa168eb994b6c401dd0ea20"
+        },
+        "source_review_inputs_sha256": {
+          "reports/fletcher/feature-geography/sheet-16-source-review.json": "4c95a9e18f717e7fe6d5aa64062fcc6af29b204a37bbb4e9a8cccc971dc5b3f4",
+          "reports/fletcher/feature-geography/sheet-16-placement-review.json": "5d1c69ceeb3c2dd70617b9ab33519c85244571f4d44c449efd905e63bfb944d1"
+        }
+      }
     }
   ],
-  "derivative_sha256": "985f148e48558f90a88b66c2225795938874626485dd9284fa79d84dd9a5698e",
+  "derivative_sha256": "bff7924a6a86f815674d01f6eb16ee2641f3d1a0cad898dc35852d7d43f3e8c9",
   "credit": "David Rumsey Map Collection / David Rumsey Map Center, Stanford University Libraries",
   "imagery_licence_url": "https://creativecommons.org/licenses/by-nc-sa/3.0/",
   "changes": "Historical annotations transcribed, source symbols/groups/linear reaches reviewed, projected with frozen TPS fits; one explicit church correction from local review and OpenStreetMap (ODbL 1.0).",
@@ -5947,6 +5972,310 @@
         "display_size": [
           1000,
           800
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-024",
+      "path": "excerpts/F16-PHM-024.jpg",
+      "sha256": "f96bb4481673891565e09b16c56aa4907382004fa90970b27df14b5742c5644b",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          5451,
+          1139,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-042",
+      "path": "excerpts/F16-PHM-042.jpg",
+      "sha256": "49c3a42a8645ac0ac5e963e55788c7bf31c0556887a69e853ccb5b275f7ae502",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          6552,
+          732,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-044",
+      "path": "excerpts/F16-PHM-044.jpg",
+      "sha256": "aa7aff1f4160fb7877db686771fe29b4059d6b8ba2ea529cee9a333ad0da4157",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          6597,
+          1050,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-045",
+      "path": "excerpts/F16-PHM-045.jpg",
+      "sha256": "cd16bfc86ae5dcc0c40ab68ea5c4a167372de1b1352b1e361d85a309b2435e3d",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          6412,
+          1192,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-046",
+      "path": "excerpts/F16-PHM-046.jpg",
+      "sha256": "5f6d2b497ca7e76e0417ba2db03919a74775d601f0c0e79da490e13530290eb2",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          6552,
+          1236,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-047",
+      "path": "excerpts/F16-PHM-047.jpg",
+      "sha256": "ec9255137d99463acf6a62f6fdbd4d401f8656057364ad72569b5aead2097319",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          6524,
+          1267,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-048",
+      "path": "excerpts/F16-PHM-048.jpg",
+      "sha256": "6cba1d0c9a90038449cc28440829afd124ce0168104e7ed3ecd0dcc5b7a97c05",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          6614,
+          1319,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-049",
+      "path": "excerpts/F16-PHM-049.jpg",
+      "sha256": "4d172467f9ef70c8af4c98d7e6a39203dc79516b61c6b96833b73be14dd0b3bc",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          6697,
+          1369,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-050",
+      "path": "excerpts/F16-PHM-050.jpg",
+      "sha256": "4021f3c4a7461d70461e7a9f98cb829849979b1c487f2511089f346e822c0a24",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          5844,
+          1196,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-052",
+      "path": "excerpts/F16-PHM-052.jpg",
+      "sha256": "87fdb0eb0ce49279a7c77c48ecfe0973a93fb839c2266c621b32a6521b4b77d7",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          5673,
+          1250,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-053",
+      "path": "excerpts/F16-PHM-053.jpg",
+      "sha256": "d6916f1a31b5a109be6f387a211066755ea7c86cb146fc4e9f1a1e5396ca487d",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          5767,
+          1322,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-054",
+      "path": "excerpts/F16-PHM-054.jpg",
+      "sha256": "f80fa2b2e95c606c79a4d8b185b6e2b45d835773125c29fbe7ab1d5f8117f8fd",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          6800,
+          1483,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-055",
+      "path": "excerpts/F16-PHM-055.jpg",
+      "sha256": "e58918fdc27ebc066680edd0a3c13fd4ab382844604ebdad8e7c899ef9d24a41",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          6813,
+          1533,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-056",
+      "path": "excerpts/F16-PHM-056.jpg",
+      "sha256": "0a839a6b84ddf558c0b4d4cff17713d2edcb6e00f2d17e10f19c470193ae53dc",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          6941,
+          1545,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-057",
+      "path": "excerpts/F16-PHM-057.jpg",
+      "sha256": "870c5a9ec5be5540a93a8b92e344f3b4812fe812e400a692b5dc30a000346f64",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          6887,
+          1604,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
+        ],
+        "rotation_degrees": 0
+      }
+    },
+    {
+      "annotation_id": "F16-PHM-061",
+      "path": "excerpts/F16-PHM-061.jpg",
+      "sha256": "0924044660a1d926ffd2a4b121e5dfb2d4e8637e867a75112a696f87e6129845",
+      "source_sha256": "d9a4c9a7c6f4e7057e32b57dcb26f6425e9b52015d360498e98e8e2de9a27f94",
+      "frame": {
+        "native_xywh": [
+          7123,
+          1501,
+          900,
+          700
+        ],
+        "display_size": [
+          900,
+          700
         ],
         "rotation_degrees": 0
       }

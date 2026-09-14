@@ -8,7 +8,7 @@
   "source_unlocated_count": 59,
   "approximate_placement_reviewed_count": 184,
   "integrated_local_count": 184,
-  "merged_integrated_count": 163,
+  "merged_integrated_count": 184,
   "holdback_counts": {
     "outside-supported-coverage": 49,
     "source-location-unresolved": 59,
@@ -719,5 +719,5 @@
       "evidence": "The complete printed fault segment extends outside the current fit neatline. Preserve its exact native trace with no public placement. Do not trim the eastern portion or extrapolate beyond supported source coverage."
     }
   ],
-  "remaining_work": "Deliver 21 final locally verified placements and the label-wrap fix; reconcile genuine holdbacks only when new source/geographic evidence supports them. Continue sheet 16, sheet 14 and the remaining 20 Fletcher sheets."
+  "remaining_work": "All 184 supportable Hawkesbury placements merged through PR473. Retain the 117 genuine holdbacks pending new source/geographic evidence; continue sheet 16, sheet 14 and the remaining 20 sheets."
 }
