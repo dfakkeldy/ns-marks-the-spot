@@ -1,0 +1,32 @@
+{
+  "recorded_at": "2026-09-15T14:15:47.028167+00:00",
+  "promoted_controls": [
+    "CB15",
+    "CB17"
+  ],
+  "newly_diagnostic": "CB16",
+  "diagnostics": [
+    "CB04",
+    "CB13",
+    "CB16"
+  ],
+  "preserved_firsts": [
+    {
+      "path": "reports/church/cape-breton-northern-20260915/CB15-first.json",
+      "sha256": "6d99ed73f78fe3da238522365648b7e62c58724f1a51c0167fba97566d132e05",
+      "observation_sha256": "946317b650547f405cfcac43356b699c34e25c2d855c7b45a7aa08f7883f609c"
+    },
+    {
+      "path": "reports/church/cape-breton-northern-20260915/CB16-first.json",
+      "sha256": "44e83b27c91c2500a0c959dfa85e183b1954ef079dfcc5266d8757dcdb8be6b2",
+      "observation_sha256": "6773737eae3cd08566dd19bad913efa3c24318370249d45bb31e6a08b88a5e85"
+    },
+    {
+      "path": "reports/church/cape-breton-northern-20260915/CB17-first.json",
+      "sha256": "c5831bec2a2b913da791305fd7ac604cae3b8f5a0e3b5e65426ea8d428d93beb",
+      "observation_sha256": "4a960c4acd5932e32c53f8856507d8a1ddbd660120a131b3ee96380566237c60"
+    }
+  ],
+  "fresh_checks_after_selection": 0,
+  "geographic_acceptance": false
+}
