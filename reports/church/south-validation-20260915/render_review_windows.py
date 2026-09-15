@@ -9,6 +9,7 @@ from tools.church.georeference import build_gcp_arguments
 from tools.church.geometry import lonlat_to_mercator
 R=Path(__file__).resolve().parent;OLD=R.parent/'physical-review-20260913/inverness-south';receipt=json.loads((OLD/'final-artifact-receipt.json').read_text());raster=Path(receipt['local_output']);assert hashlib.sha256(raster.read_bytes()).hexdigest()==receipt['output_sha256']
 cs=[p for p in load_gcps(OLD/'physical-trial.csv') if p.role=='control'];points=[json.loads(p.read_text()) for p in sorted((R/'observations').glob('IS*.json'))]
+points=[p for p in points if p['id'] in [f'IS{i}' for i in range(20,25)]]
 refs=[Path(p) for p in sorted({o['reference_path'] for o in points})];features={}
 for ref in refs:
  for f in json.loads(ref.read_text())['features']:

@@ -1,0 +1,72 @@
+{
+  "id": "IS28",
+  "label": "West Lake Ainslie Road / Highway 395 junction",
+  "role": "check",
+  "phase": "Fresh expansion of unchanged affine4 validation; no fitting or model-selection use",
+  "recorded_at": "2026-09-15T20:25:50.580492+00:00",
+  "source_frame": {
+    "county": "inverness",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/inverness.jp2",
+    "origin": [
+      25900,
+      14750
+    ],
+    "extent": [
+      1800,
+      1600
+    ],
+    "display": [
+      1350,
+      1200
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/IS5-ainslie-glen-native.jpg",
+  "source_crop_sha256": "a18500b71e34378142b1da038374545a2eca2a8f8b8af5efd7d4c3b356c1e570",
+  "source_sha256": "37021ed086f7bbce542b519e9a74242acc5b53ed1944880468f6f91d6234a7f8",
+  "source_display_pixel_xy": [
+    501,
+    442
+  ],
+  "pixel_xy": [
+    26568.0,
+    15339.333333333334
+  ],
+  "lonlat": [
+    -61.11695081491892,
+    46.042413093231325
+  ],
+  "reference_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/roads.geojson",
+  "reference_sha256": "b288b92fe0cde947813256ab17782ea9ba27a6df6d385b130a202c33adf535bc",
+  "reference_service": "BASE_NSTDB_10k_Roads_UT83/MapServer/8",
+  "reference_kind": "Road centreline junction",
+  "reference_vertices": [
+    {
+      "feature_id": 293991,
+      "vertex": 7,
+      "layer": 8,
+      "street": "West Lake Ainslie Rd"
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "point_definition": "Centre of the identified three-road meeting; centreline reference node. Small local engineering and cartographic differences remain within stated observation uncertainty, not subtracted from residuals.",
+  "identity_evidence": "The source west-lake road approaches southward from the northwest, joining the northeast-southwest main road at Southside/Ainslie Glen. The separate Lewis Mountain road fork lies northeast of this junction, and the main road crosses the local stream southwest of it. The same pair of forks, their intervening road bend and stream context identify the modern West Lake Ainslie Rd/Highway395 junction. The source point is the western fork, not the northeast Lewis Mountain fork, a ford or a label centre.",
+  "corroborating_reference_vertices": [
+    {
+      "feature_id": 156426,
+      "vertex": 3,
+      "layer": 7,
+      "street": "Highway 395",
+      "reference_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/highways.geojson",
+      "reference_sha256": "cb2948e070869b3c2c15fe27a3875e8ccef0a1aea4c72d4dfd2405175a94caad"
+    },
+    {
+      "feature_id": 156427,
+      "vertex": 0,
+      "layer": 7,
+      "street": "Highway 395",
+      "reference_path": "/Users/dfakkeldy/Downloads/church-south-road-validation-20260915/highways.geojson",
+      "reference_sha256": "cb2948e070869b3c2c15fe27a3875e8ccef0a1aea4c72d4dfd2405175a94caad"
+    }
+  ]
+}
