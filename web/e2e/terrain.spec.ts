@@ -278,7 +278,7 @@ test('Poker enters 3D and restores its driveway measurement on return', async ({
   await page.getByRole('button', { name: 'Search & layers', exact: true }).tap();
   await page.getByRole('combobox', { name: 'Map setup', exact: true }).selectOption('poker');
   await expect(page.getByRole('button', { name: '3D terrain', exact: true })).toBeEnabled();
-  await expect(page.locator('.poker-civic-number')).toHaveText('117');
+  await expect(page.locator('.poker-civic-number')).toHaveText(['117']);
   const map = page.locator('.map-canvas .leaflet-container');
   await map.tap({ position: { x: 130, y: 300 } });
   await map.tap({ position: { x: 200, y: 300 } });
@@ -289,7 +289,9 @@ test('Poker enters 3D and restores its driveway measurement on return', async ({
   await expect(page.locator('.research-terrain-map canvas')).toBeVisible();
   await expect(page.locator('.research-terrain-status')).toHaveCount(0, { timeout: 25000 });
   await expect(page.getByRole('button', { name: 'Finish', exact: true })).toHaveCount(0);
-  await expect(page.locator('.poker-civic-number')).toHaveText('117');
+  // A viewport refresh replaces the Leaflet tooltip. Wait for exactly one
+  // complete label; a strict single-element query throws during replacement.
+  await expect(page.locator('.poker-civic-number')).toHaveText(['117']);
   expect((await civicGlyphs).ok()).toBe(true);
   await page.waitForTimeout(500); // font upload settles before visual evidence
   await page.screenshot({ path: testInfo.outputPath('poker-3d.png'), scale: 'css' });

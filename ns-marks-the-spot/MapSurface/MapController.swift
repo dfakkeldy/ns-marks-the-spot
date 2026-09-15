@@ -2854,11 +2854,23 @@ extension MapController: UIGestureRecognizerDelegate {
                 ? otherGestureRecognizer
                 : nil
         guard let identify, let mapView = identify.view as? MKMapView else { return false }
-        // The measurement total is drawn on the last corner. MapKit's own tap
-        // would otherwise win that hit and the identify tap would never place
-        // the next point. Everywhere else the two still refuse each other, so
-        // a marker tap does not also identify the parcel underneath.
-        return Self.measurementEndpointCovers(identify.location(in: mapView), in: mapView)
+        let other = identify === gestureRecognizer ? otherGestureRecognizer : gestureRecognizer
+        guard let tap = other as? UITapGestureRecognizer,
+              tap.numberOfTapsRequired == 1, tap.numberOfTouchesRequired == 1 else { return false }
+        let point = identify.location(in: mapView)
+        // MapKit also recognizes single taps on bare ground. Making those
+        // compete drops map actions depending on which recognizer wins (CI
+        // lost both measuring taps and the tap that dismisses the layers).
+        // A measurement badge is deliberately transparent to these taps.
+        if Self.measurementEndpointCovers(point, in: mapView) { return true }
+        var hit = mapView.hitTest(point, with: nil)
+        while let view = hit {
+            // A selectable marker still owns its tap; do not identify the
+            // parcel underneath it as a second action.
+            if view is MKAnnotationView { return false }
+            hit = view.superview
+        }
+        return true
     }
 
     /// Whether a point on the map sits on the labelled measuring endpoint.
