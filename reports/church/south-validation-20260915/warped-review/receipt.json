@@ -1,0 +1,36 @@
+{
+  "raster_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+  "reviews": [
+    {
+      "id": "IS20",
+      "figure": "IS20.jpg",
+      "figure_sha256": "c9f83083bfc0ff783c0915d2bdcaef1a23082ba137642e2a1be45a1900c4b17d",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS21",
+      "figure": "IS21.jpg",
+      "figure_sha256": "b01120801248aa1069e5a3659162655c76776fdbaae6504ac39fe59188e8c99e",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS22",
+      "figure": "IS22.jpg",
+      "figure_sha256": "f206acfa15bfbc6ce694dbf9812ed22297d1d9e547fe390f74970a64fdf99387",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS23",
+      "figure": "IS23.jpg",
+      "figure_sha256": "bb7b50b4de7bd4bdac4d0fded3dca8705c225797bd3055d8bb971155dcaa9032",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS24",
+      "figure": "IS24.jpg",
+      "figure_sha256": "a51858ff0a199274c844853107d88393551e7adfb56c69074e3ae8e9a802fcfc",
+      "source_pixel_alpha": 255
+    }
+  ],
+  "geographic_acceptance": false
+}

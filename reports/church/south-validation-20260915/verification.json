@@ -1,0 +1,13 @@
+{
+  "metric_sets_replayed": 16,
+  "fresh_observations_audited": 5,
+  "derived_crop_frames_verified": 2,
+  "original_reference_features": 2406,
+  "original_lake_exteriors_verified": 2,
+  "all_checks_outside_control_hull": true,
+  "retained_affine_and_raster_unchanged": true,
+  "accepted_baseline_inputs_unchanged": true,
+  "actual_raster_windows": 5,
+  "editable_inventories": 2,
+  "geographic_acceptance": false
+}

@@ -1,0 +1,76 @@
+{
+  "panel": "inverness-south",
+  "selected_fit": "retained affine4, unchanged",
+  "state": "Fresh distributed validation in progress; working target not met by first five",
+  "fresh_check_ids": [
+    "IS20",
+    "IS21",
+    "IS22",
+    "IS23",
+    "IS24"
+  ],
+  "fresh_check_count": 5,
+  "physical_affine": {
+    "count": 5,
+    "points": [
+      {
+        "label": "IS20",
+        "east_ground_m": -59.86656555890259,
+        "north_ground_m": 276.0076094338304,
+        "error_ground_m": 282.4255762801879
+      },
+      {
+        "label": "IS21",
+        "east_ground_m": -0.969591427009004,
+        "north_ground_m": -70.2047343611081,
+        "error_ground_m": 70.2114295129296
+      },
+      {
+        "label": "IS22",
+        "east_ground_m": 240.77056789907138,
+        "north_ground_m": -227.3432457835206,
+        "error_ground_m": 331.14259431523993
+      },
+      {
+        "label": "IS23",
+        "east_ground_m": 21.635701227765765,
+        "north_ground_m": -284.8693991379755,
+        "error_ground_m": 285.6898285428593
+      },
+      {
+        "label": "IS24",
+        "east_ground_m": 73.98843486282122,
+        "north_ground_m": -378.72663160749823,
+        "error_ground_m": 385.8861878614103
+      }
+    ],
+    "rms_ground_m": 291.5050932166822,
+    "median_ground_m": 285.6898285428593,
+    "p95_ground_m": 374.9374691521762,
+    "max_ground_m": 385.8861878614103,
+    "mean_east_ground_m": 55.11170940074935,
+    "mean_north_ground_m": -137.02728029125439,
+    "scatter_rms_ground_m": 251.3194049694053,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "no_tuning_after_checks": true,
+  "all_five_outside_control_hull": true,
+  "prior_diagnostics_not_pooled": [
+    "IS15",
+    "IS18",
+    "IS19"
+  ],
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "geographic_acceptance": false,
+  "accepted_july_baseline_replaced": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "next_work": [
+    "Keep the retained affine frozen and expand this same fresh batch toward distributed coverage; preserve every first result.",
+    "Prioritize central/northern interior, eastern reaches and shared-feature seams to balance the southwest-heavy first five.",
+    "Do not score unselected five/six/seven-control trial fits against this batch or promote its checks during collection.",
+    "Red Lake remains unscored; do not restart its inverse-guide-only search as evidence."
+  ]
+}
