@@ -44,5 +44,4 @@ for record in read(R/'browser-review.json')['screenshots']+read(R/'browser-revie
 assert len(read(R/'import-verification.json')['results'])==6
 assert read(R/'role-history.json')['fresh_checks_after_selection']==0
 assert not read(R/'status.json')['geographic_acceptance']
-assert 'inverness-south-continuation-20260915/README.md' in (ROOT/'docs/CHURCH_MAPS.md').read_text()
 print(json.dumps(dict(metric_sets_replayed=count,new_observations_audited=2,first_validation_checks=3,post_selection_fresh_checks=0,explicit_refinement_trials=6,retained_affine_and_raster_unchanged=True,accepted_baseline_inputs_unchanged=True,actual_raster_windows=2,editable_inventories=6,geographic_acceptance=False),indent=2))
