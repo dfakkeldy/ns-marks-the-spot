@@ -1,0 +1,14 @@
+{
+  "selected_freeze_path": "reports/church/south-distributed-refinement-20260915/selected-tps13/freeze.json",
+  "selected_freeze_sha256": "cd15fd212b4f0b25c271d3c3109c65eff9f13cfc0fa6d3f2b13031199b9f3178",
+  "selected_frozen_at": "2026-09-15T21:51:31.583138+00:00",
+  "input_commit": "55e441cae34682f224789632a6876022dc964804",
+  "controls_path": "reports/church/south-distributed-refinement-20260915/selected-tps13/controls.csv",
+  "controls_sha256": "14620e5287f452441b68dca851bead1060caefdcbf55c69bc44e30fa27c40527",
+  "raster": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/rendered/inverness-south-tps13-review-20m.tif",
+  "raster_sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "method": "tps",
+  "working_rms_ground_m": 250,
+  "stretch_rms_ground_m": 200,
+  "prior_selection_inventory": "reports/church/south-distributed-refinement-20260915/thirteen-controls/diagnostics.csv"
+}

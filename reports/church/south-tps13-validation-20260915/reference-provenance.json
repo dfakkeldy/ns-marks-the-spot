@@ -1,0 +1,23 @@
+{
+  "files": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines-receipts.json",
+      "sha256": "dbc79b456e55ff9b3adf63bc0b2461db3ea6a614e97233ccfb8cda1e47607517"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+      "sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-validation-20260915/interior-water.geojson",
+      "sha256": "48a47d12e3be8128e07e3ab0921afa1c4cee72e7856eb5c1712f9c9dc9650abf"
+    },
+    {
+      "path": "reports/church/south-validation-20260915/eastern-expansion/interior-water-receipt.json",
+      "sha256": "fe90878c04503330b36540b1848c674a5e14de87e9f625f208a1ac2b9ea547e7"
+    }
+  ],
+  "scope": "Original EPSG:4326 NSTDB water geometry, no simplification or clipping. Existing extraction receipts preserved. Public name points identify locality, not coordinates for fitting.",
+  "source_service": "https://nsgiwa.novascotia.ca/arcgis/rest/services/BASE/BASE_NSTDB_10k_Water_WM84/MapServer/4",
+  "cranberry_class_audit": "The initial coastline-only polygon search found no closed island. WACOIS10 features 23467 and 23468 supply the original complete exterior; WACO20 mainland coast and WALK20 pond lines are excluded from this island measurement."
+}
