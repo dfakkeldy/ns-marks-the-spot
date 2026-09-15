@@ -1,0 +1,61 @@
+{
+  "reviewed_at": "2026-09-15T19:43:10.476019+00:00",
+  "artifact_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+  "active_raster": "south-explicit-affine-20m",
+  "only_active_user_raster": true,
+  "opacity_percent": 70,
+  "terrain_exaggeration": 10,
+  "tilts_reviewed": [
+    50,
+    0
+  ],
+  "locations": [
+    {
+      "name": "First Lake O Law",
+      "lat": 46.27729,
+      "lon": -60.96057,
+      "zoom": 14
+    },
+    {
+      "name": "Sheas Brook / Mull River",
+      "lat": 46.04086,
+      "lon": -61.32039,
+      "zoom": 15
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/olaw-10x-topdown.png",
+      "sha256": "b99828f4a60de90c1b65d50392090f244d37fcf5a83aa8f0efad74879a90eacd"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/olaw-10x.png",
+      "sha256": "8a484ec7568b1993d350839e569cf59bf425174700ffebe5586747581017d6c1"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/olaw-2d.png",
+      "sha256": "239c7cd8755c78e9a9dccc184ab657eb388924ff52a0a3da4e01408a2cd24135"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/sheas-10x.png",
+      "sha256": "7c514855fd835ad055a9801e25dd15ae4938810ad98534c2127e099c287c2991"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/sheas-2d.png",
+      "sha256": "73ace28dbd093a10598c593b2d2b8c550e440c59b621da2c2372a49f9131fba8"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/olaw-state.txt",
+      "sha256": "7893777fbff99c3630ac0ab5c852470e6897ab3e1252fbeadf9d96c74bd6cc97"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-northern-validation-20260915/browser/sheas-state.txt",
+      "sha256": "2b2a35efaccef47bd00d2ee78fd54854004dbbf83a9359f9b68d85d8369b1cab"
+    }
+  ],
+  "console_errors": [],
+  "scope": "Previously imported embedded raster retained after navigation, viewed in2D/10x; extra0degree lake view addresses foreground occlusion. No re-import or raw-scan mesh acceptance.",
+  "geographic_acceptance": false
+}

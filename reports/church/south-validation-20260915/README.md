@@ -1,6 +1,6 @@
 # Inverness south: frozen-fit distributed validation
 
-The unchanged four-control physical affine has **five new fresh checks, IS20–IS24**, with **291.51 m horizontal ground RMS**. The same five on the preserved accepted-baseline TPS give **312.99 m**. The 250 m working target is not met, and this southwest-heavy sample does not establish whole-panel accuracy. No new fit, promotion, coordinate adjustment or model-selection trial followed these scores.
+The unchanged four-control physical affine has **seven fresh checks, IS20–IS26**, with **318.68 m horizontal ground RMS**. The same seven on the preserved accepted-baseline TPS give **375.80 m**. The 250 m working target is not met, and this southwest-heavy sample does not establish whole-panel accuracy. No new fit, promotion, coordinate adjustment or model-selection trial followed these scores. The [northern expansion](northern-expansion/README.md) adds IS25/IS26 and preserves the original first-five phase unchanged.
 
 | Check | Physical feature | Affine4 error m | Accepted-baseline TPS error m | Stated uncertainty m |
 |---|---|---:|---:|---:|
@@ -9,10 +9,12 @@ The unchanged four-control physical affine has **five new fresh checks, IS20–I
 | IS22 | Brileys Lake outer-shore area centroid | 331.14 | 268.88 | 180 |
 | IS23 | Lake Murray western lake/stream connection | 285.69 | 32.40 | 150 |
 | IS24 | Horton Lake outer-shore area centroid | 385.89 | 98.93 | 150 |
+| IS25 | Sheas Brook / Mull River junction | 353.94 | 524.91 | 150 |
+| IS26 | First Lake O’Law outer-shore area centroid | 400.94 | 472.52 | 180 |
 
-All five source points lie **outside the retained control hull**. The fresh sample's median is **285.69 m**, empirical P95 **374.94 m**, maximum **385.89 m**, mean residual **+55.11 m east / −137.03 m north**, and scatter about the mean **251.32 m RMS**. Ground distances retain the existing 6,371,008.8 m sphere and mean-latitude cosine convention; direction is warped minus reference. P95 is a linear sample percentile, not a confidence guarantee. Observation uncertainty is not subtracted.
+All seven source points lie **outside the retained control hull**. The fresh sample's median is **331.14 m**, empirical P95 **396.43 m**, maximum **400.94 m**, mean residual **+96.76 m east / −139.86 m north**, and scatter about the mean **269.51 m RMS**. Ground distances retain the existing 6,371,008.8 m sphere and mean-latitude cosine convention; direction is warped minus reference. P95 is a linear sample percentile, not a confidence guarantee. Observation uncertainty is not subtracted.
 
-The two coast checks give 205.78 m RMS on affine4 versus 450.92 m on the accepted baseline; the three lake features give 336.74 m versus 166.47 m. These tiny regional groups expose differing error patterns rather than establish regional acceptance or justify a model change. Full individual residuals are in `accuracy-summary.json`, `regional-summary.json` and the five `ISxx-first.json` files.
+Within the original southwest group, the two coast checks give 205.78 m RMS on affine4 versus 450.92 m on the accepted baseline; the three southwest lake features give 336.74 m versus 166.47 m. These tiny regional groups expose differing error patterns rather than establish regional acceptance or justify a model change. Full individual residuals are in `accuracy-summary.json`, `regional-summary.json` and the seven `ISxx-first.json` files.
 
 ## Frozen phase and preserved history
 
@@ -42,9 +44,9 @@ The earlier extracts leave a southwest reference gap. `reference-receipt.json` r
 
 The selected `south-explicit-affine-20m.tif` remains byte-identical, SHA-256 `f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176`. Its earlier explicit-affine correction and zero-hole result over 22,718,783 expected interior cells remain applicable to these unchanged bytes. No new full raster was generated. The old accepted July artifact remains separate.
 
-Five actual-raster/reference windows in `warped-review/` show the coast and lake discrepancies directly. Each inspected source position has nonzero raster alpha. Long Point is close; MacNeil Point is north of its reference, while the lake features are south or southeast. A contact sheet summarizes the five windows. These figures are actual raster pixels with original reference vectors, not inverse search guides.
+The five original actual-raster/reference windows in `warped-review/` and two new windows in `northern-expansion/warped-review/` show the coast and lake discrepancies directly. Each inspected source position has nonzero raster alpha. Long Point is close; MacNeil Point is north of its reference, while the lake features are south or southeast. A contact sheet summarizes the original five windows; the two new windows are preserved separately. These figures are actual raster pixels with original reference vectors, not inverse search guides.
 
-The previously imported GeoTIFF remains the only active My Maps raster, at 70% opacity, after navigation/reload. Browser review compares 2D with **10× terrain, north up and 50° tilt** at MacNeil Point, Long Point, Brileys Lake and the Lake Murray/Horton area. Terrain clarifies relief and basin context but does not supply observation coordinates. Large screenshots and DOM receipts remain in the local cache, indexed by `browser-review.json`. No raw-scan mesh acceptance, new import or new artifact-decoder claim is made by this pass.
+The previously imported GeoTIFF remains the only active My Maps raster, at 70% opacity, after navigation/reload. Browser review compares 2D with **10× terrain, north up and 50° tilt** at MacNeil Point, Long Point, Brileys Lake and the Lake Murray/Horton area. Terrain clarifies relief and basin context but does not supply observation coordinates. Large screenshots and DOM receipts remain in the local cache, indexed by `browser-review.json`. The expansion adds Sheas–Mull and First Lake O’Law, including a 0° tilt view where exaggerated slopes hide the lake bottom; its receipts are in `northern-expansion/browser-review.json`. No raw-scan mesh acceptance, new import or new artifact-decoder claim is made by these passes.
 
 ## Verification and remaining coverage
 
@@ -55,8 +57,8 @@ PYTHONPATH=. /opt/local/bin/python3.12 reports/church/south-validation-20260915/
 python3 -m unittest discover -s tools/church/tests -t .
 ```
 
-All 428 Church unit tests passed. The report verifier replayed 16 metric sets, checked both derived crop frames and both original lake exteriors, and confirmed unchanged accepted inputs and raster bytes.
+All 428 Church unit tests passed. The report verifier replayed 24 metric sets, checked three derived crop frames and three original lake exteriors, and confirmed unchanged accepted inputs and raster bytes.
 
 `verify_import.ts` round-trips the retained controls and fresh-validation CSV through the production parser and compares the affine with GDAL at the checks and content-boundary vertices. Verification of solvers and rendering does not establish geographic acceptance. Acquisition/crop scripts are historical recipes; use the verifier to replay the frozen report without refreshing its inputs.
 
-Further checks should balance this southwest group with central/northern interiors, eastern reaches and shared-feature seams. Coverage remains insufficient even where points lie inside the content boundary. The current five fail the working RMS target. No whole-panel acceptance, catalog activation, tiles, publication or deployment follows. Source-derived imagery retains David Rumsey Map Collection / Stanford Libraries credit and recorded CC BY-NC-SA 3.0 terms; modern geometry retains provincial provenance.
+Further checks should balance this southwest group with central/northern interiors, eastern reaches and shared-feature seams. Coverage remains insufficient even where points lie inside the content boundary. The current seven fail the working RMS target. No whole-panel acceptance, catalog activation, tiles, publication or deployment follows. Source-derived imagery retains David Rumsey Map Collection / Stanford Libraries credit and recorded CC BY-NC-SA 3.0 terms; modern geometry retains provincial provenance.

@@ -1,0 +1,26 @@
+{
+  "exterior_edges": 439,
+  "owners": {
+    "126034": {
+      "count": 60,
+      "kind": "WALK20"
+    },
+    "126035": {
+      "count": 179,
+      "kind": "WALK20"
+    },
+    "126036": {
+      "count": 79,
+      "kind": "WALK20"
+    },
+    "126037": {
+      "count": 98,
+      "kind": "WALK20"
+    },
+    "126038": {
+      "count": 23,
+      "kind": "WALK20"
+    }
+  },
+  "all_original_edges_verified": true
+}

@@ -1,0 +1,54 @@
+{
+  "physical_affine": {
+    "count": 2,
+    "points": [
+      {
+        "label": "IS25",
+        "east_ground_m": 338.88993548405557,
+        "north_ground_m": 102.11041815051867,
+        "error_ground_m": 353.9391556005935
+      },
+      {
+        "label": "IS26",
+        "east_ground_m": 62.87961392987396,
+        "north_ground_m": -395.9807943882058,
+        "error_ground_m": 400.94218457563744
+      }
+    ],
+    "rms_ground_m": 378.17162852304614,
+    "median_ground_m": 377.44067008811544,
+    "p95_ground_m": 398.59203312688527,
+    "max_ground_m": 400.94218457563744,
+    "mean_east_ground_m": 200.88477470696478,
+    "mean_north_ground_m": -146.93518811884357,
+    "scatter_rms_ground_m": 284.7264273002857,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "accepted_baseline_tps": {
+    "count": 2,
+    "points": [
+      {
+        "label": "IS25",
+        "east_ground_m": 336.31217989969537,
+        "north_ground_m": 403.0194136034321,
+        "error_ground_m": 524.9100209465803
+      },
+      {
+        "label": "IS26",
+        "east_ground_m": 255.69420174625517,
+        "north_ground_m": -397.36123734646134,
+        "error_ground_m": 472.5203463896189
+      }
+    ],
+    "rms_ground_m": 499.40264709065406,
+    "median_ground_m": 498.7151836680996,
+    "p95_ground_m": 522.2905372187322,
+    "max_ground_m": 524.9100209465803,
+    "mean_east_ground_m": 296.0031908229753,
+    "mean_north_ground_m": 2.829088128485381,
+    "scatter_rms_ground_m": 402.21525481280656,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  }
+}
