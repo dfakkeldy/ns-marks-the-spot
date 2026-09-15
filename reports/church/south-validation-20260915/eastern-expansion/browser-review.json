@@ -1,0 +1,15 @@
+{
+  "scope": "Limited unchanged-affine browser review at McLennan / River Denys, 2D and 10x terrain at 50 degree tilt; other three eastern checks reviewed in offline raster windows only. Old affine was sole active imported raster at 70 percent before the separate TPS13 import.",
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-validation-20260915/browser/affine-mclennan-2d.png",
+      "sha256": "bb993b0e6f4013f44ce0f8e1cba1fa902b82317a0ce45800ee39c3022e9a391d"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-south-eastern-validation-20260915/browser/affine-mclennan-terrain10x.png",
+      "sha256": "902043dc552adc032ca04e9531600c8c69ca32faee3126e660c7bc533944a088"
+    }
+  ],
+  "states": [],
+  "geographic_acceptance": false
+}

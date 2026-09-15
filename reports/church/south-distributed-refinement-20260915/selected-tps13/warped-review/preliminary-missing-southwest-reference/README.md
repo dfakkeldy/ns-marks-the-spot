@@ -1,0 +1,1 @@
+Initial contact sheets omitted the southwest water extract from the plotting inputs. These preserve that incomplete visualization; use the corrected contacts and original reference receipts in the parent folder. Fit, observations and scores were unaffected.

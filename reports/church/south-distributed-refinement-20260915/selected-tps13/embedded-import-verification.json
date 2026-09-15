@@ -1,0 +1,31 @@
+{
+  "source": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/rendered/inverness-south-tps13-review-20m.tif",
+  "sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040",
+  "sourceCodeBaseCommit": "a38e8f6b7bd377fa5e4eb89a6659ec8e749530de",
+  "pixelSize": {
+    "width": 4751,
+    "height": 6488
+  },
+  "georef": {
+    "kind": "embedded",
+    "crs": "EPSG:3857",
+    "geotransform": [
+      -6871320,
+      20,
+      0,
+      5845180,
+      0,
+      -20
+    ]
+  },
+  "preview": {
+    "width": 2999,
+    "height": 4096,
+    "channels": 4,
+    "transparentPixels": 3227343,
+    "opaquePixels": 9056561
+  },
+  "embeddedMeshNodes": 81,
+  "maxMeshDifferenceProjectedMetres": 2.9451005721170265e-9,
+  "scope": "Real production GeoTIFF decode, alpha extraction and embedded projection lattice. PNG writer stubbed in this Node probe; actual browser import, persistence, 2D overview/regional view and 10x terrain were checked separately through CUA. No raw-scan GCP mesh or geographic acceptance."
+}

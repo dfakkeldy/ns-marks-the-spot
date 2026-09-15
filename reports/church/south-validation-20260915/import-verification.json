@@ -15,7 +15,7 @@
     {
       "file": "fresh-validation.csv",
       "controls": 4,
-      "checks": 10,
+      "checks": 14,
       "semanticRoundtrip": true,
       "comparisons": [
         {
@@ -40,6 +40,18 @@
       "file": "road-expansion/new-checks.csv",
       "controls": 4,
       "checks": 3,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 2.4375044420924783e-8
+        }
+      ]
+    },
+    {
+      "file": "eastern-expansion/new-checks.csv",
+      "controls": 4,
+      "checks": 4,
       "semanticRoundtrip": true,
       "comparisons": [
         {

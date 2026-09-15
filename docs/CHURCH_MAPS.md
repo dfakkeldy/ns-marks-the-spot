@@ -44,7 +44,7 @@ provisional artifacts. Use these panel reports for the current research state:
 - [Victoria northwest](../reports/church/victoria-northwest-continuation-20260914/README.md)
 - [Victoria main and its reference correction](../reports/church/victoria-main-continuation-20260914/README.md)
 - [Cape Breton eastern validation](../reports/church/cape-breton-eastern-20260915/README.md)
-- [Inverness south frozen-fit validation](../reports/church/south-validation-20260915/README.md)
+- [Inverness south distributed-control TPS refinement](../reports/church/south-distributed-refinement-20260915/README.md) — provisional TPS13; zero fresh checks after selection. The [closed affine validation](../reports/church/south-validation-20260915/README.md) preserves fourteen first results and its 321.75 m RMS failure.
 
 These reports include actual local GeoTIFF and browser terrain review. They do not
 establish new whole-panel acceptance or change the preserved July south baseline.

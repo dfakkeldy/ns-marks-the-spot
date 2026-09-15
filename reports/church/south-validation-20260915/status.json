@@ -1,22 +1,9 @@
 {
   "panel": "inverness-south",
-  "selected_fit": "retained affine4, unchanged",
-  "state": "Ten fresh physical checks including three road junctions; retained affine unchanged and target unmet",
-  "fresh_check_ids": [
-    "IS20",
-    "IS21",
-    "IS22",
-    "IS23",
-    "IS24",
-    "IS25",
-    "IS26",
-    "IS27",
-    "IS28",
-    "IS29"
-  ],
-  "fresh_check_count": 10,
+  "selected_fit": "Historical tested affine4, unchanged; current provisional candidate is in ../south-distributed-refinement-20260915",
+  "state": "Affine4 first-validation phase closed at14; later distributed-control trials use these observations diagnostically",
   "physical_affine": {
-    "count": 10,
+    "count": 14,
     "points": [
       {
         "label": "IS20",
@@ -77,19 +64,43 @@
         "east_ground_m": 387.4037015650289,
         "north_ground_m": 12.21321338070413,
         "error_ground_m": 387.59616944362153
+      },
+      {
+        "label": "IS30",
+        "east_ground_m": -19.76533605992584,
+        "north_ground_m": -244.0491793033691,
+        "error_ground_m": 244.84826000649832
+      },
+      {
+        "label": "IS31",
+        "east_ground_m": 98.10150145530308,
+        "north_ground_m": -36.697478358247785,
+        "error_ground_m": 104.74067741636435
+      },
+      {
+        "label": "IS32",
+        "east_ground_m": 119.72198405072726,
+        "north_ground_m": 120.5642681528545,
+        "error_ground_m": 169.9090822183323
+      },
+      {
+        "label": "IS33",
+        "east_ground_m": -104.50265385181265,
+        "north_ground_m": -450.40804623023985,
+        "error_ground_m": 462.37237457596194
       }
     ],
-    "rms_ground_m": 337.003210514675,
-    "median_ground_m": 342.5408749579167,
-    "p95_ground_m": 461.9645636352374,
+    "rms_ground_m": 321.7463761475491,
+    "median_ground_m": 308.4162114290496,
+    "p95_ground_m": 479.7042311137757,
     "max_ground_m": 511.89196468400127,
-    "mean_east_ground_m": 84.63056639667892,
-    "mean_north_ground_m": -151.74073863699445,
-    "scatter_rms_ground_m": 288.76215016250836,
+    "mean_east_ground_m": 67.13293996864863,
+    "mean_north_ground_m": -151.99984443635336,
+    "scatter_rms_ground_m": 275.5175969454045,
     "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
     "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
   },
-  "no_tuning_after_checks": true,
+  "no_tuning_after_checks": false,
   "prior_diagnostics_not_pooled": [
     "IS15",
     "IS18",
@@ -102,10 +113,32 @@
   "catalog_activation": false,
   "deployment": false,
   "next_work": [
-    "Continue the frozen validation batch with identifiable physical features and explicit route-continuity checks for road candidates.",
-    "Ten checks remain insufficient for whole-panel coverage, including northern/eastern intervals, interior gaps and shared-feature seams.",
-    "Do not promote checks or score unselected trial fits during collection.",
-    "Keep the three unresolved road cases and prior withheld water features unscored unless new physical evidence resolves them."
+    "Continue the separate distributed-control refinement and its new independent validation.",
+    "Retain the closed affine4 test and all first failures; do not call them fresh checks of the new TPS candidate."
   ],
-  "all_ten_outside_control_hull": true
+  "inside_control_hull": [
+    "IS31"
+  ],
+  "outside_control_hull_count": 13,
+  "first_validation_check_count": 14,
+  "first_validation_check_ids": [
+    "IS20",
+    "IS21",
+    "IS22",
+    "IS23",
+    "IS24",
+    "IS25",
+    "IS26",
+    "IS27",
+    "IS28",
+    "IS29",
+    "IS30",
+    "IS31",
+    "IS32",
+    "IS33"
+  ],
+  "fresh_checks_after_model_selection": 0,
+  "current_validation_phase": "Historical first-validation results preserved; current use is diagnostic",
+  "first_phase_fit_unchanged": true,
+  "collection_closed": true
 }
