@@ -1,0 +1,18 @@
+{
+  "raster_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+  "reviews": [
+    {
+      "id": "IS18",
+      "figure": "IS18.jpg",
+      "figure_sha256": "c408af62adafac359e07a905fd243a4d481f0f9f9edfd5dc2d44e48996465373",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "IS19",
+      "figure": "IS19.jpg",
+      "figure_sha256": "1356a6c30c4d4f314876cd90e6b343cacde3a3390b963c63c70a8e6a91e58090",
+      "source_pixel_alpha": 255
+    }
+  ],
+  "geographic_acceptance": false
+}

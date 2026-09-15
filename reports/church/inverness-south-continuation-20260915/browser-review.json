@@ -1,0 +1,58 @@
+{
+  "reviewed_at": "2026-09-15T18:13:23.017011+00:00",
+  "artifact_sha256": "f3036573572ccadc3a50b87a9e13e82036d7ff3698a6ea4602cbd4fd03d4f176",
+  "imported_dimensions": [
+    4757,
+    6466
+  ],
+  "display_resolution_warning": true,
+  "active_raster": "south-explicit-affine-20m",
+  "opacity_percent": 70,
+  "terrain_exaggeration": 10,
+  "tilts_reviewed": [
+    50,
+    0
+  ],
+  "locations": [
+    "Skye valley",
+    "Black Point"
+  ],
+  "screenshots": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-inverness-south-continuation-20260915/browser/black-point-10x.png",
+      "sha256": "5f8b332f026f5ad01d8ff12442f82a01f2b1a6ee7e149bce9660ff3fa671302c"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-inverness-south-continuation-20260915/browser/black-point-2d.png",
+      "sha256": "ff005bef6163af74027f1f944abd6b0ff8454afce8be483b1974d23f8ef068a4"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-inverness-south-continuation-20260915/browser/skye-10x-topdown.png",
+      "sha256": "e7b81d51d062795fc1ff7c99dd36fa7f202f4c7d63177c3dcdea3a8aab5d438f"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-inverness-south-continuation-20260915/browser/skye-10x.png",
+      "sha256": "07937bbd161fc487ad6aca471d3b6f94dba26523ce88dea83fd9f55208fa4084"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-inverness-south-continuation-20260915/browser/skye-2d.png",
+      "sha256": "d6a1fbc27089e11299faa4d44feab1de0778ca55e232eedd08d123eed86b9f2b"
+    }
+  ],
+  "states": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-inverness-south-continuation-20260915/browser/black-point-state.txt",
+      "sha256": "4a94980448c01593aefb9f1a84f4a3efeb42c26ce8226daa29b3309fb1b67d50"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-inverness-south-continuation-20260915/browser/import-state.txt",
+      "sha256": "49966bbf5031878d4d58789c90061f0bd0a4e0c32794d682cd17d7ca5d2eed66"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-inverness-south-continuation-20260915/browser/skye-state.txt",
+      "sha256": "248a2b2b428b76192f3604356b3f96024c84decebd5c337d90b96f2639ca293c"
+    }
+  ],
+  "console_errors": [],
+  "geographic_acceptance": false
+}

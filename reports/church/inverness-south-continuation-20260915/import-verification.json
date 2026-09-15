@@ -1,0 +1,89 @@
+{
+  "results": [
+    {
+      "file": "controls.csv",
+      "controls": 4,
+      "checks": 0,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 2.4375044420924783e-8
+        }
+      ]
+    },
+    {
+      "file": "new-checks.csv",
+      "controls": 4,
+      "checks": 2,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 2.4375044420924783e-8
+        }
+      ]
+    },
+    {
+      "file": "cumulative-fresh.csv",
+      "controls": 4,
+      "checks": 3,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 2.4375044420924783e-8
+        }
+      ]
+    },
+    {
+      "file": "skye-refinement/diagnostic-review.csv",
+      "controls": 5,
+      "checks": 8,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 1.8556470838534902e-8
+        },
+        {
+          "method": "tps",
+          "maxDifferenceProjectedMetres": 6.780130685568339e-9
+        }
+      ]
+    },
+    {
+      "file": "skye-refinement/six-distributed/diagnostic-review.csv",
+      "controls": 6,
+      "checks": 7,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 6.585445079827193e-9
+        },
+        {
+          "method": "tps",
+          "maxDifferenceProjectedMetres": 8.011539715381923e-9
+        }
+      ]
+    },
+    {
+      "file": "skye-refinement/seven-distributed/diagnostic-review.csv",
+      "controls": 7,
+      "checks": 6,
+      "semanticRoundtrip": true,
+      "comparisons": [
+        {
+          "method": "affine",
+          "maxDifferenceProjectedMetres": 5.015325552909174e-9
+        },
+        {
+          "method": "tps",
+          "maxDifferenceProjectedMetres": 6.71586259354649e-9
+        }
+      ]
+    }
+  ],
+  "scope": "Production CSV parser and solvers only. Trial solver agreement is not geographic acceptance or a rendered-trial test."
+}

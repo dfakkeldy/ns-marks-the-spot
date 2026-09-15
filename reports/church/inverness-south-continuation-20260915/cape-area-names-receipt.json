@@ -1,0 +1,6 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=nad83_lat+between+46.02+and+46.07+AND+nad83_lon+between+-61.60+and+-61.50&%24limit=100",
+  "query": "nad83_lat between 46.02 and 46.07 AND nad83_lon between -61.60 and -61.50",
+  "at": "2026-09-15T17:59:46.521677+00:00",
+  "sha256": "4369c80004f1fecd6077168ec1ea16d6939b271220eba67a65ab86cc3f592e35"
+}
