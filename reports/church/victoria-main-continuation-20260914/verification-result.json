@@ -1,0 +1,11 @@
+{
+  "numerical_replays": 82,
+  "new_observation_audits": 13,
+  "parsed_inventories": 28,
+  "selected_controls": 14,
+  "current_fresh_checks": 1,
+  "current_diagnostics": 6,
+  "actual_raster_windows": 21,
+  "previous_inputs_unchanged": true,
+  "geographic_acceptance": false
+}

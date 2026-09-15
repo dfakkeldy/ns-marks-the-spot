@@ -1,0 +1,92 @@
+{
+  "id": "VM20",
+  "role": "check",
+  "label": "Peters Brook mouth on Baddeck River east bank",
+  "pixel_xy": [
+    20032.333333333332,
+    21351.666666666668
+  ],
+  "lonlat": [
+    -60.79549565324659,
+    46.126982802819484
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      19800,
+      21120
+    ],
+    "extent": [
+      440,
+      440
+    ],
+    "display": [
+      1320,
+      1320
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    697,
+    695
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-peters-junction-native.jpg",
+  "source_crop_sha256": "d88cb02182c6fe895e6f749c138bf0bee9a720eb90595e3f02966640ef2cc753",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/reference-full/water-lines.geojson",
+  "reference_sha256": "9f124d54d990cec76804663323ecd9780792aab2ac2cd2ecb84e0d759ce7d26e",
+  "reference_feature_ids": [
+    158509,
+    183270,
+    164867,
+    164868
+  ],
+  "reference_mouth_midpoint": {
+    "method": "EPSG3857 midpoint of original northern/southern mouth-bank vertices, transformed back to lonlat. Project-derived centre, not the Gazetteer point.",
+    "bank_vertices": [
+      {
+        "feature_id": 158509,
+        "vertex": 24,
+        "lonlat": [
+          -60.795477977281976,
+          46.1270186478525
+        ]
+      },
+      {
+        "feature_id": 183270,
+        "vertex": 109,
+        "lonlat": [
+          -60.795513329211204,
+          46.126946957763145
+        ]
+      }
+    ]
+  },
+  "uncertainty_ground_m": 100,
+  "identity_evidence": "The source explicitly labels Peters Brook approaching from the east and entering the eastern bank of the south-flowing Baddeck River, upstream of the separate Baddeck Bridge road crossing. The main river bends southwest below the confluence. Native detail separates the western road from the double-bank river. Select the single-line Peters mouth at the river bank, not the centre of the main channel or either road crossing. Original named Peters banks158509/183270 terminate on Baddeck east-bank segments164867/164868. Modern channel islands are finer detail; no island or modern name point is used as the coordinate.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-peters-confluence.jpg",
+    "sha256": "931fecef632dc6b61ef246b16b67cdea7502ef71b3154382dd062d6198f853f5",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        19300,
+        20800
+      ],
+      "extent": [
+        1800,
+        1800
+      ],
+      "display": [
+        1080,
+        1080
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh physical check after regional TPS11 freeze; not fitted or used to choose its controls",
+  "recorded_at": "2026-09-14T23:28:02.396255+00:00",
+  "freeze_sha256": "f81f905b0de4ecedf7a1193220925cc7896bcc65d782f6ac045d88f24b660379"
+}

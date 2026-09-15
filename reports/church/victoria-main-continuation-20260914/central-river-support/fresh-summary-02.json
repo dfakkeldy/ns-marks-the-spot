@@ -1,0 +1,56 @@
+{
+  "phase": "Two fresh checks after TPS14 freeze; unchanged fit",
+  "tps14": {
+    "count": 2,
+    "points": [
+      {
+        "label": "VM24",
+        "east_ground_m": 11.943140244647857,
+        "north_ground_m": -70.13700059619934,
+        "error_ground_m": 71.14659128541996
+      },
+      {
+        "label": "VM25",
+        "east_ground_m": 70.21316806874343,
+        "north_ground_m": -85.6596733792695,
+        "error_ground_m": 110.75860514512064
+      }
+    ],
+    "rms_ground_m": 93.0841180471388,
+    "median_ground_m": 90.9525982152703,
+    "p95_ground_m": 108.7780044521356,
+    "max_ground_m": 110.75860514512064,
+    "mean_east_ground_m": 41.078154156695646,
+    "mean_north_ground_m": -77.89833698773442,
+    "scatter_rms_ground_m": 30.151075905144495,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "affine4_same_features": {
+    "count": 2,
+    "points": [
+      {
+        "label": "VM24",
+        "east_ground_m": 899.4096336838332,
+        "north_ground_m": -330.74389826885266,
+        "error_ground_m": 958.2949521965376
+      },
+      {
+        "label": "VM25",
+        "east_ground_m": 399.2757357073611,
+        "north_ground_m": -300.3311705426046,
+        "error_ground_m": 499.6197805573209
+      }
+    ],
+    "rms_ground_m": 764.1822886358691,
+    "median_ground_m": 728.9573663769293,
+    "p95_ground_m": 935.3611936145767,
+    "max_ground_m": 958.2949521965376,
+    "mean_east_ground_m": 649.3426846955972,
+    "mean_north_ground_m": -315.5375344057286,
+    "scatter_rms_ground_m": 250.52886555888682,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "geographic_acceptance": false
+}

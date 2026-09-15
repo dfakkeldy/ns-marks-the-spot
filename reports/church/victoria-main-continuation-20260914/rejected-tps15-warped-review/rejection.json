@@ -1,0 +1,5 @@
+{
+  "reason": "These actual raster windows use the rejected TPS15 containing VM12 mainland-pond mismatch. Retained as historical evidence; not the current candidate.",
+  "audit": "../stony-island-correspondence-audit/decision.json",
+  "geographic_acceptance": false
+}

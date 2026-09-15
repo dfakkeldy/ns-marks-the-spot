@@ -1,0 +1,56 @@
+{
+  "phase": "Two fresh western/interior checks after TPS15 freeze; fit unchanged",
+  "tps15": {
+    "count": 2,
+    "points": [
+      {
+        "label": "VM27",
+        "east_ground_m": -57.309927809543524,
+        "north_ground_m": 108.16357819691943,
+        "error_ground_m": 122.40828188442232
+      },
+      {
+        "label": "VM28",
+        "east_ground_m": -158.27412128212023,
+        "north_ground_m": 446.71732192612507,
+        "error_ground_m": 473.9272762528831
+      }
+    ],
+    "rms_ground_m": 346.11475745074256,
+    "median_ground_m": 298.1677790686527,
+    "p95_ground_m": 456.35132653446004,
+    "max_ground_m": 473.9272762528831,
+    "mean_east_ground_m": -107.79202454583188,
+    "mean_north_ground_m": 277.44045006152226,
+    "scatter_rms_ground_m": 176.643996329219,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "affine4_same_features": {
+    "count": 2,
+    "points": [
+      {
+        "label": "VM27",
+        "east_ground_m": -377.95549564114896,
+        "north_ground_m": 59.123691637210484,
+        "error_ground_m": 382.55191490588373
+      },
+      {
+        "label": "VM28",
+        "east_ground_m": -421.091672648181,
+        "north_ground_m": 548.245463165017,
+        "error_ground_m": 691.296813716559
+      }
+    ],
+    "rms_ground_m": 558.6757790762122,
+    "median_ground_m": 536.9243643112213,
+    "p95_ground_m": 675.8595687760252,
+    "max_ground_m": 691.296813716559,
+    "mean_east_ground_m": -399.52358414466494,
+    "mean_north_ground_m": 303.68457740111376,
+    "scatter_rms_ground_m": 245.5101001737412,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  },
+  "geographic_acceptance": false
+}

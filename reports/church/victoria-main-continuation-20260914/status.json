@@ -1,0 +1,26 @@
+{
+  "panel": "Victoria main",
+  "full_georeferencing_complete": false,
+  "selected_trial": "reference-correction: fourteen-control TPS; Stony mainland-pond mismatch excluded",
+  "controls": 14,
+  "diagnostics": [
+    "VM21",
+    "VM22",
+    "VM24",
+    "VM25",
+    "VM27",
+    "VM28"
+  ],
+  "diagnostic_rms_ground_m": 284.92479319941543,
+  "current_fresh_count": 1,
+  "current_fresh_rms_ground_m": 64.46107929405004,
+  "geographic_acceptance": false,
+  "production_boundaries_and_gcp_inputs_unchanged": true,
+  "tiles": false,
+  "catalog_activation": false,
+  "deployment": false,
+  "baseline": "Original physical affine4 and all first results preserved. Boundary decision adopts draftv2 geometry for review only.",
+  "next_check": "New validation after categorical reference repair; working RMS target remains unmet.",
+  "next_panel_after_main": "Cape Breton main",
+  "invalid_correspondence": "VM12 source Stony Island was matched to a mainland WALK20 pond; excluded without inventing a replacement"
+}

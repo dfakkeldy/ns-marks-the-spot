@@ -1,0 +1,10 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+in+%28%27Gillis+Point%27%2C%27Boulaceet+Harbour%27%2C%27Lieutenant+Pond%27%2C%27MacIvor+Point%27%2C%27Little+Narrows%27%29&%24limit=100",
+  "query": {
+    "$where": "geoname in ('Gillis Point','Boulaceet Harbour','Lieutenant Pond','MacIvor Point','Little Narrows')",
+    "$limit": 100
+  },
+  "retrieved_at": "2026-09-14T23:37:39.893137+00:00",
+  "sha256": "f121f41afc17dc75db2209a1b2512436754ed04ef8c29c44e911c390f97b11d1",
+  "scope": "Official naming/identity context only; representative points are not GCPs"
+}

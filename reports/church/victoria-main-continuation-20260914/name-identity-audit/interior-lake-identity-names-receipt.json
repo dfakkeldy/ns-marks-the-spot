@@ -1,0 +1,10 @@
+{
+  "url": "https://data.novascotia.ca/resource/xf3i-vxcb.geojson?%24where=geoname+like+%27%25Leod%25Lake%25%27+or+geoname+like+%27%25Christopher%25%27+or+geoname+like+%27%25Baddeck%25Lake%25%27&%24limit=200",
+  "query": {
+    "$where": "geoname like '%Leod%Lake%' or geoname like '%Christopher%' or geoname like '%Baddeck%Lake%'",
+    "$limit": 200
+  },
+  "retrieved_at": "2026-09-15T00:32:19.394300+00:00",
+  "sha256": "35b798b869b23de6ef2793d811747afbb546d9dafa5a9d9611c7a9d1e07e14af",
+  "scope": "Independent official identity audit; coordinates are not GCPs"
+}

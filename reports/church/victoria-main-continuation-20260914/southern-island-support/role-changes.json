@@ -1,0 +1,31 @@
+{
+  "promoted_unchanged": "VM07",
+  "source_observations": "reports/church/physical-review-20260913/victoria-main/observations.json",
+  "source_sha256": "62008fb796ef51672f5c1cf13779652e2ca4cd23b84ac43065ab9215041abd1c",
+  "preserved_first": "reports/church/physical-review-20260913/victoria-main/comparison.json",
+  "preserved_later_failures": [
+    "regional-tps11/model-diagnostics.json",
+    "southern-support-trial/model-comparison.json"
+  ],
+  "excluded_from_checks": [
+    "VM01",
+    "VM02",
+    "VM06",
+    "VM11",
+    "VM17",
+    "VM18",
+    "VM08",
+    "VM19",
+    "VM10",
+    "VM12",
+    "VM15",
+    "VM23",
+    "VM07"
+  ],
+  "diagnostics": [
+    "VM20",
+    "VM21",
+    "VM22"
+  ],
+  "geographic_acceptance": false
+}

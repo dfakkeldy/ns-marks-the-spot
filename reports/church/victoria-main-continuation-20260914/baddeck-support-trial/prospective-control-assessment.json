@@ -1,0 +1,23 @@
+{
+  "scope": "Prospective control discrepancy only, never independent validation",
+  "affine4": {
+    "count": 1,
+    "points": [
+      {
+        "label": "VM19",
+        "east_ground_m": -10.35099184235466,
+        "north_ground_m": 111.52356571770412,
+        "error_ground_m": 112.002896134482
+      }
+    ],
+    "rms_ground_m": 112.002896134482,
+    "median_ground_m": 112.002896134482,
+    "p95_ground_m": 112.002896134482,
+    "max_ground_m": 112.002896134482,
+    "mean_east_ground_m": -10.35099184235466,
+    "mean_north_ground_m": 111.52356571770412,
+    "scatter_rms_ground_m": 0.0,
+    "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+    "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+  }
+}

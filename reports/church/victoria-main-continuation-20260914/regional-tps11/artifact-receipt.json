@@ -1,0 +1,45 @@
+{
+  "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "source_scope": "Hash-verified original archival Victoria TIFF.",
+  "controls_sha256": "d684e099d1b7b04a62d9e55d29b750be66026e589b0854d9210457af8d71b331",
+  "freeze_sha256": "f81f905b0de4ecedf7a1193220925cc7896bcc65d782f6ac045d88f24b660379",
+  "boundary_sha256": "d0979e3b1a6f3c5742f9224279bbde8f4eac8b5975d282bed1c7b38a9f45958e",
+  "transform": "GDAL TPS -et 0",
+  "cutline_sample_native_px": 250,
+  "resolution_projected_m": 20,
+  "crs": "EPSG:3857",
+  "output": "/var/home/dan/nsmarks-church-20260914/victoria-main-review/tps11-rendered/victoria-main-tps11-review-20m.tif",
+  "output_sha256": "cf79ba20ec0e8b012db4fac2bdfa69bcbd95ebe1f7ff4ee7136781c6362f1a00",
+  "size": [
+    4081,
+    5813
+  ],
+  "geotransform": [
+    -6797140.0,
+    20.0,
+    0.0,
+    5880860.0,
+    0.0,
+    -20.0
+  ],
+  "cutline": "/var/home/dan/nsmarks-church-20260914/victoria-main-review/tps11-rendered/victoria-main-tps11-cutline.geojson",
+  "cutline_sha256": "5fab5b75cebab9aee6f132b67ed366a95819ac3c45459c13f838e32d05b259fe",
+  "orientation": {
+    "sample_count": 30133,
+    "coarse_spacing_native_px": 200,
+    "near_control_spacing_native_px": 25,
+    "nonnegative_determinants": 0,
+    "determinant_range": [
+      -19.987399418737393,
+      -13.06069109026354
+    ],
+    "anisotropy_range": [
+      1.0006028448798125,
+      1.6080703464737043
+    ],
+    "scope": "Finite one-pixel forward differences only, not a proof of the continuous TPS surface"
+  },
+  "geographic_acceptance": false,
+  "accepted_baseline_replaced": false
+}

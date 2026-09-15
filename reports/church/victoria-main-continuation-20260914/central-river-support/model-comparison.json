@@ -1,0 +1,136 @@
+{
+  "scope": "Same Wreck Cove Brook/Gillis Point diagnostics. Peters Brook original coordinates promoted unchanged after regional TPS local failure; both its first TPS11/affine4 results and later diagnostics preserved.",
+  "models": {
+    "tps13_same_two": {
+      "count": 2,
+      "points": [
+        {
+          "label": "VM21",
+          "east_ground_m": -155.68248742466795,
+          "north_ground_m": 144.28641732382764,
+          "error_ground_m": 212.26306111727882
+        },
+        {
+          "label": "VM22",
+          "east_ground_m": 161.578057671259,
+          "north_ground_m": -177.7616753481687,
+          "error_ground_m": 240.22215123382028
+        }
+      ],
+      "rms_ground_m": 226.67409320242362,
+      "median_ground_m": 226.24260617554955,
+      "p95_ground_m": 238.8241967279932,
+      "max_ground_m": 240.22215123382028,
+      "mean_east_ground_m": 2.9477851232955175,
+      "mean_north_ground_m": -16.73762901217053,
+      "scatter_rms_ground_m": 226.03607426041282,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "polynomial2_thirteen_same_two": {
+      "count": 2,
+      "points": [
+        {
+          "label": "VM21",
+          "east_ground_m": -232.35917341917587,
+          "north_ground_m": 81.18155924082743,
+          "error_ground_m": 246.13254769090295
+        },
+        {
+          "label": "VM22",
+          "east_ground_m": -190.25994255588722,
+          "north_ground_m": 1.4778255487347467,
+          "error_ground_m": 190.26568190223375
+        }
+      ],
+      "rms_ground_m": 219.97984082926396,
+      "median_ground_m": 218.19911479656835,
+      "p95_ground_m": 243.3392044014695,
+      "max_ground_m": 246.13254769090295,
+      "mean_east_ground_m": -211.30955798753155,
+      "mean_north_ground_m": 41.329692394781084,
+      "scatter_rms_ground_m": 45.0694752680251,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "fourteen_affine": {
+      "count": 2,
+      "points": [
+        {
+          "label": "VM21",
+          "east_ground_m": -396.99948042177283,
+          "north_ground_m": 270.05041410630236,
+          "error_ground_m": 480.14145167246596
+        },
+        {
+          "label": "VM22",
+          "east_ground_m": -167.90218412706088,
+          "north_ground_m": -18.82971124109001,
+          "error_ground_m": 168.95473198481386
+        }
+      ],
+      "rms_ground_m": 359.9177093963308,
+      "median_ground_m": 324.54809182863994,
+      "p95_ground_m": 464.5821156880833,
+      "max_ground_m": 480.14145167246596,
+      "mean_east_ground_m": -282.4508322744168,
+      "mean_north_ground_m": 125.61035143260617,
+      "scatter_rms_ground_m": 184.34837807143313,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "fourteen_polynomial2": {
+      "count": 2,
+      "points": [
+        {
+          "label": "VM21",
+          "east_ground_m": -230.78175585604956,
+          "north_ground_m": 75.48611119971923,
+          "error_ground_m": 242.81345065720234
+        },
+        {
+          "label": "VM22",
+          "east_ground_m": -176.83250791748188,
+          "north_ground_m": -47.00313841099329,
+          "error_ground_m": 182.97275993127852
+        }
+      ],
+      "rms_ground_m": 214.98535147414918,
+      "median_ground_m": 212.89310529424043,
+      "p95_ground_m": 239.82141612090615,
+      "max_ground_m": 242.81345065720234,
+      "mean_east_ground_m": -203.80713188676572,
+      "mean_north_ground_m": 14.241486394362973,
+      "scatter_rms_ground_m": 66.92185297668559,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    },
+    "fourteen_tps": {
+      "count": 2,
+      "points": [
+        {
+          "label": "VM21",
+          "east_ground_m": -155.70371207539966,
+          "north_ground_m": 144.30409553967047,
+          "error_ground_m": 212.29064497424588
+        },
+        {
+          "label": "VM22",
+          "east_ground_m": 107.27729739904619,
+          "north_ground_m": -132.53384584078114,
+          "error_ground_m": 170.50993763001424
+        }
+      ],
+      "rms_ground_m": 192.53695330270062,
+      "median_ground_m": 191.40029130213006,
+      "p95_ground_m": 210.2016096070343,
+      "max_ground_m": 212.29064497424588,
+      "mean_east_ground_m": -24.213207338176737,
+      "mean_north_ground_m": 5.885124849444665,
+      "scatter_rms_ground_m": 190.91768981158148,
+      "distance": "Equirectangular horizontal ground distance, mean latitude cosine, sphere radius 6371008.8 m; warped minus reference",
+      "percentile": "NumPy linear empirical 95th percentile; not a confidence interval"
+    }
+  },
+  "geographic_acceptance": false
+}

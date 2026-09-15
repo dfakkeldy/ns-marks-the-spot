@@ -1,0 +1,69 @@
+{
+  "content_boundary": "content-boundary.json",
+  "selection_decision": "boundary-decision.json",
+  "source_control_hull": [
+    [
+      31282.666666666668,
+      3436.6666666666665
+    ],
+    [
+      22913.5,
+      12606.0
+    ],
+    [
+      15905.849564301447,
+      24799.50799578665
+    ],
+    [
+      21410.560744960658,
+      29169.031163714546
+    ],
+    [
+      31991.304057821373,
+      10798.133973498538
+    ],
+    [
+      31282.666666666668,
+      3436.6666666666665
+    ]
+  ],
+  "checks": [
+    {
+      "id": "VM21",
+      "inside_control_hull": true
+    },
+    {
+      "id": "VM22",
+      "inside_control_hull": true
+    },
+    {
+      "id": "VM24",
+      "inside_control_hull": false
+    },
+    {
+      "id": "VM25",
+      "inside_control_hull": true
+    },
+    {
+      "id": "VM27",
+      "inside_control_hull": false
+    },
+    {
+      "id": "VM28",
+      "inside_control_hull": true
+    },
+    {
+      "id": "VM29",
+      "inside_control_hull": true
+    }
+  ],
+  "alpha_receipt": "reference-correction/coverage.json",
+  "limitations": [
+    "Stony Island source reference unresolved; known mainland-pond mismatch excluded.",
+    "Northern extension and intervening mountainous interior remain sparsely checked.",
+    "Six diagnostics are selection evidence, not an independent whole-panel validation set.",
+    "Crow Point is one regional fresh check, not the requested20-30 distributed checks.",
+    "Mapped Cape Breton context and panel seams remain provisional."
+  ],
+  "geographic_acceptance": false
+}

@@ -1,0 +1,22 @@
+{
+  "excluded_wrong_reference": "VM12",
+  "aliases": [
+    "Stony Island"
+  ],
+  "reason": "Source island was matched to a mainland WALK20 pond. No substitute reference invented.",
+  "audit": "../stony-island-correspondence-audit/decision.json",
+  "all_other_controls_unchanged": true,
+  "diagnostics": [
+    "VM21",
+    "VM22",
+    "VM24",
+    "VM25",
+    "VM27",
+    "VM28"
+  ],
+  "previous_fresh_checks_now_diagnostic": [
+    "VM27",
+    "VM28"
+  ],
+  "geographic_acceptance": false
+}

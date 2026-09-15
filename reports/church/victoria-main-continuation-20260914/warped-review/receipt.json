@@ -1,0 +1,179 @@
+{
+  "raster_sha256": "3fb0ece4147593efc8f5dbd6dfae8f4159b5ed6e668779ce8e862e078ead3ac3",
+  "reviews": [
+    {
+      "id": "VM01",
+      "role": "CONTROL - not validation",
+      "figure": "VM01.jpg",
+      "figure_sha256": "393c96cb50502f5737090ddb2a317e1345137621fdf64935752c446b39e90996",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM02",
+      "role": "CONTROL - not validation",
+      "figure": "VM02.jpg",
+      "figure_sha256": "8b6485d5fa8abc68643c6c2ec75ba9f5d2bc1c3c81b4fa6c0c444a5580974f84",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM06",
+      "role": "CONTROL - not validation",
+      "figure": "VM06.jpg",
+      "figure_sha256": "0d75befa3dee412d706801693e041fbdfaf26f9c3e9b81119774310e3cc40bea",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM07",
+      "role": "CONTROL - not validation",
+      "figure": "VM07.jpg",
+      "figure_sha256": "6189af5161b44e5a6de7d5de6f3d87a0751a12812f6326b69acc35f7b37d142f",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM08",
+      "role": "CONTROL - not validation",
+      "figure": "VM08.jpg",
+      "figure_sha256": "b8001ad1270842916f5fc2b46a1d35a82837259a9d24d235364fba59104faade",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM10",
+      "role": "CONTROL - not validation",
+      "figure": "VM10.jpg",
+      "figure_sha256": "400de8cd4f2c3d8b4b88831f3b145fb8b15239d009616ae42904ab50da8c4b68",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM11",
+      "role": "CONTROL - not validation",
+      "figure": "VM11.jpg",
+      "figure_sha256": "b47bf0503b829b5b23174d35413485f9bb0c655665840decaa7bd9bbff63b23a",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM15",
+      "role": "CONTROL - not validation",
+      "figure": "VM15.jpg",
+      "figure_sha256": "035573969d352265b0155d6c9f43400b2ad66c9b490daa8d54f8605969ec8a7f",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM17",
+      "role": "CONTROL - not validation",
+      "figure": "VM17.jpg",
+      "figure_sha256": "c89c41865f20048199c6c9375940e8605ad9b9a53afffd18655648bd2cfcdd46",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM18",
+      "role": "CONTROL - not validation",
+      "figure": "VM18.jpg",
+      "figure_sha256": "eeb64cf5ad2789e93d3b46bb8a3e4e5533fa6a71cdb564e2bc890cc88fcea31c",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM19",
+      "role": "CONTROL - not validation",
+      "figure": "VM19.jpg",
+      "figure_sha256": "611c37a8a720ff03a20bf11249a60afd746ea219d24e14d8b95bdd417e92021b",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM20",
+      "role": "CONTROL - not validation",
+      "figure": "VM20.jpg",
+      "figure_sha256": "847097a87387bd80c032b1cbbee6b616eb34332c5baefc8ad7ddbff2c2c1703b",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM21",
+      "role": "selection diagnostic",
+      "figure": "VM21.jpg",
+      "figure_sha256": "ca47063b7fc702d96ec805d0f683e14b3af0f7d2ca23bc6588316c546a0bff4d",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM22",
+      "role": "selection diagnostic",
+      "figure": "VM22.jpg",
+      "figure_sha256": "39e112b62d04e1c3a44668be85d683d0450d468ef5d08101b55a5cbb63c4c090",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM23",
+      "role": "CONTROL - not validation",
+      "figure": "VM23.jpg",
+      "figure_sha256": "0ecc873cbb1e97abd31fe646daa5502b46b3d35b7a34ea6d97bb02946741174c",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM24",
+      "role": "selection diagnostic",
+      "figure": "VM24.jpg",
+      "figure_sha256": "bec11b48bbce49f03f455821519196a4d2b9627ab772767cb6b2eb8bfbbdcd38",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM25",
+      "role": "selection diagnostic",
+      "figure": "VM25.jpg",
+      "figure_sha256": "683836518f3eb3b6fadb53c228f5acd73c457a1bcff41ab325b2e5610c534dd0",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM26",
+      "role": "CONTROL - not validation",
+      "figure": "VM26.jpg",
+      "figure_sha256": "f1c842afac513f980929716dd1441a7f5ca4caf32221a3336b8b22ea180504ce",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM27",
+      "role": "selection diagnostic",
+      "figure": "VM27.jpg",
+      "figure_sha256": "ff09201c7187a4ea97cae67451a09bad2682bf67550a70b9f97aa35f86926bd7",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM28",
+      "role": "selection diagnostic",
+      "figure": "VM28.jpg",
+      "figure_sha256": "73f0dbbdad1106c03f6efa7ae1171b13849496f70dd7c2b6f1c6521bce3a86b0",
+      "source_pixel_alpha": 255
+    },
+    {
+      "id": "VM29",
+      "role": "fresh after corrected TPS14 freeze",
+      "figure": "VM29.jpg",
+      "figure_sha256": "642c422c0d3438f583730520e91cd5d2a81f952a5514c213888b71f686532ba4",
+      "source_pixel_alpha": 255
+    }
+  ],
+  "references": [
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet07/reference-full/water-lines.geojson",
+      "sha256": "673209e63acee749e37559280b5c808c5b9d67d903682d362ec0be64720b1538"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet10/reference-full/water-lines.geojson",
+      "sha256": "37ae738e9faddce3ef91b8668f3811dadc6bd174fc1af6bf322ca1390261b696"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/reference-full/water-lines.geojson",
+      "sha256": "9f124d54d990cec76804663323ecd9780792aab2ac2cd2ecb84e0d759ce7d26e"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/fletcher-sheet15/reference-full/water-lines.geojson",
+      "sha256": "f9bb31b25cf1febe7f11eba2aa47c9aeeabec5587909e58e65cbfd4fa50c4719"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+      "sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6"
+    },
+    {
+      "path": "/Users/dfakkeldy/Downloads/church-review-20260913/bird-water-lines.geojson",
+      "sha256": "a2c0797df71cf232000011b7e914f5405b1ab090e517eacfa78d1099af80bfb8"
+    }
+  ],
+  "geographic_acceptance": false
+}

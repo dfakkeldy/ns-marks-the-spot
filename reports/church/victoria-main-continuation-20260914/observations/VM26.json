@@ -1,0 +1,72 @@
+{
+  "id": "VM26",
+  "role": "check",
+  "label": "Munro Point eastern cape tip, labelled Monroe Point on the sheet",
+  "pixel_xy": [
+    25938.571428571428,
+    16149.142857142857
+  ],
+  "lonlat": [
+    -60.590816861445845,
+    46.255555563202485
+  ],
+  "source_frame": {
+    "county": "victoria",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+    "origin": [
+      25780,
+      16010
+    ],
+    "extent": [
+      300,
+      340
+    ],
+    "display": [
+      1050,
+      1190
+    ],
+    "rotation": 0
+  },
+  "source_display_pixel_xy": [
+    555,
+    487
+  ],
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-munro-tip-native.jpg",
+  "source_crop_sha256": "30df4a6fb1aea4e67a638d95b74219dd7b8112ea28f57aaa6d74d83bdf7a8b9f",
+  "source_sha256": "81a694ed1cd7a9b3b7d77c4b16dd947a984932214397f319cab072375f695621",
+  "reference_path": "/Users/dfakkeldy/Downloads/fletcher-sheet12/reference-full/water-lines.geojson",
+  "reference_sha256": "9f124d54d990cec76804663323ecd9780792aab2ac2cd2ecb84e0d759ce7d26e",
+  "reference_feature_ids": [
+    10712
+  ],
+  "reference_vertex": {
+    "feature_id": 10712,
+    "vertex": 11
+  },
+  "uncertainty_ground_m": 140,
+  "identity_evidence": "The source explicitly labels Monroe Point on the eastward headland southeast of Goose Cove, north of Seal Cove and the separate Ship Yard Point, opposite the Blackstone Point shore of St Anns Harbour. Original water geometry reproduces that cape and the southern cove/next promontory sequence. Select the eastern cape shoreline, below and separate from the Monroe lettering and above the south-facing recess. Original WACO20 vertex10712v11 is the easternmost tip. Provincial cape CBASL identifies modern Munro Point; the other Munro/Munroes capes farther south and the representative name-point coordinate are excluded. Historical angular versus modern rounded tip warrants140m uncertainty.",
+  "identity_source_context": {
+    "path": "/Users/dfakkeldy/Downloads/church-victoria-main-continuation-20260914/VM2-munro-point-context.jpg",
+    "sha256": "dd459b34f61c1f0ddb809a2288b0a6ed020e634d044632a1f2db57112950ec5c",
+    "frame": {
+      "county": "victoria",
+      "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/victoria/victoria.tif",
+      "origin": [
+        25500,
+        15500
+      ],
+      "extent": [
+        1500,
+        1900
+      ],
+      "display": [
+        1200,
+        1520
+      ],
+      "rotation": 0
+    }
+  },
+  "phase": "Fresh St Anns Harbour check after TPS14 freeze; never fitted or used for selecting its controls",
+  "recorded_at": "2026-09-15T00:15:35.718591+00:00",
+  "freeze_sha256": "553da69eb097089171a6306dea790d90aee002d28c25585ff5bfcfc58e53dcd3"
+}
