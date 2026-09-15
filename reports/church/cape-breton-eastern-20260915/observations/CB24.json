@@ -1,0 +1,53 @@
+{
+  "id": "CB24",
+  "role": "check",
+  "label": "Cape Breton eastern shoreline turn toward Baleine Cove",
+  "source_frame": {
+    "county": "cape-breton",
+    "source": "/var/home/dan/nsmarks-church-20260726/sources/downloads/cape-breton/cape-breton.tif",
+    "origin": [
+      30600,
+      20300
+    ],
+    "extent": [
+      1400,
+      1300
+    ],
+    "display": [
+      1400,
+      1300
+    ],
+    "rotation": 0
+  },
+  "source_crop_path": "/Users/dfakkeldy/Downloads/church-cape-breton-eastern-20260915/CB7-cape-breton-native.jpg",
+  "source_crop_sha256": "91720b371fb5a9129cef23ffff57c4c05dd805cb09c9d225363c29c20a915682",
+  "source_sha256": "148828288528bd9dfdf5d1c6677ed5e3f941f3730cf3a90919e51951afa9041d",
+  "reference_path": "/Users/dfakkeldy/Downloads/church-review-20260913/cape-water-lines.geojson",
+  "reference_sha256": "de16f03fdd24282908a03d2228b1737894f4b5f611c039a29d60ad3982cf8cf6",
+  "phase": "Fresh physical check against unchanged TPS11; no fitting or selection use",
+  "recorded_at": "2026-09-15T17:29:43.728006+00:00",
+  "lonlat": [
+    -59.78737453519463,
+    45.95098442399685
+  ],
+  "reference_feature_ids": [
+    12931
+  ],
+  "reference_vertices": [
+    {
+      "feature_id": 12931,
+      "vertex": 114
+    }
+  ],
+  "uncertainty_ground_m": 150,
+  "official_identity_key": "CBRJN",
+  "identity_evidence": "The main scan explicitly labels Cape Breton on the projection south of Convict Point, east of Baleine Cove and south of Main-a-Dieu Passage. Match the sharp eastern coast turn where the northern approach returns southwest toward Baleine Cove, excluding the large label and offshore engraving rings. Original WACO20 vertex12931v114 is the eastern shore corner at that return. The representative cape name point identifies the locality only. Small modern shore indentations and the generalized drawn tip warrant150m uncertainty.",
+  "source_display_pixel_xy": [
+    602,
+    694
+  ],
+  "pixel_xy": [
+    31202.0,
+    20994.0
+  ]
+}
