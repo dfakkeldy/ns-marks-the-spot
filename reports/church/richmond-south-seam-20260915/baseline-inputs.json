@@ -1,0 +1,25 @@
+{
+  "input_commit": "f10c2875b773115f226573d7f25af81ef5985ad8",
+  "inputs": [
+    {
+      "path": "reports/church/physical-review-20260912/richmond/refinement-04/frozen-fit.csv",
+      "sha256": "a38b2074b7c5e525b684b02a8d848b7be6f8299bdcc53647afdb1dce09d800be"
+    },
+    {
+      "path": "tools/church/gcps/inverness-south.csv",
+      "sha256": "f1d52dd101853995fe785dc41da87d3a14eeb14cb2a1b2bbf1143eb11ce2a847"
+    },
+    {
+      "path": "tools/church/checks/inverness-south.csv",
+      "sha256": "7e96e98e0b54d03d58f50f582db9f580eb22a5d82da5ad7cfa981d9d4d1dabf9"
+    },
+    {
+      "path": "reports/church/coverage-continuation-20260914/accuracy-summary.json",
+      "sha256": "34ac86fd467d875adf5227fe47bfbbbd6a38f36d4b18d65e954c2af587dc25a7"
+    },
+    {
+      "path": "reports/church/south-tps13-validation-20260915/accuracy-summary.json",
+      "sha256": "d864688408ad60fbf259577a7d9a6d638acaa80cfe357ad0368ea697418249c4"
+    }
+  ]
+}

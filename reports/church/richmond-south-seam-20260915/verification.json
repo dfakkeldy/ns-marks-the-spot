@@ -1,0 +1,15 @@
+{
+  "geographic_metric_sets_replayed": 8,
+  "seam_pairs_replayed": 2,
+  "new_richmond_observations_audited": 2,
+  "original_exteriors_verified": 2,
+  "new_richmond_checks_outside_hull": 2,
+  "richmond_fresh_checks": 16,
+  "south_fresh_checks_unchanged": 3,
+  "south_control_pair_not_counted_as_fresh": true,
+  "frozen_inputs_and_rasters_unchanged": true,
+  "actual_raster_windows": 4,
+  "editable_inventories": 3,
+  "browser_terrain_pairs_verified": true,
+  "geographic_acceptance": false
+}

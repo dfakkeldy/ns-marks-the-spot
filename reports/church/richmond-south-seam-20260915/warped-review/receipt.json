@@ -1,0 +1,45 @@
+{
+  "rasters": {
+    "richmond": {
+      "path": "/Users/dfakkeldy/Downloads/church-coverage-20260914/richmond-affine14/richmond-affine14-20m.tif",
+      "sha256": "c44fd27bf527f468a779a7b37218ab402b5bf306c9a3b9cae5bb8769eba15fd0"
+    },
+    "south": {
+      "path": "/Users/dfakkeldy/Downloads/church-south-distributed-refinement-20260915/rendered/inverness-south-tps13-review-20m.tif",
+      "sha256": "b849ad07dd0d61dcb8484e257090bc19721cb995fa608c41874f4c13ee237040"
+    }
+  },
+  "reference_path": "/Users/dfakkeldy/Downloads/church-georeferencing-20260912/reference/water-lines.geojson",
+  "reference_sha256": "3ab9f95a5f82d4749da1742ec68339b2fdbdd9adeb38e93f36580693cfcb37ad",
+  "reviews": [
+    {
+      "pair": "R54",
+      "panel": "richmond",
+      "figure": "R54-richmond.jpg",
+      "figure_sha256": "bf0bc38cb6d53a6bf130fde9c1aeae6d8c5170a99bde441dc97cfef4d54fd3dc",
+      "source_pixel_alpha": 255
+    },
+    {
+      "pair": "R54",
+      "panel": "south",
+      "figure": "R54-south.jpg",
+      "figure_sha256": "01745270e4f0b89f40d9683e547f6568ccceeef1a3c2134748f021bc69d16d3a",
+      "source_pixel_alpha": 255
+    },
+    {
+      "pair": "R55",
+      "panel": "richmond",
+      "figure": "R55-richmond.jpg",
+      "figure_sha256": "3e9d42bdeb0c8c6db3697239e1645b4848ff38c17e3a0c01270fba6be839ac83",
+      "source_pixel_alpha": 255
+    },
+    {
+      "pair": "R55",
+      "panel": "south",
+      "figure": "R55-south.jpg",
+      "figure_sha256": "020bbaa53f98bf833a367beef926216a7f47e1d3f1ac6bcc99988400c0d042c9",
+      "source_pixel_alpha": 255
+    }
+  ],
+  "scope": "Four actual raster windows, two paired source-feature centroids; no whole-seam or geographic acceptance"
+}
